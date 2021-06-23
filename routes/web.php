@@ -1,25 +1,17 @@
 <?php
 
+use App\Http\Controllers\{CompanyController, PlatformController, HomeController, SignatureController};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::redirect('/signature','/signature/welcome');
+Route::get('/signature/welcome', [SignatureController::class, 'welcome'])->name('signature.welcome');
+Route::get('/signature/register', [SignatureController::class, 'register'])->name('signature.register');
 
-Route::resource('companies',\App\Http\Controllers\CompanyController::class);
+
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::resource('companies', CompanyController::class);
