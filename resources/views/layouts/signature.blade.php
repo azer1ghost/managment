@@ -18,7 +18,12 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/fontawesome.pro.min.css') }}" rel="stylesheet">
-
+    <style>
+        @font-face{
+            font-family: "Sequel";
+            src: url("{{asset('fonts/Sequel.ttf')}}") format("truetype");
+        }
+    </style>
 
     <style>
         body{
@@ -45,7 +50,8 @@
         .diamond{
             position: absolute;
             right: -300px;
-            bottom: -250px;
+            bottom: -350px;
+            z-index: -100;
         }
 
 
