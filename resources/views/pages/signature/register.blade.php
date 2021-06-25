@@ -19,31 +19,64 @@
             <h1>Employee Register Form</h1>
         </div>
         <div class="row d-flex align-items-center justify-content-center vh-100">
-            <form class="col-md-12 form-row" action="">
-                <x-input::text required="" name="name" width="4" class="pr-4" />
-                <x-input::text required="" name="surname" width="4" class="pr-4" />
-                <x-input::text required="" name="father" label="Father's name" width="4" class="pr-4" />
+            <form class="col-md-12 form-row" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="col-md-2">
+                    <x-input::image name="image"/>
+                </div>
+                <div class="form-row col-md-10">
+                    <!-- Main -->
+                    <div class="col-md-12">
+                        <p class="text-muted">PERSONAL</p>
+                        <hr>
+                    </div>
+                    <x-input::text required="" name="name" width="4" class="pr-1" />
+                    <x-input::text required="" name="surname" width="4" class="pr-1" />
+                    <x-input::text required="" name="father" label="Father's name" width="4" class="pr-1" />
+                    <!-- Passport -->
+                    <div class="col-md-12">
+                        <br>
+                        <p class="text-muted">PASSPORT</p>
+                        <hr>
+                    </div>
+                    <x-input::select :options="['AA','AZE']" name="serialPattern" label="Serial" width="1" class="p-0" />
+                    <x-input::text required="" name="serial" label=" " placeholder="Enter serial number" width="3" class="pr-1" />
+                    <x-input::text required="" name="fin" label="FIN" width="2" class="pr-1" />
+                    <x-input::select :options="['male','female']" name="gender" width="2" class="pr-1" />
+                    <x-input::date required="" name="birthday" width="4" class="pr-1" />
+                    <!-- Employer -->
+                    <div class="col-md-12">
+                        <br>
+                        <p class="text-muted">EMPLOYMENT</p>
+                        <hr>
+                    </div>
+                    <x-input::text required="" name="position" label="Position" width="6" class="pr-1" />
+                    <x-input::select :options="['Marketing','Call center']" name="department" width="6" class="pr-1" />
+                    <!-- Contact -->
+                    <div class="col-md-12">
+                        <br>
+                        <p class="text-muted">CONTACT</p>
+                        <hr>
+                    </div>
+                    <x-input::text required="" id="phone" name="phone_coop" label="Cooperative number" width="3" class="pr-1" />
+                    <x-input::text required="" name="phone" label="Personal number" width="3" class="pr-1" />
+                    <x-input::email required="" name="email_coop" label="Cooperative Email" width="3" class="pr-1" />
+                    <x-input::email required="" name="email" label="Personal Email"  width="3" class="pr-1" />
+                    <!-- Address -->
+                    <div class="col-md-12">
+                        <br>
+                        <p class="text-muted">ADDRESS</p>
+                        <hr>
+                    </div>
+                    <x-input::select :options="['Azerbaijan','Turkey']" name="country" width="3" class="pr-1" />
+                    <x-input::select :options="['Baku','Sumgayit']" name="city" width="3" class="pr-1" />
+                    <x-input::text required="" name="address" width="6" class="pr-1" />
+                    <x-input::submit/>
+                </div>
 
 
-                <label style="position: absolute; padding-top: 80px; padding-right: 5px">Serial Number</label>
-                <x-input::select :options="['AA','AZE']" name="serialPattern" label=" " width="1" />
-                <x-input::text required="" name="serial" label=" " width="3" class="pr-4" />
-
-
-                <x-input::text required="" name="fin" label="FIN" width="2" class="pr-4" />
-                <x-input::date required="" name="birthday" width="2" class="pr-4" />
-                <x-input::select :options="['male','female']" name="gender" width="2" class="pr-4" />
-                <x-input::text required="" name="position" label="Position (documented)" width="6" class="pr-4" />
-                <x-input::text required="" name="position_actual" label="Actual Position (currnetly)" width="6" class="pr-4" />
-                <x-input::text required="" name="number_coop" label="Cooperative number" width="3" class="pr-4" />
-                <x-input::text required="" name="number" label="Personal number" width="3" class="pr-4" />
-                <x-input::email required="" name="email_coop" label="Cooperative Email" width="3" class="pr-4" />
-                <x-input::email required="" name="email" label="Personal Email"  width="3" class="pr-4" />
-                <x-input::select :options="['Azerbaijan','Turkey']" name="country" width="3" class="pr-4" />
-                <x-input::select :options="['Baku','Sumgayit']" name="city" width="3" class="pr-4" />
-                <x-input::text required="" name="address" width="6" class="pr-4" />
-                <x-input::submit/>
             </form>
         </div>
     </div>
+
 @endsection

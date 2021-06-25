@@ -12,21 +12,28 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
+    <script>
+        $("#phone").intlTelInput({
+            utilsScript: "{{asset('js/utils.js')}}"
+        });
+    </script>
+
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/fontawesome.pro.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('fonts/fontawesome.pro.min.css') }}" rel="stylesheet">
+
+    @yield('style')
     <style>
         @font-face{
             font-family: "Sequel";
             src: url("{{asset('fonts/Sequel.ttf')}}") format("truetype");
         }
-    </style>
-
-    <style>
         body{
+            height: 100vh;
+            overflow-x: hidden;
             background-color: #f6f6f6;
             background-opacity: 1;
             background-image: url("{{asset('images/diamond.svg')}}");
@@ -57,7 +64,7 @@
 
     </style>
 </head>
-<body class="vh-100 overflow-hidden">
+<body>
     @yield('content')
     <div class="diamond" >
         <x-diamond class="animate__animated animate__fadeInUp" width="900px" color="rgba(62, 132, 58, 0.62)"></x-diamond>
