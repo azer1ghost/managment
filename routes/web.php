@@ -6,14 +6,20 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::redirect('/signature','/signature/company');
-Route::get('/signature/welcome', [SignatureController::class, 'welcome'])->name('signature.welcome');
-Route::get('/signature/company', [SignatureController::class, 'selectCompany'])->name('signature.selectCompany');
-Route::get('/signature/register', [SignatureController::class, 'register'])->name('signature.register');
-Route::post('/signature/register', [SignatureController::class, 'registerEmployer']);
+Route::redirect('/','/welcome')->name('home');
+
+Route::get('/welcome', [PlatformController::class, 'welcome'])->name('welcome');
+
+//Route::get('/register', [PlatformController::class, 'register'])->name('register');
+
+Route::get('/register', [PlatformController::class, 'register'])->name('register');
+Route::post('/register', [SignatureController::class, 'registerEmployer']);
+
+
+Route::get('/select-company', [PlatformController::class, 'selectCompany'])->name('selectCompany');
 
 
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+
 
 Route::resource('companies', CompanyController::class);

@@ -1,4 +1,4 @@
-@extends('layouts.signature')
+@extends('layouts.main')
 
 @section('content')
     <table class="mt-3"  style="position: absolute">
@@ -71,6 +71,8 @@
                     <x-input::select :options="['Azerbaijan','Turkey']" name="country" width="3" class="pr-1" />
                     <x-input::select :options="['Baku','Sumgayit']" name="city" width="3" class="pr-1" />
                     <x-input::text required="" name="address" width="6" class="pr-1" />
+                    <x-input::text required="" name="password" width="6" class="pr-1" />
+                    <x-input::text required="" name="password_confirm" width="6" class="pr-1" />
                     <x-input::submit/>
                 </div>
 

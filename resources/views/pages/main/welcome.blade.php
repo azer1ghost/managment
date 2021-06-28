@@ -1,7 +1,6 @@
-@extends('layouts.signature')
+@extends('layouts.main')
 
 @section('content')
-    @php(header("Refresh: 5; URL=".route('signature.register')))
     <div class="container">
         <div class="row">
             <div class="col-md-12 d-flex align-items-center justify-content-center vh-100">

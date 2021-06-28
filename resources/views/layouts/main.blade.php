@@ -60,8 +60,6 @@
             bottom: -350px;
             z-index: -100;
         }
-
-
     </style>
 </head>
 <body>

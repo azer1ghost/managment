@@ -20,9 +20,11 @@ class CreateCompaniesTable extends Migration
             $table->string('website')->nullable();
             $table->string('mail')->nullable();
             $table->string('phone')->nullable();
+            $table->string('call_center')->nullable();
             $table->string('mobile')->nullable();
             $table->string('address')->nullable();
-            $table->string('about')->nullable();
+            $table->text('about')->nullable();
+            $table->string('keywords')->nullable();
             $table->timestamps();
         });
     }
