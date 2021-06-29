@@ -30,9 +30,9 @@
                         <p class="text-muted">PERSONAL</p>
                         <hr>
                     </div>
-                    <x-input::text required="" name="name" width="4" class="pr-1" />
-                    <x-input::text required="" name="surname" width="4" class="pr-1" />
-                    <x-input::text required="" name="father" label="Father's name" width="4" class="pr-1" />
+                    <x-input::text required="" name="name" :value="auth()->user()->name" width="4" class="pr-1" />
+                    <x-input::text required="" name="surname" :value="auth()->user()->surname" width="4" class="pr-1" />
+                    <x-input::text required="" name="father" :value="auth()->user()->father" label="Father's name" width="4" class="pr-1" />
                     <!-- Passport -->
                     <div class="col-md-12">
                         <br>

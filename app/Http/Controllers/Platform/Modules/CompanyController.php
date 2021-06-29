@@ -1,22 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Platform\Modules;
 
+use App\Http\Controllers\Controller;
 use App\Models\Company;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        return view('pages.companies.index')->with([
+        return view('panel.pages.companies.index')->with([
             'companies' => Company::select(['id', 'logo', 'name'])->get()
         ]);
     }
 
     public function create()
     {
-        return view('pages.companies.edit')->with([
+        return view('panel.pages.companies.edit')->with([
             'action' => route('companies.store'),
             'method' => "POST",
             'attribute' => null

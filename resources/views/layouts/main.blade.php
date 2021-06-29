@@ -31,41 +31,60 @@
             font-family: "Sequel";
             src: url("{{asset('fonts/Sequel.ttf')}}") format("truetype");
         }
-        body{
-            height: 100vh;
-            overflow-x: hidden;
-            background-color: #f6f6f6;
-            background-opacity: 1;
-            background-image: url("{{asset('images/diamond.svg')}}");
-            background-repeat: no-repeat;
-            background-size: 1000px;
-            background-position-x: -25vw;
-            background-position-y: -45vh;
 
+        body{
+            background-color: #f6f6f6;
+        }
+
+        .diamond{
+            position: absolute;
+            height: 90vh;
+            width: 100%;
+            overflow-x: hidden;
+            background-repeat: no-repeat;
+            background-size: 900px;
+            z-index: -100;
             animation: fadeInAnimation ease 1s;
             animation-iteration-count: 1;
             animation-fill-mode: forwards;
         }
-        @keyframes fadeInAnimation {
-            0% {
-                background-position-x: -100vh;
-            }
-            100% {
-                background-position-x: -25vw;
-            }
+
+        .diamond-blue{
+            left: 0;
+            top: 0;
+            background-image: url("{{asset('images/diamond-blue.png')}}");
+            background-position-x: -25vw;
+            background-position-y: 0;
         }
-        .diamond{
-            position: absolute;
-            right: -300px;
-            bottom: -350px;
-            z-index: -100;
+
+        .diamond-green{
+            right: 0;
+            top: 0;
+            background-image: url("{{asset('images/diamond-green.png')}}");
+            background-position-x: 77vw;
+            background-position-y: 0;
         }
+
+        /*@keyframes fadeInAnimation {*/
+        /*    0% {*/
+        /*        background-position-x: -100vh;*/
+        /*    }*/
+        /*    100% {*/
+        /*        background-position-x: -25vw;*/
+        /*    }*/
+        /*}*/
+
+        {{--    rgba(62, 132, 58, 0.62)    050E3ABC--}}
     </style>
 </head>
 <body>
-    @yield('content')
-    <div class="diamond" >
-        <x-diamond class="animate__animated animate__fadeInUp" width="900px" color="rgba(62, 132, 58, 0.62)"></x-diamond>
+    <div id="app">
+        @include('components.navbar')
+        <main class="py-4">
+            @yield('content')
+        </main>
+        <span class="diamond diamond-blue"></span>
+        <span class="diamond diamond-green"></span>
     </div>
 </body>
 </html>

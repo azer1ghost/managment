@@ -10,6 +10,7 @@ class Text extends Component
     public $label = null;
     public $value = null;
     public $name = null;
+    public $type = null;
     public $placeholder = null;
 
     public function __construct(
@@ -17,6 +18,7 @@ class Text extends Component
         ?string $value = null,
         ?string $label = null,
         ?string $placeholder = null,
+        ?string $type = "text",
         ?int $width = 12
     )
     {
@@ -25,6 +27,7 @@ class Text extends Component
         $this->label = $label;
         $this->placeholder = $placeholder;
         $this->width = $width;
+        $this->type = $type;
     }
 
     public function render()
@@ -34,7 +37,7 @@ class Text extends Component
           <div {{ $attributes->merge(['class' => 'form-group col-12 col-md-'.$width]) }}>
                 <label for="data-{{$name}}">{{$label ?? Str::ucfirst($name)}}</label>
                 <input @if(key_exists('required', $attributes->getAttributes())) required @endif
-                       type="text" 
+                       type="{{$type}}" 
                        class="form-control @error($name) is-invalid @enderror"
                        name="{{$name}}" 
                        id="data-{{$name}}" 

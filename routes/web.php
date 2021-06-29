@@ -1,25 +1,26 @@
 <?php
 
-use App\Http\Controllers\{CompanyController, PlatformController, HomeController, SignatureController};
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Platform\{
+    Main\AccountController,
+    Main\PlatformController,
+    Modules\CompanyController,
+    Modules\SignatureController};
+use Illuminate\Support\Facades\{Auth, Route};
 
-Auth::routes();
+Route::namespace('App\Http\Controllers\Platform')->group(function () {
+    Auth::routes();
+});
 
 Route::redirect('/','/welcome')->name('home');
-
 Route::get('/welcome', [PlatformController::class, 'welcome'])->name('welcome');
-
-//Route::get('/register', [PlatformController::class, 'register'])->name('register');
-
-Route::get('/register', [PlatformController::class, 'register'])->name('register');
-Route::post('/register', [SignatureController::class, 'registerEmployer']);
+Route::get('/dashboard', [PlatformController::class, 'dashboard'])->name('dashboard');
 
 
-Route::get('/select-company', [PlatformController::class, 'selectCompany'])->name('selectCompany');
+Route::get('/account', [AccountController::class, 'account'])->name('account');
+Route::post('/account', [AccountController::class, 'save']);
 
-
-
+Route::get('/signature/select-company', [SignatureController::class, 'selectCompany'])->name('signature-select-company');
+Route::get('/signature/{company}', [SignatureController::class, 'signature'])->name('signature');
 
 
 Route::resource('companies', CompanyController::class);

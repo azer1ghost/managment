@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="container">
-        <div class="row d-flex align-content-center vh-100">
+        <div class="row d-flex align-content-center">
             <div class="col-md-12 mb-5">
                 <h2 class="text-center">Please select your company</h2>
             </div>
@@ -23,7 +23,7 @@
                                <img class="img-fluid mt-4" src="{{asset('images/'. $company->logo)}}" alt="{{$company->name}}">
                            </div>
                            <div class="card-footer text-center">
-                               <a href="{{route('register')}}" class="btn btn-outline-orange text-uppercase w-50">Join</a>
+                               <a href="{{route('signature', $company)}}" class="btn btn-outline-orange text-uppercase w-100">Get My Signature</a>
                            </div>
                        </div>
                    </div>
