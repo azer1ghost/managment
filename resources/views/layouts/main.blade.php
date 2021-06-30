@@ -10,13 +10,8 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}" ></script>
 
-    <script>
-        $("#phone").intlTelInput({
-            utilsScript: "{{asset('js/utils.js')}}"
-        });
-    </script>
 
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -44,7 +39,6 @@
             background-repeat: no-repeat;
             background-size: 900px;
             z-index: -100;
-            animation: fadeInAnimation ease 1s;
             animation-iteration-count: 1;
             animation-fill-mode: forwards;
         }
@@ -55,6 +49,16 @@
             background-image: url("{{asset('images/diamond-blue.png')}}");
             background-position-x: -25vw;
             background-position-y: 0;
+            animation: blueAnime ease 1s;
+        }
+
+        @keyframes blueAnime {
+            0% {
+                background-position-x: -50vw;
+            }
+            100% {
+                background-position-x: -25vw;
+            }
         }
 
         .diamond-green{
@@ -63,18 +67,17 @@
             background-image: url("{{asset('images/diamond-green.png')}}");
             background-position-x: 77vw;
             background-position-y: 0;
+            animation: greenAnime ease 1s;
         }
 
-        /*@keyframes fadeInAnimation {*/
-        /*    0% {*/
-        /*        background-position-x: -100vh;*/
-        /*    }*/
-        /*    100% {*/
-        /*        background-position-x: -25vw;*/
-        /*    }*/
-        /*}*/
-
-        {{--    rgba(62, 132, 58, 0.62)    050E3ABC--}}
+        @keyframes greenAnime {
+            0% {
+                background-position-x: 100vw;
+            }
+            100% {
+                background-position-x: 77vw;
+            }
+        }
     </style>
 </head>
 <body>
@@ -86,5 +89,11 @@
         <span class="diamond diamond-blue"></span>
         <span class="diamond diamond-green"></span>
     </div>
+
+    <script>
+        @if(session()->has('notify'))
+            $.notify("{{session()->get('notify')['message']}}", "{{session()->get('notify')['type']}}", { style: 'bootstrap' });
+        @endif
+    </script>
 </body>
 </html>

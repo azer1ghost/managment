@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class SignatureController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function selectCompany(): View
     {
         return view('panel.pages.signature.select')->with([

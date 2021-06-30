@@ -25,11 +25,12 @@
                         <tbody>
                         @forelse($companies as $company)
                         <tr>
-                            <th scope="row">1</th>
+                            <th scope="row">{{$loop->iteration}}</th>
+                            <td><img width="150px" src="{{asset("images/$company->logo")}}"></td>
                             <td>{{$company->name}}</td>
                             <td>
                                 <div class="btn-group">
-                                    <a class="btn btn-outline-primary">
+                                    <a href="{{route('companies.edit', $company)}}" class="btn btn-outline-primary">
                                         <i class="fas fa-pen"></i>
                                     </a>
                                 </div>
@@ -44,7 +45,6 @@
                             </th>
                         </tr>
                         @endforelse
-
                         </tbody>
                     </table>
                 </div>

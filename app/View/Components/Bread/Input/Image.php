@@ -11,12 +11,13 @@ class Image extends Component
     public $value = null;
     public $name = null;
     public $placeholder = null;
+    public $folder = "images";
 
     public function __construct(
         ?string $name  = null,
         ?string $value = null,
         ?string $label = null,
-        ?string $placeholder = 'images/nophoto.png',
+        ?string $placeholder = 'nophoto.png',
         ?int $width = 12
     )
     {
@@ -34,7 +35,7 @@ class Image extends Component
                 <label for="data-{{$name}}">{{$label ?? Str::ucfirst($name)}}</label>
                 <label for="data-{{$name}}">
                      <div class="card" style="max-width: 100%">
-                         <img class="img-fluid" id="input-{{$name}}" src="{{asset($value)}}" alt="{{$name}}"> 
+                         <img class="img-fluid" id="input-{{$name}}" src="{{asset("$folder/$value")}}" alt="{{$name}}"> 
                          <div class="btn btn-outline-primary">Change</div>
                      </div>
                 </label>

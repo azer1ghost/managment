@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class PlatformController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except'=> ['welcome']]);
+    }
+
     public function welcome(): View
     {
         header("Refresh: 5; URL=". route('login'));

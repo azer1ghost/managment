@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function account(): View
     {
         return view('panel.pages.main.account');
