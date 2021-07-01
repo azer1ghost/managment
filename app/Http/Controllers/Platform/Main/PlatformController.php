@@ -24,4 +24,9 @@ class PlatformController extends Controller
     {
         return view('panel.pages.main.dashboard');
     }
+
+    public function customerServices(): View
+    {
+        return view('panel.pages.customer-services.index');
+    }
 }

@@ -9,6 +9,9 @@ use Illuminate\Notifications\Notifiable;
 
 /**
  * @method static insert(array $array)
+ * @property mixed role
+ * @property mixed name
+ * @property mixed surname
  */
 class User extends Authenticatable
 {
@@ -44,7 +47,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function fullname()
+    public function role(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function fullname(): string
     {
         return $this->name." ".$this->surname;
     }

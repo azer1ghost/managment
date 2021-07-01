@@ -18,6 +18,8 @@ return [
         'passwords' => 'users',
     ],
 
+    'permissions' => ['general', 'account', 'signature'],
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Guards
