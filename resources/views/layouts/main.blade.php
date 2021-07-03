@@ -92,6 +92,7 @@
         <span class="diamond diamond-green"></span>
     </div>
 
+    @yield('scripts')
     <script>
         @if(session()->has('notify'))
             $.notify("{{session()->get('notify')['message']}}", "{{session()->get('notify')['type']}}", { style: 'bootstrap' });

@@ -15,15 +15,18 @@ class CreateCallCentersTable extends Migration
     {
         Schema::create('call_centers', function (Blueprint $table) {
             $table->id();
-            $table->date('');
-            $table->time('');
-            $table->string('fullname');
-            $table->string('phone');
-            $table->string('subject');
-            $table->string('source');
-            $table->string('note');
+            $table->date('date');//+
+            $table->time('time');//+
+            $table->string('client');//+
+            $table->string('fullname');//+
+            $table->string('phone');//+
+            $table->string('subject');//+
+            $table->string('source');//+
+            $table->string('note');//+
             $table->string('redirected');
-            $table->boolean('status');
+            +$table->boolean('status');//+
+            $table->integer('user_id');//+
+            $table->integer('company_id');//+
             $table->timestamps();
         });
     }

@@ -2,6 +2,53 @@
 
 
 @section('content')
+
+<!-- Modal -->
+<div class="modal fade " id="createModal" tabindex="-1" role="dialog"
+     aria-hidden="true" xmlns:x-input="http://www.w3.org/1999/html">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Call center requests</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{route('call-center.store')}}" method="POST" >
+                    @csrf
+                    @php($subjects = ['Problem','Support'])
+                    @php($sources = ['Instagram', 'Facebook', 'Whatsapp', 'Call'])
+                    @php($statuses = ['Done', 'Pending', 'Rejected'])
+                    <div class="tab-content form-row mt-4" >
+                        <x-input::select name="company_id" label="Company" :options="$companies" width="3" class="pr-3" />
+                        <x-input::text name="date" value="{{now()->timezone('Asia/Baku')->format('Y-m-d')}}" type="date" width="3" class="pr-2" />
+                        <x-input::text name="time" value="{{now()->timezone('Asia/Baku')->format('H:i')}}" type="time" width="3" class="pr-2" />
+                        <x-input::select name="subject" :options="$subjects" width="3" class="pr-3" />
+                        <x-input::select name="source" :options="$sources" width="3" class="pr-3" />
+                        <x-input::text name="phone" width="3" value="+994 " class="pr-2" />
+                        <x-input::text name="client" width="3" placeholder="MBX or profile" class="pr-2" />
+                        <x-input::text name="fullname" width="3" class="pr-2" />
+                        <x-input::select name="status" :options="$statuses" width="3" class="pr-3" />
+                        <x-input::text name="redirected" width="9" class="pr-2" />
+                        <x-input::text name="note"  />
+{{--                        <x-input::text name="mail" label="Company email" width="4" class="pr-3" />--}}
+{{--                        <x-input::text name="phone"  label="Company phone" width="4" class="pr-3" />--}}
+{{--                        <x-input::text name="mobile" label="Company mobile" width="4" class="pr-3" />--}}
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Create request</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-2">
@@ -10,6 +57,11 @@
         <div class="col-md-10">
             <div class="card">
                 <div class="card-header">Call Center</div>
+                <div class="toolbar">
+                    <button data-toggle="modal" data-target="#createModal" class="btn btn-success">
+                        <i class="fal fa-plus"></i>
+                    </button>
+                </div>
                 <div class="card-body">
                     <table id="table"
                            data-buttons-class="secondary mr-1"
@@ -26,9 +78,9 @@
                            class="table">
                         <thead>
                         <th scope="col" data-checkbox="true"></th>
-                        <th scope="col" data-sortable="true" data-field="id" >ID</th>
-                        <th scope="col" data-sortable="true" data-field="key">Item Key</th>
-                        <th scope="col" data-sortable="true" data-field="name" >Item Name</th>
+                        <th scope="col" data-sortable="true" data-field="date" >Date</th>
+                        <th scope="col" data-sortable="true" data-field="fullname">Fullname</th>
+                        <th scope="col" data-sortable="true" data-field="subject" >Subject</th>
                         <th scope="col" data-formatter="operateFormatter" data-field="operate" class="text-center">Actions</th>
                         </thead>
                     </table>
@@ -39,8 +91,32 @@
 </div>
 @endsection
 @section('scripts')
-    <script>
-        let $table = $('#table')
+<script>
 
-    </script>
+    let $table = $('#table')
+
+    function destroy(){
+        if (confirm("Want to delete?")) {
+            $.ajax('{{route('call-center.destroy','1')}}', {
+                method: 'delete',
+                data: {
+                    _token: '{{csrf_token()}}',
+                    data: JSON.stringify($table.bootstrapTable('getSelections'))
+                },
+                success: function (data,status,xhr) {   // success callback function
+                    $table.bootstrapTable('refresh')
+                },
+                error: function (jqXhr, textStatus, errorMessage) { // error callback
+                    alert('error')
+                }
+            });
+        }
+    }
+
+    window.addEventListener('keypress', function (e) {
+        if (e.key === '+') {
+            $('#createModal').modal('show')
+        }
+    }, false);
+</script>
 @endsection
