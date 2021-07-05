@@ -22,14 +22,15 @@ Route::post('/account', [AccountController::class, 'save']);
 Route::prefix('module')->group(function () {
 
     Route::get('/customer-services', [PlatformController::class, 'customerServices'])->name('customer-services');
-    Route::resource('/call-center', CallCenterController::class)->names([
-        'index' => 'call-center.table'
-    ]);
+
+    Route::get('/call-center/table', [CallCenterController::class, 'table'])->name('call-center.table');
+    Route::resource('/call-center', CallCenterController::class);
+
+    Route::get('mobex-call-center/table', [CallCenterController::class, 'table'])->name('mobex-call-center.table');
+    Route::resource('mobex-call-center', CallCenterController::class);
 
     Route::get('/signature/select-company', [SignatureController::class, 'selectCompany'])->name('signature-select-company');
     Route::get('/signature/{company}', [SignatureController::class, 'signature'])->name('signature');
 
-
     Route::resource('/companies', CompanyController::class);
-
 });

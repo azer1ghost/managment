@@ -27,8 +27,6 @@ class PlatformController extends Controller
 
     public function customerServices(): View
     {
-        return view('panel.pages.customer-services.index')->with([
-            "companies" => Company::select(['id','name'])->pluck('name','id')->toArray()
-        ]);
+        return view('panel.pages.customer-services.index');
     }
 }
