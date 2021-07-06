@@ -18,7 +18,12 @@ return [
         'passwords' => 'users',
     ],
 
-    'permissions' => ['general', 'account', 'signature'],
+    'permissions' => [
+        'general',
+        'browse-request', 'create-request','edit-request', 'delete-request',
+        'browse-account', 'edit-account',
+        'signature'
+    ],
 
     /*
     |--------------------------------------------------------------------------

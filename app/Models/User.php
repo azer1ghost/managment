@@ -52,6 +52,11 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    public function hasPermission($perm): bool
+    {
+        return in_array($perm, $this->role()->permissions);
+    }
+
     public function fullname(): string
     {
         return $this->name." ".$this->surname;

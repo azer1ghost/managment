@@ -5,21 +5,43 @@ namespace App\Http\Controllers\Platform\Modules;
 use App\Http\Controllers\Controller;
 use App\Models\CallCenter;
 use App\Models\Company;
+use App\Models\Sustainable\Sources;
+use App\Models\Sustainable\Statuses;
+use App\Models\Sustainable\Subjects;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CallCenterController extends Controller
 {
+    protected $rules = [
+        'date' => 'required',
+        'time'  => "required",
+        'client'  => "string|max:255",
+        'fullname'  => "string|max:255",
+        'phone'  => "string|max:255",
+        'subject'  => "required|string|max:255",
+        'source'  => "required|string|max:255",
+        'note'  => "string|max:255",
+        'redirected'  => "string|max:255",
+        'status' => "required|string",
+        'company_id'  => "required|int|max:11",
+    ];
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         return view('panel.pages.customer-services.call-center.index')->with([
-            "companies" => Company::where('id','!=', 4)->select(['id','name'])->pluck('name','id')->toArray(),
-            "subjects"  => ['Problem', 'Support'],
-            "sources"   => ['Instagram', 'Facebook', 'Whatsapp', 'Call'],
-            "statuses"  => ['Done', 'Pending', 'Rejected']
+            "companies" => Company::select(['id','name'])->pluck('name','id')->toArray(),
+            "subjects"  => Subjects::get()->toArray(),
+            "sources"   => Sources::get()->toArray(),
+            "statuses"  => Statuses::get()->toArray(),
         ]);
     }
 
@@ -31,15 +53,28 @@ class CallCenterController extends Controller
         $sort   = $request->get('sort')   ?? 'created_at';
         $order  = $request->get('order')  ?? 'asc';
 
+        $filterBySubject = $request->get('subject');
+        $filterByDate    = $request->get('date');
+
         $query = CallCenter::query();
 
         $query->latest()->orderBy($sort, $order);
+
+        if ($filterBySubject){
+            $query->whereIn('subject', $filterBySubject);
+        }
+
+        if ($filterByDate){
+            $query->whereDate('date', $filterByDate);
+            //whereBetween('reservation_from', [$from, $to]);
+        }
 
         if ($search) {
             $query
                 ->where('note', 'like', "%$search%")
                 ->orWhere('fullname', 'like', "%$search%")
-                ->orWhere('phone', 'like', "%$search%");
+                ->orWhere('phone', 'like', "%$search%")
+                ->orWhere('user', 'like', "$search%");
         }
 
         $total = $query->count();
@@ -54,9 +89,17 @@ class CallCenterController extends Controller
 
         $data = $query->get();
 
+        //data row mutator or modifier
+        $rows = $data->map(function ($row){
+            $row->subject = Subjects::get()->toArray()[$row->subject];
+            $row->fullname = ucfirst($row->fullname);
+            $row->editable = true;
+            return $row;
+        });
+
         return response()->json([
             'total' => $total,
-            'rows'  => $data,
+            'rows'  => $rows,
         ]);
     }
 
@@ -66,24 +109,16 @@ class CallCenterController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'date' => 'required',
-            'time'  => "required",
-            'client'  => "required|string|max:255",
-            'fullname'  => "required|string|max:255",
-            'phone'  => "required|string|max:255",
-            'subject'  => "required|string|max:255",
-            'source'  => "required|string|max:255",
-            'note'  => "required|string|max:255",
-            'redirected'  => "required|string|max:255",
-            'status' => "required|bool",
-            'company_id'  => "required|int|max:11",
-        ]);
+        $validated = $request->validate($this->rules);
 
-        CallCenter::create( array_merge(
+        $userID = auth()->id();
+
+        $data = CallCenter::create( array_merge(
             $validated,
-            ['user_id' => auth()->id()]
+            ['user_id' => $userID]
         ));
+
+        Log::channel('daily')->info("New request created by user #ID:$userID ".json_encode($data));
 
         return back()->with(['notify' => ['type' => 'success', 'message' => 'Created successfully']]);
     }
@@ -99,36 +134,31 @@ class CallCenterController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(CallCenter $callCenter)
     {
-        $validated = $request->validate([
-            'date' => 'required',
-            'time'  => "required",
-            'client'  => "required|string|max:255",
-            'fullname'  => "required|string|max:255",
-            'phone'  => "required|string|max:255",
-            'subject'  => "required|string|max:255",
-            'source'  => "required|string|max:255",
-            'note'  => "required|string|max:255",
-            'redirected'  => "required|string|max:255",
-            'status' => "required|bool",
-            'company_id'  => "required|int|max:11",
+        return view('panel.pages.customer-services.call-center.edit')->with([
+            "companies"  => Company::select(['id','name'])->pluck('name','id')->toArray(),
+            "subjects"   => Subjects::get()->toArray(),
+            "sources"    => Sources::get()->toArray(),
+            "statuses"   => Statuses::get()->toArray(),
+            "callCenter" => $callCenter,
         ]);
-
-        CallCenter::create( array_merge(
-            $validated,
-            ['user_id' => auth()->id()]
-        ));
-
-        return back()->with(['notify' => ['type' => 'success', 'message' => 'Created successfully']]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, CallCenter $callCenter): \Illuminate\Http\RedirectResponse
     {
-        //
+        $validated = $request->validate($this->rules);
+
+        $callCenter->update($validated);
+
+        $userID = auth()->id();
+
+        Log::channel('daily')->info("Request update by user #ID:$userID ".json_encode($callCenter->getChanges()) );
+
+        return back()->with(['notify' => ['type' => 'success', 'message' => 'Updated successfully']]);
     }
 
     /**

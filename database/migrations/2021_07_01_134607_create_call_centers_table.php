@@ -24,7 +24,7 @@ class CreateCallCentersTable extends Migration
             $table->string('source');
             $table->string('note');
             $table->string('redirected');
-            $table->boolean('status');
+            $table->string('status');
             $table->integer('user_id');
             $table->integer('company_id');
             $table->timestamps();
