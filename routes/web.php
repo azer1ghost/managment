@@ -26,7 +26,7 @@ Route::prefix('module')->group(function () {
 
     Route::get('/customer-services', [PlatformController::class, 'customerServices'])->name('customer-services');
 
-    Route::get('/call-center/table', [CallCenterController::class, 'table'])->name('call-center.table');
+    Route::post('/call-center/table', [CallCenterController::class, 'table'])->name('call-center.table');
     Route::resource('/call-center', CallCenterController::class);
 
     Route::get('/signature/select-company', [SignatureController::class, 'selectCompany'])->name('signature-select-company');

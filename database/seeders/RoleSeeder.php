@@ -18,12 +18,17 @@ class RoleSeeder extends Seeder
             array(
                 'name' => "Developer",
                 'key' => "developer",
-                'permissions' => serialize(['general','dashboard', 'account', 'signature']),
+                'permissions' => serialize(config('auth.permissions')),
+            ),
+            array(
+                'name' => "Call center operator",
+                'key' => "call-center-operator",
+                'permissions' => serialize(config('auth.permissions')),
             ),
             array(
                 'name' => "Employer",
                 'key' => "employer",
-                'permissions' => serialize(['general', 'dashboard', 'account', 'signature']),
+                'permissions' => serialize(config('auth.permissions')),
             ),
         ]);
     }

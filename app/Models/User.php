@@ -54,7 +54,7 @@ class User extends Authenticatable
 
     public function hasPermission($perm): bool
     {
-        return in_array($perm, $this->role()->permissions);
+        return in_array($perm, $this->role->permissions, true);
     }
 
     public function fullname(): string

@@ -32,17 +32,19 @@
                         <x-input::text name="date" value="{{now()->timezone('Asia/Baku')->format('Y-m-d')}}" type="date" width="3" class="pr-2" />
                         <x-input::text name="time" value="{{now()->timezone('Asia/Baku')->format('H:i')}}" type="time" width="3" class="pr-2" />
                         <x-input::select name="subject" :options="$subjects" width="3" class="pr-3" />
+                        <x-input::select name="kind" :options="$kinds" width="3" class="pr-3" />
                         <x-input::select name="source" :options="$sources" width="3" class="pr-3" />
                         <x-input::text name="phone" width="3" value="+994 " class="pr-2" />
                         <x-input::text name="client" width="3" placeholder="MBX or profile" class="pr-2" />
                         <x-input::text name="fullname" width="3" class="pr-2" />
                         <x-input::select name="status" :options="$statuses" width="3" class="pr-3" />
-                        <x-input::text name="redirected" width="9" class="pr-2" />
+                        <x-input::select name="redirected" :options="$operators" label="Redirect" width="4" class="pr-2" />
                         <x-input::textarea name="note"/>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-success send-whatsapp-message" ><i class="fal fa-paper-plane"></i> Send Message</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" form="createForm" class="btn btn-primary">Create request</button>
             </div>
@@ -81,12 +83,12 @@
                     <table id="table"
                            data-buttons-class="secondary mr-1"
                            data-toolbar=".toolbar"
-                           data-height="500"
                            data-toolbar-align="right"
                            data-show-refresh="true"
                            data-search="true"
                            data-toggle="table"
                            data-url="{{ route('call-center.table')  }}"
+                           data-method="post"
                            data-side-pagination="server"
                            data-pagination="true"
                            data-page-list="[10, 25, 50, 100]"
@@ -102,6 +104,7 @@
                             <th scope="col" data-sortable="true" data-field="date" >Date</th>
                             <th scope="col" data-sortable="true" data-field="fullname">Fullname</th>
                             <th scope="col" data-sortable="true" data-field="subject" >Subject</th>
+                            <th scope="col" data-sortable="true" data-field="status" >Status</th>
                             <th scope="col" data-formatter="operateFormatter" data-field="operate" class="text-center">Actions</th>
                         </thead>
                     </table>
@@ -114,6 +117,14 @@
 @section('scripts')
 <script>
     let $table = $('#table')
+
+    $(function() {
+        $('#sortable').change(function () {
+            $table.bootstrapTable('refreshOptions', {
+                sortable: $('#sortable').prop('checked')
+            })
+        })
+    })
 
     function operateFormatter(value, row, index) {
         return [
@@ -136,7 +147,21 @@
     }
 
     function remove(dataID){
-
+        if (confirm("Want to delete?")) {
+            $.ajax('{{route('call-center.destroy','%id%')}}'.replace('%id%', dataID), {
+                method: 'delete',
+                data: {
+                    _token: '{{csrf_token()}}'
+                },
+                success: function (data,status,xhr) {   // success callback function
+                    $.notify("Deleted Success!", "warn", { style: 'bootstrap' });
+                    $table.bootstrapTable('refresh')
+                },
+                error: function (jqXhr, textStatus, errorMessage) { // error callback
+                    alert('error')
+                }
+            });
+        }
     }
 
     $('.filterSelector').selectpicker();
@@ -144,6 +169,7 @@
     function filtering(params) {
         params.subject = $('#subjectFilter').val()
         params.date    = $('#dateFilter').val()
+        params._token = "{{csrf_token()}}"
         return params;
     }
 
@@ -156,6 +182,18 @@
             $('#createModal').modal('show')
         }
     }, false);
+
+    $('.send-whatsapp-message').click(function (){
+        let number = $( "select[name='redirected']" ).val()
+        let note = $( "textarea[name='note']" ).val()
+
+        let message = encodeURIComponent(note)
+
+        let request = "https://wa.me/" + number + "/?text=" + message
+
+        window.open(request, '_blank');
+    })
+
 </script>
 @endsection
 

@@ -28,7 +28,7 @@ class AuthServiceProvider extends ServiceProvider
 
         foreach (config('auth.permissions') as $permission){
             Gate::define($permission, function (User $user) use ($permission) {
-                return in_array($permission, $user->role->permissions, true);
+                return auth()->user()->hasPermission($permission);
             });
         }
     }

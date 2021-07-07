@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static create($validated)
@@ -11,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
 class CallCenter extends Model
 {
     use HasFactory;
+
+    use SoftDeletes;
 
     protected $fillable = [
         'date',

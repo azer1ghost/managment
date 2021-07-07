@@ -5,11 +5,16 @@ namespace App\Http\Controllers\Platform\Modules;
 use App\Http\Controllers\Controller;
 use App\Models\CallCenter;
 use App\Models\Company;
+use App\Models\Role;
 use App\Models\Sustainable\Sources;
 use App\Models\Sustainable\Statuses;
+use App\Models\Sustainable\SubjectKinds;
 use App\Models\Sustainable\Subjects;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
 class CallCenterController extends Controller
@@ -22,7 +27,7 @@ class CallCenterController extends Controller
         'phone'  => "string|max:255",
         'subject'  => "required|string|max:255",
         'source'  => "required|string|max:255",
-        'note'  => "string|max:255",
+        'note'  => "string|nullable|max:255",
         'redirected'  => "string|max:255",
         'status' => "required|string",
         'company_id'  => "required|int|max:11",
@@ -37,9 +42,13 @@ class CallCenterController extends Controller
      */
     public function index()
     {
+        Gate::authorize('browse-request');
+
         return view('panel.pages.customer-services.call-center.index')->with([
             "companies" => Company::select(['id','name'])->pluck('name','id')->toArray(),
+            "operators"  => Role::whereIn('key', ['developer', 'call-center-operator'])->first()->users->pluck('name','phone')->toArray(), //call-center-operator
             "subjects"  => Subjects::get()->toArray(),
+            "kinds"     => SubjectKinds::get('problem')->toArray(),
             "sources"   => Sources::get()->toArray(),
             "statuses"  => Statuses::get()->toArray(),
         ]);
@@ -58,7 +67,7 @@ class CallCenterController extends Controller
 
         $query = CallCenter::query();
 
-        $query->latest()->orderBy($sort, $order);
+        $query->orderBy($sort, $order)->latest();
 
         if ($filterBySubject){
             $query->whereIn('subject', $filterBySubject);
@@ -107,7 +116,7 @@ class CallCenterController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate($this->rules);
 
@@ -118,7 +127,7 @@ class CallCenterController extends Controller
             ['user_id' => $userID]
         ));
 
-        Log::channel('daily')->info("New request created by user #ID:$userID ".json_encode($data));
+        Log::channel('daily')->info("New request created by user %ID:$userID% ".json_encode($data));
 
         return back()->with(['notify' => ['type' => 'success', 'message' => 'Created successfully']]);
     }
@@ -126,7 +135,7 @@ class CallCenterController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($id): void
     {
         //
     }
@@ -141,6 +150,7 @@ class CallCenterController extends Controller
             "subjects"   => Subjects::get()->toArray(),
             "sources"    => Sources::get()->toArray(),
             "statuses"   => Statuses::get()->toArray(),
+            "operators"  => Role::whereIn('key', ['developer', 'call-center-operator'])->first()->users->pluck('name','phone')->toArray(),
             "callCenter" => $callCenter,
         ]);
     }
@@ -148,7 +158,7 @@ class CallCenterController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CallCenter $callCenter): \Illuminate\Http\RedirectResponse
+    public function update(Request $request, CallCenter $callCenter): RedirectResponse
     {
         $validated = $request->validate($this->rules);
 
@@ -156,7 +166,7 @@ class CallCenterController extends Controller
 
         $userID = auth()->id();
 
-        Log::channel('daily')->info("Request update by user #ID:$userID ".json_encode($callCenter->getChanges()) );
+        Log::channel('daily')->info("Request update by user %ID:$userID% ".json_encode($callCenter->getChanges()) );
 
         return back()->with(['notify' => ['type' => 'success', 'message' => 'Updated successfully']]);
     }
@@ -164,8 +174,13 @@ class CallCenterController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(CallCenter $callCenter)
     {
-        //
+        $callCenter->delete();
+
+        $userID = auth()->id();
+        Log::channel('daily')->warning("Request delete by user %ID:$userID% ".json_encode($callCenter) );
+
+        return response('ok',200);
     }
 }

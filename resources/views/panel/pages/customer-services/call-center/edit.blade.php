@@ -24,7 +24,7 @@
                             <x-input::text name="client" width="3" :value="$callCenter->client" placeholder="MBX or profile" class="pr-2" />
                             <x-input::text name="fullname" :value="$callCenter->fullname" width="3" class="pr-2" />
                             <x-input::select name="status" :value="$callCenter->status" :options="$statuses" width="3" class="pr-3" />
-                            <x-input::text name="redirected" :value="$callCenter->redirected" width="9" class="pr-2" />
+                            <x-input::select name="redirected" :options="$operators" label="Redirect" width="4" class="pr-2" />
                             <x-input::textarea name="note" :value="$callCenter->note"/>
                         </div>
                         <a href="{{route('call-center.index')}}" class="btn btn-outline-danger">Back</a>
