@@ -5,6 +5,7 @@ use App\Http\Controllers\Platform\{Main\AccountController,
     Main\PlatformController,
     Modules\CallCenterController,
     Modules\CompanyController,
+    Modules\InquiryController,
     Modules\SignatureController};
 use Illuminate\Support\Facades\{Auth, Route};
 
@@ -26,8 +27,8 @@ Route::prefix('module')->group(function () {
 
     Route::get('/customer-services', [PlatformController::class, 'customerServices'])->name('customer-services');
 
-    Route::post('/call-center/table', [CallCenterController::class, 'table'])->name('call-center.table');
-    Route::resource('/call-center', CallCenterController::class);
+    Route::post('/inquiry/table', [InquiryController::class, 'table'])->name('inquiry.table');
+    Route::resource('/inquiry', InquiryController::class);
 
     Route::get('/signature/select-company', [SignatureController::class, 'selectCompany'])->name('signature-select-company');
     Route::get('/signature/{company}', [SignatureController::class, 'signature'])->name('signature');

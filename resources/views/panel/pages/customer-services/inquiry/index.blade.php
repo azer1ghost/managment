@@ -13,45 +13,6 @@
 
 @section('content')
 
-<!-- Modal -->
-<div class="modal fade " id="createModal" tabindex="-1" role="dialog"
-     aria-hidden="true" xmlns:x-input="http://www.w3.org/1999/html">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Call center requests</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="{{route('call-center.store')}}" id="createForm" method="POST" >
-                    @csrf
-                    <div class="tab-content form-row mt-4" >
-                        <x-input::select name="company_id" label="Company" :options="$companies" width="3" class="pr-3" />
-                        <x-input::text name="date" value="{{now()->timezone('Asia/Baku')->format('Y-m-d')}}" type="date" width="3" class="pr-2" />
-                        <x-input::text name="time" value="{{now()->timezone('Asia/Baku')->format('H:i')}}" type="time" width="3" class="pr-2" />
-                        <x-input::select name="subject" :options="$subjects" width="3" class="pr-3" />
-                        <x-input::select name="kind" :options="$kinds" width="3" class="pr-3" />
-                        <x-input::select name="source" :options="$sources" width="3" class="pr-3" />
-                        <x-input::text name="phone" width="3" value="+994 " class="pr-2" />
-                        <x-input::text name="client" width="3" placeholder="MBX or profile" class="pr-2" />
-                        <x-input::text name="fullname" width="3" class="pr-2" />
-                        <x-input::select name="status" :options="$statuses" width="3" class="pr-3" />
-                        <x-input::select name="redirected" :options="$operators" label="Redirect" width="4" class="pr-2" />
-                        <x-input::textarea name="note"/>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success send-whatsapp-message" ><i class="fal fa-paper-plane"></i> Send Message</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" form="createForm" class="btn btn-primary">Create request</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-2">
@@ -62,9 +23,9 @@
                 <div class="card-header">Call Center</div>
                 <div class="toolbar">
                     <select id="subjectFilter" multiple class="filterSelector" data-width="fit" title="Noting selected" >
-                        @foreach($subjects as $key => $subject)
-                            <option value="{{$key}}">{{ucfirst($subject)}}</option>
-                        @endforeach
+{{--                        @foreach($subjects as $key => $subject)--}}
+{{--                            <option value="{{$key}}">{{ucfirst($subject->text)}}</option>--}}
+{{--                        @endforeach--}}
                     </select>
 {{--                    <button class="btn btn-outline-secondary">--}}
 {{--                        <i class="fal fa-calendar"></i>--}}
@@ -87,7 +48,7 @@
                            data-show-refresh="true"
                            data-search="true"
                            data-toggle="table"
-                           data-url="{{ route('call-center.table')  }}"
+                           data-url="{{ route('inquiry.table')  }}"
                            data-method="post"
                            data-side-pagination="server"
                            data-pagination="true"
@@ -99,7 +60,6 @@
                            data-query-params="filtering"
                            class="table">
                         <thead>
-{{--                            <th scope="col" data-checkbox="true"></th>--}}
                             <th scope="col" data-sortable="true" data-field="id" >#ID</th>
                             <th scope="col" data-sortable="true" data-field="date" >Date</th>
                             <th scope="col" data-sortable="true" data-field="fullname">Fullname</th>
@@ -143,12 +103,12 @@
     }
 
     function edit(dataID){
-        window.location.href = "{{route('call-center.edit', '%id%')}}".replace('%id%', dataID);
+        window.location.href = "{{route('inquiry.edit', '%id%')}}".replace('%id%', dataID);
     }
 
     function remove(dataID){
         if (confirm("Want to delete?")) {
-            $.ajax('{{route('call-center.destroy','%id%')}}'.replace('%id%', dataID), {
+            $.ajax('{{route('inquiry.destroy','%id%')}}'.replace('%id%', dataID), {
                 method: 'delete',
                 data: {
                     _token: '{{csrf_token()}}'
@@ -183,24 +143,13 @@
         }
     }, false);
 
-    $('.send-whatsapp-message').click(function (){
-        let number = $( "select[name='redirected']" ).val()
-        let note = $( "textarea[name='note']" ).val()
-
-        let message = encodeURIComponent(note)
-
-        let request = "https://wa.me/" + number + "/?text=" + message
-
-        window.open(request, '_blank');
-    })
-
 </script>
 @endsection
 
 
 {{--function destroy(){--}}
 {{--    if (confirm("Want to delete?")) {--}}
-{{--        $.ajax('{{route('call-center.destroy','1')}}', {--}}
+{{--        $.ajax('{{route('inquiry.destroy','1')}}', {--}}
 {{--            method: 'delete',--}}
 {{--            data: {--}}
 {{--                _token: '{{csrf_token()}}',--}}
@@ -215,3 +164,21 @@
 {{--        });--}}
 {{--    }--}}
 {{--}--}}
+
+{{--$('.kinds').hide().find('select').removeAttr('name')--}}
+
+{{--$('#subjectInput').change(function () {--}}
+{{--$('.kinds').hide().find('select').removeAttr('name')--}}
+{{--$('#kind-' + $(this).val()).show().find('select').attr('name', 'kind')--}}
+{{--})--}}
+
+{{--$('.send-whatsapp-message').click(function (){--}}
+{{--let number = $( "select[name='redirected']" ).val()--}}
+{{--let note = $( "textarea[name='note']" ).val()--}}
+
+{{--let message = encodeURIComponent(note)--}}
+
+{{--let request = "https://wa.me/" + number + "/?text=" + message--}}
+
+{{--window.open(request, '_blank');--}}
+{{--})--}}

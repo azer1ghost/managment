@@ -9,7 +9,7 @@
             <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
                 <div class="card-body">
-                    <a class="btn btn-lg btn-outline-primary mr-2" href="{{route('call-center.index')}}">Call center</a>
+                    <a class="btn btn-lg btn-outline-primary mr-2" href="{{route('inquiry.index')}}">Call center</a>
 {{--                    <a class="btn btn-lg btn-outline-success" href="{{route('call-center.index')}}">Mobex Call center</a>--}}
                 </div>
             </div>

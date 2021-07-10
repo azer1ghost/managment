@@ -14,21 +14,28 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
+        $permissions = implode(',',config('auth.permissions'));
+
         Role::insert([
             array(
                 'name' => "Developer",
                 'key' => "developer",
-                'permissions' => serialize(config('auth.permissions')),
+                'permissions' => 'all',
+            ),
+            array(
+                'name' => "President",
+                'key' => "president",
+                'permissions' => 'all',
             ),
             array(
                 'name' => "Call center operator",
-                'key' => "call-center-operator",
-                'permissions' => serialize(config('auth.permissions')),
+                'key' => "customer-service-operator",
+                'permissions' => $permissions,
             ),
             array(
                 'name' => "Employer",
                 'key' => "employer",
-                'permissions' => serialize(config('auth.permissions')),
+                'permissions' => $permissions,
             ),
         ]);
     }

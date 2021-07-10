@@ -3,21 +3,16 @@
 namespace App\Http\Controllers\Platform\Modules;
 
 use App\Http\Controllers\Controller;
-use App\Models\CallCenter;
 use App\Models\Company;
+use App\Models\Inquiry;
 use App\Models\Role;
-use App\Models\Sustainable\Sources;
-use App\Models\Sustainable\Statuses;
-use App\Models\Sustainable\SubjectKinds;
-use App\Models\Sustainable\Subjects;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
-class CallCenterController extends Controller
+class InquiryController extends Controller
 {
     protected $rules = [
         'date' => 'required',
@@ -26,8 +21,9 @@ class CallCenterController extends Controller
         'fullname'  => "string|max:255",
         'phone'  => "string|max:255",
         'subject'  => "required|string|max:255",
+        'kind'  => "nullable|string|max:255",
         'source'  => "required|string|max:255",
-        'note'  => "string|nullable|max:255",
+        'note'  => "nullable|string|max:255",
         'redirected'  => "string|max:255",
         'status' => "required|string",
         'company_id'  => "required|int|max:11",
@@ -44,14 +40,16 @@ class CallCenterController extends Controller
     {
         Gate::authorize('browse-request');
 
-        return view('panel.pages.customer-services.call-center.index')->with([
-            "companies" => Company::select(['id','name'])->pluck('name','id')->toArray(),
+//        dd(Subjects::get()->toArray());
+
+        return view('panel.pages.customer-services.inquiry.index')->with([
+            "companies" => Company::whereNotIn('id', [1])->select(['id','name'])->pluck('name','id')->toArray(),
             "operators"  => Role::whereIn('key', ['developer', 'call-center-operator'])->first()->users->pluck('name','phone')->toArray(), //call-center-operator
-            "subjects"  => Subjects::get()->toArray(),
-            "kinds"     => SubjectKinds::get('problem')->toArray(),
-            "sources"   => Sources::get()->toArray(),
-            "statuses"  => Statuses::get()->toArray(),
+//            "subjects"  => Subjects::get()->toArray(),
+//            "sources"   => Sources::get()->toArray(),
+//            "statuses"  => Statuses::get()->toArray(),
         ]);
+
     }
 
     public function table(Request $request): JsonResponse
@@ -65,7 +63,7 @@ class CallCenterController extends Controller
         $filterBySubject = $request->get('subject');
         $filterByDate    = $request->get('date');
 
-        $query = CallCenter::query();
+        $query = Inquiry::query();
 
         $query->orderBy($sort, $order)->latest();
 
@@ -113,6 +111,15 @@ class CallCenterController extends Controller
     }
 
 
+    public function create()
+    {
+        return view('panel.pages.customer-services.inquiry.edit')->with([
+            'method' => 'POST',
+            'action' => route('inquiry.store'),
+            'data'   => null
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -122,7 +129,7 @@ class CallCenterController extends Controller
 
         $userID = auth()->id();
 
-        $data = CallCenter::create( array_merge(
+        $data = Inquiry::create( array_merge(
             $validated,
             ['user_id' => $userID]
         ));
@@ -143,13 +150,13 @@ class CallCenterController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CallCenter $callCenter)
+    public function edit(Inquiry $callCenter)
     {
-        return view('panel.pages.customer-services.call-center.edit')->with([
-            "companies"  => Company::select(['id','name'])->pluck('name','id')->toArray(),
-            "subjects"   => Subjects::get()->toArray(),
-            "sources"    => Sources::get()->toArray(),
-            "statuses"   => Statuses::get()->toArray(),
+        return view('panel.pages.customer-services.inquiry.edit')->with([
+            "companies"  => Company::whereNot('id', 1)->select(['id','name'])->pluck('name','id')->toArray(),
+//            "subjects"   => Subjects::get()->toArray(),
+//            "sources"    => Sources::get()->toArray(),
+//            "statuses"   => Statuses::get()->toArray(),
             "operators"  => Role::whereIn('key', ['developer', 'call-center-operator'])->first()->users->pluck('name','phone')->toArray(),
             "callCenter" => $callCenter,
         ]);
@@ -158,7 +165,7 @@ class CallCenterController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CallCenter $callCenter): RedirectResponse
+    public function update(Request $request, Inquiry $callCenter): RedirectResponse
     {
         $validated = $request->validate($this->rules);
 
@@ -174,7 +181,7 @@ class CallCenterController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CallCenter $callCenter)
+    public function destroy(Inquiry $callCenter)
     {
         $callCenter->delete();
 

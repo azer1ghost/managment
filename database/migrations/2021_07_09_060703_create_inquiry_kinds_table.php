@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRolesTable extends Migration
+class CreateInquiryKindsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateRolesTable extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('inquiry_kinds', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->foreignId('inquiry_subjects_id')->nullable()->constrained()->onDelete('CASCADE');
             $table->string('key')->unique();
-            $table->text('permissions');
+            $table->json('name');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateRolesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('inquiry_kinds');
     }
 }

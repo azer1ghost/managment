@@ -82,6 +82,7 @@
             }
         }
     </style>
+    @livewireStyles
 </head>
 <body>
     <div id="app">
@@ -92,6 +93,8 @@
         <span class="diamond diamond-blue"></span>
         <span class="diamond diamond-green"></span>
     </div>
+
+    @livewireScripts
 
     @yield('scripts')
     <script>
