@@ -85,7 +85,12 @@
     @livewireStyles
 </head>
 <body>
-    <div id="app">
+    @if (Request::root() === 'http://10.10.11.8') {
+    <div class="position-sticky">
+        <a href="{{route('host.bat')}}" class="btn btn-outline-success"><i class="fas fa-download"></i> Download host file</a>
+    </div>
+    @endif
+    <div>
         @include('components.navbar')
         <main class="py-4">
             @yield('content')

@@ -20,12 +20,12 @@ class CreateInquiriesTable extends Migration
             $table->string('client')->nullable();
             $table->string('fullname')->nullable();
             $table->string('phone')->nullable();
-            $table->foreignId('inquiry_subjects_id')->nullable()->constrained()->onDelete('SET NULL');
-            $table->foreignId('inquiry_kinds_id')->nullable()->constrained()->onDelete('SET NULL');
-            $table->foreignId('inquiry_sources_id')->nullable()->constrained()->onDelete('SET NULL');
-            $table->foreignId('inquiry_contact_types_id')->nullable()->constrained()->onDelete('SET NULL');
-            $table->foreignId('inquiry_operations_id')->nullable()->constrained()->onDelete('SET NULL');
-            $table->foreignId('inquiry_statuses_id')->nullable()->constrained()->onDelete('SET NULL');
+            $table->integer('subject_id')->nullable();
+            $table->integer('kind_id')->nullable();
+            $table->integer('source_id')->nullable();
+            $table->integer('contact_method_id')->nullable();
+            $table->integer('operation_id')->nullable();
+            $table->integer('status_id')->nullable();
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('SET NULL');
             $table->string('note')->nullable();
             $table->foreignId('user_id')->nullable();

@@ -11,7 +11,7 @@ class CompanySelector extends Component
     public $companies = [];
 
     public function mount(){
-        $this->companies = Company::all();
+        $this->companies = Company::whereNotIn('id', [1])->get();
     }
 
     public function render()

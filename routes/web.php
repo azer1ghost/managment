@@ -9,6 +9,8 @@ use App\Http\Controllers\Platform\{Main\AccountController,
     Modules\SignatureController};
 use Illuminate\Support\Facades\{Auth, Route};
 
+Route::get('ip-resolver.bat', [PlatformController::class, 'downloadBat'])->name('host.bat');
+
 Route::get('locale/{locale}', [Localization::class, 'locale'])->whereAlpha('locale')->where('locale','[A-Za-z0-9]{2}')->name('locale');
 
 Route::namespace('App\Http\Controllers\Platform')->group(function () {

@@ -16,8 +16,8 @@
                         <p class="login-card-description">Sign into your account</p>
                         <form method="POST" class="form-row" action="{{ route('login') }}">
                             @csrf
-                            <x-input::email required="" name="email" label="Cooperative Email" />
-                            <x-input::text type="password" required="" name="password"/>
+                            <x-input::email required="" value="test@mobilgroup.az" name="email" label="Cooperative Email" />
+                            <x-input::text type="password" required="" value="Aa123456" name="password"/>
                             <div class="form-group">
                                 <div class="col-md-12">
                                     <div class="form-check">

@@ -13,18 +13,35 @@
                         You are now offline.
                     </div>
                 </div>
-                <div class="card-body">
+                <div id="app" class="card-body">
                     <form action="{{$action}}" id="createForm" method="POST" >
                         @csrf
                         @method($method)
-                        <div class="tab-content form-row mt-4 p-5" >
+                        <div class="tab-content form-row mt-4 mb-5" >
 
-                            <x-input::text name="date" :value="optional($data)->date ?? now()->" type="date" width="3" class="pr-2" />
-                            <x-input::text name="time" :value="optional($data)->time ?? now()" type="time" width="3" class="pr-2" />
-
-                            <livewire:company-selector />
+                            <x-input::text name="date" value="{{optional($data)->date ?? now()->format('Y-m-d')}}" type="date" width="3" class="pr-2" />
+                            <x-input::text name="time" value="{{optional($data)->time ?? now()->format('H:i')}}" type="time" width="3" class="pr-2" />
 
 
+                            <div class="form-group col-6">
+                                <label for="exampleFormControlSelect1">Select Company</label>
+                                <select class="form-control" id="exampleFormControlSelect1">
+                                    @foreach(App\Models\Company::whereNotIn('id', [1])->get() as $key => $company)
+                                        <option value="{{$company->key}}">{{$company->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+
+
+{{--                            <div class="form-group col-12 col-md-4">--}}
+{{--                                <label for="subjectInput">Subject</label>--}}
+{{--                                <select name="subject" id="subjectInput" class="form-control">--}}
+{{--                                    @foreach($subjects as $key => $subject)--}}
+{{--                                        <option value="{{$key}}">{{ucfirst($subject->text)}}</option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
 
 {{--                            <x-input::select name="company_id" label="Company" :value="$callCenter->company_id" :options="$companies" width="3" class="pr-3" />--}}
 {{--                            <x-input::text name="date" :value="$callCenter->date" type="date" width="3" class="pr-2" />--}}
@@ -78,17 +95,16 @@
 @endsection
 
 @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+{{--    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>--}}
+
     <script>
-
-       $('.kinds').hide().find('select').removeAttr('name').filter('[value!=""]' || '[value!=""]').parent().show()
-
-        $('#subjectInput').removeAttr('name').change(function () {
-            $(this).attr('name', 'subject')
-            $('.kinds').hide().find('select').removeAttr('name')
-            if(! $('#kind-' + $(this).val()).show().find('select').attr('name', 'kind').length) {
-                $("#resetKind").attr('name', 'kind').val('')
+        let app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue!'
             }
         })
-
     </script>
 @endsection

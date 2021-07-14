@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInquiryContactTypesTable extends Migration
+class CreateInquiryDataCompanyTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateInquiryContactTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('inquiry_contact_types', function (Blueprint $table) {
-            $table->id();
-            $table->string('key')->unique();
-            $table->json('name');
-            $table->softDeletes();
-            $table->timestamps();
+        Schema::create('inquiry_data_company', function (Blueprint $table) {
+            $table->foreignId('company_id')->index()->constrained()->onDelete('CASCADE');
+            $table->foreignId('inquiry_data_id')->index()->constrained()->onDelete('CASCADE');
         });
     }
 
@@ -29,6 +26,6 @@ class CreateInquiryContactTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inquiry_contact_types');
+        Schema::dropIfExists('inquiry_data_company');
     }
 }

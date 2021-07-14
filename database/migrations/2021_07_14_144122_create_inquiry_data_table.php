@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInquiryStatusesTable extends Migration
+class CreateInquiryDataTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateInquiryStatusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('inquiry_statuses', function (Blueprint $table) {
+        Schema::create('inquiry_data', function (Blueprint $table) {
             $table->id();
             $table->string('key')->unique();
             $table->json('name');
@@ -29,6 +29,6 @@ class CreateInquiryStatusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inquiry_statuses');
+        Schema::dropIfExists('inquiry_data');
     }
 }
