@@ -9,9 +9,6 @@
             <div class="card">
                 <div class="card-header">
                     <h4 class="text-muted mt-2">Edit Request</h4>
-                    <div wire:offline>
-                        You are now offline.
-                    </div>
                 </div>
                 <div id="app" class="card-body">
                     <form action="{{$action}}" id="createForm" method="POST" >
@@ -22,26 +19,39 @@
                             <x-input::text name="date" value="{{optional($data)->date ?? now()->format('Y-m-d')}}" type="date" width="3" class="pr-2" />
                             <x-input::text name="time" value="{{optional($data)->time ?? now()->format('H:i')}}" type="time" width="3" class="pr-2" />
 
-
                             <div class="form-group col-6">
                                 <label for="exampleFormControlSelect1">Select Company</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    @foreach(App\Models\Company::whereNotIn('id', [1])->get() as $key => $company)
-                                        <option value="{{$company->key}}">{{$company->name}}</option>
+                                <select name="company" class="form-control" id="exampleFormControlSelect1">
+                                    @foreach($companies as $company)
+                                        <option value="{{$company->id}}">{{$company->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
+                            @foreach($companies as $company)
+                                @if($company->parameters->where('type', 'subject')->count())
+                                <div class="form-group col-12 col-md-4">
+                                    <label for="subject[{{$company->id}}]">Subject</label>
+                                    <select id="subject[{{$company->id}}]" class="form-control">
+                                        @foreach($company->parameters->where('type', 'subject') as $subject)
+                                            <option value="{{$subject->id}}">{{ucfirst($subject->name)}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @endif
+                                    @foreach($company->parameters->where('type', 'subject') as $subject)
+                                        @if($company->parameters->where('parameter_id', $subject->id)->where('type', 'kind')->count())
+                                        <div class="form-group col-12 col-md-4">
+                                            <label for="kind[{{$subject->id}}]">Kind</label>
+                                            <select id="kind[{{$subject->id}}]" class="form-control">
+                                                @foreach($company->parameters->where('parameter_id', $subject->id)->where('type', 'kind') as $key => $kind)
+                                                    <option value="{{$key}}">{{ucfirst($kind->name)}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        @endif
+                                    @endforeach
+                            @endforeach
 
-
-
-{{--                            <div class="form-group col-12 col-md-4">--}}
-{{--                                <label for="subjectInput">Subject</label>--}}
-{{--                                <select name="subject" id="subjectInput" class="form-control">--}}
-{{--                                    @foreach($subjects as $key => $subject)--}}
-{{--                                        <option value="{{$key}}">{{ucfirst($subject->text)}}</option>--}}
-{{--                                    @endforeach--}}
-{{--                                </select>--}}
-{{--                            </div>--}}
 
 {{--                            <x-input::select name="company_id" label="Company" :value="$callCenter->company_id" :options="$companies" width="3" class="pr-3" />--}}
 {{--                            <x-input::text name="date" :value="$callCenter->date" type="date" width="3" class="pr-2" />--}}

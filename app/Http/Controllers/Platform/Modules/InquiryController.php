@@ -40,10 +40,21 @@ class InquiryController extends Controller
     {
         Gate::authorize('browse-request');
 
+
+//        return Inquiry::query()
+//            ->with(array(
+//                'company' => function($query) {
+//                    $query->select('id','name');
+//                },
+//                'user'
+//            ))
+//            ->get()
+//            ->toJson();
+
 //        dd(Subjects::get()->toArray());
 
         return view('panel.pages.customer-services.inquiry.index')->with([
-            "companies" => Company::whereNotIn('id', [1])->select(['id','name'])->pluck('name','id')->toArray(),
+            "companies" => Company::with('parameters')->whereNotIn('id', [1])->select(['id','name'])->pluck('name','id')->toArray(),
             "operators"  => Role::whereIn('key', ['developer', 'call-center-operator'])->first()->users->pluck('name','phone')->toArray(), //call-center-operator
 //            "subjects"  => Subjects::get()->toArray(),
 //            "sources"   => Sources::get()->toArray(),
@@ -114,9 +125,10 @@ class InquiryController extends Controller
     public function create()
     {
         return view('panel.pages.customer-services.inquiry.edit')->with([
-            'method' => 'POST',
-            'action' => route('inquiry.store'),
-            'data'   => null
+            'companies' => Company::with('parameters')->whereNotIn('id', [1])->select(['id','name'])->get(),
+            'method'    => 'POST',
+            'action'    => route('inquiry.store'),
+            'data'      => null
         ]);
     }
 

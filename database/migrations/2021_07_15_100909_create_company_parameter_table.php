@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInquiryDataCompanyTable extends Migration
+class CreateCompanyParameterTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateInquiryDataCompanyTable extends Migration
      */
     public function up()
     {
-        Schema::create('inquiry_data_company', function (Blueprint $table) {
+        Schema::create('company_parameter', function (Blueprint $table) {
             $table->foreignId('company_id')->index()->constrained()->onDelete('CASCADE');
-            $table->foreignId('inquiry_data_id')->index()->constrained()->onDelete('CASCADE');
+            $table->foreignId('parameter_id')->index()->constrained()->onDelete('CASCADE');
         });
     }
 
@@ -26,6 +26,6 @@ class CreateInquiryDataCompanyTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inquiry_data_company');
+        Schema::dropIfExists('parameter_company');
     }
 }

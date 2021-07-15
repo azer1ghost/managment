@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Inquiry\ContactTypes;
+use App\Models\Parameter;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class InquiryTypeFactory extends Factory
+class ParameterFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = ContactTypes::class;
+    protected $model = Parameter::class;
 
     /**
      * Define the model's default state.

@@ -20,12 +20,9 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             SocialSeeder::class,
             RoleSeeder::class,
-            InquirySubjectSeeder::class,
-            InquiryKindSeeder::class,
-            InquiryOperationSeeder::class,
-            InquirySourceSeeder::class,
-            InquiryStatusSeeder::class,
-            InquiryContactTypeSeeder::class,
+            ParameterSeeder::class,
+            ParameterCompanySeeder::class,
+            InquirySeeder::class,
         ]);
     }
 }
