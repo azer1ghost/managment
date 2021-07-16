@@ -11,4 +11,9 @@ class Parameter extends Model
 
     public $translatable = ['name'];
 
+    public function parameters(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(__CLASS__);
+    }
+
 }

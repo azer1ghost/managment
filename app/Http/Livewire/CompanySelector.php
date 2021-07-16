@@ -3,30 +3,55 @@
 namespace App\Http\Livewire;
 
 use App\Models\Company;
+use App\Models\Parameter;
 use Livewire\Component;
 
 class CompanySelector extends Component
 {
+    public $data;
 
-    public $companies = [];
+    public $companies;
+    public $subjects;
+    public $kinds;
+    public $sources;
+    public $contact_method;
 
-    public function mount(){
+    public $selectedCompany;
+    public $selectedSubject;
+    public $selectedKind;
+
+    public function mount()
+    {
         $this->companies = Company::whereNotIn('id', [1])->get();
+        $this->subjects = collect();
+        $this->kinds = collect();
+        $this->sources = collect();
+        $this->contact_method = Parameter::where('type', 'contact_method')->pluck('name','id')->toArray();
     }
 
     public function render()
     {
-        return /** @lang Blade */
-        <<<'blade'
-          <div class="form-group col-6">
-            <label for="exampleFormControlSelect1">Select Company</label>
-            <select class="form-control" id="exampleFormControlSelect1">
-                @foreach($companies as $key => $company)
-                <option value="{{$company->key}}">{{$company->name}}</option>
-                @endforeach
-            </select>
-          </div>
-        blade;
+        return view('components.companySelector');
+    }
+
+    public function updatedSelectedCompany($id)
+    {
+        $parameters = Company::find($id)->parameters;
+
+        $this->sources         = $parameters->where('type', 'source')->pluck('name', 'id');
+        $this->subjects        = $parameters->where('type', 'subject');
+        $this->kinds           = collect();
+        $this->selectedKind    = null;
+        $this->selectedSubject = null;
+    }
+
+    public function updatedSelectedSubject($id)
+    {
+        $this->kinds = Company::query()
+            ->find($this->selectedCompany)
+            ->parameters
+            ->where('type', 'kind')
+            ->where('parameter_id', $id);
     }
 
 }
