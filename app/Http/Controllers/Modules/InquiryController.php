@@ -1,32 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\Platform\Modules;
+namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
-use App\Models\Company;
-use App\Models\Inquiry;
-use App\Models\Role;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Log;
+use App\Models\{Company, Inquiry, Role};
+use Illuminate\Http\{JsonResponse, RedirectResponse, Request};
+use Illuminate\Support\Facades\{Gate, Log};
 
 class InquiryController extends Controller
 {
     protected $rules = [
-        'date' => 'required',
-        'time'  => "required",
-        'client'  => "string|max:255",
+        'date'      => 'required',
+        'time'      => "required",
+        'client'    => "string|max:255",
         'fullname'  => "string|max:255",
-        'phone'  => "string|max:255",
-        'subject'  => "required|string|max:255",
-        'kind'  => "nullable|string|max:255",
-        'source'  => "required|string|max:255",
-        'note'  => "nullable|string|max:255",
-        'redirected'  => "string|max:255",
-        'status' => "required|string",
-        'company_id'  => "required|int|max:11",
+        'phone'     => "string|max:255",
+        'subject'   => "required|string|max:255",
+        'kind'      => "nullable|string|max:255",
+        'source'    => "string|max:255",
+        'note'      => "nullable|string|max:255",
+        'redirected'=> "string|max:255",
+        'status'    => "required|string",
+        'company_id'=> "required|int|max:11",
     ];
 
     public function __construct()
@@ -38,7 +33,7 @@ class InquiryController extends Controller
      */
     public function index()
     {
-        Gate::authorize('browse-request');
+        Gate::authorize('browse-inquiry');
 
 
 //        return Inquiry::query()

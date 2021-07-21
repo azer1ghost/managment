@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Translatable\HasTranslations;
 
 /**
@@ -15,13 +16,13 @@ class Role extends Model
 
     public $translatable = ['name'];
 
-    public function getPermissionsAttribute($value)
+    public function permissions($value = null)
     {
         //return unserialize($value);
         return config('auth.permissions');
     }
 
-    public function users(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function users(): HasMany
     {
         return $this->hasMany(User::class);
     }

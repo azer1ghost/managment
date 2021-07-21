@@ -9,6 +9,8 @@ class Inquiry extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['date', 'time', 'client', 'fullname', 'phone', 'subject', 'kind', 'source', 'note', 'redirected', 'status', 'company_id'];
+
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);

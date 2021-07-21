@@ -14,7 +14,8 @@ class CompanySelector extends Component
     public $subjects;
     public $kinds;
     public $sources;
-    public $contact_method;
+    public $statuses;
+    public $contact_methods;
 
     public $selectedCompany;
     public $selectedSubject;
@@ -26,7 +27,8 @@ class CompanySelector extends Component
         $this->subjects = collect();
         $this->kinds = collect();
         $this->sources = collect();
-        $this->contact_method = Parameter::where('type', 'contact_method')->pluck('name','id')->toArray();
+        $this->contact_methods = Parameter::where('type', 'contact_method')->pluck('name','id')->toArray();
+        $this->statuses = Parameter::where('type', 'status')->pluck('name','id')->toArray();
     }
 
     public function render()

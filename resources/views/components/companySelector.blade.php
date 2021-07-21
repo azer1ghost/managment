@@ -1,11 +1,9 @@
 <div class="tab-content form-row mt-4 mb-5" >
 
-    <x-input::select name="contact_method" label="Contact method" value="{{optional($data)->contact_method}}" :options="$contact_method" width="3" class="pr-3" />
+    <x-input::select name="contact_method" label="Contact method" value="{{optional($data)->contact_method}}" :options="$contact_methods" width="3" class="pr-3" />
 
     <x-input::text name="date" value="{{optional($data)->date ?? now()->format('Y-m-d')}}" type="date" width="3" class="pr-2" />
     <x-input::text name="time" value="{{optional($data)->time ?? now()->format('H:i')}}" type="time" width="3" class="pr-2" />
-
-    <x-input::text name="fullname" value="{{optional($data)->fullname}}" width="3" class="pr-2" />
 
     <div class="form-group col-6 col-md-3">
         <label for="company" >Company</label>
@@ -20,6 +18,8 @@
     @if ($selectedCompany === "4")
         <x-input::text name="client" width="3" value="{{optional($data)->client}}" placeholder="MBX" class="pr-2" />
     @endif
+
+    <x-input::text name="fullname" value="{{optional($data)->fullname}}" width="3" class="pr-2" />
 
     <x-input::text name="phone" value="{{optional($data)->phone}}" width="3" class="pr-2" />
 
@@ -53,10 +53,7 @@
 
     <x-input::textarea name="note" value="{{optional($data)->note}}"/>
 
-
-
-{{--    <x-input::select name="status" :value="$callCenter->status" :options="$statuses" width="3" class="pr-3" />--}}
-
+    <x-input::select name="status" value="{{optional($data)->status}}" :options="$statuses" width="3" class="pr-3" />
 
 {{--    <x-input::select name="redirected" :options="$operators" label="Redirect" width="4" class="pr-2" />--}}
 

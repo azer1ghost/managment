@@ -20,7 +20,7 @@ return [
 
     'permissions' => [
         'general',
-        'browse-request', 'create-request','edit-request', 'delete-request',
+        'browse-inquiry', 'create-inquiry','edit-inquiry', 'delete-inquiry',
         'browse-account', 'edit-account',
         'signature'
     ],
