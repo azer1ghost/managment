@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Modules;
 
-use App\Http\Controllers\Controller;
 use App\Models\Company;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\CompanyRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 
 class CompanyController extends Controller
 {
@@ -25,33 +27,33 @@ class CompanyController extends Controller
         return view('panel.pages.companies.edit')->with([
             'action' => route('companies.store'),
             'method' => "POST",
-            'attribute' => null
+            'data' => null
         ]);
     }
 
-    public function store(Request $request)
+    public function store(CompanyRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'name'      => 'required|string|max:255',
-            'logo'      => 'required|image',
-            'website'   => 'required|max:255',
-            'mail'      => 'required|email:rfc,dns',
-            'phone'     => 'required|string|max:255',
-            'mobile'    => 'required|string|max:255',
-            'address'   => 'required|string|max:255',
-            'about'     => 'required|string|max:255',
-        ]);
+        $validated = $request->validated();
 
-        dd($validated);
+        if ($request->file('logo')) {
 
-//        Company::create($validated);
-//
-//        return back()->with(['notify' => ['type' => 'success', 'message' => 'Created successfully']]);
+            $image = $request->file('logo');
+
+            $validated['logo'] = $image->storeAs('logos', $image->hashName());
+        }
+
+        Company::create($validated);
+
+        return back()->with(['notify' => ['type' => 'success', 'message' => 'Created successfully']]);
     }
 
-    public function show($id)
+    public function show(Company $company)
     {
-        //
+        return view('panel.pages.companies.edit')->with([
+            'action' => null,
+            'method' => null,
+            'data' => $company
+        ]);
     }
 
     public function edit(Company $company)
@@ -59,32 +61,22 @@ class CompanyController extends Controller
         return view('panel.pages.companies.edit')->with([
             'action' => route('companies.update', $company),
             'method' => "PUT",
-            'attribute' => $company
+            'data' => $company
         ]);
     }
 
-    public function update(Request $request, Company $company)
+    public function update(CompanyRequest $request, Company $company): RedirectResponse
     {
-        $validated = $request->validate([
-            'name'      => 'required|string|max:255',
-            'logo'      => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'website'   => 'required|max:255',
-            'mail'      => 'required|email:rfc,dns',
-            'phone'     => 'required|string|max:255',
-            'mobile'    => 'required|string|max:255',
-            'address'   => 'required|string|max:255',
-            'about'     => 'required|string|max:255',
-        ]);
+        $validated = $request->validated();
 
         if ($request->file('logo')) {
 
-            $imagePath = $request->file('logo');
-            $imageName = $imagePath->getClientOriginalName();
+            $image = $request->file('logo');
 
-            $path = $request->file('logo')->storeAs('uploads', $imageName, 'public');
+            $validated['logo'] = $image->storeAs('logos', $image->hashName());
+
+            if (Storage::exists($company->logo)) { Storage::delete($company->logo); }
         }
-
-//        $validated['logo'] = $path;
 
         $company->update($validated);
 

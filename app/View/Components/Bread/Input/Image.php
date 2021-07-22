@@ -11,7 +11,6 @@ class Image extends Component
     public $value = null;
     public $name = null;
     public $placeholder = null;
-    public $folder = "images";
 
     public function __construct(
         ?string $name  = null,
@@ -35,17 +34,16 @@ class Image extends Component
                 <label for="data-{{$name}}">{{$label ?? Str::ucfirst($name)}}</label>
                 <label for="data-{{$name}}">
                      <div class="card" style="max-width: 100%">
-                         <img class="img-fluid" id="input-{{$name}}" src="{{asset("$folder/$value")}}" alt="{{$name}}"> 
+                         <img class="img-fluid" id="input-{{$name}}" src="{{Storage::url($value)}}" alt="{{$name}}"> 
                          <div class="btn btn-outline-primary">Change</div>
                      </div>
                 </label>
                 <input 
                        type="file"
-                       accept="" 
+                       accept="image/" 
                        class="form-control d-none @error($name) is-invalid @enderror"
                        name="{{$name}}" 
-                       id="data-{{$name}}" 
-                       value="{{$value ?? old($name)}}"
+                       id="data-{{$name}}"
                        onchange="previewFile()"
                        >
                 @error($name)

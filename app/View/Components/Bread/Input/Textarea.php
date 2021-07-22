@@ -34,9 +34,11 @@ class Textarea extends Component
     {
         return /** @lang Blade */
         <<<'blade'
-          <div {{ $attributes->merge(['class' => 'form-group col-12 col-md-'.$width]) }}>
+          <div {{ $attributes->class(['form-group col-12 col-md-'.$width]) }}>
                 <label for="data-{{$name}}">{{$label ?? Str::ucfirst($name)}}</label>
-                <textarea @if(key_exists('required', $attributes->getAttributes())) required @endif
+                <textarea 
+                       @if(key_exists('required', $attributes->getAttributes())) required @endif
+                       rows="{{$attributes->getAttributes()['rows'] ?? null}}"
                        type="{{$type}}" 
                        class="form-control @error($name) is-invalid @enderror"
                        name="{{$name}}" 

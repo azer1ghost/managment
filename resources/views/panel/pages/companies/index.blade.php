@@ -28,12 +28,15 @@
                         @forelse($companies as $company)
                             <tr>
                                 <th scope="row">{{$loop->iteration}}</th>
-                                <td><img width="150px" src="{{asset("images/$company->logo")}}"></td>
+                                <td><img width="150px" src="{{Storage::url($company->logo)}}"></td>
                                 <td>{{$company->name}}</td>
                                 <td>
-                                    <div class="btn-group">
-                                        <a href="{{route('companies.edit', $company)}}" class="btn btn-outline-primary">
-                                            <i class="fas fa-pen"></i>
+                                    <div class="btn-sm-group">
+                                        <a href="{{route('companies.edit', $company)}}" class="btn btn-sm btn-outline-success">
+                                            <i class="fal fa-pen"></i>
+                                        </a>
+                                        <a href="{{route('companies.show', $company)}}" class="btn btn-sm btn-outline-primary">
+                                            <i class="fal fa-eye"></i>
                                         </a>
                                     </div>
                                 </td>

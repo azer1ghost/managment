@@ -22,7 +22,8 @@ return [
         'general',
         'browse-inquiry', 'create-inquiry','edit-inquiry', 'delete-inquiry',
         'browse-account', 'edit-account',
-        'signature'
+        'signature',
+        'manage-company'
     ],
 
     /*
