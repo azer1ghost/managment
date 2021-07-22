@@ -10002,6 +10002,9 @@ h3 {
     border-color: #dee2e6;
   }
 }
+body {
+  background: #132f4c;
+}
 .wrapper {
   margin: 10vh;
 }

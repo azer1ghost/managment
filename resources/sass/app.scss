@@ -7,5 +7,9 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+body{
+    background: #132f4c;
+}
+
 // Main theme
 @import "resources/sass/main";

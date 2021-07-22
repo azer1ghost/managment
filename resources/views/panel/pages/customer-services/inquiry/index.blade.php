@@ -36,9 +36,9 @@
 {{--                            <option @if(app()->getLocale() === $key) selected @endif value="{{$key}}">{{ucfirst($locale)}}</option>--}}
 {{--                        @endforeach--}}
 {{--                    </select>--}}
-                    <button data-toggle="modal" data-target="#createModal" class="btn btn-success">
+                    <a href="{{route('inquiry.create')}}" class="btn btn-success">
                         <i class="fal fa-plus"></i>
-                    </button>
+                    </a>
                 </div>
                 <div class="card-body">
                     <table id="table"

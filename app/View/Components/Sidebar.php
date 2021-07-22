@@ -28,6 +28,14 @@ class Sidebar extends Component
             ],
 
             (object) [
+                'title' => 'Companies',
+                'icon'  => 'fa fa-building',
+                'url'  => route('companies.index'),
+                'permission' => 'general',
+                'badge' => null,
+            ],
+
+            (object) [
                 'title' => 'Account',
                 'icon'  => 'fa fa-user',
                 'url'  => route('account'),
