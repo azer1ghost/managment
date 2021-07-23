@@ -13,21 +13,21 @@
                         <i class="fa fa-arrow-left"></i>
                         Back
                     </a>
-{{--                    {{ucfirst(last(request()->segments())) . optional($data)->getShortName()}}--}}
+                    Companies
                 </div>
                 <div class="card-body">
                     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
                         @method($method) @csrf
                         <input type="hidden" name="id" value="{{optional($data)->id}}">
                         <div class="tab-content form-row mt-4" >
-                            <x-input::image name="logo" :value="optional($data)->logo" label="Company logo" width="4" class="pr-3"/>
-                            <x-input::text name="name" :value="optional($data)->name" label="Company name" width="4" class="pr-3" />
-                            <x-input::text name="address" :value="optional($data)->address" label="Company address" width="4" class="pr-3" />
-                            <x-input::text name="website" :value="optional($data)->website" label="Company website" width="4" class="pr-3" />
-                            <x-input::text name="mail" :value="optional($data)->mail" label="Company email" width="4" class="pr-3" />
-                            <x-input::text name="phone" :value="optional($data)->phone" label="Company phone" width="4" class="pr-3" />
-                            <x-input::text name="mobile" :value="optional($data)->mobile" label="Company mobile" width="4" class="pr-3" />
-                            <x-input::textarea rows="6" name="about" :value="optional($data)->about" label="Company about" width="8" class="pr-3" />
+                            <x-input::image name="logo"      :value="optional($data)->logo"      label="Company logo"    width="4" class="pr-3" />
+                            <x-input::text  name="name"      :value="optional($data)->name"      label="Company name"    width="4" class="pr-3" />
+                            <x-input::text  name="address"   :value="optional($data)->address"   label="Company address" width="4" class="pr-3" />
+                            <x-input::text  name="website"   :value="optional($data)->website"   label="Company website" width="4" class="pr-3" />
+                            <x-input::text  name="mail"      :value="optional($data)->mail"      label="Company email"   width="4" class="pr-3" />
+                            <x-input::text  name="phone"     :value="optional($data)->phone"     label="Company phone"   width="4" class="pr-3" />
+                            <x-input::text  name="mobile"    :value="optional($data)->mobile"    label="Company mobile"  width="4" class="pr-3" />
+                            <x-input::textarea name="about"  :value="optional($data)->about"     label="Company about"   width="8" class="pr-3" rows="6"/>
                         </div>
                         @if($action)
                             <x-input::submit/>
@@ -39,3 +39,12 @@
     </div>
 </div>
 @endsection
+
+@if(is_null($action))
+@section('scripts')
+    <script>
+        $('input').attr('readonly', true)
+        $('textarea').attr('readonly', true)
+    </script>
+@endsection
+@endif

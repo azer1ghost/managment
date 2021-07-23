@@ -26,6 +26,13 @@ class CreateCompanyParameterTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('parameter_company');
+
+        if (Schema::hasTable('company_parameter')){
+            Schema::table('company_parameter', function (Blueprint $table) {
+                $table->dropForeign(['company_id']);
+                $table->dropForeign(['parameter_id']);
+            });
+        }
+        Schema::dropIfExists('company_parameter');
     }
 }

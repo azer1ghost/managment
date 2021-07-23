@@ -36,8 +36,10 @@ class Text extends Component
         <<<'blade'
           <div {{ $attributes->merge(['class' => 'form-group col-12 col-md-'.$width]) }}>
                 <label for="data-{{$name}}">{{$label ?? Str::ucfirst($name)}}</label>
-                <input @if(key_exists('required', $attributes->getAttributes())) required @endif
-                       type="{{$type}}" 
+                <input 
+                       @if(key_exists('required', $attributes->getAttributes())) required @endif
+                       @if(key_exists('readonly', $attributes->getAttributes())) readonly @endif
+                       type="{{$type}}"
                        class="form-control @error($name) is-invalid @enderror"
                        name="{{$name}}" 
                        id="data-{{$name}}" 

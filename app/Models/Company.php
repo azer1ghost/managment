@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static select(string[] $array)
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Company extends Model
 {
     protected $fillable = ['name', 'logo', 'website', 'mail', 'phone', 'mobile', 'address', 'about'];
+
+    use SoftDeletes;
 
     public function parameters(): BelongsToMany
     {

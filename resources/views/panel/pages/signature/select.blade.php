@@ -1,11 +1,5 @@
 @extends('layouts.main')
 
-@section('style')
-    <style>
-
-    </style>
-@endsection
-
 @section('content')
     <div class="container">
         <div class="row d-flex align-content-center">
@@ -20,7 +14,7 @@
                            <div class="card-body">
                                <small class="card-meta mb-2">Thought Leadership</small>
                                <h4 class="card-title mt-0 text-capitalize"><a class="text-white" href="{{route('register')}}">{{$company->name}}</a></h4>
-                               <img class="img-fluid mt-4" src="{{asset('images/'. $company->logo)}}" alt="{{$company->name}}">
+                               <img class="img-fluid mt-4" src="{{image($company->logo)}}" alt="{{$company->name}}">
                            </div>
                            <div class="card-footer text-center">
                                <a href="{{route('signature', $company)}}" class="btn btn-outline-orange text-uppercase w-100">Get My Signature</a>

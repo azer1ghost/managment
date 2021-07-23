@@ -10,39 +10,18 @@ class CompanyPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can view the model.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function manage(User $user)
+    public function manage(User $user): bool
     {
         return $user->hasPermission('manage-company');
     }
 
-//    /**
-//     * Determine whether the user can view any models.
-//     *
-//     * @param  \App\Models\User  $user
-//     * @return \Illuminate\Auth\Access\Response|bool
-//     */
-//    public function viewAny(User $user)
-//    {
-//        //
-//    }
-//
-//    /**
-//     * Determine whether the user can view the model.
-//     *
-//     * @param  \App\Models\User  $user
-//     * @param  \App\Models\Company  $company
-//     * @return \Illuminate\Auth\Access\Response|bool
-//     */
-//    public function view(User $user, Company $company)
-//    {
-//        //
-//    }
-//
+    public function viewAny(User $user): bool
+    {
+        return $user->hasPermission('view-company');
+    }
 
+    public function delete(User $user, Company $inquiry)
+    {
+        return $user->hasPermission('delete-company');
+    }
 }

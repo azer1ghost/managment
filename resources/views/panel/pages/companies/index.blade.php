@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-2">
-            <x-sidebar></x-sidebar>
+            <x-sidebar/>
         </div>
         <div class="col-md-10">
             <div class="card">
@@ -13,7 +13,9 @@
                 </div>
                 <div class="card-body">
                     <div class="float-right mb-2">
-                        <a class="btn btn-outline-success" href="{{route('companies.create')}}" >@lang('btn.create')</a>
+                        @can('manage', App\Models\Company::class)
+                            <a class="btn btn-outline-success" href="{{route('companies.create')}}">@lang('btn.create')</a>
+                        @endcan
                     </div>
                     <table class="table table-hover">
                         <thead>
@@ -26,32 +28,40 @@
                         </thead>
                         <tbody>
                         @forelse($companies as $company)
-                            <tr>
-                                <th scope="row">{{$loop->iteration}}</th>
-                                <td><img width="150px" src="{{Storage::url($company->logo)}}"></td>
-                                <td>{{$company->name}}</td>
-                                <td>
-                                    <div class="btn-sm-group">
-                                        <a href="{{route('companies.edit', $company)}}" class="btn btn-sm btn-outline-success">
-                                            <i class="fal fa-pen"></i>
-                                        </a>
-                                        <a href="{{route('companies.show', $company)}}" class="btn btn-sm btn-outline-primary">
-                                            <i class="fal fa-eye"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
+                        <tr>
+                            <th scope="row">{{$loop->iteration}}</th>
+                            <td><img width="150px" src="{{image($company->logo)}}"></td>
+                            <td>{{$company->name}}</td>
+                            <td>
+                                <div class="btn-sm-group">
+                                    <a href="{{route('companies.show', $company)}}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fal fa-eye"></i>
+                                    </a>
+                                    @can('manage', App\Models\Company::class)
+                                    <a href="{{route('companies.edit', $company)}}" class="btn btn-sm btn-outline-success">
+                                        <i class="fal fa-pen"></i>
+                                    </a>
+                                    <a href="{{route('companies.destroy', $company)}}" delete data-name="{{$company->name}}" class="btn btn-sm btn-outline-danger" >
+                                        <i class="fal fa-trash"></i>
+                                    </a>
+                                    @endcan
+                                </div>
+                            </td>
+                        </tr>
                         @empty
-                            <tr>
-                                <th colspan="4">
-                                    <div class="row justify-content-center m-3">
-                                        <div class="col-7 alert alert-danger text-center" role="alert">Empty for now. Yo can create new company</div>
-                                    </div>
-                                </th>
-                            </tr>
+                        <tr>
+                            <th colspan="4">
+                                <div class="row justify-content-center m-3">
+                                    <div class="col-7 alert alert-danger text-center" role="alert">Empty for now. Yo can create new company</div>
+                                </div>
+                            </th>
+                        </tr>
                         @endforelse
                         </tbody>
                     </table>
+                    <div class="float-right">
+                        {{$companies->links()}}
+                    </div>
                 </div>
             </div>
         </div>

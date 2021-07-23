@@ -20,10 +20,10 @@ return [
 
     'permissions' => [
         'general',
-        'browse-inquiry', 'create-inquiry','edit-inquiry', 'delete-inquiry',
+        'browse-inquiry', 'create-inquiry', 'edit-inquiry', 'delete-inquiry',
         'browse-account', 'edit-account',
         'signature',
-        'manage-company'
+        'view-company','manage-company',
     ],
 
     /*

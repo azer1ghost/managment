@@ -1,2 +1,3 @@
 require('./bootstrap');
-require('./notify.min');
+require('jquery-confirm');
+require('./delete');

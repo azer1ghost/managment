@@ -17,13 +17,17 @@ class CompanyController extends Controller
 
     public function index()
     {
+        $this->authorize('viewAny', Company::class);
+
         return view('panel.pages.companies.index')->with([
-            'companies' => Company::select(['id', 'logo', 'name'])->get()
+            'companies' => Company::select(['id', 'logo', 'name'])->paginate(10)
         ]);
     }
 
     public function create()
     {
+        $this->authorize('manage', Company::class);
+
         return view('panel.pages.companies.edit')->with([
             'action' => route('companies.store'),
             'method' => "POST",
@@ -42,9 +46,11 @@ class CompanyController extends Controller
             $validated['logo'] = $image->storeAs('logos', $image->hashName());
         }
 
-        Company::create($validated);
+        $company = Company::create($validated);
 
-        return back()->with(['notify' => ['type' => 'success', 'message' => 'Created successfully']]);
+        return redirect()
+            ->route('companies.index')
+            ->with(['notify' => ['title' => 'Process successfully!', 'type' => 'green', 'message' => "$company->name created successfully",]]);
     }
 
     public function show(Company $company)
@@ -80,11 +86,15 @@ class CompanyController extends Controller
 
         $company->update($validated);
 
-        return back()->with(['notify' => ['type' => 'success', 'message' => 'Updated successfully']]);
+        return back()->with(['notify' => ['title' => 'Process successfully!', 'type' => 'green', 'message' => "$company->name updated successfully"]]);
     }
 
-    public function destroy($id)
+    public function destroy(Company $company)
     {
-        //
+        if ($company->delete()){
+            if (Storage::exists($company->logo)) { Storage::delete($company->logo); }
+            return response('OK');
+        }
+        return response()->setStatusCode('204');
     }
 }

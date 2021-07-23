@@ -34,7 +34,7 @@ class Image extends Component
                 <label for="data-{{$name}}">{{$label ?? Str::ucfirst($name)}}</label>
                 <label for="data-{{$name}}">
                      <div class="card" style="max-width: 100%">
-                         <img class="img-fluid" id="input-{{$name}}" src="{{Storage::url($value)}}" alt="{{$name}}"> 
+                         <img class="img-fluid" id="input-{{$name}}" src="{{image($value)}}" alt="{{$name}}"> 
                          <div class="btn btn-outline-primary">Change</div>
                      </div>
                 </label>
