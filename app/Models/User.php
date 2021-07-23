@@ -62,4 +62,14 @@ class User extends Authenticatable
     {
         return $this->name." ".$this->surname;
     }
+
+    public function isDeveloper()
+    {
+       return false;
+    }
+
+    public function isAdministrator()
+    {
+        return false;
+    }
 }

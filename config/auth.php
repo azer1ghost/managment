@@ -23,7 +23,7 @@ return [
         'browse-inquiry', 'create-inquiry', 'edit-inquiry', 'delete-inquiry',
         'browse-account', 'edit-account',
         'signature',
-        'view-company','manage-company',
+        'view-company', 'manage-company',
     ],
 
     /*

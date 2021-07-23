@@ -31,7 +31,7 @@ class Sidebar extends Component
                 'title' => 'Companies',
                 'icon'  => 'fa fa-building',
                 'url'  => route('companies.index'),
-                'permission' => 'general',
+                'permission' => 'view-company',
                 'badge' => null,
             ],
 

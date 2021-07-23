@@ -19,20 +19,22 @@ class CompanyController extends Controller
     {
         $this->authorize('viewAny', Company::class);
 
-        return view('panel.pages.companies.index')->with([
-            'companies' => Company::select(['id', 'logo', 'name'])->paginate(10)
-        ]);
+        return view('panel.pages.companies.index')
+            ->with([
+                'companies' => Company::select(['id', 'logo', 'name'])->paginate(10)
+            ]);
     }
 
     public function create()
     {
         $this->authorize('manage', Company::class);
 
-        return view('panel.pages.companies.edit')->with([
-            'action' => route('companies.store'),
-            'method' => "POST",
-            'data' => null
-        ]);
+        return view('panel.pages.companies.edit')
+            ->with([
+                'action' => route('companies.store'),
+                'method' => "POST",
+                'data' => null
+            ]);
     }
 
     public function store(CompanyRequest $request): RedirectResponse
@@ -50,25 +52,36 @@ class CompanyController extends Controller
 
         return redirect()
             ->route('companies.index')
-            ->with(['notify' => ['title' => 'Process successfully!', 'type' => 'green', 'message' => "$company->name created successfully",]]);
+            ->with([
+                'notify' =>
+                    [
+                        'title' => 'Process successfully!',
+                        'type' => 'green',
+                        'message' => "$company->name created successfully"
+                    ]
+            ]);
     }
 
     public function show(Company $company)
     {
-        return view('panel.pages.companies.edit')->with([
-            'action' => null,
-            'method' => null,
-            'data' => $company
-        ]);
+        return view('panel.pages.companies.edit')
+            ->with([
+                'action' => null,
+                'method' => null,
+                'data' => $company
+            ]);
     }
 
     public function edit(Company $company)
     {
-        return view('panel.pages.companies.edit')->with([
-            'action' => route('companies.update', $company),
-            'method' => "PUT",
-            'data' => $company
-        ]);
+        $this->authorize('manage', $company);
+
+        return view('panel.pages.companies.edit')
+            ->with([
+                'action' => route('companies.update', $company),
+                'method' => "PUT",
+                'data' => $company
+            ]);
     }
 
     public function update(CompanyRequest $request, Company $company): RedirectResponse
@@ -81,18 +94,31 @@ class CompanyController extends Controller
 
             $validated['logo'] = $image->storeAs('logos', $image->hashName());
 
-            if (Storage::exists($company->logo)) { Storage::delete($company->logo); }
+            if (Storage::exists($company->logo)) {
+                Storage::delete($company->logo);
+            }
         }
 
         $company->update($validated);
 
-        return back()->with(['notify' => ['title' => 'Process successfully!', 'type' => 'green', 'message' => "$company->name updated successfully"]]);
+        return back()->with([
+            'notify' =>
+                [
+                 'title' => 'Process successfully!',
+                 'type' => 'green',
+                 'message' => "$company->name updated successfully"
+                ]
+        ]);
     }
 
     public function destroy(Company $company)
     {
-        if ($company->delete()){
-            if (Storage::exists($company->logo)) { Storage::delete($company->logo); }
+        $this->authorize('manage', $company);
+
+        if ($company->delete()) {
+            if (Storage::exists($company->logo)) {
+                Storage::delete($company->logo);
+            }
             return response('OK');
         }
         return response()->setStatusCode('204');
