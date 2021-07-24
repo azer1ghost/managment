@@ -1,6 +1,9 @@
 @extends('layouts.main')
 
 @section('style')
+
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
@@ -74,7 +77,9 @@
     </div>
 </div>
 @endsection
+
 @section('scripts')
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
 <script>
     let $table = $('#table')
 

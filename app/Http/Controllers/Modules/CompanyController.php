@@ -52,14 +52,9 @@ class CompanyController extends Controller
 
         return redirect()
             ->route('companies.index')
-            ->with([
-                'notify' =>
-                    [
-                        'title' => 'Process successfully!',
-                        'type' => 'green',
-                        'message' => "$company->name created successfully"
-                    ]
-            ]);
+            ->with(
+                notify()->success($company->name)
+            );
     }
 
     public function show(Company $company)
@@ -101,14 +96,9 @@ class CompanyController extends Controller
 
         $company->update($validated);
 
-        return back()->with([
-            'notify' =>
-                [
-                 'title' => 'Process successfully!',
-                 'type' => 'green',
-                 'message' => "$company->name updated successfully"
-                ]
-        ]);
+        return back()->with(
+            notify()->info($company->name)
+        );
     }
 
     public function destroy(Company $company)

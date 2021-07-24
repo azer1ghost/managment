@@ -10,8 +10,6 @@ use App\Http\Controllers\{
 };
 use Illuminate\Support\Facades\{Auth, Route};
 
-
-
 Route::redirect('/','/welcome')->name('home');
 Route::get('/welcome', [PlatformController::class, 'welcome'])->name('welcome');
 Route::get('/dashboard', [PlatformController::class, 'dashboard'])->name('dashboard');

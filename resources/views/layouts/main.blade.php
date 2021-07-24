@@ -10,9 +10,11 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
+
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Styles -->
@@ -101,18 +103,7 @@
     @livewireScripts
 
     @yield('scripts')
-    <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
 
-    <script>
-        @if(session()->has('notify'))
-        $.alert({
-            title: '{{session()->get('notify')['title']}}',
-            content: '{{session()->get('notify')['message']}}',
-            type: '{{session()->get('notify')['type']}}',
-            typeAnimated: true,
-            theme: 'modern'
-        })
-        @endif
-    </script>
+    <x-notify/>
 </body>
 </html>
