@@ -4,12 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Inquiry extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
-    protected $fillable = ['date', 'time', 'client', 'fullname', 'phone', 'subject', 'kind', 'source', 'note', 'redirected', 'status', 'company_id'];
+    protected $fillable = [
+        'date', 'time',
+        'client', 'fullname', 'phone',
+        'subject', 'kind', 'source', 'contact_method', 'operation', 'status',
+        'note', 'redirected_user_id', 'company_id', 'user_id'];
+
+//    protected $casts = [
+//        'created_at' => 'datetime',
+//    ];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
@@ -23,7 +33,9 @@ class Inquiry extends Model
 
     protected static function parameter($data)
     {
-        return Parameter::select(['id','name'])->find($data);
+        return \Cache::remember("parameter_$data", 60, function () use ($data) {
+            return Parameter::select(['id','name'])->find($data);
+        });
     }
 
     public function getSubjectAttribute($data)

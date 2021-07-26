@@ -16,10 +16,13 @@ class Role extends Model
 
     public $translatable = ['name'];
 
-    public function permissions($value = null)
+    public function hasPermission($perm): bool
     {
-        //return unserialize($value);
-        return config('auth.permissions');
+        //$permissions = unserialize($value);
+
+        $permissions = config('auth.permissions');
+
+        return in_array($perm, $permissions, true);
     }
 
     public function users(): HasMany

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Inquiry;
 use Illuminate\Foundation\Http\FormRequest;
 
 class InquiryRequest extends FormRequest
@@ -13,7 +14,7 @@ class InquiryRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return $this->user()->can('manage', Inquiry::class);
     }
 
     /**

@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InquiryRequest;
-use App\Models\{Company, Inquiry, Role};
-use Illuminate\Http\{JsonResponse, RedirectResponse, Request};
-use Illuminate\Support\Facades\{Gate, Log};
+use App\Models\Inquiry;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
 
 class InquiryController extends Controller
 {
@@ -14,37 +14,75 @@ class InquiryController extends Controller
     {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return response('inquiry');
+        $this->authorize('viewAny-inquiry', Inquiry::class);
 
-//        return Inquiry::query()
-//            ->with(array(
-//                'company' => function($query) {
-//                    $query->select('id','name');
-//                },
-//                'user'
-//            ))
-//            ->get()
-//            ->toJson();
-
-//        dd(Subjects::get()->toArray());
-
-//        return view('panel.pages.customer-services.inquiry.index')->with([
-//            "companies" => Company::with('parameters')->whereNotIn('id', [1])->select(['id','name'])->pluck('name','id')->toArray(),
-//            "operators"  => Role::whereIn('key', ['developer', 'call-center-operator'])->first()->users->pluck('name','phone')->toArray(), //call-center-operator
-//            "subjects"  => Subjects::get()->toArray(),
-//            "sources"   => Sources::get()->toArray(),
-//            "statuses"  => Statuses::get()->toArray(),
-//        ]);
-
+        return view('panel.pages.customer-services.inquiry.index');
     }
-//
-//    public function table(InquiryRequest $request): JsonResponse
+
+    public function create()
+    {
+        $this->authorize('create1-inquiry', Inquiry::class);
+
+        return view('panel.pages.customer-services.inquiry.edit')
+            ->with([
+                'method' => 'POST',
+                'action' => route('inquiry.store'),
+                'data'   => null
+            ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(InquiryRequest $request): RedirectResponse
+    {
+        $validated = $request->validate($this->rules);
+
+        $userID = auth()->id();
+
+        $data = Inquiry::create( array_merge(
+            $validated,
+            ['user_id' => $userID]
+        ));
+
+        Log::channel('daily')->info("New request created by user %ID:$userID% ".json_encode($data));
+
+        return back()->with(
+            notify()->info($data->name)
+        );
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    public function table(Request $request): JsonResponse
 //    {
+//        $this->authorize('viewAny-inquiry');
+//
 //        $limit  = $request->get('limit')  ?? 25;
 //        $offset = $request->get('offset') ?? 0;
 //        $search = $request->get('search');
@@ -87,9 +125,9 @@ class InquiryController extends Controller
 //
 //        $data = $query->get();
 //
-//        //data row mutator or modifier
+//        //table row mutator
 //        $rows = $data->map(function ($row){
-//            $row->subject = Subjects::get()->toArray()[$row->subject];
+////            $row->subject = Parameter::find($row->id)->name;
 //            $row->fullname = ucfirst($row->fullname);
 //            $row->editable = true;
 //            return $row;
@@ -100,36 +138,8 @@ class InquiryController extends Controller
 //            'rows'  => $rows,
 //        ]);
 //    }
-//
-//
-//    public function create()
-//    {
-//        return view('panel.pages.customer-services.inquiry.edit')->with([
-//            'companies' => Company::with('parameters')->whereNotIn('id', [1])->select(['id','name'])->get(),
-//            'method'    => 'POST',
-//            'action'    => route('inquiry.store'),
-//            'data'      => null
-//        ]);
-//    }
-//
-//    /**
-//     * Store a newly created resource in storage.
-//     */
-//    public function store(InquiryRequest $request): RedirectResponse
-//    {
-//        $validated = $request->validate($this->rules);
-//
-//        $userID = auth()->id();
-//
-//        $data = Inquiry::create( array_merge(
-//            $validated,
-//            ['user_id' => $userID]
-//        ));
-//
-//        Log::channel('daily')->info("New request created by user %ID:$userID% ".json_encode($data));
-//
-//        return back()->with(['notify' => ['type' => 'success', 'message' => 'Created successfully']]);
-//    }
+
+
 //
 //    /**
 //     * Display the specified resource.

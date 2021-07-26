@@ -16,6 +16,18 @@ class ParameterSeeder extends Seeder
     {
         Parameter::insert([
             array(
+                'type' => "subject",
+                'name' => json_encode(['en' => 'Info', 'az' => 'Məlumat']),
+            ),
+            array(
+                'type' => "subject",
+                'name' => json_encode(['en' => 'Problem']),
+            ),
+            array(
+                'type' => "subject",
+                'name' => json_encode(['en' => 'Technical support', 'az' => 'Texniki yardım']),
+            ),
+            array(
                 'type' => "source",
                 'name' => json_encode(['en' => 'Call', 'az' => 'Zəng']),
             ),
@@ -42,42 +54,52 @@ class ParameterSeeder extends Seeder
             array(
                 'type' => "kind",
                 'name' => json_encode(['en' => 'Incompatible', 'az' => 'Uyğunsuzluq']),
+                'parameter_id' => 2
             ),
             array(
                 'type' => "kind",
                 'name' => json_encode(['en' => 'Volume Weight', 'az' => 'Həcmi Çəki']),
+                'parameter_id' => 2
             ),
             array(
                 'type' => "kind",
                 'name' => json_encode(['en' => 'Limit']),
+                'parameter_id' => 2
             ),
             array(
                 'type' => "kind",
                 'name' => json_encode(['en' => 'Courier', 'az' => 'Kuryer']),
+                'parameter_id' => 2
             ),
             array(
                 'type' => "kind",
                 'name' => json_encode(['en' => 'Return', 'az' => 'İadə']),
+                'parameter_id' => 2
             ),
             array(
                 'type' => "kind",
                 'name' => json_encode(['en' => 'Lost Package', 'az' => 'İtmiş bağlama']),
+                'parameter_id' => 2
             ),
             array(
                 'type' => "kind",
                 'name' => json_encode(['en' => 'in Customs', 'az' => 'Saxlanc']),
+                'parameter_id' => 2
             ),
             array(
                 'type' => "kind",
                 'name' => json_encode(['en' => 'warehouse', 'az' => 'Xarici anbarda']),
+                'parameter_id' => 2
             ),
             array(
                 'type' => "kind",
                 'name' => json_encode(['en' => 'Filial', 'az' => 'Filialda']),
+                'parameter_id' => 2
             ),
             array(
                 'type' => "kind",
                 'name' => json_encode(['en' => 'Price', 'az' => 'Qiymət']),
+                'parameter_id' => 2
             ),
             array(
                 'type' => "operation",
@@ -104,16 +126,20 @@ class ParameterSeeder extends Seeder
                 'name' => json_encode(['en' => 'Unreachable', 'az' => 'Zəng Çatmır']),
             ),
             array(
-                'type' => "subject",
-                'name' => json_encode(['en' => 'Info', 'az' => 'Məlumat']),
+                'type' => "contact_method",
+                'name' => json_encode(['en' => 'Call', 'az' => 'Zəng']),
             ),
             array(
-                'type' => "subject",
-                'name' => json_encode(['en' => 'Problem']),
+                'type' => "contact_method",
+                'name' => json_encode(['en' => 'Whatsapp']),
             ),
             array(
-                'type' => "subject",
-                'name' => json_encode(['en' => 'Technical support', 'az' => 'Texniki yardım']),
+                'type' => "contact_method",
+                'name' => json_encode(['en' => 'Facebook']),
+            ),
+            array(
+                'type' => "contact_method",
+                'name' => json_encode(['en' => 'Instagram']),
             ),
         ]);
     }

@@ -16,7 +16,7 @@ class Notify
         ];
     }
 
-    public function info($data =  'Record'): array
+    public function info($data = 'Record'): array
     {
         return  [
             'notify' =>

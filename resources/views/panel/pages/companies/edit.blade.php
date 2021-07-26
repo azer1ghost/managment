@@ -30,7 +30,7 @@
                             <x-input::textarea name="about"  :value="optional($data)->about"     label="Company about"   width="8" class="pr-3" rows="6"/>
                         </div>
                         @if($action)
-                            <x-input::submit/>
+                            <x-input::submit />
                         @endif
                     </form>
                 </div>

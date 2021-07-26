@@ -1,4 +1,6 @@
-<div class="tab-content form-row mt-4 mb-5" >
+<form action="{{$action}}" id="createForm" method="POST" class="tab-content form-row mt-4 mb-5">
+    @csrf
+    @method($method)
 
     <x-input::select name="contact_method" label="Contact method" value="{{optional($data)->contact_method}}" :options="$contact_methods" width="3" class="pr-3" />
 
@@ -57,4 +59,7 @@
 
 {{--    <x-input::select name="redirected" :options="$operators" label="Redirect" width="4" class="pr-2" />--}}
 
-</div>
+    <div class="col-12">
+        <button class="btn btn-outline-primary float-right">Save</button>
+    </div>
+</form>

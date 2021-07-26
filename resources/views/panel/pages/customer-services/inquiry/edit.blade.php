@@ -11,17 +11,8 @@
                 <div class="card-header">
                     <h4 class="text-muted mt-2">Edit Request</h4>
                 </div>
-                <div id="app" class="card-body">
-                    <form action="{{$action}}" id="createForm" method="POST" >
-                        @csrf
-                        @method($method)
-
-                        @livewire('company-selector')
-
-                        <a href="{{route('inquiry.index')}}" class="btn btn-outline-danger">Back</a>
-
-                        <button class="btn btn-outline-primary float-right">Save</button>
-                    </form>
+                <div class="card-body">
+                    @livewire('inquiry-form', ['action' => $action, 'method' => $method])
                 </div>
             </div>
         </div>

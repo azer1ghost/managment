@@ -34,16 +34,18 @@
                             <td>{{$company->name}}</td>
                             <td>
                                 <div class="btn-sm-group">
-                                    <a href="{{route('companies.show', $company)}}" class="btn btn-sm btn-outline-primary">
-                                        <i class="fal fa-eye"></i>
-                                    </a>
+                                    @can('view', $company)
+                                        <a href="{{route('companies.show', $company)}}" class="btn btn-sm btn-outline-primary">
+                                            <i class="fal fa-eye"></i>
+                                        </a>
+                                    @endcan
                                     @can('manage', App\Models\Company::class)
-                                    <a href="{{route('companies.edit', $company)}}" class="btn btn-sm btn-outline-success">
-                                        <i class="fal fa-pen"></i>
-                                    </a>
-                                    <a href="{{route('companies.destroy', $company)}}" delete data-name="{{$company->name}}" class="btn btn-sm btn-outline-danger" >
-                                        <i class="fal fa-trash"></i>
-                                    </a>
+                                        <a href="{{route('companies.edit', $company)}}" class="btn btn-sm btn-outline-success">
+                                            <i class="fal fa-pen"></i>
+                                        </a>
+                                        <a href="{{route('companies.destroy', $company)}}" delete data-name="{{$company->name}}" class="btn btn-sm btn-outline-danger" >
+                                            <i class="fal fa-trash"></i>
+                                        </a>
                                     @endcan
                                 </div>
                             </td>

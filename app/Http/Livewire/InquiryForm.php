@@ -6,10 +6,12 @@ use App\Models\Company;
 use App\Models\Parameter;
 use Livewire\Component;
 
-class CompanySelector extends Component
+class InquiryForm extends Component
 {
     public $data;
 
+    public $action;
+    public $method;
     public $companies;
     public $subjects;
     public $kinds;
@@ -33,7 +35,7 @@ class CompanySelector extends Component
 
     public function render()
     {
-        return view('components.companySelector');
+        return view('panel.pages.customer-services.inquiry.components.inquiry-form');
     }
 
     public function updatedSelectedCompany($id)
@@ -50,6 +52,7 @@ class CompanySelector extends Component
     public function updatedSelectedSubject($id)
     {
         $this->kinds = Company::query()
+            //->with('parameters')
             ->find($this->selectedCompany)
             ->parameters
             ->where('type', 'kind')

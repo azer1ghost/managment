@@ -18,7 +18,7 @@ class Submit extends Component
         <<<'blade'
             <div {{ $attributes->merge(['class' => 'text-right col-12 col-md-'.$width]) }}>
                 <hr>
-                <button type="submit" class="btn btn-primary">{{$value}}</button>
+                <button type="submit" class="btn btn-outline-primary">{{$value}}</button>
             </div>
         blade;
     }

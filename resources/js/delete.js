@@ -4,7 +4,7 @@ $("a[delete]").click(function(e){
     e.preventDefault()
     $.confirm({
         title: 'Confirm delete action',
-        content: 'Are you sure delete <b>:name</b> ?'.replace(':name',  name),
+        content: `Are you sure delete <b>${name}</b> ?`,
         autoClose: 'confirm|8000',
         icon: 'fa fa-question',
         type: 'red',
@@ -20,7 +20,6 @@ $("a[delete]").click(function(e){
                     },
                     success: function (responseObject, textStatus, xhr)
                     {
-                        console.log(textStatus)
                         $.confirm({
                             title: 'Delete successful',
                             icon: 'fa fa-check',

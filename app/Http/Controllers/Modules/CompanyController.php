@@ -21,7 +21,7 @@ class CompanyController extends Controller
 
         return view('panel.pages.companies.index')
             ->with([
-                'companies' => Company::select(['id', 'logo', 'name'])->paginate(10)
+                'companies' => Company::select(['id', 'logo', 'name'])->simplePaginate(10)
             ]);
     }
 
@@ -32,7 +32,7 @@ class CompanyController extends Controller
         return view('panel.pages.companies.edit')
             ->with([
                 'action' => route('companies.store'),
-                'method' => "POST",
+                'method' => null,
                 'data' => null
             ]);
     }
@@ -59,6 +59,8 @@ class CompanyController extends Controller
 
     public function show(Company $company)
     {
+        $this->authorize('viewAny', Company::class);
+
         return view('panel.pages.companies.edit')
             ->with([
                 'action' => null,

@@ -18,6 +18,8 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    protected $with = ['role'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -53,14 +55,9 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    public function hasPermission($perm): bool
-    {
-        return in_array($perm, $this->role->permissions(), true);
-    }
-
     public function fullname(): string
     {
-        return $this->name." ".$this->surname;
+        return "{$this->name} {$this->surname}";
     }
 
     public function isDeveloper()

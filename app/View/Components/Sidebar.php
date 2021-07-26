@@ -7,7 +7,6 @@ use Illuminate\View\Component;
 
 class Sidebar extends Component
 {
-
     public $items = array();
 
     public function __construct()
@@ -24,22 +23,20 @@ class Sidebar extends Component
                 'icon'  => 'fa fa-home',
                 'url'  => route('dashboard'),
                 'permission' => 'general',
-                'badge' => null,
             ],
 
             (object) [
                 'title' => 'Companies',
                 'icon'  => 'fa fa-building',
                 'url'  => route('companies.index'),
-                'permission' => 'view-company',
-                'badge' => null,
+                'permission' => 'viewAny-company',
             ],
 
             (object) [
                 'title' => 'Account',
                 'icon'  => 'fa fa-user',
                 'url'  => route('account'),
-                'permission' => 'browse-account',
+                'permission' => 'viewAny-account',
                 'badge' => null,
 //                (object) [
 //                    'title' => 'New',
@@ -51,7 +48,6 @@ class Sidebar extends Component
                 'title' => 'Signature',
                 'icon'  => 'fa fa-envelope',
                 'url'  => route('signature-select-company'),
-                'badge' => null,
                 'permission' => 'signature',
             ],
 
@@ -60,7 +56,6 @@ class Sidebar extends Component
                 'icon'  => 'fa fa-phone',
                 'url'  => route('customer-services'),
                 'permission' => 'general',
-                'badge' => null,
             ],
 
         ];
@@ -83,7 +78,7 @@ class Sidebar extends Component
                             <h2 class="text-muted">{{$item->title}}</h2>
                         </li>
                     @else
-                        <li class="p-1" {{ (url()->current() == $item->url) ? 'class="active"' : '' }} >
+                        <li @class([ 'p-1', 'active' => request()->url() == $item->url ]) >
                             <a href="{{$item->url}}">
                                 <i class="{{$item->icon}} mr-2"></i>
                                 <span>{{$item->title}}</span>
