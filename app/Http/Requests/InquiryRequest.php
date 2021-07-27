@@ -14,7 +14,7 @@ class InquiryRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('manage', Inquiry::class);
+        return $this->user()->can('update', Inquiry::class) || $this->user()->can('create', Inquiry::class);
     }
 
     /**

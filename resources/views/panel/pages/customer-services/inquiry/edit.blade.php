@@ -9,7 +9,11 @@
         <div class="col-md-10">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="text-muted mt-2">Edit Request</h4>
+                    <a href="{{route('inquiry.index')}}" class="btn btn-sm btn-outline-primary mr-4">
+                        <i class="fa fa-arrow-left"></i>
+                        Back
+                    </a>
+                    Edit Request
                 </div>
                 <div class="card-body">
                     @livewire('inquiry-form', ['action' => $action, 'method' => $method])

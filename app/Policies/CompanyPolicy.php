@@ -12,11 +12,7 @@ class CompanyPolicy
 
     public function before(User $user): ?bool
     {
-        if ($user->isDeveloper() || $user->isAdministrator()){
-            return true;
-        }
-
-        return null;
+        return $user->isDeveloper() || $user->isAdministrator() ? true: null;
     }
 
     public function viewAny(User $user): bool
@@ -29,13 +25,18 @@ class CompanyPolicy
         return $user->role->hasPermission('view-company');
     }
 
-    public function manage(User $user): bool
+    public function create(User $user): bool
+    {
+        return $user->role->hasPermission('manage-company');
+    }
+
+    public function update(User $user, Company $company): bool
     {
         return $user->role->hasPermission('manage-company');
     }
 
     public function delete(User $user, Company $inquiry): bool
     {
-        return $user->role->hasPermission('delete-company');
+        return $user->role->hasPermission('manage-company');
     }
 }

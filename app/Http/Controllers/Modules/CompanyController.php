@@ -13,12 +13,11 @@ class CompanyController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->authorizeResource(Company::class, 'company');
     }
 
     public function index()
     {
-        $this->authorize('viewAny', Company::class);
-
         return view('panel.pages.companies.index')
             ->with([
                 'companies' => Company::select(['id', 'logo', 'name'])->simplePaginate(10)
@@ -27,8 +26,6 @@ class CompanyController extends Controller
 
     public function create()
     {
-        $this->authorize('manage', Company::class);
-
         return view('panel.pages.companies.edit')
             ->with([
                 'action' => route('companies.store'),
@@ -59,8 +56,6 @@ class CompanyController extends Controller
 
     public function show(Company $company)
     {
-        $this->authorize('viewAny', Company::class);
-
         return view('panel.pages.companies.edit')
             ->with([
                 'action' => null,
@@ -71,8 +66,6 @@ class CompanyController extends Controller
 
     public function edit(Company $company)
     {
-        $this->authorize('manage', $company);
-
         return view('panel.pages.companies.edit')
             ->with([
                 'action' => route('companies.update', $company),
@@ -105,8 +98,6 @@ class CompanyController extends Controller
 
     public function destroy(Company $company)
     {
-        $this->authorize('manage', $company);
-
         if ($company->delete()) {
             if (Storage::exists($company->logo)) {
                 Storage::delete($company->logo);

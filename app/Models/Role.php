@@ -22,7 +22,7 @@ class Role extends Model
 
         $permissions = config('auth.permissions');
 
-        return in_array($perm, $permissions, true);
+        return in_array($perm, $permissions);
     }
 
     public function users(): HasMany

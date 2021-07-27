@@ -13,7 +13,7 @@
                 </div>
                 <div class="card-body">
                     <div class="float-right mb-2">
-                        @can('manage', App\Models\Company::class)
+                        @can('create', App\Models\Company::class)
                             <a class="btn btn-outline-success" href="{{route('companies.create')}}">@lang('btn.create')</a>
                         @endcan
                     </div>
@@ -39,10 +39,12 @@
                                             <i class="fal fa-eye"></i>
                                         </a>
                                     @endcan
-                                    @can('manage', App\Models\Company::class)
+                                    @can('update', $company)
                                         <a href="{{route('companies.edit', $company)}}" class="btn btn-sm btn-outline-success">
                                             <i class="fal fa-pen"></i>
                                         </a>
+                                    @endcan
+                                    @can('delete', $company)
                                         <a href="{{route('companies.destroy', $company)}}" delete data-name="{{$company->name}}" class="btn btn-sm btn-outline-danger" >
                                             <i class="fal fa-trash"></i>
                                         </a>

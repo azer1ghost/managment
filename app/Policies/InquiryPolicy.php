@@ -12,14 +12,10 @@ class InquiryPolicy
 
     public function before(User $user): ?bool
     {
-        if ($user->isDeveloper() || $user->isAdministrator()){
-            return true;
-        }
-
-        return null;
+        return $user->isDeveloper() || $user->isAdministrator() ? true: null;
     }
 
-    public function viewAny(User $user): bool
+    public function viewAny(User $user)
     {
         return $user->role->hasPermission('viewAny-inquiry');
     }
@@ -41,7 +37,7 @@ class InquiryPolicy
         return
             $user->role->hasPermission('update-inquiry') &&
             $inquiry->user_id === $user->id &&
-            $inquiry->created_at > now()->subMinutes('60');
+            $inquiry->created_at->addMinutes(7) > now();
     }
 
     public function delete(User $user, Inquiry $inquiry): bool
@@ -49,19 +45,22 @@ class InquiryPolicy
         return
             $user->role->hasPermission('delete-inquiry') &&
             $inquiry->user_id === $user->id &&
-            $inquiry->created_at > now()->subMinutes('7');
+            $inquiry->created_at->addMinutes(7) > now();
     }
 
-    public function restore(User $user, Inquiry $inquiry)
+    public function restore(User $user, Inquiry $inquiry): bool
     {
         return
-            $user->role->hasPermission('delete-inquiry') &&
+            $user->role->hasPermission('restore-inquiry') &&
             $inquiry->user_id === $user->id &&
-            $inquiry->created_at > now()->subMinutes('7');
+            $inquiry->created_at->addMinutes(7) > now();
     }
 
-//    public function forceDelete(User $user, Inquiry $inquiry)
-//    {
-//        //
-//    }
+    public function forceDelete(User $user, Inquiry $inquiry): bool
+    {
+        return
+            $user->role->hasPermission('forceDelete-inquiry') &&
+            $inquiry->user_id === $user->id &&
+            $inquiry->created_at->addMinutes(7) > now();
+    }
 }

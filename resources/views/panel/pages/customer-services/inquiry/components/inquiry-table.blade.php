@@ -1,21 +1,24 @@
 @section('style')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 @endsection
-
 <div>
-    <div class="float-right">
-        <div class="p-2">
-            @can('create', \App\Models\Inquiry::class)
-                <a href="{{route('inquiry.create')}}" class="btn btn-outline-success">
-                    <i class="fal fa-plus"></i>
-                </a>
-            @endcan
-        </div>
+    <div class="float-right p-2">
+        <select id="subjectFilter" multiple class="filterSelector" data-width="fit" wire:model="filters.subjects" title="Noting selected" >
+            @foreach($subjects as $subject)
+                <option value="{{$subject->id}}">{{ucfirst($subject->name)}}</option>
+            @endforeach
+        </select>
+        @can('create', \App\Models\Inquiry::class)
+            <a href="{{route('inquiry.create')}}" class="btn btn-outline-success">
+                <i class="fal fa-plus"></i>
+            </a>
+        @endcan
     </div>
     <table class="table table-hover">
         <thead>
           <tr>
               <th>Date</th>
+              <th>Time</th>
               <th>Company</th>
               <th>Client name</th>
               <th>Subject</th>
@@ -26,6 +29,7 @@
            @foreach($inquiries as $inquiry)
                <tr>
                    <td>{{$inquiry->date}}</td>
+                   <td>{{$inquiry->time}}</td>
                    <td>{{$inquiry->company->name}}</td>
                    <td>{{$inquiry->fullname}}</td>
                    <td>{{$inquiry->subject->name}}</td>
@@ -38,19 +42,27 @@
                            @endcan
                            @can('update', $inquiry)
                                <a href="{{route('inquiry.edit', $inquiry)}}" class="btn btn-sm btn-outline-success">
-                                   <i class="fal fa-pen"></i>
+                                   <i class="fal fa-pen"></i> <span data-time="{{ now()->subSeconds(415)->diffInSeconds($inquiry->created_at) }}"></span>
                                </a>
                            @endcan
-                           @can('delete', $inquiry)
-                               <a href="{{route('inquiry.destroy', $inquiry)}}" delete data-name="{{$inquiry->name}}" class="btn btn-sm btn-outline-danger" >
-                                   <i class="fal fa-trash"></i>
-                               </a>
-                           @endcan
-                           @can('restore', $inquiry)
-                               <a href="{{route('inquiry.destroy', $inquiry)}}" delete data-name="{{$inquiry->name}}" class="btn btn-sm btn-outline-danger" >
-                                   <i class="fal fa-trash"></i>
-                               </a>
-                           @endcan
+                           @if($inquiry->trashed())
+                               @can('restore', $inquiry)
+                                   <a href="{{route('inquiry.restore', $inquiry)}}"  class="btn btn-sm btn-outline-primary" >
+                                       <i class="fal fa-repeat"></i>
+                                   </a>
+                               @endcan
+                               @can('forceDelete', $inquiry)
+                                   <a href="{{route('inquiry.forceDelete', $inquiry)}}" delete data-name="{{$inquiry->name}}" class="btn btn-sm btn-outline-danger" >
+                                       <i class="fa fa-times"></i>
+                                   </a>
+                               @endcan
+                           @else
+                               @can('delete', $inquiry)
+                                   <a href="{{route('inquiry.destroy', $inquiry)}}" delete data-name="{{$inquiry->name}}" class="btn btn-sm btn-outline-danger" >
+                                       <i class="fal fa-trash"></i>
+                                   </a>
+                               @endcan
+                           @endif
                        </div>
                    </td>
                </tr>
@@ -63,14 +75,64 @@
 </div>
 
 
+@section('scripts')
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+    <script>$('.filterSelector').selectpicker()</script>
+
+    <script>
+        function startTimer(duration, display) {
+            let timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = duration;
+                    display.parentElement.remove()
+                }
+            }, 1000);
+        }
+
+        window.onload = function () {
+            let timer = document.querySelector("span[data-time]");
+            let delay = timer.getAttribute('data-time');
+            startTimer(delay, timer);
+        };
+    </script>
+
+@endsection
 
 
 
-{{--    <select id="subjectFilter" multiple class="filterSelector" data-width="fit" title="Noting selected" >--}}
-{{--        @foreach($subjects as $key => $subject)--}}
-{{--            <option value="{{$key}}">{{ucfirst($subject->text)}}</option>--}}
-{{--        @endforeach--}}
-{{--    </select>--}}
+
+
+
+
+
+{{--    function edit(dataID){--}}
+{{--        window.location.href = "{{route('inquiry.edit', '%id%')}}".replace('%id%', dataID);--}}
+{{--    }--}}
+
+{{--    @if($errors->any())--}}
+{{--        $('#createModal').modal('show')--}}
+{{--    @endif--}}
+
+{{--    window.addEventListener('keypress', function (e) {--}}
+{{--        if (e.key === '+') {--}}
+{{--            $('#createModal').modal('show')--}}
+{{--        }--}}
+{{--    }, false);--}}
+
+
+
+
+
 {{--    <button class="btn btn-outline-secondary">--}}
 {{--        <i class="fal fa-calendar"></i>--}}
 {{--    </button>--}}
@@ -85,25 +147,3 @@
 {{--    </a>--}}
 
 
-
-
-@section('scripts')
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-
-    {{--    <script>$('.filterSelector').selectpicker()</script>--}}
-
-    {{--function edit(dataID){--}}
-    {{--    window.location.href = "{{route('inquiry.edit', '%id%')}}".replace('%id%', dataID);--}}
-    {{--}--}}
-
-    {{--@if($errors->any())--}}
-    {{--    $('#createModal').modal('show')--}}
-    {{--@endif--}}
-
-    {{--window.addEventListener('keypress', function (e) {--}}
-    {{--    if (e.key === '+') {--}}
-    {{--        $('#createModal').modal('show')--}}
-    {{--    }--}}
-    {{--}, false);--}}
-@endsection

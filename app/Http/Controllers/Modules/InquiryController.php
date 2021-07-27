@@ -13,6 +13,7 @@ class InquiryController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->authorizeResource(Inquiry::class, 'inquiry');
     }
 
     /**
@@ -20,15 +21,11 @@ class InquiryController extends Controller
      */
     public function index()
     {
-        $this->authorize('viewAny-inquiry', Inquiry::class);
-
         return view('panel.pages.customer-services.inquiry.index');
     }
 
     public function create()
     {
-        $this->authorize('create1-inquiry', Inquiry::class);
-
         return view('panel.pages.customer-services.inquiry.edit')
             ->with([
                 'method' => 'POST',
@@ -51,7 +48,7 @@ class InquiryController extends Controller
             ['user_id' => $userID]
         ));
 
-        Log::channel('daily')->info("New request created by user %ID:$userID% ".json_encode($data));
+        //Log::channel('daily')->info("New request created by user %ID:$userID% ".json_encode($data));
 
         return back()->with(
             notify()->info($data->name)
@@ -60,21 +57,36 @@ class InquiryController extends Controller
 
 
 
+    public function show(Inquiry $inquiry)
+    {
+        return view('panel.pages.customer-services.inquiry.edit')
+            ->with([
+                'method' => null,
+                'action' => null,
+                'data'   => null
+            ]);
+    }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Inquiry $inquiry)
+    {
+        return view('panel.pages.customer-services.inquiry.edit')
+            ->with([
+                'method' => null,
+                'action' => null,
+                'data'   => null
+            ]);
+    }
 
+    public function restore(Inquiry $inquiry){
+        return null;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    public function forceDelete(Inquiry $inquiry){
+        return null;
+    }
 
 
 
@@ -144,25 +156,8 @@ class InquiryController extends Controller
 //    /**
 //     * Display the specified resource.
 //     */
-//    public function show($id): void
-//    {
-//        //
-//    }
-//
-//    /**
-//     * Show the form for editing the specified resource.
-//     */
-//    public function edit(Inquiry $callCenter)
-//    {
-//        return view('panel.pages.customer-services.inquiry.edit')->with([
-//            "companies"  => Company::whereNot('id', 1)->select(['id','name'])->pluck('name','id')->toArray(),
-////            "subjects"   => Subjects::get()->toArray(),
-////            "sources"    => Sources::get()->toArray(),
-////            "statuses"   => Statuses::get()->toArray(),
-//            "operators"  => Role::whereIn('key', ['developer', 'call-center-operator'])->first()->users->pluck('name','phone')->toArray(),
-//            "callCenter" => $callCenter,
-//        ]);
-//    }
+
+
 //
 //    /**
 //     * Update the specified resource in storage.

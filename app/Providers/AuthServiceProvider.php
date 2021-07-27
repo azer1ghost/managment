@@ -5,26 +5,19 @@ namespace App\Providers;
 use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use App\Models\Inquiry;
+use App\Policies\InquiryPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
-
-    protected $permissions;
-
-    public function __construct($app)
-    {
-        parent::__construct($app);
-
-        $this->permissions = collect(config('auth.permissions'));
-    }
     /**
      * The policy mappings for the application.
      *
      * @var array
      */
-//    protected $policies = [
-//         'App\Models\Model' => 'App\Policies\ModelPolicy',
-//    ];
+    protected $policies = [
+//         Inquiry::class => InquiryPolicy::class,
+    ];
 
     /**
      * Register any authentication / authorization services.
@@ -33,13 +26,18 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-       // $this->registerPolicies();
+//        $this->registerPolicies();
 
-        $this->permissions->map(function ($permission){
+        collect(config('auth.permissions'))
+        ->filter(function ($permission){
+            return false !== stripos($permission, 'viewAny');
+        })
+        ->map(function ($permission){
             Gate::define($permission, function (User $user) use ($permission) {
                 return $user->role->hasPermission($permission);
             });
         });
 
+        Gate::define('generally', fn() => true);
     }
 }

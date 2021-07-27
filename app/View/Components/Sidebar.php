@@ -22,7 +22,7 @@ class Sidebar extends Component
                 'title' => 'Dashboard',
                 'icon'  => 'fa fa-home',
                 'url'  => route('dashboard'),
-                'permission' => 'general',
+                'permission' => 'generally',
             ],
 
             (object) [
@@ -48,14 +48,14 @@ class Sidebar extends Component
                 'title' => 'Signature',
                 'icon'  => 'fa fa-envelope',
                 'url'  => route('signature-select-company'),
-                'permission' => 'signature',
+                'permission' => 'generally',
             ],
 
             (object) [
                 'title' => 'Customer Services',
                 'icon'  => 'fa fa-phone',
                 'url'  => route('customer-services'),
-                'permission' => 'general',
+                'permission' => 'generally',
             ],
 
         ];
@@ -72,23 +72,23 @@ class Sidebar extends Component
             <<<'blade'
             <ul class="nav">
                 @foreach($items as $item)
-                @can($item->permission ?? 'general') 
-                    @if($item->type ?? '' == "title")
-                        <li>
-                            <h2 class="text-muted">{{$item->title}}</h2>
-                        </li>
-                    @else
-                        <li @class([ 'p-1', 'active' => request()->url() == $item->url ]) >
-                            <a href="{{$item->url}}">
-                                <i class="{{$item->icon}} mr-2"></i>
-                                <span>{{$item->title}}</span>
-                                @if($item->badge ?? false)
-                                    <span class="badge badge-pill badge-{{$item->badge->class}}">{{$item->badge->title}}</span>
-                                @endif
-                            </a>
-                        </li>
-                    @endif
-                @endcan
+                    @can($item->permission ?? 'generally') 
+                        @if($item->type ?? '' == "title")
+                            <li>
+                                <h2 class="text-muted">{{$item->title}}</h2>
+                            </li>
+                        @else
+                            <li @class([ 'p-1', 'active' => request()->url() == $item->url ]) >
+                                <a href="{{$item->url}}">
+                                    <i class="{{$item->icon}} mr-2"></i>
+                                    <span>{{$item->title}}</span>
+                                    @if($item->badge ?? false)
+                                        <span class="badge badge-pill badge-{{$item->badge->class}}">{{$item->badge->title}}</span>
+                                    @endif
+                                </a>
+                            </li>
+                        @endif
+                    @endcan
                 @endforeach
             </ul>
         blade;

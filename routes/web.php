@@ -21,7 +21,8 @@ Route::prefix('module')->group(function () {
 
     Route::get('/customer-services', [PlatformController::class, 'customerServices'])->name('customer-services');
 
-    Route::post('/inquiry/table', [InquiryController::class, 'table'])->name('inquiry.table');
+    Route::post('/inquiry/restore/{id}', [InquiryController::class, 'restore'])->name('inquiry.restore');
+    Route::delete('/inquiry/force-delete/{id}', [InquiryController::class, 'forceDelete'])->name('inquiry.forceDelete');
     Route::resource('/inquiry', InquiryController::class);
 
     Route::get('/signature/select-company', [SignatureController::class, 'selectCompany'])->name('signature-select-company');
