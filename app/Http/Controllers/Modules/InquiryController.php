@@ -39,22 +39,16 @@ class InquiryController extends Controller
      */
     public function store(InquiryRequest $request): RedirectResponse
     {
-        $validated = $request->validate($this->rules);
+        $validated = $request->validated();
 
-        $userID = auth()->id();
-
-        $data = Inquiry::create( array_merge(
-            $validated,
-            ['user_id' => $userID]
-        ));
+        $data = auth()->user()->inquiries()->create($validated);
 
         //Log::channel('daily')->info("New request created by user %ID:$userID% ".json_encode($data));
 
-        return back()->with(
-            notify()->info($data->name)
+        return redirect()->route('inquiry.index')->with(
+            notify()->info('Inquiry')
         );
     }
-
 
 
     public function show(Inquiry $inquiry)
@@ -63,7 +57,7 @@ class InquiryController extends Controller
             ->with([
                 'method' => null,
                 'action' => null,
-                'data'   => null
+                'data'   => $inquiry
             ]);
     }
 
@@ -74,10 +68,42 @@ class InquiryController extends Controller
     {
         return view('panel.pages.customer-services.inquiry.edit')
             ->with([
-                'method' => null,
-                'action' => null,
-                'data'   => null
+                'method' => "PUT",
+                'action' => route('inquiry.update', $inquiry),
+                'data'   => $inquiry
             ]);
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(InquiryRequest $request, Inquiry $inquiry): RedirectResponse
+    {
+        $inquiry->update($request->validated());
+
+        Log::channel('daily')->info("Request update by user %ID:".$request->user()->id."% ".json_encode($callCenter->getChanges()) );
+
+        return redirect()
+            ->route('inquiry.index')
+            ->with(
+                notify()->info('Inquiry Updated')
+            );
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Inquiry $inquiry)
+    {
+        if ($inquiry->delete()) {
+            return response('OK');
+        }
+        return response()->setStatusCode('204');
+
+        //$userID = auth()->id();
+        //Log::channel('daily')->warning("Request delete by user %ID:$userID% ".json_encode($inquiry) );
     }
 
     public function restore(Inquiry $inquiry){
@@ -91,31 +117,6 @@ class InquiryController extends Controller
 
 
 
-//    public function table(Request $request): JsonResponse
-//    {
-//        $this->authorize('viewAny-inquiry');
-//
-//        $limit  = $request->get('limit')  ?? 25;
-//        $offset = $request->get('offset') ?? 0;
-//        $search = $request->get('search');
-//        $sort   = $request->get('sort')   ?? 'created_at';
-//        $order  = $request->get('order')  ?? 'asc';
-//
-//        $filterBySubject = $request->get('subject');
-//        $filterByDate    = $request->get('date');
-//
-//        $query = Inquiry::query();
-//
-//        $query->orderBy($sort, $order)->latest();
-//
-//        if ($filterBySubject){
-//            $query->whereIn('subject', $filterBySubject);
-//        }
-//
-//        if ($filterByDate){
-//            $query->whereDate('date', $filterByDate);
-//            //whereBetween('reservation_from', [$from, $to]);
-//        }
 //
 //        if ($search) {
 //            $query
@@ -124,67 +125,7 @@ class InquiryController extends Controller
 //                ->orWhere('phone', 'like', "%$search%")
 //                ->orWhere('user', 'like', "$search%");
 //        }
-//
-//        $total = $query->count();
-//
-//        // define query offset and limit (for pagination of table)
-//        if ($offset) {
-//            $query->offset($offset);
-//        }
-//        if ($limit) {
-//            $query->limit($limit);
-//        }
-//
-//        $data = $query->get();
-//
-//        //table row mutator
-//        $rows = $data->map(function ($row){
-////            $row->subject = Parameter::find($row->id)->name;
-//            $row->fullname = ucfirst($row->fullname);
-//            $row->editable = true;
-//            return $row;
-//        });
-//
-//        return response()->json([
-//            'total' => $total,
-//            'rows'  => $rows,
-//        ]);
-//    }
 
 
-//
-//    /**
-//     * Display the specified resource.
-//     */
 
-
-//
-//    /**
-//     * Update the specified resource in storage.
-//     */
-//    public function update(Request $request, Inquiry $callCenter): RedirectResponse
-//    {
-//        $validated = $request->validate($this->rules);
-//
-//        $callCenter->update($validated);
-//
-//        $userID = auth()->id();
-//
-//        Log::channel('daily')->info("Request update by user %ID:$userID% ".json_encode($callCenter->getChanges()) );
-//
-//        return back()->with(['notify' => ['type' => 'success', 'message' => 'Updated successfully']]);
-//    }
-//
-//    /**
-//     * Remove the specified resource from storage.
-//     */
-//    public function destroy(Inquiry $callCenter)
-//    {
-//        $callCenter->delete();
-//
-//        $userID = auth()->id();
-//        Log::channel('daily')->warning("Request delete by user %ID:$userID% ".json_encode($callCenter) );
-//
-//        return response('ok',200);
-//    }
 }

@@ -23,6 +23,18 @@ class InquiryForm extends Component
     public $selectedSubject;
     public $selectedKind;
 
+//    public function __construct($id = null)
+//    {
+//        if (!is_null($this->data)){
+//            $this->selectedCompany = $this->data->company_id;
+//            $this->selectedSubject = $this->data->subject;
+//            $this->selectedKind = $this->data->kind;
+//        }
+//
+//        parent::__construct($id);
+//
+//    }
+
     public function mount()
     {
         $this->companies = Company::whereNotIn('id', [1])->get();
@@ -52,7 +64,7 @@ class InquiryForm extends Component
     public function updatedSelectedSubject($id)
     {
         $this->kinds = Company::query()
-            //->with('parameters')
+         //   ->with('parameters')
             ->find($this->selectedCompany)
             ->parameters
             ->where('type', 'kind')

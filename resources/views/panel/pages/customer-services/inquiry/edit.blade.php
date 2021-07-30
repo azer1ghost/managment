@@ -16,7 +16,7 @@
                     Edit Request
                 </div>
                 <div class="card-body">
-                    @livewire('inquiry-form', ['action' => $action, 'method' => $method])
+                    @livewire('inquiry-form', ['action' => $action, 'method' => $method, 'data' => $data])
                 </div>
             </div>
         </div>

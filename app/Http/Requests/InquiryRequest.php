@@ -14,7 +14,7 @@ class InquiryRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('update', Inquiry::class) || $this->user()->can('create', Inquiry::class);
+        return $this->user()->can('create', Inquiry::class);
     }
 
     /**
@@ -27,14 +27,14 @@ class InquiryRequest extends FormRequest
         return [
             'date'      => 'required',
             'time'      => "required",
-            'client'    => "string|max:255",
-            'fullname'  => "string|max:255",
-            'phone'     => "string|max:255",
+            'client'    => "nullable|string|max:255",
+            'fullname'  => "nullable|string|max:255",
+            'phone'     => "nullable|string|max:255",
             'subject'   => "required|string|max:255",
             'kind'      => "nullable|string|max:255",
-            'source'    => "string|max:255",
+            'source'    => "nullable|string|max:255",
             'note'      => "nullable|string|max:255",
-            'redirected'=> "string|max:255",
+            'redirected'=> "nullable|string|max:255",
             'status'    => "required|string",
             'company_id'=> "required|int|max:11",
         ];

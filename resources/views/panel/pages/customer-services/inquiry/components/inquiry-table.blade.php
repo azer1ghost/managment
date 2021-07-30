@@ -100,7 +100,7 @@
         }
 
         window.onload = function () {
-            let timer = document.querySelector("span[data-time]");
+            let timer = document.querySelectorAll("span[data-time]");
             let delay = timer.getAttribute('data-time');
             startTimer(delay, timer);
         };
