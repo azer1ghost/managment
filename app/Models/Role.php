@@ -14,7 +14,7 @@ class Role extends Model
 {
     use HasTranslations;
 
-    public $translatable = ['name'];
+    public array $translatable = ['name'];
 
     public function hasPermission($perm): bool
     {
@@ -22,7 +22,7 @@ class Role extends Model
 
         $permissions = config('auth.permissions');
 
-        return in_array($perm, $permissions);
+        return in_array($perm, $permissions, true);
     }
 
     public function users(): HasMany

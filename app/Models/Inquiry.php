@@ -17,10 +17,6 @@ class Inquiry extends Model
         'subject', 'kind', 'source', 'contact_method', 'operation', 'status',
         'note', 'redirected_user_id', 'company_id', 'user_id'];
 
-//    protected $casts = [
-//        'created_at' => 'datetime',
-//    ];
-
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);

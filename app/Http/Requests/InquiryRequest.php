@@ -27,16 +27,18 @@ class InquiryRequest extends FormRequest
         return [
             'date'      => 'required',
             'time'      => "required",
-            'client'    => "nullable|string|max:255",
-            'fullname'  => "nullable|string|max:255",
-            'phone'     => "nullable|string|max:255",
-            'subject'   => "required|string|max:255",
-            'kind'      => "nullable|string|max:255",
-            'source'    => "nullable|string|max:255",
-            'note'      => "nullable|string|max:255",
-            'redirected'=> "nullable|string|max:255",
-            'status'    => "required|string",
+            'client'    => "filled|string|max:255",
+            'fullname'  => "filled|string|max:255",
+            'phone'     => "filled|string|max:255",
+            'subject'   => "filled|string|max:255",
+            'kind'      => "filled|string|max:255",
+            'source'    => "filled|string|max:255",
+            'note'      => "filled|string|max:255",
+            'redirected'=> "filled|string|max:255",
+            'status'    => "filled|string",
             'company_id'=> "required|int|max:11",
+            'contact_method' => "filled|int",
+            'operation' => "filled|int",
         ];
     }
 }

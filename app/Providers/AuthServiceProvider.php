@@ -5,8 +5,6 @@ namespace App\Providers;
 use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
-use App\Models\Inquiry;
-use App\Policies\InquiryPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -28,9 +26,10 @@ class AuthServiceProvider extends ServiceProvider
     {
 //        $this->registerPolicies();
 
+        // only return viewAny permissions of user
         collect(config('auth.permissions'))
         ->filter(function ($permission){
-            return false !== stripos($permission, 'viewAny');
+            return stripos($permission, 'viewAny') ?: $permission;
         })
         ->map(function ($permission){
             Gate::define($permission, function (User $user) use ($permission) {

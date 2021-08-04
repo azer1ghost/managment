@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\InquiryRequest;
 use App\Models\Inquiry;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Log;
 
 class InquiryController extends Controller
 {
@@ -82,7 +81,7 @@ class InquiryController extends Controller
     {
         $inquiry->update($request->validated());
 
-        Log::channel('daily')->info("Request update by user %ID:".$request->user()->id."% ".json_encode($callCenter->getChanges()) );
+//        Log::channel('daily')->info("Request update by user %ID:".$request->user()->id."% ".json_encode($callCenter->getChanges()) );
 
         return redirect()
             ->route('inquiry.index')

@@ -1,6 +1,7 @@
 <form action="{{$action}}" id="createForm" method="POST" class="tab-content form-row mt-4 mb-5">
     @csrf
     @method($method)
+
     <x-input::select name="contact_method" label="Contact method" value="{{optional($data)->contact_method}}" :options="$contact_methods" width="3" class="pr-3" />
 
     <x-input::text name="date" value="{{optional($data)->date ?? now()->format('Y-m-d')}}" type="date" width="3" class="pr-2" />
@@ -9,7 +10,7 @@
     <div class="form-group col-6 col-md-3">
         <label for="company" >Company</label>
         <select wire:model="selectedCompany" id="company" name="company_id" required class="form-control @error('company_id') is-invalid @enderror">
-            <option value="null" disabled selected >Choose company</option>
+            <option value="null" disabled  selected>Choose company</option>
             @foreach($companies as $company)
                 <option value="{{ $company->id }}">{{ $company->name }}</option>
             @endforeach
@@ -21,7 +22,7 @@
         @enderror
     </div>
 
-    @if ($selectedCompany === "4")
+    @if ($selectedCompany === "4" || $data->company_id === 4)
         <x-input::text name="client" width="3" value="{{optional($data)->client}}" placeholder="MBX" class="pr-2" />
     @endif
 
@@ -78,6 +79,7 @@
 @section('scripts')
     <script>
         $('input').attr('readonly', true)
+        $('select').attr('disabled', true)
         $('textarea').attr('readonly', true)
     </script>
 @endsection

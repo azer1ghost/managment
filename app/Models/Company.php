@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @method static select(string[] $array)
  * @method static create(array $validated)
+ * @method static find($selectedCompany)
  */
 class Company extends Model
 {

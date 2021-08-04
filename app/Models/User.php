@@ -57,12 +57,12 @@ class User extends Authenticatable
 
     public function fullname(): string
     {
-        return "{$this->name} {$this->surname}";
+        return "{$this->getAttribute('name')} {$this->getAttribute('surname')}";
     }
 
     public function isDeveloper()
     {
-       return false;
+       return true;
     }
 
     public function isAdministrator()
