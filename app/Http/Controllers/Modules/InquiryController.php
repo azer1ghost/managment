@@ -44,9 +44,7 @@ class InquiryController extends Controller
 
         //Log::channel('daily')->info("New request created by user %ID:$userID% ".json_encode($data));
 
-        return redirect()->route('inquiry.index')->with(
-            notify()->info('Inquiry')
-        );
+        return redirect()->route('inquiry.index')->withNotify('info','Inquiry');
     }
 
 
@@ -79,16 +77,29 @@ class InquiryController extends Controller
      */
     public function update(InquiryRequest $request, Inquiry $inquiry): RedirectResponse
     {
-        $inquiry->update($request->validated());
 
-//        Log::channel('daily')->info("Request update by user %ID:".$request->user()->id."% ".json_encode($callCenter->getChanges()) );
+        /**
+         * 1. Get fillable columns array and make it collection
+         * 2. flip key and values
+         * 3. set all attributes values to null and set user_id to current user ID
+         * 4. Merge this attributes with validated inputs
+         * 5. Convert result collection to Array
+         */
+        $setAllColumnsToNullAndMergeWithRequest = collect($inquiry->getFillable())
+            ->flip()
+            ->map(fn ($name, $key) => ($key === "user_id") ? $request->user()->id: null)
+            ->merge($request->validated())
+            ->toArray();
 
-        return redirect()
-            ->route('inquiry.index')
-            ->with(
-                notify()->info('Inquiry Updated')
-            );
+        //dd($setAllColumnsToNullAndMergeWithRequest);
 
+        $inquiry->backups()->create($inquiry->replicate()->getAttributes());
+
+        $inquiry->update($setAllColumnsToNullAndMergeWithRequest);
+
+//      Log::channel('daily')->info("Request update by user %ID:".$request->user()->id."% ".json_encode($callCenter->getChanges()) );
+
+        return redirect()->route('inquiry.index')->withNotify('info','Inquiry Updated');
     }
 
     /**
@@ -97,12 +108,10 @@ class InquiryController extends Controller
     public function destroy(Inquiry $inquiry)
     {
         if ($inquiry->delete()) {
-            return response('OK');
+            //  Log::channel('daily')->warning("Request delete by user %ID:{".auth()->id()."}% ".json_encode($inquiry) );
+            return response('OK', 200);
         }
-        return response()->setStatusCode('204');
-
-        //$userID = auth()->id();
-        //Log::channel('daily')->warning("Request delete by user %ID:$userID% ".json_encode($inquiry) );
+        return response('',204);
     }
 
     public function restore(Inquiry $inquiry){

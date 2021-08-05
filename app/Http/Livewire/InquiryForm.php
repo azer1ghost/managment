@@ -13,6 +13,7 @@ class InquiryForm extends Component
 
     public $action;
     public $method;
+
     public $companies;
     public $subjects;
     public $kinds;
@@ -43,7 +44,7 @@ class InquiryForm extends Component
         // selected
         if ($this->data){
             $this->updatedSelectedCompany($this->selectedCompany = $this->data->getAttribute('company_id'));
-            $this->updatedSelectedSubject($this->selectedSubject = $this->data->getAttribute('subject')->getAttribute('id'));
+            $this->updatedSelectedSubject($this->selectedSubject = optional($this->data->getAttribute('subject'))->getAttribute('id'));
             $this->selectedKind = optional($this->data->getAttribute('kind'))->getAttribute('id');
         }
     }
@@ -56,8 +57,9 @@ class InquiryForm extends Component
     public function updatedSelectedCompany($id)
     {
         $this->parameters = Company::with('parameters')->find($id)->parameters;
-        $this->subjects  = $this->parameters->where('type', 'subject');
-        $this->sources   = $this->parameters->where('type', 'source')->pluck('name', 'id');
+        $this->subjects   = $this->parameters->where('type', 'subject');
+        $this->sources    = $this->parameters->where('type', 'source')->pluck('name', 'id');
+        $this->updatedSelectedSubject($this->selectedSubject);
     }
 
     public function updatedSelectedSubject($id)

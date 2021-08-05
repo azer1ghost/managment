@@ -36,6 +36,7 @@ class InquiryTable extends Component
     {
         return view('panel.pages.customer-services.inquiry.components.inquiry-table', [
             'inquiries' => Inquiry::query()
+                ->whereNull('inquiry_id')
                 ->select('id', 'created_at', 'user_id', 'date', 'time', 'company_id', 'fullname', 'subject')
                 ->when($this->filters['subjects'], function ($query, $value) {
                     $query->whereIn('subject', $value);

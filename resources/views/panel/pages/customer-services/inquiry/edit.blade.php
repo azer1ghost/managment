@@ -14,6 +14,16 @@
                         Back
                     </a>
                     Edit Request
+
+                    @if($data->backups()->exists())
+                    <select class="form-control col-3 float-right" name="" id="">
+                        <option value="null" selected disabled>Old versions</option>
+                        @foreach($data->backups()->latest()->get() as $backup)
+                        <option value="{{$backup->id}}">Backup {{$backup->created_at->diffForHumans(null, false, true)}}</option>
+                        @endforeach
+                    </select>
+                    @endif
+
                 </div>
                 <div class="card-body">
                     @livewire('inquiry-form', ['action' => $action, 'method' => $method, 'data' => $data])

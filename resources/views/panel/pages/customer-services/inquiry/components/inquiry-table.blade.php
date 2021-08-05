@@ -13,6 +13,11 @@
                 <i class="fal fa-plus"></i>
             </a>
         @endcan
+{{--        @can('restore', \App\Models\Inquiry::class)--}}
+{{--            <a href="{{route('inquiry.create')}}" class="btn btn-outline-secondary">--}}
+{{--                <i class="far fa-recycle"></i>--}}
+{{--            </a>--}}
+{{--        @endcan--}}
     </div>
     <table class="table table-hover">
         <thead>
@@ -32,7 +37,7 @@
                    <td>{{$inquiry->time}}</td>
                    <td>{{$inquiry->company->name}}</td>
                    <td>{{$inquiry->fullname}}</td>
-                   <td>{{$inquiry->subject->name}}</td>
+                   <td>{{optional($inquiry->subject)->name}}</td>
                    <td>
                        <div class="btn-sm-group">
                            @can('view', $inquiry)
@@ -42,7 +47,7 @@
                            @endcan
                            @can('update', $inquiry)
                                <a href="{{route('inquiry.edit', $inquiry)}}" class="btn btn-sm btn-outline-success">
-                                   <i class="fal fa-pen"></i> <span data-time="{{ now()->subSeconds(415)->diffInSeconds($inquiry->created_at) }}"></span>
+                                   <i class="fal fa-pen"></i> <span data-time="{{ now()->subSeconds(60*7)->diffInSeconds($inquiry->created_at) }}"></span>
                                </a>
                            @endcan
                            @if($inquiry->trashed())
@@ -59,7 +64,7 @@
                            @else
                                @can('delete', $inquiry)
                                    <a href="{{route('inquiry.destroy', $inquiry)}}" delete data-name="{{$inquiry->name}}" class="btn btn-sm btn-outline-danger" >
-                                       <i class="fal fa-trash"></i>
+                                       <i class="fal fa-trash-alt"></i>
                                    </a>
                                @endcan
                            @endif

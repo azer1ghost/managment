@@ -12,30 +12,37 @@ class InquiryRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return $this->user()->can('create', Inquiry::class);
     }
+
+//    protected function prepareForValidation()
+//    {
+//        $this->merge([
+//            'client'   => $this->client ?? null,
+//        ]);
+//    }
 
     /**
      * Get the validation rules that apply to the request.
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'date'      => 'required',
             'time'      => "required",
-            'client'    => "filled|string|max:255",
-            'fullname'  => "filled|string|max:255",
+            'client'    => "nullable|string|max:255",
+            'fullname'  => "nullable|string|max:255",
             'phone'     => "filled|string|max:255",
-            'subject'   => "filled|string|max:255",
-            'kind'      => "filled|string|max:255",
-            'source'    => "filled|string|max:255",
-            'note'      => "filled|string|max:255",
-            'redirected'=> "filled|string|max:255",
-            'status'    => "filled|string",
+            'subject'   => "filled|int|max:255",
+            'kind'      => "filled|int|max:255",
+            'source'    => "filled|int|max:255",
+            'note'      => "nullable|string|max:255",
+            'redirected'=> "nullable|string|max:255",
+            'status'    => "filled|int",
             'company_id'=> "required|int|max:11",
             'contact_method' => "filled|int",
             'operation' => "filled|int",

@@ -2,10 +2,15 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\ServiceProvider;
 
+/**
+ * Bind new method
+ * @method with($info)
+ */
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -26,6 +31,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Blade::componentNamespace('App\\View\\Components\\Bread\\Input', 'input');
+
+        RedirectResponse::macro('withNotify', function ($type, $message = null){
+            return $this->with(notify()->$type($message));
+        });
 
         Paginator::useBootstrap();
     }

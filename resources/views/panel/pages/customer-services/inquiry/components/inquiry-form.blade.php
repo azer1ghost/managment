@@ -1,8 +1,7 @@
 <form action="{{$action}}" id="createForm" method="POST" class="tab-content form-row mt-4 mb-5">
     @csrf
     @method($method)
-
-    <x-input::select name="contact_method" label="Contact method" value="{{optional($data)->contact_method}}" :options="$contact_methods" width="3" class="pr-3" />
+    <x-input::select name="contact_method" label="Contact method" value="{{optional(optional($data)->contact_method)->getAttribute('id')}}" :options="$contact_methods" width="3" class="pr-3" />
 
     <x-input::text name="date" value="{{optional($data)->date ?? now()->format('Y-m-d')}}" type="date" width="3" class="pr-2" />
     <x-input::text name="time" value="{{optional($data)->time ?? now()->format('H:i')}}"   type="time" width="3" class="pr-2" />
@@ -22,7 +21,7 @@
         @enderror
     </div>
 
-    @if ($selectedCompany === "4" || $data->company_id === 4)
+    @if ($selectedCompany === "4" || optional($data)->company_id === 4)
         <x-input::text name="client" width="3" value="{{optional($data)->client}}" placeholder="MBX" class="pr-2" />
     @endif
 
@@ -60,7 +59,7 @@
     @endif
 
     @if ($sources->isNotEmpty())
-        <x-input::select name="source" value="{{optional($data)->source}}" :options="$sources->toArray()" width="3" class="pr-3" />
+        <x-input::select name="source" value="{{optional(optional($data)->source)->getAttribute('id')}}" :options="$sources->toArray()" width="3" class="pr-3" />
     @endif
 
     <x-input::textarea name="note" value="{{optional($data)->note}}"/>

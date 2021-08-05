@@ -23,7 +23,7 @@ class Select extends Component
                 <label for="data-{{$name}}">{{$label ?? Str::ucfirst($name)}}</label>
                  <select class="form-control @error($name) is-invalid @enderror" name="{{$name}}" id="data-{{$name}}">
                      @foreach($options as $key => $option)
-                        <option @if($key === $value) selected @endif value="{{$key}}">{{$option}}</option>
+                        <option @if($key == $value) selected @endif value="{{$key}}">{{$option}}</option>
                      @endforeach
                 </select>
                 @error($name)

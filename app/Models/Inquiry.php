@@ -14,8 +14,9 @@ class Inquiry extends Model
     protected $fillable = [
         'date', 'time',
         'client', 'fullname', 'phone',
-        'subject', 'kind', 'source', 'contact_method', 'operation', 'status',
-        'note', 'redirected_user_id', 'company_id', 'user_id'];
+        'subject', 'kind', 'contact_method', 'source', 'operation', 'status',
+        'note', 'redirected_user_id', 'company_id', 'user_id'
+    ];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
@@ -25,6 +26,11 @@ class Inquiry extends Model
     public function company(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function backups(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(__CLASS__);
     }
 
     protected static function parameter($data)
