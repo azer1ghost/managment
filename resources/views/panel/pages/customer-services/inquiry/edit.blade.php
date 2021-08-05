@@ -15,7 +15,7 @@
                     </a>
                     Edit Request
 
-                    @if($data->backups()->exists())
+                    @if(optional(optional($data)->backups())->exists())
                     <select class="form-control col-3 float-right" name="" id="">
                         <option value="null" selected disabled>Old versions</option>
                         @foreach($data->backups()->latest()->get() as $backup)

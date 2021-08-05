@@ -3,11 +3,13 @@
 @endsection
 <div>
     <div class="float-right p-2">
-        <select id="subjectFilter" multiple class="filterSelector" data-width="fit" wire:model="filters.subjects" title="Noting selected" >
-            @foreach($subjects as $subject)
-                <option value="{{$subject->id}}">{{ucfirst($subject->name)}}</option>
-            @endforeach
-        </select>
+        <div class="d-inline" wire:ignore>
+            <select id="subjectFilter" multiple class="filterSelector" data-width="fit" wire:model="filters.subjects" title="Noting selected" >
+                @foreach($subjects as $subject)
+                    <option value="{{$subject->id}}">{{ucfirst($subject->name)}}</option>
+                @endforeach
+            </select>
+        </div>
         @can('create', \App\Models\Inquiry::class)
             <a href="{{route('inquiry.create')}}" class="btn btn-outline-success">
                 <i class="fal fa-plus"></i>
@@ -104,11 +106,11 @@
             }, 1000);
         }
 
-        window.onload = function () {
-            let timer = document.querySelectorAll("span[data-time]");
-            let delay = timer.getAttribute('data-time');
-            startTimer(delay, timer);
-        };
+        // window.onload = function () {
+        //     let timer = document.querySelectorAll("span[data-time]");
+        //     let delay = timer.getAttribute('data-time');
+        //     startTimer(delay, timer);
+        // };
     </script>
 
 @endsection

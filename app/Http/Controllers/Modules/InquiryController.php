@@ -38,11 +38,7 @@ class InquiryController extends Controller
      */
     public function store(InquiryRequest $request): RedirectResponse
     {
-        $validated = $request->validated();
-
-        $data = auth()->user()->inquiries()->create($validated);
-
-        //Log::channel('daily')->info("New request created by user %ID:$userID% ".json_encode($data));
+        auth()->user()->inquiries()->create($request->validated());
 
         return redirect()->route('inquiry.index')->withNotify('info','Inquiry');
     }
@@ -74,30 +70,29 @@ class InquiryController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * 1. flip key and values
+     * 2. set all attributes values to null and set user_id to current user ID
+     * 3. Merge this attributes with validated inputs
+     * 4. Convert result collection to Array
+     *
      */
     public function update(InquiryRequest $request, Inquiry $inquiry): RedirectResponse
     {
+        $backup = $inquiry->replicate()->getAttributes();
 
-        /**
-         * 1. Get fillable columns array and make it collection
-         * 2. flip key and values
-         * 3. set all attributes values to null and set user_id to current user ID
-         * 4. Merge this attributes with validated inputs
-         * 5. Convert result collection to Array
-         */
-        $setAllColumnsToNullAndMergeWithRequest = collect($inquiry->getFillable())
-            ->flip()
-            ->map(fn ($name, $key) => ($key === "user_id") ? $request->user()->id: null)
-            ->merge($request->validated())
-            ->toArray();
+        $inquiry->update(
+            $inquiry
+                ->getColumns()
+                ->flip()
+                ->map(fn ($name, $key) => ($key === "user_id") ? $request->user()->id: null)
+                ->merge($request->validated())
+                ->toArray()
+        );
 
-        //dd($setAllColumnsToNullAndMergeWithRequest);
-
-        $inquiry->backups()->create($inquiry->replicate()->getAttributes());
-
-        $inquiry->update($setAllColumnsToNullAndMergeWithRequest);
-
-//      Log::channel('daily')->info("Request update by user %ID:".$request->user()->id."% ".json_encode($callCenter->getChanges()) );
+        if ($inquiry->getChanges()) {
+            $inquiry->backups()->create($backup);
+        }
 
         return redirect()->route('inquiry.index')->withNotify('info','Inquiry Updated');
     }
@@ -107,11 +102,7 @@ class InquiryController extends Controller
      */
     public function destroy(Inquiry $inquiry)
     {
-        if ($inquiry->delete()) {
-            //  Log::channel('daily')->warning("Request delete by user %ID:{".auth()->id()."}% ".json_encode($inquiry) );
-            return response('OK', 200);
-        }
-        return response('',204);
+        return $inquiry->delete() ? response('OK', 200) : response('',204);;
     }
 
     public function restore(Inquiry $inquiry){
@@ -121,9 +112,6 @@ class InquiryController extends Controller
     public function forceDelete(Inquiry $inquiry){
         return null;
     }
-
-
-
 
 //
 //        if ($search) {
