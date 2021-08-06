@@ -15,9 +15,9 @@
                     </a>
                     Edit Request
                     @if($data)
-                    <form id="restoreForm" class="float-right">
+                    <form id="restoreForm" action="{{route('inquiry.versionRestore', $data)}}" class="float-right">
                         <div class="input-group">
-                            <select class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+                            <select class="custom-select" id="select" aria-label="Example select with button addon">
                                 <option value="null" selected disabled>Old versions</option>
                                 @forelse($data->backups()->select('id','created_at')->latest()->get() as $backup)
                                 <option value="{{$backup->id}}">Backup {{$backup->created_at->diffForHumans(null, false, true)}}</option>
@@ -26,7 +26,7 @@
                                 @endforelse
                             </select>
                             <div class="input-group-append">
-                                <button disabled class="btn btn-outline-secondary" type="submit">
+                                <button disabled must-confirm="Restore old version|Are you sure restore <b>:name</b> version?|Restore" class="btn btn-outline-secondary" type="submit">
                                     <i class="fa fa-redo-alt"></i>
                                 </button>
                             </div>
@@ -46,33 +46,51 @@
 
 @section('scripts')
     <script>
-
-        // route('inquiry.versionRestore', 'ID')
-
         $('#restoreForm select').change(function() {
             $('#restoreForm button').removeAttr('disabled');
         });
 
-        $('#restoreForm').submit(function (e){
-            e.preventDefault()
+
+
+        $('*[must-confirm]').click(function (e){
+            e.preventDefault();
+
+            let [title, message, button] = $(this).attr('must-confirm').split('|');
+
+            let formAction = $(this).parents('form').attr('action');
+
+            let select = $('#select option:selected')
+            let value = select.val();
+            let Message = message.replace(':name', select.text());
 
             $.confirm({
-                title: 'Do any action',
-                content: 'Are you sure do this action?',
+                title: title ?? 'Do any action',
+                content: Message ?? 'Are you sure do this action?',
+                icon: "fa fa-redo-alt",
+                theme: 'modern',
                 type: 'blue',
                 typeAnimated: true,
                 buttons: {
                     restore: {
-                        text: 'Restore',
+                        text: button ?? 'Do Action',
                         btnClass: 'btn-blue',
                         action: function(){
-                        }
+                                $.ajax({
+                                    url: formAction,
+                                    type: 'POST',
+                                    data:{
+                                        'backup_id': value
+                                    },
+                                    success: function (responseObject, textStatus, xhr) {
+                                         window.location.reload()
+                                    },
+                                })
+                            }
+                        },
+                        close: function () {}
                     },
-                    close: function () {
-                    }
-                }
+                });
             });
 
-        })
     </script>
 @endsection

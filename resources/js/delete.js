@@ -15,9 +15,6 @@ $("a[delete]").click(function(e){
                 $.ajax({
                     url:   url,
                     type: 'DELETE',
-                    data: {
-                        "_method": 'DELETE',
-                    },
                     success: function (responseObject, textStatus, xhr)
                     {
                         $.confirm({

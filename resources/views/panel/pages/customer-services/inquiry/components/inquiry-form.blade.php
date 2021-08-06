@@ -66,7 +66,6 @@
 
     <x-input::select name="status" value="{{optional(optional($data)->status)->getAttribute('id')}}" :options="$statuses" width="3" class="pr-3" />
 
-{{--    <x-input::select name="redirected" :options="$operators" label="Redirect" width="4" class="pr-2" />--}}
     @if($action)
     <div class="col-12">
         <button class="btn btn-outline-primary float-right">Save</button>
@@ -83,3 +82,6 @@
     </script>
 @endsection
 @endif
+
+
+{{--    <x-input::select name="redirected" :options="$operators" label="Redirect" width="4" class="pr-2" />--}}

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\InquiryRequest;
 use App\Models\Inquiry;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class InquiryController extends Controller
 {
@@ -102,8 +103,10 @@ class InquiryController extends Controller
         return $inquiry->forceDelete() ? response('OK', 200) : response('',204);
     }
 
-    public function versionRestore(Inquiry $inquiry)
+    public function versionRestore(Inquiry $inquiry, Request $request)
     {
-
+        return $inquiry->update(Inquiry::find($request->get('backup_id'))->replicate()->getAttributes())
+            ? response('OK', 200)
+            : response('',204);
     }
 }

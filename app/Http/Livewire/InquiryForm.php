@@ -8,16 +8,16 @@ use Livewire\Component;
 
 class InquiryForm extends Component
 {
-    public object $data;
-    public object $parameters;
+    public $data;
+    public $parameters;
 
-    public string $action;
-    public string $method;
+    public $action;
+    public $method;
 
-    public object $companies;
-    public object $subjects;
-    public object $kinds;
-    public object $sources;
+    public $companies;
+    public $subjects;
+    public $kinds;
+    public $sources;
     public $statuses;
     public $contact_methods;
 
