@@ -19,26 +19,26 @@ class CompanyPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->role->hasPermission(__FUNCTION__."-$this->class");
+        return $user->role->hasPermission(__FUNCTION__."-{$this->class}");
     }
 
     public function view(User $user, Company $company): bool
     {
-        return $user->role->hasPermission(__FUNCTION__."-$this->class");
+        return $user->role->hasPermission(__FUNCTION__."-{$this->class}");
     }
 
     public function create(User $user): bool
     {
-        return $user->role->hasPermission("manage-$this->class");
+        return $user->role->hasPermission("manage-{$this->class}");
     }
 
     public function update(User $user, Company $company): bool
     {
-        return $user->role->hasPermission("manage-$this->class");
+        return $user->role->hasPermission("manage-{$this->class}");
     }
 
     public function delete(User $user, Company $inquiry): bool
     {
-        return $user->role->hasPermission("manage-$this->class");
+        return $user->role->hasPermission("manage-{$this->class}");
     }
 }

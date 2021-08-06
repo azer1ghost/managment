@@ -49,7 +49,7 @@
     @if ($kinds->isNotEmpty())
         <div class="form-group col-6 col-md-3">
             <label for="kind" >Kind</label>
-            <select wire:model="selectedKind" value="{{optional($data)->kind}}" class="form-control" id="kind" name="kind">
+            <select wire:model="selectedKind" class="form-control" id="kind" name="kind">
                 <option value="null" disabled selected>Choose kind</option>
                 @foreach($kinds as $kind)
                     <option value="{{ $kind->id }}">{{ $kind->name }}</option>
@@ -64,7 +64,7 @@
 
     <x-input::textarea name="note" value="{{optional($data)->note}}"/>
 
-    <x-input::select name="status" value="{{optional($data)->status}}" :options="$statuses" width="3" class="pr-3" />
+    <x-input::select name="status" value="{{optional(optional($data)->status)->getAttribute('id')}}" :options="$statuses" width="3" class="pr-3" />
 
 {{--    <x-input::select name="redirected" :options="$operators" label="Redirect" width="4" class="pr-2" />--}}
     @if($action)

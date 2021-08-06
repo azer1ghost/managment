@@ -8,16 +8,16 @@ use Livewire\Component;
 
 class InquiryForm extends Component
 {
-    public $data;
-    public $parameters;
+    public object $data;
+    public object $parameters;
 
-    public $action;
-    public $method;
+    public string $action;
+    public string $method;
 
-    public $companies;
-    public $subjects;
-    public $kinds;
-    public $sources;
+    public object $companies;
+    public object $subjects;
+    public object $kinds;
+    public object $sources;
     public $statuses;
     public $contact_methods;
 
@@ -32,7 +32,7 @@ class InquiryForm extends Component
             ->orWhere('type', 'contact_method')
             ->get();
 
-        $this->companies = Company::whereNotIn('id', [1])->get();
+        $this->companies = Company::with('parameters')->whereNotIn('id', [1])->get();
 
         $this->subjects = collect();
         $this->kinds    = collect();
@@ -49,14 +49,9 @@ class InquiryForm extends Component
         }
     }
 
-    public function render()
-    {
-        return view('panel.pages.customer-services.inquiry.components.inquiry-form');
-    }
-
     public function updatedSelectedCompany($id)
     {
-        $this->parameters = Company::with('parameters')->find($id)->parameters;
+        $this->parameters = $this->companies->find($id)->parameters;
         $this->subjects   = $this->parameters->where('type', 'subject');
         $this->sources    = $this->parameters->where('type', 'source')->pluck('name', 'id');
         $this->updatedSelectedSubject($this->selectedSubject);
@@ -67,4 +62,8 @@ class InquiryForm extends Component
         $this->kinds = $this->parameters->where('type', 'kind')->where('parameter_id', $id);
     }
 
+    public function render()
+    {
+        return view('panel.pages.customer-services.inquiry.components.inquiry-form');
+    }
 }

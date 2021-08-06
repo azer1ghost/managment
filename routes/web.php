@@ -1,13 +1,11 @@
 <?php
 
-use App\Http\Middleware\Localization;
-use App\Http\Controllers\{
-    Main\AccountController,
+use App\Http\Controllers\{Main\AccountController,
     Main\PlatformController,
     Modules\CompanyController,
     Modules\InquiryController,
-    Modules\SignatureController
-};
+    Modules\SignatureController};
+use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\{Auth, Route};
 
 Route::redirect('/','/welcome')->name('home');
@@ -21,6 +19,7 @@ Route::prefix('module')->group(function () {
 
     Route::get('/customer-services', [PlatformController::class, 'customerServices'])->name('customer-services');
 
+    Route::post('/inquiry/version/{id}', [InquiryController::class, 'versionRestore'])->name('inquiry.versionRestore');
     Route::post('/inquiry/restore/{id}', [InquiryController::class, 'restore'])->name('inquiry.restore');
     Route::delete('/inquiry/force-delete/{id}', [InquiryController::class, 'forceDelete'])->name('inquiry.forceDelete');
     Route::resource('/inquiry', InquiryController::class);

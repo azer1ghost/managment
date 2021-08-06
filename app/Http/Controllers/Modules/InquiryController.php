@@ -15,9 +15,6 @@ class InquiryController extends Controller
         $this->authorizeResource(Inquiry::class, 'inquiry');
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         return view('panel.pages.customer-services.inquiry.index');
@@ -33,16 +30,12 @@ class InquiryController extends Controller
             ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(InquiryRequest $request): RedirectResponse
     {
         auth()->user()->inquiries()->create($request->validated());
 
-        return redirect()->route('inquiry.index')->withNotify('info','Inquiry');
+        return redirect()->route('inquiry.index')->withNotify('info', 'Inquiry');
     }
-
 
     public function show(Inquiry $inquiry)
     {
@@ -54,9 +47,6 @@ class InquiryController extends Controller
             ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Inquiry $inquiry)
     {
         return view('panel.pages.customer-services.inquiry.edit')
@@ -94,34 +84,26 @@ class InquiryController extends Controller
             $inquiry->backups()->create($backup);
         }
 
-        return redirect()->route('inquiry.index')->withNotify('info','Inquiry Updated');
+        return redirect()->route('inquiry.index')->withNotify('info', 'Inquiry Updated');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Inquiry $inquiry)
     {
-        return $inquiry->delete() ? response('OK', 200) : response('',204);;
+        return $inquiry->delete() ? response('OK', 200) : response('',204);
     }
 
-    public function restore(Inquiry $inquiry){
-        return null;
+    public function restore(Inquiry $inquiry)
+    {
+        return $inquiry->restore() ? response('OK', 200) : response('',204);
     }
 
-    public function forceDelete(Inquiry $inquiry){
-        return null;
+    public function forceDelete(Inquiry $inquiry)
+    {
+        return $inquiry->forceDelete() ? response('OK', 200) : response('',204);
     }
 
-//
-//        if ($search) {
-//            $query
-//                ->where('note', 'like', "%$search%")
-//                ->orWhere('fullname', 'like', "%$search%")
-//                ->orWhere('phone', 'like', "%$search%")
-//                ->orWhere('user', 'like', "$search%");
-//        }
+    public function versionRestore(Inquiry $inquiry)
+    {
 
-
-
+    }
 }
