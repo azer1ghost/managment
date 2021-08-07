@@ -22,6 +22,7 @@ class InquiryTable extends Component
     public $filteredKinds;
 
     public array $filters = [
+        'search' => null,
         'subjects' => [],
         'companies' => [],
         'kinds' => [],
@@ -37,9 +38,12 @@ class InquiryTable extends Component
         return view('panel.pages.customer-services.inquiry.components.inquiry-table', [
             'inquiries' => Inquiry::query()
                 ->whereNull('inquiry_id')
-                ->select('id', 'created_at', 'user_id', 'date', 'time', 'company_id', 'fullname', 'subject')
+                ->select('id', 'code', 'user_id', 'datetime', 'company_id', 'fullname', 'subject')
                 ->when($this->filters['subjects'], function ($query, $value) {
                     $query->whereIn('subject', $value);
+                })
+                ->when($this->filters['search'], function ($query, $value) {
+                    $query->where('code', 'like', "%$value%");
                 })
 //                ->where(function ($query) use ($input, $filters) {
 //                    foreach ($filters as $column => $key) {
@@ -53,7 +57,7 @@ class InquiryTable extends Component
                         $query->select('id','name');
                     }
                 ])
-                ->latest()
+                ->latest('datetime')
                 ->simplePaginate(10)
         ]);
     }

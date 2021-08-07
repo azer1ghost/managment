@@ -25,6 +25,10 @@ class InquiryForm extends Component
     public $selectedSubject;
     public $selectedKind;
 
+    protected $listeners = [
+        'refreshInquiryForm' => '$refresh',
+    ];
+
     public function mount()
     {
         $this->parameters = Parameter::query()

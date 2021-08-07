@@ -32,8 +32,9 @@ class InquiryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date'      => 'required',
-            'time'      => "required",
+            'code'      => 'string',
+            'date'      => 'date|required',
+            'time'      => 'required',
             'client'    => "nullable|string|max:255",
             'fullname'  => "nullable|string|max:255",
             'phone'     => "filled|string|max:255",

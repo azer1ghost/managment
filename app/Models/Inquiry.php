@@ -12,10 +12,14 @@ class Inquiry extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'date', 'time',
+        'code', 'datetime',
         'client', 'fullname', 'phone',
         'subject', 'kind', 'contact_method', 'source', 'operation', 'status',
         'note', 'redirected_user_id', 'company_id', 'user_id'
+    ];
+
+    protected $casts = [
+        'datetime' => 'datetime'
     ];
 
     public function getColumns(): \Illuminate\Support\Collection

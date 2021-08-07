@@ -33,7 +33,12 @@ class InquiryController extends Controller
 
     public function store(InquiryRequest $request): RedirectResponse
     {
-        auth()->user()->inquiries()->create($request->validated());
+        auth()->user()->inquiries()->create(
+            array_merge(
+                $request->validated(),
+                ['datetime' => $request->get('date')." ".$request->get('time')]
+            )
+        );
 
         return redirect()->route('inquiry.index')->withNotify('info', 'Inquiry');
     }
@@ -77,7 +82,12 @@ class InquiryController extends Controller
                 ->getColumns()
                 ->flip()
                 ->map(fn ($name, $key) => ($key === "user_id") ? $request->user()->id: null)
-                ->merge($request->validated())
+                ->merge(
+                    array_merge(
+                        $request->validated(),
+                        ['datetime' => $request->get('date')." ".$request->get('time')]
+                    )
+                )
                 ->toArray()
         );
 

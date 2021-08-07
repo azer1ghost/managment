@@ -29,8 +29,8 @@ class InquiryFactory extends Factory
        $kind = Parameter::where('type', 'kind')->where('parameter_id', $subject)->inRandomOrder()->pluck('id')->first();
 
         return [
-            'date' => now(),
-            'time' => now(),
+            'code' => "MG".random_int(555555, 999999),
+            'datetime' => now(),
             'client' => "MBX".random_int(55555, 99999),
             'fullname' => $this->faker->name(),
             'phone' => $this->faker->phoneNumber(),

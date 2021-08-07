@@ -1,29 +1,33 @@
 @section('style')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 @endsection
-<div>
-    <div class="float-right p-2">
-        <div class="d-inline" wire:ignore>
-            <select id="subjectFilter" multiple class="filterSelector" data-width="fit" wire:model="filters.subjects" title="Noting selected" >
-                @foreach($subjects as $subject)
-                    <option value="{{$subject->id}}">{{ucfirst($subject->name)}}</option>
-                @endforeach
-            </select>
+<div class="component">
+        <div class="float-right p-2">
+            <div class="d-inline" wire:ignore>
+                <select id="subjectFilter" multiple class="filterSelector" data-width="fit" wire:model="filters.subjects" title="Noting selected" >
+                    @foreach($subjects as $subject)
+                        <option value="{{$subject->id}}">{{ucfirst($subject->name)}}</option>
+                    @endforeach
+                </select>
+            </div>
+            @can('create', \App\Models\Inquiry::class)
+                <a href="{{route('inquiry.create')}}" class="btn btn-outline-success">
+                    <i class="fal fa-plus"></i>
+                </a>
+            @endcan
+    {{--        @can('restore', \App\Models\Inquiry::class)--}}
+    {{--            <a href="{{route('inquiry.create')}}" class="btn btn-outline-secondary">--}}
+    {{--                <i class="far fa-recycle"></i>--}}
+    {{--            </a>--}}
+    {{--        @endcan--}}
+
+            <input type="search" class="form-control" wire:model="filters.search">
         </div>
-        @can('create', \App\Models\Inquiry::class)
-            <a href="{{route('inquiry.create')}}" class="btn btn-outline-success">
-                <i class="fal fa-plus"></i>
-            </a>
-        @endcan
-{{--        @can('restore', \App\Models\Inquiry::class)--}}
-{{--            <a href="{{route('inquiry.create')}}" class="btn btn-outline-secondary">--}}
-{{--                <i class="far fa-recycle"></i>--}}
-{{--            </a>--}}
-{{--        @endcan--}}
-    </div>
+
     <table class="table table-hover">
         <thead>
           <tr>
+              <th>MG Code</th>
               <th>Date</th>
               <th>Time</th>
               <th>Company</th>
@@ -35,8 +39,9 @@
         <tbody>
            @foreach($inquiries as $inquiry)
                <tr>
-                   <td>{{$inquiry->date}}</td>
-                   <td>{{$inquiry->time}}</td>
+                   <td>{{$inquiry->code}}</td>
+                   <td>{{$inquiry->datetime->format('d-m-Y')}}</td>
+                   <td>{{$inquiry->datetime->format('H:m')}}</td>
                    <td>{{$inquiry->company->name}}</td>
                    <td>{{$inquiry->fullname}}</td>
                    <td>{{optional($inquiry->subject)->name}}</td>

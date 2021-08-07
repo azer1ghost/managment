@@ -1,10 +1,13 @@
 <form action="{{$action}}" id="createForm" method="POST" class="tab-content form-row mt-4 mb-5">
     @csrf
     @method($method)
+
+    <input type="hidden" name="code" value="{{optional($data)->code}}">
+
     <x-input::select name="contact_method" label="Contact method" value="{{optional(optional($data)->contact_method)->getAttribute('id')}}" :options="$contact_methods" width="3" class="pr-3" />
 
-    <x-input::text name="date" value="{{optional($data)->date ?? now()->format('Y-m-d')}}" type="date" width="3" class="pr-2" />
-    <x-input::text name="time" value="{{optional($data)->time ?? now()->format('H:i')}}"   type="time" width="3" class="pr-2" />
+    <x-input::text name="date" value="{{(optional($data)->datetime ?? now())->format('d-m-Y')}}" type="text" width="3" class="pr-2" />
+    <x-input::text name="time" value="{{(optional($data)->datetime ?? now())->format('H:m')}}" type="time" width="3" class="pr-2" />
 
     <div class="form-group col-6 col-md-3">
         <label for="company" >Company</label>

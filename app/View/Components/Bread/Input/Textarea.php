@@ -47,7 +47,7 @@ class Textarea extends Component
                        >{{$value ?? old($name)}}</textarea>
                 @error($name)
                 <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
+                    <strong>{!! $message !!}</strong>
                 </span>
                 @enderror
             </div>
