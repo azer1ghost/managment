@@ -50,19 +50,13 @@
             $('#restoreForm button').removeAttr('disabled');
         });
 
-
-
         $('*[must-confirm]').click(function (e){
             e.preventDefault();
-
             let [title, message, button] = $(this).attr('must-confirm').split('|');
-
             let formAction = $(this).parents('form').attr('action');
-
             let select = $('#select option:selected')
             let value = select.val();
             let Message = message.replace(':name', select.text());
-
             $.confirm({
                 title: title ?? 'Do any action',
                 content: Message ?? 'Are you sure do this action?',
@@ -82,7 +76,18 @@
                                         'backup_id': value
                                     },
                                     success: function (responseObject, textStatus, xhr) {
-                                         window.location.reload()
+                                        $.alert({
+                                            title: "Restored",
+                                            icon: 'fa fa-check',
+                                            theme: 'modern',
+                                            type: 'blue',
+                                            typeAnimated: true,
+                                            buttons: {
+                                                ok: function () {
+                                                    window.location.reload()
+                                                },
+                                            }
+                                        });
                                     },
                                 })
                             }

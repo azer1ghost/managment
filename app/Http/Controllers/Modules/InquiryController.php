@@ -62,7 +62,7 @@ class InquiryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * 1. flip key and values
+     * 1. flip key and values of inquiry columns
      * 2. set all attributes values to null and set user_id to current user ID
      * 3. Merge this attributes with validated inputs
      * 4. Convert result collection to Array
@@ -90,23 +90,23 @@ class InquiryController extends Controller
 
     public function destroy(Inquiry $inquiry)
     {
-        return $inquiry->delete() ? response('OK', 200) : response('',204);
+        return $inquiry->delete() ? response('OK') : response('',204);
     }
 
     public function restore(Inquiry $inquiry)
     {
-        return $inquiry->restore() ? response('OK', 200) : response('',204);
+        return $inquiry->restore() ? response('OK') : response('',204);
     }
 
     public function forceDelete(Inquiry $inquiry)
     {
-        return $inquiry->forceDelete() ? response('OK', 200) : response('',204);
+        return $inquiry->forceDelete() ? response('OK') : response('',204);
     }
 
     public function versionRestore(Inquiry $inquiry, Request $request)
     {
         return $inquiry->update(Inquiry::find($request->get('backup_id'))->replicate()->getAttributes())
-            ? response('OK', 200)
+            ? response('OK')
             : response('',204);
     }
 }
