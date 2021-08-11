@@ -4,15 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Translatable\HasTranslations;
 
 class Parameter extends Model
 {
     use HasTranslations;
 
-    public $translatable = ['name'];
+    public array $translatable = ['name'];
 
-    public function parameters(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function parameters(): HasMany
     {
         return $this->hasMany(__CLASS__);
     }
