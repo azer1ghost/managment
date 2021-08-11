@@ -2,9 +2,13 @@
 
 namespace App\Models;
 
+use Cache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 class Inquiry extends Model
 {
@@ -22,28 +26,36 @@ class Inquiry extends Model
         'datetime' => 'datetime'
     ];
 
-    public function getColumns(): \Illuminate\Support\Collection
+    public function getColumns(): Collection
     {
        return collect($this->getFillable());
     }
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function company(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
 
-    public function backups(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function backups(): HasMany
     {
         return $this->hasMany(__CLASS__);
     }
 
-    protected static function booted()
+    public function getParameter($data)
     {
+       return Cache::remember("parameter_{$this->subject}", 60, fn () =>
+             Parameter::select(['name'])->find($this->{$data})->getAttribute('name')
+        );
+    }
+}
+
+//protected static function booted()
+//{
 //        static::created(function ($inquiry) {
 //            //
 //        });
@@ -79,42 +91,4 @@ class Inquiry extends Model
 //        static::restored(function ($inquiry) {
 //            //
 //        });
-    }
-
-    protected static function parameter($data)
-    {
-        return \Cache::remember("parameter_{$data}", 60, function () use ($data) {
-            return Parameter::select(['id','name'])->find($data);
-        });
-    }
-
-    public function getSubjectAttribute($data)
-    {
-        return self::parameter($data);
-    }
-
-    public function getKindAttribute($data)
-    {
-        return self::parameter($data);
-    }
-
-    public function getSourceAttribute($data)
-    {
-        return self::parameter($data);
-    }
-
-    public function getContactMethodAttribute($data)
-    {
-        return self::parameter($data);
-    }
-
-    public function getOperationAttribute($data)
-    {
-        return self::parameter($data);
-    }
-
-    public function getStatusAttribute($data)
-    {
-        return self::parameter($data);
-    }
-}
+//}

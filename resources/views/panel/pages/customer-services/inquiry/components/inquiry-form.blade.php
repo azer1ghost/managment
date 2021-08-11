@@ -1,10 +1,9 @@
 <form action="{{$action}}" id="createForm" method="POST" class="tab-content form-row mt-4 mb-5">
     @csrf
     @method($method)
-
     <input type="hidden" name="code" value="{{optional($data)->code}}">
 
-    <x-input::select name="contact_method" label="Contact method" value="{{optional(optional($data)->contact_method)->getAttribute('id')}}" :options="$contact_methods" width="3" class="pr-3" />
+    <x-input::select name="contact_method" label="Contact method" value="{{optional($data)->contact_method}}" :options="$contact_methods" width="3" class="pr-3" />
 
     <x-input::text name="date" value="{{(optional($data)->datetime ?? now())->format('d-m-Y')}}" type="text" width="3" class="pr-2" />
     <x-input::text name="time" value="{{(optional($data)->datetime ?? now())->format('H:m')}}" type="time" width="3" class="pr-2" />
@@ -37,8 +36,8 @@
             <label for="subject" >Subject</label>
             <select wire:model="selectedSubject" id="subject" name="subject" class="form-control @error('subject') is-invalid @enderror">
                 <option value="null" disabled selected>Choose subject</option>
-                @foreach($subjects as $subject)
-                    <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                @foreach($subjects as $id => $subject)
+                    <option value="{{$id}}">{{ $subject }}</option>
                 @endforeach
             </select>
             @error('subject')
@@ -62,12 +61,12 @@
     @endif
 
     @if ($sources->isNotEmpty())
-        <x-input::select name="source" value="{{optional(optional($data)->source)->getAttribute('id')}}" :options="$sources->toArray()" width="3" class="pr-3" />
+        <x-input::select name="source" value="{{optional($data)->source}}" :options="$sources->toArray()" width="3" class="pr-3" />
     @endif
 
-    <x-input::textarea name="note" value="{{optional($data)->note}}"/>
+    <x-input::textarea name="note" :value="optional($data)->note"/>
 
-    <x-input::select name="status" value="{{optional(optional($data)->status)->getAttribute('id')}}" :options="$statuses" width="3" class="pr-3" />
+    <x-input::select name="status" value="{{optional($data)->status}}" :options="$statuses" width="3" class="pr-3" />
 
     @if($action)
     <div class="col-12">

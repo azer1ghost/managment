@@ -21,9 +21,9 @@ class InquiryForm extends Component
     public $statuses;
     public $contact_methods;
 
-    public $selectedCompany;
-    public $selectedSubject;
-    public $selectedKind;
+    public ?int $selectedCompany = null;
+    public ?int $selectedSubject = null;
+    public ?int $selectedKind = null;
 
     protected $listeners = [
         'refreshInquiryForm' => '$refresh',
@@ -47,16 +47,16 @@ class InquiryForm extends Component
 
         // selected
         if ($this->data){
+            $this->selectedSubject = $this->data->getAttribute('subject');
+            $this->selectedKind = $this->data->getAttribute('kind');
             $this->updatedSelectedCompany($this->selectedCompany = $this->data->getAttribute('company_id'));
-            $this->updatedSelectedSubject($this->selectedSubject = optional($this->data->getAttribute('subject'))->getAttribute('id'));
-            $this->selectedKind = optional($this->data->getAttribute('kind'))->getAttribute('id');
         }
     }
 
     public function updatedSelectedCompany($id)
     {
         $this->parameters = $this->companies->find($id)->parameters;
-        $this->subjects   = $this->parameters->where('type', 'subject');
+        $this->subjects   = $this->parameters->where('type', 'subject')->pluck('name', 'id');
         $this->sources    = $this->parameters->where('type', 'source')->pluck('name', 'id');
         $this->updatedSelectedSubject($this->selectedSubject);
     }

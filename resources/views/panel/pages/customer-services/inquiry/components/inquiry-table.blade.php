@@ -15,11 +15,11 @@
                     <i class="fal fa-plus"></i>
                 </a>
             @endcan
-    {{--        @can('restore', \App\Models\Inquiry::class)--}}
-    {{--            <a href="{{route('inquiry.create')}}" class="btn btn-outline-secondary">--}}
-    {{--                <i class="far fa-recycle"></i>--}}
-    {{--            </a>--}}
-    {{--        @endcan--}}
+{{--            @can('restore', \App\Models\Inquiry::class)--}}
+                <a href="{{route('inquiry.create')}}" class="btn btn-outline-secondary">
+                    <i class="far fa-recycle"></i>
+                </a>
+{{--            @endcan--}}
 
             <input type="search" class="form-control" wire:model="filters.search">
         </div>
@@ -44,33 +44,33 @@
                    <td>{{$inquiry->datetime->format('H:m')}}</td>
                    <td>{{$inquiry->company->name}}</td>
                    <td>{{$inquiry->fullname}}</td>
-                   <td>{{optional($inquiry->subject)->name}}</td>
+                   <td>{{$inquiry->getParameter('subject')}}</td>
                    <td>
                        <div class="btn-sm-group">
-                           @can('view', $inquiry)
-                               <a href="{{route('inquiry.show', $inquiry)}}" class="btn btn-sm btn-outline-primary">
-                                   <i class="fal fa-eye"></i>
-                               </a>
-                           @endcan
-                           @can('update', $inquiry)
-                               <a href="{{route('inquiry.edit', $inquiry)}}" class="btn btn-sm btn-outline-success">
-                                   <i class="fal fa-pen"></i> <span data-time="{{ now()->subSeconds(60*7)->diffInSeconds($inquiry->created_at) }}"></span>
-                               </a>
-                           @endcan
                            @if($inquiry->trashed())
                                @can('restore', $inquiry)
-                                   <a href="{{route('inquiry.restore', $inquiry)}}"  class="btn btn-sm btn-outline-primary" >
+                                   <a href="{{route('inquiry.restore', $inquiry)}}" class="btn btn-sm btn-outline-primary" >
                                        <i class="fal fa-repeat"></i>
                                    </a>
                                @endcan
                                @can('forceDelete', $inquiry)
-                                   <a href="{{route('inquiry.forceDelete', $inquiry)}}" delete data-name="{{$inquiry->name}}" class="btn btn-sm btn-outline-danger" >
+                                   <a href="{{route('inquiry.forceDelete', $inquiry)}}" delete data-name="{{$inquiry->code}}" class="btn btn-sm btn-outline-danger" >
                                        <i class="fa fa-times"></i>
                                    </a>
                                @endcan
                            @else
+                               @can('view', $inquiry)
+                                   <a href="{{route('inquiry.show', $inquiry)}}" class="btn btn-sm btn-outline-primary">
+                                       <i class="fal fa-eye"></i>
+                                   </a>
+                               @endcan
+                               @can('update', $inquiry)
+                                   <a href="{{route('inquiry.edit', $inquiry)}}" class="btn btn-sm btn-outline-success">
+                                       <i class="fal fa-pen"></i></span>
+                                   </a>
+                               @endcan
                                @can('delete', $inquiry)
-                                   <a href="{{route('inquiry.destroy', $inquiry)}}" delete data-name="{{$inquiry->name}}" class="btn btn-sm btn-outline-danger" >
+                                   <a href="{{route('inquiry.destroy', $inquiry)}}" delete data-name="{{$inquiry->code}}" class="btn btn-sm btn-outline-danger" >
                                        <i class="fal fa-trash-alt"></i>
                                    </a>
                                @endcan
