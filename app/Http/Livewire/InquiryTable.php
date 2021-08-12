@@ -39,19 +39,21 @@ class InquiryTable extends Component
             'inquiries' => Inquiry::query()
                 ->whereNull('inquiry_id')
                 ->select('id', 'code', 'user_id', 'datetime', 'company_id', 'fullname', 'subject')
-                ->when($this->filters['subjects'], function ($query, $value) {
-                    $query->whereIn('subject', $value);
+                ->where(function ($query)  {
+                    foreach ($this->filters as $column => $value) {
+                        $query->when($value, function ($query, $value) use ($column) {
+                            if(is_array($value)) {
+                                $query->whereIn(\Str::singular($column), $value);
+                            }
+                            elseif ($column === 'search') {
+                                $query->where('code', 'like', "%$value%");
+                            }
+                            else {
+                                $query->where(\Str::singular($column), $value);
+                            }
+                        });
+                    }
                 })
-                ->when($this->filters['search'], function ($query, $value) {
-                    $query->where('code', 'like', "%$value%");
-                })
-//                ->where(function ($query) use ($input, $filters) {
-//                    foreach ($filters as $column => $key) {
-//                        $query->when(array_get($input, $key), function ($query, $value) use ($column) {
-//                            $query->where($column, $value);
-//                        });
-//                    }
-//                })
                 ->with([
                     'company' => function ($query){
                         $query->select('id','name');
