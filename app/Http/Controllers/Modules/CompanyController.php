@@ -49,9 +49,7 @@ class CompanyController extends Controller
 
         return redirect()
             ->route('companies.index')
-            ->with(
-                notify()->success($company->name)
-            );
+            ->withNotify('success',$company->getAttribute('name'));
     }
 
     public function show(Company $company)
@@ -91,9 +89,7 @@ class CompanyController extends Controller
 
         $company->update($validated);
 
-        return back()->with(
-            notify()->info($company->name)
-        );
+        return back()->withNotify('info',$company->getAttribute('name'));
     }
 
     public function destroy(Company $company)
