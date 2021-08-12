@@ -14,7 +14,7 @@
                 <div class="card-body">
                     <div class="float-right mb-2">
                         @can('create', App\Models\Parameter::class)
-                            <a class="btn btn-outline-success" href="{{route('parameters.create')}}">@lang('btn.create')</a>
+                            <a class="btn btn-outline-success" href="{{route('parameters.create')}}">@lang('translates.buttons.create')</a>
                         @endcan
                     </div>
                     <table class="table table-hover">

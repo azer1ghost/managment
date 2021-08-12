@@ -105,7 +105,6 @@
 
     @yield('scripts')
 
-
     <x-notify/>
 </body>
 </html>

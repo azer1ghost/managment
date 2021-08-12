@@ -11,7 +11,7 @@
                 <div class="card-header">
                     <a href="{{route('companies.index')}}" class="btn btn-sm btn-outline-primary mr-4">
                         <i class="fa fa-arrow-left"></i>
-                        Back
+                        @lang('translates.buttons.back')
                     </a>
                     Companies
                 </div>
@@ -30,7 +30,7 @@
                             <x-input::textarea name="about"  :value="optional($data)->about"     label="Company about"   width="8" class="pr-3" rows="6"/>
                         </div>
                         @if($action)
-                            <x-input::submit />
+                            <x-input::submit :value="__('translates.buttons.save')" />
                         @endif
                     </form>
                 </div>

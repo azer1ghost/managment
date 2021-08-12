@@ -92,7 +92,8 @@
                                             typeAnimated: true,
                                             buttons: {
                                                 ok: function () {
-                                                    Livewire.emit('refreshInquiryForm')
+                                                    //Livewire.emit('refreshInquiryForm')
+                                                    window.location.reload()
                                                 },
                                             }
                                         });

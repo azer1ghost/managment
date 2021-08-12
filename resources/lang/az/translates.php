@@ -13,4 +13,10 @@ return [
         ],
     ],
 
+    'buttons' => [
+        'create' => 'Əlavə et',
+        'save'   => 'Yadda saxla',
+        'back'   => 'Geri',
+    ]
+
 ];

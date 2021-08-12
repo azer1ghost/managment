@@ -13,4 +13,13 @@ return [
         ],
     ],
 
+
+
+    'buttons' => [
+        'create' => 'Create',
+        'save'   => 'Save',
+        'back'   => 'Back',
+    ]
+
+
 ];

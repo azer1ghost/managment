@@ -90,7 +90,7 @@ class InquiryController extends Controller
 
     public function update(InquiryRequest $request, Inquiry $inquiry): RedirectResponse
     {
-        $backup = $inquiry->replicate()->getAttributes();
+        $backup = $inquiry->replicate(['code'])->getAttributes();
 
         $inquiry->update(
             $inquiry
@@ -118,7 +118,6 @@ class InquiryController extends Controller
         );
 
         if ($inquiry->getChanges()) {
-            $backup['code'] = null;
             $inquiry->backups()->create($backup);
         }
 
@@ -142,7 +141,7 @@ class InquiryController extends Controller
 
     public function versionRestore(Inquiry $inquiry, Request $request)
     {
-        return $inquiry->update(Inquiry::find($request->get('backup_id'))->replicate()->getAttributes())
+        return $inquiry->update(Inquiry::find($request->get('backup_id'))->replicate(['code'])->getAttributes())
             ? response('OK')
             : response('',204);
     }

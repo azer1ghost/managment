@@ -4,7 +4,8 @@ $( function() {
         changeMonth: true,
         changeYear: true,
         dateFormat: "dd-mm-yy",
-        showAnim: "slideDown"
+        showAnim: "slideDown",
+        regional: 'fr'
     });
 
 
