@@ -3,8 +3,7 @@
 use App\Http\Controllers\{Main\AccountController,
     Main\PlatformController,
     Modules\CompanyController,
-    Modules\InquiryController,
-    Modules\SignatureController};
+    Modules\ParameterController};
 use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\{Auth, Route};
 
@@ -19,15 +18,11 @@ Route::prefix('module')->group(function () {
 
     Route::get('/customer-services', [PlatformController::class, 'customerServices'])->name('customer-services');
 
-    Route::post('/inquiry/version/{inquiry}', [InquiryController::class, 'versionRestore'])->name('inquiry.versionRestore');
-    Route::post('/inquiry/restore/{inquiry}', [InquiryController::class, 'restore'])->name('inquiry.restore');
-    Route::delete('/inquiry/force-delete/{inquiry}', [InquiryController::class, 'forceDelete'])->name('inquiry.forceDelete');
-    Route::resource('/inquiry', InquiryController::class);
-
-    Route::get('/signature/select-company', [SignatureController::class, 'selectCompany'])->name('signature-select-company');
-    Route::get('/signature/{company}', [SignatureController::class, 'signature'])->name('signature');
+    include 'modules/inquiry.php';
+    include 'modules/email-signature.php';
 
     Route::resource('/companies', CompanyController::class);
+    Route::resource('/parameters', ParameterController::class);
 });
 
 Auth::routes();

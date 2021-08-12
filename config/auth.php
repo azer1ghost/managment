@@ -23,6 +23,7 @@ return [
         'signature',
         'viewAny-account', 'manage-account',
         'viewAny-company', 'view-company', 'manage-company',
+        'viewAny-parameter', 'view-parameter', 'manage-parameter',
         'viewAny-inquiry', 'view-inquiry', 'create-inquiry', 'update-inquiry', 'delete-inquiry', 'forceDelete-inquiry', 'restore-inquiry',
     ],
 

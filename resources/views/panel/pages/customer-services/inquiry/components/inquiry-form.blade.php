@@ -23,7 +23,7 @@
         @enderror
     </div>
 
-    @if ($selectedCompany === "4" || optional($data)->company_id === 4)
+    @if ($selectedCompany === 4 || optional($data)->company_id === 4)
         <x-input::text name="client" width="3" value="{{optional($data)->client}}" placeholder="MBX" class="pr-2" />
     @endif
 

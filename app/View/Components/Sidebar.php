@@ -58,6 +58,13 @@ class Sidebar extends Component
                 'permission' => 'generally',
             ],
 
+            (object) [
+                'title' => 'Parameters',
+                'icon'  => 'fa fa-phone',
+                'url'  => route('parameters.index'),
+                'permission' => 'generally',
+            ],
+
         ];
     }
 
