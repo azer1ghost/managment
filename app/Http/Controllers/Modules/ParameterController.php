@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ParameterRequest;
 use App\Models\Company;
 use App\Models\Parameter;
+use Illuminate\Http\Request;
 
 class ParameterController extends Controller
 {
@@ -15,11 +16,14 @@ class ParameterController extends Controller
         $this->authorizeResource(Parameter::class, 'parameter');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         return view('panel.pages.parameters.index')
             ->with([
-                'parameters' => Parameter::with('parameter')->latest('id')->simplePaginate(10)
+                'parameters' => Parameter::with('parameter')
+                    ->when($request->has('search'), fn($query) => $query->where('name', 'like', "%{$request->get('search')}%"))
+                    ->latest('id')
+                    ->paginate(10)
             ]);
     }
 
@@ -56,7 +60,14 @@ class ParameterController extends Controller
             ->with([
                 'action' => null,
                 'method' => null,
-                'data' => $parameter
+                'data' => $parameter,
+                'parameters'=> array_merge(['0' => 'Nothing'], Parameter::select(['id', 'name'])->pluck('name', 'id')->toArray()),
+                'companies' => Company::select(['id','name'])->get(),
+                'types' => Parameter::distinct()
+                    ->pluck('type')
+                    ->flip()
+                    ->map(fn($type, $key) => __($key))
+                    ->toArray()
             ]);
     }
 

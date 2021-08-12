@@ -12,9 +12,22 @@
                     @lang('parameters')
                 </div>
                 <div class="card-body">
-                    <div class="float-right mb-2">
+                    <div class="row d-flex justify-content-between mb-2">
+                       <div class="col-6">
+                           <form action="{{route('parameters.index')}}">
+                               <div class="input-group mb-3">
+                                   <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                   <div class="input-group-append">
+                                       <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
+                                       <a class="btn btn-outline-danger" href="{{route('parameters.index')}}"><i class="fal fa-times"></i></a>
+                                   </div>
+                               </div>
+                           </form>
+                       </div>
                         @can('create', App\Models\Parameter::class)
-                            <a class="btn btn-outline-success" href="{{route('parameters.create')}}">@lang('translates.buttons.create')</a>
+                            <div class="col-2">
+                                <a class="btn btn-outline-success float-right" href="{{route('parameters.create')}}">@lang('translates.buttons.create')</a>
+                            </div>
                         @endcan
                     </div>
                     <table class="table table-hover">
@@ -58,7 +71,7 @@
                         <tr>
                             <th colspan="4">
                                 <div class="row justify-content-center m-3">
-                                    <div class="col-7 alert alert-danger text-center" role="alert">Empty for now. Yo can create new company</div>
+                                    <div class="col-7 alert alert-danger text-center" role="alert">Empty for now</div>
                                 </div>
                             </th>
                         </tr>
