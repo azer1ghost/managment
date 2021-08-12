@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ParameterRequest;
+use App\Models\Company;
 use App\Models\Parameter;
 
 class ParameterController extends Controller
@@ -30,6 +31,7 @@ class ParameterController extends Controller
                 'method' => null,
                 'data'   => null,
                 'parameters'=> array_merge(['0' => 'Nothing'], Parameter::select(['id', 'name'])->pluck('name', 'id')->toArray()),
+                'companies' => Company::select(['id','name'])->get(),
                 'types' => Parameter::distinct()
                     ->pluck('type')
                     ->flip()
@@ -40,14 +42,12 @@ class ParameterController extends Controller
 
     public function store(ParameterRequest $request)
     {
-
         $parameter = Parameter::create($request->validated());
+        $parameter->companies()->sync($request->get('companies'));
 
         return redirect()
-            ->route('parameters.index')
-            ->with(
-                notify()->success($parameter->getAttribute('name'))
-            );
+            ->route('parameters.edit', $parameter)
+            ->withNotify('success', $parameter->getAttribute('name'));
     }
 
     public function show(Parameter $parameter)
@@ -68,6 +68,7 @@ class ParameterController extends Controller
                 'method' => "PUT",
                 'data'   => $parameter,
                 'parameters'=> array_merge(['0' => 'Nothing'], Parameter::select(['id', 'name'])->pluck('name', 'id')->toArray()),
+                'companies' => Company::select(['id','name'])->get(),
                 'types' => Parameter::distinct()
                     ->pluck('type')
                     ->flip()
@@ -80,9 +81,9 @@ class ParameterController extends Controller
     {
         $parameter->update($request->validated());
 
-        return back()->with(
-            notify()->info($parameter->getAttribute('name'))
-        );
+        $parameter->companies()->sync($request->get('companies'));
+
+        return back()->withNotify('info', $parameter->getAttribute('name'));
     }
 
     public function destroy(Parameter $parameter)

@@ -2,7 +2,6 @@
 
 namespace App\View\Components;
 
-use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class Sidebar extends Component
@@ -60,7 +59,7 @@ class Sidebar extends Component
 
             (object) [
                 'title' => 'Parameters',
-                'icon'  => 'fa fa-phone',
+                'icon'  => 'fa fa-list',
                 'url'  => route('parameters.index'),
                 'permission' => 'generally',
             ],

@@ -27,6 +27,7 @@ class ParameterRequest extends FormRequest
         return [
             'name'      => 'required|string|max:255',
             'type'      => 'required|string|max:255',
+            'companies' => 'array',
             'parameter_id'   => 'integer',
         ];
     }

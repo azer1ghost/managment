@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Modules;
 
-use App\Models\Company;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CompanyRequest;
+use App\Models\Company;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 
@@ -49,7 +49,7 @@ class CompanyController extends Controller
 
         return redirect()
             ->route('companies.index')
-            ->withNotify('success',$company->getAttribute('name'));
+            ->withNotify('success', $company->getAttribute('name'));
     }
 
     public function show(Company $company)
@@ -89,7 +89,7 @@ class CompanyController extends Controller
 
         $company->update($validated);
 
-        return back()->withNotify('info',$company->getAttribute('name'));
+        return back()->withNotify('info', $company->getAttribute('name'));
     }
 
     public function destroy(Company $company)
