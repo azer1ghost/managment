@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers\Modules;
 
-use App\Http\Requests\CompanyRequest;
-use App\Http\Requests\ParameterRequest;
-use App\Models\Company;
-use App\Models\Parameter;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\ParameterRequest;
+use App\Models\Parameter;
 
 class ParameterController extends Controller
 {
@@ -34,7 +30,11 @@ class ParameterController extends Controller
                 'method' => null,
                 'data'   => null,
                 'parameters'=> array_merge(['0' => 'Nothing'], Parameter::select(['id', 'name'])->pluck('name', 'id')->toArray()),
-                'types' => Parameter::distinct()->get(['type'])->pluck('type')->toArray()
+                'types' => Parameter::distinct()
+                    ->pluck('type')
+                    ->flip()
+                    ->map(fn($type, $key) => __($key))
+                    ->toArray()
             ]);
     }
 
@@ -62,21 +62,17 @@ class ParameterController extends Controller
 
     public function edit(Parameter $parameter)
     {
-        dd(
-
-            Parameter::distinct()->get(['type'])->pluck('type')->map(function($type, $key){
-                return [$type => $type];
-            })->toArray()
-
-        );
-
         return view('panel.pages.parameters.edit')
             ->with([
                 'action' => route('parameters.update', $parameter),
                 'method' => "PUT",
                 'data'   => $parameter,
                 'parameters'=> array_merge(['0' => 'Nothing'], Parameter::select(['id', 'name'])->pluck('name', 'id')->toArray()),
-                'types' => Parameter::distinct()->get(['type'])->pluck('type')->toArray()
+                'types' => Parameter::distinct()
+                    ->pluck('type')
+                    ->flip()
+                    ->map(fn($type, $key) => __("translates.parameters.types.$key"))
+                    ->toArray()
             ]);
     }
 

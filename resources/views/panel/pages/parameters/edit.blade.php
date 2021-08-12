@@ -23,6 +23,7 @@
                             <x-input::select  name="parameter_id"  :value="optional($data)->parameter_id"  width="4" class="pr-3" :options="$parameters" />
                             <x-input::select  name="type"  :value="optional($data)->type"   width="4" class="pr-3" :options="$types" />
                             <x-input::text    name="name"  :value="optional($data)->name"   width="4" class="pr-3" />
+
                         </div>
                         @if($action)
                             <x-input::submit />
