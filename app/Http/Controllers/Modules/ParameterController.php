@@ -18,12 +18,18 @@ class ParameterController extends Controller
 
     public function index(Request $request)
     {
+        $search = $request->get('search');
+        $limit  = $request->get('limit') ?? 10;
+        $type   = $request->get('type');
+
         return view('panel.pages.parameters.index')
             ->with([
+                'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => __("translates.parameters.types.$key"))->toArray(),
                 'parameters' => Parameter::with('parameter')
-                    ->when($request->has('search'), fn($query) => $query->where('name', 'like', "%{$request->get('search')}%"))
+                    ->when($type,   fn ($query) => $query->where('type', $type))
+                    ->when($search, fn ($query) => $query->where('name', 'like', "%".ucfirst($search)."%"))
                     ->latest('id')
-                    ->paginate(10)
+                    ->paginate($limit)
             ]);
     }
 
@@ -36,11 +42,7 @@ class ParameterController extends Controller
                 'data'   => null,
                 'parameters'=> array_merge(['0' => 'Nothing'], Parameter::select(['id', 'name'])->pluck('name', 'id')->toArray()),
                 'companies' => Company::select(['id','name'])->get(),
-                'types' => Parameter::distinct()
-                    ->pluck('type')
-                    ->flip()
-                    ->map(fn($type, $key) => __($key))
-                    ->toArray()
+                'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => __("translates.parameters.types.$key"))->toArray()
             ]);
     }
 
@@ -63,11 +65,7 @@ class ParameterController extends Controller
                 'data' => $parameter,
                 'parameters'=> array_merge(['0' => 'Nothing'], Parameter::select(['id', 'name'])->pluck('name', 'id')->toArray()),
                 'companies' => Company::select(['id','name'])->get(),
-                'types' => Parameter::distinct()
-                    ->pluck('type')
-                    ->flip()
-                    ->map(fn($type, $key) => __($key))
-                    ->toArray()
+                'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => __("translates.parameters.types.$key"))->toArray()
             ]);
     }
 
@@ -80,11 +78,7 @@ class ParameterController extends Controller
                 'data'   => $parameter,
                 'parameters'=> array_merge(['0' => 'Nothing'], Parameter::select(['id', 'name'])->pluck('name', 'id')->toArray()),
                 'companies' => Company::select(['id','name'])->get(),
-                'types' => Parameter::distinct()
-                    ->pluck('type')
-                    ->flip()
-                    ->map(fn($type, $key) => __("translates.parameters.types.$key"))
-                    ->toArray()
+                'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => __("translates.parameters.types.$key"))->toArray()
             ]);
     }
 

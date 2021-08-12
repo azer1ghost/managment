@@ -6,7 +6,7 @@ return [
         'types' => [
             'contact_method' => 'Əlaqə vasitəsi',
             'subject' => 'Mövzü',
-            'source' => 'Bənbə',
+            'source' => 'Mənbə',
             'kind' => 'Növü',
             'operation' => 'Əməliyyat',
             'status' => 'Status',
