@@ -17,7 +17,7 @@
                         <i class="fa fa-arrow-left"></i>
                         Back
                     </a>
-                    Edit Request
+                    Edit Request | {{optional($data)->getAttribute('code')}}
                     @if($data)
                     <form id="restoreForm" action="{{route('inquiry.versionRestore', $data)}}" class="float-right">
                         <div class="input-group">

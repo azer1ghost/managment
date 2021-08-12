@@ -1,7 +1,6 @@
 <form action="{{$action}}" id="createForm" method="POST" class="tab-content form-row mt-4 mb-5">
     @csrf
     @method($method)
-    <input type="hidden" name="code" value="{{optional($data)->code}}">
 
     <x-input::select name="contact_method" label="Contact method" value="{{optional($data)->contact_method}}" :options="$contact_methods" width="3" class="pr-3" />
 

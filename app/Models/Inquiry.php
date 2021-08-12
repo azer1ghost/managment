@@ -54,6 +54,11 @@ class Inquiry extends Model
     }
 }
 
+
+
+
+
+
 //protected static function booted()
 //{
 //        static::created(function ($inquiry) {

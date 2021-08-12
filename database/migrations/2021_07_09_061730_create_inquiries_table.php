@@ -15,7 +15,7 @@ class CreateInquiriesTable extends Migration
     {
         Schema::create('inquiries', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->index();
+            $table->string('code')->nullable()->unique();
             $table->dateTime('datetime')->useCurrent();
             $table->string('client')->nullable();
             $table->string('fullname')->nullable();

@@ -16,6 +16,17 @@ class InquiryController extends Controller
         $this->authorizeResource(Inquiry::class, 'inquiry');
     }
 
+    protected function generateCode($prefix = 'MG'): string
+    {
+        return $prefix.str_pad(random_int(0, 999999), 6, 0, STR_PAD_LEFT);
+    }
+
+    protected function createCode(): string
+    {
+        $code = $this->generateCode();
+        return Inquiry::select('code')->where('code', $code)->exists() ? $this->createCode() : $code;
+    }
+
     public function index()
     {
         return view('panel.pages.customer-services.inquiry.index');
@@ -36,7 +47,10 @@ class InquiryController extends Controller
         auth()->user()->inquiries()->create(
             array_merge(
                 $request->validated(),
-                ['datetime' => $request->get('date')." ".$request->get('time')]
+                [
+                    'code' => $this->createCode(),
+                    'datetime' => $request->get('date')." ".$request->get('time')
+                ]
             )
         );
 
@@ -73,6 +87,7 @@ class InquiryController extends Controller
      * 4. Convert result collection to Array
      *
      */
+
     public function update(InquiryRequest $request, Inquiry $inquiry): RedirectResponse
     {
         $backup = $inquiry->replicate()->getAttributes();
@@ -81,7 +96,18 @@ class InquiryController extends Controller
             $inquiry
                 ->getColumns()
                 ->flip()
-                ->map(fn ($name, $key) => ($key === "user_id") ? $request->user()->id: null)
+                ->map(
+                    function ($name, $key) use ($inquiry) {
+                        switch ($key) {
+                            case "user_id":
+                                return auth()->id();
+                            case "code":
+                                return $inquiry->getAttribute('code');
+                            default:
+                                return null;
+                        }
+                    }
+                )
                 ->merge(
                     array_merge(
                         $request->validated(),
@@ -92,6 +118,7 @@ class InquiryController extends Controller
         );
 
         if ($inquiry->getChanges()) {
+            $backup['code'] = null;
             $inquiry->backups()->create($backup);
         }
 
