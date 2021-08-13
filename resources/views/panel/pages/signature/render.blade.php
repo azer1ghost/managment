@@ -8,7 +8,7 @@
                     <div class="card-body row">
                         <div>
                             <section class="border border-info">
-                                @include('panel.pages.signature.template.template1', ['company'=> $company])
+                                @include('panel.pages.signature.template.template1', ['company'=> $company, 'user' => auth()->user()])
                             </section>
                         </div>
                     </div>

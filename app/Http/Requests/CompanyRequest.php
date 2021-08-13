@@ -22,17 +22,32 @@ class CompanyRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
+        $logo = $this->isMethod('POST') ? 'required' : 'nullable';
         return [
             'name'      => 'required|string|max:255',
-            'logo'      => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'logo'      => "$logo|image|mimes:jpg,png,jpeg,gif,svg|max:2048",
             'website'   => 'required|max:255',
             'mail'      => 'required|email:rfc,dns',
             'phone'     => 'required|string|max:255',
             'mobile'    => 'required|string|max:255',
             'address'   => 'required|string|max:255',
             'about'     => 'required|string|max:500',
+            'socials'   => 'nullable|array',
+            'socials.*.id'   => 'nullable|string',
+            'socials.*.name'   => 'required|string',
+            'socials.*.url'   => 'required|string',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'socials.*.name.required'  => 'The Social name is required',
+            'socials.*.url.required'   => 'The Social url is required',
+            'socials.*.name.string'    => 'The Social name field should be a string',
+            'socials.*.url.string'     => 'The Social url field should be a string',
         ];
     }
 }

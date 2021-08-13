@@ -55,7 +55,7 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    public function fullname(): string
+    public function getFullnameAttribute(): string
     {
         return "{$this->getAttribute('name')} {$this->getAttribute('surname')}";
     }

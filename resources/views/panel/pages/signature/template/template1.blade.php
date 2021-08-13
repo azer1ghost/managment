@@ -20,7 +20,7 @@
     <tr>
         <!-- Logo -->
         <td style="vertical-align: middle;">
-            <img alt="logo" src="https://mobilgroup.az/signature/mobilgroup.png" />
+            <img alt="logo" src="{{ image(asset('storage/'.$company->getAttribute('logo'))) }}" />
         </td>
         <!-- Main content -->
         <td style="border-right: 1px solid ; border-color: #050E3A;">
@@ -28,17 +28,17 @@
                 <tbody>
                 <tr>
                     <td>
-                        <h1 style="margin: 0; padding: 0; font-size: 16px;font-family: Arial,serif;color: rgb(80,80,80);">{{auth()->user()->fullname()}}</h1>
+                        <h1 style="margin: 0; padding: 0; font-size: 16px;font-family: Arial,serif;color: rgb(80,80,80);">{{$user->getAttribute('fullname')}}</h1>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <p style="margin: 0; padding: 0; font-size: 13px;color: rgb(130,130,130);">Web developer</p>
+                        <p style="margin: 0; padding: 0; font-size: 13px;color: rgb(130,130,130);">{{$user->getAttribute('position')}}</p>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <p style="margin: 0; padding: 0; font-size: 13px;color: rgb(130,130,130);">Information Technology</p>
+                        <p style="margin: 0; padding: 0; font-size: 13px;color: rgb(130,130,130);">{{$user->getAttribute('department')}}</p>
                     </td>
                 </tr>
                 </tbody>
@@ -55,7 +55,7 @@
                         <img width="16px" src="https://mobilgroup.az/signature/phone.png" />
                     </td>
                     <td>
-                        <p style="margin: 0; padding: 3px; font-size: 13px">+994 51 333 90 90</p>
+                        <p style="margin: 0; padding: 3px; font-size: 13px">{{$user->getAttribute('phone')}}</p>
                     </td>
                 </tr>
                 <tr>
@@ -63,7 +63,7 @@
                         <img width="16px" src="https://mobilgroup.az/signature/phone.png" />
                     </td>
                     <td>
-                        <p style="margin: 0; padding: 3px; font-size: 13px">+994 51 205 90 16</p>
+                        <p style="margin: 0; padding: 3px; font-size: 13px">{{$user->getAttribute('phone_coop')}}</p>
                     </td>
                 </tr>
                 <tr>
@@ -71,7 +71,7 @@
                         <img width="16px" src="https://mobilgroup.az/signature/envelope.png" />
                     </td>
                     <td>
-                        <p style="margin: 0; padding: 3px; font-size: 13px">info@mobilgroup.az</p>
+                        <p style="margin: 0; padding: 3px; font-size: 13px">{{$user->getAttribute("email_coop")}}</p>
                     </td>
                 </tr>
                 <tr>
@@ -79,7 +79,7 @@
                         <img width="16px" src="https://mobilgroup.az/signature/share.png" />
                     </td>
                     <td>
-                        <p style="margin: 0; padding: 3px; font-size: 13px">mobilgroup.az</p>
+                        <p style="margin: 0; padding: 3px; font-size: 13px">{{$company->getAttribute("website")}}</p>
                     </td>
                 </tr>
                 <tr>
@@ -87,7 +87,7 @@
                         <img width="16px" src="https://mobilgroup.az/signature/map.png" />
                     </td>
                     <td>
-                        <p style="margin: 0; padding: 3px; font-size: 13px">Ahmad Rajabli 156</p>
+                        <p style="margin: 0; padding: 3px; font-size: 13px">{{$company->getAttribute("address")}}</p>
                     </td>
                 </tr>
                 </tbody>
@@ -108,33 +108,15 @@
                 <tr>
                     <td style="width: 100%">
                         <img style="padding-left: 5px" width="13px" src="https://mobilgroup.az/signature/call.png" />
-                        <b style="padding:0px;color: rgb(201,201,201)"> *0090</b>
+                        <b style="padding:0px;color: rgb(201,201,201)">{{$company->getAttribute("call_center")}}</b>
                     </td>
-                    <td style="padding: 5px; color: white;">
-                        <a href="#">
-                            <img width="20px" src="https://mobilgroup.az/signature/facebook.png" />
-                        </a>
-                    </td>
-                    <td style="padding: 5px; color: white">
-                        <a href="https://www.linkedin.com/company/mobilgroup/">
-                            <img width="20px" src="https://mobilgroup.az/signature/linkedin.png" />
-                        </a>
-                    </td>
-                    <td style="padding: 5px; color: white">
-                        <a style="color: white" href="#">
-                            <img width="20px" src="https://mobilgroup.az/signature/instagram.png" />
-                        </a>
-                    </td>
-                    <td style="padding: 5px; color: white">
-                        <a href="https://www.youtube.com/channel/UCMo7JsJde0sbEJzxX13rTvw">
-                            <img width="20px" src="https://mobilgroup.az/signature/youtube.png" />
-                        </a>
-                    </td>
-                    <td style="padding: 5px; color: white">
-                        <a href="https://twitter.com/MobilGroup">
-                            <img width="20px" src="https://mobilgroup.az/signature/twitter.png" />
-                        </a>
-                    </td>
+                    @foreach ($company->socials as $social)
+                       <td style="padding: 5px; color: white;">
+                            <a href="{{$social->url}}">
+                                <img width="20px" src="https://mobilgroup.az/signature/{{$social->name}}.png" />
+                            </a>
+                        </td>
+                    @endforeach
                 </tr>
                 </tbody>
             </table>
@@ -144,7 +126,7 @@
     <tr style="margin: 0; padding: 0">
         <td style="margin: 0; padding: 0" colspan="4">
             <p style="padding: 0;margin: 5px;text-align: center;font-size: 12px; font-family: Arial,serif;color: rgb(154,154,154);">
-                MOBİL GROUP gömrük brokeri xidmətləri və beynəlxalq daşımaları həyata keçirən şirkətlər qrupudur. Yerli və xarici vətəndaşlara, o cümlədən fiziki və hüquqi şəxslərə göstəridiyi geniş xidmət diapazonu ilə MOBİL GROUP özünü təsdiq etmiş yerli brenddir.
+                {{$company->getAttribute("about")}}
             </p>
         </td>
     </tr>
