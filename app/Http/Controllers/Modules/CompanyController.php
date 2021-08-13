@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CompanyRequest;
 use App\Models\Company;
-use App\Models\Social;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 
