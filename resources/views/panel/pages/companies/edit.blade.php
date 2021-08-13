@@ -20,7 +20,7 @@
                         @method($method) @csrf
                         <input type="hidden" name="id" value="{{optional($data)->id}}">
                         <div class="tab-content row mt-4" >
-                            <x-input::image name="logo"      :value="optional($data)->logo"      label="Company logo"    width="4" class="pr-3" />
+                            <x-input::image  name="logo"  :value="optional($data)->logo"  label="Company logo"  width="4"  class="pr-3" />
                             <div class="form-group col-12 col-md-8">
                                 <div class="row">
                                     <x-input::text  name="name"      :value="optional($data)->name"      label="Company name"    width="6" class="pr-3" />
@@ -31,10 +31,14 @@
                                     <x-input::text  name="phone"     :value="optional($data)->phone"     label="Company phone"   width="6" class="pr-3" />
                                 </div>
                             </div>
-                            <x-input::textarea name="about"  :value="optional($data)->about"     label="Company about"   width="12" class="pr-3" rows="6"/>
+                            <x-input::textarea name="about"  :value="optional($data)->about"  label="Company about"   width="12" class="pr-3" rows="6"/>
+                            <div class="col-12 col-md-12">
+                                <p class="text-muted mb-2">SOCIALS</p>
+                                @livewire('show-socials',['company' => $data,'action' => $action])
+                            </div>
                         </div>
                         @if($action)
-                            <x-input::submit :value="__('translates.buttons.save')" />
+                            <x-input::submit  :value="__('translates.buttons.save')" />
                         @endif
                     </form>
                 </div>
@@ -48,6 +52,7 @@
 @section('scripts')
     <script>
         $('input').attr('readonly', true)
+        $('select').attr('disabled', true)
         $('textarea').attr('readonly', true)
     </script>
 @endsection

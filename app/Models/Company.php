@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -20,5 +21,10 @@ class Company extends Model
     public function parameters(): BelongsToMany
     {
         return $this->belongsToMany(Parameter::class);
+    }
+
+    public function socials(): HasMany
+    {
+        return $this->hasMany(Social::class);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CompanyRequest;
 use App\Models\Company;
+use App\Models\Social;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 
@@ -47,6 +48,13 @@ class CompanyController extends Controller
 
         $company = Company::create($validated);
 
+        // Add or update social networks
+        if(array_key_exists('socials', $validated)){
+            foreach ($validated['socials'] as $social){
+                $company->socials()->create($social);
+            }
+        }
+
         return redirect()
             ->route('companies.index')
             ->withNotify('success', $company->getAttribute('name'));
@@ -88,6 +96,13 @@ class CompanyController extends Controller
         }
 
         $company->update($validated);
+
+        // Add or update social networks
+        if(array_key_exists('socials', $validated)){
+            foreach ($validated['socials'] as $social){
+                $company->socials()->updateOrCreate(['id' => $social['id']], $social);
+            }
+        }
 
         return back()->withNotify('info', $company->getAttribute('name'));
     }

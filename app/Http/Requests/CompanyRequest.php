@@ -22,7 +22,7 @@ class CompanyRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name'      => 'required|string|max:255',
@@ -33,6 +33,20 @@ class CompanyRequest extends FormRequest
             'mobile'    => 'required|string|max:255',
             'address'   => 'required|string|max:255',
             'about'     => 'required|string|max:500',
+            'socials'   => 'nullable|array',
+            'socials.*.id'   => 'nullable|string',
+            'socials.*.name'   => 'required|string',
+            'socials.*.url'   => 'required|string',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'socials.*.name.required'  => 'The Social name is required',
+            'socials.*.url.required'   => 'The Social url is required',
+            'socials.*.name.string'    => 'The Social name field should be a string',
+            'socials.*.url.string'     => 'The Social url field should be a string',
         ];
     }
 }
