@@ -50,9 +50,6 @@
 
 @section('scripts')
 
-{{--    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>--}}
-{{--    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>--}}
-
     <script>
         $('#restoreForm select').change(function() {
             $('#restoreForm button').removeAttr('disabled');

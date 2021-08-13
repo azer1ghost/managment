@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Company;
 use App\Models\Inquiry;
 use App\Models\Parameter;
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -17,20 +19,21 @@ class InquiryTable extends Component
     public $companies;
     public $kinds;
 
-    public $filteredSubjects;
-    public $filteredCompanies;
-    public $filteredKinds;
-
     public array $filters = [
-        'search' => null,
+        'code' => null,
+        'datetime' => null,
         'subjects' => [],
-        'companies' => [],
+        'company_id' => [],
         'kinds' => [],
     ];
 
+    public string $daterange;
+
     public function mount()
     {
-        $this->subjects = Parameter::where('type', 'subject')->get();
+        $this->daterange = implode(' - ', [now()->firstOfMonth()->format('d/m/Y'), now()->format('d/m/Y')]);
+        $this->subjects  = Parameter::where('type', 'subject')->get();
+        $this->companies = Company::whereNotIn('id', [1])->get();
     }
 
     public function render()
@@ -39,14 +42,24 @@ class InquiryTable extends Component
             'inquiries' => Inquiry::query()
                 ->whereNull('inquiry_id')
                 ->select('id', 'code', 'user_id', 'datetime', 'company_id', 'fullname', 'subject')
+                ->when($this->daterange, function ($query, $daterange) {
+                    [$from, $to] = explode(' - ', $daterange);
+                    $query->whereBetween('datetime', [Carbon::createFromFormat('d/m/Y', $from), Carbon::createFromFormat('d/m/Y', $to)]);
+                })
                 ->where(function ($query)  {
                     foreach ($this->filters as $column => $value) {
                         $query->when($value, function ($query, $value) use ($column) {
-                            if(is_array($value)) {
+                            if (is_array($value)) {
                                 $query->whereIn(\Str::singular($column), $value);
                             }
-                            elseif ($column === 'search') {
-                                $query->where('code', 'like', "%$value%");
+                            elseif (strtotime($value)) {
+                                $query->whereDate($column, $value);
+                            }
+                            elseif (is_numeric($value)) {
+                                $query->where(\Str::singular($column), $value);
+                            }
+                            elseif (is_string($value)) {
+                                $query->where(\Str::singular($column), 'like', "%$value%");
                             }
                             else {
                                 $query->where(\Str::singular($column), $value);
@@ -56,12 +69,19 @@ class InquiryTable extends Component
                 })
                 ->with([
                     'company' => function ($query){
-                        $query->select('id','name');
+                        $query->select('id', 'name');
                     }
                 ])
                 ->latest('datetime')
                 ->simplePaginate(10)
         ]);
     }
+
+
+    protected function updatedDaterange($value)
+    {
+        //dd($value);
+    }
+
 }
 
