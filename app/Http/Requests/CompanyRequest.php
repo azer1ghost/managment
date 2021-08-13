@@ -24,9 +24,10 @@ class CompanyRequest extends FormRequest
      */
     public function rules(): array
     {
+        $logo = $this->isMethod('POST') ? 'required' : 'nullable';
         return [
             'name'      => 'required|string|max:255',
-            'logo'      => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'logo'      => "$logo|image|mimes:jpg,png,jpeg,gif,svg|max:2048",
             'website'   => 'required|max:255',
             'mail'      => 'required|email:rfc,dns',
             'phone'     => 'required|string|max:255',
