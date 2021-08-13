@@ -49,9 +49,9 @@ class CompanyController extends Controller
 
         // Add or update social networks
         if(array_key_exists('socials', $validated)){
-            foreach ($validated['socials'] as $social){
+            collect($validated['socials'])->each(function ($social) use ($company){
                 $company->socials()->create($social);
-            }
+            });
         }
 
         return redirect()
@@ -98,9 +98,9 @@ class CompanyController extends Controller
 
         // Add or update social networks
         if(array_key_exists('socials', $validated)){
-            foreach ($validated['socials'] as $social){
+            collect($validated['socials'])->each(function ($social) use ($company){
                 $company->socials()->updateOrCreate(['id' => $social['id']], $social);
-            }
+            });
         }
 
         return back()->withNotify('info', $company->getAttribute('name'));
