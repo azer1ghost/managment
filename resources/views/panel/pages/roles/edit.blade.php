@@ -1,0 +1,93 @@
+@extends('layouts.main')
+
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-2">
+                <x-sidebar/>
+            </div>
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-header">
+                        <a href="{{route('roles.index')}}" class="btn btn-sm btn-outline-primary mr-4">
+                            <i class="fa fa-arrow-left"></i>
+                            @lang('translates.buttons.back')
+                        </a>
+                        Roles
+                    </div>
+                    <div class="card-body">
+                        <form action="{{$action}}" method="POST" enctype="multipart/form-data">
+                            @method($method) @csrf
+                            <input type="hidden" name="id" value="{{optional($data)->id}}">
+                            <div class="tab-content row mt-4" >
+                                <div class="form-group col-12">
+                                    <div class="row">
+                                        <x-input::text  name="name"  :value="optional($data)->getAttribute('name')"  label="Role name"  width="6" class="pr-3" />
+                                        <x-input::text  name="key"  :value="optional($data)->getAttribute('key')"  label="Role key"  width="6" class="pr-3" />
+                                    </div>
+                                    <p class="text-muted mb-2">PERMISSIONS</p>
+                                    <div class="form-check">
+                                        <input class="form-check-input" @if (Str::of(optional($data)->getAttribute('permissions'))->trim() == 'all')) checked @endif type="checkbox" name="all_perm" id="perm-0">
+                                        <label class="form-check-label" for="perm-0">
+                                            All
+                                        </label>
+                                    </div>
+                                    @foreach (config('auth.permissions') as $perm)
+                                        @php
+                                            $samePerm = true;
+                                            $type = null;
+                                            $checker = strpos($perm, '-') ? substr($perm,strpos($perm, '-')+1) : $perm;
+                                            if($checker !== $type){
+                                                $samePerm = false;
+                                                $type = strpos($perm, '-') ? substr($perm,strpos($perm, '-')+1) : $perm;
+                                            }
+                                        @endphp
+                                        @if (!$samePerm)
+                                            <div class='col-12 col-md-4'>
+                                            <p class="text-muted mb-2">{{ucfirst($type)}}</p>
+                                        @endif
+                                            <div class="form-check">
+                                                <input class="form-check-input" @if (Str::contains(optional($data)->getAttribute('permissions'),[$perm,'all'])) checked @endif type="checkbox" name="perms[]" id="perm-{{$loop->iteration}}">
+                                                <label class="form-check-label" for="perm-{{$loop->iteration}}">
+                                                    {{$perm}}
+                                                </label>
+                                            </div>
+                                        @if ($samePerm)
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                            @if($action)
+                                <x-input::submit  :value="__('translates.buttons.save')" />
+                            @endif
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+@section('scripts')
+    @if(is_null($action))
+        <script>
+            $('input').attr('readonly', true)
+            $('input[type="checkbox"]').attr('disabled', true)
+            $('select').attr('disabled', true)
+            $('textarea').attr('readonly', true)
+        </script>
+    @endif
+    <script>
+        checkAll();
+        $('#perm-0').change(function (){
+            checkAll();
+        });
+        function checkAll(){
+            if($("#perm-0").prop('checked') == true) {
+                $("input[name='perms[]']").map(function(){ $(this).parent('div').hide()});
+            }else{
+                $("input[name='perms[]']").map(function(){ $(this).parent('div').show()});
+            }
+        }
+    </script>
+@endsection

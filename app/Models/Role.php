@@ -15,6 +15,7 @@ class Role extends Model
     use HasTranslations;
 
     public array $translatable = ['name'];
+    protected $fillable = ['name', 'key', 'permissions'];
 
     public function hasPermission($perm): bool
     {

@@ -18,22 +18,22 @@ class RoleSeeder extends Seeder
 
         Role::insert([
             array(
-                'name' => "Developer",
+                'name' => json_encode(['en' => 'Developer']),
                 'key' => "developer",
                 'permissions' => 'all',
             ),
             array(
-                'name' => "President",
+                'name' => json_encode(['en' => 'President']),
                 'key' => "president",
                 'permissions' => 'all',
             ),
             array(
-                'name' => "Call center operator",
-                'key' => "customer-service-operator",
+                'name' => json_encode(['en' => 'Call center operator']),
+                'key' => "call-center-operator",
                 'permissions' => $permissions,
             ),
             array(
-                'name' => "Employer",
+                'name' => json_encode(['en' => 'Employer']),
                 'key' => "employer",
                 'permissions' => $permissions,
             ),

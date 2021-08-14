@@ -2,15 +2,15 @@
 
 namespace App\Policies;
 
-use App\Models\Parameter;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ParameterPolicy
+class RolePolicy
 {
     use HandlesAuthorization;
 
-    protected string $class = 'parameter';
+    protected string $class = 'role';
 
     public function before(User $user): ?bool
     {
@@ -22,7 +22,7 @@ class ParameterPolicy
         return $user->role->hasPermission(__FUNCTION__."-{$this->class}");
     }
 
-    public function view(User $user, Parameter $parameter): bool
+    public function view(User $user, Role $role): bool
     {
         return $user->role->hasPermission(__FUNCTION__."-{$this->class}");
     }
@@ -32,13 +32,14 @@ class ParameterPolicy
         return $user->role->hasPermission("manage-{$this->class}");
     }
 
-    public function update(User $user, Parameter $parameter): bool
+    public function update(User $user, Role $role): bool
     {
         return $user->role->hasPermission("manage-{$this->class}");
     }
 
-    public function delete(User $user, Parameter $parameter): bool
+    public function delete(User $user, Role $role): bool
     {
         return $user->role->hasPermission("manage-{$this->class}");
     }
 }
+

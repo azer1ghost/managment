@@ -63,6 +63,12 @@ class Sidebar extends Component
                 'url'  => route('parameters.index'),
                 'permission' => 'generally',
             ],
+            (object) [
+                'title' => 'Roles',
+                'icon'  => 'fas fa-user-tag',
+                'url'  => route('roles.index'),
+                'permission' => 'generally',
+            ],
 
         ];
     }
