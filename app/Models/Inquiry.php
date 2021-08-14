@@ -16,14 +16,15 @@ class Inquiry extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'code', 'datetime',
+        'code', 'datetime', 'editable_ended_at',
         'client', 'fullname', 'phone',
         'subject', 'kind', 'contact_method', 'source', 'operation', 'status',
         'note', 'redirected_user_id', 'company_id', 'user_id'
     ];
 
     protected $casts = [
-        'datetime' => 'datetime'
+        'datetime' => 'datetime',
+        'editable_ended_at' => 'datetime'
     ];
 
     public function getColumns(): Collection
@@ -46,9 +47,14 @@ class Inquiry extends Model
         return $this->hasMany(__CLASS__);
     }
 
+    public function scopeWithoutBackups($query)
+    {
+        return $query->whereNull('inquiry_id');
+    }
+
     public function getParameter($data)
     {
-       return Cache::remember("parameter_{$this->subject}", 60, fn () =>
+       return Cache::remember("parameter_{$this->getAttribute('subject')}", 60, fn () =>
              optional(Parameter::select(['name'])->find($this->{$data}))->getAttribute('name')
         );
     }

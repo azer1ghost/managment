@@ -22,14 +22,28 @@ class InquiryFactory extends Factory
      * @return array
      * @throws \Exception
      */
+
+    protected function generateCode($prefix = 'MG'): string
+    {
+        return $prefix.str_pad(random_int(0, 999999), 6, 0, STR_PAD_LEFT);
+    }
+
+    protected function createCode(): string
+    {
+        $code = $this->generateCode();
+        return Inquiry::select('code')->where('code', $code)->exists() ? $this->createCode() : $code;
+    }
+
     public function definition()
     {
 
        $subject = Parameter::where('type', 'subject')->inRandomOrder()->pluck('id')->first();
        $kind = Parameter::where('type', 'kind')->where('parameter_id', $subject)->inRandomOrder()->pluck('id')->first();
 
+
+
         return [
-            'code' => "MG".random_int(555555, 999999),
+            'code' => $this->createCode(),
             'datetime' => now(),
             'client' => "MBX".random_int(55555, 99999),
             'fullname' => $this->faker->name(),

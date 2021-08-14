@@ -11,7 +11,7 @@
             <div class="card">
                 <div class="card-header">Call Center</div>
                 <div class="card-body">
-                    @livewire('inquiry-table')
+                    @livewire('inquiry-table', ['trashBox' => $trashBox])
                 </div>
             </div>
         </div>

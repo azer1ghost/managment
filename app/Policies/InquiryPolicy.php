@@ -26,7 +26,7 @@ class InquiryPolicy
     {
         return
             $user->role->hasPermission(__FUNCTION__."-{$this->class}") &&
-            $inquiry->user_id === $user->id;
+            $inquiry->getAttribute('user_id') === $user->getAttribute('id');
     }
 
     public function create(User $user): bool
@@ -36,7 +36,11 @@ class InquiryPolicy
 
     public function update(User $user, Inquiry $inquiry): \Illuminate\Auth\Access\Response
     {
-        if (($inquiry->user_id === $user->id)  &&  $user->role->hasPermission(__FUNCTION__."-$this->class") && $inquiry->created_at->addMinutes(7) > now()) {
+        if (
+            ($inquiry->getAttribute('user_id') === $user->getAttribute('id'))  &&
+            $user->role->hasPermission(__FUNCTION__."-$this->class") &&
+            $inquiry->getAttribute('created_at')->addMinutes(7) > now()
+        ) {
             return $this->allow();
         }
 
@@ -47,23 +51,24 @@ class InquiryPolicy
     {
         return
             $user->role->hasPermission(__FUNCTION__."-{$this->class}") &&
-            $inquiry->user_id === $user->id &&
-            $inquiry->created_at->addMinutes(7) > now();
+            $inquiry->getAttribute('user_id') === $user->getAttribute('id') &&
+            $inquiry->getAttribute('created_at')->addMinutes(7) > now();
     }
 
     public function restore(User $user, Inquiry $inquiry): bool
     {
+        //editable_ended_at
         return
             $user->role->hasPermission(__FUNCTION__."-{$this->class}") &&
-            $inquiry->user_id === $user->id &&
-            $inquiry->created_at->addMinutes(7) > now();
+            $inquiry->getAttribute('user_id') === $user->getAttribute('id'); // &&
+           // $inquiry->getAttribute('created_at')->addMinutes(7) > now();
     }
 
-    public function forceDelete(User $user, Inquiry $inquiry): bool
+    public function forceDelete(User $user,  Inquiry $inquiry): bool
     {
         return
             $user->role->hasPermission(__FUNCTION__."-{$this->class}") &&
-            $inquiry->user_id === $user->id &&
-            $inquiry->created_at->addMinutes(7) > now();
+            $inquiry->getAttribute('user_id') === $user->getAttribute('id'); // &&
+            // $inquiry->getAttribute('created_at')->addMinutes(7) > now();
     }
 }
