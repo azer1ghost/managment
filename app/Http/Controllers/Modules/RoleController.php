@@ -41,7 +41,11 @@ class RoleController extends Controller
 
     public function store(RoleRequest $request)
     {
-        $role = Role::create($request->validated());
+        $validated = $request->validated();
+
+        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms']);
+
+        $role = Role::create($validated);
 
         return redirect()
             ->route('roles.edit', $role)
@@ -68,13 +72,22 @@ class RoleController extends Controller
             ]);
     }
 
-    public function update(Request $request, Role $role)
+    public function update(RoleRequest $request, Role $role)
     {
-        //
+        $validated = $request->validated();
+
+        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms']);
+
+        $role->update($validated);
+
+        return back()->withNotify('info', $role->getAttribute('name'));
     }
 
     public function destroy(Role $role)
     {
-        //
+        if ($role->delete()) {
+            return response('OK');
+        }
+        return response()->setStatusCode('204');
     }
 }
