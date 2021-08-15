@@ -3,7 +3,8 @@
 use App\Http\Controllers\{Main\AccountController,
     Main\PlatformController,
     Modules\CompanyController,
-    Modules\ParameterController};
+    Modules\ParameterController,
+    Modules\UserController};
 use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\{Auth, Route};
 
@@ -23,6 +24,7 @@ Route::prefix('module')->group(function () {
 
     Route::resource('/companies', CompanyController::class);
     Route::resource('/parameters', ParameterController::class);
+    Route::resource('/users', UserController::class);
 });
 
 Auth::routes();

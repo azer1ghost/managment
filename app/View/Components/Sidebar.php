@@ -64,6 +64,13 @@ class Sidebar extends Component
                 'permission' => 'generally',
             ],
 
+            (object) [
+                'title' => 'Users',
+                'icon'  => 'fa fa-users',
+                'url'  => route('users.index'),
+                'permission' => 'generally',
+            ],
+
         ];
     }
 
