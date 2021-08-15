@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Http\Requests\RoleRequest;
-use App\Models\Parameter;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -39,7 +38,7 @@ class RoleController extends Controller
             ]);
     }
 
-    public function store(RoleRequest $request)
+    public function store(RoleRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -72,7 +71,7 @@ class RoleController extends Controller
             ]);
     }
 
-    public function update(RoleRequest $request, Role $role)
+    public function update(RoleRequest $request, Role $role): RedirectResponse
     {
         $validated = $request->validated();
 
