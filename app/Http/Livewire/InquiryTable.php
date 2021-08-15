@@ -15,23 +15,30 @@ class InquiryTable extends Component
 
     protected string $paginationTheme = 'bootstrap';
 
+    public bool $trashBox = false;
+
     public $subjects;
     public $companies;
     public $kinds;
 
     public array $filters = [
-        'code' => null,
-        'datetime' => null,
-        'subjects' => [],
+        'code'       => null,
+        'datetime'   => null,
+        'subjects'   => [],
         'company_id' => [],
-        'kinds' => [],
+        'kinds'      => [],
     ];
 
     public string $daterange;
 
+    public array $range = [
+        'from' => null,
+        'to'   => null
+    ];
+
     public function mount()
     {
-        $this->daterange = implode(' - ', [now()->firstOfMonth()->format('d/m/Y'), now()->format('d/m/Y')]);
+        $this->updatedDaterange($this->daterange = implode(' - ', [now()->firstOfMonth()->format('d/m/Y'), now()->format('d/m/Y')]));
         $this->subjects  = Parameter::where('type', 'subject')->get();
         $this->companies = Company::whereNotIn('id', [1])->get();
     }
@@ -40,29 +47,30 @@ class InquiryTable extends Component
     {
         return view('panel.pages.customer-services.inquiry.components.inquiry-table', [
             'inquiries' => Inquiry::query()
-                ->whereNull('inquiry_id')
-                ->select('id', 'code', 'user_id', 'datetime', 'company_id', 'fullname', 'subject')
-                ->when($this->daterange, function ($query, $daterange) {
-                    [$from, $to] = explode(' - ', $daterange);
-                    $query->whereBetween('datetime', [Carbon::createFromFormat('d/m/Y', $from), Carbon::createFromFormat('d/m/Y', $to)]);
+                ->withoutBackups()
+                ->when( (!auth()->user()->isDeveloper() OR !auth()->user()->isAdministrator() ), function ($query){
+                    return $query->where('user_id', auth()->id());
                 })
+                //->select('id', 'code', 'user_id', 'datetime', 'company_id', 'fullname', 'subject', 'created_at')
+                ->when($this->trashBox, fn($query) => $query->onlyTrashed())
+                ->whereBetween('datetime', [$this->range['from'], $this->range['to']])
                 ->where(function ($query)  {
                     foreach ($this->filters as $column => $value) {
                         $query->when($value, function ($query, $value) use ($column) {
                             if (is_array($value)) {
-                                $query->whereIn(\Str::singular($column), $value);
+                                 $query->whereIn(\Str::singular($column), $value);
                             }
                             elseif (strtotime($value)) {
-                                $query->whereDate($column, $value);
+                                 $query->whereDate($column, $value);
                             }
                             elseif (is_numeric($value)) {
-                                $query->where(\Str::singular($column), $value);
+                                 $query->where(\Str::singular($column), $value);
                             }
                             elseif (is_string($value)) {
-                                $query->where(\Str::singular($column), 'like', "%$value%");
+                                 $query->where(\Str::singular($column), 'like', "%$value%");
                             }
                             else {
-                                $query->where(\Str::singular($column), $value);
+                                 $query->where(\Str::singular($column), $value);
                             }
                         });
                     }
@@ -80,7 +88,10 @@ class InquiryTable extends Component
 
     protected function updatedDaterange($value)
     {
-        //dd($value);
+        [$from, $to] = explode(' - ', $value);
+
+        $this->range['from'] = Carbon::createFromFormat('d/m/Y', $from)->startOfDay();
+        $this->range['to']   = Carbon::createFromFormat('d/m/Y', $to)->endOfDay();
     }
 
 }

@@ -27,9 +27,11 @@ class InquiryController extends Controller
         return Inquiry::select('code')->where('code', $code)->exists() ? $this->createCode() : $code;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('panel.pages.customer-services.inquiry.index');
+        return view('panel.pages.customer-services.inquiry.index')->with([
+            'trashBox' => $request->has('trash-box')
+        ]);
     }
 
     public function create()
@@ -129,14 +131,18 @@ class InquiryController extends Controller
         return $inquiry->delete() ? response('OK') : response('',204);
     }
 
-    public function restore(Inquiry $inquiry)
+    public function restore($id)
     {
-        return $inquiry->restore() ? response('OK') : response('',204);
+        $inquiry = Inquiry::onlyTrashed()->findOrFail($id);
+
+        $inquiry->restore();
+
+        return redirect()->route('inquiry.index')->withNotify('info', "Inquiry {$inquiry->getAttribute('code')} restored");
     }
 
-    public function forceDelete(Inquiry $inquiry)
+    public function forceDelete($id)
     {
-        return $inquiry->forceDelete() ? response('OK') : response('',204);
+        return Inquiry::onlyTrashed()->find($id)->forceDelete() ? response('OK') : response('',204);
     }
 
     public function versionRestore(Inquiry $inquiry, Request $request)

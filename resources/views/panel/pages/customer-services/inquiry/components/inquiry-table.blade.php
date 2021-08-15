@@ -4,56 +4,54 @@
 @endsection
 <div class="component row justify-content-between">
 
-    <div class="col-12 col-md-6 mb-3 mb-md-0" wire:ignore>
-        <div class="form-group">
-            <label class="d-block" for="subjectFilter">Filter by subject</label>
-            <select id="subjectFilter" multiple class="filterSelector form-control" data-width="fit" wire:model="filters.subjects" title="Noting selected" >
-                @foreach($subjects as $subject)
-                    <option value="{{$subject->id}}">{{ucfirst($subject->name)}}</option>
-                @endforeach
-            </select>
-        </div>
+    <div class="form-group col-12 col-md-3 mb-3 mb-md-0" >
+        <label for="daterange">Filter by Date</label>
+        <input type="text" placeholder="Range" id="daterange" name="daterange" wire:model="daterange" class="form-control">
     </div>
 
-    <div class="form-group col-6 col-md-4">
+    <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
         <label for="codeFilter">Filter by code</label>
         <input type="search" id="codeFilter" placeholder="Enter code" class="form-control" wire:model="filters.code">
     </div>
 
-    <div class="col-12 m-0 p-0"></div>
-
-    <div class="col-12 col-md-6 form-group mb-3 mb-md-0" wire:ignore>
-        <div class="form-group">
-            <label class="d-block" for="companyFilter">Filter by company</label>
-            <select id="companyFilter" multiple class="filterSelector" data-width="fit" wire:model="filters.company_id" title="Noting selected" >
-                @foreach($companies as $company)
-                    <option value="{{$company->id}}">{{ucfirst($company->name)}}</option>
-                @endforeach
-            </select>
-        </div>
+    <div class="form-group col-12 col-md-5 mb-3 mb-md-0" wire:ignore>
+        <label class="d-block" for="subjectFilter">Filter by subject</label>
+        <select id="subjectFilter" multiple class="filterSelector form-control" data-width="fit" wire:model="filters.subjects" title="Noting selected" >
+            @foreach($subjects as $subject)
+                <option value="{{$subject->id}}">{{ucfirst($subject->name)}}</option>
+            @endforeach
+        </select>
     </div>
 
-    <div class="form-group col-6 col-md-4" >
-        <label for="daterange">Filter by Date</label>
-        <input type="text" placeholder="Range" id="daterange" name="daterange" wire:model="daterange" class="form-control">
+    <div class="form-group col-12 col-md-1 mb-3 mb-md-0">
+        <label for="">Clear</label>
+        <a class="form-control btn-outline-danger text-center" href="{{route('inquiry.index')}}">
+            <i class="fal fa-times-circle"></i>
+        </a>
+    </div>
+
+    <div class="col-12 m-2 p-0"></div>
+
+    <div class="form-group col-12 col-md-5 mb-3 mb-md-0"  wire:ignore>
+        <label class="d-block" for="companyFilter">Filter by company</label>
+        <select id="companyFilter" multiple class="filterSelector" data-width="fit" wire:model="filters.company_id" title="Noting selected" >
+            @foreach($companies as $company)
+                <option value="{{$company->id}}">{{ucfirst($company->name)}}</option>
+            @endforeach
+        </select>
     </div>
 
     <div class="col-12">
         <hr>
         <div class="float-right">
-            <a class="btn btn-outline-danger" href="{{route('inquiry.index')}}">Reset</a>
-
             @can('create', \App\Models\Inquiry::class)
-                <label> </label>
                 <a href="{{route('inquiry.create')}}" class="btn btn-outline-success">
                     <i class="fal fa-plus"></i>
                 </a>
             @endcan
-            {{--        @can('restore', \App\Models\Inquiry::class)--}}
-            <a href="{{route('inquiry.create')}}" class="btn btn-outline-secondary">
+            <a href="{{route('inquiry.index', ['trash-box' => true])}}" class="btn btn-outline-secondary">
                 <i class="far fa-recycle"></i>
             </a>
-            {{--        @endcan--}}
         </div>
     </div>
 
@@ -73,15 +71,15 @@
             <tbody>
             @foreach($inquiries as $inquiry)
                 <tr>
-                    <td>{{$inquiry->code}}</td>
-                    <td>{{$inquiry->datetime->format('d-m-Y')}}</td>
-                    <td>{{$inquiry->datetime->format('H:m')}}</td>
-                    <td>{{$inquiry->company->name}}</td>
-                    <td>{{$inquiry->fullname}}</td>
+                    <td>{{$inquiry->getAttribute('code')}}</td>
+                    <td>{{$inquiry->getAttribute('datetime')->format('d-m-Y')}}</td>
+                    <td>{{$inquiry->getAttribute('datetime')->format('H:m')}}</td>
+                    <td>{{$inquiry->getRelationValue('company')->getAttribute('name')}}</td>
+                    <td>{{$inquiry->getAttribute('fullname')}}</td>
                     <td>{{$inquiry->getParameter('subject')}}</td>
-                    <td >
+                    <td>
                         <div class="btn-sm-group">
-                            @if($inquiry->trashed())
+                            @if($trashBox)
                                 @can('restore', $inquiry)
                                     <a href="{{route('inquiry.restore', $inquiry)}}" class="btn btn-sm btn-outline-primary" >
                                         <i class="fal fa-repeat"></i>
@@ -100,7 +98,7 @@
                                 @endcan
                                 @can('update', $inquiry)
                                     <a href="{{route('inquiry.edit', $inquiry)}}" class="btn btn-sm btn-outline-success">
-                                        <i class="fal fa-pen"></i></span>
+                                        <i class="fal fa-pen"></i>
                                     </a>
                                 @endcan
                                 @can('delete', $inquiry)
