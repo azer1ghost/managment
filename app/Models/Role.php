@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Translatable\HasTranslations;
+use Illuminate\Support\Str;
 
 /**
  * @method static where(string $string, string $string1)
@@ -24,6 +25,11 @@ class Role extends Model
         $permissions = config('auth.permissions');
 
         return in_array($perm, $permissions, true);
+    }
+
+    public function getShortPermissionsAttribute()
+    {
+        return Str::limit($this->getAttribute('permissions'),60);
     }
 
     public function users(): HasMany
