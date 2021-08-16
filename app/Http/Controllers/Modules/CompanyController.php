@@ -49,9 +49,7 @@ class CompanyController extends Controller
 
         // Add or update social networks
         if(array_key_exists('socials', $validated)){
-            collect($validated['socials'])->each(function ($social) use ($company){
-                $company->socials()->create($social);
-            });
+            $company->socials()->createMany($validated['socials']);
         }
 
         return redirect()

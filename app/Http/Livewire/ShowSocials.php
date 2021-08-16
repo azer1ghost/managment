@@ -6,9 +6,10 @@ use Livewire\Component;
 
 class ShowSocials extends Component
 {
-    public $company;
-    public $socials;
-    public $action;
+    public object $company;
+    public array  $socials;
+    public string $action;
+
     public array $socialNetworks = [
         'facebook'  => 'Facebook',
         'instagram' => 'Instagram',
@@ -29,7 +30,7 @@ class ShowSocials extends Component
 
     public function addSocial()
     {
-        $newArr = ["id" => null,"name" => null,"url" => null];
+        $newArr = ["id" => null, "name" => null, "url" => null];
         $this->socials[] = $newArr;
     }
 

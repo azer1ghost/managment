@@ -44,7 +44,8 @@ class InquiryTable extends Component
     }
 
 
-    public function canViewAll(){
+    public function canViewAll(): bool
+    {
         $user = auth()->user();
         return $user->isDeveloper() || $user->isAdministrator() || $user->role->hasPermission('viewAll-inquiry');
     }
@@ -99,6 +100,5 @@ class InquiryTable extends Component
         $this->range['from'] = Carbon::createFromFormat('d/m/Y', $from)->startOfDay();
         $this->range['to']   = Carbon::createFromFormat('d/m/Y', $to)->endOfDay();
     }
-
 }
 
