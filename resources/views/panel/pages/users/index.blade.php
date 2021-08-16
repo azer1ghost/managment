@@ -50,21 +50,26 @@
                                                 <td>{{$user->phone}}</td>
                                                 <td>
                                                     <div class="btn-sm-group">
+                                                        @php
+                                                            $route = $user->getAttribute('id') === auth()->user()->getAttribute('id') ? route('account') : route('users.show', $user);
+                                                        @endphp
                                                         @can('view', $user)
-                                                            <a href="{{route('users.show', $user)}}" class="btn btn-sm btn-outline-primary">
+                                                            <a href="{{$route}}" class="btn btn-sm btn-outline-primary">
                                                                 <i class="fal fa-eye"></i>
                                                             </a>
                                                         @endcan
                                                         @can('update', $user)
-                                                            <a href="{{route('users.edit', $user)}}" class="btn btn-sm btn-outline-success">
+                                                            <a href="{{$route}}" class="btn btn-sm btn-outline-success">
                                                                 <i class="fal fa-pen"></i>
                                                             </a>
                                                         @endcan
-                                                        @can('delete', $user)
-                                                            <a href="{{route('users.destroy', $user)}}" delete data-name="{{$user->name}}" class="btn btn-sm btn-outline-danger" >
-                                                                <i class="fal fa-trash"></i>
-                                                            </a>
-                                                        @endcan
+                                                            @unless ($user->getAttribute('id') === auth()->user()->getAttribute('id'))
+                                                                @can('delete', $user)
+                                                                    <a href="{{route('users.destroy', $user)}}" delete data-name="{{$user->name}}" class="btn btn-sm btn-outline-danger" >
+                                                                        <i class="fal fa-trash"></i>
+                                                                    </a>
+                                                                @endcan
+                                                            @endif
                                                     </div>
                                                 </td>
                                             </tr>
