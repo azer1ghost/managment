@@ -76,8 +76,8 @@
                     <td>{{$inquiry->getAttribute('datetime')->format('d-m-Y')}}</td>
                     <td>{{$inquiry->getAttribute('datetime')->format('H:m')}}</td>
                     <td>{{$inquiry->getRelationValue('company')->getAttribute('name')}}</td>
-                    <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}}</td>
                     <td>{{$inquiry->getAttribute('fullname')}}</td>
+                    <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}}</td>
                     <td>{{$inquiry->getParameter('subject')}}</td>
                     <td>
                         <div class="btn-sm-group" >
