@@ -17,7 +17,10 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('surname')->nullable();
+            $table->string('avatar')->nullable();
+            $table->string('gender')->nullable();
             $table->string('father')->nullable();
+            $table->string('serial_pattern')->nullable();
             $table->string('serial')->nullable();
             $table->string('fin')->nullable();
             $table->date('birthday')->nullable();

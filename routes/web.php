@@ -3,8 +3,7 @@
 use App\Http\Controllers\{Main\AccountController,
     Main\PlatformController,
     Modules\CompanyController,
-    Modules\ParameterController,
-    Modules\RoleController};
+    Modules\ParameterController};
 use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\{Auth, Route};
 
@@ -24,12 +23,10 @@ Route::prefix('module')->group(function () {
 
     Route::resource('/companies', CompanyController::class);
     Route::resource('/parameters', ParameterController::class);
-    Route::resource('/roles', RoleController::class);
-
 });
 
 Auth::routes();
 
 Route::get('ip-resolver.bat', [PlatformController::class, 'downloadBat'])->name('host.bat');
 
-Route::get('locale/{locale}', [Localization::class, 'locale'])->where('locale','[a-z]{2}')->name('locale');
+Route::get('locale/{locale}', [Localization::class, 'locale'])->whereAlpha('locale')->where('locale','[A-Za-z0-9]{2}')->name('locale');
