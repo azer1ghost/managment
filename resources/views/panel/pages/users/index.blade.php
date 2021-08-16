@@ -44,14 +44,14 @@
                                         @forelse($users as $user)
                                             <tr>
                                                 <th scope="row">{{$loop->iteration}}</th>
-                                                <td>{{$user->fullname}}</td>
+                                                <td>{{$user->fullname}} @if($user->getAttribute('id') === auth()->id()) <h5 class="d-inline"><span class="badge badge-info text-white">Me</span></h5> @endif</td>
                                                 <td>{{$user->fin}}</td>
                                                 <td>{{$user->email}}</td>
                                                 <td>{{$user->phone}}</td>
                                                 <td>
                                                     <div class="btn-sm-group">
                                                         @php
-                                                            $route = $user->getAttribute('id') === auth()->user()->getAttribute('id') ? route('account') : route('users.show', $user);
+                                                            $route = $user->getAttribute('id') === auth()->id() ? route('account') : route('users.show', $user);
                                                         @endphp
                                                         @can('view', $user)
                                                             <a href="{{$route}}" class="btn btn-sm btn-outline-primary">
@@ -63,7 +63,7 @@
                                                                 <i class="fal fa-pen"></i>
                                                             </a>
                                                         @endcan
-                                                            @unless ($user->getAttribute('id') === auth()->user()->getAttribute('id'))
+                                                            @unless ($user->getAttribute('id') === auth()->id())
                                                                 @can('delete', $user)
                                                                     <a href="{{route('users.destroy', $user)}}" delete data-name="{{$user->name}}" class="btn btn-sm btn-outline-danger" >
                                                                         <i class="fal fa-trash"></i>
