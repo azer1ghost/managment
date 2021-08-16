@@ -28,6 +28,6 @@ class AccountController extends Controller
 
         $user->update($validated);
 
-        return back()->withNotify('info', $user->getAttribute('name'));
+        return back()->withNotify('info', $user->getAttribute('fullname'));
     }
 }

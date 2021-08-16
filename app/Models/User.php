@@ -83,7 +83,7 @@ class User extends Authenticatable
 
     public function isDeveloper()
     {
-       return false;
+       return true;
     }
 
     public function isAdministrator()

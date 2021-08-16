@@ -56,7 +56,7 @@ class UserController extends Controller
 
         return redirect()
             ->route('users.index')
-            ->withNotify('success', $user->getAttribute('name'));
+            ->withNotify('success', $user->getAttribute('fullname'));
     }
 
     public function show(User $user)

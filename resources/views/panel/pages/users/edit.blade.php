@@ -67,7 +67,9 @@
                                     <x-input::text type="password" name="password" width="6" class="pr-1" />
                                     <x-input::text type="password" name="password_confirmation" width="6" class="pr-1" label="Password Confirmation"/>
                                 @endif
+                                @if($action)
                                 <x-input::submit/>
+                                @endif
                             </div>
                         </form>
                     </div>

@@ -3,7 +3,9 @@
 use App\Http\Controllers\{Main\AccountController,
     Main\PlatformController,
     Modules\CompanyController,
-    Modules\ParameterController};
+    Modules\ParameterController,
+    Modules\RoleController,
+    Modules\UserController};
 use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\{Auth, Route};
 
@@ -12,7 +14,7 @@ Route::get('/welcome', [PlatformController::class, 'welcome'])->name('welcome');
 Route::get('/dashboard', [PlatformController::class, 'dashboard'])->name('dashboard');
 
 Route::get('/account', [AccountController::class, 'account'])->name('account');
-Route::post('/account', [AccountController::class, 'save']);
+Route::post('/account/{user}', [AccountController::class, 'save'])->name('account.save');
 
 Route::prefix('module')->group(function () {
 
@@ -23,6 +25,8 @@ Route::prefix('module')->group(function () {
 
     Route::resource('/companies', CompanyController::class);
     Route::resource('/parameters', ParameterController::class);
+    Route::resource('/users', UserController::class);
+    Route::resource('/roles', RoleController::class);
 });
 
 Auth::routes();
