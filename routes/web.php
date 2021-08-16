@@ -13,7 +13,7 @@ Route::get('/welcome', [PlatformController::class, 'welcome'])->name('welcome');
 Route::get('/dashboard', [PlatformController::class, 'dashboard'])->name('dashboard');
 
 Route::get('/account', [AccountController::class, 'account'])->name('account');
-Route::post('/account', [AccountController::class, 'save']);
+Route::post('/account/{user}', [AccountController::class, 'save'])->name('account.save');
 
 Route::prefix('module')->group(function () {
 

@@ -15,25 +15,29 @@ class UserRequest extends FormRequest
 
     public function rules(): array
     {
-        // $logo = $this->isMethod('POST') ? 'required' : 'nullable';
+        $password = $this->isMethod('POST') && !$this->routeIs('account.save') ? 'required' : 'nullable';
         return [
-            'name'      => 'required|string|max:255',
-            'surname'      => 'required|string|max:255',
-            'father'      => 'required|string|max:255',
-            'serial'      => 'required|string|max:255',
-            'fin'      => 'required|string|max:255',
-            'birthday'      => 'required|date',
-            'email'      => 'required|email:rfc,dns',
-            'email_coop'      => 'required|email:rfc,dns',
-            'position'      => 'required|string|max:255',
-            'department'      => 'required|string|max:255',
-            'phone'     => 'required|string|max:255',
-            'phone_coop'     => 'required|string|max:255',
-            'country'   => 'required|string|max:255',
-            'city'   => 'required|string|max:255',
-            'address'   => 'required|string|max:255',
-            'company_id'   => 'required|string|max:255',
-            'role_id'   => 'required|string|max:255',
+            'name'           => 'required|string|max:255',
+            'surname'        => 'nullable|string|max:255',
+            'avatar'         => 'nullable|string|max:255',
+            'father'         => 'nullable|string|max:255',
+            'gender'         => 'nullable|string|max:255',
+            'serial'         => 'nullable|string|max:255',
+            'serial_pattern' => 'nullable|string|max:255',
+            'fin'            => 'nullable|string|max:255',
+            'email'          => 'required|email:rfc,dns',
+            'email_coop'     => 'nullable|email:rfc,dns',
+            'position'       => 'nullable|string|max:255',
+            'department'     => 'nullable|string|max:255',
+            'phone'          => 'nullable|string|max:255',
+            'phone_coop'     => 'nullable|string|max:255',
+            'country'        => 'nullable|string|max:255',
+            'city'           => 'nullable|string|max:255',
+            'address'        => 'nullable|string|max:255',
+            'company_id'     => 'nullable|string|max:255',
+            'role_id'        => 'nullable|string|max:255',
+            'birthday'       => 'nullable|date',
+            'password'       => "$password|confirmed|min:6|string",
         ];
     }
 

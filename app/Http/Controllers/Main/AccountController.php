@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AccountController extends Controller
 {
@@ -18,8 +21,13 @@ class AccountController extends Controller
         return view('panel.pages.main.account');
     }
 
-    public function save(Request $request): array
+    public function save(UserRequest $request, User $user): RedirectResponse
     {
-        return $request->all();
+        $validated = $request->validated();
+        $validated['password'] = is_null($validated['password']) ? auth()->user()->getAuthPassword() : Hash::make($validated['password']);
+
+        $user->update($validated);
+
+        return back()->withNotify('info', $user->getAttribute('name'));
     }
 }

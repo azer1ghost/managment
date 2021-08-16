@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -42,6 +43,14 @@ class UserController extends Controller
     public function store(UserRequest $request): RedirectResponse
     {
         $validated = $request->validated();
+        $validated['password'] = Hash::make($validated['password']);
+
+        if ($request->file('avatar')) {
+
+            $avatar = $request->file('avatar');
+
+            $validated['avatar'] = $avatar->storeAs('avatars', $avatar->hashName());
+        }
 
         $user = User::create($validated);
 
@@ -74,6 +83,17 @@ class UserController extends Controller
     {
         $validated = $request->validated();
 
+        if ($request->file('avatar')) {
+
+            $avatar = $request->file('avatar');
+
+            $validated['avatar'] = $avatar->storeAs('avatars', $avatar->hashName());
+
+            if (Storage::exists($user->getAttribute('avatar'))) {
+                Storage::delete($user->getAttribute('avatar'));
+            }
+        }
+
         $user->update($validated);
 
         return back()->withNotify('info', $user->getAttribute('name'));
@@ -82,8 +102,8 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         if ($user->delete()) {
-            if (Storage::exists($user->logo)) {
-                Storage::delete($user->logo);
+            if (Storage::exists($user->getAttribute('avatar'))) {
+                Storage::delete($user->getAttribute('avatar'));
             }
             return response('OK');
         }
