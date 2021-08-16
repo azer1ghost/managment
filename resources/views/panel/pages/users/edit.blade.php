@@ -63,7 +63,8 @@
                                 <x-input::select  name="country"   :value="optional($data)->country"  width="3" class="pr-1" :options="['Azerbaijan','Turkey']"/>
                                 <x-input::select  name="city"      :value="optional($data)->city"     width="3" class="pr-1" :options="['Baku','Sumgayit']"/>
                                 <x-input::text    name="address"   :value="optional($data)->address"  width="6" class="pr-1" />
-                                @if(is_null($data))
+                                <x-input::select  name="role_id"   :value="optional($data)->role_id"  width="3" class="pr-1" :options="$roles" label="Role"/>
+                            @if(is_null($data))
                                     <x-input::text type="password" name="password" width="6" class="pr-1" />
                                     <x-input::text type="password" name="password_confirmation" width="6" class="pr-1" label="Password Confirmation"/>
                                 @endif

@@ -20,9 +20,11 @@ class Role extends Model
 
     public function hasPermission($perm): bool
     {
-        //$permissions = unserialize($value);
-
-        $permissions = config('auth.permissions');
+        if (env('APP_ENV','local') == 'local'){
+            $permissions = config('auth.permissions');
+        }else{
+            $permissions = explode(',', $this->getAttribute('permissions'));
+        }
 
         return in_array($perm, $permissions, true);
     }
