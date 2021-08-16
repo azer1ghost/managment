@@ -10,7 +10,7 @@ class UserRequest extends FormRequest
 
     public function authorize()
     {
-        return $this->user()->can('manage-user', User::class);
+        return true;
     }
 
     public function rules(): array

@@ -89,7 +89,7 @@ class Sidebar extends Component
     {
         return /** @lang Blade */
             <<<'blade'
-            <ul class="nav">
+            <ul class="nav flex-row flex-md-column">
                 @foreach($items as $item)
                     @can($item->permission ?? 'generally') 
                         @if($item->type ?? '' == "title")

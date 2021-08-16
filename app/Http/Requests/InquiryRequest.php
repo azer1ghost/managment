@@ -14,7 +14,7 @@ class InquiryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->can('create', Inquiry::class);
+        return true;
     }
 
 //    protected function prepareForValidation()
