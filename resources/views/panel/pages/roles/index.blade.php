@@ -43,7 +43,7 @@
                                             <tr>
                                                 <th scope="row">{{$loop->iteration}}</th>
                                                 <td>{{$role->getAttribute('name')}}</td>
-                                                <td>{{$role->short_permissions}}</td>
+                                                <td>{{$role->getAttribute('short_permissions')}}</td>
                                                 <td>
                                                     <div class="btn-sm-group">
                                                         @can('view', $role)

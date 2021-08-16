@@ -33,6 +33,12 @@
                                             All
                                         </label>
                                     </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="check-perms">
+                                        <label class="form-check-label" for="check-perms">
+                                            Choose All
+                                        </label>
+                                    </div>
                                     @error("all_perms") <p class="text-danger">{{$message}}</p> @enderror
                                     <div class="row">
                                         @php $perms = config('auth.permissions') @endphp
@@ -45,7 +51,7 @@
                                                 $type  = strpos($perm, '-') ? substr($perm, strpos($perm, '-') + 1) : $perm;
                                             @endphp
                                             @if (!Str::contains($prevPerm, $type) || $loop->first)
-                                                <div class="col-12 col-md-4">
+                                                <div class="col-12 col-md-4 my-2">
                                                 <p class="text-muted my-2">{{ucfirst($type)}}</p>
                                             @endif
                                                 <div class="form-check">
@@ -84,10 +90,19 @@
         $('#perm-0').change(function (){
             checkAll();
         });
-        function checkAll(){
-            if ($("#perm-0").prop('checked') == true) {
+        $('#check-perms').change(function (){
+            if ($(this).prop('checked') == true) {
+                $("input[name='perms[]']").map(function(){ $(this).prop('checked', true) });
+            }else{
+                $("input[name='perms[]']").map(function(){ $(this).prop('checked', false) });
+            }
+        });
+        function checkAll(check = "perm-0"){
+            if ($(`#${check}`).prop('checked') == true) {
+                $("#check-perms").prop('disabled', true).parent('div').hide();
                 $("input[name='perms[]']").map(function(){ $(this).prop('disabled',true).parent('div').parent('div').hide() });
             }else{
+                $("#check-perms").prop('disabled', false).parent('div').show();
                 $("input[name='perms[]']").map(function(){ $(this).prop('disabled',false).parent('div').parent('div').show() });
             }
         }
