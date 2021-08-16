@@ -6,7 +6,7 @@ return [
         'types' => [
             'contact_method' => 'Contact Method',
             'subject' => 'Subject',
-            'source' => 'Soruce',
+            'source' => 'Source',
             'kind' => 'Kind',
             'operation' => 'Operation',
             'status' => 'Status',
