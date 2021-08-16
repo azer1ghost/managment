@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
@@ -65,6 +66,7 @@ class UserController extends Controller
             ->with([
                 'action' => null,
                 'method' => null,
+                'roles'  => Role::all()->pluck('name','id')->toArray(),
                 'data' => $user
             ]);
     }
@@ -75,6 +77,7 @@ class UserController extends Controller
             ->with([
                 'action' => route('users.update', $user),
                 'method' => "PUT",
+                'roles'  => Role::all()->pluck('name','id')->toArray(),
                 'data' => $user
             ]);
     }
