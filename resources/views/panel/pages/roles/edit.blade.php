@@ -39,14 +39,12 @@
                                         @foreach ($perms as $index => $perm)
                                             @php
                                                 // next and previous permissions
-                                                $prevPerm = $perms[$index == 0 ?: $index-1];
-                                                $nextPerm = $perms[$index == $loop->count-1 ?: $index+1];
-                                                // next and previous types of permissions
-                                                $prevType = strpos($prevPerm, '-') ? substr($prevPerm, strpos($prevPerm, '-') + 1) : $prevPerm;
-                                                $nextType = strpos($nextPerm, '-') ? substr($nextPerm, strpos($nextPerm, '-') + 1) : $nextPerm;
+                                                $prevPerm = $perms[$index == 0 ?: $index - 1];
+                                                $nextPerm = $perms[$index == $loop->count - 1 ?: $index + 1];
+                                                // type of permission
                                                 $type  = strpos($perm, '-') ? substr($perm, strpos($perm, '-') + 1) : $perm;
                                             @endphp
-                                            @if ($prevType !== $type || $loop->first)
+                                            @if (!Str::contains($prevPerm, $type) || $loop->first)
                                                 <div class="col-12 col-md-4">
                                                 <p class="text-muted my-2">{{ucfirst($type)}}</p>
                                             @endif
@@ -56,7 +54,7 @@
                                                         {{$perm}}
                                                     </label>
                                                 </div>
-                                            @if ($nextType !== $type || $loop->first) </div> @endif
+                                            @if (!Str::contains($nextPerm, $type) || $loop->first) </div> @endif
                                         @endforeach
                                     </div>
                                     @error("perms") <p class="text-danger">{{$message}}</p> @enderror
