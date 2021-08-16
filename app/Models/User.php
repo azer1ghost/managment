@@ -83,12 +83,12 @@ class User extends Authenticatable
 
     public function isDeveloper()
     {
-        return $this->getAttribute('role_id') == 1;
+        return $this->getAttribute('role_id') === 1;
     }
 
     public function isAdministrator()
     {
-        return $this->getAttribute('role_id') == 2;
+        return $this->getAttribute('role_id') === 2;
     }
 
     public function inquiries(): HasMany
