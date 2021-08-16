@@ -48,7 +48,7 @@ class InquiryTable extends Component
         return view('panel.pages.customer-services.inquiry.components.inquiry-table', [
             'inquiries' => Inquiry::query()
                 ->withoutBackups()
-                ->when( (!auth()->user()->isDeveloper() OR !auth()->user()->isAdministrator() ), function ($query){
+                ->when(!(auth()->user()->isDeveloper() OR auth()->user()->isAdministrator()), function ($query){
                     return $query->where('user_id', auth()->id());
                 })
                 //->select('id', 'code', 'user_id', 'datetime', 'company_id', 'fullname', 'subject', 'created_at')
