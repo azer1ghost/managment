@@ -37,7 +37,7 @@ class CompanyPolicy
         return $user->role->hasPermission("manage-{$this->class}");
     }
 
-    public function delete(User $user, Company $inquiry): bool
+    public function delete(User $user, Company $company): bool
     {
         return $user->role->hasPermission("manage-{$this->class}");
     }

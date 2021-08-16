@@ -37,7 +37,7 @@ class ParameterPolicy
         return $user->role->hasPermission("manage-{$this->class}");
     }
 
-    public function delete(User $user, Parameter $inquiry): bool
+    public function delete(User $user, Parameter $parameter): bool
     {
         return $user->role->hasPermission("manage-{$this->class}");
     }

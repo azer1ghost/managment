@@ -50,16 +50,13 @@
                                                 <td>{{$user->phone}}</td>
                                                 <td>
                                                     <div class="btn-sm-group">
-                                                        @php
-                                                            $route = $user->getAttribute('id') === auth()->id() ? route('account') : route('users.show', $user);
-                                                        @endphp
                                                         @can('view', $user)
-                                                            <a href="{{$route}}" class="btn btn-sm btn-outline-primary">
+                                                            <a href="{{ $user->getAttribute('id') === auth()->id() ? route('account') : route('users.show', $user)}}" class="btn btn-sm btn-outline-primary">
                                                                 <i class="fal fa-eye"></i>
                                                             </a>
                                                         @endcan
                                                         @can('update', $user)
-                                                            <a href="{{$route}}" class="btn btn-sm btn-outline-success">
+                                                            <a href="{{ $user->getAttribute('id') === auth()->id() ? route('account') : route('users.edit', $user)}}" class="btn btn-sm btn-outline-success">
                                                                 <i class="fal fa-pen"></i>
                                                             </a>
                                                         @endcan

@@ -28,16 +28,16 @@ class UserPolicy
 
     public function create(User $user): bool
     {
-        return $user->role->hasPermission("manage-{$this->class}");
+        return $user->role->hasPermission(__FUNCTION__."-{$this->class}");
     }
 
     public function update(User $user): bool
     {
-        return $user->role->hasPermission("manage-{$this->class}");
+        return $user->role->hasPermission(__FUNCTION__."-{$this->class}");
     }
 
-    public function delete(User $user, User $inquiry): bool
+    public function delete(User $user): bool
     {
-        return $user->role->hasPermission("manage-{$this->class}");
+        return $user->role->hasPermission(__FUNCTION__."-{$this->class}");
     }
 }

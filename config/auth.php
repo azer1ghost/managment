@@ -24,7 +24,7 @@ return [
         'viewAny-account', 'manage-account',
         'viewAny-company', 'view-company', 'manage-company',
         'viewAny-parameter', 'view-parameter', 'manage-parameter',
-        'viewAny-user', 'view-user', 'manage-user',
+        'viewAny-user', 'view-user', 'create-user', 'update-user', 'delete-user',
         'viewAny-inquiry', 'view-inquiry', 'create-inquiry', 'update-inquiry', 'delete-inquiry', 'forceDelete-inquiry', 'restore-inquiry',
     ],
 
