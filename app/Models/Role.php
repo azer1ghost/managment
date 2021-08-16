@@ -25,7 +25,9 @@ class Role extends Model
         }else{
             $permissions = explode(',', $this->getAttribute('permissions'));
         }
-
+        if($this->getAttribute('permissions') == 'all'){
+            return true;
+        }
         return in_array($perm, $permissions, true);
     }
 
