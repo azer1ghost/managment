@@ -47,34 +47,34 @@ class Sidebar extends Component
                 'title' => 'Signature',
                 'icon'  => 'fa fa-envelope',
                 'url'  => route('signature-select-company'),
-                'permission' => 'generally',
+                'permission' => 'signature',
             ],
 
             (object) [
                 'title' => 'Customer Services',
                 'icon'  => 'fa fa-phone',
                 'url'  => route('customer-services'),
-                'permission' => 'generally',
+                'permission' => 'viewAny-inquiry',
             ],
 
             (object) [
                 'title' => 'Parameters',
                 'icon'  => 'fa fa-list',
                 'url'  => route('parameters.index'),
-                'permission' => 'generally',
+                'permission' => 'viewAny-parameter',
             ],
             (object) [
                 'title' => 'Roles',
                 'icon'  => 'fas fa-user-tag',
                 'url'  => route('roles.index'),
-                'permission' => 'generally',
+                'permission' => 'viewAny-role',
             ],
 
             (object) [
                 'title' => 'Users',
                 'icon'  => 'fa fa-users',
                 'url'  => route('users.index'),
-                'permission' => 'generally',
+                'permission' => 'viewAny-user',
             ],
 
         ];
