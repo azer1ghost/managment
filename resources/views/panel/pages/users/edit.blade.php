@@ -76,11 +76,11 @@
         </div>
     </div>
 @endsection
-
 @section('scripts')
     @if(is_null($action))
         <script>
             $('input').attr('readonly', true)
+            $('input[type="file"]').attr('disabled', true)
             $('select').attr('disabled', true)
             $('textarea').attr('readonly', true)
         </script>
