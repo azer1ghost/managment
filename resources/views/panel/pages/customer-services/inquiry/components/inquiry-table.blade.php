@@ -64,6 +64,7 @@
                     <th>Time</th>
                     <th>Company</th>
                     <th>Client name</th>
+                    <th>Written by</th>
                     <th>Subject</th>
                     <th>Actions</th>
                 </tr>
@@ -75,6 +76,7 @@
                     <td>{{$inquiry->getAttribute('datetime')->format('d-m-Y')}}</td>
                     <td>{{$inquiry->getAttribute('datetime')->format('H:m')}}</td>
                     <td>{{$inquiry->getRelationValue('company')->getAttribute('name')}}</td>
+                    <td>{{$inquiry->getRelationValue('user')->getAttribute('name')}}</td>
                     <td>{{$inquiry->getAttribute('fullname')}}</td>
                     <td>{{$inquiry->getParameter('subject')}}</td>
                     <td>
