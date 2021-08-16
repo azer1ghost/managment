@@ -6,6 +6,7 @@ use Cache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
@@ -16,7 +17,7 @@ class Inquiry extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'code', 'datetime', 'editable_ended_at',
+        'code', 'datetime',
         'client', 'fullname', 'phone',
         'subject', 'kind', 'contact_method', 'source', 'operation', 'status',
         'note', 'redirected_user_id', 'company_id', 'user_id'
@@ -50,6 +51,11 @@ class Inquiry extends Model
     public function scopeWithoutBackups($query)
     {
         return $query->whereNull('inquiry_id');
+    }
+
+    public function editableUsers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_can_edit_inquiries')->withPivot('editable_ended_at');
     }
 
     public function getParameter($data)

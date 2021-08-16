@@ -39,7 +39,7 @@ class InquiryPolicy
         if (
             ($inquiry->getAttribute('user_id') === $user->getAttribute('id'))  &&
             $user->role->hasPermission(__FUNCTION__."-$this->class") &&
-            $inquiry->getAttribute('created_at')->addMinutes(7) > now()
+            $user->canEditInquiry($inquiry)
         ) {
             return $this->allow();
         }
@@ -52,23 +52,22 @@ class InquiryPolicy
         return
             $user->role->hasPermission(__FUNCTION__."-{$this->class}") &&
             $inquiry->getAttribute('user_id') === $user->getAttribute('id') &&
-            $inquiry->getAttribute('created_at')->addMinutes(7) > now();
+            $user->canEditInquiry($inquiry);
     }
 
     public function restore(User $user, Inquiry $inquiry): bool
     {
-        //editable_ended_at
         return
             $user->role->hasPermission(__FUNCTION__."-{$this->class}") &&
-            $inquiry->getAttribute('user_id') === $user->getAttribute('id'); // &&
-           // $inquiry->getAttribute('created_at')->addMinutes(7) > now();
+            $inquiry->getAttribute('user_id') === $user->getAttribute('id') &&
+            $user->canEditInquiry($inquiry);
     }
 
-    public function forceDelete(User $user,  Inquiry $inquiry): bool
+    public function forceDelete(User $user, Inquiry $inquiry): bool
     {
         return
             $user->role->hasPermission(__FUNCTION__."-{$this->class}") &&
-            $inquiry->getAttribute('user_id') === $user->getAttribute('id'); // &&
-            // $inquiry->getAttribute('created_at')->addMinutes(7) > now();
+            $inquiry->getAttribute('user_id') === $user->getAttribute('id') &&
+            $user->canEditInquiry($inquiry);
     }
 }

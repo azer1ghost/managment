@@ -78,7 +78,7 @@
                     <td>{{$inquiry->getAttribute('fullname')}}</td>
                     <td>{{$inquiry->getParameter('subject')}}</td>
                     <td>
-                        <div class="btn-sm-group">
+                        <div class="btn-sm-group" >
                             @if($trashBox)
                                 @can('restore', $inquiry)
                                     <a href="{{route('inquiry.restore', $inquiry)}}" class="btn btn-sm btn-outline-primary" >
@@ -86,7 +86,7 @@
                                     </a>
                                 @endcan
                                 @can('forceDelete', $inquiry)
-                                    <a href="{{route('inquiry.forceDelete', $inquiry)}}" delete data-name="{{$inquiry->code}}" class="btn btn-sm btn-outline-danger" >
+                                    <a onclick="deleteAction('{{route('inquiry.forceDelete', $inquiry)}}', '{{$inquiry->code}}')" class="btn btn-sm btn-outline-danger" >
                                         <i class="fa fa-times"></i>
                                     </a>
                                 @endcan
@@ -102,7 +102,7 @@
                                     </a>
                                 @endcan
                                 @can('delete', $inquiry)
-                                    <a href="{{route('inquiry.destroy', $inquiry)}}" delete data-name="{{$inquiry->code}}" class="btn btn-sm btn-outline-danger" >
+                                    <a onclick="deleteAction('{{route('inquiry.destroy', $inquiry)}}', '{{$inquiry->code}}')" class="btn btn-sm btn-outline-danger" >
                                         <i class="fal fa-trash-alt"></i>
                                     </a>
                                 @endcan
@@ -143,6 +143,73 @@
         $('#daterange').on('change', function (e) {
             @this.set('daterange', e.target.value)
         });
+
+        function deleteAction(url, name){
+            $.confirm({
+                title: 'Confirm delete action',
+                content: `Are you sure delete <b>${name}</b> ?`,
+                autoClose: 'confirm|8000',
+                icon: 'fa fa-question',
+                type: 'red',
+                theme: 'modern',
+                typeAnimated: true,
+                buttons: {
+                    confirm: function () {
+                        $.ajax({
+                            url:   url,
+                            type: 'DELETE',
+                            success: function (responseObject, textStatus, xhr)
+                            {
+                                $.confirm({
+                                    title: 'Delete successful',
+                                    icon: 'fa fa-check',
+                                    content: '<b>:name</b>'.replace(':name',  name),
+                                    type: 'blue',
+                                    typeAnimated: true,
+                                    autoClose: 'reload|3000',
+                                    theme: 'modern',
+                                    buttons: {
+                                        reload: {
+                                            text: 'Ok',
+                                            btnClass: 'btn-blue',
+                                            keys: ['enter'],
+                                            action: function(){
+                                                window.location.reload()
+                                            }
+                                        }
+                                    }
+                                });
+                            },
+                            error: function ()
+                            {
+                                $.confirm({
+                                    title: 'Confirm!',
+                                    content: 'Ops something went wrong! Please reload page and try again.',
+                                    type: 'red',
+                                    typeAnimated: true,
+                                    buttons: {
+                                        cancel: function () {
+
+                                        },
+                                        reload: {
+                                            text: 'Reload page',
+                                            btnClass: 'btn-blue',
+                                            keys: ['enter'],
+                                            action: function(){
+                                                window.location.reload()
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    },
+                    cancel: function () {
+
+                    },
+                }
+            });
+        }
     </script>
 @endsection
 

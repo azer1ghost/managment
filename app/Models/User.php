@@ -5,9 +5,11 @@ namespace App\Models;
 //use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use phpDocumentor\Reflection\Types\Boolean;
 
 /**
  * @method static insert(array $array)
@@ -74,5 +76,19 @@ class User extends Authenticatable
     public function inquiries(): HasMany
     {
         return $this->hasMany(Inquiry::class);
+    }
+
+    public function editableInquiries(): BelongsToMany
+    {
+        return $this->belongsToMany(Inquiry::class, 'user_can_edit_inquiries')->withPivot('editable_ended_at');
+    }
+
+    public function canEditInquiry(Inquiry $inquiry): bool
+    {
+        if ($query = $this->editableInquiries()->withTrashed()->find($inquiry->getAttribute('id'))){
+            return $query->pivot->getAttribute('editable_ended_at') > now();
+        }
+
+       return false;
     }
 }

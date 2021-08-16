@@ -31,7 +31,6 @@ class CreateInquiriesTable extends Migration
             $table->foreignId('user_id')->nullable();
             $table->integer('redirected_user_id')->nullable();
             $table->foreignId('inquiry_id')->index()->nullable()->constrained()->onDelete('CASCADE');
-            $table->dateTime('editable_ended_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

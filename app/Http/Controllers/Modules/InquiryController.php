@@ -46,7 +46,7 @@ class InquiryController extends Controller
 
     public function store(InquiryRequest $request): RedirectResponse
     {
-        auth()->user()->inquiries()->create(
+        $inquiry = auth()->user()->inquiries()->create(
             array_merge(
                 $request->validated(),
                 [
@@ -55,6 +55,13 @@ class InquiryController extends Controller
                 ]
             )
         );
+
+        auth()->user()
+            ->editableInquiries()
+            ->attach(
+                $inquiry->getAttribute('id'),
+                ['editable_ended_at' => $inquiry->getAttribute('created_at')->addMinutes(7)]
+            );
 
         return redirect()->route('inquiry.index')->withNotify('info', 'Inquiry');
     }
