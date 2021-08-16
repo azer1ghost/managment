@@ -43,12 +43,18 @@ class InquiryTable extends Component
         $this->companies = Company::whereNotIn('id', [1])->get();
     }
 
+
+    public function canViewAll(){
+        $user = auth()->user();
+        return $user->isDeveloper() || $user->isAdministrator() || $user->role->hasPermission('viewAll-inquiry');
+    }
+
     public function render()
     {
         return view('panel.pages.customer-services.inquiry.components.inquiry-table', [
             'inquiries' => Inquiry::query()
                 ->withoutBackups()
-                ->when(!(auth()->user()->isDeveloper() OR auth()->user()->isAdministrator()), function ($query){
+                ->when($this->canViewAll(), function ($query){
                     return $query->where('user_id', auth()->id());
                 })
                 //->select('id', 'code', 'user_id', 'datetime', 'company_id', 'fullname', 'subject', 'created_at')

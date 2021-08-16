@@ -2,6 +2,7 @@
 
 return [
 
+
     'parameters' => [
         'types' => [
             'contact_method' => 'Contact Method',
