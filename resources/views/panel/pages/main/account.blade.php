@@ -30,6 +30,8 @@
                                 <div class="row">
                                     <x-input::text    name="position"      :value="auth()->user()->getAttribute('position')"   width="6"  class="pr-1" label="Position"/>
                                     <x-input::select  name="department_id" :value="auth()->user()->getRelationValue('department')->getAttribute('id')" width="6"  class="pr-1" :options="$departments" label="Department" />
+                                    <x-input::select  name="company_id"    :value="auth()->user()->getRelationValue('company')->getAttribute('id')"  width="6"  class="pr-1" :options="$companies" label="Department" />
+
                                 </div>
                             </div>
                             <div class="form-row col-md-12">
@@ -80,6 +82,8 @@
     @if(!in_array(auth()->user()->getRelationValue('role')->getAttribute('id'), array(1, 2)))
         <script>
             $('select[name="role_id"]').attr('disabled', true)
+            $('select[name="department_id"]').attr('disabled', true)
+            $('select[name="company_id"]').attr('disabled', true)
         </script>
     @endif
 @endsection

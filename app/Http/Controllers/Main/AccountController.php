@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Models\Company;
 use App\Models\Department;
 use App\Models\Role;
 use Illuminate\Contracts\View\View;
@@ -22,7 +23,8 @@ class AccountController extends Controller
     {
         return view('panel.pages.main.account',[
             'roles' => Role::all()->pluck('name','id')->toArray(),
-            'departments' => Department::all()->pluck('name', 'id')->toArray()
+            'departments' => Department::all()->pluck('name', 'id')->toArray(),
+            'companies' => Company::all()->pluck('name', 'id')->toArray()
 ]);
     }
 
@@ -30,9 +32,13 @@ class AccountController extends Controller
     {
         $validated = $request->validated();
         $currentRole = $request->user()->getRelationValue('role')->getAttribute('id');
+        $currentCompany = $request->user()->getRelationValue('company')->getAttribute('id');
+        $currentDepartment = $request->user()->getRelationValue('department')->getAttribute('id');
         $validated['password'] = is_null($validated['password']) ? auth()->user()->getAuthPassword() : Hash::make($validated['password']);
         // 1, 2 => Admin, President
         $validated['role_id']  = !in_array($currentRole, array(1, 2)) ? $currentRole : $validated['role_id'];
+        $validated['company_id']  = !in_array($currentRole, array(1, 2)) ? $currentCompany : $validated['company_id'];
+        $validated['department_id']  = !in_array($currentRole, array(1, 2)) ? $currentDepartment : $validated['department_id'];
         $user->update($validated);
 
         return back()->withNotify('info', $user->getAttribute('fullname'));

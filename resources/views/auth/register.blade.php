@@ -11,16 +11,20 @@
                     <div class="col-md-7">
                         <div class="card-body">
                             <div class="brand-wrapper">
-                                <img src="{{asset('images/logos/group.png')}}" alt="logo" class="logo">
+                                <img src="{{asset('assets/images/logos/group.png')}}" alt="logo" class="logo">
                             </div>
                             <p class="login-card-description">Register as employer</p>
-                            @php $departments = \App\Models\Department::all()->pluck('name', 'id')->toArray(); @endphp
+                            @php
+                                $departments = \App\Models\Department::all()->pluck('name', 'id')->toArray();
+                                $companies   = \App\Models\Company::all()->pluck('name', 'id')->toArray();
+                            @endphp
                             <form method="POST" class="form-row" action="{{ route('register') }}">
                                 @csrf
                                 <x-input::text required="" name="name" width="6"/>
                                 <x-input::text required="" name="surname" width="6"/>
                                 <x-input::email required="" name="email" label="Cooperative Email" />
                                 <x-input::select name="department_id"  width="6"  class="pr-1" :options="$departments" label="Department"  required=""/>
+                                <x-input::select name="company_id"  width="6"  class="pr-1" :options="$companies" label="Company"  required=""/>
                                 <x-input::text type="password" required="" name="password" width="6"/>
                                 <x-input::text type="password" required="" name="password_confirmation" label="Password Confirmation" width="6"/>
                                 <x-input::submit value="Register"/>

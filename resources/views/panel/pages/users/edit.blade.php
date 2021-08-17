@@ -30,6 +30,7 @@
                                 <div class="row">
                                     <x-input::text    name="position"      :value="optional($data)->getAttribute('position')"    width="6"  class="pr-1" label="Position"/>
                                     <x-input::select  name="department_id" :value="optional($data)->getRelationValue('department')->getAttribute('id')"  width="6"  class="pr-1" :options="$departments" label="Department" />
+                                    <x-input::select  name="company_id"    :value="optional($data)->getRelationValue('company')->getAttribute('id')"  width="6"  class="pr-1" :options="$companies" label="Department" />
                                 </div>
                             </div>
                             <div class="form-row col-md-12">
