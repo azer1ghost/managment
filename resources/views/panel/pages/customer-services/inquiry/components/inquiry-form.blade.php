@@ -2,10 +2,10 @@
     @csrf
     @method($method)
 
-    <x-input::select name="contact_method" :label="__('translates.fields.contactMethod')" value="{{optional($data)->contact_method}}" :options="$contact_methods" width="3" class="pr-3" />
+    <x-input::select name="contact_method" :label="__('translates.fields.contactMethod')" value="{{$inquiry->contact_method}}" :options="$contact_methods" width="3" class="pr-3" />
 
-    <x-input::text name="date" :label="__('translates.fields.date')" value="{{(optional($data)->datetime ?? now())->format('d-m-Y')}}" type="text" width="3" class="pr-2" />
-    <x-input::text name="time" :label="__('translates.fields.time')" value="{{(optional($data)->datetime ?? now())->format('H:m')}}" type="time" width="3" class="pr-2" />
+{{--    <x-input::text name="date" :label="__('translates.fields.date')" value="{{$inquiry->datetime->format('d-m-Y')}}" type="text" width="3" class="pr-2" />--}}
+{{--    <x-input::text name="time" :label="__('translates.fields.time')" value="{{$inquiry->datetime->format('H:i')}}" type="time" width="3" class="pr-2" />--}}
 
     <div class="form-group col-6 col-md-3">
         <label for="company" >{{__('translates.fields.company')}}</label>
@@ -23,12 +23,12 @@
     </div>
 
     @if ($selectedCompany === 4 || optional($data)->company_id === 4)
-        <x-input::text name="client" :label="__('translates.fields.client')" width="3" value="{{optional($data)->client}}" placeholder="MBX" class="pr-2" />
+        <x-input::text name="client" :label="__('translates.fields.client')" width="3" value="{{$inquiry->client}}" placeholder="MBX" class="pr-2" />
     @endif
 
-    <x-input::text name="fullname" :label="__('translates.fields.fullname')" :placeholder="__('translates.placeholders.fullname')" value="{{optional($data)->fullname}}" width="3" class="pr-2" />
+    <x-input::text name="fullname" :label="__('translates.fields.fullname')" :placeholder="__('translates.placeholders.fullname')" value="{{$inquiry->fullname}}" width="3" class="pr-2" />
 
-    <x-input::text name="phone" :label="__('translates.fields.phone')" :placeholder="__('translates.placeholders.phone')" value="{{optional($data)->phone}}" width="3" class="pr-2" />
+    <x-input::text name="phone" :label="__('translates.fields.phone')" :placeholder="__('translates.placeholders.phone')" value="{{$inquiry->phone}}" width="3" class="pr-2" />
 
     @if ($subjects->isNotEmpty())
         <div class="form-group col-6 col-md-3">

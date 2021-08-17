@@ -11,7 +11,8 @@ use Livewire\Component;
 
 class InquiryForm extends Component
 {
-    public ?Inquiry $data;
+    public ?object $data;
+    public ?object $inquiry;
     public Collection $parameters;
     public User $user;
 
@@ -35,7 +36,22 @@ class InquiryForm extends Component
 
     public function mount()
     {
-        $this->user = auth()->user();
+        $user = auth()->user();
+
+        if (is_null($this->data)){
+            $this->inquiry = new Inquiry([
+                'contact_method' => $user->getDefault('contact_method'),
+                'datetime' => now(),
+                'company_id' => $user->getDefault('company_id'),
+                'client' => "MBX",
+                'subject' => null,
+                'kind' => null,
+                'fullname' => null,
+                'phone' => null,
+            ]);
+        } else {
+            $this->inquiry = $this->data;
+        }
 
         $this->parameters = Parameter::query()
             ->where('type', 'status')

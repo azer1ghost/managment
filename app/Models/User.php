@@ -126,4 +126,9 @@ class User extends Authenticatable
         return $this->hasMany(UserDefault::class);
     }
 
+    public function getDefault($column)
+    {
+       return optional($this->defaults()->where('column', $column)->first())->getAttribute('value');
+    }
+
 }

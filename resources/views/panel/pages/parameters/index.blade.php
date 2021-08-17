@@ -44,8 +44,8 @@
                                         <tr>
                                             <th scope="row">{{$parameter->getAttribute('id')}}</th>
                                             <td>{{$parameter->getAttribute('name')}}</td>
-                                            <td>@lang("translates.parameters.types.$parameter->getAttribute('type')")</td>
-                                            <td>{{ optional($parameter->getRelationValue('parameter')->getAttribute('name') ?? 'Null'}}</td>
+                                            <td>@lang("translates.parameters.types.{$parameter->getAttribute('type')}")</td>
+                                            <td>{{ optional($parameter->getRelationValue('parameter'))->getAttribute('name') ?? 'Null'}}</td>
                                             <td>
                                                 <div class="btn-sm-group">
                                                     @can('view', $parameter)

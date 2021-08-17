@@ -63,6 +63,9 @@ class Inquiry extends Model
              optional(Parameter::select(['name'])->find($this->{$data}))->getAttribute('name')
         );
     }
+
+
+
 }
 
 
