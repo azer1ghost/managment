@@ -63,8 +63,9 @@
                                 <x-input::select  name="country"   :value="auth()->user()->country"  width="3" class="pr-1" :options="['Azerbaijan','Turkey']"/>
                                 <x-input::select  name="city"      :value="auth()->user()->city"     width="3" class="pr-1" :options="['Baku','Sumgayit']"/>
                                 <x-input::text    name="address"   :value="auth()->user()->address"  width="6" class="pr-1" />
-                                <x-input::text type="password" name="password" width="6" class="pr-1" />
-                                <x-input::text type="password" name="password_confirmation" width="6" class="pr-1" label="Password Confirmation"/>
+                                <x-input::text    name="password" width="6" class="pr-1" type="password" />
+                                <x-input::text    name="password_confirmation" width="6" class="pr-1" label="Password Confirmation" type="password"/>
+                                <x-input::select  name="role_id"   :value="auth()->user()->role_id"  width="3" class="pr-1" :options="$roles" label="Role"/>
                                 <x-input::submit/>
                             </div>
                         </form>
@@ -73,4 +74,12 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    @php // 1, 2 => Admin, President @endphp
+    @if(!in_array(auth()->user()->role_id, array(1, 2)))
+        <script>
+            $('select[name="role_id"]').attr('disabled', true)
+        </script>
+    @endif
 @endsection

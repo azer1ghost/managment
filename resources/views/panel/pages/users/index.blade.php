@@ -37,6 +37,7 @@
                                             <th scope="col">FIN</th>
                                             <th scope="col">Email</th>
                                             <th scope="col">Phone</th>
+                                            <th scope="col">Role</th>
                                             <th scope="col">Actions</th>
                                         </tr>
                                         </thead>
@@ -44,10 +45,11 @@
                                         @forelse($users as $user)
                                             <tr>
                                                 <th scope="row">{{$loop->iteration}}</th>
-                                                <td>{{$user->fullname}} @if($user->getAttribute('id') === auth()->id()) <h5 class="d-inline"><span class="badge badge-info text-white">Me</span></h5> @endif</td>
-                                                <td>{{$user->fin}}</td>
-                                                <td>{{$user->email}}</td>
-                                                <td>{{$user->phone}}</td>
+                                                <td>{{$user->getAttribute('fullname')}} @if($user->getAttribute('id') === auth()->id()) <h5 class="d-inline"><span class="badge badge-info text-white">Me</span></h5> @endif</td>
+                                                <td>{{$user->getAttribute('fin')}}</td>
+                                                <td>{{$user->getAttribute('email')}}</td>
+                                                <td>{{$user->getAttribute('phone')}}</td>
+                                                <td>{{$user->getRelationValue('role')->getAttribute('name')}}</td>
                                                 <td>
                                                     <div class="btn-sm-group">
                                                         @can('view', $user)
