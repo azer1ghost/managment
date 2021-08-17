@@ -56,16 +56,25 @@ class Image extends Component
            function previewFile() {
               const preview = document.querySelector('#input-{{$name}}');
               const file = document.querySelector('input[type=file]').files[0];
-              const reader = new FileReader();
-            
-              reader.addEventListener("load", function () {
-                // convert image file to base64 string
-                preview.src = reader.result;
-              }, false);
-            
-              if (file) {
-                reader.readAsDataURL(file);
+              if (hasExtension('data-{{$name}}', ['.jpg', '.jpeg', '.gif', '.png'])) {
+                  preview.src = URL.createObjectURL(file);
+                  preview.onload = function() {
+                    URL.revokeObjectURL(preview.src) // free memory
+                  }
+              }else{
+                  $.alert({
+                    title: 'Error',
+                    content: 'Invalid image type, please upload png, jpg, jpeg or gif',
+                    type: 'red',
+                    icon: 'fa fa-times',
+                    typeAnimated: true,
+                    theme: 'modern'
+                  }); 
               }
+            }
+            function hasExtension(inputID, exts) {
+                const fileName = document.getElementById(inputID).value;
+                return (new RegExp('(' + exts.join('|').replace(/\./g, '\\.') + ')$')).test(fileName);
             }
             </script>
         blade;
