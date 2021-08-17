@@ -77,14 +77,6 @@
     </div>
 @endsection
 @section('scripts')
-    @if(is_null($action))
-        <script>
-            $('input').attr('readonly', true)
-            $('input[type="checkbox"]').attr('disabled', true)
-            $('select').attr('disabled', true)
-            $('textarea').attr('readonly', true)
-        </script>
-    @endif
     <script>
         checkAll();
         $('#perm-0').change(function (){
@@ -107,4 +99,13 @@
             }
         }
     </script>
+    @if(is_null($action))
+        <script>
+            $('input').attr('readonly', true)
+            $('input[type="checkbox"]').attr('disabled', true)
+            $('#check-perms').parent().hide()
+            $('select').attr('disabled', true)
+            $('textarea').attr('readonly', true)
+        </script>
+    @endif
 @endsection
