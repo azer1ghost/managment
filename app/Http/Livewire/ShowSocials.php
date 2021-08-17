@@ -41,6 +41,6 @@ class ShowSocials extends Component
 
     public function render()
     {
-        return view('livewire.show-socials');
+        return view('panel.pages.companies.components.show-socials');
     }
 }
