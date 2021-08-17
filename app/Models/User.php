@@ -39,7 +39,7 @@ class User extends Authenticatable
         'fin',
         'birthday',
         'position',
-        'department',
+        'department_id',
         'phone_coop',
         'phone',
         'country',
@@ -109,5 +109,10 @@ class User extends Authenticatable
         }
 
        return false;
+    }
+
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class);
     }
 }

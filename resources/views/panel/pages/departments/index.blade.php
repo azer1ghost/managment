@@ -9,9 +9,9 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">
-                        @lang('users')
+                        @lang('departments')
                     </div>
-                    <form action="{{route('users.index')}}">
+                    <form action="{{route('departments.index')}}">
                         <div class="card-body">
                             <div class="row d-flex justify-content-between mb-2">
                                 <div class="col-6">
@@ -19,13 +19,13 @@
                                         <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2">
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
-                                            <a class="btn btn-outline-danger" href="{{route('users.index')}}"><i class="fal fa-times"></i></a>
+                                            <a class="btn btn-outline-danger" href="{{route('departments.index')}}"><i class="fal fa-times"></i></a>
                                         </div>
                                     </div>
                                 </div>
-                                @can('create', App\Models\User::class)
+                                @can('create', App\Models\Role::class)
                                     <div class="col-2">
-                                        <a class="btn btn-outline-success float-right" href="{{route('users.create')}}">@lang('translates.buttons.create')</a>
+                                        <a class="btn btn-outline-success float-right" href="{{route('departments.create')}}">@lang('translates.buttons.create')</a>
                                     </div>
                                 @endcan
                                 <div class="col-12">
@@ -33,44 +33,32 @@
                                         <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Full Name</th>
-                                            <th scope="col">FIN</th>
-                                            <th scope="col">Email</th>
-                                            <th scope="col">Phone</th>
-                                            <th scope="col">Department</th>
-                                            <th scope="col">Role</th>
+                                            <th scope="col">Name</th>
                                             <th scope="col">Actions</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @forelse($users as $user)
+                                        @forelse($departments as $department)
                                             <tr>
                                                 <th scope="row">{{$loop->iteration}}</th>
-                                                <td>{{$user->getAttribute('fullname')}} @if($user->getAttribute('id') === auth()->id()) <h5 class="d-inline"><span class="badge badge-info text-white">Me</span></h5> @endif</td>
-                                                <td>{{$user->getAttribute('fin')}}</td>
-                                                <td>{{$user->getAttribute('email')}}</td>
-                                                <td>{{$user->getAttribute('phone')}}</td>
-                                                <td>{{$user->getRelationValue('department')->getAttribute('name')}}</td>
-                                                <td>{{$user->getRelationValue('role')->getAttribute('name')}}</td>
+                                                <td>{{$department->getAttribute('name')}}</td>
                                                 <td>
                                                     <div class="btn-sm-group">
-                                                        @can('view', $user)
-                                                            <a href="{{ $user->getAttribute('id') === auth()->id() ? route('account') : route('users.show', $user)}}" class="btn btn-sm btn-outline-primary">
+                                                        @can('view', $department)
+                                                            <a href="{{route('departments.show', $department)}}" class="btn btn-sm btn-outline-primary">
                                                                 <i class="fal fa-eye"></i>
                                                             </a>
                                                         @endcan
-                                                        @can('update', $user)
-                                                            <a href="{{ $user->getAttribute('id') === auth()->id() ? route('account') : route('users.edit', $user)}}" class="btn btn-sm btn-outline-success">
+                                                        @can('update', $department)
+                                                            <a href="{{route('departments.edit', $department)}}" class="btn btn-sm btn-outline-success">
                                                                 <i class="fal fa-pen"></i>
                                                             </a>
                                                         @endcan
-                                                            @unless ($user->getAttribute('id') === auth()->id())
-                                                                @can('delete', $user)
-                                                                    <a href="{{route('users.destroy', $user)}}" delete data-name="{{$user->name}}" class="btn btn-sm btn-outline-danger" >
-                                                                        <i class="fal fa-trash"></i>
-                                                                    </a>
-                                                                @endcan
-                                                            @endif
+                                                        @can('delete', $department)
+                                                            <a href="{{route('departments.destroy', $department)}}" delete data-name="{{$department->getAttribute('name')}}" class="btn btn-sm btn-outline-danger" >
+                                                                <i class="fal fa-trash"></i>
+                                                            </a>
+                                                        @endcan
                                                     </div>
                                                 </td>
                                             </tr>
@@ -88,7 +76,7 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="float-right">
-                                        {{$users->links()}}
+                                        {{$departments->links()}}
                                     </div>
                                 </div>
                             </div>

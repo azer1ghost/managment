@@ -6,7 +6,7 @@ use Illuminate\View\Component;
 
 class Sidebar extends Component
 {
-    public $items = array();
+    public array $items;
 
     public function __construct()
     {
@@ -65,7 +65,7 @@ class Sidebar extends Component
             ],
             (object) [
                 'title' => 'Roles',
-                'icon'  => 'fas fa-user-tag',
+                'icon'  => 'fas fa-key',
                 'url'  => route('roles.index'),
                 'permission' => 'viewAny-role',
             ],
@@ -75,6 +75,13 @@ class Sidebar extends Component
                 'icon'  => 'fa fa-users',
                 'url'  => route('users.index'),
                 'permission' => 'viewAny-user',
+            ],
+
+            (object) [
+                'title' => 'Departments',
+                'icon'  => 'fa fa-users-cog',
+                'url'  => route('departments.index'),
+                'permission' => 'viewAny-department',
             ],
 
         ];

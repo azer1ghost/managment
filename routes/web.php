@@ -3,6 +3,7 @@
 use App\Http\Controllers\{Main\AccountController,
     Main\PlatformController,
     Modules\CompanyController,
+    Modules\DepartmentController,
     Modules\ParameterController,
     Modules\RoleController,
     Modules\UserController};
@@ -27,6 +28,7 @@ Route::prefix('module')->group(function () {
     Route::resource('/parameters', ParameterController::class);
     Route::resource('/users', UserController::class);
     Route::resource('/roles', RoleController::class);
+    Route::resource('/departments', DepartmentController::class);
 });
 
 Auth::routes();

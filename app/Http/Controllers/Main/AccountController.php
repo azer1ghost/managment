@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Models\Department;
 use App\Models\Role;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -19,7 +20,9 @@ class AccountController extends Controller
 
     public function account(): View
     {
-        return view('panel.pages.main.account',['roles' => Role::all()->pluck('name','id')->toArray(),
+        return view('panel.pages.main.account',[
+            'roles' => Role::all()->pluck('name','id')->toArray(),
+            'departments' => Department::all()->pluck('name', 'id')->toArray()
 ]);
     }
 

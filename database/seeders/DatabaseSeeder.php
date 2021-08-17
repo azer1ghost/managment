@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             ParameterSeeder::class,
             ParameterCompanySeeder::class,
             InquirySeeder::class,
+            DepartmentSeeder::class,
         ]);
     }
 }

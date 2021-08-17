@@ -28,16 +28,16 @@ class UserRequest extends FormRequest
             'email'          => 'required|email:rfc,dns',
             'email_coop'     => 'nullable|email:rfc,dns',
             'position'       => 'nullable|string|max:255',
-            'department'     => 'nullable|string|max:255',
             'phone'          => 'nullable|string|max:255',
             'phone_coop'     => 'nullable|string|max:255',
             'country'        => 'nullable|string|max:255',
             'city'           => 'nullable|string|max:255',
             'address'        => 'nullable|string|max:255',
-            'company_id'     => 'nullable|string|max:255',
-            'role_id'        => 'nullable|string|max:255',
+            'company_id'     => 'nullable|integer|min:1',
+            'role_id'        => 'nullable|integer|min:1',
             'birthday'       => 'nullable|date',
             'password'       => "$password|confirmed|min:6|string",
+            'department_id'     => 'nullable|integer|min:1',
         ];
     }
 
