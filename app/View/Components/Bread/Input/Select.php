@@ -21,7 +21,7 @@ class Select extends Component
         <<<'blade'
           <div {{ $attributes->merge(['class' => 'form-group col-12 col-md-'.$width]) }}>
                 <label for="data-{{$name}}">{{$label ?? Str::ucfirst($name)}}</label>
-                 <select class="form-control @error($name) is-invalid @enderror" name="{{$name}}" id="data-{{$name}}" style="padding: 10px 25px !important;">
+                 <select class="form-control @error($name) is-invalid @enderror" name="{{$name}}" id="data-{{$name}}" style="padding: .375rem 0.75rem !important;">
                      @foreach($options as $key => $option)
                         <option @if($key == $value) selected @endif value="{{$key}}">{{$option}}</option>
                      @endforeach
