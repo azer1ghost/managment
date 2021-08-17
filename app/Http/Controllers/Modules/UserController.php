@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use App\Models\Department;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -69,6 +70,7 @@ class UserController extends Controller
                 'method' => null,
                 'roles'  => Role::all()->pluck('name','id')->toArray(),
                 'departments' => Department::all()->pluck('name', 'id')->toArray(),
+                'companies' => Company::all()->pluck('name', 'id')->toArray(),
                 'data' => $user
             ]);
     }
@@ -81,6 +83,7 @@ class UserController extends Controller
                 'method' => "PUT",
                 'roles'  => Role::all()->pluck('name','id')->toArray(),
                 'departments' => Department::all()->pluck('name', 'id')->toArray(),
+                'companies' => Company::all()->pluck('name', 'id')->toArray(),
                 'data' => $user
             ]);
     }

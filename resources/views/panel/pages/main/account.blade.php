@@ -30,7 +30,7 @@
                                 <div class="row">
                                     <x-input::text    name="position"      :value="auth()->user()->getAttribute('position')"   width="6"  class="pr-1" label="Position"/>
                                     <x-input::select  name="department_id" :value="auth()->user()->getRelationValue('department')->getAttribute('id')" width="6"  class="pr-1" :options="$departments" label="Department" />
-                                    <x-input::select  name="company_id"    :value="auth()->user()->getRelationValue('company')->getAttribute('id')"  width="6"  class="pr-1" :options="$companies" label="Department" />
+                                    <x-input::select  name="company_id"    :value="auth()->user()->getRelationValue('company')->getAttribute('id')"  width="6"  class="pr-1" :options="$companies" label="Company" />
 
                                 </div>
                             </div>
