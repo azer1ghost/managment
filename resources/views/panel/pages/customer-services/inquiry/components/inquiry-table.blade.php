@@ -5,18 +5,18 @@
 <div class="component row justify-content-between">
 
     <div class="form-group col-12 col-md-3 mb-3 mb-md-0" >
-        <label for="daterange">Filter by Date</label>
-        <input type="text" placeholder="Range" id="daterange" name="daterange" wire:model="daterange" class="form-control">
+        <label for="daterange">{{__('translates.filters.date')}}</label>
+        <input type="text" placeholder="{{__('translates.placeholders.range')}}" id="daterange" name="daterange" wire:model="daterange" class="form-control">
     </div>
 
     <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
-        <label for="codeFilter">Filter by code</label>
-        <input type="search" id="codeFilter" placeholder="Enter code" class="form-control" wire:model="filters.code">
+        <label for="codeFilter">{{__('translates.filters.code')}}</label>
+        <input type="search" id="codeFilter" placeholder="{{__('translates.placeholders.code')}}" class="form-control" wire:model="filters.code">
     </div>
 
     <div class="form-group col-12 col-md-5 mb-3 mb-md-0" wire:ignore>
-        <label class="d-block" for="subjectFilter">Filter by subject</label>
-        <select id="subjectFilter" multiple class="filterSelector form-control" data-width="fit" wire:model="filters.subjects" title="Noting selected" >
+        <label class="d-block" for="subjectFilter">{{__('translates.filters.subject')}}</label>
+        <select id="subjectFilter" multiple class="filterSelector form-control" data-width="fit" wire:model="filters.subjects" title="{{__('translates.filters.select')}}" >
             @foreach($subjects as $subject)
                 <option value="{{$subject->id}}">{{ucfirst($subject->name)}}</option>
             @endforeach
@@ -24,7 +24,7 @@
     </div>
 
     <div class="form-group col-12 col-md-1 mb-3 mb-md-0">
-        <label for="">Clear</label>
+        <label for="">{{__('translates.filters.clear')}}</label>
         <a class="form-control btn-outline-danger text-center" href="{{route('inquiry.index')}}">
             <i class="fal fa-times-circle"></i>
         </a>
@@ -33,8 +33,8 @@
     <div class="col-12 m-2 p-0"></div>
 
     <div class="form-group col-12 col-md-5 mb-3 mb-md-0"  wire:ignore>
-        <label class="d-block" for="companyFilter">Filter by company</label>
-        <select id="companyFilter" multiple class="filterSelector" data-width="fit" wire:model="filters.company_id" title="Noting selected" >
+        <label class="d-block" for="companyFilter">{{__('translates.filters.company')}}</label>
+        <select id="companyFilter" multiple class="filterSelector" data-width="fit" wire:model="filters.company_id" title="{{__('translates.filters.select')}}" >
             @foreach($companies as $company)
                 <option value="{{$company->id}}">{{ucfirst($company->name)}}</option>
             @endforeach
@@ -59,14 +59,14 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>MG Code</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Company</th>
-                    <th>Client name</th>
-                    <th>Written by</th>
-                    <th>Subject</th>
-                    <th>Actions</th>
+                    <th>{{__('translates.fields.mgCode')}}</th>
+                    <th>{{__('translates.fields.date')}}</th>
+                    <th>{{__('translates.fields.time')}}</th>
+                    <th>{{__('translates.fields.company')}}</th>
+                    <th>{{__('translates.fields.clientName')}}</th>
+                    <th>{{__('translates.fields.writtenBy')}}</th>
+                    <th>{{__('translates.fields.subject')}}</th>
+                    <th>{{__('translates.fields.actions')}}</th>
                 </tr>
             </thead>
             <tbody>

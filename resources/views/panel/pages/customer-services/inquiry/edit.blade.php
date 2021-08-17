@@ -15,9 +15,9 @@
                 <div class="card-header">
                     <a href="{{route('inquiry.index')}}" class="btn btn-sm btn-outline-primary mr-4">
                         <i class="fa fa-arrow-left"></i>
-                        Back
+                        {{__('translates.buttons.back')}}
                     </a>
-                    Edit Request | {{optional($data)->getAttribute('code')}}
+                    {{optional($data)->getAttribute('code')}}
                     @if($data)
                     <form id="restoreForm" action="{{route('inquiry.versionRestore', $data)}}" class="float-right">
                         <div class="input-group">
