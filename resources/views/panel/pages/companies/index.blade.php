@@ -30,8 +30,8 @@
                         @forelse($companies as $company)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
-                            <td><img width="150px" src="{{image($company->logo)}}"></td>
-                            <td>{{$company->name}}</td>
+                            <td><img width="150px" src="{{image($company->getAttribute('logo'))}}"></td>
+                            <td>{{$company->getAttribute('name')}}</td>
                             <td>
                                 <div class="btn-sm-group">
                                     @can('view', $company)
@@ -45,7 +45,7 @@
                                         </a>
                                     @endcan
                                     @can('delete', $company)
-                                        <a href="{{route('companies.destroy', $company)}}" delete data-name="{{$company->name}}" class="btn btn-sm btn-outline-danger" >
+                                        <a href="{{route('companies.destroy', $company)}}" delete data-name="{{$company->getAttribute('name')}}" class="btn btn-sm btn-outline-danger" >
                                             <i class="fal fa-trash"></i>
                                         </a>
                                     @endcan

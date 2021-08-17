@@ -42,10 +42,10 @@
                                     <tbody>
                                     @forelse($parameters as $parameter)
                                         <tr>
-                                            <th scope="row">{{$parameter->id}}</th>
-                                            <td>{{$parameter->name}}</td>
-                                            <td>@lang("translates.parameters.types.$parameter->type")</td>
-                                            <td>{{ optional($parameter->parameter)->name ?? 'Null'}}</td>
+                                            <th scope="row">{{$parameter->getAttribute('id')}}</th>
+                                            <td>{{$parameter->getAttribute('name')}}</td>
+                                            <td>@lang("translates.parameters.types.$parameter->getAttribute('type')")</td>
+                                            <td>{{ optional($parameter->getRelationValue('parameter')->getAttribute('name') ?? 'Null'}}</td>
                                             <td>
                                                 <div class="btn-sm-group">
                                                     @can('view', $parameter)
@@ -59,7 +59,7 @@
                                                         </a>
                                                     @endcan
                                                     @can('delete', $parameter)
-                                                        <a href="{{route('parameters.destroy', $parameter)}}" delete data-name="{{$parameter->name}}" class="btn btn-sm btn-outline-danger" >
+                                                        <a href="{{route('parameters.destroy', $parameter)}}" delete data-name="{{$parameter->getAttribute('name')}}" class="btn btn-sm btn-outline-danger" >
                                                             <i class="fal fa-trash"></i>
                                                         </a>
                                                     @endcan

@@ -66,7 +66,7 @@
                                                         @endcan
                                                             @unless ($user->getAttribute('id') === auth()->id())
                                                                 @can('delete', $user)
-                                                                    <a href="{{route('users.destroy', $user)}}" delete data-name="{{$user->name}}" class="btn btn-sm btn-outline-danger" >
+                                                                    <a href="{{route('users.destroy', $user)}}" delete data-name="{{$user->getAttribute('name')}}" class="btn btn-sm btn-outline-danger" >
                                                                         <i class="fal fa-trash"></i>
                                                                     </a>
                                                                 @endcan

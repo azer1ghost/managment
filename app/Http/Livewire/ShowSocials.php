@@ -8,7 +8,7 @@ class ShowSocials extends Component
 {
     public object $company;
     public array  $socials;
-    public string $action;
+    public ?string $action;
 
     public array $socialNetworks = [
         'facebook'  => 'Facebook',

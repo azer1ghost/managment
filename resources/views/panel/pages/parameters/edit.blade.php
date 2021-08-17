@@ -20,14 +20,14 @@
                 <div class="card-body">
                     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
                         @method($method) @csrf
-                        <input type="hidden" name="id" value="{{optional($data)->id}}">
+                        <input type="hidden" name="id" value="{{optional($data)->getAttribute('id')}}">
                         <div class="tab-content form-row mt-4" >
-                            <x-input::select  name="parameter_id"  :value="optional($data)->parameter_id"  width="4" class="pr-3" :options="$parameters" />
-                            <x-input::select  name="type"  :value="optional($data)->type"   width="4" class="pr-3" :options="$types" />
-                            <x-input::text    name="name"  :value="optional($data)->name"   width="4" class="pr-3" />
+                            <x-input::select  name="parameter_id"  :value="optional($data)->getAttribute('parameter_id')"  width="4" class="pr-3" :options="$parameters" />
+                            <x-input::select  name="type"  :value="optional($data)->getAttribute('type')"   width="4" class="pr-3" :options="$types" />
+                            <x-input::text    name="name"  :value="optional($data)->getAttribute('name')"   width="4" class="pr-3" />
                             <select name="companies[]" id="companyFilter" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
                                 @foreach($companies as $company)
-                                    <option @if(optional(optional($data)->companies())->exists() && $data->companies->pluck('id')->contains($company->id)) selected  @endif value="{{$company->id}}">{{ucfirst($company->name)}}</option>
+                                    <option @if(optional(optional($data)->companies())->exists() && $data->getRelationValue('companies')->pluck('id')->contains($company->getAttribute('id'))) selected  @endif value="{{$company->getAttribute('id')}}">{{ucfirst($company->getAttribute('name'))}}</option>
                                 @endforeach
                             </select>
                         </div>

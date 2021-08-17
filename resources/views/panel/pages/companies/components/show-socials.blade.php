@@ -7,7 +7,7 @@
     <div class="row">
         @if($socials)
             @foreach($socials as $index => $social)
-                <div wire:key="social-{{$index}}" class="col-12">
+                <div class="col-12">
                     <hr class="m-1">
                     <div class="row d-flex align-items-center">
                         <input type="hidden"  name="socials[{{$index}}][id]"    value="{{$social['id']}}">
@@ -23,6 +23,10 @@
                     </div>
                 </div>
             @endforeach
+        @else
+            <div class="col-12">
+                <p class="text-muted">No Social links</p>
+            </div>
         @endif
     </div>
     @if($action)
