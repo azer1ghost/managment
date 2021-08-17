@@ -120,4 +120,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Company::class);
     }
+
+    public function defaults(): HasMany
+    {
+        return $this->hasMany(UserDefault::class);
+    }
+
 }

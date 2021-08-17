@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             ParameterSeeder::class,
             ParameterCompanySeeder::class,
-            InquirySeeder::class,
+           // InquirySeeder::class,
             DepartmentSeeder::class,
         ]);
     }

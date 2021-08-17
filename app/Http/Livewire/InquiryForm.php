@@ -3,23 +3,27 @@
 namespace App\Http\Livewire;
 
 use App\Models\Company;
+use App\Models\Inquiry;
 use App\Models\Parameter;
+use App\Models\User;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class InquiryForm extends Component
 {
-    public $data;
-    public $parameters;
+    public ?Inquiry $data;
+    public Collection $parameters;
+    public User $user;
 
-    public $action;
-    public $method;
+    public string $action;
+    public string $method;
 
-    public $companies;
-    public $subjects;
-    public $kinds;
-    public $sources;
-    public $statuses;
-    public $contact_methods;
+    public Collection $companies;
+    public Collection $subjects;
+    public Collection $kinds;
+    public Collection $sources;
+    public array $statuses;
+    public array $contact_methods;
 
     public ?int $selectedCompany = null;
     public ?int $selectedSubject = null;
@@ -31,6 +35,8 @@ class InquiryForm extends Component
 
     public function mount()
     {
+        $this->user = auth()->user();
+
         $this->parameters = Parameter::query()
             ->where('type', 'status')
             ->orWhere('type', 'contact_method')
