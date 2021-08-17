@@ -13,8 +13,7 @@ use Illuminate\Support\Collection;
 
 class Inquiry extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'code', 'datetime',

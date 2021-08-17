@@ -24,6 +24,7 @@ class UserSeeder extends Seeder
                'phone' => '+994553791039',
                'role_id' => 1,
                'department_id' => 3,
+               'company_id' => 1,
            ],
            [
                'name' => 'Test',
@@ -33,6 +34,7 @@ class UserSeeder extends Seeder
                'phone' => '+994553791039',
                'role_id' => 1,
                'department_id' => 3,
+               'company_id' => 1,
            ]
         ]);
     }
