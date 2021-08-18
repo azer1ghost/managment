@@ -39,7 +39,7 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    @livewire('inquiry-form', ['action' => $action, 'method' => $method, 'data' => $data])
+                    @livewire('inquiry-form', ['action' => $action, 'method' => $method, 'inquiry' => $data])
                 </div>
             </div>
         </div>
