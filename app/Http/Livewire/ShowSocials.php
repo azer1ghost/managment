@@ -18,14 +18,9 @@ class ShowSocials extends Component
         'twitter'   => 'Twitter'
     ];
 
-    public function mount($company)
+    public function mount()
     {
-        $this->socials = $company ? $this->company->socials()->select('id','name','url')->get()->toArray() : null;
-    }
-
-    public function update()
-    {
-        $this->emit('updated');
+        $this->socials = $this->company->socials()->select('id','name','url')->get()->toArray();
     }
 
     public function addSocial()

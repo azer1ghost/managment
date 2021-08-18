@@ -80,7 +80,7 @@ class CompanyController extends Controller
     public function update(CompanyRequest $request, Company $company): RedirectResponse
     {
         $validated = $request->validated();
-
+        // TODO Socials detele not defined
         if ($request->file('logo')) {
 
             $image = $request->file('logo');

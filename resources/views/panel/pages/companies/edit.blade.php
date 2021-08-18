@@ -53,6 +53,7 @@
     <script>
         $('input').attr('readonly', true)
         $('select').attr('disabled', true)
+        $('input[type="file"]').attr('disabled', true)
         $('textarea').attr('readonly', true)
     </script>
 @endsection
