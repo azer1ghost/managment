@@ -80,6 +80,7 @@ class CompanyController extends Controller
     public function update(CompanyRequest $request, Company $company): RedirectResponse
     {
         $validated = $request->validated();
+//        dd($company->socials()->pluck('id')->toArray(), $validated['socials']);
         // TODO Socials detele not defined
         if ($request->file('logo')) {
 
@@ -93,14 +94,18 @@ class CompanyController extends Controller
         }
 
         $company->update($validated);
-
         // Add or update social networks
         if(array_key_exists('socials', $validated)){
-            collect($validated['socials'])->each(function ($social) use ($company){
-                $company->socials()->updateOrCreate(['id' => $social['id']], $social);
+            collect($validated['socials'])->each(function ($social) use ($company, $validated){
+                if(! in_array((int)$social['id'], $company->socials()->pluck('id')->toArray())){
+                    $company->socials()->findOrFail($social['id'])->delete();
+                }else{
+                    $company->socials()->updateOrCreate(['id' => $social['id']], $social);
+                }
             });
+        }else{
+            $company->socials()->delete();
         }
-
         return back()->withNotify('info', $company->getAttribute('name'));
     }
 
