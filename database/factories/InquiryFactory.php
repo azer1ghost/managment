@@ -37,8 +37,8 @@ class InquiryFactory extends Factory
     public function definition()
     {
 
-       $subject = Parameter::where('type', 'subject')->inRandomOrder()->pluck('id')->first();
-       $kind = Parameter::where('type', 'kind')->where('parameter_id', $subject)->inRandomOrder()->pluck('id')->first();
+       $subject = Parameter::where('key', 'subject')->inRandomOrder()->pluck('id')->first();
+       $kind = Parameter::where('key', 'kind')->where('parameter_id', $subject)->inRandomOrder()->pluck('id')->first();
 
 
 
@@ -50,12 +50,12 @@ class InquiryFactory extends Factory
             'phone' => $this->faker->phoneNumber(),
             'subject' => $subject,
             'kind' => $kind,
-            'source' => Parameter::where('type', 'source')->inRandomOrder()->pluck('id')->first(),
-            'contact_method' => Parameter::where('type', 'contact_method')->inRandomOrder()->pluck('id')->first(),
-            'operation' => Parameter::where('type', 'operation')->inRandomOrder()->pluck('id')->first(),
+            'source' => Parameter::where('key', 'source')->inRandomOrder()->pluck('id')->first(),
+            'contact_method' => Parameter::where('key', 'contact_method')->inRandomOrder()->pluck('id')->first(),
+            'operation' => Parameter::where('key', 'operation')->inRandomOrder()->pluck('id')->first(),
             'note' => $this->faker->realText(),
             'redirected_user_id' => User::inRandomOrder()->pluck('id')->first(),
-            'status' => Parameter::where('type', 'status')->inRandomOrder()->pluck('id')->first(),
+            'status' => Parameter::where('key', 'status')->inRandomOrder()->pluck('id')->first(),
             'company_id' => 4,
             'user_id' => User::inRandomOrder()->pluck('id')->first(),
         ];

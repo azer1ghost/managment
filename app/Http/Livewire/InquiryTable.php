@@ -39,7 +39,7 @@ class InquiryTable extends Component
     public function mount()
     {
         $this->updatedDaterange($this->daterange = implode(' - ', [now()->firstOfMonth()->format('d/m/Y'), now()->format('d/m/Y')]));
-        $this->subjects  = Parameter::where('type', 'subject')->get();
+        $this->subjects  = Parameter::where('key', 'subject')->get();
         $this->companies = Company::whereNotIn('id', [1])->get();
     }
 

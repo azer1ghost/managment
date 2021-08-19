@@ -7,7 +7,7 @@
 
     <div class="form-group col-6 col-md-3">
         <label for="company" >{{__('translates.fields.company')}}</label>
-        <select wire:model="selectedCompany" id="company" name="company_id" required class="form-control @error('company_id') is-invalid @enderror">
+        <select wire:model="selected.company_id" id="company" name="company_id" required class="form-control @error('company_id') is-invalid @enderror">
             <option value="null" disabled selected>{{__('translates.fields.company')}} {{__('translates.placeholders.choose')}}</option>
             @foreach($companies as $company)
                 <option value="{{ $company->id }}">{{ $company->name }}</option>

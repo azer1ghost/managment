@@ -59,9 +59,11 @@ class Inquiry extends Model
 
     public function getParameter($data)
     {
-       return Cache::remember("parameter_{$this->getAttribute('subject')}", 60, fn () =>
-             optional(Parameter::select(['name'])->find($this->{$data}))->getAttribute('name')
-        );
+       return optional(Parameter::select(['name'])->find($this->{$data}))->getAttribute('name');
+
+//           Cache::remember("parameter_{$this->getAttribute('subject')}", 60, fn () =>
+//             optional(Parameter::select(['name'])->find($this->{$data}))->getAttribute('name')
+//        );
     }
 
 
