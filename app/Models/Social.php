@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Social extends Model
 {
-    protected $fillable = ['name', 'url', 'status'];
+    protected $fillable = ['name', 'url', 'status', 'company_id'];
 
     public function company(): BelongsTo
     {

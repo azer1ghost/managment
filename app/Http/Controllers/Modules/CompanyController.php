@@ -81,34 +81,26 @@ class CompanyController extends Controller
     public function update(CompanyRequest $request, Company $company): RedirectResponse
     {
         $validated = $request->validated();
-//        dd($company->socials()->pluck('id')->toArray(), $validated['socials']);
-        // TODO Socials detele not defined
+
         if ($request->file('logo')) {
 
             $image = $request->file('logo');
 
             $validated['logo'] = $image->storeAs('logos', $image->hashName());
 
-            if (Storage::exists($company->logo)) {
-                Storage::delete($company->logo);
+            if (Storage::exists($company->getAttribute('logo'))) {
+                Storage::delete($company->getAttribute('logo'));
             }
         }
 
         $company->update($validated);
 
         // Add, update or delete social networks
-        $companySocialIds = $company->socials()->pluck('id')->toArray();
-        $socials = $validated['socials'];
-        if($request->has('socials')){
-            $socialIds = array_map(fn($s) => $s['id'], $socials);
-            $diffs     = array_diff($companySocialIds, $socialIds);
-            foreach ($socials as $social):
-                $company->socials()->updateOrCreate(['id' => $social['id']], $social);
-            endforeach;
-            Social::destroy($diffs);
-        }else{
-            $company->socials()->delete();
-        }
+        $socials = collect($request->get('socials') ?? []);
+
+        $socials->each(fn($social) => $company->socials()->updateOrCreate(['id' => $social['id']], $social));
+
+        Social::destroy($company->socials()->pluck('id')->diff($socials->pluck('id')));
 
         return back()->withNotify('info', $company->getAttribute('name'));
     }
@@ -116,8 +108,8 @@ class CompanyController extends Controller
     public function destroy(Company $company)
     {
         if ($company->delete()) {
-            if (Storage::exists($company->logo)) {
-                Storage::delete($company->logo);
+            if (Storage::exists($company->getAttribute('logo'))) {
+                Storage::delete($company->getAttribute('logo'));
             }
             return response('OK');
         }
