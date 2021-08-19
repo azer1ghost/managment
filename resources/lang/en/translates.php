@@ -19,7 +19,7 @@ return [
         'code' => 'Filter by Code',
         'subject' => 'Filter by Subject',
         'company' => 'Filter by Company',
-        'clear' => 'Təmizləyin',
+        'clear' => 'Clear',
         'select' => 'Not Selected'
     ],
 

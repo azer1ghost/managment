@@ -18,7 +18,7 @@ return [
         'code' => 'Kod üzrə filtrləyin',
         'subject' => 'Mövzuya görə filtrləyin',
         'company' => 'Şirkətə görə filtrləyin',
-        'clear' => 'Təmizlə',
+        'clear' => 'Sil',
         'select' => 'Seçilməyib'
     ],
 
