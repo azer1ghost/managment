@@ -5,19 +5,14 @@
     <x-input::text name="date" :label="__('translates.fields.date')" value="{{$inquiry->datetime->format('d-m-Y')}}" type="text" width="3" class="pr-2" />
     <x-input::text name="time" :label="__('translates.fields.time')" value="{{$inquiry->datetime->format('H:i')}}" type="time" width="3" class="pr-2" />
 
-    <div class="form-group col-6 col-md-3">
-        <label for="company" >{{__('translates.fields.company')}}</label>
-        <select wire:model="selected.company_id" id="company" name="company_id" required class="form-control @error('company_id') is-invalid @enderror">
+    <div class="form-group col-md-3">
+        <label>{{__('translates.fields.company')}}</label>
+        <select class="form-control" name="company_id" required  wire:model="selected.company">
             <option value="null" disabled selected>{{__('translates.fields.company')}} {{__('translates.placeholders.choose')}}</option>
             @foreach($companies as $company)
                 <option value="{{ $company->id }}">{{ $company->name }}</option>
             @endforeach
         </select>
-        @error('company_id')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-        @enderror
     </div>
 
 

@@ -11,9 +11,8 @@ use Livewire\Component;
 
 class InquiryForm extends Component
 {
-    public int $inquiry_id;
-
     public Inquiry $inquiry;
+    public Company $company;
 
     public Collection $companies;
     public Collection $parameters;
@@ -26,22 +25,31 @@ class InquiryForm extends Component
     ];
 
     public array $selected = [
-        'company_id' => null
+        'company' => null
     ];
 
     public function mount()
     {
-        $this->inquiry = Inquiry::find($this->inquiry_id);
-
-        $user = auth()->user();
-
         $this->companies = Company::with('parameters')->whereNotIn('id', [1])->get();
 
-        $this->selected['company_id'] = $this->inquiry->company_id;
+        $this->selected['company'] = $this->inquiry->getAttribute('company_id');
 
+        $this->company = $this->companies->where('id', $this->selected['company'])->first();
 
-
+        $this->proceed();
     }
+
+    public function updatedSelected($id)
+    {
+        $this->company = $this->companies->where('id', $id)->first();
+        $this->proceed();
+    }
+
+    protected function proceed()
+    {
+        //dd($this->company->parameters);
+    }
+
 
     public function render()
     {

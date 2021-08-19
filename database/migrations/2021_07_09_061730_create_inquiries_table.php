@@ -17,15 +17,9 @@ class CreateInquiriesTable extends Migration
             $table->id();
             $table->string('code')->nullable()->unique();
             $table->dateTime('datetime')->useCurrent();
-            $table->string('client')->nullable();
-            $table->string('fullname')->nullable();
-            $table->string('phone')->nullable();
-            $table->integer('subject')->nullable();
-            $table->integer('kind')->nullable();
-            $table->integer('source')->nullable();
-            $table->integer('contact_method')->nullable();
-            $table->integer('operation')->nullable();
-            $table->integer('status')->nullable();
+//            $table->string('client')->nullable();
+//            $table->string('fullname')->nullable();
+//            $table->string('phone')->nullable();
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('SET NULL');
             $table->string('note')->nullable();
             $table->foreignId('user_id')->nullable();
