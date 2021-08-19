@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CompanyRequest;
 use App\Models\Company;
+use App\Models\Social;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 
@@ -47,8 +48,8 @@ class CompanyController extends Controller
 
         $company = Company::create($validated);
 
-        // Add or update social networks
-        if(array_key_exists('socials', $validated)){
+        // Add social networks
+        if($request->has('socials')){
             $company->socials()->createMany($validated['socials']);
         }
 
@@ -94,18 +95,21 @@ class CompanyController extends Controller
         }
 
         $company->update($validated);
-        // Add or update social networks
-        if(array_key_exists('socials', $validated)){
-            collect($validated['socials'])->each(function ($social) use ($company, $validated){
-                if(! in_array((int) $social['id'], $company->socials()->pluck('id')->toArray())){
-                    $company->socials()->findOrFail($social['id'])->delete();
-                }else{
-                    $company->socials()->updateOrCreate(['id' => $social['id']], $social);
-                }
-            });
+
+        // Add, update or delete social networks
+        $companySocialIds = $company->socials()->pluck('id')->toArray();
+        $socials = $validated['socials'];
+        if($request->has('socials')){
+            $socialIds = array_map(fn($s) => $s['id'], $socials);
+            $diffs     = array_diff($companySocialIds, $socialIds);
+            foreach ($socials as $social):
+                $company->socials()->updateOrCreate(['id' => $social['id']], $social);
+            endforeach;
+            Social::destroy($diffs);
         }else{
             $company->socials()->delete();
         }
+
         return back()->withNotify('info', $company->getAttribute('name'));
     }
 
