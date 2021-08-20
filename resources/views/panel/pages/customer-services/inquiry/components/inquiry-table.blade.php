@@ -16,9 +16,9 @@
 
     <div class="form-group col-12 col-md-5 mb-3 mb-md-0" wire:ignore>
         <label class="d-block" for="subjectFilter">{{__('translates.filters.subject')}}</label>
-        <select id="subjectFilter" multiple class="filterSelector form-control" data-width="fit" wire:model="filters.subjects" title="{{__('translates.filters.select')}}" >
+        <select id="subjectFilter" multiple class="filterSelector form-control" data-width="fit" wire:model="parameterFilters.subjects" title="{{__('translates.filters.select')}}" >
             @foreach($subjects as $subject)
-                <option value="{{$subject->id}}">{{ucfirst($subject->name)}}</option>
+                <option value="{{$subject->id}}">{{ucfirst($subject->text)}}</option>
             @endforeach
         </select>
     </div>
@@ -76,7 +76,7 @@
                     <td>{{$inquiry->getAttribute('datetime')->format('d-m-Y')}}</td>
                     <td>{{$inquiry->getAttribute('datetime')->format('H:m')}}</td>
                     <td>{{$inquiry->getRelationValue('company')->getAttribute('name')}}</td>
-                    <td>{{$inquiry->getAttribute('fullname')}}</td>
+                    <td>{{$inquiry->getParameter('fullname')}}</td>
                     <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}}</td>
                     <td>{{$inquiry->getParameter('subject')}}</td>
                     <td>

@@ -36,10 +36,6 @@ class InquiryFactory extends Factory
 
     public function definition()
     {
-
-       $subject = Parameter::where('name', 'subject')->inRandomOrder()->pluck('id')->first();
-       $kind = Parameter::where('name', 'kind')->where('option_id', $subject)->inRandomOrder()->pluck('id')->first();
-
         return [
             'code' => $this->createCode(),
             'datetime' => now(),

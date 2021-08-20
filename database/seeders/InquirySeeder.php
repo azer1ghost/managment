@@ -14,6 +14,10 @@ class InquirySeeder extends Seeder
      */
     public function run()
     {
-        Inquiry::factory(50)->create();
+        $inquiry = Inquiry::factory()->create();
+
+        $inquiry->parameters()->syncWithoutDetaching([1 => ['option_id' => 3]]);
+        $inquiry->parameters()->syncWithoutDetaching([2 => ['option_id' => 13]]);
+        $inquiry->parameters()->syncWithoutDetaching([6 => ['value' => "Agalarov Elvin"]]);
     }
 }

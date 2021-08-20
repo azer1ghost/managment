@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\Inquiry;
 use App\Models\Parameter;
 use Carbon\Carbon;
+use Illuminate\Database\Query\Builder;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -24,8 +25,11 @@ class InquiryTable extends Component
     public array $filters = [
         'code'       => null,
         'datetime'   => null,
-        'subjects'   => [],
         'company_id' => [],
+    ];
+
+    public array $parameterFilters = [
+        'subjects'   => [],
         'kinds'      => [],
     ];
 
@@ -39,7 +43,7 @@ class InquiryTable extends Component
     public function mount()
     {
         $this->updatedDaterange($this->daterange = implode(' - ', [now()->firstOfMonth()->format('d/m/Y'), now()->format('d/m/Y')]));
-        $this->subjects  = Parameter::where('key', 'subject')->get();
+        $this->subjects  = Parameter::where('name', 'subject')->first()->options;
         $this->companies = Company::whereNotIn('id', [1])->get();
     }
 
@@ -85,6 +89,10 @@ class InquiryTable extends Component
                 ->with([
                     'company' => function ($query){
                         $query->select('id', 'name');
+                    },
+                    'parameters' => function($query)
+                    {
+                        $query->whereIn('option_id', $this->parameterFilters['subjects']);
                     }
                 ])
                 ->latest('datetime')

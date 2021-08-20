@@ -19,9 +19,9 @@ class Parameter extends Model
 {
     use HasTranslations, SoftDeletes;
 
-    public array $translatable = ['name'];
+    public array $translatable = ['label', 'placeholder'];
 
-    protected $fillable = ['name', 'type', 'parameter_id'];
+    protected $fillable = ['name', 'label', 'placeholder', 'type', 'parameter_id'];
 
     public function parameters(): HasMany
     {

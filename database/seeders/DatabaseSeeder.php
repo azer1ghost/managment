@@ -26,7 +26,6 @@ class DatabaseSeeder extends Seeder
             InquirySeeder::class,
             DepartmentSeeder::class,
             OptionParameterSeeder::class,
-            InquiryParameterSeeder::class,
         ]);
     }
 }

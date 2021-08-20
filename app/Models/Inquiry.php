@@ -62,14 +62,16 @@ class Inquiry extends Model
         return $this->belongsToMany(Parameter::class)->withPivot('option_id', 'value');
     }
 
-//    public function getParameter($data)
-//    {
-//           Cache::remember("parameter_{$this->getAttribute('subject')}", 60, fn () =>
-//             optional(Parameter::select(['name'])->find($this->{$data}))->getAttribute('name')
-//        );
-//    }
+    public function getParameter($name)
+    {
+        // Get parameter model
+        $parameter = $this->parameters()->where('name', $name)->first();
 
-
+        // Check type of parameter -> if type is "select" return option value / else return pivot value
+        return $parameter->getAttribute('type') == 'select' ?
+            Option::find($parameter->pivot->option_id)->getAttribute('text') :
+            $parameter->pivot->value;
+    }
 
 }
 

@@ -15,8 +15,29 @@ class OptionParameterSeeder extends Seeder
      */
     public function run()
     {
-        $parameter = Parameter::all();
-        $ids = Option::pluck('id');
-        $parameter->options()->sync($ids, ['company_id' => 4]);
+        // Add options to Subject parameter
+        Parameter::find(1)->options()->syncWithPivotValues(
+            Option::whereIn('id', [1,2,3])->pluck('id'), ['company_id' => 4]
+        );
+
+        // Add options to Kind parameter
+        Parameter::find(2)->options()->syncWithPivotValues(
+            Option::whereIn('id', range(10, 18))->pluck('id'), ['company_id' => 4]
+        );
+
+        // Add options to Source parameter
+        Parameter::find(3)->options()->syncWithPivotValues(
+            Option::whereIn('id', range(5, 9))->pluck('id'), ['company_id' => 4]
+        );
+
+        // Add options to Contact Method parameter
+        Parameter::find(4)->options()->syncWithPivotValues(
+            Option::whereIn('id', range(4, 9))->pluck('id'), ['company_id' => 4]
+        );
+
+        // Add options to Status parameter
+        Parameter::find(5)->options()->syncWithPivotValues(
+            Option::whereIn('id', range(22, 25))->pluck('id'), ['company_id' => 4]
+        );
     }
 }

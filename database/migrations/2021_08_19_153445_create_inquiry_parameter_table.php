@@ -28,7 +28,6 @@ class CreateInquiryParameterTable extends Migration
      */
     public function down()
     {
-
         if (Schema::hasTable('inquiry_parameter')){
             Schema::table('inquiry_parameter', function (Blueprint $table) {
                 $table->dropForeign(['inquiry_id']);
