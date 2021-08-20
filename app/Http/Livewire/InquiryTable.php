@@ -33,7 +33,7 @@ class InquiryTable extends Component
         'subjects'   => [],
         'kinds'      => [],
         // TODO Currently not working for pivot values
-        //'client_code' => 'MBX656'
+        'client_code' => 'MBX6565'
     ];
 
     public string $daterange;
@@ -97,7 +97,12 @@ class InquiryTable extends Component
                                     $query->whereIn('id', $this->parameterFilters[$column]);
                                 });
                             } else {
-                                //$query->parameterValue($value);
+                                // FINALLY, SOLVED!!!
+                                // We can even delete value field in withPivot method, and it still works!
+                                $query->whereHas('parameters', function($query) use ($value) {
+                                    // custom pivot value in inquiry_parameter table
+                                    $query->where('inquiry_parameter.value', 'LIKE', "%{$value}%");
+                                });
                             }
                         });
                     }
