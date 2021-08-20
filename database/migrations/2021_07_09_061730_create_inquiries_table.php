@@ -17,14 +17,11 @@ class CreateInquiriesTable extends Migration
             $table->id();
             $table->string('code')->nullable()->unique();
             $table->dateTime('datetime')->useCurrent();
-//            $table->string('client')->nullable();
-//            $table->string('fullname')->nullable();
-//            $table->string('phone')->nullable();
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('SET NULL');
             $table->string('note')->nullable();
             $table->foreignId('user_id')->nullable();
             $table->integer('redirected_user_id')->nullable();
-            $table->foreignId('inquiry_id')->index()->nullable()->constrained()->onDelete('CASCADE');
+            $table->foreignId('inquiry_id')->nullable()->index()->constrained()->onDelete('CASCADE');
             $table->timestamps();
             $table->softDeletes();
         });

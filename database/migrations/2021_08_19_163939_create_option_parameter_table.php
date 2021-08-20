@@ -16,6 +16,7 @@ class CreateOptionParameterTable extends Migration
         Schema::create('option_parameter', function (Blueprint $table) {
             $table->foreignId('option_id')->index()->constrained()->onDelete('CASCADE');
             $table->foreignId('parameter_id')->index()->constrained()->onDelete('CASCADE');
+            $table->foreignId('company_id')->index()->constrained()->onDelete('CASCADE');
         });
     }
 
@@ -26,6 +27,13 @@ class CreateOptionParameterTable extends Migration
      */
     public function down()
     {
+        if (Schema::hasTable('option_parameter')){
+            Schema::table('option_parameter', function (Blueprint $table) {
+                $table->dropForeign(['company_id']);
+                $table->dropForeign(['option_id']);
+                $table->dropForeign(['parameter_id']);
+            });
+        }
         Schema::dropIfExists('option_parameter');
     }
 }

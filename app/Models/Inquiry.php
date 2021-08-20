@@ -59,12 +59,8 @@ class Inquiry extends Model
 
     public function parameters(): BelongsToMany
     {
-        return $this->belongsToMany(Parameter::class);
+        return $this->belongsToMany(Parameter::class)->withPivot('option_id', 'value');
     }
-
-
-
-
 
 //    public function getParameter($data)
 //    {

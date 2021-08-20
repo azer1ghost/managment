@@ -37,25 +37,14 @@ class InquiryFactory extends Factory
     public function definition()
     {
 
-       $subject = Parameter::where('key', 'subject')->inRandomOrder()->pluck('id')->first();
-       $kind = Parameter::where('key', 'kind')->where('parameter_id', $subject)->inRandomOrder()->pluck('id')->first();
-
-
+       $subject = Parameter::where('name', 'subject')->inRandomOrder()->pluck('id')->first();
+       $kind = Parameter::where('name', 'kind')->where('option_id', $subject)->inRandomOrder()->pluck('id')->first();
 
         return [
             'code' => $this->createCode(),
             'datetime' => now(),
-            'client' => "MBX".random_int(55555, 99999),
-            'fullname' => $this->faker->name(),
-            'phone' => $this->faker->phoneNumber(),
-            'subject' => $subject,
-            'kind' => $kind,
-            'source' => Parameter::where('key', 'source')->inRandomOrder()->pluck('id')->first(),
-            'contact_method' => Parameter::where('key', 'contact_method')->inRandomOrder()->pluck('id')->first(),
-            'operation' => Parameter::where('key', 'operation')->inRandomOrder()->pluck('id')->first(),
             'note' => $this->faker->realText(),
             'redirected_user_id' => User::inRandomOrder()->pluck('id')->first(),
-            'status' => Parameter::where('key', 'status')->inRandomOrder()->pluck('id')->first(),
             'company_id' => 4,
             'user_id' => User::inRandomOrder()->pluck('id')->first(),
         ];

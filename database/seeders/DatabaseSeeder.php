@@ -20,10 +20,13 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             SocialSeeder::class,
             RoleSeeder::class,
+            OptionSeeder::class,
             ParameterSeeder::class,
             ParameterCompanySeeder::class,
             InquirySeeder::class,
             DepartmentSeeder::class,
+            OptionParameterSeeder::class,
+            InquiryParameterSeeder::class,
         ]);
     }
 }
