@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateParameterOptionTable extends Migration
+class CreateOptionParameterTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateParameterOptionTable extends Migration
      */
     public function up()
     {
-        Schema::create('parameter_option', function (Blueprint $table) {
+        Schema::create('option_parameter', function (Blueprint $table) {
             $table->foreignId('option_id')->index()->constrained()->onDelete('CASCADE');
             $table->foreignId('parameter_id')->index()->constrained()->onDelete('CASCADE');
         });
@@ -26,6 +26,6 @@ class CreateParameterOptionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('parameter_option');
+        Schema::dropIfExists('option_parameter');
     }
 }
