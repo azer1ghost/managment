@@ -34,7 +34,8 @@ class InquiryTable extends Component
         'kinds'      => [],
         // TODO Currently not working for pivot values
         // TODO Check user_id as well cause it could not match with the one seeder creating for inquiry
-        'client_code' => ''
+        'client_code' => 'MBX6565',
+        'fullname' => 'Elvin'
     ];
 
     public string $daterange;
