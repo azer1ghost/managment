@@ -19,5 +19,6 @@ class InquirySeeder extends Seeder
         $inquiry->parameters()->syncWithoutDetaching([1 => ['option_id' => 3]]);
         $inquiry->parameters()->syncWithoutDetaching([2 => ['option_id' => 13]]);
         $inquiry->parameters()->syncWithoutDetaching([6 => ['value' => "Agalarov Elvin"]]);
+        $inquiry->parameters()->syncWithoutDetaching([7 => ['value' => "MBX6565"]]);
     }
 }
