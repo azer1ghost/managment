@@ -57,6 +57,11 @@ class Inquiry extends Model
         return $this->belongsToMany(User::class, 'user_can_edit_inquiries')->withPivot('editable_ended_at');
     }
 
+    public function options(): BelongsToMany
+    {
+        return $this->belongsToMany(Option::class, 'inquiry_parameter')->withPivot('parameter_id');
+    }
+
     public function parameters(): BelongsToMany
     {
         return $this->belongsToMany(Parameter::class)->withPivot('option_id', 'value');

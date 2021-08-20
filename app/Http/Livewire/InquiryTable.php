@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Company;
 use App\Models\Inquiry;
+use App\Models\Option;
 use App\Models\Parameter;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
@@ -31,6 +32,8 @@ class InquiryTable extends Component
     public array $parameterFilters = [
         'subjects'   => [],
         'kinds'      => [],
+        // TODO Currently not working for pivot values
+        //'client_code' => 'MBX656'
     ];
 
     public string $daterange;
@@ -86,13 +89,22 @@ class InquiryTable extends Component
                         });
                     }
                 })
+                ->where(function ($query)  {
+                    foreach ($this->parameterFilters as $column => $value) {
+                        $query->when($this->parameterFilters[$column], function ($query) use ($column, $value){
+                            if (is_array($value)) {
+                                $query->whereHas('options', function ($query) use ($column) {
+                                    $query->whereIn('id', $this->parameterFilters[$column]);
+                                });
+                            } else {
+                                //$query->parameterValue($value);
+                            }
+                        });
+                    }
+                })
                 ->with([
                     'company' => function ($query){
                         $query->select('id', 'name');
-                    },
-                    'parameters' => function($query)
-                    {
-                        $query->whereIn('option_id', $this->parameterFilters['subjects']);
                     }
                 ])
                 ->latest('datetime')
@@ -100,6 +112,8 @@ class InquiryTable extends Component
         ]);
     }
 
+
+    //'option_id', $this->parameterFilters['subjects']
 
     protected function updatedDaterange($value)
     {
