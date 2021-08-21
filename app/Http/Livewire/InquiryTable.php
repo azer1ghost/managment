@@ -32,10 +32,8 @@ class InquiryTable extends Component
     public array $parameterFilters = [
         'subjects'   => [],
         'kinds'      => [],
-        // TODO Currently not working for pivot values
-        // TODO Check user_id as well cause it could not match with the one seeder creating for inquiry
-        'client_code' => 'MBX6565',
-        'fullname' => 'Elvin'
+        'client_code' => '',
+        'fullname' => ''
     ];
 
     public string $daterange;
@@ -99,10 +97,7 @@ class InquiryTable extends Component
                                     $query->whereIn('inquiry_parameter.option_id', $this->parameterFilters[$column]);
                                 });
                             } else {
-                                // FINALLY, SOLVED!!!
-                                // We can even delete value field in withPivot method, and it still works!
                                 $query->whereHas('parameters', function($query) use ($value) {
-                                    // custom pivot value in inquiry_parameter table
                                     $query->where('inquiry_parameter.value', 'LIKE', "%{$value}%");
                                 });
                             }
