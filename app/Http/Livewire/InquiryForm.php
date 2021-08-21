@@ -84,6 +84,8 @@ class InquiryForm extends Component
             $this->formFields = $this->hardFields;
         }
 
+        array_multisort(array_column($this->formFields , 'order'), SORT_ASC, $this->formFields);
+
         $this->fillFields($subParameters);
     }
 
