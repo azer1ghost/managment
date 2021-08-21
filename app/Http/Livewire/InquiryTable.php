@@ -95,8 +95,8 @@ class InquiryTable extends Component
                     foreach ($this->parameterFilters as $column => $value) {
                         $query->when($this->parameterFilters[$column], function ($query) use ($column, $value){
                             if (is_array($value)) {
-                                $query->whereHas('options', function ($query) use ($column) {
-                                    $query->whereIn('id', $this->parameterFilters[$column]);
+                                $query->whereHas('parameters', function ($query) use ($column) {
+                                    $query->whereIn('inquiry_parameter.option_id', $this->parameterFilters[$column]);
                                 });
                             } else {
                                 // FINALLY, SOLVED!!!
