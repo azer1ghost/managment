@@ -26,7 +26,9 @@ class InquiryForm extends Component
 
     public array $formFields;
 
-    public array $filledFormFields;
+    public array $hardFields;
+
+    public array $cacheValues;
 
     public array $selected = [
         'company' => null
@@ -40,7 +42,7 @@ class InquiryForm extends Component
 
         $this->company = $this->companies->where('id', $this->selected['company'])->first();
 
-        $this->updatedSelectedCompany($this->company->id);
+        $this->updatedSelectedCompany($this->selected['company']);
     }
 
     public function updatedSelectedCompany($id)
@@ -48,14 +50,16 @@ class InquiryForm extends Component
         $this->company = $this->companies->where('id', $id)->first();
 
         $this->mainParameters = $this->company
-                                        ->parameters()
-                                        ->with([
-                                            'options' => fn($query) => $query->where('option_parameter.company_id', $id)
-                                        ])
-                                        ->whereNull('option_id')
-                                        ->get();
+                                            ->parameters()
+                                            ->whereNull('option_id')
+                                            ->with([
+                                                'options' => fn($query) => $query->where('option_parameter.company_id', $id)
+                                            ])
+                                            ->get();
 
-        $this->formFields = $this->filledFormFields = $this->mainParameters->toArray();
+        $this->formFields = $this->hardFields = $this->mainParameters->toArray();
+
+        $this->cacheValues = [];
 
         $this->fillFields();
     }
@@ -73,26 +77,34 @@ class InquiryForm extends Component
                                     ->toArray();
 
         if ($subParameters) {
-            $this->formFields = array_merge($this->filledFormFields, $subParameters);
+            $this->formFields = array_merge($this->hardFields, $subParameters);
         } else {
-            $this->formFields = $this->filledFormFields;
+            $this->formFields = $this->hardFields;
         }
 
-        $this->fillFields();
+        $this->fillFields($subParameters);
     }
 
-    protected function fillFields()
+    protected function fillFields($subFields = null)
     {
-        // TODO old values problem
-        collect($this->formFields)->each(function ($param){
+        if(empty($this->cacheValues))
+            $this->cacheValues($this->formFields);
+        else
+            $this->cacheValues($subFields);
+    }
+
+    protected function cacheValues(array $fields)
+    {
+        collect($fields)->each(function ($param){
             $parameterOption = optional($this->inquiry->getParameter($param['name']));
-            if ($param['type'] == 'select')
+            if ($param['type'] == 'select') {
                 $this->selected[$param['name']] = $parameterOption->getAttribute('id');
-            else
+            } else {
                 $this->selected[$param['name']] = $parameterOption->getAttribute('value');
+            }
+            $this->cacheValues[$param['name']] = $this->selected[$param['name']];
         });
     }
-
 
     public function render()
     {
