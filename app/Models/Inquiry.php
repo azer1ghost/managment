@@ -72,10 +72,12 @@ class Inquiry extends Model
         // Get parameter model
         $parameter = $this->parameters()->where('name', $name)->first();
 
-        // Check type of parameter -> if type is "select" return option value / else return pivot value
-        return $parameter->getAttribute('type') == 'select' ?
-            Option::find($parameter->pivot->option_id)->getAttribute('text') :
-            $parameter->pivot->value;
+        return $parameter ?
+            // Check type of parameter -> if type is "select" return option value / else return pivot value
+             $parameter->getAttribute('type') == 'select' ?
+                Option::find($parameter->pivot->option_id) :
+                $parameter->pivot:
+         null;
     }
 
 }

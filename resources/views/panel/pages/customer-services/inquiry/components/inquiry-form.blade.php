@@ -15,16 +15,24 @@
         </select>
     </div>
 
-
-
-
-
-
-
-
-
-
-
+    @foreach($formFields as $formField)
+        <div class="form-group col-md-3">
+            <label for="{{$formField['name']}}">
+                {{$formField['label'][app()->getLocale()]}}
+            </label>
+            @if($formField['type'] === 'select')
+                <select class="form-control" name="{{$formField['name']}}" id="{{$formField['name']}}" wire:model="selected.{{$formField['name']}}" >
+                    @foreach($formField['options'] as $option)
+                        <option value="{{$option['id']}}">
+                            {{$option['text'][app()->getLocale()]}}
+                        </option>
+                    @endforeach
+                </select>
+            @else
+                <input class="form-control" type="{{$formField['type']}}" wire:model="selected.{{$formField['name']}}">
+            @endif
+        </div>
+    @endforeach
 
     @if($action)
     <div class="col-12">
