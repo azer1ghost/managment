@@ -43,6 +43,8 @@ class InquiryForm extends Component
         $this->company = $this->companies->where('id', $this->selected['company'])->first();
 
         $this->updatedSelectedCompany($this->selected['company']);
+
+        $this->updatedSelectedSubject($this->selected['subject']);
     }
 
     public function updatedSelectedCompany($id)
