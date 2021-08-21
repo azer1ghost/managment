@@ -5,27 +5,28 @@ namespace App\Http\Livewire;
 use App\Models\Company;
 use App\Models\Inquiry;
 use App\Models\Option;
-use App\Models\Parameter;
-use App\Models\User;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class InquiryForm extends Component
 {
+    protected $listeners = [
+        'refreshInquiryForm' => '$refresh',
+    ];
+
+    public string $action;
+    public string $method;
+
     public Inquiry $inquiry;
     public Company $company;
 
     public Collection $companies;
     public Collection $parameters;
     public Collection $mainParameters;
+
     public array $formFields;
 
-    public string $action;
-    public string $method;
-
-    protected $listeners = [
-        'refreshInquiryForm' => '$refresh',
-    ];
+    public array $filledFormFields;
 
     public array $selected = [
         'company' => null
@@ -48,39 +49,41 @@ class InquiryForm extends Component
 
         $this->mainParameters = $this->company
                                         ->parameters()
-                                        ->with(['options' => fn($query) => $query->where('option_parameter.company_id', $this->company->id) ])
+                                        ->with([
+                                            'options' => fn($query) => $query->where('option_parameter.company_id', $id)
+                                        ])
                                         ->whereNull('option_id')
                                         ->get();
 
-        $this->formFields = $this->mainParameters->toArray();
+        $this->formFields = $this->filledFormFields = $this->mainParameters->toArray();
 
-        $this->proceed();
-
-       // dd($this->selected);
+        $this->fillFields();
     }
 
     public function updatedSelectedSubject($id)
     {
+        $this->formFields = [];
 
-        $subParameters = Option::find($id)->subParameters()->with(['options' => fn($query) => $query->where('option_parameter.company_id', $this->company->id) ])->get()->toArray();
+        $subParameters = Option::find($id)
+                                    ->subParameters()
+                                    ->with([
+                                        'options' => fn($query) => $query->where('option_parameter.company_id', $this->company->getAttribute('id'))
+                                    ])
+                                    ->get()
+                                    ->toArray();
 
-        if($subParameters){
-
-//            foreach ($subParameters as $subParam){
-//                unset($this->formFields[$subParam['name']]);
-//            }
-
-            $this->formFields = array_merge($this->formFields, $subParameters);
+        if ($subParameters) {
+            $this->formFields = array_merge($this->filledFormFields, $subParameters);
+        } else {
+            $this->formFields = $this->filledFormFields;
         }
 
-       // $this->selected['kind'] = null;
-
-       //dd($this->formFields);
-
+        $this->fillFields();
     }
 
-    protected function proceed()
+    protected function fillFields()
     {
+        // TODO old values problem
         collect($this->formFields)->each(function ($param){
             $parameterOption = optional($this->inquiry->getParameter($param['name']));
             if ($param['type'] == 'select')
@@ -93,7 +96,6 @@ class InquiryForm extends Component
 
     public function render()
     {
-        //dd($this->formFields);
         return view('panel.pages.customer-services.inquiry.components.inquiry-form');
     }
 }
