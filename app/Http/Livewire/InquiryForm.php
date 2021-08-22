@@ -40,10 +40,13 @@ class InquiryForm extends Component
 
         $this->selected['company'] = $this->inquiry->getAttribute('company_id');
 
+        //don't need the one below?
         $this->company = $this->companies->where('id', $this->selected['company'])->first();
 
         $this->updatedSelectedCompany($this->selected['company']);
 
+        // why? do we need to check if it is empty
+        // one bug is that when we change company, subParameters don't appear
         if (isset($this->selected['subject'])){
             $this->updatedSelectedSubject($this->selected['subject']);
         }
