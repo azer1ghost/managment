@@ -99,21 +99,36 @@ class InquiryController extends Controller
 
     public function update(InquiryRequest $request, Inquiry $inquiry): RedirectResponse
     {
+        $backup = $inquiry->replicate(['code'])->getAttributes();
+
         $inquiry->update(
-            array_merge(
-                $request->only(['company_id'],
-                ['datetime' => "{$request->get('date')} {$request->get('time')}"]
-            )
-        ));
+            $inquiry
+                ->getColumns()
+                ->flip()
+                ->map(
+                    function ($name, $key) use ($inquiry) {
+                        switch ($key) {
+                            case "user_id":
+                                return auth()->id();
+                            case "code":
+                                return $inquiry->getAttribute('code');
+                            default:
+                                return null;
+                        }
+                    }
+                )
+                ->merge(
+                    array_merge(
+                        $request->validated(),
+                        ['datetime' => $request->get('date')." ".$request->get('time')]
+                    )
+                )
+                ->toArray()
+        );
 
-        $parameters = [];
-
-        foreach ($request->get('parameter') as $key => $param)
-        {
-            $parameters[$key] = ['value' => $param];
+        if ($inquiry->getChanges()) {
+            $inquiry->backups()->create($backup);
         }
-
-        $inquiry->parameters()->sync($parameters);
 
         return redirect()->route('inquiry.index')->withNotify('info', 'Inquiry Updated');
     }

@@ -27,7 +27,7 @@ class Option extends Model
 
     public function inquires(): BelongsToMany
     {
-        return $this->belongsToMany(Inquiry::class, 'inquiry_parameter')->withPivot('parameter_id');
+        return $this->belongsToMany(Inquiry::class, 'inquiry_parameter', 'value')->withPivot('parameter_id');
     }
 
     public function companies(): BelongsToMany

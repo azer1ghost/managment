@@ -28,7 +28,7 @@ class InquiryForm extends Component
 
     public array $hardFields;
 
-    public array $cacheValues;
+    public array $cachedValues;
 
     public array $selected = [
         'company' => null
@@ -44,7 +44,9 @@ class InquiryForm extends Component
 
         $this->updatedSelectedCompany($this->selected['company']);
 
-        $this->updatedSelectedSubject($this->selected['subject']);
+        if (isset($this->selected['subject'])){
+            $this->updatedSelectedSubject($this->selected['subject']);
+        }
     }
 
     public function updatedSelectedCompany($id)
@@ -61,19 +63,17 @@ class InquiryForm extends Component
 
         $this->formFields = $this->hardFields = $this->mainParameters->toArray();
 
-        $this->cacheValues = [];
+        $this->cachedValues = [];
 
         $this->fillFields();
     }
 
     public function updatedSelectedSubject($id)
     {
-        $this->formFields = [];
-
         $subParameters = Option::find($id)
                                     ->subParameters()
                                     ->with([
-                                        'options' => fn($query) => $query->where('option_parameter.company_id', $this->company->getAttribute('id'))
+                                        'options' => fn($query) => $query->where('option_parameter.company_id', $this->selected['company'])
                                     ])
                                     ->get()
                                     ->toArray();
@@ -89,24 +89,26 @@ class InquiryForm extends Component
         $this->fillFields($subParameters);
     }
 
-    protected function fillFields($subFields = null)
+    protected function fillFields($fields = null)
     {
-        if(empty($this->cacheValues))
+        if (empty($this->cachedValues))
             $this->cacheValues($this->formFields);
         else
-            $this->cacheValues($subFields);
+            $this->cacheValues($fields);
     }
 
     protected function cacheValues(array $fields)
     {
         collect($fields)->each(function ($param){
             $parameterOption = optional($this->inquiry->getParameter($param['name']));
+
             if ($param['type'] == 'select') {
                 $this->selected[$param['name']] = $parameterOption->getAttribute('id');
             } else {
                 $this->selected[$param['name']] = $parameterOption->getAttribute('value');
             }
-            $this->cacheValues[$param['name']] = $this->selected[$param['name']];
+
+            $this->cachedValues[$param['name']] = $this->selected[$param['name']];
         });
     }
 

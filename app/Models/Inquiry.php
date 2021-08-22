@@ -59,12 +59,12 @@ class Inquiry extends Model
 
     public function options(): BelongsToMany
     {
-        return $this->belongsToMany(Option::class, 'inquiry_parameter')->withPivot('parameter_id');
+        return $this->belongsToMany(Option::class, 'inquiry_parameter', 'value')->withPivot('parameter_id');
     }
 
     public function parameters(): BelongsToMany
     {
-        return $this->belongsToMany(Parameter::class)->withPivot('option_id', 'value');
+        return $this->belongsToMany(Parameter::class)->withPivot('value');
     }
 
     public function getParameter($name)
@@ -75,7 +75,7 @@ class Inquiry extends Model
         return $parameter ?
             // Check type of parameter -> if type is "select" return option value / else return pivot value
              $parameter->getAttribute('type') == 'select' ?
-                Option::find($parameter->pivot->option_id) :
+                Option::find($parameter->pivot->value) :
                 $parameter->pivot:
          null;
     }

@@ -16,8 +16,7 @@ class CreateInquiryParameterTable extends Migration
         Schema::create('inquiry_parameter', function (Blueprint $table) {
             $table->foreignId('inquiry_id')->index()->constrained()->onDelete('CASCADE');
             $table->foreignId('parameter_id')->index()->constrained()->onDelete('CASCADE');
-            $table->foreignId('option_id')->nullable()->index()->constrained()->onDelete('CASCADE');
-            $table->string('value')->nullable();
+            $table->string('value')->index()->nullable();
         });
     }
 
@@ -31,7 +30,6 @@ class CreateInquiryParameterTable extends Migration
         if (Schema::hasTable('inquiry_parameter')){
             Schema::table('inquiry_parameter', function (Blueprint $table) {
                 $table->dropForeign(['inquiry_id']);
-                $table->dropForeign(['option_id']);
                 $table->dropForeign(['parameter_id']);
             });
         }

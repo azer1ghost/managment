@@ -62,9 +62,9 @@ class InquiryTable extends Component
         return view('panel.pages.customer-services.inquiry.components.inquiry-table', [
             'inquiries' => Inquiry::query()
                 ->withoutBackups()
-                ->when($this->canViewAll(), function ($query){
-                    return $query->where('user_id', auth()->id());
-                })
+//                ->when($this->canViewAll(), function ($query){
+//                    return $query->where('user_id', auth()->id());
+//                })
                 //->select('id', 'code', 'user_id', 'datetime', 'company_id', 'fullname', 'subject', 'created_at')
                 ->when($this->trashBox, fn($query) => $query->onlyTrashed())
                 ->whereBetween('datetime', [$this->range['from'], $this->range['to']])
@@ -94,7 +94,7 @@ class InquiryTable extends Component
                         $query->when($this->parameterFilters[$column], function ($query) use ($column, $value){
                             if (is_array($value)) {
                                 $query->whereHas('parameters', function ($query) use ($column) {
-                                    $query->whereIn('inquiry_parameter.option_id', $this->parameterFilters[$column]);
+                                    $query->whereIn('inquiry_parameter.value', $this->parameterFilters[$column]);
                                 });
                             } else {
                                 $query->whereHas('parameters', function($query) use ($value) {
