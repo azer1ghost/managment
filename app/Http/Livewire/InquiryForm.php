@@ -17,16 +17,15 @@ class InquiryForm extends Component
     public string $action;
     public string $method;
 
-    public Inquiry $inquiry;
-    public Company $company;
+    public ?Inquiry $inquiry;
 
     public Collection $companies;
     public Collection $parameters;
     public Collection $mainParameters;
 
-    public array $formFields;
+    public array $formFields = [];
 
-    public array $hardFields;
+    public array $defaultFields;
 
     public array $cachedValues;
 
@@ -36,56 +35,54 @@ class InquiryForm extends Component
 
     public function mount()
     {
-        $this->companies = Company::with('parameters')->whereNotIn('id', [1])->get();
+        // TODO This query must be automatic
+        $this->companies = Company::whereNotIn('id', [1])->get(); // $this->companies = Company::mustInquiring()->get();
 
-        $this->selected['company'] = $this->inquiry->getAttribute('company_id');
+        // TODO add [mustInquiring bool] - column to company table checkbox to edit.blade
+        // TODO add scope [mustInquiring] to Company model
+        // TODO add checkbox to edit.blade ( Must Inquiring )
+        // TODO then call query like that $this->companies = Company::mustInquiring()->get();
 
-        //don't need the one below?
-        $this->company = $this->companies->where('id', $this->selected['company'])->first();
+        // TODO creating new inquiry with user default inputs
 
-        $this->updatedSelectedCompany($this->selected['company']);
-
-        // why? do we need to check if it is empty
-        // one bug is that when we change company, subParameters don't appear
-        if (isset($this->selected['subject'])){
-            $this->updatedSelectedSubject($this->selected['subject']);
-        }
+        $this->updatedSelectedCompany($this->inquiry->getAttribute('company_id'));
     }
 
     public function updatedSelectedCompany($id)
     {
-        $this->company = $this->companies->where('id', $id)->first();
+        $this->selected['company'] = $id;
 
-        $this->mainParameters = $this->company
-                                            ->parameters()
-                                            ->whereNull('option_id')
-                                            ->with([
-                                                'options' => fn($query) => $query->where('option_parameter.company_id', $id)
-                                            ])
-                                            ->get();
+        $this->mainParameters = $this->companies
+                                        ->where('id', $id) // select currently company from collection
+                                        ->first()
+                                        ->parameters()
+                                        ->whereNull('option_id')
+                                        ->with([
+                                            'options' => fn($query) => $query->where('option_parameter.company_id', $id)
+                                        ])
+                                        ->get();
 
-        $this->formFields = $this->hardFields = $this->mainParameters->toArray();
+        $this->formFields = $this->defaultFields = $this->mainParameters->toArray();
 
         $this->cachedValues = [];
 
         $this->fillFields();
+
+        # The following called function must be upgrade to be able to manage all parameters
+        if (isset($this->selected['subject'])) {
+            $this->updatedSelectedSubject($this->selected['subject']);
+        }
     }
 
     public function updatedSelectedSubject($id)
     {
+        // TODO this function must be updated to be able to manage all parameters
         $subParameters = Option::find($id)
-                                    ->subParameters()
-                                    ->with([
-                                        'options' => fn($query) => $query->where('option_parameter.company_id', $this->selected['company'])
-                                    ])
-                                    ->get()
-                                    ->toArray();
+            ->subParameters()
+            ->with(['options' => fn($query) => $query->where('option_parameter.company_id', $this->selected['company'])])
+            ->get()->toArray();
 
-        if ($subParameters) {
-            $this->formFields = array_merge($this->hardFields, $subParameters);
-        } else {
-            $this->formFields = $this->hardFields;
-        }
+        $this->formFields = array_merge($this->defaultFields, $subParameters);
 
         array_multisort(array_column($this->formFields , 'order'), SORT_ASC, $this->formFields);
 
@@ -94,25 +91,18 @@ class InquiryForm extends Component
 
     protected function fillFields($fields = null)
     {
-        if (empty($this->cachedValues))
-            $this->cacheValues($this->formFields);
-        else
-            $this->cacheValues($fields);
+       empty($this->cachedValues) ? $this->cacheValues($this->formFields) : $this->cacheValues($fields);
     }
 
     protected function cacheValues(array $fields)
     {
         collect($fields)->each(function ($param){
             $parameterOption = optional($this->inquiry->getParameter($param['name']));
-
-            if ($param['type'] == 'select') {
-                $this->selected[$param['name']] = $parameterOption->getAttribute('id');
-            } else {
-                $this->selected[$param['name']] = $parameterOption->getAttribute('value');
-            }
-
-            $this->cachedValues[$param['name']] = $this->selected[$param['name']];
+            $this->selected[$param['name']] = ($param['type'] == 'select') ?
+                $parameterOption->getAttribute('id') :
+                $parameterOption->getAttribute('value');
         });
+        $this->cachedValues = $this->selected;
     }
 
     public function render()

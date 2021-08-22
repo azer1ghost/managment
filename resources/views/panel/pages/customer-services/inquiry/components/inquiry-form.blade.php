@@ -17,6 +17,11 @@
 
 {{--  TODO language problem  --}}
     @foreach($formFields as $formField)
+
+        @if($formField['type'] === 'select' && count($formField['options']) == 0)
+            @continue
+        @endif
+
         <div class="form-group col-md-3">
             <label for="{{$formField['name']}}">
                 {{$formField['label'][app()->getLocale()]}}
