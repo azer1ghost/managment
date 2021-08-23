@@ -35,16 +35,22 @@ class InquiryForm extends Component
 
     public function mount()
     {
-        // TODO This query must be automatic
+        // TODO Hi, Elmin. There are numbered tasks for you. Good luck.
+
+        // TODO 1 This query must be automatic
         $this->companies = Company::whereNotIn('id', [1])->get(); // $this->companies = Company::mustInquiring()->get();
 
-        // TODO add [mustInquiring bool] - column to company table checkbox to edit.blade
-        // TODO add scope [mustInquiring] to Company model
-        // TODO add checkbox to edit.blade ( Must Inquiring )
-        // TODO then call query like that $this->companies = Company::mustInquiring()->get();
+        // TODO 1.1 add [mustInquiring bool] - column to company table checkbox to edit.blade
+        // TODO 1.2 add scope [mustInquiring] to Company model
+        // TODO 1.3 add checkbox to edit.blade ( Must Inquiring )
+        // TODO 1.4 then call query like that $this->companies = Company::mustInquiring()->get();
+
+        // TODO 2 modify parameters crud for current structure (name, type, ..., options -> like multiselect)
+        // TODO 2.1 modify parameters -> add options selector (multi select)
+
+        // TODO 3 create options crud
 
         // TODO creating new inquiry with user default inputs
-
         $this->updatedSelectedCompany($this->inquiry->getAttribute('company_id'));
     }
 

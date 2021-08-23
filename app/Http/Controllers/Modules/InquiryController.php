@@ -86,19 +86,9 @@ class InquiryController extends Controller
             ]);
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * 1. flip key and values of inquiry columns
-     * 2. set all attributes values to null and set user_id to current user ID
-     * 3. Merge this attributes with validated inputs
-     * 4. Convert result collection to Array
-     *
-     */
-
     public function update(InquiryRequest $request, Inquiry $inquiry): RedirectResponse
     {
+        // TODO backup creator / restorer/ for all structure
         $inquiry->update(
             array_merge(
                 $request->only(['company_id'],
