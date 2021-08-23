@@ -4,6 +4,7 @@ use App\Http\Controllers\{Main\AccountController,
     Main\PlatformController,
     Modules\CompanyController,
     Modules\DepartmentController,
+    Modules\OptionController,
     Modules\ParameterController,
     Modules\RoleController,
     Modules\UserController};
@@ -26,6 +27,7 @@ Route::prefix('module')->group(function () {
 
     Route::resource('/companies', CompanyController::class);
     Route::resource('/parameters', ParameterController::class);
+    Route::resource('/options', OptionController::class);
     Route::resource('/users', UserController::class);
     Route::resource('/roles', RoleController::class);
     Route::resource('/departments', DepartmentController::class);

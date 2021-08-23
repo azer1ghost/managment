@@ -63,6 +63,14 @@ class Sidebar extends Component
                 'url'  => route('parameters.index'),
                 'permission' => 'viewAny-parameter',
             ],
+
+            (object) [
+                'title' => 'Options',
+                'icon'  => 'fa fa-list-alt',
+                'url'  => route('options.index'),
+                'permission' => 'viewAny-option',
+            ],
+
             (object) [
                 'title' => 'Roles',
                 'icon'  => 'fas fa-key',

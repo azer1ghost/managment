@@ -25,6 +25,7 @@ class CreateCompaniesTable extends Migration
             $table->string('address')->nullable();
             $table->text('about')->nullable();
             $table->string('keywords')->nullable();
+            $table->boolean('is_inquirable');
             $table->softDeletes();
             $table->timestamps();
         });

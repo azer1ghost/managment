@@ -82,6 +82,8 @@ class CompanyController extends Controller
     {
         $validated = $request->validated();
 
+        $validated['is_inquirable'] = $request->has('is_inquirable');
+
         if ($request->file('logo')) {
 
             $image = $request->file('logo');
@@ -98,9 +100,10 @@ class CompanyController extends Controller
         // Add, update or delete social networks
         $socials = collect($request->get('socials') ?? []);
 
-        $socials->each(fn($social) => $company->socials()->updateOrCreate(['id' => $social['id']], $social));
-
+        // destroy should appear before create or update
         Social::destroy($company->socials()->pluck('id')->diff($socials->pluck('id')));
+
+        $socials->each(fn($social) => $company->socials()->updateOrCreate(['id' => $social['id']], $social));
 
         return back()->withNotify('info', $company->getAttribute('name'));
     }

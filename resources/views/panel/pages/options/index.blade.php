@@ -9,9 +9,9 @@
         <div class="col-md-10">
             <div class="card">
                 <div class="card-header">
-                    @lang('parameters')
+                    @lang('options')
                 </div>
-                <form action="{{route('parameters.index')}}">
+                <form action="{{route('options.index')}}">
                     <div class="card-body">
                         <div class="row d-flex justify-content-between mb-2">
                            <div class="col-6">
@@ -19,13 +19,13 @@
                                    <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2">
                                    <div class="input-group-append">
                                        <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
-                                       <a class="btn btn-outline-danger" href="{{route('parameters.index')}}"><i class="fal fa-times"></i></a>
+                                       <a class="btn btn-outline-danger" href="{{route('options.index')}}"><i class="fal fa-times"></i></a>
                                    </div>
                                </div>
                            </div>
-                            @can('create', App\Models\Parameter::class)
+                            @can('create', App\Models\Option::class)
                                 <div class="col-2">
-                                    <a class="btn btn-outline-success float-right" href="{{route('parameters.create')}}">@lang('translates.buttons.create')</a>
+                                    <a class="btn btn-outline-success float-right" href="{{route('options.create')}}">@lang('translates.buttons.create')</a>
                                 </div>
                             @endcan
                             <div class="col-12">
@@ -33,35 +33,32 @@
                                     <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Type</th>
-                                        <th scope="col">Order</th>
-                                        <th scope="col">Parent Option</th>
-                                        <th scope="col">Actions</th>
+                                        <th scope="col">Text</th>
+                                        <th scope="col">Parameters</th>
+                                        <th scope="col">Companies</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @forelse($parameters as $parameter)
+                                    @forelse($options as $option)
                                         <tr>
-                                            <th scope="row">{{$parameter->getAttribute('id')}}</th>
-                                            <td>{{$parameter->getAttribute('name')}}</td>
-                                            <td>{{$parameter->getAttribute('type')}}</td>
-                                            <td>{{$parameter->getAttribute('order')}}</td>
-                                            <td>{{optional($parameter->getRelationValue('option'))->getAttribute('text') ?? 'Null'}}</td>
+                                            <th scope="row">{{$loop->iteration}}</th>
+                                            <td>{{$option->getAttribute('text')}}</td>
+                                            <td>{{implode(',', array_unique($option->getRelationValue('parameters')->pluck('name')->map(fn($p) => str_title($p))->toArray()))}}</td>
+                                            <td>{{implode(',', array_unique($option->getRelationValue('companies')->pluck('name')->map(fn($p) => str_title($p))->toArray()))}}</td>
                                             <td>
                                                 <div class="btn-sm-group">
-                                                    @can('view', $parameter)
-                                                        <a href="{{route('parameters.show', $parameter)}}" class="btn btn-sm btn-outline-primary">
+                                                    @can('view', $option)
+                                                        <a href="{{route('options.show', $option)}}" class="btn btn-sm btn-outline-primary">
                                                             <i class="fal fa-eye"></i>
                                                         </a>
                                                     @endcan
-                                                    @can('update', $parameter)
-                                                        <a href="{{route('parameters.edit', $parameter)}}" class="btn btn-sm btn-outline-success">
+                                                    @can('update', $option)
+                                                        <a href="{{route('options.edit', $option)}}" class="btn btn-sm btn-outline-success">
                                                             <i class="fal fa-pen"></i>
                                                         </a>
                                                     @endcan
-                                                    @can('delete', $parameter)
-                                                        <a href="{{route('parameters.destroy', $parameter)}}" delete data-name="{{$parameter->getAttribute('name')}}" class="btn btn-sm btn-outline-danger" >
+                                                    @can('delete', $option)
+                                                        <a href="{{route('options.destroy', $option)}}" delete data-name="{{$option->getAttribute('name')}}" class="btn btn-sm btn-outline-danger" >
                                                             <i class="fal fa-trash"></i>
                                                         </a>
                                                     @endcan
@@ -87,17 +84,25 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-2">
+                            <div class="col-3">
                                 <select name="type" class="custom-select" id="type">
                                     <option selected value="">Type</option>
-                                    @foreach($types as $key => $type)
+                                    @foreach($names as $key => $type)
                                         <option @if(request()->get('type') == $key) selected @endif value="{{$key}}">{{$type}}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-6">
+                            <div class="col-3">
+                                <select name="company" class="custom-select" id="company">
+                                    <option selected value="">Company</option>
+                                    @foreach($companies as $key => $company)
+                                        <option @if(request()->get('company') == $key) selected @endif value="{{$key}}">{{$company}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-4">
                                 <div class="float-right">
-                                    {{$parameters->links()}}
+                                    {{$options->links()}}
                                 </div>
                             </div>
                         </div>

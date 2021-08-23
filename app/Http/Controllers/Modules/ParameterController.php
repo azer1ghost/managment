@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ParameterRequest;
 use App\Models\Company;
+use App\Models\Option;
 use App\Models\Parameter;
 use Illuminate\Http\Request;
 
@@ -24,8 +25,8 @@ class ParameterController extends Controller
 
         return view('panel.pages.parameters.index')
             ->with([
-                'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => __("translates.parameters.types.$key"))->toArray(),
-                'parameters' => Parameter::with('parameter')
+                'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => ucfirst($key))->toArray(),
+                'parameters' => Parameter::with('option')
                     ->when($type,   fn ($query) => $query->where('type', $type))
                     ->when($search, fn ($query) => $query->where('name', 'like', "%".ucfirst($search)."%"))
                     ->latest('id')
@@ -40,9 +41,13 @@ class ParameterController extends Controller
                 'action' => route('parameters.store'),
                 'method' => null,
                 'data'   => null,
-                'parameters'=> array_merge(['0' => 'Nothing'], Parameter::select(['id', 'name'])->pluck('name', 'id')->toArray()),
+                'options'=> Option::with([
+                    'parameters' =>
+                        fn($query) => $query->select(['id', 'name'])
+                ])
+                    ->select(['id', 'text'])->get(),
                 'companies' => Company::select(['id','name'])->get(),
-                'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => __("translates.parameters.types.$key"))->toArray()
+                'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => ucfirst($key))->toArray()
             ]);
     }
 
@@ -50,6 +55,13 @@ class ParameterController extends Controller
     {
         $parameter = Parameter::create($request->validated());
         $parameter->companies()->sync($request->get('companies'));
+
+        // detach all relations before adding new ones
+        $parameter->options()->detach();
+
+        foreach ($request->get('companies') as $company){
+            $parameter->options()->attach($request->get('options'), ['company_id' => $company]);
+        }
 
         return redirect()
             ->route('parameters.edit', $parameter)
@@ -63,9 +75,13 @@ class ParameterController extends Controller
                 'action' => null,
                 'method' => null,
                 'data' => $parameter,
-                'parameters'=> array_merge(['0' => 'Nothing'], Parameter::select(['id', 'name'])->pluck('name', 'id')->toArray()),
+                'options'=> Option::with([
+                    'parameters' =>
+                        fn($query) => $query->select(['id', 'name'])
+                ])
+                    ->select(['id', 'text'])->get(),
                 'companies' => Company::select(['id','name'])->get(),
-                'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => __("translates.parameters.types.$key"))->toArray()
+                'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => ucfirst($key))->toArray()
             ]);
     }
 
@@ -76,9 +92,13 @@ class ParameterController extends Controller
                 'action' => route('parameters.update', $parameter),
                 'method' => "PUT",
                 'data'   => $parameter,
-                'parameters'=> array_merge(['0' => 'Nothing'], Parameter::select(['id', 'name'])->pluck('name', 'id')->toArray()),
+                'options'=> Option::with([
+                    'parameters' =>
+                        fn($query) => $query->select(['id', 'name'])
+                    ])
+                    ->select(['id', 'text'])->get(),
                 'companies' => Company::select(['id','name'])->get(),
-                'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => __("translates.parameters.types.$key"))->toArray()
+                'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => ucfirst($key))->toArray()
             ]);
     }
 
@@ -87,6 +107,13 @@ class ParameterController extends Controller
         $parameter->update($request->validated());
 
         $parameter->companies()->sync($request->get('companies'));
+
+        // detach all relations before adding new ones
+        $parameter->options()->detach();
+
+        foreach ($request->get('companies') as $company){
+            $parameter->options()->attach($request->get('options'), ['company_id' => $company]);
+        }
 
         return back()->withNotify('info', $parameter->getAttribute('name'));
     }

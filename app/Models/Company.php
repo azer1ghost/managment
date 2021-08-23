@@ -16,7 +16,28 @@ class Company extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'logo', 'website', 'mail', 'phone', 'mobile', 'address', 'about'];
+    protected $fillable = [
+        'name',
+        'logo',
+        'website',
+        'mail',
+        'phone',
+        'call_center',
+        'mobile',
+        'address',
+        'about',
+        'keywords',
+        'is_inquirable'
+    ];
+
+    protected $casts = [
+        'is_inquirable' => 'boolean'
+    ];
+
+    public function scopeIsInquirable($query)
+    {
+        return $query->where('is_inquirable', 1);
+    }
 
     public function parameters(): BelongsToMany
     {

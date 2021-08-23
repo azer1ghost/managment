@@ -37,7 +37,21 @@ class UserRequest extends FormRequest
             'role_id'        => 'nullable|integer|min:1',
             'birthday'       => 'nullable|date',
             'password'       => "$password|confirmed|min:6|string",
-            'department_id'     => 'nullable|integer|min:1',
+            'department_id'  => 'nullable|integer|min:1',
+            'defaults'       => 'nullable|array',
+            'defaults.*.id'  => 'nullable|string',
+            'defaults.*.parameter_id'  => 'required|integer',
+            'defaults.*.option_id'     => 'required|integer',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'defaults.*.parameter_id.required'  => 'The Default column is required',
+            'defaults.*.option_id.required'     => 'The Default value is required',
+            'defaults.*.parameter_id.integer'   => 'The Default column field should be an integer',
+            'defaults.*.option_id.integer'      => 'The Default value field should be an integer',
         ];
     }
 

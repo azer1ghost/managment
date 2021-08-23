@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Parameter;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ParameterRequest extends FormRequest
+class OptionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,14 +25,9 @@ class ParameterRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'      => 'required|string|max:255',
-            'type'      => 'required|string|max:255',
-            'label'      => 'required|string|max:255',
-            'placeholder'      => 'required|string|max:255',
-            'order' => 'required|integer',
-            'companies' => 'array',
-            'options' => 'array',
-            'option_id'   => 'nullable',
+            'text'       => 'required|string|max:255',
+            'parameters' => 'array',
+            'companies'  => 'array',
         ];
     }
 }

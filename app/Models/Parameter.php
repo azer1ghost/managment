@@ -21,16 +21,22 @@ class Parameter extends Model
 
     public array $translatable = ['label', 'placeholder'];
 
-    protected $fillable = ['name', 'label', 'placeholder', 'type', 'parameter_id'];
+    protected $fillable = ['name', 'label', 'placeholder', 'type', 'option_id', 'order'];
 
     public function parameters(): HasMany
     {
         return $this->hasMany(__CLASS__);
     }
 
-    public function parameter(): BelongsTo
+    // I think we don't need this one after parameter_id has changed to option_id
+//    public function parameter(): BelongsTo
+//    {
+//        return $this->belongsTo(__CLASS__);
+//    }
+
+    public function option(): BelongsTo
     {
-        return $this->belongsTo(__CLASS__);
+        return $this->belongsTo(Option::class);
     }
 
     public function companies(): BelongsToMany

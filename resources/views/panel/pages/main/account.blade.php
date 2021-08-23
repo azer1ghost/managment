@@ -68,6 +68,11 @@
                                 <x-input::text    name="password" width="6" class="pr-1" type="password" />
                                 <x-input::text    name="password_confirmation" width="6" class="pr-1" label="Password Confirmation" type="password"/>
                                 <x-input::select  name="role_id"   :value="auth()->user()->getRelationValue('role')->getAttribute('id')"  width="3" class="pr-1" :options="$roles" label="Role"/>
+                                <div class="col-md-12">
+                                    <br>
+                                    <p class="text-muted mb-2">USER DEFAULTS</p>
+                                    @livewire('show-user-defaults',['user' => auth()->id()])
+                                </div>
                                 <x-input::submit/>
                             </div>
                         </form>

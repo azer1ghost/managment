@@ -14,9 +14,10 @@ class CreateUserDefaultsTable extends Migration
     public function up()
     {
         Schema::create('user_defaults', function (Blueprint $table) {
+            $table->id();
             $table->integer('user_id')->index();
-            $table->string('column')->index();
-            $table->string('value')->nullable();
+            $table->integer('parameter_id')->index();
+            $table->integer('option_id')->index();
         });
     }
 

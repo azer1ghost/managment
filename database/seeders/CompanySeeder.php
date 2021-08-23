@@ -25,7 +25,8 @@ class CompanySeeder extends Seeder
                 'mobile' => '+994513339090',
                 'address' => 'Bakı, Əhməd Rəcəbli 156',
                 'about' => 'MOBİL GROUP gömrük brokeri xidmətləri və beynəlxalq daşımaları həyata keçirən şirkətlər qrupudur. Yerli və xarici vətəndaşlara, o cümlədən fiziki və hüquqi şəxslərə göstəridiyi geniş xidmət diapazonu ilə MOBİL GROUP özünü təsdiq etmiş yerli brenddir. MOBİL GROUP-un tərkibində beynəlxalq təcrübə əsasında qurulan “Mobil Broker” və “Mobil Logistics” fəaliyyət göstərir.',
-                'keywords' => 'office'
+                'keywords' => 'office',
+                'is_inquirable' => '0'
             ),
             array(
                 'name' => "Mobil Logistics",
@@ -37,7 +38,8 @@ class CompanySeeder extends Seeder
                 'mobile' => '+994513339090',
                 'address' => 'Bakı, Əhməd Rəcəbli 156',
                 'about' => 'Fake MOBİL GROUP məhsulu olan Mobil Broker MMC beynəlxalq təcrübə əsasında qurulan müasir gömrük təmsilçiliyidir. Mobil Broker 2017-cı ildən etibarən gömrük brokeri qismində fəaliyyətdədir. Böyük şəbəkəyə sahib olan şirkət kompleks gömrük xidmətləri təklif edir. Fiziki və ya hüquqi şəxslərə idxal və ixrac əməliyyatlarından yaxından köməklik edir.',
-                'keywords' => 'logistics,shipping'
+                'keywords' => 'logistics,shipping',
+                'is_inquirable' => '1'
             ),
             array(
                 'name' => "Mobil Broker",
@@ -49,7 +51,8 @@ class CompanySeeder extends Seeder
                 'mobile' => '+994513339090',
                 'address' => 'Bakı, Əhməd Rəcəbli 156',
                 'about' => 'MOBİL GROUP məhsulu olan Mobil Broker MMC beynəlxalq təcrübə əsasında qurulan müasir gömrük təmsilçiliyidir. Mobil Broker 2017-cı ildən etibarən gömrük brokeri qismində fəaliyyətdədir. Böyük şəbəkəyə sahib olan şirkət kompleks gömrük xidmətləri təklif edir. Fiziki və ya hüquqi şəxslərə idxal və ixrac əməliyyatlarından yaxından köməklik edir.',
-                'keywords' => 'documents'
+                'keywords' => 'documents',
+                'is_inquirable' => '1'
             ),
             array(
                 'name' => "Mobil Express",
@@ -61,7 +64,8 @@ class CompanySeeder extends Seeder
                 'mobile' => '+994513339090',
                 'address' => 'Yasamal rayonu, Cəfər Cabbarlı 27.',
                 'about' => 'Mobil Express MMC Türkiyə və Amerikadan hava yolu ilə Azərbaycana qısa müddətdə bağlamaların daşınması ilə məşğul olur. Hava nəqliyyatı məhsulların çatdırılmasının sürətli, təhlükəsiz və  əlverişli yolu hesab olunur və xidmətimizlə bağlamalarınızı qısa müddətdə əldə edə bilərsiniz.  Mobex xidmətlərinin yüksək keyfiyyəti və münasib qiymətləri ilə seçilir. ',
-                'keywords' => 'cargo'
+                'keywords' => 'cargo',
+                'is_inquirable' => '1'
             ),
         ]);
     }

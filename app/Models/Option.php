@@ -15,6 +15,8 @@ class Option extends Model
 
     public array $translatable = ['text'];
 
+    protected $fillable = ['text'];
+
     public function parameters(): BelongsToMany
     {
         return $this->belongsToMany(Parameter::class)->withPivot('company_id');

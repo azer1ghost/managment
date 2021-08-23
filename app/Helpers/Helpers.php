@@ -61,3 +61,9 @@ if (! function_exists('notify')) {
         };
     }
 }
+
+if(! function_exists('str_title')){
+    function str_title($str){
+        return Str::title(Str::replace('_', ' ', ' '.$str));
+    }
+}

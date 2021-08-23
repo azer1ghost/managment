@@ -29,9 +29,17 @@
                                     <x-input::text  name="mobile"    :value="optional($data)->getAttribute('mobile')"    label="Company mobile"  width="6" class="pr-3" />
                                     <x-input::text  name="mail"      :value="optional($data)->getAttribute('mail')"      label="Company email"   width="6" class="pr-3" />
                                     <x-input::text  name="phone"     :value="optional($data)->getAttribute('phone')"     label="Company phone"   width="6" class="pr-3" />
+                                    <x-input::text  name="call_center"  :value="optional($data)->getAttribute('call_center')"     label="Company call center"   width="6" class="pr-3" />
+                                    <x-input::text  name="keywords"     :value="optional($data)->getAttribute('keywords')"        label="Company keywords"      width="6" class="pr-3" />
                                 </div>
                             </div>
                             <x-input::textarea name="about"  :value="optional($data)->getAttribute('about')"  label="Company about"   width="12" class="pr-3" rows="6"/>
+                            <div class="col-12 mb-2">
+                                <div class="form-check">
+                                    <input type="checkbox" name="is_inquirable" @if(optional($data)->getAttribute('is_inquirable') === true) checked @endif class="form-check-input" id="id-is_inquirable">
+                                    <label class="form-check-label" for="id-is_inquirable">Is Inquirable</label>
+                                </div>
+                            </div>
                             <div class="col-12 col-md-12">
                                 <p class="text-muted mb-2">SOCIALS</p>
                                 @livewire('show-socials',['company' => $data,'action' => $action])
