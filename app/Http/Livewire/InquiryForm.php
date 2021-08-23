@@ -38,7 +38,6 @@ class InquiryForm extends Component
         $this->companies = Company::isInquirable()->get();
 
         // TODO creating new inquiry with user default inputs
-        // TODO would be incredible each default would one be related to its own company
         $this->updatedSelectedCompany($this->inquiry->getAttribute('company_id'));
     }
 

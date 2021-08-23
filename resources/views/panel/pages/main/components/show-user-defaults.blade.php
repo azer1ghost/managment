@@ -11,20 +11,20 @@
                     <div class="row d-flex align-items-center">
                         <input type="hidden"  name="defaults[{{$index}}][id]"   value="{{$default['id']}}">
                         <div class="form-group col-md-5">
-                            <label>Default column</label>
-                            <select class="form-control" name="defaults[{{$index}}][parameter_id]" required wire:click="changeOptions($event.target.value)">
+                            <label for="column-{{$index}}">Default column</label>
+                            <select id="column-{{$index}}" class="form-control" name="defaults[{{$index}}][parameter_id]" required wire:click="changeOptions($event.target.value, {{$index}})">
                                 <option value="null" disabled selected>Choose Column</option>
-                                @foreach($columns as $key => $column)
-                                    <option @if ($key === $default['parameter_id']) selected @endif value="{{$key}}">{{$column}}</option>
+                                @foreach($arrOfColumns[$index] as $key => $column)
+                                    <option @if($key == $default['parameter_id']) selected @endif value="{{$key}}">{{$column}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-5">
-                            <label>Default value</label>
-                            <select class="form-control" name="defaults[{{$index}}][option_id]" required>
+                            <label for="value-{{$index}}">Default value</label>
+                            <select id="value-{{$index}}" class="form-control" name="defaults[{{$index}}][option_id]" required>
                                 <option value="null" disabled selected>Choose Value</option>
-                                @foreach($values as $key => $value)
-                                    <option @if ($key === $default['option_id']) selected @endif value="{{$key}}">{{ $value}}</option>
+                                @foreach($arrOfValues[$index] as $key => $value)
+                                    <option @if($key == $default['option_id']) selected @endif value="{{$key}}">{{ $value}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -41,5 +41,7 @@
                 </div>
             @endforelse
     </div>
-        <x-input::submit wire:click.prevent="addDefault" value="<i class='fal fa-plus'></i>" type="button" color="success" layout="left" class="d-inline pl-0" width="1"/>
+        @unless ($all_selected || !$columnSelected)
+            <x-input::submit wire:click.prevent="addDefault" value="<i class='fal fa-plus'></i>" type="button" color="success" layout="left" class="d-inline pl-0" width="1"/>
+        @endunless
 </div>
