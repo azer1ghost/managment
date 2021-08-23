@@ -28,6 +28,7 @@
             </label>
             @if($formField['type'] === 'select')
                 <select class="form-control" name="parameter[{{$formField['id']}}]" id="{{$formField['name']}}" wire:model="selected.{{$formField['name']}}">
+                    <option value="null" disabled selected>{{$formField['label'][app()->getLocale()]}} {{__('translates.placeholders.choose')}}</option>
                     @foreach($formField['options'] as $option)
                         <option value="{{$option['id']}}">
                             {{$option['text'][app()->getLocale()]}}
@@ -35,7 +36,7 @@
                     @endforeach
                 </select>
             @else
-                <input class="form-control" name="parameter[{{$formField['id']}}]" type="{{$formField['type']}}" wire:model="selected.{{$formField['name']}}">
+                <input class="form-control" name="parameter[{{$formField['id']}}]" placeholder="{{$formField['placeholder'][app()->getLocale()]}}" type="{{$formField['type']}}" wire:model="selected.{{$formField['name']}}">
             @endif
         </div>
     @endforeach
