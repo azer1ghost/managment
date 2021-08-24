@@ -8,8 +8,6 @@ use App\Http\Requests\UserRequest;
 use App\Models\Company;
 use App\Models\Department;
 use App\Models\Role;
-use App\Models\Social;
-use App\Models\UserDefault;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use App\Models\User;
