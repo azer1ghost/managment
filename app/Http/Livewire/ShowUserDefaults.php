@@ -20,7 +20,7 @@ class ShowUserDefaults extends Component
     public function mount()
     {
         $this->availableColumns = Parameter::select(['id'])->where('type', 'select')->pluck('id')->toArray();
-        $this->defaults = auth()->user()->defaults()->get(['id', 'parameter_id', 'value'])->toArray();
+        $this->defaults = auth()->user()->defaults()->get(['parameter_id', 'value'])->toArray();
 
         if($this->defaults){
             collect($this->defaults)->each(function($d, $idx){
@@ -35,7 +35,8 @@ class ShowUserDefaults extends Component
     {
         // disable add button before some value is not selected
         $this->columnSelected = false;
-        $newArr = ["id" => null, "parameter_id" => null, "value" => null];
+
+        $newArr = ["parameter_id" => null, "value" => null];
         $this->defaults[] = $newArr;
         $this->arrOfColumns[] = $this->addColumn();
         $this->arrOfValues[] = [];

@@ -57,12 +57,7 @@ class OptionController extends Controller
     {
         $option = Option::create($request->validated());
 
-        // detach all relations before adding new ones
-        $option->parameters()->detach();
-
-        foreach ($request->get('companies') as $company){
-            $option->parameters()->attach($request->get('parameters'), ['company_id' => $company]);
-        }
+        self::saveParameters($option, $request->get('parameters'), $request->get('companies'));
 
         return redirect()
             ->route('options.edit', $option)
@@ -97,14 +92,19 @@ class OptionController extends Controller
     {
         $option->update($request->validated());
 
+        self::saveParameters($option, $request->get('parameters'), $request->get('companies'));
+
+        return back()->withNotify('info', $option->getAttribute('name'));
+    }
+
+    public static function saveParameters($option, $requestParameters, $requestCompanies)
+    {
         // detach all relations before adding new ones
         $option->parameters()->detach();
 
-        foreach ($request->get('companies') as $company){
-            $option->parameters()->attach($request->get('parameters'), ['company_id' => $company]);
+        foreach ($requestCompanies as $company){
+            $option->parameters()->attach($requestParameters, ['company_id' => $company]);
         }
-
-        return back()->withNotify('info', $option->getAttribute('name'));
     }
 
     public function destroy(Option $option)

@@ -9,7 +9,6 @@
                 <div class="col-12">
                     <hr class="m-1">
                     <div class="row d-flex align-items-center">
-                        <input type="hidden"  name="defaults[{{$index}}][id]"   value="{{$default['id']}}">
                         <div class="form-group col-md-5">
                             <label for="column-{{$index}}">Default column</label>
                             <select id="column-{{$index}}" class="form-control" name="defaults[{{$index}}][parameter_id]" required wire:click="changeOptions($event.target.value, {{$index}})">

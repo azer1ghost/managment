@@ -13,8 +13,7 @@ class CreateUserDefaultsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_defaults', function (Blueprint $table) {
-            $table->id();
+        Schema::create('user_default', function (Blueprint $table) {
             $table->integer('user_id')->index();
             $table->integer('parameter_id')->index();
             $table->integer('value')->index();
@@ -28,6 +27,6 @@ class CreateUserDefaultsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_defaults');
+        Schema::dropIfExists('user_default');
     }
 }

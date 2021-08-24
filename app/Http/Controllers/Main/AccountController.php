@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Modules\UserController;
 use App\Http\Requests\UserRequest;
 use App\Models\Company;
 use App\Models\Department;
@@ -46,13 +47,7 @@ class AccountController extends Controller
 
         $user->update($validated);
 
-        // Add, update or delete social networks
-        $defaults = collect($request->get('defaults') ?? []);
-
-        // destroy should appear before create or update
-        UserDefault::destroy($user->defaults()->pluck('id')->diff($defaults->pluck('id')));
-
-        $defaults->each(fn($default) => $user->defaults()->updateOrCreate(['id' => $default['id']], $default));
+        UserController::saveDefaults($user, $request->get('defaults'));
 
         return back()->withNotify('info', $user->getAttribute('fullname'));
     }

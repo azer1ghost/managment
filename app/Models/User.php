@@ -121,9 +121,9 @@ class User extends Authenticatable
         return $this->belongsTo(Company::class);
     }
 
-    public function defaults(): HasMany
+    public function defaults(): BelongsToMany
     {
-        return $this->hasMany(UserDefault::class);
+        return $this->belongsToMany(Parameter::class, 'user_default')->withPivot('value');
     }
 
     public function getDefault($column)
