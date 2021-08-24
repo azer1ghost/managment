@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Company;
 use App\Models\Inquiry;
 use App\Models\Option;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
@@ -14,20 +15,15 @@ class InquiryForm extends Component
         'refreshInquiryForm' => '$refresh',
     ];
 
-    public ?string $action;
-    public ?string $method;
+    public ?string $action, $method;
 
-    public ?Inquiry $inquiry;
-
-    public Collection $companies;
-    public Collection $parameters;
-    public Collection $mainParameters;
+    public Inquiry $inquiry;
+    public Carbon $datetime;
+    public Collection $companies,  $parameters, $mainParameters;
 
     public array $formFields = [];
 
-    public array $defaultFields;
-
-    public array $cachedValues;
+    public array $defaultFields, $cachedValues;
 
     public array $selected = [
         'company' => null
@@ -36,13 +32,6 @@ class InquiryForm extends Component
     public function mount()
     {
         $this->companies = Company::isInquirable()->get();
-
-        if (!$this->inquiry){
-            $this->inquiry = new Inquiry([
-                'datetime' => now(),
-                'company_id' => 4
-            ]);
-        }
 
         // TODO creating new inquiry with user default inputs
         $this->updatedSelectedCompany($this->inquiry->getAttribute('company_id'));

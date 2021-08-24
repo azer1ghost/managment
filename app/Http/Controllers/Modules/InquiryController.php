@@ -17,17 +17,6 @@ class InquiryController extends Controller
         $this->authorizeResource(Inquiry::class, 'inquiry');
     }
 
-    protected function generateCode($prefix = 'MG'): string
-    {
-        return $prefix.str_pad(random_int(0, 999999), 6, 0, STR_PAD_LEFT);
-    }
-
-    protected function createCode(): string
-    {
-        $code = $this->generateCode();
-        return Inquiry::select('code')->where('code', $code)->exists() ? $this->createCode() : $code;
-    }
-
     public function index(Request $request)
     {
         return view('panel.pages.customer-services.inquiry.index')->with([
@@ -37,21 +26,27 @@ class InquiryController extends Controller
 
     public function create()
     {
+        $default = new Inquiry([
+            'datetime' => now(),
+            'company_id' => 4
+        ]);
+
         return view('panel.pages.customer-services.inquiry.edit')
             ->with([
                 'method' => 'POST',
                 'action' => route('inquiry.store'),
-                'data'   => null
+                'data'   => $default
             ]);
     }
 
     public function store(InquiryRequest $request): RedirectResponse
     {
+        // TODO remake store method
         $inquiry = auth()->user()->inquiries()->create(
             array_merge(
                 $request->validated(),
                 [
-                    'code' => $this->createCode(),
+                    'code' => $this->generateCustomCode(),
                     'datetime' => $request->get('date')." ".$request->get('time')
                 ]
             )
@@ -149,4 +144,17 @@ class InquiryController extends Controller
 
         return response('',204);
     }
+
+    public static function generateCustomCode($prefix = 'MG', $digits = 8): string
+    {
+        do {
+            $code = $prefix . str_pad(rand(0, pow(10, $digits) - 1), $digits, '0', STR_PAD_LEFT);
+            if (! Inquiry::select('code')->whereCode($code)->withTrashed()->exists()) {
+                break;
+            }
+        } while (true);
+
+        return $code;
+    }
+
 }

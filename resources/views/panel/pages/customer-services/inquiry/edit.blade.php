@@ -18,7 +18,7 @@
                         {{__('translates.buttons.back')}}
                     </a>
                     {{optional($data)->getAttribute('code')}}
-                    @if($data)
+                    @if($data->backups()->exists())
                     <form id="restoreForm" action="{{route('inquiry.versionRestore', $data)}}" class="float-right">
                         <div class="input-group">
                             <select class="custom-select" id="select" aria-label="Example select with button addon">
@@ -39,7 +39,8 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    @livewire('inquiry-form', ['action' => $action, 'method' => $method, 'inquiry' => $data])
+                    <livewire:inquiry-form :action="$action"  :method="$method" :inquiry="$data" />
+{{--                    @livewire('inquiry-form', ['action' => $action, 'method' => $method, 'inquiry' => $data])--}}
                 </div>
             </div>
         </div>
