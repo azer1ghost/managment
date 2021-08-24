@@ -57,7 +57,9 @@ class UserController extends Controller
 
         $user = User::create($validated);
 
-        $user->defaults()->sync(syncResolver($request->get('defaults'), 'value'));
+        $reversColumns = array_column($request->get('defaults'), 'value', 'parameter_id');
+
+        $user->defaults()->sync(syncResolver($reversColumns,'value'));
 
         return redirect()
             ->route('users.index')
@@ -108,7 +110,9 @@ class UserController extends Controller
 
         $user->update($validated);
 
-        $user->defaults()->sync(syncResolver($request->get('defaults'), 'value'));
+        $reversColumns = array_column($request->get('defaults'), 'value', 'parameter_id');
+
+        $user->defaults()->sync(syncResolver($reversColumns,'value'));
 
         return back()->withNotify('info', $user->getAttribute('name'));
     }

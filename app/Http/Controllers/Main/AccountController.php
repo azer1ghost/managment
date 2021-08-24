@@ -45,7 +45,9 @@ class AccountController extends Controller
 
         $user->update($validated);
 
-        UserController::saveDefaults($user, $request->get('defaults'));
+        $reversColumns = array_column($request->get('defaults'), 'value', 'parameter_id');
+
+        $user->defaults()->sync(syncResolver($reversColumns,'value'));
 
         return back()->withNotify('info', $user->getAttribute('fullname'));
     }

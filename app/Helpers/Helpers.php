@@ -73,7 +73,7 @@ if(! function_exists('syncResolver')){
         $array = [];
         foreach ($params as $key => $param)
         {
-            $parameters[$key] = [$column => $param];
+            $array[$key] = [$column => $param];
         }
         return $array;
     }
