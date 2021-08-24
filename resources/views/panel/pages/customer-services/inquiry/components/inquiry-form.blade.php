@@ -2,6 +2,8 @@
     @csrf
     @method($method)
 
+    @dd($inquiry)
+
     <x-input::text name="date" :label="__('translates.fields.date')" value="{{$inquiry->datetime->format('d-m-Y')}}" type="text" width="3" class="pr-2" />
     <x-input::text name="time" :label="__('translates.fields.time')" value="{{$inquiry->datetime->format('H:i')}}" type="time" width="3" class="pr-2" />
 
@@ -27,7 +29,7 @@
                 {{$formField['label'][app()->getLocale()]}}
             </label>
             @if($formField['type'] === 'select')
-                <select class="form-control" name="parameter[{{$formField['id']}}]" id="{{$formField['name']}}" wire:model="selected.{{$formField['name']}}">
+                <select class="form-control" name="parameters[{{$formField['id']}}]" id="{{$formField['name']}}" wire:model="selected.{{$formField['name']}}">
                     <option value="null" disabled selected>{{$formField['label'][app()->getLocale()]}} {{__('translates.placeholders.choose')}}</option>
                     @foreach($formField['options'] as $option)
                         <option value="{{$option['id']}}">
@@ -36,7 +38,7 @@
                     @endforeach
                 </select>
             @else
-                <input class="form-control" name="parameter[{{$formField['id']}}]" placeholder="{{$formField['placeholder'][app()->getLocale()]}}" type="{{$formField['type']}}" wire:model="selected.{{$formField['name']}}">
+                <input class="form-control" name="parameters[{{$formField['id']}}]" placeholder="{{$formField['placeholder'][app()->getLocale()]}}" type="{{$formField['type']}}" wire:model="selected.{{$formField['name']}}">
             @endif
         </div>
     @endforeach

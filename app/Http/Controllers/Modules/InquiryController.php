@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InquiryRequest;
 use App\Models\Inquiry;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -88,15 +89,26 @@ class InquiryController extends Controller
 
     public function update(InquiryRequest $request, Inquiry $inquiry): RedirectResponse
     {
-        // TODO backup creator / restorer/ for all structure
+
+        $oldInquiry = $inquiry->replicate(['code'])->getAttributes();
         $inquiry->update(
             array_merge(
-                $request->only(['company_id'],
-                ['datetime' => "{$request->get('date')} {$request->get('time')}"]
+                $request->only(['company_id']),
+                ['datetime' => Carbon::createFromFormat('d-m-Y H:i', $request->get('date')." ".$request->get('time'))]
             )
-        ));
+        );
 
-        $inquiry->parameters()->sync(syncResolver($request->get('parameters'), 'value'));
+        $newParameters = $request->get('parameters');
+        $oldParameters = $inquiry->getRelationValue('parameters')->pluck('pivot.value', 'id')->toArray();
+
+        $changedParams = (bool) array_diff($oldParameters, $newParameters);
+
+        if ($inquiry->getChanges() || $changedParams) {
+           $backup = $inquiry->backups()->create($oldInquiry);
+           $backup->parameters()->sync(syncResolver($oldParameters, 'value'));
+        }
+
+        $inquiry->parameters()->sync(syncResolver($newParameters, 'value'));
 
         return redirect()->route('inquiry.index')->withNotify('info', 'Inquiry Updated');
     }
@@ -122,8 +134,19 @@ class InquiryController extends Controller
 
     public function versionRestore(Inquiry $inquiry, Request $request)
     {
-        return $inquiry->update(Inquiry::find($request->get('backup_id'))->replicate(['code'])->getAttributes())
-            ? response('OK')
-            : response('',204);
+        $old = Inquiry::find($request->get('backup_id'));
+
+        $attributes = $old->replicate(['code'])->getAttributes();
+
+        $parameters = $old->getRelationValue('parameters')->pluck('pivot.value', 'id')->toArray();
+
+        if (
+            $inquiry->update($attributes) &&
+            $inquiry->parameters()->sync(syncResolver($parameters, 'value'))
+        ) {
+           return response('OK');
+        }
+
+        return response('',204);
     }
 }

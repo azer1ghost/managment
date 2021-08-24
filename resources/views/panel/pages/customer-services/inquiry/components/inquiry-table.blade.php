@@ -74,7 +74,7 @@
                 <tr>
                     <td>{{$inquiry->getAttribute('code')}}</td>
                     <td>{{$inquiry->getAttribute('datetime')->format('d-m-Y')}}</td>
-                    <td>{{$inquiry->getAttribute('datetime')->format('H:m')}}</td>
+                    <td>{{$inquiry->getAttribute('datetime')->format('H:i')}}</td>
                     <td>{{$inquiry->getRelationValue('company')->getAttribute('name')}}</td>
                     <td>{{optional($inquiry->getParameter('fullname'))->getAttribute('value')}}</td>
                     <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}}</td>

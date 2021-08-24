@@ -37,6 +37,13 @@ class InquiryForm extends Component
     {
         $this->companies = Company::isInquirable()->get();
 
+        if (!$this->inquiry){
+            $this->inquiry = new Inquiry([
+                'datetime' => now(),
+                'company_id' => 4
+            ]);
+        }
+
         // TODO creating new inquiry with user default inputs
         $this->updatedSelectedCompany($this->inquiry->getAttribute('company_id'));
     }
