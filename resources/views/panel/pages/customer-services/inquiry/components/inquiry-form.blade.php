@@ -2,8 +2,6 @@
     @csrf
     @method($method)
 
-{{--    @dd($inquiry)--}}
-
     <x-input::text name="date" :label="__('translates.fields.date')" value="{{$inquiry->datetime->format('d-m-Y')}}" type="text" width="3" class="pr-2" />
     <x-input::text name="time" :label="__('translates.fields.time')" value="{{$inquiry->datetime->format('H:i')}}" type="time" width="3" class="pr-2" />
 
@@ -17,28 +15,30 @@
         </select>
     </div>
 
-{{--  TODO language problem  --}}
     @foreach($formFields as $formField)
-
         @if($formField['type'] === 'select' && count($formField['options']) == 0)
             @continue
         @endif
-
+        @php
+            $label = $formField['label'][app()->getLocale()] ?? $formField['label']['en'];
+            $placeholder = $formField['placeholder'][app()->getLocale()] ?? $formField['placeholder']['en'];
+        @endphp
         <div class="form-group col-md-3">
             <label for="{{$formField['name']}}">
-                {{$formField['label'][app()->getLocale()]}}
+                {{$label}}
             </label>
             @if($formField['type'] === 'select')
                 <select class="form-control" name="parameters[{{$formField['id']}}]" id="{{$formField['name']}}" wire:model="selected.{{$formField['name']}}">
-                    <option value="null" disabled selected>{{$formField['label'][app()->getLocale()]}} {{__('translates.placeholders.choose')}}</option>
+                    <option value="null" disabled selected>{{$label}} {{__('translates.placeholders.choose')}}</option>
                     @foreach($formField['options'] as $option)
+                        @php($optionText = $option['text'][app()->getLocale()] ?? $option['text']['en'])
                         <option value="{{$option['id']}}">
-                            {{$option['text'][app()->getLocale()]}}
+                            {{$optionText}}
                         </option>
                     @endforeach
                 </select>
             @else
-                <input class="form-control" name="parameters[{{$formField['id']}}]" placeholder="{{$formField['placeholder'][app()->getLocale()]}}" type="{{$formField['type']}}" wire:model="selected.{{$formField['name']}}">
+                <input class="form-control" name="parameters[{{$formField['id']}}]" placeholder="{{$placeholder}}" type="{{$formField['type']}}" wire:model="selected.{{$formField['name']}}">
             @endif
         </div>
     @endforeach

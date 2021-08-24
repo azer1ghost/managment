@@ -28,12 +28,6 @@ class Parameter extends Model
         return $this->hasMany(__CLASS__);
     }
 
-    // I think we don't need this one after parameter_id has changed to option_id
-//    public function parameter(): BelongsTo
-//    {
-//        return $this->belongsTo(__CLASS__);
-//    }
-
     public function option(): BelongsTo
     {
         return $this->belongsTo(Option::class);
