@@ -65,12 +65,17 @@
                                 <x-input::select  name="city"      :value="optional($data)->getAttribute('city')"     width="3" class="pr-1" :options="['Baku','Sumgayit']"/>
                                 <x-input::text    name="address"   :value="optional($data)->getAttribute('address')"  width="6" class="pr-1" />
                                 <x-input::select  name="role_id"   :value="optional($data)->getRelationValue('role')->getAttribute('id')"  width="3" class="pr-1" :options="$roles" label="Role"/>
-                            @if(is_null($data))
+                                @if(is_null($data))
                                     <x-input::text type="password" name="password" width="6" class="pr-1" />
                                     <x-input::text type="password" name="password_confirmation" width="6" class="pr-1" label="Password Confirmation"/>
                                 @endif
+                                <div class="col-md-12">
+                                    <br>
+                                    <p class="text-muted mb-2">USER DEFAULTS</p>
+                                    @livewire('show-user-defaults',['user' => $data, 'action' => $action])
+                                </div>
                                 @if($action)
-                                <x-input::submit/>
+                                    <x-input::submit/>
                                 @endif
                             </div>
                         </form>

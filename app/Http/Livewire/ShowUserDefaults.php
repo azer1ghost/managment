@@ -4,11 +4,13 @@ namespace App\Http\Livewire;
 
 use App\Models\Option;
 use App\Models\Parameter;
+use App\Models\User;
 use Livewire\Component;
 
 class ShowUserDefaults extends Component
 {
-    public ?int $user_id = null;
+    public User $user;
+    public ?string $action;
     public array  $defaults;
     public array  $arrOfColumns     = [];
     public array  $arrOfValues      = [];
@@ -20,7 +22,7 @@ class ShowUserDefaults extends Component
     public function mount()
     {
         $this->availableColumns = Parameter::select(['id'])->where('type', 'select')->pluck('id')->toArray();
-        $this->defaults = auth()->user()->defaults()->get(['parameter_id', 'value'])->toArray();
+        $this->defaults = optional($this->user)->defaults()->get(['parameter_id', 'value'])->toArray();
 
         if($this->defaults){
             collect($this->defaults)->each(function($d, $idx){

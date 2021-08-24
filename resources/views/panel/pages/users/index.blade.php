@@ -59,12 +59,12 @@
                                                                 <i class="fal fa-eye"></i>
                                                             </a>
                                                         @endcan
-                                                        @can('update', $user)
-                                                            <a href="{{ $user->getAttribute('id') === auth()->id() ? route('account') : route('users.edit', $user)}}" class="btn btn-sm btn-outline-success">
-                                                                <i class="fal fa-pen"></i>
-                                                            </a>
-                                                        @endcan
                                                             @unless ($user->getAttribute('id') === auth()->id())
+                                                                @can('update', $user)
+                                                                    <a href="{{ $user->getAttribute('id') === auth()->id() ? route('account') : route('users.edit', $user)}}" class="btn btn-sm btn-outline-success">
+                                                                        <i class="fal fa-pen"></i>
+                                                                    </a>
+                                                                @endcan
                                                                 @can('delete', $user)
                                                                     <a href="{{route('users.destroy', $user)}}" delete data-name="{{$user->getAttribute('name')}}" class="btn btn-sm btn-outline-danger" >
                                                                         <i class="fal fa-trash"></i>

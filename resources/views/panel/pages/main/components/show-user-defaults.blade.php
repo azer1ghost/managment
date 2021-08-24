@@ -27,11 +27,13 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group col-12 col-md-2 mb-3 mb-md-0 mt-0 mt-md-3 pl-3 pl-md-0">
-                            <button type="button" wire:click.prevent="removeDefault({{$index}})" class="btn btn-outline-danger">
-                                <i class='fal fa-times'></i>
-                            </button>
-                        </div>
+                        @if($action)
+                            <div class="form-group col-12 col-md-2 mb-3 mb-md-0 mt-0 mt-md-3 pl-3 pl-md-0">
+                                <button type="button" wire:click.prevent="removeDefault({{$index}})" class="btn btn-outline-danger">
+                                    <i class='fal fa-times'></i>
+                                </button>
+                            </div>
+                        @endif
                     </div>
                 </div>
             @empty
@@ -40,7 +42,9 @@
                 </div>
             @endforelse
     </div>
-        @unless ($all_selected || !$columnSelected)
-            <x-input::submit wire:click.prevent="addDefault" value="<i class='fal fa-plus'></i>" type="button" color="success" layout="left" class="d-inline pl-0" width="1"/>
-        @endunless
+        @if($action)
+            @unless (($all_selected || !$columnSelected))
+                <x-input::submit wire:click.prevent="addDefault" value="<i class='fal fa-plus'></i>" type="button" color="success" layout="left" class="d-inline pl-0" width="1"/>
+            @endunless
+        @endif
 </div>

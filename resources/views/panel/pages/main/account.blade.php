@@ -71,7 +71,7 @@
                                 <div class="col-md-12">
                                     <br>
                                     <p class="text-muted mb-2">USER DEFAULTS</p>
-                                    @livewire('show-user-defaults',['user' => auth()->id()])
+                                    @livewire('show-user-defaults',['user' => auth()->user(), 'action' => null])
                                 </div>
                                 <x-input::submit/>
                             </div>
