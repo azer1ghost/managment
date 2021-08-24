@@ -57,26 +57,13 @@ class UserController extends Controller
 
         $user = User::create($validated);
 
-        self::saveDefaults($user, $request->get('defaults'));
+        $user->defaults()->sync(syncResolver($request->get('defaults'), 'value'));
 
         return redirect()
             ->route('users.index')
             ->withNotify('success', $user->getAttribute('fullname'));
     }
 
-    public static function saveDefaults($user, $requestDefaults)
-    {
-        $defaults = [];
-
-        $requestDefaults = array_column($requestDefaults, 'value', 'parameter_id');
-
-        foreach ($requestDefaults as $key => $default)
-        {
-            $defaults[$key] = ['value' => $default];
-        }
-
-        $user->defaults()->sync($defaults);
-    }
 
     public function show(User $user)
     {
@@ -121,7 +108,7 @@ class UserController extends Controller
 
         $user->update($validated);
 
-        self::saveDefaults($user, $request->get('defaults'));
+        $user->defaults()->sync(syncResolver($request->get('defaults'), 'value'));
 
         return back()->withNotify('info', $user->getAttribute('name'));
     }

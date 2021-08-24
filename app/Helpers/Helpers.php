@@ -63,7 +63,19 @@ if (! function_exists('notify')) {
 }
 
 if(! function_exists('str_title')){
-    function str_title($str){
+    function str_title($str): string {
         return Str::title(Str::replace('_', ' ', ' '.$str));
     }
 }
+
+if(! function_exists('syncResolver')){
+    function syncResolver($params, $column): array {
+        $array = [];
+        foreach ($params as $key => $param)
+        {
+            $parameters[$key] = [$column => $param];
+        }
+        return $array;
+    }
+}
+

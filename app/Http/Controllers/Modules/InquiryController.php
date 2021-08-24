@@ -96,14 +96,7 @@ class InquiryController extends Controller
             )
         ));
 
-        $parameters = [];
-
-        foreach ($request->get('parameter') as $key => $param)
-        {
-            $parameters[$key] = ['value' => $param];
-        }
-
-        $inquiry->parameters()->sync($parameters);
+        $inquiry->parameters()->sync(syncResolver($request->get('parameters'), 'value'));
 
         return redirect()->route('inquiry.index')->withNotify('info', 'Inquiry Updated');
     }
