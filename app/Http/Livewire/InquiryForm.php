@@ -14,8 +14,8 @@ class InquiryForm extends Component
         'refreshInquiryForm' => '$refresh',
     ];
 
-    public string $action;
-    public string $method;
+    public ?string $action;
+    public ?string $method;
 
     public ?Inquiry $inquiry;
 

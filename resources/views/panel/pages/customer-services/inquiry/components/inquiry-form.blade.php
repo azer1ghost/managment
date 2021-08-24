@@ -2,7 +2,7 @@
     @csrf
     @method($method)
 
-    @dd($inquiry)
+{{--    @dd($inquiry)--}}
 
     <x-input::text name="date" :label="__('translates.fields.date')" value="{{$inquiry->datetime->format('d-m-Y')}}" type="text" width="3" class="pr-2" />
     <x-input::text name="time" :label="__('translates.fields.time')" value="{{$inquiry->datetime->format('H:i')}}" type="time" width="3" class="pr-2" />
