@@ -21,10 +21,10 @@
                         </div>
                         <div class="form-group col-md-5">
                             <label for="value-{{$index}}">Default value</label>
-                            <select id="value-{{$index}}" class="form-control" name="defaults[{{$index}}][option_id]" required>
+                            <select id="value-{{$index}}" class="form-control" name="defaults[{{$index}}][value]" required>
                                 <option value="null" disabled selected>Choose Value</option>
                                 @foreach($arrOfValues[$index] as $key => $value)
-                                    <option @if($key == $default['option_id']) selected @endif value="{{$key}}">{{ $value}}</option>
+                                    <option @if($key == $default['value']) selected @endif value="{{$key}}">{{ $value}}</option>
                                 @endforeach
                             </select>
                         </div>

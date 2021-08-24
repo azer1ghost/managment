@@ -10,7 +10,7 @@ class UserDefault extends Model
 {
     use HasFactory;
 
-    public $fillable = ['id', 'parameter_id', 'option_id'];
+    public $fillable = ['id', 'parameter_id', 'value'];
 
     public $timestamps = false;
 

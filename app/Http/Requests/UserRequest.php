@@ -41,7 +41,7 @@ class UserRequest extends FormRequest
             'defaults'       => 'nullable|array',
             'defaults.*.id'  => 'nullable|string',
             'defaults.*.parameter_id'  => 'required|integer',
-            'defaults.*.option_id'     => 'required|integer',
+            'defaults.*.value'     => 'required|integer',
         ];
     }
 
@@ -49,9 +49,9 @@ class UserRequest extends FormRequest
     {
         return [
             'defaults.*.parameter_id.required'  => 'The Default column is required',
-            'defaults.*.option_id.required'     => 'The Default value is required',
+            'defaults.*.value.required'     => 'The Default value is required',
             'defaults.*.parameter_id.integer'   => 'The Default column field should be an integer',
-            'defaults.*.option_id.integer'      => 'The Default value field should be an integer',
+            'defaults.*.value.integer'      => 'The Default value field should be an integer',
         ];
     }
 

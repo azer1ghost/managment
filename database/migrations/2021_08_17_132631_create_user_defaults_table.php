@@ -17,7 +17,7 @@ class CreateUserDefaultsTable extends Migration
             $table->id();
             $table->integer('user_id')->index();
             $table->integer('parameter_id')->index();
-            $table->integer('option_id')->index();
+            $table->integer('value')->index();
         });
     }
 
