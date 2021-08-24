@@ -47,6 +47,7 @@ class ShowUserDefaults extends Component
         $this->addValue($default_id, $id);
         $this->selectedColumns[$default_id] = (int) $id;
 
+        // check if the last column is selected, then show add button
         $this->columnSelected = count($this->arrOfValues[array_key_last($this->arrOfValues)]) > 0;
         $this->all_selected = empty(array_diff($this->availableColumns, $this->selectedColumns));
     }
