@@ -35,30 +35,24 @@ class ShowUserDefaults extends Component
     {
         // disable add button before some value is not selected
         $this->columnSelected = false;
-
         $newArr = ["id" => null, "parameter_id" => null, "value" => null];
         $this->defaults[] = $newArr;
-        $count = count($this->defaults) - 1;
-        $this->arrOfValues[$count] = [];
-        $this->arrOfColumns[$count] = $this->addColumn();
+        $this->arrOfColumns[] = $this->addColumn();
+        $this->arrOfValues[] = [];
+
     }
 
     public function changeOptions($id, $default_id)
     {
-        $this->columnSelected = !($id == "null");
-
+        $this->addValue($default_id, $id);
         $this->selectedColumns[$default_id] = (int) $id;
 
-        $this->addValue($default_id, $id);
+        $this->columnSelected = count($this->arrOfValues[array_key_last($this->arrOfValues)]) > 0;
         $this->all_selected = empty(array_diff($this->availableColumns, $this->selectedColumns));
     }
 
     public function removeDefault($index)
     {
-        $this->selectedColumns = array_values($this->selectedColumns);
-        $this->defaults = array_values($this->defaults);
-        $this->arrOfColumns = array_values($this->arrOfColumns);
-        $this->arrOfValues = array_values($this->arrOfValues);
         unset($this->selectedColumns[$index], $this->defaults[$index], $this->arrOfColumns[$index], $this->arrOfValues[$index]);
     }
 
