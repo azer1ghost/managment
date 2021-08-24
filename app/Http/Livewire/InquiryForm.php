@@ -19,7 +19,7 @@ class InquiryForm extends Component
 
     public Inquiry $inquiry;
     public Carbon $datetime;
-    public Collection $companies,  $parameters, $mainParameters;
+    public Collection $companies, $parameters, $mainParameters;
 
     public array $formFields = [];
 
@@ -33,8 +33,13 @@ class InquiryForm extends Component
     {
         $this->companies = Company::isInquirable()->get();
 
-        // TODO creating new inquiry with user default inputs
-        $this->updatedSelectedCompany($this->inquiry->getAttribute('company_id'));
+        $this->datetime = $this->inquiry->getAttribute('datetime') ?? now();
+
+        $this->selected = $this->inquiry->getAttributes();
+
+        dd($this->selected);
+
+        $this->updatedSelectedCompany($this->selected['company']);
     }
 
     public function updatedSelectedCompany($id)

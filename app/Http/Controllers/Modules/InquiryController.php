@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InquiryRequest;
 use App\Models\Inquiry;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -26,10 +27,19 @@ class InquiryController extends Controller
 
     public function create()
     {
-        $default = new Inquiry([
-            'datetime' => now(),
-            'company_id' => 4
-        ]);
+
+        $params = [];
+
+        foreach (auth()->user()->getRelationValue('defaults') as $param){
+            $params[$param->name] = $param->pivot->value;
+        }
+
+        $default = new Inquiry(
+            array_merge(
+                ['company_id' => 4],
+                $params
+            )
+        );
 
         return view('panel.pages.customer-services.inquiry.edit')
             ->with([
