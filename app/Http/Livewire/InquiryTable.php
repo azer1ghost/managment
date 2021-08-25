@@ -110,12 +110,9 @@ class InquiryTable extends Component
                     }
                 ])
                 ->latest('datetime')
-                ->simplePaginate(10)
+                ->paginate(10)
         ]);
     }
-
-
-    //'option_id', $this->parameterFilters['subjects']
 
     protected function updatedDaterange($value)
     {

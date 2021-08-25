@@ -53,7 +53,11 @@
                 <i class="far fa-recycle"></i>
             </a>
         </div>
+        <div>
+            <p> Showing {{$inquiries->count()}} of {{$inquiries->total()}}</p>
+        </div>
     </div>
+
 
     <div class="col-md-12 mt-3 overflow-auto">
         <table class="table table-hover">

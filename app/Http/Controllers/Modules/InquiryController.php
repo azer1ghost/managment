@@ -40,7 +40,7 @@ class InquiryController extends Controller
             array_merge(
                 $request->validated(),
                 [
-                    'code' => $this->generateCustomCode(),
+                    'code' => Inquiry::generateCustomCode(),
                     'datetime' => $request->get('date')." ".$request->get('time')
                 ]
             )
@@ -139,18 +139,6 @@ class InquiryController extends Controller
         }
 
         return response('',204);
-    }
-
-    public static function generateCustomCode($prefix = 'MG', $digits = 8): string
-    {
-        do {
-            $code = $prefix . str_pad(rand(0, pow(10, $digits) - 1), $digits, '0', STR_PAD_LEFT);
-            if (! Inquiry::select('code')->whereCode($code)->withTrashed()->exists()) {
-                break;
-            }
-        } while (true);
-
-        return $code;
     }
 
 }
