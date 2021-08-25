@@ -126,6 +126,15 @@ class User extends Authenticatable
         return $this->belongsToMany(Parameter::class, 'user_default')->withPivot('value');
     }
 
+    public function getUserDefault($parameter = null): ?string
+    {
+        $params = [];
+        foreach (auth()->user()->getRelationValue('defaults') as $param){
+            $params[$param->name] = $param->pivot->value;
+        }
+        return $params[$parameter] ?? null;
+    }
+
     public function getDefault($column)
     {
        return optional($this->defaults()->where('column', $column)->first())->getAttribute('value');

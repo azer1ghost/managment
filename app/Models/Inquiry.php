@@ -15,10 +15,7 @@ class Inquiry extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'code', 'datetime',
-        'client', 'fullname', 'phone',
-        'subject', 'kind', 'contact_method', 'source', 'operation', 'status',
-        'note', 'redirected_user_id', 'company_id', 'user_id'
+        'code', 'datetime', 'note', 'redirected_user_id', 'company_id', 'user_id'
     ];
 
     protected $casts = [

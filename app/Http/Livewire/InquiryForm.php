@@ -21,9 +21,7 @@ class InquiryForm extends Component
     public Carbon $datetime;
     public Collection $companies, $parameters, $mainParameters;
 
-    public array $formFields = [];
-
-    public array $defaultFields, $cachedValues;
+    public array $defaultFields, $cachedValues, $formFields = [];
 
     public array $selected = [
         'company' => null
@@ -35,11 +33,14 @@ class InquiryForm extends Component
 
         $this->datetime = $this->inquiry->getAttribute('datetime') ?? now();
 
-        $this->selected = $this->inquiry->getAttributes();
-
-        dd($this->selected);
-
-        $this->updatedSelectedCompany($this->selected['company']);
+        if (in_array(auth()->user()->getAttribute('company_id'), $this->companies->pluck('id')->toArray()))
+        {
+            $this->updatedSelectedCompany(auth()->user()->getAttribute('company_id'));
+        }
+        elseif ($this->inquiry->getAttribute('company_id'))
+        {
+            $this->updatedSelectedCompany($this->inquiry->getAttribute('company_id'));
+        }
     }
 
     public function updatedSelectedCompany($id)
@@ -74,7 +75,8 @@ class InquiryForm extends Component
         $subParameters = Option::find($id)
             ->subParameters()
             ->with(['options' => fn($query) => $query->where('option_parameter.company_id', $this->selected['company'])])
-            ->get()->toArray();
+            ->get()
+            ->toArray();
 
         $this->formFields = array_merge($this->defaultFields, $subParameters);
 
@@ -93,8 +95,8 @@ class InquiryForm extends Component
         collect($fields)->each(function ($param){
             $parameterOption = optional($this->inquiry->getParameter($param['name']));
             $this->selected[$param['name']] = ($param['type'] == 'select') ?
-                $parameterOption->getAttribute('id') :
-                $parameterOption->getAttribute('value');
+                $parameterOption->getAttribute('id') ?? auth()->user()->getUserDefault($param['name']):
+                $parameterOption->getAttribute('value') ?? auth()->user()->getUserDefault($param['name']);
         });
         $this->cachedValues = $this->selected;
     }

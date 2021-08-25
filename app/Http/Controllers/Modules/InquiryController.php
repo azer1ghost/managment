@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InquiryRequest;
 use App\Models\Inquiry;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -27,31 +26,16 @@ class InquiryController extends Controller
 
     public function create()
     {
-
-        $params = [];
-
-        foreach (auth()->user()->getRelationValue('defaults') as $param){
-            $params[$param->name] = $param->pivot->value;
-        }
-
-        $default = new Inquiry(
-            array_merge(
-                ['company_id' => 4],
-                $params
-            )
-        );
-
         return view('panel.pages.customer-services.inquiry.edit')
             ->with([
                 'method' => 'POST',
                 'action' => route('inquiry.store'),
-                'data'   => $default
+                'data'   => new Inquiry()
             ]);
     }
 
     public function store(InquiryRequest $request): RedirectResponse
     {
-        // TODO remake store method
         $inquiry = auth()->user()->inquiries()->create(
             array_merge(
                 $request->validated(),
@@ -61,6 +45,8 @@ class InquiryController extends Controller
                 ]
             )
         );
+
+        $inquiry->parameters()->sync(syncResolver($request->get('parameters'), 'value'));
 
         auth()->user()
             ->editableInquiries()
