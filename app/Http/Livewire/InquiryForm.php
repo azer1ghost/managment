@@ -72,7 +72,6 @@ class InquiryForm extends Component
         $subParametersArr = [];
 
         foreach ($this->selected as $selected){
-//            dd($this->selected);
             if($selected && is_numeric($selected)){
                 $subParameters = Option::find($selected)
                     ->subParameters()
