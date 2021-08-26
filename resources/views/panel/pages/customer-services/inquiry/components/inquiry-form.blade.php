@@ -7,7 +7,7 @@
 
     <div class="form-group col-md-3">
         <label>{{__('translates.fields.company')}}</label>
-        <select class="form-control" name="company_id" required  wire:model="selected.company">
+        <select class="form-control" name="company_id" required  wire:model.lazy="selected.company">
             <option value="null" disabled selected>{{__('translates.fields.company')}} {{__('translates.placeholders.choose')}}</option>
             @foreach($companies as $company)
                 <option value="{{ $company->id }}">{{ $company->name }}</option>
@@ -28,7 +28,7 @@
                 {{$label}}
             </label>
             @if($formField['type'] === 'select')
-                <select class="form-control" name="parameters[{{$formField['id']}}]" id="{{$formField['name']}}" wire:model="selected.{{$formField['name']}}">
+                <select class="form-control" name="parameters[{{$formField['id']}}]" id="{{$formField['name']}}" wire:model.lazy="selected.{{$formField['name']}}">
                     <option value="null" disabled selected>{{$label}} {{__('translates.placeholders.choose')}}</option>
                     @foreach($formField['options'] as $option)
                         @php($optionText = $option['text'][app()->getLocale()] ?? $option['text']['en'])
@@ -38,7 +38,7 @@
                     @endforeach
                 </select>
             @else
-                <input class="form-control" name="parameters[{{$formField['id']}}]" placeholder="{{$placeholder}}" type="{{$formField['type']}}" wire:model="selected.{{$formField['name']}}">
+                <input class="form-control" name="parameters[{{$formField['id']}}]" placeholder="{{$placeholder}}" type="{{$formField['type']}}" wire:model.lazy="selected.{{$formField['name']}}">
             @endif
         </div>
     @endforeach
