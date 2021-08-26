@@ -63,26 +63,32 @@ class InquiryForm extends Component
 
         $this->fillFields();
 
-        # The following called function must be upgrade to be able to manage all parameters
-        if (isset($this->selected['subject'])) {
-            $this->updatedSelectedSubject($this->selected['subject']);
-        }
+        $this->updatedSelected();
     }
 
-    public function updatedSelectedSubject($id)
+    // TODO DONE! This function is updated
+    public function updatedSelected()
     {
-        // TODO this function must be updated to be able to manage all parameters
-        $subParameters = Option::find($id)
-            ->subParameters()
-            ->with(['options' => fn($query) => $query->where('option_parameter.company_id', $this->selected['company'])])
-            ->get()
-            ->toArray();
+        $subParametersArr = [];
 
-        $this->formFields = array_merge($this->defaultFields, $subParameters);
+        foreach ($this->selected as $selected){
+//            dd($this->selected);
+            if($selected && is_numeric($selected)){
+                $subParameters = Option::find($selected)
+                    ->subParameters()
+                    ->with(['options' => fn($query) => $query->where('option_parameter.company_id', $this->selected['company'])])
+                    ->get()
+                    ->toArray();
+                $subParametersArr = array_merge($subParametersArr, $subParameters);
+            }
+        }
+
+        $this->formFields = array_merge($this->defaultFields, $subParametersArr);
 
         array_multisort(array_column($this->formFields , 'order'), SORT_ASC, $this->formFields);
 
-        $this->fillFields($subParameters);
+        $this->fillFields($subParametersArr);
+
     }
 
     protected function fillFields($fields = null)
