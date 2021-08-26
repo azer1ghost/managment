@@ -50,6 +50,10 @@ class InquiryTable extends Component
         $this->companies = Company::whereNotIn('id', [1])->get();
     }
 
+    public function filter()
+    {
+        $this->render();
+    }
 
     public function canViewAll(): bool
     {

@@ -51,6 +51,7 @@ return [
         'create' => 'Əlavə et',
         'save'   => 'Yadda saxla',
         'back'   => 'Geri',
+        'search' => 'Axtar',
     ]
 
 ];

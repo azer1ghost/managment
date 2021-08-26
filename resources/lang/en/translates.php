@@ -53,6 +53,7 @@ return [
         'create' => 'Create',
         'save'   => 'Save',
         'back'   => 'Back',
+        'search' => 'Search',
     ]
 
 

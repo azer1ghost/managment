@@ -3,43 +3,49 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
 <div class="component row justify-content-between">
+    <form wire:submit.prevent="filter" method="POST" class="row">
+        <div class="form-group col-12 col-md-3 mb-3 mb-md-0" >
+            <label for="daterange">{{__('translates.filters.date')}}</label>
+            <input type="text" placeholder="{{__('translates.placeholders.range')}}" id="daterange" name="daterange" wire:model.defer="daterange" class="form-control">
+        </div>
 
-    <div class="form-group col-12 col-md-3 mb-3 mb-md-0" >
-        <label for="daterange">{{__('translates.filters.date')}}</label>
-        <input type="text" placeholder="{{__('translates.placeholders.range')}}" id="daterange" name="daterange" wire:model="daterange" class="form-control">
-    </div>
+        <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
+            <label for="codeFilter">{{__('translates.filters.code')}}</label>
+            <input type="search" id="codeFilter" placeholder="{{__('translates.placeholders.code')}}" class="form-control" wire:model.defer="filters.code">
+        </div>
 
-    <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
-        <label for="codeFilter">{{__('translates.filters.code')}}</label>
-        <input type="search" id="codeFilter" placeholder="{{__('translates.placeholders.code')}}" class="form-control" wire:model="filters.code">
-    </div>
+        <div class="form-group col-12 col-md-5 mb-3 mb-md-0" wire:ignore>
+            <label class="d-block" for="subjectFilter">{{__('translates.filters.subject')}}</label>
+            <select id="subjectFilter" multiple class="filterSelector form-control" data-width="fit" wire:model.defer="parameterFilters.subjects" title="{{__('translates.filters.select')}}" >
+                @foreach($subjects as $subject)
+                    <option value="{{$subject->id}}">{{ucfirst($subject->text)}}</option>
+                @endforeach
+            </select>
+        </div>
 
-    <div class="form-group col-12 col-md-5 mb-3 mb-md-0" wire:ignore>
-        <label class="d-block" for="subjectFilter">{{__('translates.filters.subject')}}</label>
-        <select id="subjectFilter" multiple class="filterSelector form-control" data-width="fit" wire:model="parameterFilters.subjects" title="{{__('translates.filters.select')}}" >
-            @foreach($subjects as $subject)
-                <option value="{{$subject->id}}">{{ucfirst($subject->text)}}</option>
-            @endforeach
-        </select>
-    </div>
+        <div class="form-group col-12 col-md-1 mb-3 mb-md-0">
+            <label for="">{{__('translates.filters.clear')}}</label>
+            <a class="form-control btn-outline-danger text-center" href="{{route('inquiry.index')}}">
+                <i class="fal fa-times-circle"></i>
+            </a>
+        </div>
 
-    <div class="form-group col-12 col-md-1 mb-3 mb-md-0">
-        <label for="">{{__('translates.filters.clear')}}</label>
-        <a class="form-control btn-outline-danger text-center" href="{{route('inquiry.index')}}">
-            <i class="fal fa-times-circle"></i>
-        </a>
-    </div>
+        <div class="col-12 m-2 p-0"></div>
 
-    <div class="col-12 m-2 p-0"></div>
+        <div class="form-group col-12 col-md-5 mb-3 mb-md-0"  wire:ignore>
+            <label class="d-block" for="companyFilter">{{__('translates.filters.company')}}</label>
+            <select id="companyFilter" multiple class="filterSelector" data-width="fit" wire:model.defer="filters.company_id" title="{{__('translates.filters.select')}}" >
+                @foreach($companies as $company)
+                    <option value="{{$company->id}}">{{ucfirst($company->name)}}</option>
+                @endforeach
+            </select>
+        </div>
 
-    <div class="form-group col-12 col-md-5 mb-3 mb-md-0"  wire:ignore>
-        <label class="d-block" for="companyFilter">{{__('translates.filters.company')}}</label>
-        <select id="companyFilter" multiple class="filterSelector" data-width="fit" wire:model="filters.company_id" title="{{__('translates.filters.select')}}" >
-            @foreach($companies as $company)
-                <option value="{{$company->id}}">{{ucfirst($company->name)}}</option>
-            @endforeach
-        </select>
-    </div>
+        <div class="form-group col-12 col-md-1 mb-3 mb-md-0">
+            <label for="">{{__('translates.buttons.search')}}</label>
+            <button type="submit" class="btn btn-outline-primary">Search</button>
+        </div>
+    </form>
 
     <div class="col-12">
         <hr>
