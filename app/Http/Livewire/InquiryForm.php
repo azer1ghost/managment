@@ -21,7 +21,7 @@ class InquiryForm extends Component
     public Carbon $datetime;
     public Collection $companies, $parameters, $mainParameters;
 
-    public array $defaultFields, $cachedValues, $formFields = [];
+    public array $defaultFields = [], $cachedValues, $formFields = [];
 
     public array $selected = [
         'company' => null
@@ -29,6 +29,7 @@ class InquiryForm extends Component
 
     public function mount()
     {
+
         $this->companies = Company::isInquirable()->get();
 
         $this->datetime = $this->inquiry->getAttribute('datetime') ?? now();
