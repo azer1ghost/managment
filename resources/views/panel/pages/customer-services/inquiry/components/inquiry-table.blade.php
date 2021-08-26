@@ -41,9 +41,8 @@
             </select>
         </div>
 
-        <div class="form-group col-12 col-md-1 mb-3 mb-md-0">
-            <label for="">{{__('translates.buttons.search')}}</label>
-            <button type="submit" class="btn btn-outline-primary">Search</button>
+        <div class="form-group col-12 col-md-7 mb-3 mb-md-0 d-flex justify-content-end align-items-center">
+            <button type="submit" class="btn btn-outline-primary">{{__('translates.buttons.filter')}}</button>
         </div>
     </form>
 

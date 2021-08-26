@@ -54,6 +54,7 @@ return [
         'save'   => 'Save',
         'back'   => 'Back',
         'search' => 'Search',
+        'filter' => 'Filter'
     ]
 
 

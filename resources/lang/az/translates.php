@@ -52,6 +52,7 @@ return [
         'save'   => 'Yadda saxla',
         'back'   => 'Geri',
         'search' => 'Axtar',
+        'filter' => 'Filterlə',
     ]
 
 ];
