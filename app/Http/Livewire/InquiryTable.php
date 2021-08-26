@@ -36,7 +36,7 @@ class InquiryTable extends Component
         'fullname' => ''
     ];
 
-    public string $daterange;
+    public string $daterange, $fakeDaterange;
 
     public array $range = [
         'from' => null,
@@ -45,13 +45,16 @@ class InquiryTable extends Component
 
     public function mount()
     {
-        $this->updatedDaterange($this->daterange = implode(' - ', [now()->firstOfMonth()->format('d/m/Y'), now()->format('d/m/Y')]));
+
+        $this->updateDaterange($this->daterange = implode(' - ', [now()->firstOfMonth()->format('d/m/Y'), now()->format('d/m/Y')]));
+
         $this->subjects  = Parameter::where('name', 'subject')->first()->options;
         $this->companies = Company::whereNotIn('id', [1])->get();
     }
 
     public function filter()
     {
+        $this->updateDaterange($this->daterange);
         $this->render();
     }
 
@@ -118,7 +121,7 @@ class InquiryTable extends Component
         ]);
     }
 
-    protected function updatedDaterange($value)
+    protected function updateDaterange($value)
     {
         [$from, $to] = explode(' - ', $value);
 
