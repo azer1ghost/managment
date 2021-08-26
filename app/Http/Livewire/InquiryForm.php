@@ -71,7 +71,7 @@ class InquiryForm extends Component
         $subParametersArr = [];
 
         foreach ($this->selected as $idx => $selected){
-            if($selected && is_numeric($selected) && $idx !== 'company'){
+            if(is_numeric($selected) && $idx !== 'company'){
                 $subParameters = Option::find($selected)
                     ->subParameters()
                     ->with(['options' => fn($query) => $query->where('option_parameter.company_id', $this->selected['company'])])
