@@ -66,7 +66,6 @@ class InquiryForm extends Component
         $this->updatedSelected();
     }
 
-    // TODO DONE! This function is updated
     public function updatedSelected()
     {
         $subParametersArr = [];
