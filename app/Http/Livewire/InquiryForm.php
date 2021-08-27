@@ -62,21 +62,21 @@ class InquiryForm extends Component
         $this->getSubFields($value);
     }
 
-    protected function getSubFields($option_id)
+    protected function getSubFields($option_id, $reset = true)
     {
         $parameters = $this->getSubParameters($option_id);
 
-        $this->pushFields($parameters, false);
+        $this->pushFields($parameters, (!$reset && !$parameters));
 
         $this->fillFields($parameters);
 
         foreach ($parameters as $parameter) {
 
-           // if (in_array($parameter['option_id'], $this->selected)){}
+            // if (in_array($parameter['option_id'], $this->selected)){}
 
             if ($option_id != $parameter['option_id']) {
                 foreach ($parameter['options'] as $option) {
-                    $this->getSubFields($option['id']);
+                    $this->getSubFields($option['id'], $reset);
                 }
             }
         }
