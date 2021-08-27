@@ -42,7 +42,7 @@
         </div>
 
         <div class="form-group col-12 col-md-7 mb-3 mb-md-0 d-flex justify-content-end align-items-center">
-            <button type="submit" class="btn btn-outline-primary">{{__('translates.buttons.filter')}}</button>
+            <button type="submit" class="btn btn-outline-primary"><i class="fas fa-filter"></i></button>
         </div>
     </form>
 
