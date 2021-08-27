@@ -21,7 +21,7 @@ class InquiryForm extends Component
     public Carbon $datetime;
     public Collection $companies, $parameters, $mainParameters;
 
-    public array $defaultFields = [], $cachedValues, $formFields = [];
+    public array $defaultFields = [], $subParametersArr = [], $cachedValues, $formFields = [];
 
     public array $selected = [
         'company' => null
@@ -62,32 +62,36 @@ class InquiryForm extends Component
 
         $this->cachedValues = [];
 
+        $this->subParametersArr = [];
+
         $this->fillFields();
 
-        $this->updatedSelected();
+        foreach ($this->selected as  $value => $name){
+//            dd($value, $name);
+            if ($name == 'company' || !is_numeric($value)) continue;
+            $this->updatedSelected($name, $value);
+        }
     }
 
-    public function updatedSelected()
+    public function updatedSelected($value, $name)
     {
-        $subParametersArr = [];
+        $subParameters = Option::find($value)
+            ->subParameters()
+            ->with(['options' => fn($query) => $query->where('option_parameter.company_id', $this->selected['company'])])
+            ->get()
+            ->toArray();
 
-        foreach ($this->selected as $idx => $selected){
-            if(is_numeric($selected) && $idx !== 'company'){
-                $subParameters = Option::find($selected)
-                    ->subParameters()
-                    ->with(['options' => fn($query) => $query->where('option_parameter.company_id', $this->selected['company'])])
-                    ->get()
-                    ->toArray();
-                $subParametersArr = array_merge($subParametersArr, $subParameters);
-            }
+        if($subParameters) {
+            $this->subParametersArr[$name] = $subParameters;
+        }else{
+            unset($this->subParametersArr[$name]);
         }
 
-        $this->formFields = array_merge($this->defaultFields, $subParametersArr);
+        $this->formFields = array_merge($this->defaultFields, $this->subParametersArr[$name] ?? []);
 
         array_multisort(array_column($this->formFields , 'order'), SORT_ASC, $this->formFields);
 
-        $this->fillFields($subParametersArr);
-
+        $this->fillFields($subParameters);
     }
 
     protected function fillFields($fields = null)
@@ -108,6 +112,7 @@ class InquiryForm extends Component
 
     public function render()
     {
+//        dd($this->subParametersArr);
         return view('panel.pages.customer-services.inquiry.components.inquiry-form');
     }
 }
