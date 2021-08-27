@@ -21,7 +21,7 @@ class InquiryForm extends Component
     public Carbon $datetime;
     public Collection $companies, $parameters;
 
-    public array $defaultFields, $cachedValues, $formFields, $selected;
+    public array $defaultFields, $cachedValues, $formFields = [], $selected;
 
     public function mount()
     {
@@ -61,22 +61,30 @@ class InquiryForm extends Component
     {
         $parameters = $this->getSubParameters($value);
 
-        $this->pushFields($parameters);
+        $this->pushFields($parameters, false);
 
         $this->fillFields($parameters);
     }
 
-    public function pushFields(array $fields = [])
+    public function pushFields(array $fields = [], $reset = true)
     {
-        $this->formFields = array_merge($this->defaultFields, $fields);
+        if ($reset){
+            $this->formFields = array_merge($this->defaultFields, $fields);
+        } else {
+            $this->formFields = array_merge($this->formFields, $fields);
+        }
 
-        // ordering by order column
-        array_multisort(array_column($this->formFields , 'order'), SORT_ASC, $this->formFields);
+        $this->sortFields();
     }
 
     protected function fillFields($fields = null)
     {
        empty($this->cachedValues) ? $this->cacheValues($this->formFields) : $this->cacheValues($fields);
+    }
+
+    protected function sortFields()
+    {
+        array_multisort(array_column($this->formFields , 'order'), SORT_ASC, $this->formFields);
     }
 
     protected function getMainParameters($company_id)
@@ -104,18 +112,21 @@ class InquiryForm extends Component
     protected function cacheValues(array $fields)
     {
         collect($fields)->each(function ($param){
+
             $parameterOption = optional($this->inquiry->getParameter($param['name']));
-            $this->selected[$param['name']] = ($param['type'] == 'select') ?
-                $parameterOption->getAttribute('id') ?? auth()->user()->getUserDefault($param['name']):
-                $parameterOption->getAttribute('value') ?? auth()->user()->getUserDefault($param['name']);
+
+            if ($param['type'] == 'select') {
+                $this->selected[$param['name']] = $parameterOption->getAttribute('id') ?? auth()->user()->getUserDefault($param['name']);
+            } else {
+                $this->selected[$param['name']] = $parameterOption->getAttribute('value') ?? auth()->user()->getUserDefault($param['name']);
+            }
+
         });
         $this->cachedValues = $this->selected;
     }
 
     public function render()
     {
-
-        dd($this->defaultFields);
         return view('panel.pages.customer-services.inquiry.components.inquiry-form');
     }
 }
