@@ -66,11 +66,12 @@ class InquiryForm extends Component
 
         $this->fillFields();
 
-        foreach ($this->selected as  $value => $name){
+        foreach ($this->selected as  $name => $value){
 //            dd($value, $name);
             if ($name == 'company' || !is_numeric($value)) continue;
-            $this->updatedSelected($name, $value);
+            $this->updatedSelected($value, $name);
         }
+//        dd($this->subParametersArr);
     }
 
     public function updatedSelected($value, $name)
@@ -87,7 +88,15 @@ class InquiryForm extends Component
             unset($this->subParametersArr[$name]);
         }
 
-        $this->formFields = array_merge($this->defaultFields, $this->subParametersArr[$name] ?? []);
+        $array = [];
+
+        foreach ($this->subParametersArr as $value){
+            foreach ($value as $v => $i){
+                array_push($array, $i);
+            }
+        }
+
+        $this->formFields = array_merge($this->defaultFields, $array);
 
         array_multisort(array_column($this->formFields , 'order'), SORT_ASC, $this->formFields);
 
@@ -112,7 +121,6 @@ class InquiryForm extends Component
 
     public function render()
     {
-//        dd($this->subParametersArr);
         return view('panel.pages.customer-services.inquiry.components.inquiry-form');
     }
 }
