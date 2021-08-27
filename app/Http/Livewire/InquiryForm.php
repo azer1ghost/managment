@@ -21,7 +21,7 @@ class InquiryForm extends Component
     public Carbon $datetime;
     public Collection $companies, $parameters;
 
-    public array $defaultFields, $cachedValues, $formFields = [], $selected;
+    public array $defaultFields = [], $cachedValues = [], $formFields = [], $selected = [];
 
     public function mount()
     {
@@ -53,17 +53,33 @@ class InquiryForm extends Component
 
         foreach ($this->selected as $name => $value){
             if ($name == 'company' || !is_numeric($value)) continue;
-            $this->updatedSelected($value, $name);
+            $this->updatedSelected($value);
         }
     }
 
-    public function updatedSelected($value, $name)
+    public function updatedSelected($value)
     {
-        $parameters = $this->getSubParameters($value);
+        $this->getSubFields($value);
+    }
+
+    protected function getSubFields($option_id)
+    {
+        $parameters = $this->getSubParameters($option_id);
 
         $this->pushFields($parameters, false);
 
         $this->fillFields($parameters);
+
+        foreach ($parameters as $parameter) {
+
+           // if (in_array($parameter['option_id'], $this->selected)){}
+
+            if ($option_id != $parameter['option_id']) {
+                foreach ($parameter['options'] as $option) {
+                    $this->getSubFields($option['id']);
+                }
+            }
+        }
     }
 
     public function pushFields(array $fields = [], $reset = true)
