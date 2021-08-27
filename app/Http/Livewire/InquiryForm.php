@@ -67,11 +67,9 @@ class InquiryForm extends Component
         $this->fillFields();
 
         foreach ($this->selected as  $name => $value){
-//            dd($value, $name);
             if ($name == 'company' || !is_numeric($value)) continue;
             $this->updatedSelected($value, $name);
         }
-//        dd($this->subParametersArr);
     }
 
     public function updatedSelected($value, $name)
