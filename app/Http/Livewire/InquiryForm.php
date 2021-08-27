@@ -19,17 +19,12 @@ class InquiryForm extends Component
 
     public Inquiry $inquiry;
     public Carbon $datetime;
-    public Collection $companies, $parameters, $mainParameters;
+    public Collection $companies, $parameters;
 
-    public array $defaultFields = [], $subParametersArr = [], $cachedValues, $formFields = [];
-
-    public array $selected = [
-        'company' => null
-    ];
+    public array $defaultFields, $cachedValues, $formFields, $selected;
 
     public function mount()
     {
-
         $this->companies = Company::isInquirable()->get();
 
         $this->datetime = $this->inquiry->getAttribute('datetime') ?? now();
@@ -48,25 +43,15 @@ class InquiryForm extends Component
     {
         $this->selected['company'] = $id;
 
-        $this->mainParameters = $this->companies
-                                        ->where('id', $id) // select currently company from collection
-                                        ->first()
-                                        ->parameters()
-                                        ->whereNull('option_id')
-                                        ->with([
-                                            'options' => fn($query) => $query->where('option_parameter.company_id', $id)
-                                        ])
-                                        ->get();
-
-        $this->formFields = $this->defaultFields = $this->mainParameters->toArray();
+        $this->defaultFields = $this->getMainParameters($id);
 
         $this->cachedValues = [];
 
-        $this->subParametersArr = [];
+        $this->pushFields();
 
         $this->fillFields();
 
-        foreach ($this->selected as  $name => $value){
+        foreach ($this->selected as $name => $value){
             if ($name == 'company' || !is_numeric($value)) continue;
             $this->updatedSelected($value, $name);
         }
@@ -74,36 +59,46 @@ class InquiryForm extends Component
 
     public function updatedSelected($value, $name)
     {
-        $subParameters = Option::find($value)
-            ->subParameters()
-            ->with(['options' => fn($query) => $query->where('option_parameter.company_id', $this->selected['company'])])
-            ->get()
-            ->toArray();
+        $parameters = $this->getSubParameters($value);
 
-        if($subParameters) {
-            $this->subParametersArr[$name] = $subParameters;
-        }else{
-            unset($this->subParametersArr[$name]);
-        }
+        $this->pushFields($parameters);
 
-        $array = [];
+        $this->fillFields($parameters);
+    }
 
-        foreach ($this->subParametersArr as $value){
-            foreach ($value as $v => $i){
-                array_push($array, $i);
-            }
-        }
+    public function pushFields(array $fields = [])
+    {
+        $this->formFields = array_merge($this->defaultFields, $fields);
 
-        $this->formFields = array_merge($this->defaultFields, $array);
-
+        // ordering by order column
         array_multisort(array_column($this->formFields , 'order'), SORT_ASC, $this->formFields);
-
-        $this->fillFields($subParameters);
     }
 
     protected function fillFields($fields = null)
     {
        empty($this->cachedValues) ? $this->cacheValues($this->formFields) : $this->cacheValues($fields);
+    }
+
+    protected function getMainParameters($company_id)
+    {
+        return $this->companies
+            ->where('id', $company_id) // select currently company from collection
+            ->first()
+            ->parameters()
+            ->whereNull('option_id')
+            ->with([
+                'options' => fn($query) => $query->where('option_parameter.company_id', $company_id)
+            ])
+            ->get()
+            ->toArray();
+    }
+
+    protected function getSubParameters($option_id)
+    {
+      return Option::find($option_id)->subParameters()
+            ->with(['options' => fn($query) => $query->where('option_parameter.company_id', $this->selected['company'])])
+            ->get()
+            ->toArray();
     }
 
     protected function cacheValues(array $fields)
@@ -119,6 +114,8 @@ class InquiryForm extends Component
 
     public function render()
     {
+
+        dd($this->defaultFields);
         return view('panel.pages.customer-services.inquiry.components.inquiry-form');
     }
 }
