@@ -25,6 +25,13 @@ class Sidebar extends Component
             ],
 
             (object) [
+                'title' => 'Cabinet',
+                'icon'  => 'fal fa-tasks-alt',
+                'url'  => route('cabinet'),
+                'permission' => 'generally',
+            ],
+
+            (object) [
                 'title' => 'Companies',
                 'icon'  => 'fa fa-building',
                 'url'  => route('companies.index'),

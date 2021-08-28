@@ -36,6 +36,11 @@ class PlatformController extends Controller
         return view('panel.pages.main.dashboard');
     }
 
+    public function cabinet(): View
+    {
+        return view('panel.pages.cabinet.index');
+    }
+
     public function customerServices(): View
     {
         return view('panel.pages.customer-services.index');

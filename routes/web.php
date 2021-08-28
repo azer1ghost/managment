@@ -20,6 +20,7 @@ Route::post('/account/{user}', [AccountController::class, 'save'])->name('accoun
 
 Route::prefix('module')->group(function () {
 
+    Route::get('/cabinet', [PlatformController::class, 'cabinet'])->name('cabinet');
     Route::get('/customer-services', [PlatformController::class, 'customerServices'])->name('customer-services');
 
     include 'modules/inquiry.php';
