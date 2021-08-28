@@ -53,31 +53,30 @@ class InquiryForm extends Component
 
         foreach ($this->selected as $name => $value){
             if ($name == 'company' || !is_numeric($value)) continue;
-            $this->updatedSelected($value);
+            $this->updatedSelected($value, $name);
         }
     }
 
-    public function updatedSelected($value)
+    public function updatedSelected($value, $name)
     {
+        $this->selected[$name] = $value;
+//        $this->deleteUnused($value);
+
         $this->getSubFields($value);
     }
 
-    protected function getSubFields($option_id, $reset = true)
+    protected function getSubFields($option_id, $reset = false)
     {
         $parameters = $this->getSubParameters($option_id);
 
-        $this->pushFields($parameters, (!$reset && !$parameters));
+        $this->pushFields($parameters, false);
+    }
 
-        $this->fillFields($parameters);
-
-        foreach ($parameters as $parameter) {
-
-            // if (in_array($parameter['option_id'], $this->selected)){}
-
-            if ($option_id != $parameter['option_id']) {
-                foreach ($parameter['options'] as $option) {
-                    $this->getSubFields($option['id'], $reset);
-                }
+    protected function deleteUnused($value)
+    {
+        foreach ($this->formFields as $key => $field){
+            if(!is_null($field['option_id']) && in_array($field['option_id'], $this->selectedOptions)){
+                unset($this->formFields[$key]);
             }
         }
     }
@@ -119,10 +118,13 @@ class InquiryForm extends Component
 
     protected function getSubParameters($option_id)
     {
-      return Option::find($option_id)->subParameters()
-            ->with(['options' => fn($query) => $query->where('option_parameter.company_id', $this->selected['company'])])
-            ->get()
-            ->toArray();
+        if (!Option::find($option_id)) return [];
+
+          return Option::find($option_id)
+                ->subParameters()
+                ->with(['options' => fn($query) => $query->where('option_parameter.company_id', $this->selected['company'])])
+                ->get()
+                ->toArray();
     }
 
     protected function cacheValues(array $fields)
@@ -132,10 +134,12 @@ class InquiryForm extends Component
             $parameterOption = optional($this->inquiry->getParameter($param['name']));
 
             if ($param['type'] == 'select') {
-                $this->selected[$param['name']] = $parameterOption->getAttribute('id') ?? auth()->user()->getUserDefault($param['name']);
+                $value = $parameterOption->getAttribute('id') ?? auth()->user()->getUserDefault($param['name']);
             } else {
-                $this->selected[$param['name']] = $parameterOption->getAttribute('value') ?? auth()->user()->getUserDefault($param['name']);
+                $value = $parameterOption->getAttribute('value') ?? auth()->user()->getUserDefault($param['name']);
             }
+
+            $this->updatedSelected($value, $param['name']);
 
         });
         $this->cachedValues = $this->selected;
@@ -143,6 +147,7 @@ class InquiryForm extends Component
 
     public function render()
     {
+        dd($this->selected);
         return view('panel.pages.customer-services.inquiry.components.inquiry-form');
     }
 }
