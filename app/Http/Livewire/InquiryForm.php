@@ -59,9 +59,6 @@ class InquiryForm extends Component
 
     public function updatedSelected($value, $name)
     {
-        $this->selected[$name] = $value;
-//        $this->deleteUnused($value);
-
         $this->getSubFields($value);
     }
 
@@ -70,23 +67,28 @@ class InquiryForm extends Component
         $parameters = $this->getSubParameters($option_id);
 
         $this->pushFields($parameters, false);
-    }
 
-    protected function deleteUnused($value)
-    {
-        foreach ($this->formFields as $key => $field){
-            if(!is_null($field['option_id']) && in_array($field['option_id'], $this->selectedOptions)){
-                unset($this->formFields[$key]);
+        $this->fillFields($parameters);
+
+        foreach ($parameters as $parameter){
+            foreach ($parameter['options'] as $option){
+                if($option['id'] != $this->selected[$parameter['name']]) continue;
+                $this->updatedSelected($option['id'], $parameter['name']);
             }
         }
+    }
+
+    public function removeFormField($param)
+    {
+        unset($this->formFields[array_search($param, array_keys($this->selected))]);
     }
 
     public function pushFields(array $fields = [], $reset = true)
     {
         if ($reset){
-            $this->formFields = array_merge($this->defaultFields, $fields);
+            $this->formFields =  array_merge($this->defaultFields, $fields);
         } else {
-            $this->formFields = array_merge($this->formFields, $fields);
+            $this->formFields =  array_merge($this->formFields, $fields);
         }
 
         $this->sortFields();
@@ -139,15 +141,14 @@ class InquiryForm extends Component
                 $value = $parameterOption->getAttribute('value') ?? auth()->user()->getUserDefault($param['name']);
             }
 
-            $this->updatedSelected($value, $param['name']);
-
+            $this->selected[$param['name']] = $value;
         });
         $this->cachedValues = $this->selected;
     }
 
     public function render()
     {
-        dd($this->selected);
+//        dd($this->selected, $this->formFields, array_keys($this->selected));
         return view('panel.pages.customer-services.inquiry.components.inquiry-form');
     }
 }
