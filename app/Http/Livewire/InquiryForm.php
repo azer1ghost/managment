@@ -77,7 +77,7 @@ class InquiryForm extends Component
     {
         $parameters = $this->getSubParameters($option_id);
 
-        $this->pushFields($parameters, false);
+        $this->pushFields($parameters);
 
         $this->fillFields($parameters);
 
