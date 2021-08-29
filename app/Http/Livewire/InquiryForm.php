@@ -21,7 +21,7 @@ class InquiryForm extends Component
     public Carbon $datetime;
     public Collection $companies, $parameters;
 
-    public array $defaultFields = [], $cachedValues = [], $formFields = [], $selected = [];
+    public array $cachedValues = [], $formFields = [], $selected = [];
 
     public function mount()
     {
@@ -43,9 +43,9 @@ class InquiryForm extends Component
     {
         $this->selected['company'] = $id;
 
-        $this->defaultFields = $this->getMainParameters($id);
+        $this->formFields = $this->convertKeys($this->getMainParameters($id));
 
-        $this->cachedValues = [];
+        $this->cachedValues  = [];
 
         $this->pushFields();
 
@@ -57,12 +57,23 @@ class InquiryForm extends Component
         }
     }
 
-    public function updatedSelected($value, $name)
+    // function to delete previous selected field's subParams | default livewire function which runs before model is updated
+    public function updatingSelected($value, $name)
     {
-        $this->getSubFields($value);
+        $parameters = $this->getSubParameters($this->selected[$name]);
+
+        $this->removeFormField($parameters);
+
+        $this->loopSubParams($parameters, 'REMOVE');
+
     }
 
-    protected function getSubFields($option_id, $reset = false)
+    public function updatedSelected($value, $name)
+    {
+        $this->getSubFields($value, $name);
+    }
+
+    protected function getSubFields($option_id, $name)
     {
         $parameters = $this->getSubParameters($option_id);
 
@@ -70,27 +81,32 @@ class InquiryForm extends Component
 
         $this->fillFields($parameters);
 
-        foreach ($parameters as $parameter){
-            foreach ($parameter['options'] as $option){
-                if($option['id'] != $this->selected[$parameter['name']]) continue;
-                $this->updatedSelected($option['id'], $parameter['name']);
+        $this->loopSubParams($parameters);
+    }
+
+    public function removeFormField($params)
+    {
+        foreach ($params as $param){
+            unset($this->formFields[$param['name']]);
+        }
+    }
+
+    protected function loopSubParams($params, $mode = 'ADD')
+    {
+        foreach ($params as $param){
+            foreach ($param['options'] as $option){
+                if ($option['id'] == $this->selected[$param['name']]){
+                    if ($mode == 'REMOVE') $this->updatingSelected($option['id'], $param['name']);
+                    if ($mode == 'ADD')    $this->updatedSelected($option['id'], $param['name']);
+                    break;
+                }
             }
         }
     }
 
-    public function removeFormField($param)
+    public function pushFields(array $fields = [])
     {
-        unset($this->formFields[array_search($param, array_keys($this->selected))]);
-    }
-
-    public function pushFields(array $fields = [], $reset = true)
-    {
-        if ($reset){
-            $this->formFields =  array_merge($this->defaultFields, $fields);
-        } else {
-            $this->formFields =  array_merge($this->formFields, $fields);
-        }
-
+        $this->formFields =  $this->convertKeys(array_merge($this->formFields, $fields));
         $this->sortFields();
     }
 
@@ -102,6 +118,16 @@ class InquiryForm extends Component
     protected function sortFields()
     {
         array_multisort(array_column($this->formFields , 'order'), SORT_ASC, $this->formFields);
+    }
+
+    protected function convertKeys($prevArr){
+        $newArray = [];
+
+        foreach ($prevArr as $field){
+            $newArray[$field['name']] = $field;
+        }
+
+        return $newArray;
     }
 
     protected function getMainParameters($company_id)
@@ -148,7 +174,6 @@ class InquiryForm extends Component
 
     public function render()
     {
-//        dd($this->selected, $this->formFields, array_keys($this->selected));
         return view('panel.pages.customer-services.inquiry.components.inquiry-form');
     }
 }
