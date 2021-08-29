@@ -43,11 +43,9 @@ class InquiryForm extends Component
     {
         $this->selected['company'] = $id;
 
-        $this->formFields = $this->convertKeys($this->getMainParameters($id));
+        $this->formFields = $this->getMainParameters($id);
 
         $this->cachedValues  = [];
-
-        $this->pushFields();
 
         $this->fillFields();
 
@@ -106,7 +104,7 @@ class InquiryForm extends Component
 
     public function pushFields(array $fields = [])
     {
-        $this->formFields =  $this->convertKeys(array_merge($this->formFields, $fields));
+        $this->formFields =  array_merge($this->formFields, $fields);
         $this->sortFields();
     }
 
@@ -120,7 +118,9 @@ class InquiryForm extends Component
         array_multisort(array_column($this->formFields , 'order'), SORT_ASC, $this->formFields);
     }
 
-    protected function convertKeys($prevArr){
+    // function to convert keys of form fields to its own type of field |
+    // ex: 'subject' => ['type' => 'select', 'name' => 'subject', ...,  'options' => [...]]
+    protected function convertFieldsKeys($prevArr){
         $newArray = [];
 
         foreach ($prevArr as $field){
@@ -132,7 +132,7 @@ class InquiryForm extends Component
 
     protected function getMainParameters($company_id)
     {
-        return $this->companies
+        return  $this->convertFieldsKeys($this->companies
             ->where('id', $company_id) // select currently company from collection
             ->first()
             ->parameters()
@@ -141,18 +141,18 @@ class InquiryForm extends Component
                 'options' => fn($query) => $query->where('option_parameter.company_id', $company_id)
             ])
             ->get()
-            ->toArray();
+            ->toArray());
     }
 
     protected function getSubParameters($option_id)
     {
         if (!Option::find($option_id)) return [];
 
-          return Option::find($option_id)
-                ->subParameters()
-                ->with(['options' => fn($query) => $query->where('option_parameter.company_id', $this->selected['company'])])
-                ->get()
-                ->toArray();
+          return $this->convertFieldsKeys(Option::find($option_id)
+              ->subParameters()
+              ->with(['options' => fn($query) => $query->where('option_parameter.company_id', $this->selected['company'])])
+              ->get()
+              ->toArray());
     }
 
     protected function cacheValues(array $fields)
