@@ -120,6 +120,7 @@ class InquiryForm extends Component
 
     // function to convert keys of form fields to its own type of field |
     // ex: 'subject' => ['type' => 'select', 'name' => 'subject', ...,  'options' => [...]]
+    // it's done to then easily delete from form field by its own parameter name
     protected function convertFieldsKeys($prevArr){
         $newArray = [];
 
