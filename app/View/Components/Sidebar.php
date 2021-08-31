@@ -24,12 +24,12 @@ class Sidebar extends Component
                 'permission' => 'generally',
             ],
 
-            (object) [
-                'title' => 'Cabinet',
-                'icon'  => 'fal fa-tasks-alt',
-                'url'  => route('cabinet'),
-                'permission' => 'generally',
-            ],
+//            (object) [
+//                'title' => 'Cabinet',
+//                'icon'  => 'fal fa-tasks-alt',
+//                'url'  => route('cabinet'),
+//                'permission' => 'generally',
+//            ],
 
             (object) [
                 'title' => 'Companies',
