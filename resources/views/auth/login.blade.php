@@ -11,13 +11,18 @@
                 <div class="col-md-7">
                     <div class="card-body">
                         <div class="brand-wrapper">
-                            <img src="{{asset('images/logos/group.png')}}" alt="logo" class="logo">
+                            <img src="{{asset('assets/images/logos/group.png')}}" alt="logo" class="logo">
                         </div>
                         <p class="login-card-description">Sign into your account</p>
                         <form method="POST" class="form-row" action="{{ route('login') }}">
                             @csrf
-                            <x-input::email required="" value="test@mobilgroup.az" name="email" label="Cooperative Email" />
-                            <x-input::text type="password" required="" value="Aa123456" name="password"/>
+                            @env('local')
+                                <x-input::email required="" value="test@mobilgroup.az" name="email" label="Cooperative Email" />
+                                <x-input::text type="password" required="" value="Aa123456" name="password"/>
+                                @else
+                                <x-input::email required="" name="email" label="Cooperative Email" />
+                                <x-input::text type="password" required="" name="password"/>
+                            @endenv
                             <div class="form-group">
                                 <div class="col-md-12">
                                     <div class="form-check">

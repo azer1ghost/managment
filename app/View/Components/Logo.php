@@ -10,7 +10,7 @@ class Logo extends Component
     {
         return /** @lang HTML */
             <<<'blade'
-            <table class="mt-3" {{ $attributes }} style="position: absolute">
+            <table class="mt-3 d-inline-flex">
                 <tbody>
                 <tr>
                     <td>
@@ -26,8 +26,8 @@ class Logo extends Component
                    </td>
                     <td class="text-center">
                         <h1 style="font-family: Sequel;">
-                            <span class="animate__animated animate__fadeIn" style="color: #2B2F47; font-size: 35px;">Mobil</span>
-                            <span class="animate__animated animate__fadeInDown d-block" style="font-size: 20px; color: #98CF20;letter-spacing: 4px;margin-top: -10px;padding-left: 5px">GROUP</span>
+                            <span class="animate__animated animate__fadeIn" style="color: #2B2F47; font-size: 35px; font-weight: 900">Mobil</span>
+                            <span class="animate__animated animate__fadeInDown d-block" style="font-size: 20px; color: #98CF20;letter-spacing: 4px;margin-top: -10px;padding-left: 5px; font-weight: 900 ">GROUP</span>
                         </h1>
                     </td>
                 </tr>
