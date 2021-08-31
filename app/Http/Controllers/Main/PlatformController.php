@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\Inquiry;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -33,7 +35,8 @@ class PlatformController extends Controller
 
     public function dashboard(): View
     {
-        return view('panel.pages.main.dashboard');
+        $inquiries = Inquiry::whereDate('datetime', Carbon::today())->get()->count();
+        return view('panel.pages.main.dashboard', ['inquiries' => $inquiries]);
     }
 
     public function cabinet(): View
