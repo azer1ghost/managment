@@ -199,6 +199,6 @@ class InquiryForm extends Component
 
     public function render()
     {
-        return view('panel.pages.customer-services.inquiry.components.inquiry-form');
+        return view('panel.pages.inquiry.components.inquiry-form');
     }
 }

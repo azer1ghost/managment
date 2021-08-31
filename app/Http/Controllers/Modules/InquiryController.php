@@ -19,14 +19,14 @@ class InquiryController extends Controller
 
     public function index(Request $request)
     {
-        return view('panel.pages.customer-services.inquiry.index')->with([
+        return view('panel.pages.inquiry.index')->with([
             'trashBox' => $request->has('trash-box')
         ]);
     }
 
     public function create()
     {
-        return view('panel.pages.customer-services.inquiry.edit')
+        return view('panel.pages.inquiry.edit')
             ->with([
                 'method' => 'POST',
                 'action' => route('inquiry.store'),
@@ -60,7 +60,7 @@ class InquiryController extends Controller
 
     public function show(Inquiry $inquiry)
     {
-        return view('panel.pages.customer-services.inquiry.edit')
+        return view('panel.pages.inquiry.edit')
             ->with([
                 'method' => null,
                 'action' => null,
@@ -70,7 +70,7 @@ class InquiryController extends Controller
 
     public function edit(Inquiry $inquiry)
     {
-        return view('panel.pages.customer-services.inquiry.edit')
+        return view('panel.pages.inquiry.edit')
             ->with([
                 'method' => "PUT",
                 'action' => route('inquiry.update', $inquiry),

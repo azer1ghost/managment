@@ -40,7 +40,7 @@ class OptionParameterSeeder extends Seeder
             Option::whereIn('id', range(21, 25))->pluck('id'), ['company_id' => 4]
         );
 
-        Parameter::find(8)->options()->syncWithPivotValues(
+        Parameter::find(9)->options()->syncWithPivotValues(
             Option::whereIn('id', [19, 20])->pluck('id'), ['company_id' => 4]
         );
     }

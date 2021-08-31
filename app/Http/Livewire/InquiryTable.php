@@ -66,7 +66,7 @@ class InquiryTable extends Component
 
     public function render()
     {
-        return view('panel.pages.customer-services.inquiry.components.inquiry-table', [
+        return view('panel.pages.inquiry.components.inquiry-table', [
             'inquiries' => Inquiry::query()
                 ->withoutBackups()
 //                ->when($this->canViewAll(), function ($query){

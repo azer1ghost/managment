@@ -58,9 +58,9 @@ class Sidebar extends Component
             ],
 
             (object) [
-                'title' => 'Customer Services',
+                'title' => 'Inquiries',
                 'icon'  => 'fa fa-phone',
-                'url'  => route('customer-services'),
+                'url'  => route('inquiry.index'),
                 'permission' => 'viewAny-inquiry',
             ],
 

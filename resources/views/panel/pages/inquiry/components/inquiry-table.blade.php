@@ -54,8 +54,8 @@
                     <i class="fal fa-plus"></i>
                 </a>
             @endcan
-            <a href="{{route('inquiry.index', ['trash-box' => true])}}" class="btn btn-outline-secondary">
-                <i class="far fa-recycle"></i>
+            <a href="{{ !request()->has('trash-box') ? route('inquiry.index', ['trash-box' => true]) : route('inquiry.index') }}" class="btn btn-outline-secondary">
+                <i class="far {{ !request()->has('trash-box') ? 'fa-recycle' : 'fa-phone' }}"></i>
             </a>
         </div>
         <div>

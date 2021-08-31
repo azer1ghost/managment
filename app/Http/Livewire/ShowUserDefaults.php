@@ -31,6 +31,8 @@ class ShowUserDefaults extends Component
                 $this->selectedColumns[$idx] = (int) $d['parameter_id'];
             });
         }
+
+        if(count($this->availableColumns) == count($this->defaults)) $this->all_selected = true;
     }
 
     public function addDefault()
