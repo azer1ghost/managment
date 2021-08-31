@@ -38,7 +38,10 @@
                     @endforeach
                 </select>
             @else
-                <input class="form-control" name="parameters[{{$formField['id']}}]" placeholder="{{$placeholder}}" type="{{$formField['type']}}" wire:model.lazy="selected.{{$formField['name']}}">
+                <input class="{{$formField['class'] ?? null}} form-control" name="parameters[{{$formField['id']}}]" placeholder="{{$placeholder}}" type="{{$formField['type']}}" wire:model.lazy="selected.{{$formField['name']}}">
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $formField['message'] ?? null }}</strong>
+                </span>
             @endif
         </div>
     @endforeach

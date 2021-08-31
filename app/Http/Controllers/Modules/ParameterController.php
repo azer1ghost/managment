@@ -46,7 +46,7 @@ class ParameterController extends Controller
                         fn($query) => $query->select(['id', 'name'])
                 ])
                     ->select(['id', 'text'])->get(),
-                'companies' => Company::select(['id','name'])->get(),
+                'companies' => Company::isInquirable()->select(['id','name'])->get(),
                 'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => ucfirst($key))->toArray()
             ]);
     }
@@ -80,7 +80,7 @@ class ParameterController extends Controller
                         fn($query) => $query->select(['id', 'name'])
                 ])
                     ->select(['id', 'text'])->get(),
-                'companies' => Company::select(['id','name'])->get(),
+                'companies' => Company::isInquirable()->select(['id','name'])->get(),
                 'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => ucfirst($key))->toArray()
             ]);
     }
@@ -97,7 +97,7 @@ class ParameterController extends Controller
                         fn($query) => $query->select(['id', 'name'])
                     ])
                     ->select(['id', 'text'])->get(),
-                'companies' => Company::select(['id','name'])->get(),
+                'companies' => Company::isInquirable()->select(['id','name'])->get(),
                 'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => ucfirst($key))->toArray()
             ]);
     }

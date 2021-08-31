@@ -7,6 +7,7 @@ use App\Models\Inquiry;
 use App\Models\Option;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 
 class InquiryForm extends Component
@@ -55,9 +56,34 @@ class InquiryForm extends Component
         }
     }
 
-    // function to delete previous selected field's subParams | default livewire function which runs before model is updated
+    public function updatedSelectedClientCode($value)
+    {
+        $apiURL = "http://api.mobex.az/v1/user/search?token=884h7d345&code={$value}";
+
+        $response = Http::get($apiURL)->json();
+
+        if(!isset($response['errors'])){
+            $this->selected['fullname'] = $response['full_name'];
+            $this->selected['phone'] = $response['phone'];
+            $this->formFields['client_code']['class'] = "is-valid";
+            $this->formFields['fullname']['class'] = "is-valid";
+            $this->formFields['phone']['class'] = "is-valid";
+        }
+        else{
+            $this->formFields['client_code']['class'] = "is-invalid";
+            $this->formFields['client_code']['message'] = $response['errors'];
+            $this->selected['fullname'] = null;
+            $this->selected['phone'] = null;
+            $this->formFields['fullname']['class'] = "is-invalid";
+            $this->formFields['phone']['class'] = "is-invalid";
+        }
+        ///MBX33291
+    }
+
     public function updatingSelected($value, $name)
     {
+        if ($name == 'company') return;
+
         $parameters = $this->getSubParameters($this->selected[$name]);
 
         $this->removeFormField($parameters);
@@ -66,12 +92,12 @@ class InquiryForm extends Component
 
     }
 
-    public function updatedSelected($value, $name)
+    public function updatedSelected($value)
     {
-        $this->getSubFields($value, $name);
+        $this->getSubFields($value);
     }
 
-    protected function getSubFields($option_id, $name)
+    protected function getSubFields($option_id)
     {
         $parameters = $this->getSubParameters($option_id);
 
@@ -118,10 +144,8 @@ class InquiryForm extends Component
         array_multisort(array_column($this->formFields , 'order'), SORT_ASC, $this->formFields);
     }
 
-    // function to convert keys of form fields to its own type of field |
-    // ex: 'subject' => ['type' => 'select', 'name' => 'subject', ...,  'options' => [...]]
-    // it's done to then easily delete from form field by its own parameter name
-    protected function convertFieldsKeys($prevArr){
+    protected function convertFieldsKeys($prevArr): array
+    {
         $newArray = [];
 
         foreach ($prevArr as $field){
@@ -131,7 +155,7 @@ class InquiryForm extends Component
         return $newArray;
     }
 
-    protected function getMainParameters($company_id)
+    protected function getMainParameters($company_id): array
     {
         return  $this->convertFieldsKeys($this->companies
             ->where('id', $company_id) // select currently company from collection
@@ -145,7 +169,7 @@ class InquiryForm extends Component
             ->toArray());
     }
 
-    protected function getSubParameters($option_id)
+    protected function getSubParameters($option_id): array
     {
         if (!Option::find($option_id)) return [];
 
