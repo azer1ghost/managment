@@ -30,7 +30,7 @@
                         @forelse($companies as $company)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
-                            <td><img width="150px" src="{{image($company->getAttribute('logo'))}}"></td>
+                            <td><img width="150px" src="{{asset("assets/images/{$company->getAttribute('logo')}")}}"></td>
                             <td>{{$company->getAttribute('name')}}</td>
                             <td>
                                 <div class="btn-sm-group">

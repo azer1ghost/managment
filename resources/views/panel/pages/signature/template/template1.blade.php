@@ -20,7 +20,7 @@
     <tr>
         <!-- Logo -->
         <td style="vertical-align: middle;">
-            <img alt="logo" src="{{ image(asset('storage/'.$company->getAttribute('logo'))) }}" />
+            <img alt="logo" width="200px" style="padding-right: 10px" src="https://mobilgroup.az/signature/{{ $company->getAttribute('logo') }}" />
         </td>
         <!-- Main content -->
         <td style="border-right: 1px solid ; border-color: #050E3A;">
@@ -52,7 +52,7 @@
                 <tbody>
                 <tr>
                     <td style="width: 15px;">
-                        <img width="16px" src="https://mobilgroup.az/signature/phone.png" />
+                        <img width="16px" src="https://mobilgroup.az/signature/socials/blue/phone.png" />
                     </td>
                     <td>
                         <p style="margin: 0; padding: 3px; font-size: 13px">{{$user->getAttribute('phone')}}</p>
@@ -60,7 +60,7 @@
                 </tr>
                 <tr>
                     <td style="width: 15px;">
-                        <img width="16px" src="https://mobilgroup.az/signature/phone.png" />
+                        <img width="16px" src="https://mobilgroup.az/signature/socials/blue/phone.png" />
                     </td>
                     <td>
                         <p style="margin: 0; padding: 3px; font-size: 13px">{{$user->getAttribute('phone_coop')}}</p>
@@ -68,7 +68,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <img width="16px" src="https://mobilgroup.az/signature/envelope.png" />
+                        <img width="16px" src="https://mobilgroup.az/signature/socials/blue/envelope.png" />
                     </td>
                     <td>
                         <p style="margin: 0; padding: 3px; font-size: 13px">{{$user->getAttribute("email_coop")}}</p>
@@ -76,7 +76,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <img width="16px" src="https://mobilgroup.az/signature/share.png" />
+                        <img width="16px" src="https://mobilgroup.az/signature/socials/blue/share.png" />
                     </td>
                     <td>
                         <p style="margin: 0; padding: 3px; font-size: 13px">{{$company->getAttribute("website")}}</p>
@@ -84,7 +84,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <img width="16px" src="https://mobilgroup.az/signature/map.png" />
+                        <img width="16px" src="https://mobilgroup.az/signature/socials/blue/map.png" />
                     </td>
                     <td>
                         <p style="margin: 0; padding: 3px; font-size: 13px">{{$company->getAttribute("address")}}</p>
@@ -107,13 +107,13 @@
                 <tbody>
                 <tr>
                     <td style="width: 100%">
-                        <img style="padding-left: 5px" width="13px" src="https://mobilgroup.az/signature/call.png" />
+                        <img style="padding-left: 5px" width="13px" src="https://mobilgroup.az/signature/socials/white/call.png" />
                         <b style="padding:0px;color: rgb(201,201,201)">{{$company->getAttribute("call_center")}}</b>
                     </td>
                     @foreach ($company->socials as $social)
                        <td style="padding: 5px; color: white;">
                             <a href="{{$social->url}}">
-                                <img width="20px" src="https://mobilgroup.az/signature/{{$social->name}}.png" />
+                                <img width="20px" src="https://mobilgroup.az/signature/socials/white/{{$social->name}}.png" />
                             </a>
                         </td>
                     @endforeach
