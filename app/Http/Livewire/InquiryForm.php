@@ -22,7 +22,7 @@ class InquiryForm extends Component
     public Carbon $datetime;
     public Collection $companies, $parameters;
 
-    public array $cachedValues = [], $formFields = [], $selected = [ 'company' => null ];
+    public array $cachedValues = [], $formFields = [], $selected = [];
 
     public function mount()
     {
@@ -37,6 +37,8 @@ class InquiryForm extends Component
         elseif ($this->inquiry->getAttribute('company_id'))
         {
             $this->updatedSelectedCompany($this->inquiry->getAttribute('company_id'));
+        }else{
+            $this->selected['company'] = null;
         }
     }
 
