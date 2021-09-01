@@ -17,10 +17,10 @@
                         <form method="POST" class="form-row" action="{{ route('login') }}">
                             @csrf
                             @env('local')
-                                <x-input::email required="" value="test@mobilgroup.az" name="email_coop" label="Cooperative Email" />
+                                <x-input::email required="" value="test@mobilgroup.az" name="login" label="Cooperative Email" />
                                 <x-input::text type="password" required="" value="Aa123456" name="password"/>
                                 @else
-                                <x-input::email required="" name="email_coop" label="Cooperative Email" />
+                                <x-input::email required="" name="login" label="Cooperative Email" />
                                 <x-input::text type="password" required="" name="password"/>
                             @endenv
                             <div class="form-group">
