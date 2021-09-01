@@ -6,14 +6,21 @@ use Illuminate\View\Component;
 
 class Submit extends Component
 {
-    public function __construct(
-        public string   $value = 'Submit',
-        public ?int     $width = 12,
-        public ?string  $type = 'submit',
-        public ?string  $color = 'primary',
-        public ?string  $layout = 'right',
-    )
-    {}
+    public ?int $width;
+    public ?string $value;
+    public ?string $color;
+    public ?string  $layout;
+    public ?string  $type;
+
+
+    public function __construct($type = 'submit', $value = 'Submit', $width = 12, $color = 'primary', $layout = 'right')
+    {
+        $this->type = $type;
+        $this->value = $value;
+        $this->color = $color;
+        $this->width = $width;
+        $this->layout = $layout;
+    }
 
     public function render()
     {

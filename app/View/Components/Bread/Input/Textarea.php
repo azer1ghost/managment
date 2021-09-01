@@ -6,28 +6,21 @@ use Illuminate\View\Component;
 
 class Textarea extends Component
 {
-    public $width = null;
-    public $label = null;
-    public $value = null;
-    public $name = null;
-    public $type = null;
-    public $placeholder = null;
+    public ?int    $width;
+    public ?string $label;
+    public ?string $value;
+    public ?string $name;
+    public ?string $type;
+    public ?string $placeholder;
 
-    public function __construct(
-        ?string $name  = null,
-        ?string $value = null,
-        ?string $label = null,
-        ?string $placeholder = null,
-        ?string $type = "text",
-        ?int $width = 12
-    )
+    public function __construct($name = null, $value = null, $label = null, $placeholder = null, $width = 12, $type = 'text')
     {
         $this->name = $name;
         $this->value = $value;
         $this->label = $label;
-        $this->placeholder = $placeholder;
         $this->width = $width;
         $this->type = $type;
+        $this->placeholder = $placeholder;
     }
 
     public function render()

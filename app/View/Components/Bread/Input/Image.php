@@ -6,24 +6,19 @@ use Illuminate\View\Component;
 
 class Image extends Component
 {
-    public $width = null;
-    public $label = null;
-    public $value = null;
-    public $name = null;
-    public $placeholder = null;
+    public ?int    $width;
+    public ?string $label;
+    public ?string $value;
+    public ?string $name;
+    public ?string $placeholder;
 
-    public function __construct(
-        ?string $name  = null,
-        ?string $value = null,
-        ?string $label = null,
-        ?string $placeholder = 'nophoto.png',
-        ?int $width = 12
-    )
+    public function __construct($name = null, $value = null, $label = null, $placeholder = 'nophoto.png', $width = 12)
     {
         $this->name = $name;
         $this->value = $value ?? $placeholder;
         $this->label = $label;
         $this->width = $width;
+        $this->placeholder = $placeholder;
     }
 
     public function render()

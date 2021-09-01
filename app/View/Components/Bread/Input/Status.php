@@ -6,12 +6,16 @@ use Illuminate\View\Component;
 
 class Status extends Component
 {
-    public function __construct(
-        public ?bool    $value = false,
-        public ?string  $label = 'Status',
-        public ?int     $width = 2,
-    )
-    {}
+    public ?int $width;
+    public ?string $label;
+    public bool $value;
+
+    public function __construct($value = false, $label = 'Status', $width = 2)
+    {
+        $this->value = $value;
+        $this->label = $label;
+        $this->width = $width;
+    }
 
     public function render()
     {

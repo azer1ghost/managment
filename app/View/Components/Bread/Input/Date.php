@@ -6,17 +6,12 @@ use Illuminate\View\Component;
 
 class Date extends Component
 {
-    public $width = null;
-    public $label = null;
-    public $value = null;
-    public $name = null;
+    public ?string $width;
+    public ?string $label;
+    public ?string $value;
+    public ?string $name;
 
-    public function __construct(
-        ?string $name  = null,
-        ?string $value = null,
-        ?string $label = null,
-        ?int $width = 12
-    )
+    public function __construct($name = null, $value = null, $label = null, $width = null)
     {
         $this->name = $name;
         $this->value = $value;

@@ -6,16 +6,30 @@ use Illuminate\View\Component;
 
 class Select extends Component
 {
-    public function __construct(
-        public ?string $name  = null,
-        public ?string $value = null,
-        public ?string $label = null,
-        public array $options = [],
-        public ?int $width = 12,
-        // add default = 1 if you want to default option appear
-        public ?int $default = 0,
+    public ?int     $width;
+    public ?string  $label;
+    public ?string  $value;
+    public ?string  $name;
+    public array    $options;
+    public ?int     $default;
+
+    public function __construct
+    (
+        $default = 0,
+        $options = [],
+        $name = null,
+        $value = null,
+        $label = null,
+        $width = null
     )
-    {}
+    {
+        $this->name = $name;
+        $this->value = $value;
+        $this->label = $label;
+        $this->width = $width;
+        $this->options = $options;
+        $this->default = $default;
+    }
 
     public function render()
     {

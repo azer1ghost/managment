@@ -6,13 +6,18 @@ use Illuminate\View\Component;
 
 class Number extends Component
 {
-    public function __construct(
-        public ?string $name  = null,
-        public ?string $value = null,
-        public ?string $label = null,
-        public ?int $width = 12,
-    )
-    {}
+    public ?string $width;
+    public ?string $label;
+    public ?string $value;
+    public ?string $name;
+
+    public function __construct($name = null, $value = null, $label = null, $width = null)
+    {
+        $this->name = $name;
+        $this->value = $value;
+        $this->label = $label;
+        $this->width = $width;
+    }
 
     public function render()
     {
