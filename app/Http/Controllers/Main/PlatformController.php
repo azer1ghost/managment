@@ -29,7 +29,7 @@ class PlatformController extends Controller
 
     public function welcome(): View
     {
-        header("Refresh: 5; URL=". route('login'));
+        header("Refresh: 3; URL=". route('login'));
         return view('panel.pages.main.welcome');
     }
 
@@ -44,8 +44,4 @@ class PlatformController extends Controller
         return view('panel.pages.cabinet.index');
     }
 
-    public function customerServices(): View
-    {
-        return view('panel.pages.customer-services.index');
-    }
 }
