@@ -19,7 +19,7 @@ class UserRequest extends FormRequest
         return [
             'name'           => 'required|string|max:255',
             'surname'        => 'nullable|string|max:255',
-            'avatar'         => 'nullable|string|max:255',
+            'avatar'         => 'nullable|image|mimes:jpg,jpeg,gif,png|max:2048',
             'father'         => 'nullable|string|max:255',
             'gender'         => 'nullable|string|max:255',
             'serial'         => 'nullable|string|max:255',

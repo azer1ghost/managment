@@ -12,6 +12,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AccountController extends Controller
 {
@@ -42,6 +43,17 @@ class AccountController extends Controller
         $validated['role_id']        =  !in_array($currentRole, array(1, 2)) ? $currentRole : $validated['role_id'];
         $validated['company_id']     =  !in_array($currentRole, array(1, 2)) ? $currentCompany : $validated['company_id'];
         $validated['department_id']  =  !in_array($currentRole, array(1, 2)) ? $currentDepartment : $validated['department_id'];
+
+        if ($request->file('avatar')) {
+
+            $avatar = $request->file('avatar');
+
+            $validated['avatar'] = $avatar->storeAs('avatars', $avatar->hashName());
+
+            if (Storage::exists($user->getAttribute('avatar'))) {
+                Storage::delete($user->getAttribute('avatar'));
+            }
+        }
 
         $user->update($validated);
 
