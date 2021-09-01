@@ -22,7 +22,7 @@ class InquiryForm extends Component
     public Carbon $datetime;
     public Collection $companies, $parameters;
 
-    public array $cachedValues = [], $formFields = [], $selected = [];
+    public array $cachedValues = [], $formFields = [], $selected = [ 'company' => null ];
 
     public function mount()
     {
