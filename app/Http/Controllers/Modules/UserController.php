@@ -98,6 +98,12 @@ class UserController extends Controller
     {
         $validated = $request->validated();
 
+        if(!is_null($request->get('password'))){
+            $validated['password'] = Hash::make($validated['password']);
+        }else{
+            unset($validated['password']);
+        }
+
         if ($request->file('avatar')) {
 
             $avatar = $request->file('avatar');

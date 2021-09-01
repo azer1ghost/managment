@@ -64,11 +64,11 @@
                                 <x-input::select  name="country"   :value="optional($data)->getAttribute('country')"  width="3" class="pr-1" :options="['Azerbaijan','Turkey']"/>
                                 <x-input::select  name="city"      :value="optional($data)->getAttribute('city')"     width="3" class="pr-1" :options="['Baku','Sumgayit']"/>
                                 <x-input::text    name="address"   :value="optional($data)->getAttribute('address')"  width="6" class="pr-1" />
-                                <x-input::select  name="role_id"   :value="optional($data)->getRelationValue('role')->getAttribute('id')"  width="3" class="pr-1" :options="$roles" label="Role"/>
-                                @if(is_null($data))
-                                    <x-input::text type="password" name="password" width="6" class="pr-1" />
-                                    <x-input::text type="password" name="password_confirmation" width="6" class="pr-1" label="Password Confirmation"/>
+                                @if(auth()->user()->isDeveloper() || auth()->user()->isAdministrator())
+                                    <x-input::text type="password" name="password" width="6" class="pr-1" autocomplete="off"/>
+                                    <x-input::text type="password" name="password_confirmation" width="6" class="pr-1" label="Password Confirmation" autocomplete="off"/>
                                 @endif
+                                <x-input::select  name="role_id"   :value="optional($data)->getRelationValue('role')->getAttribute('id')"  width="3" class="pr-1" :options="$roles" label="Role"/>
                                 <div class="col-md-12">
                                     <br>
                                     <p class="text-muted mb-2">USER DEFAULTS</p>
