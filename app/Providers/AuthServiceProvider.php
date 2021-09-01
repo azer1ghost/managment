@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
 //        $this->registerPolicies();
 
         Validator::extend('allowed_domain', function($attribute, $value, $parameters, $validator) {
-            return in_array(explode('@', $value)[1], Company::select(['website'])->get()->toArray());
+            return in_array(explode('@', $value)[1], Company::pluck('website')->toArray());
         }, 'This domain not valid for registration. Please use company domain');
 
         // only return viewAny permissions of user
