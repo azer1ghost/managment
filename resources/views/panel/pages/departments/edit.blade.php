@@ -9,7 +9,7 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">
-                        <a href="{{route('roles.index')}}" class="btn btn-sm btn-outline-primary mr-4">
+                        <a href="{{route('departments.index')}}" class="btn btn-sm btn-outline-primary mr-4">
                             <i class="fa fa-arrow-left"></i>
                             @lang('translates.buttons.back')
                         </a>

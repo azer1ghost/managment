@@ -17,10 +17,10 @@
                         <form method="POST" class="form-row" action="{{ route('login') }}">
                             @csrf
                             @env('local')
-                                <x-input::email required="" value="test@mobilgroup.az" name="email" label="Cooperative Email" />
+                                <x-input::email required="" value="test@mobilgroup.az" name="email_coop" label="Cooperative Email" />
                                 <x-input::text type="password" required="" value="Aa123456" name="password"/>
                                 @else
-                                <x-input::email required="" name="email" label="Cooperative Email" />
+                                <x-input::email required="" name="email_coop" label="Cooperative Email" />
                                 <x-input::text type="password" required="" name="password"/>
                             @endenv
                             <div class="form-group">
@@ -34,7 +34,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <input name="login" id="login" class="btn btn-block login-btn mb-4" type="submit" value="Login">
+                            <button class="btn btn-block login-btn mb-4" type="submit">Login</button>
                         </form>
                         @if (Route::has('password.request'))
                             <a class="forgot-password-link" href="{{ route('password.request') }}">

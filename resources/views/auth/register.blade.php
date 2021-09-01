@@ -22,7 +22,7 @@
                                 @csrf
                                 <x-input::text required="" name="name" width="6"/>
                                 <x-input::text required="" name="surname" width="6"/>
-                                <x-input::email required="" name="email" label="Cooperative Email" />
+                                <x-input::email required="" name="email_coop" label="Cooperative Email" />
                                 <x-input::select name="department_id"  width="6"  class="pr-1" :options="$departments" label="Department"  required=""/>
                                 <x-input::select name="company_id"  width="6"  class="pr-1" :options="$companies" label="Company"  required=""/>
                                 <x-input::text type="password" required="" name="password" width="6"/>

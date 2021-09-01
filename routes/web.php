@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\{Main\AccountController,
+use App\Http\Controllers\{Auth\LoginController,
+    Main\AccountController,
     Main\PlatformController,
     Modules\CompanyController,
     Modules\DepartmentController,
@@ -34,7 +35,10 @@ Route::prefix('module')->group(function () {
     Route::resource('/departments', DepartmentController::class);
 });
 
-Auth::routes();
+Auth::routes(['login' => false]);
+
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('login', [LoginController::class, 'login']);
 
 Route::get('ip-resolver.bat', [PlatformController::class, 'downloadBat'])->name('host.bat');
 

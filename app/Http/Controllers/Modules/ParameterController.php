@@ -56,12 +56,8 @@ class ParameterController extends Controller
         $parameter = Parameter::create($request->validated());
         $parameter->companies()->sync($request->get('companies'));
 
-        // detach all relations before adding new ones
-        $parameter->options()->detach();
 
-        foreach ($request->get('companies') as $company){
-            $parameter->options()->attach($request->get('options'), ['company_id' => $company]);
-        }
+        self::saveParameters($parameter, $request->get('options'), $request->get('companies'));
 
         return redirect()
             ->route('parameters.edit', $parameter)
@@ -108,14 +104,22 @@ class ParameterController extends Controller
 
         $parameter->companies()->sync($request->get('companies'));
 
+//        self::saveParameters($parameter, $request->get('options'), $request->get('companies'));
+
+        return back()->withNotify('info', $parameter->getAttribute('name'));
+    }
+
+    public static function saveParameters($parameter, $requestOptions, $requestCompanies)
+    {
+
+        //TODO EDIT THIS FUNCTION TO SAVE OPTIONS INDIVIDUALLY FOR EACH COMPANY
+
         // detach all relations before adding new ones
         $parameter->options()->detach();
 
-        foreach ($request->get('companies') as $company){
-            $parameter->options()->attach($request->get('options'), ['company_id' => $company]);
+        foreach ($requestCompanies as $company){
+            $parameter->options()->attach($requestOptions, ['company_id' => $company]);
         }
-
-        return back()->withNotify('info', $parameter->getAttribute('name'));
     }
 
     public function destroy(Parameter $parameter)

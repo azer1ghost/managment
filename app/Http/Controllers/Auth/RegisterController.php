@@ -52,7 +52,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'allowed_domain','string', 'email', 'max:255', 'unique:users'],
+            'email_coop' => ['required', 'allowed_domain','string', 'email', 'max:255', 'unique:users,email,email_coop'],
             'department_id' => ['required', 'integer', 'min:1'],
             'company_id' => ['required', 'integer', 'min:1'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -70,7 +70,8 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'surname' => $data['surname'],
-            'email' => $data['email'],
+            'email' => $data['email_coop'],
+            'email_coop' => $data['email_coop'],
             'role_id' => 4,
             'department_id' => $data['department_id'],
             'company_id' => $data['company_id'],
