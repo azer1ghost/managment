@@ -5,6 +5,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Main\PlatformController,
     Modules\CompanyController,
     Modules\DepartmentController,
+    Modules\GadgetController,
     Modules\OptionController,
     Modules\ParameterController,
     Modules\RoleController,
@@ -28,6 +29,7 @@ Route::prefix('module')->group(function () {
     include 'modules/email-signature.php';
 
     Route::resource('/companies', CompanyController::class);
+    Route::resource('/gadgets', GadgetController::class);
     Route::resource('/parameters', ParameterController::class);
     Route::resource('/options', OptionController::class);
     Route::resource('/users', UserController::class);
