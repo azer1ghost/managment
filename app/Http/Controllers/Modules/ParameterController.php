@@ -104,16 +104,13 @@ class ParameterController extends Controller
 
         $parameter->companies()->sync($request->get('companies'));
 
-//        self::saveParameters($parameter, $request->get('options'), $request->get('companies'));
+        self::saveParameters($parameter, $request->get('options'), $request->get('companies'));
 
         return back()->withNotify('info', $parameter->getAttribute('name'));
     }
 
     public static function saveParameters($parameter, $requestOptions, $requestCompanies)
     {
-
-        //TODO EDIT THIS FUNCTION TO SAVE OPTIONS INDIVIDUALLY FOR EACH COMPANY
-
         // detach all relations before adding new ones
         $parameter->options()->detach();
 
