@@ -60,30 +60,6 @@ class InquiryForm extends Component
         }
     }
 
-    public function updatedSelectedClientCode($value)
-    {
-        $apiURL = "http://api.mobex.az/v1/user/search?token=884h7d345&code={$value}";
-
-        $response = Http::get($apiURL)->json();
-
-        if(!isset($response['errors'])){
-            $this->selected['fullname'] = $response['full_name'];
-            $this->selected['phone'] = $response['phone'];
-            $this->formFields['client_code']['class'] = "is-valid";
-            $this->formFields['fullname']['class'] = "is-valid";
-            $this->formFields['phone']['class'] = "is-valid";
-        }
-        else{
-            $this->formFields['client_code']['class'] = "is-invalid";
-            $this->formFields['client_code']['message'] = $response['errors'];
-            $this->selected['fullname'] = null;
-            $this->selected['phone'] = null;
-            $this->formFields['fullname']['class'] = "is-invalid";
-            $this->formFields['phone']['class'] = "is-invalid";
-        }
-        ///MBX33291
-    }
-
     public function updatingSelected($value, $name)
     {
         if ($name == 'company') return;
@@ -201,8 +177,42 @@ class InquiryForm extends Component
         $this->cachedValues = $this->selected;
     }
 
+    /* Api functions */
+    public function updatedSelectedClientCode($value)
+    {
+        $client_code = strtoupper($value);
+
+        $prefix = 'MBX';
+
+        $client_code = str_starts_with($client_code, $prefix) ? $client_code : $prefix.$value;
+
+        $apiURL = "http://api.mobex.az/v1/user/search?token=884h7d345&code={$client_code}";
+
+        $response = Http::get($apiURL)->json();
+
+        if(!isset($response['errors'])){
+            $this->selected['fullname'] = $response['full_name'];
+            $this->selected['phone'] = $response['phone'];
+            $this->formFields['client_code']['class'] = "is-valid";
+            $this->formFields['fullname']['class'] = "is-valid";
+            $this->formFields['phone']['class'] = "is-valid";
+        }
+        else{
+            $this->formFields['client_code']['class'] = "is-invalid";
+            $this->formFields['client_code']['message'] = $response['errors'];
+            $this->selected['fullname'] = null;
+            $this->selected['phone'] = null;
+            $this->formFields['fullname']['class'] = "is-invalid";
+            $this->formFields['phone']['class'] = "is-invalid";
+        }
+
+        ///MBX33291
+    }
+    /* end Api functions */
+
     public function render()
     {
         return view('panel.pages.inquiry.components.inquiry-form');
     }
+
 }
