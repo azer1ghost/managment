@@ -20,6 +20,7 @@ class InquiryForm extends Component
 
     public Inquiry $inquiry;
     public Carbon $datetime;
+    public ?string $note;
     public Collection $companies, $parameters;
 
     public array $cachedValues = [], $formFields = [], $selected = [];
@@ -29,6 +30,7 @@ class InquiryForm extends Component
         $this->companies = Company::isInquirable()->get();
 
         $this->datetime = $this->inquiry->getAttribute('datetime') ?? now();
+        $this->note = $this->inquiry->getAttribute('note');
 
         if (in_array(auth()->user()->getAttribute('company_id'), $this->companies->pluck('id')->toArray()))
         {

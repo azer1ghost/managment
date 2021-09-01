@@ -46,7 +46,11 @@
         </div>
     @endforeach
 
-    @if($action)
+    <x-input::textarea name="note"  :value="$note"  label="Note"   width="12" class="pr-3" rows="4"/>
+{{--    <x-input::select name="redirected" :options="$operators" label="Redirect" width="4" class="pr-2" />--}}
+
+
+@if($action)
     <div class="col-12">
         <button class="btn btn-outline-primary float-right">Save</button>
     </div>
@@ -64,4 +68,3 @@
 @endif
 
 
-{{--    <x-input::select name="redirected" :options="$operators" label="Redirect" width="4" class="pr-2" />--}}
