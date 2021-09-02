@@ -14,13 +14,16 @@
                             <img src="{{asset('assets/images/logos/group.png')}}" alt="logo" class="logo">
                         </div>
                         <p class="login-card-description">Sign into your account</p>
+                        @if($errors->any())
+                            {!! implode('', $errors->all('<div class="text-danger">:message</div>')) !!}
+                        @endif
                         <form method="POST" class="form-row" action="{{ route('login') }}">
                             @csrf
                             @env('local')
-                                <x-input::email required="" value="test@mobilgroup.az" name="login" label="Cooperative Email" />
+                                <x-input::email required="" value="test@mobilgroup.az" name="login" label="Email" />
                                 <x-input::text type="password" required="" value="Aa123456" name="password"/>
                                 @else
-                                <x-input::email required="" name="login" label="Cooperative Email" />
+                                <x-input::email required="" name="login" label="Email" />
                                 <x-input::text type="password" required="" name="password"/>
                             @endenv
                             <div class="form-group">
