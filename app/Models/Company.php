@@ -44,6 +44,15 @@ class Company extends Model
         return $this->belongsToMany(Parameter::class);
     }
 
+    public function options($parameter_id = null): BelongsToMany
+    {
+        if(is_null($parameter_id)){
+            return $this->belongsToMany(Option::class, 'option_parameter')->withPivot('parameter_id');
+        }else{
+            return $this->belongsToMany(Option::class, 'option_parameter')->withPivotValue('parameter_id', $parameter_id);
+        }
+    }
+
     public function socials(): HasMany
     {
         return $this->hasMany(Social::class);

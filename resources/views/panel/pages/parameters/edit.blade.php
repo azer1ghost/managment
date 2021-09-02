@@ -25,20 +25,9 @@
                             <div class="form-group col-12 col-md-4 pr-3">
                                 <label for="data-option_id">Parent Option id</label>
                                 <select class="form-control @error('option_id') is-invalid @enderror" name="option_id" id="data-option_id" style="padding: .375rem 0.75rem !important;">
-                                    <option selected value="">Parent Option id {{__('translates.placeholders.choose')}}</option>
-                                    @foreach($options->values() as $index => $option)
-                                        @php
-                                            $prevLabels    = $loop->first ? null : implode(',', $options->get(--$index)->getRelationValue('parameters')->map(fn($p) => str_title($p->getAttribute('name')))->toArray());
-                                            $nextLabels    = $loop->last  ? null : implode(',', $options->get(++$index)->getRelationValue('parameters')->map(fn($p) => str_title($p->getAttribute('name')))->toArray());
-                                            $currentLabels = implode(',', $option->parameters->map(fn($p) => str_title($p->getAttribute('name')))->toArray());
-                                        @endphp
-                                        @if($prevLabels == null || $prevLabels !== $currentLabels)
-                                            <optgroup label="{{$currentLabels}}">
-                                        @endif
-                                            <option @if($option->getAttribute('id') == optional($data)->getAttribute('option_id')) selected @endif value="{{$option->getAttribute('id')}}">{{$option->getAttribute('text')}}</option>
-                                        @if($nextLabels == null || $nextLabels !== $currentLabels)
-                                            </optgroup>
-                                        @endif
+                                    <option value="">Parent Option id {{__('translates.placeholders.choose')}}</option>
+                                    @foreach($options as $option)
+                                        <option @if($option->getAttribute('id') == optional($data)->getAttribute('option_id')) selected @endif value="{{$option->getAttribute('id')}}">{{$option->getAttribute('text')}}</option>
                                     @endforeach
                                 </select>
                                 @error('option_id')
@@ -63,17 +52,25 @@
                                     <p class="text-danger">{{$message}}</p>
                                 @enderror
                             </div>
-                            <div class="col-12 py-2">
-                                <label for="optionFilter">Options</label><br/>
-                                <select name="options[]" id="optionFilter" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
-                                    @foreach($options as $option)
-                                        <option @if(optional(optional($data)->options())->exists() && $data->getRelationValue('options')->pluck('id')->contains($option->getAttribute('id'))) selected  @endif value="{{$option->getAttribute('id')}}">{{ucfirst($option->getAttribute('text'))}}</option>
-                                    @endforeach
-                                </select>
-                                @error('parameters')
+                            @if (optional($data)->getAttribute('type') == 'select')
+                                <div class="col-12 py-2" id="parameter-options">
+                                    <p class="mb-2">Options</p>
+                                    @forelse ($parameterCompanies as $company)
+                                        <label for="optionFilter-{{$company->getAttribute('id')}}">{{$company->getAttribute('name')}}</label>
+                                        <select name="options[{{$company->getAttribute('id')}}][]" id="optionFilter-{{$company->getAttribute('id')}}" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
+                                            @foreach ($options as $option)
+                                                <option @if($company->options(optional($data)->getAttribute('id'))->pluck('id')->contains($option->getAttribute('id'))) selected  @endif value="{{$option->getAttribute('id')}}">{{ucfirst($option->getAttribute('text'))}}</option>
+                                            @endforeach
+                                        </select>
+                                        <br/>
+                                    @empty
+                                        <span>No companies yet</span>
+                                    @endforelse
+                                    @error('options')
                                     <p class="text-danger">{{$message}}</p>
-                                @enderror
-                            </div>
+                                    @enderror
+                                </div>
+                            @endif
                         </div>
                         @if($action)
                             <x-input::submit />
@@ -100,6 +97,15 @@
 
 <script>
     $('.filterSelector').selectpicker()
+    $('#data-type').change(function(){
+        if (this.value === 'text') {
+            $('#parameter-options').hide()
+            $('#parameter-options select').attr('disabled', true)
+        }else if (this.value === 'select'){
+            $('#parameter-options').show()
+            $('#parameter-options select').attr('disabled', false)
+        }
+    });
 </script>
 
 @endsection

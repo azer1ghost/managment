@@ -46,6 +46,7 @@ class ParameterController extends Controller
                         fn($query) => $query->select(['id', 'name'])
                 ])
                     ->select(['id', 'text'])->get(),
+                'parameterCompanies' => collect([]),
                 'companies' => Company::isInquirable()->select(['id','name'])->get(),
                 'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => ucfirst($key))->toArray()
             ]);
@@ -54,10 +55,10 @@ class ParameterController extends Controller
     public function store(ParameterRequest $request)
     {
         $parameter = Parameter::create($request->validated());
+
         $parameter->companies()->sync($request->get('companies'));
 
-
-        self::saveParameters($parameter, $request->get('options'), $request->get('companies'));
+        self::saveParameters($parameter, $request->get('options') ?? []);
 
         return redirect()
             ->route('parameters.edit', $parameter)
@@ -76,6 +77,7 @@ class ParameterController extends Controller
                         fn($query) => $query->select(['id', 'name'])
                 ])
                     ->select(['id', 'text'])->get(),
+                'parameterCompanies' => $parameter->getRelationValue('companies'),
                 'companies' => Company::isInquirable()->select(['id','name'])->get(),
                 'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => ucfirst($key))->toArray()
             ]);
@@ -93,6 +95,7 @@ class ParameterController extends Controller
                         fn($query) => $query->select(['id', 'name'])
                     ])
                     ->select(['id', 'text'])->get(),
+                'parameterCompanies' => $parameter->getRelationValue('companies'),
                 'companies' => Company::isInquirable()->select(['id','name'])->get(),
                 'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => ucfirst($key))->toArray()
             ]);
@@ -104,18 +107,18 @@ class ParameterController extends Controller
 
         $parameter->companies()->sync($request->get('companies'));
 
-        self::saveParameters($parameter, $request->get('options'), $request->get('companies'));
+        self::saveParameters($parameter, $request->get('options') ?? []);
 
         return back()->withNotify('info', $parameter->getAttribute('name'));
     }
 
-    public static function saveParameters($parameter, $requestOptions, $requestCompanies)
+    public static function saveParameters($parameter, $requestOptions)
     {
         // detach all relations before adding new ones
         $parameter->options()->detach();
 
-        foreach ($requestCompanies as $company){
-            $parameter->options()->attach($requestOptions, ['company_id' => $company]);
+        foreach ($requestOptions as $index => $options){
+            $parameter->options()->attach($options, ['company_id' => $index]);
         }
     }
 
