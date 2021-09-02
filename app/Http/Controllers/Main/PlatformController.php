@@ -35,7 +35,7 @@ class PlatformController extends Controller
 
     public function dashboard(): View
     {
-        $inquiries = Inquiry::whereDate('datetime', Carbon::today())->get()->count();
+        $inquiries = Inquiry::IsReal()->whereDate('datetime', Carbon::today())->get()->count();
         return view('panel.pages.main.dashboard', ['inquiries' => $inquiries]);
     }
 

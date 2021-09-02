@@ -28,6 +28,11 @@ class Inquiry extends Model
        return collect($this->getFillable());
     }
 
+    public function scopeIsReal($query)
+    {
+        return $query->where('inquiry_id', null);
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

@@ -25,7 +25,7 @@ class UserRequest extends FormRequest
             'serial'         => 'nullable|string|max:255',
             'serial_pattern' => 'nullable|string|max:255',
             'fin'            => 'nullable|string|max:255',
-            'email'          => 'nullable|email:rfc,dns|unique:users,email,' . $this->user->id,
+            'email'          => 'required|email:rfc,dns|unique:users,email,' . $this->user->id,
             'email_coop'     => 'required|email:rfc,dns|unique:users,email_coop,' . $this->user->id,
             'position'       => 'nullable|string|max:255',
             'phone'          => 'nullable|string|max:255',
