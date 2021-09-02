@@ -138,4 +138,24 @@ class User extends Authenticatable
        return optional($this->defaults()->where('column', $column)->first())->getAttribute('value');
     }
 
+    public function setPhoneCoopAttribute($value)
+    {
+        return substr(str_replace([' ', '-'], '', $value), -9,9);
+    }
+
+    public function setPhoneAttribute($value)
+    {
+        return substr(str_replace([' ', '-'], '', $value), -9,9);
+    }
+
+    public function getPhoneCoopAttribute($value)
+    {
+        return substr(str_replace([' ', '-'], '', $value), -9,9);
+    }
+
+    public function getPhoneAttribute($value)
+    {
+        return substr(str_replace([' ', '-'], '', $value), -9,9);
+    }
+
 }
