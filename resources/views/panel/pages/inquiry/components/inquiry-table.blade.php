@@ -75,6 +75,7 @@
                     <th>{{__('translates.fields.clientName')}}</th>
                     <th>{{__('translates.fields.writtenBy')}}</th>
                     <th>{{__('translates.fields.subject')}}</th>
+                    <th>Status</th>
                     <th>{{__('translates.fields.actions')}}</th>
                 </tr>
             </thead>
@@ -88,6 +89,7 @@
                     <td>{{optional($inquiry->getParameter('fullname'))->getAttribute('value')}}</td>
                     <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}}</td>
                     <td>{{optional($inquiry->getParameter('subject'))->getAttribute('text')}}</td>
+                    <td>{{optional($inquiry->getParameter('status'))->getAttribute('text')}}</td>
                     <td>
                         <div class="btn-sm-group" >
                             @if($trashBox)

@@ -40,6 +40,7 @@ return [
         'clientName' => 'Client Name',
         'writtenBy' => 'Written By',
         'subject' => 'Subject',
+        'status' => 'Status',
         'actions' => 'Actions',
         'contactMethod' => 'Contact method',
         'phone' => 'Phone',

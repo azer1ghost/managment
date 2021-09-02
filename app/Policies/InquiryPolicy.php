@@ -25,6 +25,9 @@ class InquiryPolicy
     public function view(User $user, Inquiry $inquiry): bool
     {
         return
+            $user->isDeveloper() ||
+            $user->isAdministrator() ||
+            $user->role->hasPermission('viewAll-inquiry') ||
             $user->role->hasPermission(__FUNCTION__."-{$this->class}") &&
             $inquiry->getAttribute('user_id') === $user->getAttribute('id');
     }
