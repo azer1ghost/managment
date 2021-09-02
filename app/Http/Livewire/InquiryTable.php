@@ -20,6 +20,7 @@ class InquiryTable extends Component
     public bool $trashBox = false;
 
     public $subjects;
+    public $statuses;
     public $companies;
     public $kinds;
 
@@ -32,11 +33,12 @@ class InquiryTable extends Component
     public array $parameterFilters = [
         'subjects'   => [],
         'kinds'      => [],
+        'status'     => [],
         'client_code' => '',
         'fullname' => ''
     ];
 
-    public string $daterange, $fakeDaterange;
+    public string $daterange;
 
     public array $range = [
         'from' => null,
@@ -48,6 +50,7 @@ class InquiryTable extends Component
         $this->updateDaterange($this->daterange = implode(' - ', [now()->firstOfMonth()->format('d/m/Y'), now()->format('d/m/Y')]));
 
         $this->subjects  = Parameter::where('name', 'subject')->first()->options->unique();
+        $this->statuses  = Parameter::where('name', 'status')->first()->options->unique();
         $this->companies = Company::whereNotIn('id', [1])->get();
     }
 

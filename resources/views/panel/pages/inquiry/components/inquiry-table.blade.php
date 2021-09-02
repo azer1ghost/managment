@@ -44,6 +44,15 @@
         <div class="form-group col-12 col-md-7 mb-3 mb-md-0 d-flex justify-content-end align-items-center">
             <button type="submit" class="btn btn-outline-primary"><i class="fas fa-filter"></i></button>
         </div>
+
+        <div class="form-group col-12 col-md-5 mb-3 mt-3 mb-md-0" wire:ignore>
+            <label class="d-block" for="subjectFilter">Status</label>
+            <select id="subjectFilter" multiple class="filterSelector form-control" data-width="fit" wire:model.defer="parameterFilters.status" title="{{__('translates.filters.select')}}" >
+                @foreach($statuses as $status)
+                    <option value="{{$status->id}}">{{ucfirst($status->text)}}</option>
+                @endforeach
+            </select>
+        </div>
     </form>
 
     <div class="col-12">
