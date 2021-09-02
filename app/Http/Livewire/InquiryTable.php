@@ -48,7 +48,7 @@ class InquiryTable extends Component
 
         $this->updateDaterange($this->daterange = implode(' - ', [now()->firstOfMonth()->format('d/m/Y'), now()->format('d/m/Y')]));
 
-        $this->subjects  = Parameter::where('name', 'subject')->first()->options;
+        $this->subjects  = Parameter::where('name', 'subject')->first()->options->unique();
         $this->companies = Company::whereNotIn('id', [1])->get();
     }
 
