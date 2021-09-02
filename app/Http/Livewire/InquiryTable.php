@@ -45,7 +45,6 @@ class InquiryTable extends Component
 
     public function mount()
     {
-
         $this->updateDaterange($this->daterange = implode(' - ', [now()->firstOfMonth()->format('d/m/Y'), now()->format('d/m/Y')]));
 
         $this->subjects  = Parameter::where('name', 'subject')->first()->options->unique();
