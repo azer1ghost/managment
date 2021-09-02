@@ -1,5 +1,7 @@
 @extends('layouts.main')
 
+@section('title', __('translates.navbar.signature'))
+
 @section('content')
     <div class="container">
         <div class="row d-flex align-content-center">

@@ -1,8 +1,6 @@
 @extends('layouts.main')
 
-@section('style')
-
-@endsection
+@section('title', __('translates.navbar.inquiry'))
 
 @section('content')
 <div class="container">

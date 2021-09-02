@@ -53,6 +53,26 @@ return [
         'back'   => 'Geri',
         'search' => 'Axtar',
         'filter' => 'Filterlə',
+    ],
+
+    'navbar' => [
+        'general'    => 'Ümumi',
+        'welcome'    => 'Xoş gəldiniz',
+        'dashboard'  => 'Məlumat Paneli',
+        'cabinet'    => 'Kabinet',
+        'company'    => 'Şirkətlər',
+        'account'    => 'Hesab',
+        'signature'  => 'İmza',
+        'inquiry'    => 'Sorğular',
+        'parameter'  => 'Parametrlər',
+        'option'     => 'Seçimlər',
+        'role'       => 'Rollar',
+        'user'       => 'İstifadəçilər',
+        'department' => 'Şöbələr',
+    ],
+
+    'date' => [
+        'today' => 'Bu gün',
     ]
 
 ];

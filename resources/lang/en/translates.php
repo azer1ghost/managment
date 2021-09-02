@@ -56,7 +56,26 @@ return [
         'back'   => 'Back',
         'search' => 'Search',
         'filter' => 'Filter'
-    ]
+    ],
 
+    'navbar' => [
+        'general'    => 'General',
+        'dashboard'  => 'Dashboard',
+        'welcome'    => 'Welcome',
+        'cabinet'    => 'Cabinet',
+        'company'    => 'Companies',
+        'account'    => 'Account',
+        'signature'  => 'Signature',
+        'inquiry'    => 'Inquiries',
+        'parameter'  => 'Parameters',
+        'option'     => 'Options',
+        'role'       => 'Roles',
+        'user'       => 'Users',
+        'department' => 'Departments',
+    ],
+
+    'date' => [
+        'today' => 'Today',
+    ]
 
 ];

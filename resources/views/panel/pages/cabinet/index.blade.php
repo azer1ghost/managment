@@ -1,4 +1,7 @@
 @extends('layouts.main')
+
+@section('title', __('translates.navbar.cabinet'))
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
