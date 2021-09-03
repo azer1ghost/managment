@@ -97,7 +97,7 @@
                     <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}}</td>
                     <td>{{optional($inquiry->getParameter('subject'))->getAttribute('text')}}</td>
                     <td wire:ignore>
-                        <select @if (optional($inquiry->getParameter('status'))->getAttribute('id') == 22 || !auth()->user()->can('view', $inquiry) ) disabled @endif class="filterSelector" data-inquiry="{{$inquiry->getAttribute('id')}}">
+                        <select @if (optional($inquiry->getParameter('status'))->getAttribute('id') == 22 || !auth()->user()->can('view', $inquiry) ) disabled @endif class="filterSelector" data-width="fit" data-inquiry="{{$inquiry->getAttribute('id')}}">
                             <option value="null">@lang('translates.filters.select')</option>
                             @foreach ($statuses as $status)
                                 <option
