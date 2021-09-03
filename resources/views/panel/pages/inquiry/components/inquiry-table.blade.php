@@ -52,14 +52,16 @@
                 @endforeach
             </select>
         </div>
-        <div class="form-group col-12 col-md-3 mb-3 mb-md-0"  wire:ignore>
-            <label class="d-block" for="writtenByFilter">{{__('translates.filters.written_by')}}</label>
-            <select id="writtenByFilter" class="filterSelector" data-width="fit" wire:model.defer="filters.user_id" title="{{__('translates.filters.written_by')}}" >
-                @foreach($users as $user)
-                    <option value="{{$user->getAttribute('id')}}">{{$user->getAttribute('name')}} {{$user->getAttribute('surname')}}</option>
-                @endforeach
-            </select>
-        </div>
+        @if(\App\Models\Inquiry::userCanViewAll())
+            <div class="form-group col-12 col-md-3 mb-3 mb-md-0"  wire:ignore>
+                <label class="d-block" for="writtenByFilter">{{__('translates.filters.written_by')}}</label>
+                <select id="writtenByFilter" class="filterSelector" data-width="fit" wire:model.defer="filters.user_id" title="{{__('translates.filters.written_by')}}" >
+                    @foreach($users as $user)
+                        <option value="{{$user->getAttribute('id')}}">{{$user->getAttribute('name')}} {{$user->getAttribute('surname')}}</option>
+                    @endforeach
+                </select>
+            </div>
+        @endif
         <div class="col-12"></div>
         <div class="form-group col-12 col-md-3 mt-2 mb-3 mb-md-0">
             <label for="clientNameFilter">{{__('translates.filters.client_name')}}</label>

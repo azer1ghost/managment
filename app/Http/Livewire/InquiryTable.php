@@ -71,12 +71,6 @@ class InquiryTable extends Component
         $this->render();
     }
 
-    public function canViewAll(): bool
-    {
-        $user = auth()->user();
-        return $user->isDeveloper() || $user->isAdministrator() || $user->role->hasPermission('viewAll-inquiry');
-    }
-
     public function updateInquiryStatus($inquiry_id, $oldVal, $val)
     {
         $inquiry = Inquiry::find($inquiry_id);
@@ -101,7 +95,7 @@ class InquiryTable extends Component
         return view('panel.pages.inquiry.components.inquiry-table', [
             'inquiries' => Inquiry::query()
                 ->withoutBackups()
-                ->when(!$this->canViewAll(), function ($query){
+                ->when(!Inquiry::userCanViewAll(), function ($query){
                     return $query->where('user_id', auth()->id());
                 })
                 //->select('id', 'code', 'user_id', 'datetime', 'company_id', 'fullname', 'subject', 'created_at')
