@@ -52,7 +52,7 @@ class InquiryController extends Controller
             ->editableInquiries()
             ->attach(
                 $inquiry->getAttribute('id'),
-                ['editable_ended_at' => $inquiry->getAttribute('created_at')->addMinutes(7)]
+                ['editable_ended_at' => $inquiry->getAttribute('created_at')->addHours(5)] //->addMinutes(7)
             );
 
         return redirect()->route('inquiry.index')->withNotify('info', 'Inquiry');
