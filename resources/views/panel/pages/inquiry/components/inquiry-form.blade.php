@@ -2,8 +2,20 @@
     @csrf
     @method($method)
 
-    <x-input::text name="date" :label="__('translates.fields.date')" value="{{$datetime->format('d-m-Y')}}" type="text" width="3" class="pr-2" />
-    <x-input::text name="time" :label="__('translates.fields.time')" value="{{$datetime->format('H:i')}}" type="time" width="3" class="pr-2" />
+    <div wire:loading.delay class="col-12">
+        <div style="position: absolute;right: 0;top: -25px">
+            <div class="spinner-border text-primary" role="status"></div>
+        </div>
+    </div>
+
+    <div wire:offline class="col-12" >
+        <div class="text-danger" style="position: absolute;right: 0;top: -25px">
+            <i class="fas fa-exclamation-triangle fa-2x"></i>
+        </div>
+    </div>
+
+    <x-input::text wire:ignore name="date" :label="__('translates.fields.date')" value="{{$datetime->format('d-m-Y')}}" type="text" width="3" class="pr-2" />
+    <x-input::text wire:ignore name="time" :label="__('translates.fields.time')" value="{{$datetime->format('H:i')}}" type="time" width="3" class="pr-2" />
 
     <div class="form-group col-md-3">
         <label>{{__('translates.fields.company')}}</label>
@@ -56,6 +68,7 @@
         <button class="btn btn-outline-primary float-right">Save</button>
     </div>
     @endif
+
 </form>
 
 @if(is_null($action))
