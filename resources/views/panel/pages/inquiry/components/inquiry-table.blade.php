@@ -97,7 +97,7 @@
                     <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}}</td>
                     <td>{{optional($inquiry->getParameter('subject'))->getAttribute('text')}}</td>
                     <td>
-                        <select @if (optional($inquiry->getParameter('status'))->getAttribute('id') == 22 || !auth()->user()->can('view', $inquiry) ) disabled @endif class="form-control" style="width:auto;" onfocus="this.oldvalue = this.value" onchange="statusChanged({{$inquiry->getAttribute('id')}}, this.oldvalue, this.value)">
+                        <select @if (optional($inquiry->getParameter('status'))->getAttribute('id') == 22 || !auth()->user()->can('view', $inquiry) ) disabled @endif class="form-control" style="width:auto;" onfocus="this.oldvalue = this.value" onchange="inquiryStatusHandler({{$inquiry->getAttribute('id')}}, this.oldvalue, this.value)">
                             <option value="null">@lang('translates.filters.select')</option>
                             @foreach ($statuses as $status)
                                 <option
@@ -182,7 +182,7 @@
         }
         addEventListener('alert', alertHandler);
 
-        function statusChanged($inquiryId, oldVal, val){
+        function inquiryStatusHandler($inquiryId, oldVal, val){
             Livewire.emit('statusChanged', +$inquiryId, +oldVal, +val)
         }
 
@@ -190,7 +190,6 @@
 
     <script>
         $('.filterSelector').selectpicker()
-        $('.statusSelector').selectpicker()
 
         $(function() {
             $('input[name="daterange"]').daterangepicker({
