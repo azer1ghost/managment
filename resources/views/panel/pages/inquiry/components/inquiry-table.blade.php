@@ -94,7 +94,7 @@
                     <th>{{__('translates.fields.clientName')}}</th>
                     <th>{{__('translates.fields.writtenBy')}}</th>
                     <th>{{__('translates.fields.subject')}}</th>
-                    <th>Status</th>
+                    <th class="text-center">Status</th>
                     <th>{{__('translates.fields.actions')}}</th>
                 </tr>
             </thead>
@@ -108,18 +108,22 @@
                     <td>{{optional($inquiry->getParameter('fullname'))->getAttribute('value')}}</td>
                     <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}}</td>
                     <td>{{optional($inquiry->getParameter('subject'))->getAttribute('text')}}</td>
-                    <td>
-                        <select @if (optional($inquiry->getParameter('status'))->getAttribute('id') == 22 || !auth()->user()->can('view', $inquiry) ) disabled @endif class="form-control" style="width:auto;" onfocus="this.oldValue = this.value" id="inquiry-{{$inquiry->getAttribute('id')}}" onchange="inquiryStatusHandler(this, {{$inquiry->getAttribute('id')}}, '{{$inquiry->getAttribute('code')}}', this.oldValue, this.value)">
-                            <option value="null" @if (!optional($inquiry->getParameter('status'))->getAttribute('id')) selected @else  @endif>@lang('translates.filters.select')</option>
-                            @foreach ($statuses as $status)
-                                <option
-                                        @if ($status->getAttribute('id') == optional($inquiry->getParameter('status'))->getAttribute('id')) selected @endif
-                                        value="{{$status->getAttribute('id')}}"
-                                >
-                                    {{$status->getAttribute('text')}}
-                                </option>
-                            @endforeach
-                        </select>
+                    <td class="text-center">
+                        @if (optional($inquiry->getParameter('status'))->getAttribute('id') == 22 || !auth()->user()->can('view', $inquiry) )
+                            <i class="fa fa-check text-success" style="font-size: 18px"></i>
+                        @else
+                            <select class="form-control" style="width:auto;" onfocus="this.oldValue = this.value" id="inquiry-{{$inquiry->getAttribute('id')}}" onchange="inquiryStatusHandler(this, {{$inquiry->getAttribute('id')}}, '{{$inquiry->getAttribute('code')}}', this.oldValue, this.value)">
+                                <option value="null" @if (!optional($inquiry->getParameter('status'))->getAttribute('id')) selected @else  @endif>@lang('translates.filters.select')</option>
+                                @foreach ($statuses as $status)
+                                    <option
+                                            @if ($status->getAttribute('id') == optional($inquiry->getParameter('status'))->getAttribute('id')) selected @endif
+                                            value="{{$status->getAttribute('id')}}"
+                                    >
+                                        {{$status->getAttribute('text')}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        @endif
                     </td>
                     <td>
                         <div class="btn-sm-group" >
