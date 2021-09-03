@@ -96,8 +96,8 @@
                     <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}}</td>
                     <td>{{optional($inquiry->getParameter('subject'))->getAttribute('text')}}</td>
                     <td>
-                        <select @if (optional($inquiry->getParameter('status'))->getAttribute('id') == 22 || !auth()->user()->can('view', $inquiry) ) disabled @endif class="form-control" style="width:auto;" onfocus="this.oldvalue = this.value" onchange="inquiryStatusHandler({{$inquiry->getAttribute('id')}}, this.oldvalue, this.value)">
-                            <option value="null" >@lang('translates.filters.select')</option>
+                        <select @if (optional($inquiry->getParameter('status'))->getAttribute('id') == 22 || !auth()->user()->can('view', $inquiry) ) disabled @endif class="form-control" style="width:auto;" onfocus="this.oldValue = this.value" id="inquiry-{{$inquiry->getAttribute('id')}}" onchange="inquiryStatusHandler(this, {{$inquiry->getAttribute('id')}}, '{{$inquiry->getAttribute('code')}}', this.oldValue, this.value)">
+                            <option value="null" @if (!optional($inquiry->getParameter('status'))->getAttribute('id')) selected @else  @endif>@lang('translates.filters.select')</option>
                             @foreach ($statuses as $status)
                                 <option
                                         @if ($status->getAttribute('id') == optional($inquiry->getParameter('status'))->getAttribute('id')) selected @endif
@@ -181,10 +181,25 @@
         }
         addEventListener('alert', alertHandler);
 
-        function inquiryStatusHandler($inquiryId, oldVal, val){
-            Livewire.emit('statusChanged', +$inquiryId, +oldVal, +val)
+        function inquiryStatusHandler(element, inquiryId, mgCode, oldVal, val){
+            $.confirm({
+                title: `${mgCode} update`,
+                content: `Are you sure to change status from ${$("#" + $(element).attr('id') + ` option[value=${oldVal}]`).text()} to ${$("#" + $(element).attr('id') + ` option[value=${val}]`).text()}?`,
+                autoClose: 'confirm|8000',
+                icon: 'fa fa-question',
+                type: 'red',
+                theme: 'modern',
+                typeAnimated: true,
+                buttons: {
+                    confirm: function () {
+                        Livewire.emit('statusChanged', +inquiryId, +oldVal, +val)
+                    },
+                    cancel: function () {
+                        $(element).val(oldVal);
+                    },
+                }
+            });
         }
-
     </script>
 
     <script>
