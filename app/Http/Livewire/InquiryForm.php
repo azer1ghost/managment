@@ -32,14 +32,11 @@ class InquiryForm extends Component
         $this->datetime = $this->inquiry->getAttribute('datetime') ?? now();
         $this->note = $this->inquiry->getAttribute('note');
 
-        if (in_array(auth()->user()->getAttribute('company_id'), $this->companies->pluck('id')->toArray()))
-        {
-            $this->updatedSelectedCompany(auth()->user()->getAttribute('company_id'));
-        }
-        elseif ($this->inquiry->getAttribute('company_id'))
-        {
+        if ($this->inquiry->getAttribute('company_id')) {
             $this->updatedSelectedCompany($this->inquiry->getAttribute('company_id'));
-        }else{
+        } elseif (in_array(auth()->user()->getAttribute('company_id'), $this->companies->pluck('id')->toArray())) {
+            $this->updatedSelectedCompany(auth()->user()->getAttribute('company_id'));
+        } else{
             $this->selected['company'] = null;
         }
     }

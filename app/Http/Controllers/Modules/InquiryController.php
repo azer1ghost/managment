@@ -46,7 +46,7 @@ class InquiryController extends Controller
             )
         );
 
-        $inquiry->parameters()->sync(syncResolver($request->get('parameters'), 'value'));
+        $inquiry->parameters()->sync(syncResolver($request->get('parameters') ?? [], 'value'));
 
         auth()->user()
             ->editableInquiries()
@@ -96,10 +96,10 @@ class InquiryController extends Controller
 
         if ($inquiry->getChanges() || $changedParams) {
            $backup = $inquiry->backups()->create($oldInquiry);
-           $backup->parameters()->sync(syncResolver($oldParameters, 'value'));
+           $backup->parameters()->sync(syncResolver($oldParameters ?? [], 'value'));
         }
 
-        $inquiry->parameters()->sync(syncResolver($newParameters, 'value'));
+        $inquiry->parameters()->sync(syncResolver($newParameters ?? [], 'value'));
 
         return redirect()->route('inquiry.index')->withNotify('info', 'Inquiry Updated');
     }
@@ -133,7 +133,7 @@ class InquiryController extends Controller
 
         if (
             $inquiry->update($attributes) &&
-            $inquiry->parameters()->sync(syncResolver($parameters, 'value'))
+            $inquiry->parameters()->sync(syncResolver($parameters ?? [], 'value'))
         ) {
            return response('OK');
         }

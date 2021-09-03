@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
-<div class="component row justify-content-between">
+<div>
     <form wire:submit.prevent="filter" method="POST" class="row">
         <div class="form-group col-12 col-md-3 mb-3 mb-md-0" >
             <label for="daterange">{{__('translates.filters.date')}}</label>
@@ -14,7 +14,7 @@
             <input type="search" id="codeFilter" placeholder="{{__('translates.placeholders.code')}}" class="form-control" wire:model.defer="filters.code">
         </div>
 
-        <div class="form-group col-12 col-md-5 mb-3 mb-md-0" wire:ignore>
+        <div class="form-group col-12 col-md-4 mb-3 mb-md-0" wire:ignore>
             <label class="d-block" for="subjectFilter">{{__('translates.filters.subject')}}</label>
             <select id="subjectFilter" multiple class="filterSelector form-control" data-width="fit" wire:model.defer="parameterFilters.subjects" title="{{__('translates.filters.select')}}" >
                 @foreach($subjects as $subject)
@@ -23,16 +23,20 @@
             </select>
         </div>
 
-        <div class="form-group col-12 col-md-1 mb-3 mb-md-0">
+        <div class="form-group col-12 col-md-1 mb-3 mb-md-0 d-flex flex-column align-items-end pr-0">
+            <label for="">{{__('translates.buttons.filter')}}</label>
+            <button type="submit" class="btn btn-outline-primary"><i class="fas fa-filter"></i></button>
+        </div>
+        <div class="form-group col-12 col-md-1 mb-3 mb-md-0 d-flex flex-column align-items-end pl-0">
             <label for="">{{__('translates.filters.clear')}}</label>
-            <a class="form-control btn-outline-danger text-center" href="{{route('inquiry.index')}}">
-                <i class="fal fa-times-circle"></i>
+            <a href="{{route('inquiry.index')}}">
+                <button type="submit" class="btn btn-outline-danger text-center"><i class="fal fa-times-circle"></i></button>
             </a>
         </div>
 
         <div class="col-12 m-2 p-0"></div>
 
-        <div class="form-group col-12 col-md-5 mb-3 mb-md-0"  wire:ignore>
+        <div class="form-group col-12 col-md-3 mb-3 mb-md-0"  wire:ignore>
             <label class="d-block" for="companyFilter">{{__('translates.filters.company')}}</label>
             <select id="companyFilter" multiple class="filterSelector" data-width="fit" wire:model.defer="filters.company_id" title="{{__('translates.filters.select')}}" >
                 @foreach($companies as $company)
@@ -40,12 +44,7 @@
                 @endforeach
             </select>
         </div>
-
-        <div class="form-group col-12 col-md-7 mb-3 mb-md-0 d-flex justify-content-end align-items-center">
-            <button type="submit" class="btn btn-outline-primary"><i class="fas fa-filter"></i></button>
-        </div>
-
-        <div class="form-group col-12 col-md-5 mb-3 mt-3 mb-md-0" wire:ignore>
+        <div class="form-group col-12 col-md-3 mb-3 mb-md-0" wire:ignore>
             <label class="d-block" for="subjectFilter">Status</label>
             <select id="subjectFilter" multiple class="filterSelector form-control" data-width="fit" wire:model.defer="parameterFilters.status" title="{{__('translates.filters.select')}}" >
                 @foreach($statuses as $status)
@@ -98,7 +97,7 @@
                     <td>{{optional($inquiry->getParameter('subject'))->getAttribute('text')}}</td>
                     <td>
                         <select @if (optional($inquiry->getParameter('status'))->getAttribute('id') == 22 || !auth()->user()->can('view', $inquiry) ) disabled @endif class="form-control" style="width:auto;" onfocus="this.oldvalue = this.value" onchange="inquiryStatusHandler({{$inquiry->getAttribute('id')}}, this.oldvalue, this.value)">
-                            <option value="null">@lang('translates.filters.select')</option>
+                            <option value="null" >@lang('translates.filters.select')</option>
                             @foreach ($statuses as $status)
                                 <option
                                         @if ($status->getAttribute('id') == optional($inquiry->getParameter('status'))->getAttribute('id')) selected @endif
