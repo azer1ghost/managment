@@ -90,6 +90,7 @@ return [
 
     'date' => [
         'today' => 'Today',
+        'month' => 'This month'
     ],
 
     'register' => [

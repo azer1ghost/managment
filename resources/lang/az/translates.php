@@ -89,6 +89,7 @@ return [
 
     'date' => [
         'today' => 'Bu gün',
+        'month' => 'Bu ay',
     ],
 
     'register' => [

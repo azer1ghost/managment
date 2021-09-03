@@ -20,7 +20,10 @@
                                 </div>
                                 <div class="card-body">
                                     <i class="far fa-comments-alt fa-3x text-primary"></i>
-                                    <p class="font-weight-bold mb-0 mt-1" style="font-size: 18px">@lang('translates.date.today'): {{$inquiries}}</p>
+                                    <p class="font-weight-bold mb-0 mt-1" style="font-size: 18px">
+                                        @lang('translates.date.today'): {{$inquiriesToday}}<br>
+                                        @lang('translates.date.month'): {{$inquiriesMonth}}
+                                    </p>
                                 </div>
                             </div>
                         </div>
