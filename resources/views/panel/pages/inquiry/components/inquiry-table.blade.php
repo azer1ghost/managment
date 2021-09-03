@@ -96,8 +96,8 @@
                     <td>{{optional($inquiry->getParameter('fullname'))->getAttribute('value')}}</td>
                     <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}}</td>
                     <td>{{optional($inquiry->getParameter('subject'))->getAttribute('text')}}</td>
-                    <td wire:ignore>
-                        <select @if (optional($inquiry->getParameter('status'))->getAttribute('id') == 22 || !auth()->user()->can('view', $inquiry) ) disabled @endif class="statusSelector" data-width="fit" data-inquiry="{{$inquiry->getAttribute('id')}}">
+                    <td>
+                        <select @if (optional($inquiry->getParameter('status'))->getAttribute('id') == 22 || !auth()->user()->can('view', $inquiry) ) disabled @endif class="form-control" style="width:auto;" onfocus="this.oldvalue = this.value" onchange="statusChanged({{$inquiry->getAttribute('id')}}, this.oldvalue, this.value)">
                             <option value="null">@lang('translates.filters.select')</option>
                             @foreach ($statuses as $status)
                                 <option
@@ -182,9 +182,10 @@
         }
         addEventListener('alert', alertHandler);
 
-        $('.statusSelector').on('changed.bs.select', function(e, clickedIndex, isSelected, previousValue) {
-            Livewire.emit('statusChanged', +$(this).attr('data-inquiry'), +previousValue, +$(this).val())
-        });
+        function statusChanged($inquiryId, oldVal, val){
+            Livewire.emit('statusChanged', +$inquiryId, +oldVal, +val)
+        }
+
     </script>
 
     <script>
