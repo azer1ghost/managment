@@ -8,8 +8,8 @@
         </div>
     </div>
 
-    <div wire:offline class="col-12" >
-        <div class="text-danger" style="position: absolute;right: 0;top: -25px">
+    <div wire:offline class="col-12">
+        <div class="text-danger" title="Internet connection loss" style="position: absolute;right: 0;top: -25px">
             <img src="{{asset('assets/images/svgs/exclamation-triangle-solid.svg')}}" alt="internet-loss" height="25">
         </div>
     </div>
