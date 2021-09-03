@@ -37,7 +37,7 @@ class PlatformController extends Controller
     {
         $inquiriesToday = Inquiry::IsReal()->whereDate('datetime',  Carbon::today())->get()->count();
         $inquiriesMonth = Inquiry::IsReal()->whereMonth('datetime', Carbon::today())->get()->count();
-        []
+
         return view('panel.pages.main.dashboard', [
             'inquiriesToday' => $inquiriesToday,
             'inquiriesMonth' => $inquiriesMonth
