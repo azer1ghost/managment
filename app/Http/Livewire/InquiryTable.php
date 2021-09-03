@@ -17,12 +17,15 @@ class InquiryTable extends Component
 
     protected string $paginationTheme = 'bootstrap';
 
+    protected $listeners = ['statusChanged' => 'updateInquiryStatus'];
+
     public bool $trashBox = false;
 
     public $subjects;
     public $statuses;
     public $companies;
     public $kinds;
+    public $statusParameterId;
 
     public array $filters = [
         'code'       => null,
@@ -50,7 +53,11 @@ class InquiryTable extends Component
         $this->updateDaterange($this->daterange = implode(' - ', [now()->firstOfMonth()->format('d/m/Y'), now()->format('d/m/Y')]));
 
         $this->subjects  = Parameter::where('name', 'subject')->first()->options->unique();
+
         $this->statuses  = Parameter::where('name', 'status')->first()->options->unique();
+
+        $this->statusParameterId = Parameter::where('name', 'status')->first()->getAttribute('id');
+
         $this->companies = Company::whereNotIn('id', [1])->get();
     }
 
@@ -64,6 +71,25 @@ class InquiryTable extends Component
     {
         $user = auth()->user();
         return $user->isDeveloper() || $user->isAdministrator() || $user->role->hasPermission('viewAll-inquiry');
+    }
+
+    public function updateInquiryStatus($inquiry_id, $oldVal, $val)
+    {
+        $inquiry = Inquiry::find($inquiry_id);
+
+        $inquiry->parameters()->detach($this->statusParameterId);
+
+        $inquiry->parameters()->attach($this->statusParameterId, ['value' => $val]);
+
+        $oldOption = $oldVal ? Option::where('id', $oldVal)->first()->getAttribute('text') : __('translates.filters.select');
+
+        $newOption = $val    ? Option::where('id', $val)->first()->getAttribute('text')    : __('translates.filters.select');
+
+        $this->dispatchBrowserEvent(
+            'alert', [
+                'type'    => 'blue',
+                'title'   =>  __('translates.flash_messages.inquiry_status_updated.title', ['code' => $inquiry->getAttribute('code')]),
+                'message' =>  __('translates.flash_messages.inquiry_status_updated.msg',   ['prev' => $oldOption, 'next' => $newOption])]);
     }
 
     public function render()

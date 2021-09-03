@@ -10,7 +10,7 @@
             </div>
             <div class="col-md-10">
                 <div class="card">
-                    <div class="card-header">@lang('user')</div>
+                    <div class="card-header">@lang('translates.navbar.account')</div>
                     <div class="card-body">
                         <form class="col-md-12 form-row" action="{{route('account.save',auth()->user())}}" method="POST" enctype="multipart/form-data">
                             @csrf

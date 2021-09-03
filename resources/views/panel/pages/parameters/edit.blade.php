@@ -16,9 +16,9 @@
                 <div class="card-header">
                     <a href="{{route('parameters.index')}}" class="btn btn-sm btn-outline-primary mr-4">
                         <i class="fa fa-arrow-left"></i>
-                        Back
+                        @lang('translates.buttons.back')
                     </a>
-                    Parameters
+                    @lang('translates.navbar.parameter')
                 </div>
                 <div class="card-body">
                     <form action="{{$action}}" method="POST" enctype="multipart/form-data">

@@ -13,7 +13,7 @@
                 <div class="card-header">
                     <a href="{{route('inquiry.index')}}" class="btn btn-sm btn-outline-primary mr-4">
                         <i class="fa fa-arrow-left"></i>
-                        {{__('translates.buttons.back')}}
+                        @lang('translates.buttons.back')
                     </a>
                     {{optional($data)->getAttribute('code')}}
                     @if($data->backups()->exists())

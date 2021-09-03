@@ -11,7 +11,7 @@
         </div>
         <div class="col-md-10">
             <div class="card">
-                <div class="card-header">Call Center</div>
+                <div class="card-header">@lang('translates.navbar.inquiry')</div>
                 <div class="card-body">
                     @livewire('inquiry-table', ['trashBox' => $trashBox])
                 </div>

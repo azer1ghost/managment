@@ -11,7 +11,7 @@
         <div class="col-md-10">
             <div class="card">
                 <div class="card-header">
-                    @lang('companies')
+                    @lang('translates.navbar.company')
                 </div>
                 <div class="card-body">
                     <div class="float-right mb-2">
@@ -23,9 +23,9 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Logo</th>
-                                <th scope="col">Company</th>
-                                <th scope="col">Actions</th>
+                                <th scope="col">@lang('translates.fields.logo')</th>
+                                <th scope="col">@lang('translates.fields.company')</th>
+                                <th scope="col">@lang('translates.fields.actions')</th>
                             </tr>
                         </thead>
                         <tbody>

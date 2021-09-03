@@ -68,12 +68,10 @@
             </a>
         </div>
         <div>
-            <p> Showing {{$inquiries->count()}} of {{$inquiries->total()}}</p>
+            <p> @lang('translates.total_items', ['count' => $inquiries->count(), 'total' => $inquiries->total()])</p>
         </div>
     </div>
-
-
-    <div class="col-md-12 mt-3 overflow-auto">
+    <div class="col-md-12 overflow-auto">
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -98,7 +96,19 @@
                     <td>{{optional($inquiry->getParameter('fullname'))->getAttribute('value')}}</td>
                     <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}}</td>
                     <td>{{optional($inquiry->getParameter('subject'))->getAttribute('text')}}</td>
-                    <td>{{optional($inquiry->getParameter('status'))->getAttribute('text')}}</td>
+                    <td wire:ignore>
+                        <select @if (optional($inquiry->getParameter('status'))->getAttribute('id') == 22 || !auth()->user()->can('view', $inquiry) ) disabled @endif class="filterSelector" data-inquiry="{{$inquiry->getAttribute('id')}}">
+                            <option value="null">@lang('translates.filters.select')</option>
+                            @foreach ($statuses as $status)
+                                <option
+                                        @if ($status->getAttribute('id') == optional($inquiry->getParameter('status'))->getAttribute('id')) selected @endif
+                                        value="{{$status->getAttribute('id')}}"
+                                >
+                                    {{$status->getAttribute('text')}}
+                                </option>
+                            @endforeach
+                        </select>
+                    </td>
                     <td>
                         <div class="btn-sm-group" >
                             @if($trashBox)
@@ -134,6 +144,17 @@
                 </tr>
             @endforeach
             </tbody>
+            <div wire:loading.delay>
+                <div
+                        class="d-flex justify-content-center align-items-center"
+                        style="position: absolute;
+                               top: 0;left: 0;
+                               width: 100%;height: 100%;
+                               background: rgba(0, 0, 0, 0.5);z-index: 999;"
+                >
+                    <h3 class="text-white">@lang('translates.loading')...</h3>
+                </div>
+            </div>
         </table>
     </div>
     <div class="col-12">
@@ -142,16 +163,33 @@
         </div>
     </div>
 </div>
-
-
 @section('scripts')
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+    <script>
+        function alertHandler(event){
+            $.alert({
+                type:    event?.detail?.type,
+                title:   event?.detail?.title,
+                content: event?.detail?.message,
+                theme: 'modern',
+                typeAnimated: true
+            });
+        }
+        addEventListener('alert', alertHandler);
+
+        $('.filterSelector').on('changed.bs.select', function(e, clickedIndex, isSelected, previousValue) {
+            Livewire.emit('statusChanged', +$(this).attr('data-inquiry'), +previousValue, +$(this).val())
+        });
+    </script>
+
     <script>
         $('.filterSelector').selectpicker()
+
         $(function() {
             $('input[name="daterange"]').daterangepicker({
                 opens: 'left',
@@ -162,6 +200,7 @@
 
             });
         });
+
         $('#daterange').on('change', function (e) {
             @this.set('daterange', e.target.value)
         });
@@ -232,6 +271,7 @@
                 }
             });
         }
+
     </script>
 @endsection
 

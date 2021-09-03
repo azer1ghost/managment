@@ -11,7 +11,7 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">
-                        @lang('users')
+                        @lang('translates.navbar.user')
                     </div>
                     <form action="{{route('users.index')}}">
                         <div class="card-body">

@@ -15,7 +15,7 @@
                             <i class="fa fa-arrow-left"></i>
                             @lang('translates.buttons.back')
                         </a>
-                        Roles
+                        @lang('translates.navbar.role')
                     </div>
                     <div class="card-body">
                         <form action="{{$action}}" method="POST" enctype="multipart/form-data">

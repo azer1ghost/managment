@@ -79,6 +79,10 @@
                 background-position-x: 77vw;
             }
         }
+
+        .btn-sm{
+            margin-bottom: 3px !important;
+        }
     </style>
     @livewireStyles
 </head>

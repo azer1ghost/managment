@@ -15,7 +15,7 @@
                             <i class="fa fa-arrow-left"></i>
                             @lang('translates.buttons.back')
                         </a>
-                        Departments
+                        @lang('translates.navbar.department')
                     </div>
                     <div class="card-body">
                         <form action="{{$action}}" method="POST" enctype="multipart/form-data">

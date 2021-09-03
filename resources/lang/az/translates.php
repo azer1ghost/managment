@@ -28,7 +28,13 @@ return [
         'note' => 'Qeyd daxil edin',
         'fullname' => 'Tam adı daxil edin',
         'phone' => 'Telefon daxil edin',
-        'choose' => 'Seç'
+        'choose' => 'Seç',
+        'name'   => 'Adınızı daxil edin',
+        'surname'   => 'Soyadınızı daxil edin',
+        'mail_coop'   => 'Kooperativ e-poçtunuzu daxil edin',
+        'mail'   => 'E-poçtunuzu daxil edin',
+        'password' => 'Şifrə daxil edin',
+        'password_confirm' => 'Şifrə təsdiqini daxil edin',
     ],
 
     'fields' => [
@@ -45,6 +51,16 @@ return [
         'note' => 'Qeyd',
         'fullname' => 'Tam adı',
         'client' => 'Müştəri',
+        'logo' => 'Loqo',
+        'name' => 'Ad',
+        'address' => 'Ünvan',
+        'website' => 'Sayt',
+        'mobile' => 'Mobil',
+        'mail' => 'E-poçt',
+        'call_center' => 'Çağrı Mərkəzi',
+        'keywords' => 'Açar sözlər',
+        'about' => 'Haqqında'
+
     ],
 
     'buttons' => [
@@ -73,6 +89,38 @@ return [
 
     'date' => [
         'today' => 'Bu gün',
-    ]
+    ],
+
+    'register' => [
+        'register'  => 'Qeydiyyat',
+        'title'     => 'İşçi kimi qeydiyyatdan keçin',
+        'name'      => 'Ad',
+        'surname'   => 'Soyad',
+        'mail_coop' => 'Kooperativ e-poçt',
+        'mail' => 'E-poçt',
+        'department' => 'Şöbə',
+        'company' => 'Şirkət',
+        'password' => 'Şifrə',
+        'password_confirm' => 'Şifrə təsdiqi',
+    ],
+
+    'login' => [
+        'login' => 'Hesabınıza daxil olun',
+        'remember' => 'Yadda saxla',
+        'forgot_pwd' => 'Şifrəni unutmusan?',
+        'no_account' => 'Hesabınız yoxdur?',
+        'register_here' => 'Burada qeydiyyatdan keçin'
+    ],
+
+    'flash_messages' => [
+        'inquiry_status_updated' => [
+            'title' => ':code Yeniləndi',
+            'msg'   =>':prev, :next statusuna dəyiştirildi'
+        ]
+    ],
+
+    'loading' => 'Yüklənir',
+
+    'total_items' => 'Göstərilən: :count.  Ümumi: :total'
 
 ];
