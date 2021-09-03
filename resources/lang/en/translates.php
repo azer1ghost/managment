@@ -19,6 +19,8 @@ return [
         'code' => 'Filter by Code',
         'subject' => 'Filter by Subject',
         'company' => 'Filter by Company',
+        'client_name' => 'Filter by Client name',
+        'written_by' => 'Filter by Written by',
         'clear' => 'Clear',
         'select' => 'Not Selected'
     ],

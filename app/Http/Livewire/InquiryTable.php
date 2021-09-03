@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\Inquiry;
 use App\Models\Option;
 use App\Models\Parameter;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
 use Livewire\Component;
@@ -17,7 +18,7 @@ class InquiryTable extends Component
 
     protected string $paginationTheme = 'bootstrap';
 
-    protected $listeners = ['statusChanged' => 'updateInquiryStatus'];
+    protected $listeners = ['statusChanged' => 'updateInquiryStatus', 'updateFilter' => 'updateFilter'];
 
     public bool $trashBox = false;
 
@@ -25,12 +26,13 @@ class InquiryTable extends Component
     public $statuses;
     public $companies;
     public $kinds;
+    public $users;
     public $statusParameterId;
 
     public array $filters = [
         'code'       => null,
-        'datetime'   => null,
         'company_id' => [],
+        'user_id' => [],
     ];
 
     public array $parameterFilters = [
@@ -38,7 +40,7 @@ class InquiryTable extends Component
         'kinds'      => [],
         'status'     => [],
         'client_code' => '',
-        'fullname' => ''
+        'client_name' => '',
     ];
 
     public string $daterange;
@@ -59,9 +61,11 @@ class InquiryTable extends Component
         $this->statusParameterId = Parameter::where('name', 'status')->first()->getAttribute('id');
 
         $this->companies = Company::whereNotIn('id', [1])->get();
+
+        $this->users = User::has('inquiries')->get(['id', 'name', 'surname']);
     }
 
-    public function filter()
+    public function updateFilter()
     {
         $this->updateDaterange($this->daterange);
         $this->render();
@@ -116,7 +120,7 @@ class InquiryTable extends Component
                                  $query->where(\Str::singular($column), $value);
                             }
                             elseif (is_string($value)) {
-                                 $query->where(\Str::singular($column), 'like', "%$value%");
+                                $query->where(\Str::singular($column), 'like', "%$value%");
                             }
                             else {
                                  $query->where(\Str::singular($column), $value);

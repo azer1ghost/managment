@@ -3,8 +3,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
 <div>
-    <form wire:submit.prevent="filter" method="POST" class="row">
-        <div class="form-group col-12 col-md-3 mb-3 mb-md-0" >
+    <form id="inquiryFilterForm" class="row">
+        <div wire:ignore class="form-group col-12 col-md-3 mb-3 mb-md-0" >
             <label for="daterange">{{__('translates.filters.date')}}</label>
             <input type="text" placeholder="{{__('translates.placeholders.range')}}" id="daterange" name="daterange" wire:model.defer="daterange" class="form-control">
         </div>
@@ -18,7 +18,7 @@
             <label class="d-block" for="subjectFilter">{{__('translates.filters.subject')}}</label>
             <select id="subjectFilter" multiple class="filterSelector form-control" data-width="fit" wire:model.defer="parameterFilters.subjects" title="{{__('translates.filters.select')}}" >
                 @foreach($subjects as $subject)
-                    <option value="{{$subject->id}}">{{ucfirst($subject->text)}}</option>
+                    <option value="{{$subject->getAttribute('id')}}">{{ucfirst($subject->getAttribute('text'))}}</option>
                 @endforeach
             </select>
         </div>
@@ -40,17 +40,30 @@
             <label class="d-block" for="companyFilter">{{__('translates.filters.company')}}</label>
             <select id="companyFilter" multiple class="filterSelector" data-width="fit" wire:model.defer="filters.company_id" title="{{__('translates.filters.select')}}" >
                 @foreach($companies as $company)
-                    <option value="{{$company->id}}">{{ucfirst($company->name)}}</option>
+                    <option value="{{$company->getAttribute('id')}}">{{ucfirst($company->getAttribute('name'))}}</option>
                 @endforeach
             </select>
         </div>
         <div class="form-group col-12 col-md-3 mb-3 mb-md-0" wire:ignore>
-            <label class="d-block" for="subjectFilter">Status</label>
-            <select id="subjectFilter" multiple class="filterSelector form-control" data-width="fit" wire:model.defer="parameterFilters.status" title="{{__('translates.filters.select')}}" >
+            <label class="d-block" for="statusFilter">Status</label>
+            <select id="statusFilter" multiple class="filterSelector form-control" data-width="fit" wire:model.defer="parameterFilters.status" title="{{__('translates.filters.select')}}" >
                 @foreach($statuses as $status)
-                    <option value="{{$status->id}}">{{ucfirst($status->text)}}</option>
+                    <option value="{{$status->getAttribute('id')}}">{{ucfirst($status->getAttribute('text'))}}</option>
                 @endforeach
             </select>
+        </div>
+        <div class="form-group col-12 col-md-3 mb-3 mb-md-0"  wire:ignore>
+            <label class="d-block" for="writtenByFilter">{{__('translates.filters.written_by')}}</label>
+            <select id="writtenByFilter" class="filterSelector" data-width="fit" wire:model.defer="filters.user_id" title="{{__('translates.filters.written_by')}}" >
+                @foreach($users as $user)
+                    <option value="{{$user->getAttribute('id')}}">{{$user->getAttribute('name')}} {{$user->getAttribute('surname')}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-12"></div>
+        <div class="form-group col-12 col-md-3 mt-2 mb-3 mb-md-0">
+            <label for="clientNameFilter">{{__('translates.filters.client_name')}}</label>
+            <input type="search" id="clientNameFilter" placeholder="{{__('translates.placeholders.fullname')}}" class="form-control" wire:model.defer="parameterFilters.client_name">
         </div>
     </form>
 
@@ -211,13 +224,14 @@
                 locale: {
                     format: "DD/MM/YYYY",
                 }
-            }, function(start, end, label) {
-
-            });
+            }, function(start, end, label) {}
+            );
         });
 
-        $('#daterange').on('change', function (e) {
-            @this.set('daterange', e.target.value)
+        $('#inquiryFilterForm').submit(function (e){
+            e.preventDefault();
+            @this.set('daterange', $('#daterange').val())
+            Livewire.emit('updateFilter')
         });
 
         function deleteAction(url, name){

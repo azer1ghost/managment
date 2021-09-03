@@ -18,8 +18,10 @@ return [
         'code' => 'Kod üzrə filtrləyin',
         'subject' => 'Mövzuya görə filtrləyin',
         'company' => 'Şirkətə görə filtrləyin',
+        'client_name' => 'Müştəri adına görə filtrləyin',
+        'written_by' => 'Müəllif adına görə filtrləyin',
         'clear' => 'Sil',
-        'select' => 'Seçilməyib'
+        'select' => 'Seçilməyib',
     ],
 
     'placeholders' => [
