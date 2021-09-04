@@ -30,7 +30,7 @@
         <div class="form-group col-12 col-md-1 mb-3 mb-md-0 d-flex flex-column align-items-end pl-0">
             <label for="">{{__('translates.filters.clear')}}</label>
             <a href="{{route('inquiry.index')}}">
-                <button type="submit" class="btn btn-outline-danger text-center"><i class="fal fa-times-circle"></i></button>
+                <button type="button" class="btn btn-outline-danger text-center"><i class="fal fa-times-circle"></i></button>
             </a>
         </div>
 
