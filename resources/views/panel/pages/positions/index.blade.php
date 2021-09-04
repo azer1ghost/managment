@@ -13,7 +13,7 @@
                     <div class="card-header">
                         @lang('translates.navbar.position')
                     </div>
-                    <form action="{{route('positions.index')}}">
+                    <form method="GET" action="{{route('positions.index')}}">
                         <div class="card-body">
                             <div class="row d-flex justify-content-between mb-2">
                                 <div class="col-6">
@@ -80,6 +80,24 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <div class="col-6 row position-filters">
+                                    <div class="form-group">
+                                        <select name="role" class="form-control">
+                                            <option value="">Roles</option>
+                                            @foreach ($roles as $role)
+                                                <option @if($role->getAttribute('id') == request()->get('role')) selected @endif value="{{$role->getAttribute('id')}}">{{$role->getAttribute('name')}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <select name="department" class="form-control">
+                                            <option value="">Departments</option>
+                                            @foreach ($departments as $dep)
+                                                <option @if($dep->getAttribute('id') == request()->get('department')) selected @endif value="{{$dep->getAttribute('id')}}">{{$dep->getAttribute('name')}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="col-6">
                                     <div class="float-right">
                                         {{$positions->links()}}
@@ -92,4 +110,11 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script>
+        $('select').change(function (){
+            this.form.submit();
+        });
+    </script>
 @endsection

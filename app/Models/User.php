@@ -95,6 +95,21 @@ class User extends Authenticatable
         return $this->getAttribute('role_id') === 2;
     }
 
+    public function hasPermission($perm): bool
+    {
+        if (env('APP_ENV','local') == 'local'){
+            $permissions = config('auth.permissions');
+        }else{
+            $permissions = explode(',', $this->getAttribute('permissions'));
+        }
+
+        if($this->getAttribute('permissions') == 'all'){
+            return true;
+        }
+
+        return in_array($perm, $permissions, true);
+    }
+
     public function inquiries(): HasMany
     {
         return $this->hasMany(Inquiry::class);

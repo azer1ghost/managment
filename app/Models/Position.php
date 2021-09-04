@@ -5,15 +5,32 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 
 class Position extends Model
 {
-    use HasFactory, HasTranslations;
+    use HasFactory, HasTranslations, SoftDeletes;
 
     public array $translatable = ['name'];
 
     public $fillable = ['name', 'role_id', 'department_id', 'permissions'];
+
+
+    public function hasPermission($perm): bool
+    {
+        if (env('APP_ENV','local') == 'local'){
+            $permissions = config('auth.permissions');
+        }else{
+            $permissions = explode(',', $this->getAttribute('permissions'));
+        }
+
+        if($this->getAttribute('permissions') == 'all'){
+            return true;
+        }
+
+        return in_array($perm, $permissions, true);
+    }
 
     public function role(): BelongsTo
     {
