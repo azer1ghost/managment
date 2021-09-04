@@ -183,7 +183,7 @@ class InquiryForm extends Component
 
         $client_code = str_starts_with($client_code, $prefix) ? $client_code : $prefix.$value;
 
-        $apiURL = "http://api.mobex.az/v1/user/search?token=884h7d345&code={$client_code}";
+        $apiURL = "http://api.mobex.az/v1/user/search?token=884h7d345&value={$client_code}&key=customer_id";
 
         $response = Http::get($apiURL)->json();
 
