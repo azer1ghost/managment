@@ -15,7 +15,7 @@
     </div>
 
     <x-input::text wire:ignore name="date" :label="__('translates.fields.date')" value="{{$datetime->format('d-m-Y')}}" type="text" width="3" class="pr-2" />
-    <x-input::text wire:ignore name="time" max="{{now()->format('H:i')}}" :label="__('translates.fields.time')" value="{{$datetime->format('H:i')}}" type="time" width="3" class="pr-2" />
+    <x-input::text wire:ignore name="time" :label="__('translates.fields.time')" value="{{$datetime->format('H:i')}}" type="time" width="3" class="pr-2" />
 
     <div class="form-group col-md-3">
         <label>{{__('translates.fields.company')}}</label>
