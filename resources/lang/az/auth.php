@@ -13,8 +13,8 @@ return [
     |
     */
 
-    'failed' => 'These credentials do not match our records.',
-    'password' => 'The provided password is incorrect.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-    'verify-sms' => 'Your confirmation code is :code. Code is active in :minute minutes. Do not share code with anyone!'
+    'failed' => 'Məluamtlarınız bazamız ilə uyğun gəlmir',
+    'password' => 'Daxil edilən şifrə düzgün deyil',
+    'throttle' => 'Həddən artıq giriş cəhdi. :seconds saniyə sonra yenidən cəhd edin.',
+    'verify-sms' => 'Dogrulama kodun :code. Kod :minute deqiqe erzinde aktivdir. Kodu hech kim ile paylasmayin!'
 ];

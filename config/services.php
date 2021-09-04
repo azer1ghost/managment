@@ -31,9 +31,9 @@ return [
     ],
 
     'sms' => [
-        'url' => env('SMS_PROVIDER_URL'),
-        'user' => env('SMS_PROVIDER_USER'),
-        'password' => env('SMS_PROVIDER_PASS'),
+        'url' => env('POCT_GOYERCHINI_URL'),
+        'user' => env('POCT_GOYERCHINI_USER'),
+        'password' => env('POCT_GOYERCHINI_PASS'),
     ],
 
 ];

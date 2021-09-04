@@ -36,5 +36,10 @@ trait GetClassInfo
         }
     }
 
+    public function getClassRealName(): string
+    {
+        return (new \ReflectionClass(get_called_class()))->getShortName();
+    }
+
 
 }
