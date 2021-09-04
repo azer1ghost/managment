@@ -32,6 +32,7 @@ class Text extends Component
                 <input 
                        @if(key_exists('required', $attributes->getAttributes())) required @endif
                        @if(key_exists('readonly', $attributes->getAttributes())) readonly @endif
+                       @if(key_exists('max', $attributes->getAttributes())) max='{{$attributes['max']}}' @endif
                        type="{{$type}}"
                        class="form-control @error($name) is-invalid @enderror"
                        name="{{$name}}" 

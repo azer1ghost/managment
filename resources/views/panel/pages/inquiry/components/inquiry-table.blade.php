@@ -229,7 +229,8 @@
                 opens: 'left',
                 locale: {
                     format: "DD/MM/YYYY",
-                }
+                },
+                maxDate: new Date(),
             }, function(start, end, label) {}
             );
         });
