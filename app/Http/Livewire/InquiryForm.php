@@ -188,11 +188,13 @@ class InquiryForm extends Component
         $response = Http::get($apiURL)->json();
 
         if(!isset($response['errors'])){
+
             $this->selected['fullname'] = $response['full_name'];
+
             $this->selected['phone'] = $response['phone'];
-            $this->formFields['client_code']['class'] = "is-valid";
-            $this->formFields['fullname']['class'] = "is-valid";
-            $this->formFields['phone']['class'] = "is-valid";
+
+            $this->formFields['client_code']['class'] = $this->formFields['fullname']['class'] = $this->formFields['phone']['class'] = "is-valid";
+
         }
         else{
             $this->formFields['client_code']['class'] = "is-invalid";
