@@ -88,6 +88,7 @@ return [
         'role'       => 'Roles',
         'user'       => 'Users',
         'department' => 'Departments',
+        'position'   => 'Positions',
     ],
 
     'date' => [

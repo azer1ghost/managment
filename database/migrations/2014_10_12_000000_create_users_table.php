@@ -25,6 +25,8 @@ class CreateUsersTable extends Migration
             $table->string('fin')->nullable();
             $table->date('birthday')->nullable();
             $table->string('position')->nullable();
+            $table->integer('position_id')->nullable();
+            $table->text('permissions')->nullable();
             $table->string('department_id')->nullable();
             $table->string('email')->unique();
             $table->string('email_coop')->unique();

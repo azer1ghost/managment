@@ -99,6 +99,13 @@ class Sidebar extends Component
                 'permission' => 'viewAny-department',
             ],
 
+            (object) [
+                'title' => __('translates.navbar.position'),
+                'icon'  => 'fas fa-briefcase',
+                'url'  => route('positions.index'),
+                'permission' => 'viewAny-position',
+            ],
+
         ];
     }
 

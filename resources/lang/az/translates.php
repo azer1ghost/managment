@@ -87,6 +87,7 @@ return [
         'role'       => 'Rollar',
         'user'       => 'İstifadəçilər',
         'department' => 'Şöbələr',
+        'position'   => 'Vəzifə',
     ],
 
     'date' => [
