@@ -1,4 +1,7 @@
 @extends('layouts.main')
+
+@section('title', __('translates.navbar.parameter'))
+
 @section('style')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 @endsection
@@ -13,9 +16,9 @@
                 <div class="card-header">
                     <a href="{{route('parameters.index')}}" class="btn btn-sm btn-outline-primary mr-4">
                         <i class="fa fa-arrow-left"></i>
-                        Back
+                        @lang('translates.buttons.back')
                     </a>
-                    Parameters
+                    @lang('translates.navbar.parameter')
                 </div>
                 <div class="card-body">
                     <form action="{{$action}}" method="POST" enctype="multipart/form-data">

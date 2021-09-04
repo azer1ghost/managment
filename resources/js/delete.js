@@ -20,6 +20,8 @@ $( function() {
         changeYear: true,
         dateFormat: "dd-mm-yy",
         showAnim: "slideDown",
+        minDate: '-1m',
+        maxDate: new Date()
     });
 
     $("a[delete]").click(function(e){

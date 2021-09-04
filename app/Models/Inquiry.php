@@ -93,6 +93,12 @@ class Inquiry extends Model
         return $code;
     }
 
+    public static function userCanViewAll(): bool
+    {
+        $user = auth()->user();
+        return $user->isDeveloper() || $user->isAdministrator() || $user->role->hasPermission('viewAll-inquiry');
+    }
+
 }
 
 

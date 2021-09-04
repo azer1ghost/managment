@@ -2,9 +2,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
-<div class="component row justify-content-between">
-    <form wire:submit.prevent="filter" method="POST" class="row">
-        <div class="form-group col-12 col-md-3 mb-3 mb-md-0" >
+<div>
+    <form id="inquiryFilterForm" class="row">
+        <div wire:ignore class="form-group col-12 col-md-3 mb-3 mb-md-0" >
             <label for="daterange">{{__('translates.filters.date')}}</label>
             <input type="text" placeholder="{{__('translates.placeholders.range')}}" id="daterange" name="daterange" wire:model.defer="daterange" class="form-control">
         </div>
@@ -14,44 +14,58 @@
             <input type="search" id="codeFilter" placeholder="{{__('translates.placeholders.code')}}" class="form-control" wire:model.defer="filters.code">
         </div>
 
-        <div class="form-group col-12 col-md-5 mb-3 mb-md-0" wire:ignore>
+        <div class="form-group col-12 col-md-4 mb-3 mb-md-0" wire:ignore>
             <label class="d-block" for="subjectFilter">{{__('translates.filters.subject')}}</label>
             <select id="subjectFilter" multiple class="filterSelector form-control" data-width="fit" wire:model.defer="parameterFilters.subjects" title="{{__('translates.filters.select')}}" >
                 @foreach($subjects as $subject)
-                    <option value="{{$subject->id}}">{{ucfirst($subject->text)}}</option>
+                    <option value="{{$subject->getAttribute('id')}}">{{ucfirst($subject->getAttribute('text'))}}</option>
                 @endforeach
             </select>
         </div>
 
-        <div class="form-group col-12 col-md-1 mb-3 mb-md-0">
+        <div class="form-group col-12 col-md-1 mb-3 mb-md-0 d-flex flex-column align-items-end pr-0">
+            <label for="">{{__('translates.buttons.filter')}}</label>
+            <button type="submit" class="btn btn-outline-primary"><i class="fas fa-filter"></i></button>
+        </div>
+        <div class="form-group col-12 col-md-1 mb-3 mb-md-0 d-flex flex-column align-items-end pl-0">
             <label for="">{{__('translates.filters.clear')}}</label>
-            <a class="form-control btn-outline-danger text-center" href="{{route('inquiry.index')}}">
-                <i class="fal fa-times-circle"></i>
+            <a href="{{route('inquiry.index')}}">
+                <button type="button" class="btn btn-outline-danger text-center"><i class="fal fa-times-circle"></i></button>
             </a>
         </div>
 
         <div class="col-12 m-2 p-0"></div>
 
-        <div class="form-group col-12 col-md-5 mb-3 mb-md-0"  wire:ignore>
+        <div class="form-group col-12 col-md-3 mb-3 mb-md-0"  wire:ignore>
             <label class="d-block" for="companyFilter">{{__('translates.filters.company')}}</label>
             <select id="companyFilter" multiple class="filterSelector" data-width="fit" wire:model.defer="filters.company_id" title="{{__('translates.filters.select')}}" >
                 @foreach($companies as $company)
-                    <option value="{{$company->id}}">{{ucfirst($company->name)}}</option>
+                    <option value="{{$company->getAttribute('id')}}">{{ucfirst($company->getAttribute('name'))}}</option>
                 @endforeach
             </select>
         </div>
-
-        <div class="form-group col-12 col-md-7 mb-3 mb-md-0 d-flex justify-content-end align-items-center">
-            <button type="submit" class="btn btn-outline-primary"><i class="fas fa-filter"></i></button>
-        </div>
-
-        <div class="form-group col-12 col-md-5 mb-3 mt-3 mb-md-0" wire:ignore>
-            <label class="d-block" for="subjectFilter">Status</label>
-            <select id="subjectFilter" multiple class="filterSelector form-control" data-width="fit" wire:model.defer="parameterFilters.status" title="{{__('translates.filters.select')}}" >
+        <div class="form-group col-12 col-md-3 mb-3 mb-md-0" wire:ignore>
+            <label class="d-block" for="statusFilter">Status</label>
+            <select id="statusFilter" multiple class="filterSelector form-control" data-width="fit" wire:model.defer="parameterFilters.status" title="{{__('translates.filters.select')}}" >
                 @foreach($statuses as $status)
-                    <option value="{{$status->id}}">{{ucfirst($status->text)}}</option>
+                    <option value="{{$status->getAttribute('id')}}">{{ucfirst($status->getAttribute('text'))}}</option>
                 @endforeach
             </select>
+        </div>
+        @if(\App\Models\Inquiry::userCanViewAll())
+            <div class="form-group col-12 col-md-3 mb-3 mb-md-0"  wire:ignore>
+                <label class="d-block" for="writtenByFilter">{{__('translates.filters.written_by')}}</label>
+                <select id="writtenByFilter" class="filterSelector" data-width="fit" wire:model.defer="filters.user_id" title="{{__('translates.filters.written_by')}}" >
+                    @foreach($users as $user)
+                        <option value="{{$user->getAttribute('id')}}">{{$user->getAttribute('name')}} {{$user->getAttribute('surname')}}</option>
+                    @endforeach
+                </select>
+            </div>
+        @endif
+        <div class="col-12"></div>
+        <div class="form-group col-12 col-md-3 mt-2 mb-3 mb-md-0">
+            <label for="clientNameFilter">{{__('translates.filters.client_name')}}</label>
+            <input type="search" id="clientNameFilter" placeholder="{{__('translates.placeholders.fullname')}}" class="form-control" wire:model.defer="parameterFilters.client_name">
         </div>
     </form>
 
@@ -68,12 +82,10 @@
             </a>
         </div>
         <div>
-            <p> Showing {{$inquiries->count()}} of {{$inquiries->total()}}</p>
+            <p> @lang('translates.total_items', ['count' => $inquiries->count(), 'total' => $inquiries->total()])</p>
         </div>
     </div>
-
-
-    <div class="col-md-12 mt-3 overflow-auto">
+    <div class="col-md-12 overflow-auto">
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -84,7 +96,7 @@
                     <th>{{__('translates.fields.clientName')}}</th>
                     <th>{{__('translates.fields.writtenBy')}}</th>
                     <th>{{__('translates.fields.subject')}}</th>
-                    <th>Status</th>
+                    <th class="text-center">Status</th>
                     <th>{{__('translates.fields.actions')}}</th>
                 </tr>
             </thead>
@@ -98,7 +110,23 @@
                     <td>{{optional($inquiry->getParameter('fullname'))->getAttribute('value')}}</td>
                     <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}}</td>
                     <td>{{optional($inquiry->getParameter('subject'))->getAttribute('text')}}</td>
-                    <td>{{optional($inquiry->getParameter('status'))->getAttribute('text')}}</td>
+                    <td class="text-center">
+                        @if (optional($inquiry->getParameter('status'))->getAttribute('id') == 22 || !auth()->user()->can('view', $inquiry) )
+                            <i class="fa fa-check text-success" style="font-size: 18px"></i>
+                        @else
+                            <select class="form-control" style="width:auto;" onfocus="this.oldValue = this.value" id="inquiry-{{$inquiry->getAttribute('id')}}" onchange="inquiryStatusHandler(this, {{$inquiry->getAttribute('id')}}, '{{$inquiry->getAttribute('code')}}', this.oldValue, this.value)">
+                                <option value="null" @if (!optional($inquiry->getParameter('status'))->getAttribute('id')) selected @else  @endif>@lang('translates.filters.select')</option>
+                                @foreach ($statuses as $status)
+                                    <option
+                                            @if ($status->getAttribute('id') == optional($inquiry->getParameter('status'))->getAttribute('id')) selected @endif
+                                            value="{{$status->getAttribute('id')}}"
+                                    >
+                                        {{$status->getAttribute('text')}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        @endif
+                    </td>
                     <td>
                         <div class="btn-sm-group" >
                             @if($trashBox)
@@ -134,6 +162,17 @@
                 </tr>
             @endforeach
             </tbody>
+            <div wire:loading.delay>
+                <div
+                        class="d-flex justify-content-center align-items-center"
+                        style="position: absolute;
+                               top: 0;left: 0;
+                               width: 100%;height: 100%;
+                               background: rgba(0, 0, 0, 0.3);z-index: 999;"
+                >
+                    <h3 class="text-white">@lang('translates.loading')...</h3>
+                </div>
+            </div>
         </table>
     </div>
     <div class="col-12">
@@ -142,28 +181,64 @@
         </div>
     </div>
 </div>
-
-
 @section('scripts')
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+    <script>
+        function alertHandler(event){
+            $.alert({
+                type:    event?.detail?.type,
+                title:   event?.detail?.title,
+                content: event?.detail?.message,
+                theme: 'modern',
+                typeAnimated: true
+            });
+        }
+        addEventListener('alert', alertHandler);
+
+        function inquiryStatusHandler(element, inquiryId, mgCode, oldVal, val){
+            $.confirm({
+                title: `${mgCode} update`,
+                content: `Are you sure to change status from ${$("#" + $(element).attr('id') + ` option[value=${oldVal}]`).text()} to ${$("#" + $(element).attr('id') + ` option[value=${val}]`).text()}?`,
+                autoClose: 'confirm|8000',
+                icon: 'fa fa-question',
+                type: 'red',
+                theme: 'modern',
+                typeAnimated: true,
+                buttons: {
+                    confirm: function () {
+                        Livewire.emit('statusChanged', +inquiryId, +oldVal, +val)
+                    },
+                    cancel: function () {
+                        $(element).val(oldVal);
+                    },
+                }
+            });
+        }
+    </script>
+
     <script>
         $('.filterSelector').selectpicker()
+
         $(function() {
             $('input[name="daterange"]').daterangepicker({
                 opens: 'left',
                 locale: {
                     format: "DD/MM/YYYY",
-                }
-            }, function(start, end, label) {
-
-            });
+                },
+                maxDate: new Date(),
+            }, function(start, end, label) {}
+            );
         });
-        $('#daterange').on('change', function (e) {
-            @this.set('daterange', e.target.value)
+
+        $('#inquiryFilterForm').submit(function (e){
+            e.preventDefault();
+            @this.set('daterange', $('#daterange').val())
+            Livewire.emit('updateFilter')
         });
 
         function deleteAction(url, name){
@@ -232,6 +307,7 @@
                 }
             });
         }
+
     </script>
 @endsection
 

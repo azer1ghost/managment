@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\Inquiry;
 use App\Models\Option;
 use App\Models\Parameter;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
 use Livewire\Component;
@@ -17,17 +18,21 @@ class InquiryTable extends Component
 
     protected string $paginationTheme = 'bootstrap';
 
+    protected $listeners = ['statusChanged' => 'updateInquiryStatus', 'updateFilter' => 'updateFilter'];
+
     public bool $trashBox = false;
 
     public $subjects;
     public $statuses;
     public $companies;
     public $kinds;
+    public $users;
+    public $statusParameterId;
 
     public array $filters = [
         'code'       => null,
-        'datetime'   => null,
         'company_id' => [],
+        'user_id' => [],
     ];
 
     public array $parameterFilters = [
@@ -35,7 +40,7 @@ class InquiryTable extends Component
         'kinds'      => [],
         'status'     => [],
         'client_code' => '',
-        'fullname' => ''
+        'client_name' => '',
     ];
 
     public string $daterange;
@@ -50,20 +55,39 @@ class InquiryTable extends Component
         $this->updateDaterange($this->daterange = implode(' - ', [now()->firstOfMonth()->format('d/m/Y'), now()->format('d/m/Y')]));
 
         $this->subjects  = Parameter::where('name', 'subject')->first()->options->unique();
+
         $this->statuses  = Parameter::where('name', 'status')->first()->options->unique();
+
+        $this->statusParameterId = Parameter::where('name', 'status')->first()->getAttribute('id');
+
         $this->companies = Company::whereNotIn('id', [1])->get();
+
+        $this->users = User::has('inquiries')->get(['id', 'name', 'surname']);
     }
 
-    public function filter()
+    public function updateFilter()
     {
         $this->updateDaterange($this->daterange);
         $this->render();
     }
 
-    public function canViewAll(): bool
+    public function updateInquiryStatus($inquiry_id, $oldVal, $val)
     {
-        $user = auth()->user();
-        return $user->isDeveloper() || $user->isAdministrator() || $user->role->hasPermission('viewAll-inquiry');
+        $inquiry = Inquiry::find($inquiry_id);
+
+        $inquiry->parameters()->detach($this->statusParameterId);
+
+        $inquiry->parameters()->attach($this->statusParameterId, ['value' => $val]);
+
+        $oldOption = $oldVal ? Option::where('id', $oldVal)->first()->getAttribute('text') : __('translates.filters.select');
+
+        $newOption = $val    ? Option::where('id', $val)->first()->getAttribute('text')    : __('translates.filters.select');
+
+        $this->dispatchBrowserEvent(
+            'alert', [
+                'type'    => 'blue',
+                'title'   =>  __('translates.flash_messages.inquiry_status_updated.title', ['code' => $inquiry->getAttribute('code')]),
+                'message' =>  __('translates.flash_messages.inquiry_status_updated.msg',   ['prev' => $oldOption, 'next' => $newOption])]);
     }
 
     public function render()
@@ -71,7 +95,7 @@ class InquiryTable extends Component
         return view('panel.pages.inquiry.components.inquiry-table', [
             'inquiries' => Inquiry::query()
                 ->withoutBackups()
-                ->when(!$this->canViewAll(), function ($query){
+                ->when(!Inquiry::userCanViewAll(), function ($query){
                     return $query->where('user_id', auth()->id());
                 })
                 //->select('id', 'code', 'user_id', 'datetime', 'company_id', 'fullname', 'subject', 'created_at')
@@ -90,7 +114,7 @@ class InquiryTable extends Component
                                  $query->where(\Str::singular($column), $value);
                             }
                             elseif (is_string($value)) {
-                                 $query->where(\Str::singular($column), 'like', "%$value%");
+                                $query->where(\Str::singular($column), 'like', "%$value%");
                             }
                             else {
                                  $query->where(\Str::singular($column), $value);

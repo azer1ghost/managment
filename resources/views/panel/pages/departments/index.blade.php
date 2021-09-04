@@ -1,5 +1,7 @@
 @extends('layouts.main')
 
+@section('title', __('translates.navbar.department'))
+
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -9,7 +11,7 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">
-                        @lang('departments')
+                        @lang('translates.navbar.department')
                     </div>
                     <form action="{{route('departments.index')}}">
                         <div class="card-body">

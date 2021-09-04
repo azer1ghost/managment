@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('title') | {{ config('app.name', 'Laravel') }}</title>
 
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
 
@@ -78,6 +78,10 @@
             100% {
                 background-position-x: 77vw;
             }
+        }
+
+        .btn-sm{
+            margin-bottom: 3px !important;
         }
     </style>
     @livewireStyles

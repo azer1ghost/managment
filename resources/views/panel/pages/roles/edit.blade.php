@@ -1,5 +1,7 @@
 @extends('layouts.main')
 
+@section('title', __('translates.navbar.role'))
+
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -13,7 +15,7 @@
                             <i class="fa fa-arrow-left"></i>
                             @lang('translates.buttons.back')
                         </a>
-                        Roles
+                        @lang('translates.navbar.role')
                     </div>
                     <div class="card-body">
                         <form action="{{$action}}" method="POST" enctype="multipart/form-data">

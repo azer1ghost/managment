@@ -10,13 +10,16 @@ class Email extends Component
     public ?string $label;
     public ?string $value;
     public ?string $name;
+    public ?string $placeholder;
 
-    public function __construct($name = null, $value = null, $label = null, $width = null)
+    public function __construct($name = null, $value = null, $label = null, $width = null, $placeholder = null)
     {
         $this->name = $name;
         $this->value = $value;
         $this->label = $label;
         $this->width = $width;
+        $this->placeholder = $placeholder;
+
     }
     
     public function render()
@@ -25,7 +28,7 @@ class Email extends Component
         <<<'blade'
           <div {{ $attributes->merge(['class' => 'form-group col-12 col-md-'.$width]) }}>
                 <label for="data-{{$name}}">{{$label ?? Str::ucfirst($name)}}</label>
-                <input type="email" class="form-control @error($name) is-invalid @enderror" name="{{$name}}" id="data-{{$name}}" placeholder="Type {{Str::lower($label ?? $name)}}" value="{{$value ?? old($name)}}">
+                <input type="email" class="form-control @error($name) is-invalid @enderror" name="{{$name}}" id="data-{{$name}}" value="{{$value}}" placeholder="{{ $placeholder ?? 'Enter '. Str::lower($label ?? $name) }}" >
                 @error($name)
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
