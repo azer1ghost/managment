@@ -47,6 +47,7 @@ class UserController extends Controller
     {
         $validated = $request->validated();
         $validated['password'] = Hash::make($validated['password']);
+        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms']);
 
         if ($request->file('avatar')) {
 
@@ -97,6 +98,7 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user): RedirectResponse
     {
         $validated = $request->validated();
+        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms']);
 
         if(!is_null($request->get('password'))){
             $validated['password'] = Hash::make($validated['password']);

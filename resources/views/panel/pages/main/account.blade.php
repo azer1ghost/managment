@@ -70,6 +70,48 @@
                                 <x-input::text    name="password" width="6" class="pr-1" type="password" />
                                 <x-input::text    name="password_confirmation" width="6" class="pr-1" label="Password Confirmation" type="password"/>
                                 <x-input::select  name="role_id"   :value="auth()->user()->getRelationValue('role')->getAttribute('id')"  width="3" class="pr-1" :options="$roles" label="Role"/>
+
+                                <div class="col-md-12">
+                                    <p class="text-muted mb-2">PERMISSIONS</p>
+                                    <p class="text-muted my-2">All</p>
+                                    <div class="form-check">
+                                        <input class="form-check-input" @if (Str::of(auth()->user()->getAttribute('permissions'))->trim() == 'all')) checked @endif type="checkbox" name="all_perms" value="all" id="perm-0">
+                                        <label class="form-check-label" for="perm-0">
+                                            All
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="check-perms">
+                                        <label class="form-check-label" for="check-perms">
+                                            Choose All
+                                        </label>
+                                    </div>
+                                    @error("all_perms") <p class="text-danger">{{$message}}</p> @enderror
+                                    <div class="row">
+                                        @php $perms = config('auth.permissions') @endphp
+                                        @foreach ($perms as $index => $perm)
+                                            @php
+                                                // next and previous permissions
+                                                $prevPerm = $perms[$index == 0 ?: $index - 1];
+                                                $nextPerm = $perms[$index == $loop->count - 1 ?: $index + 1];
+                                                // type of permission
+                                                $type  = strpos($perm, '-') ? substr($perm, strpos($perm, '-') + 1) : $perm;
+                                            @endphp
+                                            @if (!Str::contains($prevPerm, $type) || $loop->first)
+                                                <div class="col-12 col-md-4 my-2">
+                                                    <p class="text-muted my-2">{{ucfirst($type)}}</p>
+                                                    @endif
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" @if (Str::contains(auth()->user()->getAttribute('permissions'),$perm)) checked @endif type="checkbox" name="perms[]" value="{{$perm}}" id="perm-{{$loop->iteration}}">
+                                                        <label class="form-check-label" for="perm-{{$loop->iteration}}">
+                                                            {{$perm}}
+                                                        </label>
+                                                    </div>
+                                                    @if (!Str::contains($nextPerm, $type) || $loop->first) </div> @endif
+                                        @endforeach
+                                    </div>
+                                    @error("perms") <p class="text-danger">{{$message}}</p> @enderror
+                                </div>
                                 <div class="col-md-12">
                                     <br>
                                     <p class="text-muted mb-2">USER DEFAULTS</p>
@@ -85,12 +127,35 @@
     </div>
 @endsection
 @section('scripts')
+    <script>
+        checkAll();
+        $('#perm-0').change(function (){
+            checkAll();
+        });
+        $('#check-perms').change(function (){
+            if ($(this).prop('checked') == true) {
+                $("input[name='perms[]']").map(function(){ $(this).prop('checked', true) });
+            }else{
+                $("input[name='perms[]']").map(function(){ $(this).prop('checked', false) });
+            }
+        });
+        function checkAll(check = "perm-0"){
+            if ($(`#${check}`).prop('checked') == true) {
+                $("#check-perms").prop('disabled', true).parent('div').hide();
+                $("input[name='perms[]']").map(function(){ $(this).prop('disabled',true).parent('div').parent('div').hide() });
+            }else{
+                $("#check-perms").prop('disabled', false).parent('div').show();
+                $("input[name='perms[]']").map(function(){ $(this).prop('disabled',false).parent('div').parent('div').show() });
+            }
+        }
+    </script>
     @php // 1, 2 => Admin, President @endphp
     @if(!in_array(auth()->user()->getRelationValue('role')->getAttribute('id'), array(1, 2)))
         <script>
             $('select[name="role_id"]').attr('disabled', true)
             $('select[name="department_id"]').attr('disabled', true)
             $('select[name="company_id"]').attr('disabled', true)
+            $('#perm-0').parent().parent().hide()
         </script>
     @endif
 @endsection

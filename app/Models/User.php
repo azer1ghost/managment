@@ -48,6 +48,7 @@ class User extends Authenticatable
         'email_coop',
         'email',
         'password',
+        'permissions'
     ];
 
     /**

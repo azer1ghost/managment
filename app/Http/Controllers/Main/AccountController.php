@@ -44,6 +44,8 @@ class AccountController extends Controller
         $validated['company_id']     =  !in_array($currentRole, array(1, 2)) ? $currentCompany : $validated['company_id'];
         $validated['department_id']  =  !in_array($currentRole, array(1, 2)) ? $currentDepartment : $validated['department_id'];
 
+        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms']);
+
         if ($request->file('avatar')) {
 
             $avatar = $request->file('avatar');
