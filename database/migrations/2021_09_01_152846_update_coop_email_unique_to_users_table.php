@@ -14,11 +14,11 @@ class UpdateCoopEmailUniqueToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-//            $table->unique('email_coop');
-//            $table->timestamp('phone_verified_at')->nullable();
-//            $table->integer('verify_code')->nullable();
-//            $table->string('personal_id')->nullable()->unique();
-//            $table->string('position_id')->nullable();
+            $table->unique('email_coop');
+            $table->timestamp('phone_verified_at')->nullable();
+            $table->integer('verify_code')->nullable();
+            $table->string('personal_id')->nullable()->unique();
+            $table->string('position_id')->nullable();
         });
     }
 

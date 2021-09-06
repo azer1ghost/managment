@@ -15,15 +15,15 @@ class CreateGadgetsTable extends Migration
     {
         Schema::create('gadgets', function (Blueprint $table) {
             $table->id();
-            $table->string('key');
-            $table->json('name');
-            $table->string('icon');
-            $table->string('color');
-            $table->string('bg_color');
-            $table->string('detail');
-            $table->string('html');
-            $table->text('query');
-            $table->integer('order');
+            $table->string('key')->nullable();
+            $table->json('name')->nullable();
+            $table->string('icon')->nullable();
+            $table->string('color')->nullable();
+            $table->string('bg_color')->nullable();
+            $table->string('detail')->nullable();
+            $table->string('html')->nullable();
+            $table->text('query')->nullable();
+            $table->integer('order')->nullable();
             $table->timestamps();
         });
     }
