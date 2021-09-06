@@ -193,6 +193,8 @@ class InquiryForm extends Component
 
             $this->selected['phone'] = $response['phone'];
 
+            $this->selected['email'] = $response['email'];
+
             $this->formFields['client_code']['class'] = $this->formFields['fullname']['class'] = $this->formFields['phone']['class'] = "is-valid";
 
         }
