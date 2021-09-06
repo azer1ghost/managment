@@ -74,7 +74,7 @@ class InquiryForm extends Component
     {
         $this->getSubFields($value);
 
-        if (in_array($name, ['customer_id', 'phone', 'email'])){
+        if (in_array($name, ['customer_id', 'phone', 'email']) && $this->selected['company'] == 4){
             $this->apiForMobexFields($value, $name);
         }
     }
