@@ -38,12 +38,12 @@ class Sidebar extends Component
                 'permission' => 'viewAny-company',
             ],
 
-            (object) [
-                'title' => 'Gadgets',
-                'icon'  => 'fad fa-browser',
-                'url'  => route('gadgets.index'),
-                'permission' => 'viewAny-gadget',
-            ],
+//            (object) [
+//                'title' => 'Gadgets',
+//                'icon'  => 'fad fa-browser',
+//                'url'  => route('gadgets.index'),
+//                'permission' => 'viewAny-gadget',
+//            ],
 
             (object) [
                 'title' => 'Account',
