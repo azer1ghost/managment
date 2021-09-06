@@ -40,7 +40,7 @@ class InquiryTable extends Component
         'kinds'      => [],
         'status'     => [],
         'client_code' => '',
-        'client_name' => '',
+        'client_name_phone' => '',
     ];
 
     public string $daterange;

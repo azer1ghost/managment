@@ -73,7 +73,9 @@ if(! function_exists('syncResolver')){
         $array = [];
         foreach ($params as $key => $param)
         {
-            $array[$key] = [$column => $param];
+            if($key == 8){
+                $array[$key] = [$column => phone_cleaner($param)];
+            } else $array[$key] = [$column => $param];
         }
         return $array;
     }

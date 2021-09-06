@@ -19,9 +19,10 @@ return [
         'subject' => 'Mövzuya görə filtrləyin',
         'company' => 'Şirkətə görə filtrləyin',
         'client_name' => 'Müştəri adına görə filtrləyin',
-        'written_by' => 'Müəllif adına görə filtrləyin',
+        'phone' => 'Telefon adına görə filtrləyin', 'written_by' => 'Müəllif adına görə filtrləyin',
         'clear' => 'Sil',
         'select' => 'Seçilməyib',
+        'or' => ":first və ya :second filtrləyin",
     ],
 
     'placeholders' => [
@@ -37,6 +38,7 @@ return [
         'mail'   => 'E-poçtunuzu daxil edin',
         'password' => 'Şifrə daxil edin',
         'password_confirm' => 'Şifrə təsdiqini daxil edin',
+        'or' => ":first və ya :second daxil edin",
     ],
 
     'fields' => [
@@ -72,6 +74,8 @@ return [
         'search' => 'Axtar',
         'filter' => 'Filterlə',
     ],
+
+    'or' => 'və ya',
 
     'navbar' => [
         'general'    => 'Ümumi',
