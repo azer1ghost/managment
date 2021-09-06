@@ -14,15 +14,9 @@ class GadgetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'key'   => 'required|string|max:255',
-            'name'  => 'string|nullable',
-            'icon'  => 'string|nullable',
-            'color' => 'string|nullable',
-            'bg_color' => 'string|nullable',
-            'detail' => 'string|nullable',
-            'html' => 'string|nullable',
-            'query' => 'string|nullable',
-            'order' => 'integer',
+            'key'  => 'required|string|max:255',
+            'name' => 'string|nullable',
+            'icon' => 'array',
         ];
     }
 }

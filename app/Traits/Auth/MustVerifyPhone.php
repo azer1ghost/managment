@@ -29,6 +29,18 @@ trait MustVerifyPhone
     }
 
     /**
+     * Update user's verify code.
+     *
+     * @return bool
+     */
+    public function updatePhoneVerificationCode(): bool
+    {
+        return $this->forceFill([
+            'verify_code' => rand(111111, 999999),
+        ])->save();
+    }
+
+    /**
      * Send the email verification notification.
      *
      * @return void

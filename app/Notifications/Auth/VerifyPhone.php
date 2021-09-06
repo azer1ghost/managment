@@ -14,13 +14,21 @@ class VerifyPhone extends Notification
 
     public function via($notifiable): array
     {
-        return [SmsChannel::class];
+        return [SmsChannel::class, 'database'];
     }
 
     public function toSms($notifiable): SmsMessage
     {
         return (new SmsMessage)
-            ->to($notifiable->getAttribute('phone_coop'))
+            ->to($notifiable->getAttribute('phone'))
             ->line( trans('auth.verify-sms', ['code' => $notifiable->getAttribute('verify_code'), 'minute' => 5]));
+    }
+
+    public function toArray($notifiable): array
+    {
+        return [
+            'phone' => $notifiable->getAttribute('phone'),
+            'content' => trans('auth.verify-sms', ['code' => $notifiable->getAttribute('verify_code'), 'minute' => 5])
+        ];
     }
 }

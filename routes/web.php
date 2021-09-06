@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\{Auth\LoginController,
+    Auth\PhoneVerifycationController,
     Main\AccountController,
     Main\PlatformController,
     Modules\CompanyController,
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\{Auth, Route};
 
 Route::redirect('/','/welcome')->name('home');
 Route::get('/welcome', [PlatformController::class, 'welcome'])->name('welcome');
-Route::get('/dashboard', [PlatformController::class, 'dashboard'])->name('dashboard');
+Route::get('/dashboard', [PlatformController::class, 'dashboard'])->middleware('verified_phone')->name('dashboard');
 
 Route::get('/account', [AccountController::class, 'account'])->name('account');
 Route::post('/account/{user}', [AccountController::class, 'save'])->name('account.save');
@@ -38,6 +39,8 @@ Route::prefix('module')->group(function () {
 });
 
 Auth::routes(['login' => false]);
+
+PhoneVerifycationController::routes();
 
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);

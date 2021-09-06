@@ -19,6 +19,13 @@ interface MustVerifyPhone
     public function markPhoneAsVerified(): bool;
 
     /**
+     * Update user's verify code.
+     *
+     * @return bool
+     */
+    public function updatePhoneVerificationCode(): bool;
+
+    /**
      * Send the email verification notification.
      *
      * @return void
