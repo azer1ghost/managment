@@ -19,27 +19,27 @@ class DepartmentPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->role->hasPermission(__FUNCTION__."-{$this->class}");
+        return $this->canAccessFunction($user, __FUNCTION__, $this->class);
     }
 
     public function view(User $user, Department $department): bool
     {
-        return $user->role->hasPermission(__FUNCTION__."-{$this->class}");
+        return $this->canAccessFunction($user, __FUNCTION__, $this->class);
     }
 
     public function create(User $user): bool
     {
-        return $user->role->hasPermission("manage-{$this->class}");
+        return $this->canManage($user, $this->class);
     }
 
     public function update(User $user, Department $department): bool
     {
-        return $user->role->hasPermission("manage-{$this->class}");
+        return $this->canManage($user, $this->class);
     }
 
     public function delete(User $user, Department $department): bool
     {
-        return $user->role->hasPermission("manage-{$this->class}");
+        return $this->canManage($user, $this->class);
     }
 }
 

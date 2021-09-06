@@ -11,7 +11,7 @@ trait UserAllowAccess
                $user->getRelationValue('position')->hasPermission("manage-{$class}");
     }
 
-    public function canView($user, $function, $class)
+    public function canAccessFunction($user, $function, $class)
     {
         return $user->hasPermission($function."-{$class}") ||
                $user->getRelationValue('role')->hasPermission($function."-{$class}") ||

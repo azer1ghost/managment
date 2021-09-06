@@ -19,27 +19,27 @@ class RolePolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->role->hasPermission(__FUNCTION__."-{$this->class}");
+        return $this->canAccessFunction($user, __FUNCTION__, $this->class);
     }
 
     public function view(User $user, Role $role): bool
     {
-        return $user->role->hasPermission(__FUNCTION__."-{$this->class}");
+        return $this->canAccessFunction($user, __FUNCTION__, $this->class);
     }
 
     public function create(User $user): bool
     {
-        return $user->role->hasPermission("manage-{$this->class}");
+        return $this->canManage($user, $this->class);
     }
 
     public function update(User $user, Role $role): bool
     {
-        return $user->role->hasPermission("manage-{$this->class}");
+        return $this->canManage($user, $this->class);
     }
 
     public function delete(User $user, Role $role): bool
     {
-        return $user->role->hasPermission("manage-{$this->class}");
+        return $this->canManage($user, $this->class);
     }
 }
 

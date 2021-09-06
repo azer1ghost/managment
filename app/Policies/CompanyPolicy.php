@@ -20,12 +20,12 @@ class CompanyPolicy
 
     public function viewAny(User $user): bool
     {
-        return $this->canView($user, __FUNCTION__, $this->class);
+        return $this->canAccessFunction($user, __FUNCTION__, $this->class);
     }
 
     public function view(User $user, Company $company): bool
     {
-        return $this->canView($user, __FUNCTION__, $this->class);
+        return $this->canAccessFunction($user, __FUNCTION__, $this->class);
     }
 
     public function create(User $user): bool
