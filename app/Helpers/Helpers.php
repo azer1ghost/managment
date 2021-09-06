@@ -30,7 +30,8 @@ if (! function_exists('image')) {
 }
 
 if (! function_exists('notify')) {
-    function notify() {
+    function notify(): object
+    {
         return new class (){
             protected function message( $color, $title, $message, $data = null): array
             {

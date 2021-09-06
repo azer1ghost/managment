@@ -16,7 +16,6 @@ class CompanyController extends Controller
         $this->middleware('auth');
         $this->authorizeResource(Company::class, 'company');
     }
-
     public function index()
     {
         return view('panel.pages.companies.index')

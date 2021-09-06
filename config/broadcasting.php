@@ -16,7 +16,7 @@ return [
     */
 
     'default' => env('BROADCAST_DRIVER', 'null'),
-
+    'smsProvider' => env('SMS_PROVIDER', 'null'),
     /*
     |--------------------------------------------------------------------------
     | Broadcast Connections

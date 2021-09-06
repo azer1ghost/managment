@@ -23,6 +23,7 @@ return [
         'signature',
         'viewAny-account', 'manage-account',
         'viewAny-company', 'view-company', 'manage-company',
+        'viewAny-gadget', 'view-gadget', 'manage-gadget',
         'viewAny-role', 'view-role', 'manage-role',
         'viewAny-department', 'view-department', 'manage-department',
         'viewAny-parameter', 'view-parameter', 'manage-parameter',

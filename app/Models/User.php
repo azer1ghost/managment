@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-//use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Contracts\Auth\MustVerifyPhone;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -17,9 +18,9 @@ use Illuminate\Notifications\Notifiable;
  * @property mixed name
  * @property mixed surname
  */
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyPhone
 {
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, Notifiable, SoftDeletes, \App\Traits\Auth\MustVerifyPhone;
 
     /**
      * The attributes that are mass assignable.
@@ -80,12 +81,12 @@ class User extends Authenticatable
         return "{$this->getAttribute('name')} {$this->getAttribute('surname')}";
     }
 
-    public function isDeveloper()
+    public function isDeveloper(): bool
     {
         return $this->getAttribute('role_id') === 1;
     }
 
-    public function isAdministrator()
+    public function isAdministrator(): bool
     {
         return $this->getAttribute('role_id') === 2;
     }
@@ -138,4 +139,28 @@ class User extends Authenticatable
        return optional($this->defaults()->where('column', $column)->first())->getAttribute('value');
     }
 
+    public function setPhoneCoopAttribute($value): string
+    {
+        return phone_cleaner($value);
+    }
+
+    public function setPhoneAttribute($value): string
+    {
+        return phone_cleaner($value);
+    }
+
+    public function getPhoneCoopAttribute($value): string
+    {
+        return phone_cleaner($value);
+    }
+
+    public function getPhoneAttribute($value): string
+    {
+        return phone_cleaner($value);
+    }
+
+    public function getProtectedPhoneAttribute(): string
+    {
+       return str_pad(substr($this->getAttribute('phone'), -4), strlen($this->getAttribute('phone')), '*', STR_PAD_LEFT);
+    }
 }
