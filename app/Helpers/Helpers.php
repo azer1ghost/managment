@@ -73,9 +73,13 @@ if(! function_exists('syncResolver')){
         $array = [];
         foreach ($params as $key => $param)
         {
-            if($key == 8){
+            if ($key == 8) {
                 $array[$key] = [$column => phone_cleaner($param)];
-            } else $array[$key] = [$column => $param];
+            } elseif ($key == 6) {
+                $array[$key] = [$column => pattern_adder('MBX', $param)];
+            } else {
+                $array[$key] = [$column => $param];
+            }
         }
         return $array;
     }
@@ -84,5 +88,11 @@ if(! function_exists('syncResolver')){
 if(! function_exists('phone_cleaner')){
     function phone_cleaner($phone): string {
         return substr(str_replace([' ', '-'],'', $phone), -9, 9);
+    }
+}
+
+if(! function_exists('pattern_adder')){
+    function pattern_adder($pattern, $value): string {
+        return $pattern.preg_replace("/[^0-9]/", "", $value);
     }
 }
