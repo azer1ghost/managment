@@ -81,3 +81,9 @@ if(! function_exists('syncResolver')){
     }
 }
 
+if(! function_exists('phone_cleaner')){
+    function phone_cleaner($phone): string {
+        return substr(str_replace([' ', '-'],'', $phone), -9, 9);
+    }
+}
+
