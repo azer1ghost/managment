@@ -158,4 +158,9 @@ class User extends Authenticatable implements MustVerifyPhone
     {
         return phone_cleaner($value);
     }
+
+    public function getProtectedPhoneAttribute(): string
+    {
+       return str_pad(substr($this->getAttribute('phone'), -4), strlen($this->getAttribute('phone')), '*', STR_PAD_LEFT);
+    }
 }

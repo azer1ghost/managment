@@ -8,22 +8,20 @@
                 <div class="card-header">Hesab aktivləşdirmə</div>
                 <div class="card-body">
                     @php($phone = auth()->user()->getAttribute('phone'))
-                    @php($hiddenPhone = str_pad(substr($phone, -4), strlen($phone), '*', STR_PAD_LEFT))
                     @if (session('resent'))
                         <div class="alert alert-success" role="alert">
                             Yeni gizli kodunuz nömrənizə göndərildi. Nömrənizin düzgün olduğundan əmin olun.
-                            Nömrə: {{$phone}}
                         </div>
                     @endif
                     Salam, {{auth()->user()->getAttribute('fullname')}}. Sizə sms vasitəsi ilə gizli kod göndərdik.
-                    Nömrəniz: {{$hiddenPhone}}.
+                    Nömrəniz: {{$phone}}.
 
                     <div class="row m-3 d-flex justify-content-center">
                         <div class="col-6">
                             <form method="POST" action="{{route('phone.verification.verify')}}">
                                 @csrf
                                 <div class="input-group mb-3">
-                                    <input name="code" required maxlength="6" minlength="6" type="text" class="form-control @error('code') is-invalid @enderror" placeholder="SMS doğrulama kodu">
+                                    <input name="code" required pattern="[0-9]+" maxlength="6" minlength="6" type="text" class="form-control @error('code') is-invalid @enderror" placeholder="SMS doğrulama kodu">
                                     <div class="input-group-append">
                                         <button class="btn btn-outline-secondary" type="submit">Doğrula</button>
                                     </div>
