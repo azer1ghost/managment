@@ -109,6 +109,7 @@ return [
         'surname'    => 'Surname',
         'mail_coop'  => 'Cooperative Email',
         'mail'       => 'Email',
+        'phone'       => 'Personal phone',
         'department' => 'Department',
         'company'    => 'Company',
         'password'   => 'Password',

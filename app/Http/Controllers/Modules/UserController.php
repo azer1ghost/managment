@@ -98,9 +98,7 @@ class UserController extends Controller
     {
         $validated = $request->validated();
 
-        if(!is_null($request->get('password'))){
-            $validated['password'] = Hash::make($validated['password']);
-        }else{
+        if(is_null($request->get('password'))){
             unset($validated['password']);
         }
 

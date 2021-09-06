@@ -107,6 +107,7 @@ return [
         'surname'   => 'Soyad',
         'mail_coop' => 'Kooperativ e-poçt',
         'mail' => 'E-poçt',
+        'phone'       => 'Personal telefon',
         'department' => 'Şöbə',
         'company' => 'Şirkət',
         'password' => 'Şifrə',

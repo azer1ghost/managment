@@ -141,12 +141,17 @@ class User extends Authenticatable implements MustVerifyPhone
 
     public function setPhoneCoopAttribute($value): string
     {
-        return phone_cleaner($value);
+        return $this->attributes['phone_coop'] = phone_cleaner($value);
     }
 
     public function setPhoneAttribute($value): string
     {
-        return phone_cleaner($value);
+        return $this->attributes['phone'] = phone_cleaner($value);
+    }
+
+    public function setPasswordAttribute($value)
+    {
+        return $this->attributes['password'] = bcrypt($value);
     }
 
     public function getPhoneCoopAttribute($value): string
