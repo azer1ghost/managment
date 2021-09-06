@@ -86,4 +86,3 @@ if(! function_exists('phone_cleaner')){
         return substr(str_replace([' ', '-'],'', $phone), -9, 9);
     }
 }
-
