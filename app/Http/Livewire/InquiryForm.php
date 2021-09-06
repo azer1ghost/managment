@@ -195,7 +195,7 @@ class InquiryForm extends Component
 
             $this->selected['email'] = $response['email'];
 
-            $this->formFields['client_code']['class'] = $this->formFields['fullname']['class'] = $this->formFields['phone']['class'] = "is-valid";
+            $this->formFields['client_code']['class'] = $this->formFields['fullname']['class'] = $this->formFields['phone']['class'] = $this->formFields['email']['class'] = "is-valid";
 
         }
         else{
@@ -203,8 +203,10 @@ class InquiryForm extends Component
             $this->formFields['client_code']['message'] = $response['errors'];
             $this->selected['fullname'] = null;
             $this->selected['phone'] = null;
+            $this->selected['email'] = null;
             $this->formFields['fullname']['class'] = "is-invalid";
             $this->formFields['phone']['class'] = "is-invalid";
+            $this->formFields['email']['class'] = "is-invalid";
         }
 
         ///MBX33291
