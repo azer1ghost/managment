@@ -25,6 +25,7 @@
                                 <x-input::text required="" name="name" width="6" :label="__('translates.register.name')" :placeholder="__('translates.placeholders.name')"/>
                                 <x-input::text required="" name="surname" width="6" :label="__('translates.register.surname')" :placeholder="__('translates.placeholders.surname')"/>
                                 <x-input::email required="" name="email_coop" :label="__('translates.register.mail_coop')" :placeholder="__('translates.placeholders.mail_coop')"/>
+                                <x-input::text required="" name="phone" value="+994" :label="__('translates.register.phone')" :placeholder="__('translates.placeholders.phone')"/>
                                 <x-input::select name="department_id"  width="6"  class="pr-1" :options="$departments" :label="__('translates.register.department')"  required=""/>
                                 <x-input::select name="company_id"  width="6"  class="pr-1" :options="$companies" :label="__('translates.register.company')"  required=""/>
                                 <x-input::text type="password" required="" name="password" width="6" :label="__('translates.register.password')" :placeholder="__('translates.placeholders.password')"/>

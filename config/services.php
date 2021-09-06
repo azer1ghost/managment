@@ -30,4 +30,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'sms' => [
+        'url' => env('POCT_GOYERCHINI_URL'),
+        'user' => env('POCT_GOYERCHINI_USER'),
+        'password' => env('POCT_GOYERCHINI_PASS'),
+    ],
+
 ];

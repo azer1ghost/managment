@@ -20,7 +20,7 @@ class Role extends Model
 
     public function hasPermission($perm): bool
     {
-        if (env('APP_ENV','local') == 'local'){
+        if (app()->environment('local')){
             $permissions = config('auth.permissions');
         }else{
             $permissions = explode(',', $this->getAttribute('permissions'));
@@ -33,7 +33,7 @@ class Role extends Model
         return in_array($perm, $permissions, true);
     }
 
-    public function getShortPermissionsAttribute()
+    public function getShortPermissionsAttribute(): string
     {
         return Str::limit($this->getAttribute('permissions'),60);
     }

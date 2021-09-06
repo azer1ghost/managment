@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateCoopEmailUniqueToUsersTable extends Migration
+class UpdateEmailColumnToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class UpdateCoopEmailUniqueToUsersTable extends Migration
      */
     public function up()
     {
-//        Schema::table('users', function (Blueprint $table) {
-//            $table->string('email_coop')->unique();
-//        });
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('email')->nullable()->change();
+            $table->string('email_coop')->nullable()->change();
+        });
     }
 
     /**
@@ -26,7 +27,7 @@ class UpdateCoopEmailUniqueToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-
+            //
         });
     }
 }

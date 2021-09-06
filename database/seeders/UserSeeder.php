@@ -26,6 +26,7 @@ class UserSeeder extends Seeder
                'role_id' => 1,
                'department_id' => 3,
                'company_id' => 1,
+               'verify_code' => rand(999999, 111111),
            ],
            [
                'name' => 'Test',
@@ -37,6 +38,7 @@ class UserSeeder extends Seeder
                'role_id' => 1,
                'department_id' => 3,
                'company_id' => 1,
+               'verify_code' => rand(111111, 999999),
            ]
         ]);
     }

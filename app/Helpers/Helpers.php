@@ -30,7 +30,8 @@ if (! function_exists('image')) {
 }
 
 if (! function_exists('notify')) {
-    function notify() {
+    function notify(): object
+    {
         return new class (){
             protected function message( $color, $title, $message, $data = null): array
             {
@@ -73,9 +74,39 @@ if(! function_exists('syncResolver')){
         $array = [];
         foreach ($params as $key => $param)
         {
-            $array[$key] = [$column => $param];
+            if ($key == 8) {
+                $array[$key] = [$column => phone_cleaner($param)];
+            } elseif ($key == 6) {
+                $array[$key] = [$column => pattern_adder('MBX', $param)];
+            } else {
+                $array[$key] = [$column => $param];
+            }
         }
         return $array;
     }
 }
 
+if(! function_exists('phone_cleaner')){
+    function phone_cleaner($phone): string {
+        return substr(str_replace([' ', '-'],'', $phone), -9, 9);
+    }
+}
+
+if(! function_exists('phone_formatter')){
+    function phone_formatter($phone): string {
+        if(  preg_match( '/^(\d{2})(\d{3})(\d{2})(\d{2})$/', phone_cleaner($phone),  $matches ) )
+        {
+            return "0". $matches[1] . '-' .$matches[2] . '-' . $matches[3] . '-' . $matches[4];
+        }
+        return $phone;
+    }
+}
+
+
+
+
+if(! function_exists('pattern_adder')){
+    function pattern_adder($pattern, $value): string {
+        return $pattern.preg_replace("/[^0-9]/", "", $value);
+    }
+}

@@ -49,10 +49,12 @@ class RegisterController extends Controller
      */
     protected function validator(array $data): \Illuminate\Contracts\Validation\Validator
     {
+        $data['phone'] = phone_cleaner($data['phone']);
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'surname' => ['required', 'string', 'max:255'],
-            'email_coop' => ['required', 'allowed_domain','string', 'email', 'max:255', 'unique:users,email,email_coop'],
+            'name' => ['required', 'string', 'max:50'],
+            'surname' => ['required', 'string', 'max:50'],
+            'phone' => ['required', 'string', 'max:15', 'unique:users,phone'],
+            'email_coop' => ['required', 'allowed_domain','string', 'email:rfc,dns', 'max:50', 'unique:users,email_coop'],
             'department_id' => ['required', 'integer', 'min:1'],
             'company_id' => ['required', 'integer', 'min:1'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -70,12 +72,14 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'surname' => $data['surname'],
-            'email' => ' ',
+            'email' => null,
             'email_coop' => $data['email_coop'],
+            'phone' => $data['phone'],
             'role_id' => 4,
             'department_id' => $data['department_id'],
             'company_id' => $data['company_id'],
-            'password' => Hash::make($data['password']),
+            'password' => $data['password'],
         ]);
+
     }
 }

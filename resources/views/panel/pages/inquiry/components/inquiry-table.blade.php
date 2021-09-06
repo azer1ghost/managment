@@ -64,8 +64,8 @@
         @endif
         <div class="col-12"></div>
         <div class="form-group col-12 col-md-3 mt-2 mb-3 mb-md-0">
-            <label for="clientNameFilter">{{__('translates.filters.client_name')}}</label>
-            <input type="search" id="clientNameFilter" placeholder="{{__('translates.placeholders.fullname')}}" class="form-control" wire:model.defer="parameterFilters.client_name">
+            <label for="clientNamePhoneFilter">@lang('translates.filters.or', ['first' => __('translates.fields.client'), 'second' => __('translates.fields.phone'), 'third' => __('translates.fields.mail')])</label>
+            <input type="search" id="clientNamePhoneFilter" placeholder="@lang('translates.placeholders.or', ['first' => __('translates.fields.client'), 'second' => __('translates.fields.phone'), 'third' =>  __('translates.fields.mail')])" class="form-control" wire:model.defer="parameterFilters.search_client">
         </div>
     </form>
 

@@ -13,33 +13,40 @@ class Sidebar extends Component
         $this->items = (array) [
 
             (object) [
-                'title' => __('translates.navbar.general'),
+                'title' => 'General',
                 'type' => 'title',
             ],
 
             (object) [
-                'title' => __('translates.navbar.dashboard'),
+                'title' => 'Dashboard',
                 'icon'  => 'fa fa-home',
                 'url'  => route('dashboard'),
                 'permission' => 'generally',
             ],
 
 //            (object) [
-//                'title' => __('translates.navbar.cabinet'),
+//                'title' => 'Cabinet',
 //                'icon'  => 'fal fa-tasks-alt',
 //                'url'  => route('cabinet'),
 //                'permission' => 'generally',
 //            ],
 
             (object) [
-                'title' => __('translates.navbar.company'),
+                'title' => 'Companies',
                 'icon'  => 'fa fa-building',
                 'url'  => route('companies.index'),
                 'permission' => 'viewAny-company',
             ],
 
+//            (object) [
+//                'title' => 'Gadgets',
+//                'icon'  => 'fad fa-browser',
+//                'url'  => route('gadgets.index'),
+//                'permission' => 'viewAny-gadget',
+//            ],
+
             (object) [
-                'title' => __('translates.navbar.account'),
+                'title' => 'Account',
                 'icon'  => 'fa fa-user',
                 'url'  => route('account'),
                 'permission' => 'viewAny-account',
@@ -51,49 +58,49 @@ class Sidebar extends Component
             ],
 
             (object) [
-                'title' => __('translates.navbar.signature'),
+                'title' => 'Signature',
                 'icon'  => 'fa fa-envelope',
                 'url'  => route('signature-select-company'),
                 'permission' => 'signature',
             ],
 
             (object) [
-                'title' => __('translates.navbar.inquiry'),
+                'title' => 'Inquiries',
                 'icon'  => 'fa fa-phone',
                 'url'  => route('inquiry.index'),
                 'permission' => 'viewAny-inquiry',
             ],
 
             (object) [
-                'title' => __('translates.navbar.parameter'),
+                'title' => 'Parameters',
                 'icon'  => 'fa fa-list',
                 'url'  => route('parameters.index'),
                 'permission' => 'viewAny-parameter',
             ],
 
             (object) [
-                'title' => __('translates.navbar.option'),
+                'title' => 'Options',
                 'icon'  => 'fa fa-list-alt',
                 'url'  => route('options.index'),
                 'permission' => 'viewAny-option',
             ],
 
             (object) [
-                'title' => __('translates.navbar.role'),
+                'title' => 'Roles',
                 'icon'  => 'fas fa-key',
                 'url'  => route('roles.index'),
                 'permission' => 'viewAny-role',
             ],
 
             (object) [
-                'title' => __('translates.navbar.user'),
+                'title' => 'Users',
                 'icon'  => 'fa fa-users',
                 'url'  => route('users.index'),
                 'permission' => 'viewAny-user',
             ],
 
             (object) [
-                'title' => __('translates.navbar.department'),
+                'title' => 'Departments',
                 'icon'  => 'fa fa-users-cog',
                 'url'  => route('departments.index'),
                 'permission' => 'viewAny-department',

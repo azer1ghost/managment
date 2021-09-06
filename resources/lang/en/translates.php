@@ -20,9 +20,12 @@ return [
         'subject' => 'Filter by Subject',
         'company' => 'Filter by Company',
         'client_name' => 'Filter by Client name',
+        'phone' => 'Filter by Phone',
+        'email' => 'Filter by Email',
         'written_by' => 'Filter by Written by',
         'clear' => 'Clear',
-        'select' => 'Not Selected'
+        'select' => 'Not Selected',
+        'or' => "Filter by :first, :second or :third",
     ],
 
     'placeholders' => [
@@ -38,6 +41,8 @@ return [
         'mail'   => 'Enter email',
         'password' => 'Enter password',
         'password_confirm' => 'Enter password confirmation',
+        'or' => "Enter :first, :second or :third",
+
     ],
 
     'fields' => [
@@ -74,6 +79,8 @@ return [
         'filter' => 'Filter'
     ],
 
+    'or' => 'or',
+
     'navbar' => [
         'general'    => 'General',
         'dashboard'  => 'Dashboard',
@@ -103,6 +110,7 @@ return [
         'surname'    => 'Surname',
         'mail_coop'  => 'Cooperative Email',
         'mail'       => 'Email',
+        'phone'       => 'Personal phone',
         'department' => 'Department',
         'company'    => 'Company',
         'password'   => 'Password',
