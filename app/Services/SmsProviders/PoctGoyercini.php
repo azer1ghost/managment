@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Externals\SmsProviders;
+namespace App\Services\SmsProviders;
 
 use Illuminate\Support\Facades\Http;
 

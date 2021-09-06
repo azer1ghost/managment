@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Company;
 use App\Models\Inquiry;
 use App\Models\Option;
+use App\Services\MobexApi;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
@@ -69,9 +70,13 @@ class InquiryForm extends Component
 
     }
 
-    public function updatedSelected($value)
+    public function updatedSelected($value, $name)
     {
         $this->getSubFields($value);
+
+        if (in_array($name, ['customer_id', 'phone', 'email'])){
+            $this->apiForMobexFields($value, $name);
+        }
     }
 
     protected function getSubFields($option_id)
@@ -174,44 +179,29 @@ class InquiryForm extends Component
         $this->cachedValues = $this->selected;
     }
 
-    /* Api functions */
-    public function updatedSelectedClientCode($value)
+    public function apiForMobexFields($value, $name)
     {
-        $client_code = strtoupper($value);
+        $response = (new MobexApi)->by($name)->value($value)->get();
 
-        $prefix = 'MBX';
+        $fields = ['fullname', 'phone', 'email', 'customer_id'];
 
-        $client_code = str_starts_with($client_code, $prefix) ? $client_code : $prefix.$value;
-
-        $apiURL = "http://api.mobex.az/v1/user/search?token=884h7d345&value={$client_code}&key=customer_id";
-
-        $response = Http::get($apiURL)->json();
-
-        if(!isset($response['errors'])){
-
-            $this->selected['fullname'] = $response['full_name'];
-
-            $this->selected['phone'] = $response['phone'];
-
-            $this->selected['email'] = $response['email'];
-
-            $this->formFields['client_code']['class'] = $this->formFields['fullname']['class'] = $this->formFields['phone']['class'] = $this->formFields['email']['class'] = "is-valid";
-
+        if(!isset($response['errors']))
+        {
+            foreach ($fields as $field)
+            {
+                $this->selected[$field] = $response[$field];
+                $this->formFields[$field]['class'] = "is-valid";
+            }
         }
         else{
-            $this->formFields['client_code']['class'] = "is-invalid";
-            $this->formFields['client_code']['message'] = $response['errors'];
-            $this->selected['fullname'] = null;
-            $this->selected['phone'] = null;
-            $this->selected['email'] = null;
-            $this->formFields['fullname']['class'] = "is-invalid";
-            $this->formFields['phone']['class'] = "is-invalid";
-            $this->formFields['email']['class'] = "is-invalid";
+            foreach ($fields as $field)
+            {
+                $this->selected[$field] = null;
+                $this->formFields[$field]['class'] = "is-invalid";
+            }
+            $this->formFields['customer_id']['message'] = $response['errors'];
         }
-
-        ///MBX33291
     }
-    /* end Api functions */
 
     public function render()
     {
