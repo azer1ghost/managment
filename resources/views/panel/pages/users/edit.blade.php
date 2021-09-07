@@ -34,7 +34,8 @@
                                     <x-input::select  name="department_id" :value="optional($data)->getRelationValue('department')->getAttribute('id')"  width="6"  class="pr-1" :options="$departments" label="Department" />
                                     <x-input::select  name="company_id"    :value="optional($data)->getRelationValue('company')->getAttribute('id')"  width="6"  class="pr-1" :options="$companies" label="Company" />
                                     @if (auth()->user()->isDeveloper())
-                                        <x-input::text  readonly :value="optional($data)->getAttribute('verify_code')"   width="6"  class="pr-1" label="Verify Code"/>
+                                        <label>Verify Code</label>
+                                        <div class="form-control">{{optional($data)->getAttribute('verify_code')}}</div>
                                     @endif
                                 </div>
                             </div>
