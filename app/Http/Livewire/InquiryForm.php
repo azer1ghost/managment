@@ -196,6 +196,7 @@ class InquiryForm extends Component
         else{
             foreach ($fields as $field)
             {
+                if($name == $field) continue;
                 $this->selected[$field] = null;
                 $this->formFields[$field]['class'] = "is-invalid";
             }
