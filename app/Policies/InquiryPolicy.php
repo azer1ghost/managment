@@ -40,7 +40,7 @@ class InquiryPolicy
     public function update(User $user, Inquiry $inquiry): \Illuminate\Auth\Access\Response
     {
         if (
-            $inquiry->getParameter('status')->getAttribute('id') != 22 &&
+            optional($inquiry->getParameter('status'))->getAttribute('id') != 22 &&
             ($inquiry->getAttribute('user_id') === $user->getAttribute('id'))  &&
             $user->role->hasPermission(__FUNCTION__."-$this->class") &&
             $user->canEditInquiry($inquiry)
@@ -54,7 +54,7 @@ class InquiryPolicy
     public function delete(User $user, Inquiry $inquiry): bool
     {
         return
-            $inquiry->getParameter('status')->getAttribute('id') != 22 &&
+            optional($inquiry->getParameter('status'))->getAttribute('id') != 22 &&
             $user->role->hasPermission(__FUNCTION__."-{$this->class}") &&
             $inquiry->getAttribute('user_id') === $user->getAttribute('id') &&
             $user->canEditInquiry($inquiry);
