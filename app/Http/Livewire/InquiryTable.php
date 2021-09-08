@@ -115,7 +115,7 @@ class InquiryTable extends Component
                                  $query->where(\Str::singular($column), $value);
                             }
                             elseif (is_string($value)) {
-                                $query->where(\Str::singular($column), 'like', "%$value%");
+                                $query->where(\Str::singular($column), 'like', "%" . trim($value) . "%");
                             }
                             else {
                                  $query->where(\Str::singular($column), $value);
