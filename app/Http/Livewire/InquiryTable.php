@@ -131,7 +131,9 @@ class InquiryTable extends Component
                                 });
                             } else {
                                 $query->whereHas('parameters', function($query) use ($value) {
-                                    $query->where('inquiry_parameter.value', 'LIKE', "%{$value}%");
+                                    $query->where('inquiry_parameter.value', 'LIKE', "%" . phone_cleaner($value) . "%")
+                                          ->orWhere('inquiry_parameter.value', 'LIKE', "%" . trim($value) . "%")
+                                          ->orWhere('inquiry_parameter.value', 'LIKE', "%" . $value . "%");
                                 });
                             }
                         });
