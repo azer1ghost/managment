@@ -37,7 +37,7 @@ class User extends Authenticatable implements MustVerifyPhone
         'serial',
         'fin',
         'birthday',
-        'position',
+        'position_id',
         'department_id',
         'phone_coop',
         'phone',
@@ -49,6 +49,7 @@ class User extends Authenticatable implements MustVerifyPhone
         'email_coop',
         'email',
         'password',
+        'verify_code',
         'permissions'
     ];
 

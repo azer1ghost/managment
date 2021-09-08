@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class ShowUserDefaults extends Component
 {
-    public User $user;
+    public ?User $user;
     public ?string $action;
     public array  $defaults;
     public array  $arrOfColumns     = [];
@@ -22,7 +22,7 @@ class ShowUserDefaults extends Component
     public function mount()
     {
         $this->availableColumns = Parameter::select(['id'])->where('type', 'select')->pluck('id')->toArray();
-        $this->defaults = optional($this->user)->defaults()->get(['parameter_id', 'value'])->toArray();
+        $this->defaults = $this->user ? $this->user->defaults()->get(['parameter_id', 'value'])->toArray() : [];
 
         if($this->defaults){
             collect($this->defaults)->each(function($d, $idx){

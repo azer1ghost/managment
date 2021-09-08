@@ -16,6 +16,7 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         $password = $this->isMethod('POST') && !$this->routeIs('account.save') ? 'required' : 'nullable';
+        $unique_user = $this->isMethod('POST') && !$this->routeIs('account.save') ? null : $this->user->id ;
         return [
             'name'           => 'required|string|max:255',
             'surname'        => 'nullable|string|max:255',
@@ -25,9 +26,9 @@ class UserRequest extends FormRequest
             'serial'         => 'nullable|string|max:255',
             'serial_pattern' => 'nullable|string|max:255',
             'fin'            => 'nullable|string|max:255',
-            'email'          => 'required|email:rfc,dns|unique:users,email,' . $this->user->id,
-            'email_coop'     => 'required|email:rfc,dns|unique:users,email_coop,' . $this->user->id,
-            'position'       => 'nullable|string|max:255',
+            'email'          => 'required|email:rfc,dns|unique:users,email,' . $unique_user,
+            'email_coop'     => 'required|allowed_domain|email:rfc,dns|unique:users,email_coop,' . $unique_user,
+            'position_id'    => 'nullable|integer',
             'phone'          => 'nullable|string|max:255',
             'phone_coop'     => 'nullable|string|max:255',
             'country'        => 'nullable|string|max:255',

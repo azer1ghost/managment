@@ -30,11 +30,11 @@
                                 <p class="text-muted mb-2">EMPLOYMENT</p>
                                 <hr class="my-2">
                                 <div class="row">
-                                    <x-input::text    name="position"      :value="auth()->user()->getAttribute('position')"   width="6"  class="pr-1" label="Position"/>
+                                    <x-input::select  name="position_id"   :value="auth()->user()->getRelationValue('position')->getAttribute('id')"   width="6"  class="pr-1" :options="$positions" label="Position" />
                                     <x-input::select  name="department_id" :value="auth()->user()->getRelationValue('department')->getAttribute('id')" width="6"  class="pr-1" :options="$departments" label="Department" />
-                                    <x-input::select  name="company_id"    :value="auth()->user()->getRelationValue('company')->getAttribute('id')"  width="6"  class="pr-1" :options="$companies" label="Company" />
+                                    <x-input::select  name="company_id"    :value="auth()->user()->getRelationValue('company')->getAttribute('id')"  width="6"  class="pr-1"   :options="$companies" label="Company" />
                                     @if (auth()->user()->isDeveloper())
-                                        <x-input::text  readonly :value="auth()->user()->getAttribute('verify_code')"   width="6"  class="pr-1" label="Verify Code"/>
+                                        <x-input::text name="verify_code" readonly :value="auth()->user()->getAttribute('verify_code')"   width="6"  class="pr-1" label="Verify Code"/>
                                     @endif
                                 </div>
                             </div>
@@ -66,8 +66,8 @@
                                     <p class="text-muted mb-2">ADDRESS</p>
                                     <hr class="my-2">
                                 </div>
-                                <x-input::select  name="country"   :value="auth()->user()->getAttribute('country')"  width="3" class="pr-1" :options="['Azerbaijan','Turkey']"/>
-                                <x-input::select  name="city"      :value="auth()->user()->getAttribute('city')"     width="3" class="pr-1" :options="['Baku','Sumgayit']"/>
+                                <x-input::select  name="country"   :value="auth()->user()->getAttribute('country')"  width="3" class="pr-1" :options="['Azerbaijan' => 'Azerbaijan', 'Turkey' => 'Turkey']"/>
+                                <x-input::select  name="city"      :value="auth()->user()->getAttribute('city')"     width="3" class="pr-1" :options="['Baku' => 'Baku', 'Sumgayit' => 'Sumgayit']"/>
                                 <x-input::text    name="address"   :value="auth()->user()->getAttribute('address')"  width="6" class="pr-1" />
                                 <x-input::text    name="password" width="6" class="pr-1" type="password" />
                                 <x-input::text    name="password_confirmation" width="6" class="pr-1" label="Password Confirmation" type="password"/>
@@ -102,14 +102,14 @@
                                             @if (!Str::contains($prevPerm, $type) || $loop->first)
                                                 <div class="col-12 col-md-4 my-2">
                                                     <p class="text-muted my-2">{{ucfirst($type)}}</p>
-                                                    @endif
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" @if (Str::contains(auth()->user()->getAttribute('permissions'),$perm)) checked @endif type="checkbox" name="perms[]" value="{{$perm}}" id="perm-{{$loop->iteration}}">
-                                                        <label class="form-check-label" for="perm-{{$loop->iteration}}">
-                                                            {{$perm}}
-                                                        </label>
-                                                    </div>
-                                                    @if (!Str::contains($nextPerm, $type) || $loop->first) </div> @endif
+                                            @endif
+                                            <div class="form-check">
+                                                <input class="form-check-input" @if (Str::contains(auth()->user()->getAttribute('permissions'),$perm)) checked @endif type="checkbox" name="perms[]" value="{{$perm}}" id="perm-{{$loop->iteration}}">
+                                                <label class="form-check-label" for="perm-{{$loop->iteration}}">
+                                                    {{$perm}}
+                                                </label>
+                                            </div>
+                                            @if (!Str::contains($nextPerm, $type) || $loop->first) </div> @endif
                                         @endforeach
                                     </div>
                                     @error("perms") <p class="text-danger">{{$message}}</p> @enderror

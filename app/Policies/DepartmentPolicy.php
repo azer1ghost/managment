@@ -4,13 +4,13 @@ namespace App\Policies;
 
 use App\Models\Department;
 use App\Models\User;
+use App\Traits\GetClassInfo;
+use App\Traits\UserAllowAccess;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class DepartmentPolicy
 {
-    use HandlesAuthorization;
-
-    protected string $class = 'department';
+    use HandlesAuthorization, UserAllowAccess, GetClassInfo;
 
     public function before(User $user): ?bool
     {
@@ -19,27 +19,27 @@ class DepartmentPolicy
 
     public function viewAny(User $user): bool
     {
-        return $this->canAccessFunction($user, __FUNCTION__, $this->class);
+        return $this->canAccessFunction($user, __FUNCTION__, $this->getClassShortName('s'));
     }
 
     public function view(User $user, Department $department): bool
     {
-        return $this->canAccessFunction($user, __FUNCTION__, $this->class);
+        return $this->canAccessFunction($user, __FUNCTION__, $this->getClassShortName('s'));
     }
 
     public function create(User $user): bool
     {
-        return $this->canManage($user, $this->class);
+        return $this->canManage($user, $this->getClassShortName('s'));
     }
 
     public function update(User $user, Department $department): bool
     {
-        return $this->canManage($user, $this->class);
+        return $this->canManage($user, $this->getClassShortName('s'));
     }
 
     public function delete(User $user, Department $department): bool
     {
-        return $this->canManage($user, $this->class);
+        return $this->canManage($user, $this->getClassShortName('s'));
     }
 }
 

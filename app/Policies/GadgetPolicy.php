@@ -4,11 +4,12 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Traits\GetClassInfo;
+use App\Traits\UserAllowAccess;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class GadgetPolicy
 {
-    use HandlesAuthorization, GetClassInfo;
+    use HandlesAuthorization, UserAllowAccess, GetClassInfo;
 
     public function before(User $user): ?bool
     {
@@ -17,26 +18,26 @@ class GadgetPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->role->hasPermission(__FUNCTION__."-".$this->getClassShortName('s'));
+        return $this->canAccessFunction($user, __FUNCTION__, $this->getClassShortName('s'));
     }
 
     public function view(User $user): bool
     {
-        return $user->role->hasPermission(__FUNCTION__."-".$this->getClassShortName('s'));
+        return $this->canAccessFunction($user, __FUNCTION__, $this->getClassShortName('s'));
     }
 
     public function create(User $user): bool
     {
-        return $user->role->hasPermission("manage-".$this->getClassShortName('s'));
+        return $this->canManage($user, $this->getClassShortName('s'));
     }
 
     public function update(User $user): bool
     {
-        return $user->role->hasPermission("manage-".$this->getClassShortName('s'));
+        return $this->canManage($user, $this->getClassShortName('s'));
     }
 
     public function delete(User $user): bool
     {
-        return $user->role->hasPermission("manage-".$this->getClassShortName('s'));
+        return $this->canManage($user, $this->getClassShortName('s'));
     }
 }

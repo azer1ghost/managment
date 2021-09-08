@@ -4,13 +4,13 @@ namespace App\Policies;
 
 use App\Models\Option;
 use App\Models\User;
+use App\Traits\GetClassInfo;
+use App\Traits\UserAllowAccess;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class OptionPolicy
 {
-    use HandlesAuthorization;
-
-    protected string $class = 'option';
+    use HandlesAuthorization, UserAllowAccess, GetClassInfo;
 
     public function before(User $user): ?bool
     {
@@ -19,26 +19,26 @@ class OptionPolicy
 
     public function viewAny(User $user): bool
     {
-        return $this->canAccessFunction($user, __FUNCTION__, $this->class);
+        return $this->canAccessFunction($user, __FUNCTION__, $this->getClassShortName('s'));
     }
 
     public function view(User $user, Option $option): bool
     {
-        return $this->canAccessFunction($user, __FUNCTION__, $this->class);
+        return $this->canAccessFunction($user, __FUNCTION__, $this->getClassShortName('s'));
     }
 
     public function create(User $user): bool
     {
-        return $this->canManage($user, $this->class);
+        return $this->canManage($user, $this->getClassShortName('s'));
     }
 
     public function update(User $user, Option $option): bool
     {
-        return $this->canManage($user, $this->class);
+        return $this->canManage($user, $this->getClassShortName('s'));
     }
 
     public function delete(User $user, Option $option): bool
     {
-        return $this->canManage($user, $this->class);
+        return $this->canManage($user, $this->getClassShortName('s'));
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Modules\UserController;
 use App\Http\Requests\UserRequest;
 use App\Models\Company;
 use App\Models\Department;
+use App\Models\Position;
 use App\Models\Role;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -26,14 +27,15 @@ class AccountController extends Controller
         return view('panel.pages.main.account',[
             'roles' => Role::all()->pluck('name','id')->toArray(),
             'departments' => Department::all()->pluck('name', 'id')->toArray(),
-            'companies' => Company::all()->pluck('name', 'id')->toArray()
+            'companies' => Company::all()->pluck('name', 'id')->toArray(),
+            'positions' => Position::all()->pluck('name', 'id')->toArray(),
 ]);
     }
 
     public function save(UserRequest $request, User $user): RedirectResponse
     {
         $validated = $request->validated();
-//        dd($validated);
+
         $currentRole = $request->user()->getRelationValue('role')->getAttribute('id');
         $currentCompany = $request->user()->getRelationValue('company')->getAttribute('id');
         $currentDepartment = $request->user()->getRelationValue('department')->getAttribute('id');
@@ -43,7 +45,8 @@ class AccountController extends Controller
         $validated['company_id']     =  !in_array($currentRole, array(1, 2)) ? $currentCompany : $validated['company_id'];
         $validated['department_id']  =  !in_array($currentRole, array(1, 2)) ? $currentDepartment : $validated['department_id'];
 
-        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms']);
+        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms'] ?? []);
+        $validated['permissions'] = empty(trim($validated['permissions'])) ? null : $validated['permissions'];
 
         if ($request->file('avatar')) {
 
@@ -58,10 +61,10 @@ class AccountController extends Controller
 
         $user->update($validated);
 
-        if($request->get('defaults')){
-            $reversColumns = array_column($request->get('defaults'), 'value', 'parameter_id');
-            $user->defaults()->sync(syncResolver($reversColumns,'value'));
-        }
+        // update user defaults
+        $reversColumns = array_column($request->get('defaults') ?? [], 'value', 'parameter_id');
+        $user->defaults()->sync(syncResolver($reversColumns,'value'));
+
         return back()->withNotify('info', $user->getAttribute('fullname'));
     }
 }

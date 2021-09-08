@@ -50,7 +50,8 @@ class PositionController extends Controller
     {
         $validated = $request->validated();
 
-        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms']);
+        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms'] ?? []);
+        $validated['permissions'] = empty(trim($validated['permissions'])) ? null : $validated['permissions'];
 
         $position = Position::create($request->validated());
 
@@ -87,7 +88,8 @@ class PositionController extends Controller
     {
         $validated = $request->validated();
 
-        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms']);
+        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms'] ?? []);
+        $validated['permissions'] = empty(trim($validated['permissions'])) ? null : $validated['permissions'];
 
         $position->update($validated);
 

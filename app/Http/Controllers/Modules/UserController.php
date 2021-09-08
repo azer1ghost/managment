@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Department;
+use App\Models\Position;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
@@ -39,15 +40,24 @@ class UserController extends Controller
             ->with([
                 'action' => route('users.store'),
                 'method' => null,
-                'data' => null
+                'data' => null,
+                'roles'  => Role::all()->pluck('name','id')->toArray(),
+                'departments' => Department::all()->pluck('name', 'id')->toArray(),
+                'companies' => Company::all()->pluck('name', 'id')->toArray(),
+                'positions' => Position::all()->pluck('name', 'id')->toArray(),
             ]);
     }
 
     public function store(UserRequest $request): RedirectResponse
     {
         $validated = $request->validated();
+
         $validated['password'] = Hash::make($validated['password']);
-        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms']);
+
+        $validated['verify_code'] = rand(111111, 999999);
+
+        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms'] ?? []);
+        $validated['permissions'] = empty(trim($validated['permissions'])) ? null : $validated['permissions'];
 
         if ($request->file('avatar')) {
 
@@ -58,10 +68,9 @@ class UserController extends Controller
 
         $user = User::create($validated);
 
-        if($request->get('defaults')){
-            $reversColumns = array_column($request->get('defaults'), 'value', 'parameter_id');
-            $user->defaults()->sync(syncResolver($reversColumns,'value'));
-        }
+        // update user defaults
+        $reversColumns = array_column($request->get('defaults') ?? [], 'value', 'parameter_id');
+        $user->defaults()->sync(syncResolver($reversColumns,'value'));
 
         return redirect()
             ->route('users.index')
@@ -78,6 +87,7 @@ class UserController extends Controller
                 'roles'  => Role::all()->pluck('name','id')->toArray(),
                 'departments' => Department::all()->pluck('name', 'id')->toArray(),
                 'companies' => Company::all()->pluck('name', 'id')->toArray(),
+                'positions' => Position::all()->pluck('name', 'id')->toArray(),
                 'data' => $user
             ]);
     }
@@ -91,6 +101,7 @@ class UserController extends Controller
                 'roles'  => Role::all()->pluck('name','id')->toArray(),
                 'departments' => Department::all()->pluck('name', 'id')->toArray(),
                 'companies' => Company::all()->pluck('name', 'id')->toArray(),
+                'positions' => Position::all()->pluck('name', 'id')->toArray(),
                 'data' => $user
             ]);
     }
@@ -98,7 +109,9 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user): RedirectResponse
     {
         $validated = $request->validated();
-        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms']);
+
+        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms'] ?? []);
+        $validated['permissions'] = empty(trim($validated['permissions'])) ? null : $validated['permissions'];
 
         if(is_null($request->get('password'))){
             unset($validated['password']);
@@ -117,10 +130,9 @@ class UserController extends Controller
 
         $user->update($validated);
 
-        if($request->get('defaults')){
-            $reversColumns = array_column($request->get('defaults'), 'value', 'parameter_id');
-            $user->defaults()->sync(syncResolver($reversColumns,'value'));
-        }
+        // update user defaults
+        $reversColumns = array_column($request->get('defaults') ?? [], 'value', 'parameter_id');
+        $user->defaults()->sync(syncResolver($reversColumns,'value'));
 
         return back()->withNotify('info', $user->getAttribute('name'));
     }
