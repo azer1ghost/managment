@@ -31,6 +31,7 @@ class InquiryTable extends Component
 
     public array $filters = [
         'code'       => null,
+        'note'       => null,
         'company_id' => [],
         'user_id' => [],
     ];
