@@ -89,8 +89,8 @@ class User extends Authenticatable implements MustVerifyPhone
             $permissions = config('auth.permissions');
         }else{
             $permissions = explode(',', $this->getAttribute('permissions'));
-            $permissions[] = explode(',', $this->getRelationValue('position')->getAttribute('permissions'));
-            $permissions[] = explode(',', $this->getRelationValue('role')->getAttribute('permissions'));
+            $permissions = array_merge($permissions, explode(',', $this->getRelationValue('position')->getAttribute('permissions')));
+            $permissions = array_merge($permissions, explode(',', $this->getRelationValue('role')->getAttribute('permissions')));
         }
 
         if($this->getAttribute('permissions') == 'all'){
