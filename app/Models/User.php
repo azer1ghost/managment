@@ -86,18 +86,20 @@ class User extends Authenticatable implements MustVerifyPhone
     public function hasPermission($perm): bool
     {
         if (app()->environment('local')){
-            $permissions = config('auth.permissions');
+            $userPermissions = config('auth.permissions');
+            $positionPermissions = [];
+            $rolePermissions = [];
         }else{
-            $permissions = explode(',', $this->getAttribute('permissions'));
-            $permissions = array_merge($permissions, explode(',', $this->getRelationValue('position')->getAttribute('permissions')));
-            $permissions = array_merge($permissions, explode(',', $this->getRelationValue('role')->getAttribute('permissions')));
+            $userPermissions = explode(',', $this->getAttribute('permissions'));
+            $positionPermissions = explode(',', $this->getRelationValue('position')->getAttribute('permissions'));
+            $rolePermissions = explode(',', $this->getRelationValue('role')->getAttribute('permissions'));
         }
 
         if($this->getAttribute('permissions') == 'all'){
             return true;
         }
 
-        return in_array($perm, $permissions, true);
+        return in_array($perm, array_merge($userPermissions, $positionPermissions, $rolePermissions), true);
     }
 
     public function getFullnameAttribute(): string
