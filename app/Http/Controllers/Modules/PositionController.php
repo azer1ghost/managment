@@ -51,7 +51,7 @@ class PositionController extends Controller
 
         $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms'] ?? []);
         $validated['permissions'] = empty(trim($validated['permissions'])) ? null : $validated['permissions'];
-        dd($validated);
+
         $position = Position::create($validated);
 
         return redirect()
