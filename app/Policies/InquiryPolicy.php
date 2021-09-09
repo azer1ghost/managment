@@ -12,27 +12,12 @@ class InquiryPolicy
 {
     use HandlesAuthorization, HandlesPolicy, GetClassInfo;
 
-    public function before(User $user): ?bool
-    {
-        return $user->isDeveloper() || $user->isAdministrator() ? true: null;
-    }
-
-    public function viewAny(User $user): bool
-    {
-        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
-    }
-
     public function view(User $user, Inquiry $inquiry): bool
     {
         return
             ($this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
             $this->canManage($user, $this->getClassShortName('s'), 'viewAll')) &&
             $inquiry->getAttribute('user_id') === $user->getAttribute('id');
-    }
-
-    public function create(User $user): bool
-    {
-        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 
     public function update(User $user, Inquiry $inquiry): \Illuminate\Auth\Access\Response
