@@ -15,6 +15,7 @@ class UpdateEmailColumnToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('email')->nullable()->change();
+            $table->text('permissions')->nullable();
             $table->string('email_coop')->nullable()->change();
         });
     }
