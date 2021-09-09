@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-trait UserAllowAccess
+trait HandlesPolicy
 {
     public function canManage($user, $class, $function = 'manage'): bool
     {

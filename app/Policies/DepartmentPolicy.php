@@ -5,12 +5,12 @@ namespace App\Policies;
 use App\Models\Department;
 use App\Models\User;
 use App\Traits\GetClassInfo;
-use App\Traits\UserAllowAccess;
+use App\Traits\HandlesPolicy;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class DepartmentPolicy
 {
-    use HandlesAuthorization, UserAllowAccess, GetClassInfo;
+    use HandlesAuthorization, HandlesPolicy, GetClassInfo;
 
     public function before(User $user): ?bool
     {

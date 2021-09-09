@@ -6,11 +6,11 @@ use App\Models\Company;
 use App\Models\User;
 use App\Traits\GetClassInfo;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use App\Traits\UserAllowAccess;
+use App\Traits\HandlesPolicy;
 
 class CompanyPolicy
 {
-    use HandlesAuthorization, UserAllowAccess, GetClassInfo;
+    use HandlesAuthorization, HandlesPolicy, GetClassInfo;
 
     public function before(User $user): ?bool
     {
