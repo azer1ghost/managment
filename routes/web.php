@@ -11,8 +11,8 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\ParameterController,
     Modules\RoleController,
     Modules\UserController,
-    PositionController,
-    TaskController};
+    Modules\PositionController,
+    Modules\TaskController};
 use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\{Auth, Route};
 
