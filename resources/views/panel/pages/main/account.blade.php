@@ -157,6 +157,7 @@
             $('select[name="role_id"]').attr('disabled', true)
             $('select[name="department_id"]').attr('disabled', true)
             $('select[name="company_id"]').attr('disabled', true)
+            $('select[name="position_id"]').attr('disabled', true)
             $('#perm-0').parent().parent().hide()
         </script>
     @endif
