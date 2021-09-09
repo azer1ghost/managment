@@ -119,7 +119,7 @@ class User extends Authenticatable implements MustVerifyPhone
 
     public function inquiries(): HasMany
     {
-        return $this->hasMany(Inquiry::class)->withDefault();
+        return $this->hasMany(Inquiry::class);
     }
 
     public function editableInquiries(): BelongsToMany
