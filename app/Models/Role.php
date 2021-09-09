@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\UserAllowAccess;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Translatable\HasTranslations;
@@ -13,25 +14,11 @@ use Illuminate\Support\Str;
  */
 class Role extends Model
 {
-    use HasTranslations;
+    use HasTranslations, UserAllowAccess;
 
     public array $translatable = ['name'];
+
     protected $fillable = ['name', 'key', 'permissions'];
-
-    public function hasPermission($perm): bool
-    {
-        if (app()->environment('local')){
-            $permissions = config('auth.permissions');
-        }else{
-            $permissions = explode(',', $this->getAttribute('permissions'));
-        }
-
-        if($this->getAttribute('permissions') == 'all'){
-            return true;
-        }
-
-        return in_array($perm, $permissions, true);
-    }
 
     public function getShortPermissionsAttribute(): string
     {

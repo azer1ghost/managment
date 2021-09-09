@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\Auth\MustVerifyPhone;
+use App\Traits\UserAllowAccess;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,7 +21,7 @@ use Illuminate\Notifications\Notifiable;
  */
 class User extends Authenticatable implements MustVerifyPhone
 {
-    use HasFactory, Notifiable, SoftDeletes, \App\Traits\Auth\MustVerifyPhone;
+    use HasFactory, Notifiable, SoftDeletes, UserAllowAccess, \App\Traits\Auth\MustVerifyPhone;
 
     /**
      * The attributes that are mass assignable.
@@ -96,21 +97,6 @@ class User extends Authenticatable implements MustVerifyPhone
     public function isAdministrator(): bool
     {
         return $this->getAttribute('role_id') === 2;
-    }
-
-    public function hasPermission($perm): bool
-    {
-        if (env('APP_ENV','local') == 'local'){
-            $permissions = config('auth.permissions');
-        }else{
-            $permissions = explode(',', $this->getAttribute('permissions'));
-        }
-
-        if($this->getAttribute('permissions') == 'all'){
-            return true;
-        }
-
-        return in_array($perm, $permissions, true);
     }
 
     public function inquiries(): HasMany

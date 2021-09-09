@@ -26,9 +26,7 @@ class InquiryPolicy
     public function view(User $user, Inquiry $inquiry): bool
     {
         return
-            ($user->isDeveloper() ||
-            $user->isAdministrator() ||
-            $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
+            ($this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
             $this->canManage($user, $this->getClassShortName('s'), 'viewAll')) &&
             $inquiry->getAttribute('user_id') === $user->getAttribute('id');
     }
