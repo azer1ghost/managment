@@ -24,6 +24,16 @@ $( function() {
         maxDate: new Date()
     });
 
+    $( "input[name='time']" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "dd-mm-yy",
+        showAnim: "slideDown",
+        minDate: '-1m',
+        maxDate: new Date()
+    });
+
+
     $("a[delete]").click(function(e){
         let url  = $(this).attr('href')
         let name = $(this).data('name') ?? 'Record'
