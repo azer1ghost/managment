@@ -37,7 +37,7 @@ class User extends Authenticatable implements MustVerifyPhone
         'serial',
         'fin',
         'birthday',
-        'position',
+        'position_id',
         'department_id',
         'phone_coop',
         'phone',
@@ -49,6 +49,8 @@ class User extends Authenticatable implements MustVerifyPhone
         'email_coop',
         'email',
         'password',
+        'verify_code',
+        'permissions'
     ];
 
     /**
@@ -76,6 +78,11 @@ class User extends Authenticatable implements MustVerifyPhone
         return $this->belongsTo(Role::class);
     }
 
+    public function position(): BelongsTo
+    {
+        return $this->belongsTo(Position::class);
+    }
+
     public function getFullnameAttribute(): string
     {
         return "{$this->getAttribute('name')} {$this->getAttribute('surname')}";
@@ -89,6 +96,21 @@ class User extends Authenticatable implements MustVerifyPhone
     public function isAdministrator(): bool
     {
         return $this->getAttribute('role_id') === 2;
+    }
+
+    public function hasPermission($perm): bool
+    {
+        if (env('APP_ENV','local') == 'local'){
+            $permissions = config('auth.permissions');
+        }else{
+            $permissions = explode(',', $this->getAttribute('permissions'));
+        }
+
+        if($this->getAttribute('permissions') == 'all'){
+            return true;
+        }
+
+        return in_array($perm, $permissions, true);
     }
 
     public function inquiries(): HasMany

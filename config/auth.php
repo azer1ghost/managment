@@ -25,6 +25,7 @@ return [
         'viewAny-company', 'view-company', 'manage-company',
         'viewAny-gadget', 'view-gadget', 'manage-gadget',
         'viewAny-role', 'view-role', 'manage-role',
+        'viewAny-position', 'view-position', 'manage-position',
         'viewAny-department', 'view-department', 'manage-department',
         'viewAny-parameter', 'view-parameter', 'manage-parameter',
         'viewAny-option', 'view-option', 'manage-option',

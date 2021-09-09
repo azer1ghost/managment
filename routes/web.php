@@ -10,7 +10,8 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\OptionController,
     Modules\ParameterController,
     Modules\RoleController,
-    Modules\UserController};
+    Modules\UserController,
+    PositionController};
 use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\{Auth, Route};
 
@@ -36,6 +37,7 @@ Route::prefix('module')->group(function () {
     Route::resource('/users', UserController::class);
     Route::resource('/roles', RoleController::class);
     Route::resource('/departments', DepartmentController::class);
+    Route::resource('/positions', PositionController::class);
 });
 
 Auth::routes(['login' => false]);

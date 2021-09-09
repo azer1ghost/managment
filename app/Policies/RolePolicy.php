@@ -4,13 +4,13 @@ namespace App\Policies;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Traits\GetClassInfo;
+use App\Traits\UserAllowAccess;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class RolePolicy
 {
-    use HandlesAuthorization;
-
-    protected string $class = 'role';
+    use HandlesAuthorization, UserAllowAccess, GetClassInfo;
 
     public function before(User $user): ?bool
     {
@@ -19,27 +19,27 @@ class RolePolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->role->hasPermission(__FUNCTION__."-{$this->class}");
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 
     public function view(User $user, Role $role): bool
     {
-        return $user->role->hasPermission(__FUNCTION__."-{$this->class}");
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 
     public function create(User $user): bool
     {
-        return $user->role->hasPermission("manage-{$this->class}");
+        return $this->canManage($user, $this->getClassShortName('s'));
     }
 
     public function update(User $user, Role $role): bool
     {
-        return $user->role->hasPermission("manage-{$this->class}");
+        return $this->canManage($user, $this->getClassShortName('s'));
     }
 
     public function delete(User $user, Role $role): bool
     {
-        return $user->role->hasPermission("manage-{$this->class}");
+        return $this->canManage($user, $this->getClassShortName('s'));
     }
 }
 

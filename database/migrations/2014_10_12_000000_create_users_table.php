@@ -24,8 +24,9 @@ class CreateUsersTable extends Migration
             $table->string('serial')->nullable();
             $table->string('fin')->nullable();
             $table->date('birthday')->nullable();
-            $table->string('position')->nullable();
-            $table->string('department_id')->nullable();
+            $table->integer('position_id')->nullable();
+            $table->text('permissions')->nullable();
+            $table->integer('department_id')->nullable();
             $table->string('email')->nullable()->unique();
             $table->string('email_coop')->nullable()->unique();
             $table->string('phone')->nullable();
@@ -34,13 +35,12 @@ class CreateUsersTable extends Migration
             $table->string('city')->nullable();
             $table->string('address')->nullable();
             $table->integer('company_id')->nullable();
-            $table->integer('role_id')->default(2);
+            $table->integer('role_id')->default(4);
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('phone_verified_at')->nullable();
             $table->integer('verify_code')->nullable();
             $table->string('password');
-            $table->string('personal_id')->nullable()->unique();
-            $table->string('position_id')->nullable();
+            $table->integer('personal_id')->nullable()->unique();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

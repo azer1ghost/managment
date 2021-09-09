@@ -25,9 +25,11 @@ class Role extends Model
         }else{
             $permissions = explode(',', $this->getAttribute('permissions'));
         }
+
         if($this->getAttribute('permissions') == 'all'){
             return true;
         }
+
         return in_array($perm, $permissions, true);
     }
 
@@ -39,5 +41,10 @@ class Role extends Model
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
+    }
+
+    public function positions(): HasMany
+    {
+        return $this->hasMany(Position::class);
     }
 }

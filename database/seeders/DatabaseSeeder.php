@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Position;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder
 //            InquirySeeder::class,
             DepartmentSeeder::class,
             OptionParameterSeeder::class,
+            PositionSeeder::class,
         ]);
     }
 }

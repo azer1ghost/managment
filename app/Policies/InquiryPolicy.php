@@ -4,13 +4,13 @@ namespace App\Policies;
 
 use App\Models\Inquiry;
 use App\Models\User;
+use App\Traits\GetClassInfo;
+use App\Traits\UserAllowAccess;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class InquiryPolicy
 {
-    use HandlesAuthorization;
-
-    protected string $class = 'inquiry';
+    use HandlesAuthorization, UserAllowAccess, GetClassInfo;
 
     public function before(User $user): ?bool
     {
@@ -19,30 +19,31 @@ class InquiryPolicy
 
     public function viewAny(User $user)
     {
-        return $user->role->hasPermission(__FUNCTION__."-{$this->class}");
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
+
     }
 
     public function view(User $user, Inquiry $inquiry): bool
     {
         return
-            $user->isDeveloper() ||
+            ($user->isDeveloper() ||
             $user->isAdministrator() ||
-            $user->role->hasPermission('viewAll-inquiry') ||
-            $user->role->hasPermission(__FUNCTION__."-{$this->class}") &&
+            $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
+            $this->canManage($user, $this->getClassShortName('s'), 'viewAll')) &&
             $inquiry->getAttribute('user_id') === $user->getAttribute('id');
     }
 
     public function create(User $user): bool
     {
-        return $user->role->hasPermission(__FUNCTION__."-{$this->class}");
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
+
     }
 
     public function update(User $user, Inquiry $inquiry): \Illuminate\Auth\Access\Response
     {
         if (
-            optional($inquiry->getParameter('status'))->getAttribute('id') != 22 &&
             ($inquiry->getAttribute('user_id') === $user->getAttribute('id'))  &&
-            $user->role->hasPermission(__FUNCTION__."-$this->class") &&
+            $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) &&
             $user->canEditInquiry($inquiry)
         ) {
             return $this->allow();
@@ -54,8 +55,7 @@ class InquiryPolicy
     public function delete(User $user, Inquiry $inquiry): bool
     {
         return
-            optional($inquiry->getParameter('status'))->getAttribute('id') != 22 &&
-            $user->role->hasPermission(__FUNCTION__."-{$this->class}") &&
+            $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) &&
             $inquiry->getAttribute('user_id') === $user->getAttribute('id') &&
             $user->canEditInquiry($inquiry);
     }
@@ -63,7 +63,7 @@ class InquiryPolicy
     public function restore(User $user, Inquiry $inquiry): bool
     {
         return
-            $user->role->hasPermission(__FUNCTION__."-{$this->class}") &&
+            $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) &&
             $inquiry->getAttribute('user_id') === $user->getAttribute('id') &&
             $user->canEditInquiry($inquiry);
     }
@@ -71,7 +71,7 @@ class InquiryPolicy
     public function forceDelete(User $user, Inquiry $inquiry): bool
     {
         return
-            $user->role->hasPermission(__FUNCTION__."-{$this->class}") &&
+            $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) &&
             $inquiry->getAttribute('user_id') === $user->getAttribute('id') &&
             $user->canEditInquiry($inquiry);
     }

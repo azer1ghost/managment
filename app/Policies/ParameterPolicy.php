@@ -4,13 +4,13 @@ namespace App\Policies;
 
 use App\Models\Parameter;
 use App\Models\User;
+use App\Traits\GetClassInfo;
+use App\Traits\UserAllowAccess;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ParameterPolicy
 {
-    use HandlesAuthorization;
-
-    protected string $class = 'parameter';
+    use HandlesAuthorization, UserAllowAccess, GetClassInfo;
 
     public function before(User $user): ?bool
     {
@@ -19,26 +19,26 @@ class ParameterPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->role->hasPermission(__FUNCTION__."-{$this->class}");
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 
     public function view(User $user, Parameter $parameter): bool
     {
-        return $user->role->hasPermission(__FUNCTION__."-{$this->class}");
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 
     public function create(User $user): bool
     {
-        return $user->role->hasPermission("manage-{$this->class}");
+        return $this->canManage($user, $this->getClassShortName('s'));
     }
 
     public function update(User $user, Parameter $parameter): bool
     {
-        return $user->role->hasPermission("manage-{$this->class}");
+        return $this->canManage($user, $this->getClassShortName('s'));
     }
 
     public function delete(User $user, Parameter $parameter): bool
     {
-        return $user->role->hasPermission("manage-{$this->class}");
+        return $this->canManage($user, $this->getClassShortName('s'));
     }
 }

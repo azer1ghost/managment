@@ -2,15 +2,16 @@
 
 namespace App\Policies;
 
-use App\Models\Option;
+use App\Models\Position;
 use App\Models\User;
 use App\Traits\GetClassInfo;
 use App\Traits\UserAllowAccess;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class OptionPolicy
+class PositionPolicy
 {
     use HandlesAuthorization, UserAllowAccess, GetClassInfo;
+
 
     public function before(User $user): ?bool
     {
@@ -22,7 +23,7 @@ class OptionPolicy
         return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 
-    public function view(User $user, Option $option): bool
+    public function view(User $user, Position $position): bool
     {
         return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
@@ -32,12 +33,12 @@ class OptionPolicy
         return $this->canManage($user, $this->getClassShortName('s'));
     }
 
-    public function update(User $user, Option $option): bool
+    public function update(User $user, Position $position): bool
     {
         return $this->canManage($user, $this->getClassShortName('s'));
     }
 
-    public function delete(User $user, Option $option): bool
+    public function delete(User $user, Position $position): bool
     {
         return $this->canManage($user, $this->getClassShortName('s'));
     }

@@ -33,7 +33,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <p style="margin: 0; padding: 0; font-size: 13px;color: rgb(130,130,130);">{{$user->getAttribute('position')}}</p>
+                        <p style="margin: 0; padding: 0; font-size: 13px;color: rgb(130,130,130);">{{$user->getRelationValue('position')->getAttribute('name')}}</p>
                     </td>
                 </tr>
                 <tr>
