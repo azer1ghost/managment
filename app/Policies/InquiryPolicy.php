@@ -20,7 +20,6 @@ class InquiryPolicy
     public function viewAny(User $user): bool
     {
         return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
-
     }
 
     public function view(User $user, Inquiry $inquiry): bool

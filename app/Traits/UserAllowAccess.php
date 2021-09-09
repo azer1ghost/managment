@@ -6,8 +6,6 @@ trait UserAllowAccess
 {
     public function canManage($user, $class, $function = 'manage'): bool
     {
-        return $user->hasPermission("{$function}-{$class}") ||
-               $user->getRelationValue('role')->hasPermission("{$function}-{$class}") ||
-               $user->getRelationValue('position')->hasPermission("{$function}-{$class}");
+        return $user->hasPermission("{$function}-{$class}");
     }
 }

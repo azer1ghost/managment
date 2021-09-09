@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\Permission;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Translatable\HasTranslations;
@@ -14,7 +13,7 @@ use Illuminate\Support\Str;
  */
 class Role extends Model
 {
-    use HasTranslations, Permission;
+    use HasTranslations;
 
     public array $translatable = ['name'];
 

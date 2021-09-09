@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Contracts\Auth\MustVerifyPhone;
-use App\Traits\Permission;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -90,6 +89,8 @@ class User extends Authenticatable implements MustVerifyPhone
             $permissions = config('auth.permissions');
         }else{
             $permissions = explode(',', $this->getAttribute('permissions'));
+            $permissions[] = explode(',', $this->getRelationValue('position')->getAttribute('permissions'));
+            $permissions[] = explode(',', $this->getRelationValue('role')->getAttribute('permissions'));
         }
 
         if($this->getAttribute('permissions') == 'all'){
@@ -172,7 +173,7 @@ class User extends Authenticatable implements MustVerifyPhone
         return $this->attributes['phone'] = phone_cleaner($value);
     }
 
-    public function setPasswordAttribute($value)
+    public function setPasswordAttribute($value): string
     {
         return $this->attributes['password'] = bcrypt($value);
     }
