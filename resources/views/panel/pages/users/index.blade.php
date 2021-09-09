@@ -47,7 +47,7 @@
                                         <tbody>
                                         @forelse($users as $user)
                                             <tr>
-                                                <th scope="row">{{$loop->iteration}}</th>
+                                                <th scope="row">{{$user->getAttribute('id')}}</th>
                                                 <td>{{$user->getAttribute('fullname')}} @if($user->getAttribute('id') === auth()->id()) <h5 class="d-inline"><span class="badge badge-info text-white">Me</span></h5> @endif</td>
                                                 <td>{{$user->getAttribute('fin')}}</td>
                                                 <td>{{$user->getAttribute('email')}}</td>
@@ -78,9 +78,9 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <th colspan="4">
+                                                <th colspan="8">
                                                     <div class="row justify-content-center m-3">
-                                                        <div class="col-7 alert alert-danger text-center" role="alert">Empty for now</div>
+                                                        <div class="col-7 alert alert-danger text-center" role="alert">Not found!</div>
                                                     </div>
                                                 </th>
                                             </tr>

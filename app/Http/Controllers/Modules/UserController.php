@@ -29,7 +29,9 @@ class UserController extends Controller
         return view('panel.pages.users.index')
             ->with([
                 'users' => User::query()
-                    ->when($search, fn ($query) => $query->where('name', 'like', "%".ucfirst($search)."%"))
+                    ->when($search, fn ($query) => $query->where('name', 'like', "%".$search."%")
+                                                         ->orWhere('surname', 'like', "%".$search."%")
+                                                         ->orWhere('id', $search))
                     ->simplePaginate(10)
             ]);
     }
