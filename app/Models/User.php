@@ -21,7 +21,7 @@ use Illuminate\Notifications\Notifiable;
  */
 class User extends Authenticatable implements MustVerifyPhone
 {
-    use HasFactory, Notifiable, SoftDeletes, Permission, \App\Traits\Auth\MustVerifyPhone;
+    use HasFactory, Notifiable, SoftDeletes, \App\Traits\Auth\MustVerifyPhone;
 
     /**
      * The attributes that are mass assignable.
@@ -82,6 +82,21 @@ class User extends Authenticatable implements MustVerifyPhone
     public function position(): BelongsTo
     {
         return $this->belongsTo(Position::class);
+    }
+
+    public function hasPermission($perm): bool
+    {
+        if (app()->environment('local')){
+            $permissions = config('auth.permissions');
+        }else{
+            $permissions = explode(',', $this->getAttribute('permissions'));
+        }
+
+        if($this->getAttribute('permissions') == 'all'){
+            return true;
+        }
+
+        return in_array($perm, $permissions, true);
     }
 
     public function getFullnameAttribute(): string
