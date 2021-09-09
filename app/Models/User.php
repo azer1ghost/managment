@@ -75,12 +75,12 @@ class User extends Authenticatable implements MustVerifyPhone
 
     public function role(): BelongsTo
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class)->withDefault();
     }
 
     public function position(): BelongsTo
     {
-        return $this->belongsTo(Position::class);
+        return $this->belongsTo(Position::class)->withDefault();
     }
 
     public function hasPermission($perm): bool
@@ -117,7 +117,7 @@ class User extends Authenticatable implements MustVerifyPhone
 
     public function inquiries(): HasMany
     {
-        return $this->hasMany(Inquiry::class);
+        return $this->hasMany(Inquiry::class)->withDefault();
     }
 
     public function editableInquiries(): BelongsToMany
@@ -136,12 +136,12 @@ class User extends Authenticatable implements MustVerifyPhone
 
     public function department(): BelongsTo
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(Department::class)->withDefault();
     }
 
     public function company(): BelongsTo
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class)->withDefault();
     }
 
     public function defaults(): BelongsToMany
