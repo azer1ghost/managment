@@ -87,7 +87,7 @@ class UserController extends Controller
                 'roles'  => Role::all()->pluck('name','id')->toArray(),
                 'departments' => Department::all()->pluck('name', 'id')->toArray(),
                 'companies' => Company::all()->pluck('name', 'id')->toArray(),
-                'positions' => Position::all()->pluck('name', 'id')->toArray(),
+                'positions' => $user->getRelationValue('department')->positions()->pluck('name', 'id')->toArray(),
                 'data' => $user
             ]);
     }
@@ -101,7 +101,7 @@ class UserController extends Controller
                 'roles'  => Role::all()->pluck('name','id')->toArray(),
                 'departments' => Department::all()->pluck('name', 'id')->toArray(),
                 'companies' => Company::all()->pluck('name', 'id')->toArray(),
-                'positions' => Position::all()->pluck('name', 'id')->toArray(),
+                'positions' => $user->getRelationValue('department')->positions()->pluck('name', 'id')->toArray(),
                 'data' => $user
             ]);
     }
