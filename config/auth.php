@@ -22,7 +22,7 @@ return [
         'generally',
         'signature',
         'viewAny-account', 'manage-account',
-        'viewAny-company', 'view-company', 'manage-company',
+        'viewAny-company', 'view-company', 'create-company', 'update-company', 'delete-company',
         'viewAny-gadget', 'view-gadget', 'manage-gadget',
         'viewAny-role', 'view-role', 'manage-role',
         'viewAny-position', 'view-position', 'manage-position',

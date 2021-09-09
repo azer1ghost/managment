@@ -79,6 +79,7 @@ class RegisterController extends Controller
             'department_id' => $data['department_id'],
             'company_id' => $data['company_id'],
             'password' => $data['password'],
+            'verify_code' => rand(111111, 999999)
         ]);
 
     }

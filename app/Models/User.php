@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\Auth\MustVerifyPhone;
+use App\Traits\Loger;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,7 +21,7 @@ use Illuminate\Notifications\Notifiable;
  */
 class User extends Authenticatable implements MustVerifyPhone
 {
-    use HasFactory, Notifiable, SoftDeletes, \App\Traits\Auth\MustVerifyPhone;
+    use HasFactory, Notifiable, SoftDeletes, Loger, \App\Traits\Auth\MustVerifyPhone;
 
     /**
      * The attributes that are mass assignable.
@@ -75,12 +76,32 @@ class User extends Authenticatable implements MustVerifyPhone
 
     public function role(): BelongsTo
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class)->withDefault();
     }
 
     public function position(): BelongsTo
     {
-        return $this->belongsTo(Position::class);
+        return $this->belongsTo(Position::class)->withDefault();
+    }
+
+    public function hasPermission($perm): bool
+    {
+        if (app()->environment('local')){
+            $permissions = config('auth.permissions');
+        }else{
+            $permissions = explode(',',
+                $this->getAttribute('permissions').",".
+                $this->getRelationValue('position')->getAttribute('permissions').",".
+                $this->getRelationValue('role')->getAttribute('permissions'));
+        }
+
+        $uniqPermissions = array_unique($permissions);
+
+        if(in_array('all', $uniqPermissions, true)){
+            return true;
+        }
+
+        return in_array($perm, $uniqPermissions, true);
     }
 
     public function getFullnameAttribute(): string
@@ -96,21 +117,6 @@ class User extends Authenticatable implements MustVerifyPhone
     public function isAdministrator(): bool
     {
         return $this->getAttribute('role_id') === 2;
-    }
-
-    public function hasPermission($perm): bool
-    {
-        if (env('APP_ENV','local') == 'local'){
-            $permissions = config('auth.permissions');
-        }else{
-            $permissions = explode(',', $this->getAttribute('permissions'));
-        }
-
-        if($this->getAttribute('permissions') == 'all'){
-            return true;
-        }
-
-        return in_array($perm, $permissions, true);
     }
 
     public function inquiries(): HasMany
@@ -134,12 +140,12 @@ class User extends Authenticatable implements MustVerifyPhone
 
     public function department(): BelongsTo
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(Department::class)->withDefault();
     }
 
     public function company(): BelongsTo
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class)->withDefault();
     }
 
     public function defaults(): BelongsToMany
@@ -171,7 +177,7 @@ class User extends Authenticatable implements MustVerifyPhone
         return $this->attributes['phone'] = phone_cleaner($value);
     }
 
-    public function setPasswordAttribute($value)
+    public function setPasswordAttribute($value): string
     {
         return $this->attributes['password'] = bcrypt($value);
     }

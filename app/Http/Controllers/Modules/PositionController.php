@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Modules;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\PositionRequest;
-use App\Models\Department;
-use App\Models\Position;
-use App\Models\Role;
+use App\Models\{Department, Position, Role};
 use Illuminate\Http\Request;
 
 class PositionController extends Controller
@@ -53,7 +52,7 @@ class PositionController extends Controller
         $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms'] ?? []);
         $validated['permissions'] = empty(trim($validated['permissions'])) ? null : $validated['permissions'];
 
-        $position = Position::create($request->validated());
+        $position = Position::create($validated);
 
         return redirect()
             ->route('positions.edit', $position)

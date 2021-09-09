@@ -86,14 +86,14 @@ return [
         'cabinet'    => 'Kabinet',
         'company'    => 'Şirkətlər',
         'account'    => 'Hesab',
-        'signature'  => 'İmza',
+        'signature'  => 'Email İmza',
         'inquiry'    => 'Sorğular',
         'parameter'  => 'Parametrlər',
         'option'     => 'Seçimlər',
         'role'       => 'Rollar',
         'user'       => 'İstifadəçilər',
         'department' => 'Şöbələr',
-        'position'   => 'Vəzifə',
+        'position'   => 'Vəzifələr',
     ],
 
     'date' => [

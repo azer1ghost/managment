@@ -30,8 +30,8 @@
                                 <p class="text-muted mb-2">EMPLOYMENT</p>
                                 <hr class="my-2">
                                 <div class="row">
-                                    <x-input::select default="1"  name="position_id"   :value="optional(optional($data)->getRelationValue('position'))->getAttribute('id')"    width="6"  class="pr-1" :options="$positions"   label="Position" />
                                     <x-input::select default="1" name="department_id" :value="optional(optional($data)->getRelationValue('department'))->getAttribute('id')"  width="6"  class="pr-1" :options="$departments" label="Department" />
+                                    <x-input::select default="1"  name="position_id"   :value="optional(optional($data)->getRelationValue('position'))->getAttribute('id')"    width="6"  class="pr-1" :options="$positions"   label="Position" />
                                     <x-input::select default="1" name="company_id"    :value="optional(optional($data)->getRelationValue('company'))->getAttribute('id')"     width="6"  class="pr-1" :options="$companies"   label="Company" />
                                     @if (auth()->user()->isDeveloper() && !is_null($data))
                                         <x-input::text name="verify_code" readonly :value="optional($data)->getAttribute('verify_code')"   width="6"  class="pr-1" label="Verify Code"/>

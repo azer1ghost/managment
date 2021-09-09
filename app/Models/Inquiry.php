@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Loger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use mysql_xdevapi\Warning;
 
 class Inquiry extends Model
 {
@@ -96,51 +98,11 @@ class Inquiry extends Model
     public static function userCanViewAll(): bool
     {
         $user = auth()->user();
-        return $user->isDeveloper() || $user->isAdministrator() || $user->role->hasPermission('viewAll-inquiry');
+        return $user->isDeveloper() || $user->isAdministrator() || $user->hasPermission('viewAll-inquiry');
     }
 
+    public function logs(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(Log::class, 'logable');
+    }
 }
-
-
-
-
-
-
-//protected static function booted()
-//{
-//        static::created(function ($inquiry) {
-//            //
-//        });
-
-//        static::updated(function ($inquiry) {
-//
-//            $namespace = explode('\\', static::class);
-//            $model = last($namespace);
-//            $action = "updated";
-//
-//            $log = [
-//                'model'   => $model,
-//                'id'      => $inquiry->id,
-//                'user_id' => auth()->id(),
-//                'action'  => $action,
-//                'message' => "The {$model} was {$action}",
-//                'old'     => $inquiry,
-//                'changes' => $inquiry->getChanges(),
-//                'created_at' => now()
-//            ];
-//
-//             Log::channel('daily')->info(json_encode($log));
-//        });
-
-//        static::softDeleted(function ($inquiry) {
-//            //
-//        });
-//
-//        static::forceDeleted(function ($inquiry) {
-//            //
-//        });
-//
-//        static::restored(function ($inquiry) {
-//            //
-//        });
-//}

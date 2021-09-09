@@ -18,6 +18,7 @@ class CreateRolesTable extends Migration
             $table->string('name');
             $table->string('key')->unique();
             $table->text('permissions');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\{Auth, Route};
 
 Route::redirect('/','/welcome')->name('home');
 Route::get('/welcome', [PlatformController::class, 'welcome'])->name('welcome');
-Route::get('/dashboard', [PlatformController::class, 'dashboard'])->middleware('verified_phone')->name('dashboard');
+Route::get('/dashboard', [PlatformController::class, 'dashboard'])->name('dashboard');
 
 Route::get('/account', [AccountController::class, 'account'])->name('account');
 Route::post('/account/{user}', [AccountController::class, 'save'])->name('account.save');

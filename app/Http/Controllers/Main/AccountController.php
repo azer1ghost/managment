@@ -28,8 +28,8 @@ class AccountController extends Controller
             'roles' => Role::all()->pluck('name','id')->toArray(),
             'departments' => Department::all()->pluck('name', 'id')->toArray(),
             'companies' => Company::all()->pluck('name', 'id')->toArray(),
-            'positions' => Position::all()->pluck('name', 'id')->toArray(),
-]);
+            'positions' =>  auth()->user()->getRelationValue('department')->positions()->pluck('name', 'id')->toArray(),
+        ]);
     }
 
     public function save(UserRequest $request, User $user): RedirectResponse

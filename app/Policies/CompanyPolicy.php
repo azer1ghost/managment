@@ -2,43 +2,27 @@
 
 namespace App\Policies;
 
-use App\Models\Company;
 use App\Models\User;
 use App\Traits\GetClassInfo;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use App\Traits\UserAllowAccess;
+use App\Traits\HandlesPolicy;
 
 class CompanyPolicy
 {
-    use HandlesAuthorization, UserAllowAccess, GetClassInfo;
-
-    public function before(User $user): ?bool
-    {
-        return $user->isDeveloper() || $user->isAdministrator() ? true: null;
-    }
-
-    public function viewAny(User $user): bool
-    {
-        return $this->canAccessFunction($user, __FUNCTION__, $this->getClassShortName('s'));
-    }
-
-    public function view(User $user, Company $company): bool
-    {
-        return $this->canAccessFunction($user, __FUNCTION__, $this->getClassShortName('s'));
-    }
+    use HandlesAuthorization, HandlesPolicy, GetClassInfo;
 
     public function create(User $user): bool
     {
-        return $this->canManage($user, $this->getClassShortName('s'));
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 
-    public function update(User $user, Company $company): bool
+    public function update(User $user): bool
     {
-        return $this->canManage($user, $this->getClassShortName('s'));
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 
-    public function delete(User $user, Company $company): bool
+    public function delete(User $user): bool
     {
-        return $this->canManage($user, $this->getClassShortName('s'));
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 }

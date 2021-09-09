@@ -29,7 +29,10 @@ class UserController extends Controller
         return view('panel.pages.users.index')
             ->with([
                 'users' => User::query()
-                    ->when($search, fn ($query) => $query->where('name', 'like', "%".ucfirst($search)."%"))
+                    ->when($search, fn ($query) => $query->where('name', 'like', "%".$search."%")
+                                                         ->orWhere('surname', 'like', "%".$search."%")
+                                                         ->orWhere('fin', 'like', "%".$search."%")
+                                                         ->orWhere('id', $search))
                     ->simplePaginate(10)
             ]);
     }
@@ -87,7 +90,7 @@ class UserController extends Controller
                 'roles'  => Role::all()->pluck('name','id')->toArray(),
                 'departments' => Department::all()->pluck('name', 'id')->toArray(),
                 'companies' => Company::all()->pluck('name', 'id')->toArray(),
-                'positions' => Position::all()->pluck('name', 'id')->toArray(),
+                'positions' => $user->getRelationValue('department')->positions()->pluck('name', 'id')->toArray(),
                 'data' => $user
             ]);
     }
@@ -101,7 +104,7 @@ class UserController extends Controller
                 'roles'  => Role::all()->pluck('name','id')->toArray(),
                 'departments' => Department::all()->pluck('name', 'id')->toArray(),
                 'companies' => Company::all()->pluck('name', 'id')->toArray(),
-                'positions' => Position::all()->pluck('name', 'id')->toArray(),
+                'positions' => $user->getRelationValue('department')->positions()->pluck('name', 'id')->toArray(),
                 'data' => $user
             ]);
     }

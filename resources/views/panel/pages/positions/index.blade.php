@@ -31,7 +31,7 @@
                                     </div>
                                 @endcan
                                 <div class="col-12">
-                                    <table class="table table-hover">
+                                    <table class="table table-responsive-sm table-hover">
                                         <thead>
                                         <tr>
                                             <th scope="col">#</th>
@@ -80,25 +80,29 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="col-6 row position-filters">
-                                    <div class="form-group">
-                                        <select name="role" class="form-control">
-                                            <option value="">Roles</option>
-                                            @foreach ($roles as $role)
-                                                <option @if($role->getAttribute('id') == request()->get('role')) selected @endif value="{{$role->getAttribute('id')}}">{{$role->getAttribute('name')}}</option>
-                                            @endforeach
-                                        </select>
+                                <div class="col-12 col-md-6 row position-filters">
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <select name="role" class="form-control">
+                                                <option value="">Roles</option>
+                                                @foreach ($roles as $role)
+                                                    <option @if($role->getAttribute('id') == request()->get('role')) selected @endif value="{{$role->getAttribute('id')}}">{{$role->getAttribute('name')}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <select name="department" class="form-control">
-                                            <option value="">Departments</option>
-                                            @foreach ($departments as $dep)
-                                                <option @if($dep->getAttribute('id') == request()->get('department')) selected @endif value="{{$dep->getAttribute('id')}}">{{$dep->getAttribute('name')}}</option>
-                                            @endforeach
-                                        </select>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <select name="department" class="form-control">
+                                                <option value="">Departments</option>
+                                                @foreach ($departments as $dep)
+                                                    <option @if($dep->getAttribute('id') == request()->get('department')) selected @endif value="{{$dep->getAttribute('id')}}">{{$dep->getAttribute('name')}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-12 col-md-6">
                                     <div class="float-right">
                                         {{$positions->links()}}
                                     </div>

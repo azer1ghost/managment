@@ -67,6 +67,10 @@
             <label for="clientNamePhoneFilter">@lang('translates.filters.or', ['first' => __('translates.fields.client'), 'second' => __('translates.fields.phone'), 'third' => __('translates.fields.mail')])</label>
             <input type="search" id="clientNamePhoneFilter" placeholder="@lang('translates.placeholders.or', ['first' => __('translates.fields.client'), 'second' => __('translates.fields.phone'), 'third' =>  __('translates.fields.mail')])" class="form-control" wire:model.defer="parameterFilters.search_client">
         </div>
+        <div class="form-group col-12 col-md-3 mt-2 mb-3 mb-md-0">
+            <label for="noteFilter">@lang('translates.fields.note')</label>
+            <textarea id="noteFilter" cols="5" rows="2" placeholder="@lang('translates.placeholders.note')" class="form-control" wire:model.defer="filters.note"></textarea>
+        </div>
     </form>
 
     <div class="col-12">
@@ -86,7 +90,7 @@
         </div>
     </div>
     <div class="col-md-12 overflow-auto">
-        <table class="table table-hover">
+        <table class="table table-responsive-sm table-hover">
             <thead>
                 <tr>
                     <th>{{__('translates.fields.mgCode')}}</th>

@@ -31,6 +31,7 @@ class InquiryTable extends Component
 
     public array $filters = [
         'code'       => null,
+        'note'       => null,
         'company_id' => [],
         'user_id' => [],
     ];
@@ -114,7 +115,7 @@ class InquiryTable extends Component
                                  $query->where(\Str::singular($column), $value);
                             }
                             elseif (is_string($value)) {
-                                $query->where(\Str::singular($column), 'like', "%$value%");
+                                $query->where(\Str::singular($column), 'like', "%" . trim($value) . "%");
                             }
                             else {
                                  $query->where(\Str::singular($column), $value);
@@ -131,7 +132,9 @@ class InquiryTable extends Component
                                 });
                             } else {
                                 $query->whereHas('parameters', function($query) use ($value) {
-                                    $query->where('inquiry_parameter.value', 'LIKE', "%{$value}%");
+                                    $query->where('inquiry_parameter.value', 'LIKE', "%" . phone_cleaner($value) . "%")
+                                          ->orWhere('inquiry_parameter.value', 'LIKE', "%" . trim($value) . "%")
+                                          ->orWhere('inquiry_parameter.value', 'LIKE', "%" . $value . "%");
                                 });
                             }
                         });
