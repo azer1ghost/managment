@@ -1,5 +1,5 @@
 <div class="col-12">
-    <table class="table table-hover">
+    <table class="table table-responsive-sm table-hover">
         <thead>
         <tr>
             <th scope="col">#</th>

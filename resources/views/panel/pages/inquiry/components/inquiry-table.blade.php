@@ -90,7 +90,7 @@
         </div>
     </div>
     <div class="col-md-12 overflow-auto">
-        <table class="table table-hover">
+        <table class="table table-responsive-sm table-hover">
             <thead>
                 <tr>
                     <th>{{__('translates.fields.mgCode')}}</th>
