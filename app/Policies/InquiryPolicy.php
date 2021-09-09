@@ -33,7 +33,6 @@ class InquiryPolicy
     public function create(User $user): bool
     {
         return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
-
     }
 
     public function update(User $user, Inquiry $inquiry): \Illuminate\Auth\Access\Response

@@ -22,7 +22,7 @@ class DepartmentPolicy
         return $this->canManage($user, $this->getClassShortName('s'),  __FUNCTION__);
     }
 
-    public function view(User $user, Department $department): bool
+    public function view(User $user): bool
     {
         return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
@@ -32,12 +32,12 @@ class DepartmentPolicy
         return $this->canManage($user, $this->getClassShortName('s'));
     }
 
-    public function update(User $user, Department $department): bool
+    public function update(User $user): bool
     {
         return $this->canManage($user, $this->getClassShortName('s'));
     }
 
-    public function delete(User $user, Department $department): bool
+    public function delete(User $user): bool
     {
         return $this->canManage($user, $this->getClassShortName('s'));
     }
