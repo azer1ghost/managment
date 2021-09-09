@@ -31,6 +31,7 @@ class UserController extends Controller
                 'users' => User::query()
                     ->when($search, fn ($query) => $query->where('name', 'like', "%".$search."%")
                                                          ->orWhere('surname', 'like', "%".$search."%")
+                                                         ->orWhere('fin', 'like', "%".$search."%")
                                                          ->orWhere('id', $search))
                     ->simplePaginate(10)
             ]);
