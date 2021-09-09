@@ -69,8 +69,8 @@
                                 <x-input::select  name="country"   :value="auth()->user()->getAttribute('country')"  width="3" class="pr-1" :options="['Azerbaijan' => 'Azerbaijan', 'Turkey' => 'Turkey']"/>
                                 <x-input::select  name="city"      :value="auth()->user()->getAttribute('city')"     width="3" class="pr-1" :options="['Baku' => 'Baku', 'Sumgayit' => 'Sumgayit']"/>
                                 <x-input::text    name="address"   :value="auth()->user()->getAttribute('address')"  width="6" class="pr-1" />
-                                <x-input::text    name="password" width="6" class="pr-1" type="password" />
-                                <x-input::text    name="password_confirmation" width="6" class="pr-1" label="Password Confirmation" type="password"/>
+                                <x-input::text    name="password" width="6" class="pr-1" type="password" autocomplete="off"/>
+                                <x-input::text    name="password_confirmation" width="6" class="pr-1" label="Password Confirmation" type="password" autocomplete="off"/>
                                 <x-input::select  name="role_id"   :value="auth()->user()->getRelationValue('role')->getAttribute('id')"  width="3" class="pr-1" :options="$roles" label="Role"/>
 
                                 <div class="col-md-12">
