@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Loger;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -17,7 +18,7 @@ use Spatie\Translatable\HasTranslations;
  */
 class Parameter extends Model
 {
-    use HasTranslations, SoftDeletes;
+    use HasTranslations, SoftDeletes, Loger;
 
     public array $translatable = ['label', 'placeholder'];
 

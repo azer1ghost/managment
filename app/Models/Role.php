@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Traits\Loger;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 use Illuminate\Support\Str;
 
@@ -13,7 +15,7 @@ use Illuminate\Support\Str;
  */
 class Role extends Model
 {
-    use HasTranslations;
+    use HasTranslations, SoftDeletes, Loger;
 
     public array $translatable = ['name'];
 
