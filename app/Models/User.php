@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\Auth\MustVerifyPhone;
-use App\Traits\UserAllowAccess;
+use App\Traits\Permission;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,7 +21,7 @@ use Illuminate\Notifications\Notifiable;
  */
 class User extends Authenticatable implements MustVerifyPhone
 {
-    use HasFactory, Notifiable, SoftDeletes, UserAllowAccess, \App\Traits\Auth\MustVerifyPhone;
+    use HasFactory, Notifiable, SoftDeletes, Permission, \App\Traits\Auth\MustVerifyPhone;
 
     /**
      * The attributes that are mass assignable.

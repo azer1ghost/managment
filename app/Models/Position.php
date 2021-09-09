@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Traits\UserAllowAccess;
+use App\Traits\Permission;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +11,7 @@ use Spatie\Translatable\HasTranslations;
 
 class Position extends Model
 {
-    use HasFactory, HasTranslations, SoftDeletes, UserAllowAccess;
+    use HasFactory, HasTranslations, SoftDeletes, Permission;
 
     public array $translatable = ['name'];
 

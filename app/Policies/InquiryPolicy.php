@@ -17,7 +17,7 @@ class InquiryPolicy
         return $user->isDeveloper() || $user->isAdministrator() ? true: null;
     }
 
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
         return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
 
