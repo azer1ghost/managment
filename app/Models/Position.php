@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Loger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,7 +11,7 @@ use Spatie\Translatable\HasTranslations;
 
 class Position extends Model
 {
-    use HasFactory, HasTranslations, SoftDeletes;
+    use HasFactory, HasTranslations, SoftDeletes, Loger;
 
     public array $translatable = ['name'];
 

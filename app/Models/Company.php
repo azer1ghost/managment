@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Loger;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Company extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Loger;
 
     protected $fillable = [
         'name',

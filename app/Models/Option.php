@@ -3,15 +3,17 @@
 namespace App\Models;
 
 
+use App\Traits\Loger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 
 class Option extends Model
 {
-    use HasFactory, HasTranslations;
+    use HasFactory, HasTranslations, Loger, SoftDeletes;
 
     public array $translatable = ['text'];
 
