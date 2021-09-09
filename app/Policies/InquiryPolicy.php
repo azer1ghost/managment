@@ -19,7 +19,7 @@ class InquiryPolicy
 
     public function viewAny(User $user)
     {
-        return $this->canAccessFunction($user, __FUNCTION__, $this->getClassShortName('s'));
+        return $this->canAccessFunction($user, $this->getClassShortName('s'), __FUNCTION__);
 
     }
 
@@ -28,14 +28,14 @@ class InquiryPolicy
         return
             ($user->isDeveloper() ||
             $user->isAdministrator() ||
-            $this->canAccessFunction($user, __FUNCTION__, $this->getClassShortName('s')) ||
-            $this->canAccessFunction($user, 'viewAll', $this->getClassShortName('s'))) &&
+            $this->canAccessFunction($user, $this->getClassShortName('s'), __FUNCTION__) ||
+            $this->canAccessFunction($user, $this->getClassShortName('s'), 'viewAll')) &&
             $inquiry->getAttribute('user_id') === $user->getAttribute('id');
     }
 
     public function create(User $user): bool
     {
-        return $this->canAccessFunction($user, __FUNCTION__, $this->getClassShortName('s'));
+        return $this->canAccessFunction($user, $this->getClassShortName('s'), __FUNCTION__);
 
     }
 
@@ -43,7 +43,7 @@ class InquiryPolicy
     {
         if (
             ($inquiry->getAttribute('user_id') === $user->getAttribute('id'))  &&
-            $this->canAccessFunction($user, __FUNCTION__, $this->getClassShortName('s')) &&
+            $this->canAccessFunction($user, $this->getClassShortName('s'), __FUNCTION__) &&
             $user->canEditInquiry($inquiry)
         ) {
             return $this->allow();
@@ -55,7 +55,7 @@ class InquiryPolicy
     public function delete(User $user, Inquiry $inquiry): bool
     {
         return
-            $this->canAccessFunction($user, __FUNCTION__, $this->getClassShortName('s')) &&
+            $this->canAccessFunction($user, $this->getClassShortName('s'), __FUNCTION__) &&
             $inquiry->getAttribute('user_id') === $user->getAttribute('id') &&
             $user->canEditInquiry($inquiry);
     }
@@ -63,7 +63,7 @@ class InquiryPolicy
     public function restore(User $user, Inquiry $inquiry): bool
     {
         return
-            $this->canAccessFunction($user, __FUNCTION__, $this->getClassShortName('s')) &&
+            $this->canAccessFunction($user, $this->getClassShortName('s'), __FUNCTION__) &&
             $inquiry->getAttribute('user_id') === $user->getAttribute('id') &&
             $user->canEditInquiry($inquiry);
     }
@@ -71,7 +71,7 @@ class InquiryPolicy
     public function forceDelete(User $user, Inquiry $inquiry): bool
     {
         return
-            $this->canAccessFunction($user, __FUNCTION__, $this->getClassShortName('s')) &&
+            $this->canAccessFunction($user, $this->getClassShortName('s'), __FUNCTION__) &&
             $inquiry->getAttribute('user_id') === $user->getAttribute('id') &&
             $user->canEditInquiry($inquiry);
     }
