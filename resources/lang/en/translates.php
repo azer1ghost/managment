@@ -90,6 +90,7 @@ return [
         'account'    => 'Account',
         'signature'  => 'Signature',
         'inquiry'    => 'Inquiries',
+        'task'       => 'Tasks',
         'parameter'  => 'Parameters',
         'option'     => 'Options',
         'role'       => 'Roles',
