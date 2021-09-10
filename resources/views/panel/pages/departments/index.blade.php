@@ -25,7 +25,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @can('create', App\Models\Role::class)
+                                @can('create', App\Models\Department::class)
                                     <div class="col-2">
                                         <a class="btn btn-outline-success float-right" href="{{route('departments.create')}}">@lang('translates.buttons.create')</a>
                                     </div>

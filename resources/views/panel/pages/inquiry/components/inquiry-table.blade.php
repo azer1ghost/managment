@@ -1,6 +1,14 @@
 @section('style')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <style>
+        .custom-dropdown    {
+            min-width: max-content !important;
+            /*padding: 10px !important;*/
+            /*top: 45px !important;*/
+            /*left: -10px !important;*/
+        }
+    </style>
 @endsection
 <div>
     <form id="inquiryFilterForm" class="row">
@@ -90,7 +98,7 @@
         </div>
     </div>
     <div class="col-md-12 overflow-auto">
-        <table class="table table-responsive-sm table-hover">
+        <table class="table table-responsive-sm table-hover table-striped" style="min-height: 500px">
             <thead>
                 <tr>
                     <th>{{__('translates.fields.mgCode')}}</th>
@@ -118,49 +126,62 @@
                         @if (optional($inquiry->getParameter('status'))->getAttribute('id') == 22 || !auth()->user()->can('view', $inquiry) )
                             <i class="fa fa-check text-success" style="font-size: 18px"></i>
                         @else
-                            <select class="form-control" style="width:auto;" onfocus="this.oldValue = this.value" id="inquiry-{{$inquiry->getAttribute('id')}}" onchange="inquiryStatusHandler(this, {{$inquiry->getAttribute('id')}}, '{{$inquiry->getAttribute('code')}}', this.oldValue, this.value)">
-                                <option value="null" @if (!optional($inquiry->getParameter('status'))->getAttribute('id')) selected @else  @endif>@lang('translates.filters.select')</option>
-                                @foreach ($statuses as $status)
-                                    <option
-                                            @if ($status->getAttribute('id') == optional($inquiry->getParameter('status'))->getAttribute('id')) selected @endif
-                                            value="{{$status->getAttribute('id')}}"
-                                    >
-                                        {{$status->getAttribute('text')}}
-                                    </option>
-                                @endforeach
-                            </select>
+                            @if($trashBox)
+                                {{optional($inquiry->getParameter('status'))->getAttribute('text') ?? __('translates.filters.select')}}
+                            @else
+                                <select class="form-control" style="width:auto;" onfocus="this.oldValue = this.value" id="inquiry-{{$inquiry->getAttribute('id')}}" onchange="inquiryStatusHandler(this, {{$inquiry->getAttribute('id')}}, '{{$inquiry->getAttribute('code')}}', this.oldValue, this.value)">
+                                    <option value="null" @if (!optional($inquiry->getParameter('status'))->getAttribute('id')) selected @else  @endif>@lang('translates.filters.select')</option>
+                                    @foreach ($statuses as $status)
+                                        <option
+                                                @if ($status->getAttribute('id') == optional($inquiry->getParameter('status'))->getAttribute('id')) selected @endif
+                                        value="{{$status->getAttribute('id')}}"
+                                        >
+                                            {{$status->getAttribute('text')}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            @endif
                         @endif
                     </td>
                     <td>
-                        <div class="btn-sm-group" >
-                            @if($trashBox)
-                                @can('restore', $inquiry)
-                                    <a href="{{route('inquiry.restore', $inquiry)}}" class="btn btn-sm btn-outline-primary" >
-                                        <i class="fal fa-repeat"></i>
-                                    </a>
-                                @endcan
-                                @can('forceDelete', $inquiry)
-                                    <a onclick="deleteAction('{{route('inquiry.forceDelete', $inquiry)}}', '{{$inquiry->code}}')" class="btn btn-sm btn-outline-danger" >
-                                        <i class="fa fa-times"></i>
-                                    </a>
-                                @endcan
-                            @else
+                        <div class="btn-sm-group d-flex align-items-center justify-content-center">
+                            @if(!$trashBox)
                                 @can('view', $inquiry)
-                                    <a href="{{route('inquiry.show', $inquiry)}}" class="btn btn-sm btn-outline-primary">
+                                    <a href="{{route('inquiry.show', $inquiry)}}" class="btn btn-sm btn-outline-primary mr-2">
                                         <i class="fal fa-eye"></i>
                                     </a>
                                 @endcan
-                                @can('update', $inquiry)
-                                    <a href="{{route('inquiry.edit', $inquiry)}}" class="btn btn-sm btn-outline-success">
-                                        <i class="fal fa-pen"></i>
-                                    </a>
-                                @endcan
-                                @can('delete', $inquiry)
-                                    <a onclick="deleteAction('{{route('inquiry.destroy', $inquiry)}}', '{{$inquiry->code}}')" class="btn btn-sm btn-outline-danger" >
-                                        <i class="fal fa-trash-alt"></i>
-                                    </a>
-                                @endcan
                             @endif
+                            <div class="dropdown">
+                                <button class="btn" type="button" id="inquiry_actions-{{$loop->iteration}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fal fa-ellipsis-v-alt"></i>
+                                </button>
+                                <div class="dropdown-menu custom-dropdown">
+                                    @if($trashBox)
+                                        @can('restore', $inquiry)
+                                            <a href="{{route('inquiry.restore', $inquiry)}}" class="dropdown-item-text text-decoration-none">
+                                                <i class="fal fa-repeat pr-2 text-info"></i>Restore
+                                            </a>
+                                        @endcan
+                                        @can('forceDelete', $inquiry)
+                                            <a href="javascript:void(0)" onclick="deleteAction('{{route('inquiry.forceDelete', $inquiry)}}', '{{$inquiry->code}}')" class="dropdown-item-text text-decoration-none">
+                                                <i class="fa fa-times pr-2 text-danger"></i>Permanent delete
+                                            </a>
+                                        @endcan
+                                    @else
+                                        @can('update', $inquiry)
+                                            <a href="{{route('inquiry.edit', $inquiry)}}" class="dropdown-item-text text-decoration-none">
+                                                <i class="fal fa-pen pr-2 text-success"></i>Edit
+                                            </a>
+                                        @endcan
+                                        @can('delete', $inquiry)
+                                            <a href="javascript:void(0)" onclick="deleteAction('{{route('inquiry.destroy', $inquiry)}}', '{{$inquiry->code}}')" class="dropdown-item-text text-decoration-none">
+                                                <i class="fal fa-trash-alt pr-2 text-danger"></i>Delete
+                                            </a>
+                                        @endcan
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                     </td>
                 </tr>

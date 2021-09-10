@@ -105,4 +105,9 @@ class Inquiry extends Model
     {
         return $this->morphMany(Log::class, 'logable');
     }
+
+    public function tasks(): HasMany
+    {
+        return $this->hasMany(Task::class,);
+    }
 }
