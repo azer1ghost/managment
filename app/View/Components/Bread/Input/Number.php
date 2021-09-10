@@ -25,7 +25,7 @@ class Number extends Component
         <<<'blade'
           <div {{ $attributes->merge(['class' => 'form-group col-12 col-md-'.$width]) }}>
                 <label for="data-{{$name}}">{{$label ?? Str::ucfirst($name).' input'}}</label>
-                <input type="number" class="form-control @error($name) is-invalid @enderror" name="{{$name}}" id="data-{{$name}}" placeholder="Type {{Str::lower($label)}}" value="{{$value}}">
+                <input type="number" class="form-control @error($name) is-invalid @enderror" name="{{$name}}" id="data-{{$name}}" placeholder="Type {{Str::lower($label)}}" @if($value) value="{{$value}}" @endif >
                 @error($name)
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>

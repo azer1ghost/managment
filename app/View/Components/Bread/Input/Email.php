@@ -28,7 +28,7 @@ class Email extends Component
         <<<'blade'
           <div {{ $attributes->merge(['class' => 'form-group col-12 col-md-'.$width]) }}>
                 <label for="data-{{$name}}">{{$label ?? Str::ucfirst($name)}}</label>
-                <input type="email" class="form-control @error($name) is-invalid @enderror" name="{{$name}}" id="data-{{$name}}" value="{{$value}}" placeholder="{{ $placeholder ?? 'Enter '. Str::lower($label ?? $name) }}" >
+                <input type="email" class="form-control @error($name) is-invalid @enderror" name="{{$name}}" id="data-{{$name}}" @if($value) value="{{$value}}" @endif placeholder="{{ $placeholder ?? 'Enter '. Str::lower($label ?? $name) }}" >
                 @error($name)
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
