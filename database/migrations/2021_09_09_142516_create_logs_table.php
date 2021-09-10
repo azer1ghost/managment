@@ -17,7 +17,7 @@ class CreateLogsTable extends Migration
             $table->id();
             $table->integer('user_id')->nullable();
             $table->string('action')->nullable();
-            $table->morphs('logable')->nullable();
+            $table->morphs('logable');
             $table->text('data')->nullable();
             $table->text('message')->nullable();
             $table->timestamps();
