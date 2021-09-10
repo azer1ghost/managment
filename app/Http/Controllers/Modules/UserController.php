@@ -118,6 +118,8 @@ class UserController extends Controller
 
         if(is_null($request->get('password'))){
             unset($validated['password']);
+        }else{
+            $validated['password'] = \Hash::make($validated['password']);
         }
 
         if ($request->file('avatar')) {
