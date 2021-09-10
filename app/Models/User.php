@@ -184,12 +184,12 @@ class User extends Authenticatable implements MustVerifyPhone
 
     public function getPhoneCoopAttribute($value): string
     {
-        return phone_cleaner($value);
+        return phone_formatter($value, true);
     }
 
     public function getPhoneAttribute($value): string
     {
-        return phone_cleaner($value);
+        return phone_formatter($value, true);
     }
 
     public function getProtectedPhoneAttribute(): string
