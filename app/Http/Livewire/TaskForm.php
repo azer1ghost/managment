@@ -31,7 +31,7 @@ class TaskForm extends Component
 
     public function updatedDepartment($value)
     {
-        $this->user = null;
+        $this->user = '';
         $this->users = User::where('department_id', $value)->get(['id', 'name', 'surname']);
     }
 
