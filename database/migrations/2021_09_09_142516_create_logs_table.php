@@ -15,9 +15,9 @@ class CreateLogsTable extends Migration
     {
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->string('action');
-            $table->morphs('logable');
+            $table->integer('user_id')->nullable();
+            $table->string('action')->nullable();
+            $table->morphs('logable')->nullable();
             $table->text('data')->nullable();
             $table->text('message')->nullable();
             $table->timestamps();
