@@ -123,8 +123,10 @@
                     <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}}</td>
                     <td>{{optional($inquiry->getParameter('subject'))->getAttribute('text')}}</td>
                     <td class="text-center">
-                        @if (optional($inquiry->getParameter('status'))->getAttribute('id') == 22 || auth()->id() != $inquiry->getAttribute('id'))
+                        @if(optional($inquiry->getParameter('status'))->getAttribute('id') == 22)
                             <i class="fa fa-check text-success" style="font-size: 18px"></i>
+                        @elseif (auth()->id() != $inquiry->getAttribute('user_id'))
+                            {{optional($inquiry->getParameter('status'))->getAttribute('text') ?? __('translates.filters.select')}}
                         @else
                             @if($trashBox)
                                 {{optional($inquiry->getParameter('status'))->getAttribute('text') ?? __('translates.filters.select')}}
