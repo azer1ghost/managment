@@ -65,6 +65,13 @@ class Sidebar extends Component
             ],
 
             (object) [
+                'title' => __('translates.navbar.task'),
+                'icon'  => 'fal fa-thumbtack',
+                'url'  => route('tasks.index'),
+                'permission' => 'viewAny-task',
+            ],
+
+            (object) [
                 'title' => __('translates.navbar.parameter'),
                 'icon'  => 'fa fa-list',
                 'url'  => route('parameters.index'),

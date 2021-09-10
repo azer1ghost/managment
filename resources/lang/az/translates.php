@@ -88,6 +88,7 @@ return [
         'account'    => 'Hesab',
         'signature'  => 'Email İmza',
         'inquiry'    => 'Sorğular',
+        'task'       => 'İcra olunacaqlar',
         'parameter'  => 'Parametrlər',
         'option'     => 'Seçimlər',
         'role'       => 'Rollar',
