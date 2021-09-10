@@ -23,8 +23,9 @@
     <x-input::text  name="name"  :value="optional($task)->getAttribute('name')"  label="Task name"  width="6" class="pr-3" />
 
     <div wire:ignore class="form-group col-12 col-md-6 mb-3 mb-md-0" >
+        @php($task_dates = optional($task)->getAttribute('must_start_at') && optional($task)->getAttribute('must_end_at') ?  optional($task)->getAttribute('must_start_at') . ' - ' .  optional($task)->getAttribute('must_end_at') : '')
         <label for="task_dates">{{__('translates.placeholders.range')}}</label>
-        <input type="text" id="task_dates" placeholder="{{__('translates.placeholders.range')}}" class="form-control @error('task_dates') is-invalid @enderror" name="task_dates">
+        <input type="text" id="task_dates" placeholder="{{__('translates.placeholders.range')}}" class="form-control @error('task_dates') is-invalid @enderror" name="task_dates" value="{{$task_dates}}">
         @error('task_dates')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>

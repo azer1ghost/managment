@@ -18,7 +18,9 @@ class Task extends Model
         'must_end_at',
         'done_at',
         'done_by_user_id',
-        'user_id'
+        'user_id',
+        'taskable_type',
+        'taskable_id',
     ];
 
     public static array $statuses = ['to_do', 'in_progress', 'done'];
