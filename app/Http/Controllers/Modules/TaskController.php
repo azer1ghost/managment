@@ -23,8 +23,7 @@ class TaskController extends Controller
                     ->when($search, fn ($query) => $query->where('name', 'like', "%". $search ."%"))
                     ->when($department, fn($q) => $q->where('department_id', $department))
                     ->paginate(10),
-                'departments' => Department::get(['id', 'name']),
-                'inquiries' => Inquiry::isReal()->latest()->get(['id', 'code']),
+                'departments' => Department::get(['id', 'name'])
             ]);
     }
 
@@ -35,8 +34,7 @@ class TaskController extends Controller
                 'action' => route('tasks.store'),
                 'method' => null,
                 'data' => null,
-                'departments' => Department::pluck('name', 'id')->toArray(),
-                'inquiries' => Inquiry::isReal()->latest()->pluck('code', 'id')->toArray(),
+                'departments' => Department::pluck('name', 'id')->toArray()
             ]);
     }
 
@@ -56,8 +54,7 @@ class TaskController extends Controller
                 'action' => null,
                 'method' => null,
                 'data' => $task,
-                'departments' => Department::pluck('name', 'id')->toArray(),
-                'inquiries' => Inquiry::isReal()->latest()->pluck('code', 'id')->toArray(),
+                'departments' => Department::pluck('name', 'id')->toArray()
             ]);
     }
 
@@ -68,8 +65,7 @@ class TaskController extends Controller
                 'action' => route('tasks.update', $task),
                 'method' => "PUT",
                 'data' => $task,
-                'departments' => Department::pluck('name', 'id')->toArray(),
-                'inquiries' => Inquiry::isReal()->latest()->pluck('code', 'id')->toArray(),
+                'departments' => Department::pluck('name', 'id')->toArray()
             ]);
     }
 

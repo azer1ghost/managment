@@ -37,7 +37,6 @@
                                             <th scope="col">#</th>
                                             <th scope="col">Name</th>
                                             <th scope="col">Department</th>
-                                            <th scope="col">Inquiry MG Code</th>
                                             <th scope="col">Actions</th>
                                         </tr>
                                         </thead>
@@ -47,7 +46,6 @@
                                                 <th scope="row">{{$loop->iteration}}</th>
                                                 <td>{{$task->getAttribute('name')}}</td>
                                                 <td>{{optional($task->getRelationValue('department'))->getAttribute('name')}}</td>
-                                                <td>{{optional($task->getRelationValue('inquiry'))->getAttribute('code')}}</td>
                                                 <td>
                                                     <div class="btn-sm-group">
                                                         @can('view', $task)
@@ -87,16 +85,6 @@
                                                 <option value="">Departments</option>
                                                 @foreach ($departments as $dep)
                                                     <option @if($dep->getAttribute('id') == request()->get('department')) selected @endif value="{{$dep->getAttribute('id')}}">{{$dep->getAttribute('name')}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-6">
-                                        <div class="form-group">
-                                            <select name="inquiry" class="form-control">
-                                                <option value="">Inquiries</option>
-                                                @foreach ($inquiries as $inq)
-                                                    <option @if($inq->getAttribute('id') == request()->get('inquiry')) selected @endif value="{{$inq->getAttribute('id')}}">{{$inq->getAttribute('code')}}</option>
                                                 @endforeach
                                             </select>
                                         </div>

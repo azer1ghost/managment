@@ -26,7 +26,6 @@
                                     <div class="row">
                                         <x-input::text    name="name"  :value="optional($data)->getAttribute('name')"  label="Task name"  width="6" class="pr-3" />
                                         <x-input::select  default='1' name="department_id"  :value="optional($data)->getAttribute('department_id')"  label="Task department"  width="6" class="pr-3" :options="$departments"/>
-                                        <x-input::select  default='1' name="inquiry_id"  :value="optional($data)->getAttribute('inquiry_id')"  label="Task inquiry"  width="6" class="pr-3" :options="$inquiries"/>
                                     </div>
                                 </div>
                             </div>

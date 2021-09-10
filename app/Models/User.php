@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -191,5 +192,15 @@ class User extends Authenticatable implements MustVerifyPhone
     public function getProtectedPhoneAttribute(): ?string
     {
        return str_pad(substr($this->getAttribute('phone'), -4), strlen($this->getAttribute('phone')), '*', STR_PAD_LEFT);
+    }
+
+    public function tasksCreatedByMe(): HasMany
+    {
+        return $this->hasMany(Task::class);
+    }
+
+    public function tasksToMe(): MorphMany
+    {
+        return $this->morphMany(Task::class, 'taskable');
     }
 }
