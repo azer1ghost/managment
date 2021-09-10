@@ -48,6 +48,13 @@ class AccountController extends Controller
         $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms'] ?? []);
         $validated['permissions'] = empty(trim($validated['permissions'])) ? null : $validated['permissions'];
 
+        if(is_null($request->get('password'))){
+            unset($validated['password']);
+        }else{
+            $validated['password'] = \Hash::make($validated['password']);
+        }
+
+
         if ($request->file('avatar')) {
 
             $avatar = $request->file('avatar');

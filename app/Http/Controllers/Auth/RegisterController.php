@@ -78,7 +78,7 @@ class RegisterController extends Controller
             'role_id' => 4,
             'department_id' => $data['department_id'],
             'company_id' => $data['company_id'],
-            'password' => $data['password'],
+            'password' => Hash::make($data['password']),
             'verify_code' => rand(111111, 999999)
         ]);
 

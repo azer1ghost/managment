@@ -178,11 +178,6 @@ class User extends Authenticatable implements MustVerifyPhone
         return $this->attributes['phone'] = phone_cleaner($value);
     }
 
-    public function setPasswordAttribute($value): string
-    {
-        return $this->attributes['password'] = Hash::make($value);
-    }
-
     public function getPhoneCoopAttribute($value): ?string
     {
         return phone_formatter($value, true);
