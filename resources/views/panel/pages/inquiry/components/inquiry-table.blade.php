@@ -135,9 +135,8 @@
                                     <option value="null" @if (!optional($inquiry->getParameter('status'))->getAttribute('id')) selected @else  @endif>@lang('translates.filters.select')</option>
                                     @foreach ($statuses as $status)
                                         <option
-                                                @if ($status->getAttribute('id') == optional($inquiry->getParameter('status'))->getAttribute('id')) selected @endif
-                                        value="{{$status->getAttribute('id')}}"
-                                        >
+                                             @if ($status->getAttribute('id') == optional($inquiry->getParameter('status'))->getAttribute('id')) selected @endif
+                                             value="{{$status->getAttribute('id')}}">
                                             {{$status->getAttribute('text')}}
                                         </option>
                                     @endforeach
