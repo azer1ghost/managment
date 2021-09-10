@@ -167,12 +167,12 @@ class User extends Authenticatable implements MustVerifyPhone
        return optional($this->defaults()->where('column', $column)->first())->getAttribute('value');
     }
 
-    public function setPhoneCoopAttribute($value): string
+    public function setPhoneCoopAttribute($value): ?string
     {
         return $this->attributes['phone_coop'] = phone_cleaner($value);
     }
 
-    public function setPhoneAttribute($value): string
+    public function setPhoneAttribute($value): ?string
     {
         return $this->attributes['phone'] = phone_cleaner($value);
     }
@@ -182,17 +182,17 @@ class User extends Authenticatable implements MustVerifyPhone
         return $this->attributes['password'] = bcrypt($value);
     }
 
-    public function getPhoneCoopAttribute($value): string
+    public function getPhoneCoopAttribute($value): ?string
     {
         return phone_formatter($value, true);
     }
 
-    public function getPhoneAttribute($value): string
+    public function getPhoneAttribute($value): ?string
     {
         return phone_formatter($value, true);
     }
 
-    public function getProtectedPhoneAttribute(): string
+    public function getProtectedPhoneAttribute(): ?string
     {
        return str_pad(substr($this->getAttribute('phone'), -4), strlen($this->getAttribute('phone')), '*', STR_PAD_LEFT);
     }

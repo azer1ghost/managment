@@ -87,13 +87,13 @@ if(! function_exists('syncResolver')){
 }
 
 if(! function_exists('phone_cleaner')){
-    function phone_cleaner($phone): string {
+    function phone_cleaner($phone = null): ?string {
         return substr(str_replace([' ', '-', '(', ')', '+'],'', $phone), -9, 9);
     }
 }
 
 if(! function_exists('phone_formatter')){
-    function phone_formatter($phone, $countryCode = false): string {
+    function phone_formatter($phone, $countryCode = false): ?string {
 
         $firstPattern = $countryCode ? '(+994) ' : 0;
 
@@ -106,7 +106,7 @@ if(! function_exists('phone_formatter')){
 }
 
 if(! function_exists('pattern_adder')){
-    function pattern_adder($pattern, $value): string {
+    function pattern_adder($pattern, $value): ?string {
         return mb_strtoupper($pattern).preg_replace("/[^0-9]/", "", $value);
     }
 }
