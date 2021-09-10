@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskRequest;
 use App\Models\Department;
-use App\Models\Inquiry;
+use App\Models\User;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -40,7 +40,24 @@ class TaskController extends Controller
 
     public function store(TaskRequest $request)
     {
-        $task = Task::create($request->validated());
+        $validated = $request->validated();
+
+        $task_dates = explode(' - ', $validated['task_dates']);
+        $validated['must_start_at'] = $task_dates[0];
+        $validated['must_end_at'] = $task_dates[1];
+
+        //clear task_dates after explode
+        unset($validated['task_dates']);
+
+        $validated['user_id'] = auth()->id();
+
+        if(array_key_exists('user', $validated)){
+            $user = User::find($validated['user']);
+            $task = $user->tasksToMe()->create($validated);
+        }else{
+            $department = Department::find($validated['department']);
+            $task = $department->tasks()->create($validated);
+        }
 
         return redirect()
             ->route('tasks.edit', $task)
@@ -71,6 +88,7 @@ class TaskController extends Controller
 
     public function update(TaskRequest $request, Task $task)
     {
+        dd($request->validated());
         $task->update($request->validated());
 
         return back()->withNotify('info', $task->getAttribute('name'));

@@ -8,7 +8,22 @@ class Task extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'inquiry_id', 'priority', 'note', 'status', 'must_start_at', 'must_end_at', 'done_at', 'done_by_user_id'];
+    protected $fillable = [
+        'name',
+        'inquiry_id',
+        'priority',
+        'note',
+        'status',
+        'must_start_at',
+        'must_end_at',
+        'done_at',
+        'done_by_user_id',
+        'user_id'
+    ];
+
+    public static array $statuses = ['to_do', 'in_progress', 'done'];
+
+    public static array $priorities = ['low', 'medium', 'high', 'urgent'];
 
     public function taskable(): MorphTo
     {
@@ -29,4 +44,5 @@ class Task extends Model
     {
         return $this->belongsTo(User::class);
     }
+
 }

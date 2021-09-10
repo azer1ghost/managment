@@ -46,6 +46,8 @@ return [
     ],
 
     'fields' => [
+        'user' => 'User',
+        'department' => 'Department',
         'mgCode' => 'MG Code',
         'date' => 'Date',
         'time' => 'Time',
@@ -53,7 +55,6 @@ return [
         'clientName' => 'Client Name',
         'writtenBy' => 'Written By',
         'subject' => 'Subject',
-        'status' => 'Status',
         'actions' => 'Actions',
         'contactMethod' => 'Contact method',
         'phone' => 'Phone',
@@ -68,7 +69,24 @@ return [
         'mail' => 'Email',
         'call_center' => 'Call center',
         'keywords' => 'Keywords',
-        'about' => 'About'
+        'about' => 'About',
+        'priority' => [
+            'key' => 'Priority',
+            'options'  => [
+                'low' => 'Low',
+                'medium' => 'Medium',
+                'high' => 'High',
+                'urgent' => 'Urgent'
+            ]
+        ],
+        'status' => [
+            'key' => 'Status',
+            'options'  => [
+                'to_do' => 'To do',
+                'in_progress' => 'In progress',
+                'done' => 'Done'
+            ]
+        ]
     ],
 
     'buttons' => [
