@@ -115,7 +115,7 @@
                     <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}}</td>
                     <td>{{optional($inquiry->getParameter('subject'))->getAttribute('text')}}</td>
                     <td class="text-center">
-                        @if (optional($inquiry->getParameter('status'))->getAttribute('id') == 22 || !auth()->id() == $inquiry->getAttribute('id'))
+                        @if (optional($inquiry->getParameter('status'))->getAttribute('id') == 22 || auth()->id() != $inquiry->getAttribute('id'))
                             <i class="fa fa-check text-success" style="font-size: 18px"></i>
                         @else
                             <select class="form-control" style="width:auto;" onfocus="this.oldValue = this.value" id="inquiry-{{$inquiry->getAttribute('id')}}" onchange="inquiryStatusHandler(this, {{$inquiry->getAttribute('id')}}, '{{$inquiry->getAttribute('code')}}', this.oldValue, this.value)">
