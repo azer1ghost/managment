@@ -38,8 +38,8 @@
                                             <th scope="col">Name</th>
                                             <th scope="col">Priority</th>
                                             <th scope="col">Status</th>
-                                            <th scope="col">Tackable Type</th>
-                                            <th scope="col">Tackable ID</th>
+                                            <th scope="col">Taskable Type</th>
+                                            <th scope="col">Taskable ID</th>
                                             <th scope="col">Actions</th>
                                         </tr>
                                         </thead>
