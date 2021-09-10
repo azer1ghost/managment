@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Contracts\Auth\MustVerifyPhone;
 use App\Traits\Loger;
+use Hash;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -179,7 +180,7 @@ class User extends Authenticatable implements MustVerifyPhone
 
     public function setPasswordAttribute($value): string
     {
-        return $this->attributes['password'] = bcrypt($value);
+        return $this->attributes['password'] = Hash::make($value);
     }
 
     public function getPhoneCoopAttribute($value): ?string
