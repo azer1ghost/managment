@@ -31,6 +31,7 @@ class TaskForm extends Component
             optional($this->task)->getAttribute('taskable_id') : '');
 
         $this->updatedDepartment($this->department);
+
         $this->user = \Str::contains('App\Models\User', optional($this->task)->getAttribute('taskable_type')) ?
             optional($this->task)->getAttribute('taskable_id') : '';
     }
