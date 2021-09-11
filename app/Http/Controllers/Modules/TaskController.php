@@ -11,6 +11,12 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->authorizeResource(Task::class, 'task');
+    }
+
     public function index(Request $request)
     {
         $search = $request->get('search');
@@ -48,6 +54,11 @@ class TaskController extends Controller
 
         $validated['user_id'] = auth()->id();
 
+        if($validated['status'] == 'done'){
+            $validated['done_at'] = now();
+            $validated['done_by_user_id'] = $validated['user_id'];
+        }
+
         if(array_key_exists('user', $validated)){
             $task = User::find($validated['user'])->tasks()->create($validated);
         }else{
@@ -55,7 +66,7 @@ class TaskController extends Controller
         }
 
         return redirect()
-            ->route('tasks.edit', $task)
+            ->route('tasks.show', $task)
             ->withNotify('success', $task->getAttribute('name'));
     }
 
@@ -94,6 +105,11 @@ class TaskController extends Controller
 
         $validated['user_id'] = auth()->id();
 
+        if($validated['status'] == 'done'){
+            $validated['done_at'] = now();
+            $validated['done_by_user_id'] = $validated['user_id'];
+        }
+
         if(array_key_exists('user', $validated)){
             $validated['taskable_type'] = User::class;
             $validated['taskable_id']   = $validated['user'];
@@ -104,7 +120,7 @@ class TaskController extends Controller
 
         $task->update($validated);
 
-        return back()->withNotify('info', $task->getAttribute('name'));
+        return redirect()->route('tasks.show', $task)->withNotify('info', $task->getAttribute('name'));
     }
 
     public function destroy(Task $task)
