@@ -24,9 +24,15 @@ class TaskForm extends Component
         $this->priorities = Task::$priorities;
         $this->status = optional($this->task)->getAttribute('status') ?? '';
         $this->priority = optional($this->task)->getAttribute('priority') ?? '';
-        $this->department = \Str::contains('App\Models\User', optional($this->task)->getAttribute('taskable_type')) ? User::find(optional($this->task)->getAttribute('taskable_id'))->getRelationValue('department')->getAttribute('id') : (\Str::contains('App\Models\Department', optional($this->task)->getAttribute('taskable_type')) ? optional($this->task)->getAttribute('taskable_id') : '');
+
+        $this->department = \Str::contains('App\Models\User', optional($this->task)->getAttribute('taskable_type')) ?
+            User::find(optional($this->task)->getAttribute('taskable_id'))->getRelationValue('department')->getAttribute('id') :
+            (\Str::contains('App\Models\Department', optional($this->task)->getAttribute('taskable_type')) ?
+            optional($this->task)->getAttribute('taskable_id') : '');
+
         $this->updatedDepartment($this->department);
-        $this->user = \Str::contains('App\Models\User', optional($this->task)->getAttribute('taskable_type')) ? optional($this->task)->getAttribute('taskable_id') : '';
+        $this->user = \Str::contains('App\Models\User', optional($this->task)->getAttribute('taskable_type')) ?
+            optional($this->task)->getAttribute('taskable_id') : '';
     }
 
     public function updatedDepartment($value)
