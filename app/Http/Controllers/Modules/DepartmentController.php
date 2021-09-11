@@ -40,7 +40,10 @@ class DepartmentController extends Controller
 
     public function store(DepartmentRequest $request): RedirectResponse
     {
-        $department = Department::create($request->validated());
+        $validated = $request->validated();
+        $validated['status'] = $request->has('status');
+
+        $department = Department::create($validated);
 
         return redirect()
             ->route('departments.edit', $department)
@@ -69,7 +72,10 @@ class DepartmentController extends Controller
 
     public function update(DepartmentRequest $request, Department $department): RedirectResponse
     {
-        $department->update($request->validated());
+        $validated = $request->validated();
+        $validated['status'] = $request->has('status');
+//        dd($validated);
+        $department->update($validated);
 
         return back()->withNotify('info', $department->getAttribute('name'));
     }

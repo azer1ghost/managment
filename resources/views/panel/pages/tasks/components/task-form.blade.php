@@ -2,6 +2,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
+
 <form action="{{$action}}" id="createForm" method="POST" class="tab-content form-row mt-4 mb-5">
     @csrf
     @method($method)
@@ -18,9 +19,7 @@
         </div>
     </div>
 
-    <input type="hidden" name="id" value="{{optional($task)->getAttribute('id')}}">
-
-    <x-input::text  name="name"  :value="optional($task)->getAttribute('name')"  label="Task name"  width="6" class="pr-3" />
+    <x-input::text name="name" :value="optional($task)->getAttribute('name')"  label="Task name"  width="6" class="pr-3" />
 
     <div wire:ignore class="form-group col-12 col-md-6 mb-3 mb-md-0" >
         @php($task_dates = optional($task)->getAttribute('must_start_at') && optional($task)->getAttribute('must_end_at') ?  optional($task)->getAttribute('must_start_at') . ' - ' .  optional($task)->getAttribute('must_end_at') : '')
@@ -35,8 +34,8 @@
 
     <div class="form-group col-md-3">
         <label>{{__('translates.fields.priority.key')}}</label>
-        <select class="form-control @error('priority') is-invalid @enderror" name="priority" wire:model="priority">
-            <option value="" disabled selected>{{__('translates.fields.priority.key')}} {{__('translates.placeholders.choose')}}</option>
+        <select class="form-control @error('priority') is-invalid @enderror" name="priority" wire:model="selected.priority">
+            <option value="null" disabled selected>{{__('translates.fields.priority.key')}} {{__('translates.placeholders.choose')}}</option>
             @foreach($priorities as $priority)
                 <option value="{{$priority}}">@lang("translates.fields.priority.options.{$priority}")</option>
             @endforeach
@@ -50,8 +49,8 @@
 
     <div class="form-group col-md-3">
         <label>{{__('translates.fields.status.key')}}</label>
-        <select class="form-control @error('status') is-invalid @enderror" name="status" wire:model="status">
-            <option value="" disabled selected>{{__('translates.fields.status.key')}} {{__('translates.placeholders.choose')}}</option>
+        <select class="form-control @error('status') is-invalid @enderror" name="status" wire:model="selected.status">
+            <option value="null" disabled selected>{{__('translates.fields.status.key')}} {{__('translates.placeholders.choose')}}</option>
             @foreach($statuses as $status)
                 <option value="{{$status}}">@lang("translates.fields.status.options.{$status}")</option>
             @endforeach
@@ -65,10 +64,10 @@
 
     <div class="form-group col-md-3">
         <label>{{__('translates.fields.department')}}</label>
-        <select class="form-control @error('department') is-invalid @enderror" name="department" wire:model="department">
-            <option value="" disabled selected>{{__('translates.fields.department')}} {{__('translates.placeholders.choose')}}</option>
-            @foreach($departments as $department)
-                <option value="{{ $department->getAttribute('id') }}">{{ $department->getAttribute('name') }}</option>
+        <select class="form-control @error('department') is-invalid @enderror" name="department" wire:model="selected.department">
+            <option value="null" disabled selected>{{__('translates.fields.department')}} {{__('translates.placeholders.choose')}}</option>
+            @foreach($departments as $depart)
+                <option value="{{ $depart->getAttribute('id') }}">{{ $depart->getAttribute('name') }}</option>
             @endforeach
         </select>
         @error('department')
@@ -78,12 +77,12 @@
         @enderror
     </div>
 
-    @if ($users->isNotEmpty())
-        <div class="form-group col-md-3">
+    @if (!is_null($this->department))
+         <div class="form-group col-md-3">
             <label>{{__('translates.fields.user')}}</label>
-            <select class="form-control @error('user') is-invalid @enderror" name="user" wire:model="user">
-                <option value="" disabled selected>{{__('translates.fields.user')}} {{__('translates.placeholders.choose')}}</option>
-                @foreach($users as $user)
+            <select class="form-control @error('user') is-invalid @enderror" name="user" wire:model="selected.user">
+                <option value="null" disabled selected>{{__('translates.fields.user')}} {{__('translates.placeholders.choose')}}</option>
+                @foreach($this->department->users()->get(['id', 'name', 'surname']) as $user)
                     <option value="{{ $user->getAttribute('id') }}">{{ $user->getAttribute('fullname') }}</option>
                 @endforeach
             </select>
@@ -92,7 +91,7 @@
                     <strong>{{ $message }}</strong>
                 </span>
             @enderror
-        </div>
+         </div>
     @endif
 
     <x-input::textarea name="note" :value="optional($task)->getAttribute('note')"  label="Note"   width="12" class="pr-3" rows="4"/>

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\Auth\MustVerifyPhone;
+use App\Traits\GetClassInfo;
 use App\Traits\Loger;
 use Hash;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -23,7 +24,7 @@ use Illuminate\Notifications\Notifiable;
  */
 class User extends Authenticatable implements MustVerifyPhone
 {
-    use HasFactory, Notifiable, SoftDeletes, Loger, \App\Traits\Auth\MustVerifyPhone;
+    use HasFactory, Notifiable, SoftDeletes, Loger, GetClassInfo, \App\Traits\Auth\MustVerifyPhone;
 
     /**
      * The attributes that are mass assignable.
@@ -194,12 +195,12 @@ class User extends Authenticatable implements MustVerifyPhone
        return str_pad(substr($this->getAttribute('phone'), -4), strlen($this->getAttribute('phone')), '*', STR_PAD_LEFT);
     }
 
-    public function tasksCreatedByMe(): HasMany
+    public function definedTasks(): HasMany
     {
         return $this->hasMany(Task::class);
     }
 
-    public function tasksToMe(): MorphMany
+    public function tasks(): MorphMany
     {
         return $this->morphMany(Task::class, 'taskable');
     }

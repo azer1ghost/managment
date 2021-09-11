@@ -38,7 +38,7 @@ class Text extends Component
                        name="{{$name}}" 
                        id="data-{{$name}}" 
                        placeholder="{{ $placeholder ?? 'Enter '. Str::lower($label ?? $name) }}" 
-                       @if($value)  value="{{$value ?? old($name)}}" @endif >
+                       @if($value || old($name))  value="{{$value ?? old($name)}}" @endif >
                 @error($name)
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>

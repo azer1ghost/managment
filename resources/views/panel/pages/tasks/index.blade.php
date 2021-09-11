@@ -38,8 +38,8 @@
                                             <th scope="col">Name</th>
                                             <th scope="col">Priority</th>
                                             <th scope="col">Status</th>
-                                            <th scope="col">Taskable Type</th>
-                                            <th scope="col">Taskable ID</th>
+                                            <th scope="col">Department</th>
+                                            <th scope="col">User</th>
                                             <th scope="col">Actions</th>
                                         </tr>
                                         </thead>
@@ -50,8 +50,8 @@
                                                 <td>{{$task->getAttribute('name')}}</td>
                                                 <td>{{ucfirst($task->getAttribute('priority'))}}</td>
                                                 <td>{{str_title($task->getAttribute('status'))}}</td>
-                                                <td>{{$task->getAttribute('taskable_type')}}</td>
-                                                <td>{{$task->getAttribute('taskable_id')}}</td>
+                                                <td>{{$task->taskable->getClassShortName() == 'department' ? $task->taskable->getAttribute('name') : $task->taskable->getRelationValue('department')->getAttribute('name')}}</td>
+                                                <td>{{$task->taskable->getClassShortName() == 'user' ? $task->taskable->getAttribute('fullname') : 'Ümumi' }}</td>
                                                 <td>
                                                     <div class="btn-sm-group">
                                                         @can('view', $task)

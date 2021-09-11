@@ -26,6 +26,12 @@
                                     <div class="row">
                                         <x-input::text  name="name"  :value="optional($data)->getAttribute('name')"  label="Department name"  width="6" class="pr-3" />
                                     </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" @if(optional($data)->getAttribute('status') === true) checked @endif name="status" id="data-status">
+                                        <label class="form-check-label" for="data-status">
+                                            Is Active
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                             @if($action)

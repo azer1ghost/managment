@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\{Factories\HasFactory, Model, Relations\BelongsTo, Relations\MorphTo, SoftDeletes};
 
+/**
+ * @property mixed $taskable
+ */
 class Task extends Model
 {
     use HasFactory, SoftDeletes;
@@ -23,28 +26,23 @@ class Task extends Model
         'taskable_id',
     ];
 
-    public static array $statuses = ['to_do', 'in_progress', 'done'];
+    public static function statuses()
+    {
+        return ['to_do', 'in_progress', 'done'];
+    }
 
-    public static array $priorities = ['low', 'medium', 'high', 'urgent'];
+    public static function priorities()
+    {
+        return ['low', 'medium', 'high', 'urgent'];
+    }
 
     public function taskable(): MorphTo
     {
-        return $this->morphTo();
+        return $this->morphTo()->withDefault();
     }
 
     public function inquiry(): BelongsTo
     {
-        return $this->belongsTo(Inquiry::class);
+        return $this->belongsTo(Inquiry::class)->withDefault();
     }
-
-    public function department(): BelongsTo
-    {
-        return $this->belongsTo(Department::class);
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
 }

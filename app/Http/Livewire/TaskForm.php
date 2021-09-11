@@ -4,48 +4,58 @@ namespace App\Http\Livewire;
 
 use App\Models\Department;
 use App\Models\Task;
-use App\Models\User;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class TaskForm extends Component
 {
-    public ?string $action, $method, $status = '', $priority = '',  $department = '', $user = '';
-    public ?Task $task;
-    public Collection $departments, $users;
+    public ?string $action, $method;
     public array $statuses, $priorities;
+    public Collection $departments;
+    public ?Task $task;
+    public array $selected = [
+        'status' => null,
+        'priority' => null,
+        'department' => null,
+        'user' => null
+    ];
 
-    public function mount($task)
+    public function getDepartmentProperty()
     {
-        $this->task = $task;
-        $this->users = collect();
+        return Department::find($this->selected['department']);
+    }
+
+    public function mount()
+    {
         $this->departments = Department::get(['id', 'name']);
-        $this->statuses = Task::$statuses;
-        $this->priorities = Task::$priorities;
-        $this->status = optional($this->task)->getAttribute('status') ?? '';
-        $this->priority = optional($this->task)->getAttribute('priority') ?? '';
 
-        $this->department = \Str::contains('App\Models\User', optional($this->task)->getAttribute('taskable_type')) ?
-            User::find(optional($this->task)->getAttribute('taskable_id'))->getRelationValue('department')->getAttribute('id') :
-            (\Str::contains('App\Models\Department', optional($this->task)->getAttribute('taskable_type')) ?
-            optional($this->task)->getAttribute('taskable_id') : '');
+        $this->statuses = Task::statuses();
+        $this->priorities = Task::priorities();
 
-        $this->updatedDepartment($this->department);
+        $task = optional(optional($this->task)->taskable);
 
-        $this->user = \Str::contains('App\Models\User', optional($this->task)->getAttribute('taskable_type')) ?
-            optional($this->task)->getAttribute('taskable_id') : '';
+        foreach (array_keys($this->selected) as $key){
+            switch ($key) {
+                case 'department':
+                    $this->selected[$key] =
+                        $task->getClassShortName() == $key ?
+                            $task->getAttribute('id') :
+                            optional($task->department)->getAttribute('id');
+                    break;
+                case 'user':
+                    $this->selected[$key] =
+                        $task->getClassShortName() == $key ? $task->getAttribute('id') : null;
+                    break;
+                default:
+                    $this->selected[$key] = optional($this->task)->getAttribute($key);
+            }
+        }
     }
 
-    public function updatedDepartment($value)
+    public function updatedSelectedDepartment()
     {
-        $this->user = '';
-        $this->users = User::where('department_id', $value)->get(['id', 'name', 'surname']);
+        $this->selected['user'] = null;
     }
-
-//    public function updatedUser($value)
-//    {
-//        $this->user = User::where('department_id', $value)->pluck('name', 'id')->toArray();
-//    }
 
     public function render()
     {

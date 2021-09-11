@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\GetClassInfo;
 use App\Traits\Loger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,11 +13,20 @@ use Spatie\Translatable\HasTranslations;
 
 class Department extends Model
 {
-    use HasTranslations, HasFactory, SoftDeletes, Loger;
+    use HasTranslations, HasFactory, SoftDeletes, Loger, GetClassInfo;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'status'];
 
     public array $translatable = ['name'];
+
+    public $casts = [
+        'status' => 'boolean'
+    ];
+
+    public function scopeIsActive($query)
+    {
+        return $query->where('status', 1);
+    }
 
     public function users(): HasMany
     {

@@ -25,6 +25,7 @@ class DepartmentRequest extends FormRequest
     {
         return [
             'name'  => 'required|string',
+            'status' => 'nullable'
         ];
     }
 }

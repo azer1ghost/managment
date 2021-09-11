@@ -11,15 +11,13 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-
     public function index(Request $request)
     {
         $search = $request->get('search');
-        // $department = $request->get('department');
-        // ->when($department, fn($q) => $q->where('department_id', $department))
+
         return view('panel.pages.tasks.index')
             ->with([
-                'tasks' => Task::with(['inquiry', 'department'])
+                'tasks' => Task::with(['inquiry'])
                     ->when($search, fn ($query) => $query->where('name', 'like', "%". $search ."%"))
                     ->paginate(10),
                 'departments' => Department::get(['id', 'name'])
@@ -51,11 +49,9 @@ class TaskController extends Controller
         $validated['user_id'] = auth()->id();
 
         if(array_key_exists('user', $validated)){
-            $user = User::find($validated['user']);
-            $task = $user->tasksToMe()->create($validated);
+            $task = User::find($validated['user'])->tasks()->create($validated);
         }else{
-            $department = Department::find($validated['department']);
-            $task = $department->tasks()->create($validated);
+            $task = Department::find($validated['department'])->tasks()->create($validated);
         }
 
         return redirect()
