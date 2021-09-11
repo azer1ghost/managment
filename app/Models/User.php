@@ -89,7 +89,7 @@ class User extends Authenticatable implements MustVerifyPhone
 
     public function hasPermission($perm): bool
     {
-        if (app()->environment('111')){
+        if (app()->environment('local')){
             $permissions = config('auth.permissions');
         }else{
             $permissions = explode(',',
