@@ -20,14 +20,14 @@ class VerifyPhone extends Notification
     public function toSms($notifiable): SmsMessage
     {
         return (new SmsMessage)
-            ->to($notifiable->getAttribute('phone'))
+            ->to(phone_cleaner($notifiable->getAttribute('phone')))
             ->line( trans('auth.verify-sms', ['code' => $notifiable->getAttribute('verify_code'), 'minute' => 5]));
     }
 
     public function toArray($notifiable): array
     {
         return [
-            'phone' => $notifiable->getAttribute('phone'),
+            'phone' => phone_cleaner($notifiable->getAttribute('phone')),
             'content' => trans('auth.verify-sms', ['code' => $notifiable->getAttribute('verify_code'), 'minute' => 5])
         ];
     }
