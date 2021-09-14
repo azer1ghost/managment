@@ -61,9 +61,4 @@ class InquiryPolicy
             $inquiry->getAttribute('user_id') === $user->getAttribute('id') &&
             $user->canEditInquiry($inquiry);
     }
-
-    public function editAccessToUser(User $user)
-    {
-        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
-    }
 }
