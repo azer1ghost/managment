@@ -40,6 +40,8 @@ Route::prefix('module')->group(function () {
     Route::resource('/roles', RoleController::class);
     Route::resource('/departments', DepartmentController::class);
     Route::resource('/positions', PositionController::class);
+    Route::resource('/tasks', TaskController::class);
+    Route::resource('/notifications', DatabaseNotificationController::class);
 });
 
 Auth::routes(['login' => false]);
