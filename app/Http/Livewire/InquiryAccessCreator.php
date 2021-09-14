@@ -13,7 +13,7 @@ class InquiryAccessCreator extends Component
 
     public function mount()
     {
-        $this->users = User::get(['id', 'name'])->toArray();
+        $this->users = User::where('department_id', 2)->get(['id', 'name', 'surname'])->toArray();
         $this->editableUsers = $this->inquiry->editableUsers()->get(['id'])->toArray();
     }
 

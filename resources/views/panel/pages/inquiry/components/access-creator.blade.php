@@ -6,7 +6,7 @@
                 <select class="form-control" name="users[{{$index}}][user_id]" required>
                     <option value="" disabled selected>Choose user</option>
                     @foreach($users as $user)
-                        <option @if($user['id'] == $editableUser['id']) selected @endif value="{{$user['id']}}">{{$user['name']}}</option>
+                        <option @if($user['id'] == $editableUser['id']) selected @endif value="{{$user['id']}}">{{$user['name']}} {{$user['surname']}}</option>
                     @endforeach
                 </select>
             </div>
