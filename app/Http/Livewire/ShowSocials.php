@@ -20,7 +20,7 @@ class ShowSocials extends Component
 
     public function mount()
     {
-        $this->socials = $this->company->socials()->select('id','name','url')->get()->toArray();
+        $this->socials = $this->company->socials()->get(['id','name','url'])->toArray();
     }
 
     public function addSocial()
