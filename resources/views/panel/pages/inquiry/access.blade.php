@@ -20,8 +20,9 @@
                     </a>
                 </div>
                 <div class="card-body">
-                    <form action="">
-                    @livewire('inquiry-access-creator' , ['inquiry' => $inquiry])
+                    <form method="POST">
+                        @csrf
+                        @livewire('inquiry-access-creator' , ['inquiry' => $inquiry])
                     </form>
                 </div>
             </div>
