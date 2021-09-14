@@ -9,6 +9,10 @@ class Log extends Model
 {
     protected $fillable = ['user_id', 'action', 'data', 'message'];
 
+    protected $casts = [
+        'data' => 'object'
+    ];
+
     public function logable(): \Illuminate\Database\Eloquent\Relations\MorphTo
     {
         return $this->morphTo();

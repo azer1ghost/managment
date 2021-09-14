@@ -169,6 +169,13 @@ class InquiryController extends Controller
         return back()->withNotify('info', $inquiry->getAttribute('code'));
     }
 
+    public function logs(Inquiry $inquiry)
+    {
+        return view('panel.pages.inquiry.logs')->with([
+            'inquiry' => $inquiry
+        ]);
+    }
+
     public function destroy(Inquiry $inquiry)
     {
         \Log::channel('daily')->warning("User #" . auth()->id() . " deleted inquiry (CODE {$inquiry->getAttribute('code')}).");
