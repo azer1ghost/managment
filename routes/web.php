@@ -7,6 +7,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\CompanyController,
     Modules\DepartmentController,
     Modules\GadgetController,
+    Modules\DatabaseNotificationController,
     Modules\OptionController,
     Modules\ParameterController,
     Modules\RoleController,
@@ -38,6 +39,7 @@ Route::prefix('module')->group(function () {
     Route::resource('/roles', RoleController::class);
     Route::resource('/departments', DepartmentController::class);
     Route::resource('/positions', PositionController::class);
+    Route::resource('/notifications', DatabaseNotificationController::class);
 });
 
 Auth::routes(['login' => false]);

@@ -106,6 +106,13 @@ class Sidebar extends Component
                 'permission' => 'viewAny-position',
             ],
 
+            (object) [
+                'title' => __('translates.navbar.notification'),
+                'icon'  => 'far fa-bell',
+                'url'  => route('notifications.index'),
+                'permission' => 'viewAny-notification',
+            ],
+
         ];
     }
 

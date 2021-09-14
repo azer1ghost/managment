@@ -94,6 +94,7 @@ return [
         'user'       => 'İstifadəçilər',
         'department' => 'Şöbələr',
         'position'   => 'Vəzifələr',
+        'notification' => 'Bildirişlər'
     ],
 
     'date' => [

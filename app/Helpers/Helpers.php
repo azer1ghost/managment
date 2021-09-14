@@ -110,3 +110,10 @@ if(! function_exists('pattern_adder')){
         return mb_strtoupper($pattern).preg_replace("/[^0-9]/", "", $value);
     }
 }
+
+if(! function_exists('implode_key_values')){
+    function implode_key_values($array): ?string {
+        return implode(', ', array_map(function ($a, $b) { return str_title($a) . " => $b"; },
+            array_keys($array), array_values($array)));
+    }
+}

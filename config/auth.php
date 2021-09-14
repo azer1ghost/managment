@@ -28,6 +28,7 @@ return [
         'viewAny-position', 'view-position', 'manage-position',
         'viewAny-department', 'view-department', 'manage-department',
         'viewAny-parameter', 'view-parameter', 'manage-parameter',
+        'viewAny-notification', 'view-notification', 'manage-notification',
         'viewAny-option', 'view-option', 'manage-option',
         'viewAny-user', 'view-user', 'create-user', 'update-user', 'delete-user',
         'viewAll-inquiry','viewAny-inquiry', 'view-inquiry', 'create-inquiry', 'update-inquiry', 'delete-inquiry', 'forceDelete-inquiry', 'restore-inquiry',
