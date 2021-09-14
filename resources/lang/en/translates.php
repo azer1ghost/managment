@@ -97,6 +97,7 @@ return [
         'user'       => 'Users',
         'department' => 'Departments',
         'position'   => 'Positions',
+        'notification' => 'Notifications'
     ],
 
     'date' => [

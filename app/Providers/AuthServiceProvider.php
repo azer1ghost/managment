@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use App\Models\Company;
 use App\Models\User;
+use App\Policies\DatabaseNotificationPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Gate;
 use Validator;
 
@@ -17,6 +19,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
 //         Inquiry::class => InquiryPolicy::class,
+            DatabaseNotification::class => DatabaseNotificationPolicy::class
     ];
 
     /**
@@ -26,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-//        $this->registerPolicies();
+        $this->registerPolicies();
 
         Validator::extend('allowed_domain', function($attribute, $value, $parameters, $validator) {
             return in_array(explode('@', $value)[1], Company::pluck('website')->toArray());
