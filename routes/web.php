@@ -24,7 +24,10 @@ Route::get('/dashboard', [PlatformController::class, 'dashboard'])->name('dashbo
 Route::get('/account', [AccountController::class, 'account'])->name('account');
 Route::post('/account/{user}', [AccountController::class, 'save'])->name('account.save');
 
-Route::prefix('module')->group(function () {
+Route::group([
+    'prefix' => 'module',
+    'middleware' => ['verified_phone']
+], function () {
 
     Route::get('/cabinet', [PlatformController::class, 'cabinet'])->name('cabinet');
     Route::get('/customer-services', [PlatformController::class, 'customerServices'])->name('customer-services');

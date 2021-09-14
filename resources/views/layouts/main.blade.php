@@ -84,6 +84,7 @@
             margin-bottom: 3px !important;
         }
     </style>
+
     @livewireStyles
 </head>
 <body>

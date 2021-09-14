@@ -44,6 +44,8 @@ return [
     ],
 
     'fields' => [
+        'user' => 'Əməkdaş',
+        'department' => 'Şöbə',
         'mgCode' => 'MG Kodu',
         'date' => 'Tarix',
         'time' => 'Vaxt',
@@ -65,8 +67,24 @@ return [
         'mail' => 'E-poçt',
         'call_center' => 'Çağrı Mərkəzi',
         'keywords' => 'Açar sözlər',
-        'about' => 'Haqqında'
-
+        'about' => 'Haqqında',
+        'priority' => [
+            'key' => 'Prioritet',
+            'options'  => [
+                'low' => 'Aşağı',
+                'medium' => 'Orta',
+                'high' => 'Yüksək',
+                'urgent' => 'Təcili'
+            ]
+        ],
+        'status' => [
+            'key' => 'Status',
+            'options'  => [
+                'to_do' => 'Ediləcək',
+                'in_progress' => 'Davam edən',
+                'done' => 'Bitmiş'
+            ]
+        ]
     ],
 
     'buttons' => [

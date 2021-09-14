@@ -15,26 +15,32 @@ class TaskPolicy
 
     public function create(User $user): bool
     {
-        return $this->canAccessFunction($user, __FUNCTION__, $this->getClassShortName('s'));
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 
     public function update(User $user, Task $task): bool
     {
-        return $this->canAccessFunction($user, __FUNCTION__, $this->getClassShortName('s'));
+        return
+            $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) &&
+            $task->getAttribute('user_id') == $user->getAttribute('id') &&
+            is_null($task->getAttribute('done_at'));
     }
 
     public function delete(User $user, Task $task): bool
     {
-        return $this->canAccessFunction($user, __FUNCTION__, $this->getClassShortName('s'));
+        return
+            $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) &&
+            $task->getAttribute('user_id') == $user->getAttribute('id') &&
+            is_null($task->getAttribute('done_at'));
     }
 
     public function restore(User $user, Task $task): bool
     {
-        return $this->canAccessFunction($user, __FUNCTION__, $this->getClassShortName('s'));
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 
     public function forceDelete(User $user, Task $task): bool
     {
-        return $this->canAccessFunction($user, __FUNCTION__, $this->getClassShortName('s'));
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 }

@@ -138,6 +138,44 @@ class InquiryController extends Controller
         return redirect()->route('inquiry.index')->withNotify('info', 'Inquiry Updated');
     }
 
+    public function editAccessToUser(Inquiry $inquiry)
+    {
+        return view('panel.pages.inquiry.access')->with([
+           'inquiry' => $inquiry
+        ]);
+    }
+
+    public function updateAccessToUser(Request $request, Inquiry $inquiry)
+    {
+        $editableUsers = [];
+
+        $editableUsersLogs = [];
+
+        foreach ($request->get('users') ?? [] as $editable) {
+            $editableUsers[$editable['user_id']] = ['editable_ended_at' => $editable['editable_ended_at']];
+            $log = [];
+            $log['user_id'] = $request->user()->getAttribute('id');
+            $log['action'] = __FUNCTION__;
+            $log['message'] = "User #{$request->user()->getAttribute('id')} updated access for {$inquiry->getAttribute('code')}";
+            $log['data'] = json_encode(['access' => "#".$request->user()->getAttribute('id') . " gave access to #{$editable['user_id']}"]);
+
+            $editableUsersLogs[] = $log;
+        }
+
+        $inquiry->editableUsers()->sync($editableUsers);
+
+        $inquiry->logs()->createMany($editableUsersLogs);
+
+        return back()->withNotify('info', $inquiry->getAttribute('code'));
+    }
+
+    public function logs(Inquiry $inquiry)
+    {
+        return view('panel.pages.inquiry.logs')->with([
+            'inquiry' => $inquiry
+        ]);
+    }
+
     public function destroy(Inquiry $inquiry)
     {
         \Log::channel('daily')->warning("User #" . auth()->id() . " deleted inquiry (CODE {$inquiry->getAttribute('code')}).");

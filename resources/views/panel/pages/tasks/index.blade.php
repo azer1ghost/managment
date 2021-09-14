@@ -36,8 +36,10 @@
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">Name</th>
+                                            <th scope="col">Priority</th>
+                                            <th scope="col">Status</th>
                                             <th scope="col">Department</th>
-                                            <th scope="col">Inquiry MG Code</th>
+                                            <th scope="col">User</th>
                                             <th scope="col">Actions</th>
                                         </tr>
                                         </thead>
@@ -46,8 +48,10 @@
                                             <tr>
                                                 <th scope="row">{{$loop->iteration}}</th>
                                                 <td>{{$task->getAttribute('name')}}</td>
-                                                <td>{{optional($task->getRelationValue('department'))->getAttribute('name')}}</td>
-                                                <td>{{optional($task->getRelationValue('inquiry'))->getAttribute('code')}}</td>
+                                                <td>{{ucfirst($task->getAttribute('priority'))}}</td>
+                                                <td>{{str_title($task->getAttribute('status'))}}</td>
+                                                <td>{{$task->taskable->getClassShortName() == 'department' ? $task->taskable->getAttribute('name') : $task->taskable->getRelationValue('department')->getAttribute('name')}}</td>
+                                                <td>{{$task->taskable->getClassShortName() == 'user' ? $task->taskable->getAttribute('fullname') : 'Ümumi' }}</td>
                                                 <td>
                                                     <div class="btn-sm-group">
                                                         @can('view', $task)
@@ -79,28 +83,6 @@
                                         @endforelse
                                         </tbody>
                                     </table>
-                                </div>
-                                <div class="col-12 col-md-6 row position-filters">
-                                    <div class="col-12 col-md-6">
-                                        <div class="form-group">
-                                            <select name="department" class="form-control">
-                                                <option value="">Departments</option>
-                                                @foreach ($departments as $dep)
-                                                    <option @if($dep->getAttribute('id') == request()->get('department')) selected @endif value="{{$dep->getAttribute('id')}}">{{$dep->getAttribute('name')}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-6">
-                                        <div class="form-group">
-                                            <select name="inquiry" class="form-control">
-                                                <option value="">Inquiries</option>
-                                                @foreach ($inquiries as $inq)
-                                                    <option @if($inq->getAttribute('id') == request()->get('inquiry')) selected @endif value="{{$inq->getAttribute('id')}}">{{$inq->getAttribute('code')}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="float-right">

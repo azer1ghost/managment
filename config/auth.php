@@ -31,7 +31,7 @@ return [
         'viewAny-notification', 'view-notification', 'manage-notification',
         'viewAny-option', 'view-option', 'manage-option',
         'viewAny-user', 'view-user', 'create-user', 'update-user', 'delete-user',
-        'viewAll-inquiry','viewAny-inquiry', 'view-inquiry', 'create-inquiry', 'update-inquiry', 'delete-inquiry', 'forceDelete-inquiry', 'restore-inquiry',
+        'viewAll-inquiry','viewAny-inquiry', 'view-inquiry', 'create-inquiry', 'update-inquiry', 'delete-inquiry', 'forceDelete-inquiry', 'restore-inquiry', 'editAccessToUser-inquiry',
         'viewAll-task','viewAny-task', 'view-task', 'create-task', 'update-task', 'delete-task', 'forceDelete-task', 'restore-task',
     ],
 
