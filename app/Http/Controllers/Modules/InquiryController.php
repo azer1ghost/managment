@@ -140,6 +140,8 @@ class InquiryController extends Controller
 
     public function editAccessToUser(Inquiry $inquiry)
     {
+        abort_if(! auth()->user()->hasPermission('editAccessToUser-inquiry'), 403);
+
         return view('panel.pages.inquiry.access')->with([
            'inquiry' => $inquiry
         ]);
@@ -147,6 +149,8 @@ class InquiryController extends Controller
 
     public function updateAccessToUser(Request $request, Inquiry $inquiry)
     {
+        abort_if(! $request->user()->hasPermission('editAccessToUser-inquiry'), 403);
+
         $editableUsers = [];
 
         $editableUsersLogs = [];
