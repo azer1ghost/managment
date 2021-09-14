@@ -45,15 +45,27 @@ class PhoneVerifycationController extends Controller
             'code' => 'integer|digits:6'
         ]);
 
-        if($request->user()->getAttribute('verify_code') == $request->get('code')){
-            if ($request->user()->markPhoneAsVerified()) {
-                event(new Verified($request->user()));
+        $user = $request->user();
+
+        $userLastVerifyNotification = $user->notifications()
+            ->where('type', 'App\Notifications\Auth\VerifyPhone')
+            ->latest()
+            ->first('created_at')
+            ->getAttribute('created_at');
+
+        if ($userLastVerifyNotification->addMinutes(5) > now()){
+            return back()->withErrors(['code' => 'Activation code has expired']);
+        }
+
+        if($user->getAttribute('verify_code') == $request->get('code')){
+            if ($user->markPhoneAsVerified()) {
+                event(new Verified($user));
             }
         } else {
             return back()->withErrors(['code' => 'Invalid activation code']);
         }
 
-        if ($request->user()->hasVerifiedPhone()) {
+        if ($user->hasVerifiedPhone()) {
             return $request->wantsJson()
                 ? new JsonResponse([], 204)
                 : redirect($this->redirectPath());
