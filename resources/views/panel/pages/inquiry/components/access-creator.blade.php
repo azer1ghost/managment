@@ -1,15 +1,17 @@
+
 <div class="row">
     @forelse($editableUsers as $index => $editableUser)
-        <div class="col-12 row m-2">
+        <div class="col-12 row m-2" wire:key="editable-user-{{$index}}">
             <div class="col-4">
-                <select class="form-control" name="user[{{$index}}][id]">
+                <select class="form-control" name="user[{{$index}}][user_id]">
+                    <option value="null" disabled selected>Choose user</option>
                     @foreach($users as $user)
                         <option @if($user['id'] == $editableUser['id']) selected @endif value="{{$user['id']}}">{{$user['name']}}</option>
                     @endforeach
                 </select>
             </div>
             <div class="col-6">
-                <input class="form-control" type="text" name="user[{{$index}}][editable_ended_at]" value="{{$editableUser['pivot']['editable_ended_at']}}">
+                <input class="form-control editable-ended-at" type="text" name="user[{{$index}}][editable_ended_at]" value="{{$editableUser['pivot']['editable_ended_at']}}">
             </div>
             <div class="col-2">
                 <button type="button" wire:click.prevent="removeUser({{$index}})" class="btn btn-outline-danger">
@@ -28,6 +30,3 @@
         </button>
     </div>
 </div>
-
-
-

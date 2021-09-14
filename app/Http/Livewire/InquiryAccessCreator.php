@@ -9,13 +9,12 @@ use Livewire\Component;
 class InquiryAccessCreator extends Component
 {
     public Inquiry $inquiry;
-    public array $users;
-    public array $editableUsers;
+    public array $users, $editableUsers;
 
     public function mount()
     {
-        $this->editableUsers = $this->inquiry->editableUsers()->get(['id'])->toArray();
         $this->users = User::get(['id', 'name'])->toArray();
+        $this->editableUsers = $this->inquiry->editableUsers()->get(['id'])->toArray();
     }
 
     public function addUser()
@@ -23,9 +22,9 @@ class InquiryAccessCreator extends Component
         $this->editableUsers[] = [
             "id" => null,
             'pivot' => [
-                "inquiry_id" => null,
+                "inquiry_id" => $this->inquiry->getAttribute('id'),
                 "user_id" => null,
-                'editable_ended_at' => null
+                'editable_ended_at' => now()->addHour()->format('Y-m-d H:i:s')
             ]
         ];
     }
