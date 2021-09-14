@@ -138,6 +138,13 @@ class InquiryController extends Controller
         return redirect()->route('inquiry.index')->withNotify('info', 'Inquiry Updated');
     }
 
+    public function giveAccessToUser(Inquiry $inquiry)
+    {
+        return view('panel.pages.inquiry.access')->with([
+           'inquiry' => $inquiry
+        ]);
+    }
+
     public function destroy(Inquiry $inquiry)
     {
         \Log::channel('daily')->warning("User #" . auth()->id() . " deleted inquiry (CODE {$inquiry->getAttribute('code')}).");

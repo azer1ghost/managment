@@ -16,6 +16,9 @@ class Inquiry extends Model
 {
     use HasFactory, SoftDeletes;
 
+    // option id of done
+    const DONE = 22;
+
     protected $fillable = [
         'code', 'datetime', 'note', 'redirected_user_id', 'company_id', 'user_id'
     ];
@@ -81,6 +84,11 @@ class Inquiry extends Model
                 Option::find($parameter->pivot->value) :
                 $parameter->pivot:
          null;
+    }
+
+    public function getWasDoneAttribute(): bool
+    {
+       return optional($this->getParameter('status'))->getAttribute('id') == self::DONE;
     }
 
     public static function generateCustomCode($prefix = 'MG', $digits = 8): string

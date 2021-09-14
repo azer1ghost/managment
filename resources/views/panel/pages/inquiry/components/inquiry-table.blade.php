@@ -123,7 +123,7 @@
                     <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}}</td>
                     <td>{{optional($inquiry->getParameter('subject'))->getAttribute('text')}}</td>
                     <td class="text-center">
-                        @if(optional($inquiry->getParameter('status'))->getAttribute('id') == 22)
+                        @if($inquiry->getAttribute('wasDone'))
                             <i class="fa fa-check text-success" style="font-size: 18px"></i>
                         @elseif (auth()->id() != $inquiry->getAttribute('user_id'))
                             {{optional($inquiry->getParameter('status'))->getAttribute('text') ?? __('translates.filters.select')}}
@@ -181,6 +181,9 @@
                                             </a>
                                         @endcan
                                     @endif
+                                    <a href="{{route('inquiry.access', $inquiry)}}" class="dropdown-item-text text-decoration-none">
+                                        <i class="fal fa-lock-open-alt pr-2 text-info"></i>Access
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -281,7 +284,7 @@
                         $.ajax({
                             url:   url,
                             type: 'DELETE',
-                            success: function (responseObject, textStatus, xhr)
+                            success: function ()
                             {
                                 $.confirm({
                                     title: 'Delete successful',
