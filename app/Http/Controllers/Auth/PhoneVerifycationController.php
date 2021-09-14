@@ -53,7 +53,7 @@ class PhoneVerifycationController extends Controller
             ->first('created_at')
             ->getAttribute('created_at');
 
-        if ($userLastVerifyNotification->addMinutes(5) > now()){
+        if ($userLastVerifyNotification->addMinutes(5) < now()){
             return back()->withErrors(['code' => 'Activation code has expired']);
         }
 
