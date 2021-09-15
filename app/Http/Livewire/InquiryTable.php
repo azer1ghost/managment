@@ -8,27 +8,23 @@ use App\Models\Option;
 use App\Models\Parameter;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Database\Query\Builder;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Collection;
 
 class InquiryTable extends Component
 {
     use WithPagination;
 
     protected string $paginationTheme = 'bootstrap';
-
+    
     protected $listeners = ['statusChanged' => 'updateInquiryStatus', 'updateFilter' => 'updateFilter'];
 
     public bool $trashBox = false;
 
-    public $subjects;
-    public $statuses;
-    public $companies;
-    public $kinds;
-    public $users;
     public $statusParameterId;
-
+    
+    
     public array $filters = [
         'code'       => null,
         'note'       => null,
@@ -36,10 +32,14 @@ class InquiryTable extends Component
         'user_id' => [],
     ];
 
+    public Collection $subjects, $contact_methods, $sources, $statuses, $companies, $users;
+
     public array $parameterFilters = [
         'subjects'   => [],
         'kinds'      => [],
         'status'     => [],
+        'contact_method' => [],
+        'source' => [],
         'client_code' => '',
         'search_client' => '',
     ];
@@ -55,15 +55,14 @@ class InquiryTable extends Component
     {
         $this->updateDaterange($this->daterange = implode(' - ', [now()->firstOfMonth()->format('d/m/Y'), now()->format('d/m/Y')]));
 
-        $this->subjects  = Parameter::where('name', 'subject')->first()->options->unique();
-
+        $this->subjects  =  Parameter::where('name', 'subject')->first()->options->unique();
+        $this->contact_methods = Parameter::where('name', 'contact_method')->first()->options->unique();
+        $this->sources  = Parameter::where('name', 'source')->first()->options->unique();
         $this->statuses  = Parameter::where('name', 'status')->first()->options->unique();
-
-        $this->statusParameterId = Parameter::where('name', 'status')->first()->getAttribute('id');
-
         $this->companies = Company::whereNotIn('id', [1])->get();
-
         $this->users = User::has('inquiries')->get(['id', 'name', 'surname']);
+        
+        $this->statusParameterId = Parameter::where('name', 'status')->first()->getAttribute('id');
     }
 
     public function updateFilter()
@@ -93,6 +92,7 @@ class InquiryTable extends Component
 
     public function render()
     {
+//        dd($this->filterFields);
         return view('panel.pages.inquiry.components.inquiry-table', [
             'inquiries' => Inquiry::query()
                 ->withoutBackups()

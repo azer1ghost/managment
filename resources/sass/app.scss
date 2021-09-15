@@ -10,7 +10,28 @@
 // Main theme
 @import "resources/sass/main";
 
+// Diamond
+//@import "resources/sass/diamond";
+
+// Sidebar
+@import "resources/sass/sidebar";
+
 // Main theme
 @import "~jquery-confirm/dist/jquery-confirm.min.css";
 
+*{
+  list-style: none !important;
+  text-decoration: none !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /*font-family: 'Sequel', sans-serif;*/
+}
 
+main{
+  overflow-x: auto;
+}
+
+.btn-sm{
+  margin-bottom: 3px !important;
+}

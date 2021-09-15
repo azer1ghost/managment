@@ -12,10 +12,10 @@ class Sidebar extends Component
     {
         $this->items = (array) [
 
-            (object) [
-                'title' => __('translates.navbar.general'),
-                'type' => 'title',
-            ],
+//            (object) [
+//                'title' => __('translates.navbar.general'),
+//                'type' => 'title',
+//            ],
 
             (object) [
                 'title' => __('translates.navbar.dashboard'),
@@ -132,7 +132,7 @@ class Sidebar extends Component
     {
         return /** @lang Blade */
             <<<'blade'
-            <ul class="nav flex-row flex-md-column">
+            <ul>
                 @foreach($items as $item)
                     @can($item->permission ?? 'generally') 
                         @if($item->type ?? '' == "title")
@@ -140,10 +140,10 @@ class Sidebar extends Component
                                 <h2 class="text-muted">{{$item->title}}</h2>
                             </li>
                         @else
-                            <li @class([ 'p-1', 'active' => request()->url() == $item->url ]) >
+                            <li @class(['active' => request()->url() == $item->url ]) >
                                 <a href="{{$item->url}}">
-                                    <i class="{{$item->icon}} mr-2"></i>
-                                    <span>{{$item->title}}</span>
+                                    <span class="icon"><i class="{{$item->icon}} mr-2"></i></span>
+                                    <span class="item">{{$item->title}}</span>
                                     @if($item->badge ?? false)
                                         <span class="badge badge-pill badge-{{$item->badge->class}}">{{$item->badge->title}}</span>
                                     @endif

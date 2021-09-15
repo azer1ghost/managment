@@ -22,68 +22,6 @@
     <link href="{{ asset('assets/fonts/fontawesome.pro.min.css') }}" rel="stylesheet">
 
     @yield('style')
-    <style>
-        @font-face{
-            font-family: "Sequel";
-            src: url("{{asset('fonts/Sequel.ttf')}}") format("truetype");
-        }
-
-        body{
-            background-color: #f6f6f6;
-        }
-
-        .diamond{
-            position: absolute;
-            height: 90vh;
-            width: 100%;
-            overflow-x: hidden;
-            background-repeat: no-repeat;
-            background-size: 900px;
-            z-index: -100;
-            animation-iteration-count: 1;
-            animation-fill-mode: forwards;
-        }
-
-        .diamond-blue{
-            left: 0;
-            top: 0;
-            background-image: url("{{asset('assets/images/diamond-blue.png')}}");
-            background-position-x: -25vw;
-            background-position-y: 0;
-            animation: blueAnime ease 1s;
-        }
-
-        @keyframes blueAnime {
-            0% {
-                background-position-x: -50vw;
-            }
-            100% {
-                background-position-x: -25vw;
-            }
-        }
-
-        .diamond-green{
-            right: 0;
-            top: 0;
-            background-image: url("{{asset('assets/images/diamond-green.png')}}");
-            background-position-x: 77vw;
-            background-position-y: 0;
-            animation: greenAnime ease 1s;
-        }
-
-        @keyframes greenAnime {
-            0% {
-                background-position-x: 100vw;
-            }
-            100% {
-                background-position-x: 77vw;
-            }
-        }
-
-        .btn-sm{
-            margin-bottom: 3px !important;
-        }
-    </style>
 
     @livewireStyles
 </head>
@@ -93,13 +31,32 @@
 {{--        <a href="{{route('host.bat')}}" class="btn btn-outline-success"><i class="fas fa-download"></i> Download host file</a>--}}
 {{--    </div>--}}
 {{--    @endif--}}
-    <div>
-        @include('components.navbar')
-        <main class="py-4">
-            @yield('content')
-        </main>
-        <span class="diamond diamond-blue"></span>
-        <span class="diamond diamond-green"></span>
+    <div class="custom-wrapper">
+        @auth
+            <div class="section">
+                <div class="top_navbar d-flex justify-content-between">
+                    <div class="hamburger">
+                        <a href="#">
+                            <i class="fas fa-arrow-left"></i>
+                        </a>
+                    </div>
+                    @include('components.navbar')
+                </div>
+            </div>
+            <div class="sidebar">
+                <div class="profile">
+                    <img src="{{image(auth()->user()->getAttribute('avatar'))}}" alt="profile_picture">
+                    <h4>{{auth()->user()->getAttribute('fullname')}}</h4>
+                    <p>{{auth()->user()->getRelationValue('position')->getAttribute('name')}}</p>
+                </div>
+                <x-sidebar />
+            </div>
+        @endauth
+            <main class="py-4">
+                <div class="container-fluid">
+                    @yield('content')
+                </div>
+            </main>
     </div>
 
     <!-- Scripts -->
@@ -111,5 +68,48 @@
     @yield('scripts')
 
     <x-notify/>
+
+    <script>
+
+        const body = $('body');
+
+        body.addClass(sidebarStatus(checkWindowWidth()));
+
+        const hamburger = document.querySelector(".hamburger");
+
+        hamburger.addEventListener("click", function(){
+            if(body.hasClass('active')){
+                body.removeClass('active');
+                body.addClass('inactive');
+                localStorage.setItem("navbar", 'inactive');
+            }else{
+                body.removeClass('inactive');
+                body.addClass('active');
+                localStorage.setItem("navbar", 'active');
+            }
+        });
+
+        window.addEventListener('resize', function(event) {
+            checkWindowWidth();
+        }, true);
+
+        function checkWindowWidth(){
+            if($(window).width() < 576){
+                return 'active';
+            }else{
+                return 'inactive';
+            }
+        }
+
+        function sidebarStatus(status){
+            if(localStorage.getItem("navbar") !== null){
+                return localStorage.getItem("navbar");
+            }else{
+                localStorage.setItem("navbar", status);
+                return localStorage.getItem("navbar");
+            }
+        }
+
+    </script>
 </body>
 </html>

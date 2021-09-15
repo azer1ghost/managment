@@ -22,6 +22,8 @@ return [
         'phone' => 'Telefon adına görə filtrləyin',
         'written_by' => 'Müəllif adına görə filtrləyin',
         'email' => 'E-poçtaya görə filtrləyin',
+        'source' => 'Mənbəyə görə filtrləyin',
+        'contact_method' => 'Əlaqə vasitəsinə görə filtrləyin',
         'clear' => 'Sil',
         'select' => 'Seçilməyib',
         'or' => ":first, :second və ya :third filtrləyin",

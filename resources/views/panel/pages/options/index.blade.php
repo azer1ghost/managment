@@ -3,117 +3,108 @@
 @section('title', __('translates.navbar.option'))
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-2">
-            <x-sidebar/>
+    <div class="card">
+        <div class="card-header">
+            @lang('translates.navbar.option')
         </div>
-        <div class="col-md-10">
-            <div class="card">
-                <div class="card-header">
-                    @lang('translates.navbar.option')
-                </div>
-                <form action="{{route('options.index')}}">
-                    <div class="card-body">
-                        <div class="row d-flex justify-content-between mb-2">
-                           <div class="col-6">
-                               <div class="input-group mb-3">
-                                   <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                                   <div class="input-group-append">
-                                       <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
-                                       <a class="btn btn-outline-danger" href="{{route('options.index')}}"><i class="fal fa-times"></i></a>
-                                   </div>
-                               </div>
+        <form action="{{route('options.index')}}">
+            <div class="card-body">
+                <div class="row d-flex justify-content-between mb-2">
+                   <div class="col-6">
+                       <div class="input-group mb-3">
+                           <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                           <div class="input-group-append">
+                               <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
+                               <a class="btn btn-outline-danger" href="{{route('options.index')}}"><i class="fal fa-times"></i></a>
                            </div>
-                            @can('create', App\Models\Option::class)
-                                <div class="col-2">
-                                    <a class="btn btn-outline-success float-right" href="{{route('options.create')}}">@lang('translates.buttons.create')</a>
-                                </div>
-                            @endcan
-                            <div class="col-12">
-                                <table class="table table-responsive-sm table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Text</th>
-                                        <th scope="col">Parameters</th>
-                                        <th scope="col">Companies</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @forelse($options as $option)
-                                        <tr>
-                                            <th scope="row">{{$loop->iteration}}</th>
-                                            <td>{{$option->getAttribute('text')}}</td>
-                                            <td>{{implode(',', array_unique($option->getRelationValue('parameters')->pluck('name')->map(fn($p) => str_title($p))->toArray()))}}</td>
-                                            <td>{{implode(',', array_unique($option->getRelationValue('companies')->pluck('name')->map(fn($p) => str_title($p))->toArray()))}}</td>
-                                            <td>
-                                                <div class="btn-sm-group">
-                                                    @can('view', $option)
-                                                        <a href="{{route('options.show', $option)}}" class="btn btn-sm btn-outline-primary">
-                                                            <i class="fal fa-eye"></i>
-                                                        </a>
-                                                    @endcan
-                                                    @can('update', $option)
-                                                        <a href="{{route('options.edit', $option)}}" class="btn btn-sm btn-outline-success">
-                                                            <i class="fal fa-pen"></i>
-                                                        </a>
-                                                    @endcan
-                                                    @can('delete', $option)
-                                                        <a href="{{route('options.destroy', $option)}}" delete data-name="{{$option->getAttribute('name')}}" class="btn btn-sm btn-outline-danger" >
-                                                            <i class="fal fa-trash"></i>
-                                                        </a>
-                                                    @endcan
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <th colspan="4">
-                                                <div class="row justify-content-center m-3">
-                                                    <div class="col-7 alert alert-danger text-center" role="alert">Empty for now</div>
-                                                </div>
-                                            </th>
-                                        </tr>
-                                    @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col-2">
-                                <select name="limit" class="custom-select" id="size">
-                                    @foreach([10, 50, 100] as $size)
-                                        <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-3">
-                                <select name="type" class="custom-select" id="type">
-                                    <option selected value="">Type</option>
-                                    @foreach($names as $key => $type)
-                                        <option @if(request()->get('type') == $key) selected @endif value="{{$key}}">{{$type}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-3">
-                                <select name="company" class="custom-select" id="company">
-                                    <option selected value="">Company</option>
-                                    @foreach($companies as $key => $company)
-                                        <option @if(request()->get('company') == $key) selected @endif value="{{$key}}">{{$company}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-4">
-                                <div class="float-right">
-                                    {{$options->links()}}
-                                </div>
-                            </div>
+                       </div>
+                   </div>
+                    @can('create', App\Models\Option::class)
+                        <div class="col-2">
+                            <a class="btn btn-outline-success float-right" href="{{route('options.create')}}">@lang('translates.buttons.create')</a>
+                        </div>
+                    @endcan
+                    <div class="col-12">
+                        <table class="table table-responsive-sm table-hover">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Text</th>
+                                <th scope="col">Parameters</th>
+                                <th scope="col">Companies</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @forelse($options as $option)
+                                <tr>
+                                    <th scope="row">{{$loop->iteration}}</th>
+                                    <td>{{$option->getAttribute('text')}}</td>
+                                    <td>{{implode(',', array_unique($option->getRelationValue('parameters')->pluck('name')->map(fn($p) => str_title($p))->toArray()))}}</td>
+                                    <td>{{implode(',', array_unique($option->getRelationValue('companies')->pluck('name')->map(fn($p) => str_title($p))->toArray()))}}</td>
+                                    <td>
+                                        <div class="btn-sm-group">
+                                            @can('view', $option)
+                                                <a href="{{route('options.show', $option)}}" class="btn btn-sm btn-outline-primary">
+                                                    <i class="fal fa-eye"></i>
+                                                </a>
+                                            @endcan
+                                            @can('update', $option)
+                                                <a href="{{route('options.edit', $option)}}" class="btn btn-sm btn-outline-success">
+                                                    <i class="fal fa-pen"></i>
+                                                </a>
+                                            @endcan
+                                            @can('delete', $option)
+                                                <a href="{{route('options.destroy', $option)}}" delete data-name="{{$option->getAttribute('name')}}" class="btn btn-sm btn-outline-danger" >
+                                                    <i class="fal fa-trash"></i>
+                                                </a>
+                                            @endcan
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <th colspan="4">
+                                        <div class="row justify-content-center m-3">
+                                            <div class="col-7 alert alert-danger text-center" role="alert">Empty for now</div>
+                                        </div>
+                                    </th>
+                                </tr>
+                            @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-2">
+                        <select name="limit" class="custom-select" id="size">
+                            @foreach([10, 50, 100] as $size)
+                                <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <select name="type" class="custom-select" id="type">
+                            <option selected value="">Type</option>
+                            @foreach($names as $key => $type)
+                                <option @if(request()->get('type') == $key) selected @endif value="{{$key}}">{{$type}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <select name="company" class="custom-select" id="company">
+                            <option selected value="">Company</option>
+                            @foreach($companies as $key => $company)
+                                <option @if(request()->get('company') == $key) selected @endif value="{{$key}}">{{$company}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <div class="float-right">
+                            {{$options->links()}}
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
-</div>
 @endsection
 
 @section('scripts')

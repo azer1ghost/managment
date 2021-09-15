@@ -1,0 +1,47 @@
+.diamond{
+  position: absolute;
+  height: 90vh;
+  width: 100%;
+  overflow-x: hidden;
+  background-repeat: no-repeat;
+  background-size: 900px;
+  z-index: -100;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+.diamond-blue{
+  left: 0;
+  top: 0;
+  background-image: url("public/assets/images/diamond-blue.png");
+  background-position-x: -25vw;
+  background-position-y: 0;
+  animation: blueAnime ease 1s;
+}
+
+@keyframes blueAnime {
+  0% {
+    background-position-x: -50vw;
+  }
+  100% {
+    background-position-x: -25vw;
+  }
+}
+
+.diamond-green{
+  right: 0;
+  top: 0;
+  background-image: url("public/assets/images/diamond-green.png");
+  background-position-x: 77vw;
+  background-position-y: 0;
+  animation: greenAnime ease 1s;
+}
+
+@keyframes greenAnime {
+  0% {
+    background-position-x: 100vw;
+  }
+  100% {
+    background-position-x: 77vw;
+  }
+}

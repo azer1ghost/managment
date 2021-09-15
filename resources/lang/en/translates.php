@@ -23,6 +23,8 @@ return [
         'phone' => 'Filter by Phone',
         'email' => 'Filter by Email',
         'written_by' => 'Filter by Written by',
+        'source' => 'Filter by Source',
+        'contact_method' => 'Filter by Contact Method',
         'clear' => 'Clear',
         'select' => 'Not Selected',
         'or' => "Filter by :first, :second or :third",
