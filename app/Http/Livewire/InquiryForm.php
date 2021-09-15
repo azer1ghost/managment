@@ -16,7 +16,7 @@ class InquiryForm extends Component
         'refreshInquiryForm' => '$refresh',
     ];
 
-    public ?string $action, $method;
+    public ?string $action = null, $method = null;
 
     public Inquiry $inquiry;
     public Carbon $datetime;

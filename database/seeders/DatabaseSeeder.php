@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             ParameterSeeder::class,
             ParameterCompanySeeder::class,
             InquirySeeder::class,
+            TaskSeeder::class,
             DepartmentSeeder::class,
             OptionParameterSeeder::class,
             PositionSeeder::class,
