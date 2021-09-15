@@ -40,7 +40,7 @@
                                         <tbody>
                                         @forelse($notifications as $notification)
                                             <tr>
-                                                <th scope="row">{{$loop->iteration}}</th>
+                                                <th scope="row">{{$notification->getRelationValue('notifiable')->getAttribute('id')}}</th>
                                                 <td>{{$notification->getRelationValue('notifiable')->getAttribute('fullname')}}</td>
                                                 <td>{{explode('\\', $notification->getAttribute('type'))[3]}}</td>
                                                 <td>{{optional($notification->getAttribute('read_at'))->format('d-m-Y H:i:s')}}</td>
