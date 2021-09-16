@@ -55,9 +55,9 @@ if (! function_exists('notify')) {
                 return $this->message('blue', 'Successfully', 'processed successfully', $custom, $data);
             }
 
-            public function error(): array
+            public function error($custom): array
             {
-                return $this->message('red', 'Ops... !', 'Something went wrong.');
+                return $this->message('red', 'Ops... !', 'Something went wrong.', $custom);
             }
         };
     }
