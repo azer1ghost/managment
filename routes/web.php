@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\{Auth\LoginController,
     Auth\PhoneVerifycationController,
+    Auth\RegisterController,
     Main\AccountController,
     Main\PlatformController,
     Modules\CompanyController,
@@ -53,6 +54,8 @@ PhoneVerifycationController::routes();
 
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
+
+Route::post('/phone-update', [LoginController::class, 'phoneUpdate'])->name('phone.update');
 
 Route::get('ip-resolver.bat', [PlatformController::class, 'downloadBat'])->name('host.bat');
 

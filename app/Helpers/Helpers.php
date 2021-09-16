@@ -33,26 +33,26 @@ if (! function_exists('notify')) {
     function notify(): object
     {
         return new class (){
-            protected function message( $color, $title, $message, $data = null): array
+            protected function message( $color, $title, $message, $custom, $data = null): array
             {
                 return  [
                     'notify' =>
                         [
                             'title' => $title,
                             'type' => $color,
-                            'message' => "<b> $data </b> $message"
+                            'message' => "<b> $data </b>" . (!$custom ? $message : '')
                         ]
                 ];
             }
 
-            public function success($data = 'Record'): array
+            public function success($custom, $data = 'Record'): array
             {
-                return $this->message('green', 'Successfully', 'processed successfully', $data);
+                return $this->message('green', 'Successfully', 'processed successfully', $custom, $data);
             }
 
-            public function info($data = 'Record'): array
+            public function info($custom, $data = 'Record'): array
             {
-                return $this->message('blue', 'Successfully', 'processed successfully', $data);
+                return $this->message('blue', 'Successfully', 'processed successfully', $custom, $data);
             }
 
             public function error(): array
@@ -93,9 +93,10 @@ if(! function_exists('phone_cleaner')){
 }
 
 if(! function_exists('phone_formatter')){
-    function phone_formatter($phone, $countryCode = false): ?string {
+    function phone_formatter($phone, $countryCode = false, $parentheses = false): ?string {
 
-        $firstPattern = $countryCode ? '(+994) ' : 0;
+        $firstPattern = $countryCode ? '+994 ' : 0;
+        $firstPattern = $parentheses ? "({$firstPattern})" : $firstPattern;
 
         if(  preg_match( '/^(\d{2})(\d{3})(\d{2})(\d{2})$/', phone_cleaner($phone),  $matches ) )
         {

@@ -199,7 +199,7 @@
                                     @endif
                                     @if(auth()->user()->hasPermission('editAccessToUser-inquiry'))
                                         <a href="{{route('inquiry.access', $inquiry)}}"  target="_blank" class="dropdown-item-text text-decoration-none">
-                                            <i class="fal fa-lock-open-alt pr-2 text-info"></i>Access
+                                            <i class="fal fa-lock-open-alt pr-2 text-info"></i>@lang('translates.access')
                                         </a>
                                     @endcan
                                     <a href="{{route('inquiry.logs', $inquiry)}}" target="_blank" class="dropdown-item-text text-decoration-none">

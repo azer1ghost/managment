@@ -156,6 +156,8 @@ return [
 
     'loading' => 'Loading',
 
-    'total_items' => 'Showing :count of :total'
+    'total_items' => 'Showing :count of :total',
+
+    'access' => 'Access'
 
 ];

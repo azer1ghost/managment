@@ -16,7 +16,7 @@ class LoginController extends Controller
 
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except(['logout', 'phoneUpdate']);
     }
 
     protected function validateLogin(Request $request)
@@ -39,4 +39,18 @@ class LoginController extends Controller
         ];
     }
 
+    public function phoneUpdate(Request $request)
+    {
+        $user = $request->user();
+
+        if($user->getAttribute('phone') != $request->get('phone')){
+            $msg = "Telefon nömrəniz dəyişdirildi. Döğrulama kodu yeni nömrəyə göndərildi.";
+            $user->update(['phone' => $request->get('phone')]);
+            $user->sendPhoneVerificationNotification();
+        }else{
+            $msg = "Artıq bu nömrəyə Döğrulama kodu göndərilib, xahiş edirik mesajları yoxlayasınız.";
+        }
+
+        return back()->withNotify("info", $msg, true);
+    }
 }

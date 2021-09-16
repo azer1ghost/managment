@@ -32,8 +32,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Blade::componentNamespace('App\\View\\Components\\Bread\\Input', 'input');
 
-        RedirectResponse::macro('withNotify', function ($type, $message = null){
-            return $this->with(notify()->$type($message));
+        RedirectResponse::macro('withNotify', function ($type, $message = null, $custom = false){
+            return $this->with(notify()->$type($custom, $message));
         });
 
         Paginator::useBootstrap();

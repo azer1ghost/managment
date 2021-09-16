@@ -154,6 +154,8 @@ return [
 
     'loading' => 'Yüklənir',
 
-    'total_items' => 'Göstərilən: :count.  Ümumi: :total'
+    'total_items' => 'Göstərilən: :count.  Ümumi: :total',
+
+    'access' => 'Icazə'
 
 ];
