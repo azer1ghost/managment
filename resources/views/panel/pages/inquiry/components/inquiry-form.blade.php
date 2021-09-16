@@ -74,9 +74,7 @@
 @if(is_null($action))
 @section('scripts')
     <script>
-        $('input').attr('readonly', true)
-        $('select').attr('disabled', true)
-        $('textarea').attr('readonly', true)
+        $("#createForm :input").attr("disabled", true);
     </script>
 @endsection
 @endif

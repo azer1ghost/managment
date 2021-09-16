@@ -2,7 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\{Factories\HasFactory, Model, Relations\BelongsTo, Relations\MorphTo, SoftDeletes};
+use Illuminate\Database\Eloquent\{Factories\HasFactory,
+    Model,
+    Relations\BelongsTo,
+    Relations\BelongsToMany,
+    Relations\MorphMany,
+    Relations\MorphTo,
+    SoftDeletes};
 
 /**
  * @property mixed $taskable
@@ -26,12 +32,12 @@ class Task extends Model
         'taskable_id',
     ];
 
-    public static function statuses()
+    public static function statuses(): array
     {
         return ['to_do', 'in_progress', 'done'];
     }
 
-    public static function priorities()
+    public static function priorities(): array
     {
         return ['low', 'medium', 'high', 'urgent'];
     }
@@ -41,8 +47,18 @@ class Task extends Model
         return $this->morphTo()->withDefault();
     }
 
+    public function viewers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'task_viewer')->withTimestamps();
+    }
+
     public function inquiry(): BelongsTo
     {
-        return $this->belongsTo(Inquiry::class)->withDefault();
+        return $this->belongsTo(Inquiry::class);
+    }
+
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }

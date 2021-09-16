@@ -109,10 +109,11 @@
 
     <script>
         @if(is_null($action))
-            $('input').attr('readonly', true)
-            $('select').attr('disabled', true)
-            $('textarea').attr('readonly', true)
+            $("#createForm :input").attr("disabled", true);
         @endif
+
+        $(".inquiry :input").attr("disabled", true);
+
 
         $(function() {
             $('input[name="task_dates"]').daterangepicker({

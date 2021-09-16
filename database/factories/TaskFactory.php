@@ -2,8 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\Inquiry;
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Auth\User;
 
 class TaskFactory extends Factory
 {
@@ -19,10 +21,12 @@ class TaskFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->text('20'),
+            'note' => $this->faker->realText(),
+            'user_id' => User::inRandomOrder()->pluck('id')->first(),
         ];
     }
 }
