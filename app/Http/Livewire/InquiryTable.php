@@ -97,7 +97,9 @@ class InquiryTable extends Component
             'inquiries' => Inquiry::query()
                 ->withoutBackups()
                 ->when(!Inquiry::userCanViewAll(), function ($query){
-                    return $query->where('user_id', auth()->id());
+                    $query->whereHas('editableUsers', function ($query){
+                        $query->where('user_id', auth()->id());
+                    });
                 })
                 //->select('id', 'code', 'user_id', 'datetime', 'company_id', 'fullname', 'subject', 'created_at')
                 ->when($this->trashBox, fn($query) => $query->onlyTrashed())
