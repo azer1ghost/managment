@@ -26,7 +26,18 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <script>
+
         $(function() {
+            dispatchDatePicker()
+        });
+
+        window.addEventListener('user-added', event => {
+            $(function() {
+                dispatchDatePicker();
+            });
+        })
+
+        function dispatchDatePicker() {
             $('.editable-ended-at').daterangepicker({
                     opens: 'left',
                     locale: {
@@ -37,23 +48,7 @@
                     timePicker24Hour: true,
                 }, function(start, end, label) {}
             );
-        });
-    </script>
-    <script>aa
-        window.addEventListener('user-added', event => {
-            $(function() {
-                $('.editable-ended-at').daterangepicker({
-                        opens: 'left',
-                        locale: {
-                            format: "YYYY-MM-DD HH:mm:ss",
-                        },
-                        singleDatePicker: true,
-                        timePicker: true,
-                        timePicker24Hour: true,
-                    }, function(start, end, label) {}
-                );
-            });
-        })
+        }
     </script>
 @endsection
 

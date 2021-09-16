@@ -10185,6 +10185,9 @@ a {
 .custom-wrapper .section {
   width: calc(100% - 225px);
   margin-left: 225px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 .custom-wrapper .section .top_navbar {
   background: #054468;
@@ -10314,7 +10317,7 @@ body.active .custom-wrapper .section {
 
   .navbar-collapse, .top_navbar .dropdown-menu {
     position: absolute !important;
-    z-index: 1000 !important;
+    z-index: 1001 !important;
     top: 40px !important;
     left: -90px !important;
     width: 112px !important;

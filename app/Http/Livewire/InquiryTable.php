@@ -22,7 +22,7 @@ class InquiryTable extends Component
 
     public bool $trashBox = false;
 
-    public $statusParameterId;
+    public int $statusParameterId;
     
     
     public array $filters = [
@@ -126,17 +126,15 @@ class InquiryTable extends Component
                 ->where(function ($query)  {
                     foreach ($this->parameterFilters as $column => $value) {
                         $query->when($this->parameterFilters[$column], function ($query) use ($column, $value){
-                            if (is_array($value)) {
-                                $query->whereHas('parameters', function ($query) use ($column) {
-                                    $query->whereIn('inquiry_parameter.value', $this->parameterFilters[$column]);
-                                });
-                            } else {
-                                $query->whereHas('parameters', function($query) use ($value) {
-                                    $query->where('inquiry_parameter.value', 'LIKE', "%" . phone_cleaner($value) . "%")
-                                          ->orWhere('inquiry_parameter.value', 'LIKE', "%" . trim($value) . "%")
-                                          ->orWhere('inquiry_parameter.value', 'LIKE', "%" . $value . "%");
-                                });
-                            }
+                            $query->whereHas('parameters', function ($query) use ($column, $value) {
+                                if (is_array($value)) {
+                                    $parameter_id = Parameter::where('name', $column)->first()->getAttribute('id');
+                                    $query->where('parameter_id', $parameter_id)->whereIn('value', $value);
+                                } else {
+                                    $query->where('value',   'LIKE', "%" . phone_cleaner($value) . "%")
+                                          ->orWhere('value', 'LIKE', "%" . trim($value) . "%");
+                                }
+                            });
                         });
                     }
                 })

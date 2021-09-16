@@ -33,12 +33,24 @@
                 </tr>
                 <tr>
                     <td>
-                        <p style="margin: 0; padding: 0; font-size: 13px;color: rgb(130,130,130);">{{$user->getRelationValue('position')->getAttribute('name')}} {{$user->isDirector() ? ' | ' . $user->getRelationValue('company')->getAttribute('name') : ''}}</p>
+                        <p style="margin: 0; padding: 0; font-size: 13px;color: rgb(130,130,130);">
+                            @if ($user->isDirector())
+                                {{$user->getRelationValue('role')->getAttribute('name')}}
+                            @else
+                                {{$user->getRelationValue('position')->getAttribute('name')}}
+                            @endif
+                        </p>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <p style="margin: 0; padding: 0; font-size: 13px;color: rgb(130,130,130);">{{$user->isDirector() ? '' : $user->getRelationValue('department')->getAttribute('name')}}</p>
+                        <p style="margin: 0; padding: 0; font-size: 13px;color: rgb(130,130,130);">
+                            @if ($user->isDirector())
+                                {{$user->getRelationValue('company')->getAttribute('name')}}
+                            @else
+                                {{$user->getRelationValue('department')->getAttribute('name')}}
+                            @endif
+                        </p>
                     </td>
                 </tr>
                 </tbody>

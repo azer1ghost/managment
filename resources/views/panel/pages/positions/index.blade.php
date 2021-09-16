@@ -41,7 +41,7 @@
                                     <th scope="row">{{$loop->iteration}}</th>
                                     <td>{{$position->getAttribute('name')}}</td>
                                     <td>{{$position->getRelationValue('role')->getAttribute('name')}}</td>
-                                    <td>{{$position->getRelationValue('department')->getAttribute('name')}}</td>
+                                    <td>{{optional($position->getRelationValue('department'))->getAttribute('name')}}</td>
                                     <td>
                                         <div class="btn-sm-group">
                                             @can('view', $position)
