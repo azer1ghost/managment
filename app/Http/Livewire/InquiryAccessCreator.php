@@ -27,6 +27,10 @@ class InquiryAccessCreator extends Component
                 'editable_ended_at' => now()->addHour()->format('Y-m-d H:i:s')
             ]
         ];
+
+        // BrowserEvent (on access.blade.php) to fire daterangepicker for added user
+        // needed cause livewire don't fire scripts after rerender
+        $this->dispatchBrowserEvent('user-added');
     }
 
     public function removeUser($index)

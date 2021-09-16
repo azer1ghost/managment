@@ -48,6 +48,8 @@ class UserController extends Controller
                 'departments' => Department::all()->pluck('name', 'id')->toArray(),
                 'companies' => Company::all()->pluck('name', 'id')->toArray(),
                 'positions' => Position::all()->pluck('name', 'id')->toArray(),
+                'directorPositions' => Position::whereHas('role', fn ($q) => $q->where('key', 'director'))->pluck('name', 'id')->toArray()
+
             ]);
     }
 
@@ -91,6 +93,7 @@ class UserController extends Controller
                 'departments' => Department::all()->pluck('name', 'id')->toArray(),
                 'companies' => Company::all()->pluck('name', 'id')->toArray(),
                 'positions' => $user->getRelationValue('department')->positions()->pluck('name', 'id')->toArray(),
+                'directorPositions' => Position::whereHas('role', fn ($q) => $q->where('key', 'director'))->pluck('name', 'id')->toArray(),
                 'data' => $user
             ]);
     }
@@ -105,6 +108,7 @@ class UserController extends Controller
                 'departments' => Department::all()->pluck('name', 'id')->toArray(),
                 'companies' => Company::all()->pluck('name', 'id')->toArray(),
                 'positions' => $user->getRelationValue('department')->positions()->pluck('name', 'id')->toArray(),
+                'directorPositions' => Position::whereHas('role', fn ($q) => $q->where('key', 'director'))->pluck('name', 'id')->toArray(),
                 'data' => $user
             ]);
     }

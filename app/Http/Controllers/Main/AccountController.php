@@ -29,6 +29,7 @@ class AccountController extends Controller
             'departments' => Department::all()->pluck('name', 'id')->toArray(),
             'companies' => Company::all()->pluck('name', 'id')->toArray(),
             'positions' =>  auth()->user()->getRelationValue('department')->positions()->pluck('name', 'id')->toArray(),
+            'directorPositions' => Position::whereHas('role', fn ($q) => $q->where('key', 'director'))->pluck('name', 'id')->toArray()
         ]);
     }
 

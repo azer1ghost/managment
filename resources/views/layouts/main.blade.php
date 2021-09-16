@@ -32,7 +32,7 @@
 {{--    </div>--}}
 {{--    @endif--}}
     <div class="custom-wrapper">
-        @auth
+        @if (auth()->check() && auth()->user()->hasVerifiedPhone())
             <div class="section">
                 <div class="top_navbar d-flex justify-content-between">
                     <div class="hamburger">
@@ -51,7 +51,7 @@
                 </div>
                 <x-sidebar />
             </div>
-        @endauth
+        @endif
             <main class="py-4">
                 <div class="container-fluid">
                     @yield('content')

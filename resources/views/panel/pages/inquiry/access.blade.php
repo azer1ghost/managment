@@ -39,5 +39,21 @@
             );
         });
     </script>
+    <script>aa
+        window.addEventListener('user-added', event => {
+            $(function() {
+                $('.editable-ended-at').daterangepicker({
+                        opens: 'left',
+                        locale: {
+                            format: "YYYY-MM-DD HH:mm:ss",
+                        },
+                        singleDatePicker: true,
+                        timePicker: true,
+                        timePicker24Hour: true,
+                    }, function(start, end, label) {}
+                );
+            });
+        })
+    </script>
 @endsection
 

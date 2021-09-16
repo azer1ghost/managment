@@ -20,7 +20,7 @@
                         <div class="row">
                             <x-input::text    name="name"           :value="optional($data)->getAttribute('name')"           label="Position name"  width="6" class="pr-3" />
                             <x-input::select  name="role_id"        :value="optional($data)->getAttribute('role_id')"        label="Position role"  width="6" class="pr-3" :options="$roles"/>
-                            <x-input::select  name="department_id"  :value="optional($data)->getAttribute('department_id')"  label="Position department"  width="6" class="pr-3" :options="$departments"/>
+                            <x-input::select  default="1" name="department_id"  :value="optional($data)->getAttribute('department_id')"  label="Position department"  width="6" class="pr-3" :options="$departments"/>
                         </div>
                         <p class="text-muted mb-2">PERMISSIONS</p>
                         <p class="text-muted my-2">All</p>

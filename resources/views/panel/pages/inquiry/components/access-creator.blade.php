@@ -10,7 +10,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-6">
+            <div class="col-6" wire:ignore>
                 <input class="form-control editable-ended-at" type="text" name="users[{{$index}}][editable_ended_at]" value="{{$editableUser['pivot']['editable_ended_at']}}">
             </div>
             <div class="col-2">

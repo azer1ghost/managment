@@ -25,7 +25,11 @@
                     <hr class="my-2">
                     <div class="row">
                         <x-input::select default="1" name="department_id" :value="auth()->user()->getRelationValue('department')->getAttribute('id')" width="6"  class="pr-1" :options="$departments" label="Department" />
-                        <x-input::select default="1" name="position_id"   :value="optional(auth()->user()->getRelationValue('position'))->getAttribute('id')"   width="6"  class="pr-1" :options="$positions" label="Position" />
+                        @if (auth()->user()->isDirector())
+                            <x-input::select default="1" name="position_id"   :value="optional(auth()->user()->getRelationValue('position'))->getAttribute('id')"   width="6"  class="pr-1" :options="$directorPositions" label="Position" />
+                        @else
+                            <x-input::select default="1" name="position_id"   :value="optional(auth()->user()->getRelationValue('position'))->getAttribute('id')"   width="6"  class="pr-1" :options="$positions" label="Position" />
+                        @endif
                         <x-input::select default="1" name="company_id"    :value="auth()->user()->getRelationValue('company')->getAttribute('id')"  width="6"  class="pr-1"   :options="$companies" label="Company" />
                         @if (auth()->user()->isDeveloper())
                             <x-input::text name="verify_code" readonly :value="auth()->user()->getAttribute('verify_code')"   width="6"  class="pr-1" label="Verify Code"/>

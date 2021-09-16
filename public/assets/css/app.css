@@ -10198,6 +10198,9 @@ a {
   font-size: 28px;
   color: #f4fbff;
 }
+.custom-wrapper .section .top_navbar .nav-link:hover {
+  color: #cef0fd !important;
+}
 .custom-wrapper .sidebar {
   background: #054468;
   position: fixed;
@@ -10325,6 +10328,9 @@ body.active .custom-wrapper .section {
 }
 .top_navbar .dropdown-menu .dropdown-item {
   color: #f4fbff !important;
+}
+.top_navbar .dropdown-menu .dropdown-item:hover {
+  color: #054468 !important;
 }
 
 * {

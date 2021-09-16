@@ -16,6 +16,11 @@
         font-size: 28px;
         color: #f4fbff;
       }
+      .nav-link{
+        &:hover{
+          color: #cef0fd !important;
+        }
+      }
     }
 
   }
@@ -178,5 +183,8 @@ body.active .custom-wrapper{
 
   .dropdown-item{
     color: #f4fbff !important;
+    &:hover{
+      color: $primary !important;
+    }
   }
 }

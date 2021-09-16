@@ -24,7 +24,7 @@
 
         <div class="form-group col-12 col-md-4 mb-3 mb-md-0" wire:ignore>
             <label class="d-block" for="subjectFilter">{{__('translates.filters.subject')}}</label>
-            <select id="subjectFilter" multiple class="filterSelector form-control" data-width="fit" wire:model.defer="parameterFilters.subjects" title="{{__('translates.filters.select')}}" >
+            <select id="subjectFilter" multiple class="filterSelector form-control" data-width="fit" wire:model.defer="parameterFilters.subject" title="{{__('translates.filters.select')}}" >
                 @foreach($subjects as $subject)
                     <option value="{{$subject->getAttribute('id')}}">{{ucfirst($subject->getAttribute('text'))}}</option>
                 @endforeach
@@ -72,7 +72,7 @@
         @endif
         <div class="form-group col-12 col-md-3 mb-3 mb-md-0"  wire:ignore>
             <label class="d-block" for="sourceFilter">{{__('translates.filters.source')}}</label>
-            <select id="sourceFilter" class="filterSelector" data-width="fit" wire:model.defer="parameterFilters.source" title="{{__('translates.filters.source')}}" >
+            <select id="sourceFilter" multiple class="filterSelector" data-width="fit" wire:model.defer="parameterFilters.source" title="{{__('translates.filters.source')}}" >
                 @foreach($sources as $source)
                     <option value="{{$source->getAttribute('id')}}">{{ucfirst($source->getAttribute('text'))}}</option>
                 @endforeach
@@ -88,8 +88,8 @@
             <input id="noteFilter"  placeholder="@lang('translates.placeholders.note')" class="form-control" wire:model.defer="filters.note" />
         </div>
         <div class="form-group col-12 col-md-3 mt-2 mb-3 mb-md-0"  wire:ignore>
-            <label class="d-block" for="ContactMethodFilter">{{__('translates.filters.contact_method')}}</label>
-            <select id="ContactMethodFilter" class="filterSelector" data-width="fit" wire:model.defer="parameterFilters.contact_method" title="{{__('translates.filters.contact_method')}}" >
+            <label class="d-block" for="contactMethodFilter">{{__('translates.filters.contact_method')}}</label>
+            <select id="contactMethodFilter" multiple class="filterSelector" data-width="fit" wire:model.defer="parameterFilters.contact_method" title="{{__('translates.filters.contact_method')}}" >
                 @foreach($contact_methods as $contact_method)
                     <option value="{{$contact_method->getAttribute('id')}}">{{ucfirst($contact_method->getAttribute('text'))}}</option>
                 @endforeach

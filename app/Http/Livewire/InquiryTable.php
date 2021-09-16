@@ -35,8 +35,8 @@ class InquiryTable extends Component
     public Collection $subjects, $contact_methods, $sources, $statuses, $companies, $users;
 
     public array $parameterFilters = [
-        'subjects'   => [],
-        'kinds'      => [],
+        'subject'   => [],
+        'kind'      => [],
         'status'     => [],
         'contact_method' => [],
         'source' => [],
@@ -106,7 +106,7 @@ class InquiryTable extends Component
                     foreach ($this->filters as $column => $value) {
                         $query->when($value, function ($query, $value) use ($column) {
                             if (is_array($value)) {
-                                 $query->whereIn(\Str::singular($column), $value);
+                                 $query->whereIn($column, $value);
                             }
                             elseif (strtotime($value)) {
                                  $query->whereDate($column, $value);

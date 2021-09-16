@@ -130,7 +130,7 @@ class Sidebar extends Component
      */
     public function render(): string
     {
-        return /** @lang Blade */
+        return /* @lang Blade */
             <<<'blade'
             <ul>
                 @foreach($items as $item)

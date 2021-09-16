@@ -2,6 +2,15 @@
 
 @section('title', __('translates.login.login'))
 
+@section('style')
+    <style>
+        .custom-wrapper main {
+            width: 100% !important;
+            margin-left: 0 !important;
+        }
+    </style>
+@endsection
+
 @section('content')
 <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
     <div class="container">
