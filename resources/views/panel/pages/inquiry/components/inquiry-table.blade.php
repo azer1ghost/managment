@@ -164,7 +164,7 @@
                         <div class="btn-sm-group d-flex align-items-center justify-content-center">
                             @if(!$trashBox)
                                 @can('view', $inquiry)
-                                    <a href="{{route('inquiry.show', $inquiry)}}" class="btn btn-sm btn-outline-primary mr-2">
+                                    <a target="_blank" href="{{route('inquiry.show', $inquiry)}}" class="btn btn-sm btn-outline-primary mr-2">
                                         <i class="fal fa-eye"></i>
                                     </a>
                                 @endcan
