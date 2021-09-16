@@ -53,7 +53,7 @@
             </div>
         @endif
             <main class="py-4">
-                <div class="container-fluid">
+                <div class="container-fluid" style="width: 95% !important;">
                     @yield('content')
                 </div>
             </main>
