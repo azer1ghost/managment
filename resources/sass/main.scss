@@ -1,5 +1,5 @@
 body{
-  background: #F5F6FA;
+  background: $bodyBgColor;
 }
 
 *{
@@ -29,13 +29,13 @@ main{
 .breadcrumb-item a{
   color: $primary !important;
   &:hover{
-    color: #0b94e2 !important;
+    color: $hover !important;
   }
 }
 
 a{
   text-decoration: none !important;
-  color: rgb(241, 237, 237);
+  color: $primaryWhite;
 }
 
 //post card styles

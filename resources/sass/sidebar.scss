@@ -1,5 +1,4 @@
 .custom-wrapper {
-
   .section{
     width: calc(100% - 225px);
     margin-left: 225px;
@@ -8,7 +7,7 @@
     z-index: 1000;
     .top_navbar{
       background: $primary;
-      border-left: 1px solid #10558d;
+      border-left: 1px solid $border;
       height: 50px;
       display: flex;
       align-items: center;
@@ -16,22 +15,32 @@
       padding: 0 15px;
 
       ul{
-        a{
-          color: #f4fbff !important;
+        a:not(.dropdown-item){
+          color: $primaryWhite !important;
           font-size: 16px !important;
           &:hover{
-            color: #cef0fd !important;
+            color: $hover !important;
+          }
+        }
+        .dropdown{
+          .dropdown-menu{
+            .dropdown-item{
+              color: $primaryWhite !important;
+              &:hover{
+                color: $primary !important;
+              }
+            }
           }
         }
       }
 
       .hamburger a{
         font-size: 28px;
-        color: #f4fbff;
+        color: $primaryWhite;
       }
       .nav-link{
         &:hover{
-          color: #cef0fd !important;
+          color: $hover !important;
         }
       }
     }
@@ -76,13 +85,13 @@
         object-fit: cover;
       }
       h4{
-        color: #ffffff;
+        color: $primaryWhite;
         margin: 10px 5px 5px;
         word-break: break-all;
       }
 
       p{
-        color: rgb(206, 240, 253);
+        color: $hover;
         font-size: 14px;
         margin: 5px 5px;
         word-break: break-all;
@@ -94,13 +103,12 @@
       a{
         display: block;
         padding: 7px;
-        border-bottom: 1px solid #10558d;
-        color: rgb(241, 237, 237);
+        border-bottom: 1px solid $border;
         font-size: 14px;
         position: relative;
 
         .icon{
-          color: #dee4ec;
+          color: $primaryWhite;
           width: 30px;
           display: inline-block;
         }
@@ -109,12 +117,11 @@
 
       &:hover,
       &.active{
-        color: #0c7db1;
-        background: #F5F6FA;
+        background: $primaryWhite;
 
         a {
           .icon, .item {
-            color: #0c7db1;
+            color: $primary;
           }
 
           &:hover, &.active:before{
@@ -138,13 +145,13 @@ a
 
 .custom-wrapper .section .top_navbar {
   .hamburger a:hover, ul i:hover {
-    color: #a2ecff !important;
+    color: $hover !important;
   }
 }
 
 body.active .custom-wrapper{
   .section .top_navbar .hamburger a i{
-    transform: rotate(180deg);
+    transform: rotate(360deg);
   }
 
   .sidebar{
@@ -182,14 +189,7 @@ body.active .custom-wrapper{
 }
 
 .top_navbar .dropdown-menu{
-  color: #f4fbff !important;
+  color: $primaryWhite !important;
   background: $primary !important;
   border-radius: 0 !important;
-
-  .dropdown-item{
-    color: #f4fbff !important;
-    &:hover{
-      color: $primary !important;
-    }
-  }
 }
