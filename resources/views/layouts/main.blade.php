@@ -36,7 +36,7 @@
             <div class="section">
                 <div class="top_navbar d-flex justify-content-between">
                     <div class="hamburger">
-                        <a href="#">
+                        <a href="javascript:void(0)">
                             <i class="fas fa-arrow-left"></i>
                         </a>
                     </div>
