@@ -31,11 +31,14 @@ return [
 
     'placeholders' => [
         'serial_pattern' => 'Seriya nömrəsini daxil edin',
+        'fin' => 'FİN daxil edin',
         'range' => 'Tarix aralığı daxil edin',
         'code' => 'Kodu daxil edin',
         'note' => 'Qeyd daxil edin',
         'fullname' => 'Tam adı daxil edin',
-        'phone' => 'Telefon daxil edin',
+        'phone' => 'Nömrənizi daxil edin',
+        'phone_coop' => 'Kooperativ nömrənizi daxil edin',
+        'address' => 'Ünvan daxil edin',
         'choose' => 'Seç',
         'name'   => 'Adınızı daxil edin',
         'surname'   => 'Soyadınızı daxil edin',
@@ -52,6 +55,7 @@ return [
         'employment' => 'MƏŞĞULLUQ',
         'passport' => 'PASPORT',
         'contact' => 'ƏLAQƏ',
+        'address_title' => 'ÜNVAN',
         'user' => 'Əməkdaş',
         'department' => 'Şöbə',
         'position' => 'Vəzifə',

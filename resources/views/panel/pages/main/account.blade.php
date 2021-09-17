@@ -60,21 +60,21 @@
                 <p class="text-muted mb-2">@lang('translates.fields.contact')</p>
                 <hr class="my-2">
             </div>
-            <x-input::text   name="phone_coop" :value="auth()->user()->getAttribute('phone_coop')"  :label="__('translates.fields.phone_coop')"     width="3"  class="pr-0" id="phone"/>
-            <x-input::text   name="phone"      :value="auth()->user()->getAttribute('phone')"       :label="__('translates.fields.phone_private')"  width="3"  class="pr-0" />
-            <x-input::email  name="email_coop" :value="auth()->user()->getAttribute('email_coop')"  :label="__('translates.fields.email_coop')"     width="3"  class="pr-0" />
-            <x-input::email  name="email"      :value="auth()->user()->getAttribute('email')"       :label="__('translates.fields.email_private')"  width="3"  class="pr-0"  required=""/>
+            <x-input::text   name="phone_coop" :placeholder="__('translates.placeholders.phone')"  :value="auth()->user()->getAttribute('phone_coop')"  :label="__('translates.fields.phone_coop')"     width="3"  class="pr-0" id="phone"/>
+            <x-input::text   name="phone"      :placeholder="__('translates.placeholders.phone_coop')"  :value="auth()->user()->getAttribute('phone')"       :label="__('translates.fields.phone_private')"  width="3"  class="pr-0" />
+            <x-input::email  name="email_coop" :placeholder="__('translates.placeholders.mail_coop')"  :value="auth()->user()->getAttribute('email_coop')"  :label="__('translates.fields.email_coop')"     width="3"  class="pr-0" />
+            <x-input::email  name="email"      :placeholder="__('translates.placeholders.mail')"  :value="auth()->user()->getAttribute('email')"       :label="__('translates.fields.email_private')"  width="3"  class="pr-0"  required=""/>
             <!-- Address -->
             <div class="col-md-12 px-0">
                 <br>
-                <p class="text-muted mb-2">@lang('translates.fields.address')</p>
+                <p class="text-muted mb-2">{{__('translates.fields.address_title')}}</p>
                 <hr class="my-2">
             </div>
-            <x-input::select  name="country"   :value="auth()->user()->getAttribute('country')"  width="3" class="pr-0" :options="['Azerbaijan' => __('translates.countries.Azerbaijan'), 'Turkey' => __('translates.countries.Turkey')]"/>
-            <x-input::select  name="city"      :value="auth()->user()->getAttribute('city')"     width="3" class="pr-0" :options="['Baku' => __('translates.cities.Baku'), 'Sumgayit' => __('translates.cities.Sumgayit')]"/>
-            <x-input::text    name="address"   :label="__('translates.fields.address')" :value="auth()->user()->getAttribute('address')"  width="6" class="pr-0" />
-            <x-input::text    name="password"  :label="__('translates.fields.password')"  width="6" class="pr-0" type="password" autocomplete="off"/>
-            <x-input::text    name="password_confirmation" :label="__('translates.fields.password_confirm')" width="6" class="pr-0"  type="password" autocomplete="off"/>
+            <x-input::select  name="country"   :label="__('translates.fields.country')"   :value="auth()->user()->getAttribute('country')"  width="3" class="pr-0" :options="['Azerbaijan' => __('translates.countries.Azerbaijan'), 'Turkey' => __('translates.countries.Turkey')]"/>
+            <x-input::select  name="city"      :label="__('translates.fields.city')"      :value="auth()->user()->getAttribute('city')"     width="3" class="pr-0" :options="['Baku' => __('translates.cities.Baku'), 'Sumgayit' => __('translates.cities.Sumgayit')]"/>
+            <x-input::text    name="address"   :label="__('translates.fields.address')"   :placeholder="__('translates.placeholders.address')" :value="auth()->user()->getAttribute('address')"  width="6" class="pr-0" />
+            <x-input::text    name="password"  :label="__('translates.fields.password')"  :placeholder="__('translates.placeholders.password')"  width="6" class="pr-0" type="password" autocomplete="off"/>
+            <x-input::text    name="password_confirmation" :label="__('translates.fields.password_confirm')" :placeholder="__('translates.placeholders.password_confirm')" width="6" class="pr-0"  type="password" autocomplete="off"/>
             <x-input::select  name="role_id"   :label="__('translates.fields.role')" :value="auth()->user()->getRelationValue('role')->getAttribute('id')"  width="3" class="pr-0" :options="$roles" />
 
             <div class="col-md-12 px-0">
