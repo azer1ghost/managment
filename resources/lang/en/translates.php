@@ -31,6 +31,7 @@ return [
     ],
 
     'placeholders' => [
+        'serial_pattern' => 'Enter serial number',
         'range' => 'Enter date range',
         'code' => 'Enter code',
         'note' => 'Enter note',
@@ -39,6 +40,7 @@ return [
         'choose' => 'Choose',
         'name'   => 'Enter name',
         'surname'   => 'Enter surname',
+        'father'   => 'Enter father\'s name',
         'mail_coop'   => 'Enter cooperative email',
         'mail'   => 'Enter email',
         'password' => 'Enter password',
@@ -48,8 +50,13 @@ return [
     ],
 
     'fields' => [
+        'personal' => 'PERSONAL',
+        'employment' => 'EMPLOYMENT',
+        'passport' => 'PASSPORT',
+        'contact' => 'CONTACT',
         'user' => 'User',
         'department' => 'Department',
+        'position' => 'Position',
         'mgCode' => 'MG Code',
         'date' => 'Date',
         'time' => 'Time',
@@ -60,11 +67,25 @@ return [
         'actions' => 'Actions',
         'contactMethod' => 'Contact method',
         'phone' => 'Phone',
+        'phone_private' => 'Personal phone',
+        'phone_coop' => 'Cooperative phone',
+        'email_coop' => 'Cooperative Email',
+        'email_private' => 'Personal Email',
+        'country' => 'Country',
+        'city' => 'City',
+        'password' => 'Password',
+        'password_confirm' => 'Password Confirmation',
+        'role' => 'Role',
         'note' => 'Note',
         'fullname' => 'Fullname',
         'client' => 'Client',
         'logo' => 'Logo',
         'name' => 'Name',
+        'surname' => 'Surname',
+        'father' => 'Father\'s name',
+        'serial' => 'Serial',
+        'gender' => 'Gender',
+        'birthday' => 'Birthday',
         'address' => 'Address',
         'website' => 'Website',
         'mobile' => 'Mobile',
@@ -159,6 +180,21 @@ return [
 
     'total_items' => 'Showing :count of :total',
 
-    'access' => 'Access'
+    'access' => 'Access',
+
+    'countries' => [
+        'Azerbaijan' => 'Azerbaijan',
+        'Turkey' => 'Turkey'
+    ],
+
+    'cities' => [
+        'Baku' => 'Baku',
+        'Sumgayit' => 'Sumgayit'
+    ],
+
+    'gender' => [
+        'male' => 'Male',
+        'female' => 'Female'
+    ]
 
 ];

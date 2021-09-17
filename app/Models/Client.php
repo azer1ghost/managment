@@ -25,6 +25,7 @@ class Client extends Model
         'address',
         'address_coop',
         'company',
+        'voen',
     ];
 
     public function getFullnameAttribute(): string

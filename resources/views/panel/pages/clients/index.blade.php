@@ -36,6 +36,7 @@
                             <th scope="col">Email</th>
                             <th scope="col">Phone</th>
                             <th scope="col">Company</th>
+                            <th scope="col">VOEN</th>
                             <th scope="col">Address</th>
                             <th scope="col">Actions</th>
                         </tr>
@@ -48,6 +49,7 @@
                                 <td>{{$client->getAttribute('email')}}</td>
                                 <td>{{$client->getAttribute('phone')}}</td>
                                 <td>{{$client->getAttribute('company')}}</td>
+                                <td>{{$client->getAttribute('voen')}}</td>
                                 <td>{{$client->getAttribute('address')}}</td>
                                 <td>
                                     <div class="btn-sm-group">

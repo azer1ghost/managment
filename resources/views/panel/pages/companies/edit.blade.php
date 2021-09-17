@@ -23,7 +23,7 @@
         <input type="hidden" name="id" value="{{optional($data)->getAttribute('id')}}">
         <div class="tab-content row mt-4" >
             @if (is_null($data))
-                <x-input::text  name="logo"      :value="optional($data)->getAttribute('logo')"  width="6" class="pr-3" />
+                <x-input::text  name="logo"  :value="optional($data)->getAttribute('logo')"  width="6" class="pr-3" />
             @else
                 <div class="col-12 mb-4">
                     <img src="{{asset("assets/images/".optional($data)->getAttribute('logo'))}}" alt="company" width="300px" height="100px" }}>

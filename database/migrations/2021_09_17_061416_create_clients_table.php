@@ -22,6 +22,7 @@ class CreateClientsTable extends Migration
             $table->string('phone')->nullable();
             $table->string('phone_coop')->nullable();
             $table->string('company')->nullable();
+            $table->string('voen')->nullable();
             $table->string('address')->nullable();
             $table->string('address_coop')->nullable();
             $table->timestamps();

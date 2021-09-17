@@ -14,29 +14,29 @@
 
     <form class="form-row px-2" action="{{route('account.save',auth()->user())}}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="col-md-3 px-0">
+        <div class="col-md-2 px-0">
             <x-input::image name="avatar" class="px-0" :value="auth()->user()->getAttribute('avatar')"/>
         </div>
         <!-- Main -->
-        <div class="col-md-9 px-0">
-            <p class="text-muted mb-2">PERSONAL</p>
+        <div class="col-md-10 px-0 pl-3">
+            <p class="text-muted mb-2">@lang('translates.fields.personal')</p>
             <hr class="my-2">
             <div class="row mr-0">
-                <x-input::text  name="name"    :value="auth()->user()->getAttribute('name')"    width="4" class="pr-0" required=""/>
-                <x-input::text  name="surname" :value="auth()->user()->getAttribute('surname')" width="4" class="pr-0" />
-                <x-input::text  name="father"  :value="auth()->user()->getAttribute('father')"  width="4" class="pr-0" label="Father's name" />
+                <x-input::text  name="name"    :label="__('translates.fields.name')"    :placeholder="__('translates.placeholders.name')" :value="auth()->user()->getAttribute('name')"    width="4" class="pr-0" required=""/>
+                <x-input::text  name="surname" :label="__('translates.fields.surname')" :placeholder="__('translates.placeholders.surname')" :value="auth()->user()->getAttribute('surname')" width="4" class="pr-0" />
+                <x-input::text  name="father"  :label="__('translates.fields.father')"  :placeholder="__('translates.placeholders.father')" :value="auth()->user()->getAttribute('father')"  width="4" class="pr-0" />
             </div>
             <!-- Employment -->
-            <p class="text-muted mb-2">EMPLOYMENT</p>
+            <p class="text-muted mb-2">@lang('translates.fields.employment')</p>
             <hr class="my-2">
             <div class="row mr-0">
-                <x-input::select default="1" name="department_id" :value="auth()->user()->getRelationValue('department')->getAttribute('id')" width="6"  class="pr-0" :options="$departments" label="Department" />
+                <x-input::select default="1" name="department_id" :label="__('translates.fields.department')" :value="auth()->user()->getRelationValue('department')->getAttribute('id')" width="6"  class="pr-0" :options="$departments" />
                 @if (auth()->user()->isDirector())
-                    <x-input::select default="1" name="position_id"   :value="optional(auth()->user()->getRelationValue('position'))->getAttribute('id')"   width="6"  class="pr-0" :options="$directorPositions" label="Position" />
+                    <x-input::select default="1" name="position_id" :label="__('translates.fields.position')" :value="optional(auth()->user()->getRelationValue('position'))->getAttribute('id')"   width="6"  class="pr-0" :options="$directorPositions" />
                 @else
-                    <x-input::select default="1" name="position_id"   :value="optional(auth()->user()->getRelationValue('position'))->getAttribute('id')"   width="6"  class="pr-0" :options="$positions" label="Position" />
+                    <x-input::select default="1" name="position_id"  :label="__('translates.fields.position')" :value="optional(auth()->user()->getRelationValue('position'))->getAttribute('id')"   width="6"  class="pr-0" :options="$positions" />
                 @endif
-                <x-input::select default="1" name="company_id"    :value="auth()->user()->getRelationValue('company')->getAttribute('id')"  width="6"  class="pr-0"   :options="$companies" label="Company" />
+                <x-input::select default="1" name="company_id"  :label="__('translates.fields.company')"  :value="auth()->user()->getRelationValue('company')->getAttribute('id')"  width="6"  class="pr-0"   :options="$companies" />
                 @if (auth()->user()->isDeveloper())
                     <x-input::text name="verify_code" readonly :value="auth()->user()->getAttribute('verify_code')"   width="6"  class="pr-0" label="Verify Code"/>
                 @endif
@@ -46,36 +46,36 @@
             <!-- Passport -->
             <div class="col-md-12 px-0">
                 <br>
-                <p class="text-muted mb-2">PASSPORT</p>
+                <p class="text-muted mb-2">@lang('translates.fields.passport')</p>
                 <hr class="my-2">
             </div>
-            <x-input::select  name="serial_pattern" :value="auth()->user()->getAttribute('serial_pattern')" label="Serial" width="1" class="p-0"   :options="['AA' => 'AA','AZE' => 'AZE']"/>
-            <x-input::text    name="serial"   :value="auth()->user()->getAttribute('serial')"  label=" "   width="3" class="pr-0"  placeholder="Enter serial number"/>
+            <x-input::select  name="serial_pattern" :label="__('translates.fields.serial')" :value="auth()->user()->getAttribute('serial_pattern')" width="1" class="p-0"   :options="['AA' => 'AA','AZE' => 'AZE']"/>
+            <x-input::text    name="serial"   :value="auth()->user()->getAttribute('serial')"  label=" "   width="3" class="pr-0"  :placeholder="__('translates.placeholders.serial_pattern')"/>
             <x-input::text    name="fin"      :value="auth()->user()->getAttribute('fin')"     label="FIN"    width="2" class="pr-0" />
-            <x-input::select  name="gender"   :value="auth()->user()->getAttribute('gender')"  :options="['male','female']" width="2" class="pr-0" />
-            <x-input::date    name="birthday" :value="auth()->user()->getAttribute('birthday')" width="4" class="pr-0" />
+            <x-input::select  name="gender"   :label="__('translates.fields.gender')" :value="auth()->user()->getAttribute('gender')"  :options="[__('translates.gender.male'), __('translates.gender.female')]" width="2" class="pr-0" />
+            <x-input::date    name="birthday" :label="__('translates.fields.birthday')" :value="auth()->user()->getAttribute('birthday')" width="4" class="pr-0" />
             <!-- Contact -->
             <div class="col-md-12 px-0">
                 <br>
-                <p class="text-muted mb-2">CONTACT</p>
+                <p class="text-muted mb-2">@lang('translates.fields.contact')</p>
                 <hr class="my-2">
             </div>
-            <x-input::text   name="phone_coop" :value="auth()->user()->getAttribute('phone_coop')"   label="Cooperative number" width="3" class="pr-0" id="phone"/>
-            <x-input::text   name="phone"      :value="auth()->user()->getAttribute('phone')"        label="Personal number"    width="3" class="pr-0" />
-            <x-input::email  name="email_coop" :value="auth()->user()->getAttribute('email_coop')"   label="Cooperative Email"  width="3" class="pr-0" />
-            <x-input::email  name="email"      :value="auth()->user()->getAttribute('email')"        label="Personal Email"     width="3" class="pr-0"  required=""/>
+            <x-input::text   name="phone_coop" :value="auth()->user()->getAttribute('phone_coop')"  :label="__('translates.fields.phone_coop')"     width="3"  class="pr-0" id="phone"/>
+            <x-input::text   name="phone"      :value="auth()->user()->getAttribute('phone')"       :label="__('translates.fields.phone_private')"  width="3"  class="pr-0" />
+            <x-input::email  name="email_coop" :value="auth()->user()->getAttribute('email_coop')"  :label="__('translates.fields.email_coop')"     width="3"  class="pr-0" />
+            <x-input::email  name="email"      :value="auth()->user()->getAttribute('email')"       :label="__('translates.fields.email_private')"  width="3"  class="pr-0"  required=""/>
             <!-- Address -->
             <div class="col-md-12 px-0">
                 <br>
-                <p class="text-muted mb-2">ADDRESS</p>
+                <p class="text-muted mb-2">@lang('translates.fields.address')</p>
                 <hr class="my-2">
             </div>
-            <x-input::select  name="country"   :value="auth()->user()->getAttribute('country')"  width="3" class="pr-0" :options="['Azerbaijan' => 'Azerbaijan', 'Turkey' => 'Turkey']"/>
-            <x-input::select  name="city"      :value="auth()->user()->getAttribute('city')"     width="3" class="pr-0" :options="['Baku' => 'Baku', 'Sumgayit' => 'Sumgayit']"/>
-            <x-input::text    name="address"   :value="auth()->user()->getAttribute('address')"  width="6" class="pr-0" />
-            <x-input::text    name="password" width="6" class="pr-0" type="password" autocomplete="off"/>
-            <x-input::text    name="password_confirmation" width="6" class="pr-0" label="Password Confirmation" type="password" autocomplete="off"/>
-            <x-input::select  name="role_id"   :value="auth()->user()->getRelationValue('role')->getAttribute('id')"  width="3" class="pr-0" :options="$roles" label="Role"/>
+            <x-input::select  name="country"   :value="auth()->user()->getAttribute('country')"  width="3" class="pr-0" :options="['Azerbaijan' => __('translates.countries.Azerbaijan'), 'Turkey' => __('translates.countries.Turkey')]"/>
+            <x-input::select  name="city"      :value="auth()->user()->getAttribute('city')"     width="3" class="pr-0" :options="['Baku' => __('translates.cities.Baku'), 'Sumgayit' => __('translates.cities.Sumgayit')]"/>
+            <x-input::text    name="address"   :label="__('translates.fields.address')" :value="auth()->user()->getAttribute('address')"  width="6" class="pr-0" />
+            <x-input::text    name="password"  :label="__('translates.fields.password')"  width="6" class="pr-0" type="password" autocomplete="off"/>
+            <x-input::text    name="password_confirmation" :label="__('translates.fields.password_confirm')" width="6" class="pr-0"  type="password" autocomplete="off"/>
+            <x-input::select  name="role_id"   :label="__('translates.fields.role')" :value="auth()->user()->getRelationValue('role')->getAttribute('id')"  width="3" class="pr-0" :options="$roles" />
 
             <div class="col-md-12 px-0">
                 <p class="text-muted mb-2">PERMISSIONS</p>

@@ -20,15 +20,15 @@
     </x-bread-crumb>
     <form class="form-row mr-0" action="{{$action}}" method="post" enctype="multipart/form-data">
         @csrf @method($method)
-        <div class="col-md-3">
+        <div class="col-md-2 px-0">
             @if (!is_null($action))
                 <x-input::image name="avatar" :value="optional($data)->getAttribute('avatar')"/>
             @else
-                <img src="{{image(optional($data)->getAttribute('logo'))}}" alt="user" class="img-fluid"}}>
+                <img src="{{image(optional($data)->getAttribute('avatar'))}}" alt="user" class="img-fluid"}}>
             @endif
         </div>
         <!-- Main -->
-        <div class="col-md-9 px-0">
+        <div class="col-md-10 px-0 pl-3">
             <p class="text-muted mb-2">PERSONAL</p>
             <hr class="my-2">
             <div class="row mr-0">

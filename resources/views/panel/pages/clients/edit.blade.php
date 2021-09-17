@@ -18,13 +18,13 @@
             @endif
         </x-bread-crumb-link>
     </x-bread-crumb>
-    <form class="col-md-12 form-row" action="{{$action}}" method="post" enctype="multipart/form-data">
+    <form class="col-md-12 form-row px-0" action="{{$action}}" method="post" enctype="multipart/form-data">
         @csrf @method($method)
         <!-- Main -->
-        <div class="col-md-9">
+        <div class="col-md-12 pl-2 pr-0">
             <p class="text-muted mb-2">PERSONAL</p>
             <hr class="my-2">
-            <div class="row">
+            <div class="row pr-2 pl-0">
                 <x-input::text  name="name"    :value="optional($data)->getAttribute('name')"    width="4" class="pr-1" required=""/>
                 <x-input::text  name="surname" :value="optional($data)->getAttribute('surname')" width="4" class="pr-1" />
                 <x-input::text  name="father"  :value="optional($data)->getAttribute('father')"  width="4" class="pr-1" label="Father's name" />
@@ -33,7 +33,8 @@
             <p class="text-muted mb-2">EMPLOYMENT</p>
             <hr class="my-2">
             <div class="row">
-                <x-input::text name="company"  :value="optional($data)->getAttribute('company')"  width="6" class="pr-1"  label="Company" />
+                <x-input::text name="company"  :value="optional($data)->getAttribute('company')"  width="4" class="pr-1"  label="Company" />
+                <x-input::text name="voen"     :value="optional($data)->getAttribute('voen')"     width="4" class="pr-1"  label="VOEN" />
             </div>
         </div>
         <div class="form-row col-md-12">
@@ -44,8 +45,8 @@
                 <hr class="my-2">
             </div>
             <x-input::select  name="serial_pattern" :value="optional($data)->getAttribute('serial_pattern')" label="Serial" width="1" class="p-0"   :options="['AA' => 'AA','AZE' => 'AZE']"/>
-            <x-input::text    name="serial"         :value="optional($data)->getAttribute('serial')"   label=" "   width="3" class="pr-1"  placeholder="Enter serial number"/>
-            <x-input::text    name="fin"            :value="optional($data)->getAttribute('fin')"       width="3" class="pr-1"  placeholder="Enter fin"/>
+            <x-input::text    name="serial"         :value="optional($data)->getAttribute('serial')"   label=" "   width="2" class="pr-1"  placeholder="Enter serial number"/>
+            <x-input::text    name="fin"            :value="optional($data)->getAttribute('fin')"       width="2" class="pr-1"  placeholder="Enter fin"/>
             <x-input::select  name="gender"         :value="optional($data)->getAttribute('gender')"   :options="['male','female']" width="2" class="pr-1" />
             <!-- Contact -->
             <div class="col-md-12">
