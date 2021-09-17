@@ -19,6 +19,9 @@
 // Main theme
 @import "~jquery-confirm/dist/jquery-confirm.min.css";
 
+// Main styles
+@import "style.scss";
+
 *{
   list-style: none !important;
   text-decoration: none !important;
@@ -26,19 +29,4 @@
   padding: 0;
   box-sizing: border-box;
   /*font-family: 'Sequel', sans-serif;*/
-}
-
-main{
-  overflow-x: auto;
-}
-
-.btn-sm{
-  margin-bottom: 3px !important;
-}
-
-.breadcrumb-item a{
-  color: $primary !important;
-  &:hover{
-    color: #0b94e2 !important;
-  }
 }

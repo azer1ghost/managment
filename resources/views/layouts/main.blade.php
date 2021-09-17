@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="sidebar">
-                <div class="profile">
+                <div class="profile-container">
                     <img src="{{image(auth()->user()->getAttribute('avatar'))}}" alt="profile_picture">
                     <h4>{{auth()->user()->getAttribute('fullname')}}</h4>
                     <p>{{auth()->user()->getRelationValue('position')->getAttribute('name')}}</p>
