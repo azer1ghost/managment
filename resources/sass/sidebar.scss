@@ -15,6 +15,16 @@
       justify-content: center;
       padding: 0 15px;
 
+      ul{
+        a{
+          color: #f4fbff !important;
+          font-size: 16px !important;
+          &:hover{
+            color: #cef0fd !important;
+          }
+        }
+      }
+
       .hamburger a{
         font-size: 28px;
         color: #f4fbff;
@@ -117,7 +127,7 @@
 }
 
 .custom-wrapper .section .top_navbar .hamburger a i,
-.custom-wrapper .section .top_navbar nav .navbar-toggler i,
+.custom-wrapper .section .top_navbar ul i,
 .custom-wrapper .sidebar ul li,
 .custom-wrapper .sidebar,
 .custom-wrapper .section,
@@ -127,7 +137,7 @@ a
 }
 
 .custom-wrapper .section .top_navbar {
-  .hamburger a:hover, nav .navbar-toggler i:hover {
+  .hamburger a:hover, ul i:hover {
     color: #a2ecff !important;
   }
 }
@@ -161,22 +171,13 @@ body.active .custom-wrapper{
 }
 
 @media screen and (max-width: 576px){
-  .custom-wrapper .section .top_navbar nav {
+  .custom-wrapper .section .top_navbar ul {
     body.inactive &{
       display: none !important;
     }
     body.active &{
       display: flex;
     }
-  }
-
-  .navbar-collapse, .top_navbar .dropdown-menu{
-    position: absolute !important;
-    z-index: 1001 !important;
-    top: 40px !important;
-    left: -90px !important;
-    width: 112px !important;
-    padding: 0 13px !important;
   }
 }
 
