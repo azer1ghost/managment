@@ -35,13 +35,19 @@ class PlatformController extends Controller
 
     public function dashboard(): View
     {
-        $inquiriesToday = Inquiry::IsReal()->whereDate('datetime',  Carbon::today())->get()->count();
-        $inquiriesMonth = Inquiry::IsReal()->whereMonth('datetime', Carbon::today())->get()->count();
+        $inquiriesToday = Inquiry::IsReal()->whereDate('datetime',  Carbon::today())->count();
+        $inquiriesMonth = Inquiry::IsReal()->whereMonth('datetime', Carbon::today())->count();
 
         return view('panel.pages.main.dashboard', [
             'inquiriesToday' => $inquiriesToday,
             'inquiriesMonth' => $inquiriesMonth
         ]);
+    }
+
+
+    public function languageSelector()
+    {
+        return view('auth.lang-selector');
     }
 
     public function cabinet(): View

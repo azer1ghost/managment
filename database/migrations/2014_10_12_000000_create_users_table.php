@@ -40,6 +40,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('phone_verified_at')->nullable();
             $table->integer('verify_code')->nullable();
             $table->string('password');
+            $table->string('dafault_lang',5)->nullable();
             $table->integer('personal_id')->nullable()->unique();
             $table->rememberToken();
             $table->timestamps();

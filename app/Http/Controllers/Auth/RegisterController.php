@@ -30,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected string $redirectTo = RouteServiceProvider::DASHBOARD;
+    protected string $redirectTo = RouteServiceProvider::ACCOUNT;
 
     /**
      * Create a new controller instance.
@@ -40,6 +40,16 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    public function showRegistrationForm()
+    {
+//        if (\App::getLocale() == null)
+//        {
+//
+//        }
+
+        return view('auth.register');
     }
 
     /**
