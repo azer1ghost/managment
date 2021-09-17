@@ -31,11 +31,12 @@
                 <table class="table table-responsive-sm table-hover">
                     <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col"></th>
                         <th scope="col">Full Name</th>
                         <th scope="col">FIN</th>
                         <th scope="col">Email</th>
                         <th scope="col">Phone</th>
+                        <th scope="col">Company</th>
                         <th scope="col">Department</th>
                         <th scope="col">Role</th>
                         <th scope="col">Actions</th>
@@ -44,11 +45,12 @@
                     <tbody>
                     @forelse($users as $user)
                         <tr>
-                            <th scope="row">{{$user->getAttribute('id')}}</th>
+                            <th scope="row"><img src="{{image($user->getAttribute('avatar'))}}" alt="user" style="border-radius: 50%" width="40" height="40"></th>
                             <td>{{$user->getAttribute('fullname')}} @if($user->getAttribute('id') === auth()->id()) <h5 class="d-inline"><span class="badge badge-info text-white">Me</span></h5> @endif</td>
                             <td>{{$user->getAttribute('fin')}}</td>
                             <td>{{$user->getAttribute('email')}}</td>
                             <td>{{$user->getAttribute('phone')}}</td>
+                            <td>{{$user->getRelationValue('company')->getAttribute('name')}}</td>
                             <td>{{$user->getRelationValue('department')->getAttribute('name')}}</td>
                             <td>{{$user->getRelationValue('role')->getAttribute('name')}}</td>
                             <td>
