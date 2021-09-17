@@ -45,7 +45,7 @@
                     <tbody>
                     @forelse($users as $user)
                         <tr>
-                            <th scope="row"><img src="{{image($user->getAttribute('avatar'))}}" alt="user" style="border-radius: 50%" width="40" height="40"></th>
+                            <th scope="row"><img src="{{image($user->getAttribute('avatar'))}}" alt="user" style="border-radius: 50%;object-fit: cover" width="50" height="50"></th>
                             <td>{{$user->getAttribute('fullname')}} @if($user->getAttribute('id') === auth()->id()) <h5 class="d-inline"><span class="badge badge-info text-white">Me</span></h5> @endif</td>
                             <td>{{$user->getAttribute('fin')}}</td>
                             <td>{{$user->getAttribute('email')}}</td>
