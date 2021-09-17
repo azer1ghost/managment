@@ -5,13 +5,10 @@
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
-            Dashboard
+            @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
-        <x-bread-crumb-link :link="route('positions.index')">
-            Positions
-        </x-bread-crumb-link>
-        <x-bread-crumb-link :link="route('roles.index')" is-current="1">
-            Roles
+        <x-bread-crumb-link :link="route('companies.index')" is-current="1">
+            @lang('translates.navbar.company')
         </x-bread-crumb-link>
     </x-bread-crumb>
     <div class="float-right mb-2">

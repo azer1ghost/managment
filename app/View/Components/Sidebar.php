@@ -120,6 +120,12 @@ class Sidebar extends Component
                 'permission' => 'viewAny-notification',
             ],
 
+            (object) [
+                'title' => __('translates.navbar.client'),
+                'icon'  => 'fas fa-portrait',
+                'url'  => route('clients.index'),
+                'permission' => 'viewAny-client',
+            ],
         ];
     }
 

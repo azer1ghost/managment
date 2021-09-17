@@ -117,7 +117,8 @@ return [
         'user'       => 'Users',
         'department' => 'Departments',
         'position'   => 'Positions',
-        'notification' => 'Notifications'
+        'notification' => 'Notifications',
+        'client'     => 'Clients'
     ],
 
     'date' => [

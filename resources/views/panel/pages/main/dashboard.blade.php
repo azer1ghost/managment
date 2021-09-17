@@ -3,7 +3,12 @@
 @section('title', __('translates.navbar.dashboard'))
 
 @section('content')
-    <h5 class="card-title">@lang('translates.navbar.dashboard')</h5>
+    <x-bread-crumb>
+        <x-bread-crumb-link :link="route('dashboard')" is-current="1">
+            Dashboard
+        </x-bread-crumb-link>
+
+    </x-bread-crumb>
     <div class="row">
         <div class="col-12 col-md-3">
             <div class="card text-center">

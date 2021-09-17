@@ -115,7 +115,8 @@ return [
         'user'       => 'İstifadəçilər',
         'department' => 'Şöbələr',
         'position'   => 'Vəzifələr',
-        'notification' => 'Bildirişlər'
+        'notification' => 'Bildirişlər',
+        'client'     => 'Müştərilər',
     ],
 
     'date' => [

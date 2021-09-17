@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\{Auth\LoginController,
     Auth\PhoneVerifycationController,
-    Auth\RegisterController,
     Main\AccountController,
     Main\PlatformController,
     Modules\CompanyController,
@@ -10,6 +9,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\GadgetController,
     Modules\DatabaseNotificationController,
     Modules\OptionController,
+    Modules\ClientController,
     Modules\ParameterController,
     Modules\RoleController,
     Modules\UserController,
@@ -46,6 +46,7 @@ Route::group([
     Route::resource('/positions', PositionController::class);
     Route::resource('/tasks', TaskController::class);
     Route::resource('/notifications', DatabaseNotificationController::class);
+    Route::resource('/clients', ClientController::class);
 });
 
 Auth::routes(['login' => false]);
