@@ -10191,6 +10191,7 @@ a {
 }
 .custom-wrapper .section .top_navbar {
   background: #054468;
+  border-left: 1px solid #10558d;
   height: 50px;
   display: flex;
   align-items: center;
@@ -10216,7 +10217,7 @@ a {
   overflow-y: auto;
 }
 .custom-wrapper .sidebar::-webkit-scrollbar {
-  width: 5px;
+  width: 4px;
 }
 .custom-wrapper .sidebar::-webkit-scrollbar-track {
   background: #054468;

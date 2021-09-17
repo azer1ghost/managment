@@ -3,38 +3,46 @@
 @section('title', __('translates.navbar.inquiry'))
 
 @section('content')
-    <div class="card">
-        <div class="card-header">
-            <a href="{{route('inquiry.index')}}" class="btn btn-sm btn-outline-primary mr-4">
-                <i class="fa fa-arrow-left"></i>
-                @lang('translates.buttons.back')
-            </a>
-            {{optional($data)->getAttribute('code')}}
-            @if($data->backups()->exists())
-            <form id="restoreForm" action="{{route('inquiry.versionRestore', $data)}}" class="float-right">
-                <div class="input-group">
-                    <select class="custom-select" id="select" aria-label="Example select with button addon">
-                        <option value="null" selected disabled>Old versions</option>
-                        @forelse($data->backups()->select('id','created_at')->latest()->get() as $backup)
-                        <option value="{{$backup->id}}">Backup {{$backup->created_at->diffForHumans(null, false, true)}}</option>
-                        @empty
-                        <option value="null" selected disabled>No any version available</option>
-                        @endforelse
-                    </select>
-                    <div class="input-group-append">
-                        <button disabled must-confirm="Restore old version|Are you sure restore <b>:name</b> version?|Restore" class="btn btn-outline-secondary" type="submit">
-                            <i class="fa fa-redo-alt"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
+    <x-bread-crumb>
+        <x-bread-crumb-link :link="route('dashboard')">
+            @lang('translates.navbar.dashboard')
+        </x-bread-crumb-link>
+        <x-bread-crumb-link :link="route('inquiry.index')">
+            @lang('translates.navbar.inquiry')
+        </x-bread-crumb-link>
+        <x-bread-crumb-link>
+            @if (!is_null($data))
+                {{optional($data)->getAttribute('code')}}
+            @else
+                @lang('translates.buttons.create')
             @endif
-        </div>
-        <div class="card-body">
-            <livewire:inquiry-form :action="$action"  :method="$method" :inquiry="$data" />
-        </div>
+        </x-bread-crumb-link>
+    </x-bread-crumb>
+
+    @if($data->backups()->exists())
+        <form id="restoreForm" action="{{route('inquiry.versionRestore', $data)}}" class="float-right">
+            <div class="input-group">
+                <select class="custom-select" id="select" aria-label="Example select with button addon">
+                    <option value="null" selected disabled>Old versions</option>
+                    @forelse($data->backups()->select('id','created_at')->latest()->get() as $backup)
+                    <option value="{{$backup->id}}">Backup {{$backup->created_at->diffForHumans(null, false, true)}}</option>
+                    @empty
+                    <option value="null" selected disabled>No any version available</option>
+                    @endforelse
+                </select>
+                <div class="input-group-append">
+                    <button disabled must-confirm="Restore old version|Are you sure restore <b>:name</b> version?|Restore" class="btn btn-outline-secondary" type="submit">
+                        <i class="fa fa-redo-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    @endif
+    <div class="mt-4 pt-3" style="clear: both">
+        <livewire:inquiry-form :action="$action"  :method="$method" :inquiry="$data" />
     </div>
 @endsection
+
 @section('scripts')
 
     <script>

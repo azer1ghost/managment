@@ -4,10 +4,9 @@
 
 @section('content')
     <x-bread-crumb>
-        <x-bread-crumb-link :link="route('dashboard')" is-current="1">
+        <x-bread-crumb-link is-current="1">
             Dashboard
         </x-bread-crumb-link>
-
     </x-bread-crumb>
     <div class="row">
         <div class="col-12 col-md-3">

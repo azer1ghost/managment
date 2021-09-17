@@ -25,8 +25,7 @@ class Image extends Component
     {
         return /** @lang Blade */
         <<<'blade'
-          <div {{ $attributes->merge(['class' => 'form-group col-12 col-md-'.$width]) }}>
-                <label for="data-{{$name}}">{{$label ?? Str::ucfirst($name)}}</label>
+          <div {{ $attributes->merge(['class' => 'form-group px-0 col-12 col-md-'.$width]) }}>
                 <label for="data-{{$name}}">
                      <div class="card" style="max-width: 100%">
                          <img class="img-fluid" id="input-{{$name}}" src="{{image($value)}}" alt="{{$name}}"> 

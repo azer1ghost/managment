@@ -2,10 +2,13 @@
 
 @section('title', __('translates.navbar.inquiry'))
 @section('content')
-    <div class="card">
-        <div class="card-header">@lang('translates.navbar.inquiry')</div>
-        <div class="card-body">
-            @livewire('inquiry-table', ['trashBox' => $trashBox])
-        </div>
-    </div>
+    <x-bread-crumb>
+        <x-bread-crumb-link :link="route('dashboard')">
+            @lang('translates.navbar.dashboard')
+        </x-bread-crumb-link>
+        <x-bread-crumb-link>
+            @lang('translates.navbar.inquiry')
+        </x-bread-crumb-link>
+    </x-bread-crumb>
+    @livewire('inquiry-table', ['trashBox' => $trashBox])
 @endsection

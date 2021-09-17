@@ -38,12 +38,14 @@ class CompanyController extends Controller
     {
         $validated = $request->validated();
 
-        if ($request->file('logo')) {
+//        if ($request->file('logo')) {
+//
+//            $image = $request->file('logo');
+//
+//            $validated['logo'] = $image->storeAs('logos', $image->hashName());
+//        }
 
-            $image = $request->file('logo');
-
-            $validated['logo'] = $image->storeAs('logos', $image->hashName());
-        }
+        $validated['is_inquirable'] = $request->has('is_inquirable');
 
         $company = Company::create($validated);
 
@@ -83,16 +85,16 @@ class CompanyController extends Controller
 
         $validated['is_inquirable'] = $request->has('is_inquirable');
 
-        if ($request->file('logo')) {
-
-            $image = $request->file('logo');
-
-            $validated['logo'] = $image->storeAs('logos', $image->hashName());
-
-            if (Storage::exists($company->getAttribute('logo'))) {
-                Storage::delete($company->getAttribute('logo'));
-            }
-        }
+//        if ($request->file('logo')) {
+//
+//            $image = $request->file('logo');
+//
+//            $validated['logo'] = $image->storeAs('logos', $image->hashName());
+//
+//            if (Storage::exists($company->getAttribute('logo'))) {
+//                Storage::delete($company->getAttribute('logo'));
+//            }
+//        }
 
         $company->update($validated);
 
@@ -110,9 +112,9 @@ class CompanyController extends Controller
     public function destroy(Company $company)
     {
         if ($company->delete()) {
-            if (Storage::exists($company->getAttribute('logo'))) {
-                Storage::delete($company->getAttribute('logo'));
-            }
+//            if (Storage::exists($company->getAttribute('logo'))) {
+//                Storage::delete($company->getAttribute('logo'));
+//            }
             return response('OK');
         }
         return response()->setStatusCode('204');

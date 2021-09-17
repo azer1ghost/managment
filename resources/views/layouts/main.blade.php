@@ -32,7 +32,7 @@
 {{--    </div>--}}
 {{--    @endif--}}
     <div class="custom-wrapper">
-        @if (auth()->check() && auth()->user()->hasVerifiedPhone())
+        @if (auth()->check() && auth()->user()->hasVerifiedPhone() && !request()->routeIs('welcome'))
             <div class="section">
                 <div class="top_navbar d-flex justify-content-between">
                     <div class="hamburger">

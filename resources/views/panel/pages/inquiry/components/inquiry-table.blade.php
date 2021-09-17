@@ -31,11 +31,11 @@
             </select>
         </div>
 
-        <div class="form-group col-12 col-md-1 mb-3 mb-md-0 d-flex flex-column align-items-end pr-0">
+        <div class="form-group col-12 col-md-1 mb-3 mb-md-0 d-flex flex-column align-items-end pr-3 pr-lg-0 ">
             <label for="">{{__('translates.buttons.filter')}}</label>
             <button type="submit" class="btn btn-outline-primary"><i class="fas fa-filter"></i></button>
         </div>
-        <div class="form-group col-12 col-md-1 mb-3 mb-md-0 d-flex flex-column align-items-end pl-0">
+        <div class="form-group col-12 col-md-1 mb-3 mb-md-0 d-flex flex-column align-items-end pr-3">
             <label for="">{{__('translates.filters.clear')}}</label>
             <a href="{{route('inquiry.index')}}">
                 <button type="button" class="btn btn-outline-danger text-center"><i class="fal fa-times-circle"></i></button>

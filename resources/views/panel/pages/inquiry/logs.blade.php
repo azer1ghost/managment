@@ -3,17 +3,20 @@
 @section('title', __('translates.navbar.inquiry'))
 
 @section('content')
-    <div class="card">
-        <div class="card-header">
-            <a href="{{route('inquiry.index')}}" class="btn btn-sm btn-outline-primary mr-4">
-                <i class="fa fa-arrow-left"></i>
-                @lang('translates.buttons.back')
-            </a>
-        </div>
-        <div class="card-body">
-            <pre>{!! print_r($inquiry->logs->toArray(), true) !!}</pre>
-        </div>
-    </div>
+    <x-bread-crumb>
+        <x-bread-crumb-link :link="route('dashboard')">
+            @lang('translates.navbar.dashboard')
+        </x-bread-crumb-link>
+        <x-bread-crumb-link :link="route('inquiry.index')">
+            @lang('translates.navbar.inquiry')
+        </x-bread-crumb-link>
+        <x-bread-crumb-link :link="route('inquiry.show', $inquiry)">
+            {{ $inquiry->getAttribute('code')}}
+        </x-bread-crumb-link>
+        <x-bread-crumb-link>
+            Logs
+        </x-bread-crumb-link>
+    </x-bread-crumb>
+    <pre>{!! print_r($inquiry->logs->toArray(), true) !!}</pre>
 @endsection
-
 

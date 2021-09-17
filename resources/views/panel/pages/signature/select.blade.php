@@ -3,11 +3,16 @@
 @section('title', __('translates.navbar.signature'))
 
 @section('content')
-    <div class="container">
+    <x-bread-crumb>
+        <x-bread-crumb-link :link="route('dashboard')">
+            @lang('translates.navbar.dashboard')
+        </x-bread-crumb-link>
+        <x-bread-crumb-link>
+            @lang('translates.navbar.signature')
+        </x-bread-crumb-link>
+    </x-bread-crumb>
+    <div class="container my-5">
         <div class="row d-flex align-content-center">
-            <div class="col-md-12 mb-5">
-                <h2 class="text-center">Please select your company</h2>
-            </div>
             @foreach($companies as $company)
                <div class="col-md-3">
                    <div class="company card text-white card-has-bg click-col" style="background-image:url('https://source.unsplash.com/600x900/?{{$company->keywords}}');">

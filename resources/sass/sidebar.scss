@@ -8,6 +8,7 @@
     z-index: 1000;
     .top_navbar{
       background: $primary;
+      border-left: 1px solid #10558d;
       height: 50px;
       display: flex;
       align-items: center;
@@ -40,7 +41,7 @@
 
     // Custom scrollbar
     &::-webkit-scrollbar {
-      width: 5px;
+      width: 4px;
     }
 
     &::-webkit-scrollbar-track {

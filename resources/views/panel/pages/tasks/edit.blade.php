@@ -3,18 +3,23 @@
 @section('title', __('translates.navbar.task'))
 
 @section('content')
-    <div class="card">
-        <div class="card-header">
-            <a href="{{route('tasks.index')}}" class="btn btn-sm btn-outline-primary mr-4">
-                <i class="fa fa-arrow-left"></i>
-                @lang('translates.buttons.back')
-            </a>
+    <x-bread-crumb>
+        <x-bread-crumb-link :link="route('dashboard')">
+            @lang('translates.navbar.dashboard')
+        </x-bread-crumb-link>
+        <x-bread-crumb-link :link="route('tasks.index')">
             @lang('translates.navbar.task')
-        </div>
-        <div class="card-body">
-            <livewire:task-form :action="$action"  :method="$method" :task="$data" />
-        </div>
-    </div>
+        </x-bread-crumb-link>
+        <x-bread-crumb-link>
+            @if (!is_null($data))
+                {{optional($data)->getAttribute('name')}}
+            @else
+                @lang('translates.buttons.create')
+            @endif
+        </x-bread-crumb-link>
+    </x-bread-crumb>
+
+    <livewire:task-form :action="$action"  :method="$method" :task="$data" />
 
     @if(optional($data)->inquiry_id)
         <div class="card mt-4">

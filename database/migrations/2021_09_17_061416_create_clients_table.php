@@ -16,12 +16,14 @@ class CreateClientsTable extends Migration
             $table->string('gender')->nullable();
             $table->string('serial_pattern')->nullable();
             $table->string('serial')->nullable();
+            $table->string('fin')->nullable();
             $table->string('email')->nullable()->unique();
             $table->string('email_coop')->nullable()->unique();
             $table->string('phone')->nullable();
             $table->string('phone_coop')->nullable();
             $table->string('company')->nullable();
             $table->string('address')->nullable();
+            $table->string('address_coop')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

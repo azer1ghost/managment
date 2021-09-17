@@ -6,20 +6,24 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
 @section('content')
-    <div class="card">
-        <div class="card-header">
-            <a href="{{route('inquiry.index')}}" class="btn btn-sm btn-outline-primary mr-4">
-                <i class="fa fa-arrow-left"></i>
-                @lang('translates.buttons.back')
-            </a>
-        </div>
-        <div class="card-body">
-            <form method="POST">
-                @csrf
-                @livewire('inquiry-access-creator' , ['inquiry' => $inquiry])
-            </form>
-        </div>
-    </div>
+    <x-bread-crumb>
+        <x-bread-crumb-link :link="route('dashboard')">
+            @lang('translates.navbar.dashboard')
+        </x-bread-crumb-link>
+        <x-bread-crumb-link :link="route('inquiry.index')">
+            @lang('translates.navbar.inquiry')
+        </x-bread-crumb-link>
+        <x-bread-crumb-link :link="route('inquiry.show', $inquiry)">
+            {{ $inquiry->getAttribute('code')}}
+        </x-bread-crumb-link>
+        <x-bread-crumb-link>
+            @lang('translates.access')
+        </x-bread-crumb-link>
+    </x-bread-crumb>
+    <form method="POST">
+        @csrf
+        @livewire('inquiry-access-creator' , ['inquiry' => $inquiry])
+    </form>
 @endsection
 @section('scripts')
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>

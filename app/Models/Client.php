@@ -17,11 +17,13 @@ class Client extends Model
         'gender',
         'serial_pattern',
         'serial',
+        'fin',
         'phone_coop',
         'phone',
-        'address',
         'email_coop',
         'email',
+        'address',
+        'address_coop',
         'company',
     ];
 

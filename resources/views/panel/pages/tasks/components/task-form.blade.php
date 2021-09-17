@@ -94,7 +94,7 @@
          </div>
     @endif
 
-    <x-input::textarea name="note" :value="optional($task)->getAttribute('note')"  label="Note"   width="12" class="pr-3" rows="4"/>
+    <x-input::textarea name="note" :value="optional($task)->getAttribute('note')"  label="Note"   width="12" class="" rows="4"/>
 
     @if($action)
         <div class="col-12">
