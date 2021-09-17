@@ -25,7 +25,7 @@
 
     @livewireStyles
 </head>
-<body>
+<body class="custom-scrollbar">
 {{--    @if (Request::root() === 'http://10.10.11.8') {--}}
 {{--    <div class="position-sticky">--}}
 {{--        <a href="{{route('host.bat')}}" class="btn btn-outline-success"><i class="fas fa-download"></i> Download host file</a>--}}
@@ -43,7 +43,7 @@
                     @include('components.navbar')
                 </div>
             </div>
-            <div class="sidebar">
+            <div class="sidebar custom-scrollbar">
                 <div class="profile-container">
                     <img src="{{image(auth()->user()->getAttribute('avatar'))}}" alt="profile_picture">
                     <h4>{{auth()->user()->getAttribute('fullname')}}</h4>

@@ -2,6 +2,21 @@ body{
   background: $bodyBgColor;
 }
 
+//Custom sidebar
+.custom-scrollbar{
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $primary;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $primaryWhite;
+  }
+}
+
 *{
   list-style: none !important;
   text-decoration: none !important;
