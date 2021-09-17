@@ -32,11 +32,14 @@ return [
 
     'placeholders' => [
         'serial_pattern' => 'Enter serial number',
+        'fin' => 'Enter FIN',
         'range' => 'Enter date range',
         'code' => 'Enter code',
         'note' => 'Enter note',
         'fullname' => 'Enter fullname',
         'phone' => 'Enter phone',
+        'phone_coop' => 'Enter cooperative phone',
+        'address' => 'Enter address',
         'choose' => 'Choose',
         'name'   => 'Enter name',
         'surname'   => 'Enter surname',
@@ -54,6 +57,7 @@ return [
         'employment' => 'EMPLOYMENT',
         'passport' => 'PASSPORT',
         'contact' => 'CONTACT',
+        'address_title' => 'ADDRESS',
         'user' => 'User',
         'department' => 'Department',
         'position' => 'Position',
