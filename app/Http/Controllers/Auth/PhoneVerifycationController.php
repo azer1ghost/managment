@@ -23,12 +23,18 @@ class PhoneVerifycationController extends Controller
         $this->middleware('throttle:1,1')->only( 'resend');
     }
 
+    private function checkHasVerification($request)
+    {
+        if($request->user()->hasVerifiedPhone()){
+            return $request->wantsJson()
+                ? new JsonResponse([], 204)
+                : abort(403);
+        }
+    }
+
     public function show(Request $request)
     {
-        if ($request->user()->hasVerifiedPhone())
-        {
-            redirect($this->redirectPath());
-        }
+        $this->checkHasVerification($request);
 
         if (!$request->user()->notifications()->where('type', '=','App\Notifications\Auth\VerifyPhone')->exists())
         {
@@ -41,6 +47,8 @@ class PhoneVerifycationController extends Controller
 
     public function verify(Request $request)
     {
+        $this->checkHasVerification($request);
+
         $request->validate([
             'code' => 'integer|digits:6'
         ]);
@@ -78,11 +86,7 @@ class PhoneVerifycationController extends Controller
 
     public function resend(Request $request)
     {
-        if ($request->user()->hasVerifiedPhone()) {
-            return $request->wantsJson()
-                ? new JsonResponse([], 204)
-                : redirect($this->redirectPath());
-        }
+        $this->checkHasVerification($request);
 
         $request->user()->updatePhoneVerificationCode();
 
@@ -105,7 +109,7 @@ class PhoneVerifycationController extends Controller
 
     public static function routes()
     {
-        Route::get('phone/verify', [PhoneVerifycationController::class, 'show'])->name('phone.verification.notice');
+        Route::get('phone/verify',  [PhoneVerifycationController::class, 'show'])->name('phone.verification.notice');
         Route::post('phone/verify', [PhoneVerifycationController::class, 'verify'])->name('phone.verification.verify');
         Route::post('phone/resend', [PhoneVerifycationController::class, 'resend'])->name('phone.verification.resend');
     }
