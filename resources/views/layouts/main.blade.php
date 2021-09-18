@@ -89,10 +89,6 @@
             }
         });
 
-        window.addEventListener('resize', function(event) {
-            checkWindowWidth();
-        }, true);
-
         function checkWindowWidth(){
             if($(window).width() < 576){
                 return 'active';
@@ -102,6 +98,9 @@
         }
 
         function sidebarStatus(status){
+            if($(window).width() < 576){
+                return 'active';
+            }
             if(localStorage.getItem("navbar") !== null){
                 return localStorage.getItem("navbar");
             }else{
