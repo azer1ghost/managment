@@ -14,7 +14,7 @@
     <div class="container my-5">
         <div class="row d-flex align-content-center">
             @foreach($companies as $company)
-               <div class="col-md-3">
+               <div class="col-md-3 mb-3">
                    <div class="company card text-white card-has-bg click-col" style="background-image:url('https://source.unsplash.com/600x900/?{{$company->keywords}}');">
                        <img class="card-img d-none" src="https://source.unsplash.com/600x900/?{{$company->getAttribute('keywords')}}" alt="{{$company->getAttribute('name')}}">
                        <div class="card-img-overlay d-flex flex-column">
