@@ -126,6 +126,13 @@ class Sidebar extends Component
                 'url'  => route('clients.index'),
                 'permission' => 'viewAny-client',
             ],
+
+            (object) [
+                'title' => "Debug Log",
+                'icon'  => 'fal fa-bug',
+                'url'  => url('module/log-reader'),
+                'permission' => 'viewAny-log',
+            ],
         ];
     }
 

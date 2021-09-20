@@ -21,6 +21,7 @@ return [
     'permissions' => [
         'generally',
         'signature',
+        'viewAny-log',
         'viewAny-account', 'manage-account',
         'viewAny-company', 'view-company', 'create-company', 'update-company', 'delete-company',
         'viewAny-gadget', 'view-gadget', 'manage-gadget',
