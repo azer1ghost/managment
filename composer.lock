@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "da105fa39a036719a42b5017b4082976",
+    "content-hash": "28c33f20a8b12b841bd8faa96af0a239",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -934,6 +934,58 @@
                 "source": "https://github.com/guzzle/psr7/tree/2.0.0"
             },
             "time": "2021-06-30T20:03:07+00:00"
+        },
+        {
+            "name": "haruncpi/laravel-log-reader",
+            "version": "v1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/haruncpi/laravel-log-reader.git",
+                "reference": "60ec565207906d448c4c8ccd36ce9dc6ad5bc4e1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/haruncpi/laravel-log-reader/zipball/60ec565207906d448c4c8ccd36ce9dc6ad5bc4e1",
+                "reference": "60ec565207906d448c4c8ccd36ce9dc6ad5bc4e1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Haruncpi\\LaravelLogReader\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Haruncpi\\LaravelLogReader\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "cc-by-4.0"
+            ],
+            "authors": [
+                {
+                    "name": "MD.HARUN-UR-RASHID",
+                    "email": "harun.cox@gmail.com"
+                }
+            ],
+            "description": "A simple and beautiful laravel log reader",
+            "keywords": [
+                "laravel",
+                "log",
+                "reader"
+            ],
+            "support": {
+                "issues": "https://github.com/haruncpi/laravel-log-reader/issues",
+                "source": "https://github.com/haruncpi/laravel-log-reader/tree/v1.0.6"
+            },
+            "time": "2020-11-07T06:06:33+00:00"
         },
         {
             "name": "laravel/framework",
