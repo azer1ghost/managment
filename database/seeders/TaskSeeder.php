@@ -13,7 +13,7 @@ class TaskSeeder extends Seeder
     {
         Comment::factory()->count(3)->for(
             Task::factory()->for(
-                user::first(), 'taskable'
+                User::first(), 'taskable'
             ), 'commentable'
         )->create();
 

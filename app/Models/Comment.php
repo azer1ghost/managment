@@ -13,6 +13,17 @@ class Comment extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['content', 'user_id'];
+
+    protected $with = ['user:id,name,surname,avatar'];
+
+    public static function boot() {
+        parent::boot();
+        static::creating(function($comment) {
+            $comment->user_id = auth()->id() ?? 1;
+        });
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

@@ -2,16 +2,15 @@
 
 namespace App\View\Components;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\Component;
 
 class Comments extends Component
 {
-    public ?Model $commentable;
+    public array $comments = [];
 
-    public function __construct($commentable)
+    public function __construct($comments = [])
     {
-        $this->commentable = $commentable;
+        $this->comments = $comments;
     }
 
     public function render()

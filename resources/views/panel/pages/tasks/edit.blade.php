@@ -32,5 +32,5 @@
         </div>
     @endif
 
-    <x-comments :commentable="$data"/>
+    <livewire:commentable :commentable="$data"/>
 @endsection
