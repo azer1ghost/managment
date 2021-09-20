@@ -67,7 +67,7 @@
                         <img width="16px" src="https://mobilgroup.az/signature/socials/blue/phone.png" />
                     </td>
                     <td>
-                        <p style="margin: 0; padding: 3px; font-size: 13px">{{$user->getAttribute('phone')}}</p>
+                        <p style="margin: 0; padding: 3px; font-size: 13px">{{$company->getAttribute('mobile')}}</p>
                     </td>
                 </tr>
                 <tr>

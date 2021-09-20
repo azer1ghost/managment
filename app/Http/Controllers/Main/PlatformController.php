@@ -18,6 +18,9 @@ class PlatformController extends Controller
         $this->middleware('auth', ['except'=> ['welcome', 'downloadBat']]);
     }
 
+    /**
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
     public function downloadBat()
     {
         return response(
@@ -43,7 +46,6 @@ class PlatformController extends Controller
             'inquiriesMonth' => $inquiriesMonth
         ]);
     }
-
 
     public function languageSelector()
     {
