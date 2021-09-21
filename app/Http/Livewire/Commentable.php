@@ -49,6 +49,8 @@ class Commentable extends Component
         array_unshift($this->comments, $newComment);
 
         $this->message = '';
+
+        $this->reloadComments();
     }
 
     public function reply($id)
