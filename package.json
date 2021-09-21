@@ -23,6 +23,8 @@
         "webpack": "^5.40.0"
     },
     "dependencies": {
-        "jquery-confirm": "^3.3.4"
+        "animate.css": "^4.1.1",
+        "jquery-confirm": "^3.3.4",
+        "jquery-ui": "^1.12.1"
     }
 }

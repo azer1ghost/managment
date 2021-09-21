@@ -3,10 +3,10 @@
     <ul class="list-unstyled shadow p-3 mb-1 bg-white rounded">
         <li class="media">
             <img src="{{image(auth()->user()->getAttribute('avatar'))}}" class="mr-2 rounded-circle" style="width: 40px">
-            <div class="media-body">
+            <div class="media-body" wire:ignore>
                 <h5 class="mt-0 mb-1">{{auth()->user()->getAttribute('fullname')}}</h5>
-
                     <textarea
+
                             contenteditable="true"
                             class="form-control" id="message" rows="5"
                             style="min-height: 20px"
@@ -45,12 +45,12 @@
             {value: 'assault', uid: 'game:3'}
         ];
 
-        $('textarea').mentionsInput({source: data});
+        $('textarea').mentionsInput({source: data, suffix: ' '});
 
         window.livewire.on('focus-to-message', function (fullname){
             $("#message").html(`<span id="comment-tag" class="text-info">@${fullname}</span>`).focus();
 
-             moveCursorToEnd(document.getElementById('comment-tag'))
+             // moveCursorToEnd(document.getElementById('comment-tag'))
         });
 
        function moveCursorToEnd(el){
