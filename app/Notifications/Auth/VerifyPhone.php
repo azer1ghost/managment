@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Auth;
 
+use App\Broadcasting\DatabaseChannel;
 use App\Broadcasting\SmsChannel;
 use App\Notifications\SmsMessage;
 use Illuminate\Bus\Queueable;
@@ -12,9 +13,19 @@ class VerifyPhone extends Notification
 {
     use Queueable;
 
+    public function getProvider()
+    {
+        return config('broadcasting.smsProvider');
+    }
+
+    public function getChannel()
+    {
+        return 'SMS';
+    }
+
     public function via($notifiable): array
     {
-        return [SmsChannel::class, 'database'];
+        return [SmsChannel::class, DatabaseChannel::class];
     }
 
     public function toSms($notifiable): SmsMessage
