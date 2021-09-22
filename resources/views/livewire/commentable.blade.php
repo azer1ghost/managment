@@ -6,8 +6,6 @@
             <div class="media-body" wire:ignore>
                 <h5 class="mt-0 mb-1">{{auth()->user()->getAttribute('fullname')}}</h5>
                     <textarea
-
-                            contenteditable="true"
                             class="form-control" id="message" rows="5"
                             style="min-height: 20px"
                             wire:model="message"
@@ -37,37 +35,8 @@
 
 @push('scripts')
     <script>
-
-        let data = [
-            {value: 'alex', uid: 'user:1'},
-            {value: 'andrew', uid: 'user:2'},
-            {value: 'angry birds', uid: 'game:5'},
-            {value: 'assault', uid: 'game:3'}
-        ];
-
-        $('textarea').mentionsInput({source: data, suffix: ' '});
-
         window.livewire.on('focus-to-message', function (fullname){
-            $("#message").html(`<span id="comment-tag" class="text-info">@${fullname}</span>`).focus();
-
-             // moveCursorToEnd(document.getElementById('comment-tag'))
+            $("#message").val(`@${fullname} `).focus();
         });
-
-       function moveCursorToEnd(el){
-            if(el.innerHTML && document.createRange)
-            {
-                window.setTimeout(() =>
-                    {
-                        let selection = document.getSelection();
-                        let range = document.createRange();
-
-                        range.setStart(el.childNodes[0], el.innerHTML.length);
-                        range.collapse(true);
-                        selection.removeAllRanges();
-                        selection.addRange(range);
-                    }
-                    ,1);
-            }
-        }
     </script>
 @endpush

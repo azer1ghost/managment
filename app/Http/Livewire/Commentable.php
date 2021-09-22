@@ -16,6 +16,8 @@ class Commentable extends Component
 
     public string $message = '';
 
+    public ?Comment $replyableComment = null;
+
     protected function reloadComments(){
         $this->comments = optional($this->commentable)
             ->comments()
@@ -40,24 +42,34 @@ class Commentable extends Component
 
     public function sendComment()
     {
-        $newComment = $this->commentable->comments()->create([
-            'content' => $this->message
-        ]);
+        if ($this->replyableComment) {
+            $newComment = $this->replyableComment->comments()->create([
+                'content' => $this->message
+            ]);
 
-        $newComment = Comment::withCount(['viewers', 'comments'])->find($newComment->getAttribute('id'))->toArray();
+            Comment::withCount(['viewers', 'comments'])->find($newComment->getAttribute('id'))->toArray();
+        }
+        else
+        {
+            $newComment = $this->commentable->comments()->create([
+                'content' => $this->message
+            ]);
 
-        array_unshift($this->comments, $newComment);
+            Comment::withCount(['viewers', 'comments'])->find($newComment->getAttribute('id'))->toArray();
+        }
 
         $this->message = '';
+
+        $this->replyableComment = null;
 
         $this->reloadComments();
     }
 
     public function reply($id)
     {
-        $comment = Comment::find($id);
+        $this->replyableComment = Comment::find($id);
 
-        $this->emit('focus-to-message', $comment->user->fullname);
+        $this->emit('focus-to-message', $this->replyableComment->user->fullname);
     }
 
     public function render()
