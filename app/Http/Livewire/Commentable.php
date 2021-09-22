@@ -18,6 +18,8 @@ class Commentable extends Component
 
     public ?Comment $replyableComment = null;
 
+    public ?Comment $currentlyEditingComment = null;
+
     protected function reloadComments(){
         $this->comments = optional($this->commentable)
             ->comments()
@@ -29,51 +31,65 @@ class Commentable extends Component
     public function loadMore()
     {
         $this->perPage += 3;
-
-        $this->reloadComments();
     }
 
     public function mount($commentable)
     {
         $this->commentable = $commentable;
-
-        $this->reloadComments();
     }
 
     public function sendComment()
     {
-        if ($this->replyableComment) {
-            $newComment = $this->replyableComment->comments()->create([
-                'content' => $this->message
+        if ($this->currentlyEditingComment){
+            $this->currentlyEditingComment->update([
+               'content' =>  $this->message
             ]);
-
-            Comment::withCount(['viewers', 'comments'])->find($newComment->getAttribute('id'))->toArray();
         }
-        else
-        {
-            $newComment = $this->commentable->comments()->create([
+        else {
+            $comment = $this->replyableComment ?? $this->commentable;
+
+            $comment->comments()->create([
                 'content' => $this->message
             ]);
-
-            Comment::withCount(['viewers', 'comments'])->find($newComment->getAttribute('id'))->toArray();
         }
 
         $this->message = '';
 
         $this->replyableComment = null;
-
-        $this->reloadComments();
     }
 
     public function reply($id)
     {
-        $this->replyableComment = Comment::find($id);
+        $currentComment = Comment::find($id);
 
-        $this->emit('focus-to-message', $this->replyableComment->user->fullname);
+        $this->replyableComment =
+            ($currentComment->commentable->getTable() == 'comments') ?
+            $currentComment->commentable :
+            $currentComment;
+
+        $this->emit('focus-to-message', "@{$currentComment->user->fullname} ");
+    }
+
+
+    public function delete($id)
+    {
+       $comment = Comment::find($id);
+
+       $comment->comments()->delete();
+
+       $comment->delete();
+    }
+
+    public function edit($id)
+    {
+        $this->currentlyEditingComment = Comment::find($id);
+
+        $this->emit('focus-to-message', $this->currentlyEditingComment->getAttribute('content'));
     }
 
     public function render()
     {
+        $this->reloadComments();
         return view('livewire.commentable');
     }
 }

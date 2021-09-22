@@ -35,8 +35,8 @@
 
 @push('scripts')
     <script>
-        window.livewire.on('focus-to-message', function (fullname){
-            $("#message").val(`@${fullname} `).focus();
+        window.livewire.on('focus-to-message', function (data){
+            $("#message").val(data).focus();
         });
     </script>
 @endpush
