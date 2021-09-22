@@ -27,47 +27,51 @@
                     <x-input::text  name="name"  :value="optional($data)->getAttribute('name')"  label="Role name"  width="6" class="pr-3" />
                     <x-input::text  name="key"   :value="optional($data)->getAttribute('key')"   label="Role key"   width="6" class="pr-3" />
                 </div>
-                <p class="text-muted mb-2">PERMISSIONS</p>
-                <div class="px-2">
-                    <p class="text-muted my-2">All</p>
-                    <div class="form-check">
-                        <input class="form-check-input" @if (Str::of(optional($data)->getAttribute('permissions'))->trim() == 'all')) checked @endif type="checkbox" name="all_perms" value="all" id="perm-0">
-                        <label class="form-check-label" for="perm-0">
-                            All
-                        </label>
+                @if(auth()->user()->isDeveloper())
+                    <div class="col-md-12 px-0">
+                        <p class="text-muted mb-2">PERMISSIONS</p>
+                        <div class="px-2">
+                            <p class="text-muted my-2">All</p>
+                            <div class="form-check">
+                                <input class="form-check-input" @if (Str::of(optional($data)->getAttribute('permissions'))->trim() == 'all')) checked @endif type="checkbox" name="all_perms" value="all" id="perm-0">
+                                <label class="form-check-label" for="perm-0">
+                                    All
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="check-perms">
+                                <label class="form-check-label" for="check-perms">
+                                    Choose All
+                                </label>
+                            </div>
+                            @error("all_perms") <p class="text-danger">{{$message}}</p> @enderror
+                            <div class="row">
+                                @php $perms = config('auth.permissions') @endphp
+                                @foreach ($perms as $index => $perm)
+                                    @php
+                                        // next and previous permissions
+                                        $prevPerm = $perms[$index == 0 ?: $index - 1];
+                                        $nextPerm = $perms[$index == $loop->count - 1 ?: $index + 1];
+                                        // type of permission
+                                        $type  = strpos($perm, '-') ? substr($perm, strpos($perm, '-') + 1) : $perm;
+                                    @endphp
+                                    @if (!Str::contains($prevPerm, $type) || $loop->first)
+                                        <div class="col-12 col-md-4 my-2">
+                                            <p class="text-muted my-2">{{ucfirst($type)}}</p>
+                                            @endif
+                                            <div class="form-check">
+                                                <input class="form-check-input" @if (Str::contains(optional($data)->getAttribute('permissions'),$perm)) checked @endif type="checkbox" name="perms[]" value="{{$perm}}" id="perm-{{$loop->iteration}}">
+                                                <label class="form-check-label" for="perm-{{$loop->iteration}}">
+                                                    {{$perm}}
+                                                </label>
+                                            </div>
+                                            @if (!Str::contains($nextPerm, $type) || $loop->first) </div> @endif
+                                @endforeach
+                            </div>
+                            @error("perms") <p class="text-danger">{{$message}}</p> @enderror
+                        </div>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check-perms">
-                        <label class="form-check-label" for="check-perms">
-                            Choose All
-                        </label>
-                    </div>
-                    @error("all_perms") <p class="text-danger">{{$message}}</p> @enderror
-                    <div class="row">
-                        @php $perms = config('auth.permissions') @endphp
-                        @foreach ($perms as $index => $perm)
-                            @php
-                                // next and previous permissions
-                                $prevPerm = $perms[$index == 0 ?: $index - 1];
-                                $nextPerm = $perms[$index == $loop->count - 1 ?: $index + 1];
-                                // type of permission
-                                $type  = strpos($perm, '-') ? substr($perm, strpos($perm, '-') + 1) : $perm;
-                            @endphp
-                            @if (!Str::contains($prevPerm, $type) || $loop->first)
-                                <div class="col-12 col-md-4 my-2">
-                                    <p class="text-muted my-2">{{ucfirst($type)}}</p>
-                                    @endif
-                                    <div class="form-check">
-                                        <input class="form-check-input" @if (Str::contains(optional($data)->getAttribute('permissions'),$perm)) checked @endif type="checkbox" name="perms[]" value="{{$perm}}" id="perm-{{$loop->iteration}}">
-                                        <label class="form-check-label" for="perm-{{$loop->iteration}}">
-                                            {{$perm}}
-                                        </label>
-                                    </div>
-                                    @if (!Str::contains($nextPerm, $type) || $loop->first) </div> @endif
-                        @endforeach
-                    </div>
-                    @error("perms") <p class="text-danger">{{$message}}</p> @enderror
-                </div>
+                @endif
             </div>
         </div>
         @if($action)

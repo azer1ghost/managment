@@ -13,10 +13,10 @@ class Submit extends Component
     public ?string  $type;
 
 
-    public function __construct($type = 'submit', $value = 'Submit', $width = 12, $color = 'primary', $layout = 'right')
+    public function __construct($value = null, $type = 'submit', $width = 12, $color = 'primary', $layout = 'right')
     {
         $this->type = $type;
-        $this->value = $value;
+        $this->value = $value ?? __('translates.buttons.save');
         $this->color = $color;
         $this->width = $width;
         $this->layout = $layout;

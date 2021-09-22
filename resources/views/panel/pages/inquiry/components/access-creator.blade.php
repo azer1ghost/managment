@@ -24,7 +24,7 @@
             <p class="text-muted">There is no users can edit this inquiry</p>
         </div>
     @endforelse
-    <div class="col-1 pl-3 ml-4 mt-2">
+    <div class="col-3 col-md-1 ml-3 pl-0">
         <button wire:click.prevent="addUser" class="btn btn-xs form-control btn-outline-success">
             <i class="fal fa-plus"></i>
         </button>
