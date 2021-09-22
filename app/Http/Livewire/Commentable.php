@@ -89,7 +89,10 @@ class Commentable extends Component
 
     public function render()
     {
-        $this->reloadComments();
+        if ($this->commentable){
+            $this->reloadComments();
+        }
+
         return view('livewire.commentable');
     }
 }

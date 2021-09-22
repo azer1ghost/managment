@@ -6,7 +6,7 @@
             <div class="media-body" wire:ignore>
                 <h5 class="mt-0 mb-1">{{auth()->user()->getAttribute('fullname')}}</h5>
                     <textarea
-                            class="form-control" id="message" rows="5"
+                            class="form-control" id="message" rows="2"
                             style="min-height: 20px"
                             wire:model="message"
                     ></textarea>
@@ -19,17 +19,23 @@
         </li>
     </ul>
 
-    <x-comments :comments="$comments['data']"/>
+    @if(isset($comments['data']) && count($comments['data']))
+        <x-comments :comments="$comments['data']"/>
 
-    <div class="col-12 mt-4 d-flex justify-content-center">
-        @if(!is_null($comments['next_page_url']))
-            <button wire:click.prevent="loadMore" class="btn btn-primary btn-sm float-right mt-2">
-                Load More
-            </button>
-        @else
-            <p>Thas's all</p>
-        @endif
-    </div>
+        <div class="col-12 mt-4 d-flex justify-content-center">
+            @if(isset($comments['next_page_url']) && !is_null($comments['next_page_url']))
+                <button wire:click.prevent="loadMore" class="btn btn-primary btn-sm float-right mt-2">
+                    Load More
+                </button>
+            @else
+                <p>Thas's all</p>
+            @endif
+        </div>
+    @else
+        <div class="col-12 mt-4 d-flex justify-content-center">
+            <p>No comment avaliable for now</p>
+        </div>
+    @endif
 
 </div>
 

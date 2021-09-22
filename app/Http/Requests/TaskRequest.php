@@ -25,6 +25,7 @@ class TaskRequest extends FormRequest
     public function rules()
     {
         return [
+            'inquiry_id' => 'nullable|string|max:255',
             'name' => 'required|string|max:255',
             'status' => 'required|string|max:30',
             'priority' => 'required|string|max:30',
@@ -32,7 +33,6 @@ class TaskRequest extends FormRequest
             'department' => 'required|integer',
             'user' => 'nullable|integer',
             'note' => 'nullable|string',
-            'inquiry_id'  => 'nullable|integer',
         ];
     }
 }

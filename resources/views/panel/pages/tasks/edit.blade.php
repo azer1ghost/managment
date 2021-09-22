@@ -21,16 +21,17 @@
 
     <livewire:task-form :action="$action"  :method="$method" :task="$data" />
 
-    @if(optional($data)->inquiry_id)
-        <div class="card mt-4">
-            <div class="card-header">
-                Inquiry
-            </div>
-            <div class="card-body inquiry">
-                <livewire:inquiry-form :inquiry="$data->getRelationValue('inquiry')" />
-            </div>
+    @if($inquiry ?? optional($data)->inquiry_id)
+        <div class="card-header">
+            Inquiry
+        </div>
+        <div class="card-body inquiry">
+            <livewire:inquiry-form :inquiry="$inquiry ?? $data->getRelationValue('inquiry')" />
         </div>
     @endif
 
-    <livewire:commentable :commentable="$data"/>
+    @if($method != "POST")
+        <livewire:commentable :commentable="$data"/>
+    @endif
+
 @endsection

@@ -17,7 +17,6 @@ class InquiryPolicy
         return
             $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
             $this->canManage($user, $this->getClassShortName('s'), 'viewAll');
-        // $inquiry->getAttribute('user_id') === $user->getAttribute('id')
     }
 
     public function create(User $user): bool
