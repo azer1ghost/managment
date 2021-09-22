@@ -3,6 +3,18 @@
     <div class="media-body">
         <h5 class="mt-0 mb-1">
             {{$comment->user->fullname}}
+            <small class="text-muted ml-2">
+                @if(now()->diff($comment->created_at)->d > 1)
+                    {{$comment->created_at}}
+                @else
+                   {{$comment->created_at->diffForHumans()}}
+                @endif
+            </small>
+
+            @if($comment->created_at != $comment->updated_at)
+                <small class="text-muted ml-2">(edited)</small>
+            @endif
+
             <small class="float-right">
                 <div class="btn-sm-group d-flex align-items-center justify-content-center">
                     <div class="dropdown">

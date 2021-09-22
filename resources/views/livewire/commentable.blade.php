@@ -1,5 +1,4 @@
-<div>
-
+<div wire:poll.visible.5000ms>
     <ul class="list-unstyled shadow p-3 mb-1 bg-white rounded">
         <li class="media">
             <img src="{{image(auth()->user()->getAttribute('avatar'))}}" class="mr-2 rounded-circle" style="width: 40px">
@@ -18,7 +17,6 @@
             </div>
         </li>
     </ul>
-
     @if(isset($comments['data']) && count($comments['data']))
         <x-comments :comments="$comments['data']"/>
 

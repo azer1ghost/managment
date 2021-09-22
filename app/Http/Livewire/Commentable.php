@@ -38,12 +38,21 @@ class Commentable extends Component
         $this->commentable = $commentable;
     }
 
+    protected function updatedMessage($value)
+    {
+        if ($this->replyableComment && $value == '' || !preg_match("/^@/i", $value)) {
+            $this->replyableComment = null;
+        }
+    }
+
     public function sendComment()
     {
         if ($this->currentlyEditingComment){
             $this->currentlyEditingComment->update([
                'content' =>  $this->message
             ]);
+
+            $this->currentlyEditingComment = null;
         }
         else {
             $comment = $this->replyableComment ?? $this->commentable;
@@ -51,11 +60,11 @@ class Commentable extends Component
             $comment->comments()->create([
                 'content' => $this->message
             ]);
+
+            $this->replyableComment = null;
         }
 
         $this->message = '';
-
-        $this->replyableComment = null;
     }
 
     public function reply($id)
