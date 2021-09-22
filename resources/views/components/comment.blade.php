@@ -4,7 +4,25 @@
         <h5 class="mt-0 mb-1">
             {{$comment->user->fullname}}
             <small class="float-right">
-                <i class="fal fa-ellipsis-v-alt"></i>
+                <div class="btn-sm-group d-flex align-items-center justify-content-center">
+                    <div class="dropdown">
+                        <button class="btn" type="button" id="comment_actions-{{$comment->id}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fal fa-ellipsis-v-alt"></i>
+                        </button>
+                        <div class="dropdown-menu custom-dropdown" style="min-width: 0 !important;">
+                            @can('update', $comment)
+                                <button wire:click.prevent="edit({{$comment->id}})" class="dropdown-item btn text-success">
+                                    <i class="fal fa-pencil"></i> edit
+                                </button>
+                            @endcan
+                            @can('delete', $comment)
+                                <button wire:click.prevent="delete({{$comment->id}})" class="dropdown-item btn text-danger ">
+                                    <i class="fal fa-trash"></i> delete
+                                </button>
+                            @endcan
+                        </div>
+                    </div>
+                </div>
             </small>
         </h5>
         <p class="mb-0">{{ $comment->content }}</p>
@@ -20,15 +38,6 @@
             <button wire:click.prevent="reply({{$comment->id}})" class="btn btn-link text-info m-0 p-0" >
                 <i class="fal fa-reply"></i> reply
             </button>
-
-            <button wire:click.prevent="delete({{$comment->id}})" class="btn btn-link text-danger m-0 p-0" >
-                <i class="fal fa-trash"></i> delete
-            </button>
-
-            <button wire:click.prevent="edit({{$comment->id}})" class="btn btn-link text-success m-0 p-0" >
-                <i class="fal fa-pencil"></i> edit
-            </button>
-
         </div>
         @if(isset($comment->comments))
             <x-comments :comments="$comment->comments->toArray()" />
