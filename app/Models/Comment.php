@@ -19,10 +19,13 @@ class Comment extends Model
     protected $with = ['user:id,name,surname,avatar'];
 
     public static function boot() {
+
         parent::boot();
+
         static::creating(function($comment) {
             $comment->user_id = auth()->id() ?? 1;
         });
+
     }
 
     public function user(): BelongsTo
@@ -43,5 +46,15 @@ class Comment extends Model
     public function viewers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'comment_viewer')->withTimestamps();
+    }
+
+    public function wasViewed($user_id = null)
+    {
+        return $this->viewers()->where('user_id', $user_id ?? auth()->id())->first();
+    }
+
+    public function wasViewedAt($user_id = null)
+    {
+        return $this->wasViewed()->pivot->getAttribute('created_at');
     }
 }

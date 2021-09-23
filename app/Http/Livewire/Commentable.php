@@ -61,7 +61,12 @@ class Commentable extends Component
                 'content' => $this->message
             ]);
 
-            $this->replyableComment = null;
+            if ($this->replyableComment)
+            {
+                $this->replyableComment->user->notify(new VerifyPhone());
+
+                $this->replyableComment = null;
+            }
         }
 
         $this->message = '';

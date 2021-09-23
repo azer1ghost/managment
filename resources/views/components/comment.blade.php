@@ -1,18 +1,26 @@
 <li class="media shadow p-3 mb-2 bg-white rounded"  wire:key="{{$comment->id}}">
+    @if($isNotSub)
     <img src="{{image($comment->user->avatar)}}" class="mr-2 rounded-circle" style="width: 40px">
+    @endif
     <div class="media-body">
         <h5 class="mt-0 mb-1">
+
             {{$comment->user->fullname}}
-            <small class="text-muted ml-2">
-                @if(now()->diff($comment->created_at)->d > 1)
-                    {{$comment->created_at}}
+
+            <small class="text-muted ml-2"  data-toggle="tooltip" data-placement="top" title="{{$comment->created_at}}">
+                @if(now()->diff($comment->created_at)->d > 2)
+                    {{$comment->created_at->translatedFormat('j F Y')}}
                 @else
-                   {{$comment->created_at->diffForHumans()}}
+                   {{$comment->created_at->diffForHumans(['options' => 0, 'short' => true])}}
                 @endif
             </small>
 
             @if($comment->created_at != $comment->updated_at)
                 <small class="text-muted ml-2">(edited)</small>
+            @endif
+
+            @if(($comment->user->id != auth()->id()) && (now()->diff($comment->wasViewedAt())->i < 1))
+                <i class="fa fa-circle text-success ml-2 small" data-toggle="tooltip" data-placement="top" title="New"></i>
             @endif
 
             <small class="float-right">
@@ -43,16 +51,18 @@
                 <i class="fal fa-eye"></i>
                 {{$comment->viewers_count}}
             </small>
-            <small class="mr-2">
-                <i class="fal fa-comment"></i>
-                {{$comment->comments_count}}
-            </small>
+            @if($isNotSub)
+                <small class="mr-2">
+                    <i class="fal fa-comment"></i>
+                    {{$comment->comments_count}}
+                </small>
+            @endif
             <button wire:click.prevent="reply({{$comment->id}})" class="btn btn-link text-info m-0 p-0" >
                 <i class="fal fa-reply"></i> reply
             </button>
         </div>
         @if(isset($comment->comments))
-            <x-comments :comments="$comment->comments->toArray()" />
+            <x-comments :comments="$comment->comments->toArray()" :is-sub="true" />
         @endif
     </div>
 </li>
