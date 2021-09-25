@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Controllers\Modules\CommentController;
 use App\Models\Comment;
+use App\Notifications\NewComment;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 
@@ -55,18 +57,11 @@ class Commentable extends Component
             $this->currentlyEditingComment = null;
         }
         else {
-            $comment = $this->replyableComment ?? $this->commentable;
+            $commentableModel = $this->replyableComment ?? $this->commentable;
 
-            $comment->comments()->create([
-                'content' => $this->message
-            ]);
+            (new CommentController())->store($this->message, $commentableModel);
 
-            if ($this->replyableComment)
-            {
-                $this->replyableComment->user->notify(new VerifyPhone());
-
-                $this->replyableComment = null;
-            }
+            $this->replyableComment = null;
         }
 
         $this->message = '';

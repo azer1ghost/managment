@@ -197,6 +197,10 @@ return [
     'gender' => [
         'male' => 'Kişi',
         'female' => 'Qadın',
-    ]
+    ],
+
+    'comments' => [
+        'new' => 'Yeni rəyiniz var'
+    ],
 
 ];

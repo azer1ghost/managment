@@ -11,8 +11,8 @@ class DatabaseChannel extends IlluminateDatabaseChannel
     {
         return $notifiable->routeNotificationFor('database')->create(
             array_merge($this->buildPayload($notifiable, $notification), [
-                'channel' => $notification->getChannel(),
-                'provider' => $notification->getProvider()
+                'channel' => method_exists($notification, 'getChannel') ? $notification->getChannel() : null,
+                'provider' => method_exists($notification, 'getProvider') ? $notification->getProvider() : null
             ])
         );
     }
