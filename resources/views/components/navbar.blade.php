@@ -31,5 +31,5 @@
 {{--            @endforeach--}}
 {{--        </div>--}}
 {{--    </div>--}}
-        <livewire:notification :notifications="auth()->user()->notifications()"/>
+        <livewire:notification/>
 </ul>

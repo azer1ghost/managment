@@ -18,7 +18,6 @@
     <!-- Styles -->
     <link href="{{ mix('assets/css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/fonts/fontawesome.pro.min.css') }}" rel="stylesheet">
-
     @yield('style')
 
     @livewireStyles
@@ -72,45 +71,54 @@
     <x-notify/>
 
     <script>
+        $(document).ready(function (){
+            const body = $('body');
 
-        const body = $('body');
+            body.addClass(sidebarStatus(checkWindowWidth()));
 
-        body.addClass(sidebarStatus(checkWindowWidth()));
+            const hamburger = document.querySelector(".hamburger");
 
-        const hamburger = document.querySelector(".hamburger");
+            hamburger.addEventListener("click", function(){
+                if(body.hasClass('active')){
+                    body.removeClass('active');
+                    body.addClass('inactive');
+                    localStorage.setItem("navbar", 'inactive');
+                }else{
+                    body.removeClass('inactive');
+                    body.addClass('active');
+                    localStorage.setItem("navbar", 'active');
+                }
+            });
 
-        hamburger.addEventListener("click", function(){
-            if(body.hasClass('active')){
-                body.removeClass('active');
-                body.addClass('inactive');
-                localStorage.setItem("navbar", 'inactive');
-            }else{
-                body.removeClass('inactive');
-                body.addClass('active');
-                localStorage.setItem("navbar", 'active');
+            function checkWindowWidth(){
+                if($(window).width() < 576){
+                    return 'active';
+                }else{
+                    return 'inactive';
+                }
             }
+
+            function sidebarStatus(status){
+                if($(window).width() < 576){
+                    return 'active';
+                }
+                if(localStorage.getItem("navbar") !== null){
+                    return localStorage.getItem("navbar");
+                }else{
+                    localStorage.setItem("navbar", status);
+                    return localStorage.getItem("navbar");
+                }
+            }
+
+            $(document).ready(function() {
+                $(body).trigger('click');
+            });
+
+            const notification = new Audio('{{asset('assets/audio/notify/notify.wav')}}');
+            Livewire.on('newNotifications', function () {
+                notification.play();
+            })
         });
-
-        function checkWindowWidth(){
-            if($(window).width() < 576){
-                return 'active';
-            }else{
-                return 'inactive';
-            }
-        }
-
-        function sidebarStatus(status){
-            if($(window).width() < 576){
-                return 'active';
-            }
-            if(localStorage.getItem("navbar") !== null){
-                return localStorage.getItem("navbar");
-            }else{
-                localStorage.setItem("navbar", status);
-                return localStorage.getItem("navbar");
-            }
-        }
-
     </script>
 </body>
 </html>
