@@ -34,7 +34,7 @@
         @if (auth()->check() && (request()->routeIs('account') || auth()->user()->hasVerifiedPhone()) && !request()->routeIs('welcome'))
             <div class="section">
                 <div class="top_navbar d-flex justify-content-between align-items-center">
-                    <div class="hamburger">
+                    <div class="hamburger" style="position: relative;top: 2px">
                         <a href="javascript:void(0)">
                             <i class="fa fa-bars"></i>
                         </a>

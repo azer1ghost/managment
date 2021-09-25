@@ -31,7 +31,7 @@ class NewComment extends Notification
     public function toArray($notifiable): array
     {
         return [
-            'message' => trans('translates.comments.new'),
+            'message' => 'translates.comments.new',
             'user_id' => auth()->id(),
             'content' => $this->message,
         ];
