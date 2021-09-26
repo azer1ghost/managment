@@ -10,6 +10,8 @@ class Notification extends Component
     public bool $show = false;
     public int $currentNotificationsCount = 0;
 
+    public bool $notify = false;
+
     public function mount()
     {
         $this->getNotifications();
@@ -17,12 +19,15 @@ class Notification extends Component
 
     public function toggleNotifications()
     {
+        $this->notify = false;
         $this->show = !$this->show;
     }
 
     public function getNotifications()
     {
-        $notifications = auth()->user()->notifications()->where('channel', 'DATABASE')->latest()->get();
+        $notifications = auth()->user()->notifications()
+            ->where('channel', 'DATABASE')
+            ->latest()->take(5)->get();
 
         $this->notifications = [];
 
@@ -38,6 +43,7 @@ class Notification extends Component
                     'fullname' => $user->getAttribute('fullname')
                 ],
                 'content' => $notification->data['content'],
+                'url' => $notification->data['url'] ?? '#'
             ];
         }
     }
@@ -53,10 +59,12 @@ class Notification extends Component
             foreach ($this->notifications as $notification){
                 if(is_null($notification['read_at'])){
                     $notify = true;
+                    $this->notify = true;
                     break;
                 }
             }
             if ($notify){
+                $this->notify = true;
                 $this->emit('newNotifications');
             }
         }

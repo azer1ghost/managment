@@ -11,11 +11,12 @@ class NewComment extends Notification
 {
     use Queueable;
 
-    public string $message;
+    public string $message, $url;
 
-    public function __construct($message)
+    public function __construct($message, $url)
     {
         $this->message = $message;
+        $this->url = $url;
     }
 
     public function getChannel(): string
@@ -34,6 +35,7 @@ class NewComment extends Notification
             'message' => 'translates.comments.new',
             'user_id' => auth()->id(),
             'content' => $this->message,
+            'url' => $this->url
         ];
     }
 }

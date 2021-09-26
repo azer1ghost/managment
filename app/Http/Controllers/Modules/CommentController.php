@@ -15,7 +15,7 @@ class CommentController extends Controller
         // trottle function required
     }
 
-    public function store($content, Model $model)
+    public function store($content, $url, Model $model)
     {
         $model->comments()->create([
             'content' => $content
@@ -23,7 +23,7 @@ class CommentController extends Controller
 
         $user = ($model->getTable() == 'comments') ? $model->user : $model->taskable;
 
-        $user->notify(new NewComment($content));
+        $user->notify(new NewComment($content, $url));
     }
 
     public function update(Request $request, Comment $comment)

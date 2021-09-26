@@ -16,6 +16,8 @@ class Commentable extends Component
 
     public array $comments = [];
 
+    public string $url = '';
+
     public string $message = '';
 
     public ?Comment $replyableComment = null;
@@ -35,9 +37,10 @@ class Commentable extends Component
         $this->perPage += 3;
     }
 
-    public function mount($commentable)
+    public function mount($commentable, $url)
     {
         $this->commentable = $commentable;
+        $this->url = $url;
     }
 
     protected function updatedMessage($value)
@@ -59,7 +62,7 @@ class Commentable extends Component
         else {
             $commentableModel = $this->replyableComment ?? $this->commentable;
 
-            (new CommentController())->store($this->message, $commentableModel);
+            (new CommentController())->store($this->message, $this->url, $commentableModel);
 
             $this->replyableComment = null;
         }

@@ -31,7 +31,7 @@
     @endif
 
     @if($method != "POST")
-        <livewire:commentable :commentable="$data"/>
+        <livewire:commentable :commentable="$data" :url="str_replace('/edit', '', url()->current())"/>
     @endif
 
 @endsection
