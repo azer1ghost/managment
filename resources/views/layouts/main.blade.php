@@ -34,10 +34,17 @@
         @if (auth()->check() && (request()->routeIs('account') || auth()->user()->hasVerifiedPhone()) && !request()->routeIs('welcome'))
             <div class="section">
                 <div class="top_navbar d-flex justify-content-between align-items-center">
-                    <div class="hamburger" style="position: relative;top: 2px">
-                        <a href="javascript:void(0)">
-                            <i class="fa fa-bars"></i>
-                        </a>
+{{--                    <div class="hamburger" style="position: relative;top: 2px">--}}
+{{--                        <a href="javascript:void(0)">--}}
+{{--                            <i class="fa fa-bars"></i>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
+                    <div style="position: relative;top: 2px">
+                        <button class="hamburger hamburger--slider" type="button">
+                          <span class="hamburger-box">
+                            <span class="hamburger-inner"></span>
+                          </span>
+                        </button>
                     </div>
                     @include('components.navbar')
                 </div>
@@ -73,17 +80,22 @@
     <script>
         $(document).ready(function (){
             const body = $('body');
+            const hamburger = document.querySelector(".hamburger");
 
             body.addClass(sidebarStatus(checkWindowWidth()));
 
-            const hamburger = document.querySelector(".hamburger");
+            if(!body.hasClass('active')){
+                hamburger.classList.add('is-active');
+            }
 
             hamburger.addEventListener("click", function(){
                 if(body.hasClass('active')){
+                    hamburger.classList.add('is-active');
                     body.removeClass('active');
                     body.addClass('inactive');
                     localStorage.setItem("navbar", 'inactive');
                 }else{
+                    hamburger.classList.remove('is-active');
                     body.removeClass('inactive');
                     body.addClass('active');
                     localStorage.setItem("navbar", 'active');

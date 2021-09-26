@@ -10,6 +10,11 @@ class Notification extends Component
     public bool $show = false;
     public int $currentNotificationsCount = 0;
 
+    public function mount()
+    {
+        $this->getNotifications();
+    }
+
     public function toggleNotifications()
     {
         $this->show = !$this->show;
