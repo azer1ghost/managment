@@ -1,16 +1,16 @@
 <form id="taskFilterForm">
     <div class="row d-flex justify-content-between mb-2">
-        <div class="col-3">
+        <div class="col-12 col-md-3">
             <div class="input-group mb-3">
                 <input type="search" placeholder="Task name" wire:model.defer="search" class="form-control">
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-12 col-md-3">
             <div class="input-group mb-3">
                 <input type="search" placeholder="Search users" wire:model.defer="filters.user" class="form-control">
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-12 col-md-3">
             <div class="input-group mb-3">
                 <select class="form-control" wire:model.defer="filters.department">
                     <option value="">@lang('translates.fields.department') @lang('translates.placeholders.choose')</option>
@@ -20,7 +20,7 @@
                 </select>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-12 col-md-3">
             <div class="input-group mb-3">
                 <select class="form-control" wire:model.defer="filters.status">
                     <option value="">@lang('translates.fields.status.key') @lang('translates.placeholders.choose')</option>
