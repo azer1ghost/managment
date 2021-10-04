@@ -40,7 +40,7 @@
                         <tr>
                             <th scope="row">{{$notifiable->getAttribute('id')}}</th>
                             <td>{{$notifiable->getAttribute('fullname')}} {!! $notifiable->trashed() ? '<span class="ml-1 badge badge-danger">Deleted</span>' : '<span class="ml-1 badge badge-success">Active</span>' !!}</td>
-                            <td>{{explode('\\', $notification->getAttribute('type'))[3]}}</td>
+                            <td>{{last(explode('\\', $notification->getAttribute('type')))}}</td>
                             <td>{{optional($notification->getAttribute('read_at'))->format('d-m-Y H:i:s')}}</td>
                             <td>{{optional($notification->getAttribute('created_at'))->format('d-m-Y H:i:s')}}</td>
                             <td>

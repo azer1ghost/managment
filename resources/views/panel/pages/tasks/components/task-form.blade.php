@@ -19,6 +19,10 @@
         </div>
     </div>
 
+    @if($method == "POST")
+    <input wire:ignore type="hidden" name="inquiry_id" value="{{request()->get('inquiry_id')}}">
+    @endif
+
     <x-input::text name="name" :value="optional($task)->getAttribute('name')"  label="Task name"  width="6" class="pr-3" />
 
     <div wire:ignore class="form-group col-12 col-md-6 mb-3 mb-md-0" >

@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Controllers\Modules\CommentController;
 use App\Models\Comment;
+use App\Notifications\NewComment;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 
@@ -14,9 +16,13 @@ class Commentable extends Component
 
     public array $comments = [];
 
+    public string $url = '';
+
     public string $message = '';
 
     public ?Comment $replyableComment = null;
+
+    public ?Comment $currentlyEditingComment = null;
 
     protected function reloadComments(){
         $this->comments = optional($this->commentable)
@@ -29,51 +35,76 @@ class Commentable extends Component
     public function loadMore()
     {
         $this->perPage += 3;
-
-        $this->reloadComments();
     }
 
-    public function mount($commentable)
+    public function mount($commentable, $url)
     {
         $this->commentable = $commentable;
+        $this->url = $url;
+    }
 
-        $this->reloadComments();
+    protected function updatedMessage($value)
+    {
+        if ($this->replyableComment && $value == '' || !preg_match("/^@/i", $value)) {
+            $this->replyableComment = null;
+        }
     }
 
     public function sendComment()
     {
-        if ($this->replyableComment) {
-            $newComment = $this->replyableComment->comments()->create([
-                'content' => $this->message
+        if ($this->currentlyEditingComment){
+            $this->currentlyEditingComment->update([
+               'content' =>  $this->message
             ]);
 
-            Comment::withCount(['viewers', 'comments'])->find($newComment->getAttribute('id'))->toArray();
+            $this->currentlyEditingComment = null;
         }
-        else
-        {
-            $newComment = $this->commentable->comments()->create([
-                'content' => $this->message
-            ]);
+        else {
+            $commentableModel = $this->replyableComment ?? $this->commentable;
 
-            Comment::withCount(['viewers', 'comments'])->find($newComment->getAttribute('id'))->toArray();
+            (new CommentController())->store($this->message, $this->url, $commentableModel);
+
+            $this->replyableComment = null;
         }
 
         $this->message = '';
-
-        $this->replyableComment = null;
-
-        $this->reloadComments();
     }
 
     public function reply($id)
     {
-        $this->replyableComment = Comment::find($id);
+        $currentComment = Comment::find($id);
 
-        $this->emit('focus-to-message', $this->replyableComment->user->fullname);
+        $this->replyableComment =
+            ($currentComment->commentable->getTable() == 'comments') ?
+            $currentComment->commentable :
+            $currentComment;
+
+        $this->emit('focus-to-message', "@{$currentComment->user->fullname} ");
+    }
+
+
+    public function delete($id)
+    {
+       $comment = Comment::find($id);
+
+       $comment->comments()->delete();
+
+       $comment->delete();
+    }
+
+    public function edit($id)
+    {
+        $this->currentlyEditingComment = Comment::find($id);
+
+        $this->emit('focus-to-message', $this->currentlyEditingComment->getAttribute('content'));
     }
 
     public function render()
     {
+        if ($this->commentable){
+            $this->reloadComments();
+        }
+
         return view('livewire.commentable');
     }
 }

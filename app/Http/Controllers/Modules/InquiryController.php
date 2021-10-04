@@ -24,6 +24,11 @@ class InquiryController extends Controller
         ]);
     }
 
+    public function createTask($inquiry): RedirectResponse
+    {
+       return redirect()->route('tasks.create', ['inquiry_id' => $inquiry]);
+    }
+
     public function create()
     {
         return view('panel.pages.inquiry.edit')

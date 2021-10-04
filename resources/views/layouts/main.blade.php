@@ -18,7 +18,6 @@
     <!-- Styles -->
     <link href="{{ mix('assets/css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/fonts/fontawesome.pro.min.css') }}" rel="stylesheet">
-
     @yield('style')
 
     @livewireStyles
@@ -35,10 +34,17 @@
         @if (auth()->check() && (request()->routeIs('account') || auth()->user()->hasVerifiedPhone()) && !request()->routeIs('welcome'))
             <div class="section">
                 <div class="top_navbar d-flex justify-content-between align-items-center">
-                    <div class="hamburger">
-                        <a href="javascript:void(0)">
-                            <i class="fa fa-bars"></i>
-                        </a>
+{{--                    <div class="hamburger" style="position: relative;top: 2px">--}}
+{{--                        <a href="javascript:void(0)">--}}
+{{--                            <i class="fa fa-bars"></i>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
+                    <div style="position: relative;top: 2px">
+                        <button class="hamburger hamburger--slider" type="button">
+                          <span class="hamburger-box">
+                            <span class="hamburger-inner"></span>
+                          </span>
+                        </button>
                     </div>
                     @include('components.navbar')
                 </div>
@@ -72,45 +78,59 @@
     <x-notify/>
 
     <script>
+        $(document).ready(function (){
+            const body = $('body');
+            const hamburger = document.querySelector(".hamburger");
 
-        const body = $('body');
+            body.addClass(sidebarStatus(checkWindowWidth()));
 
-        body.addClass(sidebarStatus(checkWindowWidth()));
-
-        const hamburger = document.querySelector(".hamburger");
-
-        hamburger.addEventListener("click", function(){
-            if(body.hasClass('active')){
-                body.removeClass('active');
-                body.addClass('inactive');
-                localStorage.setItem("navbar", 'inactive');
-            }else{
-                body.removeClass('inactive');
-                body.addClass('active');
-                localStorage.setItem("navbar", 'active');
+            if(!body.hasClass('active')){
+                hamburger.classList.add('is-active');
             }
+
+            hamburger.addEventListener("click", function(){
+                if(body.hasClass('active')){
+                    hamburger.classList.add('is-active');
+                    body.removeClass('active');
+                    body.addClass('inactive');
+                    localStorage.setItem("navbar", 'inactive');
+                }else{
+                    hamburger.classList.remove('is-active');
+                    body.removeClass('inactive');
+                    body.addClass('active');
+                    localStorage.setItem("navbar", 'active');
+                }
+            });
+
+            function checkWindowWidth(){
+                if($(window).width() < 576){
+                    return 'active';
+                }else{
+                    return 'inactive';
+                }
+            }
+
+            function sidebarStatus(status){
+                if($(window).width() < 576){
+                    return 'active';
+                }
+                if(localStorage.getItem("navbar") !== null){
+                    return localStorage.getItem("navbar");
+                }else{
+                    localStorage.setItem("navbar", status);
+                    return localStorage.getItem("navbar");
+                }
+            }
+
+            $(document).ready(function() {
+                $(body).trigger('click');
+            });
+
+            const notification = new Audio('{{asset('assets/audio/notify/notify.wav')}}');
+            Livewire.on('newNotifications', function () {
+                notification.play();
+            })
         });
-
-        function checkWindowWidth(){
-            if($(window).width() < 576){
-                return 'active';
-            }else{
-                return 'inactive';
-            }
-        }
-
-        function sidebarStatus(status){
-            if($(window).width() < 576){
-                return 'active';
-            }
-            if(localStorage.getItem("navbar") !== null){
-                return localStorage.getItem("navbar");
-            }else{
-                localStorage.setItem("navbar", status);
-                return localStorage.getItem("navbar");
-            }
-        }
-
     </script>
 </body>
 </html>

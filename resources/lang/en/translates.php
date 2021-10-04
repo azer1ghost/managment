@@ -199,6 +199,9 @@ return [
     'gender' => [
         'male' => 'Male',
         'female' => 'Female'
-    ]
+    ],
 
+    'comments' => [
+        'new' => 'Yout have new comment'
+    ],
 ];

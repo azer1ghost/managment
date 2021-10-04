@@ -1,12 +1,11 @@
-<div>
-
+<div wire:poll.visible.5000ms>
     <ul class="list-unstyled shadow p-3 mb-1 bg-white rounded">
         <li class="media">
             <img src="{{image(auth()->user()->getAttribute('avatar'))}}" class="mr-2 rounded-circle" style="width: 40px">
             <div class="media-body" wire:ignore>
                 <h5 class="mt-0 mb-1">{{auth()->user()->getAttribute('fullname')}}</h5>
                     <textarea
-                            class="form-control" id="message" rows="5"
+                            class="form-control" id="message" rows="2"
                             style="min-height: 20px"
                             wire:model="message"
                     ></textarea>
@@ -18,25 +17,30 @@
             </div>
         </li>
     </ul>
+    @if(isset($comments['data']) && count($comments['data']))
+        <x-comments :comments="$comments['data']"/>
 
-    <x-comments :comments="$comments['data']"/>
-
-    <div class="col-12 mt-4 d-flex justify-content-center">
-        @if(!is_null($comments['next_page_url']))
-            <button wire:click.prevent="loadMore" class="btn btn-primary btn-sm float-right mt-2">
-                Load More
-            </button>
-        @else
-            <p>Thas's all</p>
-        @endif
-    </div>
+        <div class="col-12 mt-4 d-flex justify-content-center">
+            @if(isset($comments['next_page_url']) && !is_null($comments['next_page_url']))
+                <button wire:click.prevent="loadMore" class="btn btn-primary btn-sm float-right mt-2">
+                    Load More
+                </button>
+            @else
+                <p>Thas's all</p>
+            @endif
+        </div>
+    @else
+        <div class="col-12 mt-4 d-flex justify-content-center">
+            <p>No comment avaliable for now</p>
+        </div>
+    @endif
 
 </div>
 
 @push('scripts')
     <script>
-        window.livewire.on('focus-to-message', function (fullname){
-            $("#message").val(`@${fullname} `).focus();
+        window.livewire.on('focus-to-message', function (data){
+            $("#message").val(data).focus();
         });
     </script>
 @endpush

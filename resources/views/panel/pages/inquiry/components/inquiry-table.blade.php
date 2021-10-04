@@ -205,13 +205,15 @@
                                     <a href="{{route('inquiry.logs', $inquiry)}}" target="_blank" class="dropdown-item-text text-decoration-none">
                                         <i class="fal fa-sticky-note pr-2 text-info"></i>Logs
                                     </a>
+                                    <a href="{{route('inquiry.task', $inquiry)}}" target="_blank" class="dropdown-item-text text-decoration-none">
+                                        <i class="fal fa-list pr-2 text-info"></i>Task
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </td>
                 </tr>
             @endforeach
-            </tbody>
             <div wire:loading.delay>
                 <div
                         class="d-flex justify-content-center align-items-center"
@@ -223,6 +225,7 @@
                     <h3 class="text-white">@lang('translates.loading')...</h3>
                 </div>
             </div>
+            </tbody>
         </table>
     </div>
     <div class="col-12">

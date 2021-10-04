@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskRequest;
 use App\Models\Department;
+use App\Models\Inquiry;
 use App\Models\User;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -35,9 +36,10 @@ class TaskController extends Controller
         return view('panel.pages.tasks.edit')
             ->with([
                 'action' => route('tasks.store'),
-                'method' => null,
+                'method' => 'POST',
                 'data' => null,
-                'departments' => Department::pluck('name', 'id')->toArray()
+                'departments' => Department::pluck('name', 'id')->toArray(),
+                'inquiry' => Inquiry::find(request()->get('inquiry_id'))
             ]);
     }
 
