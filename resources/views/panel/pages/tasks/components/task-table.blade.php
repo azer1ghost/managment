@@ -1,5 +1,5 @@
 <form id="taskFilterForm">
-    <div class="row d-flex justify-content-between mb-2">
+    <div class="row d-flex mb-2">
         <div class="col-12 col-md-3">
             <div class="input-group mb-3">
                 <input type="search" placeholder="Task name" wire:model.defer="search" class="form-control">
@@ -30,11 +30,21 @@
                 </select>
             </div>
         </div>
-        <div class="col-3 py-2">
+        <div class="col-12 col-md-3">
+            <div class="input-group mb-3">
+                <select class="form-control" wire:model.defer="filters.priority">
+                    <option value="">@lang('translates.fields.priority.key') @lang('translates.placeholders.choose')</option>
+                    @foreach ($priorities as $priority)
+                        <option value="{{$priority}}">@lang('translates.fields.priority.options.' . $priority)</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="col-3 col-md-1 p-0 pl-3 pb-3">
             <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
         </div>
         @can('create', App\Models\Task::class)
-            <div class="col-2 py-2">
+            <div class="col-9 col-md-8 p-0 pr-3 pb-3">
                 <a class="btn btn-outline-success float-right" href="{{route('tasks.create')}}">@lang('translates.buttons.create')</a>
             </div>
         @endcan
@@ -57,14 +67,19 @@
                     <tr>
                         <th scope="row">{{$loop->iteration}}</th>
                         <td>{{$task->getAttribute('name')}}</td>
-                        <td class="task-priority {{$task->getAttribute('priority')}}">{{ucfirst($task->getAttribute('priority'))}}</td>
-                        <td>{{str_title($task->getAttribute('status'))}}</td>
+                        <td style="font-weight: 700;" class="task-priority {{$task->getAttribute('priority')}}">{{ucfirst($task->getAttribute('priority'))}}</td>
+                        <td style="font-weight: 700;">{{str_title($task->getAttribute('status'))}}</td>
                         <td>{{$task->taskable->getClassShortName() == 'department' ? $task->taskable->getAttribute('name') : $task->taskable->getRelationValue('department')->getAttribute('name')}}</td>
                         <td>{{$task->taskable->getClassShortName() == 'user' ? $task->taskable->getAttribute('fullname') : 'Ümumi' }}</td>
                         <td>
-                            <div class="progress bg-secondary">
-                                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: {{$task->taskListsComplete()}}%">{{$task->taskListsComplete()}}%</div>
-                            </div>
+                            @if ($task->status == 'to_do')
+                                Not started
+                            @else
+                                <div class="progress bg-secondary">
+                                    <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: {{$task->taskListsComplete()}}%">{{$task->taskListsComplete()}}%</div>
+                                </div>
+                                <span class="text-success">{{$task->taskListsComplete('done')}}</span>/{{$task->taskListsComplete('overall')}}
+                            @endif
                         </td>
                         <td>
                             <div class="btn-sm-group">
@@ -88,7 +103,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <th colspan="7">
+                        <th colspan="8">
                             <div class="row justify-content-center m-3">
                                 <div class="col-7 alert alert-danger text-center" task="alert">Empty for now</div>
                             </div>

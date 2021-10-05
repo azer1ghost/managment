@@ -16,12 +16,13 @@ class TaskTable extends Component
     public array $filters = [
         'department' => '',
         'user' => '',
-        'status' => ''
+        'status' => '',
+        'priority' => ''
     ];
 
     public Collection $departments;
 
-    public array $statuses;
+    public array $statuses, $priorities;
 
     protected string $paginationTheme = 'bootstrap';
 
@@ -32,6 +33,7 @@ class TaskTable extends Component
     {
         $this->departments = Department::get(['id', 'name']);
         $this->statuses = Task::statuses();
+        $this->priorities = Task::priorities();
     }
 
     public function updateFilter()
@@ -51,6 +53,7 @@ class TaskTable extends Component
                                 ->where('surname', 'like', $this->filters['user'])
                                 ->orWhere('name', 'like', $this->filters['user'])))
                         ->when($this->filters['status'], fn ($query) => $query->where('status', $this->filters['status']))
+                        ->when($this->filters['priority'], fn ($query) => $query->where('priority', $this->filters['priority']))
                         ->paginate(10)]);
     }
 }

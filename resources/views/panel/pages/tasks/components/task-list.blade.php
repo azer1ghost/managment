@@ -1,5 +1,5 @@
 <div>
-    @if($task->canAddList())
+    @if($task->canManageLists())
         <div class="add-items d-flex">
             <input type="text" class="form-control1 todo-list-input" wire:model.lazy="todo" placeholder="What should be done ?">
             <button wire:loading.attr="disabled" class="add btn btn-primary font-weight-bold todo-list-add-btn" wire:click="addToList">Add</button>

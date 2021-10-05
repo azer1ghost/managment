@@ -57,7 +57,7 @@
   .completed{
     label{
       text-decoration: line-through !important;
-      text-decoration-color: #3da5f4 !important;
+      text-decoration-color: $primary !important;
     }
   }
   ul {

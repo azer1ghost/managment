@@ -57,6 +57,11 @@ class TaskForm extends Component
         $this->selected['user'] = null;
     }
 
+    public function updatedSelectedStatus()
+    {
+        //
+    }
+
     public function render()
     {
         return view('panel.pages.tasks.components.task-form');

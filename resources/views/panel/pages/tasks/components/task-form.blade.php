@@ -119,8 +119,11 @@
             $("#createForm :input").attr("disabled", true);
         @endif
 
-        $(".inquiry :input").attr("disabled", true);
+        @if($task->canManageLists())
+            $("select[name='status']").attr("disabled", false);
+        @endif
 
+        $(".inquiry :input").attr("disabled", true);
 
         $(function() {
             $('input[name="task_dates"]').daterangepicker({
