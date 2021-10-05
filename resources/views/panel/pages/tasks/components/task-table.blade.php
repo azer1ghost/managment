@@ -48,6 +48,7 @@
                     <th scope="col">Status</th>
                     <th scope="col">Department</th>
                     <th scope="col">User</th>
+                    <th scope="col" style="min-width: 150px; width: 150px;">Stage</th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
@@ -56,10 +57,15 @@
                     <tr>
                         <th scope="row">{{$loop->iteration}}</th>
                         <td>{{$task->getAttribute('name')}}</td>
-                        <td>{{ucfirst($task->getAttribute('priority'))}}</td>
+                        <td class="task-priority {{$task->getAttribute('priority')}}">{{ucfirst($task->getAttribute('priority'))}}</td>
                         <td>{{str_title($task->getAttribute('status'))}}</td>
                         <td>{{$task->taskable->getClassShortName() == 'department' ? $task->taskable->getAttribute('name') : $task->taskable->getRelationValue('department')->getAttribute('name')}}</td>
                         <td>{{$task->taskable->getClassShortName() == 'user' ? $task->taskable->getAttribute('fullname') : 'Ümumi' }}</td>
+                        <td>
+                            <div class="progress bg-secondary">
+                                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: {{$task->taskListsComplete()}}%">{{$task->taskListsComplete()}}%</div>
+                            </div>
+                        </td>
                         <td>
                             <div class="btn-sm-group">
                                 @can('view', $task)

@@ -24,8 +24,9 @@ class TaskController extends Controller
 
         return view('panel.pages.tasks.index')
             ->with([
-                'tasks' => Task::with(['inquiry'])
+                'tasks' => Task::with(['inquiry', 'taskLists'])
                     ->when($search, fn ($query) => $query->where('name', 'like', "%". $search ."%"))
+                    ->latest()
                     ->paginate(10),
                 'departments' => Department::get(['id', 'name'])
             ]);
@@ -56,11 +57,6 @@ class TaskController extends Controller
 
         $validated['user_id'] = auth()->id();
 
-        if($validated['status'] == 'done'){
-            $validated['done_at'] = now();
-            $validated['done_by_user_id'] = $validated['user_id'];
-        }
-
         if(array_key_exists('user', $validated)){
             $task = User::find($validated['user'])->tasks()->create($validated);
         }else{
@@ -69,7 +65,7 @@ class TaskController extends Controller
 
         return redirect()
             ->route('tasks.show', $task)
-            ->withNotify('success', $task->getAttribute('name'));
+            ->withNotify('success', "New task {$task->getAttribute('name')} added successfully. <p>Please now assign some To do.</p>", true);
     }
 
     public function show(Task $task)

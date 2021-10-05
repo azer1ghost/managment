@@ -6,7 +6,6 @@ use App\Models\Task;
 use App\Models\User;
 use App\Traits\GetClassInfo;
 use App\Traits\HandlesPolicy;
-use App\Traits\UserAllowAccess;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TaskPolicy

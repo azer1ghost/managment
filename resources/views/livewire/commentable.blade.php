@@ -31,7 +31,7 @@
         </div>
     @else
         <div class="col-12 mt-4 d-flex justify-content-center">
-            <p>No comment avaliable for now</p>
+            <p>No comments available for now</p>
         </div>
     @endif
 

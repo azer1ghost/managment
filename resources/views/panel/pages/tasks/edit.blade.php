@@ -1,7 +1,6 @@
 @extends('layouts.main')
 
 @section('title', __('translates.navbar.task'))
-
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -20,7 +19,12 @@
     </x-bread-crumb>
 
     <livewire:task-form :action="$action"  :method="$method" :task="$data" />
-
+    @if($data)
+        <div class="my-3 card p-3 my-5">
+            <h3>To do</h3>
+            <livewire:task-list :task="$data"/>
+        </div>
+    @endif
     @if($inquiry ?? optional($data)->inquiry_id)
         <div class="card-header">
             Inquiry
@@ -33,5 +37,9 @@
     @if($method != "POST")
         <livewire:commentable :commentable="$data" :url="str_replace('/edit', '', url()->current())"/>
     @endif
+@endsection
+@section('scripts')
+    <script>
 
+    </script>
 @endsection
