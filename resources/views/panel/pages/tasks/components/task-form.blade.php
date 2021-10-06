@@ -68,7 +68,6 @@
         </div>
     @endif
 
-
     <div class="form-group col-md-3">
         <label>{{__('translates.fields.department')}}</label>
         <select class="form-control @error('department') is-invalid @enderror" name="department" wire:model="selected.department">
