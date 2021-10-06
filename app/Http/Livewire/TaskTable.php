@@ -46,13 +46,14 @@ class TaskTable extends Component
         return view('panel.pages.tasks.components.task-table', [
             'tasks' => Task::with(['inquiry'])
                         ->when(!Task::userCanViewAll(), function ($query){
-                            $query->whereHasMorph('taskable', [Department::class, User::class] , function ($query, $type){
+                            $query->whereHasMorph('taskable', [Department::class, User::class] , function ($q, $type){
                                 if ($type === Department::class) {
-                                    $query->where('id', auth()->user()->getRelationValue('department')->getAttribute('id'));
+                                    $q->where('id', auth()->user()->getRelationValue('department')->getAttribute('id'));
                                 }else{
-                                    $query->where('id', auth()->id());
+                                    $q->where('id', auth()->id());
                                 }
                             });
+                            $query->orWhere('user_id', auth()->id());
                         })
                         ->when($this->search, fn ($query) => $query->where('name', 'like', "%". $this->search ."%"))
                         ->where(function ($query)  {
