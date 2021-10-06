@@ -45,15 +45,31 @@ class TaskTable extends Component
     {
         return view('panel.pages.tasks.components.task-table', [
             'tasks' => Task::with(['inquiry'])
+                        ->when(!Task::userCanViewAll(), function ($query){
+                            $query->whereHasMorph('taskable', [Department::class, User::class] , function ($query, $type){
+                                if ($type === Department::class) {
+                                    $query->where('id', auth()->user()->getRelationValue('department')->getAttribute('id'));
+                                }else{
+                                    $query->where('id', auth()->id());
+                                }
+                            });
+                        })
                         ->when($this->search, fn ($query) => $query->where('name', 'like', "%". $this->search ."%"))
-                        ->when($this->filters['department'], fn ($query) => $query
-                            ->whereHasMorph('taskable', [Department::class], fn ($q) => $q->where('id', $this->filters['department'])))
-                        ->when($this->filters['user'], fn ($query) => $query
-                            ->whereHasMorph('taskable', [User::class], fn ($q) => $q
-                                ->where('surname', 'like', $this->filters['user'])
-                                ->orWhere('name', 'like', $this->filters['user'])))
-                        ->when($this->filters['status'], fn ($query) => $query->where('status', $this->filters['status']))
-                        ->when($this->filters['priority'], fn ($query) => $query->where('priority', $this->filters['priority']))
+                        ->where(function ($query)  {
+                            foreach ($this->filters as $column => $value) {
+                                $query->when($value, function ($query, $value) use ($column) {
+                                    if ($column == 'department'){
+                                        $query->whereHasMorph('taskable', [Department::class], fn ($q) => $q->where('id', $this->filters['department']));
+                                    }else if ($column == 'user'){
+                                        $query->whereHasMorph('taskable', [User::class], fn ($q) => $q
+                                            ->where('surname', 'like', $this->filters['user'])
+                                            ->orWhere('name', 'like', $this->filters['user']));
+                                    }else{
+                                        $query->where($column, $value);
+                                    }
+                                });
+                            }
+                        })
                         ->paginate(10)]);
     }
 }

@@ -12,6 +12,11 @@ class TaskPolicy
 {
     use HandlesAuthorization, HandlesPolicy, GetClassInfo;
 
+    public function view(User $user, Task $task): bool
+    {
+        return $task->canManageLists();
+    }
+
     public function create(User $user): bool
     {
         return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
