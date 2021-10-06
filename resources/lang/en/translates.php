@@ -121,7 +121,8 @@ return [
         'save'   => 'Save',
         'back'   => 'Back',
         'search' => 'Search',
-        'filter' => 'Filter'
+        'filter' => 'Filter',
+        'add'    => 'Add',
     ],
 
     'or' => 'or',
@@ -202,6 +203,20 @@ return [
     ],
 
     'comments' => [
-        'new' => 'Yout have new comment'
+        'new' => 'You have new comment'
     ],
+
+    'tasks' => [
+        'not_started' => 'Not started',
+        'new' => 'You have new task assigned',
+        'content' => [
+            'user' => 'New task assigned to you',
+            'department' => 'New task assigned to your department'
+        ],
+        'list' => [
+            'to_do' => 'To do',
+            'placeholder' => 'What should be done ?',
+            'new' => 'You have new list in task you are assigned to'
+        ]
+    ]
 ];

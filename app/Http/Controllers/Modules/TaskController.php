@@ -8,7 +8,9 @@ use App\Models\Department;
 use App\Models\Inquiry;
 use App\Models\User;
 use App\Models\Task;
+use App\Notifications\TaskAssigned;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class TaskController extends Controller
 {
@@ -59,9 +61,16 @@ class TaskController extends Controller
 
         if(array_key_exists('user', $validated)){
             $task = User::find($validated['user'])->tasks()->create($validated);
+            $users = User::find($validated['user']);
+            $content = __('translates.tasks.content.user');
         }else{
             $task = Department::find($validated['department'])->tasks()->create($validated);
+            $users = User::where('id', '!=' ,auth()->id())->where('department_id', $validated['department'])->get();
+            $content = __('translates.tasks.content.department');
         }
+        $url = config('app.url') . "/module/tasks/{$task->getAttribute('id')}";
+
+        Notification::send($users, new TaskAssigned($content, $url, 'translates.tasks.new'));
 
         return redirect()
             ->route('tasks.show', $task)

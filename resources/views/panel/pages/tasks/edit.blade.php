@@ -21,7 +21,7 @@
     <livewire:task-form :action="$action"  :method="$method" :task="$data" />
     @if($data)
         <div class="my-3 card p-3 my-5">
-            <h3>To do</h3>
+            <h3>@lang('translates.tasks.list.to_do')</h3>
             <livewire:task-list :task="$data"/>
         </div>
     @endif

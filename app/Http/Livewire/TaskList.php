@@ -2,7 +2,10 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\User;
+use App\Notifications\TaskAssigned;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Component;
 
 class TaskList extends Component
@@ -17,7 +20,16 @@ class TaskList extends Component
             'name' => $this->todo,
             'user_id' => auth()->id()
         ]);
+        $content  = $this->todo;
+
         $this->todo = '';
+
+        $url = config('app.url') . "/module/tasks/{$this->task->getAttribute('id')}";
+        $users = $this->task->getAttribute('taskable_type') == 'App\Models\User' ?
+            User::find($this->task->getAttribute('taskable_id')) :
+            User::where('id', '!=', auth()->id())->where('department_id', $this->task->getAttribute('taskable_id'))->get();
+
+        Notification::send($users, new TaskAssigned($content, $url, 'translates.tasks.list.new'));
     }
 
     public function removeFromList($id)

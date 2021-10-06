@@ -70,10 +70,10 @@
                         <td style="font-weight: 700;" class="task-priority {{$task->getAttribute('priority')}}">{{ucfirst($task->getAttribute('priority'))}}</td>
                         <td style="font-weight: 700;">{{str_title($task->getAttribute('status'))}}</td>
                         <td>{{$task->taskable->getClassShortName() == 'department' ? $task->taskable->getAttribute('name') : $task->taskable->getRelationValue('department')->getAttribute('name')}}</td>
-                        <td>{{$task->taskable->getClassShortName() == 'user' ? $task->taskable->getAttribute('fullname') : 'Ümumi' }}</td>
+                        <td>{{$task->taskable->getClassShortName() == 'user' ? $task->taskable->getAttribute('fullname') : __('translates.navbar.general') }}</td>
                         <td>
                             @if ($task->status == 'to_do')
-                                Not started
+                                @lang('translates.tasks.not_started')
                             @else
                                 <div class="progress bg-secondary">
                                     <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: {{$task->taskListsComplete()}}%">{{$task->taskListsComplete()}}%</div>

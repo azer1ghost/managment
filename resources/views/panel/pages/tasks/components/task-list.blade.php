@@ -1,8 +1,13 @@
 <div>
     @if($task->canManageLists())
-        <div class="add-items d-flex">
-            <input type="text" class="form-control1 todo-list-input" wire:model.lazy="todo" placeholder="What should be done ?">
-            <button wire:loading.attr="disabled" class="add btn btn-primary font-weight-bold todo-list-add-btn" wire:click="addToList">Add</button>
+        <div class="add-items d-flex flex-column flex-md-row align-items-center">
+            <input type="text" class="mb-3 mb-md-0 todo-list-input" wire:model.lazy="todo" placeholder="{{__('translates.tasks.list.placeholder')}}">
+            <button wire:loading.attr="disabled"
+                    class="d-inline-block btn btn-primary font-weight-bold"
+                    wire:click="addToList"
+            >
+                @lang('translates.buttons.add')
+            </button>
         </div>
     @endif
     <div class="list-wrapper">
