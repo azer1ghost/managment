@@ -54,7 +54,7 @@
     @if($task)
         <div class="form-group col-md-3">
             <label>{{__('translates.fields.status.key')}}</label>
-            <select class="form-control @error('status') is-invalid @enderror" id="task-status" name="status" onfocus="this.oldValue = this.value" onchange="taskStatusHandler(this, this.oldValue, this.value)" wire:model="selected.status">
+            <select class="form-control @error('status') is-invalid @enderror" id="task-status" name="status" @if (is_null($action)) onfocus="this.oldValue = this.value" onchange="taskStatusHandler(this, this.oldValue, this.value)" @endif wire:model="selected.status">
                 <option value="null" disabled selected>{{__('translates.fields.status.key')}} {{__('translates.placeholders.choose')}}</option>
                 @foreach($statuses as $status)
                     <option value="{{$status}}">@lang("translates.fields.status.options.{$status}")</option>
@@ -119,7 +119,7 @@
             $("#createForm :input").attr("disabled", true);
         @endif
 
-        @if($task->canManageLists())
+        @if($task && $task->canManageLists())
             $("select[name='status']").attr("disabled", false);
         @endif
 
