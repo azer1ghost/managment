@@ -76,20 +76,6 @@ class Task extends Model
         return $this->hasMany(TaskList::class);
     }
 
-    public function taskListsComplete($type = 'percent'): float
-    {
-        $overall = $this->taskLists()->count();
-        $complete = $this->taskLists()->where('is_checked', true)->count();
-        if ($type == 'percent'){
-            return $overall == 0 ? 0 : round($complete/$overall, 2) * 100;
-        }elseif ($type == 'overall'){
-            return $overall;
-        }
-        else{
-            return $complete;
-        }
-    }
-
     public function canManageLists(): bool
     {
         $user = auth()->user();

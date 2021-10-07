@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 use App\Models\Department;
 use App\Models\Task;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -44,7 +45,10 @@ class TaskTable extends Component
     public function render()
     {
         return view('panel.pages.tasks.components.task-table', [
-            'tasks' => Task::with(['inquiry'])
+            'tasks' => Task::with(['inquiry'])->withCount([
+                                'taskLists as all_tasks_count',
+                                'taskLists as done_tasks_count' => fn (Builder $query) => $query->where('is_checked', true)
+                                ])
                         ->when(!Task::userCanViewAll(), function ($query){
                             $query->whereHasMorph('taskable', [Department::class, User::class] , function ($q, $type){
                                 if ($type === Department::class) {

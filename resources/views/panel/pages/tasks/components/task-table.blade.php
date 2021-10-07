@@ -76,9 +76,10 @@
                                 @lang('translates.tasks.not_started')
                             @else
                                 <div class="progress bg-secondary">
-                                    <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: {{$task->taskListsComplete()}}%">{{$task->taskListsComplete()}}%</div>
+                                    @php($percentage = $task->all_tasks_count == 0 ? 0 : (round(($task->done_tasks_count/$task->all_tasks_count), 2) * 100))
+                                    <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: {{$percentage}}%">{{$percentage}}%</div>
                                 </div>
-                                <span class="text-success">{{$task->taskListsComplete('done')}}</span>/{{$task->taskListsComplete('overall')}}
+                                <span class="text-success">{{$task->done_tasks_count}}</span>/{{$task->all_tasks_count}}
                             @endif
                         </td>
                         <td>
