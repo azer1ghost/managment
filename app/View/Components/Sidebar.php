@@ -128,6 +128,13 @@ class Sidebar extends Component
             ],
 
             (object) [
+                'title' => "Gadgets",
+                'icon'  => 'fas fa-tools',
+                'url'  => route('gadgets.index'),
+                'permission' => 'viewAny-gadget',
+            ],
+
+            (object) [
                 'title' => "Debug Log",
                 'icon'  => 'fal fa-bug',
                 'url'  => url('module/log-reader'),

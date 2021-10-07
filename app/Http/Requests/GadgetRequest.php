@@ -15,8 +15,17 @@ class GadgetRequest extends FormRequest
     {
         return [
             'key'  => 'required|string|max:255',
-            'name' => 'string|nullable',
-            'icon' => 'array',
+            'type'  => 'required|string|max:255',
+            'name' => 'required|string|nullable',
+            'labels' => 'nullable|string',
+            'colors' => 'nullable|string',
+            'icon' => 'nullable|string',
+            'color' => 'nullable|string',
+            'bg_color' => 'nullable|string',
+            'details' => 'nullable|string',
+            'query' => 'nullable|string',
+            'order' => 'nullable|integer',
+            'status' => 'nullable'
         ];
     }
 }

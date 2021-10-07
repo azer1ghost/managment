@@ -23,7 +23,7 @@ class DepartmentController extends Controller
         return view('panel.pages.departments.index')
             ->with([
                 'departments' => Department::query()
-                    ->when($search, fn ($query) => $query->where('name', 'like', "%".ucfirst($search)."%"))
+                    ->when($search, fn ($query) => $query->where('name', 'like', "%".$search."%"))
                     ->simplePaginate(10)
             ]);
     }
@@ -74,7 +74,7 @@ class DepartmentController extends Controller
     {
         $validated = $request->validated();
         $validated['status'] = $request->has('status');
-//        dd($validated);
+
         $department->update($validated);
 
         return back()->withNotify('info', $department->getAttribute('name'));
