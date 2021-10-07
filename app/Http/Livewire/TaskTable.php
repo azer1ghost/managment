@@ -18,7 +18,8 @@ class TaskTable extends Component
         'department' => '',
         'user' => '',
         'status' => '',
-        'priority' => ''
+        'priority' => '',
+        'type' => 1
     ];
 
     public Collection $departments;
@@ -69,6 +70,16 @@ class TaskTable extends Component
                                         $query->whereHasMorph('taskable', [User::class], fn ($q) => $q
                                             ->where('surname', 'like', $this->filters['user'])
                                             ->orWhere('name', 'like', $this->filters['user']));
+                                    }else if($column == 'type'){
+                                        switch ($value){
+                                            case 1:
+                                                $query->whereHasMorph('taskable', [User::class], fn ($q) => $q
+                                                    ->where('id', auth()->id()));
+                                                break;
+                                            case 2:
+                                                $query->where('user_id', auth()->id());
+                                                break;
+                                        }
                                     }else{
                                         $query->where($column, $value);
                                     }

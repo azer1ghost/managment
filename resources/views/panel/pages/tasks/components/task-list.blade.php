@@ -16,7 +16,7 @@
                 <li class="@if($list->is_checked) completed @endif">
                     <div class="form-check" wire:change="toggleState({{$list->id}})">
                         <label class="form-check-label">
-                            @if($list->canManage())
+                            @if($task->canManageLists())
                                 <input wire:loading.attr="disabled" class="checkbox" type="checkbox" @if($list->is_checked) checked @endif>
                             @endif
                                 {{$list->name}}

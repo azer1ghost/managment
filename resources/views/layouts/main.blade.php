@@ -129,6 +129,7 @@
             const notification = new Audio('{{asset('assets/audio/notify/notify.wav')}}');
             Livewire.on('newNotifications', function () {
                 notification.play();
+                document.title = 'New notification... | Management';
             })
         });
     </script>

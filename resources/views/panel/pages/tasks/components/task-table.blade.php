@@ -40,11 +40,20 @@
                 </select>
             </div>
         </div>
+        <div class="col-12 col-md-3">
+            <div class="input-group mb-3">
+                <select class="form-control" wire:model.defer="filters.type">
+                        <option value="1">Assigned to me</option>
+                        <option value="2">My tasks</option>
+                        <option value="3">All</option>
+                </select>
+            </div>
+        </div>
         <div class="col-3 col-md-1 p-0 pl-3 pb-3">
             <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
         </div>
         @can('create', App\Models\Task::class)
-            <div class="col-9 col-md-8 p-0 pr-3 pb-3">
+            <div class="col-9 col-md-5 p-0 pr-3 pb-3">
                 <a class="btn btn-outline-success float-right" href="{{route('tasks.create')}}">@lang('translates.buttons.create')</a>
             </div>
         @endcan
