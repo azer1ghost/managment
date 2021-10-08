@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
-use App\Models\Gadget;
+use App\Models\Widget;
 use App\Models\Inquiry;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
@@ -40,13 +40,11 @@ class PlatformController extends Controller
 
     public function dashboard(): View
     {
-        $inquiriesToday = Inquiry::IsReal()->whereDate('datetime',  Carbon::today())->count();
-        $inquiriesMonth = Inquiry::IsReal()->whereMonth('datetime', Carbon::today())->count();
+//        $inquiriesToday = Inquiry::IsReal()->whereDate('datetime',  Carbon::today())->count();
+//        $inquiriesMonth = Inquiry::IsReal()->whereMonth('datetime', Carbon::today())->count();
 
         return view('panel.pages.main.dashboard', [
-            'inquiriesToday' => $inquiriesToday,
-            'inquiriesMonth' => $inquiriesMonth,
-            'gadgets' => Gadget::all()
+            'widgets' => Widget::isActive()->oldest('order')->get()
         ]);
     }
 

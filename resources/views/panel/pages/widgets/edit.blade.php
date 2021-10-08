@@ -1,18 +1,18 @@
 @extends('layouts.main')
 
-@section('title', 'Gadgets')
+@section('title', 'Widgets')
 
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
-        <x-bread-crumb-link :link="route('departments.index')">
-            Gadgets
+        <x-bread-crumb-link :link="route('widgets.index')">
+            Widgets
         </x-bread-crumb-link>
         <x-bread-crumb-link>
             @if (!is_null($data))
-                {{optional($data)->getAttribute('name')}}
+                {{optional($data)->getAttribute('key')}}
             @else
                 @lang('translates.buttons.create')
             @endif
@@ -25,16 +25,11 @@
             <div class="form-group col-12">
                 <div class="row">
                     <x-input::text     name="key"  :value="optional($data)->getAttribute('key')"  label="Gadget key"  width="6" class="pr-3" />
-                    <x-input::text     name="type"  :value="optional($data)->getAttribute('type')"  label="Gadget type"  width="6" class="pr-3" />
-                    <x-input::text     name="name"  :value="optional($data)->getAttribute('name')"  label="Gadget name"  width="6" class="pr-3" />
-                    <x-input::text     name="labels"  :value="optional($data)->getAttribute('labels')"  label="Gadget labels"  width="6" class="pr-3" />
-                    <x-input::text     name="colors"  :value="optional($data)->getAttribute('colors')"  label="Gadget colors"  width="6" class="pr-3" />
+                    <x-input::text     name="class_attribute"  :value="optional($data)->getAttribute('class_attribute')"  label="Gadget class attribute"  width="6" class="pr-3" />
+                    <x-input::text     name="style_attribute"  :value="optional($data)->getAttribute('style_attribute')"  label="Gadget style attribute"  width="6" class="pr-3" />
                     <x-input::text     name="icon"  :value="optional($data)->getAttribute('icon')"  label="Gadget icon"  width="6" class="pr-3" />
-                    <x-input::text     name="color"  :value="optional($data)->getAttribute('color')"  label="Gadget color"  width="6" class="pr-3" />
-                    <x-input::text     name="bg_color"  :value="optional($data)->getAttribute('bg_color')"  label="Gadget bg color"  width="6" class="pr-3" />
                     <x-input::text     name="details"  :value="optional($data)->getAttribute('details')"  label="Gadget details"  width="6" class="pr-3" />
                     <x-input::number   name="order"  :value="optional($data)->getAttribute('order')"  label="Gadget order"  width="6" class="pr-3" />
-                    <x-input::textarea  name="query"  :value="optional($data)->getAttribute('query')"  label="Gadget query"  width="12" class="pr-3" />
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" @if(optional($data)->getAttribute('status') === true) checked @endif name="status" id="data-status">
