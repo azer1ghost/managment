@@ -2,7 +2,10 @@
 
 namespace App\Exceptions;
 
+use App\Models\User;
+use App\Notifications\ExceptionMail;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Notification;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -37,5 +40,13 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function report(Throwable $e)
+    {
+        if ($this->shouldReport($e)) {
+            Notification::send(User::where('role_id', 1)->get(['email']), new ExceptionMail($e));
+        }
+        parent::report($e);
     }
 }

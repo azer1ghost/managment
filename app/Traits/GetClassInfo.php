@@ -4,9 +4,9 @@ namespace App\Traits;
 
 trait GetClassInfo
 {
-    public string $className;
-    public string $classNamePlural;
-    public string $classNameSingular;
+    protected string $className;
+    protected string $classNamePlural;
+    protected string $classNameSingular;
 
     public function getClassShortName($type = null): string
     {
@@ -40,6 +40,4 @@ trait GetClassInfo
     {
         return (new \ReflectionClass(get_called_class()))->getShortName();
     }
-
-
 }

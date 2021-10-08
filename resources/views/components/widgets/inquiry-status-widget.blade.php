@@ -1,38 +1,38 @@
 <div class="{{$widget->class_attribute}}">
-    <div class="card">
+    <div class="card" style="background: #e9ecef !important;">
         <div class="py-2 px-1">
             <div id="{{$widget->key}}" style="width: 100%; height: 300px;"></div>
             <script>
-                const inquiryStatusChart = am4core.create("{{$widget->key}}", am4charts.PieChart);
-                const inquiryStatusData = @json($results);
-                const inquiryStatusKeys = @json($keys);
+                const {{$model}}Chart = am4core.create("{{$widget->key}}", am4charts.PieChart);
+                const {{$model}}Data = @json($results);
+                const {{$model}}Keys = @json($keys);
                 {{--const colors = @json($colors);--}}
-                const inquiryStatusOverall = [];
-                inquiryStatusData.forEach(function (value, idx){
-                    inquiryStatusOverall.push({'status': inquiryStatusKeys[idx], 'value': value})
+                const {{$model}}Overall = [];
+                {{$model}}Data.forEach(function (value, idx){
+                    {{$model}}Overall.push({'status': {{$model}}Keys[idx], 'value': value})
                 });
-                inquiryStatusChart.data = inquiryStatusOverall;
-                inquiryStatusChart.innerRadius = am4core.percent(40);
-                inquiryStatusChart.radius = am4core.percent(90);
-                inquiryStatusChart.legend = new am4charts.Legend();
-                inquiryStatusChart.legend.position = "right";
-                const inquiryStatusTitle = inquiryStatusChart.titles.create();
-                inquiryStatusTitle.text = '{{$widget->details}}';
-                inquiryStatusTitle.fontSize = 25;
-                inquiryStatusTitle.marginBottom = 0;
-                const inquiryStatusPieSeries = inquiryStatusChart.series.push(new am4charts.PieSeries());
-                inquiryStatusPieSeries.dataFields.value = "value";
-                inquiryStatusPieSeries.dataFields.category = "status";
+                {{$model}}Chart.data = {{$model}}Overall;
+                {{$model}}Chart.innerRadius = am4core.percent(50);
+                {{$model}}Chart.radius = am4core.percent(90);
+                {{$model}}Chart.legend = new am4charts.Legend();
+                {{$model}}Chart.legend.position = "right";
+                const {{$model}}Title = {{$model}}Chart.titles.create();
+                {{$model}}Title.text = '{{$widget->details}}';
+                {{$model}}Title.fontSize = 25;
+                {{$model}}Title.marginBottom = 0;
+                const {{$model}}PieSeries = {{$model}}Chart.series.push(new am4charts.PieSeries());
+                {{$model}}PieSeries.dataFields.value = "value";
+                {{$model}}PieSeries.dataFields.category = "status";
                 // pieSeries.slices.template.propertyFields.fill = "color";
                 // Disable ticks and labels
-                inquiryStatusPieSeries.labels.template.disabled = true;
-                inquiryStatusPieSeries.ticks.template.disabled = true;
-                const inquiryStatusRgm = new am4core.RadialGradientModifier();
-                inquiryStatusRgm.brightnesses.push(-0.8, -0.8, -0.5, 0, - 0.5);
-                inquiryStatusPieSeries.slices.template.fillModifier = inquiryStatusRgm;
-                inquiryStatusPieSeries.slices.template.strokeModifier = inquiryStatusRgm;
-                inquiryStatusPieSeries.slices.template.strokeOpacity = 0.4;
-                inquiryStatusPieSeries.slices.template.strokeWidth = 0;
+                {{$model}}PieSeries.labels.template.disabled = true;
+                {{$model}}PieSeries.ticks.template.disabled = true;
+                const {{$model}}Rgm = new am4core.RadialGradientModifier();
+                {{$model}}Rgm.brightnesses.push(-0.8, -0.8, -0.5, 0, - 0.5);
+                {{$model}}PieSeries.slices.template.fillModifier = {{$model}}Rgm;
+                {{$model}}PieSeries.slices.template.strokeModifier = {{$model}}Rgm;
+                {{$model}}PieSeries.slices.template.strokeOpacity = 0.4;
+                {{$model}}PieSeries.slices.template.strokeWidth = 0;
             </script>
         </div>
     </div>

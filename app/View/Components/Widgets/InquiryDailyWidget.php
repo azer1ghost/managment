@@ -3,18 +3,23 @@
 namespace App\View\Components\Widgets;
 
 use App\Models\Inquiry;
+use App\Traits\GetClassInfo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\Component;
 
 class InquiryDailyWidget extends Component
 {
+    use GetClassInfo;
+
     public array $results = [], $keys = [], $colors = [];
     public int $total = 0;
     public ?Model $widget;
+    public ?string $model = null;
 
     public function __construct($widget)
     {
         $this->widget = $widget;
+        $this->model = $this->getClassRealName();
 
         $inquiries = Inquiry::isReal()->select('id')->withCount([
             'parameters as status_active_count' => fn ($q) => $q->where('inquiry_parameter.value', 21),
