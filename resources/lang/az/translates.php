@@ -209,6 +209,14 @@ return [
         'new' => 'Yeni rəyiniz var'
     ],
 
+    'inquiries' => [
+        'types' => [
+            'from_us' => 'Bizdən',
+            'from_customers' => 'Müştərilərdən'
+        ],
+        'label' => 'Sorğu növü',
+    ],
+
     'tasks' => [
         'not_started' => 'Başlamayıb',
         'new' => 'Sizə yeni bir tapşırıq təyin edildi',

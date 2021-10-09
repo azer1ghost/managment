@@ -46,6 +46,7 @@ class InquiryRequest extends FormRequest
             'company_id'=> "required|int|max:11",
             'contact_method' => "filled|int",
             'operation' => "filled|int",
+            'is_out' => 'required|numeric'
         ];
     }
 }

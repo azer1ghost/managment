@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Collection;
+use function Livewire\str;
 
 class InquiryTable extends Component
 {
@@ -30,6 +31,7 @@ class InquiryTable extends Component
         'note'       => null,
         'company_id' => [],
         'user_id' => [],
+        'is_out' => null,
     ];
 
     public Collection $subjects, $contact_methods, $sources, $statuses, $companies, $users;
@@ -90,9 +92,16 @@ class InquiryTable extends Component
                 'message' =>  __('translates.flash_messages.inquiry_status_updated.msg',   ['prev' => $oldOption, 'next' => $newOption])]);
     }
 
+    protected function updateDaterange($value)
+    {
+        [$from, $to] = explode(' - ', $value);
+
+        $this->range['from'] = Carbon::createFromFormat('d/m/Y', $from)->startOfDay();
+        $this->range['to']   = Carbon::createFromFormat('d/m/Y', $to)->endOfDay();
+    }
+
     public function render()
     {
-//        dd($this->filterFields);
         return view('panel.pages.inquiry.components.inquiry-table', [
             'inquiries' => Inquiry::query()
                 ->withoutBackups()
@@ -106,23 +115,30 @@ class InquiryTable extends Component
                 ->whereBetween('datetime', [$this->range['from'], $this->range['to']])
                 ->where(function ($query)  {
                     foreach ($this->filters as $column => $value) {
-                        $query->when($value, function ($query, $value) use ($column) {
-                            if (is_array($value)) {
-                                 $query->whereIn($column, $value);
+                        if ($column == 'is_out'){
+                            if(!is_null($value)){
+                                $query->where($column, $value);
                             }
-                            elseif (strtotime($value)) {
-                                 $query->whereDate($column, $value);
-                            }
-                            elseif (is_numeric($value)) {
-                                 $query->where(\Str::singular($column), $value);
-                            }
-                            elseif (is_string($value)) {
-                                $query->where(\Str::singular($column), 'like', "%" . trim($value) . "%");
-                            }
-                            else {
-                                 $query->where(\Str::singular($column), $value);
-                            }
-                        });
+                        }
+                        else{
+                            $query->when($value, function ($query, $value) use ($column) {
+                                if (is_array($value)) {
+                                     $query->whereIn($column, $value);
+                                }
+                                elseif (strtotime($value)) {
+                                     $query->whereDate($column, $value);
+                                }
+                                elseif (is_numeric($value)) {
+                                     $query->where(\Str::singular($column), $value);
+                                }
+                                elseif (is_string($value)) {
+                                    $query->where(\Str::singular($column), 'like', "%" . trim($value) . "%");
+                                }
+                                else {
+                                     $query->where(\Str::singular($column), $value);
+                                }
+                            });
+                        }
                     }
                 })
                 ->where(function ($query)  {
@@ -148,14 +164,6 @@ class InquiryTable extends Component
                 ->latest('datetime')
                 ->paginate(10)
         ]);
-    }
-
-    protected function updateDaterange($value)
-    {
-        [$from, $to] = explode(' - ', $value);
-
-        $this->range['from'] = Carbon::createFromFormat('d/m/Y', $from)->startOfDay();
-        $this->range['to']   = Carbon::createFromFormat('d/m/Y', $to)->endOfDay();
     }
 }
 

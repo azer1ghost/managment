@@ -211,6 +211,14 @@ return [
         'new' => 'You have new comment'
     ],
 
+    'inquiries' => [
+        'types' => [
+            'from_us' => 'From us',
+            'from_customers' => 'From customers'
+        ],
+        'label' => 'Inquiry type',
+    ],
+
     'tasks' => [
         'not_started' => 'Not started',
         'new' => 'You have new task assigned',

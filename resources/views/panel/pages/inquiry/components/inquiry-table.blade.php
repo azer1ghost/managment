@@ -84,7 +84,16 @@
                 @endforeach
             </select>
         </div>
-        <div class="col-12 col-md-6 mt-3 d-flex align-items-center justify-content-end">
+        <div class="form-group col-12 col-md-3 mt-3 mb-md-0"  wire:ignore>
+            <label class="d-block" for="typeFilter">{{__('translates.inquiries.label')}}</label>
+            <select id="typeFilter" class="filterSelector" data-width="fit" wire:model.defer="filters.is_out" title="{{__('translates.inquiries.label')}}" >
+                @foreach(['from_us', 'from_customers'] as $index => $type)
+                    <option value="{{$index}}">@lang('translates.inquiries.types.' . $type)</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="col-12 col-md-3 mt-3 d-flex align-items-center justify-content-end">
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="submit" class="btn btn-outline-primary"><i class="fas fa-filter"></i> @lang('translates.buttons.filter')</button>
                 <a href="{{route('inquiry.index')}}" class="btn btn-outline-danger"><i class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>

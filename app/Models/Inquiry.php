@@ -19,7 +19,7 @@ class Inquiry extends Model
     const DONE = 22;
 
     protected $fillable = [
-        'code', 'datetime', 'note', 'redirected_user_id', 'company_id', 'user_id'
+        'code', 'datetime', 'note', 'redirected_user_id', 'company_id', 'user_id', 'is_out'
     ];
 
     protected $casts = [
