@@ -44,8 +44,10 @@ class Handler extends ExceptionHandler
 
     public function report(Throwable $e)
     {
-        if ($this->shouldReport($e)) {
-            Notification::send(User::where('role_id', 1)->get(['email']), new ExceptionMail($e));
+        if(app()->environment('production')){
+            if ($this->shouldReport($e)) {
+                Notification::send(User::where('role_id', 1)->get(['email']), new ExceptionMail($e));
+            }
         }
         parent::report($e);
     }
