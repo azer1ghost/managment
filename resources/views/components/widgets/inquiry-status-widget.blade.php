@@ -1,7 +1,7 @@
 <div class="{{$widget->class_attribute}}">
     <div class="card border-0" style="background: #e9ecef !important;">
         <div class="py-2 px-1">
-            <div id="{{$widget->key}}" style="width: 100%; height: 320px;"></div>
+            <div id="{{$widget->key}}" style="width: 100%;{{$widget->style_attribute}}"></div>
             <script>
                 const {{$model}}Chart = am4core.create("{{$widget->key}}", am4charts.PieChart);
                 const {{$model}}Data = @json($results);
