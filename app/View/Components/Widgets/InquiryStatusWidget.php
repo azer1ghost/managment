@@ -56,6 +56,6 @@ class InquiryStatusWidget extends Component
 
     public function render()
     {
-        return view('components.widgets.inquiry-status-widget');
+        return view('components.widgets.inquiryStatus-widget');
     }
 }

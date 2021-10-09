@@ -31,6 +31,6 @@ class InquiryDailyWidget extends Component
 
     public function render()
     {
-        return view('components.widgets.inquiry-daily-widget');
+        return view('components.widgets.inquiryDaily-widget');
     }
 }

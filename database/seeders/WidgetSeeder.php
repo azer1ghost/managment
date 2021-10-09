@@ -16,7 +16,7 @@ class WidgetSeeder extends Seeder
     {
         Widget::insert([
             array(
-                'key' => "inquiry-status-widget",
+                'key' => "inquiryStatus-widget",
                 'class_attribute' => "col-12 col-md-6 mb-3",
                 'style_attribute' => "height: 320px;",
                 'details' => json_encode(['en' => 'Status of Inquires']),
@@ -24,7 +24,7 @@ class WidgetSeeder extends Seeder
                 'status' => 1
             ),
             array(
-                'key' => "inquiry-daily-widget",
+                'key' => "inquiryDaily-widget",
                 'class_attribute' => "col-12 col-md-6 mb-3",
                 'style_attribute' => "height: 320px;",
                 'details' => json_encode(['en' => 'Daily Inquires']),
