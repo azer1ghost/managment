@@ -23,6 +23,8 @@ return [
         'signature',
         'viewAny-log',
         'viewAny-widget',
+        'inquiry-status-widget',
+        'inquiry-daily-widget',
         'viewAny-account', 'manage-account',
         'viewAny-company', 'view-company', 'create-company', 'update-company', 'delete-company',
         'viewAny-gadget', 'view-gadget', 'manage-gadget',

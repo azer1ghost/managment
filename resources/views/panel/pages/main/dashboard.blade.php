@@ -18,7 +18,9 @@
     </x-bread-crumb>
     <div class="row">
         @foreach($widgets as $widget)
-            <x-dynamic-component component="widgets.{{$widget->key}}" :widget="$widget" />
+            @if(auth()->user()->hasPermission($widget->key))
+                <x-dynamic-component component="widgets.{{$widget->key}}" :widget="$widget" />
+            @endif
         @endforeach
     </div>
 @endsection

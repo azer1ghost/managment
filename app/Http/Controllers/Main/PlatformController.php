@@ -40,9 +40,6 @@ class PlatformController extends Controller
 
     public function dashboard(): View
     {
-//        $inquiriesToday = Inquiry::IsReal()->whereDate('datetime',  Carbon::today())->count();
-//        $inquiriesMonth = Inquiry::IsReal()->whereMonth('datetime', Carbon::today())->count();
-
         return view('panel.pages.main.dashboard', [
             'widgets' => Widget::isActive()->oldest('order')->get()
         ]);
@@ -60,33 +57,6 @@ class PlatformController extends Controller
 
     public function test()
     {
-        $inquiries = Inquiry::select('id')->withCount([
-            'parameters as status_active_count' => fn ($q) => $q->where('inquiry_parameter.value', 21),
-            'parameters as status_done_count'   => fn ($q) => $q->where('inquiry_parameter.value', 22),
-            'parameters as status_rejected_count'   => fn ($q) => $q->where('inquiry_parameter.value', 23),
-            'parameters as status_incompatible_count'   => fn ($q) => $q->where('inquiry_parameter.value', 24),
-            'parameters as status_unreachable_count'   => fn ($q) => $q->where('inquiry_parameter.value', 25),
-        ])->get()->toArray();
-
-        $new = [0, 0, 0, 0, 0];
-
-        foreach ($inquiries as $item){
-            $new[0] += $item['status_active_count'];
-            $new[1] += $item['status_done_count'];
-            $new[2] += $item['status_rejected_count'];
-            $new[3] += $item['status_incompatible_count'];
-            $new[4] += $item['status_unreachable_count'];
-        }
-        return [
-            'items' => $new,
-            'total' => Inquiry::count(),
-            'keys' => [
-                'Active',
-                'Done',
-                'Rejected',
-                'Incompatible',
-                'Unreachable'
-            ]
-        ];
+        // some tests to check
     }
 }
