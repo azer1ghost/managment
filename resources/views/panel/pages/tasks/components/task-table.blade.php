@@ -43,9 +43,9 @@
         <div class="col-12 col-md-3">
             <div class="input-group mb-3">
                 <select class="form-control" wire:model.defer="filters.type">
-                        <option value="1">Assigned to me</option>
-                        <option value="2">My tasks</option>
-                        <option value="3">All</option>
+                        <option value="1">@lang('translates.tasks.types.assigned_to_me')</option>
+                        <option value="2">@lang('translates.tasks.types.my_tasks')</option>
+                        <option value="3">@lang('translates.tasks.types.all')</option>
                 </select>
             </div>
         </div>

@@ -220,6 +220,11 @@ return [
             'to_do' => 'Ediləcəklər',
             'placeholder' => 'Nə edilməlidir ?',
             'new' => 'Sizə təyin edilmiş tapşırığa yeni bir iş əlavə edildi'
+        ],
+        'types' => [
+            'assigned_to_me' => 'Mənə tapşırılıb',
+            'my_tasks' => 'Mənim tapşırdıqlarım',
+            'all' => 'Hamısı'
         ]
     ]
 

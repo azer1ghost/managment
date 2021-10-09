@@ -222,6 +222,11 @@ return [
             'to_do' => 'To do',
             'placeholder' => 'What should be done ?',
             'new' => 'You have new list in task you are assigned to'
+        ],
+        'types' => [
+            'assigned_to_me' => 'Assigned to me',
+            'my_tasks' => 'My tasks',
+            'all' => 'All'
         ]
     ]
 ];
