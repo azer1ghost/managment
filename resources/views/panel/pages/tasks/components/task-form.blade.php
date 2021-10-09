@@ -51,20 +51,22 @@
         @enderror
     </div>
 
-    <div class="form-group col-md-3">
-        <label>{{__('translates.fields.status.key')}}</label>
-        <select class="form-control @error('status') is-invalid @enderror" name="status" wire:model="selected.status">
-            <option value="null" disabled selected>{{__('translates.fields.status.key')}} {{__('translates.placeholders.choose')}}</option>
-            @foreach($statuses as $status)
-                <option value="{{$status}}">@lang("translates.fields.status.options.{$status}")</option>
-            @endforeach
-        </select>
-        @error('status')
+    @if($task)
+        <div class="form-group col-md-3">
+            <label>{{__('translates.fields.status.key')}}</label>
+            <select class="form-control @error('status') is-invalid @enderror" id="task-status" name="status" @if (is_null($action)) onfocus="this.oldValue = this.value" onchange="taskStatusHandler(this, this.oldValue, this.value)" @endif wire:model="selected.status">
+                <option value="null" disabled selected>{{__('translates.fields.status.key')}} {{__('translates.placeholders.choose')}}</option>
+                @foreach($statuses as $status)
+                    <option value="{{$status}}">@lang("translates.fields.status.options.{$status}")</option>
+                @endforeach
+            </select>
+            @error('status')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
             </span>
-        @enderror
-    </div>
+            @enderror
+        </div>
+    @endif
 
     <div class="form-group col-md-3">
         <label>{{__('translates.fields.department')}}</label>
@@ -116,14 +118,17 @@
             $("#createForm :input").attr("disabled", true);
         @endif
 
-        $(".inquiry :input").attr("disabled", true);
+        @if($task && $task->canManageLists())
+            $("select[name='status']").attr("disabled", false);
+        @endif
 
+        $(".inquiry :input").attr("disabled", true);
 
         $(function() {
             $('input[name="task_dates"]').daterangepicker({
                     opens: 'left',
                     locale: {
-                        format: "YYYY-MM-DD HH:mm:ss",
+                        format: "YYYY-MM-DD HH:mm",
                     },
                     timePicker: true,
                     timePicker24Hour: true,
@@ -131,6 +136,37 @@
                 }, function(start, end, label) {}
             );
         });
+
+        function alertHandler(event){
+            $.alert({
+                type:    event?.detail?.type,
+                title:   event?.detail?.title,
+                content: event?.detail?.message,
+                theme: 'modern',
+                typeAnimated: true
+            });
+        }
+        addEventListener('alert', alertHandler);
+
+        function taskStatusHandler(element, oldVal, newVal){
+            $.confirm({
+                title: `Update`,
+                content: `Are you sure to change status from ${$("#" + $(element).attr('id') + ` option[value=${oldVal}]`).text()} to ${$("#" + $(element).attr('id') + ` option[value=${newVal}]`).text()}?`,
+                autoClose: 'confirm|8000',
+                icon: 'fa fa-question',
+                type: 'red',
+                theme: 'modern',
+                typeAnimated: true,
+                buttons: {
+                    confirm: function () {
+                        Livewire.emit('statusChanged', oldVal, newVal)
+                    },
+                    cancel: function () {
+                        $(element).val(oldVal);
+                    },
+                }
+            });
+        }
     </script>
 @endsection
 

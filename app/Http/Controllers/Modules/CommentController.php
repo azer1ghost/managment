@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
+use App\Models\User;
 use App\Notifications\NewComment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class CommentController extends Controller
 {
@@ -21,9 +23,20 @@ class CommentController extends Controller
             'content' => $content
         ]);
 
-        $user = ($model->getTable() == 'comments') ? $model->user : $model->taskable;
+        if ($model->getTable() == 'comments'){
+            $user = $model->user;
+            $task_creator = User::find($model->commentable->user_id);
+        }else{
+            $user = $model->taskable;
+            $task_creator = User::find($model->user_id);
+        }
+        $users = [$task_creator];
 
-        $user->notify(new NewComment($content, $url));
+        if($user->id != auth()->id()) {
+            $users[] = $user;
+        }
+
+        Notification::send($users, new NewComment($content, $url));
     }
 
     public function update(Request $request, Comment $comment)

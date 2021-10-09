@@ -8,7 +8,9 @@ use App\Models\Department;
 use App\Models\Inquiry;
 use App\Models\User;
 use App\Models\Task;
+use App\Notifications\TaskAssigned;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class TaskController extends Controller
 {
@@ -24,8 +26,9 @@ class TaskController extends Controller
 
         return view('panel.pages.tasks.index')
             ->with([
-                'tasks' => Task::with(['inquiry'])
+                'tasks' => Task::with(['inquiry', 'taskLists'])
                     ->when($search, fn ($query) => $query->where('name', 'like', "%". $search ."%"))
+                    ->latest()
                     ->paginate(10),
                 'departments' => Department::get(['id', 'name'])
             ]);
@@ -56,20 +59,22 @@ class TaskController extends Controller
 
         $validated['user_id'] = auth()->id();
 
-        if($validated['status'] == 'done'){
-            $validated['done_at'] = now();
-            $validated['done_by_user_id'] = $validated['user_id'];
-        }
-
         if(array_key_exists('user', $validated)){
             $task = User::find($validated['user'])->tasks()->create($validated);
+            $users = User::find($validated['user']);
+            $content = __('translates.tasks.content.user');
         }else{
             $task = Department::find($validated['department'])->tasks()->create($validated);
+            $users = User::where('id', '!=' ,auth()->id())->where('department_id', $validated['department'])->get();
+            $content = __('translates.tasks.content.department');
         }
+        $url = config('app.url') . "/module/tasks/{$task->getAttribute('id')}";
+
+        Notification::send($users, new TaskAssigned($content, $url, 'translates.tasks.new'));
 
         return redirect()
             ->route('tasks.show', $task)
-            ->withNotify('success', $task->getAttribute('name'));
+            ->withNotify('success', "New task {$task->getAttribute('name')} added successfully. <p>Please now assign some To do.</p>", true);
     }
 
     public function show(Task $task)

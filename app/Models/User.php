@@ -77,6 +77,16 @@ class User extends Authenticatable implements MustVerifyPhone
         'email_verified_at' => 'datetime',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::updating(function($model){
+            if($model->isDirty('department_id')){
+                $model->position_id = null;
+            }
+        });
+    }
+
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class)->withDefault();

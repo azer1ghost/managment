@@ -27,7 +27,7 @@ class TaskRequest extends FormRequest
         return [
             'inquiry_id' => 'nullable|string|max:255',
             'name' => 'required|string|max:255',
-            'status' => 'required|string|max:30',
+            'status' => 'nullable|string|max:30',
             'priority' => 'required|string|max:30',
             'task_dates' => 'nullable|string',
             'department' => 'required|integer',

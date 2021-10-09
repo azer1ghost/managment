@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class TaskForm extends Component
 {
-    public ?string $action, $method;
+    public ?string $action = null, $method = null;
     public array $statuses, $priorities;
     public Collection $departments;
     public ?Task $task;
@@ -19,6 +19,8 @@ class TaskForm extends Component
         'department' => null,
         'user' => null
     ];
+
+    protected $listeners = ['statusChanged' => 'updateSelectedStatus'];
 
     public function getDepartmentProperty()
     {
@@ -55,6 +57,30 @@ class TaskForm extends Component
     public function updatedSelectedDepartment()
     {
         $this->selected['user'] = null;
+    }
+
+    public function updateSelectedStatus($oldValue, $newVal)
+    {
+        $this->task->update(['status' => $newVal]);
+        if($this->task->canManageLists()) {
+            if ($this->task->update(['status' => $newVal])) {
+                $this->dispatchEvent('blue', 'Status updated', "Status updated from " . __('translates.fields.status.options.' . $oldValue) . " to " . __('translates.fields.status.options.' . $newVal));
+            } else {
+                $this->dispatchEvent('red', 'Error', 'Error encountered, please try again later');
+            }
+        }else{
+            $this->dispatchEvent('red', 'Unauthorized', 'You cannot change status of this task');
+        }
+    }
+
+    public function dispatchEvent($type, $title, $msg)
+    {
+        $this->dispatchBrowserEvent(
+            'alert', [
+            'type' => $type,
+            'title' => $title,
+            'message' => $msg
+        ]);
     }
 
     public function render()

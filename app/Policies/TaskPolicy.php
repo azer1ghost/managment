@@ -6,12 +6,16 @@ use App\Models\Task;
 use App\Models\User;
 use App\Traits\GetClassInfo;
 use App\Traits\HandlesPolicy;
-use App\Traits\UserAllowAccess;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TaskPolicy
 {
     use HandlesAuthorization, HandlesPolicy, GetClassInfo;
+
+    public function view(User $user, Task $task): bool
+    {
+        return $task->canManageLists();
+    }
 
     public function create(User $user): bool
     {
@@ -21,16 +25,16 @@ class TaskPolicy
     public function update(User $user, Task $task): bool
     {
         return
-            $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) &&
-            $task->getAttribute('user_id') == $user->getAttribute('id') &&
+            ( $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
+            $task->getAttribute('user_id') == $user->getAttribute('id') ) &&
             is_null($task->getAttribute('done_at'));
     }
 
     public function delete(User $user, Task $task): bool
     {
         return
-            $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) &&
-            $task->getAttribute('user_id') == $user->getAttribute('id') &&
+            ( $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
+                $task->getAttribute('user_id') == $user->getAttribute('id') ) &&
             is_null($task->getAttribute('done_at'));
     }
 

@@ -120,6 +120,7 @@ return [
         'back'   => 'Geri',
         'search' => 'Axtar',
         'filter' => 'Filterlə',
+        'add'    => 'Əlavə et',
     ],
 
     'or' => 'və ya',
@@ -202,5 +203,19 @@ return [
     'comments' => [
         'new' => 'Yeni rəyiniz var'
     ],
+
+    'tasks' => [
+        'not_started' => 'Başlamayıb',
+        'new' => 'Sizə yeni bir tapşırıq təyin edildi',
+        'content' => [
+            'user' => 'Sizə yeni tapşırıq verildi',
+            'department' => 'Şöbənizə yeni bir tapşırıq verildi'
+        ],
+        'list' => [
+            'to_do' => 'Ediləcəklər',
+            'placeholder' => 'Nə edilməlidir ?',
+            'new' => 'Sizə təyin edilmiş tapşırığa yeni bir iş əlavə edildi'
+        ]
+    ]
 
 ];

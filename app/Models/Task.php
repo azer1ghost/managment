@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\{Factories\HasFactory,
     Model,
     Relations\BelongsTo,
     Relations\BelongsToMany,
+    Relations\HasMany,
     Relations\MorphMany,
     Relations\MorphTo,
     SoftDeletes};
@@ -16,6 +17,14 @@ use Illuminate\Database\Eloquent\{Factories\HasFactory,
 class Task extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public static function boot() {
+        parent::boot();
+
+        static::creating(function (Model $model) {
+            $model->status = 'to_do';
+        });
+    }
 
     protected $fillable = [
         'name',
@@ -60,5 +69,30 @@ class Task extends Model
     public function comments(): MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function taskLists(): HasMany
+    {
+        return $this->hasMany(TaskList::class);
+    }
+
+    public function canManageLists(): bool
+    {
+        $user = auth()->user();
+        $taskable_id = $this->taskable->getAttribute('id');
+
+        return
+            $this->getAttribute('user_id') == $user->getAttribute('id') ||
+            ($this->getAttribute('taskable_type') === 'App\Models\User' ?
+                $taskable_id == $user->getAttribute('id') :
+                $taskable_id == $user->getRelationValue('department')->getAttribute('id')
+            ) ||
+            auth()->user()->isDeveloper();
+    }
+
+    public static function userCanViewAll(): bool
+    {
+        $user = auth()->user();
+        return $user->isDeveloper() || $user->isAdministrator() || $user->hasPermission('viewAll-task');
     }
 }
