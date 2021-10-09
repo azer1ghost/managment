@@ -95,4 +95,12 @@ class Task extends Model
         $user = auth()->user();
         return $user->isDeveloper() || $user->isAdministrator() || $user->hasPermission('viewAll-task');
     }
+
+    public function tasksFinished(): bool
+    {
+        if($this->taskLists()->where('is_checked', 0)->count() > 0){
+            return false;
+        }
+        return true;
+    }
 }

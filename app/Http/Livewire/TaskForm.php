@@ -20,7 +20,11 @@ class TaskForm extends Component
         'user' => null
     ];
 
-    protected $listeners = ['statusChanged' => 'updateSelectedStatus'];
+    protected $listeners = [
+        'statusChanging' => 'confirmStatusChange',
+        'statusChanged' => 'updateSelectedStatus',
+        'isTasksFinished' => '$refresh'
+    ];
 
     public function getDepartmentProperty()
     {
@@ -59,27 +63,53 @@ class TaskForm extends Component
         $this->selected['user'] = null;
     }
 
+    public function confirmStatusChange($oldValue, $newVal)
+    {
+        $this->dispatchEvent(
+            'alertChange',
+            'red',
+            __('translates.flash_messages.task_status_updated.confirm.title', ['name' => $this->task->getAttribute('name')]),
+            __('translates.flash_messages.task_status_updated.confirm.msg',   [
+                'prev' => __('translates.fields.status.options.'.$oldValue),
+                'next' => __('translates.fields.status.options.'.$newVal)
+            ]),
+            $oldValue,
+            $newVal
+        );
+    }
+
     public function updateSelectedStatus($oldValue, $newVal)
     {
-        $this->task->update(['status' => $newVal]);
         if($this->task->canManageLists()) {
             if ($this->task->update(['status' => $newVal])) {
-                $this->dispatchEvent('blue', 'Status updated', "Status updated from " . __('translates.fields.status.options.' . $oldValue) . " to " . __('translates.fields.status.options.' . $newVal));
+                $this->dispatchEvent(
+                    'alert',
+                    'blue',
+                    __('translates.flash_messages.task_status_updated.title', ['name' => $this->task->getAttribute('name')]),
+                    __('translates.flash_messages.task_status_updated.msg',   [
+                        'prev' => __('translates.fields.status.options.'.$oldValue),
+                        'next' => __('translates.fields.status.options.'.$newVal)
+                    ]));
             } else {
-                $this->dispatchEvent('red', 'Error', 'Error encountered, please try again later');
+                $this->dispatchEvent('alert', 'red', 'Error', 'Error encountered, please try again later');
             }
         }else{
-            $this->dispatchEvent('red', 'Unauthorized', 'You cannot change status of this task');
+            $this->dispatchEvent('alert', 'red', 'Unauthorized', 'You cannot change status of this task');
+        }
+        if($newVal == 'done'){
+            $this->emit('isTaskDone');
         }
     }
 
-    public function dispatchEvent($type, $title, $msg)
+    public function dispatchEvent($name, $type, $title, $msg, $old = null, $new = null)
     {
         $this->dispatchBrowserEvent(
-            'alert', [
+            $name, [
             'type' => $type,
             'title' => $title,
-            'message' => $msg
+            'message' => $msg,
+            'old' => $old,
+            'new' => $new
         ]);
     }
 

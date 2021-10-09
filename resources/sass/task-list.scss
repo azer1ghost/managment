@@ -9,10 +9,19 @@
 
 .task-priority{
   &.low{
-    color: $primary;
+    color: $primary !important;
   }
   &.urgent{
-    color: red;
+    color: #DC3545 !important;
+  }
+
+  &-bg{
+    &.low{
+      background-color: $primary !important;
+    }
+    &.urgent{
+      background-color: #DC3545 !important;
+    }
   }
 }
 

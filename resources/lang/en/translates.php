@@ -178,6 +178,11 @@ return [
         'inquiry_status_updated' => [
             'title' => ':code Updated',
             'msg'   => 'Status updated from :prev to :next'
+        ],
+        'task_status_updated' => [
+            'confirm' => ['title' => 'Update', 'msg' => 'Are you sure to change status from :prev to :next?'],
+            'title' => ':name Yeniləndi',
+            'msg'   => 'Status updated from :prev to :next'
         ]
     ],
 

@@ -54,10 +54,14 @@
     @if($task)
         <div class="form-group col-md-3">
             <label>{{__('translates.fields.status.key')}}</label>
-            <select class="form-control @error('status') is-invalid @enderror" id="task-status" name="status" @if (is_null($action)) onfocus="this.oldValue = this.value" onchange="taskStatusHandler(this, this.oldValue, this.value)" @endif wire:model="selected.status">
+            <select class="form-control @error('status') is-invalid @enderror" id="task-status" name="status" @if (is_null($action)) onfocus="this.oldValue = this.value" onchange="taskStatusHandler(this.oldValue, this.value)" @endif wire:model="selected.status">
                 <option value="null" disabled selected>{{__('translates.fields.status.key')}} {{__('translates.placeholders.choose')}}</option>
                 @foreach($statuses as $status)
-                    <option value="{{$status}}">@lang("translates.fields.status.options.{$status}")</option>
+                    @if ($status == 'done')
+                        <option value="{{$status}}" @if (!$task->tasksFinished() ) disabled @endif>@lang("translates.fields.status.options.{$status}")</option>
+                    @else
+                        <option value="{{$status}}">@lang("translates.fields.status.options.{$status}")</option>
+                    @endif
                 @endforeach
             </select>
             @error('status')
@@ -118,7 +122,7 @@
             $("#createForm :input").attr("disabled", true);
         @endif
 
-        @if($task && $task->canManageLists())
+        @if($task && $task->canManageLists() && $task->getAttribute('status') != 'done')
             $("select[name='status']").attr("disabled", false);
         @endif
 
@@ -148,24 +152,28 @@
         }
         addEventListener('alert', alertHandler);
 
-        function taskStatusHandler(element, oldVal, newVal){
+        addEventListener('alertChange', function (event){
             $.confirm({
-                title: `Update`,
-                content: `Are you sure to change status from ${$("#" + $(element).attr('id') + ` option[value=${oldVal}]`).text()} to ${$("#" + $(element).attr('id') + ` option[value=${newVal}]`).text()}?`,
+                title: event?.detail?.title,
+                content: event?.detail?.message,
                 autoClose: 'confirm|8000',
                 icon: 'fa fa-question',
-                type: 'red',
+                type: event?.detail?.type,
                 theme: 'modern',
                 typeAnimated: true,
                 buttons: {
                     confirm: function () {
-                        Livewire.emit('statusChanged', oldVal, newVal)
+                        Livewire.emit('statusChanged', event?.detail?.old, event?.detail?.new)
                     },
                     cancel: function () {
-                        $(element).val(oldVal);
+                        $('#task-status').val(event?.detail?.old);
                     },
                 }
             });
+        });
+
+        function taskStatusHandler(oldVal, newVal){
+            Livewire.emit('statusChanging', oldVal, newVal)
         }
     </script>
 @endsection

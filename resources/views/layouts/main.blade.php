@@ -34,11 +34,6 @@
         @if (auth()->check() && (request()->routeIs('account') || auth()->user()->hasVerifiedPhone()) && !request()->routeIs('welcome'))
             <div class="section">
                 <div class="top_navbar d-flex justify-content-between align-items-center">
-{{--                    <div class="hamburger" style="position: relative;top: 2px">--}}
-{{--                        <a href="javascript:void(0)">--}}
-{{--                            <i class="fa fa-bars"></i>--}}
-{{--                        </a>--}}
-{{--                    </div>--}}
                     <div style="position: relative;top: 2px">
                         <button class="hamburger hamburger--slider" type="button">
                           <span class="hamburger-box">
@@ -79,6 +74,14 @@
 
     <script>
         $(document).ready(function (){
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip({
+                    content: function(){
+                        return $(this).attr('title');
+                    }
+                })
+            });
+
             const body = $('body');
             const hamburger = document.querySelector(".hamburger");
 
@@ -129,7 +132,6 @@
             const notification = new Audio('{{asset('assets/audio/notify/notify.wav')}}');
             Livewire.on('newNotifications', function () {
                 notification.play();
-                document.title = 'New notification... | Management';
             })
         });
     </script>

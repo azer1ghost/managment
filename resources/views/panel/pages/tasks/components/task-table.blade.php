@@ -86,7 +86,7 @@
                             @else
                                 <div class="progress bg-secondary">
                                     @php($percentage = $task->all_tasks_count == 0 ? 0 : (round(($task->done_tasks_count/$task->all_tasks_count), 2) * 100))
-                                    <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: {{$percentage}}%">{{$percentage}}%</div>
+                                    <div class="progress-bar progress-bar-striped bg-success task-priority-bg {{$task->getAttribute('priority')}} progress-bar-animated" role="progressbar" style="width: {{$percentage}}%">{{$percentage}}%</div>
                                 </div>
                                 <span class="text-success">{{$task->done_tasks_count}}</span>/{{$task->all_tasks_count}}
                             @endif

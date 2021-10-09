@@ -176,6 +176,11 @@ return [
         'inquiry_status_updated' => [
             'title' => ':code Yeniləndi',
             'msg'   =>':prev, :next statusuna dəyiştirildi'
+        ],
+        'task_status_updated' => [
+            'confirm' => ['title' => 'Yenilə', 'msg' => 'Statusu :prev dən :next ə dəyişəcəyinizdən əminsiniz?'],
+            'title' => ':name Yeniləndi',
+            'msg'   => ':prev, :next statusuna dəyiştirildi'
         ]
     ],
 

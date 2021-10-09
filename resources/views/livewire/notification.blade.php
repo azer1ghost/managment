@@ -1,4 +1,4 @@
-<div class="dropdown" wire:poll.keep-alive.5000ms="newNotifications">
+<div class="dropdown" wire:poll.keep-alive.10000ms="newNotifications">
     <div class="{{$notify ? 'd-block' : 'd-none'}}" style="position: absolute;right: 0"><i class="fas fa-circle text-danger" style="font-size: 7px"></i></div>
     <a id="navbarDropdown" class="nav-link pr-0" href="#" role="button" wire:click="toggleNotifications()">
         <span><i class="far fa-bell"></i></span>

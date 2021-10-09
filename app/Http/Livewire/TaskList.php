@@ -13,6 +13,8 @@ class TaskList extends Component
     public ?Model $task;
     public string $todo = '';
 
+    protected $listeners = ['isTaskDone' => '$refresh'];
+
     public function addToList()
     {
         if(empty($this->todo)) return;
@@ -23,6 +25,9 @@ class TaskList extends Component
         $content  = $this->todo;
 
         $this->todo = '';
+
+        // check if all lists are checked
+        $this->emit('isTasksFinished');
 
         $url = config('app.url') . "/module/tasks/{$this->task->getAttribute('id')}";
         $users = $this->task->getAttribute('taskable_type') == 'App\Models\User' ?
@@ -35,6 +40,9 @@ class TaskList extends Component
     public function removeFromList($id)
     {
         \App\Models\TaskList::find($id)->delete();
+
+        // check if all lists are checked
+        $this->emit('isTasksFinished');
     }
 
     public function toggleState($id)
@@ -44,6 +52,9 @@ class TaskList extends Component
             'is_checked' => !$list->is_checked,
             'last_checked_by' => auth()->id(),
         ]);
+
+        // check if all lists are checked
+        $this->emit('isTasksFinished');
     }
 
     public function render()
