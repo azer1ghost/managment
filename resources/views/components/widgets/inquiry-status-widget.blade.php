@@ -1,7 +1,7 @@
 <div class="{{$widget->class_attribute}}">
-    <div class="card" style="background: #e9ecef !important;">
+    <div class="card border-0" style="background: #e9ecef !important;">
         <div class="py-2 px-1">
-            <div id="{{$widget->key}}" style="width: 100%; height: 300px;"></div>
+            <div id="{{$widget->key}}" style="width: 100%; height: 320px;"></div>
             <script>
                 const {{$model}}Chart = am4core.create("{{$widget->key}}", am4charts.PieChart);
                 const {{$model}}Data = @json($results);
@@ -19,7 +19,7 @@
                 const {{$model}}Title = {{$model}}Chart.titles.create();
                 {{$model}}Title.text = '{{$widget->details}}';
                 {{$model}}Title.fontSize = 25;
-                {{$model}}Title.marginBottom = 0;
+                {{$model}}Title.marginBottom = 10;
                 const {{$model}}PieSeries = {{$model}}Chart.series.push(new am4charts.PieSeries());
                 {{$model}}PieSeries.dataFields.value = "value";
                 {{$model}}PieSeries.dataFields.category = "status";
