@@ -11,7 +11,7 @@
             @lang('translates.navbar.inquiry')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
-            @if (!is_null($data))
+            @if ($method != 'POST')
                 {{optional($data)->getAttribute('code')}}
             @else
                 @lang('translates.buttons.create')

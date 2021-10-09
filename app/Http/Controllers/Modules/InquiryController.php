@@ -104,7 +104,7 @@ class InquiryController extends Controller
         $oldInquiry = $inquiry->replicate(['code'])->getAttributes();
         $inquiry->update(
             array_merge(
-                $request->only(['note', 'company_id']),
+                $request->only(['note', 'company_id', 'is_out']),
                 ['datetime' => Carbon::createFromFormat('d-m-Y H:i', $request->get('date')." ".$request->get('time'))]
             )
         );
