@@ -87,7 +87,7 @@
         <div class="col-12 col-md-6 mt-3 d-flex align-items-center justify-content-end">
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="submit" class="btn btn-outline-primary"><i class="fas fa-filter"></i> @lang('translates.buttons.filter')</button>
-                <a href="{{route('inquiry.index')}}" class="btn btn-outline-danger"><i class="fal fa-times-circle"></i> @lang('translates.filters.clear[')</a>
+                <a href="{{route('inquiry.index')}}" class="btn btn-outline-danger"><i class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>
             </div>
         </div>
     </form>
