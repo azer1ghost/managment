@@ -87,7 +87,7 @@
         <div class="form-group col-12 col-md-3 mt-3 mb-md-0"  wire:ignore>
             <label class="d-block" for="typeFilter">{{__('translates.inquiries.label')}}</label>
             <select id="typeFilter" class="filterSelector" data-width="fit" wire:model.defer="filters.is_out" title="{{__('translates.inquiries.label')}}" >
-                @foreach(['from_us', 'from_customers'] as $index => $type)
+                @foreach(['from_customers', 'from_us'] as $index => $type)
                     <option value="{{$index}}">@lang('translates.inquiries.types.' . $type)</option>
                 @endforeach
             </select>

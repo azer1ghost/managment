@@ -40,7 +40,7 @@ class InquiryForm extends Component
             $this->selected['company'] = null;
         }
 
-        $this->selected['is_out'] = $this->inquiry->getAttribute('is_out');
+        $this->selected['is_out'] = is_null($this->inquiry->getAttribute('is_out')) ? 0 : $this->inquiry->getAttribute('is_out');
     }
 
     public function updatedSelectedCompany($id)
