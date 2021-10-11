@@ -35,7 +35,11 @@
                 {{$model}}Title.marginBottom = '20px';
 
                 // Add cursor
-                {{$model}}Chart.cursor = new am4charts.XYCursor();
+                const {{$model}}Cursor = new am4charts.XYCursor();
+                {{$model}}Chart.cursor = {{$model}}Cursor;
+                {{$model}}Cursor.lineX.disabled = true;
+                {{$model}}Cursor.lineY.disabled = true;
+                {{$model}}Cursor.behavior = "none";
 
                 function generateDailyData() {
                     const data = [];
