@@ -22,29 +22,45 @@ class TaskDoneWidget extends Component
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
 
-        $users = User::withCount(['tasks as tasks_done_count' => fn($q) => $q->where('status', 'done')])
+        $users = User::withCount([
+                'tasks as tasks_done_count'    => fn($q) => $q->where('status', 'done'),
+                'tasks as tasks_ongoing_count' => fn($q) => $q->where('status', '!=', 'done'),
+            ])
             ->orderBy('tasks_done_count', 'desc')
             ->limit(6)
             ->get(['name', 'surname', 'avatar']);
 
-        $departments = Department::withCount(['tasks as tasks_done_count' => fn($q) => $q->where('status', 'done')])
+        $departments = Department::withCount([
+                'tasks as tasks_done_count'    => fn($q) => $q->where('status', 'done'),
+                'tasks as tasks_ongoing_count' => fn($q) => $q->where('status', '!=', 'done'),
+        ])
             ->orderBy('tasks_done_count', 'desc')
             ->limit(6)
             ->get(['name']);
 
         foreach ($users as $user) {
-            $this->results['users'][] = [
+            $this->results['done']['users'][] = [
                 'name' => "{$user->name} {$user->surname}",
                 'steps' => $user->tasks_done_count,
+                'href' => image($user->avatar)
+            ];
+            $this->results['ongoing']['users'][] = [
+                'name' => "{$user->name} {$user->surname}",
+                'steps' => $user->tasks_ongoing_count,
                 'href' => image($user->avatar)
             ];
         }
 
         foreach ($departments as $dep) {
-            $this->results['departments'][] = [
+            $this->results['done']['departments'][] = [
                 'name' => "{$dep->name}",
                 'steps' => $dep->tasks_done_count,
                 'href' => image('no_image')
+            ];
+            $this->results['ongoing']['departments'][] = [
+                'name' => "{$dep->name} {$dep->surname}",
+                'steps' => $dep->tasks_ongoing_count,
+                'href' => image($dep->avatar)
             ];
         }
     }

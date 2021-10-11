@@ -1,6 +1,14 @@
 <div class="{{$widget->class_attribute}}">
     <div class="card border-0" style="background: #e9ecef !important;">
-        <div class="d-flex pt-2 px-3 justify-content-end">
+        <div class="d-flex pt-2 px-3 justify-content-between">
+            <div class="d-flex">
+                @lang('translates.fields.status.options.in_progress')
+                <div class="custom-control custom-switch ml-2">
+                    <input type="checkbox" class="custom-control-input" id="toggle-task-status">
+                    <label class="custom-control-label" for="toggle-task-status"></label>
+                </div>
+                @lang('translates.fields.status.options.done')
+            </div>
             <div class="d-flex">
                 @lang('translates.navbar.user')
                 <div class="custom-control custom-switch ml-2">
@@ -9,9 +17,6 @@
                 </div>
                 @lang('translates.navbar.department')
             </div>
-        </div>
-        <div class="pb-2 px-1">
-            <div id="{{$widget->key}}" style="width: 100%;{{$widget->style_attribute}}"></div>
             <script>
                 const {{$model}}Chart = am4core.create("{{$widget->key}}", am4charts.XYChart);
                 {{$model}}Chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
@@ -23,12 +28,35 @@
                 @endif
 
                 // tasks done data
-                {{$model}}Chart.data = @json($results['users']); // initial users tasks data
+                {{$model}}Chart.data = @json($results['ongoing']['users']);
+                document.getElementById('toggle-task-status').addEventListener('change', function(event) {
+                    if (event.currentTarget.checked) {
+                        if(document.getElementById('toggle-taskable').checked){
+                            {{$model}}Chart.data = @json($results['done']['departments']);
+                        }else{
+                            {{$model}}Chart.data = @json($results['done']['users']);
+                        }
+                    } else {
+                        if(document.getElementById('toggle-taskable').checked){
+                            {{$model}}Chart.data = @json($results['ongoing']['departments']);
+                        }else{
+                            {{$model}}Chart.data = @json($results['ongoing']['users']);
+                        }
+                    }
+                });
                 document.getElementById('toggle-taskable').addEventListener('change', function(event) {
                     if (event.currentTarget.checked) {
-                        {{$model}}Chart.data = @json($results['departments']);
+                        if(document.getElementById('toggle-task-status').checked){
+                            {{$model}}Chart.data = @json($results['done']['departments']);
+                        }else{
+                            {{$model}}Chart.data = @json($results['ongoing']['departments']);
+                        }
                     } else {
-                        {{$model}}Chart.data = @json($results['users']);
+                        if(document.getElementById('toggle-task-status').checked){
+                            {{$model}}Chart.data = @json($results['done']['users']);
+                        }else{
+                            {{$model}}Chart.data = @json($results['ongoing']['users']);
+                        }
                     }
                 });
 
@@ -107,7 +135,7 @@
                 })
 
                 let previousBullet;
-                    {{$model}}Chart.cursor.events.on("cursorpositionchanged", function (event) {
+                {{$model}}Chart.cursor.events.on("cursorpositionchanged", function (event) {
                     const dataItem = {{$model}}Series.tooltipDataItem;
 
                     if (dataItem.column) {
@@ -128,6 +156,9 @@
                     }
                 })
             </script>
+        </div>
+        <div class="pb-2 px-1">
+            <div id="{{$widget->key}}" style="width: 100%;{{$widget->style_attribute}}"></div>
         </div>
     </div>
 </div>

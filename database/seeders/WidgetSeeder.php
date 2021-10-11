@@ -35,7 +35,7 @@ class WidgetSeeder extends Seeder
                 'key' => "taskDone-widget",
                 'class_attribute' => "col-12 mb-3",
                 'style_attribute' => "height: 520px;",
-                'details' => json_encode(['en' => 'Tasks Done', 'az' => 'Tamamlanmış tapşırıqlar']),
+                'details' => json_encode(['en' => 'Tasks', 'az' => 'Tapşırıqlar']),
                 'order' => 3,
                 'status' => 1
             ),
