@@ -143,6 +143,7 @@ return [
         'position'   => 'Vəzifələr',
         'notification' => 'Bildirişlər',
         'client'     => 'Müştərilər',
+        'referral'  => 'Referrallar',
     ],
 
     'date' => [

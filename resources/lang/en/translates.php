@@ -144,7 +144,8 @@ return [
         'department' => 'Departments',
         'position'   => 'Positions',
         'notification' => 'Notifications',
-        'client'     => 'Clients'
+        'client'     => 'Clients',
+        'referral'  => 'Referrals',
     ],
 
     'date' => [

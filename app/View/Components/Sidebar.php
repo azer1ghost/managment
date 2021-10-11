@@ -140,6 +140,13 @@ class Sidebar extends Component
                 'url'  => url('module/log-reader'),
                 'permission' => 'viewAny-log',
             ],
+
+            (object) [
+                'title' => "Referrals",
+                'icon'  => 'fas fa-ticket-alt',
+                'url'  => route('referrals.index'),
+                'permission' => 'viewAny-referral',
+            ],
         ];
     }
 

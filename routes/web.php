@@ -14,7 +14,8 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\RoleController,
     Modules\UserController,
     Modules\PositionController,
-    Modules\TaskController};
+    Modules\TaskController,
+    Modules\ReferralController};
 use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\{Auth, Route};
 
@@ -47,6 +48,7 @@ Route::group([
     Route::resource('/tasks', TaskController::class);
     Route::resource('/notifications', DatabaseNotificationController::class);
     Route::resource('/clients', ClientController::class);
+    Route::resource('/referrals', ReferralController::class);
 });
 
 Auth::routes(['login' => false]);

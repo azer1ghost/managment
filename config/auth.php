@@ -29,6 +29,7 @@ return [
         'viewAny-account', 'manage-account',
         'viewAny-company', 'view-company', 'create-company', 'update-company', 'delete-company',
         'viewAny-role', 'view-role', 'manage-role',
+        'viewAny-referral', 'view-referral', 'manage-referral',
         'viewAny-position', 'view-position', 'manage-position',
         'viewAny-department', 'view-department', 'manage-department',
         'viewAny-parameter', 'view-parameter', 'manage-parameter',
