@@ -3,6 +3,7 @@
 namespace App\View\Components\Widgets;
 
 use App\Models\Inquiry;
+use App\Models\Option;
 use App\Traits\GetClassInfo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\Component;
@@ -44,14 +45,12 @@ class InquiryStatusWidget extends Component
         $statuses[5] = $this->total - array_sum($statuses);
 
         $this->results = $statuses;
-        $this->keys = [
-            'Active',
-            'Done',
-            'Rejected',
-            'Incompatible',
-            'Unreachable',
-            'Not selected'
-        ];
+
+        foreach (Option::whereRelation('parameters', 'id', 5)->get(['id', 'text']) as $key){
+            $this->keys[] = $key->text;
+        }
+
+        $this->keys[] =  __('translates.filters.select');
     }
 
     public function render()
