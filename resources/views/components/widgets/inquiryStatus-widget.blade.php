@@ -4,6 +4,11 @@
             <div id="{{$widget->key}}" style="width: 100%;{{$widget->style_attribute}}"></div>
             <script>
                 const {{$model}}Chart = am4core.create("{{$widget->key}}", am4charts.PieChart);
+                // custom lang
+                @if (app()->getLocale() == 'az')
+                        {{$model}}Chart.language.locale = am4lang_az_AZ;
+                @endif
+
                 const {{$model}}Data = @json($results);
                 const {{$model}}Keys = @json($keys);
                 {{--const colors = @json($colors);--}}

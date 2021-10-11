@@ -4,6 +4,10 @@
             <div id="{{$widget->key}}" style="width: 100%;{{$widget->style_attribute}}"></div>
             <script>
                 const {{$model}}Chart = am4core.create("{{$widget->key}}", am4charts.XYChart);
+                // custom lang
+                @if (app()->getLocale() == 'az')
+                   {{$model}}Chart.language.locale = am4lang_az_AZ;
+                @endif
 
                 // Create daily series and related axes
                 const {{$model}}DateAxis1 = {{$model}}Chart.xAxes.push(new am4charts.DateAxis());
