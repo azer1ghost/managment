@@ -36,12 +36,14 @@
                         }else{
                             {{$model}}Chart.data = @json($results['done']['users']);
                         }
+                        reanimate();
                     } else {
                         if(document.getElementById('toggle-taskable').checked){
                             {{$model}}Chart.data = @json($results['ongoing']['departments']);
                         }else{
                             {{$model}}Chart.data = @json($results['ongoing']['users']);
                         }
+                        reanimate();
                     }
                 });
                 document.getElementById('toggle-taskable').addEventListener('change', function(event) {
@@ -51,12 +53,14 @@
                         }else{
                             {{$model}}Chart.data = @json($results['ongoing']['departments']);
                         }
+                        reanimate();
                     } else {
                         if(document.getElementById('toggle-task-status').checked){
                             {{$model}}Chart.data = @json($results['done']['users']);
                         }else{
                             {{$model}}Chart.data = @json($results['ongoing']['users']);
                         }
+                        reanimate();
                     }
                 });
 
@@ -134,27 +138,9 @@
                     return circleBullet.circle;
                 })
 
-                let previousBullet;
-                {{$model}}Chart.cursor.events.on("cursorpositionchanged", function (event) {
-                    const dataItem = {{$model}}Series.tooltipDataItem;
-
-                    if (dataItem.column) {
-                        const bullet = dataItem.column.children.getIndex(1);
-
-                        if (previousBullet && previousBullet !== bullet) {
-                            previousBullet.isHover = false;
-                        }
-
-                        if (previousBullet !== bullet) {
-
-                            const hs = bullet.states.getKey("hover");
-                            hs.properties.dx = dataItem.column.pixelWidth;
-                            bullet.isHover = true;
-
-                            previousBullet = bullet;
-                        }
-                    }
-                })
+                function reanimate() {
+                    {{$model}}Chart.appear();
+                }
             </script>
         </div>
         <div class="pb-2 px-1">
