@@ -128,6 +128,13 @@ class Sidebar extends Component
             ],
 
             (object) [
+                'title' => "Referrals",
+                'icon'  => 'fas fa-ticket-alt',
+                'url'  => route('referrals.index'),
+                'permission' => 'viewAny-referral',
+            ],
+
+            (object) [
                 'title' => "Widgets",
                 'icon'  => 'fas fa-tools',
                 'url'  => route('widgets.index'),
@@ -139,14 +146,7 @@ class Sidebar extends Component
                 'icon'  => 'fal fa-bug',
                 'url'  => url('module/log-reader'),
                 'permission' => 'viewAny-log',
-            ],
-
-            (object) [
-                'title' => "Referrals",
-                'icon'  => 'fas fa-ticket-alt',
-                'url'  => route('referrals.index'),
-                'permission' => 'viewAny-referral',
-            ],
+            ]
         ];
     }
 
