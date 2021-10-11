@@ -74,7 +74,7 @@ class TaskController extends Controller
 
         return redirect()
             ->route('tasks.show', $task)
-            ->withNotify('success', "New task {$task->getAttribute('name')} added successfully. <p>Please now assign some To do.</p>", true);
+            ->withNotify('success', __('translates.tasks.created', ['name' => $task->getAttribute('name')]), true);
     }
 
     public function show(Task $task)

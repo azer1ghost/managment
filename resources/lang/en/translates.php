@@ -220,6 +220,7 @@ return [
     ],
 
     'tasks' => [
+        'created' => "New task :name added successfully. <p>Please now assign some To do.</p>",
         'not_started' => 'Not started',
         'new' => 'You have new task assigned',
         'content' => [

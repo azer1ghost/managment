@@ -218,6 +218,7 @@ return [
     ],
 
     'tasks' => [
+        'created' => "Yeni tapşırığ :name uğurla əlavə edildi. <p> Zəhmət olmasa, Ediləcəkləri təyin edin. </p>",
         'not_started' => 'Başlamayıb',
         'new' => 'Sizə yeni bir tapşırıq təyin edildi',
         'content' => [
