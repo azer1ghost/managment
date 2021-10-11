@@ -15,7 +15,7 @@ class InquiryFactory extends Factory
     {
         return [
             'code' => Inquiry::generateCustomCode(),
-            'datetime' => Carbon::now()->startOfMonth()->addDays(rand(1, 8)),
+            'datetime' => Carbon::now()->startOfMonth()->addDays(rand(1, 10)),
             'note' => $this->faker->realText(),
             'redirected_user_id' => User::inRandomOrder()->pluck('id')->first(),
             'company_id' => 4,
