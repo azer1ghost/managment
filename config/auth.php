@@ -25,6 +25,7 @@ return [
         'viewAny-widget',
         'inquiryStatus-widget',
         'inquiryDaily-widget',
+        'taskDone-widget',
         'viewAny-account', 'manage-account',
         'viewAny-company', 'view-company', 'create-company', 'update-company', 'delete-company',
         'viewAny-role', 'view-role', 'manage-role',

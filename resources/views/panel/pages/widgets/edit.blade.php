@@ -24,12 +24,12 @@
         <div class="tab-content row mt-4" >
             <div class="form-group col-12">
                 <div class="row">
-                    <x-input::text     name="key"  :value="optional($data)->getAttribute('key')"  label="Gadget key"  width="6" class="pr-3" />
-                    <x-input::text     name="class_attribute"  :value="optional($data)->getAttribute('class_attribute')"  label="Gadget class attribute"  width="6" class="pr-3" />
-                    <x-input::text     name="style_attribute"  :value="optional($data)->getAttribute('style_attribute')"  label="Gadget style attribute"  width="6" class="pr-3" />
-                    <x-input::text     name="icon"  :value="optional($data)->getAttribute('icon')"  label="Gadget icon"  width="6" class="pr-3" />
-                    <x-input::text     name="details"  :value="optional($data)->getAttribute('details')"  label="Gadget details"  width="6" class="pr-3" />
-                    <x-input::number   name="order"  :value="optional($data)->getAttribute('order')"  label="Gadget order"  width="6" class="pr-3" />
+                    <x-input::text     name="key"  :value="optional($data)->getAttribute('key')"  label="Widget key"  width="6" class="pr-3" />
+                    <x-input::text     name="class_attribute"  :value="optional($data)->getAttribute('class_attribute')"  label="Widget class attribute"  width="6" class="pr-3" />
+                    <x-input::text     name="style_attribute"  :value="optional($data)->getAttribute('style_attribute')"  label="Widget style attribute"  width="6" class="pr-3" />
+                    <x-input::text     name="icon"  :value="optional($data)->getAttribute('icon')"  label="Widget icon"  width="6" class="pr-3" />
+                    <x-input::text     name="details"  :value="optional($data)->getAttribute('details')"  label="Widget details"  width="6" class="pr-3" />
+                    <x-input::number   name="order"  :value="optional($data)->getAttribute('order')"  label="Widget order"  width="6" class="pr-3" />
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" @if(optional($data)->getAttribute('status') === true) checked @endif name="status" id="data-status">
