@@ -13,12 +13,12 @@
                 const {{$model}}DateAxis1 = {{$model}}Chart.xAxes.push(new am4charts.DateAxis());
                 {{$model}}DateAxis1.renderer.grid.template.location = 0;
                 {{$model}}DateAxis1.renderer.minGridDistance = 40;
-
                 const {{$model}}ValueAxis1 = {{$model}}Chart.yAxes.push(new am4charts.ValueAxis());
 
                 // inquiries data
                 const {{$model}}Data = @json($results);
 
+                // Legend
                 const {{$model}}Series1 = {{$model}}Chart.series.push(new am4charts.ColumnSeries());
                 {{$model}}Series1.dataFields.valueY = "value";
                 {{$model}}Series1.dataFields.dateX = "date";
@@ -27,6 +27,8 @@
                 {{$model}}Series1.yAxis = {{$model}}ValueAxis1;
                 {{$model}}Series1.tooltipText = "{dateX}: [bold]{valueY}[/]";
 
+
+                // Title
                 const {{$model}}Title = {{$model}}Chart.titles.create();
                 {{$model}}Title.text = '{{$widget->details}}';
                 {{$model}}Title.fontSize = '24px';
