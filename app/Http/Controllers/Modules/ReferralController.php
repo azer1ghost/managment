@@ -21,7 +21,7 @@ class ReferralController extends Controller
         $search = $request->get('search');
 
         return view('panel.pages.referrals.index', [
-            'referrals' => Referral::query()
+            'referrals' => Referral::with('user')
                 ->when($search, function ($query) use ($search) {
                     return $query->where('key', 'LIKE', "%$search%");
                 })
