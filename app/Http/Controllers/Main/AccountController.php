@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Modules\UserController;
 use App\Http\Requests\UserRequest;
 use App\Models\Company;
 use App\Models\Department;
@@ -12,7 +11,6 @@ use App\Models\Role;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class AccountController extends Controller

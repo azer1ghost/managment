@@ -6,8 +6,6 @@ use App\Contracts\Auth\MustVerifyPhone;
 use App\Http\Middleware\Localization;
 use App\Traits\GetClassInfo;
 use App\Traits\Loger;
-use Hash;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
