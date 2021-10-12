@@ -76,6 +76,7 @@
             <x-input::text    name="password"  :label="__('translates.fields.password')"  :placeholder="__('translates.placeholders.password')"  width="6" class="pr-0" type="password" autocomplete="off"/>
             <x-input::text    name="password_confirmation" :label="__('translates.fields.password_confirm')" :placeholder="__('translates.placeholders.password_confirm')" width="6" class="pr-0"  type="password" autocomplete="off"/>
             <x-input::select  name="role_id"   :label="__('translates.fields.role')" :value="auth()->user()->getRelationValue('role')->getAttribute('id')"  width="3" class="pr-0" :options="$roles" />
+            <x-input::select  name="default_lang" :default="1"   :label="__('translates.fields.default_lang')" :value="auth()->user()->getAttribute('default_lang')"  width="3" class="pr-0" :options="config('app.locales')" />
             @if(auth()->user()->isDeveloper())
                 <div class="col-md-12 px-0">
                     <p class="text-muted mb-2">PERMISSIONS</p>

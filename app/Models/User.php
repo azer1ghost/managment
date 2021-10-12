@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\Auth\MustVerifyPhone;
+use App\Http\Middleware\Localization;
 use App\Traits\GetClassInfo;
 use App\Traits\Loger;
 use Hash;
@@ -52,6 +53,7 @@ class User extends Authenticatable implements MustVerifyPhone
         'role_id',
         'email_coop',
         'email',
+        'default_lang',
         'password',
         'verify_code',
         'permissions',
@@ -84,6 +86,9 @@ class User extends Authenticatable implements MustVerifyPhone
         static::updating(function($model){
             if($model->isDirty('department_id')){
                 $model->position_id = null;
+            }
+            if($model->id == auth()->id() && $model->isDirty('default_lang')){
+                Localization::locale($model->default_lang);
             }
         });
     }

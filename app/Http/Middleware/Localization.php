@@ -11,13 +11,15 @@ class Localization
 {
     public function handle(Request $request, Closure $next)
     {
-        if (session()->has('locale')) {
+        if ($request->user() && $request->user()->getAttribute('default_lang')) {
+            App::setlocale($request->user()->getAttribute('default_lang'));
+        }else if (session()->has('locale')){
             App::setlocale(session()->get('locale'));
         }
         return $next($request);
     }
 
-    public function locale(string $locale): RedirectResponse
+    public static function locale(string $locale): void
     {
         if (!array_key_exists($locale, config('app.locales')))
         {
@@ -26,6 +28,5 @@ class Localization
 
         App::setlocale($locale);
         session()->put('locale', $locale);
-        return back();
     }
 }

@@ -51,6 +51,7 @@ return [
     ],
 
     'fields' => [
+        'default_lang' => 'Varsayılan dil',
         'personal' => 'ŞƏXSİ',
         'employment' => 'MƏŞĞULLUQ',
         'passport' => 'PASPORT',
@@ -192,6 +193,8 @@ return [
     'access' => 'Icazə',
 
     'disabled' => 'Aktiv deyil',
+
+    'logout' => 'Çıxış',
 
     'countries' => [
         'Azerbaijan' => 'Azərbaycan',

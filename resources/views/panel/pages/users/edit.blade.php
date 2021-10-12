@@ -89,6 +89,7 @@
             @endif
             @if(!is_null($data))
                 <x-input::select  name="role_id"   :value="optional(optional($data)->getRelationValue('role'))->getAttribute('id')"  width="3" class="pr-0" :options="$roles" label="Role"/>
+                <x-input::select  name="default_lang" :default="1"   :label="__('translates.fields.default_lang')" :value="optional($data)->getAttribute('default_lang')"  width="3" class="pr-0" :options="config('app.locales')" />
             @endif
             @if(auth()->user()->isDeveloper())
                 <div class="col-md-12 px-0">

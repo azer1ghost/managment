@@ -53,6 +53,7 @@ return [
     ],
 
     'fields' => [
+        'default_lang' => 'Default language',
         'personal' => 'PERSONAL',
         'employment' => 'EMPLOYMENT',
         'passport' => 'PASSPORT',
@@ -194,6 +195,8 @@ return [
     'access' => 'Access',
 
     'disabled' => 'Inactive',
+
+    'logout' => 'Logout',
 
     'countries' => [
         'Azerbaijan' => 'Azerbaijan',
