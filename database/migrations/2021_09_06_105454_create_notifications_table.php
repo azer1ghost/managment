@@ -19,6 +19,8 @@ class CreateNotificationsTable extends Migration
             $table->morphs('notifiable');
             $table->json('data');
             $table->timestamp('read_at')->nullable();
+            $table->string('provider')->nullable();
+            $table->string('channel')->nullable();
             $table->timestamps();
         });
     }
