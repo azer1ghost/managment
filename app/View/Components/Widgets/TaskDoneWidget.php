@@ -22,7 +22,7 @@ class TaskDoneWidget extends Component
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
 
-        $users = User::withCount([
+        $users = User::isActive()->withCount([
                 'tasks as tasks_done_count'    => fn($q) => $q->where('status', 'done'),
                 'tasks as tasks_ongoing_count' => fn($q) => $q->where('status', '!=', 'done'),
             ])

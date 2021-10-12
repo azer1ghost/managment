@@ -191,6 +191,8 @@ return [
 
     'access' => 'Icazə',
 
+    'disabled' => 'Aktiv deyil',
+
     'countries' => [
         'Azerbaijan' => 'Azərbaycan',
         'Turkey' => 'Türkiyə'

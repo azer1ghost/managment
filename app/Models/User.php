@@ -54,7 +54,8 @@ class User extends Authenticatable implements MustVerifyPhone
         'email',
         'password',
         'verify_code',
-        'permissions'
+        'permissions',
+        'disabled_at'
     ];
 
     /**
@@ -130,6 +131,11 @@ class User extends Authenticatable implements MustVerifyPhone
     public function isAdministrator(): bool
     {
         return $this->getAttribute('role_id') === 2;
+    }
+
+    public function scopeIsActive($query)
+    {
+        return $query->whereNull('disabled_at');
     }
 
     public function inquiries(): HasMany

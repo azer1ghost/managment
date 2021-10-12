@@ -79,7 +79,12 @@
                         <td style="font-weight: 700;" class="task-priority {{$task->getAttribute('priority')}}">{{ucfirst($task->getAttribute('priority'))}}</td>
                         <td style="font-weight: 700;">{{str_title($task->getAttribute('status'))}}</td>
                         <td>{{$task->taskable->getClassShortName() == 'department' ? $task->taskable->getAttribute('name') : $task->taskable->getRelationValue('department')->getAttribute('name')}}</td>
-                        <td>{{$task->taskable->getClassShortName() == 'user' ? $task->taskable->getAttribute('fullname') : __('translates.navbar.general') }}</td>
+                        <td>
+                            {!! $task->taskable->getClassShortName() == 'user' ?
+                                $task->taskable->getAttribute('fullname') . ($task->taskable->getAttribute('disabled_at') ? ' <span class="text-danger">(' . __('translates.disabled') . ')</span>' : '') :
+                                __('translates.navbar.general')
+                             !!}
+                        </td>
                         <td>
                             @if ($task->status == 'to_do')
                                 @lang('translates.tasks.not_started')

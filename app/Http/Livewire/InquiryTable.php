@@ -62,7 +62,7 @@ class InquiryTable extends Component
         $this->sources  = Parameter::where('name', 'source')->first()->options->unique();
         $this->statuses  = Parameter::where('name', 'status')->first()->options->unique();
         $this->companies = Company::whereNotIn('id', [1])->get();
-        $this->users = User::has('inquiries')->get(['id', 'name', 'surname']);
+        $this->users = User::has('inquiries')->get(['id', 'name', 'surname', 'disabled_at']);
         
         $this->statusParameterId = Parameter::where('name', 'status')->first()->getAttribute('id');
     }

@@ -46,7 +46,10 @@
                     @forelse($users as $user)
                         <tr>
                             <th scope="row"><img src="{{image($user->getAttribute('avatar'))}}" alt="user" class="profile" /></th>
-                            <td>{{$user->getAttribute('fullname')}} @if($user->getAttribute('id') === auth()->id()) <h5 class="d-inline"><span class="badge badge-info text-white">Me</span></h5> @endif</td>
+                            <td>{{$user->getAttribute('fullname')}}
+                                @if($user->getAttribute('id') === auth()->id()) <h5 class="d-inline"><span class="badge badge-info text-white">Me</span></h5> @endif
+                                @if($user->getAttribute('disabled_at')) <span class="text-danger">(@lang('translates.disabled'))</span> @endif
+                            </td>
                             <td>{{$user->getAttribute('fin')}}</td>
                             <td>{{$user->getAttribute('email')}}</td>
                             <td>{{$user->getAttribute('phone')}}</td>

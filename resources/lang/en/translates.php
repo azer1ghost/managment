@@ -193,6 +193,8 @@ return [
 
     'access' => 'Access',
 
+    'disabled' => 'Inactive',
+
     'countries' => [
         'Azerbaijan' => 'Azerbaijan',
         'Turkey' => 'Turkey'

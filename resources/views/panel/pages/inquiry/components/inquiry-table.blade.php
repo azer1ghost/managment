@@ -61,7 +61,10 @@
                 <label class="d-block" for="writtenByFilter">{{__('translates.filters.written_by')}}</label>
                 <select id="writtenByFilter" class="filterSelector" data-width="fit" wire:model.defer="filters.user_id" title="{{__('translates.filters.written_by')}}" >
                     @foreach($users as $user)
-                        <option value="{{$user->getAttribute('id')}}">{{$user->getAttribute('name')}} {{$user->getAttribute('surname')}}</option>
+                        @php($inactive = (bool) $user->getAttribute('disabled_at'))
+                        <option value="{{$user->getAttribute('id')}}" class="@if ($inactive) text-danger @endif">
+                            {{$user->getAttribute('name')}} {{$user->getAttribute('surname')}} @if ($inactive) (@lang('translates.disabled')) @endif
+                        </option>
                     @endforeach
                 </select>
             </div>
@@ -140,7 +143,7 @@
                     <td>{{$inquiry->getAttribute('datetime')->format('H:i')}}</td>
                     <td>{{$inquiry->getRelationValue('company')->getAttribute('name')}}</td>
                     <td>{{optional($inquiry->getParameter('fullname'))->getAttribute('value')}}</td>
-                    <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}}</td>
+                    <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}} {!! $inquiry->getRelationValue('user')->getAttribute('disabled_at') ? ' <span class="text-danger">(' . __('translates.disabled') . ')</span>' : '' !!}</td>
                     <td>{{optional($inquiry->getParameter('subject'))->getAttribute('text')}}</td>
                     <td class="text-center">
                         @if($inquiry->getAttribute('wasDone'))

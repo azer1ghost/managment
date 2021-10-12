@@ -92,7 +92,7 @@
             <label>{{__('translates.fields.user')}}</label>
             <select class="form-control @error('user') is-invalid @enderror" name="user" wire:model="selected.user">
                 <option value="null" disabled selected>{{__('translates.fields.user')}} {{__('translates.placeholders.choose')}}</option>
-                @foreach($this->department->users()->get(['id', 'name', 'surname']) as $user)
+                @foreach($this->department->users()->isActive()->get(['id', 'name', 'surname']) as $user)
                     <option value="{{ $user->getAttribute('id') }}">{{ $user->getAttribute('fullname') }}</option>
                 @endforeach
             </select>

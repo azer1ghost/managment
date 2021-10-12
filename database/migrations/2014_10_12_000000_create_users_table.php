@@ -45,6 +45,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
+            $table->timestamp('disabled_at')->nullable();
         });
     }
 

@@ -29,10 +29,11 @@ class UserController extends Controller
         return view('panel.pages.users.index')
             ->with([
                 'users' => User::query()
-                    ->when($search, fn ($query) => $query->where('name', 'like', "%".$search."%")
-                                                         ->orWhere('surname', 'like', "%".$search."%")
-                                                         ->orWhere('fin', 'like', "%".$search."%")
-                                                         ->orWhere('id', $search))
+                    ->when($search,
+                        fn ($query) => $query->where('name', 'like', "%".$search."%")
+                                             ->orWhere('surname', 'like', "%".$search."%")
+                                             ->orWhere('fin', 'like', "%".$search."%")
+                                             ->orWhere('id', $search))
                     ->simplePaginate(10)
             ]);
     }
@@ -148,7 +149,7 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        if ($user->delete()) {
+        if ($user->update(['disabled_at' => now()])) {
             if (Storage::exists($user->getAttribute('avatar'))) {
                 Storage::delete($user->getAttribute('avatar'));
             }
