@@ -39,6 +39,7 @@
                                 <x-input::select name="company_id"  width="6"  class="pr-1" :options="$companies" :label="__('translates.register.company')"  required=""/>
                                 <x-input::text type="password" required="" name="password" width="6" :label="__('translates.register.password')" :placeholder="__('translates.placeholders.password')"/>
                                 <x-input::text type="password" required="" name="password_confirmation" :label="__('translates.register.password_confirm')" :placeholder="__('translates.placeholders.password_confirm')" width="6"/>
+                                <x-input::select  name="default_lang" :label="__('translates.fields.default_lang')" width="6" class="pr-0" :options="config('app.locales')" />
                                 <x-input::submit :value="__('translates.register.register')"/>
                             </form>
                         </div>

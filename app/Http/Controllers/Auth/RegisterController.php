@@ -69,6 +69,7 @@ class RegisterController extends Controller
             'department_id' => ['required', 'integer', 'min:1'],
             'company_id' => ['required', 'integer', 'min:1'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'default_lang' => ['nullable', 'string']
         ]);
     }
 
@@ -90,7 +91,8 @@ class RegisterController extends Controller
             'department_id' => $data['department_id'],
             'company_id' => $data['company_id'],
             'password' => Hash::make($data['password']),
-            'verify_code' => rand(111111, 999999)
+            'verify_code' => rand(111111, 999999),
+            'default_lang' => $data['default_lang']
         ]);
     }
 }
