@@ -6,6 +6,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Main\PlatformController,
     Modules\CompanyController,
     Modules\DepartmentController,
+    Modules\ReferralBonusController,
     Modules\WidgetController,
     Modules\DatabaseNotificationController,
     Modules\OptionController,
@@ -16,7 +17,6 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\PositionController,
     Modules\TaskController,
     Modules\ReferralController};
-use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\{Auth, Route};
 
 Route::redirect('/','/welcome')->name('home');
@@ -30,6 +30,9 @@ Route::group([
     'prefix' => 'module',
     'middleware' => ['verified_phone']
 ], function () {
+    Route::get('/bonuses', [ReferralBonusController::class, 'index'])->name('bonuses');
+    Route::post('/bonuses', [ReferralBonusController::class, 'refresh']);
+    Route::post('/bonuses/create-referral-link', [ReferralBonusController::class, 'index'])->name('bonuses.create-referral-link');
 
     Route::get('/cabinet', [PlatformController::class, 'cabinet'])->name('cabinet');
     Route::get('/customer-services', [PlatformController::class, 'customerServices'])->name('customer-services');

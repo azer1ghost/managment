@@ -147,6 +147,7 @@ return [
         'notification' => 'Notifications',
         'client'     => 'Clients',
         'referral'  => 'Referrals',
+        'bonus'     => 'Bonuses'
     ],
 
     'date' => [

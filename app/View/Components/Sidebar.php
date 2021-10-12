@@ -51,6 +51,13 @@ class Sidebar extends Component
             ],
 
             (object) [
+                'title' => __('translates.navbar.bonus'),
+                'icon'  => 'fas fa-gift',
+                'url'  => route('bonuses'),
+                'permission' => 'generally',
+            ],
+
+            (object) [
                 'title' => __('translates.navbar.signature'),
                 'icon'  => 'fa fa-envelope',
                 'url'  => route('signature-select-company'),
