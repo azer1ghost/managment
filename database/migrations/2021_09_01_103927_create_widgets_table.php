@@ -33,6 +33,6 @@ class CreateWidgetsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gadgets');
+        Schema::dropIfExists('widgets');
     }
 }
