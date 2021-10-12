@@ -69,7 +69,7 @@ class RegisterController extends Controller
             'department_id' => ['required', 'integer', 'min:1'],
             'company_id' => ['required', 'integer', 'min:1'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'default_lang' => ['nullable', 'string']
+            'default_lang' => ['required', 'string']
         ]);
     }
 
