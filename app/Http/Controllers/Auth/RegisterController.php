@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -25,18 +27,8 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
     protected string $redirectTo = RouteServiceProvider::ACCOUNT;
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('guest');
@@ -44,41 +36,44 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-//        if (\App::getLocale() == null)
-//        {
-//
-//        }
-
         return view('auth.register');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data): \Illuminate\Contracts\Validation\Validator
+    public function register(Request $request)
     {
-        $data['phone'] = phone_cleaner($data['phone']);
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:50'],
-            'surname' => ['required', 'string', 'max:50'],
-            'phone' => ['required', 'string', 'max:15', 'unique:users,phone'],
-            'email_coop' => ['required', 'allowed_domain','string', 'email:rfc,dns', 'max:50', 'unique:users,email_coop'],
-            'department_id' => ['required', 'integer', 'min:1'],
-            'company_id' => ['required', 'integer', 'min:1'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'default_lang' => ['required', 'string']
-        ]);
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->guard()->login($user);
+
+        if ($response = $this->registered($request, $user)) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+            ? new JsonResponse([], 201)
+            : redirect($this->redirectPath());
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
-     */
+    protected function validator(Request $request): JsonResponse
+    {
+        $validator =  Validator::make($request->all(), [
+            'name' => ['filled', 'string', 'max:50'],
+            'surname' => ['filled', 'string', 'max:50'],
+            'phone' => ['filled', 'string', 'max:15', 'unique:users,phone'],
+            'email_coop' => ['filled', 'allowed_domain','string', 'email:rfc,dns', 'max:50', 'unique:users,email_coop'],
+            'department_id' => ['filled', 'integer', 'min:1'],
+            'company_id' => ['filled', 'integer', 'min:1'],
+            'password' => ['filled', 'string', 'min:8', 'confirmed'],
+            'default_lang' => ['filled', 'string']
+        ]);
+
+        if ($validator->passes()) {
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false, 'errors' => $validator->errors()]);
+    }
+
     protected function create(array $data): User
     {
         return User::create([

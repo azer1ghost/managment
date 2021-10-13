@@ -31,6 +31,8 @@ class ReferralBonusController extends Controller
             $this->referral()->first()->getAttribute('key')
         )->get();
 
+        dd($data);
+
         $this->referral()->update($data);
 
         return view('panel.pages.bonuses.index')->with(['referral' => $this->referral()->first()]);

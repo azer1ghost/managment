@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\{Auth\LoginController,
     Auth\PhoneVerifycationController,
+    Auth\RegisterController,
     Main\AccountController,
     Main\PlatformController,
     Modules\CompanyController,
@@ -55,6 +56,8 @@ Route::group([
 });
 
 Auth::routes(['login' => false]);
+Route::view('/new-form', 'new-form')->name('new-form');
+Route::post('/new-form', [RegisterController::class, 'validator']);
 
 PhoneVerifycationController::routes();
 
