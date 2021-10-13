@@ -86,12 +86,12 @@
         <div class="col-xl-5 col-lg-6">
             <div class="card widget l-bg-cyan">
                 <div class="card-statistic-3 p-4">
-                    <form action="{{route('bonuses.create-referral-link')}}" method="POST">
+                    <form action="{{route('bonuses.generate-referral-link')}}" method="POST">
                         @csrf
                         <label for="basic-url">Your Referral link</label>
-                        @if($referral)
+                        @if($referral->isReal())
                             <div class="input-group">
-                                <input class="form-control" id="referral-key" value="https://mobex.az/register?ref={{optional($referral)->getAttribute('key')}}" readonly>
+                                <input class="form-control" id="referral-key" value="https://mobex.az/register?ref={{$referral->getAttribute('key')}}" readonly>
                                 <div class="input-group-append">
                                     <button type="button" class="btn btn-primary" id="referral-copy">
                                         <i class="fal fa-copy"></i>
@@ -125,11 +125,11 @@
                     <div class="mb-3">
                         <h5 class="card-title mb-0">Total Referrals</h5>
                     </div>
-                    @php($efficiency = optional($referral)->getAttribute('efficiency') ?? 0)
+                    @php($efficiency = $referral->getAttribute('efficiency') ?? 0)
                     <div class="row align-items-center mb-2 d-flex">
                         <div class="col-8">
                             <h2 class="d-flex align-items-center mb-0">
-                                {{optional($referral)->getAttribute('total') ?? 0}}
+                                {{$referral->getAttribute('total') ?? 0}}
                             </h2>
                         </div>
                         <div class="col-4 text-right">
@@ -153,7 +153,7 @@
                     <div class="row align-items-center mb-1 d-flex">
                         <div class="col-8">
                             <h3 class="d-flex align-items-center mb-0">
-                                {{optional($referral)->getAttribute('total_packages') ?? 0}}
+                                {{$referral->getAttribute('total_packages') ?? 0}}
                             </h3>
                         </div>
                     </div>
@@ -163,7 +163,7 @@
                     <div class="row align-items-center d-flex">
                         <div class="col-8">
                             <h3 class="d-flex align-items-center mb-0">
-                                {{optional($referral)->getAttribute('total_earnings') ?? 0}} ₼
+                                {{$referral->getAttribute('total_earnings') ?? 0}} ₼
                             </h3>
                         </div>
                     </div>
@@ -181,17 +181,18 @@
                     <div class="row align-items-center mb-2 d-flex">
                         <div class="col-8">
                             <h2 class="d-flex align-items-center mb-0">
-                                {{optional($referral)->getAttribute('bonus') ?? 0}} ₼
+                                {{$referral->getAttribute('bonus') ?? 0}} ₼
                             </h2>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        @if($referral)
+        @if($referral->isReal())
             <div class="col-12 text-center mb-3">
                 <p class="text-muted m-3">For getting referral data
-                    <a href="#" class="btn btn-link" onclick="event.preventDefault(); document.getElementById('get-referral-data').submit();">Send request <i class="ml-1 fal fa-smile"></i></a>
+                    <a href="#" class="btn btn-link py-0" onclick="event.preventDefault(); document.getElementById('get-referral-data').submit();">Send request <i class="ml-1 fal fa-smile"></i></a>
+                    @if (!$referral->isNew()) (Last updated: {{optional($referral->getAttribute('updated_at'))->diffForHumans()}})@endif
                 </p>
                 <form id="get-referral-data" method="POST" class="d-none">
                     @csrf

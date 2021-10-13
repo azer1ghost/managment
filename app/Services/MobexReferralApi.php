@@ -33,7 +33,7 @@ class MobexReferralApi
 //       ])->json();
         return $data = [
             'total' => 10,
-            'efficiency' => 5,
+            'efficiency' => 50,
             'total_earnings' => 125,
             'total_packages' => 15,
             'bonus' => 5,

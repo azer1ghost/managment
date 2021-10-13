@@ -20,9 +20,19 @@ class Referral extends Model
         });
     }
 
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function isNew(): bool
+    {
+        return !is_null($this->getAttribute('created_at')) &&
+            $this->getAttribute('created_at') == $this->getAttribute('updated_at');
+    }
+
+    public function isReal(): bool
+    {
+        return !is_null($this->getAttribute('created_at'));
     }
 }
