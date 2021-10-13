@@ -32,7 +32,7 @@ Route::group([
 ], function () {
     Route::get('/bonuses', [ReferralBonusController::class, 'index'])->name('bonuses');
     Route::post('/bonuses', [ReferralBonusController::class, 'refresh']);
-    Route::post('/bonuses/create-referral-link', [ReferralBonusController::class, 'index'])->name('bonuses.create-referral-link');
+    Route::post('/bonuses/create-referral-link', [ReferralBonusController::class, 'create'])->name('bonuses.create-referral-link');
 
     Route::get('/cabinet', [PlatformController::class, 'cabinet'])->name('cabinet');
     Route::get('/customer-services', [PlatformController::class, 'customerServices'])->name('customer-services');

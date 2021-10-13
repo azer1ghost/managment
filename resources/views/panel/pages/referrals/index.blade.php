@@ -22,11 +22,6 @@
                     </div>
                 </div>
             </div>
-            @can('create', App\Models\Referral::class)
-                <div class="col-2">
-                    <a class="btn btn-outline-success float-right" href="{{route('referrals.create')}}">@lang('translates.buttons.create')</a>
-                </div>
-            @endcan
             <div class="col-12">
                 <table class="table table-responsive-sm table-hover">
                     <thead>

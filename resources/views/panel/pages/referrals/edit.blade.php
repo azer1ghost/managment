@@ -24,17 +24,9 @@
         <div class="tab-content row mt-4" >
             <div class="form-group col-12">
                 <div class="row">
-                    <x-input::text    name="key"      :value="optional($data)->getAttribute('key')"      label="Referral key"   width="6" class="pr-3" />
-                    <div class="form-group col-12 col-md-6">
-                        <label for="data-user_id">Referral user</label>
-                        <select class="form-control" id="data-user_id" name="user_id">
-                            @foreach ($users as $user)
-                                <option @if (optional($data)->getAttribute('user_id') == $user->getAttribute('id')) selected @endif value="{{$user->getAttribute('id')}}">
-                                    {{$user->getAttribute('fullname')}}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+                    <x-input::text readonly  :value="optional($data)->getAttribute('key')"  label="Referral key"   width="6" class="pr-3" />
+                    <x-input::text readonly  :value="optional($data)->getRelationValue('user')->getAttribute('fullname')"  label="Referral user"  width="6" class="pr-3" />
+                    <x-input::number step="0.01" name="referral_bonus_percentage"   :value="optional($data)->getAttribute('referral_bonus_percentage')"  label="Referral bonus percentage"   width="6" class="pr-3" />
                 </div>
             </div>
         </div>

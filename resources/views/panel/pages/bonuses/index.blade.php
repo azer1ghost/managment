@@ -44,8 +44,9 @@
             background: linear-gradient(to right, #3490dc, #83e08b) !important;
             color: #fff;
         }
-        .card .card-statistic-3 .card-icon-large .fas, .card .card-statistic-3 .card-icon-large .far, .card .card-statistic-3 .card-icon-large .fab, .card .card-statistic-3 .card-icon-large .fal {
+        .card .card-statistic-3 .card-icon-large i{
             font-size: 110px;
+            font-style: normal;
         }
         .card .card-statistic-3 .card-icon {
             text-align: center;
@@ -85,101 +86,118 @@
         <div class="col-xl-5 col-lg-6">
             <div class="card widget l-bg-cyan">
                 <div class="card-statistic-3 p-4">
+                    <form action="{{route('bonuses.create-referral-link')}}" method="POST">
+                        @csrf
+                        <label for="basic-url">Your Referral link</label>
+                        @if($referral)
+                            <div class="input-group">
+                                <input class="form-control" id="referral-key" value="https://mobex.az/register?ref={{optional($referral)->getAttribute('key')}}" readonly>
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-primary" id="referral-copy">
+                                        <i class="fal fa-copy"></i>
+                                        <span>Copy</span>
+                                    </button>
+                                </div>
+                            </div>
+                        @else
+                            <input type="hidden" name="user_id" value="{{auth()->id()}}">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon3">https://mobex.az/register?ref=</span>
+                                </div>
+                                <input type="text" required minlength="6" maxlength="15" class="form-control" name="key">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary">
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                        @endif
+                        <small class="form-text text-light">This is your referral link, copy and share with your friends</small>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <div class="card widget l-bg-blue-dark">
+                <div class="card-statistic-3 p-4">
+                    <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
+                    <div class="mb-3">
+                        <h5 class="card-title mb-0">Total Referrals</h5>
+                    </div>
+                    @php($efficiency = optional($referral)->getAttribute('efficiency') ?? 0)
                     <div class="row align-items-center mb-2 d-flex">
-                        <form action="{{route('bonuses.create-referral-link')}}" method="POST">
-                            @csrf
-                            <label for="basic-url">Your Referral link</label>
-                            @if(true)
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon3">https://mobex.az/register?ref=elvinaqalarov</span>
-                                    </div>
-                                    <div class="input-group-append">
-                                        <button type="button" class="btn btn-outline-primary">
-                                            <i class="fal fa-copy"></i>
-                                            Copy
-                                        </button>
-                                    </div>
-                                </div>
-                            @else
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon3">https://mobex.az/register?ref=</span>
-                                    </div>
-                                    <input type="text" minlength="6" maxlength="15" class="form-control" name="referral">
-                                    <div class="input-group-append">
-                                        <button type="submit" class="btn btn-outline-primary">
-                                            Save
-                                        </button>
-                                    </div>
-                                </div>
-                            @endif
-                            <small class="form-text text-light">This is your referral link, copy and share with your friends</small>
-                        </form>
+                        <div class="col-8">
+                            <h2 class="d-flex align-items-center mb-0">
+                                {{optional($referral)->getAttribute('total') ?? 0}}
+                            </h2>
+                        </div>
+                        <div class="col-4 text-right">
+                            <span>{{$efficiency}}% <i class="fa fa-arrow-up"></i></span>
+                        </div>
+                    </div>
+                    <div class="progress mt-1 " data-height="8" style="height: 8px;">
+                        <div class="progress-bar l-bg-cyan" role="progressbar" data-width="{{$efficiency}}%" aria-valuenow="{{$efficiency}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$efficiency}}%;z-index: 0"></div>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="col-xl-2 col-lg-6">
-            <div class="card widget l-bg-blue-dark">
-                <div class="card-statistic-3 p-4">
-                    <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
-                    <div class="mb-4">
-                        <h5 class="card-title mb-0">Total Referrals</h5>
+            <div class="card widget l-bg-blue-purple">
+                <div class="card-statistic-3 px-4 pt-3" style="padding-bottom: 7px">
+                    <div class="card-icon card-icon-large"><i class="far fa-vial"></i></div>
+                    <div class="mb-0">
+                        <h5 class="card-title mb-1">Packages</h5>
                     </div>
-                    <div class="row align-items-center mb-2 d-flex">
+                    <div class="row align-items-center mb-1 d-flex">
                         <div class="col-8">
-                            <h2 class="d-flex align-items-center mb-0">
-                                0
-                            </h2>
+                            <h3 class="d-flex align-items-center mb-0">
+                                {{optional($referral)->getAttribute('total_packages') ?? 0}}
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="mb-0">
+                        <h5 class="card-title mb-1">Earnings</h5>
+                    </div>
+                    <div class="row align-items-center d-flex">
+                        <div class="col-8">
+                            <h3 class="d-flex align-items-center mb-0">
+                                {{optional($referral)->getAttribute('total_earnings') ?? 0}} ₼
+                            </h3>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="col-xl-2 col-lg-6">
             <div class="card widget l-bg-green-dark">
                 <div class="card-statistic-3 p-4">
-                    <div class="card-icon card-icon-large"><i class="fas fa-dollar-sign"></i></div>
+                    <div class="card-icon card-icon-large"><i class="fa">₼</i></div>
                     <div class="mb-4">
                         <h5 class="card-title mb-0">Bonus balance</h5>
                     </div>
                     <div class="row align-items-center mb-2 d-flex">
                         <div class="col-8">
                             <h2 class="d-flex align-items-center mb-0">
-                                0
+                                {{optional($referral)->getAttribute('bonus') ?? 0}} ₼
                             </h2>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-lg-6">
-            <div class="card widget l-bg-blue-purple">
-                <div class="card-statistic-3 p-4">
-                    <div class="card-icon card-icon-large"><i class="fas far fa-gift"></i></div>
-                    <div class="mb-4">
-                        <h5 class="card-title mb-0">Efficiency</h5>
-                    </div>
-                    <div class="row align-items-center mb-2 d-flex">
-                        <div class="col-8">
-                            <h2 class="d-flex align-items-center mb-0">
-                                10 (20%)
-                            </h2>
-                        </div>
-                    </div>
-                </div>
+        @if($referral)
+            <div class="col-12 text-center mb-3">
+                <p class="text-muted m-3">For getting referral data
+                    <a href="#" class="btn btn-link" onclick="event.preventDefault(); document.getElementById('get-referral-data').submit();">Send request <i class="ml-1 fal fa-smile"></i></a>
+                </p>
+                <form id="get-referral-data" method="POST" class="d-none">
+                    @csrf
+                </form>
             </div>
-        </div>
-        <div class="col-12 text-center mb-3">
-            <p class="text-muted m-3">For getting referral data
-                <a href="#" class="btn btn-link" onclick="event.preventDefault(); document.getElementById('get-referral-data').submit();">Send request <i class="ml-1 fal fa-smile"></i></a>
-            </p>
-
-            <form id="get-referral-data" action="{{ route('bonuses') }}" method="POST" class="d-none">
-                @csrf
-            </form>
-        </div>
+        @endif
         <div class="col-12">
             <table class="table table-hover table-sm--responsive">
                 <thead>
@@ -212,4 +230,15 @@
             </table>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script>
+        $('#referral-copy').click(function(){
+            const link = $('#referral-key');
+            navigator.clipboard.writeText(link.val());
+            link.addClass('is-valid');
+            link.parent().addClass('is-valid');
+            $(this).children('span').text('Copied');
+        });
+    </script>
 @endsection

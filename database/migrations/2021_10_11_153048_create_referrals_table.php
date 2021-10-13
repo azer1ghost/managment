@@ -20,6 +20,9 @@ class CreateReferralsTable extends Migration
             $table->integer('total')->default(0);
             $table->double('bonus', '8', '2')->default(0);
             $table->double('efficiency', '8', '2')->default(0);
+            $table->double('total_earnings', '8', '2')->default(0);
+            $table->integer('total_packages')->default(0);
+            $table->double('referral_bonus_percentage', 8, 2)->default(0);
             $table->timestamps();
         });
     }

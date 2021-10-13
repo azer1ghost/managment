@@ -10,13 +10,15 @@ class Number extends Component
     public ?string $label;
     public ?string $value;
     public ?string $name;
+    public ?float $step;
 
-    public function __construct($name = null, $value = null, $label = null, $width = null)
+    public function __construct($name = null, $value = null, $label = null, $width = null, $step = null)
     {
         $this->name = $name;
         $this->value = $value;
         $this->label = $label;
         $this->width = $width;
+        $this->step = $step;
     }
 
     public function render()
@@ -25,7 +27,7 @@ class Number extends Component
         <<<'blade'
           <div {{ $attributes->merge(['class' => 'form-group col-12 col-md-'.$width]) }}>
                 <label for="data-{{$name}}">{{$label ?? Str::ucfirst($name).' input'}}</label>
-                <input type="number" class="form-control @error($name) is-invalid @enderror" name="{{$name}}" id="data-{{$name}}" placeholder="Type {{Str::lower($label)}}" @if($value) value="{{$value}}" @endif >
+                <input type="number" step="{{$step}}" class="form-control @error($name) is-invalid @enderror" name="{{$name}}" id="data-{{$name}}" placeholder="Type {{Str::lower($label)}}" @if($value) value="{{$value}}" @endif >
                 @error($name)
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>

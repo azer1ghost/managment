@@ -31,13 +31,7 @@ class ReferralController extends Controller
 
     public function create()
     {
-        return view('panel.pages.referrals.edit')
-            ->with([
-                'action' => route('referrals.store'),
-                'method' => null,
-                'data'   => null,
-                'users'  => User::get(['id', 'name', 'surname'])
-            ]);
+        abort(404);
     }
 
     public function store(ReferralRequest $request)
