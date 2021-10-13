@@ -141,7 +141,7 @@
         </div>
         <div class="col-6">
             <div class="float-right">
-                {{$tasks->links()}}
+                {{$tasks->appends(request()->input())->links()}}
             </div>
         </div>
     </div>
