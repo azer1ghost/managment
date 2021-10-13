@@ -45,7 +45,7 @@
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$referral->getAttribute('key')}}</td>
                             <td>{{$referral->getRelationValue('user')->getAttribute("fullname")}}</td>
-                            <td>{{$referral->getAttribute('count')}}</td>
+                            <td>{{$referral->getAttribute('total')}}</td>
                             <td>{{$referral->getAttribute('bonus')}}</td>
                             <td>
                                 <div class="btn-sm-group">

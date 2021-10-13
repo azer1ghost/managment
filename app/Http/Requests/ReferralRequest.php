@@ -14,7 +14,7 @@ class ReferralRequest extends FormRequest
     public function rules()
     {
         return [
-            'key' => 'required|string',
+            'key' => 'required|string|unique:referrals,key,' . $this->user_id,
             'user_id' => 'numeric',
         ];
     }

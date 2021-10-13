@@ -15,7 +15,7 @@ class CreateReferralsTable extends Migration
     {
         Schema::create('referrals', function (Blueprint $table) {
             $table->id();
-            $table->string('key');
+            $table->string('key')->unique();
             $table->foreignId('user_id')->constrained()->onDelete('CASCADE');
             $table->integer('total')->default(0);
             $table->double('bonus', '8', '2')->default(0);
