@@ -6,12 +6,10 @@ use Illuminate\Support\Facades\Http;
 
 class MobexReferralApi
 {
-    protected string $apiUrl = "#";
-    // http://api.mobex.az/v1/referral/bonus?token=ffsdf&key=dsfsf
-    protected string $token = "#";
+    protected string  $apiUrl = '', $token  = '';
+    // http://api.mobex.az/v1/referral/bonus?token=&key=
 
-    protected string $key;
-    protected string $value;
+    public string $key = '', $value = '';
 
     public function by($key): MobexReferralApi
     {
