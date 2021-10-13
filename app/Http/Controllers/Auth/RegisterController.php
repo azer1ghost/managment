@@ -41,6 +41,8 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
+        $this->validator($request)->validate();
+
         event(new Registered($user = $this->create($request->all())));
 
         $this->guard()->login($user);
@@ -54,12 +56,12 @@ class RegisterController extends Controller
             : redirect($this->redirectPath());
     }
 
-    protected function validator(Request $request): JsonResponse
+    protected function validator(Request $request)
     {
         $validator =  Validator::make($request->all(), [
             'name' => ['filled', 'string', 'max:50'],
             'surname' => ['filled', 'string', 'max:50'],
-            'phone' => ['filled', 'string', 'max:15', 'unique:users,phone'],
+            'phone' => ['filled', 'string', 'min:12', 'max:15', 'unique:users,phone'],
             'email_coop' => ['filled', 'allowed_domain','string', 'email:rfc,dns', 'max:50', 'unique:users,email_coop'],
             'department_id' => ['filled', 'integer', 'min:1'],
             'company_id' => ['filled', 'integer', 'min:1'],
@@ -67,11 +69,15 @@ class RegisterController extends Controller
             'default_lang' => ['filled', 'string']
         ]);
 
-        if ($validator->passes()) {
-            return response()->json(['success' => true]);
+        if($request->expectsJson()){
+            if ($validator->passes()) {
+                return response()->json(['success' => true]);
+            }
+
+            return response()->json(['success' => false, 'errors' => $validator->errors()]);
         }
 
-        return response()->json(['success' => false, 'errors' => $validator->errors()]);
+        return $validator;
     }
 
     protected function create(array $data): User

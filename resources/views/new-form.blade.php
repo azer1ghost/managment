@@ -405,6 +405,7 @@
                     url: '{{route('new-form')}}',
                     method: 'POST',
                     data: data,
+                    dataType: 'json',
                     success: function (res){
                         if(res.success){
                             $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
