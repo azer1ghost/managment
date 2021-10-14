@@ -88,14 +88,14 @@
                 <div class="card-statistic-3 p-4">
                     <form action="{{route('bonuses.generate-referral-link')}}" method="POST">
                         @csrf
-                        <label for="basic-url">Your Referral link</label>
+                        <label for="basic-url">@lang('translates.referrals.link')</label>
                         @if($referral->isReal())
                             <div class="input-group">
                                 <input class="form-control" id="referral-key" value="https://mobex.az/register?ref={{$referral->getAttribute('key')}}" readonly>
                                 <div class="input-group-append">
                                     <button type="button" class="btn btn-primary" id="referral-copy">
                                         <i class="fal fa-copy"></i>
-                                        <span>Copy</span>
+                                        <span>@lang('translates.buttons.copy')</span>
                                     </button>
                                 </div>
                             </div>
@@ -113,7 +113,7 @@
                                 </div>
                             </div>
                         @endif
-                        <small class="form-text text-light">This is your referral link, copy and share with your friends</small>
+                        <small class="form-text text-light">@lang('translates.referrals.sub_message')</small>
                     </form>
                 </div>
             </div>
@@ -123,16 +123,16 @@
                 <div class="card-statistic-3 p-4">
                     <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
                     <div class="mb-3">
-                        <h5 class="card-title mb-0">Total Referrals</h5>
+                        <h5 class="card-title mb-0">@lang('translates.referrals.total')</h5>
                     </div>
                     @php($efficiency = $referral->getAttribute('efficiency') ?? 0)
                     <div class="row align-items-center mb-2 d-flex">
-                        <div class="col-8">
+                        <div class="col-7">
                             <h2 class="d-flex align-items-center mb-0">
-                                {{$referral->getAttribute('total') ?? 0}}
+                                {{$referral->getAttribute('total_users') ?? 0}}
                             </h2>
                         </div>
-                        <div class="col-4 text-right">
+                        <div class="col-5 text-right">
                             <span>{{$efficiency}}% <i class="fa fa-arrow-up"></i></span>
                         </div>
                     </div>
@@ -145,23 +145,23 @@
 
         <div class="col-xl-2 col-lg-6">
             <div class="card widget l-bg-blue-purple">
-                <div class="card-statistic-3 px-4 pt-3" style="padding-bottom: 7px">
+                <div class="card-statistic-3 px-4 py-3" style="padding-bottom: 7px">
                     <div class="card-icon card-icon-large"><i class="far fa-vial"></i></div>
                     <div class="mb-0">
-                        <h5 class="card-title mb-1">Packages</h5>
+                        <h5 class="card-title mb-1">@lang('translates.referrals.packages')</h5>
                     </div>
                     <div class="row align-items-center mb-1 d-flex">
-                        <div class="col-8">
+                        <div class="col-12">
                             <h3 class="d-flex align-items-center mb-0">
                                 {{$referral->getAttribute('total_packages') ?? 0}}
                             </h3>
                         </div>
                     </div>
                     <div class="mb-0">
-                        <h5 class="card-title mb-1">Earnings</h5>
+                        <h5 class="card-title mb-1">@lang('translates.referrals.earnings')</h5>
                     </div>
                     <div class="row align-items-center d-flex">
-                        <div class="col-8">
+                        <div class="col-12">
                             <h3 class="d-flex align-items-center mb-0">
                                 {{$referral->getAttribute('total_earnings') ?? 0}} ₼
                             </h3>
@@ -176,10 +176,10 @@
                 <div class="card-statistic-3 p-4">
                     <div class="card-icon card-icon-large"><i class="fa">₼</i></div>
                     <div class="mb-4">
-                        <h5 class="card-title mb-0">Bonus balance</h5>
+                        <h5 class="card-title mb-0">@lang('translates.referrals.bonus')</h5>
                     </div>
                     <div class="row align-items-center mb-2 d-flex">
-                        <div class="col-8">
+                        <div class="col-12">
                             <h2 class="d-flex align-items-center mb-0">
                                 {{$referral->getAttribute('bonus') ?? 0}} ₼
                             </h2>
@@ -190,37 +190,37 @@
         </div>
         @if($referral->isReal())
             <div class="col-12 text-center mb-3">
-                <p class="text-muted m-3">For getting referral data
-                    <a href="#" class="btn btn-link py-0" onclick="event.preventDefault(); document.getElementById('get-referral-data').submit();">Send request <i class="ml-1 fal fa-smile"></i></a>
-                    @if (!$referral->isNew()) (Last updated: {{optional($referral->getAttribute('updated_at'))->diffForHumans()}})@endif
+                <p class="text-muted m-3">@lang('translates.referrals.get_data')
+                    <a href="#" class="btn btn-link py-0" onclick="event.preventDefault(); document.getElementById('get-referral-data').submit();">@lang('translates.referrals.send_req') <i class="ml-1 fal fa-smile"></i></a>
+                    @if (!$referral->isNew()) (@lang('translates.referrals.updated'): {{optional($referral->getAttribute('updated_at'))->diffForHumans()}})@endif
                 </p>
                 <form id="get-referral-data" method="POST" class="d-none">
                     @csrf
                 </form>
             </div>
         @endif
-        <div class="col-12">
-            <table class="table table-hover table-sm--responsive">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Fullname</th>
-                    <th scope="col">MBX code</th>
-                    <th scope="col">Delivered packages</th>
-                    <th scope="col">Total earnings</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>Otto</td>
-                    <td>Otto</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+{{--        <div class="col-12">--}}
+{{--            <table class="table table-hover table-sm--responsive">--}}
+{{--                <thead>--}}
+{{--                <tr>--}}
+{{--                    <th scope="col">#</th>--}}
+{{--                    <th scope="col">Fullname</th>--}}
+{{--                    <th scope="col">MBX code</th>--}}
+{{--                    <th scope="col">Delivered packages</th>--}}
+{{--                    <th scope="col">Total earnings</th>--}}
+{{--                </tr>--}}
+{{--                </thead>--}}
+{{--                <tbody>--}}
+{{--                <tr>--}}
+{{--                    <th scope="row">1</th>--}}
+{{--                    <td>Mark</td>--}}
+{{--                    <td>Otto</td>--}}
+{{--                    <td>Otto</td>--}}
+{{--                    <td>Otto</td>--}}
+{{--                </tr>--}}
+{{--                </tbody>--}}
+{{--            </table>--}}
+{{--        </div>--}}
     </div>
 @endsection
 @section('scripts')
@@ -230,7 +230,7 @@
             navigator.clipboard.writeText(link.val());
             link.addClass('is-valid');
             link.parent().addClass('is-valid');
-            $(this).children('span').text('Copied');
+            $(this).children('span').text('@lang('translates.buttons.copied')');
         });
     </script>
 @endsection

@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -43,7 +44,7 @@ class RegisterController extends Controller
     {
         $this->validator($request)->validate();
 
-        event(new Registered($user = $this->create($request->all())));
+        event(new Registered($user = $this->create($request)));
 
         $this->guard()->login($user);
 
@@ -61,12 +62,13 @@ class RegisterController extends Controller
         $validator =  Validator::make($request->all(), [
             'name' => ['filled', 'string', 'max:50'],
             'surname' => ['filled', 'string', 'max:50'],
-            'phone' => ['filled', 'string', 'min:12', 'max:15', 'unique:users,phone'],
+            'phone' => ['filled', 'string', 'min:10', 'max:15', 'unique:users,phone'],
             'email_coop' => ['filled', 'allowed_domain','string', 'email:rfc,dns', 'max:50', 'unique:users,email_coop'],
             'department_id' => ['filled', 'integer', 'min:1'],
             'company_id' => ['filled', 'integer', 'min:1'],
             'password' => ['filled', 'string', 'min:8', 'confirmed'],
-            'default_lang' => ['filled', 'string']
+            'default_lang' => ['filled', 'string'],
+            'avatar'  => ['filled', 'image', 'mimes:jpg,png,jpeg,gif', 'max:2048']
         ]);
 
         if($request->expectsJson()){
@@ -80,8 +82,14 @@ class RegisterController extends Controller
         return $validator;
     }
 
-    protected function create(array $data): User
+    protected function create(Request $request): User
     {
+        $data = $request->all();
+
+        if($avatar = $request->file('avatar')){
+            $data['avatar'] = $avatar->storeAs('avatars', $avatar->hashName());
+        }
+
         return User::create([
             'name' => $data['name'],
             'surname' => $data['surname'],
@@ -93,7 +101,8 @@ class RegisterController extends Controller
             'company_id' => $data['company_id'],
             'password' => Hash::make($data['password']),
             'verify_code' => rand(111111, 999999),
-            'default_lang' => $data['default_lang']
+            'default_lang' => $data['default_lang'],
+            'avatar' => $data['avatar']
         ]);
     }
 }

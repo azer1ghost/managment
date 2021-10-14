@@ -124,6 +124,11 @@ return [
         'search' => 'Search',
         'filter' => 'Filter',
         'add'    => 'Add',
+        'copy'   => 'Copy',
+        'copied' => 'Copied',
+        'previous' => 'Previous',
+        'next' => 'Next',
+        'change' => 'Change',
     ],
 
     'or' => 'or',
@@ -157,7 +162,15 @@ return [
 
     'register' => [
         'register'   => 'Register',
-        'title'      => 'Register as employer',
+        'fill' => 'Fill all form field to go to next step',
+        'progress' => [
+            'language' => 'Language',
+            'account' => 'Account',
+            'personal' => 'Personal',
+            'avatar' => 'Avatar'
+        ],
+        'steps' => 'Step :step - 4',
+        'title'      => 'Register as an employee',
         'name'       => 'Name',
         'surname'    => 'Surname',
         'mail_coop'  => 'Cooperative Email',
@@ -244,5 +257,17 @@ return [
             'my_tasks' => 'My tasks',
             'all' => 'All'
         ]
+    ],
+
+    'referrals' => [
+        'link' => 'Your Referral link',
+        'sub_message' => 'This is your referral link, copy and share with your friends',
+        'total' => 'Total Referrals',
+        'packages' => 'Packages',
+        'earnings'  => 'Earnings',
+        'bonus'   => 'Bonus balance',
+        'get_data' => 'For getting referral data',
+        'send_req' => 'Send request',
+        'updated' => 'Last updated'
     ]
 ];

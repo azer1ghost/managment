@@ -19,7 +19,7 @@ class Localization
         return $next($request);
     }
 
-    public static function locale(string $locale): void
+    public function locale(string $locale)
     {
         if (!array_key_exists($locale, config('app.locales')))
         {
@@ -28,5 +28,7 @@ class Localization
 
         App::setlocale($locale);
         session()->put('locale', $locale);
+
+        return back();
     }
 }

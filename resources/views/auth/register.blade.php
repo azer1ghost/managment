@@ -12,40 +12,284 @@
 @endsection
 
 @section('content')
-    <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
-        <div class="container">
-            <div class="card login-card">
-                <div class="row no-gutters">
-                    <div class="col-md-5">
-                        <img src="https://source.unsplash.com/900x1100/?office" id="loginBackground" alt="login" class="login-card-img">
+    <div class="row justify-content-center" id="register-container">
+        <div class="col-11 col-sm-9 col-md-7 col-lg-6 col-xl-5 text-center p-0 mt-3 mb-2">
+            <div class="px-0 pt-4 pb-0 mt-3 mb-3">
+                <h2 id="heading">@lang('translates.register.title')</h2>
+                <p>@lang('translates.register.fill')</p>
+                <form id="register-form" method="POST" action="{{route('register')}}" enctype="multipart/form-data">
+                @csrf
+                <!-- progressbar -->
+                    <ul id="progressbar">
+                        <li class="active" id="language"><strong>@lang('translates.register.progress.language')</strong></li>
+                        <li id="account"><strong>@lang('translates.register.progress.account')</strong></li>
+                        <li id="personal"><strong>@lang('translates.register.progress.personal')</strong></li>
+                        <li id="image"><strong>@lang('translates.register.progress.avatar')</strong></li>
+                    </ul>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <div class="col-md-7">
-                        <div class="card-body">
-                            <div class="brand-wrapper">
-                                <img src="{{asset('assets/images/logos/group.png')}}" alt="logo" class="logo">
+                    <br> <!-- fieldsets -->
+                    <fieldset id="step-1">
+                        <div class="form-card">
+                            <div class="row align-items-center">
+                                <div class="col-7">
+                                    <h2 class="fs-title">@lang('translates.register.progress.language'):</h2>
+                                </div>
+                                <div class="col-5">
+                                    <h4 class="steps">@lang('translates.register.steps', ['step' => 1])</h4>
+                                </div>
                             </div>
-                            <p class="login-card-description">@lang('translates.register.title')</p>
-                            @php
-                                $departments = \App\Models\Department::all()->pluck('name', 'id')->toArray();
-                                $companies   = \App\Models\Company::all()->pluck('name', 'id')->toArray();
-                            @endphp
-                            <form method="POST" class="form-row" action="{{ route('register') }}">
-                                @csrf
-                                <x-input::text required="" name="name" width="6" :label="__('translates.register.name')" :placeholder="__('translates.placeholders.name')"/>
-                                <x-input::text required="" name="surname" width="6" :label="__('translates.register.surname')" :placeholder="__('translates.placeholders.surname')"/>
-                                <x-input::email required="" name="email_coop" :label="__('translates.register.mail_coop')" :placeholder="__('translates.placeholders.mail_coop')"/>
-                                <x-input::text required="" name="phone" value="+994 " :label="__('translates.register.phone')" :placeholder="__('translates.placeholders.phone')"/>
-                                <x-input::select name="department_id"  width="6"  class="pr-1" :options="$departments" :label="__('translates.register.department')"  required=""/>
-                                <x-input::select name="company_id"  width="6"  class="pr-1" :options="$companies" :label="__('translates.register.company')"  required=""/>
-                                <x-input::text type="password" required="" name="password" width="6" :label="__('translates.register.password')" :placeholder="__('translates.placeholders.password')"/>
-                                <x-input::text type="password" required="" name="password_confirmation" :label="__('translates.register.password_confirm')" :placeholder="__('translates.placeholders.password_confirm')" width="6"/>
-                                <x-input::select  name="default_lang" :label="__('translates.fields.default_lang')" width="6" class="pr-0" :options="config('app.locales')" />
-                                <x-input::submit :value="__('translates.register.register')"/>
-                            </form>
+                            <div class="row py-5">
+                                @foreach(config('app.locales') as $lang => $language)
+                                    <div class="col-12 col-md-6 text-center lang">
+                                        <a href="@if (app()->getLocale() != $lang) {{route('locale', $lang)}} @else # @endif" onclick="loadLanguage()">
+                                            <div class="@if (app()->getLocale() == $lang) active @endif p-3" style="cursor: pointer" onclick="">
+                                                <span class="flag-icon flag-icon-{{$lang == 'en' ? 'gb' : $lang}}" style="font-size: 100px"></span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
-                </div>
+                        <div class="row justify-content-end align-items-center">
+                            <div class="spinner-border text-primary mr-3 d-none" id="load-language" role="status"></div>
+                            <input type="button" name="next" class="next action-button" value="@lang('translates.buttons.next')" id="default_lang_next"/>
+                        </div>
+                        <input type="hidden" name="default_lang" value="{{app()->getLocale()}}">
+                        <script>
+                            function loadLanguage(){
+                                document.getElementById('load-language').classList.remove('d-none');
+                                document.getElementById('default_lang_next').disabled = true;
+                            }
+                        </script>
+                    </fieldset>
+                    <x-fieldset header="account" step="2">
+                        <div class="col-12 mb-3 px-0">
+                            <label class="fieldlabels">@lang('translates.register.mail_coop'): *</label>
+                            <input type="email" name="email_coop" class="form-control" />
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="col-12 mb-3 px-0">
+                            <label class="fieldlabels">@lang('translates.register.phone'): *</label>
+                            <input type="text" name="phone" class="form-control" value="+994"/>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="col-12 mb-3 px-0">
+                            <label class="fieldlabels">@lang('translates.register.password'): *</label>
+                            <input type="password" name="password" class="form-control" />
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="col-12 mb-3 px-0">
+                            <label class="fieldlabels">@lang('translates.register.password_confirm'): *</label>
+                            <input type="password" name="password_confirmation" class="form-control" />
+                            <div class="invalid-feedback"></div>
+                        </div>
+                    </x-fieldset>
+                    <x-fieldset header="personal" step="3">
+                        @php
+                            $departments = \App\Models\Department::all()->pluck('name', 'id')->toArray();
+                            $companies   = \App\Models\Company::all()->pluck('name', 'id')->toArray();
+                        @endphp
+                        <div class="col-12 mb-3 px-0">
+                            <label class="fieldlabels">@lang('translates.register.name'): *</label>
+                            <input type="text" name="name" class="form-control"/>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="col-12 mb-3 px-0">
+                            <label class="fieldlabels">@lang('translates.register.surname'): *</label>
+                            <input type="text" name="surname" class="form-control"/>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="col-12 mb-3 px-0">
+                            <label class="fieldlabels">@lang('translates.register.department'): *</label>
+                            <select name="department_id" class="form-control">
+                                <option value="">@lang('translates.fields.department') @lang('translates.placeholders.choose')</option>
+                                @foreach($departments as $id => $dep)
+                                    <option value="{{$id}}">{{$dep}}</option>
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="col-12 mb-3 px-0">
+                            <label class="fieldlabels">@lang('translates.register.company'): *</label>
+                            <select name="company_id" class="form-control">
+                                <option value="">@lang('translates.fields.company') @lang('translates.placeholders.choose')</option>
+                                @foreach($companies as $id => $company)
+                                    <option value="{{$id}}">{{$company}}</option>
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                    </x-fieldset>
+                    <x-fieldset header="avatar" step="4">
+                        <div class ='col-12 mb-3 px-0'>
+                            <label for="data-avatar">
+                                <div class="card" style="max-width: 100%">
+                                    <img class="img-fluid" id="input-avatar" src="{{image('no_image')}}" alt="avatar">
+                                    <div class="btn btn-outline-primary">@lang('translates.buttons.change')</div>
+                                </div>
+                            </label>
+                            <input
+                                    type="file"
+                                    accept="image/*"
+                                    class="form-control d-none"
+                                    name="avatar"
+                                    id="data-avatar"
+                                    onchange="previewFile()"
+                            >
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <script>
+                            function previewFile() {
+                                const preview = document.querySelector('#input-avatar');
+                                const file = document.querySelector('input[type=file]').files[0];
+                                if (hasExtension('data-avatar', ['.jpg', '.jpeg', '.gif', '.png'])) {
+                                    preview.src = URL.createObjectURL(file);
+                                    preview.onload = function() {
+                                        URL.revokeObjectURL(preview.src) // free memory
+                                    }
+                                }else{
+                                    $.alert({
+                                        title: 'Error',
+                                        content: 'Invalid image type, please upload png, jpg, jpeg or gif',
+                                        type: 'red',
+                                        icon: 'fa fa-times',
+                                        typeAnimated: true,
+                                        theme: 'modern'
+                                    });
+                                }
+                            }
+                            function hasExtension(inputID, exts) {
+                                const fileName = document.getElementById(inputID).value;
+                                return (new RegExp('(' + exts.join('|').replace(/\./g, '\\.') + ')$')).test(fileName);
+                            }
+                        </script>
+                    </x-fieldset>
+                </form>
             </div>
         </div>
-    </main>
+    </div>
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            let current_fs, next_fs, previous_fs;
+            let opacity;
+            let current = 1;
+            let fieldsets = $("fieldset");
+            let steps = fieldsets.length;
+
+            setProgressBar(current);
+
+            function nextFieldSet(){
+                $("#progressbar li").eq(fieldsets.index(next_fs)).addClass("active");
+                next_fs.show();
+                current_fs.animate({opacity: 0}, {
+                    step: function(now) {
+                        opacity = 1 - now;
+
+                        current_fs.css({
+                            'display': 'none',
+                            'position': 'relative'
+                        });
+                        next_fs.css({'opacity': opacity});
+                    },
+                    duration: 500
+                });
+                setProgressBar(++current);
+            }
+
+            $(".next").click(function(){
+
+                current_fs = $(this).parent().parent();
+                next_fs = $(this).parent().parent().next();
+
+                let btn = $(this);
+
+                if(current_fs.attr('id') === 'step-1'){
+                    nextFieldSet();
+                    return;
+                }
+
+                const data = new FormData();
+                $('#' + current_fs.attr('id') + ' :input').each(function (index, input){
+                    if($(input).attr('name') === 'avatar'){
+                        data.append($(input).attr('name'), $(input).prop('files')[0]);
+                    }else{
+                        data.append($(input).attr('name'), $(input).val());
+                    }
+                    $(input).removeClass('is-invalid').next().text('');
+                });
+                data.append('_token', '{{ csrf_token() }}');
+
+                $.ajax({
+                    url: '{{route('validate-register')}}',
+                    method: 'POST',
+                    data: data,
+                    dataType: 'json',
+                    processData: false,
+                    contentType: false,
+                    beforeSend: function(){
+                        btn.attr('disabled', true);
+                        btn.parent().find('div').removeClass('d-none');
+                    },
+                    success: function (res){
+                        if(res.success){
+                            if(current_fs.attr('id') === 'step-4'){
+                                $('#register-form').submit();
+                                return;
+                            }
+                            $("#progressbar li").eq(fieldsets.index(next_fs)).addClass("active");
+                            nextFieldSet();
+                        }else{
+                            for (const err in res.errors) {
+                                res.errors[err].forEach(function (error){
+                                    $(`#${current_fs.attr('id')} :input[name="${err}"]`).addClass('is-invalid').next().append(`${error}</br>`);
+                                });
+                            }
+                        }
+                        btn.parent().find('div').addClass('d-none');
+                        btn.attr('disabled', false);
+                    },
+                    error: function (err){
+                        btn.parent().find('div').addClass('d-none');
+                        console.log(err)
+                    }
+                });
+            });
+
+            $(".previous").click(function(){
+
+                current_fs = $(this).parent().parent();
+                previous_fs = $(this).parent().parent().prev();
+
+                $("#progressbar li").eq(fieldsets.index(current_fs)).removeClass("active");
+
+                previous_fs.show();
+
+                current_fs.animate({opacity: 0}, {
+                    step: function(now) {
+                        opacity = 1 - now;
+
+                        current_fs.css({
+                            'display': 'none',
+                            'position': 'relative'
+                        });
+                        previous_fs.css({'opacity': opacity});
+                    },
+                    duration: 500
+                });
+                setProgressBar(--current);
+            });
+
+            function setProgressBar(curStep){
+                let percent = parseFloat(100 / steps) * curStep;
+                percent = percent.toFixed();
+                $(".progress-bar")
+                    .css("width",percent+"%")
+            }
+        });
+    </script>
 @endsection

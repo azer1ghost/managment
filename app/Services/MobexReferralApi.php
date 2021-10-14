@@ -6,11 +6,16 @@ use Illuminate\Support\Facades\Http;
 
 class MobexReferralApi
 {
-    protected string  $apiUrl = 'http://10.10.11.26:8000/api/referral/bonus', $token  = '';
+    private string  $apiUrl = 'http://10.10.11.26:8000/api/referral/bonus', $token;
     // 10.10.11.26
     // http://api.mobex.az/v1/referral/bonus
 
     public string $key = '';
+
+    public function __construct()
+    {
+        $this->token = sha1('hesoyam');
+    }
 
     public function by($key): MobexReferralApi
     {
@@ -21,16 +26,8 @@ class MobexReferralApi
 
     public function get()
     {
-        return  Http::get($this->apiUrl, [
-//           'token' => $this->token,
+        return Http::withHeaders(['Authorization' => "Bearer $this->token"])->get($this->apiUrl, [
            'key' => $this->key,
-       ])->json();
-//        return $data = [
-//            'total' => 10,
-//            'efficiency' => 50,
-//            'total_earnings' => 125,
-//            'total_packages' => 15,
-//            'bonus' => 5,
-//        ];
+       ]);
     }
 }

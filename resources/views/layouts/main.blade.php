@@ -16,8 +16,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <!-- Styles -->
-    <link href="{{ mix('assets/css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/fonts/fontawesome.pro.min.css') }}" rel="stylesheet">
+    <link href="{{ mix('assets/css/app.css') }}" rel="stylesheet">
     @yield('style')
 
     @livewireStyles
@@ -25,11 +25,6 @@
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
 </head>
 <body class="custom-scrollbar">
-{{--    @if (Request::root() === 'http://10.10.11.8') {--}}
-{{--    <div class="position-sticky">--}}
-{{--        <a href="{{route('host.bat')}}" class="btn btn-outline-success"><i class="fas fa-download"></i> Download host file</a>--}}
-{{--    </div>--}}
-{{--    @endif--}}
     <div class="custom-wrapper">
         @if (auth()->check() && (request()->routeIs('account') || auth()->user()->hasVerifiedPhone()) && !request()->routeIs('welcome'))
             <div class="section">

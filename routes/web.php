@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\Localization;
 use App\Http\Controllers\{Auth\LoginController,
     Auth\PhoneVerifycationController,
     Auth\RegisterController,
@@ -56,8 +57,9 @@ Route::group([
 });
 
 Auth::routes(['login' => false]);
-Route::view('/new-form', 'new-form')->name('new-form');
-Route::post('/new-form', [RegisterController::class, 'validator']);
+
+// Route for register validation
+Route::post('/validate-register', [RegisterController::class, 'validator'])->name('validate-register');
 
 PhoneVerifycationController::routes();
 
@@ -68,6 +70,6 @@ Route::post('/phone-update', [LoginController::class, 'phoneUpdate'])->name('pho
 
 Route::get('ip-resolver.bat', [PlatformController::class, 'downloadBat'])->name('host.bat');
 
-//Route::get('locale/{locale}', [Localization::class, 'locale'])->whereAlpha('locale')->where('locale','[a-z]{2}')->name('locale');
+Route::get('locale/{locale}', [Localization::class, 'locale'])->whereAlpha('locale')->where('locale','[a-z]{2}')->name('locale');
 
 Route::get('/test', [PlatformController::class, 'test']);

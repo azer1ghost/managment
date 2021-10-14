@@ -86,9 +86,6 @@ class User extends Authenticatable implements MustVerifyPhone
             if($model->isDirty('department_id')){
                 $model->position_id = null;
             }
-            if($model->id == auth()->id() && $model->isDirty('default_lang')){
-                Localization::locale($model->default_lang);
-            }
         });
     }
 

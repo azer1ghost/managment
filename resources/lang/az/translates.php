@@ -122,6 +122,11 @@ return [
         'search' => 'Axtar',
         'filter' => 'Filterlə',
         'add'    => 'Əlavə et',
+        'copy'   => 'Kopyala',
+        'copied' => 'Kopyalandı',
+        'previous' => 'Əvvəlki',
+        'next' => 'Sonrakı',
+        'change' => 'Dəyişdirin',
     ],
 
     'or' => 'və ya',
@@ -155,6 +160,14 @@ return [
 
     'register' => [
         'register'  => 'Qeydiyyat',
+        'fill' => 'Növbəti mərhələyə keçmək üçün bütün forma sahələrini doldurun',
+        'progress' => [
+            'language' => 'Dil',
+            'account' => 'Hesab',
+            'personal' => 'Şəxsi',
+            'avatar' => 'Şəkil'
+        ],
+        'steps' => 'Addım :step - 4',
         'title'     => 'İşçi kimi qeydiyyatdan keçin',
         'name'      => 'Ad',
         'surname'   => 'Soyad',
@@ -242,6 +255,18 @@ return [
             'my_tasks' => 'Mənim tapşırdıqlarım',
             'all' => 'Hamısı'
         ]
+    ],
+
+    'referrals' => [
+        'link' => 'Sizin referal linkiniz',
+        'sub_message' => 'Bu referal linkinizdir, kopyalayın və dostlarınızla paylaşın',
+        'total' => 'Toplam referallar',
+        'packages' => 'Bağlamalar',
+        'earnings'  => 'Qazanc',
+        'bonus'   => 'Bonus balansı',
+        'get_data' => 'Referal məlumatlarını əldə etmək üçün',
+        'send_req' => 'Sorğu göndərin',
+        'updated' => 'Son yenilənmə',
     ]
 
 ];

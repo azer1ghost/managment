@@ -1,0 +1,213 @@
+#register-container{
+  p {
+    color: grey
+  }
+
+  #heading {
+    text-transform: uppercase;
+    color: $primary;
+    font-weight: normal
+  }
+
+  #register-form {
+    text-align: center;
+    position: relative;
+    margin-top: 20px
+  }
+
+  #register-form fieldset {
+    background: transparent;
+    border: 0 none;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding-bottom: 20px;
+    position: relative
+  }
+
+  #register-form fieldset#step-1 .lang div.active{
+    border: 1px solid $primary;
+  }
+
+  .form-card {
+    text-align: left
+  }
+
+  #register-form fieldset:not(:first-of-type) {
+    display: none
+  }
+
+  #register-form input,
+  #register-form textarea {
+    padding: 8px 15px 8px 15px;
+    border: 1px solid #ccc;
+    border-radius: 0;
+    margin-top: 2px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: Nunito, sans-serif;
+    color: #2C3E50;
+    background-color: #ECEFF1;
+    font-size: 16px;
+    letter-spacing: 1px
+  }
+
+  #register-form input:focus,
+  #register-form textarea:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 1px solid #673AB7;
+    outline-width: 0
+  }
+
+  #register-form .action-button {
+    width: 100px;
+    background: $primary;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 0 10px 5px;
+    float: right
+  }
+
+  #register-form .action-button:hover,
+  #register-form .action-button:focus {
+    background-color: $primary
+  }
+
+  #register-form .action-button-previous {
+    width: 100px;
+    background: #616161;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px 10px 0;
+    float: right
+  }
+
+  #register-form .action-button-previous:hover,
+  #register-form .action-button-previous:focus {
+    background-color: #000000
+  }
+
+  .card {
+    z-index: 0;
+    border: none;
+    position: relative
+  }
+
+  .fs-title {
+    font-size: 25px;
+    color: $primary;
+    margin-bottom: 15px;
+    font-weight: normal;
+    text-align: left
+  }
+
+  .purple-text {
+    color: $primary;
+    font-weight: normal
+  }
+
+  .steps {
+    font-size: 20px;
+    color: gray;
+    margin-bottom: 15px;
+    font-weight: normal;
+    text-align: right
+  }
+
+  .fieldlabels {
+    color: gray;
+    text-align: left
+  }
+
+  #progressbar {
+    margin-bottom: 30px;
+    overflow: hidden;
+    color: lightgrey
+  }
+
+  #progressbar .active {
+    color: $primary
+  }
+
+  #progressbar li {
+    list-style-type: none;
+    font-size: 15px;
+    width: 25%;
+    float: left;
+    position: relative;
+    font-weight: 400
+  }
+
+  #progressbar #account:before {
+    font-family: "Font Awesome 5 Pro", serif; /* This is the correct font-family*/
+    content: "\f09c";
+  }
+
+  #progressbar #personal:before {
+    font-family: "Font Awesome 5 Pro", serif;
+    content: "\f007";
+  }
+
+  #progressbar #image:before {
+    font-family: "Font Awesome 5 Pro", serif;
+    content: "\f030";
+  }
+
+  #progressbar #language:before {
+      font-family: "Font Awesome 5 Pro", serif;
+      content: "\f1ab"
+  }
+
+  #progressbar li:before {
+    width: 50px;
+    height: 50px;
+    line-height: 45px;
+    display: block;
+    font-size: 20px;
+    color: #ffffff;
+    background: lightgray;
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+    padding: 2px
+  }
+
+  #progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: lightgray;
+    position: absolute;
+    left: 0;
+    top: 25px;
+    z-index: -1
+  }
+
+  #progressbar li.active:before,
+  #progressbar li.active:after {
+    background: $primary
+  }
+
+  .progress {
+    height: 20px
+  }
+
+  .progress-bar {
+    background-color: $primary
+  }
+
+  .fit-image {
+    width: 100%;
+    object-fit: cover
+  }
+}

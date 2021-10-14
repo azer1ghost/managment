@@ -17,7 +17,7 @@ class CreateReferralsTable extends Migration
             $table->id();
             $table->string('key')->unique();
             $table->foreignId('user_id')->constrained()->onDelete('CASCADE');
-            $table->integer('total')->default(0);
+            $table->integer('total_users')->default(0);
             $table->double('bonus', '8', '2')->default(0);
             $table->double('efficiency', '8', '2')->default(0);
             $table->double('total_earnings', '8', '2')->default(0);

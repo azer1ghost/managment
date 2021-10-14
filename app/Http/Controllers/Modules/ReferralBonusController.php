@@ -27,11 +27,25 @@ class ReferralBonusController extends Controller
 
     public function refresh()
     {
-        $data = (new MobexReferralApi)->by(
+        $response = (new MobexReferralApi)->by(
             $this->referral()->first()->getAttribute('key')
         )->get();
 
-        dd($data);
+        $data = $response->json();
+
+        if($response->status() == 429){
+            return back()->withNotify('error', $response->toPsrResponse()->getReasonPhrase(), true);
+        }
+
+        $referral = $this->referral()->first();
+
+        $data['total_earnings'] += $referral->getAttribute('total_earnings');
+        $data['total_packages'] += $referral->getAttribute('total_packages');
+        $data['bonus'] = ($data['total_earnings'] * $referral->getAttribute('referral_bonus_percentage') / 100);
+
+        if(array_key_exists('referral_bonus_percentage', $data)){
+            unset($data['referral_bonus_percentage']);
+        }
 
         $this->referral()->update($data);
 
