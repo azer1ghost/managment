@@ -123,13 +123,44 @@
                         </div>
                     </x-fieldset>
                     <x-fieldset header="avatar" step="4">
-                        <div class ='col-12 mb-3 px-0'>
+                        <div class ='col-4 px-0'>
                             <label for="data-avatar">
-                                <div class="card" style="max-width: 100%">
-                                    <img class="img-fluid" id="input-avatar" src="{{image('no_image')}}" alt="avatar">
-                                    <div class="btn btn-outline-primary">@lang('translates.buttons.change')</div>
+                                <style>
+                                    .card-hover{
+                                        position: relative;
+                                    }
+                                    .card-hover::after{
+                                        transition: all 0.4s ease !important;
+                                        font-family: 'Font Awesome 5 Pro', sans-serif;
+                                        content: '\f030';
+                                        display: grid;
+                                        place-items: center;
+                                        font-size: 60px;
+                                        color: white;
+                                        position:absolute;
+                                        top: 0;
+                                        right: 0;
+                                        background-color: black;
+                                        opacity: 0.7;
+                                        visibility: hidden;
+                                        width: 100%;
+                                        height: 100%;
+                                        z-index: 10;
+                                        border-radius: 50%;
+                                        cursor: pointer;
+
+                                    }
+                                    .card-hover:hover::after{
+                                        transition: all 4s ease !important;
+                                        visibility: visible;
+                                    }
+                                </style>
+                                <div class="card-hover" style="max-width: 100%">
+                                    <img class="img-fluid rounded-circle" id="input-avatar" src="{{image('no_image')}}" alt="avatar">
                                 </div>
                             </label>
+                        </div>
+                        <div class="col-12">
                             <input
                                     type="file"
                                     accept="image/*"
@@ -149,15 +180,6 @@
                                     preview.onload = function() {
                                         URL.revokeObjectURL(preview.src) // free memory
                                     }
-                                }else{
-                                    $.alert({
-                                        title: 'Error',
-                                        content: 'Invalid image type, please upload png, jpg, jpeg or gif',
-                                        type: 'red',
-                                        icon: 'fa fa-times',
-                                        typeAnimated: true,
-                                        theme: 'modern'
-                                    });
                                 }
                             }
                             function hasExtension(inputID, exts) {
