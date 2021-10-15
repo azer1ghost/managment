@@ -39,6 +39,7 @@
   }
 
   #register-form input,
+  #register-form select,
   #register-form textarea {
     padding: 8px 15px 8px 15px;
     border: 1px solid #ccc;
@@ -54,11 +55,12 @@
   }
 
   #register-form input:focus,
+  #register-form select:focus,
   #register-form textarea:focus {
     -moz-box-shadow: none !important;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
-    border: 1px solid #673AB7;
+    border: 1px solid $primary;
     outline-width: 0
   }
 

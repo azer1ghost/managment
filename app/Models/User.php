@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Contracts\Auth\MustVerifyPhone;
-use App\Http\Middleware\Localization;
 use App\Traits\GetClassInfo;
 use App\Traits\Loger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

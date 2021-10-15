@@ -62,7 +62,20 @@
             <x-input::select  name="serial_pattern" :value="optional($data)->getAttribute('serial_pattern')" label="Serial" width="1" class="p-0"   :options="['AA' => 'AA','AZE' => 'AZE']"/>
             <x-input::text    name="serial" :value="optional($data)->getAttribute('serial')" label=" "   width="3" class="pr-0"  placeholder="Enter serial number"/>
             <x-input::text    name="fin"    :value="optional($data)->getAttribute('fin')"    label="FIN"    width="2" class="pr-0" />
-            <x-input::select  name="gender" :value="optional($data)->getAttribute('gender')" :options="['male','female']" width="2" class="pr-0" />
+            <div class="form-group col-12 col-md-2">
+                <label for="data-gender">{{__('translates.fields.gender')}}</label>
+                <select class="form-control @error('gender') is-invalid @enderror" name="gender" id="data-gender" style="padding: .375rem 0.75rem !important;">
+                    <option disabled selected value="null">{{__('translates.fields.gender')}} {{__('translates.placeholders.choose')}}</option>
+                    @foreach([__('translates.gender.male'), __('translates.gender.female')] as $key => $option)
+                        <option @if ($key === optional($data)->getAttribute('gender')) selected @endif value="{{$key}}">{{$option}}</option>
+                    @endforeach
+                </select>
+                @error('gender')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
             <x-input::date    name="birthday" :value="optional($data)->getAttribute('birthday')" width="4" class="pr-0" />
             <!-- Contact -->
             <div class="col-md-12 px-0">

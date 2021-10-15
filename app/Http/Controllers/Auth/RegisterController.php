@@ -63,12 +63,16 @@ class RegisterController extends Controller
             'name' => ['filled', 'string', 'max:50'],
             'surname' => ['filled', 'string', 'max:50'],
             'phone' => ['filled', 'string', 'min:10', 'max:15', 'unique:users,phone'],
+            'phone_coop' => ['filled', 'string', 'min:10', 'max:15', 'unique:users,phone_coop'],
             'email_coop' => ['filled', 'allowed_domain','string', 'email:rfc,dns', 'max:50', 'unique:users,email_coop'],
+            'email' => ['filled', 'string', 'email:rfc,dns', 'max:50', 'unique:users,email'],
             'department_id' => ['filled', 'integer', 'min:1'],
             'company_id' => ['filled', 'integer', 'min:1'],
             'password' => ['filled', 'string', 'min:8', 'confirmed'],
             'default_lang' => ['filled', 'string'],
-            'avatar'  => ['filled', 'image', 'mimes:jpg,png,jpeg,gif', 'max:2048']
+            'avatar'  => ['filled', 'image', 'mimes:jpg,png,jpeg,gif', 'max:2048'],
+            'serial' => ['filled', 'string'],
+            'fin' => ['filled', 'string', 'min:7', 'max:7']
         ]);
 
         if($request->expectsJson()){
@@ -85,7 +89,6 @@ class RegisterController extends Controller
     protected function create(Request $request): User
     {
         $data = $request->all();
-
         if($avatar = $request->file('avatar')){
             $data['avatar'] = $avatar->storeAs('avatars', $avatar->hashName());
         }
@@ -93,16 +96,20 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'surname' => $data['surname'],
-            'email' => null,
+            'email' => $data['email'],
             'email_coop' => $data['email_coop'],
             'phone' => $data['phone'],
+            'phone_coop' => $data['phone_coop'],
             'role_id' => 4,
             'department_id' => $data['department_id'],
             'company_id' => $data['company_id'],
             'password' => Hash::make($data['password']),
             'verify_code' => rand(111111, 999999),
             'default_lang' => $data['default_lang'],
-            'avatar' => $data['avatar']
+            'avatar' => $data['avatar'],
+            'serial_pattern' => $data['serial_pattern'],
+            'serial' => $data['serial'],
+            'fin' => $data['fin']
         ]);
     }
 }

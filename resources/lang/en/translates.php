@@ -162,7 +162,7 @@ return [
 
     'register' => [
         'register'   => 'Register',
-        'fill' => 'Fill all form field to go to next step',
+        'fill' => 'Fill all form fields to go to next step',
         'progress' => [
             'language' => 'Language',
             'account' => 'Account',
