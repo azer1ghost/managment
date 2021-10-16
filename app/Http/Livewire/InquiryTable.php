@@ -124,18 +124,8 @@ class InquiryTable extends Component
                             $query->when($value, function ($query, $value) use ($column) {
                                 if (is_array($value)) {
                                      $query->whereIn($column, $value);
-                                }
-                                elseif (strtotime($value)) {
-                                     $query->whereDate($column, $value);
-                                }
-                                elseif (is_numeric($value)) {
-                                     $query->where(\Str::singular($column), $value);
-                                }
-                                elseif (is_string($value)) {
-                                    $query->where(\Str::singular($column), 'like', "%" . trim($value) . "%");
-                                }
-                                else {
-                                     $query->where(\Str::singular($column), $value);
+                                } else {
+                                     $query->where($column, 'LIKE',  "%$value%");
                                 }
                             });
                         }
