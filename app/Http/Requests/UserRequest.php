@@ -35,7 +35,7 @@ class UserRequest extends FormRequest
             'city'           => 'nullable|string|max:255',
             'address'        => 'nullable|string|max:255',
             'company_id'     => 'filled|integer|min:1',
-            'role_id'        => 'required|integer|min:1',
+            'role_id'        => 'filled|integer|min:1',
             'birthday'       => 'nullable|date',
             'password'       => "$password|confirmed|min:6|string",
             'department_id'  => 'filled|integer|min:1',
