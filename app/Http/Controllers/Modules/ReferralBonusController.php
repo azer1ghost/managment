@@ -31,13 +31,16 @@ class ReferralBonusController extends Controller
             $this->referral()->first()->getAttribute('key')
         )->get();
 
-        $cleanResponse = strpos('.', $response->body()) == 0 ? substr($response->body(),1) : $response->body();
-
-        $data = (array) json_decode($cleanResponse);
-
         if($response->status() != 200){
             return back()->withNotify('error', "Error Code: {$response->status()}. " .  $response->toPsrResponse()->getReasonPhrase(), true);
         }
+
+        if(array_key_exists('error', $response->json())){
+            return back()->withNotify('error', 'Sizin hazırda referalınız yoxdur :(', true);
+        }
+
+        $cleanResponse = strpos('.', $response->body()) == 0 ? substr($response->body(),1) : $response->body();
+        $data = (array) json_decode($cleanResponse);
 
         $referral = $this->referral()->first();
 
