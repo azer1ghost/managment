@@ -20,13 +20,13 @@
                 @endif
 
                 // tasks done data
-                {{$model}}Chart.data = @json($results['users']);
+                {{$model}}Chart.data = (@json($results['users'])).reverse();
 
                 document.getElementById('toggle-taskable').addEventListener('change', function(event) {
                     if (event.currentTarget.checked) {
-                        {{$model}}Chart.data = @json($results['departments']);
+                        {{$model}}Chart.data = (@json($results['departments'])).reverse();
                     } else {
-                        {{$model}}Chart.data = @json($results['users']);
+                        {{$model}}Chart.data = (@json($results['users'])).reverse();
                     }
                     reanimate();
                 });
