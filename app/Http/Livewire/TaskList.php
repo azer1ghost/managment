@@ -32,7 +32,7 @@ class TaskList extends Component
         // check if all lists are checked
         $this->emit('isTasksFinished');
 
-        $url = config('app.url') . "/module/tasks/{$this->task->getAttribute('id')}";
+        $url = route('tasks.show', $this->task->getAttribute('id'));
         $users = $this->task->getAttribute('taskable_type') == 'App\Models\User' ?
             User::find($this->task->getAttribute('taskable_id')) :
             User::where('id', '!=', auth()->id())->where('department_id', $this->task->getAttribute('taskable_id'))->get();

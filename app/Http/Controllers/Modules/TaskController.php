@@ -129,7 +129,7 @@ class TaskController extends Controller
             $users = User::where('id', '!=' ,auth()->id())->where('department_id', $validated['department'])->get();
             $content = __('translates.tasks.content.department');
         }
-        $url = config('app.url') . "/module/tasks/{$task->getAttribute('id')}";
+        $url = route('tasks.show', $task->getAttribute('id'));
 
         Notification::send($users, new TaskAssigned($content, $url, 'translates.tasks.new'));
 
