@@ -6,10 +6,7 @@ use Illuminate\Support\Facades\Http;
 
 class MobexReferralApi
 {
-    private string  $apiUrl = 'http://10.10.11.26:8000/api/referral/bonus', $token;
-    // 10.10.11.26
-    // http://api.mobex.az/v1/referral/bonus
-
+    private string  $apiUrl = 'http://api.mobex.az/v1/referral/bonus', $token;
     public string $key = '';
 
     public function __construct()
@@ -26,7 +23,7 @@ class MobexReferralApi
 
     public function get()
     {
-        return Http::withHeaders(['Authorization' => "Bearer $this->token"])->get($this->apiUrl, [
+        return Http::withHeaders(['Authorization' => "Bearer $this->token", 'Accept' => 'application/json'])->get($this->apiUrl, [
            'key' => $this->key,
        ]);
     }

@@ -31,7 +31,9 @@ class ReferralBonusController extends Controller
             $this->referral()->first()->getAttribute('key')
         )->get();
 
-        $data = $response->json();
+        $cleanResponse = strpos('.', $response->body()) == 0 ? substr($response->body(),1) : $response->body();
+
+        $data = (array) json_decode($cleanResponse);
 
         if($response->status() == 429){
             return back()->withNotify('error', $response->toPsrResponse()->getReasonPhrase(), true);
