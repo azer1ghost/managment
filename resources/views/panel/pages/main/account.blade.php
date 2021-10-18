@@ -30,10 +30,8 @@
             <p class="text-muted mb-2">@lang('translates.fields.employment')</p>
             <hr class="my-2">
             <div class="row mr-0">
-                <x-input::select default="1" name="department_id" :label="__('translates.fields.department')" :value="auth()->user()->getRelationValue('department')->getAttribute('id')" width="6"  class="pr-0" :options="$departments" />
-                @if (auth()->user()->isDirector())
-                    <x-input::select default="1" name="position_id" :label="__('translates.fields.position')" :value="optional(auth()->user()->getRelationValue('position'))->getAttribute('id')"   width="6"  class="pr-0" :options="$directorPositions" />
-                @else
+                @if (!auth()->user()->isDirector())
+                    <x-input::select default="1" name="department_id" :label="__('translates.fields.department')" :value="auth()->user()->getRelationValue('department')->getAttribute('id')" width="6"  class="pr-0" :options="$departments" />
                     <x-input::select default="1" name="position_id"  :label="__('translates.fields.position')" :value="optional(auth()->user()->getRelationValue('position'))->getAttribute('id')"   width="6"  class="pr-0" :options="$positions" />
                 @endif
                 <x-input::select default="1" name="company_id"  :label="__('translates.fields.company')"  :value="auth()->user()->getRelationValue('company')->getAttribute('id')"  width="6"  class="pr-0"   :options="$companies" />

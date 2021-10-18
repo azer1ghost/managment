@@ -140,7 +140,7 @@ return [
         'account'    => 'Hesab',
         'signature'  => 'Email İmza',
         'inquiry'    => 'Sorğular',
-        'task'       => 'İcra olunacaqlar',
+        'task'       => 'Tapşırıqlar',
         'parameter'  => 'Parametrlər',
         'option'     => 'Seçimlər',
         'role'       => 'Rollar',
