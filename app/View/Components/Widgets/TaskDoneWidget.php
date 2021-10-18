@@ -26,8 +26,8 @@ class TaskDoneWidget extends Component
                 'tasks as tasks_done_count'    => fn($q) => $q->where('status', 'done'),
                 'tasks as tasks_ongoing_count' => fn($q) => $q->where('status', '!=', 'done'),
             ])
-            ->orderBy('tasks_done_count', 'asc')
-            ->orderBy('tasks_ongoing_count', 'asc')
+            ->orderBy('tasks_done_count', 'desc')
+            ->orderBy('tasks_ongoing_count', 'desc')
             ->limit(6)
             ->get(['name', 'surname', 'avatar']);
 
@@ -35,8 +35,8 @@ class TaskDoneWidget extends Component
                 'tasks as tasks_done_count'    => fn($q) => $q->where('status', 'done'),
                 'tasks as tasks_ongoing_count' => fn($q) => $q->where('status', '!=', 'done'),
             ])
-            ->orderBy('tasks_done_count', 'asc')
-            ->orderBy('tasks_ongoing_count', 'asc')
+            ->orderBy('tasks_done_count', 'desc')
+            ->orderBy('tasks_ongoing_count', 'desc')
             ->limit(6)
             ->get(['name']);
 
