@@ -2,14 +2,6 @@
     <div class="card border-0" style="background: #e9ecef !important;">
         <div class="d-flex pt-2 px-3 justify-content-between">
             <div class="d-flex">
-                @lang('translates.fields.status.options.in_progress')
-                <div class="custom-control custom-switch ml-2">
-                    <input type="checkbox" class="custom-control-input" id="toggle-task-status">
-                    <label class="custom-control-label" for="toggle-task-status"></label>
-                </div>
-                @lang('translates.fields.status.options.done')
-            </div>
-            <div class="d-flex">
                 @lang('translates.navbar.user')
                 <div class="custom-control custom-switch ml-2">
                     <input type="checkbox" class="custom-control-input" id="toggle-taskable">
@@ -28,40 +20,15 @@
                 @endif
 
                 // tasks done data
-                {{$model}}Chart.data = @json($results['ongoing']['users']);
-                document.getElementById('toggle-task-status').addEventListener('change', function(event) {
-                    if (event.currentTarget.checked) {
-                        if(document.getElementById('toggle-taskable').checked){
-                            {{$model}}Chart.data = @json($results['done']['departments']);
-                        }else{
-                            {{$model}}Chart.data = @json($results['done']['users']);
-                        }
-                        reanimate();
-                    } else {
-                        if(document.getElementById('toggle-taskable').checked){
-                            {{$model}}Chart.data = @json($results['ongoing']['departments']);
-                        }else{
-                            {{$model}}Chart.data = @json($results['ongoing']['users']);
-                        }
-                        reanimate();
-                    }
-                });
+                {{$model}}Chart.data = @json($results['users']);
+
                 document.getElementById('toggle-taskable').addEventListener('change', function(event) {
                     if (event.currentTarget.checked) {
-                        if(document.getElementById('toggle-task-status').checked){
-                            {{$model}}Chart.data = @json($results['done']['departments']);
-                        }else{
-                            {{$model}}Chart.data = @json($results['ongoing']['departments']);
-                        }
-                        reanimate();
+                        {{$model}}Chart.data = @json($results['departments']);
                     } else {
-                        if(document.getElementById('toggle-task-status').checked){
-                            {{$model}}Chart.data = @json($results['done']['users']);
-                        }else{
-                            {{$model}}Chart.data = @json($results['ongoing']['users']);
-                        }
-                        reanimate();
+                        {{$model}}Chart.data = @json($results['users']);
                     }
+                    reanimate();
                 });
 
                 const {{$model}}CategoryAxis = {{$model}}Chart.yAxes.push(new am4charts.CategoryAxis());
