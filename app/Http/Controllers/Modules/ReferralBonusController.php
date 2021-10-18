@@ -39,8 +39,8 @@ class ReferralBonusController extends Controller
             return back()->withNotify('error', 'Sizin hazırda referalınız yoxdur :(', true);
         }
 
-        $cleanResponse = strpos('.', $response->body()) == 0 ? substr($response->body(),1) : $response->body();
-        $data = (array) json_decode($cleanResponse);
+//        $cleanResponse = strpos('.', $response->body()) == 0 ? substr($response->body(),1) : $response->body();
+        $data = $response->json();
 
         $referral = $this->referral()->first();
 
