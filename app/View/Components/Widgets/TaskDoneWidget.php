@@ -22,38 +22,44 @@ class TaskDoneWidget extends Component
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
 
-        $users = User::isActive()->withCount([
-                'tasks as tasks_done_count'    => fn($q) => $q->where('status', 'done'),
-                'tasks as tasks_ongoing_count' => fn($q) => $q->where('status', '!=', 'done'),
-            ]);
+        $users = User::isActive();
 
         $usersByDoneStatus = $users
-            ->orderBy('tasks_done_count', 'desc')
+            ->withCount([
+                'tasks as tasks_done_count' => fn($q) => $q->where('status', 'done')
+            ])
+            ->orderBy('tasks_done_count', 'asc')
             ->limit(6)
             ->get(['name', 'surname', 'avatar']);
 
         $usersByOngoingStatus = $users
-            ->orderBy('tasks_ongoing_count', 'desc')
+            ->withCount([
+                'tasks as tasks_ongoing_count' => fn($q) => $q->where('status', '!=', 'done')
+            ])
+            ->orderBy('tasks_ongoing_count', 'asc')
             ->limit(6)
             ->get(['name', 'surname', 'avatar']);
 
-
-        $departments = Department::isActive()->withCount([
-                'tasks as tasks_done_count'    => fn($q) => $q->where('status', 'done'),
-                'tasks as tasks_ongoing_count' => fn($q) => $q->where('status', '!=', 'done'),
-            ]);
+        $departments = Department::isActive();
 
         $departmentsByDoneStatus = $departments
-            ->orderBy('tasks_done_count', 'desc')
+            ->withCount([
+                'tasks as tasks_done_count' => fn($q) => $q->where('status', 'done')
+            ])
+            ->orderBy('tasks_done_count', 'asc')
             ->limit(6)
             ->get(['name']);
 
         $departmentsByOngoingStatus = $departments
-            ->orderBy('tasks_ongoing_count', 'desc')
+            ->withCount([
+                'tasks as tasks_ongoing_count' => fn($q) => $q->where('status', '!=', 'done')
+            ])
+            ->orderBy('tasks_ongoing_count', 'asc')
             ->limit(6)
             ->get(['name']);
 
 
+        // done and ongoing tasks of users
         foreach ($usersByDoneStatus as $user) {
             $this->results['done']['users'][] = [
                 'name' => "{$user->name} {$user->surname}",
@@ -61,7 +67,6 @@ class TaskDoneWidget extends Component
                 'href' => image($user->avatar)
             ];
         }
-
         foreach ($usersByOngoingStatus as $user) {
             $this->results['ongoing']['users'][] = [
                 'name' => "{$user->name} {$user->surname}",
@@ -70,6 +75,7 @@ class TaskDoneWidget extends Component
             ];
         }
 
+        // done and ongoing tasks of departments
         foreach ($departmentsByDoneStatus as $dep) {
             $this->results['done']['departments'][] = [
                 'name' => "{$dep->name}",
