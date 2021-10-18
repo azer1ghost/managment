@@ -28,7 +28,7 @@ class TaskDoneWidget extends Component
             ->withCount([
                 'tasks as tasks_done_count' => fn($q) => $q->where('status', 'done')
             ])
-            ->orderBy('tasks_done_count', 'asc')
+            ->orderBy('tasks_done_count', 'desc')
             ->limit(6)
             ->get(['name', 'surname', 'avatar']);
 
@@ -36,7 +36,7 @@ class TaskDoneWidget extends Component
             ->withCount([
                 'tasks as tasks_ongoing_count' => fn($q) => $q->where('status', '!=', 'done')
             ])
-            ->orderBy('tasks_ongoing_count', 'asc')
+            ->orderBy('tasks_ongoing_count', 'desc')
             ->limit(6)
             ->get(['name', 'surname', 'avatar']);
 
@@ -46,7 +46,7 @@ class TaskDoneWidget extends Component
             ->withCount([
                 'tasks as tasks_done_count' => fn($q) => $q->where('status', 'done')
             ])
-            ->orderBy('tasks_done_count', 'asc')
+            ->orderBy('tasks_done_count', 'desc')
             ->limit(6)
             ->get(['name']);
 
@@ -54,7 +54,7 @@ class TaskDoneWidget extends Component
             ->withCount([
                 'tasks as tasks_ongoing_count' => fn($q) => $q->where('status', '!=', 'done')
             ])
-            ->orderBy('tasks_ongoing_count', 'asc')
+            ->orderBy('tasks_ongoing_count', 'desc')
             ->limit(6)
             ->get(['name']);
 
@@ -90,7 +90,6 @@ class TaskDoneWidget extends Component
                 'href' => image($dep->avatar)
             ];
         }
-//        dd($this->results);
     }
 
     public function render()
