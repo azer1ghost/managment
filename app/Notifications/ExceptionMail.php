@@ -13,7 +13,7 @@ class ExceptionMail extends Notification
 {
     use Queueable;
 
-    public $content, $user, $userData = [];
+    public $content, $userData = [];
 
     public function __construct($content)
     {
