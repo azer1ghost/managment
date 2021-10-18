@@ -90,11 +90,25 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-12">
+            <div class="col-2">
+                <select name="limit" class="custom-select" id="size">
+                    @foreach([25, 50, 100] as $size)
+                        <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-10">
                 <div class="float-right">
                     {{$users->links()}}
                 </div>
             </div>
         </div>
     </form>
+@endsection
+@section('scripts')
+    <script>
+        $('select[name="limit"]').change(function(){
+            this.form.submit();
+        });
+    </script>
 @endsection
