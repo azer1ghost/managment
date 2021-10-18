@@ -25,40 +25,59 @@ class TaskDoneWidget extends Component
         $users = User::isActive()->withCount([
                 'tasks as tasks_done_count'    => fn($q) => $q->where('status', 'done'),
                 'tasks as tasks_ongoing_count' => fn($q) => $q->where('status', '!=', 'done'),
-            ])
+            ]);
+
+        $usersByDoneStatus = $users
             ->orderBy('tasks_done_count', 'desc')
+            ->limit(6)
+            ->get(['name', 'surname', 'avatar']);
+
+        $usersByOngoingStatus = $users
             ->orderBy('tasks_ongoing_count', 'desc')
             ->limit(6)
             ->get(['name', 'surname', 'avatar']);
 
+
         $departments = Department::isActive()->withCount([
                 'tasks as tasks_done_count'    => fn($q) => $q->where('status', 'done'),
                 'tasks as tasks_ongoing_count' => fn($q) => $q->where('status', '!=', 'done'),
-            ])
+            ]);
+
+        $departmentsByDoneStatus = $departments
             ->orderBy('tasks_done_count', 'desc')
+            ->limit(6)
+            ->get(['name']);
+
+        $departmentsByOngoingStatus = $departments
             ->orderBy('tasks_ongoing_count', 'desc')
             ->limit(6)
             ->get(['name']);
 
-        foreach ($users as $user) {
+
+        foreach ($usersByDoneStatus as $user) {
             $this->results['done']['users'][] = [
                 'name' => "{$user->name} {$user->surname}",
                 'steps' => $user->tasks_done_count,
                 'href' => image($user->avatar)
             ];
+        }
+
+        foreach ($usersByOngoingStatus as $user) {
             $this->results['ongoing']['users'][] = [
                 'name' => "{$user->name} {$user->surname}",
-                'steps' => $user->tasks_ongoing_count,
+                'steps' => $user->tasks_done_count,
                 'href' => image($user->avatar)
             ];
         }
 
-        foreach ($departments as $dep) {
+        foreach ($departmentsByDoneStatus as $dep) {
             $this->results['done']['departments'][] = [
                 'name' => "{$dep->name}",
                 'steps' => $dep->tasks_done_count,
                 'href' => image('no_image')
             ];
+        }
+        foreach ($departmentsByOngoingStatus as $dep) {
             $this->results['ongoing']['departments'][] = [
                 'name' => "{$dep->name} {$dep->surname}",
                 'steps' => $dep->tasks_ongoing_count,
