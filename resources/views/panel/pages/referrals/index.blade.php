@@ -30,7 +30,11 @@
                         <th scope="col">Key</th>
                         <th scope="col">User</th>
                         <th scope="col">Used count</th>
-                        <th scope="col">Bonus</th>
+                        <th scope="col">Bonus (AZN)</th>
+                        <th scope="col">Efficiency (%)</th>
+                        <th scope="col">Total packages</th>
+                        <th scope="col">Total earnings (AZN)</th>
+                        <th scope="col">Bonus percentage (%)</th>
                         <th scope="col">Actions</th>
                     </tr>
                     </thead>
@@ -40,8 +44,12 @@
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$referral->getAttribute('key')}}</td>
                             <td>{{$referral->getRelationValue('user')->getAttribute("fullname")}}</td>
-                            <td>{{$referral->getAttribute('total')}}</td>
+                            <td>{{$referral->getAttribute('total_users')}}</td>
                             <td>{{$referral->getAttribute('bonus')}}</td>
+                            <td>{{$referral->getAttribute('efficiency')}}</td>
+                            <td>{{$referral->getAttribute('total_packages')}}</td>
+                            <td>{{$referral->getAttribute('total_earnings')}}</td>
+                            <td>{{$referral->getAttribute('referral_bonus_percentage')}}</td>
                             <td>
                                 <div class="btn-sm-group">
                                     @can('view', $referral)
