@@ -79,6 +79,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">Priority</th>
                         <th scope="col">Status</th>
+                        <th scope="col">Created by</th>
                         <th scope="col">Department</th>
                         <th scope="col">User</th>
                         <th scope="col" style="min-width: 150px; width: 150px;">Stage</th>
@@ -92,6 +93,7 @@
                             <td>{{$task->getAttribute('name')}}</td>
                             <td style="font-weight: 700;" class="task-priority {{$task->getAttribute('priority')}}">{{ucfirst($task->getAttribute('priority'))}}</td>
                             <td style="font-weight: 700;">{{str_title($task->getAttribute('status'))}}</td>
+                            <td>{{$task->getRelationValue('user')->getAttribute('fullname')}}</td>
                             <td>{{$task->taskable->getClassShortName() == 'department' ? $task->taskable->getAttribute('name') : $task->taskable->getRelationValue('department')->getAttribute('name')}}</td>
                             <td>
                                 {!! $task->taskable->getClassShortName() == 'user' ?
@@ -102,12 +104,16 @@
                             <td>
                                 @if ($task->status == 'to_do')
                                     @lang('translates.tasks.not_started')
+                                @elseif ($task->all_tasks_count == 0 || $task->done_tasks_count == 0)
+
+                                @elseif ($task->isFinished() && $task->status == 'done')
+                                    <i class="fa fa-check-circle text-success" style="font-size: 20px"></i>
                                 @else
                                     <div class="progress bg-secondary">
                                         @php($percentage = $task->all_tasks_count == 0 ? 0 : (round(($task->done_tasks_count/$task->all_tasks_count), 2) * 100))
                                         <div class="progress-bar progress-bar-striped bg-success task-priority-bg {{$task->getAttribute('priority')}} progress-bar-animated" role="progressbar" style="width: {{$percentage}}%">{{$percentage}}%</div>
                                     </div>
-                                    <span class="text-success">{{$task->done_tasks_count}}</span>/{{$task->all_tasks_count}}
+                                    <span>{{$task->done_tasks_count}}</span>/{{$task->all_tasks_count}}
                                 @endif
                             </td>
                             <td>

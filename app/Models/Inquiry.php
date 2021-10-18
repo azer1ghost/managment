@@ -37,6 +37,11 @@ class Inquiry extends Model
         return $query->where('inquiry_id', null);
     }
 
+    public function scopeMonthly($query)
+    {
+        return $query->where('datetime', '>=', now()->firstOfMonth());
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class)->withTrashed();

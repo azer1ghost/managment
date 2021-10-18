@@ -31,10 +31,10 @@ class TaskDoneWidget extends Component
             ->limit(6)
             ->get(['name', 'surname', 'avatar']);
 
-        $departments = Department::withCount([
+        $departments = Department::isActive()->withCount([
                 'tasks as tasks_done_count'    => fn($q) => $q->where('status', 'done'),
                 'tasks as tasks_ongoing_count' => fn($q) => $q->where('status', '!=', 'done'),
-        ])
+            ])
             ->orderBy('tasks_done_count', 'asc')
             ->orderBy('tasks_ongoing_count', 'asc')
             ->limit(6)

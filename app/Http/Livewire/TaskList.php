@@ -18,6 +18,9 @@ class TaskList extends Component
     public function addToList()
     {
         if(empty($this->todo)) return;
+
+        $this->dispatchBrowserEvent('contentChanged');
+
         $this->task->taskLists()->create([
             'name' => $this->todo,
             'user_id' => auth()->id()

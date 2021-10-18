@@ -81,6 +81,7 @@ class TaskController extends Controller
                             });
                         }
                     })
+                    ->orderBy('all_tasks_count', 'desc')
                     ->paginate(10),
                 'departments' => Department::get(['id', 'name']),
                 'statuses' => $statuses,

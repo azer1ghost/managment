@@ -58,7 +58,7 @@
                 <option value="null" disabled selected>{{__('translates.fields.status.key')}} {{__('translates.placeholders.choose')}}</option>
                 @foreach($statuses as $status)
                     @if ($status == 'done')
-                        <option value="{{$status}}" @if (!$task->tasksFinished() ) disabled @endif>@lang("translates.fields.status.options.{$status}")</option>
+                        <option value="{{$status}}" @if (!$task->isFinished() ) disabled @endif>@lang("translates.fields.status.options.{$status}")</option>
                     @else
                         <option value="{{$status}}">@lang("translates.fields.status.options.{$status}")</option>
                     @endif

@@ -70,6 +70,11 @@ class Task extends Model
         return $this->belongsToMany(User::class, 'task_viewer')->withTimestamps();
     }
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function inquiry(): BelongsTo
     {
         return $this->belongsTo(Inquiry::class);
@@ -105,7 +110,7 @@ class Task extends Model
         return $user->isDeveloper() || $user->isAdministrator() || $user->hasPermission('viewAll-task');
     }
 
-    public function tasksFinished(): bool
+    public function isFinished(): bool
     {
         if($this->taskLists()->where('is_checked', 0)->count() > 0){
             return false;

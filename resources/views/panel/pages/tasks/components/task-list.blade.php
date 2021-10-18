@@ -36,5 +36,13 @@
     </div>
 </div>
 <script>
-
+    window.addEventListener('contentChanged', event => {
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip({
+                content: function(){
+                    return $(this).attr('title');
+                }
+            })
+        });
+    });
 </script>
