@@ -22,7 +22,7 @@ class InquiryDailyWidget extends Component
         $this->model = $this->getClassRealName();
 
         $this->results = ['data' => Inquiry::isReal()->select('id', 'datetime')
-            ->where('datetime', '>=', Carbon::now()->subDays(6))
+            ->where('datetime', '>=', Carbon::now()->subWeek())
             ->get()
             ->groupBy(function($date) {
                 return Carbon::parse($date->datetime)->format('m-d-Y');
