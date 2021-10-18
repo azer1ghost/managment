@@ -28,7 +28,7 @@ class TaskDoneWidget extends Component
             ])
             ->orderBy('tasks_done_count', 'asc')
             ->orderBy('tasks_ongoing_count', 'asc')
-            ->limit(6)
+//            ->limit(6)
             ->get(['name', 'surname', 'avatar']);
 
         $departments = Department::isActive()->withCount([
@@ -37,7 +37,7 @@ class TaskDoneWidget extends Component
             ])
             ->orderBy('tasks_done_count', 'asc')
             ->orderBy('tasks_ongoing_count', 'asc')
-            ->limit(6)
+//            ->limit(6)
             ->get(['name']);
 
         foreach ($users as $user) {
