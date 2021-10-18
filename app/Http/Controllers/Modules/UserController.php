@@ -145,7 +145,7 @@ class UserController extends Controller
         $reversColumns = array_column($request->get('defaults') ?? [], 'value', 'parameter_id');
         $user->defaults()->sync(syncResolver($reversColumns,'value'));
 
-        return back()->withNotify('info', $user->getAttribute('name'));
+        return back()->withNotify('info', $user->getAttribute('fullname'));
     }
 
     public function destroy(User $user)
