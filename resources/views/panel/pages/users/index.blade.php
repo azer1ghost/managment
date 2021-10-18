@@ -38,6 +38,7 @@
                     </div>
                     <div class="col-8 col-md-3 pl-0 mb-3">
                         <select name="company" class="custom-select">
+                            <option value="">@lang('translates.fields.company') @lang('translates.placeholders.choose')</option>
                             @foreach($companies as $company)
                                 <option @if(request()->get('company') == $company->id) selected @endif value="{{$company->id}}">{{$company->name}}</option>
                             @endforeach
