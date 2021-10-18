@@ -23,6 +23,11 @@ class TaskList extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function checkedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'last_checked_by');
+    }
+
     public function canManage(): bool
     {
         return $this->getAttribute('user_id') == auth()->id() ||

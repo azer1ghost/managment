@@ -26,6 +26,7 @@ class UserController extends Controller
     {
         $search = $request->get('search');
         $limit  = $request->get('limit', 25);
+        $company  = $request->get('company', 1);
 
         return view('panel.pages.users.index')
             ->with([
@@ -35,7 +36,9 @@ class UserController extends Controller
                                              ->orWhere('surname', 'like', "%".$search."%")
                                              ->orWhere('fin', 'like', "%".$search."%")
                                              ->orWhere('id', $search))
-                    ->simplePaginate($limit)
+                    ->when($company, fn ($query) => $query->where('company_id', $company))
+                    ->simplePaginate($limit),
+                'companies' => Company::get(['id', 'name'])
             ]);
     }
 

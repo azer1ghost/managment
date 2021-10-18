@@ -13,7 +13,7 @@
     </x-bread-crumb>
     <form action="{{route('users.index')}}">
         <div class="row d-flex justify-content-between mb-2">
-            <div class="col-6">
+            <div class="col-8 col-md-6 mb-3">
                 <div class="input-group mb-3">
                     <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2">
                     <div class="input-group-append">
@@ -23,11 +23,27 @@
                 </div>
             </div>
             @can('create', App\Models\User::class)
-                <div class="col-2">
+                <div class="col-4 col-md-2 mb-3">
                     <a class="btn btn-outline-success float-right" href="{{route('users.create')}}">@lang('translates.buttons.create')</a>
                 </div>
             @endcan
             <div class="col-12">
+                <div class="row m-0">
+                    <div class="col-4 col-md-2 pl-0 mb-3">
+                        <select name="limit" class="custom-select">
+                            @foreach([25, 50, 100] as $size)
+                                <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-8 col-md-3 pl-0 mb-3">
+                        <select name="company" class="custom-select">
+                            @foreach($companies as $company)
+                                <option @if(request()->get('company') == $company->id) selected @endif value="{{$company->id}}">{{$company->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
                 <table class="table table-responsive-sm table-hover">
                     <thead>
                     <tr>
@@ -90,14 +106,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-2">
-                <select name="limit" class="custom-select" id="size">
-                    @foreach([25, 50, 100] as $size)
-                        <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-10">
+            <div class="col-12">
                 <div class="float-right">
                     {{$users->appends(request()->input())->links()}}
                 </div>
@@ -107,7 +116,7 @@
 @endsection
 @section('scripts')
     <script>
-        $('select[name="limit"]').change(function(){
+        $('select').change(function(){
             this.form.submit();
         });
     </script>

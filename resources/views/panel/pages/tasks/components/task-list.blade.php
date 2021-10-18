@@ -17,7 +17,20 @@
             @foreach($taskList as $list)
                 <li class="@if($list->is_checked) completed @endif" wire:key="task-list-{{$list->id}}">
                     <div class="form-check" wire:change="toggleState({{$list->id}})">
-                        <label class="form-check-label" data-toggle="tooltip" title="Created: <strong>{{$list->created_at}}</strong> </br> @if ($list->is_checked)  Checked: <strong>{{$list->updated_at}}</strong> @endif">
+                        @php
+                            $user = $list->getRelationValue('user');
+                            $checkedBy = $list->getRelationValue('checkedBy');
+                        @endphp
+                        <label class="form-check-label" data-toggle="tooltip"
+                               title="
+                                    Created:    <strong>{{$list->created_at}}</strong> </br>
+                                    Created by: <strong>{{$user->fullname}} (#{{$user->id}})</strong> </br>
+                                    @if ($list->is_checked)
+                                        Checked: <strong>{{$list->updated_at}}</strong> </br>
+                                        Checked by: <strong>{{$checkedBy->fullname}} (#{{$checkedBy->id}})</strong>
+                                    @endif
+                               "
+                        >
                             @if($task->canManageLists() && $task->getAttribute('status') != 'done')
                                 <input wire:loading.attr="disabled" class="checkbox" type="checkbox" @if($list->is_checked) checked @endif>
                             @endif
