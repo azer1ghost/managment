@@ -35,7 +35,7 @@ class ReferralBonusController extends Controller
 
         $data = (array) json_decode($cleanResponse);
 
-        if($response->status() == 429){
+        if($response->status() != 200){
             return back()->withNotify('error', $response->toPsrResponse()->getReasonPhrase(), true);
         }
 
