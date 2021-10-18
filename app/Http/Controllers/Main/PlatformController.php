@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Widget;
 use App\Models\Inquiry;
+use App\Services\MobexReferralApi;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
@@ -58,5 +59,6 @@ class PlatformController extends Controller
     public function test()
     {
         // some tests to check
+        return (new MobexReferralApi)->url('ping')->by('elvinaqalarov')->get();
     }
 }

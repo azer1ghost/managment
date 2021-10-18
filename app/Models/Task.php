@@ -51,6 +51,15 @@ class Task extends Model
         return ['low', 'medium', 'high', 'urgent'];
     }
 
+    public static function types(): array
+    {
+        return [
+            1 => 'assigned_to_me',
+            2 => 'my_tasks',
+            3 => 'all'
+        ];
+    }
+
     public function taskable(): MorphTo
     {
         return $this->morphTo()->withDefault();

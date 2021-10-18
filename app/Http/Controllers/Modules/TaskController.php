@@ -9,6 +9,7 @@ use App\Models\Inquiry;
 use App\Models\User;
 use App\Models\Task;
 use App\Notifications\TaskAssigned;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 
@@ -24,13 +25,67 @@ class TaskController extends Controller
     {
         $search = $request->get('search');
 
+        $filters = [
+            'department' => $request->get('department'),
+            'user' => $request->get('user'),
+            'status' => $request->get('status'),
+            'priority' => $request->get('priority'),
+            'type' => $request->get('type') ?? 1
+        ];
+
+        $statuses = Task::statuses();
+        $priorities = Task::priorities();
+        $types = Task::types();
+
+        $user_id = auth()->id();
+
         return view('panel.pages.tasks.index')
             ->with([
-                'tasks' => Task::with(['inquiry', 'taskLists'])
+                'tasks' => Task::withCount([
+                    'taskLists as all_tasks_count',
+                    'taskLists as done_tasks_count' => fn (Builder $query) => $query->where('is_checked', true)
+                ])
+                    ->when(!Task::userCanViewAll(), function ($query) use ($user_id){
+                        $query->whereHasMorph('taskable', [Department::class, User::class] , function ($q, $type) use ($user_id){
+                            if ($type === Department::class) {
+                                $q->where('id', auth()->user()->getRelationValue('department')->getAttribute('id'));
+                            }else{
+                                $q->where('id', $user_id);
+                            }
+                        });
+                        $query->orWhere('user_id', $user_id);
+                    })
                     ->when($search, fn ($query) => $query->where('name', 'like', "%". $search ."%"))
-                    ->latest()
+                    ->where(function ($query)  use ($filters, $user_id) {
+                        foreach ($filters as $column => $value) {
+                            $query->when($value, function ($query, $value) use ($column, $filters, $user_id) {
+                                if ($column == 'department'){
+                                    $query->whereHasMorph('taskable', [Department::class], fn ($q) => $q->where('id', $value));
+                                }elseif ($column == 'user'){
+                                    $query->whereHasMorph('taskable', [User::class], fn ($q) => $q
+                                        ->where('surname', 'like', $value)
+                                        ->orWhere('name', 'like', $value));
+                                }elseif($column == 'type'){
+                                    switch ($value){
+                                        case 1:
+                                            $query->whereHasMorph('taskable', [User::class], fn ($q) => $q
+                                                ->where('id', $user_id));
+                                            break;
+                                        case 2:
+                                            $query->where('user_id', $user_id);
+                                            break;
+                                    }
+                                }else{
+                                    $query->where($column, $value);
+                                }
+                            });
+                        }
+                    })
                     ->paginate(10),
-                'departments' => Department::get(['id', 'name'])
+                'departments' => Department::get(['id', 'name']),
+                'statuses' => $statuses,
+                'priorities' => $priorities,
+                'types' => $types
             ]);
     }
 
