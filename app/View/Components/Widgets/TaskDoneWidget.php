@@ -70,7 +70,7 @@ class TaskDoneWidget extends Component
         foreach ($usersByOngoingStatus as $user) {
             $this->results['ongoing']['users'][] = [
                 'name' => "{$user->name} {$user->surname}",
-                'steps' => $user->tasks_done_count,
+                'steps' => $user->tasks_ongoing_count,
                 'href' => image($user->avatar)
             ];
         }
@@ -90,6 +90,7 @@ class TaskDoneWidget extends Component
                 'href' => image($dep->avatar)
             ];
         }
+//        dd($this->results);
     }
 
     public function render()
