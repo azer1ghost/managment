@@ -68,8 +68,13 @@ class TaskController extends Controller
                                 }elseif($column == 'type'){
                                     switch ($value){
                                         case 1:
-                                            $query->whereHasMorph('taskable', [User::class], fn ($q) => $q
-                                                ->where('id', $user_id));
+                                            $query->whereHasMorph('taskable', [Department::class, User::class], function($q, $type) use ($user_id){
+                                                if ($type === Department::class) {
+                                                    $q->where('id', auth()->user()->getRelationValue('department')->getAttribute('id'));
+                                                }else{
+                                                    $q->where('id', $user_id);
+                                                }
+                                            });
                                             break;
                                         case 2:
                                             $query->where('user_id', $user_id);
