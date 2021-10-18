@@ -25,14 +25,14 @@ class TaskDoneWidget extends Component
         $users = User::isActive()->withCount([
                     'tasks as tasks_ongoing_count' => fn($q) => $q->where('status', '!=', 'done'),
                 ])
-                ->orderBy('tasks_ongoing_count', 'asc')
+                ->orderBy('tasks_ongoing_count', 'desc')
                 ->limit(6)
                 ->get(['name', 'surname', 'avatar']);
 
         $departments = Department::isActive()->withCount([
                         'tasks as tasks_ongoing_count' => fn($q) => $q->where('status', '!=', 'done'),
                     ])
-                    ->orderBy('tasks_ongoing_count', 'asc')
+                    ->orderBy('tasks_ongoing_count', 'desc')
                     ->limit(6)
                     ->get(['name']);
 
