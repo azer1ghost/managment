@@ -25,7 +25,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search');
-        $limit  = $request->get('limit') ?? 25;
+        $limit  = $request->get('limit', 25);
 
         return view('panel.pages.users.index')
             ->with([

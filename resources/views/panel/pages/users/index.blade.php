@@ -99,7 +99,7 @@
             </div>
             <div class="col-10">
                 <div class="float-right">
-                    {{$users->links()}}
+                    {{$users->appends(request()->input())->links()}}
                 </div>
             </div>
         </div>
