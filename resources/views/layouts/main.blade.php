@@ -63,9 +63,9 @@
     @livewireScripts
 
 
-    @yield('scripts')
-
     @stack('scripts')
+
+    @yield('scripts')
 
     <x-notify/>
 

@@ -19,7 +19,8 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\UserController,
     Modules\PositionController,
     Modules\TaskController,
-    Modules\ReferralController};
+    Modules\ReferralController,
+    TaskListController};
 use Illuminate\Support\Facades\{Auth, Route};
 
 Route::redirect('/','/welcome')->name('home');
@@ -52,6 +53,7 @@ Route::group([
     Route::resource('/departments', DepartmentController::class);
     Route::resource('/positions', PositionController::class);
     Route::resource('/tasks', TaskController::class);
+    Route::resource('/task-lists', TaskListController::class);
     Route::resource('/notifications', DatabaseNotificationController::class);
     Route::resource('/clients', ClientController::class);
     Route::resource('/referrals', ReferralController::class);

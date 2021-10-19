@@ -55,10 +55,12 @@
     height: 1.25rem;
     line-height: 20px;
     text-align: center;
+  }
+  .actions{
     margin-left: auto !important;
   }
   .completed{
-    label{
+    .form-check-label{
       text-decoration: line-through !important;
       text-decoration-color: $primary !important;
     }
@@ -102,7 +104,15 @@
           font-size: 0.875rem;
           line-height: 1.5;
           cursor: pointer;
-          input {
+          input[type="text"]{
+            background: transparent;
+            border: none !important;
+            &:focus{
+              border: none !important;
+              outline: none !important;
+            }
+          }
+          input[type="checkbox"] {
             position: absolute;
             top: 0;
             left: 0;
@@ -110,8 +120,8 @@
             margin-top: 0;
             z-index: 1;
             cursor: pointer;
-            opacity: 0;
-            filter: alpha(opacity=0)
+            filter: alpha(opacity=0);
+            background: #405189;
           }
           input[type="checkbox"]:checked{
             +.input-helper:before{
@@ -120,7 +130,7 @@
             }
           }
         }
-        label{
+        .form-check-label{
           :hover{
             cursor: pointer
           }
