@@ -6,20 +6,27 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ReferralRequest;
 use App\Models\Referral;
 use App\Services\MobexReferralApi;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Http\RedirectResponse;
 
 class ReferralBonusController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['throttle:3,1'])->except(['index']);
+    }
+
     public function index()
     {
         return view('panel.pages.bonuses.index')->with(['referral' => $this->referral()->first() ?? new Referral()]);
     }
 
-    public function referral()
+    public function referral(): HasOne
     {
         return auth()->user()->referral();
     }
 
-    public function generate(ReferralRequest $request)
+    public function generate(ReferralRequest $request): RedirectResponse
     {
         $referral = $this->referral()->create($request->validated());
         return back()->withNotify('success', $referral->getAttribute('key'));

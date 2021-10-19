@@ -25,8 +25,8 @@ Route::redirect('/','/welcome')->name('home');
 Route::get('/welcome', [PlatformController::class, 'welcome'])->name('welcome');
 Route::get('/dashboard', [PlatformController::class, 'dashboard'])->middleware('verified_phone')->name('dashboard');
 
-Route::get('/account', [AccountController::class, 'account'])->name('account');
-Route::post('/account/{user}', [AccountController::class, 'save'])->name('account.save');
+Route::get('/account', [AccountController::class, 'account'])->middleware('verified_phone')->name('account');
+Route::post('/account/{user}', [AccountController::class, 'save'])->middleware('verified_phone')->name('account.save');
 
 Route::group([
     'prefix' => 'module',
@@ -56,20 +56,14 @@ Route::group([
     Route::resource('/referrals', ReferralController::class);
 });
 
-Auth::routes(['login' => false]);
+Auth::routes();
+
+PhoneVerifycationController::routes();
+Route::post('/phone-update', [LoginController::class, 'phoneUpdate'])->name('phone.update');
 
 // Route for register validation
 Route::post('/validate-register', [RegisterController::class, 'validator'])->name('validate-register');
 
-PhoneVerifycationController::routes();
-
-Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('login', [LoginController::class, 'login']);
-
-Route::post('/phone-update', [LoginController::class, 'phoneUpdate'])->name('phone.update');
-
-Route::get('ip-resolver.bat', [PlatformController::class, 'downloadBat'])->name('host.bat');
-
-Route::get('locale/{locale}', [Localization::class, 'locale'])->whereAlpha('locale')->where('locale','[a-z]{2}')->name('locale');
+Localization::route();
 
 Route::get('/test', [PlatformController::class, 'test']);

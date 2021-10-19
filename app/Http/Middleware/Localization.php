@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Route;
 
 class Localization
 {
@@ -30,5 +31,10 @@ class Localization
         session()->put('locale', $locale);
 
         return back();
+    }
+
+    public static function route()
+    {
+        Route::get('locale/{locale}', [self::class, 'locale'])->whereAlpha('locale')->where('locale','[A-Za-z]{2}')->name('locale');
     }
 }

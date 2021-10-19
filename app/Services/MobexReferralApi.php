@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Http;
 
 class MobexReferralApi
 {
-    private string  $apiUrl = 'http://api.mobex.az/v1/referral/', $token;
+    private string $apiUrl = 'http://api.mobex.az/v1/referral/', $token;
     public string $key = '';
     public string $method = 'bonus';
 

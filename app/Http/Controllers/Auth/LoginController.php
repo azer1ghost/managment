@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -39,7 +40,7 @@ class LoginController extends Controller
         ];
     }
 
-    public function phoneUpdate(Request $request)
+    public function phoneUpdate(Request $request): RedirectResponse
     {
         $user = $request->user();
 

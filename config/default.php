@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'referral_bonus_percentage' => env('REFERRAL_BONUS_PERCENTAGE')
+    'referral_bonus_percentage' => env('REFERRAL_BONUS_PERCENTAGE', '3')
 ];
