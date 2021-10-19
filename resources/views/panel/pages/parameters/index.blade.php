@@ -32,11 +32,11 @@
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Order</th>
-                        <th scope="col">Parent Option</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col">@lang('translates.columns.name')</th>
+                        <th scope="col">@lang('translates.columns.type')</th>
+                        <th scope="col">@lang('translates.columns.order')</th>
+                        <th scope="col">@lang('translates.columns.parent_option')</th>
+                        <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
                     <tbody>

@@ -49,14 +49,14 @@
                     <thead>
                     <tr>
                         <th scope="col"></th>
-                        <th scope="col">Full Name</th>
+                        <th scope="col">@lang('translates.columns.full_name')</th>
                         <th scope="col">FIN</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Company</th>
-                        <th scope="col">Department</th>
-                        <th scope="col">Role</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col">@lang('translates.columns.email')</th>
+                        <th scope="col">@lang('translates.columns.phone')</th>
+                        <th scope="col">@lang('translates.columns.company')</th>
+                        <th scope="col">@lang('translates.columns.department')</th>
+                        <th scope="col">@lang('translates.columns.role')</th>
+                        <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
                     <tbody>

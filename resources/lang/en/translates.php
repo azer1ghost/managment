@@ -49,6 +49,12 @@ return [
         'password' => 'Enter password',
         'password_confirm' => 'Enter password confirmation',
         'or' => "Enter :first, :second or :third",
+        'task_name' => 'Task Name',
+        'search_users' => 'Search Users',
+
+
+
+
 
     ],
 
@@ -282,5 +288,27 @@ return [
         'Error',
         'Bug',
         'Fixed'
+    ],
+
+    'columns' => [
+        'name' => 'Name',
+        'priority' => 'Priority',
+        'status' => 'Status',
+        'created_by' => 'Created By',
+        'user' => 'User',
+        'stage' => 'Stage',
+        'full_name' => 'Full Name',
+        'fin' => 'FIN',
+        'email' => 'Email',
+        'phone' => 'Phone',
+        'company' => 'Company',
+        'department' => 'Department',
+        'role' => 'Role',
+        'actions' => 'Actions',
+        'adress' => 'Adress',
+        'permissions' => 'Permissions',
+        'order' => 'Order',
+        'type' => 'Type',
+        'parent_option' => 'Parent option',
     ]
 ];

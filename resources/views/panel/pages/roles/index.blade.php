@@ -32,9 +32,9 @@
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Permissions</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col">@lang('translates.columns.name')</th>
+                        <th scope="col">@lang('translates.columns.permissions')</th>
+                        <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
                     <tbody>
