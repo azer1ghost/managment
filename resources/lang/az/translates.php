@@ -168,7 +168,7 @@ return [
             'avatar' => 'Şəkil'
         ],
         'steps' => 'Addım :step - 4',
-        'title'     => 'İşçi kimi qeydiyyatdan keçin',
+        'title'     => 'Əməkdaş kimi qeydiyyatdan keçin',
         'name'      => 'Ad',
         'surname'   => 'Soyad',
         'mail_coop' => 'Kooperativ e-poçt',

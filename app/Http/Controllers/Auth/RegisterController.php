@@ -70,7 +70,7 @@ class RegisterController extends Controller
             'company_id' => ['filled', 'integer', 'min:1'],
             'password' => ['filled', 'string', 'min:8', 'confirmed'],
             'default_lang' => ['filled', 'string'],
-            'avatar'  => ['filled', 'image', 'mimes:jpg,png,jpeg,gif', 'max:2048'],
+            'avatar'  => ['nullable', 'image', 'mimes:jpg,png,jpeg,gif', 'max:2048'],
             'serial' => ['filled', 'string'],
             'fin' => ['filled', 'string', 'min:7', 'max:7']
         ]);
