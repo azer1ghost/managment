@@ -306,9 +306,13 @@ return [
         'type' => 'Növü',
         'order' => 'Sıralaması',
         'parent_option' => 'Ana parametr',
+    ],
 
-
+    'notify' => [
+        'successfully' => 'Uğurlu',
+        'processed_successfully' => 'proses uğurla tamamlandı',
+        'sww' => 'Xəta baş verdi',
+        'record' => 'Qeydiyyat',
     ]
-
 
 ];

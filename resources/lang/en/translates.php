@@ -310,5 +310,12 @@ return [
         'order' => 'Order',
         'type' => 'Type',
         'parent_option' => 'Parent option',
+    ],
+
+    'notify' => [
+        'successfully' => 'Successfully',
+        'processed_successfully' => 'processed successfully',
+        'sww' => 'Something went wrong',
+        'record' => 'Record',
     ]
 ];
