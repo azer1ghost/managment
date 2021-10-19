@@ -25,12 +25,15 @@ class CommentController extends Controller
 
         if ($model->getTable() == 'comments'){
             $user = $model->user;
-            $task_creator = User::find($model->commentable->user_id);
-        }else{
+            $creator = User::find($model->commentable->user_id);
+        }elseif ($model->getTable() == 'tasks'){
             $user = $model->taskable;
-            $task_creator = User::find($model->user_id);
+            $creator = User::find($model->user_id);
+        }elseif ($model->getTable() == 'updates'){
+            $user = $model->user;
+            $creator = User::find($model->user_id);
         }
-        $users = [$task_creator];
+        $users = [$creator];
 
         if($user->id != auth()->id()) {
             $users[] = $user;

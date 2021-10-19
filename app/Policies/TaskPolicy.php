@@ -40,7 +40,8 @@ class TaskPolicy
 
     public function restore(User $user, Task $task): bool
     {
-        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
+            $task->getAttribute('user_id') == $user->getAttribute('id');
     }
 
     public function forceDelete(User $user, Task $task): bool

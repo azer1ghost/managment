@@ -9,6 +9,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\CompanyController,
     Modules\DepartmentController,
     Modules\ReferralBonusController,
+    Modules\UpdateController,
     Modules\WidgetController,
     Modules\DatabaseNotificationController,
     Modules\OptionController,
@@ -54,6 +55,7 @@ Route::group([
     Route::resource('/notifications', DatabaseNotificationController::class);
     Route::resource('/clients', ClientController::class);
     Route::resource('/referrals', ReferralController::class);
+    Route::resource('/updates', UpdateController::class);
 });
 
 Auth::routes(['login' => false]);

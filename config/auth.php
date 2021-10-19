@@ -28,6 +28,7 @@ return [
         'taskDone-widget',
         'viewAny-account', 'manage-account',
         'viewAny-company', 'view-company', 'create-company', 'update-company', 'delete-company',
+        'viewAny-update', 'view-update', 'create-update', 'update-update', 'delete-update',
         'viewAny-role', 'view-role', 'manage-role',
         'viewAny-referral', 'view-referral', 'manage-referral',
         'viewAny-position', 'view-position', 'manage-position',

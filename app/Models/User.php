@@ -76,6 +76,7 @@ class User extends Authenticatable implements MustVerifyPhone
     protected $casts = [
         'role_id' => 'integer',
         'email_verified_at' => 'datetime',
+        'gender' => 'integer'
     ];
 
     protected static function boot()
@@ -96,6 +97,14 @@ class User extends Authenticatable implements MustVerifyPhone
     public function position(): BelongsTo
     {
         return $this->belongsTo(Position::class)->withDefault();
+    }
+
+    public function compartment(): BelongsTo
+    {
+        if($this->isDirector()){
+            return $this->company();
+        }
+        return $this->department();
     }
 
     public function hasPermission($perm): bool

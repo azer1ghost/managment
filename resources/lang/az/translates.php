@@ -150,7 +150,8 @@ return [
         'notification' => 'Bildirişlər',
         'client'     => 'Müştərilər',
         'referral'  => 'Referrallar',
-        'bonus'     => 'Bonuslar'
+        'bonus'     => 'Bonuslar',
+        'update'    => 'Yeniləmələr'
     ],
 
     'date' => [
@@ -267,6 +268,18 @@ return [
         'get_data' => 'Referal məlumatlarını əldə etmək üçün',
         'send_req' => 'Sorğu göndərin',
         'updated' => 'Son yenilənmə',
+    ],
+
+    'updates' => [
+        'Rədd edildi',
+        'Gözləyən',
+        'Qəbul edildi',
+        'Başladı',
+        'Bitdi',
+        'Gələcək',
+        'Xəta',
+        'Səhv',
+        'Həll olundu'
     ]
 
 ];

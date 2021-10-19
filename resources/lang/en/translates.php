@@ -152,7 +152,8 @@ return [
         'notification' => 'Notifications',
         'client'     => 'Clients',
         'referral'  => 'Referrals',
-        'bonus'     => 'Bonuses'
+        'bonus'     => 'Bonuses',
+        'update'     => 'Updates'
     ],
 
     'date' => [
@@ -269,5 +270,17 @@ return [
         'get_data' => 'For getting referral data',
         'send_req' => 'Send request',
         'updated' => 'Last updated'
+    ],
+
+    'updates' => [
+        'Rejected',
+        'Pending',
+        'Accepted',
+        'Started',
+        'Done',
+        'Upcoming',
+        'Error',
+        'Bug',
+        'Fixed'
     ]
 ];
