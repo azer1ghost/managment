@@ -41,7 +41,6 @@ class TaskListController extends Controller
     {
         $data = $request->all();
         if(array_key_exists('is_checked', $data)){
-            $data['is_checked'] = !$data['is_checked'];
             $data['last_checked_by'] = auth()->id();
         }
         $taskList->update($data);

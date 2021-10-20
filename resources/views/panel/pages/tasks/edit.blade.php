@@ -37,38 +37,45 @@
                 </form>
             @endif
             <div class="list-wrapper">
-                <ul class="d-flex flex-column-reverse todo-list">
+                <ul class="d-flex flex-column todo-list">
                     @foreach($data->taskLists as $list)
-                        <li class="@if($list->is_checked) completed @endif">
-                            <div class="form-check">
+                        <li>
+                            <div class="form-check pl-1">
                                 @php
                                     $user = $list->getRelationValue('user');
                                     $checkedBy = $list->getRelationValue('checkedBy');
                                 @endphp
-                                <label class="form-check-label" data-toggle="tooltip"
-                                       title="
-                                    Created:    <strong>{{$list->created_at}}</strong> </br>
-                                    Created by: <strong>{{$user->fullname}} (#{{$user->id}})</strong> </br>
-                                    @if ($list->is_checked)
-                                               Checked: <strong>{{$list->updated_at}}</strong> </br>
-                                        Checked by: <strong>{{$checkedBy->fullname}} (#{{$checkedBy->id}})</strong>
-                                    @endif
-                                               ">
-                                    @if($data->canManageLists() && $data->getAttribute('status') != 'done')
-                                        <input class="checkbox" type="checkbox"
-                                               @if($list->is_checked) checked @endif>
-                                    @endif
-                                    <form action="{{route('task-lists.update', $list)}}" class="edit-form">
-                                        @csrf
-                                        <input type="text" value="{{$list->name}}" class="list" name="name" readonly data-checked="@if($list->is_checked) 1 @else 0 @endif" data-id="{{$list->id}}">
-                                    </form>
-                                    <i class="input-helper"></i>
-                                </label>
+                                <form action="{{route('task-lists.update', $list)}}" class="edit-form">
+                                    @csrf
+                                    <div class="form-check">
+                                        @if($data->canManageLists() && $data->getAttribute('status') != 'done')
+                                            <input class="form-check-input" type="checkbox"
+                                                   id="list-check-{{$list->id}}"
+                                                   name="name"
+                                                   @if($list->is_checked) checked @endif
+                                                   value="{{$list->name}}" data-id="{{$list->id}}"
+                                                   data-checked="@if($list->is_checked) 1 @else 0 @endif"
+                                            >
+                                        @endif
+                                        <label class="form-check-label @if($list->is_checked) completed @endif" for="list-check-{{$list->id}}"
+                                               data-toggle="tooltip"
+                                               title="
+                                                Created:    <strong>{{$list->created_at}}</strong> </br>
+                                                Created by: <strong>{{$user->fullname}} (#{{$user->id}})</strong> </br>
+                                                @if ($list->is_checked)
+                                                                   Checked: <strong>{{$list->updated_at}}</strong> </br>
+                                                    Checked by: <strong>{{$checkedBy->fullname}} (#{{$checkedBy->id}})</strong>
+                                                @endif"
+                                        >
+                                            {{$list->name}}
+                                        </label>
+                                    </div>
+                                </form>
                             </div>
                             @if($list->canManage() && $data->getAttribute('status') != 'done')
                                 <div class="actions d-flex align-items-center">
-                                    <i class="fa fa-pen-alt edit mr-2" style="position: relative; top: -2px;cursor: pointer"></i>
-                                    <form action="{{route('task-lists.destroy', $list)}}" method="POST">
+                                    <i class="fa fa-edit edit mr-2"></i>
+                                    <form action="{{route('task-lists.destroy', $list)}}" method="POST" style="position: relative; top: 3px;cursor: pointer">
                                         @method('DELETE') @csrf
                                         <button type="submit">
                                             <i class="remove fa fa-times"></i>
@@ -101,16 +108,21 @@
             $(this).parent().parent().find('form').find('input').attr('readonly', false)
         });
 
-        $('.list').click(function () {
+        $('.form-check-input').change(function (){
+            let checked;
+            if ($(this).is(':checked')) {
+                checked = 1;
+                $(this).next().addClass('completed');
+            }else{
+                checked = 0;
+                $(this).next().removeClass('completed');
+            }
             $.ajax({
                 url: $(this).form().attr('action'),
                 method: 'PUT',
-                data: {
-                    'is_checked': $(this).data('checked'),
-                    '_token': '{{csrf_token()}}'
-                },
-                success: function (){
-                }
+                data: $(this).form().serialize() + "&is_checked=" + checked,
+                success: function (){},
+                error: function (){}
             });
         });
 

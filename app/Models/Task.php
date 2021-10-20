@@ -87,7 +87,7 @@ class Task extends Model
 
     public function taskLists(): HasMany
     {
-        return $this->hasMany(TaskList::class);
+        return $this->hasMany(TaskList::class)->latest();
     }
 
     public function canManageLists(): bool
