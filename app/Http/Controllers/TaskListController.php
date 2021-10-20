@@ -24,7 +24,7 @@ class TaskListController extends Controller
 
         TaskList::create($data);
 
-        return back();
+        return redirect($request->url . '#task-lists-header');
     }
 
     public function show(TaskList $taskList)
@@ -40,16 +40,22 @@ class TaskListController extends Controller
     public function update(Request $request, TaskList $taskList)
     {
         $data = $request->all();
+
         if(array_key_exists('is_checked', $data)){
             $data['last_checked_by'] = auth()->id();
         }
+
+        unset($data['_method']);
+        unset($data['_token']);
+
         $taskList->update($data);
+        return redirect($data['url'] . '#task-lists-header');
     }
 
-    public function destroy(TaskList $taskList)
+    public function destroy(Request $request, TaskList $taskList)
     {
         if ($taskList->delete()) {
-            return back();
+            return redirect($request->url . '#task-lists-header');
         }
         return back()->withNotify('error', 'Cannot be deleted');
     }

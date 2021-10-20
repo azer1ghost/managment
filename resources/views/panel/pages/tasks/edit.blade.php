@@ -21,7 +21,7 @@
     <livewire:task-form :action="$action"  :method="$method" :task="$data" />
     @if($data)
         <div class="my-3 card p-3 my-5">
-            <h3>@lang('translates.tasks.list.to_do')</h3>
+            <h3 id="task-lists-header">@lang('translates.tasks.list.to_do')</h3>
             @if($data->canManageLists())
                 <form action="{{route('task-lists.store')}}" method="POST">
                     <div class="add-items d-flex flex-column flex-md-row align-items-center">
@@ -29,6 +29,7 @@
                                 @csrf
                                 <input type="text" name="name" class="mb-3 mb-md-0 todo-list-input" placeholder="{{__('translates.tasks.list.placeholder')}}">
                                 <input type="hidden" name="task_id" value="{{$data->id}}">
+                                <input type="hidden" value="{{request()->url()}}" name="url">
                                 <button type="submit" class="d-inline-block btn btn-primary font-weight-bold">
                                     @lang('translates.buttons.add')
                                 </button>
@@ -45,16 +46,15 @@
                                     $user = $list->getRelationValue('user');
                                     $checkedBy = $list->getRelationValue('checkedBy');
                                 @endphp
-                                <form action="{{route('task-lists.update', $list)}}" class="edit-form">
-                                    @csrf
+                                <form action="{{route('task-lists.update', $list)}}" class="edit-form" method="POST">
+                                    @method('PUT') @csrf
                                     <div class="form-check">
+                                        <input type="hidden" value="{{request()->url()}}" name="url">
+                                        <input type="hidden" value="{{$list->name}}" name="name">
                                         @if($data->canManageLists() && $data->getAttribute('status') != 'done')
                                             <input class="form-check-input" type="checkbox"
                                                    id="list-check-{{$list->id}}"
-                                                   name="name"
                                                    @if($list->is_checked) checked @endif
-                                                   value="{{$list->name}}" data-id="{{$list->id}}"
-                                                   data-checked="@if($list->is_checked) 1 @else 0 @endif"
                                             >
                                         @endif
                                         <label class="form-check-label @if($list->is_checked) completed @endif" for="list-check-{{$list->id}}"
@@ -66,17 +66,17 @@
                                                                    Checked: <strong>{{$list->updated_at}}</strong> </br>
                                                     Checked by: <strong>{{$checkedBy->fullname}} (#{{$checkedBy->id}})</strong>
                                                 @endif"
-                                        >
-                                            {{$list->name}}
-                                        </label>
+                                        >{{$list->name}}</label>
                                     </div>
                                 </form>
                             </div>
                             @if($list->canManage() && $data->getAttribute('status') != 'done')
-                                <div class="actions d-flex align-items-center">
+                                <div class="actions d-flex align-items-center pl-5">
                                     <i class="fa fa-edit edit mr-2"></i>
+                                    <i class="fa fa-check submit mr-2 text-success d-none"></i>
                                     <form action="{{route('task-lists.destroy', $list)}}" method="POST" style="position: relative; top: 3px;cursor: pointer">
                                         @method('DELETE') @csrf
+                                        <input type="hidden" value="{{request()->url()}}" name="url">
                                         <button type="submit">
                                             <i class="remove fa fa-times"></i>
                                         </button>
@@ -105,7 +105,31 @@
 @section('scripts')
     <script>
         $('.edit').click(function () {
-            $(this).parent().parent().find('form').find('input').attr('readonly', false)
+            $(this).hide();
+            $(this).next().removeClass('d-none');
+
+            let form = $(this).parent().parent().find('form');
+
+            form.find('label').attr('contenteditable', true).focus()
+
+            const range = document.createRange()
+            const sel = window.getSelection()
+            range.setStart(form.find('label')[0], 1)
+            range.collapse(true)
+            sel.removeAllRanges()
+            sel.addRange(range)
+
+            form.find('input[type="checkbox"]').attr('disabled', true)
+        });
+
+        $(".submit").click(function (e) {
+            $(this).parent().parent().find('.edit-form').submit();
+        });
+
+        const label = $('.form-check-label');
+
+        label.on('input', function (){
+            $(this).prev().prev().val($(this).text())
         });
 
         $('.form-check-input').change(function (){
@@ -123,18 +147,6 @@
                 data: $(this).form().serialize() + "&is_checked=" + checked,
                 success: function (){},
                 error: function (){}
-            });
-        });
-
-        $(".edit-form").submit(function (e) {
-            e.preventDefault();
-            $.ajax({
-                url: $(this).prop('action'),
-                method: 'PUT',
-                data: $(this).serialize(),
-                success: function (){
-                    $(".edit-form").find('input').attr('readonly', true)
-                }
             });
         });
     </script>
