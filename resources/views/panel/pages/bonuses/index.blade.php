@@ -99,8 +99,8 @@
                                     </button>
                                 </div>
                             </div>
+                            <small class="form-text text-light">@lang('translates.referrals.sub_message')</small>
                         @else
-                            <input type="hidden" name="user_id" value="{{auth()->id()}}">
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon3">https://mobex.az/register?ref=</span>
@@ -111,9 +111,11 @@
                                         Save
                                     </button>
                                 </div>
+                                @error('key')
+                                    <p class="mb-1">{{$message}}</p>
+                                @enderror
                             </div>
                         @endif
-                        <small class="form-text text-light">@lang('translates.referrals.sub_message')</small>
                     </form>
                 </div>
             </div>
