@@ -269,6 +269,6 @@ return [
         'get_data' => 'For getting referral data',
         'send_req' => 'Send request',
         'updated' => 'Last updated',
-        'retry_later' => 'check again after :count minutes.'
+        'retry_later' => 'check again :count.'
     ]
 ];
