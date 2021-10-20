@@ -28,7 +28,11 @@ class ReferralBonusController extends Controller
 
     public function generate(ReferralRequest $request): RedirectResponse
     {
-        $referral = $this->referral()->create($request->validated());
+        $data = $request->validated();
+        $data['key'] = strtolower(str_replace([' ', '-'] , '', \Str::slug($data['key'])));
+
+        $referral = $this->referral()->create($data);
+
         return back()->withNotify('success', $referral->getAttribute('key'));
     }
 
