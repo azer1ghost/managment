@@ -120,126 +120,159 @@
             <p> @lang('translates.total_items', ['count' => $inquiries->count(), 'total' => $inquiries->total()])</p>
         </div>
     </div>
-    <div class="col-md-12 overflow-auto">
-        <table class="table table-responsive-sm table-hover table-striped" style="min-height: 500px">
-            <thead>
-                <tr>
-                    <th>{{__('translates.fields.mgCode')}}</th>
-                    <th>{{__('translates.fields.date')}}</th>
-                    <th>{{__('translates.fields.time')}}</th>
-                    <th>{{__('translates.fields.company')}}</th>
-                    <th>{{__('translates.fields.clientName')}}</th>
-                    <th>{{__('translates.fields.writtenBy')}}</th>
-                    <th>{{__('translates.fields.subject')}}</th>
-                    <th class="text-center">Status</th>
-                    <th>{{__('translates.fields.actions')}}</th>
-                </tr>
-            </thead>
-            <tbody>
-            @foreach($inquiries as $inquiry)
-                <tr>
-                    <td>{{$inquiry->getAttribute('code')}}</td>
-                    <td>{{$inquiry->getAttribute('datetime')->format('d-m-Y')}}</td>
-                    <td>{{$inquiry->getAttribute('datetime')->format('H:i')}}</td>
-                    <td>{{$inquiry->getRelationValue('company')->getAttribute('name')}}</td>
-                    <td>{{optional($inquiry->getParameter('fullname'))->getAttribute('value')}}</td>
-                    <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}} {!! $inquiry->getRelationValue('user')->getAttribute('disabled_at') ? ' <span class="text-danger">(' . __('translates.disabled') . ')</span>' : '' !!}</td>
-                    <td>{{optional($inquiry->getParameter('subject'))->getAttribute('text')}}</td>
-                    <td class="text-center">
-                        @if($inquiry->getAttribute('wasDone'))
-                            <i class="fa fa-check text-success" style="font-size: 18px"></i>
-                        @elseif (auth()->id() != $inquiry->getAttribute('user_id'))
-                            {{optional($inquiry->getParameter('status'))->getAttribute('text') ?? __('translates.filters.select')}}
-                        @else
-                            @if($trashBox)
+    <form action="{{route('inquiry.editable-mass-access-update')}}" method="POST">
+        @csrf
+        <div class="col-md-12 overflow-auto">
+            <table class="table table-responsive-sm table-hover table-striped" style="min-height: 500px">
+                <thead>
+                    <tr>
+                        @if(auth()->user()->isDeveloper()) <th><input type="checkbox" id="inquiry-all"> <label for="inquiry-all" class="mb-0">Choose all</label></th> @endif
+                        <th>{{__('translates.fields.mgCode')}}</th>
+                        <th>{{__('translates.fields.date')}}</th>
+                        <th>{{__('translates.fields.time')}}</th>
+                        <th>{{__('translates.fields.company')}}</th>
+                        <th>{{__('translates.fields.clientName')}}</th>
+                        <th>{{__('translates.fields.writtenBy')}}</th>
+                        <th>{{__('translates.fields.subject')}}</th>
+                        <th class="text-center">Status</th>
+                        <th>{{__('translates.fields.actions')}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach($inquiries as $inquiry)
+                    <tr>
+                        @if(auth()->user()->isDeveloper()) <td><input type="checkbox" name="inquiries[]" value="{{$inquiry->id}}"></td> @endif
+                        <td>{{$inquiry->getAttribute('code')}}</td>
+                        <td>{{$inquiry->getAttribute('datetime')->format('d-m-Y')}}</td>
+                        <td>{{$inquiry->getAttribute('datetime')->format('H:i')}}</td>
+                        <td>{{$inquiry->getRelationValue('company')->getAttribute('name')}}</td>
+                        <td>{{optional($inquiry->getParameter('fullname'))->getAttribute('value')}}</td>
+                        <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}} {!! $inquiry->getRelationValue('user')->getAttribute('disabled_at') ? ' <span class="text-danger">(' . __('translates.disabled') . ')</span>' : '' !!}</td>
+                        <td>{{optional($inquiry->getParameter('subject'))->getAttribute('text')}}</td>
+                        <td class="text-center">
+                            @if($inquiry->getAttribute('wasDone'))
+                                <i class="fa fa-check text-success" style="font-size: 18px"></i>
+                            @elseif (auth()->id() != $inquiry->getAttribute('user_id'))
                                 {{optional($inquiry->getParameter('status'))->getAttribute('text') ?? __('translates.filters.select')}}
                             @else
-                                <select class="form-control" style="width:auto;" onfocus="this.oldValue = this.value" id="inquiry-{{$inquiry->getAttribute('id')}}" onchange="inquiryStatusHandler(this, {{$inquiry->getAttribute('id')}}, '{{$inquiry->getAttribute('code')}}', this.oldValue, this.value)">
-                                    <option value="null" @if (!optional($inquiry->getParameter('status'))->getAttribute('id')) selected @else  @endif>@lang('translates.filters.select')</option>
-                                    @foreach ($statuses as $status)
-                                        <option
-                                             @if ($status->getAttribute('id') == optional($inquiry->getParameter('status'))->getAttribute('id')) selected @endif
-                                             value="{{$status->getAttribute('id')}}">
-                                            {{$status->getAttribute('text')}}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                @if($trashBox)
+                                    {{optional($inquiry->getParameter('status'))->getAttribute('text') ?? __('translates.filters.select')}}
+                                @else
+                                    <select class="form-control" style="width:auto;" onfocus="this.oldValue = this.value" id="inquiry-{{$inquiry->getAttribute('id')}}" onchange="inquiryStatusHandler(this, {{$inquiry->getAttribute('id')}}, '{{$inquiry->getAttribute('code')}}', this.oldValue, this.value)">
+                                        <option value="null" @if (!optional($inquiry->getParameter('status'))->getAttribute('id')) selected @else  @endif>@lang('translates.filters.select')</option>
+                                        @foreach ($statuses as $status)
+                                            <option
+                                                 @if ($status->getAttribute('id') == optional($inquiry->getParameter('status'))->getAttribute('id')) selected @endif
+                                                 value="{{$status->getAttribute('id')}}">
+                                                {{$status->getAttribute('text')}}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                @endif
                             @endif
-                        @endif
-                    </td>
-                    <td>
-                        <div class="btn-sm-group d-flex align-items-center justify-content-center">
-                            @if(!$trashBox)
-                                @can('view', $inquiry)
-                                    <a target="_blank" href="{{route('inquiry.show', $inquiry)}}" class="btn btn-sm btn-outline-primary mr-2">
-                                        <i class="fal fa-eye"></i>
-                                    </a>
-                                @endcan
-                            @endif
-                            <div class="dropdown">
-                                <button class="btn" type="button" id="inquiry_actions-{{$loop->iteration}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fal fa-ellipsis-v-alt"></i>
-                                </button>
-                                <div class="dropdown-menu custom-dropdown">
-                                    @if($trashBox)
-                                        @can('restore', $inquiry)
-                                            <a href="{{route('inquiry.restore', $inquiry)}}" class="dropdown-item-text text-decoration-none">
-                                                <i class="fal fa-repeat pr-2 text-info"></i>Restore
-                                            </a>
-                                        @endcan
-                                        @can('forceDelete', $inquiry)
-                                            <a href="javascript:void(0)" onclick="deleteAction('{{route('inquiry.forceDelete', $inquiry)}}', '{{$inquiry->code}}')" class="dropdown-item-text text-decoration-none">
-                                                <i class="fa fa-times pr-2 text-danger"></i>Permanent delete
-                                            </a>
-                                        @endcan
-                                    @else
-                                        @can('update', $inquiry)
-                                            <a href="{{route('inquiry.edit', $inquiry)}}" target="_blank" class="dropdown-item-text text-decoration-none">
-                                                <i class="fal fa-pen pr-2 text-success"></i>Edit
-                                            </a>
-                                        @endcan
-                                        @can('delete', $inquiry)
-                                            <a href="javascript:void(0)" onclick="deleteAction('{{route('inquiry.destroy', $inquiry)}}', '{{$inquiry->code}}')" class="dropdown-item-text text-decoration-none">
-                                                <i class="fal fa-trash-alt pr-2 text-danger"></i>Delete
-                                            </a>
-                                        @endcan
-                                    @endif
-                                    @if(auth()->user()->hasPermission('editAccessToUser-inquiry'))
-                                        <a href="{{route('inquiry.access', $inquiry)}}"  target="_blank" class="dropdown-item-text text-decoration-none">
-                                            <i class="fal fa-lock-open-alt pr-2 text-info"></i>@lang('translates.access')
+                        </td>
+                        <td>
+                            <div class="btn-sm-group d-flex align-items-center justify-content-center">
+                                @if(!$trashBox)
+                                    @can('view', $inquiry)
+                                        <a target="_blank" href="{{route('inquiry.show', $inquiry)}}" class="btn btn-sm btn-outline-primary mr-2">
+                                            <i class="fal fa-eye"></i>
                                         </a>
                                     @endcan
-                                    <a href="{{route('inquiry.logs', $inquiry)}}" target="_blank" class="dropdown-item-text text-decoration-none">
-                                        <i class="fal fa-sticky-note pr-2 text-info"></i>Logs
-                                    </a>
-                                    <a href="{{route('inquiry.task', $inquiry)}}" target="_blank" class="dropdown-item-text text-decoration-none">
-                                        <i class="fal fa-list pr-2 text-info"></i>Task
-                                    </a>
+                                @endif
+                                <div class="dropdown">
+                                    <button class="btn" type="button" id="inquiry_actions-{{$loop->iteration}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fal fa-ellipsis-v-alt"></i>
+                                    </button>
+                                    <div class="dropdown-menu custom-dropdown">
+                                        @if($trashBox)
+                                            @can('restore', $inquiry)
+                                                <a href="{{route('inquiry.restore', $inquiry)}}" class="dropdown-item-text text-decoration-none">
+                                                    <i class="fal fa-repeat pr-2 text-info"></i>Restore
+                                                </a>
+                                            @endcan
+                                            @can('forceDelete', $inquiry)
+                                                <a href="javascript:void(0)" onclick="deleteAction('{{route('inquiry.forceDelete', $inquiry)}}', '{{$inquiry->code}}')" class="dropdown-item-text text-decoration-none">
+                                                    <i class="fa fa-times pr-2 text-danger"></i>Permanent delete
+                                                </a>
+                                            @endcan
+                                        @else
+                                            @can('update', $inquiry)
+                                                <a href="{{route('inquiry.edit', $inquiry)}}" target="_blank" class="dropdown-item-text text-decoration-none">
+                                                    <i class="fal fa-pen pr-2 text-success"></i>Edit
+                                                </a>
+                                            @endcan
+                                            @can('delete', $inquiry)
+                                                <a href="javascript:void(0)" onclick="deleteAction('{{route('inquiry.destroy', $inquiry)}}', '{{$inquiry->code}}')" class="dropdown-item-text text-decoration-none">
+                                                    <i class="fal fa-trash-alt pr-2 text-danger"></i>Delete
+                                                </a>
+                                            @endcan
+                                        @endif
+                                        @if(auth()->user()->hasPermission('editAccessToUser-inquiry'))
+                                            <a href="{{route('inquiry.access', $inquiry)}}"  target="_blank" class="dropdown-item-text text-decoration-none">
+                                                <i class="fal fa-lock-open-alt pr-2 text-info"></i>@lang('translates.access')
+                                            </a>
+                                        @endcan
+                                        <a href="{{route('inquiry.logs', $inquiry)}}" target="_blank" class="dropdown-item-text text-decoration-none">
+                                            <i class="fal fa-sticky-note pr-2 text-info"></i>Logs
+                                        </a>
+                                        <a href="{{route('inquiry.task', $inquiry)}}" target="_blank" class="dropdown-item-text text-decoration-none">
+                                            <i class="fal fa-list pr-2 text-info"></i>Task
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+                <div wire:loading.delay>
+                    <div
+                            class="d-flex justify-content-center align-items-center"
+                            style="position: absolute;
+                                   top: 0;left: 0;
+                                   width: 100%;height: 100%;
+                                   background: rgba(0, 0, 0, 0.3);z-index: 999;"
+                    >
+                        <h3 class="text-white">@lang('translates.loading')...</h3>
+                    </div>
+                </div>
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex">
+            @if(auth()->user()->isDeveloper())
+                <div class="col-3">
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#inquiries-access">
+                        Access
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="inquiries-access" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">Access</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <input class="form-control editable-ended-at" type="text" name="editable-date">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-outline-primary">Save</button>
                                 </div>
                             </div>
                         </div>
-                    </td>
-                </tr>
-            @endforeach
-            <div wire:loading.delay>
-                <div
-                        class="d-flex justify-content-center align-items-center"
-                        style="position: absolute;
-                               top: 0;left: 0;
-                               width: 100%;height: 100%;
-                               background: rgba(0, 0, 0, 0.3);z-index: 999;"
-                >
-                    <h3 class="text-white">@lang('translates.loading')...</h3>
+                    </div>
+                </div>
+            @endif
+            <div class="@if(auth()->user()->isDeveloper()) col-9 @else col-12 @endif">
+                <div class="float-right">
+                    {{ $inquiries->links() }}
                 </div>
             </div>
-            </tbody>
-        </table>
-    </div>
-    <div class="col-12">
-        <div class="float-right">
-            {{ $inquiries->links() }}
         </div>
-    </div>
+    </form>
 </div>
 @section('scripts')
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -249,6 +282,25 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 
     <script>
+        $('.editable-ended-at').daterangepicker({
+                opens: 'left',
+                locale: {
+                    format: "YYYY-MM-DD HH:mm:ss",
+                },
+                singleDatePicker: true,
+                timePicker: true,
+                timePicker24Hour: true,
+            }, function(start, end, label) {}
+        );
+
+        $('#inquiry-all').change(function (){
+            if($(this).is(':checked')){
+                $("input[name='inquiries[]']").map(function(){ $(this).prop('checked', true) });
+            }else{
+                $("input[name='inquiries[]']").map(function(){ $(this).prop('checked', false) });
+            }
+        });
+
         function alertHandler(event){
             $.alert({
                 type:    event?.detail?.type,

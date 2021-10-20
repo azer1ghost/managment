@@ -1,5 +1,5 @@
 
-<div class="row">
+<div class="row m-0">
     @forelse($editableUsers as $index => $editableUser)
         <div class="col-12 row m-2" wire:key="editable-user-{{$index}}">
             <div class="col-4">
@@ -24,7 +24,7 @@
             <p class="text-muted">There is no users can edit this inquiry</p>
         </div>
     @endforelse
-    <div class="col-3 col-md-1 ml-3 pl-0">
+    <div class="col-3 col-md-1 m-3 pl-4">
         <button wire:click.prevent="addUser" class="btn btn-xs form-control btn-outline-success">
             <i class="fal fa-plus"></i>
         </button>

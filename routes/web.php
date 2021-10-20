@@ -70,4 +70,4 @@ Route::post('/validate-register', [RegisterController::class, 'validator'])->nam
 
 Localization::route();
 
-Route::get('/test', [PlatformController::class, 'test']);
+Route::any('/test', [PlatformController::class, 'test']);

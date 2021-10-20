@@ -178,6 +178,25 @@ class InquiryController extends Controller
         return back()->withNotify('info', $inquiry->getAttribute('code'));
     }
 
+    public function editableMassAccessUpdate(Request $request)
+    {
+        $data = $request->all();
+
+        foreach ($data['inquiries'] as $inquiry_id) {
+            $inquiry = Inquiry::find($inquiry_id);
+
+            if($inquiry->editableUsers->count() > 1){
+                foreach ($inquiry->editableUsers as $editable){
+                    $inquiry->editableUsers()->updateExistingPivot($editable->id, ['editable_ended_at' => $data['editable-date']]);
+                }
+            }else{
+                $inquiry->editableUsers()->sync([$inquiry->user_id => ['editable_ended_at' => $data['editable-date']]]);
+            }
+        }
+
+        return back();
+    }
+
     public function logs(Inquiry $inquiry)
     {
         return view('panel.pages.inquiry.logs')->with([
