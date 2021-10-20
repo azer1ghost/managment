@@ -70,7 +70,7 @@ class RegisterController extends Controller
             'company_id' => ['filled', 'integer', 'min:1'],
             'password' => ['filled', 'string', 'min:8', 'confirmed'],
             'default_lang' => ['filled', 'string'],
-            'avatar'  => ['nullable', 'mimes:jpg,png,jpeg,gif', 'max:2048'],
+            'avatar'  => ['nullable','sometimes', 'image', 'mimes:jpg,png,jpeg,gif', 'max:2048'],
             'serial' => ['filled', 'string'],
             'fin' => ['filled', 'string', 'min:7', 'max:7']
         ]);
@@ -91,6 +91,8 @@ class RegisterController extends Controller
         $data = $request->all();
         if($avatar = $request->file('avatar')){
             $data['avatar'] = $avatar->storeAs('avatars', $avatar->hashName());
+        }else{
+            $data['avatar'] = null;
         }
 
         return User::create([

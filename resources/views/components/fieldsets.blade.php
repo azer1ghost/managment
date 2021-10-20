@@ -251,7 +251,9 @@
                 const data = new FormData();
                 $('#' + current_fs.attr('id') + ' :input').each(function (index, input){
                     if($(input).attr('name') === 'avatar'){
-                        data.append($(input).attr('name'), $(input).prop('files')[0]);
+                        if($(input).prop('files').length !== 0){
+                            data.append($(input).attr('name'), $(input).prop('files')[0]);
+                        }
                     }else{
                         data.append($(input).attr('name'), $(input).val());
                     }
