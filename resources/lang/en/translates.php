@@ -268,6 +268,7 @@ return [
         'bonus'   => 'Bonus balance',
         'get_data' => 'For getting referral data',
         'send_req' => 'Send request',
-        'updated' => 'Last updated'
+        'updated' => 'Last updated',
+        'retry_later' => 'check again after :count minutes.'
     ]
 ];

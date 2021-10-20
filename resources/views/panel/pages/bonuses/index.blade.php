@@ -197,7 +197,7 @@
                         </a>
                         @if (!$referral->isNew()) (@lang('translates.referrals.updated'): {{optional($referral->getAttribute('updated_at'))->diffForHumans()}})@endif
                     @else
-                         3 dəqiqədən sonra yenidən yoxlayın.
+                         @lang('translates.referrals.retry_later', ['count' => $referral->getAttribute('updated_at')->addMinutes(3)->diffForHumans(['options' => 0, 'short' => true])])
                     @endif
                 </p>
                 <form id="get-referral-data" method="POST" class="d-none">

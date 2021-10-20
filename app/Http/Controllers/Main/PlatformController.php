@@ -3,16 +3,11 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
-use App\Models\Company;
 use App\Models\Widget;
-use App\Models\Inquiry;
 use App\Services\MobexReferralApi;
-use Carbon\Carbon;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use SplFileInfo;
 
 class PlatformController extends Controller
 {
@@ -22,7 +17,7 @@ class PlatformController extends Controller
     }
 
     /**
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws FileNotFoundException
      */
     public function downloadBat()
     {
@@ -49,11 +44,6 @@ class PlatformController extends Controller
     public function languageSelector()
     {
         return view('auth.lang-selector');
-    }
-
-    public function cabinet(): View
-    {
-        return view('panel.pages.cabinet.index');
     }
 
     public function test()

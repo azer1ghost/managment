@@ -267,6 +267,7 @@ return [
         'get_data' => 'Referal məlumatlarını əldə etmək üçün',
         'send_req' => 'Sorğu göndərin',
         'updated' => 'Son yenilənmə',
+        'retry_later' => ':count dəqiqədən sonra yenidən yoxlayın.'
     ]
 
 ];
