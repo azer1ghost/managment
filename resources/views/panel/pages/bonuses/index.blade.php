@@ -191,7 +191,7 @@
         @if($referral->isReal())
             <div class="col-12 text-center mb-3">
                 <p class="text-muted m-3">@lang('translates.referrals.get_data')
-                    @if($referral->getAttribute('updated_at')->diff(now())->i > 3)
+                    @if($referral->getAttribute('updated_at')->diff(now())->i >= 3)
                         <a href="#" class="btn btn-link py-0" onclick="event.preventDefault(); document.getElementById('get-referral-data').submit();">
                             @lang('translates.referrals.send_req') <i class="ml-1 fal fa-smile"></i>
                         </a>
