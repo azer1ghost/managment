@@ -153,6 +153,13 @@ class Sidebar extends Component
                 'icon'  => 'fal fa-bug',
                 'url'  => url('module/log-reader'),
                 'permission' => 'viewAny-log',
+            ],
+
+            (object) [
+                'title' => "Updates",
+                'icon'  => 'fas fa-sync',
+                'url'  => route('updates.index'),
+                'permission' => 'viewAny-update',
             ]
         ];
     }

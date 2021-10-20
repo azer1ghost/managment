@@ -48,6 +48,10 @@ return [
         'password' => 'Şifrə daxil edin',
         'password_confirm' => 'Şifrə təsdiqini daxil edin',
         'or' => ":first, :second və ya :third daxil edin",
+        'task_name' => 'Tapşırıq adı',
+        'search_users' => 'İstifadəçi axtar',
+
+
     ],
 
     'fields' => [
@@ -150,7 +154,8 @@ return [
         'notification' => 'Bildirişlər',
         'client'     => 'Müştərilər',
         'referral'  => 'Referrallar',
-        'bonus'     => 'Bonuslar'
+        'bonus'     => 'Bonuslar',
+        'update'    => 'Yeniləmələr'
     ],
 
     'date' => [
@@ -267,6 +272,48 @@ return [
         'get_data' => 'Referal məlumatlarını əldə etmək üçün',
         'send_req' => 'Sorğu göndərin',
         'updated' => 'Son yenilənmə',
+        'retry_later' => ':count yenidən yoxlayın.'
+    ],
+
+    'updates' => [
+        'Rədd edildi',
+        'Gözləyən',
+        'Qəbul edildi',
+        'Başladı',
+        'Bitdi',
+        'Gələcək',
+        'Xəta',
+        'Səhv',
+        'Həll olundu'
+    ],
+
+    'columns' => [
+        'name' => 'Adı',
+        'priority' => 'Prioritet',
+        'status' => 'Status',
+        'created_by' => 'Tapşırıq verən',
+        'user' => 'İstifadəçi',
+        'stage' => 'Mərhələ',
+        'full_name' => 'Tam Adı',
+        'fin' => 'FIN',
+        'email' => 'Email',
+        'phone' => 'Mobil Telefon',
+        'company' => 'Şirkət',
+        'department' => 'Şöbə',
+        'role' => 'Vəzifə',
+        'actions' => 'Əməliyyatlar',
+        'adress' => 'Ünvan',
+        'permissions' => 'İcazələr',
+        'type' => 'Növü',
+        'order' => 'Sıralaması',
+        'parent_option' => 'Ana parametr',
+    ],
+
+    'notify' => [
+        'successfully' => 'Uğurlu',
+        'processed_successfully' => 'proses uğurla tamamlandı',
+        'sww' => 'Xəta baş verdi',
+        'record' => 'Qeydiyyat',
         'retry_later' => ':count yenidən yoxlayın.'
     ]
 

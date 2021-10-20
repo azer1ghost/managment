@@ -45,19 +45,21 @@ if (! function_exists('notify')) {
                 ];
             }
 
-            public function success($custom, $data = 'Record'): array
+            public function success($custom, $data = 'record'): array
             {
-                return $this->message('green', 'Successfully', 'processed successfully', $custom, $data);
+                $customData = $data == 'record' ? trans('translates.notify.record') : $data;
+                return $this->message('green', trans('translates.notify.successfully'), trans('translates.notify.processed_successfully'), $custom, $customData);
             }
 
-            public function info($custom, $data = 'Record'): array
+            public function info($custom, $data = 'record'): array
             {
-                return $this->message('blue', 'Successfully', 'processed successfully', $custom, $data);
+                $customData = $data == 'record' ? trans('translates.notify.record') : $data;
+                return $this->message('blue', trans('translates.notify.successfully'), trans('translates.notify.processed_successfully'), $custom, $customData);
             }
 
             public function error($custom, $data = ''): array
             {
-                return $this->message('red', 'Ops... !', 'Something went wrong.', $custom, $data);
+                return $this->message('red', 'Ops... !', trans('translates.notify.sww'), $custom, $data);
             }
         };
     }

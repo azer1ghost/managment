@@ -53,7 +53,7 @@
             <div class="form-group col-12 col-md-2">
                 <label for="data-gender">{{__('translates.fields.gender')}}</label>
                 <select class="form-control @error('gender') is-invalid @enderror" name="gender" id="data-gender" style="padding: .375rem 0.75rem !important;">
-                    <option disabled selected value="null">{{__('translates.fields.gender')}} {{__('translates.placeholders.choose')}}</option>
+                    <option disabled selected value="">{{__('translates.fields.gender')}} {{__('translates.placeholders.choose')}}</option>
                     @foreach([__('translates.gender.male'), __('translates.gender.female')] as $key => $option)
                         <option @if ($key === auth()->user()->getAttribute('gender')) selected @endif value="{{$key}}">{{$option}}</option>
                     @endforeach

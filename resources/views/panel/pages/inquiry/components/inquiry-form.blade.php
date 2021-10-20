@@ -86,11 +86,11 @@
 </form>
 
 @if(is_null($action))
-@section('scripts')
+@push('scripts')
     <script>
         $("#createForm :input").attr("disabled", true);
     </script>
-@endsection
+@endpush
 @endif
 
 

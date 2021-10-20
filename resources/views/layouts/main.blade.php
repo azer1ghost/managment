@@ -43,6 +43,7 @@
                 <div class="profile-container">
                     <img src="{{image(auth()->user()->getAttribute('avatar'))}}" alt="profile_picture">
                     <h4>{{auth()->user()->getAttribute('fullname')}}</h4>
+                    <p>{{auth()->user()->getRelationValue('compartment')->getAttribute('name')}}</p>
                     <p>{{auth()->user()->getRelationValue('position')->getAttribute('name')}}</p>
                 </div>
                 <x-sidebar />
@@ -62,9 +63,9 @@
     @livewireScripts
 
 
-    @yield('scripts')
-
     @stack('scripts')
+
+    @yield('scripts')
 
     <x-notify/>
 

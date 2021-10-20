@@ -16,12 +16,12 @@
         <div class="row d-flex mb-2">
             <div class="col-12 col-md-3">
                 <div class="input-group mb-3">
-                    <input type="search" placeholder="Task name" name="search" value="{{request()->get('search')}}" class="form-control">
+                    <input type="search" placeholder="@lang('translates.placeholders.task_name')" name="search" value="{{request()->get('search')}}" class="form-control">
                 </div>
             </div>
             <div class="col-12 col-md-3">
                 <div class="input-group mb-3">
-                    <input type="search" placeholder="Search users" name="user" value="{{request()->get('user')}}" class="form-control">
+                    <input type="search" placeholder="@lang('translates.placeholders.search_users')" name="user" value="{{request()->get('user')}}" class="form-control">
                 </div>
             </div>
             <div class="col-12 col-md-3">
@@ -76,14 +76,14 @@
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Priority</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Created by</th>
-                        <th scope="col">Department</th>
-                        <th scope="col">User</th>
-                        <th scope="col" style="min-width: 150px; width: 150px;">Stage</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col">@lang('translates.columns.name')</th>
+                        <th scope="col">@lang('translates.columns.priority')</th>
+                        <th scope="col">@lang('translates.columns.status')</th>
+                        <th scope="col">@lang('translates.columns.created_by')</th>
+                        <th scope="col">@lang('translates.columns.department')</th>
+                        <th scope="col">@lang('translates.columns.user')</th>
+                        <th scope="col" style="min-width: 150px; width: 150px;">@lang('translates.columns.stage')</th>
+                        <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
                     <tbody>
