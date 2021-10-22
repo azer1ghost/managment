@@ -32,12 +32,12 @@
                         <div class="dropdown-menu custom-dropdown" style="min-width: 0 !important;">
                             @can('update', $comment)
                                 <button wire:click.prevent="edit({{$comment->id}})" class="dropdown-item btn text-success">
-                                    <i class="fal fa-pencil"></i> edit
+                                    <i class="fal fa-pencil"></i> @lang('translates.tasks.edit')
                                 </button>
                             @endcan
                             @can('delete', $comment)
                                 <button wire:click.prevent="delete({{$comment->id}})" class="dropdown-item btn text-danger ">
-                                    <i class="fal fa-trash"></i> delete
+                                    <i class="fal fa-trash"></i> @lang('translates.tasks.delete')
                                 </button>
                             @endcan
                         </div>
@@ -58,7 +58,7 @@
                 </small>
             @endif
             <button wire:click.prevent="reply({{$comment->id}})" class="btn btn-link text-info m-0 p-0" >
-                <i class="fal fa-reply"></i> reply
+                <i class="fal fa-reply"></i> @lang('translates.tasks.reply')
             </button>
         </div>
         @if(isset($comment->comments))

@@ -249,6 +249,12 @@ return [
         'created' => "Yeni tapşırığ :name uğurla əlavə edildi. <p> Zəhmət olmasa, Ediləcəkləri təyin edin. </p>",
         'not_started' => 'Başlamayıb',
         'new' => 'Sizə yeni bir tapşırıq təyin edildi',
+        'reply' => 'Cavab ver',
+        'send' => 'Göndər',
+        'edit' => 'Düzəltmək',
+        'delete' => 'Silmək',
+        'end' => 'Bu qədər',
+        'no_comments' => 'Hal hazırda rəy yoxdur',
         'content' => [
             'user' => 'Sizə yeni tapşırıq verildi',
             'department' => 'Şöbənizə yeni bir tapşırıq verildi'

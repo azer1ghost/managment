@@ -252,6 +252,12 @@ return [
         'created' => "New task :name added successfully. <p>Please now assign some To do.</p>",
         'not_started' => 'Not started',
         'new' => 'You have new task assigned',
+        'reply' => 'Reply',
+        'send' => 'Send',
+        'edit' => 'Edit',
+        'delete' => 'Delete',
+        'end' => "That's all",
+        'no_comments' => 'No comments available for now',
         'content' => [
             'user' => 'New task assigned to you',
             'department' => 'New task assigned to your department'
