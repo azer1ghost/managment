@@ -69,7 +69,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <th colspan="5">
+                            <th colspan="6">
                                 <div class="row justify-content-center m-3">
                                     <div class="col-7 alert alert-danger text-center" role="alert">Empty for now</div>
                                 </div>
