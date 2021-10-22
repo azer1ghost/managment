@@ -23,7 +23,7 @@
     <input wire:ignore type="hidden" name="inquiry_id" value="{{request()->get('inquiry_id')}}">
     @endif
 
-    <x-input::text name="name" :value="optional($task)->getAttribute('name')"  label="Task name"  width="6" class="pr-3" />
+    <x-input::text name="name" :value="optional($task)->getAttribute('name')"  :label="__('translates.tasks.label.name')"   width="6" class="pr-3" />
 
     <div wire:ignore class="form-group col-12 col-md-6 mb-3 mb-md-0" >
         @php($task_dates = optional($task)->getAttribute('must_start_at') && optional($task)->getAttribute('must_end_at') ?  optional($task)->getAttribute('must_start_at') . ' - ' .  optional($task)->getAttribute('must_end_at') : '')
@@ -104,7 +104,7 @@
          </div>
     @endif
 
-    <x-input::textarea name="note" :value="optional($task)->getAttribute('note')"  label="Note"   width="12" class="" rows="4"/>
+    <x-input::textarea name="note" :value="optional($task)->getAttribute('note')"  :label="__('translates.fields.note')"   width="12" class="" rows="4"/>
 
     @if($action)
         <div class="col-12">

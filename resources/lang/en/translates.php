@@ -82,6 +82,7 @@ return [
         'phone_coop' => 'Cooperative phone',
         'email_coop' => 'Cooperative Email',
         'email_private' => 'Personal Email',
+        'address_coop' => 'Cooperative address',
         'country' => 'Country',
         'city' => 'City',
         'password' => 'Password',
@@ -100,6 +101,7 @@ return [
         'address' => 'Address',
         'website' => 'Website',
         'mobile' => 'Mobile',
+        'enter' => 'Enter :field',
         'mail' => 'Email',
         'call_center' => 'Call center',
         'keywords' => 'Keywords',
@@ -263,7 +265,10 @@ return [
             'assigned_to_me' => 'Assigned to me',
             'my_tasks' => 'My tasks',
             'all' => 'All'
-        ]
+        ],
+        'label' => [
+            'name' => 'Task Name'
+        ],
     ],
 
     'referrals' => [
@@ -317,6 +322,14 @@ return [
         'processed_successfully' => 'processed successfully',
         'sww' => 'Something went wrong',
         'record' => 'Record',
+    ],
+
+    'users' => [
+        'types' => [
+            'employees' => 'Employees',
+            'partners' => 'Partners',
+            'all' => 'All'
+        ],
     ]
 
 ];

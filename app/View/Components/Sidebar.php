@@ -135,7 +135,7 @@ class Sidebar extends Component
             ],
 
             (object) [
-                'title' => "Referrals",
+                'title' =>  __('translates.navbar.referral'),
                 'icon'  => 'fas fa-ticket-alt',
                 'url'  => route('referrals.index'),
                 'permission' => 'viewAny-referral',
