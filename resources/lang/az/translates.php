@@ -41,11 +41,11 @@ return [
         'address_coop' => 'Kooperativ adresinizi daxil edin',
         'address' => 'Ünvan daxil edin',
         'choose' => 'Seç',
-        'name'   => 'Adınızı daxil edin',
-        'surname'   => 'Soyadınızı daxil edin',
-        'father'   => 'Ata adını daxil edin',
-        'mail_coop'   => 'Kooperativ e-poçtunuzu daxil edin',
-        'mail'   => 'E-poçtunuzu daxil edin',
+        'name' => 'Adınızı daxil edin',
+        'surname' => 'Soyadınızı daxil edin',
+        'father' => 'Ata adını daxil edin',
+        'mail_coop' => 'Kooperativ e-poçtunuzu daxil edin',
+        'mail' => 'E-poçtunuzu daxil edin',
         'password' => 'Şifrə daxil edin',
         'password_confirm' => 'Şifrə təsdiqini daxil edin',
         'or' => ":first, :second və ya :third daxil edin",
@@ -103,9 +103,9 @@ return [
         'call_center' => 'Çağrı Mərkəzi',
         'keywords' => 'Açar sözlər',
         'about' => 'Haqqında',
-                'priority' => [
+        'priority' => [
             'key' => 'Prioritet',
-            'options'  => [
+            'options' => [
                 'low' => 'Aşağı',
                 'medium' => 'Orta',
                 'high' => 'Yüksək',
@@ -114,7 +114,7 @@ return [
         ],
         'status' => [
             'key' => 'Status',
-            'options'  => [
+            'options' => [
                 'to_do' => 'Ediləcək',
                 'in_progress' => 'Davam edən',
                 'done' => 'Bitmiş'
@@ -124,12 +124,12 @@ return [
 
     'buttons' => [
         'create' => 'Əlavə et',
-        'save'   => 'Yadda saxla',
-        'back'   => 'Geri',
+        'save' => 'Yadda saxla',
+        'back' => 'Geri',
         'search' => 'Axtar',
         'filter' => 'Filterlə',
-        'add'    => 'Əlavə et',
-        'copy'   => 'Kopyala',
+        'add' => 'Əlavə et',
+        'copy' => 'Kopyala',
         'copied' => 'Kopyalandı',
         'previous' => 'Əvvəlki',
         'next' => 'Sonrakı',
@@ -139,26 +139,26 @@ return [
     'or' => 'və ya',
 
     'navbar' => [
-        'general'    => 'Ümumi',
-        'welcome'    => 'Xoş gəldiniz',
-        'dashboard'  => 'Məlumat Paneli',
-        'cabinet'    => 'Kabinet',
-        'company'    => 'Şirkətlər',
-        'account'    => 'Hesab',
-        'signature'  => 'Email İmza',
-        'inquiry'    => 'Sorğular',
-        'task'       => 'Tapşırıqlar',
-        'parameter'  => 'Parametrlər',
-        'option'     => 'Seçimlər',
-        'role'       => 'Rollar',
-        'user'       => 'İstifadəçilər',
+        'general' => 'Ümumi',
+        'welcome' => 'Xoş gəldiniz',
+        'dashboard' => 'Məlumat Paneli',
+        'cabinet' => 'Kabinet',
+        'company' => 'Şirkətlər',
+        'account' => 'Hesab',
+        'signature' => 'Email İmza',
+        'inquiry' => 'Sorğular',
+        'task' => 'Tapşırıqlar',
+        'parameter' => 'Parametrlər',
+        'option' => 'Seçimlər',
+        'role' => 'Rollar',
+        'user' => 'İstifadəçilər',
         'department' => 'Şöbələr',
-        'position'   => 'Vəzifələr',
+        'position' => 'Vəzifələr',
         'notification' => 'Bildirişlər',
-        'client'     => 'Müştərilər',
-        'referral'  => 'Referrallar',
-        'bonus'     => 'Bonuslar',
-        'update'    => 'Yeniləmələr'
+        'client' => 'Müştərilər',
+        'referral' => 'Referrallar',
+        'bonus' => 'Bonuslar',
+        'update' => 'Yeniləmələr'
     ],
 
     'date' => [
@@ -167,7 +167,7 @@ return [
     ],
 
     'register' => [
-        'register'  => 'Qeydiyyat',
+        'register' => 'Qeydiyyat',
         'fill' => 'Növbəti mərhələyə keçmək üçün bütün forma sahələrini doldurun',
         'progress' => [
             'language' => 'Dil',
@@ -176,12 +176,12 @@ return [
             'avatar' => 'Şəkil'
         ],
         'steps' => 'Addım :step - 4',
-        'title'     => ':type kimi qeydiyyatdan keçin',
-        'name'      => 'Ad',
-        'surname'   => 'Soyad',
+        'title' => ':type kimi qeydiyyatdan keçin',
+        'name' => 'Ad',
+        'surname' => 'Soyad',
         'mail_coop' => 'Kooperativ e-poçt',
         'mail' => 'E-poçt',
-        'phone'       => 'Personal telefon',
+        'phone' => 'Personal telefon',
         'department' => 'Şöbə',
         'company' => 'Şirkət',
         'password' => 'Şifrə',
@@ -199,12 +199,12 @@ return [
     'flash_messages' => [
         'inquiry_status_updated' => [
             'title' => ':code Yeniləndi',
-            'msg'   =>':prev, :next statusuna dəyiştirildi'
+            'msg' => ':prev, :next statusuna dəyiştirildi'
         ],
         'task_status_updated' => [
             'confirm' => ['title' => 'Yenilə', 'msg' => 'Statusu :prev dən :next ə dəyişəcəyinizdən əminsiniz?'],
             'title' => ':name Yeniləndi',
-            'msg'   => ':prev, :next statusuna dəyiştirildi'
+            'msg' => ':prev, :next statusuna dəyiştirildi'
         ]
     ],
 
@@ -279,8 +279,8 @@ return [
         'sub_message' => 'Bu referal linkinizdir, kopyalayın və dostlarınızla paylaşın',
         'total' => 'Toplam referallar',
         'packages' => 'Bağlamalar',
-        'earnings'  => 'Qazanc',
-        'bonus'   => 'Bonus balansı',
+        'earnings' => 'Qazanc',
+        'bonus' => 'Bonus balansı',
         'get_data' => 'Referal məlumatlarını əldə etmək üçün',
         'send_req' => 'Sorğu göndərin',
         'updated' => 'Son yenilənmə',
@@ -339,5 +339,10 @@ return [
             'partners' => 'Ortaqlar',
             'all' => 'Hamısı'
         ],
-    ]
+    ],
+
+    'bonus' => [
+        'effective' => 'Effektiv',
+        'ineffective' => 'Karsız'
+    ],
 ];

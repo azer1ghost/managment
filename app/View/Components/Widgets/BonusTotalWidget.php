@@ -19,17 +19,17 @@ class BonusTotalWidget extends Component
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
 
-        $referral = optional(auth()->user()->referral);
+        $referral = optional(auth()->user()->getRelationValue('referral'));
         $effective = $referral->total_users * $referral->efficiency / 100 ;
         $ineffective = $referral->total_users - $effective;
 
         $this->results = [
             (object) [
-                'users' => 'Effective',
+                'users' => __('translates.bonus.effective'),
                 'total' => $effective
             ],
             (object) [
-                'users' => 'Ineffective',
+                'users' => __('translates.bonus.ineffective'),
                 'total' => $ineffective
             ]
         ];

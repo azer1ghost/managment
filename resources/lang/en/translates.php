@@ -41,21 +41,16 @@ return [
         'phone_coop' => 'Enter cooperative phone',
         'address' => 'Enter address',
         'choose' => 'Choose',
-        'name'   => 'Enter name',
-        'surname'   => 'Enter surname',
-        'father'   => 'Enter father\'s name',
-        'mail_coop'   => 'Enter cooperative email',
-        'mail'   => 'Enter email',
+        'name' => 'Enter name',
+        'surname' => 'Enter surname',
+        'father' => 'Enter father\'s name',
+        'mail_coop' => 'Enter cooperative email',
+        'mail' => 'Enter email',
         'password' => 'Enter password',
         'password_confirm' => 'Enter password confirmation',
         'or' => "Enter :first, :second or :third",
         'task_name' => 'Task Name',
         'search_users' => 'Search Users',
-
-
-
-
-
     ],
 
     'fields' => [
@@ -108,7 +103,7 @@ return [
         'about' => 'About',
         'priority' => [
             'key' => 'Priority',
-            'options'  => [
+            'options' => [
                 'low' => 'Low',
                 'medium' => 'Medium',
                 'high' => 'High',
@@ -117,7 +112,7 @@ return [
         ],
         'status' => [
             'key' => 'Status',
-            'options'  => [
+            'options' => [
                 'to_do' => 'To do',
                 'in_progress' => 'In progress',
                 'done' => 'Done'
@@ -127,12 +122,12 @@ return [
 
     'buttons' => [
         'create' => 'Create',
-        'save'   => 'Save',
-        'back'   => 'Back',
+        'save' => 'Save',
+        'back' => 'Back',
         'search' => 'Search',
         'filter' => 'Filter',
-        'add'    => 'Add',
-        'copy'   => 'Copy',
+        'add' => 'Add',
+        'copy' => 'Copy',
         'copied' => 'Copied',
         'previous' => 'Previous',
         'next' => 'Next',
@@ -142,26 +137,26 @@ return [
     'or' => 'or',
 
     'navbar' => [
-        'general'    => 'General',
-        'dashboard'  => 'Dashboard',
-        'welcome'    => 'Welcome',
-        'cabinet'    => 'Cabinet',
-        'company'    => 'Companies',
-        'account'    => 'Account',
-        'signature'  => 'Signature',
-        'inquiry'    => 'Inquiries',
-        'task'       => 'Tasks',
-        'parameter'  => 'Parameters',
-        'option'     => 'Options',
-        'role'       => 'Roles',
-        'user'       => 'Users',
+        'general' => 'General',
+        'dashboard' => 'Dashboard',
+        'welcome' => 'Welcome',
+        'cabinet' => 'Cabinet',
+        'company' => 'Companies',
+        'account' => 'Account',
+        'signature' => 'Signature',
+        'inquiry' => 'Inquiries',
+        'task' => 'Tasks',
+        'parameter' => 'Parameters',
+        'option' => 'Options',
+        'role' => 'Roles',
+        'user' => 'Users',
         'department' => 'Departments',
-        'position'   => 'Positions',
+        'position' => 'Positions',
         'notification' => 'Notifications',
-        'client'     => 'Clients',
-        'referral'  => 'Referrals',
-        'bonus'     => 'Bonuses',
-        'update'     => 'Updates'
+        'client' => 'Clients',
+        'referral' => 'Referrals',
+        'bonus' => 'Bonuses',
+        'update' => 'Updates'
     ],
 
     'date' => [
@@ -170,7 +165,7 @@ return [
     ],
 
     'register' => [
-        'register'   => 'Register',
+        'register' => 'Register',
         'fill' => 'Fill all form fields to go to next step',
         'progress' => [
             'language' => 'Language',
@@ -179,35 +174,35 @@ return [
             'avatar' => 'Avatar'
         ],
         'steps' => 'Step :step - 4',
-        'title'      => 'Register as :type',
-        'name'       => 'Name',
-        'surname'    => 'Surname',
-        'mail_coop'  => 'Cooperative Email',
-        'mail'       => 'Email',
-        'phone'       => 'Personal phone',
+        'title' => 'Register as :type',
+        'name' => 'Name',
+        'surname' => 'Surname',
+        'mail_coop' => 'Cooperative Email',
+        'mail' => 'Email',
+        'phone' => 'Personal phone',
         'department' => 'Department',
-        'company'    => 'Company',
-        'password'   => 'Password',
+        'company' => 'Company',
+        'password' => 'Password',
         'password_confirm' => 'Password confirmation',
     ],
 
     'login' => [
-        'login'         => 'Sign into your account',
-        'remember'      => 'Remember me',
-        'forgot_pwd'    => 'Forgot Your Password?',
-        'no_account'    => "Don't have an account?",
+        'login' => 'Sign into your account',
+        'remember' => 'Remember me',
+        'forgot_pwd' => 'Forgot Your Password?',
+        'no_account' => "Don't have an account?",
         'register_here' => 'Register here'
     ],
 
     'flash_messages' => [
         'inquiry_status_updated' => [
             'title' => ':code Updated',
-            'msg'   => 'Status updated from :prev to :next'
+            'msg' => 'Status updated from :prev to :next'
         ],
         'task_status_updated' => [
             'confirm' => ['title' => 'Update', 'msg' => 'Are you sure to change status from :prev to :next?'],
             'title' => ':name Yeniləndi',
-            'msg'   => 'Status updated from :prev to :next'
+            'msg' => 'Status updated from :prev to :next'
         ]
     ],
 
@@ -282,8 +277,8 @@ return [
         'sub_message' => 'This is your referral link, copy and share with your friends',
         'total' => 'Total Referrals',
         'packages' => 'Packages',
-        'earnings'  => 'Earnings',
-        'bonus'   => 'Bonus balance',
+        'earnings' => 'Earnings',
+        'bonus' => 'Bonus balance',
         'get_data' => 'For getting referral data',
         'send_req' => 'Send request',
         'updated' => 'Last updated',
@@ -340,6 +335,11 @@ return [
             'partners' => 'Partners',
             'all' => 'All'
         ],
-    ]
+    ],
+
+    'bonus' => [
+      'effective' => 'Effective',
+      'ineffective' => 'Ineffective'
+    ],
 
 ];
