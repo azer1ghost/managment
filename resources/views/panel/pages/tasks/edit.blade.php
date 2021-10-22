@@ -27,7 +27,7 @@
                     <div class="add-items d-flex flex-column flex-md-row align-items-center">
                         @if($data->getAttribute('status') != 'done')
                                 @csrf
-                                <input type="text" name="name" class="mb-3 mb-md-0 todo-list-input" placeholder="{{__('translates.tasks.list.placeholder')}}">
+                                <input type="text" required name="name" class="mb-3 mb-md-0 todo-list-input" placeholder="{{__('translates.tasks.list.placeholder')}}">
                                 <input type="hidden" name="task_id" value="{{$data->id}}">
                                 <input type="hidden" value="{{request()->url()}}" name="url">
                                 <button type="submit" class="d-inline-block btn btn-primary font-weight-bold">

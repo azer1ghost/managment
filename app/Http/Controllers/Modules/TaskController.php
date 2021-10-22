@@ -171,8 +171,6 @@ class TaskController extends Controller
         //clear task_dates after explode
         unset($validated['task_dates']);
 
-        $validated['user_id'] = auth()->id();
-
         if($validated['status'] == 'done'){
             $validated['done_at'] = now();
             $validated['done_by_user_id'] = $validated['user_id'];

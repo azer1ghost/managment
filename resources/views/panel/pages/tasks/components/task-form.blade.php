@@ -3,7 +3,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
 
-<form action="{{$action}}" id="createForm" method="POST" class="tab-content form-row mt-4 mb-5">
+<form action="{{$action}}" id="createTaskForm" method="POST" class="tab-content form-row mt-4 mb-5">
     @csrf
     @method($method)
 
@@ -119,7 +119,7 @@
 
     <script>
         @if(is_null($action))
-            $("#createForm :input").attr("disabled", true);
+            $("#createTaskForm :input").attr("disabled", true);
         @endif
 
         @if($task && $task->canManageLists() && $task->getAttribute('status') != 'done')

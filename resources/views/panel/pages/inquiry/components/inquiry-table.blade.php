@@ -126,7 +126,7 @@
             <table class="table table-responsive-sm table-hover table-striped" style="min-height: 500px">
                 <thead>
                     <tr>
-                        @if(auth()->user()->isDeveloper()) <th><input type="checkbox" id="inquiry-all"> <label for="inquiry-all" class="mb-0">Choose all</label></th> @endif
+                        @if(auth()->user()->isDeveloper()) <th><input type="checkbox" id="inquiry-all"></th> @endif
                         <th>{{__('translates.fields.mgCode')}}</th>
                         <th>{{__('translates.fields.date')}}</th>
                         <th>{{__('translates.fields.time')}}</th>
@@ -242,7 +242,7 @@
         <div class="d-flex">
             @if(auth()->user()->isDeveloper())
                 <div class="col-3">
-                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#inquiries-access">
+                    <button type="button" disabled class="btn btn-outline-primary" id="inquiries-access-btn" data-toggle="modal" data-target="#inquiries-access">
                         Access
                     </button>
                     <!-- Modal -->
@@ -298,6 +298,21 @@
                 $("input[name='inquiries[]']").map(function(){ $(this).prop('checked', true) });
             }else{
                 $("input[name='inquiries[]']").map(function(){ $(this).prop('checked', false) });
+            }
+        });
+
+        // Check if at least one inquiry selected
+        $("input[name='inquiries[]']").change(function (){
+            let hasOneChecked = false;
+            $("input[name='inquiries[]']").map(function(){
+                if($(this).is(':checked')){
+                    hasOneChecked = true;
+                }
+            });
+            if(hasOneChecked){
+                $('#inquiries-access-btn').prop('disabled', false);
+            }else{
+                $('#inquiries-access-btn').prop('disabled', true);
             }
         });
 
