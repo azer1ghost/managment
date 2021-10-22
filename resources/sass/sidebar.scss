@@ -72,14 +72,14 @@
       h4{
         color: $primaryWhite;
         margin: 10px 5px 5px;
-        word-break: break-all;
+        word-break: break-word;
       }
 
       p{
         color: $hover;
         font-size: 14px;
         margin: 5px 5px;
-        word-break: break-all;
+        word-break: break-word;
       }
     }
 
