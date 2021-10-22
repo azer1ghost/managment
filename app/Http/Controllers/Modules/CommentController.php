@@ -14,7 +14,7 @@ class CommentController extends Controller
 {
     public function __construct()
     {
-        // trottle function required
+        // throttle function required
     }
 
     public function store($content, $url, Model $model)
@@ -27,7 +27,12 @@ class CommentController extends Controller
             $user = $model->user;
             $creator = User::find($model->commentable->user_id);
         }elseif ($model->getTable() == 'tasks'){
-            $user = $model->taskable;
+            if($model->taskable()->getTable() == 'departments'){
+                foreach (User::where('id', '!=', auth()->id())->where('department_id', $model->taskable_id)->get() as $_user)
+                $users[] = $_user;
+            }else{
+                $user = $model->taskable;
+            }
             $creator = User::find($model->user_id);
         }elseif ($model->getTable() == 'updates'){
             $user = $model->user;
@@ -35,8 +40,10 @@ class CommentController extends Controller
         }
         $users = [$creator];
 
-        if($user->id != auth()->id()) {
-            $users[] = $user;
+        if($model->getTable() != 'tasks'){
+            if($user->id != auth()->id()) {
+                $users[] = $user;
+            }
         }
 
         Notification::send($users, new NewComment($content, $url));

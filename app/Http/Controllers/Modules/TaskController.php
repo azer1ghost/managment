@@ -11,6 +11,7 @@ use App\Models\Task;
 use App\Notifications\TaskAssigned;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Notification;
 
 class TaskController extends Controller
@@ -192,6 +193,9 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         if ($task->delete()) {
+            foreach (DatabaseNotification::where("data->url", route('tasks.show', $task))->get() as $notification){
+                $notification->delete();
+            }
             return response('OK');
         }
         return response()->setStatusCode('204');
