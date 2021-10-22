@@ -134,7 +134,7 @@ class User extends Authenticatable implements MustVerifyPhone
 
     public function isDeveloper(): bool
     {
-        return false;
+        return $this->getAttribute('role_id') === 1;
     }
 
     public function isAdministrator(): bool
