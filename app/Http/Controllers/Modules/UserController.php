@@ -27,7 +27,7 @@ class UserController extends Controller
         $search = $request->get('search');
         $limit  = $request->get('limit', 25);
         $company  = $request->get('company');
-        $type  = $request->get('type');
+        $type  = $request->get('type') ?? 1;
 
         return view('panel.pages.users.index')
             ->with([
