@@ -12,7 +12,7 @@
 
                 <button wire:click="sendComment" class="btn btn-primary btn-sm float-right mt-2">
                     <i class="fas fa-paper-plane mr-1"></i>
-                    @lang('Send')
+                    @lang('translates.tasks.send')
                 </button>
             </div>
         </li>
@@ -26,12 +26,12 @@
                     Load More
                 </button>
             @else
-                <p>Thas's all</p>
+                <p>@lang('translates.tasks.end')</p>
             @endif
         </div>
     @else
         <div class="col-12 mt-4 d-flex justify-content-center">
-            <p>No comments available for now</p>
+            <p>@lang('translates.tasks.no_comments')</p>
         </div>
     @endif
 
