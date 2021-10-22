@@ -31,13 +31,14 @@ class Text extends Component
                 <label for="data-{{$name}}">{{$label ?? Str::ucfirst($name)}}</label>
                 <input 
                        @if(key_exists('required', $attributes->getAttributes())) required @endif
+                       @if(key_exists('autocomplete', $attributes->getAttributes())) autocomplete="off" @endif
                        @if(key_exists('readonly', $attributes->getAttributes())) readonly @endif
                        @if(key_exists('max',      $attributes->getAttributes())) max='{{$attributes['max']}}' @endif
                        type="{{$type}}"
                        class="form-control @error($name) is-invalid @enderror"
                        name="{{$name}}" 
                        id="data-{{$name}}" 
-                       placeholder="{{ $placeholder ?? 'Enter '. Str::lower($label ?? $name) }}" 
+                       placeholder="{{ $placeholder ?? __('translates.fields.enter', ['field' => $label ?? $name]) }}" 
                        @if($value || old($name))  value="{{$value ?? old($name)}}" @endif >
                 @error($name)
                 <span class="invalid-feedback" role="alert">

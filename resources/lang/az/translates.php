@@ -38,11 +38,12 @@ return [
         'fullname' => 'Tam adı daxil edin',
         'phone' => 'Nömrənizi daxil edin',
         'phone_coop' => 'Kooperativ nömrənizi daxil edin',
+        'address_coop' => 'Kooperativ adresinizi daxil edin',
         'address' => 'Ünvan daxil edin',
         'choose' => 'Seç',
         'name'   => 'Adınızı daxil edin',
         'surname'   => 'Soyadınızı daxil edin',
-        'father'   => 'Atan adını daxil edin',
+        'father'   => 'Ata adını daxil edin',
         'mail_coop'   => 'Kooperativ e-poçtunuzu daxil edin',
         'mail'   => 'E-poçtunuzu daxil edin',
         'password' => 'Şifrə daxil edin',
@@ -77,6 +78,7 @@ return [
         'phone_private' => 'Şəxsi nömrə',
         'phone_coop' => 'Kooperativ nömrə',
         'email_coop' => 'Kooperativ e-poçt',
+        'address_coop' => 'Kooperativ adres',
         'email_private' => 'Şəxsi e-poçt',
         'country' => 'Ölkə',
         'city' => 'Şəhər',
@@ -96,11 +98,12 @@ return [
         'address' => 'Ünvan',
         'website' => 'Sayt',
         'mobile' => 'Mobil',
+        'enter' => ':field daxil edin',
         'mail' => 'E-poçt',
         'call_center' => 'Çağrı Mərkəzi',
         'keywords' => 'Açar sözlər',
         'about' => 'Haqqında',
-        'priority' => [
+                'priority' => [
             'key' => 'Prioritet',
             'options'  => [
                 'low' => 'Aşağı',
@@ -259,6 +262,9 @@ return [
             'assigned_to_me' => 'Mənə tapşırılıb',
             'my_tasks' => 'Mənim tapşırdıqlarım',
             'all' => 'Hamısı'
+        ],
+        'label' => [
+            'name' => 'Tapşırıq Adı'
         ]
     ],
 
@@ -315,6 +321,13 @@ return [
         'sww' => 'Xəta baş verdi',
         'record' => 'Qeydiyyat',
         'retry_later' => ':count yenidən yoxlayın.'
-    ]
+    ],
 
+    'users' => [
+        'types' => [
+            'employees' => 'Əməkdaşlar',
+            'partners' => 'Ortaqlar',
+            'all' => 'Hamısı'
+        ],
+    ]
 ];

@@ -36,7 +36,7 @@ class Textarea extends Component
                        class="form-control @error($name) is-invalid @enderror"
                        name="{{$name}}" 
                        id="data-{{$name}}" 
-                       placeholder="{{ $placeholder ?? 'Enter '. Str::lower($label ?? $name) }}" 
+                       placeholder="{{ $placeholder ?? __('translates.fields.enter', ['field' => $label ?? $name]) }}" 
                        >{{$value ?? old($name)}}</textarea>
                 @error($name)
                 <span class="invalid-feedback" role="alert">
