@@ -106,7 +106,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <th colspan="8">
+                            <th colspan="9">
                                 <div class="row justify-content-center m-3">
                                     <div class="col-7 alert alert-danger text-center" role="alert">Not found!</div>
                                 </div>
