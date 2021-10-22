@@ -26,6 +26,7 @@ return [
         'inquiryStatus-widget',
         'inquiryDaily-widget',
         'taskDone-widget',
+        'bonusTotal-widget',
         'viewAny-account', 'manage-account',
         'viewAny-company', 'view-company', 'create-company', 'update-company', 'delete-company',
         'viewAny-update', 'view-update', 'create-update', 'update-update', 'delete-update',
