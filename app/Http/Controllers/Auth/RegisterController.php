@@ -40,6 +40,11 @@ class RegisterController extends Controller
         return view('auth.register');
     }
 
+    public function showPartnersRegistrationForm()
+    {
+        return view('auth.register-partners');
+    }
+
     public function register(Request $request)
     {
         $this->validator($request)->validate();
@@ -72,7 +77,8 @@ class RegisterController extends Controller
             'default_lang' => ['filled', 'string'],
             'avatar'  => ['nullable','sometimes', 'image', 'mimes:jpg,png,jpeg,gif', 'max:2048'],
             'serial' => ['filled', 'string'],
-            'fin' => ['filled', 'string', 'min:7', 'max:7']
+            'fin' => ['filled', 'string', 'min:7', 'max:7'],
+            'is_partner' => ['filled', 'boolean']
         ]);
 
         if($request->expectsJson()){
@@ -89,29 +95,18 @@ class RegisterController extends Controller
     protected function create(Request $request): User
     {
         $data = $request->all();
+
         if($avatar = $request->file('avatar')){
             $data['avatar'] = $avatar->storeAs('avatars', $avatar->hashName());
         }else{
             $data['avatar'] = null;
         }
 
-        return User::create([
-            'name' => $data['name'],
-            'surname' => $data['surname'],
-            'email' => $data['email'],
-            'email_coop' => $data['email_coop'],
-            'phone' => $data['phone'],
-            'phone_coop' => $data['phone_coop'],
-            'role_id' => 4,
-            'department_id' => $data['department_id'],
-            'company_id' => $data['company_id'],
-            'password' => Hash::make($data['password']),
-            'verify_code' => rand(111111, 999999),
-            'default_lang' => $data['default_lang'],
-            'avatar' => $data['avatar'],
-            'serial_pattern' => $data['serial_pattern'],
-            'serial' => $data['serial'],
-            'fin' => $data['fin']
-        ]);
+        $data['is_partner']  = $request->has('is_partner');
+        $data['role_id'] = 4;
+        $data['verify_code'] = rand(111111, 999999);
+        $data['password'] = Hash::make($data['password']);
+        
+        return User::create($data);
     }
 }

@@ -55,7 +55,8 @@ class User extends Authenticatable implements MustVerifyPhone
         'password',
         'verify_code',
         'permissions',
-        'disabled_at'
+        'disabled_at',
+        'is_partner'
     ];
 
     /**
@@ -87,6 +88,16 @@ class User extends Authenticatable implements MustVerifyPhone
                 $model->position_id = null;
             }
         });
+    }
+
+
+    public static function types(): array
+    {
+        return [
+            1 => 'employees',
+            2 => 'partners',
+            3 => 'all'
+        ];
     }
 
     public function role(): BelongsTo

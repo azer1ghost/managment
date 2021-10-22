@@ -43,11 +43,19 @@
     </script>
 </fieldset>
 <x-fieldset header="account" step="2">
-    <div class="col-12 mb-3 px-0">
-        <label class="fieldlabels">@lang('translates.register.mail_coop'): *</label>
-        <input type="email" name="email_coop" class="form-control" />
-        <div class="invalid-feedback"></div>
-    </div>
+    @if (!$isOutsource)
+        <div class="col-12 mb-3 px-0">
+            <label class="fieldlabels">@lang('translates.register.mail_coop'): *</label>
+            <input type="email" name="email_coop" class="form-control" />
+            <div class="invalid-feedback"></div>
+        </div>
+    @else
+        <div class="col-12 mb-3 px-0">
+            <label class="fieldlabels">@lang('translates.register.mail'): *</label>
+            <input type="email" name="email" class="form-control" />
+            <div class="invalid-feedback"></div>
+        </div>
+    @endif
     <div class="col-12 mb-3 px-0">
         <label class="fieldlabels">@lang('translates.register.phone'): *</label>
         <input type="text" name="phone" class="form-control" value="+994"/>
@@ -81,38 +89,40 @@
             <div class="invalid-feedback"></div>
         </div>
     </div>
-    <div class="row m-0">
-        <div class="col-12 col-md-6 mb-3 px-0 pr-3">
-            <label class="fieldlabels">@lang('translates.fields.phone_coop'): *</label>
-            <input type="text" name="phone_coop" class="form-control"/>
+    @if (!$isOutsource)
+        <div class="row m-0">
+            <div class="col-12 col-md-6 mb-3 px-0 pr-3">
+                <label class="fieldlabels">@lang('translates.fields.phone_coop'): *</label>
+                <input type="text" name="phone_coop" class="form-control"/>
+                <div class="invalid-feedback"></div>
+            </div>
+            <div class="col-12 col-md-6 mb-3 px-0">
+                <label class="fieldlabels">@lang('translates.fields.email_private'): *</label>
+                <input type="text" name="email" class="form-control"/>
+                <div class="invalid-feedback"></div>
+            </div>
+        </div>
+        <div class="col-12 mb-3 px-0">
+            <label class="fieldlabels">@lang('translates.register.department'): *</label>
+            <select name="department_id" class="form-control">
+                <option value="">@lang('translates.fields.department') @lang('translates.placeholders.choose')</option>
+                @foreach($departments as $id => $dep)
+                    <option value="{{$id}}">{{$dep}}</option>
+                @endforeach
+            </select>
             <div class="invalid-feedback"></div>
         </div>
-        <div class="col-12 col-md-6 mb-3 px-0">
-            <label class="fieldlabels">@lang('translates.fields.email_private'): *</label>
-            <input type="text" name="email" class="form-control"/>
+        <div class="col-12 mb-3 px-0">
+            <label class="fieldlabels">@lang('translates.register.company'): *</label>
+            <select name="company_id" class="form-control">
+                <option value="">@lang('translates.fields.company') @lang('translates.placeholders.choose')</option>
+                @foreach($companies as $id => $company)
+                    <option value="{{$id}}">{{$company}}</option>
+                @endforeach
+            </select>
             <div class="invalid-feedback"></div>
         </div>
-    </div>
-    <div class="col-12 mb-3 px-0">
-        <label class="fieldlabels">@lang('translates.register.department'): *</label>
-        <select name="department_id" class="form-control">
-            <option value="">@lang('translates.fields.department') @lang('translates.placeholders.choose')</option>
-            @foreach($departments as $id => $dep)
-                <option value="{{$id}}">{{$dep}}</option>
-            @endforeach
-        </select>
-        <div class="invalid-feedback"></div>
-    </div>
-    <div class="col-12 mb-3 px-0">
-        <label class="fieldlabels">@lang('translates.register.company'): *</label>
-        <select name="company_id" class="form-control">
-            <option value="">@lang('translates.fields.company') @lang('translates.placeholders.choose')</option>
-            @foreach($companies as $id => $company)
-                <option value="{{$id}}">{{$company}}</option>
-            @endforeach
-        </select>
-        <div class="invalid-feedback"></div>
-    </div>
+    @endif
     <div class="col-12 mb-3 px-0">
         <div class="row m-0">
             <div class="col-12 col-md-8 p-0 pr-md-3">
@@ -139,6 +149,11 @@
             </div>
         </div>
     </div>
+    @if($isOutsource)
+        <input type="hidden" name="department_id" value="5">
+        <input type="hidden" name="company_id" value="1">
+        <input type="hidden" name="is_partner" value="1">
+    @endif
 </x-fieldset>
 <x-fieldset header="avatar" step="4">
     <div class ='col-4 px-0'>

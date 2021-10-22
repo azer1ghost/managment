@@ -27,6 +27,7 @@ class UserController extends Controller
         $search = $request->get('search');
         $limit  = $request->get('limit', 25);
         $company  = $request->get('company');
+        $type  = $request->get('type');
 
         return view('panel.pages.users.index')
             ->with([
@@ -37,8 +38,19 @@ class UserController extends Controller
                                              ->orWhere('fin', 'like', "%".$search."%")
                                              ->orWhere('id', $search))
                     ->when($company, fn ($query) => $query->where('company_id', $company))
+                    ->when($type, function ($query, $type){
+                        switch ($type){
+                            case 1:
+                                $query->where('is_partner', 0);
+                                break;
+                            case 2:
+                                $query->where('is_partner', 1);
+                                break;
+                        }
+                    })
                     ->simplePaginate($limit),
-                'companies' => Company::get(['id', 'name'])
+                'companies' => Company::get(['id', 'name']),
+                'types' => User::types()
             ]);
     }
 

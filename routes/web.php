@@ -61,8 +61,12 @@ Route::group([
 });
 
 Auth::routes();
+// routes for registering partners
+Route::get('/partners/register', [RegisterController::class, 'showPartnersRegistrationForm'])->name('register.partners');
+Route::post('/partners/register', [RegisterController::class, 'register']);
 
 PhoneVerifycationController::routes();
+
 Route::post('/phone-update', [LoginController::class, 'phoneUpdate'])->name('phone.update');
 
 // Route for register validation

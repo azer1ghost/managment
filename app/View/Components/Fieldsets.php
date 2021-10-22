@@ -6,9 +6,11 @@ use Illuminate\View\Component;
 
 class Fieldsets extends Component
 {
-    public function __construct()
+    public bool $isOutsource;
+
+    public function __construct($isOutsource = false)
     {
-        //
+        $this->isOutsource = $isOutsource;
     }
 
     public function render()

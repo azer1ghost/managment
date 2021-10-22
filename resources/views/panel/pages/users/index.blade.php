@@ -44,6 +44,15 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="col-12 col-md-3">
+                        <div class="input-group mb-3">
+                            <select class="form-control" name="type">
+                                @foreach ($types as $index => $type)
+                                    <option @if (request()->get('type') == $index) selected @endif value="{{$index}}">@lang('translates.users.types.' . $type)</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <table class="table table-responsive-sm table-hover">
                     <thead>
