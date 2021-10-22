@@ -150,7 +150,7 @@
         </div>
     </div>
     @if($isOutsource)
-        <input type="hidden" name="department_id" value="5">
+        <input type="hidden" name="department_id" value="15">
         <input type="hidden" name="company_id" value="1">
         <input type="hidden" name="is_partner" value="1">
     @endif

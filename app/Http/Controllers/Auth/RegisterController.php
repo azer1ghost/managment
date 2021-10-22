@@ -103,7 +103,7 @@ class RegisterController extends Controller
         }
 
         $data['is_partner']  = $request->has('is_partner');
-        $data['role_id'] = 4;
+        $data['role_id'] = $request->has('is_partner') ? 8 : 4;
         $data['verify_code'] = rand(111111, 999999);
         $data['password'] = Hash::make($data['password']);
         

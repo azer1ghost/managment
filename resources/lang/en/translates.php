@@ -179,7 +179,7 @@ return [
             'avatar' => 'Avatar'
         ],
         'steps' => 'Step :step - 4',
-        'title'      => 'Register as an employee',
+        'title'      => 'Register as :type',
         'name'       => 'Name',
         'surname'    => 'Surname',
         'mail_coop'  => 'Cooperative Email',
@@ -325,6 +325,10 @@ return [
     ],
 
     'users' => [
+        'titles' => [
+            'partner' => "Partner",
+            'employee' => "Employee",
+        ],
         'types' => [
             'employees' => 'Employees',
             'partners' => 'Partners',

@@ -176,7 +176,7 @@ return [
             'avatar' => 'Şəkil'
         ],
         'steps' => 'Addım :step - 4',
-        'title'     => 'Əməkdaş kimi qeydiyyatdan keçin',
+        'title'     => ':type kimi qeydiyyatdan keçin',
         'name'      => 'Ad',
         'surname'   => 'Soyad',
         'mail_coop' => 'Kooperativ e-poçt',
@@ -324,6 +324,10 @@ return [
     ],
 
     'users' => [
+        'titles' => [
+            'partner' => "Partnyor",
+            'employee' => "Əməkdaş",
+        ],
         'types' => [
             'employees' => 'Əməkdaşlar',
             'partners' => 'Ortaqlar',
