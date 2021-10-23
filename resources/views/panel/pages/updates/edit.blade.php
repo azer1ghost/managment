@@ -39,7 +39,9 @@
                             <strong>{!! $message !!}</strong>
                         </span>
                     @enderror
-                    <x-input::textarea name="content" :value="optional($data)->getAttribute('content')" label="Update content"  width="6" class="pr-3" />
+                    <x-input::select :default="1" name="parent_id" :value="optional($data)->getAttribute('parent_id')" label="Update parent" width="6" class="pr-3" :options="$updates"/>
+                    <x-input::text name="datetime" :label="__('translates.fields.date')" value="{{optional($data)->getAttribute('datetime')}}" type="text" width="6" class="pr-2" />
+                    <x-input::textarea name="content" :value="optional($data)->getAttribute('content')" label="Update content"  width="12" class="pr-3" />
                 </div>
             </div>
         </div>
@@ -52,9 +54,17 @@
     @endif
 @endsection
 @section('scripts')
-    @if(is_null($action))
         <script>
-            $('input').attr('readonly', true)
+            $( "input[name='datetime']" ).datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "yy-mm-dd",
+                showAnim: "slideDown",
+                minDate: '-1m',
+                maxDate: new Date()
+            });
+            @if(is_null($action))
+                $('form :input').attr('readonly', true)
+            @endif
         </script>
-    @endif
 @endsection

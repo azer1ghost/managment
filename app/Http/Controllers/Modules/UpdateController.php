@@ -25,6 +25,7 @@ class UpdateController extends Controller
             'data' => null,
             'users' => User::get(['id', 'name', 'surname']),
             'statuses' => Update::statuses(),
+            'updates' => Update::get(['id', 'name'])->pluck('name', 'id')->toArray()
         ]);
     }
 
@@ -48,6 +49,7 @@ class UpdateController extends Controller
             'data' => $update,
             'users' => User::get(['id', 'name', 'surname']),
             'statuses' => Update::statuses(),
+            'updates' => Update::where('id', '!=', $update->id)->get(['id', 'name'])->pluck('name', 'id')->toArray()
         ]);
     }
 
@@ -59,6 +61,7 @@ class UpdateController extends Controller
             'data' => $update,
             'users' => User::get(['id', 'name', 'surname']),
             'statuses' => Update::statuses(),
+            'updates' => Update::where('id', '!=', $update->id)->get(['id', 'name'])->pluck('name', 'id')->toArray()
         ]);
     }
 

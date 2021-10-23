@@ -288,7 +288,7 @@ return [
     ],
 
     'updates' => [
-        'Rədd edildi',
+        1 => 'Rədd edildi',
         'Gözləyən',
         'Qəbul edildi',
         'Başladı',
