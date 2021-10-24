@@ -189,7 +189,7 @@
                 }
             </style>
             <div class="card-hover" style="max-width: 100%">
-                <img class="img-fluid rounded-circle" id="input-avatar" src="{{image('no_image')}}" alt="avatar">
+                <img class="img-fluid rounded-circle" style="height: 213px !important;" id="input-avatar" src="{{image('no_image')}}" alt="avatar">
             </div>
         </label>
     </div>
