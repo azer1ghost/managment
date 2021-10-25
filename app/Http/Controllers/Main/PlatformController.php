@@ -51,7 +51,6 @@ class PlatformController extends Controller
     {
         return \view('timeline')
             ->with(['updates' => Update::with('updates')
-                ->whereNull('parent_id')
                 ->get()
                 ->groupBy('datetime')
             ]);
