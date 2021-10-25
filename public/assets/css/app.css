@@ -10762,6 +10762,10 @@ body.active .custom-wrapper .section {
   flex: auto;
   overflow-y: auto;
   padding: 0 1rem 0 1rem;
+  height: 600px;
+}
+#timeline-container div.item::-webkit-scrollbar {
+  display: none;
 }
 #timeline-container #timeline {
   position: relative;
