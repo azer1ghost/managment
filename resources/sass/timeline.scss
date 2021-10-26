@@ -21,11 +21,8 @@
     position: relative;
     display: table; //*For Firefox
     height: 100%;
-    margin: {
-      left: auto;
-      right: auto;
-      top: 5rem;
-    }
+    margin-top: 1rem;
+
     div {
       &:after {
         content: '';
@@ -41,7 +38,7 @@
     h3 {
       position: -webkit-sticky;
       position: sticky;
-      top: 5rem;
+      top: 1rem;
       color: #393838;
       margin: 0;
       font: {

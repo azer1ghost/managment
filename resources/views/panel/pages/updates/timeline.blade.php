@@ -29,7 +29,7 @@
         @if($updates->count())
             <div id="timeline-container">
                 <div>
-                    <div class="item">
+                    <div class="item mt-4">
                         <div id="timeline">
                             <div>
                                 @foreach($updates as $date => $update)
