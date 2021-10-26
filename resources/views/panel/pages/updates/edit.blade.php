@@ -80,8 +80,6 @@
                 changeYear: true,
                 dateFormat: "yy-mm-dd",
                 showAnim: "slideDown",
-                minDate: '-1m',
-                maxDate: new Date()
             });
 
             function checkParent(parent = 'select[name="parent_id"]'){
