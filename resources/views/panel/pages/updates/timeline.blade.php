@@ -23,7 +23,8 @@
                 </div>
             </div>
             <div class="col-12 col-md-6">
-                <a class="btn btn-outline-primary float-right" href="{{route('updates.index', ['type' => 'table'])}}">Table view</a>
+                <a class="btn btn-outline-success float-right" href="{{route('updates.create')}}">@lang('translates.buttons.create')</a>
+                <a class="btn btn-outline-primary float-right mr-3" href="{{route('updates.index', ['type' => 'table'])}}">Table view</a>
             </div>
         </div>
         @if($updates->count())
