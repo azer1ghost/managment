@@ -156,7 +156,7 @@
     @endif
 </x-fieldset>
 <x-fieldset header="avatar" step="4">
-    <div class ='col-4 px-0'>
+    <div class ='col-8 col-md-4 px-0'>
         <label for="data-avatar">
             <style>
                 .card-hover{

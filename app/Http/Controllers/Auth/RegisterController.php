@@ -64,11 +64,20 @@ class RegisterController extends Controller
 
     protected function validator(Request $request)
     {
-        $validator =  Validator::make($request->all(), [
+        $validated = $request->all();
+
+        if(array_key_exists('phone', $validated)){
+            $validated['phone'] = phone_cleaner($validated['phone']);
+        }
+        if(array_key_exists('phone_coop', $validated)){
+            $validated['phone_coop'] = phone_cleaner($validated['phone_coop']);
+        }
+
+        $validator =  Validator::make($validated, [
             'name' => ['filled', 'string', 'max:50'],
             'surname' => ['filled', 'string', 'max:50'],
-            'phone' => ['filled', 'string', 'min:10', 'max:15', 'unique:users,phone'],
-            'phone_coop' => ['filled', 'string', 'min:10', 'max:15', 'unique:users,phone_coop'],
+            'phone' => ['filled', 'string', 'min:9', 'max:15', 'unique:users,phone'],
+            'phone_coop' => ['filled', 'string', 'min:9', 'max:15', 'unique:users,phone_coop'],
             'email_coop' => ['filled', 'allowed_domain','string', 'email:rfc,dns', 'max:50', 'unique:users,email_coop'],
             'email' => ['filled', 'string', 'email:rfc,dns', 'max:50', 'unique:users,email'],
             'department_id' => ['filled', 'integer', 'min:1'],
