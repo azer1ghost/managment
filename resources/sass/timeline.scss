@@ -31,6 +31,10 @@
         left: 160px;
         z-index: 1;
         background: #C5C5C5;
+        @media screen and (max-width: 991px) {
+          left: 111px;
+          top: 0.5rem;
+        }
       }
     }
     h3 {
@@ -40,11 +44,11 @@
       color: #393838;
       margin: 0;
       font: {
-        size: 0.5em;
+        size: 1.1em;
         weight: 400;
       }
-      @media (min-width: 62em) {
-        font-size: 1.1em;
+      @media screen and (max-width: 992px) {
+        font-size: 0.9em;
       }
     }
     section.year {
@@ -74,7 +78,7 @@
         }
         ul {
           list-style-type: none;
-          padding: 0 0 0 75px;
+          padding: 0 0 0 130px;
           margin: -1.35rem 0 1em;
           font-size: 1em;
           @media (min-width: 62em) {
@@ -97,6 +101,9 @@
             left: 153px;
             top: 3px;
             z-index: 2;
+            @media screen and (max-width: 992px) {
+              left: 105px;
+            }
           }
           li {
             margin-left: .5rem;
