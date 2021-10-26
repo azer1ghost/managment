@@ -7,8 +7,6 @@
     }
   }
   div.item {
-    display: flex;
-    flex: auto;
     overflow-y: auto;
     padding: 0 1rem 0 1rem;
     &::-webkit-scrollbar {
@@ -22,7 +20,7 @@
     display: table; //*For Firefox
     height: 100%;
     margin-top: 1rem;
-
+    width: 100%;
     div {
       &:after {
         content: '';
@@ -78,7 +76,6 @@
           list-style-type: none;
           padding: 0 0 0 75px;
           margin: -1.35rem 0 1em;
-          max-width: 32rem;
           font-size: 1em;
           @media (min-width: 62em) {
             font-size: 1.1em;
@@ -105,7 +102,6 @@
             margin-left: .5rem;
             word-break: break-word;
             &:not(:first-of-type):before{
-              content: '·';
               margin-left: -.5rem;
               padding-right: .3rem;
             }

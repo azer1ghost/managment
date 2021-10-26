@@ -13,7 +13,7 @@ class Update extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'content', 'user_id', 'status', 'parent_id', 'datetime'];
+    protected $fillable = ['name', 'content', 'user_id', 'status', 'parent_id', 'datetime', 'done_at'];
 
     protected static function boot()
     {
@@ -38,6 +38,11 @@ class Update extends Model
     public static function statuses()
     {
         return [ 1 => 'Rejected', 'Pending', 'Accepted', 'Started', 'Done', 'Upcoming', 'Error', 'Bug', 'Fixed'];
+    }
+
+    public static function statusesColors()
+    {
+        return [ 1 => 'danger', 7 => 'danger', 3 => 'success', 4 => 'info', 5 => 'success', 2 => 'warning', 6 => 'warning', 8 => 'warning', 9 => 'primary' ];
     }
 
     public function updates(): HasMany

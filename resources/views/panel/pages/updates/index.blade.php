@@ -23,12 +23,12 @@
                     </div>
                 </div>
             </div>
-            @can('create', App\Models\Update::class)
                 <div class="col-2">
-                    <a class="btn btn-outline-success float-right" href="{{route('updates.create')}}">@lang('translates.buttons.create')</a>
+                    @can('create', App\Models\Update::class)
+                        <a class="btn btn-outline-success float-right" href="{{route('updates.create')}}">@lang('translates.buttons.create')</a>
+                    @endcan
                     <a class="btn btn-outline-primary float-right mr-3" href="{{route('updates.index')}}">Map view</a>
                 </div>
-            @endcan
             <div class="col-12">
                 <table class="table table-responsive-sm table-hover">
                     <thead>

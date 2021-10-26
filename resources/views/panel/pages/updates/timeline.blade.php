@@ -23,7 +23,9 @@
                 </div>
             </div>
             <div class="col-12 col-md-6">
-                <a class="btn btn-outline-success float-right" href="{{route('updates.create')}}">@lang('translates.buttons.create')</a>
+                @can('create', App\Models\Update::class)
+                    <a class="btn btn-outline-success float-right" href="{{route('updates.create')}}">@lang('translates.buttons.create')</a>
+                @endcan
                 <a class="btn btn-outline-primary float-right mr-3" href="{{route('updates.index', ['type' => 'table'])}}">Table view</a>
             </div>
         </div>
@@ -33,17 +35,34 @@
                     <div class="item mt-4">
                         <div id="timeline">
                             <div>
+                                @php($statuses = \App\Models\Update::statuses())
+                                @php($colors = \App\Models\Update::statusesColors())
                                 @foreach($updates as $date => $update)
                                     <section class="year">
-                                        <h3>{{\Carbon\Carbon::parse($date)->format('Y F d')}}</h3>
+                                        @php($date = \Carbon\Carbon::parse($date))
+                                        <h3>{{$date->year}} {{$date->monthName}} {{$date->day}}</h3>
                                         @foreach($update as $subUpdate)
-                                            @php($parentRoute = auth()->user()->can('update', $subUpdate) ? route('updates.edit', $subUpdate) : route('updates.show', $subUpdate))
+                                            @php($parentRoute = route(auth()->user()->can('update', $subUpdate) ? 'updates.edit' : 'updates.show', $subUpdate))
                                             <section>
                                                 <ul>
-                                                    <li style="font-weight: 900;font-size: 18px" data-toggle="tooltip" title="{{\App\Models\Update::statuses()[$subUpdate->status]}}"><a href="{{$parentRoute}}">{{$subUpdate->name}}</a></li>
+                                                    <li style="font-weight: 900;font-size: 18px" data-toggle="tooltip"
+                                                        title="{{$statuses[$subUpdate->status]}} @if($subUpdate->done_at) </br> Done at: {{$subUpdate->done_at}} @endif"
+                                                    >
+                                                        <a href="{{$parentRoute}}">
+                                                            <span class="badge badge-{{$colors[$subUpdate->status]}}">
+                                                                {{$statuses[$subUpdate->status]}}
+                                                            </span>
+                                                            {{$subUpdate->name}}:
+                                                            <span class="text-muted">{{$subUpdate->content}}</span>
+                                                        </a>
+                                                    </li>
                                                     @foreach($subUpdate->updates as $subUpdates)
-                                                        @php($childRoute  = auth()->user()->can('update', $subUpdates) ? route('updates.edit', $subUpdates) : route('updates.show', $subUpdates))
-                                                        <li style="font-size: 12px" data-toggle="tooltip" title="{{\App\Models\Update::statuses()[$subUpdates->status]}}"><a href="{{$childRoute}}">{{$subUpdates->name}}</a></li>
+                                                        @php($childRoute  = route(auth()->user()->can('update', $subUpdates) ? 'updates.edit' : 'updates.show', $subUpdates))
+                                                        <li style="font-size: 12px" data-toggle="tooltip"
+                                                            title="{{$statuses[$subUpdates->status]}} @if($subUpdates->done_at) </br> Done at: {{$subUpdates->done_at}} @endif"
+                                                        >
+                                                            <a href="{{$childRoute}}"><i class="fa fa-circle text-{{$colors[$subUpdates->status]}}"></i> {{$subUpdates->name}}</a>
+                                                        </li>
                                                     @endforeach
                                                 </ul>
                                             </section>

@@ -18,7 +18,8 @@ class UpdateRequest extends FormRequest
             'content' => 'nullable|string',
             'status' => 'nullable|integer',
             'parent_id' => 'nullable|integer',
-            'datetime' => 'nullable|date'
+            'datetime' => 'nullable|date',
+            'done_at' => 'nullable|date',
         ];
     }
 }

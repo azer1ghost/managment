@@ -1,7 +1,9 @@
 @extends('layouts.main')
 
 @section('title', __('translates.navbar.update'))
-
+@section('style')
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+@endsection
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -26,8 +28,8 @@
                 <div class="row">
                     <x-input::text  name="name"  :value="optional($data)->getAttribute('name')"  label="Update name"  width="6" class="pr-3" />
                     <div class="col-12 col-md-6 pr-3">
-                        <label for="data-user_id">Update Status</label>
-                        <select name="status" id="data-user_id" class="form-control">
+                        <label for="data-status">Update Status</label>
+                        <select name="status" id="data-status" class="form-control">
                             <option value="" selected disabled>Select status</option>
                             @foreach($statuses as $index => $status)
                                 <option @if(optional($data)->getAttribute('status') === $index) selected @endif value="{{$index}}">{{$status}}</option>
@@ -61,6 +63,9 @@
                     <div id="date-container">
                         <x-input::text name="datetime" :label="__('translates.fields.date')" value="{{optional($data)->getAttribute('datetime') ?? now()->format('Y-m-d')}}" type="text" width="12" class="pr-2" />
                     </div>
+                    <div id="done-at-container">
+                        <x-input::text name="done_at" label="Done at" value="{{optional($data)->getAttribute('done_at') ?? now()->format('Y-m-d H:i:s')}}" type="text" width="12" class="pr-2" />
+                    </div>
                     <x-input::textarea name="content" :value="optional($data)->getAttribute('content')" label="Update content"  width="12" class="pr-3" />
                 </div>
             </div>
@@ -69,11 +74,16 @@
             <x-input::submit  :value="__('translates.buttons.save')" />
         @endif
     </form>
-    @if($method != "POST")
-        <livewire:commentable :commentable="$data" :url="str_replace('/edit', '', url()->current())"/>
-    @endif
+    <div class="mt-5">
+        @if($method != "POST")
+            <livewire:commentable :commentable="$data" :url="str_replace('/edit', '', url()->current())"/>
+        @endif
+    </div>
 @endsection
 @section('scripts')
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
         <script>
             $( "input[name='datetime']" ).datepicker({
                 changeMonth: true,
@@ -82,6 +92,17 @@
                 showAnim: "slideDown",
             });
 
+            $("input[name='done_at']").daterangepicker({
+                    opens: 'left',
+                    locale: {
+                        format: "YYYY-MM-DD HH:mm:ss",
+                    },
+                    singleDatePicker: true,
+                    timePicker: true,
+                    timePicker24Hour: true,
+                }, function(start, end, label) {}
+            );
+
             function checkParent(parent = 'select[name="parent_id"]'){
                 if($(parent).val().length === 0){
                     $('#date-container').show().find(':input').attr('disabled', false);
@@ -89,11 +110,22 @@
                     $('#date-container').hide().find(':input').attr('disabled', true);
                 }
             }
+            function checkStatus(status = 'select[name="status"]'){
+                if($(status).val() === '5'){
+                    $('#done-at-container').show().find(':input').attr('disabled', false);
+                }else{
+                    $('#done-at-container').hide().find(':input').attr('disabled', true);
+                }
+            }
 
             checkParent();
+            checkStatus();
 
             $('select[name="parent_id"]').change(function (){
                 checkParent();
+            });
+            $('select[name="status"]').change(function (){
+                checkStatus();
             });
 
             @if(is_null($action))
