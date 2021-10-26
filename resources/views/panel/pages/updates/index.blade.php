@@ -15,16 +15,18 @@
         <div class="row d-flex justify-content-between mb-2">
             <div class="col-6">
                 <div class="input-group mb-3">
+                    <input type="hidden" name="type" value="table">
                     <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2">
                     <div class="input-group-append">
                         <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
-                        <a class="btn btn-outline-danger" href="{{route('updates.index')}}"><i class="fal fa-times"></i></a>
+                        <a class="btn btn-outline-danger" href="{{route('updates.index', ['type' => 'table'])}}"><i class="fal fa-times"></i></a>
                     </div>
                 </div>
             </div>
             @can('create', App\Models\Update::class)
                 <div class="col-2">
                     <a class="btn btn-outline-success float-right" href="{{route('updates.create')}}">@lang('translates.buttons.create')</a>
+                    <a class="btn btn-outline-primary float-right mr-3" href="{{route('updates.index')}}">Map view</a>
                 </div>
             @endcan
             <div class="col-12">
@@ -79,9 +81,9 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-6">
+            <div class="col-12">
                 <div class="float-right">
-                    {{$updates->links()}}
+                    {{$updates->appends(request()->input())->links()}}
                 </div>
             </div>
         </div>

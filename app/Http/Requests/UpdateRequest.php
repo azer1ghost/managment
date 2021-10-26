@@ -16,7 +16,9 @@ class UpdateRequest extends FormRequest
         return [
             'name' => 'required|string',
             'content' => 'nullable|string',
-            'status' => 'required|integer'
+            'status' => 'nullable|integer',
+            'parent_id' => 'nullable|integer',
+            'datetime' => 'nullable|date'
         ];
     }
 }

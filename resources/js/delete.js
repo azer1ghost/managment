@@ -63,24 +63,19 @@ $( function() {
                                 }
                             });
                         },
-                        error: function ()
+                        error: function (err)
                         {
+                            console.log(err);
                             $.confirm({
-                                title: 'Confirm!',
-                                content: 'Ops something went wrong! Please reload page and try again.',
+                                title: 'Ops something went wrong!',
+                                content: err?.responseJSON,
                                 type: 'red',
                                 typeAnimated: true,
                                 buttons: {
-                                    cancel: function () {
-
-                                    },
-                                    reload: {
-                                        text: 'Reload page',
+                                    close: {
+                                        text: 'Close',
                                         btnClass: 'btn-blue',
                                         keys: ['enter'],
-                                        action: function(){
-                                            window.location.reload()
-                                        }
                                     }
                                 }
                             });

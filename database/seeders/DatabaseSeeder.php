@@ -29,7 +29,8 @@ class DatabaseSeeder extends Seeder
             DepartmentSeeder::class,
             OptionParameterSeeder::class,
             PositionSeeder::class,
-            WidgetSeeder::class
+            WidgetSeeder::class,
+            UpdateSeeder::class
         ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
+use App\Models\Update;
 use App\Models\Widget;
 use App\Services\MobexReferralApi;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -48,7 +49,6 @@ class PlatformController extends Controller
 
     public function test()
     {
-        // some tests to check
-        return (new MobexReferralApi)->url('ping')->by('elvinaqalarov')->get();
+        return 'test page';
     }
 }

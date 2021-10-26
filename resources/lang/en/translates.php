@@ -285,7 +285,7 @@ return [
         'retry_later' => 'check again :count.'
     ],
     'updates' => [
-        'Rejected',
+        1 => 'Rejected',
         'Pending',
         'Accepted',
         'Started',
