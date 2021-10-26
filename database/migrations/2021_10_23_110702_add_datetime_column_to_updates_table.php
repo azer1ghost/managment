@@ -14,7 +14,7 @@ class AddDatetimeColumnToUpdatesTable extends Migration
     public function up()
     {
         Schema::table('updates', function (Blueprint $table) {
-            $table->date('datetime');
+            $table->date('datetime')->nullable();
         });
     }
 

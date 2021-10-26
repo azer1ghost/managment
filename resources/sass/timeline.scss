@@ -1,17 +1,10 @@
 #timeline-container{
   a {
-    color: #50585f;
+    color: #000;
     text-decoration: none;
     &:hover {
       color: #383e44;
     }
-  }
-
-  div.container {
-    display: flex;
-    flex: auto;
-    flex-direction: column;
-    max-height: 100%;
   }
   div.item {
     display: flex;
@@ -49,10 +42,10 @@
       position: -webkit-sticky;
       position: sticky;
       top: 5rem;
-      color: #888;
+      color: #393838;
       margin: 0;
       font: {
-        size: 1em;
+        size: 0.5em;
         weight: 400;
       }
       @media (min-width: 62em) {

@@ -10,10 +10,23 @@ use Illuminate\Http\Request;
 
 class UpdateController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('panel.pages.updates.index')->with([
-            'updates' => Update::paginate(10),
+        $type = $request->get('type');
+        $view = $type == 'table' ? 'index' : 'timeline';
+        $search = $request->get('search');
+        $updates = Update::with('updates')
+            ->when($search, fn($query) => $query->where('name', 'LIKE', "%$search%"))
+            ->latest('datetime');
+
+        if($request->has('type') && $type == 'table'){
+            $updates = $updates->simplePaginate();
+        }else{
+            $updates = $updates->whereNull('parent_id')->get()->groupBy('datetime');
+        }
+
+        return view('panel.pages.updates.' . $view)->with([
+            'updates' => $updates
         ]);
     }
 
@@ -25,7 +38,7 @@ class UpdateController extends Controller
             'data' => null,
             'users' => User::get(['id', 'name', 'surname']),
             'statuses' => Update::statuses(),
-            'updates' => Update::get(['id', 'name'])->pluck('name', 'id')->toArray()
+            'updates' => Update::latest('datetime')->get(['id', 'name'])->pluck('name', 'id')->toArray()
         ]);
     }
 
@@ -49,7 +62,7 @@ class UpdateController extends Controller
             'data' => $update,
             'users' => User::get(['id', 'name', 'surname']),
             'statuses' => Update::statuses(),
-            'updates' => Update::where('id', '!=', $update->id)->get(['id', 'name'])->pluck('name', 'id')->toArray()
+            'updates' => Update::where('id', '!=', $update->id)->latest('datetime')->get(['id', 'name'])->pluck('name', 'id')->toArray()
         ]);
     }
 
@@ -61,14 +74,20 @@ class UpdateController extends Controller
             'data' => $update,
             'users' => User::get(['id', 'name', 'surname']),
             'statuses' => Update::statuses(),
-            'updates' => Update::where('id', '!=', $update->id)->get(['id', 'name'])->pluck('name', 'id')->toArray()
+            'updates' => Update::where('id', '!=', $update->id)->latest('datetime')->get(['id', 'name'])->pluck('name', 'id')->toArray()
         ]);
     }
 
     public function update(UpdateRequest $request, Update $update)
     {
         $validated = $request->validated();
-        $validated['user_id'] = auth()->id();
+
+        if($update->parent_id != $validated['parent_id']){
+            if($update->updates()->count() > 0){
+                return back()
+                    ->withNotify('error', $update->getAttribute('name') . " has children", true);
+            }
+        }
 
         $update->update($validated);
 
@@ -80,6 +99,10 @@ class UpdateController extends Controller
 
     public function destroy(Update $update)
     {
+        if($update->updates()->count() > 0){
+            return response()->json($update->getAttribute('name') . " has children", 405);
+        }
+
         if ($update->delete()) {
             return response('OK');
         }

@@ -15,6 +15,16 @@ class Update extends Model
 
     protected $fillable = ['name', 'content', 'user_id', 'status', 'parent_id', 'datetime'];
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::updating(function ($model){
+            if($model->parent_id != null){
+                $model->datetime = null;
+            }
+        });
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

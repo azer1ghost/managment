@@ -49,8 +49,9 @@ class PlatformController extends Controller
 
     public function test()
     {
-        return \view('timeline')
+        return \view('panel.pages.updates.timeline')
             ->with(['updates' => Update::with('updates')
+                ->whereNull('parent_id')
                 ->get()
                 ->groupBy('datetime')
             ]);
