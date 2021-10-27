@@ -20,6 +20,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\PositionController,
     Modules\TaskController,
     Modules\ReferralController,
+    Modules\ServiceController,
     TaskListController};
 use Illuminate\Support\Facades\{Auth, Route};
 
@@ -58,6 +59,7 @@ Route::group([
     Route::resource('/clients', ClientController::class);
     Route::resource('/referrals', ReferralController::class);
     Route::resource('/updates', UpdateController::class);
+    Route::resource('/services', ServiceController::class);
 });
 
 Auth::routes();

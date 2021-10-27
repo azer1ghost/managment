@@ -99,6 +99,7 @@ return [
         'website' => 'Sayt',
         'mobile' => 'Mobil',
         'enter' => ':field daxil edin',
+        'detail' => 'Detal',
         'mail' => 'E-poçt',
         'call_center' => 'Çağrı Mərkəzi',
         'keywords' => 'Açar sözlər',
@@ -158,7 +159,8 @@ return [
         'client' => 'Müştərilər',
         'referral' => 'Referrallar',
         'bonus' => 'Bonuslar',
-        'update' => 'Yeniləmələr'
+        'update' => 'Yeniləmələr',
+        'service' => 'Servislər'
     ],
 
     'date' => [

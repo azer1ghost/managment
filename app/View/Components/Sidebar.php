@@ -160,6 +160,12 @@ class Sidebar extends Component
                 'icon'  => 'fas fa-sync',
                 'url'  => route('updates.index'),
                 'permission' => 'viewAny-update',
+            ],
+            (object) [
+                'title' => "Services",
+                'icon'  => 'fas fa-concierge-bell',
+                'url'  => route('services.index'),
+                'permission' => 'viewAny-service',
             ]
         ];
     }

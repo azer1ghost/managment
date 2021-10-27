@@ -100,6 +100,7 @@ return [
         'mail' => 'Email',
         'call_center' => 'Call center',
         'keywords' => 'Keywords',
+        'detail' => 'Detail',
         'about' => 'About',
         'priority' => [
             'key' => 'Priority',
@@ -156,7 +157,8 @@ return [
         'client' => 'Clients',
         'referral' => 'Referrals',
         'bonus' => 'Bonuses',
-        'update' => 'Updates'
+        'update' => 'Updates',
+        'service' => 'Services'
     ],
 
     'date' => [
@@ -338,8 +340,8 @@ return [
     ],
 
     'bonus' => [
-      'effective' => 'Effective',
-      'ineffective' => 'Ineffective'
+        'effective' => 'Effective',
+        'ineffective' => 'Ineffective'
     ],
 
 ];

@@ -30,6 +30,7 @@ return [
         'viewAny-account', 'manage-account',
         'viewAny-company', 'view-company', 'create-company', 'update-company', 'delete-company',
         'viewAny-update', 'view-update', 'create-update', 'update-update', 'delete-update',
+        'viewAny-service', 'view-service', 'create-service', 'update-service', 'delete-service',
         'viewAny-role', 'view-role', 'manage-role',
         'viewAny-referral', 'view-referral', 'manage-referral',
         'viewAny-position', 'view-position', 'manage-position',
