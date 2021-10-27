@@ -86,7 +86,7 @@ class RegisterController extends Controller
             'default_lang' => ['filled', 'string'],
             'avatar'  => ['nullable','sometimes', 'image', 'mimes:jpg,png,jpeg,gif', 'max:2048'],
             'serial' => ['filled', 'string'],
-            'fin' => ['filled', 'string', 'min:7', 'max:7', 'unique:users,fin'],
+            'fin' => ['filled', 'string', 'min:7', 'max:7'],
             'is_partner' => ['filled', 'boolean']
         ]);
 
