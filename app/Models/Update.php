@@ -37,16 +37,62 @@ class Update extends Model
 
     public static function statuses()
     {
-        return [ 1 => 'Rejected', 'Pending', 'Accepted', 'Started', 'Done', 'Upcoming', 'Error', 'Bug', 'Fixed'];
-    }
-
-    public static function statusesColors()
-    {
-        return [ 1 => 'danger', 7 => 'danger', 3 => 'success', 4 => 'info', 5 => 'success', 2 => 'warning', 6 => 'warning', 8 => 'warning', 9 => 'primary' ];
+        return [
+            1 => [
+                'name' => 'Rejected',
+                'color' => 'danger',
+                'default' => false
+            ],
+            [
+                'name' => 'Pending',
+                'color' => 'warning',
+                'default' => true
+            ],
+            [
+                'name' => 'Accepted',
+                'color' => 'success',
+                'default' => false
+            ],
+            [
+                'name' => 'Started',
+                'color' => 'info',
+                'default' => false
+            ],
+            [
+                'name' => 'Done',
+                'color' => 'success',
+                'default' => false
+            ],
+            [
+                'name' => 'Upcoming',
+                'color' => 'warning',
+                'default' => false
+            ],
+            [
+                'name' => 'Error',
+                'color' => 'danger',
+                'default' => false
+            ],
+            [
+                'name' => 'Bug',
+                'color' => 'warning',
+                'default' => false
+            ],
+            [
+                'name' => 'Fixed',
+                'color' => 'primary',
+                'default' => false
+            ],
+        ];
     }
 
     public function updates(): HasMany
     {
         return $this->hasMany(__CLASS__, 'parent_id')->latest();
+    }
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(__CLASS__, 'parent_id');
     }
 }

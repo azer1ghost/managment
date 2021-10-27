@@ -36,7 +36,6 @@
                         <div id="timeline">
                             <div>
                                 @php($statuses = \App\Models\Update::statuses())
-                                @php($colors = \App\Models\Update::statusesColors())
                                 @foreach($updates as $date => $update)
                                     <section class="year">
                                         @php($date = \Carbon\Carbon::parse($date))
@@ -46,11 +45,11 @@
                                             <section>
                                                 <ul>
                                                     <li style="font-weight: 900;font-size: 18px" data-toggle="tooltip"
-                                                        title="{{$statuses[$subUpdate->status]}} @if($subUpdate->done_at) </br> Done at: {{$subUpdate->done_at}} @endif"
+                                                        title="{{$statuses[$subUpdate->status]['name']}} @if($subUpdate->done_at) </br> Done at: {{$subUpdate->done_at}} @endif"
                                                     >
                                                         <a href="{{$parentRoute}}">
-                                                            <span class="badge badge-{{$colors[$subUpdate->status]}}">
-                                                                {{$statuses[$subUpdate->status]}}
+                                                            <span class="badge badge-{{$statuses[$subUpdate->status]['color']}}">
+                                                                {{$statuses[$subUpdate->status]['name']}}
                                                             </span>
                                                             {{$subUpdate->name}}:
                                                             <span class="text-muted">{{$subUpdate->content}}</span>
@@ -59,9 +58,9 @@
                                                     @foreach($subUpdate->updates as $subUpdates)
                                                         @php($childRoute  = route(auth()->user()->can('update', $subUpdates) ? 'updates.edit' : 'updates.show', $subUpdates))
                                                         <li style="font-size: 12px" data-toggle="tooltip"
-                                                            title="{{$statuses[$subUpdates->status]}} @if($subUpdates->done_at) </br> Done at: {{$subUpdates->done_at}} @endif"
+                                                            title="{{$statuses[$subUpdates->status]['name']}} @if($subUpdates->done_at) </br> Done at: {{$subUpdates->done_at}} @endif"
                                                         >
-                                                            <a href="{{$childRoute}}"><i class="fa fa-circle text-{{$colors[$subUpdates->status]}}"></i> {{$subUpdates->name}}</a>
+                                                            <a href="{{$childRoute}}"><i class="fa fa-circle text-{{$statuses[$subUpdates->status]['color']}}"></i> {{$subUpdates->name}}</a>
                                                         </li>
                                                     @endforeach
                                                 </ul>

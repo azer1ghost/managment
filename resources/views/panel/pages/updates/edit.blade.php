@@ -32,7 +32,7 @@
                         <select name="status" id="data-status" class="form-control">
                             <option value="" selected disabled>Select status</option>
                             @foreach($statuses as $index => $status)
-                                <option @if(optional($data)->getAttribute('status') === $index) selected @endif value="{{$index}}">{{$status}}</option>
+                                <option @if(optional($data)->getAttribute('status') === $index) selected @elseif ($status['default']) selected @endif value="{{$index}}">{{$status['name']}}</option>
                             @endforeach
                         </select>
                         @error('status')
@@ -48,10 +48,10 @@
                     @enderror
                     <div class="col-12 col-md-6 pr-3 mb-3">
                         <label for="data-parent_id">Update parent</label>
-                        <select name="parent_id" id="data-parent_id" class="form-control">
+                        <select name="parent_id" id="data-parent_id" class="form-control" @if(request()->has('parent_id')) disabled @endif>
                             <option value="" selected>Select parent</option>
                             @foreach($updates as $index => $update)
-                                <option @if(optional($data)->getAttribute('parent_id') === $index) selected @endif value="{{$index}}">{{$update}}</option>
+                                <option @if(optional($data)->getAttribute('parent_id') === $index) selected @elseif (request()->get('parent_id') == $index) selected @endif value="{{$index}}">{{$update}}</option>
                             @endforeach
                         </select>
                         @error('parent_id')
@@ -67,6 +67,13 @@
                         <x-input::text name="done_at" label="Done at" value="{{optional($data)->getAttribute('done_at') ?? now()->format('Y-m-d H:i:s')}}" type="text" width="12" class="pr-2" />
                     </div>
                     <x-input::textarea name="content" :value="optional($data)->getAttribute('content')" label="Update content"  width="12" class="pr-3" />
+                </div>
+                <div id="create-child-btn">
+                    @if(!is_null($data) && is_null(optional($data)->getAttribute('parent_id')))
+                        @can('create', App\Models\Update::class)
+                            <a class="btn btn-outline-success" target="_blank" href="{{route('updates.create', ['parent_id' => optional($data)->getAttribute('id')])}}">Create child</a>
+                        @endcan
+                    @endif
                 </div>
             </div>
         </div>
@@ -106,8 +113,10 @@
             function checkParent(parent = 'select[name="parent_id"]'){
                 if($(parent).val().length === 0){
                     $('#date-container').show().find(':input').attr('disabled', false);
+                    $('#create-child-btn').show();
                 }else{
                     $('#date-container').hide().find(':input').attr('disabled', true);
+                    $('#create-child-btn').hide();
                 }
             }
             function checkStatus(status = 'select[name="status"]'){

@@ -36,6 +36,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
                         <th scope="col">User</th>
+                        <th scope="col">Parent</th>
                         <th scope="col">Content</th>
                         <th scope="col">Status</th>
                         <th scope="col">Actions</th>
@@ -47,6 +48,7 @@
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$update->getAttribute('name')}}</td>
                             <td>{{$update->getRelationValue('user')->getAttribute('fullname')}}</td>
+                            <td>{{optional($update->getRelationValue('parent'))->getAttribute('name')}}</td>
                             <td>{{ strlen($update->getAttribute('content')) >= 50 ? substr($update->getAttribute('content'), 50) . '...' : $update->getAttribute('content') }}</td>
                             <td>{{__('translates.updates')[$update->getAttribute('status')]}}</td>
                             <td>
