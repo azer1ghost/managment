@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Storage;
 
 class PlatformController extends Controller
 {
+    protected $database;
+
     public function __construct()
     {
         $this->middleware('auth', ['except'=> ['welcome', 'downloadBat']]);
@@ -49,6 +51,14 @@ class PlatformController extends Controller
 
     public function test()
     {
-        return 'test page';
+        $this->database = app('firebase.database');
+
+        // add to db
+        $firebaseUsers  = $this->database->getReference('users');
+//         $this->database->getReference('users')->push([
+//                    'title' => 'Post title',
+//                    'body' => 'This should probably be longer.'
+//                ]);
+        dd($firebaseUsers->getValue());
     }
 }
