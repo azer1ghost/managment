@@ -45,8 +45,8 @@
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$service->getAttribute('name')}}</td>
                             <td>{{$service->getAttribute('detail')}}</td>
-                            <td>{{$service->getAttribute('department')}}</td>
-                            <td>{{$service->getAttribute('company')}}</td>
+                            <td>{{$service->getRelationValue('department')->getAttribute('name')}}</td>
+                            <td>{{$service->getRelationValue('company')->getAttribute('name')}}</td>
                             <td>
                                 <div class="btn-sm-group">
                                     @can('view', $service)
