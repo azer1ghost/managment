@@ -160,7 +160,10 @@ return [
         'referral' => 'Referrallar',
         'bonus' => 'Bonuslar',
         'update' => 'Yeniləmələr',
-        'service' => 'Servislər'
+        'service' => 'Servislər',
+        'work' => 'Tamamlanmış İşlər',
+        'meeting' => 'İclaslar',
+
     ],
 
     'date' => [
@@ -299,6 +302,13 @@ return [
         'Xəta',
         'Səhv',
         'Həll olundu'
+    ],
+
+    'meetings' => [
+        1 => 'deger1',
+        'deger2',
+        'deger3',
+
     ],
 
     'columns' => [

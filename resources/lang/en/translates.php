@@ -158,7 +158,9 @@ return [
         'referral' => 'Referrals',
         'bonus' => 'Bonuses',
         'update' => 'Updates',
-        'service' => 'Services'
+        'service' => 'Services',
+        'work' => 'Works',
+        'meeting' => 'Meetings',
     ],
 
     'date' => [
@@ -296,6 +298,13 @@ return [
         'Error',
         'Bug',
         'Fixed'
+    ],
+
+    'meetings' => [
+        1 => 'deger1',
+        'deger2',
+        'deger3',
+
     ],
 
     'columns' => [
