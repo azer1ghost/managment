@@ -111,6 +111,9 @@ class RegisterController extends Controller
             $data['avatar'] = null;
         }
 
+        $data['name'] = ucfirst($data['name']);
+        $data['surname'] = ucfirst($data['surname']);
+        $data['fin'] = strtoupper($data['fin']);
         $data['is_partner']  = $request->has('is_partner');
         $data['role_id'] = $request->has('is_partner') ? 8 : 4;
         $data['verify_code'] = rand(111111, 999999);
