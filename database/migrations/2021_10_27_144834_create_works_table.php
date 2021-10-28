@@ -18,8 +18,8 @@ class CreateWorksTable extends Migration
             $table->string('name');
             $table->text('detail')->nullable();
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('SET NULL');
-            $table->foreignId('company_id')->nullable()->constrained()->onDelete('CASCADE');
-            $table->foreignId('department_id')->nullable()->constrained()->onDelete('CASCADE');
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('SET NULL');
+            $table->foreignId('department_id')->nullable()->constrained()->onDelete('SET NULL');
             $table->softDeletes();
             $table->timestamps();
         });

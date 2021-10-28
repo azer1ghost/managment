@@ -4,28 +4,21 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkRequest;
-use App\Models\Company;
-use App\Models\Department;
-use App\Models\User;
-use App\Models\Work;
-use Illuminate\Http\Request;
-use PhpParser\Node\Stmt\Return_;
+use App\Models\{Company, Department, User, Work};
+use Illuminate\Http\RedirectResponse;
 
 class WorkController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth');
         $this->authorizeResource(Work::class, 'work');
     }
 
-
     public function index()
     {
-        $works = Work::paginate(10);
         return view('panel.pages.works.index')->with([
-            'works' => $works
+            'works' => Work::paginate(10)
         ]);
     }
 
@@ -38,20 +31,16 @@ class WorkController extends Controller
             'users' => User::get(['id', 'name']),
             'companies' => Company::get(['id', 'name']),
             'departments' => Department::get(['id', 'name'])
-
         ]);
     }
 
-    public function store(WorkRequest $request)
+    public function store(WorkRequest $request): RedirectResponse
     {
-        $validated = $request->validated();
-        $work = Work::create($validated);
-
+        $work = Work::create($request->validated());
         return redirect()
             ->route('works.edit', $work)
             ->withNotify('success', $work->getAttribute('name'));
     }
-
 
     public function show(Work $work)
     {
@@ -65,7 +54,6 @@ class WorkController extends Controller
         ]);
     }
 
-
     public function edit(Work $work)
     {
         return view('panel.pages.works.edit')->with([
@@ -75,21 +63,17 @@ class WorkController extends Controller
             'users' => User::get(['id', 'name']),
             'companies' => Company::get(['id','name']),
             'departments' => Department::get(['id','name']),
-            ]);
-
+        ]);
     }
 
-
-    public function update(Request $request, Work $work)
+    public function update(WorkRequest $request, Work $work): RedirectResponse
     {
-        $validated = $request->validated();
-        $work->update($validated);
+        $work->update($request->validated());
 
         return redirect()
             ->route('works.edit', $work)
             ->withNotify('success', $work->getAttribute('name'));
     }
-
 
     public function destroy(Work $work)
     {

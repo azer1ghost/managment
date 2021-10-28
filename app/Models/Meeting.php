@@ -2,18 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\{Factories\HasFactory, Model, SoftDeletes};
 
 class Meeting extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name','status','datetime'];
+    protected $fillable = ['name', 'status', 'datetime'];
 
-    public static function statuses()
+    public static function statuses(): array
     {
-        return [ 1 => 'deger1', 'deger2', 'deger3'];
+        return ['deger1', 'deger2', 'deger3'];
     }
 }

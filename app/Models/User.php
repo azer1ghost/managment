@@ -246,7 +246,7 @@ class User extends Authenticatable implements MustVerifyPhone
         return $this->morphMany(Task::class, 'taskable');
     }
 
-    public function isDirector()
+    public function isDirector(): bool
     {
         return $this->getRelationValue('role')->getAttribute('key') == 'director';
     }

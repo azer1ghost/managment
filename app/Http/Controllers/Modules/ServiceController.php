@@ -7,7 +7,6 @@ use App\Http\Requests\ServiceRequest;
 use App\Models\Company;
 use App\Models\Department;
 use App\Models\Service;
-use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
@@ -19,39 +18,30 @@ class ServiceController extends Controller
 
     public function index()
     {
-        $services = Service::paginate(10);
-
         return view('panel.pages.services.index')->with([
-            'services' => $services
+            'services' => Service::paginate(10)
         ]);
     }
 
-
     public function create()
     {
-
         return view('panel.pages.services.edit')->with([
             'action' => route('services.store'),
             'method' => 'POST',
             'data' => null,
             'companies' => Company::get(['id','name']),
             'departments' => Department::get(['id','name'])
-
-            ]);
+        ]);
     }
 
-
-    public function store(ServiceRequest $request)
+    public function store(ServiceRequest $request): \Illuminate\Http\RedirectResponse
     {
-        $validated = $request->validated();
-
-        $service = Service::create($validated);
+        $service = Service::create($request->validated());
 
         return redirect()
             ->route('services.edit', $service)
             ->withNotify('success', $service->getAttribute('name'));
     }
-
 
     public function show(Service $service)
     {
@@ -72,15 +62,12 @@ class ServiceController extends Controller
             'data' => $service,
             'companies' => Company::get(['id','name']),
             'departments' => Department::get(['id','name']),
-
         ]);
     }
 
-
-    public function update(ServiceRequest $request, Service $service)
+    public function update(ServiceRequest $request, Service $service): \Illuminate\Http\RedirectResponse
     {
-        $validated = $request->validated();
-        $service->update($validated);
+        $service->update($request->validated());
 
         return redirect()
             ->route('services.edit', $service)

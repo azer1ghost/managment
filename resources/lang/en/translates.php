@@ -301,7 +301,7 @@ return [
     ],
 
     'meetings' => [
-        1 => 'deger1',
+        'deger1',
         'deger2',
         'deger3',
 

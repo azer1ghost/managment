@@ -17,8 +17,8 @@ class CreateServicesTable extends Migration
             $table->id();
             $table->json('name');
             $table->text('detail')->nullable();
-            $table->foreignId('company_id')->nullable()->constrained()->onDelete('CASCADE');
-            $table->foreignId('department_id')->nullable()->constrained()->onDelete('CASCADE');
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('SET NULL');
+            $table->foreignId('department_id')->nullable()->constrained()->onDelete('SET NULL');
             $table->softDeletes();
             $table->timestamps();
         });

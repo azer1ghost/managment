@@ -5,19 +5,22 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MeetingRequest;
 use App\Models\Meeting;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 class MeetingController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->authorizeResource(Meeting::class, 'meeting');
+    }
 
     public function index()
     {
-        $meetings = Meeting::paginate(10);
         return view('panel.pages.meetings.index')->with([
-           'meetings' => $meetings
+           'meetings' => Meeting::paginate(10)
         ]);
     }
-
 
     public function create()
     {
@@ -25,23 +28,18 @@ class MeetingController extends Controller
             'action' => route('meetings.store'),
             'method' => null,
             'data' => null,
-            'statuses' =>Meeting::statuses()
-            ]);
-
-
+            'statuses' => Meeting::statuses()
+        ]);
     }
 
-
-    public function store(MeetingRequest $request)
+    public function store(MeetingRequest $request): RedirectResponse
     {
-        $validated = $request->validated();
-        $meeting = Meeting::create($validated);
+        $meeting = Meeting::create($request->validated());
 
         return redirect()
             ->route('meetings.edit', $meeting)
             ->withNotify('success', $meeting->getAttribute('name'));
     }
-
 
     public function show(Meeting $meeting)
     {
@@ -49,11 +47,9 @@ class MeetingController extends Controller
             'action' => null,
             'method' => null,
             'data' => $meeting,
-            'statuses' =>Meeting::statuses()
-
+            'statuses' => $meeting::statuses()
         ]);
     }
-
 
     public function edit(Meeting $meeting)
     {
@@ -61,22 +57,18 @@ class MeetingController extends Controller
             'action' => route('meetings.update', $meeting),
             'method' => 'PUT',
             'data' => $meeting,
-            'statuses' =>Meeting::statuses()
-
+            'statuses' => $meeting::statuses()
         ]);
     }
 
-
-    public function update(Request $request, Meeting $meeting)
+    public function update(MeetingRequest $request, Meeting $meeting): RedirectResponse
     {
-        $validated = $request->validated();
-        $meeting->update($validated);
+        $meeting->update($request->validated());
 
         return redirect()
-            ->route('meetings.edit', $work)
-            ->withNotify('success', $work->getAttribute('name'));
+            ->route('meetings.edit', $meeting)
+            ->withNotify('success', $meeting->getAttribute('name'));
     }
-
 
     public function destroy(Meeting $meeting)
     {
