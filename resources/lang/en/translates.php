@@ -102,6 +102,7 @@ return [
         'keywords' => 'Keywords',
         'detail' => 'Detail',
         'about' => 'About',
+        'file' => 'File',
         'priority' => [
             'key' => 'Priority',
             'options' => [
@@ -161,6 +162,8 @@ return [
         'service' => 'Services',
         'work' => 'Works',
         'meeting' => 'Meetings',
+        'document' => 'Documents',
+
     ],
 
     'date' => [
@@ -312,6 +315,7 @@ return [
         'priority' => 'Priority',
         'status' => 'Status',
         'created_by' => 'Created By',
+        'created_at' => 'Created At',
         'user' => 'User',
         'stage' => 'Stage',
         'full_name' => 'Full Name',

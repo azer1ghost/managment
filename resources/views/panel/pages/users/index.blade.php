@@ -77,8 +77,8 @@
                                 @if($user->getAttribute('disabled_at')) <span class="text-danger">(@lang('translates.disabled'))</span> @endif
                             </td>
                             <td>{{$user->getAttribute('fin')}}</td>
-                            <td>{{$user->getAttribute('email')}}</td>
-                            <td>{{$user->getAttribute('phone')}}</td>
+                            <td>{{$user->getAttribute('email_coop')}}</td>
+                            <td>{{$user->getAttribute('phone_coop')}}</td>
                             <td>{{$user->getRelationValue('company')->getAttribute('name')}}</td>
                             <td>{{$user->getRelationValue('department')->getAttribute('name')}}</td>
                             <td>{{$user->getRelationValue('role')->getAttribute('name')}}</td>

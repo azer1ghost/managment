@@ -8,6 +8,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Main\PlatformController,
     Modules\CompanyController,
     Modules\DepartmentController,
+    Modules\DocumentController,
     Modules\MeetingController,
     Modules\ReferralBonusController,
     Modules\UpdateController,
@@ -64,6 +65,7 @@ Route::group([
     Route::resource('/services', ServiceController::class);
     Route::resource('/works', WorkController::class);
     Route::resource('/meetings', MeetingController::class);
+    Route::resource('/documents', DocumentController::class);
 });
 
 Auth::routes();

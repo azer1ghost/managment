@@ -36,7 +36,7 @@
                             <th scope="col">@lang('translates.columns.email')</th>
                             <th scope="col">@lang('translates.columns.phone')</th>
                             <th scope="col">@lang('translates.columns.company')</th>
-                            <th scope="col">VOEN</th>
+                            <th scope="col">VOEN/GOOEN</th>
                             <th scope="col">@lang('translates.columns.adress')</th>
                             <th scope="col">@lang('translates.columns.actions')</th>
                         </tr>

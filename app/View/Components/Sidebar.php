@@ -178,6 +178,12 @@ class Sidebar extends Component
                 'icon'  => 'fas fa-handshake',
                 'url'  => route('meetings.index'),
                 'permission' => 'viewAny-service',
+            ],
+            (object) [
+                'title' => "Documents",
+                'icon'  => 'fas fa-file-word',
+                'url'  => route('documents.index'),
+                'permission' => 'viewAny-service',
             ]
         ];
     }

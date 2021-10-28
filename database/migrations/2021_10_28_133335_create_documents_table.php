@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddOrderColumnToPositionsTable extends Migration
+class CreateDocumentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class AddOrderColumnToPositionsTable extends Migration
      */
     public function up()
     {
-        Schema::table('positions', function (Blueprint $table) {
-            $table->integer('order')->nullable();
+        Schema::create('documents', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->nullable();
+            $table->string('file')->nullable();
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +29,6 @@ class AddOrderColumnToPositionsTable extends Migration
      */
     public function down()
     {
-        Schema::table('positions', function (Blueprint $table) {
-            $table->dropColumn('order');
-        });
+        Schema::dropIfExists('documents');
     }
 }
