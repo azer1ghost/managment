@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Models\Update;
+use App\Models\User;
 use App\Models\Widget;
+use App\Services\FirebaseApi;
 use App\Services\MobexReferralApi;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\View\View;
@@ -12,8 +14,6 @@ use Illuminate\Support\Facades\Storage;
 
 class PlatformController extends Controller
 {
-    protected $database;
-
     public function __construct()
     {
         $this->middleware('auth', ['except'=> ['welcome', 'downloadBat']]);
@@ -51,14 +51,18 @@ class PlatformController extends Controller
 
     public function test()
     {
-        $this->database = app('firebase.database');
-
-        // add to db
-        $firebaseUsers  = $this->database->getReference('users');
-//         $this->database->getReference('users')->push([
-//                    'title' => 'Post title',
-//                    'body' => 'This should probably be longer.'
-//                ]);
-        dd($firebaseUsers->getValue());
+        $notificationModel = (new FirebaseApi)->getRef('notifications');
+        $notificationModel->push([
+            'notifiable_id' => User::find(2)->id,
+            'user' => [
+                'avatar' => image(User::find(1)->avatar),
+                'fullname' => User::find(1)->fullname
+            ],
+            'message' => trans('translates.tasks.new'),
+            'content' => 'cox tecilidir last last last last',
+            'url' =>  route('tasks.show', 1),
+            'wasPlayed' => false
+        ]);
+//        dd($firebaseUsers->getValue());
     }
 }

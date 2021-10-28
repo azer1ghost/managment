@@ -21,8 +21,6 @@
     @yield('style')
 
     @livewireStyles
-
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
 </head>
 <body class="custom-scrollbar">
     <div class="custom-wrapper">
@@ -64,9 +62,11 @@
 
     @livewireScripts
 
+    <!-- Alpine js and Spruce state management for it -->
+    <script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/spruce@2.x.x/dist/spruce.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>
 
     @stack('scripts')
-
     @yield('scripts')
 
     <x-notify/>
@@ -123,24 +123,8 @@
                     return localStorage.getItem("navbar");
                 }
             }
-
-            $(document).ready(function() {
-                $(body).trigger('click');
-            });
-
-            const notification = new Audio('{{asset('assets/audio/notify/notify.wav')}}');
-            Livewire.on('newNotifications', function () {
-                notification.play();
-            })
         });
     </script>
-    <script>
-        const dbRef = firebase.database().ref();
-        const usersRef = dbRef.child('users');
 
-        usersRef.on("child_added", snap => {
-            console.log(snap.val());
-        });
-    </script>
 </body>
 </html>

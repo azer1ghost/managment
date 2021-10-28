@@ -12,6 +12,7 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "haruncpi/laravel-log-reader": "^1.0",
         "kreait/laravel-firebase": "^3.2",
+        "laravel-notification-channels/fcm": "~2.0",
         "laravel/framework": "^8.40",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
