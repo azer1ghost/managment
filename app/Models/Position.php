@@ -15,7 +15,7 @@ class Position extends Model
 
     public array $translatable = ['name'];
 
-    public $fillable = ['name', 'role_id', 'department_id', 'permissions'];
+    public $fillable = ['name', 'role_id', 'department_id', 'permissions', 'order'];
 
     public function role(): BelongsTo
     {
