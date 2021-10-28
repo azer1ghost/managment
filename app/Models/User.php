@@ -25,11 +25,6 @@ class User extends Authenticatable implements MustVerifyPhone
 {
     use HasFactory, Notifiable, SoftDeletes, Loger, GetClassInfo, \App\Traits\Auth\MustVerifyPhone;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name',
         'surname',
@@ -59,21 +54,11 @@ class User extends Authenticatable implements MustVerifyPhone
         'is_partner'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'role_id' => 'integer',
         'email_verified_at' => 'datetime',
@@ -254,5 +239,15 @@ class User extends Authenticatable implements MustVerifyPhone
     public function setDepartmentIdAttribute($value)
     {
         return $this->attributes['department_id'] = $this->isDirector() ? null : $value;
+    }
+
+    public function devices(): HasMany
+    {
+        return $this->hasMany(UserDevice::class);
+    }
+
+    public function tokens(): array
+    {
+        return $this->devices()->pluck('fcm_token')->toArray();
     }
 }

@@ -55,7 +55,9 @@
     </div>
 
     <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
     <!-- Scripts -->
     <script src="{{ mix('assets/js/app.js') }}" ></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -71,8 +73,67 @@
 
     <x-notify/>
 
+
     <script>
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position){
+                const locationRoute = '{{route('set-location')}}';
+                $.ajax({
+                    type: 'POST',
+                    url: locationRoute,
+                    data: { coordinates: Object.assign({}, position.coords.latitude, position.coords.longitude) },
+                    success: function (){
+                        console.log('ok');
+                    }
+                });
+            });
+        } else {
+            console.log("Geolocation is not supported by this browser.");
+        }
+    </script>
+    @auth
+        <script>
         $(document).ready(function (){
+            const messaging = firebase.messaging();
+            const userTokens = @json(auth()->user()->tokens());
+                Notification.requestPermission().then(function(result) {
+                    if(result === "granted"){
+                        messaging
+                            .requestPermission()
+                            .then(function () {
+                                return messaging.getToken()
+                            })
+                            .then(function (response) {
+                                if(!userTokens.includes(response)){
+                                    $.ajax({
+                                        url: '{{ route("store.fcm-token") }}',
+                                        type: 'POST',
+                                        data: {
+                                            fcm_token: response
+                                        },
+                                        dataType: 'JSON',
+                                        success: function (response){},
+                                        error: function (error) {
+                                            console.log(error);
+                                        },
+                                    });
+                                }
+                            })
+                            .catch(function (error) {
+                                alert(error);
+                            });
+                    }
+                });
+
+            messaging.onMessage(function (payload) {
+                const title = payload.notification.title;
+                const options = {
+                    body: payload.notification.body,
+                    // icon: payload.notification.icon,
+                };
+                new Notification(title, options);
+            });
+
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip({
                     content: function(){
@@ -125,6 +186,7 @@
             }
         });
     </script>
+    @endauth
 
 </body>
 </html>
