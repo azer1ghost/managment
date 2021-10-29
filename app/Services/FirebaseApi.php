@@ -65,7 +65,7 @@ class FirebaseApi{
 
     public function sendNotification($sender, $notifiables, $title, $body, $url)
     {
-        if(app()->environment('local')) return;
+//        if(app()->environment('local')) return;
 
         $notificationModel = $this->getRef('notifications');
         foreach ($notifiables ?? [] as $notifiable){

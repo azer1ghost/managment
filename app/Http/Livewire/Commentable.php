@@ -59,7 +59,7 @@ class Commentable extends Component
             $this->currentlyEditingComment = null;
         }
         else {
-            $commentableModel = $this->replyableComment ?? $this->commentable;
+                $commentableModel = $this->replyableComment ?? $this->commentable;
 
             (new CommentController())->store($this->message, $this->url, $commentableModel);
 
