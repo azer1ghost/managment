@@ -33,7 +33,7 @@
                             x-for="(notification, index) in $store.state.notifications"
                             :key="index"
                     >
-                        <a x-bind:href="notification.url" class="mb-2">
+                        <a x-bind:href="notification.url" class="mb-1">
                             <div class="media">
                                 <img x-bind:src="notification.user.avatar" class="mr-3 profile" alt="logo" style="width: 30px;height: 30px">
                                 <div class="media-body">
