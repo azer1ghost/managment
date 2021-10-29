@@ -45,7 +45,7 @@ class CommentController extends Controller
             }
         }
 
-        event(new Notification($user, $users, trans('translates.comments.new'), $content, $url));
+//        event(new Notification($user, $users, trans('translates.comments.new'), $content, $url));
     }
 
     public function update(Request $request, Comment $comment)
