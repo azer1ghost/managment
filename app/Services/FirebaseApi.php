@@ -19,7 +19,7 @@ class FirebaseApi{
         return $this->firebaseDB->getReference($ref);
     }
 
-    public function sendPushNotification($notifiables, $title = "Title", $body = "Body")
+    public function sendPushNotification($notifiables, $url, $title = "Title", $body = "Body")
     {
         $deviceTokens = [];
 
@@ -34,7 +34,8 @@ class FirebaseApi{
             "notification" => [
                 "title" => $title,
                 "body" => $body,
-                "icon" => asset('assets/images/logos/group.png')
+                "icon" => asset('assets/images/logos/group.png'),
+                "url"  => $url
             ]
         ];
 
@@ -65,7 +66,7 @@ class FirebaseApi{
 
     public function sendNotification($sender, $notifiables, $title, $body, $url)
     {
-        if(app()->environment('local')) return;
+//        if(app()->environment('local')) return;
 
         $notificationModel = $this->getRef('notifications');
         foreach ($notifiables ?? [] as $notifiable){
@@ -83,6 +84,6 @@ class FirebaseApi{
         }
 
         // firebase push notifications
-        $this->sendPushNotification($notifiables, $title, $body);
+        $this->sendPushNotification($notifiables, $url, $title, $body);
     }
 }

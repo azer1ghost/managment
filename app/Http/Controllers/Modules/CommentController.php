@@ -53,12 +53,10 @@ class CommentController extends Controller
                 break;
         }
 
-        $users[] = $creator;
-
-        if($user->id != auth()->id()) {
+        if($user->id != auth()->id() && $creator->id != $user->id){
             $users[] = $user;
         }
-        if($creator->id != auth()->id()) {
+        if($creator->id != $user->id && $creator->id != auth()->id()){
             $users[] = $creator;
         }
 
