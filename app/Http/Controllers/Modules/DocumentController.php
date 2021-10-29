@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DocumentRequest;
 use App\Models\Document;
+use Illuminate\Http\RedirectResponse;
 
 class DocumentController extends Controller
 {
@@ -23,7 +24,6 @@ class DocumentController extends Controller
 
     public function create()
     {
-
         return view('panel.pages.documents.edit')->with([
             'action' => route('documents.store'),
             'method' => null,
@@ -31,7 +31,7 @@ class DocumentController extends Controller
         ]);
     }
 
-    public function store(DocumentRequest $request)
+    public function store(DocumentRequest $request): RedirectResponse
     {
         $document = Document::create($request->validated());
 
@@ -58,7 +58,7 @@ class DocumentController extends Controller
         ]);
     }
 
-    public function update(DocumentRequest $request, Document $document)
+    public function update(DocumentRequest $request, Document $document): RedirectResponse
     {
        $document->update($request->validated());
 

@@ -11,5 +11,4 @@ class Document extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = ['name', 'file'];
-
 }

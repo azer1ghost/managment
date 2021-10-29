@@ -6,9 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class DocumentRequest extends FormRequest
 {
-
-
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => 'nullable|string',
