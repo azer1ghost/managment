@@ -3,8 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\Notification;
-use App\Models\User;
-use App\Notifications\ExceptionMail;
 use App\Services\FirebaseApi;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
