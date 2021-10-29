@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\Modules;
 
+use App\Events\TaskAssigned;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskRequest;
 use App\Models\Department;
 use App\Models\Inquiry;
 use App\Models\User;
 use App\Models\Task;
-use App\Notifications\TaskAssigned;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\DatabaseNotification;
-use Illuminate\Support\Facades\Notification;
 
 class TaskController extends Controller
 {
@@ -136,8 +135,7 @@ class TaskController extends Controller
         }
         $url = route('tasks.show', $task->getAttribute('id'));
 
-//        Notification::send($users, new TaskAssigned($content, $url, 'translates.tasks.new'));
-        event(new \App\Events\TaskAssigned($request->user(), $users, trans('translates.tasks.new'), $content, $url));
+        event(new TaskAssigned($request->user(), $users, trans('translates.tasks.new'), $content, $url));
 
         return redirect()
             ->route('tasks.show', $task)

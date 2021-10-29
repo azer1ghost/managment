@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TaskAssigned;
 use App\Models\TaskList;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TaskListController extends Controller
@@ -22,7 +24,17 @@ class TaskListController extends Controller
         $data = $request->all();
         $data['user_id'] = auth()->id();
 
-        TaskList::create($data);
+        $list = TaskList::create($data);
+        $task = $list->task;
+        if($task->taskable->getTable() == 'users'){
+            $users[] = User::find($task->taskable->id);
+        }elseif ($task->taskable->getTable() == 'departments'){
+            foreach (User::where('id', '!=', $data['user_id'])->where('department_id', $task->taskable->id)->get() as $user) {
+                $users[] = $user;
+            }
+        }
+
+        event(new TaskAssigned($request->user(), $users, trans('translates.tasks.list.new'), $list->name, $request->url));
 
         return redirect($request->url . '#task-lists-header');
     }
@@ -49,6 +61,7 @@ class TaskListController extends Controller
         unset($data['_token']);
 
         $taskList->update($data);
+
         return redirect($data['url'] . '#task-lists-header');
     }
 
