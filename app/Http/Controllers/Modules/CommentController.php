@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Modules;
 
+use App\Events\Notification;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\User;
-use App\Notifications\NewComment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
 
 class CommentController extends Controller
 {
@@ -46,7 +45,7 @@ class CommentController extends Controller
             }
         }
 
-        Notification::send($users, new NewComment($content, $url));
+        event(new Notification($user, $users, trans('translates.comments.new'), $content, $url));
     }
 
     public function update(Request $request, Comment $comment)

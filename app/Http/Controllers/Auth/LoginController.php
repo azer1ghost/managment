@@ -20,6 +20,17 @@ class LoginController extends Controller
         $this->middleware('guest')->except(['logout', 'phoneUpdate']);
     }
 
+    protected function authenticated(Request $request, $user)
+    {
+        $user->devices()->updateOrCreate(
+            ['device_key' => $request->cookie('device_key')],
+            [
+                'device' => $request->userAgent(),
+                'ip' => $request->ip(),
+            ]
+        );
+    }
+
     protected function validateLogin(Request $request)
     {
         $request->validate([

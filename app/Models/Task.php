@@ -55,8 +55,8 @@ class Task extends Model
     {
         return [
             1 => 'assigned_to_me',
-            2 => 'my_tasks',
-            3 => 'all'
+            'my_tasks',
+            'all'
         ];
     }
 

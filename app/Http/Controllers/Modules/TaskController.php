@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\Modules;
 
+use App\Events\Notification;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskRequest;
 use App\Models\Department;
 use App\Models\Inquiry;
 use App\Models\User;
 use App\Models\Task;
-use App\Notifications\TaskAssigned;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\DatabaseNotification;
-use Illuminate\Support\Facades\Notification;
 
 class TaskController extends Controller
 {
@@ -121,18 +120,22 @@ class TaskController extends Controller
 
         $validated['user_id'] = auth()->id();
 
+        // notifiable users
+        $users = [];
         if(array_key_exists('user', $validated)){
             $task = User::find($validated['user'])->tasks()->create($validated);
-            $users = User::find($validated['user']);
+            $users[] = User::find($validated['user']);
             $content = __('translates.tasks.content.user');
         }else{
             $task = Department::find($validated['department'])->tasks()->create($validated);
-            $users = User::where('id', '!=' ,auth()->id())->where('department_id', $validated['department'])->get();
+            foreach (User::where('id', '!=' ,auth()->id())->where('department_id', $validated['department'])->get() as $user) {
+                $users[] = $user;
+            }
             $content = __('translates.tasks.content.department');
         }
         $url = route('tasks.show', $task->getAttribute('id'));
 
-        Notification::send($users, new TaskAssigned($content, $url, 'translates.tasks.new'));
+        event(new Notification($request->user(), $users, trans('translates.tasks.new'), $content, $url));
 
         return redirect()
             ->route('tasks.show', $task)

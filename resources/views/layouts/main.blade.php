@@ -21,8 +21,6 @@
     @yield('style')
 
     @livewireStyles
-
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
 </head>
 <body class="custom-scrollbar">
     <div class="custom-wrapper">
@@ -56,81 +54,136 @@
             </main>
     </div>
 
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
     <!-- Scripts -->
     <script src="{{ mix('assets/js/app.js') }}" ></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     @livewireScripts
 
+    <!-- Alpine js and Spruce state management for it -->
+    <script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/spruce@2.x.x/dist/spruce.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>
 
     @stack('scripts')
-
     @yield('scripts')
 
     <x-notify/>
 
-    <script>
-        $(document).ready(function (){
-            $(function () {
-                $('[data-toggle="tooltip"]').tooltip({
-                    content: function(){
-                        return $(this).attr('title');
-                    }
-                })
-            });
+    @auth
+        <script>
+            $(document).ready(function (){
+                // request for location and store the info
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (position){
+                        const locationRoute = '{{route('set-location')}}';
+                        $.ajax({
+                            type: 'POST',
+                            url: locationRoute,
+                            data: { coordinates: {'latitude': position.coords.latitude, 'longitude': position.coords.longitude } },
+                            success: function (){}
+                        });
+                    });
+                } else {
+                    console.log("Geolocation is not supported by this browser.");
+                }
 
-            const body = $('body');
-            const hamburger = document.querySelector(".hamburger");
+                // request for notification and store the info
+                const messaging = firebase.messaging();
+                const userTokens = @json(auth()->user()->column('fcm_token'));
+                    Notification.requestPermission().then(function(result) {
+                        if(result === "granted"){
+                            messaging
+                                .requestPermission()
+                                .then(function () {
+                                    return messaging.getToken()
+                                })
+                                .then(function (response) {
+                                    if(!userTokens.includes(response)){
+                                        $.ajax({
+                                            url: '{{ route("store.fcm-token") }}',
+                                            type: 'POST',
+                                            data: {
+                                                fcm_token: response
+                                            },
+                                            dataType: 'JSON',
+                                            success: function (response){},
+                                            error: function (error) {
+                                                console.log(error);
+                                            },
+                                        });
+                                    }
+                                })
+                                .catch(function (error) {
+                                    alert(error);
+                                });
+                        }
+                    });
 
-            body.addClass(sidebarStatus(checkWindowWidth()));
+                messaging.onMessage(function (payload) {
+                    const title = payload.notification.title;
+                    const options = {
+                        body: payload.notification.body,
+                        icon: payload.notification.icon,
+                    };
+                    new Notification(title, options);
+                });
 
-            if(!body.hasClass('active')){
-                hamburger.classList.add('is-active');
-            }
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip({
+                        content: function(){
+                            return $(this).attr('title');
+                        }
+                    })
+                });
 
-            hamburger.addEventListener("click", function(){
-                if(body.hasClass('active')){
+                const body = $('body');
+                const hamburger = document.querySelector(".hamburger");
+
+                body.addClass(sidebarStatus(checkWindowWidth()));
+
+                if(!body.hasClass('active')){
                     hamburger.classList.add('is-active');
-                    body.removeClass('active');
-                    body.addClass('inactive');
-                    localStorage.setItem("navbar", 'inactive');
-                }else{
-                    hamburger.classList.remove('is-active');
-                    body.removeClass('inactive');
-                    body.addClass('active');
-                    localStorage.setItem("navbar", 'active');
+                }
+
+                hamburger.addEventListener("click", function(){
+                    if(body.hasClass('active')){
+                        hamburger.classList.add('is-active');
+                        body.removeClass('active');
+                        body.addClass('inactive');
+                        localStorage.setItem("navbar", 'inactive');
+                    }else{
+                        hamburger.classList.remove('is-active');
+                        body.removeClass('inactive');
+                        body.addClass('active');
+                        localStorage.setItem("navbar", 'active');
+                    }
+                });
+
+                function checkWindowWidth(){
+                    if($(window).width() < 576){
+                        return 'active';
+                    }else{
+                        return 'inactive';
+                    }
+                }
+
+                function sidebarStatus(status){
+                    if($(window).width() < 576){
+                        return 'active';
+                    }
+                    if(localStorage.getItem("navbar") !== null){
+                        return localStorage.getItem("navbar");
+                    }else{
+                        localStorage.setItem("navbar", status);
+                        return localStorage.getItem("navbar");
+                    }
                 }
             });
-
-            function checkWindowWidth(){
-                if($(window).width() < 576){
-                    return 'active';
-                }else{
-                    return 'inactive';
-                }
-            }
-
-            function sidebarStatus(status){
-                if($(window).width() < 576){
-                    return 'active';
-                }
-                if(localStorage.getItem("navbar") !== null){
-                    return localStorage.getItem("navbar");
-                }else{
-                    localStorage.setItem("navbar", status);
-                    return localStorage.getItem("navbar");
-                }
-            }
-
-            $(document).ready(function() {
-                $(body).trigger('click');
-            });
-
-            const notification = new Audio('{{asset('assets/audio/notify/notify.wav')}}');
-            Livewire.on('newNotifications', function () {
-                notification.play();
-            })
-        });
-    </script>
+        </script>
+    @endauth
 </body>
 </html>

@@ -24,6 +24,11 @@
         }
         .dropdown{
           .dropdown-menu{
+            max-height:250px;
+            overflow-y:scroll;
+            &::-webkit-scrollbar{
+                display: none;
+            }
             .dropdown-item{
               color: $primaryWhite !important;
               &:hover{

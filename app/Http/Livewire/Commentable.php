@@ -4,7 +4,6 @@ namespace App\Http\Livewire;
 
 use App\Http\Controllers\Modules\CommentController;
 use App\Models\Comment;
-use App\Notifications\NewComment;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 

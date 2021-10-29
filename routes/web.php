@@ -27,6 +27,11 @@ use App\Http\Controllers\{Auth\LoginController,
     TaskListController};
 use Illuminate\Support\Facades\{Auth, Route};
 
+
+Route::get('firebase-messaging-sw.js', [PlatformController::class, 'firebase']);
+Route::post('/store-fcm-token', [PlatformController::class, 'storeFcmToken'])->name('store.fcm-token');
+Route::post('/set-location', [PlatformController::class, 'setLocation'])->name('set-location');
+
 Route::redirect('/','/welcome')->name('home');
 Route::get('/welcome', [PlatformController::class, 'welcome'])->name('welcome');
 Route::get('/dashboard', [PlatformController::class, 'dashboard'])->middleware('verified_phone')->name('dashboard');
