@@ -58,12 +58,11 @@ class CommentController extends Controller
         if($user->id != auth()->id()) {
             $users[] = $user;
         }
-
         if($creator->id != auth()->id()) {
             $users[] = $creator;
         }
 
-        event(new Notification($creator, collect($users)->unique()->toArray(), trans('translates.comments.new'), $content, $url));
+        event(new Notification($creator, $users, trans('translates.comments.new'), $content, $url));
     }
 
     public function update(Request $request, Comment $comment)
