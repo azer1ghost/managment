@@ -33,17 +33,15 @@
                             x-for="(notification, index) in $store.state.notifications"
                             :key="index"
                     >
-                        <a x-bind:href="notification.url" class="mb-3">
+                        <a x-bind:href="notification.url" class="mb-2">
                             <div class="media">
                                 <img x-bind:src="notification.user.avatar" class="mr-3 profile" alt="logo" style="width: 30px;height: 30px">
                                 <div class="media-body">
                                     <h6 class="my-0" style="font-size: 12px;color: #000">
-                                        <span x-text="notification.message"></span>
+                                        <p x-text="notification.user.fullname" class="mb-1" style="font-size: 14px;"></p>
+                                        <p x-text="notification.message" class="mb-1" style="font-size: 12px"></p>
+                                        <p class="text-muted" x-text="notification.content"></p>
                                     </h6>
-                                    <div class="user">
-                                        <p class="mb-3 d-inline" style="font-size: 12px;color: #000 !important;" x-text="notification.user.fullname"></p>
-                                        <p class="mb-3 d-inline text-muted" style="font-size: 10px;color: #000 !important;" x-text="notification.content"></p>
-                                    </div>
                                 </div>
                             </div>
                         </a>
@@ -69,10 +67,10 @@
          let notifications = Spruce.store('state').notifications;
          notificationsRef.orderByChild('notifiable_id').equalTo(userID).on("child_added", (snap, prevChildKey) => {
              let snapVal = snap.val();
-
              if(notifications.length > 9){
                  notificationsRef.child(prevChildKey).remove();
                  notifications.pop();
+                 notifications = notifications.reverse();
              }
 
              notifications.push(snapVal);

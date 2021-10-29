@@ -23,11 +23,10 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         $user->devices()->updateOrCreate(
-            [ 'device_key' => cookie()->get('device_key') ],
+            ['device_key' => $request->cookie('device_key')],
             [
                 'device' => $request->userAgent(),
                 'ip' => $request->ip(),
-                'location' => $request->get
             ]
         );
     }

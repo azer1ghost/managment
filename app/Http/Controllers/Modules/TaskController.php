@@ -121,18 +121,23 @@ class TaskController extends Controller
 
         $validated['user_id'] = auth()->id();
 
+        // notifiable users
+        $users = [];
         if(array_key_exists('user', $validated)){
             $task = User::find($validated['user'])->tasks()->create($validated);
-            $users = User::find($validated['user']);
+            $users[] = User::find($validated['user']);
             $content = __('translates.tasks.content.user');
         }else{
             $task = Department::find($validated['department'])->tasks()->create($validated);
-            $users = User::where('id', '!=' ,auth()->id())->where('department_id', $validated['department'])->get();
+            foreach (User::where('id', '!=' ,auth()->id())->where('department_id', $validated['department'])->get() as $user) {
+                $users[] = $user;
+            }
             $content = __('translates.tasks.content.department');
         }
         $url = route('tasks.show', $task->getAttribute('id'));
 
-        Notification::send($users, new TaskAssigned($content, $url, 'translates.tasks.new'));
+//        Notification::send($users, new TaskAssigned($content, $url, 'translates.tasks.new'));
+        event(new \App\Events\TaskAssigned($request->user(), $users, trans('translates.tasks.new'), $content, $url));
 
         return redirect()
             ->route('tasks.show', $task)

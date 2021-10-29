@@ -13,11 +13,11 @@ class RegisterDevice
      */
     public function handle(Request $request, Closure $next)
     {
-        if($request->hasCookie('uuid')) {
+        if($request->hasCookie('device_key')) {
             return $next($request);
         }
 
-        return $next($request)->withCookie(cookie()->forever('uuid', $this->unique_code(9)));
+        return $next($request)->withCookie(cookie()->forever('device_key', $this->unique_code(9)));
     }
 
     function unique_code($limit): string

@@ -12,6 +12,7 @@ use App\Services\MobexReferralApi;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class PlatformController extends Controller
@@ -43,14 +44,12 @@ class PlatformController extends Controller
 
     public function storeFcmToken(Request $request)
     {
-        $data = $request->all();
-        $data['ip'] = $request->ip();
         auth()->user()->devices()->updateOrCreate(
-            [ 'device_key' => cookie()->get('device_key') ],
+            ['device_key' => $request->cookie('device_key')],
             [
                 'device' => $request->userAgent(),
                 'ip' => $request->ip(),
-                'location' => $request->get
+                'fcm_token' => $request->fcm_token,
             ]
         );
         return response()->json('OK');
@@ -58,7 +57,18 @@ class PlatformController extends Controller
 
     public function setLocation(Request $request)
     {
-        session()->put('location', $request->get('coordinates'));
+        $coordinates = $request->get('coordinates');
+        $lat = $coordinates['latitude'];
+        $lng = $coordinates['longitude'];
+
+        auth()->user()->devices()->updateOrCreate(
+            ['device_key' => $request->cookie('device_key')],
+            [
+                'device' => $request->userAgent(),
+                'ip' => $request->ip(),
+                'location' => json_encode(['lat' => $lat, 'lng' => $lng])
+            ]
+        );
         return session()->get('location');
     }
     
@@ -82,20 +92,20 @@ class PlatformController extends Controller
 
     public function test()
     {
-//        $notificationModel = (new FirebaseApi)->getRef('notifications');
-//        $notificationModel->push([
-//            'notifiable_id' => User::find(2)->id,
-//            'user' => [
-//                'avatar' => image(User::find(1)->avatar),
-//                'fullname' => User::find(1)->fullname
-//            ],
-//            'message' => trans('translates.tasks.new'),
-//            'content' => 'cox tecilidir last last last last',
-//            'url' =>  route('tasks.show', 1),
-//            'wasPlayed' => false
-//        ]);
+        $notificationModel = (new FirebaseApi)->getRef('notifications');
+        $notificationModel->push([
+            'notifiable_id' => User::find(2)->id,
+            'user' => [
+                'avatar' => image(User::find(1)->avatar),
+                'fullname' => User::find(1)->fullname
+            ],
+            'message' => trans('translates.tasks.new'),
+            'content' => 'cox tecilidir 7',
+            'url' =>  route('tasks.show', 1),
+            'wasPlayed' => false
+        ]);
 
 //        dd($firebaseUsers->getValue());
-        (new FirebaseApi)->sendPushNotification();
+        (new FirebaseApi)->sendPushNotification([auth()->user()], 'Task assigned 7', 'NEW task');
     }
 }
