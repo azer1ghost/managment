@@ -81,7 +81,6 @@ class Commentable extends Component
         $this->emit('focus-to-message', "@{$currentComment->user->fullname} ");
     }
 
-
     public function delete($id)
     {
        $comment = Comment::find($id);

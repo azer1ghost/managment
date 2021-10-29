@@ -16,7 +16,7 @@ class NotifyUsers implements ShouldQueue
      *
      * @var int
      */
-    public $tries = 5;
+    public $tries = 3;
 
     public function __construct()
     {
@@ -26,10 +26,5 @@ class NotifyUsers implements ShouldQueue
     public function handle(Notification $event)
     {
         (new FirebaseApi)->sendNotification($event->sender, $event->notifiables, $event->title, $event->body, $event->route);
-    }
-
-    public function failed(Notification $event, $e)
-    {
-        \Illuminate\Support\Facades\Notification::send(User::where('role_id', 1)->get(['email']), new ExceptionMail($e));
     }
 }

@@ -63,8 +63,10 @@ class FirebaseApi{
         curl_close($ch);
     }
 
-    public function sendNotification($sender, $notifiables, $title, $body, $route)
+    public function sendNotification($sender, $notifiables, $title, $body, $url)
     {
+        if(app()->environment('local')) return;
+
         $notificationModel = $this->getRef('notifications');
         foreach ($notifiables ?? [] as $notifiable){
             $notificationModel->push([
@@ -75,7 +77,7 @@ class FirebaseApi{
                 ],
                 'message' => $title,
                 'content' => $body,
-                'url' =>  $route,
+                'url' =>  $url,
                 'wasPlayed' => false
             ]);
         }

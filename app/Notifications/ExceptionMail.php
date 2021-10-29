@@ -9,7 +9,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\HtmlString;
 
-class ExceptionMail extends Notification
+class ExceptionMail extends Notification implements ShouldQueue
 {
     use Queueable;
 
