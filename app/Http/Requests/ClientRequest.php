@@ -29,6 +29,7 @@ class ClientRequest extends FormRequest
             'address_coop'   => 'nullable|string|max:255',
             'company'        => 'nullable|string',
             'voen'           => 'nullable|string',
+            'position'       => 'nullable|string',
         ];
     }
 

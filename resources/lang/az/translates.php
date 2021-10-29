@@ -99,10 +99,12 @@ return [
         'website' => 'Sayt',
         'mobile' => 'Mobil',
         'enter' => ':field daxil edin',
+        'detail' => 'Detal',
         'mail' => 'E-poçt',
         'call_center' => 'Çağrı Mərkəzi',
         'keywords' => 'Açar sözlər',
         'about' => 'Haqqında',
+        'file' => 'Fayl',
         'priority' => [
             'key' => 'Prioritet',
             'options' => [
@@ -158,7 +160,12 @@ return [
         'client' => 'Müştərilər',
         'referral' => 'Referrallar',
         'bonus' => 'Bonuslar',
-        'update' => 'Yeniləmələr'
+        'update' => 'Yeniləmələr',
+        'service' => 'Servislər',
+        'work' => 'Tamamlanmış İşlər',
+        'meeting' => 'İclaslar',
+        'document' => 'Sənədlər',
+
     ],
 
     'date' => [
@@ -299,11 +306,18 @@ return [
         'Həll olundu'
     ],
 
+    'meetings' => [
+        'deger1',
+        'deger2',
+        'deger3',
+    ],
+
     'columns' => [
         'name' => 'Adı',
         'priority' => 'Prioritet',
         'status' => 'Status',
         'created_by' => 'Tapşırıq verən',
+        'created_at' => 'Yaradıldı',
         'user' => 'İstifadəçi',
         'stage' => 'Mərhələ',
         'full_name' => 'Tam Adı',

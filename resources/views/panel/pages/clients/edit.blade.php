@@ -34,7 +34,8 @@
             <hr class="my-2">
             <div class="row">
                 <x-input::text name="company"  :value="optional($data)->getAttribute('company')" :label="__('translates.fields.company')" width="4" class="pr-1" />
-                <x-input::text name="voen"     :value="optional($data)->getAttribute('voen')"    :label="__('translates.fields.name')"  width="4" class="pr-1"  label="VOEN" />
+                <x-input::text name="position"  :value="optional($data)->getAttribute('position')" :label="__('translates.fields.position')" width="4" class="pr-1" />
+                <x-input::text name="voen"     :value="optional($data)->getAttribute('voen')"     width="4" class="pr-1"  label="VOEN/GOOEN" />
             </div>
         </div>
         <div class="form-row col-md-12">

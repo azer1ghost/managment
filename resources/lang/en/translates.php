@@ -100,7 +100,9 @@ return [
         'mail' => 'Email',
         'call_center' => 'Call center',
         'keywords' => 'Keywords',
+        'detail' => 'Detail',
         'about' => 'About',
+        'file' => 'File',
         'priority' => [
             'key' => 'Priority',
             'options' => [
@@ -156,7 +158,12 @@ return [
         'client' => 'Clients',
         'referral' => 'Referrals',
         'bonus' => 'Bonuses',
-        'update' => 'Updates'
+        'update' => 'Updates',
+        'service' => 'Services',
+        'work' => 'Works',
+        'meeting' => 'Meetings',
+        'document' => 'Documents',
+
     ],
 
     'date' => [
@@ -296,11 +303,19 @@ return [
         'Fixed'
     ],
 
+    'meetings' => [
+        'deger1',
+        'deger2',
+        'deger3',
+
+    ],
+
     'columns' => [
         'name' => 'Name',
         'priority' => 'Priority',
         'status' => 'Status',
         'created_by' => 'Created By',
+        'created_at' => 'Created At',
         'user' => 'User',
         'stage' => 'Stage',
         'full_name' => 'Full Name',
@@ -338,8 +353,8 @@ return [
     ],
 
     'bonus' => [
-      'effective' => 'Effective',
-      'ineffective' => 'Ineffective'
+        'effective' => 'Effective',
+        'ineffective' => 'Ineffective'
     ],
 
 ];

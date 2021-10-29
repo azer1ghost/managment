@@ -160,6 +160,30 @@ class Sidebar extends Component
                 'icon'  => 'fas fa-sync',
                 'url'  => route('updates.index'),
                 'permission' => 'viewAny-update',
+            ],
+            (object) [
+                'title' => "Services",
+                'icon'  => 'fas fa-concierge-bell',
+                'url'  => route('services.index'),
+                'permission' => 'viewAny-service',
+            ],
+            (object) [
+                'title' => "Works",
+                'icon'  => 'fas fa-briefcase',
+                'url'  => route('works.index'),
+                'permission' => 'viewAny-service',
+            ],
+            (object) [
+                'title' => "Meetings",
+                'icon'  => 'fas fa-handshake',
+                'url'  => route('meetings.index'),
+                'permission' => 'viewAny-service',
+            ],
+            (object) [
+                'title' => "Documents",
+                'icon'  => 'fas fa-file-word',
+                'url'  => route('documents.index'),
+                'permission' => 'viewAny-service',
             ]
         ];
     }

@@ -8,6 +8,8 @@ use App\Http\Controllers\{Auth\LoginController,
     Main\PlatformController,
     Modules\CompanyController,
     Modules\DepartmentController,
+    Modules\DocumentController,
+    Modules\MeetingController,
     Modules\ReferralBonusController,
     Modules\UpdateController,
     Modules\WidgetController,
@@ -20,6 +22,8 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\PositionController,
     Modules\TaskController,
     Modules\ReferralController,
+    Modules\ServiceController,
+    Modules\WorkController,
     TaskListController};
 use Illuminate\Support\Facades\{Auth, Route};
 
@@ -58,6 +62,10 @@ Route::group([
     Route::resource('/clients', ClientController::class);
     Route::resource('/referrals', ReferralController::class);
     Route::resource('/updates', UpdateController::class);
+    Route::resource('/services', ServiceController::class);
+    Route::resource('/works', WorkController::class);
+    Route::resource('/meetings', MeetingController::class);
+    Route::resource('/documents', DocumentController::class);
 });
 
 Auth::routes();

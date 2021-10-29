@@ -29,7 +29,8 @@ class PositionRequest extends FormRequest
             'role_id'        => 'integer',
             'department_id'  => 'integer',
             'perms' => 'array',
-            'all_perms' => 'nullable|string'
+            'all_perms' => 'nullable|string',
+            'order' => 'nullable|integer'
         ];
     }
 }
