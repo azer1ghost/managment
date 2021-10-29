@@ -27,8 +27,9 @@ class CommentController extends Controller
             $creator = User::find($model->commentable->user_id);
         }elseif ($model->getTable() == 'tasks'){
             if($model->taskable()->getTable() == 'departments'){
-                foreach (User::where('id', '!=', auth()->id())->where('department_id', $model->taskable_id)->get() as $_user)
-                $users[] = $_user;
+                foreach (User::where('id', '!=', auth()->id())->where('department_id', $model->taskable_id)->get() as $_user){
+                    $users[] = $_user;
+                }
             }else{
                 $user = $model->taskable;
             }
@@ -45,7 +46,7 @@ class CommentController extends Controller
             }
         }
 
-//        event(new Notification($user, $users, trans('translates.comments.new'), $content, $url));
+        event(new Notification($user, $users, trans('translates.comments.new'), $content, $url));
     }
 
     public function update(Request $request, Comment $comment)
