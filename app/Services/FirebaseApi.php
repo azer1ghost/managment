@@ -42,7 +42,7 @@ class FirebaseApi{
 
         $headers = [
             'Authorization:key=' . $this->fcmKey,
-            'Content-Type: application/json',
+            'Content-Type:application/json',
         ];
 
         // CURL
