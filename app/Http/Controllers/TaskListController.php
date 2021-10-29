@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\TaskAssigned;
+use App\Events\Notification;
 use App\Models\TaskList;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -34,7 +34,7 @@ class TaskListController extends Controller
             }
         }
 
-        event(new TaskAssigned($request->user(), $users, trans('translates.tasks.list.new'), $list->name, $request->url));
+        event(new Notification($request->user(), $users, trans('translates.tasks.list.new'), $list->name, $request->url));
 
         return redirect($request->url . '#task-lists-header');
     }

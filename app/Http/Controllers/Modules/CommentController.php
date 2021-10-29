@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Modules;
 
-use App\Events\TaskAssigned;
+use App\Events\Notification;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\User;
@@ -45,7 +45,7 @@ class CommentController extends Controller
             }
         }
 
-        event(new TaskAssigned($user, $users, trans('translates.comments.new'), $content, $url));
+        event(new Notification($user, $users, trans('translates.comments.new'), $content, $url));
     }
 
     public function update(Request $request, Comment $comment)

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Modules;
 
-use App\Events\TaskAssigned;
+use App\Events\Notification;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskRequest;
 use App\Models\Department;
@@ -135,7 +135,7 @@ class TaskController extends Controller
         }
         $url = route('tasks.show', $task->getAttribute('id'));
 
-        event(new TaskAssigned($request->user(), $users, trans('translates.tasks.new'), $content, $url));
+        event(new Notification($request->user(), $users, trans('translates.tasks.new'), $content, $url));
 
         return redirect()
             ->route('tasks.show', $task)

@@ -2,20 +2,34 @@
 
 namespace App\Listeners;
 
-use App\Events\TaskAssigned;
+use App\Events\Notification;
+use App\Models\User;
+use App\Notifications\ExceptionMail;
 use App\Services\FirebaseApi;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class NotifyUsers
+class NotifyUsers implements ShouldQueue
 {
+    /**
+     * The number of times the queued listener may be attempted.
+     *
+     * @var int
+     */
+    public $tries = 5;
+
     public function __construct()
     {
         //
     }
 
-    public function handle(TaskAssigned $event)
+    public function handle(Notification $event)
     {
         (new FirebaseApi)->sendNotification($event->sender, $event->notifiables, $event->title, $event->body, $event->route);
+    }
+
+    public function failed(Notification $event, $e)
+    {
+        \Illuminate\Support\Facades\Notification::send(User::where('role_id', 1)->get(['email']), new ExceptionMail($e));
     }
 }
