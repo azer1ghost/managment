@@ -20,7 +20,7 @@ class TaskListCreated
     {
         $task = $list->getRelationValue('task');
         $this->url = route('tasks.show', $task);
-        $this->creator = $task->getRelationValue('user');
+        $this->creator = $list->getRelationValue('user');
         $this->title = trans('translates.tasks.list.new');
         $this->body = $list->getAttribute('name');
 
