@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -11,23 +10,25 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class Notification
+class CommentReplied
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public User $sender;
-    public array $notifiables;
-    public string $route, $title, $body;
-
-    public function __construct($sender, $notifiables, $title, $body, $route)
+    /**
+     * Create a new event instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
-        $this->sender = $sender;
-        $this->notifiables = $notifiables;
-        $this->route = $route;
-        $this->title = $title;
-        $this->body = $body;
+        //
     }
 
+    /**
+     * Get the channels the event should broadcast on.
+     *
+     * @return \Illuminate\Broadcasting\Channel|array
+     */
     public function broadcastOn()
     {
         return new PrivateChannel('channel-name');

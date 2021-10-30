@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\Notification;
+use App\Events\TaskListCreated;
 use App\Models\TaskList;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -25,16 +25,8 @@ class TaskListController extends Controller
         $data['user_id'] = auth()->id();
 
         $list = TaskList::create($data);
-        $task = $list->task;
-        if($task->taskable->getTable() == 'users'){
-            $users[] = User::find($task->taskable->id);
-        }elseif ($task->taskable->getTable() == 'departments'){
-            foreach (User::where('id', '!=', $data['user_id'])->where('department_id', $task->taskable->id)->get() as $user) {
-                $users[] = $user;
-            }
-        }
 
-        event(new Notification($request->user(), $users, trans('translates.tasks.list.new'), $list->name, $request->url));
+        event(new TaskListCreated($list));
 
         return redirect($request->url . '#task-lists-header');
     }

@@ -65,7 +65,7 @@
          })
 
          let notifications = Spruce.store('state').notifications;
-         notificationsRef.orderByChild('notifiable_id').equalTo(userID).on("child_added", (snap, prevChildKey) => {
+         notificationsRef.orderByChild('receiver_id').equalTo(userID).on("child_added", (snap, prevChildKey) => {
              let snapVal = snap.val();
              if(notifications.length > 9){
                  notificationsRef.child(prevChildKey).remove();

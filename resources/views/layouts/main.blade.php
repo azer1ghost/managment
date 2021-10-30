@@ -93,35 +93,35 @@
 
                 // request for notification and store the info
                 const messaging = firebase.messaging();
-                const userTokens = @json(auth()->user()->column('fcm_token'));
-                    Notification.requestPermission().then(function(result) {
-                        if(result === "granted"){
-                            messaging
-                                .requestPermission()
-                                .then(function () {
-                                    return messaging.getToken()
-                                })
-                                .then(function (response) {
-                                    if(!userTokens.includes(response)){
-                                        $.ajax({
-                                            url: '{{ route("store.fcm-token") }}',
-                                            type: 'POST',
-                                            data: {
-                                                fcm_token: response
-                                            },
-                                            dataType: 'JSON',
-                                            success: function (response){},
-                                            error: function (error) {
-                                                console.log(error);
-                                            },
-                                        });
-                                    }
-                                })
-                                .catch(function (error) {
-                                    alert(error);
-                                });
-                        }
-                    });
+                const userTokens = @json(auth()->user()->deviceFcmTokens());
+                Notification.requestPermission().then(function(result) {
+                    if(result === "granted"){
+                        messaging
+                            .requestPermission()
+                            .then(function () {
+                                return messaging.getToken()
+                            })
+                            .then(function (response) {
+                                if(!userTokens.includes(response)){
+                                    $.ajax({
+                                        url: '{{ route("store.fcm-token") }}',
+                                        type: 'POST',
+                                        data: {
+                                            fcm_token: response
+                                        },
+                                        dataType: 'JSON',
+                                        success: function (response){},
+                                        error: function (error) {
+                                            console.log(error);
+                                        },
+                                    });
+                                }
+                            })
+                            .catch(function (error) {
+                                alert(error);
+                            });
+                    }
+                });
 
                 messaging.onMessage(function (payload) {
                     const title = payload.notification.title;

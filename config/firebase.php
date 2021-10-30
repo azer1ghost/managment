@@ -48,7 +48,7 @@ return [
              */
             'credentials' => [
                 'file' => storage_path('app/firebase.json'),
-
+                'fcm_token' => env('FIREBASE_FCM_KEY'),
                 /*
                  * If you want to prevent the auto discovery of credentials, set the
                  * following parameter to false. If you disable it, you must

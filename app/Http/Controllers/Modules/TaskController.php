@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Events\Notification;
+use App\Events\TaskCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskRequest;
 use App\Models\Department;
@@ -111,31 +112,19 @@ class TaskController extends Controller
     {
         $validated = $request->validated();
 
-        $task_dates = explode(' - ', $validated['task_dates']);
-        $validated['must_start_at'] = $task_dates[0];
-        $validated['must_end_at'] = $task_dates[1];
-
-        //clear task_dates after explode
-        unset($validated['task_dates']);
+        list($validated['must_start_at'], $validated['must_end_at']) = explode(' - ', $validated['task_dates']);
 
         $validated['user_id'] = auth()->id();
 
-        // notifiable users
-        $users = [];
-        if(array_key_exists('user', $validated)){
-            $task = User::find($validated['user'])->tasks()->create($validated);
-            $users[] = User::find($validated['user']);
-            $content = __('translates.tasks.content.user');
-        }else{
-            $task = Department::find($validated['department'])->tasks()->create($validated);
-            foreach (User::where('id', '!=' ,auth()->id())->where('department_id', $validated['department'])->get() as $user) {
-                $users[] = $user;
-            }
-            $content = __('translates.tasks.content.department');
+        if($request->has('user')){
+            $taskable = User::find($validated['user']);
+        } else {
+            $taskable = Department::find($validated['department']);
         }
-        $url = route('tasks.show', $task->getAttribute('id'));
 
-        event(new Notification($request->user(), $users, trans('translates.tasks.new'), $content, $url));
+        $task = $taskable->tasks()->create($validated);
+
+        event(new TaskCreated($task));
 
         return redirect()
             ->route('tasks.show', $task)
@@ -168,19 +157,14 @@ class TaskController extends Controller
     {
         $validated = $request->validated();
 
-        $task_dates = explode(' - ', $validated['task_dates']);
-        $validated['must_start_at'] = $task_dates[0];
-        $validated['must_end_at'] = $task_dates[1];
-
-        //clear task_dates after explode
-        unset($validated['task_dates']);
+        list($validated['must_start_at'], $validated['must_end_at']) = explode(' - ', $validated['task_dates']);
 
         if($validated['status'] == 'done'){
             $validated['done_at'] = now();
             $validated['done_by_user_id'] = $validated['user_id'];
         }
 
-        if(array_key_exists('user', $validated)){
+        if($request->has('user')){
             $validated['taskable_type'] = User::class;
             $validated['taskable_id']   = $validated['user'];
         }else{

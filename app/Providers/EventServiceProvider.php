@@ -2,8 +2,14 @@
 
 namespace App\Providers;
 
+use App\Events\CommentCreated;
+use App\Events\TaskCreated;
 use App\Events\Notification;
+use App\Events\TaskListCreated;
 use App\Listeners\NotifyUsers;
+use App\Listeners\SendEmailNotification;
+use App\Listeners\SendNotification;
+use App\Listeners\SendPushNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -20,8 +26,20 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        Notification::class => [
-            NotifyUsers::class,
+        TaskCreated::class => [
+            SendNotification::class,
+            SendPushNotification::class,
+//            SendEmailNotification::class,
+        ],
+        TaskListCreated::class => [
+            SendNotification::class,
+            SendPushNotification::class,
+//            SendEmailNotification::class,
+        ],
+        CommentCreated::class => [
+            SendNotification::class,
+            SendPushNotification::class,
+//            SendEmailNotification::class,
         ]
     ];
 

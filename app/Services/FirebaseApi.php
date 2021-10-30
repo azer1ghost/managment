@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Http;
 use Kreait\Firebase\Messaging\CloudMessage;
 
 class FirebaseApi{
@@ -11,7 +12,7 @@ class FirebaseApi{
 
     public function __construct(){
         $this->firebaseDB = app('firebase.database');
-        $this->fcmKey = 'AAAAtFLsLjU:APA91bE9_rxiOwsn-Trb6sfb9O4lxdlp0JH5VpQTqB_YvcARcR--cZ-hwwBE-Bm5mMoBmPpDUNN2KZQm5qfoBjwv4_5WK8HIu3Lsj9NX6voAH7mU1HmdT0PrJHZeQP3O2185hhCtb8UL';
+        $this->fcmKey = config('firebase.projects.app.credentials.fcm_token');
         $this->fcmUrl = 'https://fcm.googleapis.com/fcm/send';
     }
 
@@ -19,12 +20,14 @@ class FirebaseApi{
         return $this->firebaseDB->getReference($ref);
     }
 
-    public function sendPushNotification($notifiables, $url, $title = "Title", $body = "Body")
+    public function sendPushNotification($receivers, $url, $title = "Title", $body = "Body")
     {
+        // if(app()->environment('local')) return;
+
         $deviceTokens = [];
 
-        foreach ($notifiables ?? [] as $notifiable) {
-            foreach ($notifiable->column('fcm_token') ?? [] as $token) {
+        foreach ($receivers ?? [] as $receiver) {
+            foreach ($receiver->deviceFcmTokens() ?? [] as $token) {
                 $deviceTokens[] =  $token;
             }
         }
@@ -64,17 +67,17 @@ class FirebaseApi{
         curl_close($ch);
     }
 
-    public function sendNotification($sender, $notifiables, $title, $body, $url)
+    public function sendNotification($creator, $receivers, $title, $body, $url)
     {
-        if(app()->environment('local')) return;
+        // if(app()->environment('local')) return;
 
         $notificationModel = $this->getRef('notifications');
-        foreach ($notifiables ?? [] as $notifiable){
+        foreach ($receivers ?? [] as $receiver){
             $notificationModel->push([
-                'notifiable_id' => $notifiable->id,
+                'receiver_id' => $receiver->id,
                 'user' => [
-                    'avatar' => image($sender->avatar),
-                    'fullname' => $sender->fullname
+                    'avatar' => image($creator->avatar),
+                    'fullname' => $creator->fullname
                 ],
                 'message' => $title,
                 'content' => $body,
@@ -82,8 +85,5 @@ class FirebaseApi{
                 'wasPlayed' => false
             ]);
         }
-
-        // firebase push notifications
-        $this->sendPushNotification($notifiables, $url, $title, $body);
     }
 }

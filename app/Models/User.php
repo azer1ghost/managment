@@ -246,9 +246,8 @@ class User extends Authenticatable implements MustVerifyPhone
         return $this->hasMany(UserDevice::class);
     }
 
-    // array of column of user devices
-    public function column($column): array
+    public function deviceFcmTokens(): array
     {
-        return $this->devices()->pluck($column)->toArray();
+        return $this->devices()->pluck('fcm_token')->toArray();
     }
 }
