@@ -98,9 +98,9 @@
         </div>
     @endif
 
-    @if($method != "POST")
-        <livewire:commentable :commentable="$data" :url="str_replace('/edit', '', url()->current())"/>
-    @endif
+{{--    @if($method != "POST")--}}
+{{--        <livewire:commentable :commentable="$data" :url="str_replace('/edit', '', url()->current())"/>--}}
+{{--    @endif--}}
 @endsection
 @section('scripts')
     <script>

@@ -81,11 +81,11 @@
             <x-input::submit  :value="__('translates.buttons.save')" />
         @endif
     </form>
-    <div class="mt-5">
-        @if($method != "POST")
-            <livewire:commentable :commentable="$data" :url="str_replace('/edit', '', url()->current())"/>
-        @endif
-    </div>
+{{--    <div class="mt-5">--}}
+{{--        @if($method != "POST")--}}
+{{--            <livewire:commentable :commentable="$data" :url="str_replace('/edit', '', url()->current())"/>--}}
+{{--        @endif--}}
+{{--    </div>--}}
 @endsection
 @section('scripts')
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
