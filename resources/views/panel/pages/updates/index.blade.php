@@ -13,7 +13,7 @@
     </x-bread-crumb>
     <form action="{{route('updates.index')}}">
         <div class="row d-flex justify-content-between mb-2">
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <div class="input-group mb-3">
                     <input type="hidden" name="type" value="table">
                     <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2">
@@ -23,13 +23,13 @@
                     </div>
                 </div>
             </div>
-                <div class="col-2">
+                <div class="col-12 col-md-2">
                     @can('create', App\Models\Update::class)
                         <a class="btn btn-outline-success float-right" href="{{route('updates.create')}}">@lang('translates.buttons.create')</a>
                     @endcan
                     <a class="btn btn-outline-primary float-right mr-3" href="{{route('updates.index')}}">Map view</a>
                 </div>
-            <div class="col-12">
+            <div class="col-12 mt-3">
                 <table class="table table-responsive-sm table-hover">
                     <thead>
                     <tr>
