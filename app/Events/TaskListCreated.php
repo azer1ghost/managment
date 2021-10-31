@@ -21,8 +21,8 @@ class TaskListCreated
         $task = $list->getRelationValue('task');
         $this->url = route('tasks.show', $task);
         $this->creator = $list->getRelationValue('user');
-        $this->title = trans('translates.tasks.list.new');
-        $this->body = $list->getAttribute('name');
+        $this->title = $task->getAttribute('name') . ': ' . trans('translates.tasks.list.new');
+        $this->body  = $list->getAttribute('name');
 
         switch ($task->taskable->getTable()) {
             case 'users':

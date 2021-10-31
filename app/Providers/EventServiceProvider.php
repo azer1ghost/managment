@@ -6,6 +6,8 @@ use App\Events\CommentCreated;
 use App\Events\TaskCreated;
 use App\Events\Notification;
 use App\Events\TaskListCreated;
+use App\Events\TaskListDone;
+use App\Events\TaskStatusUpdated;
 use App\Listeners\NotifyUsers;
 use App\Listeners\SendEmailNotification;
 use App\Listeners\SendNotification;
@@ -31,7 +33,17 @@ class EventServiceProvider extends ServiceProvider
             SendPushNotification::class,
 //            SendEmailNotification::class,
         ],
+        TaskStatusUpdated::class => [
+            SendNotification::class,
+            SendPushNotification::class,
+//            SendEmailNotification::class,
+        ],
         TaskListCreated::class => [
+            SendNotification::class,
+            SendPushNotification::class,
+//            SendEmailNotification::class,
+        ],
+        TaskListDone::class => [
             SendNotification::class,
             SendPushNotification::class,
 //            SendEmailNotification::class,

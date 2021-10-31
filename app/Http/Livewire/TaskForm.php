@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Events\TaskStatusUpdated;
 use App\Models\Department;
 use App\Models\Task;
 use Illuminate\Support\Collection;
@@ -90,6 +91,7 @@ class TaskForm extends Component
                         'prev' => __('translates.fields.status.options.'.$oldValue),
                         'next' => __('translates.fields.status.options.'.$newVal)
                     ]));
+                event(new TaskStatusUpdated($this->task, auth()->user(), $oldValue, $newVal));
             } else {
                 $this->dispatchEvent('alert', 'red', 'Error', 'Error encountered, please try again later');
             }

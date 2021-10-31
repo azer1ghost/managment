@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Events\Notification;
 use App\Events\TaskCreated;
+use App\Events\TaskStatusUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskRequest;
 use App\Models\Department;
@@ -170,6 +171,10 @@ class TaskController extends Controller
         }else{
             $validated['taskable_type'] = Department::class;
             $validated['taskable_id']   = $validated['department'];
+        }
+
+        if ($task->getAttribute('status') != $validated['status']){
+            event(new TaskStatusUpdated($task, auth()->user(), $task->getAttribute('status'), $validated['status']));
         }
 
         $task->update($validated);

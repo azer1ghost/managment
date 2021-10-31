@@ -269,7 +269,8 @@ return [
         'list' => [
             'to_do' => 'Ediləcəklər',
             'placeholder' => 'Nə edilməlidir ?',
-            'new' => 'Sizə təyin edilmiş tapşırığa yeni bir iş əlavə edildi'
+            'new' => 'Sizə təyin edilmiş tapşırığa yeni bir iş əlavə edildi',
+            'checked' => ':name :user tərəfindən yerinə yetirildi',
         ],
         'types' => [
             'assigned_to_me' => 'Mənə tapşırılıb',
