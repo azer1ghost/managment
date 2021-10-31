@@ -23,6 +23,22 @@ class TaskStatusUpdated
             'prev' => trans('translates.fields.status.options.' . $prev),
             'next' => trans('translates.fields.status.options.' . $next),
         ]);
-        $this->receivers[] = $this->creator;
+
+        switch ($task->taskable->getTable()) {
+            case 'users':
+                if($this->creator->id != $task->taskable->id){
+                    $this->receivers[] = $task->taskable; // get user to whom task is assigned
+                }
+                break;
+            case 'departments':
+                $this->receivers = $task->taskable->users()->whereNotIn('id', [
+                    $this->creator->id,
+                    $task->user()->id
+                ])
+                    ->get()->all();
+                break;
+        }
+
+        $this->receivers[] = $task->user(); // notify the user who created the task as well
     }
 }
