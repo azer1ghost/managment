@@ -4,7 +4,6 @@ namespace App\Listeners;
 
 use App\Services\FirebaseApi;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class SendPushNotification implements ShouldQueue
 {

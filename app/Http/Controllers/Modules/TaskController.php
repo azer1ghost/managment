@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Modules;
 
-use App\Events\Notification;
 use App\Events\TaskCreated;
 use App\Events\TaskStatusUpdated;
 use App\Http\Controllers\Controller;

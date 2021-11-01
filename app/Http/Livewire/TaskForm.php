@@ -82,15 +82,22 @@ class TaskForm extends Component
     public function updateSelectedStatus($oldValue, $newVal)
     {
         if($this->task->canManageLists()) {
-            if ($this->task->update(['status' => $newVal])) {
+            $data = [];
+            if($newVal == 'done'){
+                $data['done_at'] = now();
+                $data['done_by_user_id'] = auth()->id();
+            }
+            $data['status'] = $newVal;
+
+            if ($this->task->update($data)) {
                 $this->dispatchEvent(
                     'alert',
                     'blue',
                     __('translates.flash_messages.task_status_updated.title', ['name' => $this->task->getAttribute('name')]),
-                    __('translates.flash_messages.task_status_updated.msg',   [
-                        'prev' => __('translates.fields.status.options.'.$oldValue),
-                        'next' => __('translates.fields.status.options.'.$newVal)
-                    ]));
+                    __('translates.flash_messages.task_status_updated.msg', [
+                        'prev' => __('translates.fields.status.options.' . $oldValue),
+                        'next' => __('translates.fields.status.options.' . $newVal)
+                ]));
                 event(new TaskStatusUpdated($this->task, auth()->user(), $oldValue, $newVal));
             } else {
                 $this->dispatchEvent('alert', 'red', 'Error', 'Error encountered, please try again later');

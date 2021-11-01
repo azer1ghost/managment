@@ -4,18 +4,19 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Http\Request;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\HtmlString;
+use Throwable;
 
 class ExceptionMail extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public $content, $userData = [];
+    public string $content;
+    public array $userData = [];
 
-    public function __construct($content)
+    public function __construct(Throwable $content)
     {
         $this->content = $content;
         $this->userData['fullname'] = auth()->check() ? auth()->user()->getAttribute('fullname') . ' (#' . auth()->id() . ')' : 'Guest';

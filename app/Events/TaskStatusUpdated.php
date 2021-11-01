@@ -12,7 +12,7 @@ class TaskStatusUpdated
 
     public User $creator;
     public array $receivers = [];
-    public string $title, $body = '', $url;
+    public string $title, $body, $url;
 
     public function __construct(Task $task, User $edited_by, $prev, $next)
     {
@@ -26,14 +26,14 @@ class TaskStatusUpdated
 
         switch ($task->taskable->getTable()) {
             case 'users':
-                if($this->creator->id != $task->taskable->id){
+                if($this->creator->getAttribute('id') != $task->taskable->id){
                     $this->receivers[] = $task->taskable; // get user to whom task is assigned
                 }
                 break;
             case 'departments':
                 $this->receivers = $task->taskable->users()->whereNotIn('id', [
-                    $this->creator->id,
-                    $task->user()->id
+                    $this->creator->getAttribute('id'),
+                    $task->getRelationValue('user')->id
                 ])
                     ->get()->all();
                 break;

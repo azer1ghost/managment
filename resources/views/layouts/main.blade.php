@@ -129,7 +129,9 @@
                         body: payload.notification.body,
                         icon: payload.notification.icon,
                     };
-                    new Notification(title, options);
+                    new Notification(title, options).addEventListener('click', function(){
+                        window.open(payload.notification.click_action, '_blank');
+                    });;
                 });
 
                 $(function () {

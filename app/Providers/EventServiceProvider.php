@@ -31,7 +31,7 @@ class EventServiceProvider extends ServiceProvider
         TaskCreated::class => [
             SendNotification::class,
             SendPushNotification::class,
-//            SendEmailNotification::class,
+            SendEmailNotification::class,
         ],
         TaskStatusUpdated::class => [
             SendNotification::class,
@@ -48,11 +48,6 @@ class EventServiceProvider extends ServiceProvider
             SendPushNotification::class,
 //            SendEmailNotification::class,
         ],
-        CommentCreated::class => [
-            SendNotification::class,
-            SendPushNotification::class,
-//            SendEmailNotification::class,
-        ]
     ];
 
     /**
