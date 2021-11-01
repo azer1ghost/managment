@@ -131,7 +131,7 @@
                     };
                     new Notification(title, options).addEventListener('click', function(){
                         window.open(payload.notification.click_action, '_blank');
-                    });;
+                    });
                 });
 
                 $(function () {
