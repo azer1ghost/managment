@@ -48,7 +48,7 @@
                     @enderror
                     <div class="col-12 col-md-6 pr-3 mb-3">
                         <label for="data-parent_id">Update parent</label>
-                        <select name="parent_id" id="data-parent_id" class="form-control" @if(request()->has('parent_id')) disabled @endif>
+                        <select name="parent_id" id="data-parent_id" class="form-control">
                             <option value="" selected>Select parent</option>
                             @foreach($updates as $index => $update)
                                 <option @if(optional($data)->getAttribute('parent_id') === $index) selected @elseif (request()->get('parent_id') == $index) selected @endif value="{{$index}}">{{$update}}</option>
