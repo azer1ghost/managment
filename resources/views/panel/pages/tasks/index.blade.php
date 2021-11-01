@@ -105,8 +105,7 @@
                                 @if ($task->status == 'to_do')
                                     @lang('translates.tasks.not_started')
                                 @elseif ($task->all_tasks_count == 0 || $task->done_tasks_count == 0)
-
-                                @elseif ($task->isFinished() && $task->status == 'done')
+                                @elseif ($task->status == 'done')
                                     <i class="fa fa-check-circle text-success" style="font-size: 20px"></i>
                                 @else
                                     <div class="progress bg-secondary">
