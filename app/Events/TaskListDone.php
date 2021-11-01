@@ -27,13 +27,13 @@ class TaskListDone
 
         switch ($task->taskable->getTable()) {
             case 'users':
-                if($this->creator->getRelationValue('id') != $task->taskable->id){
+                if($this->creator->getAttribute('id') != $task->taskable->id){
                     $this->receivers[] = $task->taskable; // get user to whom task is assigned
                 }
                 break;
             case 'departments':
                 $this->receivers = $task->taskable->users()->whereNotIn('id', [
-                    $this->creator->getRelationValue('id'),
+                    $this->creator->getAttribute('id'),
                     $list->getRelationValue('user')->id,
                     $task->getRelationValue('user')->id
                 ])
@@ -45,7 +45,7 @@ class TaskListDone
             $this->receivers[] = $task->getRelationValue('user');
         }
         if(
-            $list->getRelationValue('user')->id != $this->creator->id  &&
+            $list->getRelationValue('user')->id != $this->creator->getAttribute('id')  &&
             $list->getRelationValue('user')->id != $task->getRelationValue('user')->id
         ){
             $this->receivers[] = $list->getRelationValue('user');
