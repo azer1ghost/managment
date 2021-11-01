@@ -39,7 +39,8 @@ class FirebaseApi{
                 "body" => $body,
                 "icon" => asset('assets/images/logos/group.png'),
                 "url"  => $url
-            ]
+            ],
+            'click_action' => $url
         ];
 
         $RESPONSE = json_encode($data);
