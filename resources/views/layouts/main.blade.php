@@ -129,10 +129,7 @@
                         body: payload.notification.body,
                         icon: payload.notification.icon,
                     };
-                    new Notification(title, options).onclick = function(event) {
-                        event.preventDefault(); // prevent the browser from focusing the Notification's tab
-                        window.open(payload.notification.url, '_blank');
-                    };
+                    new Notification(title, options);
                 });
 
                 $(function () {
