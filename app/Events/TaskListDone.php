@@ -41,7 +41,7 @@ class TaskListDone
                 break;
         }
 
-        if($task->getRelationValue('user')->id != $this->creator->id){
+        if($task->getRelationValue('user')->id != $this->creator->getAttribute('id')){
             $this->receivers[] = $task->getRelationValue('user');
         }
         if(
