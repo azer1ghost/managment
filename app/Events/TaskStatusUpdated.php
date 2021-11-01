@@ -14,7 +14,7 @@ class TaskStatusUpdated
     public array $receivers = [];
     public string $title, $body, $url;
 
-    public function __construct(Task $task, User $edited_by, $prev, $next)
+    public function __construct(Task $task, User $edited_by, string $prev, string $next)
     {
         $this->url = route('tasks.show', $task);
         $this->creator = $edited_by;
@@ -39,6 +39,6 @@ class TaskStatusUpdated
                 break;
         }
 
-        $this->receivers[] = $task->user(); // notify the user who created the task as well
+         $this->receivers[] = $task->getRelationValue('user'); // notify the user who created the task as well
     }
 }
