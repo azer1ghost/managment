@@ -41,18 +41,18 @@ class DocumentController extends Controller
         $file = $request->file('file');
         $fileName = time() . '.' . $file->getClientOriginalExtension();
 
-        $firebaseStoragePath = 'Documents/' . $modelName . '/';
+        $firebaseStoragePath = "Documents/$modelName/";
 
-        $data = [
+        $document = $model->documents()->create([
             'name' => $file->getClientOriginalName(),
             'file' => $fileName,
             'type' => $file->getClientMimeType(),
             'user_id'  => auth()->id(),
             'size'  => $file->getSize()
-        ];
+        ]);
 
-        if($document = $model->documents()->create($data)){
-            $localFolder = public_path('firebase-temp-uploads') . '/';
+        if($document){
+            $localFolder = storage_path('app/firebase-temp-uploads/');
             if ($file->move($localFolder, $fileName)) {
                 $uploadedFile = fopen($localFolder . $fileName, 'r');
                 (new FirebaseApi)->getDoc()->upload($uploadedFile, ['name' => $firebaseStoragePath . $fileName]);
@@ -66,11 +66,7 @@ class DocumentController extends Controller
 
     public function show(Document $document)
     {
-        return view('panel.pages.documents.edit')->with([
-            'action' => null,
-            'method' => null,
-            'data' => $document,
-        ]);
+        return public_path('storage/avatars/4qHRyeq4XXjv6fIqhnYS6SQFIGDZGX5ZUNtgn2qf.jpg');
     }
 
     public function edit(Document $document)

@@ -92,6 +92,17 @@ class PlatformController extends Controller
 
     public function test()
     {
-        return 'testing area';
+//        return 'testing area';
+        $url = (new FirebaseApi)->getDoc()->object('Documents/Task/1635774376.jpeg')->signedUrl(
+            new \DateTime('15 min'),
+            [
+                'version' => 'v4',
+            ]
+        );
+
+        return response(file_get_contents($url))
+            ->withHeaders([
+                'Content-Type' => 'image/jpg'
+            ]);
     }
 }
