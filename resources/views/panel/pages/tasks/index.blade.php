@@ -147,7 +147,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-6">
+            <div class="col-12">
                 <div class="float-right">
                     {{$tasks->appends(request()->input())->links()}}
                 </div>
