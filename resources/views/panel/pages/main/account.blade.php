@@ -47,7 +47,7 @@
                 <p class="text-muted mb-2">@lang('translates.fields.passport')</p>
                 <hr class="my-2">
             </div>
-            <x-input::select  name="serial_pattern" :label="__('translates.fields.serial')" :value="auth()->user()->getAttribute('serial_pattern')" width="1" class="p-0"   :options="['AA' => 'AA','AZE' => 'AZE']"/>
+            <x-input::select  name="serial_pattern" :label="__('translates.fields.serial')" :value="auth()->user()->getAttribute('serial_pattern')" width="1" class="p-0"   :options="$serial_pattern"/>
             <x-input::text    name="serial"   :value="auth()->user()->getAttribute('serial')"  label=" "   width="3" class="pr-0"  :placeholder="__('translates.placeholders.serial_pattern')"/>
             <x-input::text    name="fin"      :value="auth()->user()->getAttribute('fin')"     label="FIN"    width="2" class="pr-0" />
             <div class="form-group col-12 col-md-2">

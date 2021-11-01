@@ -250,4 +250,15 @@ class User extends Authenticatable implements MustVerifyPhone
     {
         return $this->devices()->pluck('fcm_token')->toArray();
     }
+
+    public static function serialPattern(): array
+    {
+        return  [
+            'AZE',
+            'AA',
+            'MYI',
+            'DYI',
+        ];
+    }
+
 }

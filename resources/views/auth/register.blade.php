@@ -19,7 +19,7 @@
                 <p>@lang('translates.register.fill')</p>
                 <form id="register-form" method="POST" action="{{route('register')}}" enctype="multipart/form-data">
                 @csrf
-                <x-fieldsets/>
+                <x-fieldsets :serialPattern="$serial_pattern"/>
                 </form>
             </div>
         </div>

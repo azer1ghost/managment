@@ -130,7 +130,7 @@
                     <div class="col-4 p-0">
                         <label for="" class="fieldlabels">@lang('translates.fields.serial'): *</label>
                         <select name="serial_pattern" class="form-control p-2">
-                            @foreach(['AA', 'AZE'] as $serial)
+                            @foreach($serialPattern as $serial)
                                 <option value="{{$serial}}">{{$serial}}</option>
                             @endforeach
                         </select>
