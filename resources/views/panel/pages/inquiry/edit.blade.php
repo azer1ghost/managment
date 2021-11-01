@@ -41,6 +41,9 @@
     <div class="mt-4 pt-3" style="clear: both">
         <livewire:inquiry-form :action="$action"  :method="$method" :inquiry="$data" />
     </div>
+    @if(!is_null($data))
+        <x-document-upload :id="$data->id" model="Inquiry"/>
+    @endif
 @endsection
 
 @section('scripts')

@@ -19,6 +19,11 @@
     </x-bread-crumb>
 
     <livewire:task-form :action="$action"  :method="$method" :task="$data" />
+
+    @if(!is_null($data))
+        <x-document-upload :id="$data->id" model="Task"/>
+    @endif
+
     @if($data)
         <div class="my-3 card p-3 my-5">
             <h3 id="task-lists-header">@lang('translates.tasks.list.to_do')</h3>
@@ -104,6 +109,50 @@
 @endsection
 @section('scripts')
     <script>
+        // firebase storage
+        {{--const storage = firebase.storage();--}}
+        {{--const storageRef = storage.ref();--}}
+
+        {{--$('#firebase-form').submit(function (e){--}}
+        {{--    e.preventDefault();--}}
+        {{--    $('#firebase-loader').removeClass('d-none');--}}
+
+        {{--    const file = $(this).find('input[name="name"]').prop('files')[0];--}}
+
+        {{--    if(!file) return;--}}
+
+        {{--    const fileName = new Date().getTime();--}}
+        {{--    storageRef.child('documents/HR/' + fileName).put(file).then((snapshot) => {--}}
+        {{--        console.log('stored', snapshot);--}}
+        {{--        const url = '{{route('documents.store')}}';--}}
+        {{--        const userId = {{auth()->id()}};--}}
+        {{--        $.ajax({--}}
+        {{--            url,--}}
+        {{--            method: 'POST',--}}
+        {{--            data: {--}}
+        {{--                name: file.name,--}}
+        {{--                file: fileName,--}}
+        {{--                module: 'HR',--}}
+        {{--                type: file.type,--}}
+        {{--                user_id: userId,--}}
+        {{--                size: file.size--}}
+        {{--            },--}}
+        {{--            success: function (){--}}
+        {{--                $('#firebase-loader').addClass('d-none');--}}
+        {{--                console.log('OK');--}}
+        {{--            },--}}
+        {{--            error: function (e){--}}
+        {{--                $('#firebase-loader').addClass('d-none');--}}
+        {{--                console.log(e);--}}
+        {{--            }--}}
+        {{--        });--}}
+        {{--    }).catch(function (err){--}}
+        {{--        console.log(err);--}}
+        {{--        $('#firebase-loader').removeClass('d-none');--}}
+        {{--    });--}}
+        {{--});--}}
+
+        // task lists js
         $('.edit').click(function () {
             $(this).hide();
             $(this).next().removeClass('d-none');

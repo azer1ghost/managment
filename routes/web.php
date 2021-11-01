@@ -70,7 +70,8 @@ Route::group([
     Route::resource('/services', ServiceController::class);
     Route::resource('/works', WorkController::class);
     Route::resource('/meetings', MeetingController::class);
-    Route::resource('/documents', DocumentController::class);
+    Route::resource('/documents', DocumentController::class)->except('store');
+    Route::post('/documents/{modelId}', [DocumentController::class, 'store'])->name('documents.store');
 });
 
 Auth::routes();

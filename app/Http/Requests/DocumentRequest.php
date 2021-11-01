@@ -9,8 +9,8 @@ class DocumentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'nullable|string',
-            'file' => 'nullable|max:2048'
+            'file' => 'nullable|file|max:2048',
+            'model'  => 'nullable|string',
         ];
     }
 }

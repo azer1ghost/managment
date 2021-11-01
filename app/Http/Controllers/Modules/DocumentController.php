@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DocumentRequest;
 use App\Models\Document;
+use App\Services\FirebaseApi;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 
 class DocumentController extends Controller
@@ -31,13 +33,35 @@ class DocumentController extends Controller
         ]);
     }
 
-    public function store(DocumentRequest $request): RedirectResponse
+    public function store(DocumentRequest $request, $modelId): RedirectResponse
     {
-        $document = Document::create($request->validated());
+        $modelName = $request->get('model');
+        $model =  ("App\\Models\\" . $modelName)::find($modelId);
 
-        return redirect()
-            ->route('documents.edit',$document)
-            ->withNotify('success', $document->getAttribute('name'));
+        $file = $request->file('file');
+        $fileName = time() . '.' . $file->getClientOriginalExtension();
+
+        $firebaseStoragePath = 'Documents/' . $modelName . '/';
+
+        $data = [
+            'name' => $file->getClientOriginalName(),
+            'file' => $fileName,
+            'type' => $file->getClientMimeType(),
+            'user_id'  => auth()->id(),
+            'size'  => $file->getSize()
+        ];
+
+        if($document = $model->documents()->create($data)){
+            $localFolder = public_path('firebase-temp-uploads') . '/';
+            if ($file->move($localFolder, $fileName)) {
+                $uploadedFile = fopen($localFolder . $fileName, 'r');
+                (new FirebaseApi)->getDoc()->upload($uploadedFile, ['name' => $firebaseStoragePath . $fileName]);
+                // will remove from local laravel folder
+                unlink($localFolder . $fileName);
+            }
+        }
+
+        return back()->withNotify('success', $document->getAttribute('name'));
     }
 
     public function show(Document $document)
