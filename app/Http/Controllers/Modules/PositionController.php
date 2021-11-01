@@ -28,7 +28,7 @@ class PositionController extends Controller
                     ->when($role, fn($q) => $q->where('role_id', $role))
                     ->when($department, fn($q) => $q->where('department_id', $department))
                     ->orderBy('order', 'asc')
-                    ->paginate(),
+                    ->paginate(10),
                 'roles' => Role::get(['id', 'name']),
                 'departments' => Department::get(['id', 'name']),
             ]);
