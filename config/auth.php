@@ -33,6 +33,7 @@ return [
         'viewAny-service', 'view-service', 'create-service', 'update-service', 'delete-service',
         'viewAny-meeting', 'view-meeting', 'create-meeting', 'update-meeting', 'delete-meeting',
         'viewAny-conference', 'view-conference', 'create-conference', 'update-conference', 'delete-conference',
+        'viewAny-customer_company', 'view-customer_company', 'create-customer_company', 'update-customer_company', 'delete-customer_company',
         'viewAny-document', 'view-document', 'create-document', 'update-document', 'delete-document',
         'viewAny-work', 'view-work', 'create-work', 'update-work', 'delete-work',
         'viewAny-role', 'view-role', 'manage-role',

@@ -10,17 +10,17 @@ class Sidebar extends Component
 
     public function __construct()
     {
-        $this->items = (array) [
+        $this->items = (array)[
 
 //            (object) [
 //                'title' => __('translates.navbar.general'),
 //                'type' => 'title',
 //            ],
 
-            (object) [
+            (object)[
                 'title' => __('translates.navbar.dashboard'),
-                'icon'  => 'fa fa-home',
-                'url'  => route('dashboard'),
+                'icon' => 'fa fa-home',
+                'url' => route('dashboard'),
                 'permission' => 'generally',
             ],
 
@@ -31,17 +31,23 @@ class Sidebar extends Component
 //                'permission' => 'generally',
 //            ],
 
-            (object) [
+            (object)[
                 'title' => __('translates.navbar.company'),
-                'icon'  => 'fa fa-building',
-                'url'  => route('companies.index'),
+                'icon' => 'fa fa-building',
+                'url' => route('companies.index'),
                 'permission' => 'viewAny-company',
             ],
+            (object)[
+                'title' => __('translates.navbar.customer_company'),
+                'icon' => 'fa fa-building',
+                'url' => route('customer-companies.index'),
+                'permission' => 'viewAny-customer_company',
+            ],
 
-            (object) [
+            (object)[
                 'title' => __('translates.navbar.account'),
-                'icon'  => 'fa fa-user',
-                'url'  => route('account'),
+                'icon' => 'fa fa-user',
+                'url' => route('account'),
                 'permission' => 'viewAny-account',
                 'badge' => null,
 //                (object) [
@@ -50,146 +56,146 @@ class Sidebar extends Component
 //                ],
             ],
 
-            (object) [
+            (object)[
                 'title' => __('translates.navbar.bonus'),
-                'icon'  => 'fas fa-gift',
-                'url'  => route('bonuses'),
+                'icon' => 'fas fa-gift',
+                'url' => route('bonuses'),
                 'permission' => 'generally',
             ],
 
-            (object) [
+            (object)[
                 'title' => __('translates.navbar.signature'),
-                'icon'  => 'fa fa-envelope',
-                'url'  => route('signature-select-company'),
+                'icon' => 'fa fa-envelope',
+                'url' => route('signature-select-company'),
                 'permission' => 'signature',
             ],
 
-            (object) [
+            (object)[
                 'title' => __('translates.navbar.inquiry'),
-                'icon'  => 'fa fa-phone',
-                'url'  => route('inquiry.index'),
+                'icon' => 'fa fa-phone',
+                'url' => route('inquiry.index'),
                 'permission' => 'viewAny-inquiry',
             ],
 
-            (object) [
+            (object)[
                 'title' => __('translates.navbar.task'),
-                'icon'  => 'fal fa-thumbtack',
-                'url'  => route('tasks.index'),
+                'icon' => 'fal fa-thumbtack',
+                'url' => route('tasks.index'),
                 'permission' => 'viewAny-task',
             ],
 
-            (object) [
+            (object)[
                 'title' => __('translates.navbar.parameter'),
-                'icon'  => 'fa fa-list',
-                'url'  => route('parameters.index'),
+                'icon' => 'fa fa-list',
+                'url' => route('parameters.index'),
                 'permission' => 'viewAny-parameter',
             ],
 
-            (object) [
+            (object)[
                 'title' => __('translates.navbar.option'),
-                'icon'  => 'fa fa-list-alt',
-                'url'  => route('options.index'),
+                'icon' => 'fa fa-list-alt',
+                'url' => route('options.index'),
                 'permission' => 'viewAny-option',
             ],
 
-            (object) [
+            (object)[
                 'title' => __('translates.navbar.role'),
-                'icon'  => 'fas fa-key',
-                'url'  => route('roles.index'),
+                'icon' => 'fas fa-key',
+                'url' => route('roles.index'),
                 'permission' => 'viewAny-role',
             ],
 
-            (object) [
+            (object)[
                 'title' => __('translates.navbar.user'),
-                'icon'  => 'fa fa-users',
-                'url'  => route('users.index'),
+                'icon' => 'fa fa-users',
+                'url' => route('users.index'),
                 'permission' => 'viewAny-user',
             ],
 
-            (object) [
+            (object)[
                 'title' => __('translates.navbar.department'),
-                'icon'  => 'fa fa-users-cog',
-                'url'  => route('departments.index'),
+                'icon' => 'fa fa-users-cog',
+                'url' => route('departments.index'),
                 'permission' => 'viewAny-department',
             ],
 
-            (object) [
+            (object)[
                 'title' => __('translates.navbar.position'),
-                'icon'  => 'fas fa-briefcase',
-                'url'  => route('positions.index'),
+                'icon' => 'fas fa-briefcase',
+                'url' => route('positions.index'),
                 'permission' => 'viewAny-position',
             ],
 
-            (object) [
+            (object)[
                 'title' => __('translates.navbar.notification'),
-                'icon'  => 'far fa-bell',
-                'url'  => route('notifications.index'),
+                'icon' => 'far fa-bell',
+                'url' => route('notifications.index'),
                 'permission' => 'viewAny-notification',
             ],
 
-            (object) [
+            (object)[
                 'title' => __('translates.navbar.client'),
-                'icon'  => 'fas fa-portrait',
-                'url'  => route('clients.index'),
+                'icon' => 'fas fa-portrait',
+                'url' => route('clients.index'),
                 'permission' => 'viewAny-client',
             ],
 
-            (object) [
-                'title' =>  __('translates.navbar.referral'),
-                'icon'  => 'fas fa-ticket-alt',
-                'url'  => route('referrals.index'),
+            (object)[
+                'title' => __('translates.navbar.referral'),
+                'icon' => 'fas fa-ticket-alt',
+                'url' => route('referrals.index'),
                 'permission' => 'viewAny-referral',
             ],
 
-            (object) [
+            (object)[
                 'title' => "Widgets",
-                'icon'  => 'fas fa-tools',
-                'url'  => route('widgets.index'),
+                'icon' => 'fas fa-tools',
+                'url' => route('widgets.index'),
                 'permission' => 'viewAny-widget',
             ],
 
-            (object) [
+            (object)[
                 'title' => "Debug Log",
-                'icon'  => 'fal fa-bug',
-                'url'  => url('module/log-reader'),
+                'icon' => 'fal fa-bug',
+                'url' => url('module/log-reader'),
                 'permission' => 'viewAny-log',
             ],
 
-            (object) [
-                'title' => "Updates",
-                'icon'  => 'fas fa-sync',
-                'url'  => route('updates.index'),
+            (object)[
+                'title' => __('translates.navbar.update'),
+                'icon' => 'fas fa-sync',
+                'url' => route('updates.index'),
                 'permission' => 'viewAny-update',
             ],
-            (object) [
-                'title' => "Services",
-                'icon'  => 'fas fa-concierge-bell',
-                'url'  => route('services.index'),
+            (object)[
+                'title' => __('translates.navbar.service'),
+                'icon' => 'fas fa-concierge-bell',
+                'url' => route('services.index'),
                 'permission' => 'viewAny-service',
             ],
-            (object) [
-                'title' => "Works",
-                'icon'  => 'fas fa-briefcase',
-                'url'  => route('works.index'),
-                'permission' => 'viewAny-service',
+            (object)[
+                'title' => __('translates.navbar.work'),
+                'icon' => 'fas fa-briefcase',
+                'url' => route('works.index'),
+                'permission' => 'viewAny-work',
             ],
-            (object) [
-                'title' => "Meetings",
-                'icon'  => 'fas fa-bullhorn',
-                'url'  => route('meetings.index'),
-                'permission' => 'viewAny-service',
+            (object)[
+                'title' => __('translates.navbar.meeting'),
+                'icon' => 'fas fa-bullhorn',
+                'url' => route('meetings.index'),
+                'permission' => 'viewAny-meeting',
             ],
-            (object) [
-                'title' => "Conferences",
-                'icon'  => 'fas fa-handshake',
-                'url'  => route('conferences.index'),
-                'permission' => 'viewAny-service',
+            (object)[
+                'title' => __('translates.navbar.conference'),
+                'icon' => 'fas fa-handshake',
+                'url' => route('conferences.index'),
+                'permission' => 'viewAny-conference',
             ],
-            (object) [
-                'title' => "Documents",
-                'icon'  => 'fas fa-file-word',
-                'url'  => route('documents.index'),
-                'permission' => 'viewAny-service',
+            (object)[
+                'title' => __('translates.navbar.document'),
+                'icon' => 'fas fa-file-word',
+                'url' => route('documents.index'),
+                'permission' => 'viewAny-document',
             ]
         ];
     }

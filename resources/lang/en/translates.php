@@ -144,6 +144,7 @@ return [
         'welcome' => 'Welcome',
         'cabinet' => 'Cabinet',
         'company' => 'Companies',
+        'customer_company' => 'Customer Company',
         'account' => 'Account',
         'signature' => 'Signature',
         'inquiry' => 'Inquiries',

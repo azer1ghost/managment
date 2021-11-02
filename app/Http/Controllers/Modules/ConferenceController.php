@@ -62,12 +62,12 @@ class ConferenceController extends Controller
         ]);
     }
 
-    public function update(ConferenceRequest $request, Conference $conference)
+    public function update(ConferenceRequest $request, Conference $conference): RedirectResponse
     {
         $conference->update($request->validated());
 
         return redirect()
-            ->route('conferences.create', $conference)
+            ->route('conferences.edit', $conference)
             ->withNotify('success', $conference->getAttribute('name'));
     }
 

@@ -146,6 +146,7 @@ return [
         'dashboard' => 'Məlumat Paneli',
         'cabinet' => 'Kabinet',
         'company' => 'Şirkətlər',
+        'customer_company' => 'Müştəri Şirkətlər',
         'account' => 'Hesab',
         'signature' => 'Email İmza',
         'inquiry' => 'Sorğular',
