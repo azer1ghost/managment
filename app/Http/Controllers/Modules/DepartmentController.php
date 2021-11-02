@@ -20,12 +20,14 @@ class DepartmentController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search');
+        $limit  = $request->get('limit', 25);
+
 
         return view('panel.pages.departments.index')
             ->with([
                 'departments' => Department::query()
                     ->when($search, fn ($query) => $query->where('name', 'like', "%".$search."%"))
-                    ->simplePaginate(10)
+                    ->simplePaginate($limit),
             ]);
     }
 

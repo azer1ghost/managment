@@ -18,6 +18,7 @@ class PositionController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search');
+        $limit  = $request->get('limit', 25);
         $role = $request->get('role');
         $department = $request->get('department');
 
@@ -28,7 +29,7 @@ class PositionController extends Controller
                     ->when($role, fn($q) => $q->where('role_id', $role))
                     ->when($department, fn($q) => $q->where('department_id', $department))
                     ->orderBy('order')
-                    ->paginate(10),
+                    ->simplePaginate($limit),
                 'roles' => Role::get(['id', 'name']),
                 'departments' => Department::get(['id', 'name']),
             ]);
