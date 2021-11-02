@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DocumentRequest;
 use App\Models\Document;
+use App\Services\FirebaseApi;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class DocumentController extends Controller
 {
@@ -15,10 +17,14 @@ class DocumentController extends Controller
         $this->authorizeResource(Document::class, 'document');
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->get('search');
+
         return view('panel.pages.documents.index')->with([
-            'documents' => Document::paginate(10)
+            'documents' => Document::query()
+                ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"))
+                ->paginate(10)
         ]);
     }
 
@@ -31,22 +37,52 @@ class DocumentController extends Controller
         ]);
     }
 
-    public function store(DocumentRequest $request): RedirectResponse
+    public function store(DocumentRequest $request, $modelId): RedirectResponse
     {
-        $document = Document::create($request->validated());
+        $modelName = $request->get('model');
+        $model =  ("App\\Models\\" . $modelName)::find($modelId);
 
-        return redirect()
-            ->route('documents.edit',$document)
-            ->withNotify('success', $document->getAttribute('name'));
+        $file = $request->file('file');
+        $fileName = time() . '.' . $file->getClientOriginalExtension();
+
+        $firebaseStoragePath = "Documents/$modelName/";
+
+        $document = $model->documents()->create([
+            'name' => $file->getClientOriginalName(),
+            'file' => $fileName,
+            'type' => $file->getClientMimeType(),
+            'user_id'  => auth()->id(),
+            'size'  => $file->getSize()
+        ]);
+
+        if($document){
+            $localFolder = storage_path('app/firebase-temp-uploads/');
+            if ($file->move($localFolder, $fileName)) {
+                $uploadedFile = fopen($localFolder . $fileName, 'r');
+                (new FirebaseApi)->getDoc()->upload($uploadedFile, ['name' => $firebaseStoragePath . $fileName]);
+                // will remove from storage folder
+                unlink($localFolder . $fileName);
+            }
+        }
+
+        return back()->withNotify('success', $document->getAttribute('name'));
     }
 
     public function show(Document $document)
     {
-        return view('panel.pages.documents.edit')->with([
-            'action' => null,
-            'method' => null,
-            'data' => $document,
-        ]);
+        $url = (new FirebaseApi)->getDoc()->object("Documents/{$document->module()}/{$document->getAttribute('file')}")->signedUrl(
+            new \DateTime('1 min')
+        );
+
+        return response(file_get_contents($url))
+            ->withHeaders([
+                'Content-Type' => $document->getAttribute('type')
+            ]);
+    }
+
+    public function viewer(Document $document)
+    {
+        return view('panel.pages.main.file-viewer', compact('document'));
     }
 
     public function edit(Document $document)
@@ -70,6 +106,7 @@ class DocumentController extends Controller
     public function destroy(Document $document)
     {
         if ($document->delete()) {
+            // (new FirebaseApi)->getDoc()->object("Documents/Task/{$document->getAttribute('file')}")->delete();
             return response('OK');
         }
         return response()->setStatusCode('204');

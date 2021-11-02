@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Interfaces\DocumentableInterface;
+use App\Traits\Documentable;
 use Illuminate\Database\Eloquent\{Factories\HasFactory,
     Model,
     Relations\BelongsTo,
@@ -14,9 +16,9 @@ use Illuminate\Database\Eloquent\{Factories\HasFactory,
 /**
  * @property mixed $taskable
  */
-class Task extends Model
+class Task extends Model implements DocumentableInterface
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Documentable;
 
     public static function boot() {
         parent::boot();

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Interfaces\DocumentableInterface;
+use App\Traits\Documentable;
 use App\Traits\Loger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,9 +13,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
-class Inquiry extends Model
+class Inquiry extends Model implements DocumentableInterface
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Documentable;
 
     // option id of done
     const DONE = 22;

@@ -49,7 +49,7 @@ class PlatformController extends Controller
             [
                 'device' => $request->userAgent(),
                 'ip' => $request->ip(),
-                'fcm_token' => $request->fcm_token,
+                'fcm_token' => $request->get('fcm_token'),
             ]
         );
         return response()->json('OK');
@@ -92,20 +92,6 @@ class PlatformController extends Controller
 
     public function test()
     {
-        $notificationModel = (new FirebaseApi)->getRef('notifications');
-        $notificationModel->push([
-            'notifiable_id' => User::find(2)->id,
-            'user' => [
-                'avatar' => image(User::find(1)->avatar),
-                'fullname' => User::find(1)->fullname
-            ],
-            'message' => trans('translates.tasks.new'),
-            'content' => 'cox tecilidir 7',
-            'url' =>  route('tasks.show', 1),
-            'wasPlayed' => false
-        ]);
-
-//        dd($firebaseUsers->getValue());
-        (new FirebaseApi)->sendPushNotification([auth()->user()], 'Task assigned 7', 'NEW task');
+        return 'testing area';
     }
 }

@@ -7,11 +7,12 @@ use Illuminate\Support\Facades\Http;
 use Kreait\Firebase\Messaging\CloudMessage;
 
 class FirebaseApi{
-    private $firebaseDB;
+    private $firebaseDB, $firebaseStorage;
     private string $fcmKey, $fcmUrl;
 
     public function __construct(){
         $this->firebaseDB = app('firebase.database');
+        $this->firebaseStorage = app('firebase.storage');
         $this->fcmKey = config('firebase.projects.app.credentials.fcm_token');
         $this->fcmUrl = 'https://fcm.googleapis.com/fcm/send';
     }
@@ -85,5 +86,10 @@ class FirebaseApi{
                 'wasPlayed' => false
             ]);
         }
+    }
+
+    public function getDoc()
+    {
+        return $this->firebaseStorage->getBucket();
     }
 }
