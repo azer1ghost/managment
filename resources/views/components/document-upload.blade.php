@@ -9,7 +9,7 @@
             @enderror
         </div>
         <div class="d-flex align-items-center">
-            <button type="submit" id="document-form-submit" class="btn btn-outline-primary mr-3">Submit</button>
+            <button type="submit" id="document-form-submit" class="btn btn-outline-primary mr-3">Upload file</button>
             <div class="spinner-border text-primary d-none" id="document-form-btn" style="width: 1.5rem !important;height: 1.5rem !important;" role="status"></div>
         </div>
     </form>

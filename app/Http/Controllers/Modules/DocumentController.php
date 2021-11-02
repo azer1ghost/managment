@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DocumentRequest;
 use App\Models\Document;
 use App\Services\FirebaseApi;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class DocumentController extends Controller
 {
@@ -17,10 +17,14 @@ class DocumentController extends Controller
         $this->authorizeResource(Document::class, 'document');
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->get('search');
+
         return view('panel.pages.documents.index')->with([
-            'documents' => Document::paginate(10)
+            'documents' => Document::query()
+                ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"))
+                ->paginate(10)
         ]);
     }
 
@@ -56,7 +60,7 @@ class DocumentController extends Controller
             if ($file->move($localFolder, $fileName)) {
                 $uploadedFile = fopen($localFolder . $fileName, 'r');
                 (new FirebaseApi)->getDoc()->upload($uploadedFile, ['name' => $firebaseStoragePath . $fileName]);
-                // will remove from local laravel folder
+                // will remove from storage folder
                 unlink($localFolder . $fileName);
             }
         }
@@ -66,7 +70,14 @@ class DocumentController extends Controller
 
     public function show(Document $document)
     {
-        return public_path('storage/avatars/4qHRyeq4XXjv6fIqhnYS6SQFIGDZGX5ZUNtgn2qf.jpg');
+        $url = (new FirebaseApi)->getDoc()->object("Documents/{$document->module()}/{$document->getAttribute('file')}")->signedUrl(
+            new \DateTime('1 min')
+        );
+
+        return response(file_get_contents($url))
+            ->withHeaders([
+                'Content-Type' => $document->getAttribute('type')
+            ]);
     }
 
     public function edit(Document $document)
@@ -90,6 +101,7 @@ class DocumentController extends Controller
     public function destroy(Document $document)
     {
         if ($document->delete()) {
+            // (new FirebaseApi)->getDoc()->object("Documents/Task/{$document->getAttribute('file')}")->delete();
             return response('OK');
         }
         return response()->setStatusCode('204');

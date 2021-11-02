@@ -85,6 +85,11 @@ class User extends Authenticatable implements MustVerifyPhone
         ];
     }
 
+    public function documents(): HasMany
+    {
+        return $this->hasMany(Document::class);
+    }
+
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class)->withDefault();

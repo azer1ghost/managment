@@ -114,9 +114,10 @@ if(! function_exists('pattern_adder')){
     }
 }
 
-if(! function_exists('implode_key_values')){
-    function implode_key_values($array): ?string {
-        return implode(', ', array_map(function ($a, $b) { return str_title($a) . " => $b"; },
-            array_keys($array), array_values($array)));
+if(! function_exists('human_filesize')){
+    function human_filesize($size, $precision = 2) {
+        static $units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        for ($i = 0; $size > 1024; $i++) $size /= 1024;
+        return round($size, $precision) . $units[$i];
     }
 }

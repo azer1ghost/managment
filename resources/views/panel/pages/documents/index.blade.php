@@ -33,6 +33,12 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">@lang('translates.columns.name')</th>
+                        <th scope="col">File</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Size</th>
+                        <th scope="col">User</th>
+                        <th scope="col">Module</th>
+                        <th scope="col">Module Name</th>
                         <th scope="col">@lang('translates.columns.created_at')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
@@ -42,6 +48,12 @@
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$document->getAttribute('name')}}</td>
+                            <td>{{$document->getAttribute('file')}}</td>
+                            <td>{{$document->getAttribute('type')}}</td>
+                            <td>{{human_filesize($document->getAttribute('size'), 2)}}</td>
+                            <td>{{$document->getRelationValue('user')->getAttribute('fullname')}}</td>
+                            <td>{{$document->module()}}</td>
+                            <td>{{$document->getRelationValue('documentable')->getAttribute('name')}}</td>
                             <td>{{$document->getAttribute('created_at')}}</td>
                             <td>
                                 <div class="btn-sm-group">
@@ -65,7 +77,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <th colspan="3">
+                            <th colspan="10">
                                 <div class="row justify-content-center m-3">
                                     <div class="col-7 alert alert-danger text-center" role="alert">Empty for now</div>
                                 </div>
