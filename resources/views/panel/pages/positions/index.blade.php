@@ -28,6 +28,13 @@
                 </div>
             @endcan
             <div class="col-12">
+                <div class="col-4 col-md-2 pl-0 mb-3">
+                    <select name="limit" class="custom-select">
+                        @foreach([25, 50, 100] as $size)
+                            <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <table class="table table-responsive-sm table-hover">
                     <thead>
                     <tr>
@@ -101,7 +108,7 @@
             </div>
             <div class="col-12 col-md-6">
                 <div class="float-right">
-                    {{$positions->links()}}
+                    {{$positions->appends(request()->input())->links()}}
                 </div>
             </div>
         </div>
