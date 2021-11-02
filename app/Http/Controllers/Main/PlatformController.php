@@ -49,7 +49,7 @@ class PlatformController extends Controller
             [
                 'device' => $request->userAgent(),
                 'ip' => $request->ip(),
-                'fcm_token' => $request->fcm_token,
+                'fcm_token' => $request->get('fcm_token'),
             ]
         );
         return response()->json('OK');
