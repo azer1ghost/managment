@@ -41,7 +41,7 @@
     <div class="mt-4 pt-3" style="clear: both">
         <livewire:inquiry-form :action="$action"  :method="$method" :inquiry="$data" />
     </div>
-    @if(!is_null($data))
+    @if(!is_null($data) && $data->getAttribute('id') != null)
         <x-documents :documents="$data->documents"/>
         <x-document-upload :id="$data->id" model="Inquiry"/>
     @endif
