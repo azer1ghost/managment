@@ -14,6 +14,11 @@ class Document extends Model
 
     protected $fillable = ['name', 'file', 'size', 'type', 'user_id'];
 
+    public function getRouteKeyName()
+    {
+        return 'file';
+    }
+
     public function documentable(): MorphTo
     {
         return $this->morphTo()->withDefault();
@@ -22,6 +27,26 @@ class Document extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public static function supportedTypeIcons(): array
+    {
+        return [
+            // image
+            'image/jpeg' => ['icon' => 'image', 'color' => 'dark'],
+            'image/jpg'  => ['icon' => 'image', 'color' => 'dark'],
+            'image/png'  => ['icon' => 'image', 'color' => 'dark'],
+            // pdf
+            'application/pdf' => ['icon' => 'pdf', 'color' => 'danger'],
+            // word
+            'application/doc' => ['icon' => 'word', 'color' => 'primary'],
+            'application/ms-doc' => ['icon' => 'word', 'color' => 'primary'],
+            'application/msword' => ['icon' => 'word', 'color' => 'primary'],
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => ['icon' => 'word', 'color' => 'primary'],
+            // excel
+            'application/vnd.ms-excel' => ['icon' => 'excel', 'color' => 'success'],
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => ['icon' => 'excel', 'color' => 'success']
+        ];
     }
 
     public function module(): string

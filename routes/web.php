@@ -71,6 +71,7 @@ Route::group([
     Route::resource('/works', WorkController::class);
     Route::resource('/meetings', MeetingController::class);
     Route::resource('/documents', DocumentController::class)->except('store');
+    Route::get('/documents/{document}/viewer', [DocumentController::class, 'viewer'])->name('documents.viewer');
     Route::post('/documents/{modelId}', [DocumentController::class, 'store'])->name('documents.store');
 });
 

@@ -58,7 +58,7 @@
                             <td>
                                 <div class="btn-sm-group">
                                     @can('view', $document)
-                                        <a href="{{route('documents.show', $document)}}" class="btn btn-sm btn-outline-primary">
+                                        <a href="{{route('documents.viewer', $document)}}" target="_blank" class="btn btn-sm btn-outline-primary">
                                             <i class="fal fa-eye"></i>
                                         </a>
                                     @endcan

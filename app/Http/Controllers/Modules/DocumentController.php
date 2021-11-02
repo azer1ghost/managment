@@ -80,6 +80,11 @@ class DocumentController extends Controller
             ]);
     }
 
+    public function viewer(Document $document)
+    {
+        return view('panel.pages.main.file-viewer', compact('document'));
+    }
+
     public function edit(Document $document)
     {
         return view('panel.pages.documents.edit')->with([

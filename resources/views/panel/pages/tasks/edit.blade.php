@@ -21,6 +21,7 @@
     <livewire:task-form :action="$action"  :method="$method" :task="$data" />
 
     @if(!is_null($data))
+        <x-documents :documents="$data->documents"/>
         <x-document-upload :id="$data->id" model="Task"/>
     @endif
 
