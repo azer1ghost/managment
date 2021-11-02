@@ -163,7 +163,8 @@ return [
         'update' => 'Yeniləmələr',
         'service' => 'Servislər',
         'work' => 'Tamamlanmış İşlər',
-        'meeting' => 'İclaslar',
+        'meeting' => 'Görüşmələr',
+        'conference' => 'İclaslar',
         'document' => 'Sənədlər',
 
     ],
@@ -308,6 +309,12 @@ return [
     ],
 
     'meetings' => [
+        'deger1',
+        'deger2',
+        'deger3',
+    ],
+
+    'conferences' => [
         'deger1',
         'deger2',
         'deger3',

@@ -7,6 +7,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Main\AccountController,
     Main\PlatformController,
     Modules\CompanyController,
+    Modules\ConferenceController,
     Modules\DepartmentController,
     Modules\DocumentController,
     Modules\MeetingController,
@@ -70,6 +71,7 @@ Route::group([
     Route::resource('/services', ServiceController::class);
     Route::resource('/works', WorkController::class);
     Route::resource('/meetings', MeetingController::class);
+    Route::resource('/conferences', ConferenceController::class);
     Route::resource('/documents', DocumentController::class);
 });
 

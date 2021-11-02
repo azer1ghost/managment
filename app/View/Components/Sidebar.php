@@ -175,8 +175,14 @@ class Sidebar extends Component
             ],
             (object) [
                 'title' => "Meetings",
-                'icon'  => 'fas fa-handshake',
+                'icon'  => 'fas fa-bullhorn',
                 'url'  => route('meetings.index'),
+                'permission' => 'viewAny-service',
+            ],
+            (object) [
+                'title' => "Conferences",
+                'icon'  => 'fas fa-handshake',
+                'url'  => route('conferences.index'),
                 'permission' => 'viewAny-service',
             ],
             (object) [

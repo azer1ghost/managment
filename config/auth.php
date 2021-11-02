@@ -32,6 +32,7 @@ return [
         'viewAny-update', 'view-update', 'create-update', 'update-update', 'delete-update',
         'viewAny-service', 'view-service', 'create-service', 'update-service', 'delete-service',
         'viewAny-meeting', 'view-meeting', 'create-meeting', 'update-meeting', 'delete-meeting',
+        'viewAny-conference', 'view-conference', 'create-conference', 'update-conference', 'delete-conference',
         'viewAny-document', 'view-document', 'create-document', 'update-document', 'delete-document',
         'viewAny-work', 'view-work', 'create-work', 'update-work', 'delete-work',
         'viewAny-role', 'view-role', 'manage-role',

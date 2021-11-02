@@ -162,7 +162,8 @@ return [
         'service' => 'Services',
         'work' => 'Works',
         'meeting' => 'Meetings',
-        'document' => 'Documents',
+        'conference' => 'Conferences',
+        'document' => 'Documents'
 
     ],
 
@@ -309,6 +310,12 @@ return [
         'deger2',
         'deger3',
 
+    ],
+
+    'conferences' => [
+        'deger1',
+        'deger2',
+        'deger3',
     ],
 
     'columns' => [
