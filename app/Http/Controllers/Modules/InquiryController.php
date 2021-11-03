@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\InquiryRequest;
 use App\Models\Company;
 use App\Models\Inquiry;
+use App\Models\Option;
 use App\Models\Parameter;
 use App\Models\User;
 use Carbon\Carbon;
@@ -249,7 +250,29 @@ class InquiryController extends Controller
 
     public function updateStatus(Request $request)
     {
-        dd($request->all());
+        $data = $request->all();
+
+        $inquiry = Inquiry::find($data['inquiryId']);
+
+        if($data['oldVal'] && $data['newVal']){
+            $inquiry->parameters()
+                ->updateExistingPivot(Inquiry::STATUS_PARAMETER, ['value' => $data['newVal']]);
+        } else if (!$data['oldVal']){
+            $inquiry->parameters()
+                ->attach(Inquiry::STATUS_PARAMETER, ['value' => $data['newVal']]);
+        } else if (!$data['newVal']){
+            $inquiry->parameters()
+                ->detach(Inquiry::STATUS_PARAMETER);
+        }
+
+        $oldOption = $data['oldVal'] ? Option::where('id', $data['oldVal'])->first()->getAttribute('text') : __('translates.filters.select');
+        $newOption = $data['newVal'] ? Option::where('id', $data['newVal'])->first()->getAttribute('text') : __('translates.filters.select');
+
+        return json_encode(['data' => [
+            'type'    => 'blue',
+            'title'   =>  __('translates.flash_messages.inquiry_status_updated.title', ['code' => $inquiry->getAttribute('code')]),
+            'message' =>  __('translates.flash_messages.inquiry_status_updated.msg',   ['prev' => $oldOption, 'next' => $newOption])]
+        ]);
     }
 
     public function editAccessToUser(Inquiry $inquiry)

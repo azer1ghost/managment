@@ -211,7 +211,7 @@
                                     {{optional($inquiry->getParameter('status'))->getAttribute('text') ?? __('translates.filters.select')}}
                                 @else
                                     <select class="form-control" style="width:auto;" onfocus="this.oldValue = this.value" id="inquiry-{{$inquiry->getAttribute('id')}}" onchange="inquiryStatusHandler(this, {{$inquiry->getAttribute('id')}}, '{{$inquiry->getAttribute('code')}}', this.oldValue, this.value)">
-                                        <option value="null" @if (!optional($inquiry->getParameter('status'))->getAttribute('id')) selected @else  @endif>@lang('translates.filters.select')</option>
+                                        <option value="0" @if (!optional($inquiry->getParameter('status'))->getAttribute('id')) selected @else  @endif>@lang('translates.filters.select')</option>
                                         @foreach ($statuses as $status)
                                             <option
                                                     @if ($status->getAttribute('id') == optional($inquiry->getParameter('status'))->getAttribute('id')) selected @endif
@@ -311,7 +311,7 @@
             @endif
             <div class="@if(auth()->user()->isDeveloper()) col-9 @else col-12 @endif">
                 <div class="float-right">
-                    {{ $inquiries->links() }}
+                    {{$inquiries->appends(request()->input())->links()}}
                 </div>
             </div>
         </div>
@@ -403,8 +403,14 @@
                     newVal
                 },
                 type: 'PUT',
-                success: function(data){
-                    dispatchEvent(new CustomEvent('alert', { detail: { type: 'blue', title: 'changed', 'message': 'done' } }));
+                dataType: 'JSON',
+                success: function(response){
+                    console.log(response.data);
+                    const data = response.data;
+                    dispatchEvent(new CustomEvent('alert', { detail: { type: data.type, title: data.title, message: data.message } }));
+                },
+                error: function (){
+                    dispatchEvent(new CustomEvent('alert', { detail: { type: 'red', title: 'Error', message: 'Something went wrong, please try again later' } }));
                 }
             });
         }
