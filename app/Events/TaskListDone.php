@@ -27,7 +27,12 @@ class TaskListDone
 
         switch ($task->taskable->getTable()) {
             case 'users':
-                if($this->creator->getAttribute('id') != $task->taskable->id){
+                if
+                (
+                    $this->creator->getAttribute('id') != $task->taskable->id &&
+                    $this->creator->getAttribute('id') != $task->getRelationValue('user')->id
+                )
+                {
                     $this->receivers[] = $task->taskable; // get user to whom task is assigned
                 }
                 break;

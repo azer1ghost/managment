@@ -26,11 +26,22 @@ class TaskListCreated
 
         switch ($task->taskable->getTable()) {
             case 'users':
-                $this->receivers[] = $task->taskable; // get user to whom task is assigned
+                if
+                (
+                    $this->creator->getAttribute('id') != $task->taskable->id &&
+                    $this->creator->getAttribute('id') != $task->getRelationValue('user')->id
+                )
+                {
+                    $this->receivers[] = $task->taskable; // get user to whom task is assigned
+                }
                 break;
             case 'departments':
-                $this->receivers = $task->taskable->users()->whereNotIn('id', [$this->creator->id])->get()->all();
+                $this->receivers = $task->taskable->users()->whereNotIn('id', [
+                    $this->creator->id,
+                    $task->getRelationValue('user')->id
+                ])->get()->all();
                 break;
         }
+
     }
 }
