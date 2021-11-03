@@ -124,6 +124,12 @@ class TaskController extends Controller
 
         $task = $taskable->tasks()->create($validated);
 
+        if($task->inquiry()->exists()){
+            $task->getRelationValue('inquiry')
+                ->parameters()
+                ->updateExistingPivot(Inquiry::STATUS_PARAMETER, ['value' => Inquiry::REDIRECTED]);
+        }
+
         event(new TaskCreated($task));
 
         return redirect()

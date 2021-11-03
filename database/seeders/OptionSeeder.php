@@ -40,6 +40,7 @@ class OptionSeeder extends Seeder
             [ 'text' => json_encode(['en' => 'Rejected', 'az' => 'İmtina olunub'])],
             [ 'text' => json_encode(['en' => 'Incompatible', 'az' => 'Uyğunsuzluq'])],
             [ 'text' => json_encode(['en' => 'Unreachable', 'az' => 'Zəng Çatmır'])],
+            [ 'text' => json_encode(['en' => 'Redirected', 'az' => 'Yönləndirildi'])],
         ]);
     }
 }

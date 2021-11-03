@@ -37,7 +37,7 @@ class OptionParameterSeeder extends Seeder
 
         // Add options to Status parameter
         Parameter::find(5)->options()->syncWithPivotValues(
-            Option::whereIn('id', range(21, 25))->pluck('id'), ['company_id' => 4]
+            Option::whereIn('id', range(21, 26))->pluck('id'), ['company_id' => 4]
         );
 
         Parameter::find(9)->options()->syncWithPivotValues(

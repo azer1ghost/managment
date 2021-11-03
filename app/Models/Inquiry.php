@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
@@ -17,10 +19,12 @@ class Inquiry extends Model implements DocumentableInterface
 {
     use HasFactory, SoftDeletes, Documentable;
 
-    // option id of done
-    const DONE = 22;
     // status parameter id
     const STATUS_PARAMETER = 5;
+    // option id of done of status parameter
+    const DONE = 22;
+    // option id of redirected of status parameter
+    const REDIRECTED = 26;
 
     protected $fillable = [
         'code', 'datetime', 'note', 'redirected_user_id', 'company_id', 'user_id', 'is_out'
@@ -117,13 +121,13 @@ class Inquiry extends Model implements DocumentableInterface
         return $user->isDeveloper() || $user->isAdministrator() || $user->hasPermission('viewAll-inquiry');
     }
 
-    public function logs(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    public function logs(): MorphMany
     {
         return $this->morphMany(Log::class, 'logable');
     }
 
-//    public function task(): BelongsTo
-//    {
-//        return $this->belongsTo(Task::class,);
-//    }
+    public function task(): HasOne
+    {
+        return $this->hasOne(Task::class);
+    }
 }
