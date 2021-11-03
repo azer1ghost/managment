@@ -161,7 +161,12 @@ class TaskController extends Controller
 
         if($validated['status'] == 'done'){
             $validated['done_at'] = now();
-            $validated['done_by_user_id'] = $validated['user_id'];
+            $validated['done_by_user_id'] = auth()->id();
+            if($task->inquiry()->exists()){
+                $task->getRelationValue('inquiry')
+                    ->parameters()
+                    ->updateExistingPivot(Inquiry::STATUS_PARAMETER, ['value' => Inquiry::DONE]);
+            }
         }
 
         if($request->has('user')){

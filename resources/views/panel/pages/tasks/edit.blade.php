@@ -80,13 +80,9 @@
                                 <div class="actions d-flex align-items-center pl-5">
                                     <i class="fa fa-edit edit mr-2"></i>
                                     <i class="fa fa-check submit mr-2 text-success d-none"></i>
-                                    <form action="{{route('task-lists.destroy', $list)}}" method="POST" style="position: relative; top: 3px;cursor: pointer">
-                                        @method('DELETE') @csrf
-                                        <input type="hidden" value="{{request()->url()}}" name="url">
-                                        <button type="submit">
-                                            <i class="remove fa fa-times"></i>
-                                        </button>
-                                    </form>
+                                    <a href="{{route('task-lists.destroy', $list)}}" delete data-name="{{$list->getAttribute('name')}}" style="height: 18px">
+                                        <i class="fal fa-times remove"></i>
+                                    </a>
                                 </div>
                             @endif
                         </li>

@@ -19,6 +19,8 @@ class Inquiry extends Model implements DocumentableInterface
 
     // option id of done
     const DONE = 22;
+    // status parameter id
+    const STATUS_PARAMETER = 5;
 
     protected $fillable = [
         'code', 'datetime', 'note', 'redirected_user_id', 'company_id', 'user_id', 'is_out'

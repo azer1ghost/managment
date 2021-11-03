@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Events\TaskStatusUpdated;
 use App\Models\Department;
+use App\Models\Inquiry;
 use App\Models\Task;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -98,6 +99,11 @@ class TaskForm extends Component
                         'prev' => __('translates.fields.status.options.' . $oldValue),
                         'next' => __('translates.fields.status.options.' . $newVal)
                 ]));
+                if($this->task->inquiry()->exists()){
+                    $this->task->getRelationValue('inquiry')
+                        ->parameters()
+                        ->updateExistingPivot(Inquiry::STATUS_PARAMETER, ['value' => Inquiry::DONE]);
+                }
                 event(new TaskStatusUpdated($this->task, auth()->user(), $oldValue, $newVal));
             } else {
                 $this->dispatchEvent('alert', 'red', 'Error', 'Error encountered, please try again later');

@@ -62,9 +62,13 @@ class TaskListController extends Controller
 
     public function destroy(Request $request, TaskList $taskList)
     {
+//        if ($taskList->delete()) {
+//            return redirect($request->url . '#task-lists-header');
+//        }
+//        return back()->withNotify('error', 'Cannot be deleted');
         if ($taskList->delete()) {
-            return redirect($request->url . '#task-lists-header');
+            return response('OK');
         }
-        return back()->withNotify('error', 'Cannot be deleted');
+        return response()->setStatusCode('204');
     }
 }

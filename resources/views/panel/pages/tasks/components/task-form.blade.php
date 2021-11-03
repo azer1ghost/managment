@@ -136,7 +136,6 @@
                     },
                     timePicker: true,
                     timePicker24Hour: true,
-                    minDate: new Date(),
                 }, function(start, end, label) {}
             );
         });
