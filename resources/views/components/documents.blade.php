@@ -11,15 +11,20 @@
                 </div>
                 @php($supportedTypes = \App\Models\Document::supportedTypeIcons())
                 <div id="document-files" class="collapse @if($count > 0) show @endif" data-parent="#documents-accordion">
-                    <div class="card-body">
+                    <div class="card-body p-0">
                         <ul>
                             @foreach($documents as $document)
                                 @php($type = $supportedTypes[$document->type])
-                                <li class="col-12 py-2">
-                                    <a href="{{route('documents.show', $document)}}" target="_blank" class="text-dark d-flex" style="word-break: break-word">
-                                        <i class="mb-2 fa fa-file-{{$type['icon']}} fa-2x mr-2 text-{{$type['color']}}"></i>
+                                <li class="col-12 py-2 d-flex align-items-center">
+                                    <a href="{{route('documents.show', $document)}}" target="_blank" class="text-dark d-flex align-items-center" style="word-break: break-word">
+                                        <i class="fa fa-file-{{$type['icon']}} fa-2x mr-2 text-{{$type['color']}}"></i>
                                         <span>{{$document->name}}</span>
                                     </a>
+                                    @can('delete', $document)
+                                        <a href="{{route('documents.destroy', $document)}}" delete data-name="{{$document->getAttribute('name')}}" class="btn btn-link" >
+                                            <i class="fal fa-trash text-danger"></i>
+                                        </a>
+                                    @endcan
                                 </li>
                             @endforeach
                         </ul>

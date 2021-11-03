@@ -2,7 +2,10 @@
     <form id="document-form" action="{{route('documents.store', $id)}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
-            <input type="file" name="file" id="document-file" required>
+            <div class="custom-file" style="width: 350px !important;max-width: 100%">
+                <input type="file" name="file" id="document-file" class="custom-file-input" required>
+                <label class="custom-file-label" for="document-file">Choose file</label>
+            </div>
             <input type="hidden" name="model" value="{{$model}}">
             @error('file')
                 <p class="text-danger">{{$message}}</p>
@@ -20,6 +23,12 @@
             $('#document-form-btn').removeClass('d-none');
             $('#document-form-submit').prop('disabled', true);
             $('#document-file').prop('readonly', true);
+        });
+
+        // Add the following code if you want the name of the file appear on select
+        $("#document-file").on("change", function() {
+            const fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
         });
     </script>
 @endpush
