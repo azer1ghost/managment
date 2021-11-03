@@ -212,11 +212,13 @@
                                             <a href="{{route('inquiry.access', $inquiry)}}"  target="_blank" class="dropdown-item-text text-decoration-none">
                                                 <i class="fal fa-lock-open-alt pr-2 text-info"></i>@lang('translates.access')
                                             </a>
-                                        @endcan
+                                        @endif
                                         <a href="{{route('inquiry.logs', $inquiry)}}" target="_blank" class="dropdown-item-text text-decoration-none">
                                             <i class="fal fa-sticky-note pr-2 text-info"></i>Logs
                                         </a>
-                                        <a href="{{route('inquiry.task', $inquiry)}}" target="_blank" class="dropdown-item-text text-decoration-none">
+
+                                        @php($taskRoute = $inquiry->task()->exists() ? route('tasks.show', $inquiry->task) : route('inquiry.task', $inquiry))
+                                        <a href="{{$taskRoute}}" target="_blank" class="dropdown-item-text text-decoration-none">
                                             <i class="fal fa-list pr-2 text-info"></i>Task
                                         </a>
                                     </div>
