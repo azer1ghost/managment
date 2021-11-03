@@ -279,17 +279,6 @@
                         </td>
                     </tr>
                 @endforeach
-                <div wire:loading.delay>
-                    <div
-                            class="d-flex justify-content-center align-items-center"
-                            style="position: absolute;
-                                   top: 0;left: 0;
-                                   width: 100%;height: 100%;
-                                   background: rgba(0, 0, 0, 0.3);z-index: 999;"
-                    >
-                        <h3 class="text-white">@lang('translates.loading')...</h3>
-                    </div>
-                </div>
                 </tbody>
             </table>
         </div>
@@ -402,7 +391,23 @@
                 typeAnimated: true
             });
         }
+
         addEventListener('alert', alertHandler);
+
+        function inquiryStatusFormHandler(inquiryId, oldVal, newVal) {
+            $.ajax({
+                url: '{{route('inquiry.update-status')}}',
+                data: {
+                    inquiryId,
+                    oldVal,
+                    newVal
+                },
+                type: 'PUT',
+                success: function(data){
+                    dispatchEvent(new CustomEvent('alert', { detail: { type: 'blue', title: 'changed', 'message': 'done' } }));
+                }
+            });
+        }
 
         function inquiryStatusHandler(element, inquiryId, mgCode, oldVal, val){
             $.confirm({
@@ -415,7 +420,7 @@
                 typeAnimated: true,
                 buttons: {
                     confirm: function () {
-                        Livewire.emit('statusChanged', +inquiryId, +oldVal, +val)
+                        inquiryStatusFormHandler(+inquiryId, +oldVal, +val);
                     },
                     cancel: function () {
                         $(element).val(oldVal);

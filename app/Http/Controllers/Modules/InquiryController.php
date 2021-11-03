@@ -247,6 +247,11 @@ class InquiryController extends Controller
         return redirect()->route('inquiry.index')->withNotify('info', 'Inquiry Updated');
     }
 
+    public function updateStatus(Request $request)
+    {
+        dd($request->all());
+    }
+
     public function editAccessToUser(Inquiry $inquiry)
     {
         abort_if(! auth()->user()->hasPermission('editAccessToUser-inquiry'), 403);
