@@ -8,10 +8,13 @@ class DocumentRequest extends FormRequest
 {
     public function rules(): array
     {
+        $file = $this->isMethod('POST') ? 'required' : 'nullable';
+        $name = $this->isMethod('POST') ? 'nullable' : 'required';
+
         return [
-            'name' => 'nullable|string',
-            'file' => 'nullable|file|mimes:jpeg,jpg,png,doc,docx,pdf,xls,xlsx|max:2048',
-            'model'  => 'nullable|string',
+            'name' => "$name|string",
+            'file' => "$file|mimes:jpeg,jpg,png,doc,docx,pdf,xls,xlsx|max:2048",
+            'model'  => "$file|string",
         ];
     }
 }

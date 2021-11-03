@@ -53,7 +53,8 @@
                             <td>
                                 <div class="btn-sm-group">
                                     @can('view', $document)
-                                        <a href="{{route('documents.viewer', $document)}}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                        {{-- TODO show should be updated to viewer --}}
+                                        <a href="{{route('documents.show', $document)}}" target="_blank" class="btn btn-sm btn-outline-primary">
                                             <i class="fal fa-eye"></i>
                                         </a>
                                     @endcan
@@ -82,7 +83,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-6">
+            <div class="col-12">
                 <div class="float-right">
                     {{$documents->links()}}
                 </div>

@@ -28,12 +28,13 @@ class DocumentPolicy
     {
         return
             $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
-                $document->getAttribute('user_id') == $user->getAttribute('id');
+            $document->getAttribute('user_id') == $user->getAttribute('id');
     }
 
     public function restore(User $user, Document $document): bool
     {
-        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
+        return
+            $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
             $document->getAttribute('user_id') == $user->getAttribute('id');
     }
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DocumentRequest;
 use App\Models\Document;
 use App\Services\FirebaseApi;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -17,14 +18,21 @@ class DocumentController extends Controller
         $this->authorizeResource(Document::class, 'document');
     }
 
+    /**
+     * @throws Exception
+     */
     public function index(Request $request)
     {
         $search = $request->get('search');
+        $documents = Document::query()
+            ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"));
+
+        if(!auth()->user()->isDeveloper()){
+            $documents = $documents->whereBelongsTo(auth()->user());
+        }
 
         return view('panel.pages.documents.index')->with([
-            'documents' => Document::query()
-                ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"))
-                ->paginate(10)
+            'documents' => $documents->paginate(10)
         ]);
     }
 
@@ -43,7 +51,7 @@ class DocumentController extends Controller
         $model =  ("App\\Models\\" . $modelName)::find($modelId);
 
         $file = $request->file('file');
-        $fileName = auth()->id() . '-' . time() . '.' . $file->getClientOriginalExtension();
+        $fileName = auth()->id() . '-' . config('default.prefix') .  time() . '.' . $file->getClientOriginalExtension();
 
         $firebaseStoragePath = "Documents/$modelName/";
 
