@@ -43,7 +43,7 @@ class DocumentController extends Controller
         $model =  ("App\\Models\\" . $modelName)::find($modelId);
 
         $file = $request->file('file');
-        $fileName = time() . '.' . $file->getClientOriginalExtension();
+        $fileName = auth()->id() . '-' . time() . '.' . $file->getClientOriginalExtension();
 
         $firebaseStoragePath = "Documents/$modelName/";
 
