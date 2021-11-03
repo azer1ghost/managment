@@ -24,19 +24,7 @@
         <div class="tab-content row mt-4">
             <div class="form-group col-12">
                 <div class="row">
-
                     <x-input::text name="name" :value="optional($data)->getAttribute('name')" label="Document name" width="6" class="pr-3"/>
-
-                    <div class="form-group col-12 col-md-6">
-                        <label for="formFileLg" class="form-label">File</label>
-                        <input class="form-control form-control-lg @error('file') is-invalid @enderror"  name="file"  id="formFileLg" type="file">
-
-                        @error('file')
-                        <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                         </span>
-                        @enderror
-                    </div>
                 </div>
 
             </div>

@@ -59,7 +59,7 @@
     @endforeach
 
     @if($selected['company'])
-        <x-input::textarea name="note"  :value="$note"  label="Note"   width="12" class="pr-3" rows="4"/>
+        <x-input::textarea name="note"  :value="$note"  label="Note"   width="12" rows="4"/>
         <div class="col-md-3">
             <div class="form-check">
                 <input class="form-check-input" wire:model="selected.is_out" type="radio" name="is_out" id="is_out1" value="0" checked>
