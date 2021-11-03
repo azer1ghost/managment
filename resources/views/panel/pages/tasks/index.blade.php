@@ -11,7 +11,6 @@
             @lang('translates.navbar.task')
         </x-bread-crumb-link>
     </x-bread-crumb>
-{{--    @livewire('task-table')--}}
     <form>
         <div class="row d-flex mb-2">
             <div class="col-12 col-md-3">

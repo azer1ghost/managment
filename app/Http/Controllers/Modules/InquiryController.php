@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InquiryRequest;
+use App\Models\Company;
 use App\Models\Inquiry;
+use App\Models\Parameter;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -19,9 +22,110 @@ class InquiryController extends Controller
 
     public function index(Request $request)
     {
-        return view('panel.pages.inquiry.index')->with([
-            'trashBox' => $request->has('trash-box')
-        ]);
+        $filters = [
+            'code'       => $request->get('code'),
+            'note'       => $request->get('note'),
+            'company_id' => $request->get('company') == null ? [] : explode(',', $request->get('company')),
+            'user_id'    => $request->get('user'),
+            'is_out'     => $request->get('is_out'),
+        ];
+
+        $parameterFilters = [
+            'subject' => [],
+            'status' => [],
+            'contact_method' => [],
+            'source' => [],
+            'search_client' => null
+        ];
+
+        foreach ($parameterFilters as $key => $filter){
+            if($key == 'search_client'){
+                $parameterFilters[$key] = $request->get($key);
+            }else{
+                if($request->get($key) != null){
+                    $parameterFilters[$key] = explode(',', $request->get($key));
+                }
+            }
+        }
+
+        $trashBox = $request->has('trash-box');
+
+        if($request->has('daterange')){
+            $daterange = $request->get('daterange');
+        }else{
+            $daterange = now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d');
+        }
+
+        [$from, $to] = explode(' - ', $daterange);
+
+        $subjects  =  Parameter::where('name', 'subject')->first()->options->unique();
+        $contact_methods = Parameter::where('name', 'contact_method')->first()->options->unique();
+        $sources  = Parameter::where('name', 'source')->first()->options->unique();
+        $statuses  = Parameter::where('name', 'status')->first()->options->unique();
+        $companies = Company::whereNotIn('id', [1])->get();
+        $users = User::has('inquiries')->get(['id', 'name', 'surname', 'disabled_at']);
+
+        $inquiries = Inquiry::query()
+            ->withoutBackups()
+            ->when(!Inquiry::userCanViewAll(), function ($query){
+                $query->whereHas('editableUsers', function ($query){
+                    $query->where('user_id', auth()->id());
+                });
+            })
+            ->when($trashBox, fn($query) => $query->onlyTrashed())
+            ->whereBetween('datetime', [Carbon::parse($from)->startOfDay(), Carbon::parse($to)->endOfDay()])
+            ->where(function ($query) use ($filters) {
+                foreach ($filters as $column => $value) {
+                    if ($column == 'is_out'){
+                        if(!is_null($value)){
+                            $query->where($column, $value);
+                        }
+                    } else{
+                        $query->when($value, function ($query, $value) use ($column) {
+                            if (is_array($value)) {
+                                $query->whereIn($column, $value);
+                            } else {
+                                $query->where($column, 'LIKE',  "%$value%");
+                            }
+                        });
+                    }
+                }
+            })
+            ->where(function ($query) use ($parameterFilters) {
+                foreach ($parameterFilters as $column => $value) {
+                    $query->when($value, function ($query) use ($column, $value){
+                        $query->whereHas('parameters', function ($query) use ($column, $value) {
+                            if (is_array($value)) {
+                                $parameter_id = Parameter::where('name', $column)->first()->getAttribute('id');
+                                $query->where('parameter_id', $parameter_id)->whereIn('value', $value);
+                            } else {
+                                $query->where('value',   'LIKE', "%" . phone_cleaner($value) . "%")
+                                    ->orWhere('value', 'LIKE', "%" . trim($value) . "%");
+                            }
+                        });
+                    });
+                }
+            })
+            ->with([
+                'company' => function ($query){
+                    $query->select('id', 'name');
+                }
+            ])
+            ->latest('datetime')
+            ->paginate(10);
+
+        return view('panel.pages.inquiry.index',
+            compact(
+                'inquiries',
+                'subjects',
+                'statuses',
+                'contact_methods',
+                'sources',
+                'companies',
+                'users',
+                'trashBox'
+            )
+        );
     }
 
     public function createTask($inquiry): RedirectResponse
