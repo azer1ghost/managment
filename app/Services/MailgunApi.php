@@ -23,24 +23,36 @@ class MailgunApi
         return $this;
     }
 
-    public function from(string $from)
+    public function from(string $from): MailgunApi
     {
         $this->from = $from;
+        return $this;
     }
 
-    public function receivers(array $receivers)
+    public function receivers(array $receivers): MailgunApi
     {
         $this->receivers = $receivers;
+        return $this;
     }
 
-    public function subject(string $subject)
+    public function subject(string $subject): MailgunApi
     {
         $this->subject = $subject;
+        return $this;
     }
 
-    public function text(string $text)
+    public function text(string $text): MailgunApi
     {
         $this->text = $text;
+        return $this;
+    }
+
+    public function dryRun(): MailgunApi
+    {
+        $this->domain = 'sandboxe1a6a9a1bc79469289f37742d4ec27a2.mailgun.org';
+        $this->endpoint = 'https://api.mailgun.net';
+        $this->from = 'postmaster@sandboxe1a6a9a1bc79469289f37742d4ec27a2.mailgun.org';
+        return $this;
     }
 
     public function send()

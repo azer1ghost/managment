@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Models\Widget;
+use App\Services\MailgunApi;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -86,6 +87,7 @@ class PlatformController extends Controller
 
     public function test()
     {
-        return 'testing area';
+//        return 'testing area';
+        (new MailgunApi)->dryRun()->send();
     }
 }
