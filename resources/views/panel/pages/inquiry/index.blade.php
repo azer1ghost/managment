@@ -372,8 +372,10 @@
         $('#inquiry-all').change(function (){
             if($(this).is(':checked')){
                 $("input[name='inquiries[]']").map(function(){ $(this).prop('checked', true) });
+                $('#inquiries-access-btn').prop('disabled', false);
             }else{
                 $("input[name='inquiries[]']").map(function(){ $(this).prop('checked', false) });
+                $('#inquiries-access-btn').prop('disabled', true);
             }
         });
 
