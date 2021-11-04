@@ -23,7 +23,9 @@ class TaskCreated
         switch ($task->taskable->getTable()) {
             case 'users':
                 $this->body = trans('translates.tasks.content.user');
-                $this->receivers[] = $task->taskable; // get user to whom task is assigned
+                if($this->creator->getAttribute('id') != $task->taskable->id){
+                    $this->receivers[] = $task->taskable; // get user to whom task is assigned
+                }
                 break;
             case 'departments':
                 $this->body = trans('translates.tasks.content.department');
