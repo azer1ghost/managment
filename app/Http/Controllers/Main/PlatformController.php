@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Models\Widget;
-use App\Services\MailgunApi;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -66,7 +65,7 @@ class PlatformController extends Controller
         );
         return session()->get('location');
     }
-    
+
     public function welcome(): View
     {
         header("Refresh: 3; URL=". route('login'));
@@ -87,7 +86,6 @@ class PlatformController extends Controller
 
     public function test()
     {
-//        return 'testing area';
-        (new MailgunApi)->dryRun()->send();
+        return 'testing area';
     }
 }
