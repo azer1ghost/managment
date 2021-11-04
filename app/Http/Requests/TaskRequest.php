@@ -32,7 +32,7 @@ class TaskRequest extends FormRequest
             'task_dates' => 'nullable|string',
             'department' => 'required|integer',
             'user' => 'nullable|integer',
-            'note' => 'nullable|string',
+            'note' => 'nullable|string|max:5000',
         ];
     }
 }
