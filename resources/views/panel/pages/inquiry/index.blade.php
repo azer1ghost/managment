@@ -24,9 +24,8 @@
     <form class="row" id="inquiryForm">
         <div class="form-group col-12 col-md-3 mb-3 mb-md-0" >
             <label for="daterange">{{__('translates.filters.date')}}</label>
-            <input type="text" placeholder="{{__('translates.placeholders.range')}}" name="daterange" value="{{request()->get('daterange')}}" id="daterange" class="form-control">
+            <input type="text" placeholder="{{__('translates.placeholders.range')}}" name="daterange" value="{{request()->get('daterange') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d')}}" id="daterange" class="form-control">
         </div>
-
         <div class="form-group col-12 col-md-3 mb-md-0">
             <label for="codeFilter">{{__('translates.filters.code')}}</label>
             <input type="search" id="codeFilter" name="code" value="{{request()->get('code')}}" placeholder="{{__('translates.placeholders.code')}}" class="form-control">
@@ -359,6 +358,17 @@
             }, function(start, end, label) {}
         );
 
+        $(function() {
+            $('#daterange').daterangepicker({
+                    opens: 'left',
+                    locale: {
+                        format: "YYYY/MM/DD",
+                    },
+                    maxDate: new Date(),
+                }, function(start, end, label) {}
+            );
+        });
+
         $('#inquiry-all').change(function (){
             if($(this).is(':checked')){
                 $("input[name='inquiries[]']").map(function(){ $(this).prop('checked', true) });
@@ -436,21 +446,6 @@
         }
 
         $('.filterSelector').selectpicker()
-
-        $(function() {
-            const date = new Date();
-            const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-            $('#daterange').daterangepicker({
-                    opens: 'left',
-                    startDate: firstDayOfMonth,
-                    endDate: date,
-                    locale: {
-                        format: "YYYY/MM/DD",
-                    },
-                    maxDate: date,
-                }, function(start, end, label) {}
-            );
-        });
 
         function deleteAction(url, name){
             $.confirm({
