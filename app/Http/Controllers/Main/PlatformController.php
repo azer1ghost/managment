@@ -3,17 +3,10 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
-use App\Models\Update;
-use App\Models\User;
 use App\Models\Widget;
-use App\Notifications\NotifyUser;
-use App\Notifications\PushNotification;
-use App\Services\FirebaseApi;
-use App\Services\MobexReferralApi;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class PlatformController extends Controller
@@ -93,7 +86,6 @@ class PlatformController extends Controller
 
     public function test()
     {
-//        return 'testing area';
-        auth()->user()->notify(new NotifyUser());
+        return 'testing area';
     }
 }
