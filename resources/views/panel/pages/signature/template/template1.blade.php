@@ -79,6 +79,14 @@
                     </td>
                 </tr>
                 <tr>
+                    <td style="width: 15px;">
+                        <img width="16px" src="https://mobilgroup.az/signature/socials/blue/phone.png" />
+                    </td>
+                    <td>
+                        <p style="margin: 0; padding: 3px; font-size: 13px">{{$company->getAttribute('intercity_phone')}}</p>
+                    </td>
+                </tr>
+                <tr>
                     <td>
                         <img width="16px" src="https://mobilgroup.az/signature/socials/blue/envelope.png" />
                     </td>

@@ -1,19 +1,23 @@
 <div>
-    <form id="document-form" action="{{route('documents.store', $id)}}" method="POST" enctype="multipart/form-data">
+    <form id="document-form" class="form-row" action="{{route('documents.store', $id)}}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="mb-3">
+        <div class="input-group col-12 col-md-4 @error('file') is-invalid @enderror">
             <div class="custom-file" style="width: 350px !important;max-width: 100%">
                 <input type="file" name="file" id="document-file" class="custom-file-input" required>
-                <label class="custom-file-label" for="document-file">Choose file</label>
+                <label class="custom-file-label" for="document-file">@lang('translates.placeholders.choose_file')</label>
             </div>
-            <input type="hidden" name="model" value="{{$model}}">
+            <div class="input-group-append">
+                <div class="d-flex align-items-center">
+                    <button type="submit" id="document-form-submit" class="btn btn-outline-primary mr-3">@lang('translates.buttons.upload_file')</button>
+                    <div class="spinner-border text-primary d-none" id="document-form-btn" style="width: 1.5rem !important;height: 1.5rem !important;" role="status"></div>
+                </div>
+            </div>
             @error('file')
-                <p class="text-danger">{{$message}}</p>
+                <div class="invalid-feedback">
+                    {{$message}}
+                </div>
             @enderror
-        </div>
-        <div class="d-flex align-items-center">
-            <button type="submit" id="document-form-submit" class="btn btn-outline-primary mr-3">Upload file</button>
-            <div class="spinner-border text-primary d-none" id="document-form-btn" style="width: 1.5rem !important;height: 1.5rem !important;" role="status"></div>
+            <input type="hidden" name="model" value="{{$model}}">
         </div>
     </form>
 </div>

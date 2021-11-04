@@ -33,6 +33,7 @@ class CompanyRequest extends FormRequest
             'phone'     => 'required|string|max:255',
             'mobile'    => 'required|string|max:255',
             'call_center' => 'required|string|max:255',
+            'intercity_phone' => 'required|string|max:255',
             'address'   => 'required|string|max:255',
             'about'     => 'required|string|max:500',
             'keywords' => 'required|string|max:255',

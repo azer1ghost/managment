@@ -51,6 +51,7 @@ return [
         'or' => ":first, :second və ya :third daxil edin",
         'task_name' => 'Tapşırıq adı',
         'search_users' => 'İstifadəçi axtar',
+        'choose_file' => 'Fayl seç',
 
 
     ],
@@ -70,6 +71,7 @@ return [
         'time' => 'Vaxt',
         'company' => 'Şirkət',
         'clientName' => 'Müştəri Adı',
+        'intercity_phone' => 'Şəhərlərarası Telefon',
         'writtenBy' => 'Müəllif',
         'subject' => 'Mövzu',
         'actions' => 'Əməliyyatlar',
@@ -136,6 +138,8 @@ return [
         'previous' => 'Əvvəlki',
         'next' => 'Sonrakı',
         'change' => 'Dəyişdirin',
+        'upload_file' => 'Fayl yüklə',
+
     ],
 
     'or' => 'və ya',

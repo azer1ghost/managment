@@ -51,6 +51,7 @@ return [
         'or' => "Enter :first, :second or :third",
         'task_name' => 'Task Name',
         'search_users' => 'Search Users',
+        'choose_file' => 'Choose file',
     ],
 
     'fields' => [
@@ -62,6 +63,7 @@ return [
         'address_title' => 'ADDRESS',
         'user' => 'User',
         'department' => 'Department',
+        'intercity_phone' => 'Intercity Phone',
         'position' => 'Position',
         'mgCode' => 'MG Code',
         'date' => 'Date',
@@ -134,6 +136,7 @@ return [
         'previous' => 'Previous',
         'next' => 'Next',
         'change' => 'Change',
+        'upload_file' => 'Upload file',
     ],
 
     'or' => 'or',

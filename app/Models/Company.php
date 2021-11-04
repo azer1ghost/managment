@@ -28,7 +28,8 @@ class Company extends Model
         'address',
         'about',
         'keywords',
-        'is_inquirable'
+        'is_inquirable',
+        'intercity_phone',
     ];
 
     protected $casts = [
