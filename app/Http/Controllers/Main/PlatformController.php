@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Update;
 use App\Models\User;
 use App\Models\Widget;
+use App\Notifications\NotifyUser;
 use App\Notifications\PushNotification;
 use App\Services\FirebaseApi;
 use App\Services\MobexReferralApi;
@@ -92,6 +93,7 @@ class PlatformController extends Controller
 
     public function test()
     {
-        return 'testing area';
+//        return 'testing area';
+        auth()->user()->notify(new NotifyUser());
     }
 }

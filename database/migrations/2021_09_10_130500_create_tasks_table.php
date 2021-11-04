@@ -17,7 +17,7 @@ class CreateTasksTable extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('priority')->nullable();
-            $table->string('note')->nullable();
+            $table->text('note')->nullable();
             $table->string('status')->nullable();
             $table->morphs('taskable');
             $table->timestamp('must_start_at')->nullable();
