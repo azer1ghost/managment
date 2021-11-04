@@ -24,7 +24,7 @@
     <form class="row" id="inquiryForm">
         <div class="form-group col-12 col-md-3 mb-3 mb-md-0" >
             <label for="daterange">{{__('translates.filters.date')}}</label>
-            <input type="text" placeholder="{{__('translates.placeholders.range')}}" name="daterange" value="{{request()->get('daterange') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d')}}" id="daterange" class="form-control">
+            <input type="text" placeholder="{{__('translates.placeholders.range')}}" name="daterange" value="{{$daterange}}" id="daterange" class="form-control">
         </div>
         <div class="form-group col-12 col-md-3 mb-md-0">
             <label for="codeFilter">{{__('translates.filters.code')}}</label>

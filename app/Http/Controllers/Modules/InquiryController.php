@@ -124,7 +124,8 @@ class InquiryController extends Controller
                 'sources',
                 'companies',
                 'users',
-                'trashBox'
+                'trashBox',
+                'daterange'
             )
         );
     }
