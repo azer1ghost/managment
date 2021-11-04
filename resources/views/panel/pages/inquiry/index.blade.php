@@ -417,7 +417,6 @@
                 type: 'PUT',
                 dataType: 'JSON',
                 success: function(response){
-                    console.log(response.data);
                     const data = response.data;
                     dispatchEvent(new CustomEvent('alert', { detail: { type: data.type, title: data.title, message: data.message } }));
                 },
