@@ -30,7 +30,7 @@ class PlatformController extends Controller
 
     public function firebase()
     {
-        return response(file_get_contents(public_path('storage/google/firebase-messaging-sw.js')))
+        return response(file_get_contents(storage_path('app/firebase-messaging-sw.js')))
             ->withHeaders([
                 'Content-Type' => 'text/javascript'
             ]);

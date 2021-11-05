@@ -7,18 +7,16 @@
                 <label class="custom-file-label" for="document-file">@lang('translates.placeholders.choose_file')</label>
             </div>
             <div class="input-group-append">
-                <div class="d-flex align-items-center">
-                    <button type="submit" id="document-form-submit" class="btn btn-outline-primary mr-3">@lang('translates.buttons.upload_file')</button>
-                    <div class="spinner-border text-primary d-none" id="document-form-btn" style="width: 1.5rem !important;height: 1.5rem !important;" role="status"></div>
-                </div>
+                <button type="submit" id="document-form-submit" class="btn btn-outline-primary mr-3">@lang('translates.buttons.upload_file')</button>
+                <div class="spinner-border text-primary d-none" id="document-form-btn"></div>
             </div>
-            @error('file')
-                <div class="invalid-feedback">
-                    {{$message}}
-                </div>
-            @enderror
             <input type="hidden" name="model" value="{{$model}}">
         </div>
+        @error('file')
+        <div class="invalid-feedback p-2">
+            {{$message}}
+        </div>
+        @enderror
     </form>
 </div>
 @push('scripts')
