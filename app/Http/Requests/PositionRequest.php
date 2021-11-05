@@ -25,12 +25,12 @@ class PositionRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'           => 'required|string|max:255',
             'role_id'        => 'integer',
             'department_id'  => 'integer',
             'perms' => 'array',
             'all_perms' => 'nullable|string',
-            'order' => 'nullable|integer'
+            'order' => 'nullable|integer',
+            'translate' => 'nullable|array'
         ];
     }
 }
