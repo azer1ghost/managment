@@ -84,7 +84,7 @@
             </div>
             <div class="col-12">
                 <div class="float-right">
-                    {{$referrals->links()}}
+                    {{$referrals->appends(request()->input())->links()}}
                 </div>
             </div>
         </div>

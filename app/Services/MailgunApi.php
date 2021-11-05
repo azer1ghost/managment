@@ -8,8 +8,8 @@ class MailgunApi
 {
     private string $apiKey, $endpoint, $domain,
         $from = 'noreply@mail.mobilmanagement.com',
-        $subject = 'Subject', $text = 'Text';
-    private array $receivers = ['elvin.aqalarov2@gmail.com'];
+        $subject = 'Subject', $text = 'Text',
+        $receivers = 'elvin.aqalarov2@gmail.com';
 
     public function __construct(){
         $this->apiKey = config('services.mailgun.secret');
@@ -29,7 +29,7 @@ class MailgunApi
         return $this;
     }
 
-    public function receivers(array $receivers): MailgunApi
+    public function receivers(string $receivers): MailgunApi
     {
         $this->receivers = $receivers;
         return $this;
@@ -66,5 +66,4 @@ class MailgunApi
             'text'    => $this->text
         ]);
     }
-
 }

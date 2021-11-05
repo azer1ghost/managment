@@ -1,7 +1,7 @@
 <div>
     <form id="document-form" class="form-row" action="{{route('documents.store', $id)}}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="input-group col-12 col-md-4 @error('file') is-invalid @enderror">
+        <div class="input-group col-12 col-md-6 @error('file') is-invalid @enderror">
             <div class="custom-file" style="width: 350px !important;max-width: 100%">
                 <input type="file" name="file" id="document-file" class="custom-file-input" required>
                 <label class="custom-file-label" for="document-file">@lang('translates.placeholders.choose_file')</label>

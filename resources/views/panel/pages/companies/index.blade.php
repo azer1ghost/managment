@@ -63,7 +63,7 @@
         </tbody>
     </table>
     <div class="float-right">
-        {{$companies->links()}}
+        {{$companies->appends(request()->input())->links()}}
     </div>
 @endsection
 

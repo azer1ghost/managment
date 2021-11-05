@@ -82,7 +82,7 @@
             </div>
             <div class="col-12">
                 <div class="float-right">
-                    {{$notifications->links()}}
+                    {{$notifications->appends(request()->input())->links()}}
                 </div>
             </div>
         </div>

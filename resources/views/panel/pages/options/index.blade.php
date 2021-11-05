@@ -101,7 +101,7 @@
             </div>
             <div class="col-4">
                 <div class="float-right">
-                    {{$options->links()}}
+                    {{$options->appends(request()->input())->links()}}
                 </div>
             </div>
         </div>

@@ -79,7 +79,7 @@
             </div>
             <div class="col-6">
                 <div class="float-right">
-                    {{$conferences->links()}}
+                    {{$conferences->appends(request()->input())->links()}}
                 </div>
             </div>
         </div>

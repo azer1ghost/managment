@@ -87,7 +87,7 @@
                 </div>
                 <div class="col-6">
                     <div class="float-right">
-                        {{$clients->links()}}
+                        {{$clients->appends(request()->input())->links()}}
                     </div>
                 </div>
             </div>

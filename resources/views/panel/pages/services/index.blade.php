@@ -81,7 +81,7 @@
             </div>
             <div class="col-6">
                 <div class="float-right">
-                    {{$services->links()}}
+                    {{$services->appends(request()->input())->links()}}
                 </div>
             </div>
         </div>

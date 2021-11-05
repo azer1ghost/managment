@@ -65,7 +65,7 @@
         </tbody>
     </table>
     <div class="float-right">
-        {{$customerCompanies->links()}}
+        {{$customerCompanies->appends(request()->input())->links()}}
     </div>
 @endsection
 

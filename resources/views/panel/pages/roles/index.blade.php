@@ -77,7 +77,7 @@
             </div>
             <div class="col-6">
                 <div class="float-right">
-                    {{$roles->links()}}
+                    {{$roles->appends(request()->input())->links()}}
                 </div>
             </div>
         </div>
