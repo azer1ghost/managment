@@ -36,7 +36,9 @@ class ServiceController extends Controller
 
     public function store(ServiceRequest $request): \Illuminate\Http\RedirectResponse
     {
-        $service = Service::create($request->validated());
+        $validated = $request->validated();
+        $this->translates($validated);
+        $service = Service::create($validated);
 
         return redirect()
             ->route('services.edit', $service)
@@ -67,7 +69,9 @@ class ServiceController extends Controller
 
     public function update(ServiceRequest $request, Service $service): \Illuminate\Http\RedirectResponse
     {
-        $service->update($request->validated());
+        $validated = $request->validated();
+        $this->translates($validated);
+        $service->update($validated);
 
         return redirect()
             ->route('services.edit', $service)

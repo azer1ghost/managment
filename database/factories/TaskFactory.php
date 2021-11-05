@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Inquiry;
 use App\Models\Task;
+use App\Models\TaskList;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Auth\User;
 

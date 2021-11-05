@@ -70,6 +70,12 @@
             background: linear-gradient(to right, #f9900e, #ffba56) !important;
             color: #fff;
         }
+        @media only screen and (max-width: 600px) {
+            .input-group-text {
+                padding: 0;
+                font-size: .75rem;
+            }
+        }
     </style>
 @endsection
 

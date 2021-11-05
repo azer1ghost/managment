@@ -44,6 +44,8 @@ class DepartmentController extends Controller
     public function store(DepartmentRequest $request): RedirectResponse
     {
         $validated = $request->validated();
+        $this->translates($validated);
+
         $validated['status'] = $request->has('status');
 
         $department = Department::create($validated);
@@ -76,6 +78,8 @@ class DepartmentController extends Controller
     public function update(DepartmentRequest $request, Department $department): RedirectResponse
     {
         $validated = $request->validated();
+        $this->translates($validated);
+
         $validated['status'] = $request->has('status');
 
         $department->update($validated);

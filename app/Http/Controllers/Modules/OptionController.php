@@ -55,7 +55,14 @@ class OptionController extends Controller
 
     public function store(OptionRequest $request)
     {
-        $option = Option::create($request->validated());
+        $validated = $request->validated();
+
+        $this->translates($validated);
+
+        $option = Option::create($validated);
+
+
+
 
         self::saveParameters($option, $request->get('parameters'), $request->get('companies'));
 
@@ -90,7 +97,10 @@ class OptionController extends Controller
 
     public function update(OptionRequest $request, Option $option)
     {
-        $option->update($request->validated());
+        $validated = $request->validated();
+
+        $this->translates($validated);
+        $option->update($validated);
 
         self::saveParameters($option, $request->get('parameters'), $request->get('companies'));
 

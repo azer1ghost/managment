@@ -41,6 +41,7 @@ class RoleController extends Controller
     public function store(RoleRequest $request): RedirectResponse
     {
         $validated = $request->validated();
+        $this->translates($validated);
 
         $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms']);
 
@@ -74,6 +75,7 @@ class RoleController extends Controller
     public function update(RoleRequest $request, Role $role): RedirectResponse
     {
         $validated = $request->validated();
+        $this->translates($validated);
 
         $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms']);
 

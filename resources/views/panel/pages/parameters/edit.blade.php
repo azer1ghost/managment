@@ -26,6 +26,16 @@
         @method($method) @csrf
         <input type="hidden" name="id" value="{{optional($data)->getAttribute('id')}}">
         <div class="tab-content form-row mt-4" >
+            <x-translate>
+                @foreach(config('app.locales') as $key => $locale)
+                    <div class="tab-pane fade show @if($loop->first) active @endif" id="data-{{$key}}" role="tabpanel">
+                        <div class="row">
+                            <x-input::text  name="translate[label][{{$key}}]"  :value="optional($data)->getTranslation('label', $key)"     label="Parameter label"     width="4" class="pr-3" />
+                            <x-input::text  name="translate[placeholder][{{$key}}]"  :value="optional($data)->getTranslation('placeholder', $key)"     label="Parameter placeholder"     width="4" class="pr-3" />
+                        </div>
+                    </div>
+                @endforeach
+            </x-translate>
             <div class="form-group col-12 col-md-4 pr-3">
                 <label for="data-option_id">Parent Option id</label>
                 <select class="form-control @error('option_id') is-invalid @enderror" name="option_id" id="data-option_id" style="padding: .375rem 0.75rem !important;">
@@ -42,8 +52,6 @@
             </div>
             <x-input::select   name="type"          :value="optional($data)->getAttribute('type')"          width="4" class="pr-3" :options="$types" />
             <x-input::text     name="name"          :value="optional($data)->getAttribute('name')"          width="4" class="pr-3" />
-            <x-input::text     name="label"         :value="optional($data)->getAttribute('label')"         width="4" class="pr-3" />
-            <x-input::text     name="placeholder"   :value="optional($data)->getAttribute('placeholder')"   width="4" class="pr-3" />
             <x-input::number   name="order"         :value="optional($data)->getAttribute('order')"         width="4" class="pr-3" label="Order"/>
             <div class="col-12">
                 <label for="companyFilter">Companies</label><br/>

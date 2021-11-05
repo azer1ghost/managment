@@ -59,14 +59,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row m-3 d-flex justify-content-center align-items-center">
-                                <div class="col-8">
+                            <div class="row mt-3 d-flex justify-content-center align-items-center">
+                                <div class="col-12">
                                     <form method="POST" action="{{route('phone.verification.verify')}}">
                                         @csrf
                                         <div class="input-group mb-3">
-                                            <input name="code" required pattern="[0-9]+" maxlength="6" minlength="6" type="text" class="form-control mb-0 @error('code') is-invalid @enderror" placeholder="SMS doğrulama kodu" autocomplete="off">
+                                            <input name="code"  required pattern="[0-9]+" maxlength="6" minlength="6" type="text" class="form-control mb-0 @error('code') is-invalid @enderror" placeholder="SMS doğrulama kodu" autocomplete="off">
                                             <div class="input-group-append">
-                                                <button class="btn btn-outline-secondary" type="submit">Doğrula</button>
+                                                <button class="btn btn-outline-secondary mt-0" type="submit">Doğrula</button>
                                             </div>
                                         </div>
                                         @error('code')

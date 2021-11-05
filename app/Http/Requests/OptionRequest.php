@@ -25,9 +25,10 @@ class OptionRequest extends FormRequest
     public function rules()
     {
         return [
-            'text'       => 'required|string|max:255',
             'parameters' => 'array',
             'companies'  => 'array',
+            'translate' => 'nullable|array'
+
         ];
     }
 }

@@ -24,8 +24,8 @@ class DepartmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'  => 'required|string',
-            'status' => 'nullable'
+            'status' => 'nullable',
+            'translate' => 'nullable|array'
         ];
     }
 }

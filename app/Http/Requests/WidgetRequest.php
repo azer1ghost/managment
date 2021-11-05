@@ -18,9 +18,10 @@ class WidgetRequest extends FormRequest
             'class_attribute'  => 'nullable|string|max:255',
             'style_attribute' => 'nullable|string|nullable',
             'icon' => 'nullable|string',
-            'details' => 'nullable|string',
             'order' => 'required|integer',
-            'status' => 'nullable'
+            'status' => 'nullable',
+            'translate' => 'nullable|array',
+
         ];
     }
 }

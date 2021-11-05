@@ -24,11 +24,19 @@
         <div class="tab-content row mt-4" >
             <div class="form-group col-12">
                 <div class="row">
+                    <x-translate>
+                        @foreach(config('app.locales') as $key => $locale)
+                            <div class="tab-pane fade show @if($loop->first) active @endif" id="data-{{$key}}" role="tabpanel">
+                                <div class="row">
+                                    <x-input::text  name="translate[details][{{$key}}]"  :value="optional($data)->getTranslation('details', $key)"     label="Details"     width="6" class="pr-3" />
+                                </div>
+                            </div>
+                        @endforeach
+                    </x-translate>
                     <x-input::text     name="key"  :value="optional($data)->getAttribute('key')"  label="Widget key"  width="6" class="pr-3" />
                     <x-input::text     name="class_attribute"  :value="optional($data)->getAttribute('class_attribute')"  label="Widget class attribute"  width="6" class="pr-3" />
                     <x-input::text     name="style_attribute"  :value="optional($data)->getAttribute('style_attribute')"  label="Widget style attribute"  width="6" class="pr-3" />
                     <x-input::text     name="icon"  :value="optional($data)->getAttribute('icon')"  label="Widget icon"  width="6" class="pr-3" />
-                    <x-input::text     name="details"  :value="optional($data)->getAttribute('details')"  label="Widget details"  width="6" class="pr-3" />
                     <x-input::number   name="order"  :value="optional($data)->getAttribute('order')"  label="Widget order"  width="6" class="pr-3" />
                 </div>
                 <div class="form-check">

@@ -25,7 +25,15 @@
         @method($method) @csrf
         <input type="hidden" name="id" value="{{optional($data)->getAttribute('id')}}">
         <div class="tab-content form-row mt-4" >
-            <x-input::text  name="text"  :value="optional($data)->getAttribute('text')"  width="4"  class="pr-3" />
+            <x-translate>
+                @foreach(config('app.locales') as $key => $locale)
+                    <div class="tab-pane fade show @if($loop->first) active @endif" id="data-{{$key}}" role="tabpanel">
+                        <div class="row">
+                            <x-input::text  name="translate[text][{{$key}}]"  :value="optional($data)->getTranslation('text', $key)"     label="Text"     width="6" class="pr-3" />
+                        </div>
+                    </div>
+                @endforeach
+            </x-translate>
             <div class="col-12 py-2">
                 <label for="parameterFilter">Parameters</label><br/>
                 <select name="parameters[]" id="parameterFilter" multiple class="filterSelector" data-width="fit"  title="Noting selected" >

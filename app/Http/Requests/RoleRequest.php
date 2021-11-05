@@ -25,10 +25,10 @@ class RoleRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'  => 'required|string',
             'key'   => 'required|string',
             'perms' => 'required_without:all_perms|array',
-            'all_perms' => 'nullable|string'
+            'all_perms' => 'nullable|string',
+            'translate' => 'nullable|array',
         ];
     }
 

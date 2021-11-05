@@ -53,6 +53,7 @@
                     </select>
                 </div>
             </div>
+
             <div class="col-12 col-md-3">
                 <div class="input-group mb-3">
                     <select class="form-control" name="type">
@@ -62,11 +63,20 @@
                     </select>
                 </div>
             </div>
+            <div class="col-12 col-md-3">
+                <div class="input-group mb-3">
+                    <select name="limit" class="custom-select" id="size">
+                        @foreach([25, 50, 100, 250] as $size)
+                            <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
             <div class="col-3 col-md-1 p-0 pl-3 pb-3">
                 <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
             </div>
             @can('create', App\Models\Task::class)
-                <div class="col-9 col-md-5 p-0 pr-3 pb-3">
+                <div class="col-9 col-md-12 p-0 pr-3 pb-3">
                     <a class="btn btn-outline-success float-right" href="{{route('tasks.create')}}">@lang('translates.buttons.create')</a>
                 </div>
             @endcan
@@ -81,6 +91,7 @@
                         <th scope="col">@lang('translates.columns.created_by')</th>
                         <th scope="col">@lang('translates.columns.department')</th>
                         <th scope="col">@lang('translates.columns.user')</th>
+                        <th scope="col">@lang('translates.columns.deadline')</th>
                         <th scope="col" style="min-width: 150px; width: 150px;">@lang('translates.columns.stage')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
@@ -99,6 +110,9 @@
                                     $task->taskable->getAttribute('fullname') . ($task->taskable->getAttribute('disabled_at') ? ' <span class="text-danger">(' . __('translates.disabled') . ')</span>' : '') :
                                     __('translates.navbar.general')
                                  !!}
+                            </td>
+                            <td>
+                                {{$task -> getAttribute('must_end_at')}}
                             </td>
                             <td>
                                 @if ($task->status == 'to_do')

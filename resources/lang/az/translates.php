@@ -346,6 +346,7 @@ return [
         'type' => 'Növü',
         'order' => 'Sıralaması',
         'parent_option' => 'Ana parametr',
+        'deadline' => 'Bitmə Vaxtı',
     ],
 
     'notify' => [

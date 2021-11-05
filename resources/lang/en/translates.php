@@ -343,6 +343,7 @@ return [
         'order' => 'Order',
         'type' => 'Type',
         'parent_option' => 'Parent option',
+        'deadline' => 'Deadline'
     ],
 
     'notify' => [

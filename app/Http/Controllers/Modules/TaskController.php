@@ -25,6 +25,7 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search');
+        $limit  = $request->get('limit', 25);
 
         $filters = [
             'department' => $request->get('department'),
@@ -88,7 +89,7 @@ class TaskController extends Controller
                         }
                     })
                     ->latest()
-                    ->paginate(10),
+                    ->simplePaginate($limit),
                 'departments' => Department::get(['id', 'name']),
                 'statuses' => $statuses,
                 'priorities' => $priorities,

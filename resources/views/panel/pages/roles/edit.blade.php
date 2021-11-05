@@ -24,7 +24,15 @@
         <div class="tab-content row mt-4" >
             <div class="form-group col-12">
                 <div class="row">
-                    <x-input::text  name="name"  :value="optional($data)->getAttribute('name')"  label="Role name"  width="6" class="pr-3" />
+                    <x-translate>
+                        @foreach(config('app.locales') as $key => $locale)
+                            <div class="tab-pane fade show @if($loop->first) active @endif" id="data-{{$key}}" role="tabpanel">
+                                <div class="row">
+                                    <x-input::text  name="translate[name][{{$key}}]"  :value="optional($data)->getTranslation('name', $key)"     label="Role name {{$key}}"     width="6" class="pr-3" />
+                                </div>
+                            </div>
+                        @endforeach
+                    </x-translate>
                     <x-input::text  name="key"   :value="optional($data)->getAttribute('key')"   label="Role key"   width="6" class="pr-3" />
                 </div>
                 @if(auth()->user()->isDeveloper())
