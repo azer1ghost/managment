@@ -35,7 +35,7 @@
                     </x-translate>
                     <x-input::select  name="role_id" :value="optional($data)->getAttribute('role_id')" label="Position role"  width="6" class="pr-3" :options="$roles"/>
                     <x-input::select  default="1" name="department_id"  :value="optional($data)->getAttribute('department_id')"  label="Position department"  width="6" class="pr-3" :options="$departments"/>
-                    <x-input::number  default="1" name="order"   label="Position Order"  width="6" class="pr-3" />
+                    <x-input::number  default="1" name="order" :value="optional($data)->getAttribute('order')"  label="Position Order"  width="6" class="pr-3" />
                 </div>
                 @if(auth()->user()->isDeveloper())
                     <div class="col-md-12 px-0">
