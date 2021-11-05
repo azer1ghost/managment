@@ -18,7 +18,9 @@
     <!-- Styles -->
     <link href="{{ asset('assets/fonts/fontawesome.pro.min.css') }}" rel="stylesheet">
     <link href="{{ mix('assets/css/app.css') }}" rel="stylesheet">
+
     @yield('style')
+    @stack('style')
 
     @livewireStyles
 </head>

@@ -25,6 +25,10 @@
         <x-document-upload :id="$data->id" model="Task"/>
     @endif
 
+    @if(!is_null($data))
+        <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result"/>
+    @endif
+
     @if($data)
         <div class="my-3 card p-3 my-5">
             <h3 id="task-lists-header">@lang('translates.tasks.list.to_do')</h3>
