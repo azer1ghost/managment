@@ -18,6 +18,7 @@
 
 // Main theme
 @import "~jquery-confirm/dist/jquery-confirm.min.css";
+@import "~jquery-ui-dist/jquery-ui.min.css";
 
 // animate.css
 @import "~animate.css/animate.min.css";
@@ -30,3 +31,12 @@
 
 // Timeline
 @import "timeline";
+
+/* For summernote override unordered and order list */
+.note-editable ul{
+  list-style: disc inside !important;
+}
+
+.note-editable ol {
+  list-style: decimal inside !important;
+}

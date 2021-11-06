@@ -25,6 +25,6 @@
     "dependencies": {
         "animate.css": "^4.1.1",
         "jquery-confirm": "^3.3.4",
-        "jquery-ui": "^1.12.1"
+        "jquery-ui-dist": "^1.12.1"
     }
 }
