@@ -377,6 +377,8 @@
             setParams();
         });
 
+        const form = $('#inquiryForm');
+
         function setParams(){
             const params = new URLSearchParams({
                 subject: $('#subjectFilter').val().join(','),
@@ -384,12 +386,11 @@
                 status: $('#statusFilter').val().join(','),
                 contact_method: $('#contactMethodFilter').val().join(','),
                 source: $('#sourceFilter').val().join(','),
-                limit: $('select[name="limit"]').val()
             });
-            window.location = inquiryRoute + "?" + $(this).serialize() + "&" + params.toString();
+            window.location = inquiryRoute + "?" + form.serialize() + "&" + params.toString();
         }
 
-        $('#inquiryForm').on('submit', function (e) {
+        form.on('submit', function (e) {
             e.preventDefault();
             setParams();
         });
