@@ -169,7 +169,7 @@
 @endsection
 @section('scripts')
     <script>
-        $('select').change(function () {
+        $('select[name="limit"]').change(function () {
             this.form.submit();
         });
     </script>
