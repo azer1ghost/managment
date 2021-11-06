@@ -371,27 +371,28 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <script>
-        const subject = $('#subjectFilter').val().join(',');
-        const company = $('#companyFilter').val().join(',');
-        const status = $('#statusFilter').val().join(',');
-        const contact_method = $('#contactMethodFilter').val().join(',');
-        const source = $('#sourceFilter').val().join(',');
-
         const inquiryRoute = '{{route('inquiry.index')}}';
-        const params = new URLSearchParams({
-            subject,
-            company,
-            status,
-            contact_method,
-            source,
-        });
 
         $('select[name="limit"]').change(function () {
+            const params = new URLSearchParams({
+                subject: $('#subjectFilter').val().join(','),
+                company: $('#companyFilter').val().join(','),
+                status: $('#statusFilter').val().join(','),
+                contact_method: $('#contactMethodFilter').val().join(','),
+                source: $('#sourceFilter').val().join(','),
+            });
             window.location = inquiryRoute + "?" + $(this).serialize() + "&" + params.toString();
         });
 
         $('#inquiryForm').on('submit', function (e) {
             e.preventDefault();
+            const params = new URLSearchParams({
+                subject: $('#subjectFilter').val().join(','),
+                company: $('#companyFilter').val().join(','),
+                status: $('#statusFilter').val().join(','),
+                contact_method: $('#contactMethodFilter').val().join(','),
+                source: $('#sourceFilter').val().join(','),
+            });
             window.location = inquiryRoute + "?" + $(this).serialize() + "&" + params.toString();
         });
 
