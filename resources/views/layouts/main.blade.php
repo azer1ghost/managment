@@ -135,6 +135,7 @@
 
                 $(function () {
                     $('[data-toggle="tooltip"]').tooltip({
+                        html: true,
                         content: function(){
                             return $(this).attr('title');
                         }
