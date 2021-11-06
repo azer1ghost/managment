@@ -6,7 +6,7 @@
     <h4>Result</h4>
     <form action="{{$action}}" method="POST">
         @csrf @method($method)
-        <textarea name="content" id="summernote" class="form-control">{{optional($result)->getAttribute('content')}}</textarea>
+        <textarea name="content" id="summernote" class="form-control" readonly>{{optional($result)->getAttribute('content')}}</textarea>
         <input type="hidden" name="model" value="{{$model}}">
         <button type="submit" class="btn btn-outline-primary mt-3">@lang('translates.buttons.save')</button>
     </form>
@@ -16,7 +16,8 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#summernote').summernote({
+            const summernote = $('#summernote');
+            summernote.summernote({
                 placeholder: 'Results',
                 height: 400,
                 toolbar: [
@@ -29,6 +30,7 @@
                     ['view', ['fullscreen', 'codeview', 'help']]
                 ]
             });
+            summernote.summernote('{{$status}}');
         });
     </script>
 @endpush

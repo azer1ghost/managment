@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 
 class ResultController extends Controller
 {
-    public function store(ResultRequest $request, $modelId)
+    public function store(ResultRequest $request, $modelId): RedirectResponse
     {
         $validated = $request->validated();
 

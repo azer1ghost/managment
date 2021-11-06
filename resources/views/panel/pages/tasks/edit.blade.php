@@ -26,7 +26,11 @@
     @endif
 
     @if(!is_null($data))
-        <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result"/>
+        @if(optional($data)->getRelationValue('user')->id != auth()->id() && optional($data)->status == \App\Models\Task::DONE)
+            <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result"/>
+        @elseif(optional($data)->getRelationValue('user')->id == auth()->id())
+            <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result"/>
+        @endif
     @endif
 
     @if($data)
