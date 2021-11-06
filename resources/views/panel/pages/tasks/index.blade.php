@@ -64,8 +64,15 @@
                 </div>
             </div>
 
-            <div class="col-3 col-md-1 p-0 pl-3 pb-3">
+            <div class="col-3 col-md-6 p-0 pl-3 pb-3">
                 <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
+            </div>
+            <div class="input-group col-md-2 mt-2">
+                <select name="limit" class="custom-select" id="size">
+                    @foreach([25, 50, 100, 250] as $size)
+                        <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
+                    @endforeach
+                </select>
             </div>
             @can('create', App\Models\Task::class)
                 <div class="col-9 col-md-12 p-0 pr-3 pb-3">
