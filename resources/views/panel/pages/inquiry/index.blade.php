@@ -371,11 +371,10 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <script>
+
         $('select').change(function () {
             this.form.submit();
         });
-    </script>
-    <script>
 
         $('#inquiryForm').on('submit', function (e) {
             e.preventDefault();

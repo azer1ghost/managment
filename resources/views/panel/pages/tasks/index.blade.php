@@ -160,16 +160,10 @@
         </div>
     </form>
 @endsection
-<script>
-    $('select').change(function () {
-        this.form.submit();
-    });
-</script>
-{{--@section('scripts')--}}
-{{--    <script>--}}
-{{--        $('#taskFilterForm').submit(function (e){--}}
-{{--            e.preventDefault();--}}
-{{--            Livewire.emit('updateFilter')--}}
-{{--        });--}}
-{{--    </script>--}}
-{{--@endsection--}}
+@section('scripts')
+    <script>
+        $('select').change(function () {
+            this.form.submit();
+        });
+    </script>
+@endsection
