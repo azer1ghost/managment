@@ -374,26 +374,24 @@
         const inquiryRoute = '{{route('inquiry.index')}}';
 
         $('select[name="limit"]').change(function () {
+            setParams();
+        });
+
+        function setParams(){
             const params = new URLSearchParams({
                 subject: $('#subjectFilter').val().join(','),
                 company: $('#companyFilter').val().join(','),
                 status: $('#statusFilter').val().join(','),
                 contact_method: $('#contactMethodFilter').val().join(','),
                 source: $('#sourceFilter').val().join(','),
+                limit: $('select[name="limit"]').val()
             });
             window.location = inquiryRoute + "?" + $(this).serialize() + "&" + params.toString();
-        });
+        }
 
         $('#inquiryForm').on('submit', function (e) {
             e.preventDefault();
-            const params = new URLSearchParams({
-                subject: $('#subjectFilter').val().join(','),
-                company: $('#companyFilter').val().join(','),
-                status: $('#statusFilter').val().join(','),
-                contact_method: $('#contactMethodFilter').val().join(','),
-                source: $('#sourceFilter').val().join(','),
-            });
-            window.location = inquiryRoute + "?" + $(this).serialize() + "&" + params.toString();
+            setParams();
         });
 
         $('.editable-ended-at').daterangepicker({
