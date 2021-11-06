@@ -23,13 +23,28 @@
     @if(!is_null($data))
         <x-documents :documents="$data->documents"/>
         <x-document-upload :id="$data->id" model="Task"/>
-    @endif
 
-    @if(!is_null($data))
-        @if(optional($data)->getRelationValue('user')->id != auth()->id() && optional($data)->status == \App\Models\Task::DONE)
-            <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result"/>
-        @elseif(optional($data)->getRelationValue('user')->id == auth()->id())
-            <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result"/>
+        @if(auth()->id() != optional($data)->getRelationValue('user')->id)
+            @switch(optional($data)->getRelationValue('taskable')->getTable())
+                @case('users')
+                    @if(auth()->id() == optional($data)->getRelationValue('taskable')->id)
+                        <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result" status="enable"/>
+                    @endif
+                    @break
+
+                @case('departments')
+                    @php
+                        $departmentUsers = optional($data)->getRelationValue('taskable')->users()->isActive()->pluck('id')->toArray();
+                    @endphp
+                    @if(in_array(auth()->id(), $departmentUsers))
+                        <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result" status="enable"/>
+                    @endif
+                    @break
+
+                @default
+            @endswitch
+        @elseif(auth()->id() == optional($data)->getRelationValue('user')->id && optional($data)->status == \App\Models\Task::DONE)
+            <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result" status="disable"/>
         @endif
     @endif
 
@@ -114,49 +129,6 @@
 @endsection
 @section('scripts')
     <script>
-        // firebase storage
-        {{--const storage = firebase.storage();--}}
-        {{--const storageRef = storage.ref();--}}
-
-        {{--$('#firebase-form').submit(function (e){--}}
-        {{--    e.preventDefault();--}}
-        {{--    $('#firebase-loader').removeClass('d-none');--}}
-
-        {{--    const file = $(this).find('input[name="name"]').prop('files')[0];--}}
-
-        {{--    if(!file) return;--}}
-
-        {{--    const fileName = new Date().getTime();--}}
-        {{--    storageRef.child('documents/HR/' + fileName).put(file).then((snapshot) => {--}}
-        {{--        console.log('stored', snapshot);--}}
-        {{--        const url = '{{route('documents.store')}}';--}}
-        {{--        const userId = {{auth()->id()}};--}}
-        {{--        $.ajax({--}}
-        {{--            url,--}}
-        {{--            method: 'POST',--}}
-        {{--            data: {--}}
-        {{--                name: file.name,--}}
-        {{--                file: fileName,--}}
-        {{--                module: 'HR',--}}
-        {{--                type: file.type,--}}
-        {{--                user_id: userId,--}}
-        {{--                size: file.size--}}
-        {{--            },--}}
-        {{--            success: function (){--}}
-        {{--                $('#firebase-loader').addClass('d-none');--}}
-        {{--                console.log('OK');--}}
-        {{--            },--}}
-        {{--            error: function (e){--}}
-        {{--                $('#firebase-loader').addClass('d-none');--}}
-        {{--                console.log(e);--}}
-        {{--            }--}}
-        {{--        });--}}
-        {{--    }).catch(function (err){--}}
-        {{--        console.log(err);--}}
-        {{--        $('#firebase-loader').removeClass('d-none');--}}
-        {{--    });--}}
-        {{--});--}}
-
         // task lists js
         $('.edit').click(function () {
             $(this).hide();
@@ -176,7 +148,7 @@
             form.find('input[type="checkbox"]').attr('disabled', true)
         });
 
-        $(".submit").click(function (e) {
+        $(".submit").click(function () {
             $(this).parent().parent().find('.edit-form').submit();
         });
 

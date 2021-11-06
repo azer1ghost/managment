@@ -8,7 +8,9 @@
         @csrf @method($method)
         <textarea name="content" id="summernote" class="form-control" readonly>{{optional($result)->getAttribute('content')}}</textarea>
         <input type="hidden" name="model" value="{{$model}}">
-        <button type="submit" class="btn btn-outline-primary mt-3">@lang('translates.buttons.save')</button>
+        @if($status == 'enable')
+            <button type="submit" class="btn btn-outline-primary mt-3">@lang('translates.buttons.save')</button>
+        @endif
     </form>
 </div>
 @push('scripts')
