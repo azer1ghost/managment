@@ -45,7 +45,7 @@ return [
         'viewAny-option', 'view-option', 'manage-option',
         'viewAny-user', 'view-user', 'create-user', 'update-user', 'delete-user',
         'viewAll-inquiry','viewAny-inquiry', 'view-inquiry', 'create-inquiry', 'update-inquiry', 'delete-inquiry', 'forceDelete-inquiry', 'restore-inquiry', 'editAccessToUser-inquiry',
-        'viewAll-task','viewAny-task', 'view-task', 'create-task', 'update-task', 'delete-task', 'forceDelete-task', 'restore-task',
+        'viewAll-task', 'viewDepartment-task', 'viewAny-task', 'view-task', 'create-task', 'update-task', 'delete-task', 'forceDelete-task', 'restore-task',
         'viewAny-client', 'view-client', 'create-client', 'update-client', 'delete-client', 'forceDelete-client', 'restore-client',
     ],
 

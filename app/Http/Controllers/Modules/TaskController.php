@@ -48,13 +48,21 @@ class TaskController extends Controller
                     'taskLists as done_tasks_count' => fn (Builder $query) => $query->where('is_checked', true)
                 ])
                     ->when(!Task::userCanViewAll(), function ($query) use ($user_id){
-                        $query->whereHasMorph('taskable', [Department::class, User::class] , function ($q, $type) use ($user_id){
-                            if ($type === Department::class) {
-                                $q->where('id', auth()->user()->getRelationValue('department')->getAttribute('id'));
-                            }else{
-                                $q->where('id', $user_id);
-                            }
-                        });
+                        if (!auth()->user()->hasPermission('viewDepartment-task')){
+                            $query->whereHasMorph('taskable', [Department::class, User::class] , function ($q, $type) use ($user_id){
+                                if ($type === Department::class) {
+                                    $q->where('id', auth()->user()->getRelationValue('department')->getAttribute('id'));
+                                }else{
+                                    $q->where('id', $user_id);
+                                }
+                            });
+                        }else{
+                            $query->whereHasMorph('taskable', [Department::class, User::class] , function ($q, $type) use ($user_id){
+                                if ($type === User::class) {
+                                    $q->whereBelongsTo(auth()->user()->department());
+                                }
+                            });
+                        }
                         $query->orWhere('user_id', $user_id);
                     })
                     ->when($search, fn ($query) => $query->where('name', 'like', "%". $search ."%"))
