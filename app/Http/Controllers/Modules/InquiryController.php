@@ -38,6 +38,7 @@ class InquiryController extends Controller
             'source' => [],
             'search_client' => null
         ];
+        $limit  = $request->get('limit', 25);
 
         foreach ($parameterFilters as $key => $filter){
             if($key == 'search_client'){
@@ -113,7 +114,7 @@ class InquiryController extends Controller
                 }
             ])
             ->latest('datetime')
-            ->paginate(10);
+            ->paginate($limit);
 
         return view('panel.pages.inquiry.index',
             compact(

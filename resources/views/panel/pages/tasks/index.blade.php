@@ -63,15 +63,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-12 col-md-3">
-                <div class="input-group mb-3">
-                    <select name="limit" class="custom-select" id="size">
-                        @foreach([25, 50, 100, 250] as $size)
-                            <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
+
             <div class="col-3 col-md-1 p-0 pl-3 pb-3">
                 <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
             </div>
@@ -168,6 +160,11 @@
         </div>
     </form>
 @endsection
+<script>
+    $('select').change(function () {
+        this.form.submit();
+    });
+</script>
 {{--@section('scripts')--}}
 {{--    <script>--}}
 {{--        $('#taskFilterForm').submit(function (e){--}}
