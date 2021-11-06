@@ -13,6 +13,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\DocumentController,
     Modules\MeetingController,
     Modules\ReferralBonusController,
+    Modules\ResultController,
     Modules\UpdateController,
     Modules\WidgetController,
     Modules\DatabaseNotificationController,
@@ -77,6 +78,9 @@ Route::group([
     Route::resource('/documents', DocumentController::class)->except('store');
     Route::get('/documents/{document}/viewer', [DocumentController::class, 'viewer'])->name('documents.viewer');
     Route::post('/documents/{modelId}', [DocumentController::class, 'store'])->name('documents.store');
+    // resultable routes
+    Route::post('/results/{modelId}', [ResultController::class, 'store'])->name('results.store');
+    Route::put('/results/{result}',   [ResultController::class, 'update'])->name('results.update');
 });
 
 Auth::routes();

@@ -25,6 +25,14 @@
         <x-document-upload :id="$data->id" model="Task"/>
     @endif
 
+    @if(!is_null($data))
+        @if(optional($data)->getRelationValue('user')->id != auth()->id() && optional($data)->status == \App\Models\Task::DONE)
+            <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result"/>
+        @elseif(optional($data)->getRelationValue('user')->id == auth()->id())
+            <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result"/>
+        @endif
+    @endif
+
     @if($data)
         <div class="my-3 card p-3 my-5">
             <h3 id="task-lists-header">@lang('translates.tasks.list.to_do')</h3>

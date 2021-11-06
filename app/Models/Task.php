@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Interfaces\DocumentableInterface;
+use App\Interfaces\ResultableInterface;
 use App\Traits\Documentable;
+use App\Traits\Resultable;
 use Illuminate\Database\Eloquent\{Factories\HasFactory,
     Model,
     Relations\BelongsTo,
@@ -16,9 +18,9 @@ use Illuminate\Database\Eloquent\{Factories\HasFactory,
 /**
  * @property mixed $taskable
  */
-class Task extends Model implements DocumentableInterface
+class Task extends Model implements DocumentableInterface, ResultableInterface
 {
-    use HasFactory, SoftDeletes, Documentable;
+    use HasFactory, SoftDeletes, Documentable, Resultable;
 
     public static function boot() {
         parent::boot();
@@ -43,9 +45,11 @@ class Task extends Model implements DocumentableInterface
         'taskable_id',
     ];
 
+    const DONE = 'done';
+
     public static function statuses(): array
     {
-        return ['to_do', 'in_progress', 'done'];
+        return ['to_do', 'in_progress', self::DONE];
     }
 
     public static function priorities(): array
