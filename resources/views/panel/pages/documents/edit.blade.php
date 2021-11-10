@@ -25,8 +25,8 @@
             <div class="form-group col-12">
                 <div class="row">
                     <x-input::text name="name" :value="optional($data)->getAttribute('name')" label="Document name" width="6" class="pr-3"/>
+                    <x-input::text readonly :value="optional($data)->getAttribute('file')" label="Document file" width="6" class="pr-3"/>
                 </div>
-
             </div>
         </div>
         @if($action)
