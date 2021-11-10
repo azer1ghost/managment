@@ -8,7 +8,7 @@ class Work extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'detail', 'user_id', 'company_id', 'department_id'];
+    protected $fillable = ['name', 'detail', 'user_id', 'company_id', 'department_id', 'service_id'];
 
     public function user(): BelongsTo
     {
@@ -25,4 +25,8 @@ class Work extends Model
         return $this->belongsTo(Department::class);
     }
 
+    public function service(): BelongsTo
+    {
+        return $this->belongsTo(Service::class);
+    }
 }

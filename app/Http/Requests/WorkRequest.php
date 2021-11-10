@@ -9,11 +9,12 @@ class WorkRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|nullable',
-            'detail' => 'required|string|nullable',
-            'user_id' => 'required|integer|nullable',
-            'company_id' => 'required|integer|nullable',
-            'department_id' => 'required|integer|nullable',
+            'name' => 'required|string',
+            'detail' => 'nullable|string',
+            'user_id' => 'nullable|integer',
+            'company_id' => 'nullable|integer',
+            'department_id' => 'nullable|integer',
+            'service_id' => 'nullable|integer',
         ];
     }
 }

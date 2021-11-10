@@ -30,12 +30,13 @@
                     <x-input::textarea name="detail" :value="optional($data)->getAttribute('detail')" label="Work detail" width="6" class="pr-3"/>
 
                     <div class="form-group col-12 col-md-6">
-                        <label for="data-company_id">User Select</label>
-                        <select name="user_id" id="data-user_id" class="form-control">
-                            <option value="" selected>User Select</option>
-                            @foreach($users as $user)
-                                <option @if(optional($data)->getAttribute('user_id') === $user->getAttribute('id') ) selected
-                                        @endif value="{{$user->getAttribute('id')}}">{{$user->getAttribute('name')}}</option>
+                        <label for="data-company_id">Service Select</label>
+                        <select name="company_id" id="data-company_id" class="form-control">
+                            <option value="" selected>Service Select</option>
+                            @foreach($services as $service)
+                                <option @if(optional($data)->getAttribute('service_id') === $service->getAttribute('id') ) selected
+                                        @endif value="{{$service->getAttribute('id')}}">{{$service->getAttribute('name')}}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -46,17 +47,31 @@
                             <option value="" selected>Company Select</option>
                             @foreach($companies as $company)
                                 <option @if(optional($data)->getAttribute('company_id') === $company->getAttribute('id') ) selected
-                                        @endif value="{{$company->getAttribute('id')}}">{{$company->getAttribute('name')}}</option>
+                                        @endif value="{{$company->getAttribute('id')}}">{{$company->getAttribute('name')}}
+                                </option>
                             @endforeach
                         </select>
                     </div>
+
                     <div class="form-group col-12 col-md-6">
                         <label for="data-department_id">Department Select</label>
                         <select name="department_id" id="data-department_id" class="form-control">
                             <option value="" selected>Department Select</option>
                             @foreach($departments as $department)
                                 <option @if(optional($data)->getAttribute('department_id') === $department->getAttribute('id') ) selected
-                                        @endif value="{{$department->getAttribute('id')}}">{{$department->getAttribute('name')}}</option>
+                                        @endif value="{{$department->getAttribute('id')}}">{{$department->getAttribute('name')}}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group col-12 col-md-6">
+                        <label for="data-user_id">User Select</label>
+                        <select name="user_id" id="data-user_id" class="form-control">
+                            <option value="" selected>User Select</option>
+                            @foreach($users as $user)
+                                <option @if(optional($data)->getAttribute('user_id') === $user->getAttribute('id') ) selected
+                                        @endif value="{{$user->getAttribute('id')}}">{{$user->getAttribute('fullname')}}</option>
                             @endforeach
                         </select>
                     </div>
