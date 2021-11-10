@@ -48,6 +48,30 @@
                         </select>
                     </div>
                 @endif
+
+
+                <div class="form-group col-12 col-md-6">
+                    <label for="data-client-type">Client type</label><br/>
+                    <div class="btn-group" role="group">
+                        <select name="model" id="data-client-type"
+                                class="form-control"
+                                style="border-radius: 0 !important;width: 300px;max-width: 100%;"
+                                wire:model="selected.model"
+                        >
+                            <option value="">Client type</option>
+                            @foreach($types as $type)
+                                <option value="{{$type}}">{{ucfirst($type)}}</option>
+                            @endforeach
+                        </select>
+                        <select name="model_id" class="form-control" style="border-radius: 0 !important;" wire:model="selected.model_id">
+                            <option value="null">Select client</option>
+                            @foreach($clients as $client)
+                                <option value="{{$client->getAttribute('id')}}">{{$client->getAttribute('name')}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
