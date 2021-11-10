@@ -27,6 +27,11 @@ class WorkForm extends Component
         return Department::find($this->selected['department_id']);
     }
 
+    public function updatedSelectedDepartmentId()
+    {
+        $this->selected['user_id'] = null;
+    }
+
     public function mount()
     {
         $this->departments = Department::get(['id', 'name']);
@@ -40,6 +45,6 @@ class WorkForm extends Component
 
     public function render()
     {
-        return view('livewire.work-form');
+        return view('panel.pages.works.components.work-form');
     }
 }
