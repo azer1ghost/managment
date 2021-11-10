@@ -87,7 +87,9 @@
         @enderror
     </div>
 
-    @if (!is_null($this->department))
+    @if (!is_null($this->department) &&
+        ($this->department->getAttribute('id') == auth()->user()->getRelationValue('department')->getAttribute('id') ||
+        auth()->user()->isDirector()))
          <div class="form-group col-md-3">
             <label>{{__('translates.fields.user')}}</label>
             <select class="form-control @error('user') is-invalid @enderror" name="user" wire:model="selected.user">

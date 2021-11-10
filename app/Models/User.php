@@ -25,6 +25,8 @@ class User extends Authenticatable implements MustVerifyPhone
 {
     use HasFactory, Notifiable, SoftDeletes, Loger, GetClassInfo, \App\Traits\Auth\MustVerifyPhone;
 
+    const DIRECTOR = '7';
+
     protected $fillable = [
         'name',
         'surname',
@@ -74,7 +76,6 @@ class User extends Authenticatable implements MustVerifyPhone
             }
         });
     }
-
 
     public static function types(): array
     {
@@ -238,7 +239,7 @@ class User extends Authenticatable implements MustVerifyPhone
 
     public function isDirector(): bool
     {
-        return $this->getRelationValue('role')->getAttribute('key') == 'director';
+        return $this->getRelationValue('role')->getAttribute('id') == self::DIRECTOR;
     }
 
     public function setDepartmentIdAttribute($value)
