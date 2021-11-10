@@ -232,7 +232,7 @@
                         <td class="text-center">
                             @if($inquiry->getAttribute('wasDone'))
                                 <i class="fa fa-check text-success" style="font-size: 18px"></i>
-                            @elseif (auth()->id() != $inquiry->getAttribute('user_id') || $inquiry->getParameter('status')->getAttribute('id') == \App\Models\Inquiry::REDIRECTED)
+                            @elseif (auth()->id() != $inquiry->getAttribute('user_id') || optional($inquiry->getParameter('status'))->getAttribute('id') == \App\Models\Inquiry::REDIRECTED)
                                 {{optional($inquiry->getParameter('status'))->getAttribute('text') ?? __('translates.filters.select')}}
                             @else
                                 @if($trashBox)
