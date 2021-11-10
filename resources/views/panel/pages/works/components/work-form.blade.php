@@ -4,14 +4,12 @@
     <div class="tab-content row mt-4">
         <div class="form-group col-12">
             <div class="row">
-
                 <x-input::text name="name" :value="optional($data)->getAttribute('name')" label="Work name" width="6" class="pr-3"/>
-
                 <x-input::textarea name="detail" :value="optional($data)->getAttribute('detail')" label="Work detail" width="6" class="pr-3"/>
 
                 <div class="form-group col-12 col-md-6">
-                    <label for="data-company_id">Service Select</label>
-                    <select name="service_id" id="data-company_id" class="form-control" wire:model="selected.service_id">
+                    <label for="data-service_id">Service Select</label>
+                    <select name="service_id" id="data-service_id" class="form-control" wire:model="selected.service_id">
                         <option value="" selected>Service Select</option>
                         @foreach($services as $service)
                             <option value="{{$service->getAttribute('id')}}">{{$service->getAttribute('name')}}</option>
@@ -51,7 +49,6 @@
                     </div>
                 @endif
             </div>
-
         </div>
     </div>
     @if($action)
