@@ -6,7 +6,7 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Foundation\Events\Dispatchable;
 
-class TaskStatusUpdated
+class TaskStatusDone
 {
     use Dispatchable;
 

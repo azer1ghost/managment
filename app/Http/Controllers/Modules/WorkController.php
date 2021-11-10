@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkRequest;
-use App\Models\{Company, Department, User, Work};
+use App\Models\{Company, Department, Service, User, Work};
 use Illuminate\Http\RedirectResponse;
 
 class WorkController extends Controller
@@ -30,7 +30,8 @@ class WorkController extends Controller
             'data' => null,
             'users' => User::get(['id', 'name']),
             'companies' => Company::get(['id', 'name']),
-            'departments' => Department::get(['id', 'name'])
+            'departments' => Department::get(['id', 'name']),
+            'services' => Service::get(['id', 'name'])
         ]);
     }
 
@@ -51,6 +52,7 @@ class WorkController extends Controller
             'users' => User::get(['id', 'name']),
             'companies' => Company::get(['id','name']),
             'departments' => Department::get(['id','name']),
+            'services' => Service::get(['id', 'name'])
         ]);
     }
 
@@ -63,6 +65,7 @@ class WorkController extends Controller
             'users' => User::get(['id', 'name']),
             'companies' => Company::get(['id','name']),
             'departments' => Department::get(['id','name']),
+            'services' => Service::get(['id', 'name'])
         ]);
     }
 

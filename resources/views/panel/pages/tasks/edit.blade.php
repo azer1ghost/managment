@@ -106,6 +106,15 @@
                                     <a href="{{route('task-lists.destroy', $list)}}" delete data-name="{{$list->getAttribute('name')}}" style="height: 18px">
                                         <i class="fal fa-times remove"></i>
                                     </a>
+                                    @if(auth()->user()->hasPermission('department-chief'))
+                                        <a href="{{route('tasks.create', [
+                                                'name' => $list->getAttribute('name'),
+                                                'department' => auth()->user()->getRelationValue('department')->getAttribute('id')
+                                            ])}}" target="_blank" class="ml-2"
+                                        >
+                                            <i class="fal fa-share text-info"></i>
+                                        </a>
+                                    @endif
                                 </div>
                             @endif
                         </li>

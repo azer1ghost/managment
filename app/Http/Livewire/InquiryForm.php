@@ -21,6 +21,7 @@ class InquiryForm extends Component
     public Inquiry $inquiry;
     public Carbon $datetime;
     public ?string $note;
+    public bool $isRedirected = false;
     public Collection $companies, $parameters;
 
     public array $cachedValues = [], $formFields = [], $selected = [];
@@ -41,6 +42,10 @@ class InquiryForm extends Component
         }
 
         $this->selected['is_out'] = is_null($this->inquiry->getAttribute('is_out')) ? 0 : $this->inquiry->getAttribute('is_out');
+
+        if(array_key_exists('status', $this->selected) && $this->selected['status'] == Inquiry::REDIRECTED){
+            $this->isRedirected = true;
+        }
     }
 
     public function updatedSelectedCompany($id)

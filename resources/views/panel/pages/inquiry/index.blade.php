@@ -201,7 +201,7 @@
     <form action="{{route('inquiry.editable-mass-access-update')}}" method="POST">
         @csrf
         <div class="col-md-12 overflow-auto">
-            <table class="table table-responsive-sm table-hover table-striped" style="min-height: 500px">
+            <table class="table table-responsive-sm table-hover table-striped">
                 <thead>
                 <tr>
                     @if(auth()->user()->isDeveloper())
@@ -232,7 +232,7 @@
                         <td class="text-center">
                             @if($inquiry->getAttribute('wasDone'))
                                 <i class="fa fa-check text-success" style="font-size: 18px"></i>
-                            @elseif (auth()->id() != $inquiry->getAttribute('user_id'))
+                            @elseif (auth()->id() != $inquiry->getAttribute('user_id') || $inquiry->getParameter('status')->getAttribute('id') == \App\Models\Inquiry::REDIRECTED)
                                 {{optional($inquiry->getParameter('status'))->getAttribute('text') ?? __('translates.filters.select')}}
                             @else
                                 @if($trashBox)
@@ -242,12 +242,13 @@
                                             onfocus="this.oldValue = this.value"
                                             id="inquiry-{{$inquiry->getAttribute('id')}}"
                                             onchange="inquiryStatusHandler(this, {{$inquiry->getAttribute('id')}}, '{{$inquiry->getAttribute('code')}}', this.oldValue, this.value)">
-                                        <option value="0"
-                                                @if (!optional($inquiry->getParameter('status'))->getAttribute('id')) selected @else  @endif>@lang('translates.filters.select')</option>
+                                        <option value="0" @if (!optional($inquiry->getParameter('status'))->getAttribute('id')) selected @endif>@lang('translates.filters.select')</option>
                                         @foreach ($statuses as $status)
+                                            @if($status->getAttribute('id') == \App\Models\Inquiry::REDIRECTED)
+                                                @continue
+                                            @endif
                                             <option
-                                                    @if ($status->getAttribute('id') == optional($inquiry->getParameter('status'))->getAttribute('id')) selected
-                                                    @endif
+                                                    @if ($status->getAttribute('id') == optional($inquiry->getParameter('status'))->getAttribute('id')) selected @endif
                                                     value="{{$status->getAttribute('id')}}">
                                                 {{$status->getAttribute('text')}}
                                             </option>

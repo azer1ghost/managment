@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use App\Events\TaskStatusUpdated;
+use App\Events\TaskStatusDone;
 use App\Models\Department;
 use App\Models\Inquiry;
 use App\Models\Task;
@@ -15,6 +15,7 @@ class TaskForm extends Component
     public array $statuses, $priorities;
     public Collection $departments;
     public ?Task $task;
+
     public array $selected = [
         'status' => null,
         'priority' => null,
@@ -25,7 +26,6 @@ class TaskForm extends Component
     protected $listeners = [
         'statusChanging' => 'confirmStatusChange',
         'statusChanged' => 'updateSelectedStatus',
-        'isTasksFinished' => '$refresh'
     ];
 
     public function getDepartmentProperty()
@@ -46,9 +46,10 @@ class TaskForm extends Component
             switch ($key) {
                 case 'department':
                     $this->selected[$key] =
-                        $task->getClassShortName() == $key ?
-                            $task->getAttribute('id') :
-                            optional($task->department)->getAttribute('id');
+                        request()->has('department') ? request()->get('department') :
+                            ($task->getClassShortName() == $key ?
+                                $task->getAttribute('id') :
+                                optional($task->department)->getAttribute('id'));
                     break;
                 case 'user':
                     $this->selected[$key] =
@@ -104,7 +105,9 @@ class TaskForm extends Component
                         ->parameters()
                         ->updateExistingPivot(Inquiry::STATUS_PARAMETER, ['value' => Inquiry::DONE]);
                 }
-                event(new TaskStatusUpdated($this->task, auth()->user(), $oldValue, $newVal));
+                if($newVal == 'done'){
+                    event(new TaskStatusDone($this->task, auth()->user(), $oldValue, $newVal));
+                }
             } else {
                 $this->dispatchEvent('alert', 'red', 'Error', 'Error encountered, please try again later');
             }
