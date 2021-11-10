@@ -39,7 +39,7 @@ class Sidebar extends Component
             ],
             (object)[
                 'title' => __('translates.navbar.customer_company'),
-                'icon' => 'fa fa-building',
+                'icon' => 'fas fa-chalkboard-teacher',
                 'url' => route('customer-companies.index'),
                 'permission' => 'viewAny-customer_company',
             ],

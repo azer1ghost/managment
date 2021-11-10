@@ -33,7 +33,22 @@
             <p class="text-muted mb-2"> @lang('translates.fields.employment')</p>
             <hr class="my-2">
             <div class="row">
-                <x-input::text name="company"  :value="optional($data)->getAttribute('company')" :label="__('translates.fields.company')" width="4" class="pr-1" />
+                <div class="form-group col-12 col-md-2">
+                    <label for="data-gender">{{__('translates.fields.company')}}</label>
+                    <select class="form-control" name="company_id" id="data-gender" style="padding: .375rem 0.75rem !important;">
+                        <option disabled selected value="">{{__('translates.fields.company')}} {{__('translates.placeholders.choose')}}</option>
+                        @foreach($companies as $company)
+                            <option @if ($company->id === optional($data)->getAttribute('company_id')) selected @endif value="{{$company->id}}">
+                                {{$company->name}}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('gender')
+                    <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                    @enderror
+                </div>
                 <x-input::text name="position"  :value="optional($data)->getAttribute('position')" :label="__('translates.fields.position')" width="4" class="pr-1" />
                 <x-input::text name="voen"     :value="optional($data)->getAttribute('voen')"     width="4" class="pr-1"  label="VOEN/GOOEN" />
             </div>

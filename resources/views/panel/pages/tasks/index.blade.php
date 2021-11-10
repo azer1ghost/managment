@@ -151,7 +151,7 @@
                         <tr>
                             <th colspan="9">
                                 <div class="row justify-content-center m-3">
-                                    <div class="col-7 alert alert-danger text-center" task="alert">Empty for now</div>
+                                    <div class="col-7 alert alert-danger text-center" task="alert">@lang('translates.general.empty')</div>
                                 </div>
                             </th>
                         </tr>

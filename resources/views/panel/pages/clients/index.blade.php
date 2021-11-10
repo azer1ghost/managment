@@ -35,7 +35,6 @@
                             <th scope="col">@lang('translates.columns.full_name')</th>
                             <th scope="col">@lang('translates.columns.email')</th>
                             <th scope="col">@lang('translates.columns.phone')</th>
-                            <th scope="col">@lang('translates.columns.company')</th>
                             <th scope="col">VOEN/GOOEN</th>
                             <th scope="col">@lang('translates.columns.adress')</th>
                             <th scope="col">@lang('translates.columns.actions')</th>
@@ -48,7 +47,6 @@
                                 <td>{{$client->getAttribute('fullname')}}</td>
                                 <td>{{$client->getAttribute('email')}}</td>
                                 <td>{{$client->getAttribute('phone')}}</td>
-                                <td>{{$client->getAttribute('company')}}</td>
                                 <td>{{$client->getAttribute('voen')}}</td>
                                 <td>{{$client->getAttribute('address')}}</td>
                                 <td>
@@ -77,7 +75,7 @@
                             <tr>
                                 <th colspan="8">
                                     <div class="row justify-content-center m-3">
-                                        <div class="col-7 alert alert-danger text-center" role="alert">Not found!</div>
+                                        <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.not_found')</div>
                                     </div>
                                 </th>
                             </tr>

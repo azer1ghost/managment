@@ -166,7 +166,7 @@ return [
         'referral' => 'Referrallar',
         'bonus' => 'Bonuslar',
         'update' => 'Yeniləmələr',
-        'service' => 'Servislər',
+        'service' => 'Xidmətlər',
         'work' => 'Tamamlanmış İşlər',
         'meeting' => 'Görüşmələr',
         'conference' => 'İclaslar',
@@ -373,4 +373,16 @@ return [
         'effective' => 'Effektiv',
         'ineffective' => 'Karsız'
     ],
+
+    'general' => [
+        'inquirable' => 'Sorğulana Bilər',
+        'sosials' => 'SOSYAL ŞƏBƏKƏLƏR',
+        'sosial' => 'Sosyal Şəbəkə',
+        'no_sosial_link' => 'Sosyal Şəbəkə Yoxdur',
+        'sosial_url' => 'Sosyal Şəbəkə Linki',
+        'empty' => 'Hələlik boşdur.',
+        'not_found' => 'Tapılmadı!',
+        'get_signature' => 'İmzamı Al',
+        'signature_for' => 'İmza',
+    ]
 ];

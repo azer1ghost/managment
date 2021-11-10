@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends Model
@@ -20,11 +21,12 @@ class Client extends Model
         'fin',
         'phone_coop',
         'phone',
+        'phone',
+        'company_id',
         'email_coop',
         'email',
         'address',
         'address_coop',
-        'company',
         'voen',
         'position'
     ];
@@ -32,5 +34,10 @@ class Client extends Model
     public function getFullnameAttribute(): string
     {
         return "{$this->getAttribute('name')} {$this->getAttribute('surname')}";
+    }
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(CustomerCompany::class);
     }
 }

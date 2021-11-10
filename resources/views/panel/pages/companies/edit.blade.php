@@ -42,11 +42,11 @@
             <div class="col-12 mb-2">
                 <div class="form-check">
                     <input type="checkbox" name="is_inquirable" @if(optional($data)->getAttribute('is_inquirable') === true) checked @endif class="form-check-input" id="id-is_inquirable">
-                    <label class="form-check-label" for="id-is_inquirable">Is Inquirable</label>
+                    <label class="form-check-label" for="id-is_inquirable">@lang('translates.general.inquirable')</label>
                 </div>
             </div>
             <div class="col-12 col-md-12">
-                <p class="text-muted mb-2">SOCIALS</p>
+                <p class="text-muted mb-2">@lang('translates.general.sosials')</p>
                 @livewire('show-socials',['company' => $data,'action' => $action])
             </div>
         </div>

@@ -370,4 +370,15 @@ return [
         'ineffective' => 'Ineffective'
     ],
 
+    'general' => [
+        'inquirable' => 'Is Inquirable',
+        'sosials' => 'SOSIALS',
+        'sosial' => 'Sosial',
+        'no_sosial_link' => 'No Social links',
+        'sosial_url' => 'Sosial Url',
+        'empty' => 'Empty for now.',
+        'not_found' => 'Not Found!',
+        'get_signature' => 'Get My Signature',
+        'signature_for' => 'Signature for',
+    ]
 ];

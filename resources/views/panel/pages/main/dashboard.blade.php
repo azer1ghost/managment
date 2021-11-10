@@ -14,7 +14,7 @@
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link is-current="1">
-            Dashboard
+            @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
     </x-bread-crumb>
     <div class="row">

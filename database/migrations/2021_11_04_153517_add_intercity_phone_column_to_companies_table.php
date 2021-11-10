@@ -26,7 +26,7 @@ class AddIntercityPhoneColumnToCompaniesTable extends Migration
     public function down()
     {
         Schema::table('companies', function (Blueprint $table) {
-            $table->dropColumn('size');
+            $table->dropColumn('intercity_phone');
         });
     }
 }

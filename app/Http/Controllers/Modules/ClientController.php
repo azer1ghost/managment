@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use App\Models\Client;
+use App\Models\CustomerCompany;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -36,6 +37,7 @@ class ClientController extends Controller
                 'action' => route('clients.store'),
                 'method' => null,
                 'data' => null,
+                'companies' => CustomerCompany::get(['id','name'])
             ]);
     }
 
@@ -56,7 +58,8 @@ class ClientController extends Controller
             ->with([
                 'action' => null,
                 'method' => null,
-                'data' => $client
+                'data' => $client,
+                'companies' => CustomerCompany::get(['id','name'])
             ]);
     }
 
@@ -66,7 +69,8 @@ class ClientController extends Controller
             ->with([
                 'action' => route('clients.update', $client),
                 'method' => "PUT",
-                'data' => $client
+                'data' => $client,
+                'companies' => CustomerCompany::get(['id','name'])
             ]);
     }
 

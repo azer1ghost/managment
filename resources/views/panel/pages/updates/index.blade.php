@@ -75,7 +75,7 @@
                         <tr>
                             <th colspan="6">
                                 <div class="row justify-content-center m-3">
-                                    <div class="col-7 alert alert-danger text-center" role="alert">Empty for now</div>
+                                    <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.empty')</div>
                                 </div>
                             </th>
                         </tr>

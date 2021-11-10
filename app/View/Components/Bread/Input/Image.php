@@ -29,7 +29,7 @@ class Image extends Component
                 <label for="data-{{$name}}">
                      <div class="card" style="max-width: 100%">
                          <img class="img-fluid" id="input-{{$name}}" src="{{image($value)}}" alt="{{$name}}"> 
-                         <div class="btn btn-outline-primary">Change</div>
+                         <div class="btn btn-outline-primary">@lang('translates.buttons.change')</div>
                      </div>
                 </label>
                 <input 

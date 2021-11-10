@@ -24,7 +24,7 @@
                                <img class="img-fluid mt-4" src="https://mobilgroup.az/signature/{{$company->getAttribute('logo')}}" alt="{{$company->getAttribute('name')}}">
                            </div>
                            <div class="card-footer text-center">
-                               <a href="{{route('signature', $company)}}" class="btn btn-outline-orange text-uppercase w-100">Get My Signature</a>
+                               <a href="{{route('signature', $company)}}" class="btn btn-outline-orange text-uppercase w-100">@lang('translates.general.get_signature')</a>
                            </div>
                        </div>
                    </div>

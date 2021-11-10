@@ -11,7 +11,7 @@
             @lang('translates.navbar.signature')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
-            Signature for {{optional($company)->getAttribute('name')}}
+            @lang('translates.general.signature_for') {{optional($company)->getAttribute('name')}}
         </x-bread-crumb-link>
     </x-bread-crumb>
     <div class="container">
@@ -23,7 +23,7 @@
                     </section>
                     <div>
                         <button type="button" onclick="copy()" class="btn btn-outline-primary">
-                            <i class="fal fa-copy"></i> Copy
+                            <i class="fal fa-copy"></i> @lang('translates.buttons.copy')
                         </button>
                     </div>
                 </div>

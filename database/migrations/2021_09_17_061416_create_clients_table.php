@@ -20,8 +20,8 @@ class CreateClientsTable extends Migration
             $table->string('email')->nullable()->unique();
             $table->string('email_coop')->nullable()->unique();
             $table->string('phone')->nullable();
+            $table->integer('company_id')->nullable();
             $table->string('phone_coop')->nullable();
-            $table->string('company')->nullable();
             $table->string('voen')->nullable();
             $table->string('address')->nullable();
             $table->string('address_coop')->nullable();
