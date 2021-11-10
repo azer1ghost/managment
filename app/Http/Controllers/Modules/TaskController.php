@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Events\TaskCreated;
-use App\Events\TaskStatusUpdated;
+use App\Events\TaskStatusDone;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskRequest;
 use App\Models\Department;
@@ -12,7 +12,6 @@ use App\Models\User;
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Notifications\DatabaseNotification;
 
 class TaskController extends Controller
 {
@@ -194,8 +193,8 @@ class TaskController extends Controller
             $validated['taskable_id']   = $validated['department'];
         }
 
-        if ($task->getAttribute('status') != $validated['status']){
-            event(new TaskStatusUpdated($task, auth()->user(), $task->getAttribute('status'), $validated['status']));
+        if ($task->getAttribute('status') != $validated['status'] && $validated['status'] == 'done'){
+            event(new TaskStatusDone($task, auth()->user(), $task->getAttribute('status'), $validated['status']));
         }
 
         $task->update($validated);
@@ -206,9 +205,9 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         if ($task->delete()) {
-            foreach (DatabaseNotification::where("data->url", route('tasks.show', $task))->get() as $notification){
-                $notification->delete();
-            }
+//            foreach (DatabaseNotification::where("data->url", route('tasks.show', $task))->get() as $notification){
+//                $notification->delete();
+//            }
             return response('OK');
         }
         return response()->setStatusCode('204');

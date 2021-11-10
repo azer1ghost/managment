@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\TaskListCreated;
-use App\Events\TaskListDone;
 use App\Models\TaskList;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class TaskListController extends Controller
@@ -52,7 +50,7 @@ class TaskListController extends Controller
 
         if(array_key_exists('is_checked', $data)){
             $data['last_checked_by'] = auth()->id();
-            event(new TaskListDone($taskList, auth()->user()));
+//            event(new TaskListDone($taskList, auth()->user()));
         }
 
         $taskList->update($data);

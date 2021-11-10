@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use App\Events\TaskStatusUpdated;
+use App\Events\TaskStatusDone;
 use App\Models\Department;
 use App\Models\Inquiry;
 use App\Models\Task;
@@ -104,7 +104,9 @@ class TaskForm extends Component
                         ->parameters()
                         ->updateExistingPivot(Inquiry::STATUS_PARAMETER, ['value' => Inquiry::DONE]);
                 }
-                event(new TaskStatusUpdated($this->task, auth()->user(), $oldValue, $newVal));
+                if($newVal == 'done'){
+                    event(new TaskStatusDone($this->task, auth()->user(), $oldValue, $newVal));
+                }
             } else {
                 $this->dispatchEvent('alert', 'red', 'Error', 'Error encountered, please try again later');
             }
