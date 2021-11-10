@@ -9,7 +9,7 @@ class AddServiceIdColumnToWorksTable extends Migration
     public function up()
     {
         Schema::table('works', function (Blueprint $table) {
-            $table->foreignId('service_id')->after('department_id')->constrained()->onDelete('CASCADE');
+            $table->foreignId('service_id')->after('department_id')->nullable()->constrained()->onDelete('CASCADE');
         });
     }
 

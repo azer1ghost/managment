@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Http\Livewire;
+
+use App\Models\Company;
+use App\Models\Department;
+use App\Models\Service;
+use App\Models\User;
+use App\Models\Work;
+use Illuminate\Support\Collection;
+use Livewire\Component;
+
+class WorkForm extends Component
+{
+    public ?Work $data;
+    public ?string $method, $action;
+    public Collection $departments, $services, $users, $companies;
+    public array $selected = [
+        'department_id' => null,
+        'service_id' => null,
+        'user_id' => null,
+        'company_id' => null,
+    ];
+
+    public function getDepartmentProperty()
+    {
+        return Department::find($this->selected['department_id']);
+    }
+
+    public function mount()
+    {
+        $this->departments = Department::get(['id', 'name']);
+        $this->services = Service::get(['id', 'name']);
+        $this->companies = Company::get(['id','name']);
+
+        foreach ($this->selected as $key => $selected) {
+            $this->selected[$key] = optional($this->data)->getAttribute($key);
+        }
+    }
+
+    public function render()
+    {
+        return view('livewire.work-form');
+    }
+}
