@@ -47,7 +47,7 @@ class TaskController extends Controller
                     'taskLists as done_tasks_count' => fn (Builder $query) => $query->where('is_checked', true)
                 ])
                     ->when(!Task::userCanViewAll(), function ($query) use ($user_id){
-                        if (!auth()->user()->hasPermission('viewDepartment-task')){
+                        if (!auth()->user()->hasPermission('department-chief')){
                             $query->whereHasMorph('taskable', [Department::class, User::class] , function ($q, $type) use ($user_id){
                                 if ($type === Department::class) {
                                     $q->where('id', auth()->user()->getRelationValue('department')->getAttribute('id'));

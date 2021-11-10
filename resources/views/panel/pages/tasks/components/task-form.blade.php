@@ -22,8 +22,7 @@
     @if($method == "POST")
     <input wire:ignore type="hidden" name="inquiry_id" value="{{request()->get('inquiry_id')}}">
     @endif
-
-    <x-input::text name="name" :value="optional($task)->getAttribute('name')"  :label="__('translates.tasks.label.name')"   width="6" class="pr-3" />
+    <x-input::text name="name" :value="optional($task)->getAttribute('name') ?? request()->get('name')"  :label="__('translates.tasks.label.name')"   width="6" class="pr-3" />
 
     <div wire:ignore class="form-group col-12 col-md-6 mb-3 mb-md-0" >
         @php($task_dates = optional($task)->getAttribute('must_start_at') && optional($task)->getAttribute('must_end_at') ?  optional($task)->getAttribute('must_start_at') . ' - ' .  optional($task)->getAttribute('must_end_at') : '')
@@ -74,7 +73,7 @@
 
     <div class="form-group col-md-3">
         <label>{{__('translates.fields.department')}}</label>
-        <select class="form-control @error('department') is-invalid @enderror" name="department" wire:model="selected.department">
+        <select class="form-control @error('department') is-invalid @enderror" @if(request()->has('department')) disabled @endif name="department" wire:model="selected.department">
             <option value="null" disabled selected>{{__('translates.fields.department')}} {{__('translates.placeholders.choose')}}</option>
             @foreach($departments as $depart)
                 <option value="{{ $depart->getAttribute('id') }}">{{ $depart->getAttribute('name') }}</option>
