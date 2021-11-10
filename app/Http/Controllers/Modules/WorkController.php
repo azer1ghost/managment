@@ -28,7 +28,7 @@ class WorkController extends Controller
             'action' => route('works.store'),
             'method' => null,
             'data' => null,
-            'users' => User::get(['id', 'name']),
+            'users' => User::get(['id', 'name', 'surname']),
             'companies' => Company::get(['id', 'name']),
             'departments' => Department::get(['id', 'name']),
             'services' => Service::get(['id', 'name'])
@@ -49,7 +49,7 @@ class WorkController extends Controller
             'action' => null,
             'method' => null,
             'data' => $work,
-            'users' => User::get(['id', 'name']),
+            'users' => User::get(['id', 'name', 'surname']),
             'companies' => Company::get(['id','name']),
             'departments' => Department::get(['id','name']),
             'services' => Service::get(['id', 'name'])
@@ -62,7 +62,7 @@ class WorkController extends Controller
             'action' => route('works.update', $work),
             'method' => 'PUT',
             'data' => $work,
-            'users' => User::get(['id', 'name']),
+            'users' => User::get(['id', 'name', 'surname']),
             'companies' => Company::get(['id','name']),
             'departments' => Department::get(['id','name']),
             'services' => Service::get(['id', 'name'])

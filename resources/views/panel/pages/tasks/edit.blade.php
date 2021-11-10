@@ -18,7 +18,7 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
 
-    <livewire:task-form :action="$action"  :method="$method" :task="$data" />
+    <livewire:task-form :action="$action" :method="$method" :task="$data" />
 
     @if(!is_null($data))
         <x-documents :documents="$data->documents"/>
