@@ -265,10 +265,10 @@ class User extends Authenticatable implements MustVerifyPhone
     public static function serialPattern(): array
     {
         return  [
-            'AZE',
-            'AA',
-            'MYI',
-            'DYI',
+            'AZE' => 'AZE',
+            'AA' => 'AA',
+            'MYI' => 'MYI',
+            'DYI' => 'DYI',
         ];
     }
 
