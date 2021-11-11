@@ -128,8 +128,8 @@ class TaskForm extends Component
             'red',
             __('translates.flash_messages.task_user_updated.confirm.title', ['name' => $this->task->getAttribute('name')]),
             __('translates.flash_messages.task_user_updated.confirm.msg',   [
-                'prev' => User::find($oldValue)->fullname,
-                'next' => User::find($newVal)->fullname
+                'prev' => User::find($oldValue)->fullname ?? trans('translates.filters.select'),
+                'next' => User::find($newVal)->fullname ?? trans('translates.filters.select')
             ]),
             $oldValue,
             $newVal,
@@ -148,8 +148,8 @@ class TaskForm extends Component
                 'blue',
                 __('translates.flash_messages.task_user_updated.title', ['name' => $this->task->getAttribute('name')]),
                 __('translates.flash_messages.task_user_updated.msg', [
-                    'prev' => User::find($oldValue)->fullname,
-                    'next' => User::find($newVal)->fullname
+                    'prev' => User::find($oldValue)->fullname ?? trans('translates.filters.select'),
+                    'next' => User::find($newVal)->fullname ?? trans('translates.filters.select')
                 ]));
             event(new TaskCreated($this->task));
         } else {
