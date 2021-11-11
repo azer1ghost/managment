@@ -34,6 +34,7 @@ class Text extends Component
                        @if(key_exists('autocomplete', $attributes->getAttributes())) autocomplete="off" @endif
                        @if(key_exists('readonly', $attributes->getAttributes())) readonly @endif
                        @if(key_exists('max',      $attributes->getAttributes())) max='{{$attributes['max']}}' @endif
+                       @if(key_exists('wire:ignore', $attributes->getAttributes())) wire:ignore @endif
                        type="{{$type}}"
                        class="form-control @error($name) is-invalid @enderror"
                        name="{{$name}}" 

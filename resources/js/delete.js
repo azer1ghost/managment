@@ -2,10 +2,13 @@ $( function() {
     $("a[delete]").click(function(e){
         let url  = $(this).attr('href')
         let name = $(this).data('name') ?? 'Record'
+        let statusTitle = $(this).data('status-title') ?? 'Confirm delete action'
+        let status = $(this).data('status') ?? 'Are you sure to delete'
+        let type =  $(this).data('type') ?? 'DELETE';
         e.preventDefault()
         $.confirm({
-            title: 'Confirm delete action',
-            content: `Are you sure delete <b>${name}</b> ?`,
+            title: statusTitle,
+            content: `${status} <b>${name}</b> ?`,
             autoClose: 'confirm|8000',
             icon: 'fa fa-question',
             type: 'red',
@@ -15,7 +18,7 @@ $( function() {
                 confirm: function () {
                     $.ajax({
                         url:   url,
-                        type: 'DELETE',
+                        type: type,
                         success: function (responseObject, textStatus, xhr)
                         {
                             $.confirm({

@@ -11,9 +11,11 @@ use Illuminate\Database\Eloquent\{Factories\HasFactory,
     Relations\BelongsTo,
     Relations\BelongsToMany,
     Relations\HasMany,
+    Relations\HasOne,
     Relations\MorphMany,
     Relations\MorphTo,
     SoftDeletes};
+use const http\Client\Curl\AUTH_ANY;
 
 /**
  * @property mixed $taskable
@@ -27,6 +29,15 @@ class Task extends Model implements DocumentableInterface, ResultableInterface
 
         static::creating(function (Model $model) {
             $model->status = 'to_do';
+        });
+
+        static::updating(function (Model $model) {
+            if ($model->isDirty('status') && $model->list()->exists() && $model->status == 'done'){
+                TaskList::find($model->getRelationValue('list')->id)->update([
+                    'is_checked' => 1,
+                    'last_checked_by' => auth()->id()
+                ]);
+            }
         });
     }
 
@@ -122,5 +133,26 @@ class Task extends Model implements DocumentableInterface, ResultableInterface
             return false;
         }
         return true;
+    }
+
+    public function list(): HasOne
+    {
+        return $this->hasOne(TaskList::class, 'parent_task_id');
+    }
+
+    public function canManageTaskable()
+    {
+        switch ($this->taskable->getTable()){
+            case 'departments':
+                $departmentId = $this->taskable->id;
+                break;
+            case 'users':
+                $departmentId = $this->taskable->department->id;
+                break;
+        }
+        if (auth()->user()->hasPermission('department-chief') && $departmentId == auth()->user()->department->id){
+            return true;
+        }
+        return false;
     }
 }

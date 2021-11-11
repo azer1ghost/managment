@@ -213,8 +213,13 @@ return [
         ],
         'task_status_updated' => [
             'confirm' => ['title' => 'Update', 'msg' => 'Are you sure to change status from :prev to :next?'],
-            'title' => ':name Yeniləndi',
+            'title' => ':name Updated',
             'msg' => 'Status updated from :prev to :next'
+        ],
+        'task_user_updated' => [
+            'confirm' => ['title' => 'Update', 'msg' => 'Are you sure to change user from :prev to :next?'],
+            'title' => ':name Updated',
+            'msg' => 'User updated from :prev to :next'
         ]
     ],
 

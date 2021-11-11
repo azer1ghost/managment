@@ -100,6 +100,16 @@
                                                     <i class="fal fa-trash"></i>
                                                 </a>
                                             @endcan
+                                            @if(auth()->user()->hasPermission('manageStatus-user'))
+                                                @php
+                                                    $route = $user->isDisabled() ? route('users.enable', $user) : route('users.disable', $user);
+                                                    $icon =  $user->isDisabled() ? 'unlock' : 'lock';
+                                                    $status = $user->isDisabled() ? 'enable' : 'disable';
+                                                @endphp
+                                                <a href="{{$route}}" delete data-type="POST" data-name="{{$user->getAttribute('fullname')}}" data-status="Are you sure to {{$status}}" data-status-title="Confirm {{$status}} action" class="btn btn-sm btn-outline-danger" >
+                                                    <i class="fas fa-user-{{$icon}}"></i>
+                                                </a>
+                                            @endif
                                         @endif
                                 </div>
                             </td>

@@ -165,10 +165,26 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        if ($user->update(['disabled_at' => now()])) {
+        if ($user->delete()) {
             if (Storage::exists($user->getAttribute('avatar'))) {
                 Storage::delete($user->getAttribute('avatar'));
             }
+            return response('OK');
+        }
+        return response()->setStatusCode('204');
+    }
+
+    public function enable(User $user)
+    {
+        if ($user->update(['disabled_at' => null])) {
+            return response('OK');
+        }
+        return response()->setStatusCode('204');
+    }
+
+    public function disable(User $user)
+    {
+        if ($user->update(['disabled_at' => now()])) {
             return response('OK');
         }
         return response()->setStatusCode('204');
