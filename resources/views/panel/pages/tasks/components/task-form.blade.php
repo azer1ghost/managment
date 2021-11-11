@@ -6,7 +6,7 @@
 <form action="{{$action}}" id="createTaskForm" method="POST" class="tab-content form-row mt-4 mb-5">
     @csrf
     @method($method)
-
+    <input type="hidden" wire:ignore name="list_id" value="{{request()->get('list_id')}}">
     <div wire:loading.delay class="col-12">
         <div style="position: absolute;right: 0;top: -25px">
             <div class="spinner-border text-primary" role="status"></div>
@@ -22,7 +22,7 @@
     @if($method == "POST")
     <input wire:ignore type="hidden" name="inquiry_id" value="{{request()->get('inquiry_id')}}">
     @endif
-    <x-input::text name="name" :value="optional($task)->getAttribute('name') ?? request()->get('name')"  :label="__('translates.tasks.label.name')"   width="6" class="pr-3" />
+    <x-input::text wire:ignore name="name" :value="request()->get('name') ?? optional($task)->getAttribute('name')"  :label="__('translates.tasks.label.name')"   width="6" class="pr-3" />
 
     <div wire:ignore class="form-group col-12 col-md-6 mb-3 mb-md-0" >
         @php($task_dates = optional($task)->getAttribute('must_start_at') && optional($task)->getAttribute('must_end_at') ?  optional($task)->getAttribute('must_start_at') . ' - ' .  optional($task)->getAttribute('must_end_at') : '')
@@ -73,7 +73,7 @@
 
     <div class="form-group col-md-3">
         <label>{{__('translates.fields.department')}}</label>
-        <select class="form-control @error('department') is-invalid @enderror" @if(request()->has('department')) disabled @endif name="department" wire:model="selected.department">
+        <select class="form-control @error('department') is-invalid @enderror" name="department" wire:model="selected.department">
             <option value="null" disabled selected>{{__('translates.fields.department')}} {{__('translates.placeholders.choose')}}</option>
             @foreach($departments as $depart)
                 <option value="{{ $depart->getAttribute('id') }}">{{ $depart->getAttribute('name') }}</option>
@@ -91,7 +91,7 @@
         auth()->user()->isDirector()))
          <div class="form-group col-md-3">
             <label>{{__('translates.fields.user')}}</label>
-            <select class="form-control @error('user') is-invalid @enderror" name="user" wire:model="selected.user">
+            <select class="form-control @error('user') is-invalid @enderror" id="task-user" name="user" @if (is_null($action)) onfocus="this.oldValue = this.value" onchange="taskUserHandler(this.oldValue, this.value)" @endif wire:model="selected.user">
                 <option value="null" disabled selected>{{__('translates.fields.user')}} {{__('translates.placeholders.choose')}}</option>
                 @foreach($this->department->users()->isActive()->get(['id', 'name', 'surname']) as $user)
                     <option value="{{ $user->getAttribute('id') }}">{{ $user->getAttribute('fullname') }}</option>
@@ -125,6 +125,10 @@
 
         @if($task && $task->canManageLists() && $task->getAttribute('status') != 'done')
             $("select[name='status']").attr("disabled", false);
+        @endif
+
+        @if($task && $task->canManageTaskable() && $task->getAttribute('status') != 'done')
+            $("select[name='user']").attr("disabled", false);
         @endif
 
         $(".inquiry :input").attr("disabled", true);
@@ -163,10 +167,10 @@
                 typeAnimated: true,
                 buttons: {
                     confirm: function () {
-                        Livewire.emit('statusChanged', event?.detail?.old, event?.detail?.new)
+                        Livewire.emit(`${event?.detail?.selected}Changed`, event?.detail?.old, event?.detail?.new)
                     },
                     cancel: function () {
-                        $('#task-status').val(event?.detail?.old);
+                        $(`#task-${event?.detail?.selected}`).val(event?.detail?.old);
                     },
                 }
             });
@@ -174,6 +178,10 @@
 
         function taskStatusHandler(oldVal, newVal){
             Livewire.emit('statusChanging', oldVal, newVal)
+        }
+
+        function taskUserHandler(oldVal, newVal){
+            Livewire.emit('userChanging', oldVal, newVal)
         }
     </script>
 @endpush

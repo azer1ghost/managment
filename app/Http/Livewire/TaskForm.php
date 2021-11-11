@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire;
 
+use App\Events\TaskCreated;
 use App\Events\TaskStatusDone;
 use App\Models\Department;
 use App\Models\Inquiry;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
@@ -25,7 +27,9 @@ class TaskForm extends Component
 
     protected $listeners = [
         'statusChanging' => 'confirmStatusChange',
+        'userChanging' => 'confirmUserChange',
         'statusChanged' => 'updateSelectedStatus',
+        'userChanged' => 'updateSelectedUser',
     ];
 
     public function getDepartmentProperty()
@@ -77,7 +81,8 @@ class TaskForm extends Component
                 'next' => __('translates.fields.status.options.'.$newVal)
             ]),
             $oldValue,
-            $newVal
+            $newVal,
+            'status'
         );
     }
 
@@ -114,12 +119,45 @@ class TaskForm extends Component
         }else{
             $this->dispatchEvent('alert', 'red', 'Unauthorized', 'You cannot change status of this task');
         }
-        if($newVal == 'done'){
-            $this->emit('isTaskDone');
+    }
+
+    public function confirmUserChange($oldValue, $newVal)
+    {
+        $this->dispatchEvent(
+            'alertChange',
+            'red',
+            __('translates.flash_messages.task_user_updated.confirm.title', ['name' => $this->task->getAttribute('name')]),
+            __('translates.flash_messages.task_user_updated.confirm.msg',   [
+                'prev' => User::find($oldValue)->fullname,
+                'next' => User::find($newVal)->fullname
+            ]),
+            $oldValue,
+            $newVal,
+            'user'
+        );
+    }
+
+    public function updateSelectedUser($oldValue, $newVal)
+    {
+        $data = [];
+        $data['taskable_type'] = User::class;
+        $data['taskable_id']   = $newVal;
+        if ($this->task->update($data)) {
+            $this->dispatchEvent(
+                'alert',
+                'blue',
+                __('translates.flash_messages.task_user_updated.title', ['name' => $this->task->getAttribute('name')]),
+                __('translates.flash_messages.task_user_updated.msg', [
+                    'prev' => User::find($oldValue)->fullname,
+                    'next' => User::find($newVal)->fullname
+                ]));
+            event(new TaskCreated($this->task));
+        } else {
+            $this->dispatchEvent('alert', 'red', 'Error', 'Error encountered, please try again later');
         }
     }
 
-    public function dispatchEvent($name, $type, $title, $msg, $old = null, $new = null)
+    public function dispatchEvent($name, $type, $title, $msg, $old = null, $new = null, $selected = null)
     {
         $this->dispatchBrowserEvent(
             $name, [
@@ -127,7 +165,8 @@ class TaskForm extends Component
             'title' => $title,
             'message' => $msg,
             'old' => $old,
-            'new' => $new
+            'new' => $new,
+            'selected' => $selected
         ]);
     }
 

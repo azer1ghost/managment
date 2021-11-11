@@ -218,6 +218,11 @@ return [
             'confirm' => ['title' => 'Yenilə', 'msg' => 'Statusu :prev dən :next ə dəyişəcəyinizdən əminsiniz?'],
             'title' => ':name Yeniləndi',
             'msg' => ':prev, :next statusuna dəyiştirildi'
+        ],
+        'task_user_updated' => [
+            'confirm' => ['title' => 'Yenilə', 'msg' => 'Əməkdaşı :prev dən :next ə dəyişəcəyinizdən əminsiniz?'],
+            'title' => ':name Yeniləndi',
+            'msg' => ':prev, :next əməkdaşına dəyiştirildi'
         ]
     ],
 

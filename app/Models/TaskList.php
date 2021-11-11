@@ -9,13 +9,18 @@ class TaskList extends Model
 {
     protected $table = 'task_lists';
 
-    protected $fillable = ['task_id', 'name', 'is_checked', 'user_id', 'last_checked_by'];
+    protected $fillable = ['task_id', 'name', 'is_checked', 'user_id', 'last_checked_by', 'parent_task_id'];
 
     protected $casts = ['is_checked' => 'boolean'];
 
     public function task(): BelongsTo
     {
         return $this->belongsTo(Task::class);
+    }
+
+    public function parentTask(): BelongsTo
+    {
+        return $this->belongsTo(Task::class, 'parent_task_id');
     }
 
     public function user(): BelongsTo

@@ -80,7 +80,7 @@
                                     <div class="form-check">
                                         <input type="hidden" value="{{request()->url()}}" name="url">
                                         <input type="hidden" value="{{$list->name}}" name="name">
-                                        @if($data->canManageLists() && $data->getAttribute('status') != 'done')
+                                        @if($data->canManageLists() && $data->getAttribute('status') != 'done' && !$list->parentTask()->exists())
                                             <input class="form-check-input" type="checkbox"
                                                    id="list-check-{{$list->id}}"
                                                    @if($list->is_checked) checked @endif
@@ -101,19 +101,28 @@
                             </div>
                             @if($list->canManage() && $data->getAttribute('status') != 'done')
                                 <div class="actions d-flex align-items-center pl-5">
-                                    <i class="fa fa-edit edit mr-2"></i>
+                                    @if(!$list->parentTask()->exists())
+                                        <i class="fa fa-edit edit mr-2"></i>
+                                    @endif
                                     <i class="fa fa-check submit mr-2 text-success d-none"></i>
                                     <a href="{{route('task-lists.destroy', $list)}}" delete data-name="{{$list->getAttribute('name')}}" style="height: 18px">
                                         <i class="fal fa-times remove"></i>
                                     </a>
-                                    @if(auth()->user()->hasPermission('department-chief'))
-                                        <a href="{{route('tasks.create', [
-                                                'name' => $list->getAttribute('name'),
-                                                'department' => auth()->user()->getRelationValue('department')->getAttribute('id')
-                                            ])}}" target="_blank" class="ml-2"
-                                        >
-                                            <i class="fal fa-share text-info"></i>
+                                    @if($list->parentTask()->exists())
+                                        <a href="{{route('tasks.show', $list->parentTask)}}" class="ml-2" style="height: 20px">
+                                            <i class="fas fa-thumbtack text-info"></i>
                                         </a>
+                                    @else
+                                        @if(auth()->user()->hasPermission('department-chief'))
+                                            <a href="{{route('tasks.create', [
+                                                'name' => $list->getAttribute('name'),
+                                                'department' => auth()->user()->getRelationValue('department')->getAttribute('id'),
+                                                'list_id' => $list->getAttribute('id')
+                                            ])}}" class="ml-2"
+                                            >
+                                                <i class="fal fa-share text-info"></i>
+                                            </a>
+                                        @endif
                                     @endif
                                 </div>
                             @endif

@@ -12,16 +12,6 @@ class TaskListController extends Controller
         $this->middleware('throttle:3,1')->only('update');
     }
 
-    public function index()
-    {
-        abort(404);
-    }
-
-    public function create()
-    {
-        abort(404);
-    }
-
     public function store(Request $request)
     {
         $data = $request->all();
@@ -32,16 +22,6 @@ class TaskListController extends Controller
         event(new TaskListCreated($list));
 
         return redirect($request->url . '#task-lists-header');
-    }
-
-    public function show(TaskList $taskList)
-    {
-        abort(404);
-    }
-
-    public function edit(TaskList $taskList)
-    {
-        abort(404);
     }
 
     public function update(Request $request, TaskList $taskList)
@@ -65,6 +45,9 @@ class TaskListController extends Controller
 //        }
 //        return back()->withNotify('error', 'Cannot be deleted');
         if ($taskList->delete()) {
+            if($taskList->parentTask()->exists()){
+                $taskList->parentTask()->delete();
+            }
             return response('OK');
         }
         return response()->setStatusCode('204');

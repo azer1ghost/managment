@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskRequest;
 use App\Models\Department;
 use App\Models\Inquiry;
+use App\Models\TaskList;
 use App\Models\User;
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Builder;
@@ -138,6 +139,10 @@ class TaskController extends Controller
             $task->getRelationValue('inquiry')
                 ->parameters()
                 ->updateExistingPivot(Inquiry::STATUS_PARAMETER, ['value' => Inquiry::REDIRECTED]);
+        }
+
+        if($request->has('list_id')){
+            TaskList::find($request->get('list_id'))->update(['parent_task_id' => $task->id]);
         }
 
         event(new TaskCreated($task));

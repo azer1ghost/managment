@@ -66,7 +66,7 @@ Route::group([
     Route::resource('/departments', DepartmentController::class);
     Route::resource('/positions', PositionController::class);
     Route::resource('/tasks', TaskController::class);
-    Route::resource('/task-lists', TaskListController::class);
+    Route::resource('/task-lists', TaskListController::class)->only('store', 'update', 'destroy');
     Route::resource('/notifications', DatabaseNotificationController::class);
     Route::resource('/clients', ClientController::class);
     Route::resource('/referrals', ReferralController::class);
@@ -81,6 +81,9 @@ Route::group([
     // resultable routes
     Route::post('/results/{modelId}', [ResultController::class, 'store'])->name('results.store');
     Route::put('/results/{result}',   [ResultController::class, 'update'])->name('results.update');
+    // disable enable users
+    Route::post('/users/{user}/enable', [UserController::class, 'enable'])->name('users.enable');
+    Route::post('/users/{user}/disable', [UserController::class, 'disable'])->name('users.disable');
 });
 
 Auth::routes();
