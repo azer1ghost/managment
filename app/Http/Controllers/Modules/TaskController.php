@@ -141,7 +141,7 @@ class TaskController extends Controller
                 ->updateExistingPivot(Inquiry::STATUS_PARAMETER, ['value' => Inquiry::REDIRECTED]);
         }
 
-        if($request->has('list_id')){
+        if($request->get('list_id')){
             TaskList::find($request->get('list_id'))->update(['parent_task_id' => $task->id]);
         }
 
