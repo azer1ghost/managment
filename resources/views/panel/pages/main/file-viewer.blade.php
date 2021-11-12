@@ -20,6 +20,7 @@
                 <p>Your browser does not support iframes.</p>
             </iframe>
         @endif
+        <br/>
         <a href="{{route('document.temporaryUrl', $document)}}" download class="btn btn-outline-primary">Download</a>
     </div>
 </body>
