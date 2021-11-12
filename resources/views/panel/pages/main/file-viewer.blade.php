@@ -24,6 +24,6 @@
             </iframe>
         @endif
         <br/>
-        <a href="{{route('document.temporaryUrl', $document)}}" download class="btn btn-outline-primary"><i class="fa fa-download"></i> Download</a>
+        <a href="{{route('document.temporaryUrl', $document)}}" download class="btn btn-outline-primary mt-3"><i class="fa fa-download"></i> Download</a>
     </div>
 @endsection
