@@ -68,7 +68,7 @@
                         <tr>
                             <th colspan="4">
                                 <div class="row justify-content-center m-3">
-                                    <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.empty')</div>
+                                    <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.empty')t</div>
                                 </div>
                             </th>
                         </tr>

@@ -59,8 +59,7 @@
                 <p class="text-muted mb-2">PASSPORT</p>
                 <hr class="my-2">
             </div>
-            <x-input::select  name="serial_pattern" :value="optional($data)->getAttribute('serial_pattern')" label="Serial" width="1" class="p-0"   :options="['AA' => 'AA','AZE' => 'AZE']"/>
-            <x-input::text    name="serial" :value="optional($data)->getAttribute('serial')" label=" "   width="3" class="pr-0"  placeholder="Enter serial number"/>
+            <x-input::select  name="serial_pattern" :label="__('translates.fields.serial')" :value="optional($data)->getAttribute('serial_pattern')" width="1" class="p-0"   :options="$serial_pattern"/>            <x-input::text    name="serial" :value="optional($data)->getAttribute('serial')" label=" "   width="3" class="pr-0"  placeholder="Enter serial number"/>
             <x-input::text    name="fin"    :value="optional($data)->getAttribute('fin')"    label="FIN"    width="2" class="pr-0" />
             <div class="form-group col-12 col-md-2">
                 <label for="data-gender">{{__('translates.fields.gender')}}</label>
