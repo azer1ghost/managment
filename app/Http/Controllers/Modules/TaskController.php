@@ -72,24 +72,26 @@ class TaskController extends Controller
                                             $query->where('user_id', $user_id);
                                             break;
                                         case 3:
-                                            if (auth()->user()->hasPermission('department-chief')){
-                                                $query->whereHasMorph('taskable', [Department::class, User::class] , function ($q, $type) use ($user_id){
-                                                    if ($type === User::class) {
-                                                        $q->whereBelongsTo(auth()->user()->getRelationValue('department'));
-                                                    }else{
-                                                        $q->where('id', auth()->user()->getRelationValue('department')->getAttribute('id'));
-                                                    }
-                                                });
-                                            }else{
-                                                $query->whereHasMorph('taskable', [Department::class, User::class] , function ($q, $type) use ($user_id){
-                                                    if ($type === Department::class) {
-                                                        $q->where('id', auth()->user()->getRelationValue('department')->getAttribute('id'));
-                                                    }else{
-                                                        $q->where('id', $user_id);
-                                                    }
-                                                });
+                                            if(!Task::userCanViewAll()){
+                                                if (auth()->user()->hasPermission('department-chief')){
+                                                    $query->whereHasMorph('taskable', [Department::class, User::class] , function ($q, $type) use ($user_id){
+                                                        if ($type === Department::class) {
+                                                            $q->where('id', auth()->user()->getRelationValue('department')->getAttribute('id'));
+                                                        }else{
+                                                            $q->whereBelongsTo(auth()->user()->getRelationValue('department'));
+                                                        }
+                                                    });
+                                                }else{
+                                                    $query->whereHasMorph('taskable', [Department::class, User::class] , function ($q, $type) use ($user_id){
+                                                        if ($type === Department::class) {
+                                                            $q->where('id', auth()->user()->getRelationValue('department')->getAttribute('id'));
+                                                        }else{
+                                                            $q->where('id', $user_id);
+                                                        }
+                                                    });
+                                                }
+                                                $query->orWhere('user_id', $user_id);
                                             }
-                                            $query->orWhere('user_id', $user_id);
                                     }
                                 }else{
                                     $query->where($column, $value);
