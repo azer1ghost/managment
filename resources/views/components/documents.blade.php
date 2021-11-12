@@ -15,8 +15,9 @@
                         <ul class="list-group list-group-flush">
                             @foreach($documents as $document)
                                 @php($type = $supportedTypes[$document->type])
-                                <li class="col-12 py-2 d-flex align-items-center list-group-item"  >
-                                    <a href="{{route('documents.show', $document)}}" data-toggle="tooltip" title="{{$document->file}}" target="_blank" class="text-dark d-flex align-items-center mr-2" style="word-break: break-word">
+                                <li class="col-12 py-2 d-flex align-items-center list-group-item">
+                                    @php($route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('documents.viewer', $document))
+                                    <a href="{{$route}}" data-toggle="tooltip" title="{{$document->file}}" target="_blank" class="text-dark d-flex align-items-center mr-2" style="word-break: break-word">
                                         <i class="fa fa-file-{{$type['icon']}} fa-2x mr-2 text-{{$type['color']}}"></i>
                                         <span>{{$document->name}}</span>
                                     </a>
