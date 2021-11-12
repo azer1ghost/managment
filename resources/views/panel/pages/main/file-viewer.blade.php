@@ -1,11 +1,13 @@
-@extends('layouts.main')
-@section('title', $document->name)
-@section('content')
-    <x-bread-crumb>
-        <x-bread-crumb-link is-current="1">
-            Dashboard
-        </x-bread-crumb-link>
-    </x-bread-crumb>
+<!doctype html>
+<html lang="{{app()->getLocale()}}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{$document->name}}</title>
+</head>
+<body>
     <div class="row m-0" style="position: relative">
         @php($images = ['image/jpeg', 'image/jpg', 'image/png'])
         @if(in_array($document->type, $images))
@@ -17,8 +19,7 @@
             >
                 <p>Your browser does not support iframes.</p>
             </iframe>
-            <script>
-            </script>
         @endif
     </div>
-@endsection
+</body>
+</html>

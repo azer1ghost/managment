@@ -53,8 +53,8 @@
                             <td>
                                 <div class="btn-sm-group">
                                     @can('view', $document)
-                                        {{-- TODO show should be updated to viewer --}}
-                                        <a href="{{route('documents.viewer', $document)}}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                        @php($route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('documents.viewer', $document))
+                                        <a href="{{$route}}" target="_blank" class="btn btn-sm btn-outline-primary">
                                             <i class="fal fa-eye"></i>
                                         </a>
                                     @endcan
