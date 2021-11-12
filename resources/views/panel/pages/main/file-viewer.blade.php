@@ -11,7 +11,7 @@
     <div class="row m-0" style="position: relative">
         @php($images = ['image/jpeg', 'image/jpg', 'image/png'])
         @if(in_array($document->type, $images))
-            <img src="{{route('documents.show', $document)}}" alt="img" style="width: 500px">
+            <img src="{{route('document.temporaryUrl', $document)}}" alt="img" style="width: 500px">
         @else
             <iframe
                     src="https://view.officeapps.live.com/op/embed.aspx?src={{route('document.temporaryUrl', $document)}}"
@@ -20,6 +20,7 @@
                 <p>Your browser does not support iframes.</p>
             </iframe>
         @endif
+        <a href="{{route('document.temporaryUrl', $document)}}" download class="btn btn-outline-primary">Download</a>
     </div>
 </body>
 </html>
