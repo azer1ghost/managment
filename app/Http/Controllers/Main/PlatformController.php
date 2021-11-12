@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
+use App\Models\Document;
 use App\Models\Widget;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\View\View;
@@ -98,5 +99,12 @@ class PlatformController extends Controller
     public function test()
     {
         return 'testing area';
+    }
+
+    public function documentTemporaryUrl(Document $document)
+    {
+        return redirect()->temporarySignedRoute(
+            'document', now()->addMinutes(30), ['document' => $document]
+        );
     }
 }

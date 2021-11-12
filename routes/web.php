@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\Localization;
+use App\Services\FirebaseApi;
 use App\Http\Controllers\{Auth\LoginController,
     Auth\PhoneVerifycationController,
     Auth\RegisterController,
@@ -103,4 +104,19 @@ Route::post('/validate-register', [RegisterController::class, 'validator'])->nam
 
 Localization::route();
 
-Route::any('/test', [PlatformController::class, 'test']);
+Route::any('/test', [PlatformController::class, 'test'])->middleware('deactivated');
+Route::any('/document-temporary-url/{document}', [PlatformController::class, 'documentTemporaryUrl'])->name('document.temporaryUrl')->middleware('deactivated');
+
+Route::get('/document/{document}', function (\Illuminate\Http\Request $request, \App\Models\Document $document) {
+    abort_if(!$request->hasValidSignature(), 404);
+
+    $url = (new FirebaseApi)->getDoc()->object("Documents/{$document->module()}/{$document->getAttribute('file')}")->signedUrl(
+        new \DateTime('1 min')
+    );
+
+    return response(file_get_contents($url))
+        ->withHeaders([
+            'Content-Type' => $document->getAttribute('type')
+        ]);
+
+})->name('document');
