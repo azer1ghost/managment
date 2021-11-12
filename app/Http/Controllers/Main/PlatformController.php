@@ -72,6 +72,17 @@ class PlatformController extends Controller
         return view('panel.pages.main.welcome');
     }
 
+    public function deactivated()
+    {
+        if(!auth()->user()->isDisabled()){
+            return redirect()->route('dashboard', [
+                'widgets' => Widget::isActive()->oldest('order')->get()
+            ]);
+        }
+
+        return view('panel.pages.main.deactivated');
+    }
+
     public function dashboard(): View
     {
         return view('panel.pages.main.dashboard', [

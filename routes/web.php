@@ -35,16 +35,19 @@ Route::get('firebase-messaging-sw.js', [PlatformController::class, 'firebase']);
 Route::post('/store-fcm-token', [PlatformController::class, 'storeFcmToken'])->name('store.fcm-token');
 Route::post('/set-location', [PlatformController::class, 'setLocation'])->name('set-location');
 
+// deactivated user
+Route::get('/deactivated', [PlatformController::class, 'deactivated'])->name('deactivated');
+
 Route::redirect('/','/welcome')->name('home');
 Route::get('/welcome', [PlatformController::class, 'welcome'])->name('welcome');
-Route::get('/dashboard', [PlatformController::class, 'dashboard'])->middleware('verified_phone')->name('dashboard');
+Route::get('/dashboard', [PlatformController::class, 'dashboard'])->middleware(['verified_phone', 'deactivated'])->name('dashboard');
 
-Route::get('/account', [AccountController::class, 'account'])->middleware('verified_phone')->name('account');
-Route::post('/account/{user}', [AccountController::class, 'save'])->middleware('verified_phone')->name('account.save');
+Route::get('/account', [AccountController::class, 'account'])->middleware(['verified_phone', 'deactivated'])->name('account');
+Route::post('/account/{user}', [AccountController::class, 'save'])->middleware(['verified_phone', 'deactivated'])->name('account.save');
 
 Route::group([
     'prefix' => 'module',
-    'middleware' => ['verified_phone']
+    'middleware' => ['verified_phone', 'deactivated']
 ], function () {
     Route::get('/bonuses', [ReferralBonusController::class, 'index'])->name('bonuses');
     Route::post('/bonuses', [ReferralBonusController::class, 'refresh']);
@@ -93,7 +96,7 @@ Route::post('/partners/register', [RegisterController::class, 'register']);
 
 PhoneVerifycationController::routes();
 
-Route::post('/phone-update', [LoginController::class, 'phoneUpdate'])->name('phone.update');
+Route::post('/phone-update', [LoginController::class, 'phoneUpdate'])->middleware('deactivated')->name('phone.update');
 
 // Route for register validation
 Route::post('/validate-register', [RegisterController::class, 'validator'])->name('validate-register');
