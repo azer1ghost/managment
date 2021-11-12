@@ -1,13 +1,16 @@
-<!doctype html>
-<html lang="{{app()->getLocale()}}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{$document->name}}</title>
-</head>
-<body>
+@extends('layouts.main')
+@section('title', $document->name)
+
+@section('style')
+    <style>
+        .custom-wrapper main {
+            width: 100% !important;
+            margin-left: 0 !important;
+        }
+    </style>
+@endsection
+
+@section('content')
     <div class="row m-0" style="position: relative">
         @php($images = ['image/jpeg', 'image/jpg', 'image/png'])
         @if(in_array($document->type, $images))
@@ -21,7 +24,6 @@
             </iframe>
         @endif
         <br/>
-        <a href="{{route('document.temporaryUrl', $document)}}" download class="btn btn-outline-primary">Download</a>
+        <a href="{{route('document.temporaryUrl', $document)}}" download class="btn btn-outline-primary"><i class="fa fa-download"></i> Download</a>
     </div>
-</body>
-</html>
+@endsection
