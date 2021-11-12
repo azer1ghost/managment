@@ -14,7 +14,7 @@ class PlatformController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', ['except'=> ['welcome', 'downloadBat']]);
+        $this->middleware('auth', ['except'=> ['welcome', 'downloadBat', 'documentTemporaryUrl']]);
     }
 
     /**

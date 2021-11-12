@@ -105,8 +105,8 @@ Route::post('/validate-register', [RegisterController::class, 'validator'])->nam
 Localization::route();
 
 Route::any('/test', [PlatformController::class, 'test'])->middleware('deactivated');
-Route::any('/document-temporary-url/{document}', [PlatformController::class, 'documentTemporaryUrl'])->name('document.temporaryUrl')->middleware('deactivated');
 
+Route::any('/document-temporary-url/{document}', [PlatformController::class, 'documentTemporaryUrl'])->name('document.temporaryUrl');
 Route::get('/document/{document}', function (\Illuminate\Http\Request $request, \App\Models\Document $document) {
     abort_if(!$request->hasValidSignature(), 404);
 
