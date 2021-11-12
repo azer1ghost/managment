@@ -26,7 +26,6 @@
                 const iframe = document.getElementById('file-viewer');
                 const fileUrl = "{{route('document.temporaryUrl', $document)}}";
                 let loaded = false;
-                console.log(fileUrl);
                 iframe.addEventListener("load", function() {
                     loaded = true;
                     $('#spinner-container').removeClass('d-flex').addClass('d-none');
