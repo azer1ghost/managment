@@ -75,7 +75,7 @@
                 </select>
             </div>
             @can('create', App\Models\Task::class)
-                <div class="col-9 col-md-12 p-0 pr-3 pb-3">
+                <div class="col-12 p-0 pr-3 pb-3 mt-3">
                     <a class="btn btn-outline-success float-right" href="{{route('tasks.create')}}">@lang('translates.buttons.create')</a>
                 </div>
             @endcan
