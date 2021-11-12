@@ -8,6 +8,6 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Dur tullan burdan</h1>
+    <h1>Disabled account</h1>
 </body>
 </html>
