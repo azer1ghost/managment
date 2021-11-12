@@ -14,7 +14,11 @@ class TaskPolicy
 
     public function view(User $user, Task $task): bool
     {
-        return $task->canManageLists();
+        return
+            $task->canManageTaskable() ||
+            $task->canManageLists() ||
+            $task->getAttribute('user_id') == $user->getAttribute('id') ||
+            $user->isDirector();
     }
 
     public function create(User $user): bool
