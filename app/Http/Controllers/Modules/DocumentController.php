@@ -14,7 +14,7 @@ class DocumentController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('viewer');
         $this->authorizeResource(Document::class, 'document');
     }
 
@@ -88,9 +88,18 @@ class DocumentController extends Controller
             ]);
     }
 
-    public function viewer(Document $document)
+    public function viewer(Request $request, Document $document)
     {
+        abort_if(!$request->hasValidSignature(), 404);
+
         return view('panel.pages.main.file-viewer', compact('document'));
+    }
+
+    public function temporaryViewerUrl(Document $document)
+    {
+        return redirect()->temporarySignedRoute(
+            'documents.viewer', now()->addMinutes(30), ['document' => $document]
+        );
     }
 
     public function edit(Document $document)
