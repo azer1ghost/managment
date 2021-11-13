@@ -53,7 +53,7 @@
                             <td>
                                 <div class="btn-sm-group">
                                     @can('view', $document)
-                                        @php($route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('documents.viewer', $document))
+                                        @php($route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document))
                                         <a href="{{$route}}" target="_blank" class="btn btn-sm btn-outline-primary">
                                             <i class="fal fa-eye"></i>
                                         </a>
