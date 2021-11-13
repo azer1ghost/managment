@@ -14,7 +14,7 @@ class DocumentController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except('viewer');
+        $this->middleware('auth')->except('viewer', 'temporaryViewerUrl');
         $this->authorizeResource(Document::class, 'document');
     }
 

@@ -80,7 +80,6 @@ Route::group([
     Route::resource('/meetings', MeetingController::class);
     Route::resource('/conferences', ConferenceController::class);
     Route::resource('/documents', DocumentController::class)->except('store');
-    Route::get('/documents/{document}/viewer', [DocumentController::class, 'viewer'])->name('documents.viewer');
     Route::post('/documents/{modelId}', [DocumentController::class, 'store'])->name('documents.store');
     // resultable routes
     Route::post('/results/{modelId}', [ResultController::class, 'store'])->name('results.store');
@@ -108,6 +107,7 @@ Route::any('/test', [PlatformController::class, 'test'])->middleware('deactivate
 
 Route::any('/document-temporary-url/{document}', [PlatformController::class, 'documentTemporaryUrl'])->name('document.temporaryUrl');
 Route::any('/document-temporary-viewer-url/{document}', [DocumentController::class, 'temporaryViewerUrl'])->name('document.temporaryViewerUrl');
+Route::get('/documents/{document}/viewer', [DocumentController::class, 'viewer'])->name('documents.viewer');
 Route::get('/document/{document}', function (\Illuminate\Http\Request $request, \App\Models\Document $document) {
     abort_if(!$request->hasValidSignature(), 404);
 
