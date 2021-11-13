@@ -10,21 +10,19 @@ class CreateClientsTable extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('surname')->nullable();
+            $table->string('fullname')->nullable();
             $table->string('father')->nullable();
             $table->string('gender')->nullable();
             $table->string('serial_pattern')->nullable();
             $table->string('serial')->nullable();
             $table->string('fin')->nullable();
-            $table->string('email')->nullable()->unique();
-            $table->string('email_coop')->nullable()->unique();
-            $table->string('phone')->nullable();
-            $table->integer('company_id')->nullable();
-            $table->string('phone_coop')->nullable();
+            $table->string('email1')->nullable();
+            $table->string('email2')->nullable();
+            $table->string('phone1')->nullable();
+            $table->string('phone2')->nullable();
             $table->string('voen')->nullable();
-            $table->string('address')->nullable();
-            $table->string('address_coop')->nullable();
+            $table->string('address1')->nullable();
+            $table->string('address2')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

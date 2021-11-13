@@ -9,7 +9,6 @@ use App\Http\Controllers\{Auth\LoginController,
     Main\PlatformController,
     Modules\CompanyController,
     Modules\ConferenceController,
-    Modules\CustomerCompanyController,
     Modules\DepartmentController,
     Modules\DocumentController,
     Modules\MeetingController,
@@ -61,7 +60,6 @@ Route::group([
     include 'modules/email-signature.php';
 
     Route::resource('/companies', CompanyController::class);
-    Route::resource('/customer-companies', CustomerCompanyController::class);
     Route::resource('/widgets', WidgetController::class);
     Route::resource('/parameters', ParameterController::class);
     Route::resource('/options', OptionController::class);

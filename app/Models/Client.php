@@ -4,40 +4,44 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends Model
 {
-
     use SoftDeletes;
 
+    const LEGAL = 0;
+    const PHYSICAL  = 1;
+
     protected $fillable = [
-        'name',
-        'surname',
+        'fullname',
         'father',
         'gender',
         'serial_pattern',
         'serial',
         'fin',
-        'phone_coop',
-        'phone',
-        'phone',
-        'company_id',
-        'email_coop',
-        'email',
-        'address',
-        'address_coop',
+        'phone2',
+        'phone1',
+        'email2',
+        'email1',
+        'address1',
+        'address2',
         'voen',
-        'position'
+        'position',
+        'type',
+        'client_id'
     ];
 
-    public function getFullnameAttribute(): string
+    protected $casts = ['type' => 'boolean'];
+
+    public function clients(): HasMany
     {
-        return "{$this->getAttribute('name')} {$this->getAttribute('surname')}";
+        return $this->hasMany(__CLASS__, 'client_id');
     }
 
-    public function company(): BelongsTo
+    public function client(): BelongsTo
     {
-        return $this->belongsTo(CustomerCompany::class);
+        return $this->belongsTo(__CLASS__, 'client_id')->withDefault();
     }
 }

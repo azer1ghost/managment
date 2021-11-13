@@ -16,7 +16,7 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         $password = $this->isMethod('POST') && !$this->routeIs('account.save') ? 'required' : 'nullable';
-        $unique_user = $this->isMethod('POST') && !$this->routeIs('account.save') ? null : $this->user->id ;
+        $unique_user = $this->isMethod('POST') && !$this->routeIs('account.save') ? null : $this->user->id;
         return [
             'name'           => 'required|string|max:255',
             'surname'        => 'nullable|string|max:255',
