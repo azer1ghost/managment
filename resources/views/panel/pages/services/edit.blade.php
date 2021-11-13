@@ -34,8 +34,6 @@
                         @endforeach
                     </x-translate>
 
-                    <x-input::textarea name="detail" :value="optional($data)->getAttribute('detail')" label="Service detail" width="6" class="pr-3"/>
-
                     <div class="form-group col-12 col-md-6">
                         <label for="data-company_id">Company Select</label>
                         <select name="company_id" id="data-company_id" class="form-control">
@@ -46,6 +44,7 @@
                             @endforeach
                         </select>
                     </div>
+
                     <div class="form-group col-12 col-md-6">
                         <label for="data-department_id">Department Select</label>
                         <select name="department_id" id="data-department_id" class="form-control">
@@ -56,6 +55,8 @@
                             @endforeach
                         </select>
                     </div>
+                    <x-input::textarea name="detail" :value="optional($data)->getAttribute('detail')" label="Service detail" width="6" class="pr-3"/>
+
                 </div>
 
             </div>
