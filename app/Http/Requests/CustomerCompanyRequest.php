@@ -9,11 +9,11 @@ class CustomerCompanyRequest extends FormRequest
     public function rules()
     {
         return [
-           'name' => 'string',
-           'email' => 'email',
-           'number' => 'string',
-           'voen' => 'string',
-           'address' => 'string',
+           'name' => 'required|string',
+           'email' => 'nullable|email',
+           'number' => 'nullable|string',
+           'voen' => 'nullable|string',
+           'address' => 'nullable|string',
         ];
     }
 }
