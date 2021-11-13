@@ -14,23 +14,22 @@ class ClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'           => 'required|string|max:255',
-            'surname'        => 'nullable|string|max:255',
-            'father'         => 'nullable|string|max:255',
-            'gender'         => 'nullable|string|max:255',
-            'fin'            => 'nullable|string|max:255',
-            'serial'         => 'nullable|string|max:255',
-            'serial_pattern' => 'nullable|string|max:255',
-            'company_id' => 'nullable|integer',
-            'email'          => 'nullable|email:rfc,dns|unique:clients',
-            'email_coop'     => 'nullable|email:rfc,dns|unique:clients',
-            'phone'          => 'nullable|string|max:255',
-            'phone_coop'     => 'nullable|string|max:255',
-            'address'        => 'nullable|string|max:255',
-            'address_coop'   => 'nullable|string|max:255',
-            'voen'           => 'nullable|string',
-            'position'       => 'nullable|string',
+            'fullname'        => 'required|string|max:255',
+            'father'          => 'nullable|string|max:255',
+            'gender'          => 'nullable|string|max:255',
+            'fin'             => 'nullable|string|max:255',
+            'serial'          => 'nullable|string|max:255',
+            'serial_pattern'  => 'nullable|string|max:255',
+            'email1'          => 'nullable|email:rfc,dns',
+            'email2'          => 'nullable|email:rfc,dns',
+            'phone1'          => 'nullable|string|max:255',
+            'phone2'          => 'nullable|string|max:255',
+            'address1'        => 'nullable|string|max:255',
+            'address2'        => 'nullable|string|max:255',
+            'voen'            => 'nullable|string',
+            'position'        => 'nullable|string',
+            'type'            => 'nullable|boolean',
+            'client_id'       => 'nullable|integer',
         ];
     }
-
 }

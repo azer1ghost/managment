@@ -37,12 +37,6 @@ class Sidebar extends Component
                 'url' => route('companies.index'),
                 'permission' => 'viewAny-company',
             ],
-            (object)[
-                'title' => __('translates.navbar.customer_company'),
-                'icon' => 'fas fa-chalkboard-teacher',
-                'url' => route('customer-companies.index'),
-                'permission' => 'viewAny-customer_company',
-            ],
 
             (object)[
                 'title' => __('translates.navbar.account'),

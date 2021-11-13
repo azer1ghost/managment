@@ -24,7 +24,7 @@
                 </div>
                 @can('create', App\Models\Client::class)
                     <div class="col-4">
-                        <a class="btn btn-outline-success float-right" href="{{route('clients.create')}}">@lang('translates.buttons.create')</a>
+                        <a class="btn btn-outline-success float-right" href="{{route('clients.create', ['type' => \App\Models\Client::LEGAL])}}">@lang('translates.buttons.create')</a>
                     </div>
                 @endcan
                 <div class="col-12">
@@ -36,7 +36,6 @@
                             <th scope="col">@lang('translates.columns.email')</th>
                             <th scope="col">@lang('translates.columns.phone')</th>
                             <th scope="col">VOEN/GOOEN</th>
-                            <th scope="col">@lang('translates.columns.adress')</th>
                             <th scope="col">@lang('translates.columns.actions')</th>
                         </tr>
                         </thead>
@@ -45,10 +44,9 @@
                             <tr>
                                 <th scope="row">{{$client->getAttribute('id')}}</th>
                                 <td>{{$client->getAttribute('fullname')}}</td>
-                                <td>{{$client->getAttribute('email')}}</td>
-                                <td>{{$client->getAttribute('phone')}}</td>
+                                <td>{{$client->getAttribute('email1')}}</td>
+                                <td>{{$client->getAttribute('phone1')}}</td>
                                 <td>{{$client->getAttribute('voen')}}</td>
-                                <td>{{$client->getAttribute('address')}}</td>
                                 <td>
                                     <div class="btn-sm-group">
                                         @can('view', $client)
