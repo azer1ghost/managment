@@ -50,7 +50,7 @@
             font-size: 6rem;
             margin-bottom: 10px;
         }
-        }
+
 
     </style>
 </head>
