@@ -28,7 +28,7 @@
                         @foreach(config('app.locales') as $key => $locale)
                             <div class="tab-pane fade show @if($loop->first) active @endif" id="data-{{$key}}" role="tabpanel">
                                 <div class="row">
-                                    <x-input::text  name="translate[name][{{$key}}]"  :value="optional($data)->getTranslation('name', $key)"     label="Position name {{$key}}"     width="6" class="pr-3" />
+                                    <x-input::text  name="translate[name][{{$key}}]"  :value="optional($data)->getTranslation('name', $key)"     :label="trans('translates.navbar.service') . ' ' . $key"     width="6" class="pr-3" />
                                 </div>
                             </div>
                         @endforeach
