@@ -77,6 +77,12 @@ return [
         'phone' => 'Phone',
         'phone_private' => 'Personal phone',
         'phone_coop' => 'Cooperative phone',
+        'phone1' => 'Phone one',
+        'phone2' => 'Phone two',
+        'email1' => 'Email one',
+        'email2' => 'Email two',
+        'address1' => 'Address one',
+        'address2' => 'Address two',
         'email_coop' => 'Cooperative Email',
         'email_private' => 'Personal Email',
         'address_coop' => 'Cooperative address',
@@ -385,5 +391,7 @@ return [
         'not_found' => 'Not Found!',
         'get_signature' => 'Get My Signature',
         'signature_for' => 'Signature for',
+        'legal' => 'Legal',
+        'physical' => 'Physical'
     ]
 ];

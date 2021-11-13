@@ -77,6 +77,12 @@ return [
         'actions' => 'Əməliyyatlar',
         'contactMethod' => 'Əlaqə üsulu',
         'phone' => 'Nömrə',
+        'phone1' => 'Nömrə bir',
+        'phone2' => 'Nömrə iki',
+        'email1' => 'E-poçt bir',
+        'email2' => 'E-poçt iki',
+        'address1' => 'Ünvan bir',
+        'address2' => 'Ünvan iki',
         'phone_private' => 'Şəxsi nömrə',
         'phone_coop' => 'Kooperativ nömrə',
         'email_coop' => 'Kooperativ e-poçt',
@@ -389,5 +395,7 @@ return [
         'not_found' => 'Tapılmadı!',
         'get_signature' => 'İmzamı Al',
         'signature_for' => 'İmza',
+        'legal' => 'Hüquqi',
+        'physical' => 'Fiziki'
     ]
 ];
