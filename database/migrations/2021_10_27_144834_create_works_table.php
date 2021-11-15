@@ -15,7 +15,9 @@ class CreateWorksTable extends Migration
     {
         Schema::create('works', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->double('earning', '8', '2')->nullable();
+            $table->string('currency')->nullable();
+            $table->double('currency_rate', '8', '2')->nullable();
             $table->text('detail')->nullable();
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('SET NULL');
             $table->foreignId('department_id')->nullable()->constrained()->onDelete('SET NULL');

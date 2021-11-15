@@ -18,7 +18,9 @@
         "laravel/ui": "^3.3",
         "livewire/livewire": "^2.5",
         "mailgun/mailgun-php": "^3.5",
-        "spatie/laravel-translatable": "^4.6"
+        "spatie/laravel-translatable": "^4.6",
+        "ext-simplexml": "*",
+        "ext-libxml": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",

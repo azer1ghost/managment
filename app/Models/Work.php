@@ -14,7 +14,9 @@ class Work extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name',
+        'earning',
+        'currency',
+        'currency_rate',
         'detail',
         'creator_id',
         'user_id',

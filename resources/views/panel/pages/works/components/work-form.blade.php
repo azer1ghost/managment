@@ -4,7 +4,35 @@
     <div class="tab-content row mt-4">
         <div class="form-group col-12">
             <div class="row">
-                <x-input::text name="name" :value="optional($data)->getAttribute('name')" label="Work name" width="6" class="pr-3"/>
+                <div class="form-group col-12 col-md-6" wire:ignore>
+                    <div class="d-flex">
+                        <div class="btn-group mr-5 flex-column" role="group">
+                            <label for="data-earning">Work Earning</label>
+                            <div class="d-flex">
+                                <input id="data-earning" type="number" min="0" class="form-control" name="earning" wire:model="earning" style="border-radius: 0 !important;">
+                                <select name="currency" id="" class="form-control" style="border-radius: 0 !important;" wire:model="currency">
+                                    @foreach(['USD', 'AZN', 'TRY', 'EUR', 'RUB'] as $currency)
+                                        <option value="{{$currency}}" @if($currency == optional($data)->getAttribute('currency')) selected @endif>{{$currency}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @error('earning')
+                                <p class="text-danger">{{$message}}</p>
+                            @enderror
+                        </div>
+                        <div class="btn-group flex-column" role="group">
+                            <label for="data-earning">Work Rate (in AZN)</label>
+                            <div class="d-flex">
+                                <input type="text" class="form-control" name="currency_rate" wire:model="rate" style="border-radius: 0 !important;">
+                                <input disabled type="text" class="form-control" value="AZN" style="border-radius: 0 !important;">
+                            </div>
+                            @error('currency_rate')
+                                <p class="text-danger">{{$message}}</p>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
                 <x-input::textarea name="detail" :value="optional($data)->getAttribute('detail')" label="Work detail" width="6" class="pr-3"/>
 
                 <div class="form-group col-12 col-md-6" wire:ignore>

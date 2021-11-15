@@ -34,8 +34,8 @@
                         <th scope="col">#</th>
                         <th scope="col">@lang('translates.columns.name')</th>
                         <th scope="col">@lang('translates.fields.detail')</th>
-                        <th scope="col">@lang('translates.fields.user')</th>
                         <th scope="col">@lang('translates.columns.department')</th>
+                        <th scope="col">@lang('translates.fields.user')</th>
                         <th scope="col">@lang('translates.navbar.service')</th>
                         <th scope="col">@lang('translates.fields.clientName')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
@@ -45,10 +45,12 @@
                     @forelse($works as $work)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
-                            <td>{{$work->getAttribute('name')}}</td>
+                            <td>{{$work->getAttribute('earning')}}</td>
+                            <td>{{$work->getAttribute('currency')}}</td>
+                            <td>{{$work->getAttribute('currency_rate')}}</td>
                             <td>{{$work->getAttribute('detail')}}</td>
-                            <td>{{$work->getRelationValue('user')->getAttribute('fullname')}}</td>
                             <td>{{$work->getRelationValue('department')->getAttribute('name')}}</td>
+                            <td>{{$work->getRelationValue('user')->getAttribute('fullname')}}</td>
                             <td>{{$work->getRelationValue('service')->getAttribute('name')}}</td>
                             <td>{{$work->getRelationValue('client')->getAttribute('fullname')}}</td>
                             <td>
