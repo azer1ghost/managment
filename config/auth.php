@@ -36,7 +36,7 @@ return [
         'viewAny-conference', 'view-conference', 'create-conference', 'update-conference', 'delete-conference',
         'viewAny-customer_company', 'view-customer_company', 'create-customer_company', 'update-customer_company', 'delete-customer_company',
         'viewAny-document', 'view-document', 'create-document', 'update-document', 'delete-document',
-        'viewAny-work', 'view-work', 'create-work', 'update-work', 'delete-work',
+        'viewAny-work', 'view-work', 'create-work', 'update-work', 'delete-work', 'editEarning-work',
         'viewAny-role', 'view-role', 'manage-role',
         'viewAny-referral', 'view-referral', 'manage-referral',
         'viewAny-position', 'view-position', 'manage-position',

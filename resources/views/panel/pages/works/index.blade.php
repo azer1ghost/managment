@@ -1,7 +1,9 @@
 @extends('layouts.main')
 
 @section('title', __('translates.navbar.work'))
-
+@section('style')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@endsection
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -92,7 +94,7 @@
             </div>
         </div>
     </form>
-    <div class="modal fade" id="create-work" tabindex="-1">
+    <div class="modal fade" id="create-work">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form action="{{route('works.create')}}" method="GET">
@@ -105,7 +107,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="data-service">Service</label>
-                            <select class="form-control" id="data-service" name="service_id" required>
+                            <select class="select2" id="data-service" name="service_id" required style="width: 100% !important;">
                                 <option value="">Select a service</option>
                                 @foreach($services as $service)
                                     <option value="{{$service->id}}">{{$service->name}}</option>
@@ -121,4 +123,16 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function (){
+            $('.select2').select2();
+
+            $('.select2').on('select2:open', function (e) {
+                document.querySelector('.select2-search__field').focus();
+            });
+        });
+    </script>
 @endsection

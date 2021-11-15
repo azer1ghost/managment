@@ -1,3 +1,7 @@
+@push('style')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+@endpush
 <form action="{{$action}}" method="POST" enctype="multipart/form-data">
     @method($method) @csrf
 
@@ -5,35 +9,13 @@
         <div class="form-group col-12">
             <div class="row">
                 <div class="form-group col-12 col-md-6" wire:ignore>
-                    <div class="d-flex">
-                        <div class="btn-group mr-5 flex-column" role="group">
-                            <label for="data-earning">Work Earning</label>
-                            <div class="d-flex">
-                                <input id="data-earning" type="number" min="0" class="form-control" name="earning" wire:model="earning" style="border-radius: 0 !important;">
-                                <select name="currency" id="" class="form-control" style="border-radius: 0 !important;" wire:model="currency">
-                                    @foreach(['USD', 'AZN', 'TRY', 'EUR', 'RUB'] as $currency)
-                                        <option value="{{$currency}}" @if($currency == optional($data)->getAttribute('currency')) selected @endif>{{$currency}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            @error('earning')
-                                <p class="text-danger">{{$message}}</p>
-                            @enderror
-                        </div>
-                        <div class="btn-group flex-column" role="group">
-                            <label for="data-earning">Work Rate (in AZN)</label>
-                            <div class="d-flex">
-                                <input type="text" class="form-control" name="currency_rate" wire:model="rate" style="border-radius: 0 !important;">
-                                <input disabled type="text" class="form-control" value="AZN" style="border-radius: 0 !important;">
-                            </div>
-                            @error('currency_rate')
-                                <p class="text-danger">{{$message}}</p>
-                            @enderror
-                        </div>
-                    </div>
+                    <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
+                    <select name="client_id" class="select2" style="width: 100% !important;">
+                        @if(is_numeric(optional($data)->getAttribute('client_id')))
+                            <option value="{{optional($data)->getAttribute('service_id')}}">{{optional($data)->getRelationValue('client')->getAttribute('fullname')}}</option>
+                        @endif
+                    </select>
                 </div>
-
-                <x-input::textarea name="detail" :value="optional($data)->getAttribute('detail')" label="Work detail" width="6" class="pr-3"/>
 
                 <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-service_id">Work Service</label>
@@ -43,28 +25,6 @@
                         <input type="hidden" name="service_id"  value="{{$service}}">
                     @endif
                 </div>
-
-                @foreach($parameters as $parameter)
-                    @switch($parameter->type)
-                        @case('text')
-                            <div class="form-group col-12 col-md-6">
-                                <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
-                                <input type="text" name="parameters[{{$parameter->id}}]" id="data-parameter-{{$parameter->id}}" class="form-control" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
-                            </div>
-                            @break
-                        @case('select')
-                            <div class="form-group col-12 col-md-6">
-                                <label for="data-parameter-{{$parameter->id}}">Work {{$parameter->name}}</label>
-                                <select name="parameters[{{$parameter->id}}]" id="data-parameter-{{$parameter->id}}" class="form-control" wire:model="workParameters.{{$parameter->name}}">
-                                    <option value="" selected>Select work {{$parameter->name}}</option>
-                                    @foreach($parameter->options as $option)
-                                        <option value="{{$option->id}}">{{$option->text}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            @break
-                    @endswitch
-                @endforeach
 
                 <div class="form-group col-12 col-md-6">
                     <label for="data-department_id">Department Select</label>
@@ -88,15 +48,63 @@
                     </div>
                 @endif
 
+                @foreach($parameters as $parameter)
+                    @switch($parameter->type)
+                        @case('text')
+                            <div class="form-group col-12 col-md-6">
+                                <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
+                                <input type="text" name="parameters[{{$parameter->id}}]" id="data-parameter-{{$parameter->id}}" class="form-control" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
+                            </div>
+                            @break
+                        @case('select')
+                            <div class="form-group col-12 col-md-6">
+                                <label for="data-parameter-{{$parameter->id}}">Work {{$parameter->name}}</label>
+                                <select name="parameters[{{$parameter->id}}]" id="data-parameter-{{$parameter->id}}" class="form-control" wire:model="workParameters.{{$parameter->name}}">
+                                    <option value="" selected>Select work {{$parameter->name}}</option>
+                                    @foreach($parameter->options as $option)
+                                        <option value="{{$option->id}}">{{$option->text}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @break
+                    @endswitch
+                @endforeach
 
-                <div class="form-group col-12 col-md-6">
-                    <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
-                    <select name="client_id" class="form-control" style="border-radius: 0 !important;" wire:model="selected.client_id">
-                        <option value="">Select client</option>
-                        @foreach($clients as $client)
-                            <option value="{{$client->getAttribute('id')}}">{{$client->getAttribute('fullname')}}</option>
-                        @endforeach
-                    </select>
+                @if(auth()->user()->hasPermission('editEarning-work'))
+
+                    <div class="form-group col-12 col-md-6" wire:ignore>
+                        <div class="d-flex">
+                            <div class="btn-group mr-5 flex-column" role="group">
+                                <label for="data-earning">Work Earning</label>
+                                <div class="d-flex">
+                                    <input id="data-earning" type="number" min="0" class="form-control" name="earning" wire:model="earning" style="border-radius: 0 !important;">
+                                    <select name="currency" id="" class="form-control" style="border-radius: 0 !important;" wire:model="currency">
+                                        @foreach(['USD', 'AZN', 'TRY', 'EUR', 'RUB'] as $currency)
+                                            <option value="{{$currency}}" @if($currency == optional($data)->getAttribute('currency')) selected @endif>{{$currency}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('earning')
+                                <p class="text-danger">{{$message}}</p>
+                                @enderror
+                            </div>
+                            <div class="btn-group flex-column" role="group">
+                                <label for="data-earning">Work Rate (in AZN)</label>
+                                <div class="d-flex">
+                                    <input type="text" class="form-control" name="currency_rate" wire:model="rate" style="border-radius: 0 !important;">
+                                    <input disabled type="text" class="form-control" value="AZN" style="border-radius: 0 !important;">
+                                </div>
+                                @error('currency_rate')
+                                <p class="text-danger">{{$message}}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                <div class="form-group col-12" wire:ignore>
+                    <label for="data-detail">Work detail</label>
+                    <textarea name="detail" id="data-detail" class="summernote">{{optional($data)->getAttribute('detail')}}</textarea>
                 </div>
             </div>
         </div>
@@ -105,10 +113,53 @@
         <x-input::submit :value="__('translates.buttons.save')"/>
     @endif
 </form>
+@if(!is_null($data))
+    <div class="col-12">
+        <x-documents :documents="$data->documents"/>
+        <x-document-upload :id="$data->id" model="Work"/>
+    </div>
+@endif
 @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+
     @if(is_null($action))
         <script>
             $('form :input').attr('disabled', true)
         </script>
     @endif
+    <script>
+        $('.select2').select2({
+            placeholder: "Search",
+            minimumInputLength: 3,
+            // width: 'resolve',
+            focus: true,
+            ajax: {
+                delay: 500,
+                url: "{{route('services.search')}}",
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                    }
+                }
+            }
+        })
+
+        const summernote = $('.summernote');
+        summernote.summernote({
+            placeholder: 'Results',
+            height: 200,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear', 'italic']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+        summernote.summernote('{{is_null($action) ? 'disable' : 'enable'}}');
+    </script>
 @endpush

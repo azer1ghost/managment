@@ -85,6 +85,7 @@ Route::group([
     // disable enable users
     Route::post('/users/{user}/enable', [UserController::class, 'enable'])->name('users.enable');
     Route::post('/users/{user}/disable', [UserController::class, 'disable'])->name('users.disable');
+    Route::post('/services/search', [ServiceController::class, 'search'])->name('services.search');
 });
 
 Auth::routes();

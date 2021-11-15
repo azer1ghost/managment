@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Client;
 use App\Models\Department;
 use App\Models\Service;
 use App\Models\Work;
@@ -14,12 +13,11 @@ class WorkForm extends Component
 {
     public ?Work $data;
     public ?string $method, $action;
-    public Collection $departments, $services, $users, $companies, $clients;
+    public Collection $departments, $services, $users, $companies;
     public array $selected = [
         'department_id' => '',
         'service_id' => '',
         'user_id' => '',
-        'client_id' => '',
     ];
     public array $workParameters = [];
     public string $earning;
@@ -35,12 +33,12 @@ class WorkForm extends Component
 
     public function updatedEarning()
     {
-        $this->rate = (new ExchangeRatesApi)->convert($this->currency, 'AZN', (float) $this->earning);
+        $this->rate = $this->earning ? (new ExchangeRatesApi)->convert($this->currency, 'AZN', (float) $this->earning) : 0;
     }
 
     public function updatedCurrency()
     {
-        $this->rate = (new ExchangeRatesApi)->convert($this->currency, 'AZN', (float) $this->earning);
+        $this->rate = $this->earning ? (new ExchangeRatesApi)->convert($this->currency, 'AZN', (float) $this->earning) : 0;
     }
 
     public function updatedSelectedDepartmentId()
@@ -52,7 +50,6 @@ class WorkForm extends Component
     {
         $this->departments = Department::get(['id', 'name']);
         $this->services = Service::get(['id', 'name']);
-        $this->clients = Client::get(['id', 'fullname']);
 
         $this->earning = optional($this->data)->getAttribute('earning') ?? '0';
         $this->rate = optional($this->data)->getAttribute('currency_rate') ?? 0;

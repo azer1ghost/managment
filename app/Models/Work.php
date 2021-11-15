@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
+use App\Interfaces\DocumentableInterface;
+use App\Traits\Documentable;
 use Illuminate\Database\Eloquent\{Factories\HasFactory,
     Model,
     Relations\BelongsTo,
     Relations\BelongsToMany,
     SoftDeletes};
-use Illuminate\Support\Collection;
 
-class Work extends Model
+class Work extends Model implements DocumentableInterface
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Documentable;
 
     protected $fillable = [
         'earning',
