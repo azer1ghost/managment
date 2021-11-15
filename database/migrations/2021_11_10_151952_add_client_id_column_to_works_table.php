@@ -14,7 +14,7 @@ class AddClientIdColumnToWorksTable extends Migration
     public function up()
     {
         Schema::table('works', function (Blueprint $table) {
-            $table->integer('model_id')->after('model')->nullable();
+            $table->integer('client_id')->after('service_id')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddClientIdColumnToWorksTable extends Migration
     public function down()
     {
         Schema::table('works', function (Blueprint $table) {
-            $table->dropColumn('model_id');
+            $table->dropColumn('client_id');
         });
     }
 }

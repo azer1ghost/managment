@@ -35,7 +35,7 @@
                         <input type="text" class="form-control" id="data-company" value="{{$data->getRelationValue('client')->fullname}}" disabled>
                     </div>
                 @endif
-                <x-input::select name="type"      :value="$data->getAttribute('type') ?? request()->get('type')"  width="4" class="pr-1" :options="['Huquqi', 'Fiziki']"/>
+                <x-input::select name="type"      :value="$data->getAttribute('type') ?? request()->get('type')"  width="4" class="pr-1" :options="[trans('translates.general.legal'), trans('translates.general.physical')]"/>
                 <x-input::text   name="fullname"  :value="$data->getAttribute('fullname')"    width="4" class="pr-1" :label="__('translates.fields.name')" required=""/>
                 @if (request()->get('type') == $data::PHYSICAL)
                     <x-input::text  name="father"   :value="$data->getAttribute('father')"  width="4" class="pr-1" :label="__('translates.fields.father')" />
@@ -70,18 +70,18 @@
                 <p class="text-muted mb-2">@lang('translates.fields.contact')</p>
                 <hr class="my-2">
             </div>
-            <x-input::text   name="phone2" :value="$data->getAttribute('phone2')"   :label="__('translates.fields.phone_coop')"  width="3" class="pr-1" />
-            <x-input::text   name="phone1"      :value="$data->getAttribute('phone1')"        :label="__('translates.fields.phone_private')"   width="3" class="pr-1" />
-            <x-input::email  name="email2" :value="$data->getAttribute('email2')"  :label="__('translates.fields.email_coop')"  width="3" class="pr-1" />
-            <x-input::email  name="email1"      :value="$data->getAttribute('email1')"       :label="__('translates.fields.email_private')"    width="3" class="pr-1"  required=""/>
+            <x-input::text   name="phone1"      :value="$data->getAttribute('phone1')"        :label="__('translates.fields.phone1')"   width="3" class="pr-1" />
+            <x-input::text   name="phone2"      :value="$data->getAttribute('phone2')"   :label="__('translates.fields.phone2')"  width="3" class="pr-1" />
+            <x-input::email  name="email1"      :value="$data->getAttribute('email1')"       :label="__('translates.fields.email1')"    width="3" class="pr-1"  required=""/>
+            <x-input::email  name="email2"      :value="$data->getAttribute('email2')"  :label="__('translates.fields.email2')"  width="3" class="pr-1" />
             <!-- Address -->
             <div class="col-md-12">
                 <br>
                 <p class="text-muted mb-2">@lang('translates.fields.address')</p>
                 <hr class="my-2">
             </div>
-            <x-input::text    name="address1"        :value="$data->getAttribute('address1')"       :label="__('translates.fields.address')"   width="6" class="pr-1" />
-            <x-input::text    name="address2"   :value="$data->getAttribute('address2')"  :label="__('translates.fields.address_coop')" width="6" class="pr-1"  />
+            <x-input::text    name="address1"   :value="$data->getAttribute('address1')"       :label="__('translates.fields.address1')"   width="6" class="pr-1" />
+            <x-input::text    name="address2"   :value="$data->getAttribute('address2')"  :label="__('translates.fields.address2')" width="6" class="pr-1"  />
         </div>
         @if($action)
             <x-input::submit/>
