@@ -33,6 +33,7 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">@lang('translates.columns.full_name')</th>
+                            <th scope="col">@lang('translates.fields.detail')</th>
                             <th scope="col">@lang('translates.columns.email')</th>
                             <th scope="col">@lang('translates.columns.phone')</th>
                             <th scope="col">VOEN/GOOEN</th>
@@ -44,6 +45,7 @@
                             <tr>
                                 <th scope="row">{{$client->getAttribute('id')}}</th>
                                 <td>{{$client->getAttribute('fullname')}}</td>
+                                <td>{{$client->getAttribute('detail')}}</td>
                                 <td>{{$client->getAttribute('email1')}}</td>
                                 <td>{{$client->getAttribute('phone1')}}</td>
                                 <td>{{$client->getAttribute('voen')}}</td>

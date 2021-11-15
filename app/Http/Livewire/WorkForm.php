@@ -16,11 +16,11 @@ class WorkForm extends Component
     public ?string $method, $action;
     public Collection $departments, $services, $users, $companies, $clients;
     public array $selected = [
-        'department_id' => null,
-        'service_id' => null,
-        'user_id' => null,
-        'company_id' => null,
-        'client_id' => null,
+        'department_id' => '',
+        'service_id' => '',
+        'user_id' => '',
+        'company_id' => '',
+        'client_id' => '',
     ];
 
     public function getDepartmentProperty()
@@ -30,7 +30,7 @@ class WorkForm extends Component
 
     public function updatedSelectedDepartmentId()
     {
-        $this->selected['user_id'] = null;
+        $this->selected['user_id'] = '';
     }
 
     public function mount()

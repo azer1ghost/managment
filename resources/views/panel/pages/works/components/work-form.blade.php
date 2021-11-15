@@ -53,7 +53,7 @@
                 <div class="form-group col-12 col-md-6">
                     <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
                     <select name="client_id" class="form-control" style="border-radius: 0 !important;" wire:model="selected.client_id">
-                        <option value="null">Select client</option>
+                        <option value="">Select client</option>
                         @foreach($clients as $client)
                             <option value="{{$client->getAttribute('id')}}">{{$client->getAttribute('fullname')}}</option>
                         @endforeach

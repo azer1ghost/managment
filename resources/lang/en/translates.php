@@ -392,6 +392,7 @@ return [
         'get_signature' => 'Get My Signature',
         'signature_for' => 'Signature for',
         'legal' => 'Legal',
-        'physical' => 'Physical'
+        'physical' => 'Physical',
+        'done_at' => 'Done at'
     ]
 ];

@@ -40,6 +40,7 @@
                 @if (request()->get('type') == $data::PHYSICAL)
                     <x-input::text  name="father"   :value="$data->getAttribute('father')"  width="4" class="pr-1" :label="__('translates.fields.father')" />
                 @endif
+                <x-input::textarea name="detail" :value="optional($data)->getAttribute('detail')" :label="trans('translates.fields.detail')" width="4" class="pr-3"/>
             </div>
             <!-- Employment -->
             <p class="text-muted mb-2"> @lang('translates.fields.employment')</p>
@@ -92,10 +93,10 @@
         <table class="table table-responsive-sm mt-4">
             <thead>
             <tr>
-                <th>Fullname</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Position</th>
+                <th>@lang('translates.columns.full_name')</th>
+                <th>@lang('translates.columns.email')</th>
+                <th>@lang('translates.fields.phone')</th>
+                <th>@lang('translates.fields.position')</th>
                 <th>Actions</th>
             </tr>
             </thead>

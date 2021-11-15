@@ -30,6 +30,7 @@ class Client extends Model
         'voen',
         'position',
         'type',
+        'detail',
         'client_id'
     ];
 

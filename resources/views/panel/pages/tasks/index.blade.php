@@ -91,6 +91,7 @@
                         <th scope="col">@lang('translates.columns.department')</th>
                         <th scope="col">@lang('translates.columns.user')</th>
                         <th scope="col">@lang('translates.columns.deadline')</th>
+                        <th scope="col">@lang('translates.fields.status.options.done')</th>
                         <th scope="col" style="min-width: 150px; width: 150px;">@lang('translates.columns.stage')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
@@ -112,6 +113,9 @@
                             </td>
                             <td>
                                 {{$task -> getAttribute('must_end_at')}}
+                            </td>
+                            <td>
+                                {{$task -> getAttribute('done_at')}}
                             </td>
                             <td>
                                 @if ($task->status == 'to_do')

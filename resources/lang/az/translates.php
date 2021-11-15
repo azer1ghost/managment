@@ -357,7 +357,7 @@ return [
         'type' => 'Növü',
         'order' => 'Sıralaması',
         'parent_option' => 'Ana parametr',
-        'deadline' => 'Bitmə Vaxtı',
+        'deadline' => 'Son tarix',
     ],
 
     'notify' => [
@@ -396,6 +396,7 @@ return [
         'get_signature' => 'İmzamı Al',
         'signature_for' => 'İmza',
         'legal' => 'Hüquqi',
-        'physical' => 'Fiziki'
+        'physical' => 'Fiziki',
+        'done_at' => 'Bitirmə vaxtı'
     ]
 ];
