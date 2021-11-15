@@ -145,7 +145,7 @@ return [
         'next' => 'Sonrakı',
         'change' => 'Dəyişdirin',
         'upload_file' => 'Fayl yüklə',
-
+        'close' => 'Bağla',
     ],
 
     'or' => 'və ya',
@@ -397,6 +397,16 @@ return [
         'signature_for' => 'İmza',
         'legal' => 'Hüquqi',
         'physical' => 'Fiziki',
-        'done_at' => 'Bitirmə vaxtı'
+        'done_at' => 'Bitirmə vaxtı',
+        'earning' => 'Qazanc',
+        'currency' => 'Valyuta',
+        'currency_rate' => 'Valyuta miqdarı',
+        'select_service' => 'Servis seçin',
+        'work_service' => 'İş Servisi',
+        'work_rate' => 'İş Dəyəri(Manatla)',
+        'work_earning' => 'İş Qazancı',
+        'work_detail' => 'İş Detalı',
+        'department_select' => 'Şöbə Seçin',
+        'select_client' => 'Müştəri Seçin',
     ]
 ];

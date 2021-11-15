@@ -143,6 +143,7 @@ return [
         'next' => 'Next',
         'change' => 'Change',
         'upload_file' => 'Upload file',
+        'close' => 'Close',
     ],
 
     'or' => 'or',
@@ -169,7 +170,7 @@ return [
         'referral' => 'Referrals',
         'bonus' => 'Bonuses',
         'update' => 'Updates',
-        'service' => 'Services',
+        'service' => 'Service',
         'work' => 'Works',
         'meeting' => 'Meetings',
         'conference' => 'Conferences',
@@ -393,6 +394,16 @@ return [
         'signature_for' => 'Signature for',
         'legal' => 'Legal',
         'physical' => 'Physical',
-        'done_at' => 'Done at'
+        'done_at' => 'Done at',
+        'earning' => 'Earning',
+        'currency' => 'Currency',
+        'currency_rate' => 'Currency Rate',
+        'select_service' => 'Select a Service',
+        'work_service' => 'Work Service',
+        'work_rate' => 'Work Rate(in AZN)',
+        'work_earning' => 'Work Earning',
+        'work_detail' => 'Work Detail',
+        'department_select' => 'Department Select',
+        'select_client' => 'Select Client',
     ]
 ];
