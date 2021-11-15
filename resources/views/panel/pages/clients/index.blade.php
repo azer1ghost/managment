@@ -45,7 +45,7 @@
                                 <th scope="row">{{$client->getAttribute('id')}}</th>
                                 <td>{{$client->getAttribute('fullname')}}</td>
                                 <td>{{$client->getAttribute('email1')}}</td>
-                                <td>{{phone_formatter($client->getAttribute('phone1'))}}</td>
+                                <td>{{$client->getAttribute('phone1')}}</td>
                                 <td>{{$client->getAttribute('voen')}}</td>
                                 <td>
                                     <div class="btn-sm-group">
