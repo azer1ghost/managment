@@ -44,4 +44,24 @@ class Client extends Model
     {
         return $this->belongsTo(__CLASS__, 'client_id')->withDefault();
     }
+    public function setPhone1Attribute($value): ?string
+    {
+        return $this->attributes['phone1'] = phone_cleaner($value);
+    }
+
+    public function setPhone2Attribute($value): ?string
+    {
+        return $this->attributes['phone2'] = phone_cleaner($value);
+    }
+
+    public function getPhone1Attribute($value): ?string
+    {
+        return phone_formatter($value, true);
+    }
+
+    public function getPhone2Attribute($value): ?string
+    {
+        return phone_formatter($value, true);
+    }
+
 }
