@@ -12,13 +12,18 @@ class Work extends Model
     protected $fillable = [
         'name',
         'detail',
+        'creator_id',
         'user_id',
         'company_id',
         'department_id',
         'service_id',
-        'model',
-        'model_id'
+        'client_id'
     ];
+
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'creator_id');
+    }
 
     public function user(): BelongsTo
     {
@@ -40,19 +45,8 @@ class Work extends Model
         return $this->belongsTo(Service::class);
     }
 
-    public function clientType(): Collection
+    public function client(): BelongsTo
     {
-        $typeId = $this->getAttribute('client_id');
-
-        return $this->getAttribute('model') == 'client' ?
-            Client::find($typeId) :
-            CustomerCompany::find($typeId);
-    }
-
-    public function clients(): Collection
-    {
-        return $this->getAttribute('model') == 'client' ?
-            Client::get(['id', 'name']) :
-            CustomerCompany::get(['id', 'name']);
+        return $this->belongsTo(Client::class);
     }
 }

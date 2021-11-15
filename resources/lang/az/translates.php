@@ -173,7 +173,7 @@ return [
         'bonus' => 'Bonuslar',
         'update' => 'Yeniləmələr',
         'service' => 'Xidmətlər',
-        'work' => 'Tamamlanmış İşlər',
+        'work' => 'İşlər',
         'meeting' => 'Görüşmələr',
         'conference' => 'İclaslar',
         'document' => 'Sənədlər',

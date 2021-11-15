@@ -4,7 +4,6 @@ namespace App\Http\Livewire;
 
 use App\Models\Client;
 use App\Models\Company;
-use App\Models\CustomerCompany;
 use App\Models\Department;
 use App\Models\Service;
 use App\Models\Work;
@@ -21,12 +20,7 @@ class WorkForm extends Component
         'service_id' => null,
         'user_id' => null,
         'company_id' => null,
-        'model' => 'client',
-        'model_id' => null,
-    ];
-    public array $types = [
-        'client',
-        'company'
+        'client_id' => null,
     ];
 
     public function getDepartmentProperty()
@@ -39,24 +33,15 @@ class WorkForm extends Component
         $this->selected['user_id'] = null;
     }
 
-    public function updatedSelectedModel($type)
-    {
-        $this->clients = $type == 'client' ? Client::get(['id', 'name']) : CustomerCompany::get(['id', 'name']);
-        $this->selected['model_id'] = null;
-    }
-
     public function mount()
     {
         $this->departments = Department::get(['id', 'name']);
         $this->services = Service::get(['id', 'name']);
         $this->companies = Company::get(['id','name']);
-        $this->clients = collect();
+        $this->clients = Client::get(['id', 'fullname']);
 
         foreach ($this->selected as $key => $selected) {
             $this->selected[$key] = optional($this->data)->getAttribute($key);
-            if($key == 'model'){
-                $this->updatedSelectedModel($this->selected[$key]);
-            }
         }
     }
 

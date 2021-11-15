@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddClientTypeColumnToWorksTable extends Migration
+class AddCreatorIdColumnToWorksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddClientTypeColumnToWorksTable extends Migration
     public function up()
     {
         Schema::table('works', function (Blueprint $table) {
-            $table->string('model')->after('service_id')->nullable();
+            $table->integer('creator_id')->after('detail')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddClientTypeColumnToWorksTable extends Migration
     public function down()
     {
         Schema::table('works', function (Blueprint $table) {
-            $table->dropColumn('model');
+            $table->dropColumn('creator_id');
         });
     }
 }

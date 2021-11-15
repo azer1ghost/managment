@@ -15,8 +15,7 @@ class WorkRequest extends FormRequest
             'company_id' => 'nullable|integer',
             'department_id' => 'nullable|integer',
             'service_id' => 'nullable|integer',
-            'model' => 'nullable|string',
-            'model_id' => 'nullable|integer'
+            'client_id' => 'nullable|integer'
         ];
     }
 }

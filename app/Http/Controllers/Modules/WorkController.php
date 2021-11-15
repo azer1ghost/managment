@@ -37,7 +37,10 @@ class WorkController extends Controller
 
     public function store(WorkRequest $request): RedirectResponse
     {
-        $work = Work::create($request->validated());
+        $validated = $request->validated();
+        $validated['creator_id'] = auth()->id();
+
+        $work = Work::create($validated);
         return redirect()
             ->route('works.edit', $work)
             ->withNotify('success', $work->getAttribute('name'));
