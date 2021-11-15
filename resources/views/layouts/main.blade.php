@@ -75,63 +75,65 @@
     @auth
         <script>
             $(document).ready(function (){
-                // request for location and store the info
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(function (position){
-                        const locationRoute = '{{route('set-location')}}';
-                        $.ajax({
-                            type: 'POST',
-                            url: locationRoute,
-                            data: { coordinates: {'latitude': position.coords.latitude, 'longitude': position.coords.longitude } },
-                            success: function (){}
+                @if(app()->environment('production'))
+                    // request for location and store the info
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function (position){
+                            const locationRoute = '{{route('set-location')}}';
+                            $.ajax({
+                                type: 'POST',
+                                url: locationRoute,
+                                data: { coordinates: {'latitude': position.coords.latitude, 'longitude': position.coords.longitude } },
+                                success: function (){}
+                            });
+                        });
+                    } else {
+                        console.log("Geolocation is not supported by this browser.");
+                    }
+
+                    // request for notification and store the info
+                    const messaging = firebase.messaging();
+                    const userTokens = @json(auth()->user()->deviceFcmTokens());
+                    Notification.requestPermission().then(function(result) {
+                        if(result === "granted"){
+                            messaging
+                                .requestPermission()
+                                .then(function () {
+                                    return messaging.getToken()
+                                })
+                                .then(function (response) {
+                                    if(!userTokens.includes(response)){
+                                        $.ajax({
+                                            url: '{{ route("store.fcm-token") }}',
+                                            type: 'POST',
+                                            data: {
+                                                fcm_token: response
+                                            },
+                                            dataType: 'JSON',
+                                            success: function (response){},
+                                            error: function (error) {
+                                                console.log(error);
+                                            },
+                                        });
+                                    }
+                                })
+                                .catch(function (error) {
+                                    alert(error);
+                                });
+                        }
+                    });
+
+                    messaging.onMessage(function (payload) {
+                        const title = payload.notification.title;
+                        const options = {
+                            body: payload.notification.body,
+                            icon: payload.notification.icon,
+                        };
+                        new Notification(title, options).addEventListener('click', function(){
+                            window.open(payload.notification.click_action, '_blank');
                         });
                     });
-                } else {
-                    console.log("Geolocation is not supported by this browser.");
-                }
-
-                // request for notification and store the info
-                const messaging = firebase.messaging();
-                const userTokens = @json(auth()->user()->deviceFcmTokens());
-                Notification.requestPermission().then(function(result) {
-                    if(result === "granted"){
-                        messaging
-                            .requestPermission()
-                            .then(function () {
-                                return messaging.getToken()
-                            })
-                            .then(function (response) {
-                                if(!userTokens.includes(response)){
-                                    $.ajax({
-                                        url: '{{ route("store.fcm-token") }}',
-                                        type: 'POST',
-                                        data: {
-                                            fcm_token: response
-                                        },
-                                        dataType: 'JSON',
-                                        success: function (response){},
-                                        error: function (error) {
-                                            console.log(error);
-                                        },
-                                    });
-                                }
-                            })
-                            .catch(function (error) {
-                                alert(error);
-                            });
-                    }
-                });
-
-                messaging.onMessage(function (payload) {
-                    const title = payload.notification.title;
-                    const options = {
-                        body: payload.notification.body,
-                        icon: payload.notification.icon,
-                    };
-                    new Notification(title, options).addEventListener('click', function(){
-                        window.open(payload.notification.click_action, '_blank');
-                    });
-                });
+                @endif
 
                 $(function () {
                     $('[data-toggle="tooltip"]').tooltip({

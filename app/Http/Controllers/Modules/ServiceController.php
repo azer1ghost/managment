@@ -73,6 +73,8 @@ class ServiceController extends Controller
         $this->translates($validated);
         $service->update($validated);
 
+        $service->parameters()->sync($validated['parameters'] ?? []);
+
         return redirect()
             ->route('services.edit', $service)
             ->withNotify('success', $service->getAttribute('name'));

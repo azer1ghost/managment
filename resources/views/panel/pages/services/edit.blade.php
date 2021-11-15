@@ -56,11 +56,12 @@
                         </select>
                     </div>
                     <x-input::textarea name="detail" :value="optional($data)->getAttribute('detail')" label="Service detail" width="6" class="pr-3"/>
-
                 </div>
-
             </div>
         </div>
+        @if(!is_null($data))
+            <livewire:service-parameter :data="$data" :action="$action"/>
+        @endif
         @if($action)
             <x-input::submit :value="__('translates.buttons.save')"/>
         @endif

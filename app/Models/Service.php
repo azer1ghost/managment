@@ -2,7 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\{Factories\HasFactory, Model, Relations\BelongsTo, SoftDeletes};
+use Illuminate\Database\Eloquent\{Factories\HasFactory,
+    Model,
+    Relations\BelongsTo,
+    Relations\BelongsToMany,
+    SoftDeletes};
 use Spatie\Translatable\HasTranslations;
 
 class Service extends Model
@@ -23,4 +27,8 @@ class Service extends Model
         return $this->belongsTo(Department::class)->withDefault();
     }
 
+    public function parameters(): BelongsToMany
+    {
+        return $this->belongsToMany(Parameter::class, 'service_parameter');
+    }
 }

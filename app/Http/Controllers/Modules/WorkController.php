@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkRequest;
 use App\Models\{Company, Department, Service, User, Work};
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class WorkController extends Controller
 {
@@ -15,10 +16,15 @@ class WorkController extends Controller
         $this->authorizeResource(Work::class, 'work');
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->get('search');
+
         return view('panel.pages.works.index')->with([
-            'works' => Work::paginate(10)
+            'works' => Work::query()
+                ->when($search, fn ($query) => $query->where('name', 'like', "%".$search."%"))
+                ->paginate(10),
+            'services' => Service::get(['id', 'name'])
         ]);
     }
 
@@ -39,8 +45,15 @@ class WorkController extends Controller
     {
         $validated = $request->validated();
         $validated['creator_id'] = auth()->id();
-
         $work = Work::create($validated);
+
+        $parameters = [];
+        foreach ($validated['parameters'] ?? [] as $key => $parameter) {
+            $parameters[$key] = ['value' => $parameter];
+        }
+
+        $work->parameters()->sync($parameters);
+
         return redirect()
             ->route('works.edit', $work)
             ->withNotify('success', $work->getAttribute('name'));
@@ -74,7 +87,15 @@ class WorkController extends Controller
 
     public function update(WorkRequest $request, Work $work): RedirectResponse
     {
-        $work->update($request->validated());
+        $validated = $request->validated();
+        $work->update($validated);
+
+        $parameters = [];
+        foreach ($validated['parameters'] ?? [] as $key => $parameter) {
+            $parameters[$key] = ['value' => $parameter];
+        }
+
+        $work->parameters()->sync($parameters);
 
         return redirect()
             ->route('works.edit', $work)

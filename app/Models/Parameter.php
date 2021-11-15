@@ -48,4 +48,14 @@ class Parameter extends Model
     {
         return $this->belongsToMany(Inquiry::class)->withPivot('value');
     }
+
+    public function services(): BelongsToMany
+    {
+        return $this->belongsToMany(Service::class, 'service_parameter');
+    }
+
+    public function works(): BelongsToMany
+    {
+        return $this->belongsToMany(Work::class, 'work_parameter')->withPivot('value');
+    }
 }

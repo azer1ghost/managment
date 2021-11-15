@@ -3,7 +3,6 @@
 namespace App\Http\Livewire;
 
 use App\Models\Client;
-use App\Models\Company;
 use App\Models\Department;
 use App\Models\Service;
 use App\Models\Work;
@@ -19,9 +18,11 @@ class WorkForm extends Component
         'department_id' => '',
         'service_id' => '',
         'user_id' => '',
-        'company_id' => '',
         'client_id' => '',
     ];
+    public array $workParameters = [];
+
+    public Collection $parameters;
 
     public function getDepartmentProperty()
     {
@@ -37,11 +38,19 @@ class WorkForm extends Component
     {
         $this->departments = Department::get(['id', 'name']);
         $this->services = Service::get(['id', 'name']);
-        $this->companies = Company::get(['id','name']);
         $this->clients = Client::get(['id', 'fullname']);
 
         foreach ($this->selected as $key => $selected) {
-            $this->selected[$key] = optional($this->data)->getAttribute($key);
+            $this->selected[$key] = request()->get($key) ?? optional($this->data)->getAttribute($key);
+        }
+        $this->getParameters();
+    }
+
+    public function getParameters()
+    {
+        $this->parameters = Service::find($this->selected['service_id'])->parameters;
+        foreach (optional($this->data)->parameters ?? [] as $parameter) {
+            $this->workParameters[$parameter->name] = $parameter->pivot->value;
         }
     }
 

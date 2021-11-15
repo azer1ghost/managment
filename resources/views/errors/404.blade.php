@@ -13,8 +13,10 @@
        }
        .container{
            font-size: 25px;
-           display: grid;
-           place-items: center;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           flex-direction: column;
            color: #fff;
            text-align: center;
            width: 100vw;
