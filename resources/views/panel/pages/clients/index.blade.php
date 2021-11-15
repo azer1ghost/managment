@@ -81,6 +81,13 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="input-group col-md-3 mt-2">
+                    <select name="limit" class="custom-select" id="size">
+                        @foreach([25, 50, 100, 250, 500] as $size)
+                            <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="col-6">
                     <div class="float-right">
                         {{$clients->appends(request()->input())->links()}}
@@ -88,4 +95,11 @@
                 </div>
             </div>
     </form>
+@endsection
+@section('scripts')
+    <script>
+        $('select').change(function(){
+            this.form.submit();
+        });
+    </script>
 @endsection

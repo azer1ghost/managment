@@ -17,14 +17,15 @@ class ClientController extends Controller
 
     public function index(Request $request)
     {
-        $search = $request->get('search');
+        $search =$request->get('search');
+        $limit = $request->get('limit',25);
 
         return view('panel.pages.clients.index')
             ->with([
                 'clients' => Client::query()
                     ->whereNull('client_id')
                     ->when($search, fn ($query) => $query->where('fullname', 'like', "%".$search."%"))
-                    ->simplePaginate(10)
+                    ->paginate($limit)
             ]);
     }
 
