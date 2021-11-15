@@ -54,18 +54,16 @@
                                                 <i class="fal fa-eye"></i>
                                             </a>
                                         @endcan
-                                            @unless ($client->getAttribute('id') === auth()->id())
-                                                @can('update', $client)
-                                                    <a href="{{route('clients.edit', $client)}}" class="btn btn-sm btn-outline-success">
-                                                        <i class="fal fa-pen"></i>
-                                                    </a>
-                                                @endcan
-                                                @can('delete', $client)
-                                                    <a href="{{route('clients.destroy', $client)}}" delete data-name="{{$client->getAttribute('fullname')}}" class="btn btn-sm btn-outline-danger" >
-                                                        <i class="fal fa-trash"></i>
-                                                    </a>
-                                                @endcan
-                                            @endif
+                                        @can('update', $client)
+                                            <a href="{{route('clients.edit', $client)}}" class="btn btn-sm btn-outline-success">
+                                                <i class="fal fa-pen"></i>
+                                            </a>
+                                        @endcan
+                                        @can('delete', $client)
+                                            <a href="{{route('clients.destroy', $client)}}" delete data-name="{{$client->getAttribute('fullname')}}" class="btn btn-sm btn-outline-danger" >
+                                                <i class="fal fa-trash"></i>
+                                            </a>
+                                        @endcan
                                     </div>
                                 </td>
                             </tr>

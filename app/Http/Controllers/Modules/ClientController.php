@@ -23,9 +23,7 @@ class ClientController extends Controller
             ->with([
                 'clients' => Client::query()
                     ->whereNull('client_id')
-                    ->when($search, fn ($query) => $query->where('name', 'like', "%".$search."%")
-                        ->orWhere('surname', 'like', "%".$search."%")
-                        ->orWhere('id', $search))
+                    ->when($search, fn ($query) => $query->where('fullname', 'like', "%".$search."%"))
                     ->simplePaginate(10)
             ]);
     }
