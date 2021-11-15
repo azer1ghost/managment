@@ -9,30 +9,25 @@
     <style>
         body{
             background-color: black;
-        }
-        div{
-            color: white;
-            text-align: center;
-
+            overflow:hidden;
         }
         .container{
-            font-size: 25px;
-
-            padding: 30vh;
+            font-size: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 97vw;
+            height: 90vh;
+            color: white;
+            text-align: center;
         }
-
-
-
     </style>
 </head>
 <body>
-<div>
     <div class="container">
-
         <h1>Error 403-Forbidden</h1>
-        <h2>You don't have permission to view this resource</h2>
+        <h3>You don't have permission to view this resource</h3>
     </div>
-</div>
-
 </body>
 </html>
