@@ -56,31 +56,35 @@
 </ul>
  @push('scripts')
      <script>
-         const userID = {{auth()->id()}};
-         const notificationsRef = firebase.database().ref().child('notifications');
-         const sound = new Audio('{{asset('assets/audio/notify/notify.wav')}}');
-
          Spruce.store('state', {
              notifications: [],
          })
 
          let notifications = Spruce.store('state').notifications;
-         notificationsRef.orderByChild('receiver_id').equalTo(userID).on("child_added", (snap, prevChildKey) => {
-             let snapVal = snap.val();
-             if(notifications.length > 9){
-                 notificationsRef.child(prevChildKey).remove();
-                 notifications.pop();
-                 notifications = notifications.reverse();
-             }
 
-             notifications.push(snapVal);
-             if(!snapVal.wasPlayed){
-                 sound.play();
-                 $('#notification-badge').removeClass('d-none');
-                 notificationsRef.child(snap.key).update({wasPlayed: true});
-             }
-             notifications = notifications.reverse();
-         });
+         @if(app()->environment('production'))
+            const userID = {{auth()->id()}};
+            const notificationsRef = firebase.database().ref().child('notifications');
+            const sound = new Audio('{{asset('assets/audio/notify/notify.wav')}}');
+
+             notificationsRef.orderByChild('receiver_id').equalTo(userID).on("child_added", (snap, prevChildKey) => {
+                 let snapVal = snap.val();
+                 if(notifications.length > 9){
+                     notificationsRef.child(prevChildKey).remove();
+                     notifications.pop();
+                     notifications = notifications.reverse();
+                 }
+
+                 notifications.push(snapVal);
+                 if(!snapVal.wasPlayed){
+                     sound.play();
+                     $('#notification-badge').removeClass('d-none');
+                     notificationsRef.child(snap.key).update({wasPlayed: true});
+                 }
+                 notifications = notifications.reverse();
+             });
+         @endif
+
          $('#notificationsDropdown').click(function (){
              if(!$('#notification-badge').hasClass('d-none')){
                  $('#notification-badge').addClass('d-none');

@@ -13,6 +13,7 @@ class ServiceRequest extends FormRequest
             'company_id' => 'nullable|integer|nullable',
             'department_id' => 'nullable|integer|nullable',
             'translate' => 'nullable|array',
-            ];
+            'parameters' => 'nullable|array'
+        ];
     }
 }

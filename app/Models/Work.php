@@ -2,7 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\{Factories\HasFactory, Model, Relations\BelongsTo, SoftDeletes};
+use Illuminate\Database\Eloquent\{Factories\HasFactory,
+    Model,
+    Relations\BelongsTo,
+    Relations\BelongsToMany,
+    SoftDeletes};
 use Illuminate\Support\Collection;
 
 class Work extends Model
@@ -10,11 +14,12 @@ class Work extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name',
+        'earning',
+        'currency',
+        'currency_rate',
         'detail',
         'creator_id',
         'user_id',
-        'company_id',
         'department_id',
         'service_id',
         'client_id'
@@ -30,11 +35,6 @@ class Work extends Model
         return $this->belongsTo(User::class)->withDefault();
     }
 
-    public function company(): BelongsTo
-    {
-        return $this->belongsTo(Company::class)->withDefault();
-    }
-
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class)->withDefault();
@@ -48,5 +48,10 @@ class Work extends Model
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class)->withDefault();
+    }
+
+    public function parameters(): BelongsToMany
+    {
+        return $this->belongsToMany(Parameter::class, 'work_parameter')->withPivot('value');
     }
 }

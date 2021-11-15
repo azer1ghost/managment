@@ -24,7 +24,7 @@
             </div>
             @can('create', App\Models\Work::class)
                 <div class="col-4">
-                    <a class="btn btn-outline-success float-right" href="{{route('works.create')}}">@lang('translates.buttons.create')</a>
+                    <a class="btn btn-outline-success float-right" data-toggle="modal" data-target="#create-work">@lang('translates.buttons.create')</a>
                 </div>
             @endcan
             <div class="col-12">
@@ -34,11 +34,10 @@
                         <th scope="col">#</th>
                         <th scope="col">@lang('translates.columns.name')</th>
                         <th scope="col">@lang('translates.fields.detail')</th>
-                        <th scope="col">@lang('translates.fields.user')</th>
                         <th scope="col">@lang('translates.columns.department')</th>
+                        <th scope="col">@lang('translates.fields.user')</th>
                         <th scope="col">@lang('translates.navbar.service')</th>
                         <th scope="col">@lang('translates.fields.clientName')</th>
-                        <th scope="col">@lang('translates.columns.company')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
@@ -46,13 +45,14 @@
                     @forelse($works as $work)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
-                            <td>{{$work->getAttribute('name')}}</td>
+                            <td>{{$work->getAttribute('earning')}}</td>
+                            <td>{{$work->getAttribute('currency')}}</td>
+                            <td>{{$work->getAttribute('currency_rate')}}</td>
                             <td>{{$work->getAttribute('detail')}}</td>
-                            <td>{{$work->getRelationValue('user')->getAttribute('fullname')}}</td>
                             <td>{{$work->getRelationValue('department')->getAttribute('name')}}</td>
+                            <td>{{$work->getRelationValue('user')->getAttribute('fullname')}}</td>
                             <td>{{$work->getRelationValue('service')->getAttribute('name')}}</td>
                             <td>{{$work->getRelationValue('client')->getAttribute('fullname')}}</td>
-                            <td>{{$work->getRelationValue('company')->getAttribute('name')}}</td>
                             <td>
                                 <div class="btn-sm-group">
                                     @can('view', $work)
@@ -75,7 +75,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <th colspan="7">
+                            <th colspan="9">
                                 <div class="row justify-content-center m-3">
                                     <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.empty')</div>
                                 </div>
@@ -92,4 +92,33 @@
             </div>
         </div>
     </form>
+    <div class="modal fade" id="create-work" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{route('works.create')}}" method="GET">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Select a Service</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="data-service">Service</label>
+                            <select class="form-control" id="data-service" name="service_id" required>
+                                <option value="">Select a service</option>
+                                @foreach($services as $service)
+                                    <option value="{{$service->id}}">{{$service->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">@lang('translates.buttons.create')</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
