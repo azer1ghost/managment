@@ -26,7 +26,7 @@
         .err {
             color: black;
             font-family: 'Nunito Sans', sans-serif;
-            font-size: 2rem;
+            font-size: 1.7rem;
             margin-bottom: 5px;
         }
 

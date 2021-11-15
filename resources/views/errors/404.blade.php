@@ -9,30 +9,23 @@
     <style>
        body{
            background-color: black;
-       }
-       div{
-           color: white;
-           text-align: center;
-
+           overflow: hidden;
        }
        .container{
            font-size: 25px;
-
-           padding: 30vh;
+           display: grid;
+           place-items: center;
+           color: #fff;
+           text-align: center;
+           width: 100vw;
+           height: 100vh;
        }
-
-
-
     </style>
 </head>
 <body>
-    <div>
-        <div class="container">
-
+    <div class="container">
         <h1>404</h1>
         <h2>Page Not Found</h2>
-        </div>
     </div>
-
 </body>
 </html>
