@@ -45,6 +45,7 @@
                     <x-input::select default="1" name="position_id"   :value="optional(optional($data)->getRelationValue('position'))->getAttribute('id')"   width="6"  class="pr-0" :options="$directorPositions" label="Position" />
                 @else
                     <x-input::select default="1"  name="position_id"   :value="optional(optional($data)->getRelationValue('position'))->getAttribute('id')"    width="6"  class="pr-0" :options="$positions"   label="Position" />
+                    <x-input::select default="1"  name="official_position_id"   :value="optional($data)->getAttribute('official_position_id')"    width="6"  class="pr-0" :options="$positions"   label="Official Position" />
                 @endif
                 <x-input::select default="1" name="company_id"    :value="optional(optional($data)->getRelationValue('company'))->getAttribute('id')"     width="6"  class="pr-0" :options="$companies"   label="Company" />
                 @if (auth()->user()->isDeveloper() && !is_null($data))

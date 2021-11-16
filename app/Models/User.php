@@ -38,6 +38,7 @@ class User extends Authenticatable implements MustVerifyPhone
         'fin',
         'birthday',
         'position_id',
+        'official_position_id',
         'department_id',
         'phone_coop',
         'phone',
@@ -53,7 +54,7 @@ class User extends Authenticatable implements MustVerifyPhone
         'verify_code',
         'permissions',
         'disabled_at',
-        'is_partner'
+        'is_partner',
     ];
 
     protected $hidden = [
@@ -99,6 +100,11 @@ class User extends Authenticatable implements MustVerifyPhone
     public function position(): BelongsTo
     {
         return $this->belongsTo(Position::class)->withDefault();
+    }
+
+    public function officialPosition(): BelongsTo
+    {
+        return $this->belongsTo(Position::class, 'official_position_id')->withDefault();
     }
 
     public function compartment(): BelongsTo

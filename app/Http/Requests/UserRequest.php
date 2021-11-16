@@ -29,6 +29,7 @@ class UserRequest extends FormRequest
             'email'          => 'nullable|email:rfc,dns|unique:users,email,' . $unique_user,
             'email_coop'     => 'nullable|allowed_domain|email:rfc,dns|unique:users,email_coop,' . $unique_user,
             'position_id'    => 'filled|integer',
+            'official_position_id'    => 'nullable|integer',
             'phone'          => 'nullable|string|max:255',
             'phone_coop'     => 'nullable|string|max:255',
             'country'        => 'nullable|string|max:255',
