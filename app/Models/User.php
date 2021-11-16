@@ -134,6 +134,11 @@ class User extends Authenticatable implements MustVerifyPhone
         return "{$this->getAttribute('name')} {$this->getAttribute('surname')}";
     }
 
+    public function getFullnameWithPositionAttribute(): string
+    {
+        return "{$this->getAttribute('name')} {$this->getAttribute('surname')} ({$this->getRelationValue('position')->getAttribute('name')})";
+    }
+
     public function isDeveloper(): bool
     {
         return $this->getAttribute('role_id') === 1;

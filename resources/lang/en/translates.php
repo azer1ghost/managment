@@ -401,13 +401,14 @@ return [
         'done_at' => 'Done at',
         'earning' => 'Earning',
         'currency' => 'Currency',
-        'currency_rate' => 'Currency Rate',
+        'currency_rate' => 'Currency Rate (AZN)',
         'select_service' => 'Select a Service',
         'work_service' => 'Work Service',
         'rate' => 'Rate(in AZN)',
         'work_earning' => 'Work Earning',
         'work_detail' => 'Work Detail',
         'department_select' => 'Department Select',
+        'user_select' => 'User Select',
         'select_client' => 'Select Client',
     ]
 ];

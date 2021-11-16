@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="form-group col-12 col-md-6" wire:ignore>
-                    <label for="data-service_id">Work Service</label>
+                    <label for="data-service_id">@lang('translates.general.work_service')</label>
                     @if(request()->has('service_id') || !is_null($data))
                         @php($service = request()->get('service_id') ?? optional($data)->getAttribute('service_id'))
                         <input disabled type="text" class="form-control" id="data-service_id" value="{{\App\Models\Service::find($service)->name}}">
@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="form-group col-12 col-md-6">
-                    <label for="data-department_id">Department Select</label>
+                    <label for="data-department_id">@lang('translates.general.department_select')</label>
                     <select name="department_id" id="data-department_id" class="form-control" wire:model="selected.department_id">
                         <option value="" selected>Department Select</option>
                         @foreach($departments as $department)
@@ -38,11 +38,11 @@
 
                 @if($selected['department_id'])
                     <div class="form-group col-12 col-md-6">
-                        <label for="data-user_id">User Select</label>
+                        <label for="data-user_id">@lang('translates.general.user_select')</label>
                         <select name="user_id" id="data-user_id" class="form-control" wire:model="selected.user_id">
                             <option value="" selected>User Select</option>
-                            @foreach($this->department->users()->isActive()->get(['id', 'name', 'surname']) as $user)
-                                <option value="{{ $user->getAttribute('id') }}">{{ $user->getAttribute('fullname') }}</option>
+                            @foreach($this->department->users()->with('position')->isActive()->get(['id', 'name', 'surname']) as $user)
+                                <option value="{{ $user->getAttribute('id') }}">{{ $user->getAttribute('fullname_with_position') }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -58,7 +58,7 @@
                             @break
                         @case('select')
                             <div class="form-group col-12 col-md-6">
-                                <label for="data-parameter-{{$parameter->id}}">Work {{$parameter->name}}</label>
+                                <label for="data-parameter-{{$parameter->id}}">@lang('translates.parameters.types.' . $parameter->name)</label>
                                 <select name="parameters[{{$parameter->id}}]" id="data-parameter-{{$parameter->id}}" class="form-control" wire:model="workParameters.{{$parameter->name}}">
                                     <option value="" selected>Select work {{$parameter->name}}</option>
                                     @foreach($parameter->options as $option)
@@ -75,7 +75,7 @@
                     <div class="form-group col-12 col-md-6" wire:ignore>
                         <div class="d-flex">
                             <div class="btn-group mr-5 flex-column" role="group">
-                                <label for="data-earning">Work Earning</label>
+                                <label for="data-earning">@lang('translates.general.work_earning')</label>
                                 <div class="d-flex">
                                     <input id="data-earning" type="number" min="0" class="form-control" name="earning" wire:model="earning" style="border-radius: 0 !important;">
                                     <select name="currency" id="" class="form-control" style="border-radius: 0 !important;" wire:model="currency">
@@ -89,7 +89,7 @@
                                 @enderror
                             </div>
                             <div class="btn-group flex-column" role="group">
-                                <label for="data-earning">Work Rate (in AZN)</label>
+                                <label for="data-earning">@lang('translates.general.rate')</label>
                                 <div class="d-flex">
                                     <input type="text" class="form-control" name="currency_rate" wire:model="rate" style="border-radius: 0 !important;">
                                     <input disabled type="text" class="form-control" value="AZN" style="border-radius: 0 !important;">
@@ -103,7 +103,7 @@
                 @endif
 
                 <div class="form-group col-12" wire:ignore>
-                    <label for="data-detail">Work detail</label>
+                    <label for="data-detail">@lang('translates.general.work_detail')</label>
                     <textarea name="detail" id="data-detail" class="summernote">{{optional($data)->getAttribute('detail')}}</textarea>
                 </div>
             </div>
@@ -145,6 +145,9 @@
                 }
             }
         })
+        $('.select2').on('select2:open', function (e) {
+            document.querySelector('.select2-search__field').focus();
+        });
 
         const summernote = $('.summernote');
         summernote.summernote({
