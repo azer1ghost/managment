@@ -34,12 +34,14 @@
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">@lang('translates.columns.name')</th>
-                        <th scope="col">@lang('translates.fields.detail')</th>
-                        <th scope="col">@lang('translates.columns.department')</th>
                         <th scope="col">@lang('translates.fields.user')</th>
+                        <th scope="col">@lang('translates.columns.department')</th>
                         <th scope="col">@lang('translates.navbar.service')</th>
                         <th scope="col">@lang('translates.fields.clientName')</th>
+                        <th scope="col">@lang('translates.fields.detail')</th>
+                        <th scope="col">@lang('translates.general.earning')</th>
+                        <th scope="col">@lang('translates.general.currency')</th>
+                        <th scope="col">@lang('translates.general.currency_rate')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
@@ -47,14 +49,14 @@
                     @forelse($works as $work)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
+                            <td>{{$work->getRelationValue('user')->getAttribute('fullname')}}</td>
+                            <td>{{$work->getRelationValue('department')->getAttribute('name')}}</td>
+                            <td>{{$work->getRelationValue('service')->getAttribute('name')}}</td>
+                            <td>{{$work->getRelationValue('client')->getAttribute('fullname')}}</td>
+                            <td>{{$work->getAttribute('detail')}}</td>
                             <td>{{$work->getAttribute('earning')}}</td>
                             <td>{{$work->getAttribute('currency')}}</td>
                             <td>{{$work->getAttribute('currency_rate')}}</td>
-                            <td>{{$work->getAttribute('detail')}}</td>
-                            <td>{{$work->getRelationValue('department')->getAttribute('name')}}</td>
-                            <td>{{$work->getRelationValue('user')->getAttribute('fullname')}}</td>
-                            <td>{{$work->getRelationValue('service')->getAttribute('name')}}</td>
-                            <td>{{$work->getRelationValue('client')->getAttribute('fullname')}}</td>
                             <td>
                                 <div class="btn-sm-group">
                                     @can('view', $work)
@@ -99,16 +101,16 @@
             <div class="modal-content">
                 <form action="{{route('works.create')}}" method="GET">
                     <div class="modal-header">
-                        <h5 class="modal-title">Select a Service</h5>
+                        <h5 class="modal-title">@lang('translates.general.select_service')</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="data-service">Service</label>
+                            <label for="data-service">@lang('translates.navbar.service')</label>
                             <select class="select2" id="data-service" name="service_id" required style="width: 100% !important;">
-                                <option value="">Select a service</option>
+                                <option value="">@lang('translates.general.select_service')</option>
                                 @foreach($services as $service)
                                     <option value="{{$service->id}}">{{$service->name}}</option>
                                 @endforeach
@@ -116,7 +118,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
                         <button type="submit" class="btn btn-primary">@lang('translates.buttons.create')</button>
                     </div>
                 </form>
@@ -127,12 +129,9 @@
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        $(document).ready(function (){
-            $('.select2').select2();
-
-            $('.select2').on('select2:open', function (e) {
-                document.querySelector('.select2-search__field').focus();
-            });
+        $('.select2').select2()
+        $('.select2').on('select2:open', function (e) {
+            document.querySelector('.select2-search__field').focus();
         });
     </script>
 @endsection

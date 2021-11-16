@@ -93,15 +93,15 @@
         <table class="table table-responsive-sm mt-4">
             <thead>
             <tr>
-                <th>@lang('translates.columns.full_name')</th>
-                <th>@lang('translates.columns.email')</th>
-                <th>@lang('translates.fields.phone')</th>
-                <th>@lang('translates.fields.position')</th>
-                <th>Actions</th>
+                <th title="@lang('translates.general.physical_client_name')">@lang('translates.columns.full_name')</th>
+                <th title="@lang('translates.general.physical_client_mail')">@lang('translates.columns.email')</th>
+                <th title="@lang('translates.general.physical_client_phone')">@lang('translates.fields.phone')</th>
+                <th title="@lang('translates.general.physical_client_position')">@lang('translates.fields.position')</th>
+                <th>@lang('translates.columns.actions')</th>
             </tr>
             </thead>
             <tbody>
-            @foreach($data->getRelationValue('clients') as $client)
+            @forelse($data->getRelationValue('clients') as $client)
                 <tr>
                     <td>{{$client->getAttribute('fullname')}}</td>
                     <td>{{$client->getAttribute('email1')}}</td>
@@ -123,12 +123,22 @@
                         @endif
                     </td>
                 </tr>
-            @endforeach
+                @empty
+                    <tr>
+                        <th colspan="5">
+                            <div class="row justify-content-center m-3">
+                                <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.empty')</div>
+                            </div>
+                        </th>
+                    </tr>
+            @endforelse
+
             </tbody>
         </table>
         @if($method == 'PUT')
-            <a href="{{route('clients.create', ['type' => $data::PHYSICAL, 'client_id' => $data->getAttribute('id')])}}" class="btn btn-outline-primary">@lang('translates.buttons.create')</a>
+            <a href="{{route('clients.create', ['type' => $data::PHYSICAL, 'client_id' => $data->getAttribute('id')])}}" class="btn btn-outline-primary col-md-12 p-2">@lang('translates.buttons.create')</a>
         @endif
+
     @endif
 @endsection
 @section('scripts')
