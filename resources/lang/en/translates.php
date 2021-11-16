@@ -410,5 +410,17 @@ return [
         'department_select' => 'Department Select',
         'user_select' => 'User Select',
         'select_client' => 'Select Client',
+    ],
+
+    'clients' => [
+        'detail_empty' => 'Detail is empty',
+        'phone_empty' => 'Phone is empty',
+        'email_empty' => 'Email is empty',
+        'voen_empty' => 'VOEN is empty',
+    ],
+
+    'clients_type' => [
+        'lEGAL',
+        'Physical',
     ]
 ];
