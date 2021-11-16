@@ -15,7 +15,7 @@
         <div>
             @php($images = ['image/jpeg', 'image/jpg', 'image/png'])
             @if(in_array($document->type, $images))
-                <img src="{{route('document.temporaryUrl', $document)}}" alt="img" style="width: 500px">
+                <img src="{{route('document.temporaryUrl', $document)}}" alt="img" style="width: 500px;max-width: 100%">
             @else
                 <iframe
                         src="https://view.officeapps.live.com/op/embed.aspx?src={{route('document.temporaryUrl', $document)}}"
