@@ -24,7 +24,8 @@ class Work extends Model implements DocumentableInterface
         'department_id',
         'service_id',
         'client_id',
-        'hard_level'
+        'hard_level',
+        'datetime',
     ];
 
     public function creator(): BelongsTo

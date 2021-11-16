@@ -18,7 +18,8 @@ class WorkRequest extends FormRequest
             'service_id' => 'nullable|integer',
             'client_id' => 'nullable|integer',
             'parameters' => 'nullable|array',
-            'hard_level' => 'nullable|integer'
+            'hard_level' => 'nullable|integer',
+            'datetime' => 'nullable|date'
         ];
     }
 }

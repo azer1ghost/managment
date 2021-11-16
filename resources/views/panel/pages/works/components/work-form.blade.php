@@ -1,6 +1,7 @@
 @push('style')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endpush
 <form action="{{$action}}" method="POST" enctype="multipart/form-data">
     @method($method) @csrf
@@ -58,6 +59,9 @@
                         @endforeach
                     </select>
                 </div>
+                <div id="date-container">
+                    <x-input::text name="datetime" wire:ignore :label="__('translates.fields.date')" value="{{optional($data)->getAttribute('datetime') ?? now()->format('Y-m-d H:i')}}" type="text" width="12" class="pr-2" />
+                </div>
                 @foreach($parameters as $parameter)
                     @switch($parameter->type)
                         @case('text')
@@ -109,6 +113,7 @@
                                 @enderror
                             </div>
                         </div>
+
                     </div>
                 @endif
 
@@ -132,6 +137,9 @@
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
 
     @if(is_null($action))
         <script>
@@ -174,6 +182,18 @@
                 ['view', ['fullscreen', 'codeview', 'help']]
             ]
         });
+
         summernote.summernote('{{is_null($action) ? 'disable' : 'enable'}}');
+
+        $('input[name="datetime"]').daterangepicker({
+                opens: 'left',
+                locale: {
+                    format: "YYYY-MM-DD HH:mm",
+                },
+                singleDatePicker: true,
+                timePicker: true,
+                timePicker24Hour: true,
+            }, function(start, end, label) {}
+        );
     </script>
 @endpush
