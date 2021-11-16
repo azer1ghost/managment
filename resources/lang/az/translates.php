@@ -397,6 +397,10 @@ return [
         'signature_for' => 'İmza',
         'legal' => 'Hüquqi',
         'physical' => 'Fiziki',
-        'done_at' => 'Bitirmə vaxtı'
+        'done_at' => 'Bitirmə vaxtı',
+        'physical_client_name' => 'Hüquqi Müştərinin İşcilerinin Adı',
+        'physical_client_mail' => 'Hüquqi Müştərinin İşcilerinin Emaili',
+        'physical_client_phone' => 'Hüquqi Müştərinin İşcilerinin Nömrəsi',
+        'physical_client_position' => 'Hüquqi Müştərinin İşcilerinin Vəzifəsi',
     ]
 ];

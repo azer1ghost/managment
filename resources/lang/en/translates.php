@@ -393,6 +393,10 @@ return [
         'signature_for' => 'Signature for',
         'legal' => 'Legal',
         'physical' => 'Physical',
-        'done_at' => 'Done at'
+        'done_at' => 'Done at',
+        'physical_client_name' => 'Name of Legal Client Employees',
+        'physical_client_mail' => 'Mail of Legal Client Employees',
+        'physical_client_phone' => 'Phone of Legal Client Employees',
+        'physical_client_position' => 'Position of Legal Client Employees',
     ]
 ];
