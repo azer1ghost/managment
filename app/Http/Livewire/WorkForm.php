@@ -57,7 +57,16 @@ class WorkForm extends Component
         $this->currency = optional($this->data)->getAttribute('currency') ?? 'USD';
         $this->hardLevels = Work::hardLevels();
 
+        $user = auth()->user();
         foreach ($this->selected as $key => $selected) {
+            if($key == 'department_id'){
+                $this->selected['department_id'] = optional($this->data)->getAttribute($key) ?? $user->getAttribute('department_id');
+                continue;
+            }
+            if($key == 'user_id' && !$user->hasPermission('department-chief')){
+                $this->selected['user_id'] = optional($this->data)->getAttribute($key) ?? auth()->id();
+                continue;
+            }
             $this->selected[$key] = request()->get($key) ?? optional($this->data)->getAttribute($key);
         }
 

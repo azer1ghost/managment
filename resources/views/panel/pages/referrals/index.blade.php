@@ -22,12 +22,12 @@
                     </div>
                 </div>
                 <div class="col-md-2 mb-3">
-                <select name="limit" class="custom-select">
-                    @foreach([25, 50, 100] as $size)
-                        <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
-                    @endforeach
-                </select>
-            </div>
+                    <select name="limit" class="custom-select">
+                        @foreach([25, 50, 100] as $size)
+                            <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
 
             <div class="col-12">
@@ -70,6 +70,11 @@
                                             <i class="fal fa-pen"></i>
                                         </a>
                                     @endcan
+                                    @if(auth()->user()->hasPermission('manageReferral-user'))
+                                        <a href="#" class="btn btn-sm btn-outline-success" onclick="event.preventDefault(); document.getElementById('referral-key').value = '{{$referral->id}}';document.getElementById('bonus-form').submit();">
+                                            <i class="fal fa-gift"></i>
+                                        </a>
+                                    @endif
                                     @can('delete', $referral)
                                         <a href="{{route('referrals.destroy', $referral)}}" delete data-name="{{$referral->getAttribute('name')}}" class="btn btn-sm btn-outline-danger" >
                                             <i class="fal fa-trash"></i>
@@ -96,6 +101,11 @@
                 </div>
             </div>
         </div>
+    </form>
+    <!-- Referral bonus -->
+    <form id="bonus-form" action="{{route('bonuses.referral')}}" method="POST" class="d-none">
+        <input type="hidden" id="referral-key" name="key">
+        @csrf
     </form>
 @endsection
 @section('scripts')

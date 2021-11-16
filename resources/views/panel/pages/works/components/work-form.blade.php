@@ -35,23 +35,29 @@
 
                 <div class="form-group col-12 col-md-6">
                     <label for="data-department_id">@lang('translates.general.department_select')</label>
-                    <select name="department_id" id="data-department_id" class="form-control" wire:model="selected.department_id">
-                        <option value="" selected>Department Select</option>
+                    <select name="department_id" id="data-department_id" class="form-control" wire:model="selected.department_id" @if(!auth()->user()->isDeveloper() && !auth()->user()->isDirector()) disabled @endif>
+                        <option value="" selected>@lang('translates.general.department_select')</option>
                         @foreach($departments as $department)
                             <option value="{{$department->getAttribute('id')}}">{{$department->getAttribute('name')}}</option>
                         @endforeach
                     </select>
+                    @if(!auth()->user()->isDeveloper() && !auth()->user()->isDirector())
+                        <input type="hidden" wire:model="selected.department_id" name="department_id">
+                    @endif
                 </div>
 
                 @if($selected['department_id'])
                     <div class="form-group col-12 col-md-6">
                         <label for="data-user_id">@lang('translates.general.user_select')</label>
-                        <select name="user_id" id="data-user_id" class="form-control" wire:model="selected.user_id">
-                            <option value="" selected>User Select</option>
+                        <select name="user_id" id="data-user_id" class="form-control" wire:model="selected.user_id" @if(!auth()->user()->isDeveloper() && !auth()->user()->isDirector() && !auth()->user()->hasPermission('department-chief')) disabled @endif>
+                            <option value="" selected>@lang('translates.general.user_select')</option>
                             @foreach($this->department->users()->with('position')->isActive()->get(['id', 'name', 'surname', 'position_id']) as $user)
                                 <option value="{{ $user->getAttribute('id') }}">{{ $user->getAttribute('fullname_with_position') }}</option>
                             @endforeach
                         </select>
+                        @if(!auth()->user()->isDeveloper() && !auth()->user()->isDirector() && !auth()->user()->hasPermission('department-chief'))
+                            <input type="hidden" wire:model="selected.user_id" name="user_id">
+                        @endif
                     </div>
                 @endif
 

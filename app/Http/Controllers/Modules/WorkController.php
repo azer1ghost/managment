@@ -19,12 +19,15 @@ class WorkController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search');
+        $user = auth()->user();
 
         return view('panel.pages.works.index')->with([
             'works' => Work::query()
                 ->when($search, fn ($query) => $query->where('name', 'like', "%".$search."%"))
                 ->paginate(10),
-            'services' => Service::get(['id', 'name'])
+            'services' => Service::when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
+                $query->whereBelongsTo($user->getRelationValue('department'));
+            })->get(['id', 'name'])
         ]);
     }
 

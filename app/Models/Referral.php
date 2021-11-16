@@ -10,7 +10,16 @@ class Referral extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'key', 'referral_bonus_percentage'];
+    protected $fillable = [
+        'user_id',
+        'key',
+        'referral_bonus_percentage',
+        'total_users',
+        'bonus',
+        'efficiency',
+        'total_earnings',
+        'referral_bonus_percentage'
+    ];
 
     protected static function boot()
     {
