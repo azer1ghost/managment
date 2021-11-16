@@ -170,11 +170,12 @@ return [
         'referral' => 'Referrals',
         'bonus' => 'Bonuses',
         'update' => 'Updates',
-        'service' => 'Service',
+        'services' => 'Services',
         'work' => 'Works',
         'meeting' => 'Meetings',
         'conference' => 'Conferences',
-        'document' => 'Documents'
+        'document' => 'Documents',
+        'service' => 'Service',
 
     ],
 
