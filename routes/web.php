@@ -51,6 +51,7 @@ Route::group([
 ], function () {
     Route::get('/bonuses', [ReferralBonusController::class, 'index'])->name('bonuses');
     Route::post('/bonuses', [ReferralBonusController::class, 'refresh']);
+    Route::post('/bonuses/referral', [ReferralBonusController::class, 'refreshReferral'])->name('bonuses.referral');
     Route::post('/bonuses/generate-referral-link', [ReferralBonusController::class, 'generate'])->name('bonuses.generate-referral-link');
 
     Route::get('/cabinet', [PlatformController::class, 'cabinet'])->name('cabinet');

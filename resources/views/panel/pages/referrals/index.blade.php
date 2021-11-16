@@ -62,6 +62,11 @@
                                             <i class="fal fa-pen"></i>
                                         </a>
                                     @endcan
+                                    @if(auth()->user()->hasPermission('manageReferral-user'))
+                                        <a href="#" class="btn btn-sm btn-outline-success" onclick="event.preventDefault(); document.getElementById('referral-key').value = '{{$referral->id}}';document.getElementById('bonus-form').submit();">
+                                            <i class="fal fa-gift"></i>
+                                        </a>
+                                    @endif
                                     @can('delete', $referral)
                                         <a href="{{route('referrals.destroy', $referral)}}" delete data-name="{{$referral->getAttribute('name')}}" class="btn btn-sm btn-outline-danger" >
                                             <i class="fal fa-trash"></i>
@@ -88,5 +93,10 @@
                 </div>
             </div>
         </div>
+    </form>
+    <!-- Referral bonus -->
+    <form id="bonus-form" action="{{route('bonuses.referral')}}" method="POST" class="d-none">
+        <input type="hidden" id="referral-key" name="key">
+        @csrf
     </form>
 @endsection

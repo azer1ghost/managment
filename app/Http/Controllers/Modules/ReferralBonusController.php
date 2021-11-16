@@ -8,6 +8,7 @@ use App\Models\Referral;
 use App\Services\MobexReferralApi;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class ReferralBonusController extends Controller
 {
@@ -64,6 +65,35 @@ class ReferralBonusController extends Controller
 
         $this->referral()->update($data);
 
-        return view('panel.pages.bonuses.index')->with(['referral' => $this->referral()->first()]);
+        return back()->with(['referral' => $this->referral()->first()]);
+    }
+
+    public function refreshReferral(Request $request)
+    {
+        $referral = Referral::find($request->get('key'));
+
+        $response = (new MobexReferralApi)->by($referral->key)->get();
+
+        $data = $response->json();
+
+        if($response->status() != 200){
+            return back()->withNotify('error', "Error Code: {$response->status()}. " .  $response->toPsrResponse()->getReasonPhrase(), true);
+        }
+
+        if(array_key_exists('error', $data)){
+            return back()->withNotify('error', 'Sizin hazırda referalınız yoxdur :(', true);
+        }
+
+        $data['total_earnings'] += $referral->getAttribute('total_earnings');
+        $data['total_packages'] += $referral->getAttribute('total_packages');
+        $data['bonus'] = ($data['total_earnings'] * $referral->getAttribute('referral_bonus_percentage') / 100);
+
+        if(array_key_exists('referral_bonus_percentage', $data)){
+            unset($data['referral_bonus_percentage']);
+        }
+
+        $referral->update($data);
+
+        return back();
     }
 }
