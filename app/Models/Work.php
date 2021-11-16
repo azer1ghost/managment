@@ -22,7 +22,8 @@ class Work extends Model
         'user_id',
         'department_id',
         'service_id',
-        'client_id'
+        'client_id',
+        'hard_level'
     ];
 
     public function creator(): BelongsTo
@@ -53,5 +54,9 @@ class Work extends Model
     public function parameters(): BelongsToMany
     {
         return $this->belongsToMany(Parameter::class, 'work_parameter')->withPivot('value');
+    }
+    public static function hardLevels(): array
+    {
+        return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     }
 }
