@@ -398,5 +398,17 @@ return [
         'physical_client_mail' => 'Mail of Legal Client Employees',
         'physical_client_phone' => 'Phone of Legal Client Employees',
         'physical_client_position' => 'Position of Legal Client Employees',
+    ],
+
+    'clients' => [
+        'detail_empty' => 'Detail is empty',
+        'phone_empty' => 'Phone is empty',
+        'email_empty' => 'Email is empty',
+        'voen_empty' => 'VOEN is empty',
+    ],
+
+    'clients_type' => [
+        'lEGAL',
+        'Physical',
     ]
 ];

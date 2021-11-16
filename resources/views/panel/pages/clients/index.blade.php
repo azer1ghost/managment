@@ -13,15 +13,24 @@
     </x-bread-crumb>
     <form action="{{route('clients.index')}}">
             <div class="row d-flex justify-content-between mb-2">
-                <div class="col-6">
+                <div class="col-4">
                     <div class="input-group mb-3">
                         <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="Search" aria-label="Recipient's clientname" aria-describedby="basic-addon2">
                         <div class="input-group-append">
                             <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
                             <a class="btn btn-outline-danger" href="{{route('clients.index')}}"><i class="fal fa-times"></i></a>
                         </div>
+
                     </div>
                 </div>
+                <div class="input-group col-3">
+                    <select name="limit" class="custom-select" id="size">
+                        @foreach([25, 50, 100, 250, 500] as $size)
+                            <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
                 @can('create', App\Models\Client::class)
                     <div class="col-4">
                         <a class="btn btn-outline-success float-right" href="{{route('clients.create', ['type' => \App\Models\Client::LEGAL])}}">@lang('translates.buttons.create')</a>
@@ -32,6 +41,7 @@
                         <thead>
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">@lang('translates.columns.type')</th>
                             <th scope="col">@lang('translates.columns.full_name')</th>
                             <th scope="col">@lang('translates.fields.detail')</th>
                             <th scope="col">@lang('translates.columns.email')</th>
@@ -44,11 +54,12 @@
                         @forelse($clients as $client)
                             <tr>
                                 <th scope="row">{{$client->getAttribute('id')}}</th>
+                                <td> @lang("translates.clients_type." . $client->getAttribute('type')) </td>
                                 <td>{{$client->getAttribute('fullname')}}</td>
-                                <td>{{$client->getAttribute('detail')}}</td>
-                                <td>{{$client->getAttribute('email1')}}</td>
-                                <td>{{$client->getAttribute('phone1')}}</td>
-                                <td>{{$client->getAttribute('voen')}}</td>
+                                <td>{{$client->getAttribute('detail') ? $client->getAttribute('detail') : trans('translates.clients.detail_empty') }} </td>
+                                <td>{{$client->getAttribute('email1') ? $client->getAttribute('email1') : trans('translates.clients.email_empty')}} </td>
+                                <td>{{$client->getAttribute('phone1') ? $client->getAttribute('phone1') : trans('translates.clients.phone_empty')}} </td>
+                                <td>{{$client->getAttribute('voen') ? $client->getAttribute('voen') : trans('translates.clients.voen_empty')}} </td>
                                 <td>
                                     <div class="btn-sm-group">
                                         @can('view', $client)
@@ -81,13 +92,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="input-group col-md-3 mt-2">
-                    <select name="limit" class="custom-select" id="size">
-                        @foreach([25, 50, 100, 250, 500] as $size)
-                            <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
-                        @endforeach
-                    </select>
-                </div>
+
                 <div class="col-12">
                     <div class="float-right">
                         {{$clients->appends(request()->input())->links()}}

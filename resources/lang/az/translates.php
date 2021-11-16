@@ -402,5 +402,17 @@ return [
         'physical_client_mail' => 'Hüquqi Müştərinin İşcilerinin Emaili',
         'physical_client_phone' => 'Hüquqi Müştərinin İşcilerinin Nömrəsi',
         'physical_client_position' => 'Hüquqi Müştərinin İşcilerinin Vəzifəsi',
+    ],
+
+    'clients' => [
+        'detail_empty' => 'Əlavə məlumat yoxdur',
+        'phone_empty' => 'Nömrə yoxdur',
+        'email_empty' => 'Email adresi  yoxdur',
+        'voen_empty' => 'VOEN yoxdur',
+    ],
+
+    'clients_type' => [
+        'Hüquqi',
+        'Fiziki',
     ]
 ];
