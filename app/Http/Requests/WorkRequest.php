@@ -19,6 +19,7 @@ class WorkRequest extends FormRequest
             'client_id' => 'nullable|integer',
             'parameters' => 'nullable|array',
             'hard_level' => 'nullable|integer',
+            'status' => 'nullable|integer',
             'datetime' => 'nullable|date'
         ];
     }

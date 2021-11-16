@@ -25,6 +25,7 @@ class Work extends Model implements DocumentableInterface
         'service_id',
         'client_id',
         'hard_level',
+        'status',
         'datetime',
     ];
 
@@ -57,8 +58,14 @@ class Work extends Model implements DocumentableInterface
     {
         return $this->belongsToMany(Parameter::class, 'work_parameter')->withPivot('value');
     }
+
     public static function hardLevels(): array
     {
         return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    }
+
+    public static function statuses(): array
+    {
+        return [1, 2, 3];
     }
 }

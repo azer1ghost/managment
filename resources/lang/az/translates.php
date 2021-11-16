@@ -413,6 +413,7 @@ return [
         'select_client' => 'Müştəri Seçin',
         'done_at' => 'Bitirmə vaxtı',
         'hard_level_choose' => 'Çətinlik dərəcəsi Seçin',
+        'status_choose' => 'Status Seçin',
         'hard_level' => 'Çətinlik dərəcəsi',
         'physical_client_name' => 'Hüquqi Müştərinin İşcilerinin Adı',
         'physical_client_mail' => 'Hüquqi Müştərinin İşcilerinin Emaili',
@@ -430,5 +431,11 @@ return [
     'clients_type' => [
         'Hüquqi',
         'Fiziki',
+    ],
+
+    'work_status' => [
+        'Gözləmədə',
+        'Davam Edir',
+        'Tamamlandı',
     ]
 ];

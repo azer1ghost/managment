@@ -409,6 +409,7 @@ return [
         'work_service' => 'Work Service',
         'rate' => 'Rate(in AZN)',
         'hard_level_choose' => 'Hard Level Choose',
+        'status_choose' => 'Status Choose',
         'hard_level' => 'Hard Level',
         'work_earning' => 'Work Earning',
         'work_detail' => 'Work Detail',
@@ -427,5 +428,11 @@ return [
     'clients_type' => [
         'Legal',
         'Physical',
+    ],
+
+    'work_status' => [
+        'Pending',
+        'Continue',
+        'Done',
     ]
 ];

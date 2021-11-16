@@ -71,7 +71,19 @@
                         @endforeach
                     </select>
                 </div>
+
                 <x-input::text name="datetime" wire:ignore :label="__('translates.fields.date')" value="{{optional($data)->getAttribute('datetime') ?? now()->format('Y-m-d H:i')}}" type="text" width="3" class="pr-2" />
+
+                <div class="form-group col-12 col-md-3" wire:ignore>
+                    <label for="data-status">@lang('translates.general.status_choose')</label>
+                    <select name="status" id="data-status" class="form-control">
+                        <option value="" selected>@lang('translates.general.status_choose')</option>
+                        @foreach($statuses as $key => $status)
+                            <option @if(optional($data)->getAttribute('status') === $key ) selected
+                                    @endif value="{{$key}}">@lang('translates.work_status.'.$key)</option>
+                        @endforeach
+                    </select>
+                </div>
                 @foreach($parameters as $parameter)
                     @switch($parameter->type)
                         @case('text')
