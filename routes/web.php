@@ -85,7 +85,6 @@ Route::group([
     // disable enable users
     Route::post('/users/{user}/enable', [UserController::class, 'enable'])->name('users.enable');
     Route::post('/users/{user}/disable', [UserController::class, 'disable'])->name('users.disable');
-    Route::post('/services/search', [ServiceController::class, 'search'])->name('services.search');
 });
 
 Auth::routes();
@@ -103,6 +102,7 @@ Route::post('/validate-register', [RegisterController::class, 'validator'])->nam
 Localization::route();
 
 Route::any('/test', [PlatformController::class, 'test'])->middleware('deactivated');
+Route::any('/clients/search', [ClientController::class, 'search'])->name('clients.search');
 
 Route::any('/document-temporary-url/{document}', [PlatformController::class, 'documentTemporaryUrl'])->name('document.temporaryUrl');
 Route::any('/document-temporary-viewer-url/{document}', [DocumentController::class, 'temporaryViewerUrl'])->name('document.temporaryViewerUrl');

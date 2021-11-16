@@ -15,6 +15,30 @@ class ClientController extends Controller
         $this->authorizeResource(Client::class, 'client');
     }
 
+    public function search(Request $request): object
+    {
+        $clients = Client::where('fullname', 'LIKE', "%{$request->get('search')}%")
+            ->orWhere('voen', 'LIKE', "%{$request->get('search')}%")
+            ->limit(10)
+            ->get(['id', 'fullname', 'voen']);
+
+        $clientsArray = [];
+
+        foreach ($clients as $client) {
+            $clientsArray[] = [
+                "id"   => $client->id,
+                "text" => "{$client->fullname_with_voen}",
+            ];
+        }
+
+        return (object) [
+            'results' => $clientsArray,
+            'pagination' => [
+                "more" => false
+            ]
+        ];
+    }
+
     public function index(Request $request)
     {
         $search =$request->get('search');

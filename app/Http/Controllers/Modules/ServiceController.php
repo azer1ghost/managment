@@ -17,27 +17,6 @@ class ServiceController extends Controller
         $this->authorizeResource(Service::class, 'service');
     }
 
-    public function search(Request $request): object
-    {
-        $services = Service::search($request->get('search'))->limit(10)->get(['id', 'name']);
-
-        $servicesArray = [];
-
-        foreach ($services as $service) {
-            $usersArray[] = [
-                "id"   => $service->id,
-                "text" => $service->name,
-            ];
-        }
-
-        return (object) [
-            'results' => $servicesArray,
-            'pagination' => [
-                "more" => false
-            ]
-        ];
-    }
-
     public function index()
     {
         return view('panel.pages.services.index')->with([

@@ -12,7 +12,7 @@
                     <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
                     <select name="client_id" class="select2" style="width: 100% !important;">
                         @if(is_numeric(optional($data)->getAttribute('client_id')))
-                            <option value="{{optional($data)->getAttribute('service_id')}}">{{optional($data)->getRelationValue('client')->getAttribute('fullname')}}</option>
+                            <option value="{{optional($data)->getAttribute('client_id')}}">{{optional($data)->getRelationValue('client')->getAttribute('fullname_with_voen')}}</option>
                         @endif
                     </select>
                 </div>
@@ -41,7 +41,7 @@
                         <label for="data-user_id">@lang('translates.general.user_select')</label>
                         <select name="user_id" id="data-user_id" class="form-control" wire:model="selected.user_id">
                             <option value="" selected>User Select</option>
-                            @foreach($this->department->users()->with('position')->isActive()->get(['id', 'name', 'surname']) as $user)
+                            @foreach($this->department->users()->with('position')->isActive()->get(['id', 'name', 'surname', 'position_id']) as $user)
                                 <option value="{{ $user->getAttribute('id') }}">{{ $user->getAttribute('fullname_with_position') }}</option>
                             @endforeach
                         </select>
@@ -136,8 +136,9 @@
             focus: true,
             ajax: {
                 delay: 500,
-                url: "{{route('services.search')}}",
+                url: "{{route('clients.search')}}",
                 dataType: 'json',
+                type: 'GET',
                 data: function (params) {
                     return {
                         search: params.term,
@@ -151,7 +152,7 @@
 
         const summernote = $('.summernote');
         summernote.summernote({
-            placeholder: 'Results',
+            placeholder: 'Detail',
             height: 200,
             toolbar: [
                 ['style', ['style']],

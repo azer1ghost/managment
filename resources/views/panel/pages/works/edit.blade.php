@@ -12,7 +12,7 @@
         </x-bread-crumb-link>
         <x-bread-crumb-link>
             @if (!is_null($data))
-                {{optional($data)->getAttribute('name')}}
+                {{optional($data)->getRelationValue('service')->getAttribute('name')}} - {{optional($data)->getRelationValue('client')->getAttribute('fullname_with_voen')}}
             @else
                 @lang('translates.buttons.create')
             @endif

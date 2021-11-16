@@ -65,4 +65,9 @@ class Client extends Model
         return phone_formatter($value, true);
     }
 
+    public function getFullnameWithVoenAttribute($value): ?string
+    {
+        return "{$this->getAttribute('fullname')} ({$this->getAttribute('voen')})";
+    }
+
 }
