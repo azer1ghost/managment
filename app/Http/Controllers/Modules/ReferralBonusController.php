@@ -14,7 +14,7 @@ class ReferralBonusController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['throttle:3,1'])->except(['index']);
+        $this->middleware(['throttle:10,1'])->except(['index']);
     }
 
     public function index()
