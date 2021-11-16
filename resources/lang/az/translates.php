@@ -172,11 +172,12 @@ return [
         'referral' => 'Referrallar',
         'bonus' => 'Bonuslar',
         'update' => 'Yeniləmələr',
-        'service' => 'Xidmətlər',
+        'services' => 'Xidmətlər',
         'work' => 'İşlər',
         'meeting' => 'Görüşmələr',
         'conference' => 'İclaslar',
         'document' => 'Sənədlər',
+        'service' => 'Xidmət',
 
     ],
 

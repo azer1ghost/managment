@@ -42,7 +42,6 @@
                         <th scope="col">@lang('translates.general.hard_level')</th>
                         <th scope="col">@lang('translates.general.earning')</th>
                         <th scope="col">@lang('translates.general.currency')</th>
-                        <th scope="col">@lang('translates.general.currency_rate')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>

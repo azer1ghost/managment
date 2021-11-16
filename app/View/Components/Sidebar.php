@@ -162,7 +162,7 @@ class Sidebar extends Component
                 'permission' => 'viewAny-update',
             ],
             (object)[
-                'title' => __('translates.navbar.service'),
+                'title' => __('translates.navbar.services'),
                 'icon' => 'fas fa-concierge-bell',
                 'url' => route('services.index'),
                 'permission' => 'viewAny-service',
