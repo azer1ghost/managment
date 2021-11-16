@@ -12,11 +12,6 @@ use Illuminate\Http\Request;
 
 class ReferralBonusController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['throttle:10,1'])->except(['index']);
-    }
-
     public function index()
     {
         return view('panel.pages.bonuses.index')->with(['referral' => $this->referral()->first() ?? new Referral()]);
