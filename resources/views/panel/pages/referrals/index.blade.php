@@ -13,15 +13,23 @@
     </x-bread-crumb>
     <form action="{{route('referrals.index')}}">
         <div class="row d-flex justify-content-between mb-2">
-            <div class="col-6">
-                <div class="input-group mb-3">
+            <div class="col-12">
+                <div class="input-group col-6 mb-3">
                     <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2">
                     <div class="input-group-append">
                         <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
                         <a class="btn btn-outline-danger" href="{{route('referrals.index')}}"><i class="fal fa-times"></i></a>
                     </div>
                 </div>
+                <div class="col-md-2 mb-3">
+                <select name="limit" class="custom-select">
+                    @foreach([25, 50, 100] as $size)
+                        <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
+                    @endforeach
+                </select>
             </div>
+            </div>
+
             <div class="col-12">
                 <table class="table table-responsive-sm table-hover">
                     <thead>
@@ -89,4 +97,11 @@
             </div>
         </div>
     </form>
+@endsection
+@section('scripts')
+    <script>
+        $('select').change(function(){
+            this.form.submit();
+        });
+    </script>
 @endsection

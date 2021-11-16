@@ -19,13 +19,14 @@ class ReferralController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search');
+        $limit  = $request->get('limit', 25);
 
         return view('panel.pages.referrals.index', [
             'referrals' => Referral::with('user')
                 ->when($search, function ($query) use ($search) {
                     return $query->where('key', 'LIKE', "%$search%");
                 })
-                ->paginate(10)
+                ->paginate($limit)
         ]);
     }
 
