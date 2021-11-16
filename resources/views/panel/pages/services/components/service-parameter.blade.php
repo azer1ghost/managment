@@ -16,7 +16,7 @@
             </div>
         @empty
             <div class="col-12">
-                <p class="text-muted">@lang('translates.general.no_sosial_link')</p>
+                <p class="text-muted">@lang('translates.general.no_service_parameter')</p>
             </div>
         @endforelse
     </div>

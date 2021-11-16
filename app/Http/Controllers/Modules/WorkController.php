@@ -37,7 +37,7 @@ class WorkController extends Controller
             'users' => User::get(['id', 'name', 'surname']),
             'companies' => Company::get(['id', 'name']),
             'departments' => Department::get(['id', 'name']),
-            'services' => Service::get(['id', 'name'])
+            'services' => Service::get(['id', 'name']),
         ]);
     }
 
@@ -68,7 +68,7 @@ class WorkController extends Controller
             'users' => User::get(['id', 'name', 'surname']),
             'companies' => Company::get(['id','name']),
             'departments' => Department::get(['id','name']),
-            'services' => Service::get(['id', 'name'])
+            'services' => Service::get(['id', 'name']),
         ]);
     }
 
@@ -81,7 +81,7 @@ class WorkController extends Controller
             'users' => User::get(['id', 'name', 'surname']),
             'companies' => Company::get(['id','name']),
             'departments' => Department::get(['id','name']),
-            'services' => Service::get(['id', 'name'])
+            'services' => Service::get(['id', 'name']),
         ]);
     }
 

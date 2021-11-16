@@ -14,6 +14,7 @@ class WorkForm extends Component
     public ?Work $data;
     public ?string $method, $action;
     public Collection $departments, $services, $users, $companies;
+    public array $hardLevels;
     public array $selected = [
         'department_id' => '',
         'service_id' => '',
@@ -54,6 +55,7 @@ class WorkForm extends Component
         $this->earning = optional($this->data)->getAttribute('earning') ?? '0';
         $this->rate = optional($this->data)->getAttribute('currency_rate') ?? 0;
         $this->currency = optional($this->data)->getAttribute('currency') ?? 'USD';
+        $this->hardLevels = Work::hardLevels();
 
         foreach ($this->selected as $key => $selected) {
             $this->selected[$key] = request()->get($key) ?? optional($this->data)->getAttribute($key);

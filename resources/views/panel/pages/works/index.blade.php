@@ -38,6 +38,7 @@
                         <th scope="col">@lang('translates.columns.department')</th>
                         <th scope="col">@lang('translates.navbar.service')</th>
                         <th scope="col">@lang('translates.fields.clientName')</th>
+                        <th scope="col">@lang('translates.general.hard_level')</th>
                         <th scope="col">@lang('translates.general.earning')</th>
                         <th scope="col">@lang('translates.general.currency')</th>
                         <th scope="col">@lang('translates.general.currency_rate')</th>
@@ -52,6 +53,7 @@
                             <td>{{$work->getRelationValue('department')->getAttribute('name')}}</td>
                             <td>{{$work->getRelationValue('service')->getAttribute('name')}}</td>
                             <td>{{$work->getRelationValue('client')->getAttribute('fullname')}}</td>
+                            <td>{{$work->getAttribute('hard_level')}}</td>
                             <td>{{$work->getAttribute('earning')}}</td>
                             <td>{{$work->getAttribute('currency')}}</td>
                             <td>{{$work->getAttribute('currency_rate')}}</td>
