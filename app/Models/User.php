@@ -25,7 +25,8 @@ class User extends Authenticatable implements MustVerifyPhone
 {
     use HasFactory, Notifiable, SoftDeletes, Loger, GetClassInfo, \App\Traits\Auth\MustVerifyPhone;
 
-    const DIRECTOR = '7';
+    const DIRECTOR = 7;
+    const DEVELOPER = 1;
 
     protected $fillable = [
         'name',
@@ -147,7 +148,12 @@ class User extends Authenticatable implements MustVerifyPhone
 
     public function isDeveloper(): bool
     {
-        return $this->getAttribute('role_id') === 1;
+        return $this->getAttribute('role_id') === self::DEVELOPER;
+    }
+
+    public function isDirector(): bool
+    {
+        return $this->getRelationValue('role')->getAttribute('id') == self::DIRECTOR;
     }
 
     public function isDisabled(): bool
@@ -251,11 +257,6 @@ class User extends Authenticatable implements MustVerifyPhone
     public function tasks(): MorphMany
     {
         return $this->morphMany(Task::class, 'taskable');
-    }
-
-    public function isDirector(): bool
-    {
-        return $this->getRelationValue('role')->getAttribute('id') == self::DIRECTOR;
     }
 
     public function setDepartmentIdAttribute($value)
