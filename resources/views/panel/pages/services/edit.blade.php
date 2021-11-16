@@ -59,7 +59,7 @@
                 </div>
             </div>
         </div>
-        @if(!is_null($data))
+        @if(!is_null($data) && auth()->user()->isDeveloper())
             <livewire:service-parameter :data="$data" :action="$action"/>
         @endif
         @if($action)
