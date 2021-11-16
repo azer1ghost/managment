@@ -72,9 +72,9 @@
                             @break
                         @case('select')
                             <div class="form-group col-12 col-md-6">
-                                <label for="data-parameter-{{$parameter->id}}">@lang('translates.parameters.types.' . $parameter->name)</label>
+                                <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
                                 <select name="parameters[{{$parameter->id}}]" id="data-parameter-{{$parameter->id}}" class="form-control" wire:model="workParameters.{{$parameter->name}}">
-                                    <option value="" selected>Select work {{$parameter->name}}</option>
+                                    <option value="" selected>{{$parameter->placeholder}}</option>
                                     @foreach($parameter->options as $option)
                                         <option value="{{$option->id}}">{{$option->text}}</option>
                                     @endforeach
