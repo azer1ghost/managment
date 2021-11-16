@@ -30,7 +30,6 @@ class CompanyRequest extends FormRequest
             'logo'      => "nullable|string|max:255",
             'website'   => 'required|max:255',
             'mail'      => 'required|email:rfc,dns',
-            'phone'     => 'required|string|max:255',
             'mobile'    => 'required|string|max:255',
             'call_center' => 'required|string|max:255',
             'intercity_phone' => 'required|string|max:255',

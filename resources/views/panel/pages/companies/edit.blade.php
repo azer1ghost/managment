@@ -34,7 +34,6 @@
             <x-input::text  name="website"   :value="optional($data)->getAttribute('website')"   :label="__('translates.fields.website')" width="6" class="pr-3" />
             <x-input::text  name="mobile"    :value="optional($data)->getAttribute('mobile')"    :label="__('translates.fields.mobile')"  width="6" class="pr-3" />
             <x-input::text  name="mail"      :value="optional($data)->getAttribute('mail')"      :label="__('translates.fields.mail')"   width="6" class="pr-3" />
-            <x-input::text  name="phone"     :value="optional($data)->getAttribute('phone')"     :label="__('translates.fields.phone')"   width="6" class="pr-3" />
             <x-input::text  name="intercity_phone"     :value="optional($data)->getAttribute('intercity_phone')"     :label="__('translates.fields.intercity_phone')"   width="6" class="pr-3" />
             <x-input::text  name="call_center"  :value="optional($data)->getAttribute('call_center')"     :label="__('translates.fields.call_center')"   width="6" class="pr-3" />
             <x-input::text  name="keywords"     :value="optional($data)->getAttribute('keywords')"        :label="__('translates.fields.keywords')"      width="6" class="pr-3" />

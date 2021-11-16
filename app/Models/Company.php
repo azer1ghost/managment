@@ -22,7 +22,6 @@ class Company extends Model
         'logo',
         'website',
         'mail',
-        'phone',
         'call_center',
         'mobile',
         'address',
