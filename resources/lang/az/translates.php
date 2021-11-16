@@ -358,6 +358,7 @@ return [
         'order' => 'Sıralaması',
         'parent_option' => 'Ana parametr',
         'deadline' => 'Son tarix',
+        'parameter_label' => 'Parameter Label',
     ],
 
     'notify' => [

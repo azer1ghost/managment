@@ -32,6 +32,7 @@
                     <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">@lang('translates.columns.parameter_label')</th>
                         <th scope="col">@lang('translates.columns.name')</th>
                         <th scope="col">@lang('translates.columns.type')</th>
                         <th scope="col">@lang('translates.columns.order')</th>
@@ -43,6 +44,7 @@
                     @forelse($parameters as $parameter)
                         <tr>
                             <th scope="row">{{$parameter->getAttribute('id')}}</th>
+                            <td>{{$parameter->getAttribute('label')}}</td>
                             <td>{{$parameter->getAttribute('name')}}</td>
                             <td>{{$parameter->getAttribute('type')}}</td>
                             <td>{{$parameter->getAttribute('order')}}</td>

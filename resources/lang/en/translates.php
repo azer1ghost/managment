@@ -355,7 +355,8 @@ return [
         'order' => 'Order',
         'type' => 'Type',
         'parent_option' => 'Parent option',
-        'deadline' => 'Deadline'
+        'deadline' => 'Deadline',
+        'parameter_label' => 'Parameter Label',
     ],
 
     'notify' => [
