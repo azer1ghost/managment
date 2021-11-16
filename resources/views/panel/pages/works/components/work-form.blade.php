@@ -1,6 +1,7 @@
 @push('style')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endpush
 <form action="{{$action}}" method="POST" enctype="multipart/form-data">
@@ -8,14 +9,19 @@
 
     <div class="tab-content row mt-4">
         <div class="form-group col-12">
-            <div class="row">
+            <div class="row m-0">
                 <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
-                    <select name="client_id" class="select2" style="width: 100% !important;">
-                        @if(is_numeric(optional($data)->getAttribute('client_id')))
-                            <option value="{{optional($data)->getAttribute('client_id')}}">{{optional($data)->getRelationValue('client')->getAttribute('fullname_with_voen')}}</option>
-                        @endif
-                    </select>
+                    <div class="d-flex align-items-center">
+                        <select name="client_id" id="data-client-type" class="select2" style="width: 100% !important;">
+                            @if(is_numeric(optional($data)->getAttribute('client_id')))
+                                <option value="{{optional($data)->getAttribute('client_id')}}">{{optional($data)->getRelationValue('client')->getAttribute('fullname_with_voen')}}</option>
+                            @endif
+                        </select>
+                        <a target="_blank" href="{{route('clients.create', ['type' => \App\Models\Client::LEGAL])}}" class="btn btn-outline-success ml-3">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="form-group col-12 col-md-6" wire:ignore>
@@ -59,23 +65,21 @@
                         @endforeach
                     </select>
                 </div>
-                <div id="date-container">
-                    <x-input::text name="datetime" wire:ignore :label="__('translates.fields.date')" value="{{optional($data)->getAttribute('datetime') ?? now()->format('Y-m-d H:i')}}" type="text" width="12" class="pr-2" />
-                </div>
+                <x-input::text name="datetime" wire:ignore :label="__('translates.fields.date')" value="{{optional($data)->getAttribute('datetime') ?? now()->format('Y-m-d H:i')}}" type="text" width="3" class="pr-2" />
                 @foreach($parameters as $parameter)
                     @switch($parameter->type)
                         @case('text')
-                            <div class="form-group col-12 col-md-6">
+                            <div class="form-group col-12 col-md-3">
                                 <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
                                 <input type="text" name="parameters[{{$parameter->id}}]" id="data-parameter-{{$parameter->id}}" class="form-control" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
                             </div>
                             @break
                         @case('select')
-                            <div class="form-group col-12 col-md-6">
+                            <div class="form-group col-12 col-md-3">
                                 <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
                                 <select name="parameters[{{$parameter->id}}]" id="data-parameter-{{$parameter->id}}" class="form-control" wire:model="workParameters.{{$parameter->name}}">
                                     <option value="" selected>{{$parameter->placeholder}}</option>
-                                    @foreach($parameter->options as $option)
+                                    @foreach($parameter->getRelationValue('options') as $option)
                                         <option value="{{$option->id}}">{{$option->text}}</option>
                                     @endforeach
                                 </select>
@@ -151,6 +155,7 @@
             placeholder: "Search",
             minimumInputLength: 3,
             // width: 'resolve',
+            theme: 'bootstrap4',
             focus: true,
             ajax: {
                 delay: 500,
@@ -171,7 +176,7 @@
         const summernote = $('.summernote');
         summernote.summernote({
             placeholder: 'Detail',
-            height: 200,
+            height: 250,
             toolbar: [
                 ['style', ['style']],
                 ['font', ['bold', 'underline', 'clear', 'italic']],
