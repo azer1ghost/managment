@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', __('translates.navbar.service'))
+@section('title', __('translates.navbar.services'))
 
 @section('content')
     <x-bread-crumb>
@@ -8,7 +8,7 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
-            @lang('translates.navbar.service')
+            @lang('translates.navbar.services')
         </x-bread-crumb-link>
     </x-bread-crumb>
     <form action="{{route('services.index')}}">
