@@ -34,8 +34,6 @@ class Client extends Model
         'client_id'
     ];
 
-    protected $casts = ['type' => 'boolean'];
-
     public function clients(): HasMany
     {
         return $this->hasMany(__CLASS__, 'client_id');

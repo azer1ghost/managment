@@ -54,7 +54,7 @@
                         @forelse($clients as $client)
                             <tr>
                                 <th scope="row">{{$client->getAttribute('id')}}</th>
-                                <td> @lang("translates.clients_type." . $client->getAttribute('type')) </td>
+                                <td>@lang("translates.clients_type." . $client->getAttribute('type'))</td>
                                 <td>{{$client->getAttribute('fullname')}}</td>
                                 <td>{{$client->getAttribute('detail') ? $client->getAttribute('detail') : trans('translates.clients.detail_empty') }} </td>
                                 <td>{{$client->getAttribute('email1') ? $client->getAttribute('email1') : trans('translates.clients.email_empty')}} </td>

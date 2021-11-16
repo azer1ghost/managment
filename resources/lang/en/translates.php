@@ -424,7 +424,7 @@ return [
     ],
 
     'clients_type' => [
-        'lEGAL',
+        'Legal',
         'Physical',
     ]
 ];
