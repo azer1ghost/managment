@@ -176,5 +176,8 @@
         $('select[name="limit"]').change(function () {
             this.form.submit();
         });
+        $('select[name="type"]').change(function () {
+            this.form.submit();
+        });
     </script>
 @endsection
