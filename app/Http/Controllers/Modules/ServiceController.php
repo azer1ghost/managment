@@ -7,6 +7,7 @@ use App\Http\Requests\ServiceRequest;
 use App\Models\Company;
 use App\Models\Department;
 use App\Models\Service;
+use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
@@ -14,6 +15,27 @@ class ServiceController extends Controller
     {
         $this->middleware('auth');
         $this->authorizeResource(Service::class, 'service');
+    }
+
+    public function search(Request $request): object
+    {
+        $services = Service::search($request->get('search'))->limit(10)->get(['id', 'name']);
+
+        $servicesArray = [];
+
+        foreach ($services as $service) {
+            $usersArray[] = [
+                "id"   => $service->id,
+                "text" => $service->name,
+            ];
+        }
+
+        return (object) [
+            'results' => $servicesArray,
+            'pagination' => [
+                "more" => false
+            ]
+        ];
     }
 
     public function index()
