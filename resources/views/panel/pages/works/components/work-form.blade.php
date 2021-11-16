@@ -21,7 +21,7 @@
                             @enderror
                         </div>
                         <div class="btn-group flex-column" role="group">
-                            <label for="data-earning">@lang('translates.general.work_rate')</label>
+                            <label for="data-earning">@lang('translates.general.rate')</label>
                             <div class="d-flex">
                                 <input type="text" class="form-control" name="currency_rate" wire:model="rate" style="border-radius: 0 !important;">
                                 <input disabled type="text" class="form-control" value="AZN" style="border-radius: 0 !important;">

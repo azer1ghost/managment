@@ -400,7 +400,7 @@ return [
         'currency_rate' => 'Currency Rate',
         'select_service' => 'Select a Service',
         'work_service' => 'Work Service',
-        'work_rate' => 'Work Rate(in AZN)',
+        'rate' => 'Rate(in AZN)',
         'work_earning' => 'Work Earning',
         'work_detail' => 'Work Detail',
         'department_select' => 'Department Select',

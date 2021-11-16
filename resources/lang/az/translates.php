@@ -403,7 +403,7 @@ return [
         'currency_rate' => 'Valyuta miqdarı',
         'select_service' => 'Servis seçin',
         'work_service' => 'İş Servisi',
-        'work_rate' => 'İş Dəyəri(Manatla)',
+        'rate' => 'Məzənnə(Manatla)',
         'work_earning' => 'İş Qazancı',
         'work_detail' => 'İş Detalı',
         'department_select' => 'Şöbə Seçin',
