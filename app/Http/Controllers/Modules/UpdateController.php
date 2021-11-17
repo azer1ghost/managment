@@ -38,7 +38,7 @@ class UpdateController extends Controller
             'data' => null,
             'users' => User::get(['id', 'name', 'surname']),
             'statuses' => Update::statuses(),
-            'updates' => Update::latest('datetime')->get(['id', 'name', 'datetime'])
+            'updates' => Update::whereNull('parent_id')->latest('datetime')->get(['id', 'name', 'datetime'])
         ]);
     }
 
@@ -62,7 +62,7 @@ class UpdateController extends Controller
             'data' => $update,
             'users' => User::get(['id', 'name', 'surname']),
             'statuses' => Update::statuses(),
-            'updates' => Update::where('id', '!=', $update->id)->latest('datetime')->get(['id', 'name', 'datetime'])
+            'updates' => Update::whereNull('parent_id')->where('id', '!=', $update->id)->latest('datetime')->get(['id', 'name', 'datetime'])
         ]);
     }
 
@@ -74,7 +74,7 @@ class UpdateController extends Controller
             'data' => $update,
             'users' => User::get(['id', 'name', 'surname']),
             'statuses' => Update::statuses(),
-            'updates' => Update::where('id', '!=', $update->id)->latest('datetime')->get(['id', 'name', 'datetime'])
+            'updates' => Update::whereNull('parent_id')->where('id', '!=', $update->id)->latest('datetime')->get(['id', 'name', 'datetime'])
         ]);
     }
 
