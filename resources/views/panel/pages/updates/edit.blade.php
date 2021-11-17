@@ -50,8 +50,14 @@
                         <label for="data-parent_id">Update parent</label>
                         <select name="parent_id" id="data-parent_id" class="form-control">
                             <option value="" selected>Select parent</option>
-                            @foreach($updates as $index => $update)
-                                <option @if(optional($data)->getAttribute('parent_id') === $index) selected @elseif (request()->get('parent_id') == $index) selected @endif value="{{$index}}">{{$update}}</option>
+                            @foreach($updates as $update)
+                                <option
+                                        @if(optional($data)->getAttribute('parent_id') === $update->id) selected
+                                        @elseif (request()->get('parent_id') == $update->id) selected @endif
+                                        value="{{$index}}"
+                                >
+                                    {{$update->name}} ({{$update->datetime}})
+                                </option>
                             @endforeach
                         </select>
                         @error('parent_id')
