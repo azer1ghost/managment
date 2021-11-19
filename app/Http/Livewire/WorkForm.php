@@ -59,7 +59,7 @@ class WorkForm extends Component
         $this->departments = Department::get(['id', 'name']);
         $this->services = Service::get(['id', 'name']);
         $this->earning = optional($this->data)->getAttribute('earning') ?? '0';
-        $this->rate = optional($this->data)->getAttribute('currency_rate') ?? 0;
+        $this->rate = round(optional($this->data)->getAttribute('currency_rate'), 2) ?? 0;
         $this->currency = optional($this->data)->getAttribute('currency') ?? 'AZN';
         $this->hardLevels = Work::hardLevels();
         $this->statuses = Work::statuses();

@@ -27,7 +27,7 @@ class WorkController extends Controller
                 ->paginate(10),
             'services' => Service::whereNull('service_id')->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
                 $query->whereBelongsTo($user->getRelationValue('company'));
-            })->get(['id', 'name'])
+            })->get(['id', 'name', 'detail'])
         ]);
     }
 

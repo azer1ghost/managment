@@ -94,7 +94,7 @@
         </div>
     </form>
     <div class="modal fade" id="create-work">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <form action="{{route('works.create')}}" method="GET">
                     <div class="modal-header">
@@ -109,7 +109,7 @@
                             <select class="select2" id="data-service" name="service_id" required style="width: 100% !important;">
                                 <option value="">@lang('translates.general.select_service')</option>
                                 @foreach($services as $service)
-                                    <option value="{{$service->id}}">{{$service->name}}</option>
+                                    <option value="{{$service->id}}">{{$service->name}} ({{$service->detail}})</option>
                                 @endforeach
                             </select>
                         </div>
