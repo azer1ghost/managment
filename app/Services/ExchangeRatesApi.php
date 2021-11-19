@@ -34,16 +34,16 @@ class ExchangeRatesApi
             $currencies[$curr['@attributes']['Code']] = $curr['Value'];
         }
         if($from === 'AZN' && $to === 'AZN'){
-            $convertedValue = $value * 1;
+            $convertedValue = (float) $value * 1;
         }else{
             if ($to === "AZN") {
-                $convertedValue = $value * $currencies[$from];
+                $convertedValue = (float) $value * $currencies[$from];
             }
             elseif($from === "AZN") {
-                $convertedValue = $value / $currencies[$to];
+                $convertedValue = (float) $value / $currencies[$to];
             }
             else{
-                $convertedValue =  $value * ($currencies[$from] / $currencies[$to]);
+                $convertedValue = (float) $value * ($currencies[$from] / $currencies[$to]);
             }
         }
 
