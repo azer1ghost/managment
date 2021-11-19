@@ -176,6 +176,7 @@ return [
         'conference' => 'Conferences',
         'document' => 'Documents',
         'service' => 'Service',
+        'asan_imza'=>'Asan Signature'
 
     ],
 

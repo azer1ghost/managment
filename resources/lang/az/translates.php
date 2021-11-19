@@ -178,6 +178,7 @@ return [
         'conference' => 'İclaslar',
         'document' => 'Sənədlər',
         'service' => 'Xidmət',
+        'asan_imza'=>'Asan Imza'
 
     ],
 

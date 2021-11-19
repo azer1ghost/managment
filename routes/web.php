@@ -7,6 +7,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Auth\RegisterController,
     Main\AccountController,
     Main\PlatformController,
+    Modules\AsanImzaController,
     Modules\CompanyController,
     Modules\ConferenceController,
     Modules\DepartmentController,
@@ -61,6 +62,8 @@ Route::group([
     include 'modules/email-signature.php';
 
     Route::resource('/companies', CompanyController::class);
+    Route::resource('/asan-imzas', AsanImzaController::class);
+
     Route::resource('/widgets', WidgetController::class);
     Route::resource('/parameters', ParameterController::class);
     Route::resource('/options', OptionController::class);
