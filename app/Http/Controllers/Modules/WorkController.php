@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkRequest;
+use Carbon\Carbon;
 use App\Models\{Company, Department, Service, User, Work};
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,6 +24,15 @@ class WorkController extends Controller
             'department_id' => $request->get('department_id'),
             'service_id' => $request->get('service_id'),
             'client_id' => $request->get('client_id'),
+            'started_at' => $request->get('started_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
+            'done_at' => $request->get('done_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
+            'verified_at' => $request->get('verified_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d')
+        ];
+
+        $dateRanges = [
+            'started_at' => explode(' - ', $filters['started_at']),
+            'done_at' => explode(' - ', $filters['done_at']),
+            'verified_at' => explode(' - ', $filters['verified_at']),
         ];
 
         $user = auth()->user();
@@ -35,10 +45,14 @@ class WorkController extends Controller
             })->get(['id', 'name', 'detail']);
 
         $works = Work::query()
-            ->where(function($query) use ($filters){
+            ->where(function($query) use ($filters, $dateRanges){
                 foreach ($filters as $column => $value) {
-                    $query->when($value, function ($query, $value) use ($column) {
-                        $query->where($column, $value);
+                    $query->when($value, function ($query, $value) use ($column, $dateRanges) {
+                        if (is_numeric($value)){
+                            $query->where($column, $value);
+                        }else if(is_string($value)){
+                            $query->whereBetween($column, [Carbon::parse($dateRanges[$column][0])->startOfDay(), Carbon::parse($dateRanges[$column][1])->endOfDay()]);
+                        }
                     });
                 }
             })
@@ -49,7 +63,7 @@ class WorkController extends Controller
             })
             ->paginate(10);
 
-        return view('panel.pages.works.index', compact('works', 'services', 'users', 'departments'));
+        return view('panel.pages.works.index', compact('works', 'services', 'users', 'departments', 'filters'));
     }
 
     public function create()

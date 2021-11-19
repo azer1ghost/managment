@@ -5,6 +5,7 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
 @section('content')
     <x-bread-crumb>
@@ -75,9 +76,21 @@
                             @endif
                         </select>
                     </div>
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                        <label class="d-block" for="startedAtFilter">{{trans('translates.general.started_at')}}</label>
+                        <input class="form-control daterange" id="startedAtFilter" type="text" name="started_at" value="{{$filters['started_at']}}">
+                    </div>
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3">
+                        <label class="d-block" for="doneAtFilter">{{trans('translates.general.done_at')}}</label>
+                        <input class="form-control daterange" id="doneAtFilter" type="text" name="done_at" value="{{$filters['done_at']}}">
+                    </div>
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3">
+                        <label class="d-block" for="verifiedAtFilter">{{trans('translates.general.verified_at')}}</label>
+                        <input class="form-control daterange" id="verifiedAtFilter" type="text" name="verified_at" value="{{$filters['verified_at']}}">
+                    </div>
                 </div>
             </div>
-            <div class="col-12 mt-3 mb-3 d-flex align-items-center justify-content-end">
+            <div class="col-12 mt-3 mb-5 d-flex align-items-center justify-content-end">
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <button type="submit" class="btn btn-outline-primary"><i
                                 class="fas fa-filter"></i> @lang('translates.buttons.filter')</button>
@@ -101,6 +114,9 @@
                         <th scope="col">@lang('translates.fields.clientName')</th>
                         <th scope="col">@lang('translates.general.hard_level')</th>
                         <th scope="col">@lang('translates.general.earning')</th>
+                        <th scope="col">@lang('translates.general.started_at')</th>
+                        <th scope="col">@lang('translates.general.done_at')</th>
+                        <th scope="col">@lang('translates.general.verified_at')</th>
                         <th scope="col">Status</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
@@ -121,6 +137,9 @@
                             <td>{{$work->getRelationValue('client')->getAttribute('fullname')}}</td>
                             <td>@lang('translates.hard_level.' . $work->getAttribute('hard_level'))</td>
                             <td>{{$work->getAttribute('earning') * $work->getAttribute('currency_rate')}} AZN</td>
+                            <td>{{$work->getAttribute('started_at')}}</td>
+                            <td>{{$work->getAttribute('done_at')}}</td>
+                            <td>{{$work->getAttribute('verified_at')}}</td>
                             <td>
                                 @php
                                     $status = '';
@@ -158,7 +177,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <th colspan="9">
+                            <th colspan="12">
                                 <div class="row justify-content-center m-3">
                                     <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.empty')</div>
                                 </div>
@@ -208,6 +227,8 @@
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <script>
         const select2 = $('.select2');
@@ -245,6 +266,15 @@
         select2.on('select2:open', function (e) {
             document.querySelector('.select2-search__field').focus();
         });
+
+        $('.daterange').daterangepicker({
+                opens: 'left',
+                locale: {
+                    format: "YYYY-MM-DD",
+                },
+                maxDate: new Date(),
+            }, function(start, end, label) {}
+        );
 
     </script>
 @endsection

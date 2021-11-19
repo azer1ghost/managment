@@ -404,6 +404,8 @@ return [
         'physical_client_phone' => 'Phone of Legal Client Employees',
         'physical_client_position' => 'Position of Legal Client Employees',
         'done_at' => 'Done at',
+        'verified_at' => 'Verified at',
+        'started_at' => 'Started at',
         'earning' => 'Amount',
         'currency' => 'Currency',
         'currency_rate' => 'Currency Rate (AZN)',

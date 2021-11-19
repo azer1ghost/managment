@@ -415,6 +415,8 @@ return [
         'user_select' => 'Əməkdaş Seçin',
         'select_client' => 'Müştəri Seçin',
         'done_at' => 'Bitirmə vaxtı',
+        'verified_at' => 'Təstiqlənmə vaxtı',
+        'started_at' => 'Başlama vaxtı',
         'hard_level_choose' => 'Çətinlik dərəcəsi Seçin',
         'status_choose' => 'Status Seçin',
         'hard_level' => 'Çətinlik dərəcəsi',

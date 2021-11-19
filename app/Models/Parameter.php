@@ -24,6 +24,16 @@ class Parameter extends Model
 
     protected $fillable = ['name', 'label', 'placeholder', 'type', 'option_id', 'order'];
 
+    public static function types(): array
+    {
+        return ['select' => 'Select', 'text' => 'Text', 'number' => 'Number'];
+    }
+
+    public static function attributes(): array
+    {
+        return ['min', 'max', 'step'];
+    }
+
     public function parameters(): HasMany
     {
         return $this->hasMany(__CLASS__);

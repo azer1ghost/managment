@@ -25,7 +25,7 @@ class ParameterController extends Controller
 
         return view('panel.pages.parameters.index')
             ->with([
-                'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => ucfirst($key))->toArray(),
+                'types' => Parameter::types(),
                 'parameters' => Parameter::with('option')
                     ->when($type,   fn ($query) => $query->where('type', $type))
                     ->when($search, fn ($query) => $query->where('name', 'like', "%".ucfirst($search)."%"))
@@ -48,7 +48,7 @@ class ParameterController extends Controller
                     ->select(['id', 'text'])->get(),
                 'parameterCompanies' => collect([]),
                 'companies' => Company::isInquirable()->select(['id','name'])->get(),
-                'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => ucfirst($key))->toArray()
+                'types' => Parameter::types()
             ]);
     }
 
@@ -83,7 +83,7 @@ class ParameterController extends Controller
                     ->select(['id', 'text'])->get(),
                 'parameterCompanies' => $parameter->getRelationValue('companies'),
                 'companies' => Company::isInquirable()->select(['id','name'])->get(),
-                'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => ucfirst($key))->toArray()
+                'types' => Parameter::types()
             ]);
     }
 
@@ -101,7 +101,7 @@ class ParameterController extends Controller
                     ->select(['id', 'text'])->get(),
                 'parameterCompanies' => $parameter->getRelationValue('companies'),
                 'companies' => Company::isInquirable()->select(['id','name'])->get(),
-                'types' => Parameter::distinct()->pluck('type')->flip()->map(fn($type, $key) => ucfirst($key))->toArray()
+                'types' => Parameter::types()
             ]);
     }
 
