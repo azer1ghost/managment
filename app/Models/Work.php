@@ -68,6 +68,6 @@ class Work extends Model implements DocumentableInterface
 
     public static function statuses(): array
     {
-        return [1, 2, 3];
+        return [1 => 1, 2, 3];
     }
 }

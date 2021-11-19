@@ -40,6 +40,7 @@
                         <th scope="col">@lang('translates.navbar.service')</th>
                         <th scope="col">@lang('translates.fields.clientName')</th>
                         <th scope="col">@lang('translates.general.hard_level')</th>
+                        <th scope="col">Status</th>
                         <th scope="col">@lang('translates.general.earning')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
@@ -52,7 +53,8 @@
                             <td>{{$work->getRelationValue('department')->getAttribute('name')}}</td>
                             <td><i class="{{$work->getRelationValue('service')->getAttribute('icon')}} pr-2" style="font-size: 20px"></i> {{$work->getRelationValue('service')->getAttribute('name')}}</td>
                             <td>{{$work->getRelationValue('client')->getAttribute('fullname')}}</td>
-                            <td>@lang('translates.hard_level.' . $work->getAttribute('hard_level'))</td>
+                            <td>{{$work->getAttribute('hard_level') ? trans('translates.hard_level.' . $work->getAttribute('hard_level')) : '' }}</td>
+                            <td>{{$work->getAttribute('status') ? trans('translates.work_status.' . $work->getAttribute('status')) : '' }}</td>
                             <td>{{$work->getAttribute('earning') * $work->getAttribute('currency_rate')}} AZN</td>
                             <td>
                                 <div class="btn-sm-group">

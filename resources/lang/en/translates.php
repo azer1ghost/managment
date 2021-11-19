@@ -432,14 +432,14 @@ return [
     ],
 
     'work_status' => [
-        'Pending',
+        1 => 'Pending',
         'Continue',
         'Done',
     ],
 
     'hard_level' => [
         1 => 'Easy',
-            'Medium',
-            'Hard',
+        'Medium',
+        'Hard',
     ]
 ];

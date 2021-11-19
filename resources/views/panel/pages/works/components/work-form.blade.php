@@ -79,7 +79,7 @@
                 <div class="form-group col-12 col-md-3" wire:ignore>
                     <label for="data-hard_level">@lang('translates.general.hard_level_choose')</label>
                     <select name="hard_level" id="data-hard_level" class="form-control">
-                        <option value="" selected>@lang('translates.general.hard_level_choose')</option>
+                        <option disabled selected>@lang('translates.general.hard_level_choose')</option>
                         @foreach($hardLevels as $key => $hard_level)
                             <option @if(optional($data)->getAttribute('hard_level') === $hard_level ) selected
                                     @endif value="{{$hard_level}}">@lang('translates.hard_level.' . $key)</option>
@@ -92,7 +92,7 @@
                 <div class="form-group col-12 col-md-3" wire:ignore>
                     <label for="data-status">@lang('translates.general.status_choose')</label>
                     <select name="status" id="data-status" class="form-control">
-                        <option value="" selected>@lang('translates.general.status_choose')</option>
+                        <option disabled >@lang('translates.general.status_choose')</option>
                         @foreach($statuses as $key => $status)
                             <option @if(optional($data)->getAttribute('status') === $status ) selected
                                     @endif value="{{$status}}">@lang('translates.work_status.'.$key)</option>

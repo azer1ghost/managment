@@ -435,13 +435,13 @@ return [
     ],
 
     'work_status' => [
-        'Gözləmədə',
+        1 => 'Gözləmədə',
         'Davam Edir',
         'Tamamlandı',
     ],
     'hard_level' => [
-       1 => 'Asan',
-            'Orta',
-            'Çətin',
+        1 => 'Asan',
+        'Orta',
+        'Çətin',
     ]
 ];
