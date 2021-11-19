@@ -50,7 +50,7 @@
                     @forelse($services as $service)
                         <tr>
                             <th scope="row">{{$loop->iteration}}.</th>
-                            <td>{{$service->getAttribute('name')}}</td>
+                            <td><i class="{{$service->getAttribute('icon')}}"></i> {{$service->getAttribute('name')}}</td>
                             <td>{{$service->getAttribute('detail')}}</td>
                             <td>{{$service->getRelationValue('department')->getAttribute('name')}}</td>
                             <td>{{$service->getRelationValue('company')->getAttribute('name')}}</td>
