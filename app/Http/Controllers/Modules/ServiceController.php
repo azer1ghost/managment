@@ -17,10 +17,11 @@ class ServiceController extends Controller
         $this->authorizeResource(Service::class, 'service');
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $limit = $request->get('limit',10);
         return view('panel.pages.services.index')->with([
-            'services' => Service::paginate(10)
+            'services' => Service::paginate($limit)
         ]);
     }
 
