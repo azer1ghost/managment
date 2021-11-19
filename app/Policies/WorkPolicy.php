@@ -40,7 +40,8 @@ class WorkPolicy
         return
             $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
             $work->getAttribute('creator_id') == $user->getAttribute('id') ||
-            $work->getAttribute('user_id') == $user->getAttribute('id');
+            $work->getAttribute('user_id') == $user->getAttribute('id') &&
+            $work->getAttribute('status') != $work::DONE;
     }
 
     public function restore(User $user, Work $work): bool
