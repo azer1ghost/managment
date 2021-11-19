@@ -405,6 +405,7 @@ return [
         'currency_rate' => 'Valyuta miqdarı (AZN)',
         'select_service' => 'Servis seçin',
         'work_service' => 'Xidmət',
+        'work_service_type' => 'Xidmət növü',
         'rate' => 'Məzənnə(Manatla)',
         'work_earning' => 'İş Qazancı',
         'work_detail' => 'İş Detalı',

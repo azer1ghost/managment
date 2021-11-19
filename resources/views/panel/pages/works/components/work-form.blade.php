@@ -35,7 +35,7 @@
 
                 @if(!$this->subServices->isEmpty())
                     <div class="form-group col-12 col-md-6" wire:ignore>
-                        <label for="data-service_id">@lang('translates.general.work_service')</label>
+                        <label for="data-service_id">@lang('translates.general.work_service_type')</label>
                         <select name="service_id" id="data-service_id" class="form-control">
                             @foreach($this->subServices as $service)
                                 <option @if(optional($data)->getAttribute('service_id') === $service->id ) selected @endif
