@@ -34,7 +34,7 @@ class ExchangeRatesApi
             $currencies[$curr['@attributes']['Code']] = $curr['Value'];
         }
         if($from === 'AZN' && $to === 'AZN'){
-            $convertedValue = 1;
+            $convertedValue = $value * 1;
         }else{
             if ($to === "AZN") {
                 $convertedValue = $value * $currencies[$from];

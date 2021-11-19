@@ -14,6 +14,8 @@ class Work extends Model implements DocumentableInterface
 {
     use HasFactory, SoftDeletes, Documentable;
 
+    const DONE = 3;
+
     protected $fillable = [
         'earning',
         'currency',
@@ -61,7 +63,7 @@ class Work extends Model implements DocumentableInterface
 
     public static function hardLevels(): array
     {
-        return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        return [1, 2, 3];
     }
 
     public static function statuses(): array

@@ -33,6 +33,12 @@ class WorkForm extends Component
         return Department::find($this->selected['department_id']);
     }
 
+    public function getSubServicesProperty()
+    {
+        return Service::find($this->selected['service_id'])->services;
+    }
+
+
     public function updatedEarning()
     {
         $this->rate = $this->earning ? (new ExchangeRatesApi)->convert($this->currency, 'AZN', (float) $this->earning) : 0;
@@ -52,10 +58,9 @@ class WorkForm extends Component
     {
         $this->departments = Department::get(['id', 'name']);
         $this->services = Service::get(['id', 'name']);
-
         $this->earning = optional($this->data)->getAttribute('earning') ?? '0';
         $this->rate = optional($this->data)->getAttribute('currency_rate') ?? 0;
-        $this->currency = optional($this->data)->getAttribute('currency') ?? 'USD';
+        $this->currency = optional($this->data)->getAttribute('currency') ?? 'AZN';
         $this->hardLevels = Work::hardLevels();
         $this->statuses = Work::statuses();
 

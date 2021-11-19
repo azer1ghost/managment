@@ -20,7 +20,7 @@ class ServiceController extends Controller
     public function index()
     {
         return view('panel.pages.services.index')->with([
-            'services' => Service::paginate(10)
+            'services' => Service::whereNull('service_id')->paginate(10)
         ]);
     }
 
@@ -31,7 +31,8 @@ class ServiceController extends Controller
             'method' => 'POST',
             'data' => null,
             'companies' => Company::get(['id','name']),
-            'departments' => Department::get(['id','name'])
+            'departments' => Department::get(['id','name']),
+            'services' => Service::whereNull('service_id')->latest()->get(['id', 'name'])
         ]);
     }
 
@@ -54,6 +55,7 @@ class ServiceController extends Controller
             'data' => $service,
             'companies' => Company::get(['id','name']),
             'departments' => Department::get(['id','name']),
+            'services' => Service::whereNull('service_id')->where('id', '!=', $service->getAttribute('id'))->latest()->get(['id', 'name'])
         ]);
     }
 
@@ -65,6 +67,7 @@ class ServiceController extends Controller
             'data' => $service,
             'companies' => Company::get(['id','name']),
             'departments' => Department::get(['id','name']),
+            'services' => Service::whereNull('service_id')->where('id', '!=', $service->getAttribute('id'))->latest()->get(['id', 'name'])
         ]);
     }
 

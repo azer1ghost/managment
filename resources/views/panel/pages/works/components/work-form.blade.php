@@ -29,11 +29,26 @@
                     @if(request()->has('service_id') || !is_null($data))
                         @php($service = request()->get('service_id') ?? optional($data)->getAttribute('service_id'))
                         <input disabled type="text" class="form-control" id="data-service_id" value="{{\App\Models\Service::find($service)->name}}">
-                        <input type="hidden" name="service_id"  value="{{$service}}">
+                        <input type="hidden" @if(empty($this->subServices)) name="service_id"  @endif value="{{$service}}">
                     @endif
                 </div>
 
-                <div class="form-group col-12 col-md-6">
+                @if(!$this->subServices->isEmpty())
+                    <div class="form-group col-12 col-md-6" wire:ignore>
+                        <label for="data-service_id">@lang('translates.general.work_service')</label>
+                        <select name="service_id" id="data-service_id" class="form-control">
+                            @foreach($this->subServices as $service)
+                                <option @if(optional($data)->getAttribute('service_id') === $service->id ) selected @endif
+                                value="{{ $service->getAttribute('id') }}"
+                                >
+                                    {{ $service->getAttribute('name') }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
+
+                <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-department_id">@lang('translates.general.department_select')</label>
                     <select name="department_id" id="data-department_id" class="form-control" wire:model="selected.department_id" @if(!auth()->user()->isDeveloper() && !auth()->user()->isDirector()) disabled @endif>
                         <option value="" selected>@lang('translates.general.department_select')</option>
@@ -42,16 +57,16 @@
                         @endforeach
                     </select>
                     @if(!auth()->user()->isDeveloper() && !auth()->user()->isDirector())
-                        <input type="hidden" wire:model="selected.department_id" name="department_id">
+                        <input wire:ignore type="hidden" wire:model="selected.department_id" name="department_id">
                     @endif
                 </div>
 
                 @if($selected['department_id'])
-                    <div class="form-group col-12 col-md-6">
+                    <div class="form-group col-12 col-md-6" wire:ignore>
                         <label for="data-user_id">@lang('translates.general.user_select')</label>
                         <select name="user_id" id="data-user_id" class="form-control" wire:model="selected.user_id" @if(!auth()->user()->isDeveloper() && !auth()->user()->isDirector() && !auth()->user()->hasPermission('department-chief')) disabled @endif>
                             <option value="" selected>@lang('translates.general.user_select')</option>
-                            @foreach($this->department->users()->with('position')->isActive()->get(['id', 'name', 'surname', 'position_id']) as $user)
+                            @foreach($this->department->users()->with('position')->isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']) as $user)
                                 <option value="{{ $user->getAttribute('id') }}">{{ $user->getAttribute('fullname_with_position') }}</option>
                             @endforeach
                         </select>
@@ -61,7 +76,7 @@
                     </div>
                 @endif
 
-                <div class="form-group col-12 col-md-6" wire:ignore>
+                <div class="form-group col-12 col-md-3" wire:ignore>
                     <label for="data-hard_level">@lang('translates.general.hard_level_choose')</label>
                     <select name="hard_level" id="data-hard_level" class="form-control">
                         <option value="" selected>@lang('translates.general.hard_level_choose')</option>
@@ -79,21 +94,22 @@
                     <select name="status" id="data-status" class="form-control">
                         <option value="" selected>@lang('translates.general.status_choose')</option>
                         @foreach($statuses as $key => $status)
-                            <option @if(optional($data)->getAttribute('status') === $key ) selected
-                                    @endif value="{{$key}}">@lang('translates.work_status.'.$key)</option>
+                            <option @if(optional($data)->getAttribute('status') === $status ) selected
+                                    @endif value="{{$status}}">@lang('translates.work_status.'.$key)</option>
                         @endforeach
                     </select>
                 </div>
+
                 @foreach($parameters as $parameter)
                     @switch($parameter->type)
                         @case('text')
-                            <div class="form-group col-12 col-md-3">
+                            <div class="form-group col-12 col-md-3" wire:ignore>
                                 <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
                                 <input type="text" name="parameters[{{$parameter->id}}]" id="data-parameter-{{$parameter->id}}" class="form-control" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
                             </div>
                             @break
                         @case('select')
-                            <div class="form-group col-12 col-md-3">
+                            <div class="form-group col-12 col-md-3" wire:ignore>
                                 <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
                                 <select name="parameters[{{$parameter->id}}]" id="data-parameter-{{$parameter->id}}" class="form-control" wire:model="workParameters.{{$parameter->name}}">
                                     <option value="" selected>{{$parameter->placeholder}}</option>
@@ -115,7 +131,7 @@
                                 <div class="d-flex">
                                     <input id="data-earning" type="number" min="0" class="form-control" name="earning" wire:model="earning" style="border-radius: 0 !important;">
                                     <select name="currency" id="" class="form-control" style="border-radius: 0 !important;" wire:model="currency">
-                                        @foreach(['USD', 'AZN', 'TRY', 'EUR', 'RUB'] as $currency)
+                                        @foreach(['AZN', 'USD', 'TRY', 'EUR', 'RUB'] as $currency)
                                             <option value="{{$currency}}" @if($currency == optional($data)->getAttribute('currency')) selected @endif>{{$currency}}</option>
                                         @endforeach
                                     </select>
@@ -141,7 +157,7 @@
 
                 <div class="form-group col-12" wire:ignore>
                     <label for="data-detail">@lang('translates.general.work_detail')</label>
-                    <textarea name="detail" id="data-detail" class="summernote">{{optional($data)->getAttribute('detail')}}</textarea>
+                    <textarea wire:ignore name="detail" id="data-detail" class="summernote">{{optional($data)->getAttribute('detail')}}</textarea>
                 </div>
             </div>
         </div>
@@ -159,15 +175,26 @@
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js" type="text/javascript" ></script>
 
-
-    @if(is_null($action))
+    @if(is_null($action) || optional($data)->getAttribute('status') == \App\Models\Work::DONE)
         <script>
             $('form :input').attr('disabled', true)
         </script>
     @endif
+
+    @if(optional($data)->getAttribute('status') == \App\Models\Work::DONE && auth()->user()->hasPermission('editEarning-work'))
+        <script>
+            $('input[name="earning"]').attr('disabled', false);
+            $('select[name="currency"]').attr('disabled', false);
+            $('input[name="currency_rate"]').attr('disabled', false);
+            $('button[type="submit"]').attr('disabled', false);
+            $('input[name="_method"]').attr('disabled', false);
+            $('input[name="_token"]').attr('disabled', false);
+        </script>
+    @endif
+
     <script>
         $('.select2').select2({
             placeholder: "Search",
@@ -206,7 +233,7 @@
             ]
         });
 
-        summernote.summernote('{{is_null($action) ? 'disable' : 'enable'}}');
+        summernote.summernote('{{is_null($action) || optional($data)->getAttribute('status') == \App\Models\Work::DONE ? 'disable' : 'enable'}}');
 
         $('input[name="datetime"]').daterangepicker({
                 opens: 'left',

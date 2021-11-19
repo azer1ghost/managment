@@ -35,6 +35,23 @@
                     </x-translate>
 
                     <div class="form-group col-12 col-md-6">
+                        <label for="data-service_id">Service parent</label>
+                        <select name="service_id" id="data-service_id" class="form-control">
+                            <option value="" selected>Service Select</option>
+                            @foreach($services as $service)
+                                <option
+                                        @if(optional($data)->getAttribute('service_id') === $service->id) selected
+                                        @elseif (request()->get('service_id') == $service->id) selected @endif
+                                        value="{{$service->id}}"
+                                >
+                                    {{$service->name}}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <x-input::text  name="icon"  :value="optional($data)->getAttribute('icon')"  width="6" class="pr-3" />
+                    <div class="form-group col-12 col-md-6">
                         <label for="data-company_id">Company Select</label>
                         <select name="company_id" id="data-company_id" class="form-control">
                             <option value="" selected>Company Select</option>
@@ -45,17 +62,25 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12 col-md-6">
-                        <label for="data-department_id">Department Select</label>
-                        <select name="department_id" id="data-department_id" class="form-control">
-                            <option value="" selected>Department Select</option>
-                            @foreach($departments as $department)
-                                <option @if(optional($data)->getAttribute('department_id') === $department->getAttribute('id') ) selected
-                                        @endif value="{{$department->getAttribute('id')}}">{{$department->getAttribute('name')}}</option>
-                            @endforeach
-                        </select>
-                    </div>
+{{--                    <div class="form-group col-12 col-md-6">--}}
+{{--                        <label for="data-department_id">Department Select</label>--}}
+{{--                        <select name="department_id" id="data-department_id" class="form-control">--}}
+{{--                            <option value="" selected>Department Select</option>--}}
+{{--                            @foreach($departments as $department)--}}
+{{--                                <option @if(optional($data)->getAttribute('department_id') === $department->getAttribute('id') ) selected--}}
+{{--                                        @endif value="{{$department->getAttribute('id')}}">{{$department->getAttribute('name')}}</option>--}}
+{{--                            @endforeach--}}
+{{--                        </select>--}}
+{{--                    </div>--}}
+
                     <x-input::textarea name="detail" :value="optional($data)->getAttribute('detail')" label="Service detail" width="6" class="pr-3"/>
+                </div>
+                <div id="create-child-btn">
+                    @if(!is_null($data) && is_null(optional($data)->getAttribute('service_id')))
+                        @can('create', App\Models\Service::class)
+                            <a class="btn btn-outline-success" target="_blank" href="{{route('services.create', ['service_id' => optional($data)->getAttribute('id')])}}">Create child</a>
+                        @endcan
+                    @endif
                 </div>
             </div>
         </div>

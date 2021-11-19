@@ -23,10 +23,10 @@ class WorkController extends Controller
 
         return view('panel.pages.works.index')->with([
             'works' => Work::query()
-                ->when($search, fn ($query) => $query->where('name', 'like', "%".$search."%"))
+                ->when($search, fn ($query) => $query->where('name', 'LIKE', "%$search%"))
                 ->paginate(10),
-            'services' => Service::when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
-                $query->whereBelongsTo($user->getRelationValue('department'));
+            'services' => Service::whereNull('service_id')->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
+                $query->whereBelongsTo($user->getRelationValue('company'));
             })->get(['id', 'name'])
         ]);
     }

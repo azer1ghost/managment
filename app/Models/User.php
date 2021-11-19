@@ -143,7 +143,12 @@ class User extends Authenticatable implements MustVerifyPhone
 
     public function getFullnameWithPositionAttribute(): string
     {
-        return "{$this->getAttribute('name')} {$this->getAttribute('surname')} ({$this->getRelationValue('position')->getAttribute('name')})";
+        if ($this->isDirector()){
+            $position = $this->getRelationValue('role')->getAttribute('name');
+        }else{
+            $position = $this->getRelationValue('position')->getAttribute('name') ?? trans('translates.users.titles.employee') ;
+        }
+        return "{$this->getAttribute('name')} {$this->getAttribute('surname')} ({$position})";
     }
 
     public function isDeveloper(): bool

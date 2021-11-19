@@ -54,7 +54,7 @@
                                 <option
                                         @if(optional($data)->getAttribute('parent_id') === $update->id) selected
                                         @elseif (request()->get('parent_id') == $update->id) selected @endif
-                                        value="{{$index}}"
+                                        value="{{$update->id}}"
                                 >
                                     {{$update->name}} ({{$update->datetime}})
                                 </option>
