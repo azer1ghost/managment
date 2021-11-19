@@ -33,9 +33,9 @@ class WorkPolicy
     public function delete(User $user, Work $work): bool
     {
         return
-            $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
+            ($this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
             $work->getAttribute('creator_id') == $user->getAttribute('id') ||
-            $work->getAttribute('user_id') == $user->getAttribute('id') &&
+            $work->getAttribute('user_id') == $user->getAttribute('id')) &&
             $work->getAttribute('status') != $work::DONE;
     }
 
