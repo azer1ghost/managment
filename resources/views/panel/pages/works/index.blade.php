@@ -28,7 +28,7 @@
                             <option value="">@lang('translates.filters.select')</option>
                             @foreach($departments as $department)
                                 <option
-                                        @if($department->getAttribute('id') == request()->get('department_id')) selected @endif
+                                        @if($department->getAttribute('id') == $filters['department_id']) selected @endif
                                 value="{{$department->getAttribute('id')}}"
                                 >
                                     {{ucfirst($department->getAttribute('name'))}}
@@ -44,7 +44,7 @@
                             <option value="">@lang('translates.filters.select')</option>
                             @foreach($users as $user)
                                 <option
-                                        @if($user->getAttribute('id') == request()->get('user_id')) selected @endif
+                                        @if($user->getAttribute('id') == $filters['user_id']) selected @endif
                                 value="{{$user->getAttribute('id')}}"
                                 >
                                     {{$user->getAttribute('fullname_with_position')}}
@@ -60,7 +60,7 @@
                             <option value="">@lang('translates.filters.select')</option>
                             @foreach($services as $service)
                                 <option
-                                        @if($service->getAttribute('id') == request()->get('service_id')) selected @endif
+                                        @if($service->getAttribute('id') == $filters['service_id']) selected @endif
                                 value="{{$service->getAttribute('id')}}"
                                 >
                                     {{$service->getAttribute('name')}}
@@ -71,8 +71,8 @@
                     <div class="form-group col-12 col-md-3 mt-3 mb-3 pr-0">
                         <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
                         <select name="client_id" id="clientFilter" class="client-filter" style="width: 100% !important;">
-                            @if(is_numeric(request()->get('client_id')))
-                                <option value="{{request()->get('client_id')}}">{{\App\Models\Client::find(request()->get('client_id'))->getAttribute('fullname_with_voen')}}</option>
+                            @if(is_numeric($filters['client_id']))
+                                <option value="{{$filters['client_id']}}">{{\App\Models\Client::find($filters['client_id'])->getAttribute('fullname_with_voen')}}</option>
                             @endif
                         </select>
                     </div>
