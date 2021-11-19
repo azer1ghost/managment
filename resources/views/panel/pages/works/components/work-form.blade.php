@@ -80,9 +80,9 @@
                     <label for="data-hard_level">@lang('translates.general.hard_level_choose')</label>
                     <select name="hard_level" id="data-hard_level" class="form-control">
                         <option value="" selected>@lang('translates.general.hard_level_choose')</option>
-                        @foreach($hardLevels as $hard_level)
+                        @foreach($hardLevels as $key => $hard_level)
                             <option @if(optional($data)->getAttribute('hard_level') === $hard_level ) selected
-                                    @endif value="{{$hard_level}}">{{$hard_level}}</option>
+                                    @endif value="{{$hard_level}}">@lang('translates.hard_level.' . $key)</option>
                         @endforeach
                     </select>
                 </div>

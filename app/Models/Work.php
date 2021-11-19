@@ -63,7 +63,7 @@ class Work extends Model implements DocumentableInterface
 
     public static function hardLevels(): array
     {
-        return [1, 2, 3];
+        return [1 => 1, 2, 3];
     }
 
     public static function statuses(): array
