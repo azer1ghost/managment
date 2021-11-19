@@ -41,12 +41,12 @@ class WorkForm extends Component
 
     public function updatedEarning()
     {
-        $this->rate = $this->earning ? (new ExchangeRatesApi)->convert($this->currency, 'AZN', (float) $this->earning) : 0;
+        $this->rate = $this->earning ? (new ExchangeRatesApi)->convert($this->currency) : 0;
     }
 
     public function updatedCurrency()
     {
-        $this->rate = $this->earning ? (new ExchangeRatesApi)->convert($this->currency, 'AZN', (float) $this->earning) : 0;
+        $this->rate = $this->earning ? (new ExchangeRatesApi)->convert($this->currency) : 0;
     }
 
     public function updatedSelectedDepartmentId()

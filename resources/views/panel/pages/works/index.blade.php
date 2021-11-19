@@ -41,7 +41,6 @@
                         <th scope="col">@lang('translates.fields.clientName')</th>
                         <th scope="col">@lang('translates.general.hard_level')</th>
                         <th scope="col">@lang('translates.general.earning')</th>
-                        <th scope="col">@lang('translates.general.currency')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
@@ -53,10 +52,8 @@
                             <td>{{$work->getRelationValue('department')->getAttribute('name')}}</td>
                             <td>{{$work->getRelationValue('service')->getAttribute('name')}}</td>
                             <td>{{$work->getRelationValue('client')->getAttribute('fullname')}}</td>
-                            <td>{{$work->getAttribute('hard_level')}}</td>
-                            <td>{{$work->getAttribute('earning')}}</td>
-                            <td>{{$work->getAttribute('currency')}}</td>
-                            <td>{{$work->getAttribute('currency_rate')}}</td>
+                            <td>@lang('translates.hard_level.' . $work->getAttribute('hard_level'))</td>
+                            <td>{{$work->getAttribute('earning') * $work->getAttribute('currency_rate')}} AZN</td>
                             <td>
                                 <div class="btn-sm-group">
                                     @can('view', $work)

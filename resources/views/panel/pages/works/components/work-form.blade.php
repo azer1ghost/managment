@@ -189,9 +189,10 @@
             $('input[name="earning"]').attr('disabled', false);
             $('select[name="currency"]').attr('disabled', false);
             $('input[name="currency_rate"]').attr('disabled', false);
-            $('button[type="submit"]').attr('disabled', false);
             $('input[name="_method"]').attr('disabled', false);
             $('input[name="_token"]').attr('disabled', false);
+            $('button[type="submit"]').attr('disabled', false);
+            $('input[type="file"]').attr('disabled', false);
         </script>
     @endif
 
