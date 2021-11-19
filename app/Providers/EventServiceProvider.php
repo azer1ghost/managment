@@ -9,6 +9,10 @@ use App\Events\TaskStatusDone;
 use App\Events\TaskStatusUpdated;
 use App\Listeners\SendNotification;
 use App\Listeners\SendPushNotification;
+use App\Models\Task;
+use App\Models\Work;
+use App\Observers\TaskObserver;
+use App\Observers\WorkObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -53,6 +57,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Work::observe(WorkObserver::class);
+        Task::observe(TaskObserver::class);
     }
 }

@@ -19,6 +19,11 @@ class WorkPolicy
 
     public function update(User $user, Work $work): bool
     {
+        if(!is_null($work->getAttribute('verified_at')))
+        {
+            return false;
+        }
+
         if($work->getAttribute('status') == $work::DONE && $user->hasPermission('editEarning-work'))
         {
             return true;
@@ -32,15 +37,15 @@ class WorkPolicy
 
     public function delete(User $user, Work $work): bool
     {
-        if($work->getAttribute('status') == $work::DONE && $user->hasPermission('editEarning-work'))
+        if(!is_null($work->getAttribute('verified_at')))
         {
-            return true;
+            return false;
         }
 
         return
-            $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
+            ($this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
             $work->getAttribute('creator_id') == $user->getAttribute('id') ||
-            $work->getAttribute('user_id') == $user->getAttribute('id') &&
+            $work->getAttribute('user_id') == $user->getAttribute('id')) &&
             $work->getAttribute('status') != $work::DONE;
     }
 

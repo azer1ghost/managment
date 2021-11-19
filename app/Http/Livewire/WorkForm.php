@@ -70,7 +70,7 @@ class WorkForm extends Component
                 $this->selected['department_id'] = optional($this->data)->getAttribute($key) ?? $user->getAttribute('department_id');
                 continue;
             }
-            if($key == 'user_id' && !$user->hasPermission('department-chief')){
+            if($key == 'user_id' && !$user->hasPermission('canRedirect-work')){
                 $this->selected['user_id'] = optional($this->data)->getAttribute($key) ?? auth()->id();
                 continue;
             }

@@ -2,7 +2,6 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endpush
 <form action="{{$action}}" method="POST" enctype="multipart/form-data" id="work-form">
     @method($method) @csrf
@@ -18,9 +17,11 @@
                                 <option value="{{optional($data)->getAttribute('client_id')}}">{{optional($data)->getRelationValue('client')->getAttribute('fullname_with_voen')}}</option>
                             @endif
                         </select>
-                        <a target="_blank" href="{{route('clients.create', ['type' => \App\Models\Client::LEGAL])}}" class="btn btn-outline-success ml-3">
-                            <i class="fa fa-plus"></i>
-                        </a>
+                        @if(optional($data)->getAttribute('status') != \App\Models\Work::DONE)
+                            <a target="_blank" href="{{route('clients.create', ['type' => \App\Models\Client::LEGAL])}}" class="btn btn-outline-success ml-3">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        @endif
                     </div>
                 </div>
 
@@ -64,13 +65,13 @@
                 @if($selected['department_id'])
                     <div class="form-group col-12 col-md-6" wire:ignore>
                         <label for="data-user_id">@lang('translates.general.user_select')</label>
-                        <select name="user_id" id="data-user_id" class="form-control" wire:model="selected.user_id" @if(!auth()->user()->isDeveloper() && !auth()->user()->isDirector() && !auth()->user()->hasPermission('department-chief')) disabled @endif>
+                        <select name="user_id" id="data-user_id" class="form-control" wire:model="selected.user_id" @if(!auth()->user()->isDeveloper() && !auth()->user()->isDirector() && !auth()->user()->hasPermission('canRedirect-work')) disabled @endif>
                             <option value="" selected>@lang('translates.general.user_select')</option>
                             @foreach($this->department->users()->with('position')->isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']) as $user)
                                 <option value="{{ $user->getAttribute('id') }}">{{ $user->getAttribute('fullname_with_position') }}</option>
                             @endforeach
                         </select>
-                        @if(!auth()->user()->isDeveloper() && !auth()->user()->isDirector() && !auth()->user()->hasPermission('department-chief'))
+                        @if(!auth()->user()->isDeveloper() && !auth()->user()->isDirector() && !auth()->user()->hasPermission('canRedirect-work'))
                             <input type="hidden" wire:model="selected.user_id" name="user_id">
                         @endif
                     </div>
@@ -86,8 +87,6 @@
                         @endforeach
                     </select>
                 </div>
-
-                <x-input::text name="datetime" wire:ignore :label="__('translates.fields.date')" value="{{optional($data)->getAttribute('datetime') ?? now()->format('Y-m-d H:i')}}" type="text" width="3" class="pr-2" />
 
                 <div class="form-group col-12 col-md-3" wire:ignore>
                     <label for="data-status">@lang('translates.general.status_choose')</label>
@@ -123,10 +122,9 @@
                 @endforeach
 
                 @if(auth()->user()->hasPermission('editEarning-work'))
-
                     <div class="form-group col-12 col-md-6" wire:ignore>
                         <div class="d-flex">
-                            <div class="btn-group mr-5 flex-column" role="group">
+                            <div class="btn-group mr-3 flex-column" role="group">
                                 <label for="data-earning">@lang('translates.general.work_earning')</label>
                                 <div class="d-flex">
                                     <input id="data-earning" type="number" min="0" class="form-control" name="earning" wire:model="earning" style="border-radius: 0 !important;">
@@ -151,7 +149,10 @@
                                 @enderror
                             </div>
                         </div>
-
+                    </div>
+                    <div class="form-group col-12" style="padding-left: 35px" wire:ignore>
+                        <input type="checkbox" class="form-check-input" id="data-verified" name="verified" @if(!is_null(optional($data)->getAttribute('verified_at'))) checked @endif>
+                        <label class="form-check-label" for="data-verified">@lang('translates.columns.verified')</label>
                     </div>
                 @endif
 
@@ -176,7 +177,6 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
-    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js" type="text/javascript" ></script>
 
     @if(is_null($action) || optional($data)->getAttribute('status') == \App\Models\Work::DONE)
         <script>
@@ -189,6 +189,7 @@
             $('input[name="earning"]').attr('disabled', false);
             $('select[name="currency"]').attr('disabled', false);
             $('input[name="currency_rate"]').attr('disabled', false);
+            $('input[name="verified"]').attr('disabled', false);
             $('input[name="_method"]').attr('disabled', false);
             $('input[name="_token"]').attr('disabled', false);
             $('button[type="submit"]').attr('disabled', false);
@@ -196,7 +197,8 @@
     @endif
 
     <script>
-        $('.select2').select2({
+        const select2 = $('.select2');
+        select2.select2({
             placeholder: "Search",
             minimumInputLength: 3,
             // width: 'resolve',
@@ -214,7 +216,7 @@
                 }
             }
         })
-        $('.select2').on('select2:open', function (e) {
+        select2.on('select2:open', function (e) {
             document.querySelector('.select2-search__field').focus();
         });
 
@@ -234,16 +236,5 @@
         });
 
         summernote.summernote('{{is_null($action) || optional($data)->getAttribute('status') == \App\Models\Work::DONE ? 'disable' : 'enable'}}');
-
-        $('input[name="datetime"]').daterangepicker({
-                opens: 'left',
-                locale: {
-                    format: "YYYY-MM-DD HH:mm",
-                },
-                singleDatePicker: true,
-                timePicker: true,
-                timePicker24Hour: true,
-            }, function(start, end, label) {}
-        );
     </script>
 @endpush

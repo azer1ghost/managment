@@ -84,38 +84,58 @@
                             <td>{{$user->getRelationValue('role')->getAttribute('name')}}</td>
                             <td>
                                 <div class="btn-sm-group">
-                                    @can('view', $user)
-                                        <a href="{{ $user->getAttribute('id') === auth()->id() ? route('account') : route('users.show', $user)}}" class="btn btn-sm btn-outline-primary">
-                                            <i class="fal fa-eye"></i>
-                                        </a>
-                                    @endcan
-                                        @unless ($user->getAttribute('id') === auth()->id())
-                                            @can('update', $user)
-                                                <a href="{{ $user->getAttribute('id') === auth()->id() ? route('account') : route('users.edit', $user)}}" class="btn btn-sm btn-outline-success">
-                                                    <i class="fal fa-pen"></i>
-                                                </a>
-                                            @endcan
-                                            @can('delete', $user)
-                                                <a href="{{route('users.destroy', $user)}}" delete data-name="{{$user->getAttribute('fullname')}}" class="btn btn-sm btn-outline-danger" >
-                                                    <i class="fal fa-trash"></i>
-                                                </a>
-                                            @endcan
-                                            @if(auth()->user()->isDeveloper())
-                                                <a href="{{route('users.loginAs', $user)}}" class="btn btn-sm btn-outline-info">
-                                                    <i class="fal fa-user"></i>
-                                                </a>
+                                    <div class="dropdown">
+                                        @can('view', $user)
+                                            <a href="{{ $user->getAttribute('id') === auth()->id() ? route('account') : route('users.show', $user)}}" class="btn btn-sm btn-outline-primary">
+                                                <i class="fal fa-eye"></i>
+                                            </a>
+                                        @endcan
+                                        <button class="btn" type="button" id="inquiry_actions-{{$loop->iteration}}"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fal fa-ellipsis-v-alt"></i>
+                                        </button>
+                                        <div class="dropdown-menu custom-dropdown">
+                                            @unless ($user->getAttribute('id') === auth()->id())
+                                                @can('update', $user)
+                                                    <a href="{{ $user->getAttribute('id') === auth()->id() ? route('account') : route('users.edit', $user)}}"
+                                                       class="dropdown-item-text text-decoration-none"
+                                                    >
+                                                        <i class="fal fa-pen pr-2 text-success"></i>Edit
+                                                    </a>
+                                                @endcan
+                                                @can('delete', $user)
+                                                    <a href="{{route('users.destroy', $user)}}"
+                                                       class="dropdown-item-text text-decoration-none"
+                                                       delete data-name="{{$user->getAttribute('fullname')}}"
+                                                    >
+                                                        <i class="fal fa-trash pr-2 text-danger"></i>Delete
+                                                    </a>
+                                                @endcan
+                                                @if(auth()->user()->isDeveloper())
+                                                    <a href="{{route('users.loginAs', $user)}}"
+                                                       class="dropdown-item-text text-decoration-none"
+                                                    >
+                                                        <i class="fal fa-user pr-2 text-info"></i>Login as
+                                                    </a>
+                                                @endif
+                                                @if(auth()->user()->hasPermission('manageStatus-user'))
+                                                    @php
+                                                        $route = $user->isDisabled() ? route('users.enable', $user) : route('users.disable', $user);
+                                                        $icon =  $user->isDisabled() ? 'unlock' : 'lock';
+                                                        $status = $user->isDisabled() ? 'enable' : 'disable';
+                                                    @endphp
+                                                    <a href="{{$route}}"
+                                                       delete data-type="POST" data-name="{{$user->getAttribute('fullname')}}"
+                                                       data-status="Are you sure to {{$status}}"
+                                                       data-status-title="Confirm {{$status}} action"
+                                                       class="dropdown-item-text text-decoration-none"
+                                                    >
+                                                        <i class="fal fa-user-{{$icon}} pr-2 text-info"></i>{{ucfirst($status)}}
+                                                    </a>
+                                                @endif
                                             @endif
-                                            @if(auth()->user()->hasPermission('manageStatus-user'))
-                                                @php
-                                                    $route = $user->isDisabled() ? route('users.enable', $user) : route('users.disable', $user);
-                                                    $icon =  $user->isDisabled() ? 'unlock' : 'lock';
-                                                    $status = $user->isDisabled() ? 'enable' : 'disable';
-                                                @endphp
-                                                <a href="{{$route}}" delete data-type="POST" data-name="{{$user->getAttribute('fullname')}}" data-status="Are you sure to {{$status}}" data-status-title="Confirm {{$status}} action" class="btn btn-sm btn-outline-danger" >
-                                                    <i class="fas fa-user-{{$icon}}"></i>
-                                                </a>
-                                            @endif
-                                        @endif
+                                        </div>
+                                    </div>
                                 </div>
                             </td>
                         </tr>

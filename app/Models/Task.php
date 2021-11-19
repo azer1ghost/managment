@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\{Factories\HasFactory,
     Relations\MorphMany,
     Relations\MorphTo,
     SoftDeletes};
-use const http\Client\Curl\AUTH_ANY;
 
 /**
  * @property mixed $taskable
@@ -23,23 +22,6 @@ use const http\Client\Curl\AUTH_ANY;
 class Task extends Model implements DocumentableInterface, ResultableInterface
 {
     use HasFactory, SoftDeletes, Documentable, Resultable;
-
-    public static function boot() {
-        parent::boot();
-
-        static::creating(function (Model $model) {
-            $model->status = 'to_do';
-        });
-
-        static::updating(function (Model $model) {
-            if ($model->isDirty('status') && $model->list()->exists() && $model->status == 'done'){
-                TaskList::find($model->getRelationValue('list')->id)->update([
-                    'is_checked' => 1,
-                    'last_checked_by' => auth()->id()
-                ]);
-            }
-        });
-    }
 
     protected $fillable = [
         'name',
