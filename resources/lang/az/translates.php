@@ -403,7 +403,7 @@ return [
         'earning' => 'Qazanc',
         'currency' => 'Valyuta',
         'currency_rate' => 'Valyuta miqdarı (AZN)',
-        'select_service' => 'Servis seçin',
+        'select_service' => 'Xidmət seçin',
         'work_service' => 'Xidmət',
         'work_service_type' => 'Xidmət növü',
         'rate' => 'Məzənnə(Manatla)',
