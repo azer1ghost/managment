@@ -77,7 +77,7 @@
                         @foreach($service->services as $subservice)
                             <tr>
                                 <td></td>
-                                <td><i class="{{$subservice->getAttribute('icon')}}"></i> {{$subservice->getAttribute('name')}}</td>
+                                <td><i class="{{$subservice->getAttribute('icon')}} fa-2x pr-2"></i> {{$subservice->getAttribute('name')}}</td>
                                 <td colspan="3">{{$subservice->getAttribute('detail')}}</td>
                                 <td>
                                     <div class="btn-sm-group">
