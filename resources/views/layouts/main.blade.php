@@ -145,22 +145,22 @@
                 });
 
                 const body = $('body');
-                const hamburger = document.querySelector(".hamburger");
+                const hamburger = $(".hamburger");
 
                 body.addClass(sidebarStatus(checkWindowWidth()));
 
                 if(!body.hasClass('active')){
-                    hamburger.classList.add('is-active');
+                    hamburger.addClass('is-active');
                 }
 
-                hamburger.addEventListener("click", function(){
+                hamburger.click(function(){
                     if(body.hasClass('active')){
-                        hamburger.classList.add('is-active');
+                        hamburger.addClass('is-active');
                         body.removeClass('active');
                         body.addClass('inactive');
                         localStorage.setItem("navbar", 'inactive');
                     }else{
-                        hamburger.classList.remove('is-active');
+                        hamburger.removeClass('is-active');
                         body.removeClass('inactive');
                         body.addClass('active');
                         localStorage.setItem("navbar", 'active');
