@@ -21,6 +21,7 @@ class WorkPolicy
     {
         return
             $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
+            $work->getAttribute('creator_id') == $user->getAttribute('id') ||
             $work->getAttribute('user_id') == $user->getAttribute('id');
     }
 
@@ -28,12 +29,14 @@ class WorkPolicy
     {
         return
             $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
-                $work->getAttribute('user_id') == $user->getAttribute('id');
+            $work->getAttribute('creator_id') == $user->getAttribute('id') ||
+            $work->getAttribute('user_id') == $user->getAttribute('id');
     }
 
     public function restore(User $user, Work $work): bool
     {
         return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
+            $work->getAttribute('creator_id') == $user->getAttribute('id') ||
             $work->getAttribute('user_id') == $user->getAttribute('id');
     }
 
