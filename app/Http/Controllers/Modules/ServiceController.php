@@ -32,7 +32,8 @@ class ServiceController extends Controller
             'method' => 'POST',
             'data' => null,
             'companies' => Company::get(['id','name']),
-            'departments' => Department::get(['id','name'])
+            'departments' => Department::get(['id','name']),
+            'services' => Service::whereNull('service_id')->latest()->get(['id', 'name'])
         ]);
     }
 
@@ -55,6 +56,7 @@ class ServiceController extends Controller
             'data' => $service,
             'companies' => Company::get(['id','name']),
             'departments' => Department::get(['id','name']),
+            'services' => Service::whereNull('service_id')->where('id', '!=', $service->getAttribute('id'))->latest()->get(['id', 'name'])
         ]);
     }
 
@@ -66,6 +68,7 @@ class ServiceController extends Controller
             'data' => $service,
             'companies' => Company::get(['id','name']),
             'departments' => Department::get(['id','name']),
+            'services' => Service::whereNull('service_id')->where('id', '!=', $service->getAttribute('id'))->latest()->get(['id', 'name'])
         ]);
     }
 
