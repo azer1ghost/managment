@@ -434,5 +434,11 @@ return [
         'Pending',
         'Continue',
         'Done',
+    ],
+
+    'hard_level' => [
+        1 => 'Easy',
+            'Medium',
+            'Hard',
     ]
 ];
