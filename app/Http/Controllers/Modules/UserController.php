@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -191,5 +193,18 @@ class UserController extends Controller
             return response('OK');
         }
         return response()->setStatusCode('204');
+    }
+
+    public function loginAsUser(User $user)
+    {
+        $previousId = auth()->id();
+        Auth::login($user);
+
+        if($user->isDeveloper()){
+            return redirect()->route('users.index')->withCookie(Cookie::forget('user_id'));
+        }
+
+        return redirect()->route('dashboard')->withCookie('user_id', $previousId);
+
     }
 }

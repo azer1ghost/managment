@@ -100,6 +100,11 @@
                                                     <i class="fal fa-trash"></i>
                                                 </a>
                                             @endcan
+                                            @if(auth()->user()->isDeveloper())
+                                                <a href="{{route('users.loginAs', $user)}}" class="btn btn-sm btn-outline-info">
+                                                    <i class="fal fa-user"></i>
+                                                </a>
+                                            @endif
                                             @if(auth()->user()->hasPermission('manageStatus-user'))
                                                 @php
                                                     $route = $user->isDisabled() ? route('users.enable', $user) : route('users.disable', $user);

@@ -86,6 +86,7 @@ Route::group([
     // disable enable users
     Route::post('/users/{user}/enable', [UserController::class, 'enable'])->name('users.enable');
     Route::post('/users/{user}/disable', [UserController::class, 'disable'])->name('users.disable');
+    Route::get('/users/{user}/login-as-user', [UserController::class, 'loginAsUser'])->name('users.loginAs');
 });
 
 Auth::routes();

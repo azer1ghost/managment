@@ -12,14 +12,19 @@
             </li>
         @endif
     @else
-        <a class="py-1" href="{{ route('logout') }}"
-           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-            {{ __('translates.logout') }}
-        </a>
-
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-            @csrf
-        </form>
+        @if(request()->hasCookie('user_id'))
+             <a class="py-1" href="{{ route('users.loginAs', request()->cookie('user_id')) }}">
+                 Back
+             </a>
+        @else
+             <a class="py-1" href="{{ route('logout') }}"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                 {{ __('translates.logout') }}
+             </a>
+             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                 @csrf
+             </form>
+         @endif
     @endguest
     <div class="dropdown">
         <div class="d-none" id="notification-badge" style="position: absolute;right: 0"><i class="fas fa-circle text-danger" style="font-size: 7px"></i></div>
