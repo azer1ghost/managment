@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endpush
-<form action="{{$action}}" method="POST" enctype="multipart/form-data">
+<form action="{{$action}}" method="POST" enctype="multipart/form-data" id="work-form">
     @method($method) @csrf
 
     <div class="tab-content row mt-4">
@@ -143,7 +143,7 @@
                             <div class="btn-group flex-column" role="group">
                                 <label for="data-earning">@lang('translates.general.rate')</label>
                                 <div class="d-flex">
-                                    <input type="text" class="form-control" name="currency_rate" wire:model="rate" style="border-radius: 0 !important;">
+                                    <input type="text" class="form-control" name="currency_rate" wire:model="rate" style="border-radius: 0 !important;" readonly>
                                     <input disabled type="text" class="form-control" value="AZN" style="border-radius: 0 !important;">
                                 </div>
                                 @error('currency_rate')
@@ -180,7 +180,7 @@
 
     @if(is_null($action) || optional($data)->getAttribute('status') == \App\Models\Work::DONE)
         <script>
-            $('form :input').attr('disabled', true)
+            $('#work-form :input').attr('disabled', true)
         </script>
     @endif
 
@@ -192,7 +192,6 @@
             $('input[name="_method"]').attr('disabled', false);
             $('input[name="_token"]').attr('disabled', false);
             $('button[type="submit"]').attr('disabled', false);
-            $('input[type="file"]').attr('disabled', false);
         </script>
     @endif
 
