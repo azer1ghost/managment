@@ -32,11 +32,6 @@ class WorkPolicy
 
     public function delete(User $user, Work $work): bool
     {
-        if($work->getAttribute('status') == $work::DONE && $user->hasPermission('editEarning-work'))
-        {
-            return true;
-        }
-
         return
             $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
             $work->getAttribute('creator_id') == $user->getAttribute('id') ||
