@@ -49,7 +49,7 @@
                     <tbody>
                     @forelse($services as $service)
                         <tr>
-                            <th scope="row">{{$loop->iteration}}</th>
+                            <th scope="row">{{$loop->iteration}}.</th>
                             <td>{{$service->getAttribute('name')}}</td>
                             <td>{{$service->getAttribute('detail')}}</td>
                             <td>{{$service->getRelationValue('department')->getAttribute('name')}}</td>
@@ -74,6 +74,32 @@
                                 </div>
                             </td>
                         </tr>
+                        @foreach($service->services as $subservice)
+                            <tr>
+                                <td></td>
+                                <td>{{$subservice->getAttribute('name')}}</td>
+                                <td colspan="3">{{$subservice->getAttribute('detail')}}</td>
+                                <td>
+                                    <div class="btn-sm-group">
+                                        @can('view', $subservice)
+                                            <a href="{{route('services.show', $subservice)}}" class="btn btn-sm btn-outline-primary">
+                                                <i class="fal fa-eye"></i>
+                                            </a>
+                                        @endcan
+                                        @can('update', $subservice)
+                                            <a href="{{route('services.edit', $subservice)}}" class="btn btn-sm btn-outline-success">
+                                                <i class="fal fa-pen"></i>
+                                            </a>
+                                        @endcan
+                                        @can('delete', $subservice)
+                                            <a href="{{route('services.destroy', $subservice)}}" delete data-name="{{$subservice->getAttribute('name')}}" class="btn btn-sm btn-outline-danger" >
+                                                <i class="fal fa-trash"></i>
+                                            </a>
+                                        @endcan
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
                     @empty
                         <tr>
                             <th colspan="6">
