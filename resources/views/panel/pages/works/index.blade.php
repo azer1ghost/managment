@@ -50,7 +50,7 @@
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$work->getRelationValue('user')->getAttribute('fullname_with_position')}}</td>
                             <td>{{$work->getRelationValue('department')->getAttribute('name')}}</td>
-                            <td><i class="{{$work->getRelationValue('service')->getAttribute('icon')}} fa-2x pr-2"></i> {{$work->getRelationValue('service')->getAttribute('name')}}</td>
+                            <td><i class="{{$work->getRelationValue('service')->getAttribute('icon')}} pr-2" style="font-size: 20px"></i> {{$work->getRelationValue('service')->getAttribute('name')}}</td>
                             <td>{{$work->getRelationValue('client')->getAttribute('fullname')}}</td>
                             <td>@lang('translates.hard_level.' . $work->getAttribute('hard_level'))</td>
                             <td>{{$work->getAttribute('earning') * $work->getAttribute('currency_rate')}} AZN</td>
