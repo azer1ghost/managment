@@ -104,13 +104,13 @@
                         @case('text')
                             <div class="form-group col-12 col-md-3" wire:ignore>
                                 <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
-                                <input type="text" name="parameters[{{$parameter->id}}]" id="data-parameter-{{$parameter->id}}" class="form-control" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
+                                <input type="text" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
                             </div>
                             @break
                         @case('select')
                             <div class="form-group col-12 col-md-3" wire:ignore>
                                 <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
-                                <select name="parameters[{{$parameter->id}}]" id="data-parameter-{{$parameter->id}}" class="form-control" wire:model="workParameters.{{$parameter->name}}">
+                                <select name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control" wire:model="workParameters.{{$parameter->name}}">
                                     <option value="" selected>{{$parameter->placeholder}}</option>
                                     @foreach($parameter->getRelationValue('options') as $option)
                                         <option value="{{$option->id}}">{{$option->text}}</option>

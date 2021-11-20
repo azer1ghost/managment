@@ -52,6 +52,7 @@
             </div>
             <x-input::select   name="type"          :value="optional($data)->getAttribute('type')"          width="4" class="pr-3" :options="$types" />
             <x-input::text     name="name"          :value="optional($data)->getAttribute('name')"          width="4" class="pr-3" />
+            <x-input::text     name="attributes"          :value="optional($data)->getAttribute('attributes')"   width="4" class="pr-3" />
             <x-input::number   name="order"         :value="optional($data)->getAttribute('order')"         width="4" class="pr-3" label="Order"/>
             <div class="col-12">
                 <label for="companyFilter">Companies</label><br/>

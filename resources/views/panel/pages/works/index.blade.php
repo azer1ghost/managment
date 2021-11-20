@@ -143,11 +143,11 @@
                             <td>
                                 @php
                                     $status = '';
-                                    if(!is_null($work->getAttribute('verified_at'))){
-                                        $status .= "<i title='". trans('translates.columns.verified') ."' class='fas fa-badge-check text-primary mr-2' style='font-size: 22px'></i>";
-                                    }
                                     if(!is_null($work->getAttribute('done_at'))){
                                         $status .= "<i title='". trans('translates.fields.status.options.done') ."' class='fas fa-check-circle text-success mr-2' style='font-size: 22px'></i>";
+                                    }
+                                    if(!is_null($work->getAttribute('verified_at'))){
+                                        $status .= "<i title='". trans('translates.columns.verified') ."' class='fas fa-badge-check text-primary mr-2' style='font-size: 22px'></i>";
                                     }
                                     if($work->getAttribute('status') == $work::REJECTED){
                                         $status .= "<i title='". trans('translates.columns.rejected') ."' class='fas fa-times text-danger' style='font-size: 22px'></i>";
@@ -157,21 +157,36 @@
                             </td>
                             <td>
                                 <div class="btn-sm-group">
-                                    @can('view', $work)
-                                        <a href="{{route('works.show', $work)}}" class="btn btn-sm btn-outline-primary">
-                                            <i class="fal fa-eye"></i>
-                                        </a>
-                                    @endcan
-                                    @can('update', $work)
-                                        <a href="{{route('works.edit', $work)}}" class="btn btn-sm btn-outline-success">
-                                            <i class="fal fa-pen"></i>
-                                        </a>
-                                    @endcan
-                                    @can('delete', $work)
-                                        <a href="{{route('works.destroy', $work)}}" delete data-name="{{$work->getAttribute('name')}}" class="btn btn-sm btn-outline-danger" >
-                                            <i class="fal fa-trash"></i>
-                                        </a>
-                                    @endcan
+                                    <div class="dropdown">
+                                        <button class="btn" type="button" id="inquiry_actions-{{$loop->iteration}}"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fal fa-ellipsis-v-alt"></i>
+                                        </button>
+                                        <div class="dropdown-menu custom-dropdown">
+                                            @can('view', $work)
+                                                <a href="{{route('works.show', $work)}}"
+                                                   class="dropdown-item-text text-decoration-none"
+                                                >
+                                                    <i class="fal fa-eye pr-2 text-primary"></i>Show
+                                                </a>
+                                            @endcan
+                                            @can('update', $work)
+                                                <a href="{{route('works.edit', $work)}}"
+                                                   class="dropdown-item-text text-decoration-none"
+                                                >
+                                                    <i class="fal fa-pen pr-2 text-success"></i>Edit
+                                                </a>
+                                            @endcan
+                                            @can('delete', $work)
+                                                <a href="{{route('works.destroy', $work)}}"
+                                                   class="dropdown-item-text text-decoration-none"
+                                                   delete
+                                                >
+                                                    <i class="fal fa-trash pr-2 text-danger"></i>Delete
+                                                </a>
+                                            @endcan
+                                        </div>
+                                    </div>
                                 </div>
                             </td>
                         </tr>

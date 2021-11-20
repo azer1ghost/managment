@@ -40,7 +40,7 @@
                 {{$label}}
             </label>
             @if($formField['type'] === 'select')
-                <select @if($formField['id'] == \App\Models\Inquiry::STATUS_PARAMETER && $isRedirected) disabled @endif class="form-control" name="parameters[{{$formField['id']}}]" id="{{$formField['name']}}" wire:model="selected.{{$formField['name']}}">
+                <select @if($formField['id'] == \App\Models\Inquiry::STATUS_PARAMETER && $isRedirected) disabled @endif {{$formField['attributes']}} class="form-control" name="parameters[{{$formField['id']}}]" id="{{$formField['name']}}" wire:model="selected.{{$formField['name']}}">
                     <option value="null" disabled selected>{{$label}} {{__('translates.placeholders.choose')}}</option>
                     @foreach($formField['options'] as $option)
                         @php($optionText = $option['text'][app()->getLocale()] ?? $option['text']['en'])
@@ -50,9 +50,10 @@
                     @endforeach
                 </select>
             @else
-                <input class="{{$formField['class'] ?? null}} form-control" name="parameters[{{$formField['id']}}]" placeholder="{{$placeholder}}" type="{{$formField['type']}}" wire:model.lazy="selected.{{$formField['name']}}">
+                <input class="{{$formField['class'] ?? null}} form-control" {{$formField['attributes']}}  name="parameters[{{$formField['id']}}]" placeholder="{{$placeholder}}" type="{{$formField['type']}}" wire:model.lazy="selected.{{$formField['name']}}">
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $formField['message'] ?? null }}</strong>
+                </span>
                 </span>
             @endif
         </div>
