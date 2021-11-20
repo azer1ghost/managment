@@ -17,6 +17,7 @@ class CreateAsanImzalarTable extends Migration
             $table->id();
             $table->foreignId('user_id')->index()->constrained()->onDelete('CASCADE');
             $table->foreignId('company_id')->index()->constrained()->onDelete('CASCADE');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

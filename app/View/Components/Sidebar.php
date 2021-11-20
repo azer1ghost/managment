@@ -194,8 +194,8 @@ class Sidebar extends Component
             (object)[
                 'title' => __('translates.navbar.asan_imza'),
                 'icon' => 'fas fa-file-signature',
-                'url' => route('asan-imzas.index'),
-                'permission' => 'viewAny-document',
+                'url' => route('asan-imza.index'),
+                'permission' => 'viewAny-asan-imza',
             ]
         ];
     }
