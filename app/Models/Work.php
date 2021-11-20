@@ -26,6 +26,7 @@ class Work extends Model implements DocumentableInterface
         'creator_id',
         'user_id',
         'department_id',
+        'asan_imza_id',
         'service_id',
         'client_id',
         'hard_level',

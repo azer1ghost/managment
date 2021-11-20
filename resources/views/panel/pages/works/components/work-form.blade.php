@@ -77,6 +77,24 @@
                     </div>
                 @endif
 
+                @if($this->service->getAttribute('has_asan_imza'))
+                    <div class="form-group col-12 col-md-6" wire:ignore>
+                        <label for="data-asan_imza_id">Asan imza user</label>
+                        <select name="asan_imza_id" id="data-asan_imza_id" class="form-control">
+                            <option value="" selected>Asan imza select</option>
+                            @foreach(\App\Models\AsanImza::with(['company:id,name', 'user:id,name,surname'])->get() as $asanUser)
+                                <option
+                                        value="{{ $asanUser->getAttribute('id') }}"
+                                        @if(optional($data)->getAttribute('asan_imza_id') == $asanUser->getAttribute('id')) selected @endif
+                                >
+                                    {{ $asanUser->getRelationValue('user')->getAttribute('fullname') }}
+                                    ({{ $asanUser->getRelationValue('company')->getAttribute('name') }})
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
+
                 <div class="form-group col-12 col-md-3" wire:ignore>
                     <label for="data-hard_level">@lang('translates.general.hard_level_choose')</label>
                     <select name="hard_level" id="data-hard_level" class="form-control">

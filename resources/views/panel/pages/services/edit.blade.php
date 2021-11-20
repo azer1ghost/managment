@@ -74,6 +74,12 @@
 {{--                    </div>--}}
 
                     <x-input::textarea name="detail" :value="optional($data)->getAttribute('detail')" label="Service detail" width="6" class="pr-3"/>
+
+                    <div class="form-group form-check" style="padding-left: 38px">
+                        <input type="checkbox" class="form-check-input" id="has_asan_imza" name="has_asan_imza" @if(optional($data)->getAttribute('has_asan_imza')) checked @endif>
+                        <label class="form-check-label" for="has_asan_imza">Has Asan Imza</label>
+                    </div>
+
                 </div>
                 <div id="create-child-btn">
                     @if(!is_null($data) && is_null(optional($data)->getAttribute('service_id')))

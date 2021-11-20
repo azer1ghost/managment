@@ -15,6 +15,7 @@ class ServiceRequest extends FormRequest
             'department_id' => 'nullable|integer',
             'service_id' => 'nullable|integer',
             'translate' => 'nullable|array',
+            'has_asan_imza' => 'nullable',
             'parameters' => 'nullable|array'
         ];
     }

@@ -33,6 +33,11 @@ class WorkForm extends Component
         return Department::find($this->selected['department_id']);
     }
 
+    public function getServiceProperty()
+    {
+        return Service::find($this->selected['service_id']);
+    }
+
     public function getSubServicesProperty()
     {
         return Service::find($this->selected['service_id'])->services;

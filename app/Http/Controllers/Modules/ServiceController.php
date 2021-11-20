@@ -40,7 +40,9 @@ class ServiceController extends Controller
     public function store(ServiceRequest $request): \Illuminate\Http\RedirectResponse
     {
         $validated = $request->validated();
+        $validated['has_asan_imza'] = $request->has('has_asan_imza');
         $this->translates($validated);
+
         $service = Service::create($validated);
 
         return redirect()
@@ -75,7 +77,9 @@ class ServiceController extends Controller
     public function update(ServiceRequest $request, Service $service): \Illuminate\Http\RedirectResponse
     {
         $validated = $request->validated();
+        $validated['has_asan_imza'] = $request->has('has_asan_imza');
         $this->translates($validated);
+
         $service->update($validated);
 
         $service->parameters()->sync($validated['parameters'] ?? []);

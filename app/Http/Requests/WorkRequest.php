@@ -15,6 +15,7 @@ class WorkRequest extends FormRequest
             'detail' => 'nullable|string',
             'user_id' => 'nullable|integer',
             'department_id' => 'nullable|integer',
+            'asan_imza_id' => 'nullable|integer',
             'service_id' => 'nullable|integer',
             'client_id' => 'nullable|integer',
             'parameters' => 'nullable|array',

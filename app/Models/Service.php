@@ -14,9 +14,11 @@ class Service extends Model
 {
     use HasFactory, SoftDeletes, HasTranslations;
 
-    protected $fillable = ['name', 'detail', 'icon', 'company_id', 'department_id', 'service_id'];
+    protected $fillable = ['name', 'detail', 'icon', 'company_id', 'department_id', 'service_id', 'has_asan_imza'];
 
     public array $translatable = ['name'];
+
+    protected $casts = ['has_asan_imza' => 'boolean'];
 
     public function company(): BelongsTo
     {
