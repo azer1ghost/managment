@@ -111,7 +111,7 @@
                                                         <i class="fal fa-trash pr-2 text-danger"></i>Delete
                                                     </a>
                                                 @endcan
-                                                @if(auth()->user()->isDeveloper())
+                                                @if(auth()->user()->isDeveloper() && !$user->isDeveloper())
                                                     <a href="{{route('users.loginAs', $user)}}"
                                                        class="dropdown-item-text text-decoration-none"
                                                     >
