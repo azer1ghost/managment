@@ -17,11 +17,11 @@ class ParameterRequest extends FormRequest
             'name'      => 'required|string|max:255',
             'type'      => 'required|string|max:255',
             'order' => 'required|integer',
+            'attributes' => 'required|string',
             'companies' => 'array',
             'options' => 'array',
             'option_id'   => 'nullable',
             'translate' => 'nullable|array',
-
         ];
     }
 }

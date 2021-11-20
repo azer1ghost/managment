@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Requests\RoleRequest;
 use App\Models\Role;
+use App\Traits\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 
 class RoleController extends Controller
 {
+    use Permission;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -41,9 +44,9 @@ class RoleController extends Controller
     public function store(RoleRequest $request): RedirectResponse
     {
         $validated = $request->validated();
-        $this->translates($validated);
 
-        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms']);
+        $this->translates($validated);
+        $this->permissions($validated);
 
         $role = Role::create($validated);
 
@@ -75,9 +78,9 @@ class RoleController extends Controller
     public function update(RoleRequest $request, Role $role): RedirectResponse
     {
         $validated = $request->validated();
-        $this->translates($validated);
 
-        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms']);
+        $this->translates($validated);
+        $this->permissions($validated);
 
         $role->update($validated);
 

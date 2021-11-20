@@ -7,6 +7,7 @@ use App\Http\Requests\UserRequest;
 use App\Models\Company;
 use App\Models\Department;
 use App\Models\Role;
+use App\Traits\Permission;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use App\Models\User;
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Storage;
 
 class AccountController extends Controller
 {
+    use Permission;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -43,8 +46,7 @@ class AccountController extends Controller
         $validated['company_id']     =  !in_array($currentRole, array(1, 2)) ? $currentCompany : $validated['company_id'];
         $validated['department_id']  =  !in_array($currentRole, array(1, 2)) ? $currentDepartment : $validated['department_id'];
 
-        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms'] ?? []);
-        $validated['permissions'] = empty(trim($validated['permissions'])) ? null : $validated['permissions'];
+        $this->permissions($validated);
 
         if(is_null($request->get('password'))){
             unset($validated['password']);

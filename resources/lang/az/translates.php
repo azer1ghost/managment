@@ -360,6 +360,8 @@ return [
         'parent_option' => 'Ana parametr',
         'deadline' => 'Son tarix',
         'parameter_label' => 'Parameter Label',
+        'verified' => 'Təstiqlənib',
+        'rejected' => 'Qəbul edilmyib'
     ],
 
     'notify' => [
@@ -400,19 +402,21 @@ return [
         'signature_for' => 'İmza',
         'legal' => 'Hüquqi',
         'physical' => 'Fiziki',
-        'earning' => 'Qazanc',
+        'earning' => 'Məbləğ',
         'currency' => 'Valyuta',
         'currency_rate' => 'Valyuta miqdarı (AZN)',
         'select_service' => 'Servis seçin',
         'work_service' => 'Xidmət',
         'work_service_type' => 'Xidmət növü',
         'rate' => 'Məzənnə(Manatla)',
-        'work_earning' => 'İş Qazancı',
+        'work_earning' => 'İş Məbləği',
         'work_detail' => 'İş Detalı',
         'department_select' => 'Şöbə Seçin',
         'user_select' => 'Əməkdaş Seçin',
         'select_client' => 'Müştəri Seçin',
         'done_at' => 'Bitirmə vaxtı',
+        'verified_at' => 'Təstiqlənmə vaxtı',
+        'started_at' => 'Başlama vaxtı',
         'hard_level_choose' => 'Çətinlik dərəcəsi Seçin',
         'status_choose' => 'Status Seçin',
         'hard_level' => 'Çətinlik dərəcəsi',
@@ -438,6 +442,7 @@ return [
         'Gözləmədə',
         'Davam Edir',
         'Tamamlandı',
+        'Qəbul edilmyib'
     ],
     'hard_level' => [
        1 => 'Asan',

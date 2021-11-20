@@ -22,7 +22,12 @@ class Parameter extends Model
 
     public array $translatable = ['label', 'placeholder'];
 
-    protected $fillable = ['name', 'label', 'placeholder', 'type', 'option_id', 'order'];
+    protected $fillable = ['name', 'label', 'placeholder', 'type', 'option_id', 'order', 'attributes'];
+
+    public static function types(): array
+    {
+        return ['select' => 'Select', 'text' => 'Text', 'number' => 'Number'];
+    }
 
     public function parameters(): HasMany
     {

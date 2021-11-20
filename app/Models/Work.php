@@ -14,7 +14,9 @@ class Work extends Model implements DocumentableInterface
 {
     use HasFactory, SoftDeletes, Documentable;
 
+    const STARTED = 2;
     const DONE = 3;
+    const REJECTED = 4;
 
     protected $fillable = [
         'earning',
@@ -29,6 +31,7 @@ class Work extends Model implements DocumentableInterface
         'hard_level',
         'status',
         'datetime',
+        'verified_at',
     ];
 
     public function creator(): BelongsTo
@@ -68,6 +71,17 @@ class Work extends Model implements DocumentableInterface
 
     public static function statuses(): array
     {
-        return [1, 2, 3];
+        return [1, 2, 3, 4];
+    }
+
+    public static function userCanViewAll(): bool
+    {
+        $user = auth()->user();
+        return $user->isDeveloper() || $user->isAdministrator() || $user->hasPermission('viewAll-work');
+    }
+
+    public static function userCannotViewAll(): bool
+    {
+        return !self::userCanViewAll();
     }
 }

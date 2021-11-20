@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\Department;
 use App\Models\Position;
 use App\Models\Role;
+use App\Traits\Permission;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
+    use Permission;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -81,8 +84,7 @@ class UserController extends Controller
 
         $validated['verify_code'] = rand(111111, 999999);
 
-        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms'] ?? []);
-        $validated['permissions'] = empty(trim($validated['permissions'])) ? null : $validated['permissions'];
+        $this->permissions($validated);
 
         if ($request->file('avatar')) {
 
@@ -139,8 +141,7 @@ class UserController extends Controller
     {
         $validated = $request->validated();
 
-        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms'] ?? []);
-        $validated['permissions'] = empty(trim($validated['permissions'])) ? null : $validated['permissions'];
+        $this->permissions($validated);
 
         if(is_null($request->get('password'))){
             unset($validated['password']);

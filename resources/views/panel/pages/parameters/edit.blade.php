@@ -52,10 +52,11 @@
             </div>
             <x-input::select   name="type"          :value="optional($data)->getAttribute('type')"          width="4" class="pr-3" :options="$types" />
             <x-input::text     name="name"          :value="optional($data)->getAttribute('name')"          width="4" class="pr-3" />
+            <x-input::text     name="attributes"          :value="optional($data)->getAttribute('attributes')"   width="4" class="pr-3" />
             <x-input::number   name="order"         :value="optional($data)->getAttribute('order')"         width="4" class="pr-3" label="Order"/>
             <div class="col-12">
                 <label for="companyFilter">Companies</label><br/>
-                <select name="companies[]" id="companyFilter" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
+                <select name="companies[]" id="companyFilter" data-selected-text-format="count" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
                     @foreach($companies as $company)
                         <option @if(optional(optional($data)->companies())->exists() && $data->getRelationValue('companies')->pluck('id')->contains($company->getAttribute('id'))) selected  @endif value="{{$company->getAttribute('id')}}">{{ucfirst($company->getAttribute('name'))}}</option>
                     @endforeach
@@ -69,7 +70,7 @@
                     <p class="mb-2">Options</p>
                     @forelse ($parameterCompanies as $company)
                         <label for="optionFilter-{{$company->getAttribute('id')}}">{{$company->getAttribute('name')}}</label>
-                        <select name="options[{{$company->getAttribute('id')}}][]" id="optionFilter-{{$company->getAttribute('id')}}" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
+                        <select name="options[{{$company->getAttribute('id')}}][]" data-selected-text-format="count" id="optionFilter-{{$company->getAttribute('id')}}" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
                             @foreach ($options as $option)
                                 <option @if($company->options(optional($data)->getAttribute('id'))->pluck('id')->contains($option->getAttribute('id'))) selected  @endif value="{{$option->getAttribute('id')}}">{{ucfirst($option->getAttribute('text'))}}</option>
                             @endforeach

@@ -358,6 +358,8 @@ return [
         'parent_option' => 'Parent option',
         'deadline' => 'Deadline',
         'parameter_label' => 'Parameter Label',
+        'verified' => 'Verified',
+        'rejected' => 'Rejected'
     ],
 
     'notify' => [
@@ -402,7 +404,9 @@ return [
         'physical_client_phone' => 'Phone of Legal Client Employees',
         'physical_client_position' => 'Position of Legal Client Employees',
         'done_at' => 'Done at',
-        'earning' => 'Earning',
+        'verified_at' => 'Verified at',
+        'started_at' => 'Started at',
+        'earning' => 'Amount',
         'currency' => 'Currency',
         'currency_rate' => 'Currency Rate (AZN)',
         'select_service' => 'Select a Service',
@@ -412,7 +416,7 @@ return [
         'hard_level_choose' => 'Hard Level Choose',
         'status_choose' => 'Status Choose',
         'hard_level' => 'Hard Level',
-        'work_earning' => 'Work Earning',
+        'work_earning' => 'Work Amount',
         'work_detail' => 'Work Detail',
         'department_select' => 'Department Select',
         'user_select' => 'User Select',
@@ -435,6 +439,7 @@ return [
         'Pending',
         'Continue',
         'Done',
+        'Rejected'
     ],
 
     'hard_level' => [

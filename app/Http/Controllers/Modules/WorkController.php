@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkRequest;
+use Carbon\Carbon;
 use App\Models\{Company, Department, Service, User, Work};
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,17 +19,51 @@ class WorkController extends Controller
 
     public function index(Request $request)
     {
-        $search = $request->get('search');
+        $filters = [
+            'user_id' => $request->get('user_id'),
+            'department_id' => $request->get('department_id'),
+            'service_id' => $request->get('service_id'),
+            'client_id' => $request->get('client_id'),
+            'started_at' => $request->get('started_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
+            'done_at' => $request->get('done_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
+            'verified_at' => $request->get('verified_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d')
+        ];
+
+        $dateRanges = [
+            'started_at' => explode(' - ', $filters['started_at']),
+            'done_at' => explode(' - ', $filters['done_at']),
+            'verified_at' => explode(' - ', $filters['verified_at']),
+        ];
+
         $user = auth()->user();
 
-        return view('panel.pages.works.index')->with([
-            'works' => Work::query()
-                ->when($search, fn ($query) => $query->where('name', 'LIKE', "%$search%"))
-                ->paginate(10),
-            'services' => Service::whereNull('service_id')->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
+        $users = User::isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']);
+        $departments = Department::get(['id', 'name']);
+        $services = Service::query()
+            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
                 $query->whereBelongsTo($user->getRelationValue('company'));
-            })->get(['id', 'name', 'detail'])
-        ]);
+            })->get(['id', 'name', 'detail']);
+
+        $works = Work::query()
+            ->where(function($query) use ($filters, $dateRanges){
+                foreach ($filters as $column => $value) {
+                    $query->when($value, function ($query, $value) use ($column, $dateRanges) {
+                        if (is_numeric($value)){
+                            $query->where($column, $value);
+                        }else if(is_string($value)){
+                            $query->whereBetween($column, [Carbon::parse($dateRanges[$column][0])->startOfDay(), Carbon::parse($dateRanges[$column][1])->endOfDay()]);
+                        }
+                    });
+                }
+            })
+            ->when(Work::userCannotViewAll(), function ($query) use ($user){
+                $query->where('user_id', $user->getAttribute('id'))->orWhere(function ($q) use ($user){
+                    $q->whereNull('user_id')->where('department_id', $user->getAttribute('department_id'));
+                });
+            })
+            ->paginate(10);
+
+        return view('panel.pages.works.index', compact('works', 'services', 'users', 'departments', 'filters'));
     }
 
     public function create()
@@ -48,6 +83,8 @@ class WorkController extends Controller
     {
         $validated = $request->validated();
         $validated['creator_id'] = auth()->id();
+        $validated['verified_at'] = $request->has('verified') ? now() : null;
+
         $work = Work::create($validated);
 
         $parameters = [];
@@ -91,6 +128,7 @@ class WorkController extends Controller
     public function update(WorkRequest $request, Work $work): RedirectResponse
     {
         $validated = $request->validated();
+        $validated['verified_at'] = $request->filled('verified') ? now() : null;
         $work->update($validated);
 
         $parameters = [];

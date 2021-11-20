@@ -20,7 +20,8 @@ class WorkRequest extends FormRequest
             'parameters' => 'nullable|array',
             'hard_level' => 'nullable|integer',
             'status' => 'nullable|integer',
-            'datetime' => 'nullable|date'
+            'datetime' => 'nullable|date',
+            'verified' => 'nullable'
         ];
     }
 }

@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PositionRequest;
+use App\Traits\Permission;
 use App\Models\{Department, Position, Role};
 use Illuminate\Http\Request;
 
 class PositionController extends Controller
 {
+    use Permission;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -52,9 +55,7 @@ class PositionController extends Controller
         $validated = $request->validated();
 
         $this->translates($validated);
-
-        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms'] ?? []);
-        $validated['permissions'] = empty(trim($validated['permissions'])) ? null : $validated['permissions'];
+        $this->permissions($validated);
 
         $position = Position::create($validated);
 
@@ -92,9 +93,7 @@ class PositionController extends Controller
         $validated = $request->validated();
 
         $this->translates($validated);
-
-        $validated['permissions'] = array_key_exists('all_perms', $validated) ? "all" : implode(',', $validated['perms'] ?? []);
-        $validated['permissions'] = empty(trim($validated['permissions'])) ? null : $validated['permissions'];
+        $this->permissions($validated);
 
         $position->update($validated);
 
