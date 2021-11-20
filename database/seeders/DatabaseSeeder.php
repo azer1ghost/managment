@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Client;
 use App\Models\Position;
 use Illuminate\Database\Seeder;
 
@@ -30,7 +31,8 @@ class DatabaseSeeder extends Seeder
             OptionParameterSeeder::class,
             PositionSeeder::class,
             WidgetSeeder::class,
-            UpdateSeeder::class
+            UpdateSeeder::class,
+            Client::class,
         ]);
     }
 }
