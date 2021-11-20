@@ -351,6 +351,7 @@ return [
         'phone' => 'Mobil Telefon',
         'company' => 'Şirkət',
         'department' => 'Şöbə',
+        'short_name' => 'Qısa Ad',
         'role' => 'Vəzifə',
         'actions' => 'Əməliyyatlar',
         'adress' => 'Ünvan',

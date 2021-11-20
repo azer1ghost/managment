@@ -29,6 +29,7 @@
                             <div class="tab-pane fade show @if($loop->first) active @endif" id="data-{{$key}}" role="tabpanel">
                                 <div class="row">
                                     <x-input::text  name="translate[name][{{$key}}]"  :value="optional($data)->getTranslation('name', $key)"     :label="trans('translates.columns.department')"     width="6" class="pr-3" />
+                                    <x-input::text  name="translate[short_name][{{$key}}]"  :value="optional($data)->getTranslation('short_name', $key)"     :label="trans('translates.columns.short_name')"     width="6" class="pr-3" />
                                 </div>
                             </div>
                         @endforeach
