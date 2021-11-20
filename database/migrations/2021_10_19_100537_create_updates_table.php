@@ -15,10 +15,13 @@ class CreateUpdatesTable extends Migration
     {
         Schema::create('updates', function (Blueprint $table) {
             $table->id();
+            $table->integer('parent_id')->nullable();
             $table->string('name')->nullable();
             $table->text('content')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('CASCADE');
             $table->integer('status')->nullable();
+            $table->date('datetime')->nullable();
+            $table->timestamp('done_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

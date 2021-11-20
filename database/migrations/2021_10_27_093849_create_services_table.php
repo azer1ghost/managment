@@ -16,9 +16,11 @@ class CreateServicesTable extends Migration
         Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->json('name');
+            $table->string('icon')->nullable();
             $table->text('detail')->nullable();
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('SET NULL');
             $table->foreignId('department_id')->nullable()->constrained()->onDelete('SET NULL');
+            $table->integer('service_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

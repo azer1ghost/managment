@@ -18,6 +18,32 @@ class AsanImzaController extends Controller
         $this->authorizeResource(AsanImza::class, 'asan_imza');
     }
 
+    public function search(Request $request): object
+    {
+        $asanImzaUsers = AsanImza::whereHas('user', function ($query) use ($request){
+            $query->where('name', 'LIKE', "%{$request->get('search')}%")
+                  ->orWhere('surname', 'LIKE', "%{$request->get('search')}%");
+        })
+            ->limit(10)
+            ->get();
+
+        $asanImzaUsersArray = [];
+
+        foreach ($asanImzaUsers as $asanImzaUser) {
+            $asanImzaUsersArray[] = [
+                "id"   => $asanImzaUser->id,
+                "text" => "{$asanImzaUser->getRelationValue('user')->getAttribute('fullname')} ({$asanImzaUser->getRelationValue('company')->getAttribute('name')})",
+            ];
+        }
+
+        return (object) [
+            'results' => $asanImzaUsersArray,
+            'pagination' => [
+                "more" => false
+            ]
+        ];
+    }
+
     public function index(Request $request)
     {
         $limit = $request->get('limit', 25);

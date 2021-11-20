@@ -13,7 +13,7 @@ class WorkForm extends Component
 {
     public ?Work $data;
     public ?string $method, $action;
-    public Collection $departments, $services, $users, $companies;
+    public ?Collection $departments, $services, $users, $companies;
     public array $hardLevels;
     public array $statuses;
     public array $selected = [
@@ -26,7 +26,7 @@ class WorkForm extends Component
     public float $rate;
     public string $currency;
 
-    public Collection $parameters;
+    public ?Collection $parameters;
 
     public function getDepartmentProperty()
     {

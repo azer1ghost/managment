@@ -82,6 +82,22 @@
                     </div>
 
                     <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                        <label class="d-block" for="asanUserFilter">Select Asan Imza</label>
+                        <select name="asan_imza_id" id="asanUserFilter" class="asanUser-filter" style="width: 100% !important;">
+                            @if(is_numeric($filters['asan_imza_id']))
+                                @php
+                                    $asanUser = \App\Models\AsanImza::find($filters['asan_imza_id']);
+                                @endphp
+                                <option value="{{$filters['asan_imza_id']}}">
+                                    {{$asanUser->getRelationValue('user')->getAttribute('fullname')}}
+                                    ({{$asanUser->getRelationValue('company')->getAttribute('name')}})
+                                </option>
+                            @endif
+                        </select>
+                    </div>
+
+
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3">
                         <label class="d-block" for="startedAtFilter">{{trans('translates.general.started_at')}}</label>
                         <input class="form-control daterange mb-1" id="startedAtFilter" type="text" name="started_at" value="{{$filters['started_at']}}">
                         <input type="checkbox" name="check-started_at" id="check-started_at" @if(request()->has('check-started_at')) checked @endif> <label for="check-started_at">Filter by</label>
@@ -108,7 +124,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pr-0">
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                         <label class="d-block" for="verifiedFilter">{{trans('translates.general.verified_at')}}</label>
                         <select name="verified" id="verifiedFilter" class="form-control" style="width: 100% !important;">
                             <option value="">Not selected</option>
@@ -285,6 +301,7 @@
     <script>
         const select2 = $('.select2');
         const clientFilter = $('.client-filter');
+        const asanUserFilter = $('.asanUser-filter');
 
         select2.select2({
             theme: 'bootstrap4',
@@ -311,7 +328,30 @@
             }
         })
 
+        asanUserFilter.select2({
+            placeholder: "Search",
+            minimumInputLength: 3,
+            // width: 'resolve',
+            theme: 'bootstrap4',
+            focus: true,
+            ajax: {
+                delay: 500,
+                url: "{{route('asanImza.search')}}",
+                dataType: 'json',
+                type: 'GET',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                    }
+                }
+            }
+        })
+
         clientFilter.on('select2:open', function (e) {
+            document.querySelector('.select2-search__field').focus();
+        });
+
+        asanUserFilter.on('select2:open', function (e) {
             document.querySelector('.select2-search__field').focus();
         });
 

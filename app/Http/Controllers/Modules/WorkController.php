@@ -23,6 +23,7 @@ class WorkController extends Controller
             'user_id' => $request->get('user_id'),
             'department_id' => $request->get('department_id'),
             'service_id' => $request->get('service_id'),
+            'asan_imza_id' => $request->get('asan_imza_id'),
             'client_id' => $request->get('client_id'),
             'verified' => $request->get('verified'),
             'status' => $request->get('status'),

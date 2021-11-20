@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('fin')->nullable();
             $table->date('birthday')->nullable();
             $table->integer('position_id')->nullable();
+            $table->integer('official_position_id')->nullable();
             $table->text('permissions')->nullable();
             $table->integer('department_id')->nullable();
             $table->string('email')->nullable()->unique();
@@ -42,6 +43,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('default_lang',5)->nullable();
             $table->integer('personal_id')->nullable()->unique();
+            $table->boolean('is_partner')->default(false);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

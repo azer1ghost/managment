@@ -15,8 +15,12 @@ class CreateDocumentsTable extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->index()->nullable();
             $table->string('name')->nullable();
+            $table->morphs('documentable');
             $table->string('file')->nullable();
+            $table->string('type')->nullable();
+            $table->integer('size')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

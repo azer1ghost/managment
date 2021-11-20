@@ -19,6 +19,7 @@ class CreateParametersTable extends Migration
             $table->string('name');
             $table->json('label');
             $table->json('placeholder');
+            $table->text('attributes')->nullable();
             $table->foreignId('option_id')->nullable()->index()->constrained()->onDelete('CASCADE');
             $table->integer('order')->nullable();
             $table->softDeletes();

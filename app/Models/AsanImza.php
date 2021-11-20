@@ -12,14 +12,15 @@ class AsanImza extends Model
 
     protected $table = 'asan_imzalar';
     protected $fillable = ['user_id', 'company_id'];
+    protected $with = ['user:id,name,surname', 'company:id,name'];
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withDefault();
     }
 
     public function company(): BelongsTo
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class)->withDefault();
     }
 }

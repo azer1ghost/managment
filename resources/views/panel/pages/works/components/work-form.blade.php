@@ -82,7 +82,7 @@
                         <label for="data-asan_imza_id">Asan imza user</label>
                         <select name="asan_imza_id" id="data-asan_imza_id" class="form-control">
                             <option value="" selected>Asan imza select</option>
-                            @foreach(\App\Models\AsanImza::with(['company:id,name', 'user:id,name,surname'])->get() as $asanUser)
+                            @foreach(\App\Models\AsanImza::get() as $asanUser)
                                 <option
                                         value="{{ $asanUser->getAttribute('id') }}"
                                         @if(optional($data)->getAttribute('asan_imza_id') == $asanUser->getAttribute('id')) selected @endif

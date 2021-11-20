@@ -19,6 +19,7 @@ class CreatePositionsTable extends Migration
             $table->integer('role_id')->nullable();
             $table->integer('department_id')->nullable();
             $table->text('permissions')->nullable();
+            $table->integer('order')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
