@@ -405,7 +405,7 @@ return [
         'earning' => 'Məbləğ',
         'currency' => 'Valyuta',
         'currency_rate' => 'Valyuta miqdarı (AZN)',
-        'select_service' => 'Servis seçin',
+        'select_service' => 'Xidmət seçin',
         'work_service' => 'Xidmət',
         'work_service_type' => 'Xidmət növü',
         'rate' => 'Məzənnə(Manatla)',
@@ -439,14 +439,14 @@ return [
     ],
 
     'work_status' => [
-        'Gözləmədə',
+        1 => 'Gözləmədə',
         'Davam Edir',
         'Tamamlandı',
         'Qəbul edilmyib'
     ],
     'hard_level' => [
-       1 => 'Asan',
-            'Orta',
-            'Çətin',
+        1 => 'Asan',
+        'Orta',
+        'Çətin',
     ]
 ];
