@@ -350,6 +350,7 @@ return [
         'phone' => 'Phone',
         'company' => 'Company',
         'department' => 'Department',
+        'short_name' => 'Short Name',
         'role' => 'Role',
         'actions' => 'Actions',
         'adress' => 'Adress',

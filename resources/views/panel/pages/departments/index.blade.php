@@ -40,6 +40,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">@lang('translates.columns.name')</th>
+                        <th scope="col">@lang('translates.columns.short_name')</th>
                         <th scope="col">Status</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
@@ -49,6 +50,7 @@
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$department->getAttribute('name')}}</td>
+                            <td>{{$department->getAttribute('short_name')}}</td>
                             <td>{{$department->getAttribute('status') ? 'Active' : 'Passive'}}</td>
                             <td>
                                 <div class="btn-sm-group">
