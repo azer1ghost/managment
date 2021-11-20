@@ -5,8 +5,12 @@
 @endpush
 <form action="{{$action}}" method="POST" enctype="multipart/form-data" id="work-form">
     @method($method) @csrf
-
-    <div class="tab-content row mt-4">
+    <div wire:loading.delay class="col-12 mr-2" style="position: absolute;right:20px">
+        <div style="position: absolute;right: 0;top: -25px">
+            <div class="spinner-border text-primary" role="status"></div>
+        </div>
+    </div>
+    <div class="tab-content row my-5">
         <div class="form-group col-12">
             <div class="row m-0">
                 <div class="form-group col-12 col-md-6" wire:ignore>
@@ -49,7 +53,7 @@
                     </div>
                 @endif
 
-                <div class="form-group col-12 col-md-6" wire:ignore>
+                <div class="form-group col-12 col-md-6">
                     <label for="data-department_id">@lang('translates.general.department_select')</label>
                     <select name="department_id" id="data-department_id" class="form-control" wire:model="selected.department_id" @if(!auth()->user()->isDeveloper() && !auth()->user()->isDirector()) disabled @endif>
                         <option value="" selected>@lang('translates.general.department_select')</option>
@@ -63,7 +67,7 @@
                 </div>
 
                 @if($selected['department_id'])
-                    <div class="form-group col-12 col-md-6" wire:ignore>
+                    <div class="form-group col-12 col-md-6">
                         <label for="data-user_id">@lang('translates.general.user_select')</label>
                         <select name="user_id" id="data-user_id" class="form-control" wire:model="selected.user_id" @if(!auth()->user()->isDeveloper() && !auth()->user()->isDirector() && !auth()->user()->hasPermission('canRedirect-work')) disabled @endif>
                             <option value="" selected>@lang('translates.general.user_select')</option>

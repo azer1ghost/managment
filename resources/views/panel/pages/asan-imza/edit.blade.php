@@ -1,6 +1,11 @@
 @extends('layouts.main')
 
-@section('title', __('translates.navbar.company'))
+@section('title', __('translates.navbar.asan_imza'))
+
+@section('style')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
+@endsection
 
 @section('content')
     <x-bread-crumb>
@@ -33,7 +38,7 @@
 
             <div class="form-group col-6 py-2">
                 <label for="user_id">@lang('translates.columns.user')</label><br/>
-                <select class="form-control" name="user_id" id="user_id">
+                <select class="select2" name="user_id" id="user_id">
                     @foreach($users as $user)
                         <option @if($data->getAttribute('user_id') == $user->id) selected @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
                     @endforeach
@@ -46,10 +51,23 @@
     </form>
 @endsection
 
-@if(is_null($action))
 @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    @if(is_null($action))
+        <script>
+            $('select').attr('disabled', true)
+        </script>
+    @endif
     <script>
-        $('select').attr('disabled', true)
+        const select2 = $('.select2');
+
+        select2.select2({
+            theme: 'bootstrap4',
+        });
+
+        select2.on('select2:open', function (e) {
+            document.querySelector('.select2-search__field').focus();
+        });
     </script>
 @endsection
-@endif

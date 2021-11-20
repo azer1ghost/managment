@@ -169,8 +169,8 @@
                         <th scope="col">@lang('translates.general.started_at')</th>
                         <th scope="col">@lang('translates.general.done_at')</th>
                         <th scope="col">@lang('translates.general.verified_at')</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">@lang('translates.columns.actions')</th>
+                        <th scope="col">Verified</th>
+                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -196,14 +196,14 @@
                             <td>
                                 @php
                                     $status = '';
-                                    if(!is_null($work->getAttribute('done_at'))){
-                                        $status .= "<i title='". trans('translates.fields.status.options.done') ."' class='fas fa-check-circle text-success mr-2' style='font-size: 22px'></i>";
+                                    if(is_null($work->getAttribute('verified_at')) && $work->status == \App\Models\Work::DONE){
+                                        $status = "<i title='Pending' class='fas fa-clock text-success mr-2' style='font-size: 22px'></i>";
                                     }
                                     if(!is_null($work->getAttribute('verified_at'))){
-                                        $status .= "<i title='". trans('translates.columns.verified') ."' class='fas fa-badge-check text-primary mr-2' style='font-size: 22px'></i>";
+                                        $status = "<i title='". trans('translates.columns.verified') ."' class='fas fa-badge-check text-primary mr-2' style='font-size: 22px'></i>";
                                     }
                                     if($work->getAttribute('status') == $work::REJECTED){
-                                        $status .= "<i title='". trans('translates.columns.rejected') ."' class='fas fa-times text-danger' style='font-size: 22px'></i>";
+                                        $status = "<i title='". trans('translates.columns.rejected') ."' class='fas fa-times text-danger' style='font-size: 22px'></i>";
                                     }
                                 @endphp
                                 {!! $status !!}
