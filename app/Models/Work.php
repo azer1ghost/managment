@@ -71,7 +71,7 @@ class Work extends Model implements DocumentableInterface
 
     public static function statuses(): array
     {
-        return [1, 2, 3, 4];
+        return [1 => 1, 2, 3, 4];
     }
 
     public static function userCanViewAll(): bool

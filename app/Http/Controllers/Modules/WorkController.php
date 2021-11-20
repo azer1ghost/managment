@@ -24,34 +24,54 @@ class WorkController extends Controller
             'department_id' => $request->get('department_id'),
             'service_id' => $request->get('service_id'),
             'client_id' => $request->get('client_id'),
+            'verified' => $request->get('verified'),
+            'status' => $request->get('status'),
             'started_at' => $request->get('started_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
             'done_at' => $request->get('done_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
-            'verified_at' => $request->get('verified_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d')
         ];
 
         $dateRanges = [
             'started_at' => explode(' - ', $filters['started_at']),
             'done_at' => explode(' - ', $filters['done_at']),
-            'verified_at' => explode(' - ', $filters['verified_at']),
+        ];
+
+        $dateFilters = [
+            'started_at' => $request->has('check-started_at'),
+            'done_at' => $request->has('check-done_at'),
         ];
 
         $user = auth()->user();
 
         $users = User::isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']);
         $departments = Department::get(['id', 'name']);
+        $statuses = Work::statuses();
+        $verifies = [1 => 'Unverified', 2 => 'Verified'];
+
         $services = Service::query()
             ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
                 $query->whereBelongsTo($user->getRelationValue('company'));
             })->get(['id', 'name', 'detail']);
 
         $works = Work::query()
-            ->where(function($query) use ($filters, $dateRanges){
+            ->where(function($query) use ($filters, $dateRanges, $dateFilters){
                 foreach ($filters as $column => $value) {
-                    $query->when($value, function ($query, $value) use ($column, $dateRanges) {
-                        if (is_numeric($value)){
-                            $query->where($column, $value);
-                        }else if(is_string($value)){
-                            $query->whereBetween($column, [Carbon::parse($dateRanges[$column][0])->startOfDay(), Carbon::parse($dateRanges[$column][1])->endOfDay()]);
+                    $query->when($value, function ($query, $value) use ($column, $dateRanges, $dateFilters) {
+                        if($column == 'verified'){
+                            switch ($value){
+                                case 1:
+                                    $query->whereNull('verified_at');
+                                    break;
+                                case 2:
+                                    $query->whereNotNull('verified_at');
+                                    break;
+                            }
+                        }else{
+                            if (is_numeric($value)){
+                                $query->where($column, $value);
+                            }
+                            else if(is_string($value) && $dateFilters[$column]){
+                                $query->whereBetween($column, [Carbon::parse($dateRanges[$column][0])->startOfDay(), Carbon::parse($dateRanges[$column][1])->endOfDay()]);
+                            }
                         }
                     });
                 }
@@ -63,7 +83,7 @@ class WorkController extends Controller
             })
             ->paginate(10);
 
-        return view('panel.pages.works.index', compact('works', 'services', 'users', 'departments', 'filters'));
+        return view('panel.pages.works.index', compact('works', 'services', 'users', 'departments', 'filters', 'statuses', 'verifies'));
     }
 
     public function create()

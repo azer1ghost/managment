@@ -20,6 +20,7 @@
         <div class="row d-flex justify-content-between mb-2">
             <div class="col-12">
                 <div class="row m-0">
+
                     <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                         <label class="d-block" for="departmentFilter">{{__('translates.general.department_select')}}</label>
                         <select id="departmentFilter" class="select2"
@@ -36,6 +37,7 @@
                             @endforeach
                         </select>
                     </div>
+
                     <div class="form-group col-12 col-md-3 mt-3 mb-3">
                         <label class="d-block" for="userFilter">{{__('translates.general.user_select')}}</label>
                         <select id="userFilter" class="select2"
@@ -52,6 +54,7 @@
                             @endforeach
                         </select>
                     </div>
+
                     <div class="form-group col-12 col-md-3 mt-3 mb-3">
                         <label class="d-block" for="serviceFilter">{{__('translates.general.select_service')}}</label>
                         <select id="serviceFilter" class="select2"
@@ -68,6 +71,7 @@
                             @endforeach
                         </select>
                     </div>
+
                     <div class="form-group col-12 col-md-3 mt-3 mb-3 pr-0">
                         <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
                         <select name="client_id" id="clientFilter" class="client-filter" style="width: 100% !important;">
@@ -76,18 +80,49 @@
                             @endif
                         </select>
                     </div>
+
                     <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                         <label class="d-block" for="startedAtFilter">{{trans('translates.general.started_at')}}</label>
-                        <input class="form-control daterange" id="startedAtFilter" type="text" name="started_at" value="{{$filters['started_at']}}">
+                        <input class="form-control daterange mb-1" id="startedAtFilter" type="text" name="started_at" value="{{$filters['started_at']}}">
+                        <input type="checkbox" name="check-started_at" id="check-started_at" @if(request()->has('check-started_at')) checked @endif> <label for="check-started_at">Filter by</label>
                     </div>
+
                     <div class="form-group col-12 col-md-3 mt-3 mb-3">
                         <label class="d-block" for="doneAtFilter">{{trans('translates.general.done_at')}}</label>
-                        <input class="form-control daterange" id="doneAtFilter" type="text" name="done_at" value="{{$filters['done_at']}}">
+                        <input class="form-control daterange mb-1" id="doneAtFilter" type="text" name="done_at" value="{{$filters['done_at']}}">
+                        <input type="checkbox" name="check-done_at" id="check-done_at" @if(request()->has('check-done_at')) checked @endif> <label for="check-done_at">Filter by</label>
                     </div>
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3">
-                        <label class="d-block" for="verifiedAtFilter">{{trans('translates.general.verified_at')}}</label>
-                        <input class="form-control daterange" id="verifiedAtFilter" type="text" name="verified_at" value="{{$filters['verified_at']}}">
+
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pr-0">
+                        <label class="d-block" for="statusFilter">{{trans('translates.general.status_choose')}}</label>
+                        <select name="status" id="statusFilter" class="form-control" style="width: 100% !important;">
+                            <option value="">@lang('translates.filters.select')</option>
+                            @foreach($statuses as $status)
+                                <option
+                                        value="{{$status}}"
+                                        @if($status == $filters['status']) selected @endif
+                                >
+                                    @lang('translates.work_status.' . $status)
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
+
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pr-0">
+                        <label class="d-block" for="verifiedFilter">{{trans('translates.general.verified_at')}}</label>
+                        <select name="verified" id="verifiedFilter" class="form-control" style="width: 100% !important;">
+                            <option value="">Not selected</option>
+                            @foreach($verifies as $key => $verify)
+                                <option
+                                        value="{{$key}}"
+                                        @if($key == $filters['verified']) selected @endif
+                                >
+                                    {{$verify}}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
                 </div>
             </div>
             <div class="col-12 mt-3 mb-5 d-flex align-items-center justify-content-end">
