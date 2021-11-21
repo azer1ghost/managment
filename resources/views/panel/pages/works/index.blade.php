@@ -197,7 +197,7 @@
                                 @php
                                     $status = '';
                                     if(is_null($work->getAttribute('verified_at')) && $work->status == \App\Models\Work::DONE){
-                                        $status = "<i title='Pending' class='fas fa-clock text-success mr-2' style='font-size: 22px'></i>";
+                                        $status = "<i title='Pending' class='fas fa-clock text-info mr-2' style='font-size: 22px'></i>";
                                     }
                                     if(!is_null($work->getAttribute('verified_at'))){
                                         $status = "<i title='". trans('translates.columns.verified') ."' class='fas fa-badge-check text-primary mr-2' style='font-size: 22px'></i>";
