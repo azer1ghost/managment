@@ -27,7 +27,7 @@
         @method($method) @csrf
         <div class="tab-content row mt-4">
 
-            <div class="form-group col-6 py-2">
+            <div class="form-group col-6">
                 <label for="company_id">@lang('translates.fields.company')</label><br/>
                 <select class="form-control" name="company_id" id="company_id" data-width="fit">
                     @foreach($companies as $company)
@@ -36,22 +36,22 @@
                 </select>
             </div>
 
-            <div class="form-group col-6 py-2">
+            <div class="form-group col-6">
                 <label for="user_id">@lang('translates.columns.user')</label><br/>
-                <select class="select2" name="user_id" id="user_id">
+                <select class="select2 form-control" name="user_id" id="user_id">
                     @foreach($users as $user)
                         <option @if($data->getAttribute('user_id') == $user->id) selected @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
                     @endforeach
                 </select>
             </div>
 
-            <x-input::text  name="phone"    :label="__('translates.fields.phone')"   :value="$data->getAttribute('phone')"    width="4" class="pr-0" required=""/>
-            <x-input::text  name="asan_id"   label="Asan ID"    :value="$data->getAttribute('asan_id')"    width="4" class="pr-0" required=""/>
+            <x-input::text  name="phone"    :label="__('translates.fields.phone')"   :value="$data->getAttribute('phone')"    width="6" required=""/>
+            <x-input::text  name="asan_id"   label="Asan ID"    :value="$data->getAttribute('asan_id')"    width="6" required=""/>
 
-
+        </div>
         @if($action)
                 <x-input::submit :value="__('translates.buttons.save')"/>
-             @endif
+         @endif
     </form>
 @endsection
 
