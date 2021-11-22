@@ -90,7 +90,7 @@
 
                 @if($this->service->getAttribute('has_asan_imza'))
                     <div class="form-group col-12 col-md-6" wire:ignore>
-                        <label for="data-asan_imza_id">Asan imza user</label>
+                        <label for="data-asan_imza_id">Asan imza</label>
                         <select name="asan_imza_id" id="data-asan_imza_id" class="select2 form-control">
                             <option value="" selected>Asan imza select</option>
                             @foreach(\App\Models\AsanImza::get() as $asanUser)

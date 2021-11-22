@@ -56,7 +56,7 @@ class WorkController extends Controller
         $users = User::isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']);
         $departments = Department::get(['id', 'name']);
         $statuses = Work::statuses();
-        $verifies = [1 => 'Unverified', 2 => 'Verified'];
+        $verifies = [1 => trans('translates.columns.unverified'), 2 => trans('translates.columns.verified')];
 
         $services = Service::query()
             ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){

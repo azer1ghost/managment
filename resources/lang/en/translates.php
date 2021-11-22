@@ -28,6 +28,7 @@ return [
         'clear' => 'Clear',
         'select' => 'Not Selected',
         'or' => "Filter by :first, :second or :third",
+        'filter_by' => 'Filter by'
     ],
 
     'placeholders' => [
@@ -176,8 +177,7 @@ return [
         'conference' => 'Conferences',
         'document' => 'Documents',
         'service' => 'Service',
-        'asan_imza'=>'Asan Signature'
-
+        'asan_imza'=>'Asan Signature',
     ],
 
     'date' => [
@@ -369,7 +369,8 @@ return [
         'deadline' => 'Deadline',
         'parameter_label' => 'Parameter Label',
         'verified' => 'Verified',
-        'rejected' => 'Rejected'
+        'rejected' => 'Rejected',
+        'unverified' => 'Unverified',
     ],
 
     'notify' => [

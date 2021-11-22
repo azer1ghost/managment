@@ -27,6 +27,7 @@ return [
         'clear' => 'Sil',
         'select' => 'Seçilməyib',
         'or' => ":first, :second və ya :third filtrləyin",
+        'filter_by' => 'Filterlə'
     ],
 
     'placeholders' => [
@@ -370,8 +371,10 @@ return [
         'parent_option' => 'Ana parametr',
         'deadline' => 'Son tarix',
         'parameter_label' => 'Parameter Label',
-        'verified' => 'Təstiqlənib',
-        'rejected' => 'Qəbul edilmyib'
+        'verified' => 'Təsdiqlənib',
+        'rejected' => 'Qəbul edilmyib',
+        'unverified' => 'Təsdiq edilməyib',
+
     ],
 
     'notify' => [
@@ -434,6 +437,7 @@ return [
         'physical_client_mail' => 'Hüquqi Müştərinin İşcilerinin Emaili',
         'physical_client_phone' => 'Hüquqi Müştərinin İşcilerinin Nömrəsi',
         'physical_client_position' => 'Hüquqi Müştərinin İşcilerinin Vəzifəsi',
+
     ],
 
     'clients' => [

@@ -92,7 +92,7 @@
                     </div>
 
                     <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                        <label class="d-block" for="asanUserFilter">Select Asan Imza</label>
+                        <label class="d-block" for="asanUserFilter">@lang('translates.filters.select') Asan Imza</label>
                         <select name="asan_imza_id" id="asanUserFilter" class="asanUser-filter" style="width: 100% !important;">
                             @if(is_numeric($filters['asan_imza_id']))
                                 @php
@@ -116,7 +116,7 @@
                     <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                         <label class="d-block" for="doneAtFilter">{{trans('translates.general.done_at')}}</label>
                         <input class="form-control daterange mb-1" id="doneAtFilter" type="text" name="done_at" value="{{$filters['done_at']}}">
-                        <input type="checkbox" name="check-done_at" id="check-done_at" @if(request()->has('check-done_at')) checked @endif> <label for="check-done_at">Filter by</label>
+                        <input type="checkbox" name="check-done_at" id="check-done_at" @if(request()->has('check-done_at')) checked @endif> <label for="check-done_at">@lang('translates.filters.filter_by')</label>
                     </div>
 
                     <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0 pr-0">
@@ -135,9 +135,9 @@
                     </div>
 
                     <div class="form-group col-12 col-md-3 mb-3 pl-0">
-                        <label class="d-block" for="verifiedFilter">Verified</label>
+                        <label class="d-block" for="verifiedFilter">@lang('translates.general.verified')</label>
                         <select name="verified" id="verifiedFilter" class="form-control" style="width: 100% !important;">
-                            <option value="">Not selected</option>
+                            <option value="">@lang('translates.filters.select')</option>
                             @foreach($verifies as $key => $verify)
                                 <option
                                         value="{{$key}}"
@@ -148,7 +148,6 @@
                             @endforeach
                         </select>
                     </div>
-
                 </div>
             </div>
             <div class="col-12 mt-3 mb-5 d-flex align-items-center justify-content-end">
@@ -180,7 +179,7 @@
                         <th scope="col">@lang('translates.columns.created_at')</th>
                         <th scope="col">@lang('translates.general.done_at')</th>
 {{--                        <th scope="col">@lang('translates.general.verified_at')</th>--}}
-                        <th scope="col">Verified</th>
+                        <th scope="col">@lang('translates.columns.verified')</th>
                         <th scope="col"></th>
                     </tr>
                     </thead>
