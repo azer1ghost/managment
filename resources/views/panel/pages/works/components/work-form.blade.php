@@ -122,8 +122,14 @@
                     <select name="status" id="data-status" class="form-control">
                         <option disabled >@lang('translates.general.status_choose')</option>
                         @foreach($statuses as $key => $status)
-                            <option @if(optional($data)->getAttribute('status') === $status ) selected
-                                    @endif value="{{$status}}">@lang('translates.work_status.'.$key)</option>
+                            <option
+                                    @if(optional($data)->getAttribute('status') === $status ) selected
+                                    @endif value="{{$status}}"
+                                    @if($status == \App\Models\Work::REJECTED ) disabled
+                                    @endif
+                            >
+                                @lang('translates.work_status.' . $key)
+                            </option>
                         @endforeach
                     </select>
                 </div>
