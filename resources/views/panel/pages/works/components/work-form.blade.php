@@ -91,7 +91,7 @@
                 @if($this->service->getAttribute('has_asan_imza'))
                     <div class="form-group col-12 col-md-6" wire:ignore>
                         <label for="data-asan_imza_id">Asan imza user</label>
-                        <select name="asan_imza_id" id="data-asan_imza_id" class="form-control">
+                        <select name="asan_imza_id" id="data-asan_imza_id" class="select2 form-control">
                             <option value="" selected>Asan imza select</option>
                             @foreach(\App\Models\AsanImza::get() as $asanUser)
                                 <option
@@ -244,6 +244,9 @@
 
     <script>
         const select2 = $('.select2');
+        const asanImzaSelect2 = $('select[name="asan_imza_id"]');
+        asanImzaSelect2.select2({});
+
         select2.select2({
             placeholder: "Search",
             minimumInputLength: 3,

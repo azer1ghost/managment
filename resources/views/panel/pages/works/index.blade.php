@@ -256,26 +256,23 @@
                                         </button>
                                         <div class="dropdown-menu custom-dropdown">
                                             @can('view', $work)
-                                                <a href="{{route('works.show', $work)}}"
-                                                   class="dropdown-item-text text-decoration-none"
-                                                >
+                                                <a href="{{route('works.show', $work)}}" class="dropdown-item-text text-decoration-none">
                                                     <i class="fal fa-eye pr-2 text-primary"></i>Show
                                                 </a>
                                             @endcan
-                                            @if($work->getAttribute('creator_id') == auth()->id())
+                                            @if($work->getAttribute('creator_id') == auth()->id() || $work->getAttribute('user_id') == auth()->id())
                                                 @can('update', $work)
-                                                    <a href="{{route('works.edit', $work)}}"
-                                                       class="dropdown-item-text text-decoration-none"
-                                                    >
-                                                        <i class="fal fa-pen pr-2 text-success"></i>Edit
+                                                    <a href="{{route('works.edit', $work)}}" class="dropdown-item-text text-decoration-none">
+                                                        @if($work->getAttribute('creator_id') == auth()->id())
+                                                            <i class="fal fa-pen pr-2 text-success"></i>@lang('translates.tasks.edit')
+                                                        @elseif($work->getAttribute('user_id') == auth()->id())
+                                                            <i class="fal fa-arrow-right pr-2 text-success"></i>Icra et
+                                                        @endif
                                                     </a>
                                                 @endcan
                                             @endif
                                             @can('delete', $work)
-                                                <a href="{{route('works.destroy', $work)}}"
-                                                   class="dropdown-item-text text-decoration-none"
-                                                   delete
-                                                >
+                                                <a href="{{route('works.destroy', $work)}}" delete class="dropdown-item-text text-decoration-none">
                                                     <i class="fal fa-trash pr-2 text-danger"></i>Delete
                                                 </a>
                                             @endcan

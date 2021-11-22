@@ -86,7 +86,7 @@ class Task extends Model implements DocumentableInterface, ResultableInterface
 
     public function taskLists(): HasMany
     {
-        return $this->hasMany(TaskList::class)->orderBy('is_checked');
+        return $this->hasMany(TaskList::class)->orderBy('is_checked')->latest('id');
     }
 
     public function canManageLists(): bool
