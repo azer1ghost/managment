@@ -53,7 +53,7 @@ class UserController extends Controller
                                 break;
                         }
                     })
-                    ->simplePaginate($limit),
+                    ->paginate($limit),
                 'companies' => Company::get(['id', 'name']),
                 'types' => User::types()
             ]);
