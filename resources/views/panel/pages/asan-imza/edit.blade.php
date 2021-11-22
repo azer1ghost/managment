@@ -45,7 +45,11 @@
                 </select>
             </div>
 
-            @if($action)
+            <x-input::text  name="phone"    :label="__('translates.fields.phone')"   :value="$data->getAttribute('phone')"    width="4" class="pr-0" required=""/>
+            <x-input::text  name="asan_id"   label="Asan ID"    :value="$data->getAttribute('asan_id')"    width="4" class="pr-0" required=""/>
+
+
+        @if($action)
                 <x-input::submit :value="__('translates.buttons.save')"/>
              @endif
     </form>

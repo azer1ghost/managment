@@ -41,6 +41,8 @@
                     <th scope="col">#</th>
                     <th scope="col">@lang('translates.fields.user')</th>
                     <th scope="col">@lang('translates.fields.company')</th>
+                    <th scope="col">@lang('translates.fields.phone')</th>
+                    <th scope="col">Asan ID</th>
                     <th scope="col">@lang('translates.fields.actions')</th>
                 </tr>
                 </thead>
@@ -50,6 +52,8 @@
                         <th scope="row">{{$loop->iteration}}</th>
                         <td>{{$asan_imza->getRelationValue('user')->getFullnameWithPositionAttribute()}}</td>
                         <td>{{$asan_imza->getRelationValue('company')->getAttribute('name')}}</td>
+                        <td>{{$asan_imza->getAttribute('phone')}}</td>
+                        <td>{{$asan_imza->getAttribute('asan_id')}}</td>
                         <td>
                             <div class="btn-sm-group">
                                 @can('view', $asan_imza)

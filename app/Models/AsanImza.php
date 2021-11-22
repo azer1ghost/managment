@@ -11,7 +11,7 @@ class AsanImza extends Model
     use SoftDeletes;
 
     protected $table = 'asan_imzalar';
-    protected $fillable = ['user_id', 'company_id'];
+    protected $fillable = ['user_id', 'company_id', 'asan_id', 'phone'];
     protected $with = ['user:id,name,surname', 'company:id,name'];
 
     public function user(): BelongsTo
@@ -22,5 +22,14 @@ class AsanImza extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class)->withDefault();
+    }
+    public function setPhoneAttribute($value): ?string
+    {
+        return $this->attributes['phone'] = phone_cleaner($value);
+    }
+
+    public function getPhoneAttribute($value): ?string
+    {
+        return phone_formatter($value, true);
     }
 }
