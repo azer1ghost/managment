@@ -142,6 +142,12 @@
                                 <input type="text" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
                             </div>
                             @break
+                        @case('number')
+                            <div class="form-group col-12 col-md-3" wire:ignore>
+                                <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
+                                <input type="number" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
+                            </div>
+                        @break
                         @case('select')
                             <div class="form-group col-12 col-md-3" wire:ignore>
                                 <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
