@@ -24,6 +24,7 @@ class WorkController extends Controller
                 $request->get('department_id');
 
         $filters = [
+            'code' => $request->get('code'),
             'user_id' => $request->get('user_id'),
             'department_id' => $department,
             'service_id' => $request->get('service_id'),
@@ -71,7 +72,10 @@ class WorkController extends Controller
                                     break;
                             }
                         }else{
-                            if (is_numeric($value)){
+                            if($column == 'code'){
+                                $query->where($column, 'LIKE', "%$value%");
+                            }
+                            else if (is_numeric($value)){
                                 $query->where($column, $value);
                             }
                             else if(is_string($value) && $dateFilters[$column]){

@@ -14,6 +14,7 @@ class WorkObserver
         if($work->getAttribute('status') == $work::DONE){
             $work->setAttribute('done_at', now());
         }
+        $work->setAttribute('code', $work::generateCustomCode());
     }
 
     public function updating(Work $work)

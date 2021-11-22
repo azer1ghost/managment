@@ -21,7 +21,13 @@
             <div class="col-12">
                 <div class="row m-0">
 
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                    <div class="form-group col-12 col-md-3 my-3 mb-md-0">
+                        <label for="codeFilter">{{__('translates.filters.code')}}</label>
+                        <input type="search" id="codeFilter" name="code" value="{{$filters['code']}}"
+                               placeholder="{{__('translates.placeholders.code')}}" class="form-control">
+                    </div>
+
+                    <div class="form-group col-12 col-md-3 my-3 pl-0">
                         <label class="d-block" for="departmentFilter">{{__('translates.general.department_select')}}</label>
                         <select id="departmentFilter" class="select2"
                                 name="department_id"
@@ -169,6 +175,7 @@
                         <th scope="col">Status</th>
                         <th scope="col">@lang('translates.general.earning')</th>
 {{--                        <th scope="col">@lang('translates.general.started_at')</th>--}}
+                        <th scope="col">@lang('translates.columns.created_at')</th>
                         <th scope="col">@lang('translates.general.done_at')</th>
 {{--                        <th scope="col">@lang('translates.general.verified_at')</th>--}}
                         <th scope="col">Verified</th>
@@ -178,7 +185,7 @@
                     <tbody>
                     @forelse($works as $work)
                         <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif>
-                            <th scope="row">{{$loop->iteration}}</th>
+                            <th scope="row">{{$work->getAttribute('code')}}</th>
                             <td>{{$work->getRelationValue('department')->getAttribute('name')}}</td>
                             <td>
                                 @if(is_numeric($work->getAttribute('user_id')))
@@ -214,8 +221,8 @@
                                 </span>
                             </td>
                             <td>{{$work->getAttribute('earning') * $work->getAttribute('currency_rate')}} AZN</td>
-{{--                            <td>{{$work->getAttribute('started_at')}}</td>--}}
-                            <td>{{$work->getAttribute('done_at')}}</td>
+                            <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip" data-placement="top">{{$work->getAttribute('created_at')->diffForHumans()}}</td>
+                            <td>{{optional($work->getAttribute('done_at'))->format('Y-m-d H:i')}}</td>
 {{--                            <td>{{$work->getAttribute('verified_at')}}</td>--}}
                             <td>
                                 @php
