@@ -109,7 +109,7 @@ class WorkController extends Controller
     {
         return view('panel.pages.works.edit')->with([
             'action' => route('works.store'),
-            'method' => null,
+            'method' => 'POST',
             'data' => null,
             'users' => User::get(['id', 'name', 'surname']),
             'companies' => Company::get(['id', 'name']),
@@ -168,9 +168,18 @@ class WorkController extends Controller
     public function update(WorkRequest $request, Work $work): RedirectResponse
     {
         $validated = $request->validated();
-        $validated['verified_at'] = $request->filled('verified') ? now() : null;
-        $status = $work->getAttribute('status') == $work::REJECTED && !$request->filled('rejected') ? 1 :
-            ($request->filled('rejected') ? $work::REJECTED : $validated['status']);
+        $validated['verified_at'] = $request->has('verified') ? now() : null;
+
+        if($work->getAttribute('status') == $work::REJECTED && !$request->has('rejected')){
+            $status = Work::PENDING;
+        }else{
+            if ($request->has('rejected')){
+                $status = Work::REJECTED;
+            }else{
+                $status = $validated['status'] ?? $work->getAttribute('status');
+            }
+        }
+
         $validated['status'] = $status;
         $work->update($validated);
 

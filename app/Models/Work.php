@@ -14,6 +14,7 @@ class Work extends Model implements DocumentableInterface
 {
     use HasFactory, SoftDeletes, Documentable;
 
+    const PENDING = 1;
     const STARTED = 2;
     const DONE = 3;
     const REJECTED = 4;

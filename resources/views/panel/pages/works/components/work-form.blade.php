@@ -162,7 +162,7 @@
                     @endswitch
                 @endforeach
 
-                @if(auth()->user()->hasPermission('editEarning-work'))
+                @if(auth()->user()->hasPermission('editEarning-work') && $method != 'POST')
                     <div class="form-group col-12 col-md-6" wire:ignore>
                         <div class="d-flex">
                             <div class="btn-group mr-3 flex-column" role="group">
