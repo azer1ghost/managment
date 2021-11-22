@@ -299,6 +299,14 @@ return [
         ],
     ],
 
+    'works' => [
+        'new' => 'You have new work assigned',
+        'content' => [
+            'user' => 'New work assigned to you',
+            'department' => 'New work assigned to your department'
+        ],
+    ],
+
     'referrals' => [
         'link' => 'Your Referral link',
         'sub_message' => 'This is your referral link, copy and share with your friends',
