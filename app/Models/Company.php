@@ -63,4 +63,12 @@ class Company extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function getNameAttribute()
+    {
+        if (is_null($this->getAttribute('short_name'))) {
+            return $this->getAttribute('name');
+        }
+        return $this->getAttribute('short_name');
+    }
 }
