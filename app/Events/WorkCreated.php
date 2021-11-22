@@ -19,7 +19,7 @@ class WorkCreated
     {
         $this->url = route('works.show', $work);
         $this->creator = $work->getRelationValue('creator');
-        $this->title = trans('translates.works.new');
+        $this->title = trans('translates.works.new') . ': ' . $work->getRelationValue('service')->getAttribute('name');
 
         if (is_numeric($work->getAttribute('user_id'))){
             $this->receivers[] = $work->getRelationValue('user');
