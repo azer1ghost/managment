@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Modules;
 
+use App\Events\WorkCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkRequest;
 use Carbon\Carbon;
@@ -133,6 +134,8 @@ class WorkController extends Controller
         }
 
         $work->parameters()->sync($parameters);
+
+        event(new WorkCreated($work));
 
         return redirect()
             ->route('works.edit', $work)

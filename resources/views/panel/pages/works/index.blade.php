@@ -197,7 +197,9 @@
                                 @endif
                             </td>
                             <td><i class="{{$work->getRelationValue('service')->getAttribute('icon')}} pr-2" style="font-size: 20px"></i> {{$work->getRelationValue('service')->getAttribute('name')}}</td>
-                            <td>{{mb_strimwidth($work->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}</td>
+                            <td data-toggle="tooltip" data-placement="top" title="{{$work->getRelationValue('client')->getAttribute('fullname')}}" >
+                                {{mb_strimwidth($work->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}
+                            </td>
                             <td>{{$work->getAttribute('hard_level') ? trans('translates.hard_level.' . $work->getAttribute('hard_level')) : '' }}</td>
                             <td>
                                 @if(is_numeric($work->getAttribute('status')))
