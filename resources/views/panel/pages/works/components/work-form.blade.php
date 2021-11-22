@@ -23,7 +23,7 @@
                 <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
                     <div class="d-flex align-items-center">
-                        <select name="client_id" id="data-client-type" class="select2" style="width: 100% !important;">
+                        <select name="client_id" id="data-client-type" class="select2" style="width: 100% !important;max-width: 100% !important;">
                             @if(is_numeric(optional($data)->getAttribute('client_id')))
                                 <option value="{{optional($data)->getAttribute('client_id')}}">{{optional($data)->getRelationValue('client')->getAttribute('fullname_with_voen')}}</option>
                             @endif

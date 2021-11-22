@@ -243,7 +243,7 @@
                                 <div class="btn-sm-group">
                                     @if($work->getAttribute('creator_id') != auth()->id() && is_null($work->getAttribute('user_id')))
                                         @can('update', $work)
-                                            <a title="Icra et" data-toggle="tooltip" data-placement="top" target="_blank" href="{{route('works.edit', $work)}}"
+                                            <a title="Icra et" data-toggle="tooltip" data-placement="top" href="{{route('works.edit', $work)}}"
                                                class="btn btn-sm btn-outline-success mr-2">
                                                 <i class="fal fa-arrow-right"></i>
                                             </a>
