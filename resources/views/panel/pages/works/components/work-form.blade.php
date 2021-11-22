@@ -23,7 +23,7 @@
                 <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
                     <div class="d-flex align-items-center">
-                        <select name="client_id" id="data-client-type" class="select2" style="width: 100% !important;max-width: 100% !important;">
+                        <select name="client_id" id="data-client-type" class="select2" style="width: 100% !important;min-width: 100% !important;max-width: 100% !important;">
                             @if(is_numeric(optional($data)->getAttribute('client_id')))
                                 <option value="{{optional($data)->getAttribute('client_id')}}">{{optional($data)->getRelationValue('client')->getAttribute('fullname_with_voen')}}</option>
                             @endif
@@ -91,7 +91,7 @@
                 @if($this->service->getAttribute('has_asan_imza'))
                     <div class="form-group col-12 col-md-6" wire:ignore>
                         <label for="data-asan_imza_id">Asan imza user</label>
-                        <select name="asan_imza_id" id="data-asan_imza_id" class="select2 form-control">
+                        <select name="asan_imza_id" id="data-asan_imza_id" class="form-control">
                             <option value="" selected>Asan imza select</option>
                             @foreach(\App\Models\AsanImza::get() as $asanUser)
                                 <option
@@ -245,7 +245,12 @@
     <script>
         const select2 = $('.select2');
         const asanImzaSelect2 = $('select[name="asan_imza_id"]');
-        asanImzaSelect2.select2({});
+        asanImzaSelect2.select2({
+            theme: 'bootstrap4',
+        });
+        asanImzaSelect2.on('select2:open', function (e) {
+            document.querySelector('.select2-search__field').focus();
+        });
 
         select2.select2({
             placeholder: "Search",

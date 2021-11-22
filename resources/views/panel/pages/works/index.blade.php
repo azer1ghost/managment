@@ -179,7 +179,7 @@
                         <th scope="col">@lang('translates.general.done_at')</th>
 {{--                        <th scope="col">@lang('translates.general.verified_at')</th>--}}
                         <th scope="col">Verified</th>
-                        <th scope="col"></th>
+                        <th scope="col" style="width: 40px"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -195,7 +195,7 @@
                                 @endif
                             </td>
                             <td><i class="{{$work->getRelationValue('service')->getAttribute('icon')}} pr-2" style="font-size: 20px"></i> {{$work->getRelationValue('service')->getAttribute('name')}}</td>
-                            <td>{{$work->getRelationValue('client')->getAttribute('fullname')}}</td>
+                            <td>{{mb_strimwidth($work->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}</td>
                             <td>{{$work->getAttribute('hard_level') ? trans('translates.hard_level.' . $work->getAttribute('hard_level')) : '' }}</td>
                             <td>
                                 @if(is_numeric($work->getAttribute('status')))
