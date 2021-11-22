@@ -305,6 +305,9 @@ return [
             'user' => 'New work assigned to you',
             'department' => 'New work assigned to your department'
         ],
+        'statuses' => [
+            'rejected' => 'The work you performed was not approved'
+        ]
     ],
 
     'referrals' => [

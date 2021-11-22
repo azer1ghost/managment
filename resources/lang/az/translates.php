@@ -308,6 +308,9 @@ return [
             'user' => 'Sizə yeni iş verildi',
             'department' => 'Şöbənizə yeni bir iş verildi'
         ],
+        'statuses' => [
+            'rejected' => 'Sizin gördüyünüz iş təstiqlənmədi'
+        ]
     ],
 
     'referrals' => [

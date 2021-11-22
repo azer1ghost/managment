@@ -8,6 +8,7 @@ use App\Events\TaskListDone;
 use App\Events\TaskStatusDone;
 use App\Events\TaskStatusUpdated;
 use App\Events\WorkCreated;
+use App\Events\WorkStatusRejected;
 use App\Listeners\SendNotification;
 use App\Listeners\SendPushNotification;
 use App\Models\Task;
@@ -30,6 +31,10 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         WorkCreated::class => [
+            SendNotification::class,
+            SendPushNotification::class,
+        ],
+        WorkStatusRejected::class => [
             SendNotification::class,
             SendPushNotification::class,
         ],

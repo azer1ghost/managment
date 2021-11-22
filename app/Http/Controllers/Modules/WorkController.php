@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Events\WorkCreated;
+use App\Events\WorkStatusRejected;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkRequest;
 use Carbon\Carbon;
@@ -178,6 +179,7 @@ class WorkController extends Controller
         }else{
             if ($request->has('rejected')){
                 $status = Work::REJECTED;
+                event(new WorkStatusRejected($work));
             }else{
                 $status = $validated['status'] ?? $work->getAttribute('status');
             }
