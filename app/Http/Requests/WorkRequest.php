@@ -22,7 +22,8 @@ class WorkRequest extends FormRequest
             'hard_level' => 'nullable|integer',
             'status' => 'nullable|integer',
             'datetime' => 'nullable|date',
-            'verified' => 'nullable'
+            'verified' => 'nullable',
+            'rejected' => 'nullable'
         ];
     }
 }

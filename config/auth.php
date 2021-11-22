@@ -36,7 +36,7 @@ return [
         'viewAny-conference', 'view-conference', 'create-conference', 'update-conference', 'delete-conference',
         'viewAny-document', 'view-document', 'create-document', 'update-document', 'delete-document',
         'viewAny-asanImza', 'view-asanImza', 'manage-asanImza',
-        'viewAll-work', 'viewAny-work', 'view-work', 'create-work', 'update-work', 'delete-work', 'editEarning-work', 'canRedirect-work',
+        'viewAll-work', 'viewAny-work', 'view-work', 'create-work', 'update-work', 'delete-work', 'editEarning-work', 'canRedirect-work', 'viewAllDepartment-work',
         'viewAny-role', 'view-role', 'manage-role',
         'viewAny-referral', 'view-referral', 'manage-referral',
         'viewAny-position', 'view-position', 'manage-position',

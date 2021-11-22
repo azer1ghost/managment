@@ -4,6 +4,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 @endpush
 <form action="{{$action}}" method="POST" enctype="multipart/form-data" id="work-form">
+    @if(!is_null($data) && $method != 'PUT')
+        @can('update', $data)
+            <div class="col-12 my-4 pl-0">
+                <a class="btn btn-outline-success" href="{{route('works.edit', $data)}}">Edit</a>
+            </div>
+        @endcan
+    @endif
     @method($method) @csrf
     <div wire:loading.delay class="col-12 mr-2" style="position: absolute;right:20px">
         <div style="position: absolute;right: 0;top: -25px">
@@ -21,7 +28,7 @@
                                 <option value="{{optional($data)->getAttribute('client_id')}}">{{optional($data)->getRelationValue('client')->getAttribute('fullname_with_voen')}}</option>
                             @endif
                         </select>
-                        @if(optional($data)->getAttribute('status') != \App\Models\Work::DONE)
+                        @if(optional($data)->getAttribute('status') != \App\Models\Work::DONE && $method == 'PUT')
                             <a target="_blank" href="{{route('clients.create', ['type' => \App\Models\Client::LEGAL])}}" class="btn btn-outline-success ml-3">
                                 <i class="fa fa-plus"></i>
                             </a>
@@ -71,7 +78,7 @@
                         <label for="data-user_id">@lang('translates.general.user_select')</label>
                         <select name="user_id" id="data-user_id" class="form-control" wire:model="selected.user_id" @if(!auth()->user()->isDeveloper() && !auth()->user()->isDirector() && !auth()->user()->hasPermission('canRedirect-work')) disabled @endif>
                             <option value="" selected>@lang('translates.general.user_select')</option>
-                            @foreach($this->department->users()->with('position')->isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']) as $user)
+                            @foreach($this->department->users()->orderBy('name')->with('position')->isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']) as $user)
                                 <option value="{{ $user->getAttribute('id') }}">{{ $user->getAttribute('fullname_with_position') }}</option>
                             @endforeach
                         </select>
@@ -176,6 +183,10 @@
                         <input type="checkbox" class="form-check-input" id="data-verified" name="verified" @if(!is_null(optional($data)->getAttribute('verified_at'))) checked @endif>
                         <label class="form-check-label" for="data-verified">@lang('translates.columns.verified')</label>
                     </div>
+                    <div class="form-group col-12" style="padding-left: 35px" wire:ignore>
+                        <input type="checkbox" class="form-check-input" id="data-rejected" name="rejected" @if(optional($data)->getAttribute('status') == \App\Models\Work::REJECTED) checked @endif>
+                        <label class="form-check-label" for="data-rejected">Rejected</label>
+                    </div>
                 @endif
 
                 <div class="form-group col-12" wire:ignore>
@@ -206,12 +217,13 @@
         </script>
     @endif
 
-    @if(optional($data)->getAttribute('status') == \App\Models\Work::DONE && auth()->user()->hasPermission('editEarning-work'))
+    @if(optional($data)->getAttribute('status') == \App\Models\Work::DONE && auth()->user()->hasPermission('editEarning-work') && $method == 'PUT')
         <script>
             $('input[name="earning"]').attr('disabled', false);
             $('select[name="currency"]').attr('disabled', false);
             $('input[name="currency_rate"]').attr('disabled', false);
             $('input[name="verified"]').attr('disabled', false);
+            $('input[name="rejected"]').attr('disabled', false);
             $('input[name="_method"]').attr('disabled', false);
             $('input[name="_token"]').attr('disabled', false);
             $('button[type="submit"]').attr('disabled', false);

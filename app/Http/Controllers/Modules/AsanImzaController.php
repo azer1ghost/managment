@@ -86,7 +86,7 @@ class AsanImzaController extends Controller
                 'method' => null,
                 'data' => $asanImza,
                 'companies' => Company::get(['id', 'name']),
-                'users' => User::get(['id', 'name', 'surname', 'position_id', 'role_id']),
+                'users' => User::oldest('name')->get(['id', 'name', 'surname', 'position_id', 'role_id']),
             ]);
     }
 
