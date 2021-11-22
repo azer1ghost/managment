@@ -127,7 +127,7 @@
                     </div>
 
                     <div class="form-group col-12 col-md-3 mt-3 mb-3">
-                        <label class="d-block" for="verifiedFilter">{{trans('translates.general.verified_at')}}</label>
+                        <label class="d-block" for="verifiedFilter">Verified</label>
                         <select name="verified" id="verifiedFilter" class="form-control" style="width: 100% !important;">
                             <option value="">Not selected</option>
                             @foreach($verifies as $key => $verify)
