@@ -19,25 +19,29 @@ class WorkController extends Controller
 
     public function index(Request $request)
     {
+        $department = Work::userCannotViewAll() ?
+                auth()->user()->getAttribute('department_id') :
+                $request->get('department_id');
+
         $filters = [
             'user_id' => $request->get('user_id'),
-            'department_id' => $request->get('department_id'),
+            'department_id' => $department,
             'service_id' => $request->get('service_id'),
             'asan_imza_id' => $request->get('asan_imza_id'),
             'client_id' => $request->get('client_id'),
             'verified' => $request->get('verified'),
             'status' => $request->get('status'),
-            'started_at' => $request->get('started_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
+//            'started_at' => $request->get('started_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
             'done_at' => $request->get('done_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
         ];
 
         $dateRanges = [
-            'started_at' => explode(' - ', $filters['started_at']),
+//            'started_at' => explode(' - ', $filters['started_at']),
             'done_at' => explode(' - ', $filters['done_at']),
         ];
 
         $dateFilters = [
-            'started_at' => $request->has('check-started_at'),
+//            'started_at' => $request->has('check-started_at'),
             'done_at' => $request->has('check-done_at'),
         ];
 
@@ -78,10 +82,16 @@ class WorkController extends Controller
                 }
             })
             ->when(Work::userCannotViewAll(), function ($query) use ($user){
-                $query->where('user_id', $user->getAttribute('id'))->orWhere(function ($q) use ($user){
-                    $q->whereNull('user_id')->where('department_id', $user->getAttribute('department_id'));
-                });
+                if(auth()->user()->hasPermission('viewAllDepartment-work')){
+                    $query->where('department_id', $user->getAttribute('department_id'));
+                }else{
+                    $query->where('user_id', $user->getAttribute('id'))->orWhere(function ($q) use ($user){
+                        $q->whereNull('user_id')->where('department_id', $user->getAttribute('department_id'));
+                    });
+                }
+                $query->orWhere('creator_id', $user->getAttribute('id'));
             })
+            ->latest('id')
             ->paginate(10);
 
         return view('panel.pages.works.index', compact('works', 'services', 'users', 'departments', 'filters', 'statuses', 'verifies'));
@@ -105,6 +115,7 @@ class WorkController extends Controller
         $validated = $request->validated();
         $validated['creator_id'] = auth()->id();
         $validated['verified_at'] = $request->has('verified') ? now() : null;
+        $validated['status'] = $request->filled('rejected') ? Work::REJECTED : $validated['status'];
 
         $work = Work::create($validated);
 
@@ -150,6 +161,7 @@ class WorkController extends Controller
     {
         $validated = $request->validated();
         $validated['verified_at'] = $request->filled('verified') ? now() : null;
+        $validated['status'] = $request->filled('rejected') ? Work::REJECTED : $validated['status'];
         $work->update($validated);
 
         $parameters = [];
@@ -160,7 +172,7 @@ class WorkController extends Controller
         $work->parameters()->sync($parameters);
 
         return redirect()
-            ->route('works.edit', $work)
+            ->route('works.show', $work)
             ->withNotify('success', $work->getAttribute('name'));
     }
 

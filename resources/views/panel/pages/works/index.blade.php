@@ -25,7 +25,9 @@
                         <label class="d-block" for="departmentFilter">{{__('translates.general.department_select')}}</label>
                         <select id="departmentFilter" class="select2"
                                 name="department_id"
-                                data-width="fit" title="{{__('translates.filters.select')}}">
+                                data-width="fit" title="{{__('translates.filters.select')}}"
+                                @if(\App\Models\Work::userCannotViewAll()) disabled @endif
+                        >
                             <option value="">@lang('translates.filters.select')</option>
                             @foreach($departments as $department)
                                 <option
@@ -81,7 +83,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0 ">
                         <label class="d-block" for="asanUserFilter">Select Asan Imza</label>
                         <select name="asan_imza_id" id="asanUserFilter" class="asanUser-filter" style="width: 100% !important;">
                             @if(is_numeric($filters['asan_imza_id']))
@@ -97,11 +99,11 @@
                     </div>
 
 
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3">
-                        <label class="d-block" for="startedAtFilter">{{trans('translates.general.started_at')}}</label>
-                        <input class="form-control daterange mb-1" id="startedAtFilter" type="text" name="started_at" value="{{$filters['started_at']}}">
-                        <input type="checkbox" name="check-started_at" id="check-started_at" @if(request()->has('check-started_at')) checked @endif> <label for="check-started_at">Filter by</label>
-                    </div>
+{{--                    <div class="form-group col-12 col-md-3 mt-3 mb-3">--}}
+{{--                        <label class="d-block" for="startedAtFilter">{{trans('translates.general.started_at')}}</label>--}}
+{{--                        <input class="form-control daterange mb-1" id="startedAtFilter" type="text" name="started_at" value="{{$filters['started_at']}}">--}}
+{{--                        <input type="checkbox" name="check-started_at" id="check-started_at" @if(request()->has('check-started_at')) checked @endif> <label for="check-started_at">Filter by</label>--}}
+{{--                    </div>--}}
 
                     <div class="form-group col-12 col-md-3 mt-3 mb-3">
                         <label class="d-block" for="doneAtFilter">{{trans('translates.general.done_at')}}</label>
@@ -109,7 +111,7 @@
                         <input type="checkbox" name="check-done_at" id="check-done_at" @if(request()->has('check-done_at')) checked @endif> <label for="check-done_at">Filter by</label>
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pr-0">
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3">
                         <label class="d-block" for="statusFilter">{{trans('translates.general.status_choose')}}</label>
                         <select name="status" id="statusFilter" class="form-control" style="width: 100% !important;">
                             <option value="">@lang('translates.filters.select')</option>
@@ -124,7 +126,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3">
                         <label class="d-block" for="verifiedFilter">{{trans('translates.general.verified_at')}}</label>
                         <select name="verified" id="verifiedFilter" class="form-control" style="width: 100% !important;">
                             <option value="">Not selected</option>
@@ -166,16 +168,16 @@
                         <th scope="col">@lang('translates.general.hard_level')</th>
                         <th scope="col">Status</th>
                         <th scope="col">@lang('translates.general.earning')</th>
-                        <th scope="col">@lang('translates.general.started_at')</th>
+{{--                        <th scope="col">@lang('translates.general.started_at')</th>--}}
                         <th scope="col">@lang('translates.general.done_at')</th>
-                        <th scope="col">@lang('translates.general.verified_at')</th>
+{{--                        <th scope="col">@lang('translates.general.verified_at')</th>--}}
                         <th scope="col">Verified</th>
                         <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
                     @forelse($works as $work)
-                        <tr>
+                        <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif>
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$work->getRelationValue('department')->getAttribute('name')}}</td>
                             <td>
@@ -188,11 +190,33 @@
                             <td><i class="{{$work->getRelationValue('service')->getAttribute('icon')}} pr-2" style="font-size: 20px"></i> {{$work->getRelationValue('service')->getAttribute('name')}}</td>
                             <td>{{$work->getRelationValue('client')->getAttribute('fullname')}}</td>
                             <td>{{$work->getAttribute('hard_level') ? trans('translates.hard_level.' . $work->getAttribute('hard_level')) : '' }}</td>
-                            <td>{{$work->getAttribute('status') ? trans('translates.work_status.' . $work->getAttribute('status')) : '' }}</td>
+                            <td>
+                                @if(is_numeric($work->getAttribute('status')))
+                                    @php
+                                        switch($work->getAttribute('status')){
+                                            case(1):
+                                                $color = 'info';
+                                                break;
+                                            case(2):
+                                                $color = 'primary';
+                                                break;
+                                            case(3):
+                                                $color = 'success';
+                                                break;
+                                            case(4):
+                                                $color = 'danger';
+                                                break;
+                                        }
+                                    @endphp
+                                @endif
+                                <span class="badge badge-{{$color}}">
+                                    {{trans('translates.work_status.' . $work->getAttribute('status'))}}
+                                </span>
+                            </td>
                             <td>{{$work->getAttribute('earning') * $work->getAttribute('currency_rate')}} AZN</td>
-                            <td>{{$work->getAttribute('started_at')}}</td>
+{{--                            <td>{{$work->getAttribute('started_at')}}</td>--}}
                             <td>{{$work->getAttribute('done_at')}}</td>
-                            <td>{{$work->getAttribute('verified_at')}}</td>
+{{--                            <td>{{$work->getAttribute('verified_at')}}</td>--}}
                             <td>
                                 @php
                                     $status = '';

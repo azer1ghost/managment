@@ -32,6 +32,7 @@ class WorkPolicy
         return
             $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
             $work->getAttribute('creator_id') == $user->getAttribute('id') ||
+            (is_null($work->getAttribute('user_id'))  && $work->getAttribute('department_id') == $user->getAttribute('department_id')) ||
             $work->getAttribute('user_id') == $user->getAttribute('id');
     }
 
