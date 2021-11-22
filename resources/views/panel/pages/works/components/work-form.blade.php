@@ -23,7 +23,7 @@
                 <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
                     <div class="d-flex align-items-center">
-                        <select name="client_id" id="data-client-type" class="select2" style="width: 100% !important;">
+                        <select name="client_id" id="data-client-type" style="width: 100% !important;">
                             @if(is_numeric(optional($data)->getAttribute('client_id')))
                                 <option value="{{optional($data)->getAttribute('client_id')}}">{{optional($data)->getRelationValue('client')->getAttribute('fullname_with_voen')}}</option>
                             @endif
@@ -243,11 +243,29 @@
     @endif
 
     <script>
-        const select2 = $('.select2');
+        const clientSelect2 = $('select[name="client_id"]');
         const asanImzaSelect2 = $('select[name="asan_imza_id"]');
-        asanImzaSelect2.select2({});
 
-        select2.select2({
+        asanImzaSelect2.select2({
+            placeholder: "Search",
+            minimumInputLength: 3,
+            // width: 'resolve',
+            theme: 'bootstrap4',
+            focus: true,
+            ajax: {
+                delay: 500,
+                url: "{{route('asanImza.search')}}",
+                dataType: 'json',
+                type: 'GET',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                    }
+                }
+            }
+        })
+
+        clientSelect2.select2({
             placeholder: "Search",
             minimumInputLength: 3,
             // width: 'resolve',
@@ -265,7 +283,11 @@
                 }
             }
         })
-        select2.on('select2:open', function (e) {
+
+        clientSelect2.on('select2:open', function (e) {
+            document.querySelector('.select2-search__field').focus();
+        });
+        asanImzaSelect2.on('select2:open', function (e) {
             document.querySelector('.select2-search__field').focus();
         });
 

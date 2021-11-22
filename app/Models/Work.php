@@ -88,6 +88,17 @@ class Work extends Model implements DocumentableInterface
         return !self::userCanViewAll();
     }
 
+    public static function userCanViewDepartmentWorks(): bool
+    {
+        $user = auth()->user();
+        return $user->isDeveloper() || $user->isAdministrator() || $user->hasPermission('viewAllDepartment-work');
+    }
+
+    public static function userCannotViewDepartmentWorks(): bool
+    {
+        return !self::userCanViewDepartmentWorks();
+    }
+
     public static function generateCustomCode($prefix = 'MG', $digits = 8): string
     {
         do {

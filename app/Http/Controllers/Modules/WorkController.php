@@ -19,14 +19,12 @@ class WorkController extends Controller
 
     public function index(Request $request)
     {
-        $department = Work::userCannotViewAll() ?
-                auth()->user()->getAttribute('department_id') :
-                $request->get('department_id');
+        $user = auth()->user();
 
         $filters = [
             'code' => $request->get('code'),
-            'user_id' => $request->get('user_id'),
-            'department_id' => $department,
+            'user_id' => $request->get('user_id', $user->getAttribute('id')),
+            'department_id' => $request->get('department_id', $user->getAttribute('department_id')),
             'service_id' => $request->get('service_id'),
             'asan_imza_id' => $request->get('asan_imza_id'),
             'client_id' => $request->get('client_id'),
@@ -45,8 +43,6 @@ class WorkController extends Controller
 //            'started_at' => $request->has('check-started_at'),
             'done_at' => $request->has('check-done_at'),
         ];
-
-        $user = auth()->user();
 
         $users = User::isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']);
         $departments = Department::get(['id', 'name']);
