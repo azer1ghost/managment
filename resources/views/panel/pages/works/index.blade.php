@@ -135,7 +135,7 @@
                     </div>
 
                     <div class="form-group col-12 col-md-3 mb-3 pl-0">
-                        <label class="d-block" for="verifiedFilter">@lang('translates.general.verified')</label>
+                        <label class="d-block" for="verifiedFilter">@lang('translates.columns.verified')</label>
                         <select name="verified" id="verifiedFilter" class="form-control" style="width: 100% !important;">
                             <option value="">@lang('translates.filters.select')</option>
                             @foreach($verifies as $key => $verify)
