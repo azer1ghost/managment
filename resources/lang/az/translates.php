@@ -300,6 +300,14 @@ return [
         ]
     ],
 
+    'works' => [
+        'new' => 'Sizə yeni bir iş təyin edildi',
+        'content' => [
+            'user' => 'Sizə yeni iş verildi',
+            'department' => 'Şöbənizə yeni bir iş verildi'
+        ],
+    ],
+
     'referrals' => [
         'link' => 'Sizin referal linkiniz',
         'sub_message' => 'Bu referal linkinizdir, kopyalayın və dostlarınızla paylaşın',
