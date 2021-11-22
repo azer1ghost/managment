@@ -177,7 +177,7 @@
                     </thead>
                     <tbody>
                     @forelse($works as $work)
-                        <tr>
+                        <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif>
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$work->getRelationValue('department')->getAttribute('name')}}</td>
                             <td>
@@ -190,7 +190,29 @@
                             <td><i class="{{$work->getRelationValue('service')->getAttribute('icon')}} pr-2" style="font-size: 20px"></i> {{$work->getRelationValue('service')->getAttribute('name')}}</td>
                             <td>{{$work->getRelationValue('client')->getAttribute('fullname')}}</td>
                             <td>{{$work->getAttribute('hard_level') ? trans('translates.hard_level.' . $work->getAttribute('hard_level')) : '' }}</td>
-                            <td>{{$work->getAttribute('status') ? trans('translates.work_status.' . $work->getAttribute('status')) : '' }}</td>
+                            <td>
+                                @if(is_numeric($work->getAttribute('status')))
+                                    @php
+                                        switch($work->getAttribute('status')){
+                                            case(1):
+                                                $color = 'info';
+                                                break;
+                                            case(2):
+                                                $color = 'primary';
+                                                break;
+                                            case(3):
+                                                $color = 'success';
+                                                break;
+                                            case(4):
+                                                $color = 'danger';
+                                                break;
+                                        }
+                                    @endphp
+                                @endif
+                                <span class="badge badge-{{$color}}">
+                                    {{trans('translates.work_status.' . $work->getAttribute('status'))}}
+                                </span>
+                            </td>
                             <td>{{$work->getAttribute('earning') * $work->getAttribute('currency_rate')}} AZN</td>
 {{--                            <td>{{$work->getAttribute('started_at')}}</td>--}}
                             <td>{{$work->getAttribute('done_at')}}</td>
