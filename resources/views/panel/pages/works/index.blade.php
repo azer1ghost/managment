@@ -32,7 +32,7 @@
                         <select id="departmentFilter" class="select2"
                                 name="department_id"
                                 data-width="fit" title="{{__('translates.filters.select')}}"
-                                @if(\App\Models\Work::userCannotViewAll() && \App\Models\Work::userCannotViewDepartmentWorks()) disabled @endif
+                                @if(\App\Models\Work::userCannotViewAll()) disabled @endif
                         >
                             <option value="">@lang('translates.filters.select')</option>
                             @foreach($departments as $department)

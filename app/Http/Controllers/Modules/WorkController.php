@@ -22,7 +22,7 @@ class WorkController extends Controller
     {
         $user = auth()->user();
 
-        $departmentRequest = Work::userCannotViewAll() && Work::userCannotViewDepartmentWorks() ?
+        $departmentRequest = Work::userCannotViewAll() ?
             $user->getAttribute('department_id') :
                 $request->get('department_id');
 
