@@ -21,7 +21,7 @@
             <div class="col-12">
                 <div class="row m-0">
 
-                    <div class="form-group col-12 col-md-3 my-3 mb-md-0">
+                    <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">
                         <label for="codeFilter">{{__('translates.filters.code')}}</label>
                         <input type="search" id="codeFilter" name="code" value="{{$filters['code']}}"
                                placeholder="{{__('translates.placeholders.code')}}" class="form-control">
@@ -46,7 +46,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3">
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                         <label class="d-block" for="userFilter">{{__('translates.general.user_select')}}</label>
                         <select id="userFilter" class="select2"
                                 name="user_id"
@@ -63,7 +63,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3">
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0 pr-0">
                         <label class="d-block" for="serviceFilter">{{__('translates.general.select_service')}}</label>
                         <select id="serviceFilter" class="select2"
                                 name="service_id"
@@ -80,7 +80,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pr-0">
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                         <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
                         <select name="client_id" id="clientFilter" class="client-filter" style="width: 100% !important;">
                             @if(is_numeric($filters['client_id']))
@@ -89,7 +89,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0 ">
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                         <label class="d-block" for="asanUserFilter">Select Asan Imza</label>
                         <select name="asan_imza_id" id="asanUserFilter" class="asanUser-filter" style="width: 100% !important;">
                             @if(is_numeric($filters['asan_imza_id']))
@@ -111,13 +111,13 @@
 {{--                        <input type="checkbox" name="check-started_at" id="check-started_at" @if(request()->has('check-started_at')) checked @endif> <label for="check-started_at">Filter by</label>--}}
 {{--                    </div>--}}
 
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3">
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                         <label class="d-block" for="doneAtFilter">{{trans('translates.general.done_at')}}</label>
                         <input class="form-control daterange mb-1" id="doneAtFilter" type="text" name="done_at" value="{{$filters['done_at']}}">
                         <input type="checkbox" name="check-done_at" id="check-done_at" @if(request()->has('check-done_at')) checked @endif> <label for="check-done_at">Filter by</label>
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3">
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0 pr-0">
                         <label class="d-block" for="statusFilter">{{trans('translates.general.status_choose')}}</label>
                         <select name="status" id="statusFilter" class="form-control" style="width: 100% !important;">
                             <option value="">@lang('translates.filters.select')</option>
@@ -132,7 +132,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3">
+                    <div class="form-group col-12 col-md-3 mb-3 pl-0">
                         <label class="d-block" for="verifiedFilter">Verified</label>
                         <select name="verified" id="verifiedFilter" class="form-control" style="width: 100% !important;">
                             <option value="">Not selected</option>
