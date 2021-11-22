@@ -100,7 +100,7 @@ class Work extends Model implements DocumentableInterface
         return !self::userCanViewDepartmentWorks();
     }
 
-    public static function generateCustomCode($prefix = 'MG', $digits = 8): string
+    public static function generateCustomCode($prefix = 'MGW', $digits = 8): string
     {
         do {
             $code = $prefix . str_pad(rand(0, pow(10, $digits) - 1), $digits, '0', STR_PAD_LEFT);
