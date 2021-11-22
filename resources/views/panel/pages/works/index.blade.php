@@ -158,7 +158,7 @@
                 </div>
             </div>
             @can('create', App\Models\Work::class)
-                <div class="col-12">
+                <div class="col-12 py-3">
                     <a class="btn btn-outline-success float-right" data-toggle="modal" data-target="#create-work">@lang('translates.buttons.create')</a>
                 </div>
             @endcan
@@ -241,6 +241,14 @@
                             </td>
                             <td>
                                 <div class="btn-sm-group">
+                                    @if($work->getAttribute('creator_id') != auth()->id() && is_null($work->getAttribute('user_id')))
+                                        @can('update', $work)
+                                            <a title="Icra et" data-toggle="tooltip" data-placement="top" target="_blank" href="{{route('works.edit', $work)}}"
+                                               class="btn btn-sm btn-outline-success mr-2">
+                                                <i class="fal fa-arrow-right"></i>
+                                            </a>
+                                        @endcan
+                                    @endif
                                     <div class="dropdown">
                                         <button class="btn" type="button" id="inquiry_actions-{{$loop->iteration}}"
                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -254,13 +262,15 @@
                                                     <i class="fal fa-eye pr-2 text-primary"></i>Show
                                                 </a>
                                             @endcan
-                                            @can('update', $work)
-                                                <a href="{{route('works.edit', $work)}}"
-                                                   class="dropdown-item-text text-decoration-none"
-                                                >
-                                                    <i class="fal fa-pen pr-2 text-success"></i>Edit
-                                                </a>
-                                            @endcan
+                                            @if($work->getAttribute('creator_id') == auth()->id())
+                                                @can('update', $work)
+                                                    <a href="{{route('works.edit', $work)}}"
+                                                       class="dropdown-item-text text-decoration-none"
+                                                    >
+                                                        <i class="fal fa-pen pr-2 text-success"></i>Edit
+                                                    </a>
+                                                @endcan
+                                            @endif
                                             @can('delete', $work)
                                                 <a href="{{route('works.destroy', $work)}}"
                                                    class="dropdown-item-text text-decoration-none"
