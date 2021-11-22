@@ -32,7 +32,7 @@
                         <select id="departmentFilter" class="select2"
                                 name="department_id"
                                 data-width="fit" title="{{__('translates.filters.select')}}"
-                                @if(\App\Models\Work::userCannotViewAll()) disabled @endif
+                                @if(\App\Models\Work::userCannotViewAll() && \App\Models\Work::userCannotViewDepartmentWorks()) disabled @endif
                         >
                             <option value="">@lang('translates.filters.select')</option>
                             @foreach($departments as $department)
@@ -50,12 +50,14 @@
                         <label class="d-block" for="userFilter">{{__('translates.general.user_select')}}</label>
                         <select id="userFilter" class="select2"
                                 name="user_id"
-                                data-width="fit" title="{{__('translates.filters.select')}}">
+                                data-width="fit" title="{{__('translates.filters.select')}}"
+                                @if(\App\Models\Work::userCannotViewAll() && \App\Models\Work::userCannotViewDepartmentWorks()) disabled @endif
+                        >
                             <option value="">@lang('translates.filters.select')</option>
                             @foreach($users as $user)
                                 <option
                                         @if($user->getAttribute('id') == $filters['user_id']) selected @endif
-                                value="{{$user->getAttribute('id')}}"
+                                        value="{{$user->getAttribute('id')}}"
                                 >
                                     {{$user->getAttribute('fullname_with_position')}}
                                 </option>
