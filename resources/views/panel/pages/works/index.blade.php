@@ -209,7 +209,7 @@
                                         }
                                     @endphp
                                 @endif
-                                <span class="badge badge-{{$color}}">
+                                <span class="badge badge-{{$color}}" style="font-size: 12px">
                                     {{trans('translates.work_status.' . $work->getAttribute('status'))}}
                                 </span>
                             </td>
