@@ -21,10 +21,18 @@ class WorkController extends Controller
     {
         $user = auth()->user();
 
+        $departmentRequest = Work::userCannotViewAll() && Work::userCannotViewDepartmentWorks() ?
+            $user->getAttribute('department_id') :
+                $request->get('department_id');
+
+        $userRequest = Work::userCannotViewAll() && Work::userCannotViewDepartmentWorks() ?
+            $user->user()->getAttribute('user_id') :
+            $request->get('user_id');
+
         $filters = [
             'code' => $request->get('code'),
-            'user_id' => $request->get('user_id', $user->getAttribute('id')),
-            'department_id' => $request->get('department_id', $user->getAttribute('department_id')),
+            'department_id' => $departmentRequest,
+            'user_id' => $userRequest,
             'service_id' => $request->get('service_id'),
             'asan_imza_id' => $request->get('asan_imza_id'),
             'client_id' => $request->get('client_id'),
