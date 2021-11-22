@@ -42,4 +42,12 @@ class Department extends Model
     {
         return $this->morphMany(Task::class, 'taskable');
     }
+
+    public function getShortAttribute(): string
+    {
+        if (!$this->getAttribute('short_name')) {
+            return $this->getAttribute('name');
+        }
+        return $this->getAttribute('short_name');
+    }
 }

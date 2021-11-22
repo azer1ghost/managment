@@ -186,7 +186,7 @@
                     @forelse($works as $work)
                         <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif>
                             <th scope="row">{{$work->getAttribute('code')}}</th>
-                            <td>{{$work->getRelationValue('department')->getAttribute('name')}}</td>
+                            <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
                             <td>
                                 @if(is_numeric($work->getAttribute('user_id')))
                                     {{$work->getRelationValue('user')->getAttribute('fullname_with_position')}}
