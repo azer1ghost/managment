@@ -191,14 +191,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-12" style="padding-left: 35px" wire:ignore>
-                        <input type="checkbox" class="form-check-input" id="data-verified" name="verified" @if(!is_null(optional($data)->getAttribute('verified_at'))) checked @endif>
-                        <label class="form-check-label" for="data-verified">@lang('translates.columns.verified')</label>
-                    </div>
-                    <div class="form-group col-12" style="padding-left: 35px" wire:ignore>
-                        <input type="checkbox" class="form-check-input" id="data-rejected" name="rejected" @if(optional($data)->getAttribute('status') == \App\Models\Work::REJECTED) checked @endif>
-                        <label class="form-check-label" for="data-rejected">Rejected</label>
-                    </div>
+                    @if(optional($data)->getAttribute('status') == \App\Models\Work::DONE)
+                        <div class="form-group col-12" style="padding-left: 35px" wire:ignore>
+                            <input type="checkbox" class="form-check-input" id="data-verified" name="verified" @if(!is_null(optional($data)->getAttribute('verified_at'))) checked @endif>
+                            <label class="form-check-label" for="data-verified">@lang('translates.columns.verified')</label>
+                        </div>
+                        <div class="form-group col-12" style="padding-left: 35px" wire:ignore>
+                            <input type="checkbox" class="form-check-input" id="data-rejected" name="rejected" @if(optional($data)->getAttribute('status') == \App\Models\Work::REJECTED) checked @endif>
+                            <label class="form-check-label" for="data-rejected">Rejected</label>
+                        </div>
+                    @endif
                 @endif
 
                 <div class="form-group col-12" wire:ignore>
