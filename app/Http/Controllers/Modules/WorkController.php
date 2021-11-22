@@ -161,7 +161,9 @@ class WorkController extends Controller
     {
         $validated = $request->validated();
         $validated['verified_at'] = $request->filled('verified') ? now() : null;
-        $validated['status'] = $request->filled('rejected') ? Work::REJECTED : $validated['status'];
+        $status = $work->getAttribute('status') == $work::REJECTED && !$request->filled('rejected') ? 1 :
+            ($request->filled('rejected') ? $work::REJECTED : $validated['status']);
+        $validated['status'] = $status;
         $work->update($validated);
 
         $parameters = [];
