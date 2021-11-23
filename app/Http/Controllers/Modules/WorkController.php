@@ -124,8 +124,6 @@ class WorkController extends Controller
     {
         $validated = $request->validated();
         $validated['creator_id'] = auth()->id();
-        $validated['verified_at'] = $request->has('verified') ? now() : null;
-        $validated['status'] = $request->filled('rejected') ? Work::REJECTED : $validated['status'];
 
         $work = Work::create($validated);
 
