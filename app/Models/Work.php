@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\{Factories\HasFactory,
     Model,
     Relations\BelongsTo,
     Relations\BelongsToMany,
+    Relations\HasMany,
     SoftDeletes};
 
 class Work extends Model implements DocumentableInterface
@@ -42,6 +43,12 @@ class Work extends Model implements DocumentableInterface
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'creator_id');
+    }
+
+
+    public function hours(): HasMany
+    {
+        return $this->hasMany(WorkStatusLog::class);
     }
 
     public function user(): BelongsTo
