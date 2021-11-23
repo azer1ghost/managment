@@ -28,7 +28,7 @@
                                 <option value="{{optional($data)->getAttribute('client_id')}}">{{optional($data)->getRelationValue('client')->getAttribute('fullname_with_voen')}}</option>
                             @endif
                         </select>
-                        @if(optional($data)->getAttribute('status') != \App\Models\Work::DONE && $method == 'PUT')
+                        @if(optional($data)->getAttribute('status') != \App\Models\Work::DONE)
                             <a target="_blank" href="{{route('clients.create', ['type' => \App\Models\Client::LEGAL])}}" class="btn btn-outline-success ml-3">
                                 <i class="fa fa-plus"></i>
                             </a>
@@ -74,7 +74,7 @@
                 </div>
 
                 @if($selected['department_id'])
-                    <div class="form-group col-12 col-md-6">
+                    <div class="form-group col-12 col-md-6" wire:key="department-user">
                         <label for="data-user_id">@lang('translates.general.user_select')</label>
                         <select name="user_id" id="data-user_id" class="form-control" wire:model="selected.user_id" @if(!auth()->user()->isDeveloper() && !auth()->user()->isDirector() && !auth()->user()->hasPermission('canRedirect-work')) disabled @endif>
                             <option value="" selected>@lang('translates.general.user_select')</option>
@@ -89,7 +89,7 @@
                 @endif
 
                 @if($this->service->getAttribute('has_asan_imza'))
-                    <div class="form-group col-12 col-md-6" wire:ignore>
+                    <div class="form-group col-12 col-md-6" wire:key="asan-imza" wire:ignore>
                         <label for="data-asan_imza_id">Asan imza</label>
                         <select name="asan_imza_id" id="data-asan_imza_id" class="select2 form-control">
                             <option value="" selected>Asan imza select</option>
@@ -117,22 +117,24 @@
                     </select>
                 </div>
 
-                <div class="form-group col-12 col-md-3" wire:ignore>
-                    <label for="data-status">@lang('translates.general.status_choose')</label>
-                    <select name="status" id="data-status" class="form-control">
-                        <option disabled >@lang('translates.general.status_choose')</option>
-                        @foreach($statuses as $key => $status)
-                            <option
-                                    @if(optional($data)->getAttribute('status') === $status ) selected
-                                    @endif value="{{$status}}"
-                                    @if($status == \App\Models\Work::REJECTED ) disabled
-                                    @endif
-                            >
-                                @lang('translates.work_status.' . $key)
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+                @if($method != 'POST')
+                    <div class="form-group col-12 col-md-3" wire:ignore>
+                        <label for="data-status">@lang('translates.general.status_choose')</label>
+                        <select name="status" id="data-status" class="form-control">
+                            <option disabled >@lang('translates.general.status_choose')</option>
+                            @foreach($statuses as $key => $status)
+                                <option
+                                        @if(optional($data)->getAttribute('status') === $status ) selected
+                                        @endif value="{{$status}}"
+                                        @if($status == \App\Models\Work::REJECTED ) disabled
+                                        @endif
+                                >
+                                    @lang('translates.work_status.' . $key)
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
 
                 @foreach($parameters as $parameter)
                     @switch($parameter->type)
@@ -162,7 +164,7 @@
                     @endswitch
                 @endforeach
 
-                @if(auth()->user()->hasPermission('editEarning-work') && $method != 'POST')
+                @if(auth()->user()->hasPermission('editEarning-work') && $method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Work::DONE)
                     <div class="form-group col-12 col-md-6" wire:ignore>
                         <div class="d-flex">
                             <div class="btn-group mr-3 flex-column" role="group">
