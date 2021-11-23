@@ -60,7 +60,7 @@
 
     @if(is_null($action))
         <script>
-            $('select').attr('disabled', true)
+            $('form :input').attr('disabled', true)
         </script>
     @endif
     <script>
