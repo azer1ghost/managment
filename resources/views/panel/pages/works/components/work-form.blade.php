@@ -241,7 +241,11 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
 
-    @if(is_null($action) || (!auth()->user()->can('update', optional($data)) && $method == 'PUT' && optional($data)->getAttribute('status') == \App\Models\Work::DONE))
+    @php($isShow = is_null($action))
+    @php($hasNotPermission = !auth()->user()->can('update', $data))
+    @php($isDone = optional($data)->getAttribute('status') == \App\Models\Work::DONE)
+    @php($isVerified = !is_null(optional($data)->getAttribute('verified_at')))
+    @if(($isShow || ($hasNotPermission && $method != 'POST')) || ($isDone && $method != 'PUT') || ($isVerified && $method != 'PUT'))
         <script>
             $('#work-form :input').attr('disabled', true)
         </script>

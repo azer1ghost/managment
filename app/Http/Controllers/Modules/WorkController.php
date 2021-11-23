@@ -171,7 +171,6 @@ class WorkController extends Controller
     {
         $validated = $request->validated();
         $validated['verified_at'] = $request->has('verified') ? now() : null;
-        $validated['price_verified_at'] = $request->has('price-verified') ? now() : null;
 
         if($work->getAttribute('status') == $work::REJECTED && !$request->has('rejected')){
             $status = Work::PENDING;
