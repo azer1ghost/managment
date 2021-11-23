@@ -37,7 +37,7 @@
                 @endif
                 <x-input::select name="type"      :value="$data->getAttribute('type') ?? request()->get('type')"  width="4" class="pr-1" :options="[trans('translates.general.legal'), trans('translates.general.physical')]"/>
                 <x-input::text   name="fullname"  :value="$data->getAttribute('fullname')"    width="4" class="pr-1" :label="__('translates.fields.name')" required=""/>
-                @if (request()->get('type') == $data::PHYSICAL)
+                @if (request()->get('type') == $data::PHYSICAL || $data->getAttribute('type') == $data::PHYSICAL)
                     <x-input::text  name="father"   :value="$data->getAttribute('father')"  width="4" class="pr-1" :label="__('translates.fields.father')" />
                 @endif
                 <x-input::textarea name="detail" :value="optional($data)->getAttribute('detail')" :label="trans('translates.fields.detail')" width="4" class="pr-3"/>
@@ -54,7 +54,7 @@
         </div>
         <div class="form-row col-md-12">
             <!-- Passport -->
-            @if (request()->get('type') == $data::PHYSICAL)
+            @if (request()->get('type') == $data::PHYSICAL || $data->getAttribute('type') == $data::PHYSICAL)
                 <div class="col-md-12">
                     <br>
                     <p class="text-muted mb-2">@lang('translates.fields.passport')</p>
@@ -89,7 +89,7 @@
         @endif
     </form>
 
-    @if($method != 'POST' && is_null($data->client_id))
+    @if($method != 'POST' && is_null($data->client_id) && $data->getAttribute('type') == $data::LEGAL)
         <table class="table table-responsive-sm mt-4">
             <thead>
             <tr>
