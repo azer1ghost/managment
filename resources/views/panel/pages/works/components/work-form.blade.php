@@ -247,13 +247,6 @@
         </script>
     @endif
 
-    @if(auth()->user()->isDeveloper())
-        <script>
-            $('#work-form :input').attr('disabled', false)
-        </script>
-    @endif
-
-
     @if(optional($data)->getAttribute('status') == \App\Models\Work::DONE && auth()->user()->hasPermission('editEarning-work') && $method == 'PUT')
         <script>
             $('input[name="earning"]').attr('disabled', false);
@@ -261,10 +254,15 @@
             $('input[name="currency_rate"]').attr('disabled', false);
             $('input[name="verified"]').attr('disabled', false);
             $('input[name="rejected"]').attr('disabled', false);
-            $('input[name="price-verified"]').attr('disabled', false);
             $('input[name="_method"]').attr('disabled', false);
             $('input[name="_token"]').attr('disabled', false);
             $('button[type="submit"]').attr('disabled', false);
+        </script>
+    @endif
+
+    @if(auth()->user()->can('update', optional($data)) && $method == 'PUT')
+        <script>
+            $('#work-form :input').attr('disabled', false)
         </script>
     @endif
 

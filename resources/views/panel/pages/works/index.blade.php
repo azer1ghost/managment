@@ -239,7 +239,7 @@
                                     if($work->getAttribute('status') == $work::REJECTED){
                                         $status = "<i data-toggle='tooltip' data-placement='top' title='". trans('translates.columns.rejected') ."' class='fas fa-times text-danger' style='font-size: 22px'></i>";
                                     }
-                                    if(!is_null($work->getAttribute('verified_at')) || !is_null($work->getAttribute('price_verified_at'))){
+                                    if(!is_null($work->getAttribute('verified_at')) && !is_null($work->getAttribute('price_verified_at'))){
                                         $status = "<i data-toggle='tooltip' data-placement='top' title='". trans('translates.columns.verified') ."' class='fas fa-check text-success mr-2' style='font-size: 22px'></i>";
                                     }
                                 @endphp
