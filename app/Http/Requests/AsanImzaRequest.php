@@ -11,8 +11,8 @@ class AsanImzaRequest extends FormRequest
         return [
             'user_id'=>'required|integer',
             'company_id'=>'required|integer',
-            'phone'=>'required|string',
-            'asan_id'=>'required|string',
+            'phone'=>'nullable|string',
+            'asan_id'=>'nullable|string',
         ];
     }
 }
