@@ -11,6 +11,16 @@ class AsanImzaPolicy
 {
     use HandlesAuthorization, HandlesPolicy, GetClassInfo;
 
+    public function viewAny(User $user): bool
+    {
+        return $this->canManage($user, 'asanImza', __FUNCTION__);
+    }
+
+    public function view(User $user): bool
+    {
+        return $this->canManage($user, 'asanImza', __FUNCTION__);
+    }
+
     public function create(User $user): bool
     {
         return $this->canManage($user, 'asanImza', __FUNCTION__);
