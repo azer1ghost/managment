@@ -23,16 +23,16 @@ class AsanImzaPolicy
 
     public function create(User $user): bool
     {
-        return $this->canManage($user, 'asanImza', __FUNCTION__);
+        return $this->canManage($user, 'asanImza');
     }
 
     public function update(User $user): bool
     {
-        return $this->canManage($user, 'asanImza', __FUNCTION__);
+        return $this->canManage($user, 'asanImza');
     }
 
     public function delete(User $user): bool
     {
-        return $this->canManage($user, 'asanImza', __FUNCTION__);
+        return $this->canManage($user, 'asanImza');
     }
 }
