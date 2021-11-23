@@ -277,7 +277,7 @@
                                                     </a>
                                                 @endcan
                                             @endif
-                                            @if(auth()->user()->hasPermission('editEarning-work') && is_string($work->getAttribute('verified_at')) && is_null($work->getAttribute('price_verified_at')))
+                                            @if(auth()->user()->hasPermission('editEarning-work') && !is_null($work->getAttribute('verified_at')) && is_null($work->getAttribute('price_verified_at')))
                                                 <a href="{{route('works.verifyPrice', $work)}}" verify data-name="{{$work->getAttribute('code')}}" data-price="{{$work->getAttribute('earning') * $work->getAttribute('currency_rate')}}" class="dropdown-item-text text-decoration-none">
                                                     <i class="fal fa-check pr-2 text-success"></i>Verify Price
                                                 </a>

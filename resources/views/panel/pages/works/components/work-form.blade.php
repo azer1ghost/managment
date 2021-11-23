@@ -148,22 +148,22 @@
                         @case('text')
                             <div class="form-group col-12 col-md-3" wire:ignore>
                                 <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
-                                <input type="text" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
+                                <input type="text" data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
                             </div>
                             @break
                         @case('number')
                             <div class="form-group col-12 col-md-3" wire:ignore>
                                 <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
-                                <input type="number" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
+                                <input type="number" data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
                             </div>
                         @break
                         @case('select')
                             <div class="form-group col-12 col-md-3" wire:ignore>
                                 <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
-                                <select name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control" wire:model="workParameters.{{$parameter->name}}">
+                                <select data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters" wire:model="workParameters.{{$parameter->name}}">
                                     <option value="" selected>{{$parameter->placeholder}}</option>
                                     @foreach($parameter->getRelationValue('options') as $option)
-                                        <option value="{{$option->id}}">{{$option->text}}</option>
+                                        <option value="{{$option->id}}" data-value="{{$option->getTranslation('text', 'az')}}">{{$option->text}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -172,7 +172,7 @@
                 @endforeach
 
                 @if(auth()->user()->hasPermission('editEarning-work') && $method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Work::DONE)
-                    @if(is_string(optional($data)->getAttribute('verified_at')))
+                    @if(!is_null(optional($data)->getAttribute('verified_at')))
                         <div class="form-group col-12 col-md-6" wire:ignore>
                             <div class="d-flex">
                                 <div class="btn-group mr-3 flex-column" role="group">
@@ -219,6 +219,11 @@
                     <textarea wire:ignore name="detail" id="data-detail" class="summernote">{{optional($data)->getAttribute('detail')}}</textarea>
                 </div>
             </div>
+            @if(optional(optional($data)->user())->exists() && !is_null(optional($data)->getAttribute('done_at')))
+                <div class="col-12">
+                    <button type="button" class="btn btn-outline-success copy">@lang('translates.buttons.copy')</button>
+                </div>
+            @endif
         </div>
     </div>
     @if($action)
@@ -257,6 +262,50 @@
     @endif
 
     <script>
+        @if($method != 'POST')
+            $('#work-form .copy').attr('disabled', false)
+        @endif
+
+        @if(optional(optional($data)->user())->exists() && !is_null(optional($data)->getAttribute('done_at')))
+            function html(html, type = 'string')
+            {
+                let tmp = document.createElement("div");
+                tmp.innerHTML = html;
+
+                if(type === 'string'){
+                    return tmp.innerText || tmp.textContent || "";
+                }
+
+                return tmp;
+            }
+
+            function copyToClipboard(element) {
+                const $temp = $("<textarea>");
+                const brRegex = /<br\s*[\/]?>/gi;
+                $("body").append($temp);
+                $temp.val($(element).html().replace(brRegex, "\r\n")).select();
+                document.execCommand("copy");
+                $temp.remove();
+            }
+
+            $('.copy').click(function (){
+                const service = '{{$data->getRelationValue('service')->getAttribute('name')}}';
+                const user = '{{$data->getRelationValue('user')->getAttribute('fullname')}}';
+                const date = '{{$data->getAttribute('done_at')}}';
+                const detail = $(html('{{$data->getAttribute('detail')}}')).text();
+                let data = `Xidmət: ${service}<br/>İcra edən: ${user}<br/>Tarix: ${date}<br/>`;
+
+                $(".parameters").map(function (){
+                    let value = $(this).is('select') ? $(this).find('option:selected').data('value') : $(this).val();
+                    data += `${$(this).data('label')}: ${value}<br/>`;
+                });
+                data += `${detail ? `Detal: ${detail}` : ''}`;
+
+                copyToClipboard(html(data, 'html'));
+            });
+        @endif
+
+
         const clientSelect2 = $('select[name="client_id"]');
         const asanImzaSelect2 = $('select[name="asan_imza_id"]');
 

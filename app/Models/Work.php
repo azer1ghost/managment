@@ -36,6 +36,7 @@ class Work extends Model implements DocumentableInterface
         'datetime',
         'verified_at',
         'price_verified_at',
+        'done_at'
     ];
 
     protected $casts = ['done_at' => 'datetime'];

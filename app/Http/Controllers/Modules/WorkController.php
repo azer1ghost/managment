@@ -178,6 +178,7 @@ class WorkController extends Controller
         }else{
             if ($request->has('rejected')){
                 $status = Work::REJECTED;
+                $validated['done_at'] = null;
             }else{
                 $status = $validated['status'] ?? $work->getAttribute('status');
             }
