@@ -28,8 +28,15 @@
                                 <option value="{{optional($data)->getAttribute('client_id')}}">{{optional($data)->getRelationValue('client')->getAttribute('fullname_with_voen')}}</option>
                             @endif
                         </select>
+                        @if(is_numeric(optional($data)->getAttribute('client_id')))
+                            @can('update', \App\Models\Client::find(optional($data)->getAttribute('client_id')))
+                                <a target="_blank" href="{{route('clients.edit', optional($data)->getAttribute('client_id'))}}" class="btn btn-outline-primary ml-3">
+                                    <i class="fa fa-pen"></i>
+                                </a>
+                            @endcan
+                        @endif
                         @if(optional($data)->getAttribute('status') != \App\Models\Work::DONE)
-                            <a target="_blank" href="{{route('clients.create', ['type' => \App\Models\Client::LEGAL])}}" class="btn btn-outline-success ml-3">
+                            <a target="_blank" href="{{route('clients.create', ['type' => \App\Models\Client::LEGAL])}}" class="btn btn-outline-success ml-1">
                                 <i class="fa fa-plus"></i>
                             </a>
                         @endif
