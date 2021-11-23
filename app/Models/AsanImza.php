@@ -23,6 +23,7 @@ class AsanImza extends Model
     {
         return $this->belongsTo(Company::class)->withDefault();
     }
+
     public function setPhoneAttribute($value): ?string
     {
         return $this->attributes['phone'] = phone_cleaner($value);
@@ -31,5 +32,10 @@ class AsanImza extends Model
     public function getPhoneAttribute($value): ?string
     {
         return phone_formatter($value, true);
+    }
+
+    public function getUserWithCompanyAttribute($value): ?string
+    {
+        return "{$this->user->getAttribute('fullname')} ({$this->company->getAttribute('name')})";
     }
 }

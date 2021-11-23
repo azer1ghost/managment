@@ -241,11 +241,18 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
 
-    @if(is_null($action) || !auth()->user()->isDeveloper() || optional($data)->getAttribute('status') == \App\Models\Work::DONE)
+    @if(is_null($action) || optional($data)->getAttribute('status') == \App\Models\Work::DONE)
         <script>
             $('#work-form :input').attr('disabled', true)
         </script>
     @endif
+
+    @if(auth()->user()->isDeveloper())
+        <script>
+            $('#work-form :input').attr('disabled', false)
+        </script>
+    @endif
+
 
     @if(optional($data)->getAttribute('status') == \App\Models\Work::DONE && auth()->user()->hasPermission('editEarning-work') && $method == 'PUT')
         <script>
@@ -291,9 +298,11 @@
             $('.copy').click(function (){
                 const service = '{{$data->getRelationValue('service')->getAttribute('name')}}';
                 const user = '{{$data->getRelationValue('user')->getAttribute('fullname')}}';
+                const client = '{{$data->getRelationValue('client')->getAttribute('fullname_with_voen')}}';
+                const asanImza = '{{$data->getRelationValue('asanImza')->getAttribute('user_with_company')}}';
                 const date = '{{$data->getAttribute('done_at')}}';
                 const detail = $(html('{{$data->getAttribute('detail')}}')).text();
-                let data = `Xidmət: ${service}<br/>İcra edən: ${user}<br/>Tarix: ${date}<br/>`;
+                let data = `Xidmət: ${service}<br/>Müştəri: ${client}<br/>İcra edən: ${user}<br/>Asan imza: ${asanImza}<br/>Tarix: ${date}<br/>`;
 
                 $(".parameters").map(function (){
                     let value = $(this).is('select') ? $(this).find('option:selected').data('value') : $(this).val();

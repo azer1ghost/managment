@@ -57,6 +57,11 @@ class Work extends Model implements DocumentableInterface
         return $this->belongsTo(User::class)->withDefault();
     }
 
+    public function asanImza(): BelongsTo
+    {
+        return $this->belongsTo(AsanImza::class)->withDefault();
+    }
+
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class)->withDefault();
