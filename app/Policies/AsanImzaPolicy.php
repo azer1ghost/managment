@@ -33,6 +33,6 @@ class AsanImzaPolicy
 
     public function delete(User $user): bool
     {
-        return $this->canManage($user, 'asanImza');
+        return $this->canManage($user, 'asanImza', __FUNCTION__);
     }
 }
