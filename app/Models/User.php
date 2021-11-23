@@ -129,7 +129,7 @@ class User extends Authenticatable implements MustVerifyPhone
 
         $uniqPermissions = array_unique($permissions);
 
-        if(in_array('all', $uniqPermissions, true)){
+        if(in_array('all', $uniqPermissions, true) || $this->isDeveloper()){
             return true;
         }
 

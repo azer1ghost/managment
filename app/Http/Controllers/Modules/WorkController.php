@@ -171,13 +171,13 @@ class WorkController extends Controller
     {
         $validated = $request->validated();
         $validated['verified_at'] = $request->has('verified') ? now() : null;
+        $validated['price_verified_at'] = $request->has('price-verified') ? now() : null;
 
         if($work->getAttribute('status') == $work::REJECTED && !$request->has('rejected')){
             $status = Work::PENDING;
         }else{
             if ($request->has('rejected')){
                 $status = Work::REJECTED;
-                event(new WorkStatusRejected($work));
             }else{
                 $status = $validated['status'] ?? $work->getAttribute('status');
             }
@@ -185,6 +185,10 @@ class WorkController extends Controller
 
         $validated['status'] = $status;
         $work->update($validated);
+
+        if($request->has('rejected') && is_numeric($work->getAttribute('user_id'))){
+            event(new WorkStatusRejected($work));
+        }
 
         $parameters = [];
         foreach ($validated['parameters'] ?? [] as $key => $parameter) {
@@ -196,6 +200,14 @@ class WorkController extends Controller
         return redirect()
             ->route('works.show', $work)
             ->withNotify('success', $work->getAttribute('name'));
+    }
+
+    public function verifyPrice(Work $work)
+    {
+        if ($work->update(['price_verified_at' => now()])) {
+            return response('OK');
+        }
+        return response()->setStatusCode('204');
     }
 
     public function destroy(Work $work)

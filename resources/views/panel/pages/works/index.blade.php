@@ -174,7 +174,7 @@
                         <th scope="col">@lang('translates.fields.clientName')</th>
                         <th scope="col">@lang('translates.general.hard_level')</th>
                         <th scope="col">Status</th>
-                        <th scope="col">@lang('translates.general.earning')</th>
+                        @if(auth()->user()->hasPermission('editEarning-work')) <th scope="col">@lang('translates.general.earning')</th> @endif
 {{--                        <th scope="col">@lang('translates.general.started_at')</th>--}}
                         <th scope="col">@lang('translates.columns.created_at')</th>
                         <th scope="col">@lang('translates.general.done_at')</th>
@@ -223,7 +223,7 @@
                                     {{trans('translates.work_status.' . $work->getAttribute('status'))}}
                                 </span>
                             </td>
-                            <td>{{$work->getAttribute('earning') * $work->getAttribute('currency_rate')}} AZN</td>
+                            @if(auth()->user()->hasPermission('editEarning-work')) <td>{{$work->getAttribute('earning') * $work->getAttribute('currency_rate')}} AZN</td> @endif
                             <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip" data-placement="top">{{$work->getAttribute('created_at')->diffForHumans()}}</td>
                             <td>{{optional($work->getAttribute('done_at'))->format('Y-m-d H:i')}}</td>
 {{--                            <td>{{$work->getAttribute('verified_at')}}</td>--}}
@@ -231,20 +231,23 @@
                                 @php
                                     $status = '';
                                     if(is_null($work->getAttribute('verified_at')) && $work->status == \App\Models\Work::DONE){
-                                        $status = "<i title='Pending' class='fas fa-clock text-info mr-2' style='font-size: 22px'></i>";
+                                        $status = "<i data-toggle='tooltip' data-placement='top' title='Pending' class='fas fa-clock text-info mr-2' style='font-size: 22px'></i>";
                                     }
                                     if(!is_null($work->getAttribute('verified_at'))){
-                                        $status = "<i title='". trans('translates.columns.verified') ."' class='fas fa-badge-check text-primary mr-2' style='font-size: 22px'></i>";
+                                        $status = "<i data-toggle='tooltip' data-placement='top' title='". trans('translates.columns.verified') ."' class='fas fa-badge-check text-primary mr-2' style='font-size: 22px'></i>";
                                     }
                                     if($work->getAttribute('status') == $work::REJECTED){
-                                        $status = "<i title='". trans('translates.columns.rejected') ."' class='fas fa-times text-danger' style='font-size: 22px'></i>";
+                                        $status = "<i data-toggle='tooltip' data-placement='top' title='". trans('translates.columns.rejected') ."' class='fas fa-times text-danger' style='font-size: 22px'></i>";
+                                    }
+                                    if(!is_null($work->getAttribute('verified_at')) || !is_null($work->getAttribute('price_verified_at'))){
+                                        $status = "<i data-toggle='tooltip' data-placement='top' title='". trans('translates.columns.verified') ."' class='fas fa-check text-success mr-2' style='font-size: 22px'></i>";
                                     }
                                 @endphp
                                 {!! $status !!}
                             </td>
                             <td>
                                 <div class="btn-sm-group d-flex align-items-center">
-                                    @if($work->getAttribute('creator_id') != auth()->id() && is_null($work->getAttribute('user_id')))
+                                    @if($work->getAttribute('creator_id') != auth()->id() && is_null($work->getAttribute('user_id')) && !auth()->user()->isDeveloper())
                                         @can('update', $work)
                                             <a title="Icra et" data-toggle="tooltip" data-placement="top" href="{{route('works.edit', $work)}}"
                                                class="btn btn-sm btn-outline-success">
@@ -263,16 +266,21 @@
                                                     <i class="fal fa-eye pr-2 text-primary"></i>Show
                                                 </a>
                                             @endcan
-                                            @if($work->getAttribute('creator_id') == auth()->id() || $work->getAttribute('user_id') == auth()->id())
+                                            @if($work->getAttribute('creator_id') == auth()->id() || $work->getAttribute('user_id') == auth()->id() || auth()->user()->isDeveloper())
                                                 @can('update', $work)
                                                     <a href="{{route('works.edit', $work)}}" class="dropdown-item-text text-decoration-none">
-                                                        @if($work->getAttribute('creator_id') == auth()->id())
+                                                        @if($work->getAttribute('creator_id') == auth()->id() || auth()->user()->isDeveloper())
                                                             <i class="fal fa-pen pr-2 text-success"></i>@lang('translates.tasks.edit')
                                                         @elseif($work->getAttribute('user_id') == auth()->id())
                                                             <i class="fal fa-arrow-right pr-2 text-success"></i>Icra et
                                                         @endif
                                                     </a>
                                                 @endcan
+                                            @endif
+                                            @if(auth()->user()->hasPermission('editEarning-work') && is_string($work->getAttribute('verified_at')) && is_null($work->getAttribute('price_verified_at')))
+                                                <a href="{{route('works.verifyPrice', $work)}}" verify data-name="{{$work->getAttribute('code')}}" data-price="{{$work->getAttribute('earning') * $work->getAttribute('currency_rate')}}" class="dropdown-item-text text-decoration-none">
+                                                    <i class="fal fa-check pr-2 text-success"></i>Verify Price
+                                                </a>
                                             @endif
                                             @can('delete', $work)
                                                 <a href="{{route('works.destroy', $work)}}" delete class="dropdown-item-text text-decoration-none">
@@ -409,5 +417,71 @@
             }, function(start, end, label) {}
         );
 
+        $( function() {
+            $("a[verify]").click(function(e){
+                let name = $(this).data('name') ?? 'Record'
+                let price = $(this).data('price') ?? 0
+                let url = $(this).attr('href')
+                e.preventDefault()
+                $.confirm({
+                    title: 'Confirm price verification',
+                    content: `Are you sure to verify <b>${name}</b> for ${price} AZN?`,
+                    autoClose: 'confirm|8000',
+                    icon: 'fa fa-question',
+                    type: 'blue',
+                    theme: 'modern',
+                    typeAnimated: true,
+                    buttons: {
+                        confirm: function () {
+                            $.ajax({
+                                url: url,
+                                type: 'PUT',
+                                success: function (responseObject, textStatus, xhr)
+                                {
+                                    $.confirm({
+                                        title: 'Price update successful',
+                                        icon: 'fa fa-check',
+                                        content: '<b>:name</b>'.replace(':name',  name),
+                                        type: 'blue',
+                                        typeAnimated: true,
+                                        autoClose: 'reload|3000',
+                                        theme: 'modern',
+                                        buttons: {
+                                            reload: {
+                                                text: 'Ok',
+                                                btnClass: 'btn-blue',
+                                                keys: ['enter'],
+                                                action: function(){
+                                                    window.location.reload()
+                                                }
+                                            }
+                                        }
+                                    });
+                                },
+                                error: function (err)
+                                {
+                                    console.log(err);
+                                    $.confirm({
+                                        title: 'Ops something went wrong!',
+                                        content: err?.responseJSON,
+                                        type: 'red',
+                                        typeAnimated: true,
+                                        buttons: {
+                                            close: {
+                                                text: 'Close',
+                                                btnClass: 'btn-blue',
+                                                keys: ['enter'],
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        },
+                        cancel: function () {
+                        },
+                    }
+                });
+            });
+        });
     </script>
 @endsection

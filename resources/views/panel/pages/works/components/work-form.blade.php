@@ -36,7 +36,7 @@
                             @endcan
                         @endif
                         @if(optional($data)->getAttribute('status') != \App\Models\Work::DONE)
-                            <a target="_blank" href="{{route('clients.create', ['type' => \App\Models\Client::LEGAL])}}" class="btn btn-outline-success ml-1">
+                            <a target="_blank" href="{{route('clients.create', ['type' => \App\Models\Client::PHYSICAL])}}" class="btn btn-outline-success ml-1">
                                 <i class="fa fa-plus"></i>
                             </a>
                         @endif
@@ -172,34 +172,36 @@
                 @endforeach
 
                 @if(auth()->user()->hasPermission('editEarning-work') && $method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Work::DONE)
-                    <div class="form-group col-12 col-md-6" wire:ignore>
-                        <div class="d-flex">
-                            <div class="btn-group mr-3 flex-column" role="group">
-                                <label for="data-earning">@lang('translates.general.work_earning')</label>
-                                <div class="d-flex">
-                                    <input id="data-earning" type="number" min="0" class="form-control" name="earning" wire:model="earning" style="border-radius: 0 !important;">
-                                    <select name="currency" id="" class="form-control" style="border-radius: 0 !important;" wire:model="currency">
-                                        @foreach(['AZN', 'USD', 'TRY', 'EUR', 'RUB'] as $currency)
-                                            <option value="{{$currency}}" @if($currency == optional($data)->getAttribute('currency')) selected @endif>{{$currency}}</option>
-                                        @endforeach
-                                    </select>
+                    @if(is_string(optional($data)->getAttribute('verified_at')))
+                        <div class="form-group col-12 col-md-6" wire:ignore>
+                            <div class="d-flex">
+                                <div class="btn-group mr-3 flex-column" role="group">
+                                    <label for="data-earning">@lang('translates.general.work_earning')</label>
+                                    <div class="d-flex">
+                                        <input id="data-earning" type="number" min="0" class="form-control" name="earning" wire:model="earning" style="border-radius: 0 !important;">
+                                        <select name="currency" id="" class="form-control" style="border-radius: 0 !important;" wire:model="currency">
+                                            @foreach(['AZN', 'USD', 'TRY', 'EUR', 'RUB'] as $currency)
+                                                <option value="{{$currency}}" @if($currency == optional($data)->getAttribute('currency')) selected @endif>{{$currency}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    @error('earning')
+                                    <p class="text-danger">{{$message}}</p>
+                                    @enderror
                                 </div>
-                                @error('earning')
-                                <p class="text-danger">{{$message}}</p>
-                                @enderror
-                            </div>
-                            <div class="btn-group flex-column" role="group">
-                                <label for="data-earning">@lang('translates.general.rate')</label>
-                                <div class="d-flex">
-                                    <input type="text" class="form-control" name="currency_rate" wire:model="rate" style="border-radius: 0 !important;" readonly>
-                                    <input disabled type="text" class="form-control" value="AZN" style="border-radius: 0 !important;">
+                                <div class="btn-group flex-column" role="group">
+                                    <label for="data-earning">@lang('translates.general.rate')</label>
+                                    <div class="d-flex">
+                                        <input type="text" class="form-control" name="currency_rate" wire:model="rate" style="border-radius: 0 !important;" readonly>
+                                        <input disabled type="text" class="form-control" value="AZN" style="border-radius: 0 !important;">
+                                    </div>
+                                    @error('currency_rate')
+                                    <p class="text-danger">{{$message}}</p>
+                                    @enderror
                                 </div>
-                                @error('currency_rate')
-                                <p class="text-danger">{{$message}}</p>
-                                @enderror
                             </div>
                         </div>
-                    </div>
+                    @endif
                     @if(optional($data)->getAttribute('status') == \App\Models\Work::DONE)
                         <div class="form-group col-12" style="padding-left: 35px" wire:ignore>
                             <input type="checkbox" class="form-check-input" id="data-verified" name="verified" @if(!is_null(optional($data)->getAttribute('verified_at'))) checked @endif>
@@ -207,7 +209,7 @@
                         </div>
                         <div class="form-group col-12" style="padding-left: 35px" wire:ignore>
                             <input type="checkbox" class="form-check-input" id="data-rejected" name="rejected" @if(optional($data)->getAttribute('status') == \App\Models\Work::REJECTED) checked @endif>
-                            <label class="form-check-label" for="data-rejected">Rejected</label>
+                            <label class="form-check-label" for="data-rejected">@lang('translates.columns.rejected')</label>
                         </div>
                     @endif
                 @endif
@@ -234,7 +236,7 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
 
-    @if(is_null($action) || optional($data)->getAttribute('status') == \App\Models\Work::DONE)
+    @if(is_null($action) || !auth()->user()->isDeveloper() || optional($data)->getAttribute('status') == \App\Models\Work::DONE)
         <script>
             $('#work-form :input').attr('disabled', true)
         </script>
@@ -247,6 +249,7 @@
             $('input[name="currency_rate"]').attr('disabled', false);
             $('input[name="verified"]').attr('disabled', false);
             $('input[name="rejected"]').attr('disabled', false);
+            $('input[name="price-verified"]').attr('disabled', false);
             $('input[name="_method"]').attr('disabled', false);
             $('input[name="_token"]').attr('disabled', false);
             $('button[type="submit"]').attr('disabled', false);

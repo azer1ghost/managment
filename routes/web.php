@@ -78,6 +78,7 @@ Route::group([
     Route::resource('/referrals', ReferralController::class);
     Route::resource('/updates', UpdateController::class);
     Route::resource('/services', ServiceController::class);
+    Route::put('/works/{work}/verify-price', [WorkController::class, 'verifyPrice'])->name('works.verifyPrice');
     Route::resource('/works', WorkController::class);
     Route::resource('/meetings', MeetingController::class);
     Route::resource('/conferences', ConferenceController::class);

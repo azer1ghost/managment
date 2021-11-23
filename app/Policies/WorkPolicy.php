@@ -19,7 +19,7 @@ class WorkPolicy
 
     public function update(User $user, Work $work): bool
     {
-        if(!is_null($work->getAttribute('verified_at')))
+        if(!is_null($work->getAttribute('price_verified_at')))
         {
             return false;
         }
