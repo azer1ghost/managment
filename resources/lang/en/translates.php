@@ -374,6 +374,7 @@ return [
         'verified' => 'Verified',
         'rejected' => 'Rejected',
         'unverified' => 'Unverified',
+        'price_verified' => 'Price Verified',
     ],
 
     'notify' => [
