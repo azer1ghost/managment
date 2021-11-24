@@ -24,6 +24,9 @@ class AsanImzaController extends Controller
             $query->where('name', 'LIKE', "%{$request->get('search')}%")
                   ->orWhere('surname', 'LIKE', "%{$request->get('search')}%");
         })
+            ->orWhereHas('company', function ($query) use ($request){
+                $query->where('name', 'LIKE', "%{$request->get('search')}%");
+            })
             ->limit(10)
             ->get();
 

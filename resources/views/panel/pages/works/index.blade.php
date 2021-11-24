@@ -92,7 +92,7 @@
                     </div>
 
                     <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                        <label class="d-block" for="asanUserFilter">@lang('translates.filters.select') Asan Imza</label>
+                        <label class="d-block" for="asanUserFilter">Asan Imza</label>
                         <select name="asan_imza_id" id="asanUserFilter" class="asanUser-filter" style="width: 100% !important;">
                             @if(is_numeric($filters['asan_imza_id']))
                                 @php
@@ -105,13 +105,6 @@
                             @endif
                         </select>
                     </div>
-
-
-{{--                    <div class="form-group col-12 col-md-3 mt-3 mb-3">--}}
-{{--                        <label class="d-block" for="startedAtFilter">{{trans('translates.general.started_at')}}</label>--}}
-{{--                        <input class="form-control daterange mb-1" id="startedAtFilter" type="text" name="started_at" value="{{$filters['started_at']}}">--}}
-{{--                        <input type="checkbox" name="check-started_at" id="check-started_at" @if(request()->has('check-started_at')) checked @endif> <label for="check-started_at">Filter by</label>--}}
-{{--                    </div>--}}
 
                     <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                         <label class="d-block" for="doneAtFilter">{{trans('translates.general.done_at')}}</label>
