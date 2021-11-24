@@ -32,6 +32,7 @@ class UserController extends Controller
         $search = $request->get('search');
         $limit  = $request->get('limit', 25);
         $company  = $request->get('company');
+        $department  = $request->get('department');
         $type  = $request->get('type') ?? 1;
 
         return view('panel.pages.users.index')
@@ -43,6 +44,7 @@ class UserController extends Controller
                                              ->orWhere('fin', 'like', "%".$search."%")
                                              ->orWhere('id', $search))
                     ->when($company, fn ($query) => $query->where('company_id', $company))
+                    ->when($department, fn ($query) => $query->where('department_id', $department))
                     ->when($type, function ($query, $type){
                         switch ($type){
                             case 1:
@@ -55,6 +57,7 @@ class UserController extends Controller
                     })
                     ->paginate($limit),
                 'companies' => Company::get(['id', 'name']),
+                'departments' => Department::get(['id', 'name']),
                 'types' => User::types()
             ]);
     }

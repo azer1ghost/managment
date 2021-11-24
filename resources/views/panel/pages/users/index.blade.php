@@ -29,14 +29,7 @@
             @endcan
             <div class="col-12">
                 <div class="row m-0">
-                    <div class="col-4 col-md-2 pl-0 mb-3">
-                        <select name="limit" class="custom-select">
-                            @foreach([25, 50, 100] as $size)
-                                <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-8 col-md-3 pl-0 mb-3">
+                    <div class="col-8 col-md-2 pl-0 mb-3">
                         <select name="company" class="custom-select">
                             <option value="">@lang('translates.fields.company') @lang('translates.placeholders.choose')</option>
                             @foreach($companies as $company)
@@ -44,7 +37,15 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-12 col-md-3">
+                    <div class="col-8 col-md-2 pl-0 mb-3">
+                        <select name="department" class="custom-select">
+                            <option value="">@lang('translates.fields.department') @lang('translates.placeholders.choose')</option>
+                            @foreach($departments as $department)
+                                <option @if(request()->get('department') == $department->id) selected @endif value="{{$department->id}}">{{$department->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-2">
                         <div class="input-group mb-3">
                             <select class="form-control" name="type">
                                 @foreach ($types as $index => $type)
@@ -52,6 +53,13 @@
                                 @endforeach
                             </select>
                         </div>
+                    </div>
+                    <div class="col-4 col-md-1 pl-0 mb-3">
+                        <select name="limit" class="custom-select">
+                            @foreach([25, 50, 100] as $size)
+                                <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <table class="table table-responsive-sm table-hover">
