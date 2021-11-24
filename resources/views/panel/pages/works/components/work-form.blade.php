@@ -246,7 +246,7 @@
     @php($hasNotPermission = !auth()->user()->can('update', $data))
     @php($isDone = optional($data)->getAttribute('status') == \App\Models\Work::DONE)
     @php($isVerified = !is_null(optional($data)->getAttribute('verified_at')))
-    @if(($isShow || ($hasNotPermission && $method != 'POST')) || $isVerified || ($isDone && $method != 'PUT'))
+    @if(($isShow || ($hasNotPermission && $method != 'POST')) || ($hasNotPermission && $isVerified) || ($isDone && $method != 'PUT'))
         <script>
             $('#work-form :input').attr('disabled', true)
         </script>
