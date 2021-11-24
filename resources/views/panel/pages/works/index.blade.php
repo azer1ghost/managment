@@ -126,7 +126,7 @@
                         <input type="checkbox" name="check-done_at" id="check-done_at" @if(request()->has('check-done_at')) checked @endif> <label for="check-done_at">@lang('translates.filters.filter_by')</label>
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0 pr-0">
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                         <label class="d-block" for="statusFilter">{{trans('translates.general.status_choose')}}</label>
                         <select name="status" id="statusFilter" class="form-control" style="width: 100% !important;">
                             <option value="">@lang('translates.filters.select')</option>
@@ -141,7 +141,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mb-3 pl-0">
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                         <label class="d-block" for="verifiedFilter">@lang('translates.columns.verified')</label>
                         <select name="verified" id="verifiedFilter" class="form-control" style="width: 100% !important;">
                             <option value="">@lang('translates.filters.select')</option>

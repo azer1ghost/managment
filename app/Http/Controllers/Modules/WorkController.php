@@ -85,7 +85,9 @@ class WorkController extends Controller
                                     break;
                             }
                         }else if($column == 'asan_imza_company_id'){
-                            $query->whereAsanImzaId($value);
+                            $query->whereHas('asanImza', function ($q) use ($value) {
+                                $q->whereBelongsTo(Company::find($value));
+                            });
                         }else{
                             if($column == 'code'){
                                 $query->where($column, 'LIKE', "%$value%");

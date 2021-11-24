@@ -49,9 +49,9 @@ class AsanImzaController extends Controller
 
     public function searchCompany(Request $request): object
     {
-        $asanImzaCompanies = AsanImza::whereHas('company', function ($query) use ($request){
-                $query->where('name', 'LIKE', "%{$request->get('search')}%");
-            })
+        $asanImzaCompanies = Company::query()
+            ->has('asanImzalar')
+            ->where('name', 'LIKE', "%{$request->get('search')}%")
             ->limit(10)
             ->get();
 
@@ -60,7 +60,7 @@ class AsanImzaController extends Controller
         foreach ($asanImzaCompanies as $asanImzaCompany) {
             $asanImzaCompaniesArray[] = [
                 "id"   => $asanImzaCompany->id,
-                "text" => "{$asanImzaCompany->getRelationValue('company')->getAttribute('name')}",
+                "text" => "{$asanImzaCompany->getAttribute('name')}",
             ];
         }
 
