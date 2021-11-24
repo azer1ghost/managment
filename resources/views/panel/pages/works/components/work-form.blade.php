@@ -293,7 +293,7 @@
             }
 
             $('.copy').click(function (){
-                const service = '{{$data->getRelationValue('service')->getTranslation('label', 'az')}}';
+                const service = '{{$data->getRelationValue('service')->getTranslation('name', 'az')}}';
                 const user = '{{$data->getRelationValue('user')->getAttribute('fullname')}}';
                 const client = '{{$data->getRelationValue('client')->getAttribute('fullname_with_voen')}}';
                 const asanImza = '{{$data->getRelationValue('asanImza')->getAttribute('user_with_company')}}';
