@@ -46,7 +46,7 @@ class AccountController extends Controller
         $validated['company_id']     =  !in_array($currentRole, array(1, 2)) ? $currentCompany : $validated['company_id'];
         $validated['department_id']  =  !in_array($currentRole, array(1, 2)) ? $currentDepartment : $validated['department_id'];
 
-        $this->permissions($validated);
+        $this->permissions($validated, $user);
 
         if(is_null($request->get('password'))){
             unset($validated['password']);

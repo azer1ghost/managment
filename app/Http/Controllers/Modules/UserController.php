@@ -141,7 +141,7 @@ class UserController extends Controller
     {
         $validated = $request->validated();
 
-        $this->permissions($validated);
+        $this->permissions($validated, $user);
 
         if(is_null($request->get('password'))){
             unset($validated['password']);

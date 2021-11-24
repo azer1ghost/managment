@@ -93,7 +93,7 @@ class PositionController extends Controller
         $validated = $request->validated();
 
         $this->translates($validated);
-        $this->permissions($validated);
+        $this->permissions($validated, $position);
 
         $position->update($validated);
 
