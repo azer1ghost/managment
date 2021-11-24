@@ -46,9 +46,10 @@
                 <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-service_id">@lang('translates.general.work_service')</label>
                     @if(request()->has('service_id') || !is_null($data))
-                        @php($service = request()->get('service_id') ?? optional($data)->getAttribute('service_id'))
-                        <input disabled type="text" class="form-control" id="data-service_id" value="{{\App\Models\Service::find($service)->name}}">
-                        <input type="hidden" @if(empty($this->subServices)) name="service_id"  @endif value="{{$service}}">
+                        @php($serviceId = request()->get('service_id') ?? optional($data)->getAttribute('service_id'))
+                        @php($service = \App\Models\Service::find($serviceId))
+                        <input disabled type="text" class="form-control" id="data-service_id" value="{{$service->name}}">
+                        <input type="hidden" @if(empty($this->subServices)) name="service_id"  @endif value="{{$serviceId}}">
                     @endif
                 </div>
 
@@ -292,7 +293,7 @@
             }
 
             $('.copy').click(function (){
-                const service = '{{$data->getRelationValue('service')->getAttribute('name')}}';
+                const service = '{{$data->getRelationValue('service')->getTranslation('label', 'az')}}';
                 const user = '{{$data->getRelationValue('user')->getAttribute('fullname')}}';
                 const client = '{{$data->getRelationValue('client')->getAttribute('fullname_with_voen')}}';
                 const asanImza = '{{$data->getRelationValue('asanImza')->getAttribute('user_with_company')}}';
