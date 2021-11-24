@@ -38,7 +38,7 @@ class WorkPolicy
 
     public function delete(User $user, Work $work): bool
     {
-        if(!is_null($work->getAttribute('verified_at')))
+        if(!is_null($work->getAttribute('verified_at')) || $work->getAttribute('status') == $work::DONE)
         {
             return false;
         }
