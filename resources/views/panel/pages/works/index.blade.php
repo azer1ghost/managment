@@ -168,6 +168,7 @@
                     <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">@lang('translates.columns.created_by')</th>
                         <th scope="col">@lang('translates.columns.department')</th>
                         <th scope="col">@lang('translates.fields.user')</th>
                         <th scope="col">@lang('translates.navbar.service')</th>
@@ -187,6 +188,7 @@
                     @forelse($works as $work)
                         <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif>
                             <th scope="row">{{$work->getAttribute('code')}}</th>
+                            <td>{{$work->getRelationValue('creator')->getAttribute('fullname')}}</td>
                             <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
                             <td>
                                 @if(is_numeric($work->getAttribute('user_id')))
