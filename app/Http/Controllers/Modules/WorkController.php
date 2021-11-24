@@ -51,7 +51,7 @@ class WorkController extends Controller
             'done_at' => $request->has('check-done_at'),
         ];
 
-        $users = User::isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']);
+        $users = User::isActive()->where('department_id', $filters['department_id'])->get(['id', 'name', 'surname', 'position_id', 'role_id']);
         $departments = Department::get(['id', 'name']);
         $statuses = Work::statuses();
         $verifies = [1 => trans('translates.columns.unverified'), 2 => trans('translates.columns.verified')];
