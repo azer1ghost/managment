@@ -38,6 +38,8 @@ class Task extends Model implements DocumentableInterface, ResultableInterface
         'taskable_id',
     ];
 
+    const TO_DO = 'to_do';
+    const IN_PROGRESS = 'in_progress';
     const DONE = 'done';
 
     public static function statuses(): array
