@@ -17,7 +17,6 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
     <form action="{{route('works.index')}}">
-        <input type="hidden" name="filter" value="1">
         <div class="row d-flex justify-content-between mb-2">
             <div class="col-12">
                 <div class="row m-0">
