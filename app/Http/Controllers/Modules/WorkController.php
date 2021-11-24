@@ -40,17 +40,14 @@ class WorkController extends Controller
             'client_id' => $request->get('client_id'),
             'verified' => $request->get('verified'),
             'status' => $request->get('status'),
-//            'started_at' => $request->get('started_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
             'done_at' => $request->get('done_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
         ];
 
         $dateRanges = [
-//            'started_at' => explode(' - ', $filters['started_at']),
             'done_at' => explode(' - ', $filters['done_at']),
         ];
 
         $dateFilters = [
-//            'started_at' => $request->has('check-started_at'),
             'done_at' => $request->has('check-done_at'),
         ];
 
@@ -65,6 +62,16 @@ class WorkController extends Controller
             })->get(['id', 'name', 'detail']);
 
         $works = Work::query()
+            ->when(Work::userCannotViewAll(), function ($query) use ($user){
+                if(auth()->user()->hasPermission('viewAllDepartment-work')){
+                    $query->where('department_id', $user->getAttribute('department_id'));
+                }else{
+                    $query->where('user_id', $user->getAttribute('id'))->orWhere(function ($q) use ($user){
+                        $q->whereNull('user_id')->where('department_id', $user->getAttribute('department_id'));
+                    });
+                }
+                $query->orWhere('creator_id', $user->getAttribute('id'));
+            })
             ->where(function($query) use ($filters, $dateRanges, $dateFilters){
                 foreach ($filters as $column => $value) {
                     $query->when($value, function ($query, $value) use ($column, $dateRanges, $dateFilters) {
@@ -90,16 +97,6 @@ class WorkController extends Controller
                         }
                     });
                 }
-            })
-            ->when(Work::userCannotViewAll(), function ($query) use ($user){
-                if(auth()->user()->hasPermission('viewAllDepartment-work')){
-                    $query->where('department_id', $user->getAttribute('department_id'));
-                }else{
-                    $query->where('user_id', $user->getAttribute('id'))->orWhere(function ($q) use ($user){
-                        $q->whereNull('user_id')->where('department_id', $user->getAttribute('department_id'));
-                    });
-                }
-                $query->orWhere('creator_id', $user->getAttribute('id'));
             })
             ->latest('id')
             ->paginate(10);
