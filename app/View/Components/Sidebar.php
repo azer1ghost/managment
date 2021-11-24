@@ -149,6 +149,13 @@ class Sidebar extends Component
             ],
 
             (object)[
+                'title' => "Advertising",
+                'icon' => 'fab fa-adversal',
+                'url' => route('advertising.index'),
+                'permission' => 'viewAny-advertising',
+            ],
+
+            (object)[
                 'title' => "Debug Log",
                 'icon' => 'fal fa-bug',
                 'url' => url('module/log-reader'),

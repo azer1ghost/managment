@@ -2,7 +2,8 @@
 
 use App\Http\Middleware\Localization;
 use App\Services\FirebaseApi;
-use App\Http\Controllers\{Auth\LoginController,
+use App\Http\Controllers\{AdvertisingController,
+    Auth\LoginController,
     Auth\PhoneVerifycationController,
     Auth\RegisterController,
     Main\AccountController,
@@ -82,6 +83,7 @@ Route::group([
     Route::resource('/works', WorkController::class);
     Route::resource('/meetings', MeetingController::class);
     Route::resource('/conferences', ConferenceController::class);
+    Route::resource('/advertising', AdvertisingController::class);
     Route::resource('/documents', DocumentController::class)->except('store');
     Route::post('/documents/{modelId}', [DocumentController::class, 'store'])->name('documents.store');
     // resultable routes

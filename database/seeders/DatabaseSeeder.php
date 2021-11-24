@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
             PositionSeeder::class,
             WidgetSeeder::class,
             UpdateSeeder::class,
-            Client::class,
+            ClientSeeder::class,
         ]);
     }
 }
