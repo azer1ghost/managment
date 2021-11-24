@@ -87,7 +87,7 @@ class UserController extends Controller
 
         $validated['verify_code'] = rand(111111, 999999);
 
-        $this->permissions($validated);
+        $this->permissions($validated, new User());
 
         if ($request->file('avatar')) {
 
