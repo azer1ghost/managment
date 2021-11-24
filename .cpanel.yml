@@ -12,11 +12,21 @@ deployment:
     - /bin/cp -r ./resources       $DEPLOYPATH/
     - /bin/cp -r ./routes          $DEPLOYPATH/
     - /bin/cp -r ./storage         $DEPLOYPATH/
+    - /bin/cp -r ./tests           $DEPLOYPATH/
     # files
+    - /bin/cp .cpanel.yml    $DEPLOYPATH/
+    - /bin/cp .styleci.yml    $DEPLOYPATH/
+    - /bin/cp .env.example   $DEPLOYPATH/
+    - /bin/cp .gitattributes   $DEPLOYPATH/
+    - /bin/cp .gitignore   $DEPLOYPATH/
     - /bin/cp artisan        $DEPLOYPATH/
     - /bin/cp composer.json  $DEPLOYPATH/
+    - /bin/cp package.json   $DEPLOYPATH/
+    - /bin/cp package-lock.json   $DEPLOYPATH/
     - /bin/cp composer.lock  $DEPLOYPATH/
     - /bin/cp server.php     $DEPLOYPATH/
+    - /bin/cp phpunit.xml    $DEPLOYPATH/
+    - /bin/cp README.md      $DEPLOYPATH/
     - /bin/cp webpack.mix.js $DEPLOYPATH/
     # Composer install
-    #- /home/mobilgro/composer install --optimize-autoloader --no-dev
+    - /home/mobilgro/composer install --optimize-autoloader --no-dev
