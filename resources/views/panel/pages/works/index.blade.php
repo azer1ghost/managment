@@ -96,10 +96,10 @@
                         <select name="asan_imza_company_id" id="asanCompanyFilter" class="asanCompany-filter" style="width: 100% !important;">
                             @if(is_numeric($filters['asan_imza_company_id']))
                                 @php
-                                    $asanCompany = \App\Models\AsanImza::find($filters['asan_imza_company_id']);
+                                    $asanCompany = \App\Models\Company::find($filters['asan_imza_company_id']);
                                 @endphp
                                 <option value="{{$filters['asan_imza_company_id']}}">
-                                    {{$asanCompany->getRelationValue('company')->getAttribute('name')}}
+                                    {{$asanCompany->getAttribute('name')}}
                                 </option>
                             @endif
                         </select>
