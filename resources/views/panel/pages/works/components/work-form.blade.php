@@ -95,7 +95,7 @@
                     </div>
                 @endif
 
-                @if($this->service->getAttribute('has_asan_imza'))
+                @if($this->service->getAttribute('has_asan_imza') && $method != 'POST')
                     <div class="form-group col-12 col-md-6" wire:key="asan-imza" wire:ignore>
                         <label for="data-asan_imza_id">Asan imza</label>
                         <select name="asan_imza_id" id="data-asan_imza_id" class="select2 form-control">
