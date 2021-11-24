@@ -322,7 +322,7 @@
             focus: true,
             ajax: {
                 delay: 500,
-                url: "{{route('asanImza.search')}}",
+                url: "{{route('asanImza.user.search')}}",
                 dataType: 'json',
                 type: 'GET',
                 data: function (params) {

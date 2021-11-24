@@ -37,6 +37,7 @@ class WorkController extends Controller
             'user_id' => $userRequest,
             'service_id' => $request->get('service_id'),
             'asan_imza_id' => $request->get('asan_imza_id'),
+            'asan_imza_company_id' => $request->get('asan_imza_company_id'),
             'client_id' => $request->get('client_id'),
             'verified' => $request->get('verified'),
             'status' => $request->get('status'),
@@ -83,6 +84,8 @@ class WorkController extends Controller
                                     $query->whereNotNull('verified_at');
                                     break;
                             }
+                        }else if($column == 'asan_imza_company_id'){
+                            $query->whereAsanImzaId($value);
                         }else{
                             if($column == 'code'){
                                 $query->where($column, 'LIKE', "%$value%");

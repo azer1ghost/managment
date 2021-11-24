@@ -18,7 +18,7 @@ class AsanImzaController extends Controller
         $this->authorizeResource(AsanImza::class, 'asan_imza');
     }
 
-    public function search(Request $request): object
+    public function searchUser(Request $request): object
     {
         $asanImzaUsers = AsanImza::whereHas('user', function ($query) use ($request){
             $query->where('name', 'LIKE', "%{$request->get('search')}%")
@@ -41,6 +41,31 @@ class AsanImzaController extends Controller
 
         return (object) [
             'results' => $asanImzaUsersArray,
+            'pagination' => [
+                "more" => false
+            ]
+        ];
+    }
+
+    public function searchCompany(Request $request): object
+    {
+        $asanImzaCompanies = AsanImza::whereHas('company', function ($query) use ($request){
+                $query->where('name', 'LIKE', "%{$request->get('search')}%");
+            })
+            ->limit(10)
+            ->get();
+
+        $asanImzaCompaniesArray = [];
+
+        foreach ($asanImzaCompanies as $asanImzaCompany) {
+            $asanImzaCompaniesArray[] = [
+                "id"   => $asanImzaCompany->id,
+                "text" => "{$asanImzaCompany->getRelationValue('company')->getAttribute('name')}",
+            ];
+        }
+
+        return (object) [
+            'results' => $asanImzaCompaniesArray,
             'pagination' => [
                 "more" => false
             ]
