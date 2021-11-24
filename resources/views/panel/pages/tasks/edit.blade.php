@@ -192,6 +192,7 @@
                 success: function (){},
                 error: function (){}
             });
+            Livewire.emit('taskListChecked')
         });
     </script>
 @endsection

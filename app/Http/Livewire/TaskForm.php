@@ -30,6 +30,7 @@ class TaskForm extends Component
         'userChanging' => 'confirmUserChange',
         'statusChanged' => 'updateSelectedStatus',
         'userChanged' => 'updateSelectedUser',
+        'taskListChecked' => '$refresh'
     ];
 
     public function getDepartmentProperty()

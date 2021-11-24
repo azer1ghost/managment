@@ -57,6 +57,9 @@
                 <option value="null" disabled selected>{{__('translates.fields.status.key')}} {{__('translates.placeholders.choose')}}</option>
                 @foreach($statuses as $status)
                     @if ($status == 'done')
+                        @if(optional($task)->getAttribute('status') == \App\Models\Task::TO_DO)
+                            @continue
+                        @endif
                         <option value="{{$status}}" @if (!$task->isFinished() ) disabled @endif>@lang("translates.fields.status.options.{$status}")</option>
                     @else
                         <option value="{{$status}}">@lang("translates.fields.status.options.{$status}")</option>
