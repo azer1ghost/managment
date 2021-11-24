@@ -70,7 +70,6 @@ class WorkController extends Controller
                         $q->whereNull('user_id')->where('department_id', $user->getAttribute('department_id'));
                     });
                 }
-                $query->orWhere('creator_id', $user->getAttribute('id'));
             })
             ->where(function($query) use ($filters, $dateRanges, $dateFilters){
                 foreach ($filters as $column => $value) {
