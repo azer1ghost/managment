@@ -54,6 +54,8 @@ class WorkController extends Controller
 
         $users = User::isActive()->where('department_id', $filters['department_id'])->get(['id', 'name', 'surname', 'position_id', 'role_id']);
         $departments = Department::get(['id', 'name']);
+        $companies = Company::query()->has('asanImzalar')->limit(10)->get();
+
         $statuses = Work::statuses();
         $verifies = [1 => trans('translates.columns.unverified'), 2 => trans('translates.columns.verified')];
 
@@ -105,7 +107,7 @@ class WorkController extends Controller
             ->latest('id')
             ->paginate(10);
 
-        return view('panel.pages.works.index', compact('works', 'services', 'users', 'departments', 'filters', 'statuses', 'verifies'));
+        return view('panel.pages.works.index', compact('works', 'services', 'users', 'departments', 'filters', 'statuses', 'verifies', 'companies'));
     }
 
     public function create()

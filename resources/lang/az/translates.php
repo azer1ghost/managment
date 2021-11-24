@@ -24,7 +24,7 @@ return [
         'email' => 'E-poçtaya görə filtrləyin',
         'source' => 'Mənbəyə görə filtrləyin',
         'contact_method' => 'Əlaqə vasitəsinə görə filtrləyin',
-        'clear' => 'Sil',
+        'clear' => 'Filteri təmizlə',
         'select' => 'Seçilməyib',
         'or' => ":first, :second və ya :third filtrləyin",
         'filter_by' => 'Filterlə'

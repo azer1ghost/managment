@@ -47,31 +47,6 @@ class AsanImzaController extends Controller
         ];
     }
 
-    public function searchCompany(Request $request): object
-    {
-        $asanImzaCompanies = Company::query()
-            ->has('asanImzalar')
-            ->where('name', 'LIKE', "%{$request->get('search')}%")
-            ->limit(10)
-            ->get();
-
-        $asanImzaCompaniesArray = [];
-
-        foreach ($asanImzaCompanies as $asanImzaCompany) {
-            $asanImzaCompaniesArray[] = [
-                "id"   => $asanImzaCompany->id,
-                "text" => "{$asanImzaCompany->getAttribute('name')}",
-            ];
-        }
-
-        return (object) [
-            'results' => $asanImzaCompaniesArray,
-            'pagination' => [
-                "more" => false
-            ]
-        ];
-    }
-
     public function index(Request $request)
     {
         $limit = $request->get('limit', 25);

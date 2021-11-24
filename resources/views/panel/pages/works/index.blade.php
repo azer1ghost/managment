@@ -93,15 +93,16 @@
 
                     <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                         <label class="d-block" for="asanCompanyFilter">Asan Imza @lang('translates.columns.company')</label>
-                        <select name="asan_imza_company_id" id="asanCompanyFilter" class="asanCompany-filter" style="width: 100% !important;">
-                            @if(is_numeric($filters['asan_imza_company_id']))
-                                @php
-                                    $asanCompany = \App\Models\Company::find($filters['asan_imza_company_id']);
-                                @endphp
-                                <option value="{{$filters['asan_imza_company_id']}}">
-                                    {{$asanCompany->getAttribute('name')}}
+                        <select name="asan_imza_company_id" id="asanCompanyFilter" class="select2" data-width="fit" style="width: 100% !important;">
+                            <option value="">@lang('translates.filters.select')</option>
+                            @foreach($companies as $company)
+                                <option
+                                        @if($company->getAttribute('id') == $filters['asan_imza_company_id']) selected @endif
+                                value="{{$company->getAttribute('id')}}"
+                                >
+                                    {{$company->getAttribute('name')}}
                                 </option>
-                            @endif
+                            @endforeach
                         </select>
                     </div>
 
@@ -205,7 +206,7 @@
                                     @lang('translates.navbar.general')
                                 @endif
                             </td>
-                            <td>{{$work->getRelationValue('asanImza')->getAttribute('user_with_company')}}</td>
+                            <td>{{$work->asanImza()->exists() ? $work->getRelationValue('asanImza')->getAttribute('user_with_company') : trans('translates.filters.select')}}</td>
                             <td><i class="{{$work->getRelationValue('service')->getAttribute('icon')}} pr-2" style="font-size: 20px"></i> {{$work->getRelationValue('service')->getAttribute('name')}}</td>
                             <td data-toggle="tooltip" data-placement="top" title="{{$work->getRelationValue('client')->getAttribute('fullname')}}" >
                                 {{mb_strimwidth($work->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}
@@ -362,7 +363,6 @@
         const select2 = $('.select2');
         const clientFilter = $('.client-filter');
         const asanUserFilter = $('.asanUser-filter');
-        const asanCompanyFilter = $('.asanCompany-filter');
 
         select2.select2({
             theme: 'bootstrap4',
@@ -408,34 +408,11 @@
             }
         })
 
-        asanCompanyFilter.select2({
-            placeholder: "Search",
-            minimumInputLength: 3,
-            // width: 'resolve',
-            theme: 'bootstrap4',
-            focus: true,
-            ajax: {
-                delay: 500,
-                url: "{{route('asanImza.company.search')}}",
-                dataType: 'json',
-                type: 'GET',
-                data: function (params) {
-                    return {
-                        search: params.term,
-                    }
-                }
-            }
-        })
-
         clientFilter.on('select2:open', function (e) {
             document.querySelector('.select2-search__field').focus();
         });
 
         asanUserFilter.on('select2:open', function (e) {
-            document.querySelector('.select2-search__field').focus();
-        });
-
-        asanCompanyFilter.on('select2:open', function (e) {
             document.querySelector('.select2-search__field').focus();
         });
 

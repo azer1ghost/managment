@@ -25,7 +25,7 @@ return [
         'written_by' => 'Filter by Written by',
         'source' => 'Filter by Source',
         'contact_method' => 'Filter by Contact Method',
-        'clear' => 'Clear',
+        'clear' => 'Clear filters',
         'select' => 'Not Selected',
         'or' => "Filter by :first, :second or :third",
         'filter_by' => 'Filter by'
