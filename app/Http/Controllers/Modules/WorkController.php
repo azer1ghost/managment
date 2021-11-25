@@ -27,14 +27,9 @@ class WorkController extends Controller
             $user->getAttribute('department_id') :
                 $request->get('department_id');
 
-        $userRequest = Work::userCannotViewAll() && Work::userCannotViewDepartmentWorks() ?
-            $user->getAttribute('id') :
-            $request->get('user_id');
-
         $filters = [
             'code' => $request->get('code'),
             'department_id' => $departmentRequest,
-            'user_id' => $userRequest,
             'service_id' => $request->get('service_id'),
             'asan_imza_id' => $request->get('asan_imza_id'),
             'asan_imza_company_id' => $request->get('asan_imza_company_id'),
@@ -45,6 +40,10 @@ class WorkController extends Controller
             'done_at' => $request->get('done_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
         ];
 
+        if(Work::userCanViewAll() || Work::userCanViewDepartmentWorks()){
+            $filters['user_id'] = $request->get('user_id');
+        }
+
         $dateRanges = [
             'done_at' => explode(' - ', $filters['done_at']),
         ];
@@ -53,7 +52,7 @@ class WorkController extends Controller
             'done_at' => $request->has('check-done_at'),
         ];
 
-        $users = User::isActive()->where('department_id', $filters['department_id'])->get(['id', 'name', 'surname', 'position_id', 'role_id']);
+        $users = User::isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']);
         $departments = Department::get(['id', 'name']);
         $companies = Company::query()->has('asanImzalar')->limit(10)->get();
 

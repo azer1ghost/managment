@@ -38,4 +38,9 @@ class Option extends Model
     {
         return $this->belongsToMany(Company::class, 'option_parameter')->withPivot('parameter_id');
     }
+
+    public function departments(): BelongsToMany
+    {
+        return $this->belongsToMany(Department::class, 'option_parameter')->withPivot('parameter_id');
+    }
 }

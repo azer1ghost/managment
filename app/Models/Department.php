@@ -6,6 +6,7 @@ use App\Traits\GetClassInfo;
 use App\Traits\Loger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -41,6 +42,20 @@ class Department extends Model
     public function tasks(): MorphMany
     {
         return $this->morphMany(Task::class, 'taskable');
+    }
+
+    public function parameters(): BelongsToMany
+    {
+        return $this->belongsToMany(Parameter::class);
+    }
+
+    public function options($parameter_id = null): BelongsToMany
+    {
+        if(is_null($parameter_id)){
+            return $this->belongsToMany(Option::class, 'option_parameter')->withPivot('parameter_id');
+        }else{
+            return $this->belongsToMany(Option::class, 'option_parameter')->withPivotValue('parameter_id', $parameter_id);
+        }
     }
 
     public function getShortAttribute(): string

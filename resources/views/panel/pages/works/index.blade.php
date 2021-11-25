@@ -46,24 +46,25 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                        <label class="d-block" for="userFilter">{{__('translates.general.user_select')}}</label>
-                        <select id="userFilter" class="select2"
-                                name="user_id"
-                                data-width="fit" title="{{__('translates.filters.select')}}"
-                                @if(\App\Models\Work::userCannotViewAll() && \App\Models\Work::userCannotViewDepartmentWorks()) disabled @endif
-                        >
-                            <option value="">@lang('translates.filters.select')</option>
-                            @foreach($users as $user)
-                                <option
-                                        @if($user->getAttribute('id') == $filters['user_id']) selected @endif
-                                        value="{{$user->getAttribute('id')}}"
-                                >
-                                    {{$user->getAttribute('fullname_with_position')}}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+                    @if(\App\Models\Work::userCanViewAll() || \App\Models\Work::userCanViewDepartmentWorks())
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="userFilter">{{__('translates.general.user_select')}}</label>
+                            <select id="userFilter" class="select2"
+                                    name="user_id"
+                                    data-width="fit" title="{{__('translates.filters.select')}}"
+                            >
+                                <option value="">@lang('translates.filters.select')</option>
+                                @foreach($users as $user)
+                                    <option
+                                            @if($user->getAttribute('id') == $filters['user_id']) selected @endif
+                                    value="{{$user->getAttribute('id')}}"
+                                    >
+                                        {{$user->getAttribute('fullname_with_position')}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
 
                     <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0 pr-0">
                         <label class="d-block" for="serviceFilter">{{__('translates.general.select_service')}}</label>
@@ -331,7 +332,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-6">
+            <div class="col-12">
                 <div class="float-right">
                     {{$works->appends(request()->input())->links()}}
                 </div>

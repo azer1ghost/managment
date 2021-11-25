@@ -16,7 +16,7 @@ class CreateOptionParameterTable extends Migration
         Schema::create('option_parameter', function (Blueprint $table) {
             $table->foreignId('option_id')->index()->constrained()->onDelete('CASCADE');
             $table->foreignId('parameter_id')->index()->constrained()->onDelete('CASCADE');
-            $table->foreignId('company_id')->index()->constrained()->onDelete('CASCADE');
+            $table->foreignId('company_id')->nullable()->index()->constrained()->onDelete('CASCADE');
         });
     }
 
