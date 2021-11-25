@@ -67,12 +67,12 @@ class WorkController extends Controller
 
         $works = Work::query()
             ->when(Work::userCannotViewAll(), function ($query) use ($user){
-                if(auth()->user()->hasPermission('viewAllDepartment-work')){
-                    $query->where('department_id', $user->getAttribute('department_id'));
-                }else{
+                if(!auth()->user()->hasPermission('viewAllDepartment-work')){
                     $query->where('user_id', $user->getAttribute('id'))->orWhere(function ($q) use ($user){
                         $q->whereNull('user_id')->where('department_id', $user->getAttribute('department_id'));
                     });
+                }else{
+                    $query->where('department_id', $user->getAttribute('department_id'));
                 }
             })
             ->where(function($query) use ($filters, $dateRanges, $dateFilters){
@@ -98,8 +98,10 @@ class WorkController extends Controller
                                     break;
                             }
                         }else if($column == 'asan_imza_company_id'){
-                            $query->whereHas('asanImza', function ($q) use ($value) {
-                                $q->whereBelongsTo(Company::find($value));
+                            $query->whereHas('asanImza', function ($asanImzaQuery) use ($value) {
+                                $asanImzaQuery->whereHas('company', function ($companyQuery) use ($value) {
+                                    $companyQuery->whereId($value);
+                                });
                             });
                         }else{
                             if($column == 'code'){
