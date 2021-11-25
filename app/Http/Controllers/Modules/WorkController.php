@@ -67,13 +67,14 @@ class WorkController extends Controller
 
         $works = Work::query()
             ->when(Work::userCannotViewAll(), function ($query) use ($user){
-                if(!auth()->user()->hasPermission('viewAllDepartment-work')){
-                    $query->where('user_id', $user->getAttribute('id'))
+                if(auth()->user()->hasPermission('viewAllDepartment-work')){
+                    $query->where('department_id', $user->getAttribute('department_id'));
+                }else{
+                    $query
+                        ->where('user_id', $user->getAttribute('id'))
                         ->orWhere(function ($q) use ($user){
                             $q->whereNull('user_id')->whereBelongsTo($user->getRelationValue('department'));
                         });
-                }else{
-                    $query->where('department_id', $user->getAttribute('department_id'));
                 }
             })
             ->where(function($query) use ($filters, $dateRanges, $dateFilters){
