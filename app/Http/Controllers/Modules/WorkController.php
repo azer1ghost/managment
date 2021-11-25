@@ -72,7 +72,7 @@ class WorkController extends Controller
                 }else{
                     $query
                         ->where(function ($q) use ($user){
-                            $q->whereNull('user_id')->whereBelongsTo($user->getRelationValue('department'));
+                            $q->whereNull('user_id')->where('department_id', $user->getAttribute('department_id'));
                         })
                         ->orWhere('user_id', $user->getAttribute('id'));
 
