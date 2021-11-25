@@ -66,7 +66,7 @@
                         </div>
                     @endif
 
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0 pr-0">
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                         <label class="d-block" for="serviceFilter">{{__('translates.general.select_service')}}</label>
                         <select id="serviceFilter" class="select2"
                                 name="service_id"
