@@ -182,8 +182,18 @@
                                 class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>
                 </div>
             </div>
+            <div class="col-6 pt-2 d-flex align-items-center">
+                <p class="mb-0"> @lang('translates.total_items', ['count' => $works->count(), 'total' => $works->total()])</p>
+                <div class="input-group col-md-3">
+                    <select name="limit" class="custom-select" id="size">
+                        @foreach([25, 50, 100, 250] as $size)
+                            <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
             @can('create', App\Models\Work::class)
-                <div class="col-12 py-3">
+                <div class="col-6 py-3">
                     <a class="btn btn-outline-success float-right" data-toggle="modal" data-target="#create-work">@lang('translates.buttons.create')</a>
                 </div>
             @endcan
@@ -201,10 +211,8 @@
                         <th scope="col">@lang('translates.general.hard_level')</th>
                         <th scope="col">Status</th>
                         @if(auth()->user()->hasPermission('editEarning-work')) <th scope="col">@lang('translates.general.earning')</th> @endif
-{{--                        <th scope="col">@lang('translates.general.started_at')</th>--}}
                         <th scope="col">@lang('translates.columns.created_at')</th>
                         <th scope="col">@lang('translates.general.done_at')</th>
-{{--                        <th scope="col">@lang('translates.general.verified_at')</th>--}}
                         <th scope="col">@lang('translates.columns.verified')</th>
                         <th scope="col"></th>
                     </tr>
@@ -254,7 +262,6 @@
                             @if(auth()->user()->hasPermission('editEarning-work')) <td>{{$work->getAttribute('earning') * $work->getAttribute('currency_rate')}} AZN</td> @endif
                             <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip" data-placement="top">{{$work->getAttribute('created_at')->diffForHumans()}}</td>
                             <td>{{optional($work->getAttribute('done_at'))->format('Y-m-d H:i')}}</td>
-{{--                            <td>{{$work->getAttribute('verified_at')}}</td>--}}
                             <td>
                                 @php
                                     $status = '';
@@ -379,6 +386,10 @@
         const select2 = $('.select2');
         const clientFilter = $('.client-filter');
         const asanUserFilter = $('.asanUser-filter');
+
+        $('select[name="limit"]').change(function () {
+            $(this).form().submit();
+        });
 
         select2.select2({
             theme: 'bootstrap4',

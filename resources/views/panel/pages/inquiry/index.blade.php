@@ -191,7 +191,6 @@
             </a>
         </div>
 
-
         <div class="col-6 pt-2 ">
             <p> @lang('translates.total_items', ['count' => $inquiries->count(), 'total' => $inquiries->total()])</p>
         </div>

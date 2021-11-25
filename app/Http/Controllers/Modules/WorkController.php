@@ -22,6 +22,7 @@ class WorkController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
+        $limit  = $request->get('limit', 25);
 
         $departmentRequest = Work::userCannotViewAll() ?
             $user->getAttribute('department_id') :
@@ -117,7 +118,7 @@ class WorkController extends Controller
                 }
             })
             ->latest('id')
-            ->paginate(10);
+            ->paginate($limit);
 
         return view('panel.pages.works.index',
             compact('works', 'services', 'users', 'departments',
