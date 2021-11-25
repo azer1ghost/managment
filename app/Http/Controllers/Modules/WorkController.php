@@ -34,8 +34,8 @@ class WorkController extends Controller
             'asan_imza_id' => $request->get('asan_imza_id'),
             'asan_imza_company_id' => $request->get('asan_imza_company_id'),
             'client_id' => $request->get('client_id'),
-            'verified' => $request->get('verified'),
-            'price_verified' => $request->get('price_verified'),
+            'verified_at' => $request->get('verified_at'),
+            'price_verified_at' => $request->get('price_verified_at'),
             'status' => $request->get('status'),
             'done_at' => $request->get('done_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
         ];
@@ -66,29 +66,30 @@ class WorkController extends Controller
             })->get(['id', 'name', 'detail']);
 
         $works = Work::query()
+            ->when(Work::userCannotViewAll(), function ($query) use ($user){
+                if(!auth()->user()->hasPermission('viewAllDepartment-work')){
+                    $query->where('user_id', $user->getAttribute('id'));
+                    $query->orWhere(function ($q) use ($user){
+                        $q->whereNull('user_id')->where('department_id', $user->getAttribute('department_id'));
+                    });
+                }else{
+                    $query->where('department_id', $user->getAttribute('department_id'));
+                }
+            })
             ->where(function($query) use ($filters, $dateRanges, $dateFilters){
                 foreach ($filters as $column => $value) {
                     $query->when($value, function ($query, $value) use ($column, $dateRanges, $dateFilters) {
-                        if($column == 'verified'){
+                        if($column == 'verified_at' || $column == 'price_verified_at'){
                             switch ($value){
                                 case 1:
-                                    $query->whereNull('verified_at');
+                                    $query->whereNull($column);
                                     break;
                                 case 2:
-                                    $query->whereNotNull('verified_at');
+                                    $query->whereNotNull($column);
                                     break;
                             }
                         }
-                        else if($column == 'price_verified'){
-                            switch ($value){
-                                case 1:
-                                    $query->whereNull('price_verified_at');
-                                    break;
-                                case 2:
-                                    $query->whereNotNull('price_verified_at');
-                                    break;
-                            }
-                        }else if($column == 'asan_imza_company_id'){
+                        else if($column == 'asan_imza_company_id'){
                             $query->whereHas('asanImza', function ($asanImzaQuery) use ($value) {
                                 $asanImzaQuery->whereHas('company', function ($companyQuery) use ($value) {
                                     $companyQuery->whereId($value);
@@ -111,15 +112,6 @@ class WorkController extends Controller
                             }
                         }
                     });
-                }
-            })
-            ->when(Work::userCannotViewAll(), function ($query) use ($user){
-                if(!auth()->user()->hasPermission('viewAllDepartment-work')){
-                    $query->where('user_id', $user->getAttribute('id'))->orWhere(function ($q) use ($user){
-                        $q->whereNull('user_id')->where('department_id', $user->getAttribute('department_id'));
-                    });
-                }else{
-                    $query->where('department_id', $user->getAttribute('department_id'));
                 }
             })
             ->latest('id')

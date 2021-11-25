@@ -145,12 +145,12 @@
 
                     <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                         <label class="d-block" for="verifiedFilter">@lang('translates.columns.verified')</label>
-                        <select name="verified" id="verifiedFilter" class="form-control" style="width: 100% !important;">
+                        <select name="verified_at" id="verifiedFilter" class="form-control" style="width: 100% !important;">
                             <option value="">@lang('translates.filters.select')</option>
                             @foreach($verifies as $key => $verify)
                                 <option
                                         value="{{$key}}"
-                                        @if($key == $filters['verified']) selected @endif
+                                        @if($key == $filters['verified_at']) selected @endif
                                 >
                                     {{$verify}}
                                 </option>
@@ -160,12 +160,12 @@
 
                     <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                         <label class="d-block" for="priceVerifiedFilter">@lang('translates.columns.price_verified')</label>
-                        <select name="price_verified" id="priceVerifiedFilter" class="form-control" style="width: 100% !important;">
+                        <select name="price_verified_at" id="priceVerifiedFilter" class="form-control" style="width: 100% !important;">
                             <option value="">@lang('translates.filters.select')</option>
                             @foreach($priceVerifies as $key => $verify)
                                 <option
                                         value="{{$key}}"
-                                        @if($key == $filters['price_verified']) selected @endif
+                                        @if($key == $filters['price_verified_at']) selected @endif
                                 >
                                     {{$verify}}
                                 </option>
