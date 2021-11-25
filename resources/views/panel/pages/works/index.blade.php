@@ -156,6 +156,21 @@
                             @endforeach
                         </select>
                     </div>
+
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                        <label class="d-block" for="priceVerifiedFilter">@lang('translates.columns.price_verified')</label>
+                        <select name="price_verified" id="priceVerifiedFilter" class="form-control" style="width: 100% !important;">
+                            <option value="">@lang('translates.filters.select')</option>
+                            @foreach($priceVerifies as $key => $verify)
+                                <option
+                                        value="{{$key}}"
+                                        @if($key == $filters['price_verified']) selected @endif
+                                >
+                                    {{$verify}}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="col-12 mt-3 mb-5 d-flex align-items-center justify-content-end">

@@ -40,6 +40,7 @@ class WorkController extends Controller
             'asan_imza_company_id' => $request->get('asan_imza_company_id'),
             'client_id' => $request->get('client_id'),
             'verified' => $request->get('verified'),
+            'price_verified' => $request->get('price_verified'),
             'status' => $request->get('status'),
             'done_at' => $request->get('done_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
         ];
@@ -58,6 +59,7 @@ class WorkController extends Controller
 
         $statuses = Work::statuses();
         $verifies = [1 => trans('translates.columns.unverified'), 2 => trans('translates.columns.verified')];
+        $priceVerifies = [1 => trans('translates.columns.price_unverified'), 2 => trans('translates.columns.price_verified')];
 
         $services = Service::query()
             ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
@@ -86,6 +88,16 @@ class WorkController extends Controller
                                     $query->whereNotNull('verified_at');
                                     break;
                             }
+                        }
+                        else if($column == 'price_verified'){
+                            switch ($value){
+                                case 1:
+                                    $query->whereNull('price_verified_at');
+                                    break;
+                                case 2:
+                                    $query->whereNotNull('price_verified_at');
+                                    break;
+                            }
                         }else if($column == 'asan_imza_company_id'){
                             $query->whereHas('asanImza', function ($q) use ($value) {
                                 $q->whereBelongsTo(Company::find($value));
@@ -98,7 +110,12 @@ class WorkController extends Controller
                                 $query->where($column, $value);
                             }
                             else if(is_string($value) && $dateFilters[$column]){
-                                $query->whereBetween($column, [Carbon::parse($dateRanges[$column][0])->startOfDay(), Carbon::parse($dateRanges[$column][1])->endOfDay()]);
+                                $query->whereBetween($column,
+                                    [
+                                        Carbon::parse($dateRanges[$column][0])->startOfDay(),
+                                        Carbon::parse($dateRanges[$column][1])->endOfDay()
+                                    ]
+                                );
                             }
                         }
                     });
@@ -107,7 +124,10 @@ class WorkController extends Controller
             ->latest('id')
             ->paginate(10);
 
-        return view('panel.pages.works.index', compact('works', 'services', 'users', 'departments', 'filters', 'statuses', 'verifies', 'companies'));
+        return view('panel.pages.works.index',
+            compact('works', 'services', 'users', 'departments',
+            'filters', 'statuses', 'verifies', 'priceVerifies', 'companies')
+        );
     }
 
     public function create()

@@ -378,7 +378,7 @@ return [
         'rejected' => 'Qəbul edilməyib',
         'unverified' => 'Təsdiq edilməyib',
         'price_verified' => 'Qiymət təsdiqlənib',
-
+        'price_unverified' => 'Qiymət təsdiqlənməyib',
     ],
 
     'notify' => [
