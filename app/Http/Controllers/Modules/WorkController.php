@@ -66,15 +66,6 @@ class WorkController extends Controller
             })->get(['id', 'name', 'detail']);
 
         $works = Work::query()
-            ->when(Work::userCannotViewAll(), function ($query) use ($user){
-                if(!auth()->user()->hasPermission('viewAllDepartment-work')){
-                    $query->where('user_id', $user->getAttribute('id'))->orWhere(function ($q) use ($user){
-                        $q->whereNull('user_id')->where('department_id', $user->getAttribute('department_id'));
-                    });
-                }else{
-                    $query->where('department_id', $user->getAttribute('department_id'));
-                }
-            })
             ->where(function($query) use ($filters, $dateRanges, $dateFilters){
                 foreach ($filters as $column => $value) {
                     $query->when($value, function ($query, $value) use ($column, $dateRanges, $dateFilters) {
@@ -120,6 +111,15 @@ class WorkController extends Controller
                             }
                         }
                     });
+                }
+            })
+            ->when(Work::userCannotViewAll(), function ($query) use ($user){
+                if(!auth()->user()->hasPermission('viewAllDepartment-work')){
+                    $query->where('user_id', $user->getAttribute('id'))->orWhere(function ($q) use ($user){
+                        $q->whereNull('user_id')->where('department_id', $user->getAttribute('department_id'));
+                    });
+                }else{
+                    $query->where('department_id', $user->getAttribute('department_id'));
                 }
             })
             ->latest('id')
