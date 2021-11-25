@@ -71,10 +71,11 @@ class WorkController extends Controller
                     $query->where('department_id', $user->getAttribute('department_id'));
                 }else{
                     $query
-                        ->where('user_id', $user->getAttribute('id'))
-                        ->orWhere(function ($q) use ($user){
+                        ->where(function ($q) use ($user){
                             $q->whereNull('user_id')->whereBelongsTo($user->getRelationValue('department'));
-                        });
+                        })
+                        ->orWhere('user_id', $user->getAttribute('id'));
+
                 }
             })
             ->where(function($query) use ($filters, $dateRanges, $dateFilters){
