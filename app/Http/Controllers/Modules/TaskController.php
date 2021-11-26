@@ -100,7 +100,7 @@ class TaskController extends Controller
                         }
                     })
                     ->latest()
-                    ->simplePaginate($limit),
+                    ->paginate($limit),
                 'departments' => Department::get(['id', 'name']),
                 'statuses' => $statuses,
                 'priorities' => $priorities,
