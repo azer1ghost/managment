@@ -62,7 +62,7 @@ class UpdateController extends Controller
             'data' => $update,
             'users' => User::get(['id', 'name', 'surname']),
             'statuses' => Update::statuses(),
-            'updates' => Update::whereNull('parent_id')->where('id', '!=', $update->id)->latest('datetime')->get(['id', 'name', 'datetime'])
+            'updates' => Update::whereNull('parent_id')->where('id', '!=', $update->getAttribute('id'))->latest('datetime')->get(['id', 'name', 'datetime'])
         ]);
     }
 
@@ -74,7 +74,7 @@ class UpdateController extends Controller
             'data' => $update,
             'users' => User::get(['id', 'name', 'surname']),
             'statuses' => Update::statuses(),
-            'updates' => Update::whereNull('parent_id')->where('id', '!=', $update->id)->latest('datetime')->get(['id', 'name', 'datetime'])
+            'updates' => Update::whereNull('parent_id')->where('id', '!=', $update->getAttribute('id'))->latest('datetime')->get(['id', 'name', 'datetime'])
         ]);
     }
 
@@ -82,7 +82,7 @@ class UpdateController extends Controller
     {
         $validated = $request->validated();
 
-        if($update->parent_id != $validated['parent_id']){
+        if($update->getAttribute('parent_id') != $validated['parent_id']){
             if($update->updates()->count() > 0){
                 return back()
                     ->withNotify('error', $update->getAttribute('name') . " has children", true);

@@ -76,7 +76,7 @@ Route::group([
     Route::resource('/task-lists', TaskListController::class)->only('store', 'update', 'destroy');
     Route::resource('/notifications', DatabaseNotificationController::class);
     Route::resource('/clients', ClientController::class);
-    Route::resource('/referrals', ReferralController::class);
+    Route::resource('/referrals', ReferralController::class)->except('create');
     Route::resource('/updates', UpdateController::class);
     Route::resource('/services', ServiceController::class);
     Route::put('/works/{work}/verify-price', [WorkController::class, 'verifyPrice'])->name('works.verifyPrice');

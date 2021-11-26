@@ -20,7 +20,7 @@ class OptionController extends Controller
     public function index(Request $request)
     {
         $search    =  $request->get('search');
-        $limit     =  $request->get('limit') ?? 10;
+        $limit     =  $request->get('limit', 10);
         $type      =  $request->get('type');
         $company   =  $request->get('company');
 
@@ -34,7 +34,7 @@ class OptionController extends Controller
                 'options' => Option::with(['parameters', 'companies'])
                     ->when($type,    fn ($query) => $query->whereHas('parameters', fn($q) => $q->where('option_parameter.parameter_id', $type)))
                     ->when($company, fn ($query) => $query->whereHas('companies',  fn($q) => $q->where('option_parameter.company_id', $company)))
-                    ->when($search,  fn ($query) => $query->where('text', 'like', "%".ucfirst($search)."%"))
+                    ->when($search,  fn ($query) => $query->where('text', 'like', "%$search%"))
                     ->latest('id')
                     ->paginate($limit),
                 'companies' => Company::isInquirable()->pluck('name', 'id')->toArray(),
@@ -60,9 +60,6 @@ class OptionController extends Controller
         $this->translates($validated);
 
         $option = Option::create($validated);
-
-
-
 
         self::saveParameters($option, $request->get('parameters'), $request->get('companies'));
 
@@ -112,7 +109,7 @@ class OptionController extends Controller
         // detach all relations before adding new ones
         $option->parameters()->detach();
 
-        foreach ($requestCompanies as $company){
+        foreach ($requestCompanies ?? [] as $company){
             $option->parameters()->attach($requestParameters, ['company_id' => $company]);
         }
     }

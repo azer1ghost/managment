@@ -25,7 +25,7 @@ class DocumentController extends Controller
     {
         $search = $request->get('search');
         $documents = Document::query()
-            ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"));
+            ->when($search, fn ($query) => $query->where('name', 'LIKE', "%$search%"));
 
         if(!auth()->user()->isDeveloper()){
             $documents = $documents->whereBelongsTo(auth()->user());

@@ -25,11 +25,10 @@ class WidgetController extends Controller
         return view('panel.pages.widgets.index')
             ->with([
                 'widgets' => Widget::query()
-                    ->when($search, fn ($query) => $query->where('key', 'like', "%".$search."%"))
+                    ->when($search, fn ($query) => $query->where('key', 'like', "%$search%"))
                     ->oldest('order')->simplePaginate(5)
             ]);
     }
-
     public function create()
     {
         return view('panel.pages.widgets.edit')

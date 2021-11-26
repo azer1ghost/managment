@@ -28,7 +28,7 @@ class PositionController extends Controller
         return view('panel.pages.positions.index')
             ->with([
                 'positions' => Position::with(['role', 'department'])
-                    ->when($search, fn($q) => $q->where('name', 'like', "%{$search}%"))
+                    ->when($search, fn($q) => $q->where('name', 'LIKE', "%$search%"))
                     ->when($role, fn($q) => $q->where('role_id', $role))
                     ->when($department, fn($q) => $q->where('department_id', $department))
                     ->orderBy('order')

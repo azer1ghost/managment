@@ -7,6 +7,7 @@ use App\Http\Requests\ServiceRequest;
 use App\Models\Company;
 use App\Models\Department;
 use App\Models\Service;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
@@ -20,6 +21,7 @@ class ServiceController extends Controller
     public function index(Request $request)
     {
         $limit = $request->get('limit',10);
+
         return view('panel.pages.services.index')->with([
             'services' => Service::whereNull('service_id')->paginate($limit)
         ]);
@@ -37,7 +39,7 @@ class ServiceController extends Controller
         ]);
     }
 
-    public function store(ServiceRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(ServiceRequest $request): RedirectResponse
     {
         $validated = $request->validated();
         $validated['has_asan_imza'] = $request->has('has_asan_imza');
@@ -74,7 +76,7 @@ class ServiceController extends Controller
         ]);
     }
 
-    public function update(ServiceRequest $request, Service $service): \Illuminate\Http\RedirectResponse
+    public function update(ServiceRequest $request, Service $service): RedirectResponse
     {
         $validated = $request->validated();
         $validated['has_asan_imza'] = $request->has('has_asan_imza');

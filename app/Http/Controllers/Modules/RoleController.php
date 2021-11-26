@@ -26,7 +26,7 @@ class RoleController extends Controller
         return view('panel.pages.roles.index')
             ->with([
                 'roles' => Role::query()
-                    ->when($search, fn ($query) => $query->where('name', 'like', "%".ucfirst($search)."%"))
+                    ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"))
                     ->simplePaginate(10)
             ]);
     }

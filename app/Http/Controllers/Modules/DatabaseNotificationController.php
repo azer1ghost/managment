@@ -22,8 +22,8 @@ class DatabaseNotificationController extends Controller
             ->with([
                 'notifications' => DatabaseNotification::query()
                     ->when($search, fn ($query) => $query
-                        ->where('data->phone',   'like', "%".ucfirst($search)."%")
-                        ->orWhere('data->email', 'like', "%".ucfirst($search)."%"))
+                        ->where('data->phone',   'LIKE', "%$search%")
+                        ->orWhere('data->email', 'LIKE', "%$search%"))
                     ->latest()
                     ->simplePaginate(10)
             ]);

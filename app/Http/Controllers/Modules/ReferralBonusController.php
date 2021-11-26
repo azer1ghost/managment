@@ -14,7 +14,9 @@ class ReferralBonusController extends Controller
 {
     public function index()
     {
-        return view('panel.pages.bonuses.index')->with(['referral' => $this->referral()->first() ?? new Referral()]);
+        return view('panel.pages.bonuses.index')
+            ->with(['referral' => $this->referral()->first() ?? new Referral()
+        ]);
     }
 
     public function referral(): HasOne

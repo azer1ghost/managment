@@ -21,7 +21,7 @@ class ParameterController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search');
-        $limit  = $request->get('limit') ?? 10;
+        $limit  = $request->get('limit', 10);
         $type   = $request->get('type');
 
         return view('panel.pages.parameters.index')
@@ -29,7 +29,7 @@ class ParameterController extends Controller
                 'types' => Parameter::types(),
                 'parameters' => Parameter::with('option')
                     ->when($type,   fn ($query) => $query->where('type', $type))
-                    ->when($search, fn ($query) => $query->where('name', 'like', "%".ucfirst($search)."%"))
+                    ->when($search, fn ($query) => $query->where('name', 'LIKE', "%$search%"))
                     ->latest('id')
                     ->paginate($limit)
             ]);
@@ -63,7 +63,7 @@ class ParameterController extends Controller
 
         $parameter->companies()->sync($request->get('companies'));
 
-        self::saveParameters($parameter, $request->get('options') ?? []);
+        self::saveParameters($parameter, $request->get('options'));
 
         return redirect()
             ->route('parameters.edit', $parameter)
@@ -116,7 +116,7 @@ class ParameterController extends Controller
 
         $parameter->companies()->sync($request->get('companies'));
 
-        self::saveParameters($parameter, $request->get('options') ?? []);
+        self::saveParameters($parameter, $request->get('options'));
 
         return back()->withNotify('info', $parameter->getAttribute('name'));
     }
@@ -126,7 +126,7 @@ class ParameterController extends Controller
         // detach all relations before adding new ones
         $parameter->options()->detach();
 
-        foreach ($requestOptions as $index => $options){
+        foreach ($requestOptions ?? [] as $index => $options){
             $parameter->options()->attach($options, ['company_id' => $index]);
         }
     }
