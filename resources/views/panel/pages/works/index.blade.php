@@ -27,24 +27,26 @@
                                placeholder="{{__('translates.placeholders.code')}}" class="form-control">
                     </div>
 
-                    <div class="form-group col-12 col-md-3 my-3 pl-0">
-                        <label class="d-block" for="departmentFilter">{{__('translates.general.department_select')}}</label>
-                        <select id="departmentFilter" class="select2"
-                                name="department_id"
-                                data-width="fit" title="{{__('translates.filters.select')}}"
-                                @if(\App\Models\Work::userCannotViewAll()) disabled @endif
-                        >
-                            <option value="">@lang('translates.filters.select')</option>
-                            @foreach($departments as $department)
-                                <option
-                                        @if($department->getAttribute('id') == $filters['department_id']) selected @endif
-                                value="{{$department->getAttribute('id')}}"
-                                >
-                                    {{ucfirst($department->getAttribute('name'))}}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+                    @if(\App\Models\Work::userCanViewAll())
+                        <div class="form-group col-12 col-md-3 my-3 pl-0">
+                            <label class="d-block" for="departmentFilter">{{__('translates.general.department_select')}}</label>
+                            <select id="departmentFilter" class="select2"
+                                    name="department_id"
+                                    data-width="fit" title="{{__('translates.filters.select')}}"
+                                    @if(\App\Models\Work::userCannotViewAll()) disabled @endif
+                            >
+                                <option value="">@lang('translates.filters.select')</option>
+                                @foreach($departments as $department)
+                                    <option
+                                            @if($department->getAttribute('id') == $filters['department_id']) selected @endif
+                                    value="{{$department->getAttribute('id')}}"
+                                    >
+                                        {{ucfirst($department->getAttribute('name'))}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
 
                     @if(\App\Models\Work::userCanViewAll() || \App\Models\Work::userCanViewDepartmentWorks())
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
@@ -158,20 +160,6 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                        <label class="d-block" for="priceVerifiedFilter">@lang('translates.columns.price_verified')</label>
-                        <select name="price_verified_at" id="priceVerifiedFilter" class="form-control" style="width: 100% !important;">
-                            <option value="">@lang('translates.filters.select')</option>
-                            @foreach($priceVerifies as $key => $verify)
-                                <option
-                                        value="{{$key}}"
-                                        @if($key == $filters['price_verified_at']) selected @endif
-                                >
-                                    {{$verify}}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
                 </div>
             </div>
             <div class="col-12 mt-3 mb-5 d-flex align-items-center justify-content-end">
@@ -266,7 +254,7 @@
                                 @php
                                     $status = '';
                                     if(is_null($work->getAttribute('verified_at')) && $work->status == \App\Models\Work::DONE){
-                                        $status = "<i data-toggle='tooltip' data-placement='top' title='Pending' class='fas fa-clock text-info mr-2' style='font-size: 22px'></i>";
+                                        $status = "<i data-toggle='tooltip' data-placement='top' title='". trans('translates.work_status.1') ."' class='fas fa-clock text-info mr-2' style='font-size: 22px'></i>";
                                     }
                                     if(!is_null($work->getAttribute('verified_at'))){
                                         $status = "<i data-toggle='tooltip' data-placement='top' title='". trans('translates.columns.verified') ."' class='fas fa-check text-success mr-2' style='font-size: 22px'></i>";
@@ -295,7 +283,7 @@
                                         <div class="dropdown-menu custom-dropdown">
                                             @can('view', $work)
                                                 <a href="{{route('works.show', $work)}}" class="dropdown-item-text text-decoration-none">
-                                                    <i class="fal fa-eye pr-2 text-primary"></i>Show
+                                                    <i class="fal fa-eye pr-2 text-primary"></i>@lang('translates.buttons.view')
                                                 </a>
                                             @endcan
                                             @if($work->getAttribute('creator_id') == auth()->id() || $work->getAttribute('user_id') == auth()->id() || auth()->user()->isDeveloper())
@@ -304,19 +292,19 @@
                                                         @if($work->getAttribute('creator_id') == auth()->id() || auth()->user()->isDeveloper())
                                                             <i class="fal fa-pen pr-2 text-success"></i>@lang('translates.tasks.edit')
                                                         @elseif($work->getAttribute('user_id') == auth()->id())
-                                                            <i class="fal fa-arrow-right pr-2 text-success"></i>Icra et
+                                                            <i class="fal fa-arrow-right pr-2 text-success"></i>@lang('translates.buttons.execute')
                                                         @endif
                                                     </a>
                                                 @endcan
                                             @endif
                                             @if(auth()->user()->hasPermission('canVerify-work') && $work->getAttribute('status') == $work::DONE && is_null($work->getAttribute('verified_at')))
                                                 <a href="{{route('works.verify', $work)}}" verify data-name="{{$work->getAttribute('code')}}" class="dropdown-item-text text-decoration-none">
-                                                    <i class="fal fa-check pr-2 text-success"></i>Verify
+                                                    <i class="fal fa-check pr-2 text-success"></i>@lang('translates.buttons.verify')
                                                 </a>
                                             @endif
                                             @can('delete', $work)
                                                 <a href="{{route('works.destroy', $work)}}" delete class="dropdown-item-text text-decoration-none">
-                                                    <i class="fal fa-trash pr-2 text-danger"></i>Delete
+                                                    <i class="fal fa-trash pr-2 text-danger"></i>@lang('translates.tasks.delete')
                                                 </a>
                                             @endcan
                                         </div>

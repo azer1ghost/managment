@@ -147,6 +147,9 @@ return [
         'change' => 'Dəyişdirin',
         'upload_file' => 'Fayl yüklə',
         'close' => 'Bağla',
+        'view' => 'Göstər',
+        'verify' => 'Doğrulayın',
+        'execute' => 'Icra et'
     ],
 
     'or' => 'və ya',

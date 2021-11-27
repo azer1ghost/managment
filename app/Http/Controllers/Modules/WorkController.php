@@ -36,7 +36,6 @@ class WorkController extends Controller
             'asan_imza_company_id' => $request->get('asan_imza_company_id'),
             'client_id' => $request->get('client_id'),
             'verified_at' => $request->get('verified_at'),
-            'price_verified_at' => $request->get('price_verified_at'),
             'status' => $request->get('status'),
             'done_at' => $request->get('done_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
         ];
@@ -53,7 +52,11 @@ class WorkController extends Controller
             'done_at' => $request->has('check-done_at'),
         ];
 
-        $users = User::isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']);
+        $usersQuery = User::isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id']);
+        $users = Work::userCannotViewAll() && Work::userCanViewDepartmentWorks() ?
+            $usersQuery->where('department_id', $user->getAttribute('department_id'))->get() :
+            $usersQuery->get();
+
         $departments = Department::get(['id', 'name']);
         $companies = Company::query()->has('asanImzalar')->limit(10)->get();
 
@@ -82,7 +85,7 @@ class WorkController extends Controller
             ->where(function($query) use ($filters, $dateRanges, $dateFilters){
                 foreach ($filters as $column => $value) {
                     $query->when($value, function ($query, $value) use ($column, $dateRanges, $dateFilters) {
-                        if($column == 'verified_at' || $column == 'price_verified_at'){
+                        if($column == 'verified_at'){
                             switch ($value){
                                 case 1:
                                     $query->whereNull($column);
