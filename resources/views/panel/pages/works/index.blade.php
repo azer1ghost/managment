@@ -27,24 +27,26 @@
                                placeholder="{{__('translates.placeholders.code')}}" class="form-control">
                     </div>
 
-                    <div class="form-group col-12 col-md-3 my-3 pl-0">
-                        <label class="d-block" for="departmentFilter">{{__('translates.general.department_select')}}</label>
-                        <select id="departmentFilter" class="select2"
-                                name="department_id"
-                                data-width="fit" title="{{__('translates.filters.select')}}"
-                                @if(\App\Models\Work::userCannotViewAll()) disabled @endif
-                        >
-                            <option value="">@lang('translates.filters.select')</option>
-                            @foreach($departments as $department)
-                                <option
-                                        @if($department->getAttribute('id') == $filters['department_id']) selected @endif
-                                value="{{$department->getAttribute('id')}}"
-                                >
-                                    {{ucfirst($department->getAttribute('name'))}}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+                    @if(\App\Models\Work::userCanViewAll())
+                        <div class="form-group col-12 col-md-3 my-3 pl-0">
+                            <label class="d-block" for="departmentFilter">{{__('translates.general.department_select')}}</label>
+                            <select id="departmentFilter" class="select2"
+                                    name="department_id"
+                                    data-width="fit" title="{{__('translates.filters.select')}}"
+                                    @if(\App\Models\Work::userCannotViewAll()) disabled @endif
+                            >
+                                <option value="">@lang('translates.filters.select')</option>
+                                @foreach($departments as $department)
+                                    <option
+                                            @if($department->getAttribute('id') == $filters['department_id']) selected @endif
+                                    value="{{$department->getAttribute('id')}}"
+                                    >
+                                        {{ucfirst($department->getAttribute('name'))}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
 
                     @if(\App\Models\Work::userCanViewAll() || \App\Models\Work::userCanViewDepartmentWorks())
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
