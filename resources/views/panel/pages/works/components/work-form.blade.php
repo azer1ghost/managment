@@ -166,7 +166,7 @@
                     @endswitch
                 @endforeach
 
-                @if(auth()->user()->hasPermission('editEarning-work') && $method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Work::DONE)
+                @if(auth()->user()->hasPermission('canVerify-work') && $method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Work::DONE)
                     <div class="form-group col-12" style="padding-left: 35px" wire:ignore>
                         <input type="checkbox" class="form-check-input" id="data-verified" name="verified" @if(!is_null(optional($data)->getAttribute('verified_at'))) checked @endif>
                         <label class="form-check-label" for="data-verified">@lang('translates.columns.verified')</label>
@@ -220,11 +220,8 @@
         </script>
     @endif
 
-    @if(optional($data)->getAttribute('status') == \App\Models\Work::DONE && auth()->user()->hasPermission('editEarning-work') && $method == 'PUT')
+    @if(optional($data)->getAttribute('status') == \App\Models\Work::DONE && auth()->user()->hasPermission('canVerify-work') && $method == 'PUT')
         <script>
-            $('input[name="earning"]').attr('disabled', false);
-            $('select[name="currency"]').attr('disabled', false);
-            $('input[name="currency_rate"]').attr('disabled', false);
             $('input[name="verified"]').attr('disabled', false);
             $('input[name="rejected"]').attr('disabled', false);
             $('input[name="_method"]').attr('disabled', false);

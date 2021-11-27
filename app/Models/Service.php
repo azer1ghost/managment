@@ -46,11 +46,11 @@ class Service extends Model
         return $this->hasMany(__CLASS__, 'service_id');
     }
 
-    public static function serviceParametersShow()
+    public static function serviceParameters()
     {
         $data = [];
-        foreach (DB::table('service_parameter')->get() as $param){
-
+        foreach (collect(DB::table('service_parameter')->select('parameter_id')->where('show_in_table', 1)->get())->unique('parameter_id')->toArray() as $param){
+            $data[] = Parameter::find($param->parameter_id);
         }
 
         return $data;

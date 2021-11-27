@@ -209,9 +209,9 @@
                         <th scope="col">@lang('translates.navbar.service')</th>
                         <th scope="col">@lang('translates.fields.clientName')</th>
                         <th scope="col">Status</th>
-{{--                        @foreach(\App\Models\Service::)--}}
-{{--                            <th scope="col"></th>--}}
-{{--                        @endforeach--}}
+                        @foreach(\App\Models\Service::serviceParameters() as $param)
+                            <th scope="col">{{$param->getAttribute('label')}}</th>
+                        @endforeach
                         <th scope="col">@lang('translates.fields.date')</th>
                         <th scope="col">@lang('translates.columns.verified')</th>
                         <th scope="col"></th>
@@ -258,7 +258,10 @@
                                     {{trans('translates.work_status.' . $work->getAttribute('status'))}}
                                 </span>
                             </td>
-                            <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip" data-placement="top">{{$work->getAttribute('created_at')->diffForHumans()}}</td>
+                            @foreach(\App\Models\Service::serviceParameters() as $param)
+                                <td>{{$work->getParameter($param->getAttribute('id'))}}</td>
+                            @endforeach
+                            <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip" data-placement="top">{{$work->getAttribute('datetime')->diffForHumans()}}</td>
                             <td>
                                 @php
                                     $status = '';
@@ -266,13 +269,10 @@
                                         $status = "<i data-toggle='tooltip' data-placement='top' title='Pending' class='fas fa-clock text-info mr-2' style='font-size: 22px'></i>";
                                     }
                                     if(!is_null($work->getAttribute('verified_at'))){
-                                        $status = "<i data-toggle='tooltip' data-placement='top' title='". trans('translates.columns.verified') ."' class='fas fa-badge-check text-primary mr-2' style='font-size: 22px'></i>";
+                                        $status = "<i data-toggle='tooltip' data-placement='top' title='". trans('translates.columns.verified') ."' class='fas fa-check text-success mr-2' style='font-size: 22px'></i>";
                                     }
                                     if($work->getAttribute('status') == $work::REJECTED){
                                         $status = "<i data-toggle='tooltip' data-placement='top' title='". trans('translates.columns.rejected') ."' class='fas fa-times text-danger' style='font-size: 22px'></i>";
-                                    }
-                                    if(!is_null($work->getAttribute('verified_at')) && !is_null($work->getAttribute('price_verified_at'))){
-                                        $status = "<i data-toggle='tooltip' data-placement='top' title='". trans('translates.columns.verified') ."' class='fas fa-check text-success mr-2' style='font-size: 22px'></i>";
                                     }
                                 @endphp
                                 {!! $status !!}
@@ -309,11 +309,11 @@
                                                     </a>
                                                 @endcan
                                             @endif
-{{--                                            @if(auth()->user()->hasPermission('editEarning-work') && !is_null($work->getAttribute('verified_at')) && is_null($work->getAttribute('price_verified_at')))--}}
-{{--                                                <a href="{{route('works.verifyPrice', $work)}}" verify data-name="{{$work->getAttribute('code')}}" data-price="{{$work->getAttribute('earning') * $work->getAttribute('currency_rate')}}" class="dropdown-item-text text-decoration-none">--}}
-{{--                                                    <i class="fal fa-check pr-2 text-success"></i>Verify Price--}}
-{{--                                                </a>--}}
-{{--                                            @endif--}}
+                                            @if(auth()->user()->hasPermission('canVerify-work') && $work->getAttribute('status') == $work::DONE && is_null($work->getAttribute('verified_at')))
+                                                <a href="{{route('works.verify', $work)}}" verify data-name="{{$work->getAttribute('code')}}" class="dropdown-item-text text-decoration-none">
+                                                    <i class="fal fa-check pr-2 text-success"></i>Verify
+                                                </a>
+                                            @endif
                                             @can('delete', $work)
                                                 <a href="{{route('works.destroy', $work)}}" delete class="dropdown-item-text text-decoration-none">
                                                     <i class="fal fa-trash pr-2 text-danger"></i>Delete
@@ -326,7 +326,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <th colspan="12">
+                            <th colspan="20">
                                 <div class="row justify-content-center m-3">
                                     <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.empty')</div>
                                 </div>
@@ -456,12 +456,11 @@
         $( function() {
             $("a[verify]").click(function(e){
                 let name = $(this).data('name') ?? 'Record'
-                let price = $(this).data('price') ?? 0
                 let url = $(this).attr('href')
                 e.preventDefault()
                 $.confirm({
-                    title: 'Confirm price verification',
-                    content: `Are you sure to verify <b>${name}</b> for ${price} AZN?`,
+                    title: 'Confirm verification',
+                    content: `Are you sure to verify <b>${name}</b> ?`,
                     autoClose: 'confirm|8000',
                     icon: 'fa fa-question',
                     type: 'blue',
@@ -475,7 +474,7 @@
                                 success: function (responseObject, textStatus, xhr)
                                 {
                                     $.confirm({
-                                        title: 'Price update successful',
+                                        title: 'Verification successful',
                                         icon: 'fa fa-check',
                                         content: '<b>:name</b>'.replace(':name',  name),
                                         type: 'blue',

@@ -75,6 +75,19 @@ class Work extends Model implements DocumentableInterface
         return $this->belongsToMany(Parameter::class, 'work_parameter')->withPivot('value');
     }
 
+    public function getParameter($id)
+    {
+        // Get parameter model
+        $parameter = $this->parameters()->where('id', $id)->first();
+
+        return $parameter ?
+            // Check type of parameter -> if type is "select" return option value / else return pivot value
+            $parameter->getAttribute('type') == 'select' ?
+                optional(Option::find($parameter->pivot->value))->getAttribute('text') :
+                optional($parameter->pivot)->value :
+            null;
+    }
+
     public static function statuses(): array
     {
         return [1 => 1, 2, 3, 4];
