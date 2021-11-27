@@ -125,9 +125,9 @@
                     </div>
 
                     <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                        <label class="d-block" for="doneAtFilter">{{trans('translates.general.done_at')}}</label>
-                        <input class="form-control daterange mb-1" id="doneAtFilter" type="text" name="done_at" value="{{$filters['done_at']}}">
-                        <input type="checkbox" name="check-done_at" id="check-done_at" @if(request()->has('check-done_at')) checked @endif> <label for="check-done_at">@lang('translates.filters.filter_by')</label>
+                        <label class="d-block" for="datetimeFilter">{{trans('translates.fields.date')}}</label>
+                        <input class="form-control daterange mb-1" id="datetimeFilter" type="text" name="datetime" value="{{$filters['datetime']}}">
+                        <input type="checkbox" name="check-datetime" id="check-datetime" @if(request()->has('check-datetime')) checked @endif> <label for="check-datetime">@lang('translates.filters.filter_by')</label>
                     </div>
 
                     <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
