@@ -37,6 +37,7 @@ return [
         'viewAny-advertising', 'view-advertising', 'manage-advertising', 'update-advertising', 'delete-advertising',
         'viewAny-document', 'view-document', 'create-document', 'update-document', 'delete-document',
         'viewAny-asanImza', 'view-asanImza', 'manage-asanImza', 'delete-asanImza',
+        'viewAny-customerEngagement', 'view-customerEngagement', 'manage-customerEngagement', 'delete-customerEngagement',
         'viewAll-work', 'viewAny-work', 'view-work', 'create-work', 'update-work', 'delete-work', 'editEarning-work', 'canRedirect-work', 'viewAllDepartment-work',
         'viewAny-role', 'view-role', 'manage-role',
         'viewAny-referral', 'view-referral', 'manage-referral',

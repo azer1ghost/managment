@@ -178,6 +178,7 @@ return [
         'document' => 'Documents',
         'service' => 'Service',
         'asan_imza'=>'Asan Signature',
+        'customer_engagement'=>'Customer Engagement'
     ],
 
     'date' => [

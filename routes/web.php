@@ -11,6 +11,7 @@ use App\Http\Controllers\{AdvertisingController,
     Modules\AsanImzaController,
     Modules\CompanyController,
     Modules\ConferenceController,
+    Modules\CustomerEngagementController,
     Modules\DepartmentController,
     Modules\DocumentController,
     Modules\MeetingController,
@@ -84,6 +85,7 @@ Route::group([
     Route::resource('/meetings', MeetingController::class);
     Route::resource('/conferences', ConferenceController::class);
     Route::resource('/advertising', AdvertisingController::class);
+    Route::resource('/customer-engagement', CustomerEngagementController::class);
     Route::resource('/documents', DocumentController::class)->except('store');
     Route::post('/documents/{modelId}', [DocumentController::class, 'store'])->name('documents.store');
     // resultable routes

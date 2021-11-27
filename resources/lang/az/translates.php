@@ -179,7 +179,8 @@ return [
         'conference' => 'İclaslar',
         'document' => 'Sənədlər',
         'service' => 'Xidmət',
-        'asan_imza'=>'Asan Imza'
+        'asan_imza'=>'Asan Imza',
+        'customer_engagement'=>'Müştəri Cəlbi',
 
     ],
 

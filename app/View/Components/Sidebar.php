@@ -203,6 +203,12 @@ class Sidebar extends Component
                 'icon' => 'fas fa-file-signature',
                 'url' => route('asan-imza.index'),
                 'permission' => 'viewAny-asanImza',
+            ],
+            (object)[
+                'title' => __('translates.navbar.customer_engagement'),
+                'icon' => 'fas fa-house-return',
+                'url' => route('customer-engagement.index'),
+                'permission' => 'viewAny-customerEngagement',
             ]
         ];
     }
