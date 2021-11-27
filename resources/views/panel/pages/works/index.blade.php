@@ -208,11 +208,11 @@
                         <th scope="col">Asan imza</th>
                         <th scope="col">@lang('translates.navbar.service')</th>
                         <th scope="col">@lang('translates.fields.clientName')</th>
-                        <th scope="col">@lang('translates.general.hard_level')</th>
                         <th scope="col">Status</th>
-                        @if(auth()->user()->hasPermission('editEarning-work')) <th scope="col">@lang('translates.general.earning')</th> @endif
-                        <th scope="col">@lang('translates.columns.created_at')</th>
-                        <th scope="col">@lang('translates.general.done_at')</th>
+{{--                        @foreach(\App\Models\Service::)--}}
+{{--                            <th scope="col"></th>--}}
+{{--                        @endforeach--}}
+                        <th scope="col">@lang('translates.fields.date')</th>
                         <th scope="col">@lang('translates.columns.verified')</th>
                         <th scope="col"></th>
                     </tr>
@@ -235,7 +235,6 @@
                             <td data-toggle="tooltip" data-placement="top" title="{{$work->getRelationValue('client')->getAttribute('fullname')}}" >
                                 {{mb_strimwidth($work->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}
                             </td>
-                            <td>{{$work->getAttribute('hard_level') ? trans('translates.hard_level.' . $work->getAttribute('hard_level')) : '' }}</td>
                             <td>
                                 @if(is_numeric($work->getAttribute('status')))
                                     @php
@@ -259,9 +258,7 @@
                                     {{trans('translates.work_status.' . $work->getAttribute('status'))}}
                                 </span>
                             </td>
-                            @if(auth()->user()->hasPermission('editEarning-work')) <td>{{$work->getAttribute('earning') * $work->getAttribute('currency_rate')}} AZN</td> @endif
-                            <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip" data-placement="top">{{$work->getAttribute('created_at')->diffForHumans()}}</td>
-                            <td>{{optional($work->getAttribute('done_at'))->format('Y-m-d H:i')}}</td>
+                            <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip" data-placement="top">{{$work->getAttribute('created_at')->diffForHumans()}}</td>
                             <td>
                                 @php
                                     $status = '';
@@ -312,11 +309,11 @@
                                                     </a>
                                                 @endcan
                                             @endif
-                                            @if(auth()->user()->hasPermission('editEarning-work') && !is_null($work->getAttribute('verified_at')) && is_null($work->getAttribute('price_verified_at')))
-                                                <a href="{{route('works.verifyPrice', $work)}}" verify data-name="{{$work->getAttribute('code')}}" data-price="{{$work->getAttribute('earning') * $work->getAttribute('currency_rate')}}" class="dropdown-item-text text-decoration-none">
-                                                    <i class="fal fa-check pr-2 text-success"></i>Verify Price
-                                                </a>
-                                            @endif
+{{--                                            @if(auth()->user()->hasPermission('editEarning-work') && !is_null($work->getAttribute('verified_at')) && is_null($work->getAttribute('price_verified_at')))--}}
+{{--                                                <a href="{{route('works.verifyPrice', $work)}}" verify data-name="{{$work->getAttribute('code')}}" data-price="{{$work->getAttribute('earning') * $work->getAttribute('currency_rate')}}" class="dropdown-item-text text-decoration-none">--}}
+{{--                                                    <i class="fal fa-check pr-2 text-success"></i>Verify Price--}}
+{{--                                                </a>--}}
+{{--                                            @endif--}}
                                             @can('delete', $work)
                                                 <a href="{{route('works.destroy', $work)}}" delete class="dropdown-item-text text-decoration-none">
                                                     <i class="fal fa-trash pr-2 text-danger"></i>Delete

@@ -21,7 +21,15 @@ class ServiceParameter extends Component
 
     public function addParameter()
     {
-        $newArr = ["id" => null, "name" => null, "url" => null];
+        $newArr = [
+            "id" => null,
+            'name' => null,
+            'pivot' => [
+                'service_id' => null,
+                'parameter_id' => null,
+                'show_in_table' => 0
+            ]
+        ];
         $this->serviceParameters[] = $newArr;
     }
 

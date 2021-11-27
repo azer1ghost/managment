@@ -221,13 +221,13 @@ class WorkController extends Controller
             ->withNotify('success', $work->getAttribute('name'));
     }
 
-    public function verifyPrice(Work $work)
-    {
-        if ($work->update(['price_verified_at' => now()])) {
-            return response('OK');
-        }
-        return response()->setStatusCode('204');
-    }
+//    public function verifyPrice(Work $work)
+//    {
+//        if ($work->update(['price_verified_at' => now()])) {
+//            return response('OK');
+//        }
+//        return response()->setStatusCode('204');
+//    }
 
     public function destroy(Work $work)
     {

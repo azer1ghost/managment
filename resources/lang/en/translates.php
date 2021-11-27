@@ -444,6 +444,7 @@ return [
         'phone_empty' => 'Phone is empty',
         'email_empty' => 'Email is empty',
         'voen_empty' => 'VOEN is empty',
+        'add_representative' => 'Add a representative'
     ],
 
     'clients_type' => [

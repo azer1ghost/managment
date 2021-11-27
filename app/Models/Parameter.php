@@ -44,11 +44,6 @@ class Parameter extends Model
         return $this->belongsToMany(Company::class);
     }
 
-    public function departments(): BelongsToMany
-    {
-        return $this->belongsToMany(Department::class);
-    }
-
     public function options(): BelongsToMany
     {
         return $this->belongsToMany(Option::class)->withPivot('company_id');
@@ -61,7 +56,7 @@ class Parameter extends Model
 
     public function services(): BelongsToMany
     {
-        return $this->belongsToMany(Service::class, 'service_parameter');
+        return $this->belongsToMany(Service::class, 'service_parameter')->withPivot('show_in_table');
     }
 
     public function works(): BelongsToMany
