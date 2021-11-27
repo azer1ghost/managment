@@ -37,7 +37,7 @@ class WorkController extends Controller
             'client_id' => $request->get('client_id'),
             'verified_at' => $request->get('verified_at'),
             'status' => $request->get('status'),
-            'done_at' => $request->get('done_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
+            'datetime' => $request->get('datetime') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
         ];
 
         if(Work::userCanViewAll() || Work::userCanViewDepartmentWorks()){
@@ -45,11 +45,11 @@ class WorkController extends Controller
         }
 
         $dateRanges = [
-            'done_at' => explode(' - ', $filters['done_at']),
+            'datetime' => explode(' - ', $filters['datetime']),
         ];
 
         $dateFilters = [
-            'done_at' => $request->has('check-done_at'),
+            'datetime' => $request->has('check-datetime'),
         ];
 
         $usersQuery = User::isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id']);
@@ -199,7 +199,6 @@ class WorkController extends Controller
         }else{
             if ($request->has('rejected')){
                 $status = Work::REJECTED;
-                $validated['done_at'] = null;
             }else{
                 $status = $validated['status'] ?? $work->getAttribute('status');
             }
