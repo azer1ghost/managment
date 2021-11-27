@@ -145,6 +145,9 @@ return [
         'change' => 'Change',
         'upload_file' => 'Upload file',
         'close' => 'Close',
+        'view' => 'View',
+        'verify' => 'Verify',
+        'execute' => 'Execute'
     ],
 
     'or' => 'or',
