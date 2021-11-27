@@ -84,7 +84,11 @@ class ServiceController extends Controller
 
         $service->update($validated);
 
-        $service->parameters()->sync($validated['parameters'] ?? []);
+        $parameters = [];
+        foreach ($validated['parameters'] ?? [] as $parameter){
+            $parameters[$parameter['id']] = ['show_in_table' => $parameter['show'] ?? 0];
+        }
+        $service->parameters()->sync($parameters);
 
         return redirect()
             ->route('services.edit', $service)

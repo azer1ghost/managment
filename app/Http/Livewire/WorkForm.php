@@ -14,7 +14,6 @@ class WorkForm extends Component
     public ?Work $data;
     public ?string $method, $action;
     public ?Collection $departments, $services, $users, $companies;
-    public array $hardLevels;
     public array $statuses;
     public array $selected = [
         'department_id' => '',
@@ -22,9 +21,6 @@ class WorkForm extends Component
         'user_id' => '',
     ];
     public array $workParameters = [];
-    public string $earning;
-    public float $rate;
-    public string $currency;
 
     public ?Collection $parameters;
 
@@ -43,17 +39,6 @@ class WorkForm extends Component
         return Service::find($this->selected['service_id'])->services;
     }
 
-
-    public function updatedEarning()
-    {
-        $this->rate = $this->earning ? (new ExchangeRatesApi)->convert($this->currency) : 0;
-    }
-
-    public function updatedCurrency()
-    {
-        $this->rate = $this->earning ? (new ExchangeRatesApi)->convert($this->currency) : 0;
-    }
-
     public function updatedSelectedDepartmentId()
     {
         $this->selected['user_id'] = '';
@@ -63,10 +48,6 @@ class WorkForm extends Component
     {
         $this->departments = Department::get(['id', 'name']);
         $this->services = Service::get(['id', 'name']);
-        $this->earning = optional($this->data)->getAttribute('earning') ?? '0';
-        $this->rate = round(optional($this->data)->getAttribute('currency_rate'), 2) ?? 0;
-        $this->currency = optional($this->data)->getAttribute('currency') ?? 'AZN';
-        $this->hardLevels = Work::hardLevels();
         $this->statuses = Work::statuses();
 
         $user = auth()->user();

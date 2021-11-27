@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\{Factories\HasFactory,
     Relations\BelongsToMany,
     Relations\HasMany,
     SoftDeletes};
+use Illuminate\Support\Facades\DB;
 use Spatie\Translatable\HasTranslations;
 
 class Service extends Model
@@ -32,7 +33,7 @@ class Service extends Model
 
     public function parameters(): BelongsToMany
     {
-        return $this->belongsToMany(Parameter::class, 'service_parameter');
+        return $this->belongsToMany(Parameter::class, 'service_parameter')->withPivot('show_in_table');
     }
 
     public function parent(): BelongsTo
@@ -43,5 +44,15 @@ class Service extends Model
     public function services(): HasMany
     {
         return $this->hasMany(__CLASS__, 'service_id');
+    }
+
+    public static function serviceParameters()
+    {
+        $data = [];
+        foreach (collect(DB::table('service_parameter')->select('parameter_id')->where('show_in_table', 1)->get())->unique('parameter_id')->toArray() as $param){
+            $data[] = Parameter::find($param->parameter_id);
+        }
+
+        return $data;
     }
 }

@@ -21,9 +21,6 @@ class Work extends Model implements DocumentableInterface
     const REJECTED = 4;
 
     protected $fillable = [
-        'earning',
-        'currency',
-        'currency_rate',
         'detail',
         'creator_id',
         'user_id',
@@ -31,21 +28,17 @@ class Work extends Model implements DocumentableInterface
         'asan_imza_id',
         'service_id',
         'client_id',
-        'hard_level',
         'status',
         'datetime',
         'verified_at',
-        'price_verified_at',
-        'done_at'
     ];
 
-    protected $casts = ['done_at' => 'datetime'];
+    protected $casts = ['datetime' => 'datetime'];
 
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'creator_id');
     }
-
 
     public function hours(): HasMany
     {
@@ -82,9 +75,17 @@ class Work extends Model implements DocumentableInterface
         return $this->belongsToMany(Parameter::class, 'work_parameter')->withPivot('value');
     }
 
-    public static function hardLevels(): array
+    public function getParameter($id)
     {
-        return [1 => 1, 2, 3];
+        // Get parameter model
+        $parameter = $this->parameters()->where('id', $id)->first();
+
+        return $parameter ?
+            // Check type of parameter -> if type is "select" return option value / else return pivot value
+            $parameter->getAttribute('type') == 'select' ?
+                optional(Option::find($parameter->pivot->value))->getAttribute('text') :
+                optional($parameter->pivot)->value :
+            null;
     }
 
     public static function statuses(): array

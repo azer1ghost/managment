@@ -24,7 +24,7 @@ class WorkPolicy
             return false;
         }
 
-        if($work->getAttribute('status') == $work::DONE && $user->hasPermission('editEarning-work'))
+        if($work->getAttribute('status') == $work::DONE && $user->hasPermission('canVerify-work'))
         {
             return true;
         }
@@ -50,7 +50,7 @@ class WorkPolicy
 
     public function restore(User $user, Work $work): bool
     {
-        if($work->getAttribute('status') == $work::DONE && $user->hasPermission('editEarning-work'))
+        if($work->getAttribute('status') == $work::DONE && $user->hasPermission('canVerify-work'))
         {
             return true;
         }

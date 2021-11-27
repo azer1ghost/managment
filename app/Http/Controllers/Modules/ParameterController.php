@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ParameterRequest;
 use App\Models\Company;
-use App\Models\Department;
 use App\Models\Option;
 use App\Models\Parameter;
 use Illuminate\Http\Request;
@@ -49,7 +48,6 @@ class ParameterController extends Controller
                     ->select(['id', 'text'])->get(),
                 'parameterCompanies' => collect([]),
                 'companies' => Company::isInquirable()->select(['id','name'])->get(),
-                'departments' => Department::select(['id','name'])->get(),
                 'types' => Parameter::types()
             ]);
     }
@@ -84,7 +82,6 @@ class ParameterController extends Controller
                     ->select(['id', 'text'])->get(),
                 'parameterCompanies' => $parameter->getRelationValue('companies'),
                 'companies' => Company::isInquirable()->select(['id','name'])->get(),
-                'departments' => Department::select(['id','name'])->get(),
                 'types' => Parameter::types()
             ]);
     }
@@ -103,7 +100,6 @@ class ParameterController extends Controller
                     ->select(['id', 'text'])->get(),
                 'parameterCompanies' => $parameter->getRelationValue('companies'),
                 'companies' => Company::isInquirable()->select(['id','name'])->get(),
-                'departments' => Department::select(['id','name'])->get(),
                 'types' => Parameter::types()
             ]);
     }

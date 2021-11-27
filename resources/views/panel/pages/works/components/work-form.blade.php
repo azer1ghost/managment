@@ -2,6 +2,7 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endpush
 <form action="{{$action}}" method="POST" enctype="multipart/form-data" id="work-form">
     @if(!is_null($data) && $method != 'PUT')
@@ -114,17 +115,6 @@
                     </div>
                 @endif
 
-                <div class="form-group col-12 col-md-3" wire:ignore>
-                    <label for="data-hard_level">@lang('translates.general.hard_level_choose')</label>
-                    <select name="hard_level" id="data-hard_level" class="form-control">
-                        <option disabled selected>@lang('translates.general.hard_level_choose')</option>
-                        @foreach($hardLevels as $key => $hard_level)
-                            <option @if(optional($data)->getAttribute('hard_level') === $hard_level ) selected
-                                    @endif value="{{$hard_level}}">@lang('translates.hard_level.' . $key)</option>
-                        @endforeach
-                    </select>
-                </div>
-
                 @if($method != 'POST')
                     <div class="form-group col-12 col-md-3" wire:ignore>
                         <label for="data-status">@lang('translates.general.status_choose')</label>
@@ -142,6 +132,10 @@
                             @endforeach
                         </select>
                     </div>
+                @endif
+
+                @if(!is_null($data))
+                    <x-input::text wire:ignore name="datetime" :label="__('translates.fields.date')" value="{{$data->getAttribute('datetime')->format('Y-m-d H:i')}}" type="text" width="3" class="pr-3" />
                 @endif
 
                 @foreach($parameters as $parameter)
@@ -172,47 +166,15 @@
                     @endswitch
                 @endforeach
 
-                @if(auth()->user()->hasPermission('editEarning-work') && $method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Work::DONE)
-                    @if(!is_null(optional($data)->getAttribute('verified_at')))
-                        <div class="form-group col-12 col-md-6" wire:ignore>
-                            <div class="d-flex">
-                                <div class="btn-group mr-3 flex-column" role="group">
-                                    <label for="data-earning">@lang('translates.general.work_earning')</label>
-                                    <div class="d-flex">
-                                        <input id="data-earning" type="number" min="0" class="form-control" name="earning" wire:model="earning" style="border-radius: 0 !important;">
-                                        <select name="currency" id="" class="form-control" style="border-radius: 0 !important;" wire:model="currency">
-                                            @foreach(['AZN', 'USD', 'TRY', 'EUR', 'RUB'] as $currency)
-                                                <option value="{{$currency}}" @if($currency == optional($data)->getAttribute('currency')) selected @endif>{{$currency}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    @error('earning')
-                                    <p class="text-danger">{{$message}}</p>
-                                    @enderror
-                                </div>
-                                <div class="btn-group flex-column" role="group">
-                                    <label for="data-earning">@lang('translates.general.rate')</label>
-                                    <div class="d-flex">
-                                        <input type="text" class="form-control" name="currency_rate" wire:model="rate" style="border-radius: 0 !important;" readonly>
-                                        <input disabled type="text" class="form-control" value="AZN" style="border-radius: 0 !important;">
-                                    </div>
-                                    @error('currency_rate')
-                                    <p class="text-danger">{{$message}}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                    @if(optional($data)->getAttribute('status') == \App\Models\Work::DONE)
-                        <div class="form-group col-12" style="padding-left: 35px" wire:ignore>
-                            <input type="checkbox" class="form-check-input" id="data-verified" name="verified" @if(!is_null(optional($data)->getAttribute('verified_at'))) checked @endif>
-                            <label class="form-check-label" for="data-verified">@lang('translates.columns.verified')</label>
-                        </div>
-                        <div class="form-group col-12" style="padding-left: 35px" wire:ignore>
-                            <input type="checkbox" class="form-check-input" id="data-rejected" name="rejected" @if(optional($data)->getAttribute('status') == \App\Models\Work::REJECTED) checked @endif>
-                            <label class="form-check-label" for="data-rejected">@lang('translates.columns.rejected')</label>
-                        </div>
-                    @endif
+                @if(auth()->user()->hasPermission('canVerify-work') && $method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Work::DONE)
+                    <div class="form-group col-12" style="padding-left: 35px" wire:ignore>
+                        <input type="checkbox" class="form-check-input" id="data-verified" name="verified" @if(!is_null(optional($data)->getAttribute('verified_at'))) checked @endif>
+                        <label class="form-check-label" for="data-verified">@lang('translates.columns.verified')</label>
+                    </div>
+                    <div class="form-group col-12" style="padding-left: 35px" wire:ignore>
+                        <input type="checkbox" class="form-check-input" id="data-rejected" name="rejected" @if(optional($data)->getAttribute('status') == \App\Models\Work::REJECTED) checked @endif>
+                        <label class="form-check-label" for="data-rejected">@lang('translates.columns.rejected')</label>
+                    </div>
                 @endif
 
                 <div class="form-group col-12" wire:ignore>
@@ -220,43 +182,46 @@
                     <textarea wire:ignore name="detail" id="data-detail" class="summernote">{{optional($data)->getAttribute('detail')}}</textarea>
                 </div>
             </div>
+
             @if(optional(optional($data)->user())->exists() && !is_null(optional($data)->getAttribute('done_at')))
                 <div class="col-12">
                     <button type="button" class="btn btn-outline-success copy">@lang('translates.buttons.copy')</button>
                 </div>
             @endif
+
         </div>
     </div>
     @if($action)
         <x-input::submit :value="__('translates.buttons.save')"/>
     @endif
 </form>
+
 @if(!is_null($data))
     <div class="col-12">
         <x-documents :documents="$data->documents"/>
         <x-document-upload :id="$data->id" model="Work"/>
     </div>
 @endif
+
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     @php($isShow = is_null($action))
     @php($hasNotPermission = !auth()->user()->can('update', $data))
     @php($isDone = optional($data)->getAttribute('status') == \App\Models\Work::DONE)
     @php($isVerified = !is_null(optional($data)->getAttribute('verified_at')))
+
     @if(($isShow || ($hasNotPermission && $method != 'POST')) || ($hasNotPermission && $isVerified) || ($isDone && $method != 'PUT'))
         <script>
             $('#work-form :input').attr('disabled', true)
         </script>
     @endif
 
-    @if(optional($data)->getAttribute('status') == \App\Models\Work::DONE && auth()->user()->hasPermission('editEarning-work') && $method == 'PUT')
+    @if(optional($data)->getAttribute('status') == \App\Models\Work::DONE && auth()->user()->hasPermission('canVerify-work') && $method == 'PUT')
         <script>
-            $('input[name="earning"]').attr('disabled', false);
-            $('select[name="currency"]').attr('disabled', false);
-            $('input[name="currency_rate"]').attr('disabled', false);
             $('input[name="verified"]').attr('disabled', false);
             $('input[name="rejected"]').attr('disabled', false);
             $('input[name="_method"]').attr('disabled', false);
@@ -269,6 +234,17 @@
         @if($method != 'POST')
             $('#work-form .copy').attr('disabled', false)
         @endif
+
+        $('input[name="datetime"]').daterangepicker({
+                opens: 'left',
+                locale: {
+                    format: "YYYY-MM-DD HH:mm",
+                },
+                singleDatePicker: true,
+                timePicker: true,
+                timePicker24Hour: true,
+            }, function(start, end, label) {}
+        );
 
         @if(optional(optional($data)->user())->exists() && !is_null(optional($data)->getAttribute('done_at')))
             function html(html, type = 'string')

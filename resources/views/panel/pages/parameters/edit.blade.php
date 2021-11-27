@@ -52,7 +52,7 @@
             </div>
             <x-input::select   name="type"          :value="optional($data)->getAttribute('type')"          width="4" class="pr-3" :options="$types" />
             <x-input::text     name="name"          :value="optional($data)->getAttribute('name')"          width="4" class="pr-3" />
-            <x-input::text     name="attributes"          :value="optional($data)->getAttribute('attributes')"   width="4" class="pr-3" />
+            <x-input::text     name="attributes"    :value="optional($data)->getAttribute('attributes')"    width="4" class="pr-3" />
             <x-input::number   name="order"         :value="optional($data)->getAttribute('order')"         width="4" class="pr-3" label="Order"/>
 
             <div class="col-12 mb-3">
@@ -67,24 +67,6 @@
                 @enderror
             </div>
 
-            <div class="col-12 mb-3">
-                <label for="departmentFilter">Departments</label><br/>
-                <select name="departments[]" id="departmentFilter" data-selected-text-format="count" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
-                    @foreach($departments as $department)
-                        <option
-                                @if(
-                                    optional(optional($data)->departments())->exists() &&
-                                    $data->getRelationValue('departments')->pluck('id')->contains($department->getAttribute('id'))
-                                )
-                                    selected
-                                @endif
-                                value="{{$department->getAttribute('id')}}">{{$department->getAttribute('name')}}</option>
-                    @endforeach
-                </select>
-                @error('companies')
-                <p class="text-danger">{{$message}}</p>
-                @enderror
-            </div>
             @if (optional($data)->getAttribute('type') == 'select')
                 <div class="col-12 py-2" id="parameter-options">
                     <p class="mb-2">Options</p>

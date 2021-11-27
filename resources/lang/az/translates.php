@@ -450,6 +450,7 @@ return [
         'phone_empty' => 'Nömrə yoxdur',
         'email_empty' => 'Email adresi  yoxdur',
         'voen_empty' => 'VOEN yoxdur',
+        'add_representative' => 'Nümayəndə əlavə et'
     ],
 
     'clients_type' => [

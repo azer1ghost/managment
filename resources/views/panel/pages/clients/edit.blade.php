@@ -136,7 +136,7 @@
             </tbody>
         </table>
         @if($method == 'PUT')
-            <a href="{{route('clients.create', ['type' => $data::PHYSICAL, 'client_id' => $data->getAttribute('id')])}}" class="btn btn-outline-primary col-md-12 p-2">@lang('translates.buttons.create')</a>
+            <a href="{{route('clients.create', ['type' => $data::PHYSICAL, 'client_id' => $data->getAttribute('id')])}}" class="btn btn-outline-primary col-md-12 p-2">@lang('translates.clients.add_representative')</a>
         @endif
 
     @endif
