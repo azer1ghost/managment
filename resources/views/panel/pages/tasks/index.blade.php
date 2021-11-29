@@ -23,16 +23,20 @@
                     <input type="search" placeholder="@lang('translates.placeholders.search_users')" name="user" value="{{request()->get('user')}}" class="form-control">
                 </div>
             </div>
-            <div class="col-12 col-md-3">
-                <div class="input-group mb-3">
-                    <select class="form-control" name="department">
-                        <option value="">@lang('translates.fields.department') @lang('translates.placeholders.choose')</option>
-                        @foreach ($departments as $department)
-                            <option @if ($department->id == request()->get('department')) selected @endif value="{{$department->id}}">{{$department->name}}</option>
-                        @endforeach
-                    </select>
+
+            @if(\App\Models\Task::userCanViewAll())
+                <div class="col-12 col-md-3">
+                    <div class="input-group mb-3">
+                        <select class="form-control" name="department">
+                            <option value="">@lang('translates.fields.department') @lang('translates.placeholders.choose')</option>
+                            @foreach ($departments as $department)
+                                <option @if ($department->id == request()->get('department')) selected @endif value="{{$department->id}}">{{$department->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
-            </div>
+            @endif
+
             <div class="col-12 col-md-3">
                 <div class="input-group mb-3">
                     <select class="form-control" name="status">

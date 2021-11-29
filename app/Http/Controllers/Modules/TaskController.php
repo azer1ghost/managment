@@ -78,7 +78,7 @@ class TaskController extends Controller
                                                         if ($type === Department::class) {
                                                             $q->where('id', $user->getRelationValue('department')->getAttribute('id'));
                                                         }else{
-                                                            $q->whereBelongsTo($user->getRelationValue('department'));
+                                                            $q->where('department_id', $user->getRelationValue('department')->getAttribute('id'));
                                                         }
                                                     });
                                                 }else{
