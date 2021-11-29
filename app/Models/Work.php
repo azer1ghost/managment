@@ -115,6 +115,11 @@ class Work extends Model implements DocumentableInterface
         return !self::userCanViewDepartmentWorks();
     }
 
+    public function isDone(): bool
+    {
+        return $this->getAttribute('status') == self::DONE;
+    }
+
     public static function generateCustomCode($prefix = 'MGW', $digits = 8): string
     {
         do {

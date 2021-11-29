@@ -80,6 +80,7 @@ Route::group([
     Route::resource('/referrals', ReferralController::class)->except('create');
     Route::resource('/updates', UpdateController::class);
     Route::resource('/services', ServiceController::class);
+    Route::put('/works/sum/verify', [WorkController::class, 'sumVerify'])->name('works.sum.verify');
     Route::put('/works/{work}/verify', [WorkController::class, 'verify'])->name('works.verify');
     Route::resource('/works', WorkController::class);
     Route::resource('/meetings', MeetingController::class);

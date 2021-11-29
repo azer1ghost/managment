@@ -152,6 +152,7 @@ return [
         'execute' => 'Icra et'
     ],
 
+    'sum' => 'Toplu',
     'or' => 'və ya',
 
     'navbar' => [

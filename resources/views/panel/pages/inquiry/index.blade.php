@@ -203,7 +203,8 @@
                 <thead>
                 <tr>
                     @if(auth()->user()->isDeveloper())
-                        <th><input type="checkbox" id="inquiry-all"></th> @endif
+                        <th><input type="checkbox" id="inquiry-all"></th>
+                    @endif
                     <th>{{__('translates.fields.mgCode')}}</th>
                     <th>{{__('translates.fields.date')}}</th>
                     <th>{{__('translates.fields.time')}}</th>
@@ -219,7 +220,8 @@
                 @foreach($inquiries as $inquiry)
                     <tr>
                         @if(auth()->user()->isDeveloper())
-                            <td><input type="checkbox" name="inquiries[]" value="{{$inquiry->id}}"></td> @endif
+                            <td><input type="checkbox" name="inquiries[]" value="{{$inquiry->id}}"></td>
+                        @endif
                         <td>{{$inquiry->getAttribute('code')}}</td>
                         <td>{{$inquiry->getAttribute('datetime')->format('d-m-Y')}}</td>
                         <td>{{$inquiry->getAttribute('datetime')->format('H:i')}}</td>

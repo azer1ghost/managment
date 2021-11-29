@@ -194,6 +194,9 @@
                 <table class="table table-responsive-sm table-hover text-center">
                     <thead>
                     <tr>
+                        @if(auth()->user()->hasPermission('canVerify-work'))
+                            <th><input type="checkbox" id="works-all"></th>
+                        @endif
                         <th scope="col">#</th>
                         <th scope="col">@lang('translates.columns.created_by')</th>
                         @if(\App\Models\Work::userCanViewAll())
@@ -215,9 +218,20 @@
                     <tbody>
                     @php
                         $totals = []; // array of countable service parameters. Ex: Declaration count
+                        $hasPending = false; // check if there's pending work
                     @endphp
                     @forelse($works as $work)
+                        @if($work->isDone() && is_null($work->getAttribute('verified_at')))
+                            @php
+                                $hasPending = true;
+                            @endphp
+                        @endif
                         <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif>
+                            @if($work->isDone() && is_null($work->getAttribute('verified_at')) && auth()->user()->hasPermission('canVerify-work'))
+                                <td><input type="checkbox" name="works[]" value="{{$work->getAttribute('id')}}"></td>
+                            @else
+                                <td></td>
+                            @endif
                             <th scope="row">{{$work->getAttribute('code')}}</th>
                             <td>{{$work->getRelationValue('creator')->getAttribute('fullname')}}</td>
                             @if(\App\Models\Work::userCanViewAll())
@@ -354,6 +368,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
+                            <td></td>
                             <!-- loop of totals of countable parameters -->
                             @foreach($totals as $total)
                                 <td><p style="font-size: 16px" class="mb-0"><strong>{{$total}}</strong></p></td>
@@ -372,6 +387,13 @@
             </div>
         </div>
     </form>
+
+    @if($hasPending && auth()->user()->hasPermission('canVerify-work'))
+        <div class="col-12 pl-0">
+            <a href="{{route('works.sum.verify')}}" id="sum-verify" class="btn btn-outline-primary">@lang('translates.sum') @lang('translates.buttons.verify')</a>
+        </div>
+    @endif
+
     <div class="modal fade" id="create-work">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
@@ -417,56 +439,10 @@
             $(this).form().submit();
         });
 
-        select2.select2({
-            theme: 'bootstrap4',
-        });
-
         $('.filterSelector').selectpicker()
 
-        clientFilter.select2({
-            placeholder: "Search",
-            minimumInputLength: 3,
-            // width: 'resolve',
+        select2.select2({
             theme: 'bootstrap4',
-            focus: true,
-            ajax: {
-                delay: 500,
-                url: "{{route('clients.search')}}",
-                dataType: 'json',
-                type: 'GET',
-                data: function (params) {
-                    return {
-                        search: params.term,
-                    }
-                }
-            }
-        })
-
-        asanUserFilter.select2({
-            placeholder: "Search",
-            minimumInputLength: 3,
-            // width: 'resolve',
-            theme: 'bootstrap4',
-            focus: true,
-            ajax: {
-                delay: 500,
-                url: "{{route('asanImza.user.search')}}",
-                dataType: 'json',
-                type: 'GET',
-                data: function (params) {
-                    return {
-                        search: params.term,
-                    }
-                }
-            }
-        })
-
-        clientFilter.on('select2:open', function (e) {
-            document.querySelector('.select2-search__field').focus();
-        });
-
-        asanUserFilter.on('select2:open', function (e) {
-            document.querySelector('.select2-search__field').focus();
         });
 
         select2.on('select2:open', function (e) {
@@ -482,11 +458,61 @@
             }, function(start, end, label) {}
         );
 
-        $( function() {
-            $("a[verify]").click(function(e){
-                let name = $(this).data('name') ?? 'Record'
-                let url = $(this).attr('href')
+        select2RequestFilter(clientFilter, '{{route('clients.search')}}');
+        select2RequestFilter(asanUserFilter, '{{route('asanImza.user.search')}}');
+
+        confirmJs($("a[verify]"));
+        confirmJs($("#sum-verify"));
+
+        const worksCheckbox = $("input[name='works[]']");
+
+        $('#works-all').change(function () {
+            if ($(this).is(':checked')) {
+                worksCheckbox.map(function () {
+                    $(this).prop('checked', true)
+                });
+                $('#sum-verify').removeClass('disabled');
+            } else {
+                worksCheckbox.map(function () {
+                    $(this).prop('checked', false)
+                });
+                $('#sum-verify').addClass('disabled');
+            }
+        });
+
+        // Check if at least one inquiry selected
+        worksCheckbox.change(function () {
+            checkUnverifiedWorks();
+        });
+
+        checkUnverifiedWorks();
+
+        function checkUnverifiedWorks(){
+            let hasOneChecked = false;
+            worksCheckbox.map(function () {
+                if ($(this).is(':checked')) {
+                    hasOneChecked = true;
+                }
+            });
+            if (hasOneChecked) {
+                $('#sum-verify').removeClass('disabled');
+            } else {
+                $('#sum-verify').addClass('disabled');
+            }
+        }
+
+        function confirmJs(el){
+            el.click(function(e){
+                const name = $(this).data('name') ?? 'Pending records'
+                const url = $(this).attr('href')
+                const checkedWorks = [];
+
+                $("input[name='works[]']:checked").each(function(){
+                    checkedWorks.push($(this).val());
+                });
+
                 e.preventDefault()
+
                 $.confirm({
                     title: 'Confirm verification',
                     content: `Are you sure to verify <b>${name}</b> ?`,
@@ -500,6 +526,7 @@
                             $.ajax({
                                 url: url,
                                 type: 'PUT',
+                                data: {'works': checkedWorks},
                                 success: function (responseObject, textStatus, xhr)
                                 {
                                     $.confirm({
@@ -546,6 +573,31 @@
                     }
                 });
             });
-        });
+        }
+
+        function select2RequestFilter(el, url){
+            el.select2({
+                placeholder: "Search",
+                minimumInputLength: 3,
+                // width: 'resolve',
+                theme: 'bootstrap4',
+                focus: true,
+                ajax: {
+                    delay: 500,
+                    url: url,
+                    dataType: 'json',
+                    type: 'GET',
+                    data: function (params) {
+                        return {
+                            search: params.term,
+                        }
+                    }
+                }
+            })
+
+            el.on('select2:open', function (e) {
+                document.querySelector('.select2-search__field').focus();
+            });
+        }
     </script>
 @endsection

@@ -192,10 +192,10 @@ class WorkController extends Controller
     public function update(WorkRequest $request, Work $work): RedirectResponse
     {
         $validated = $request->validated();
-        $validated['verified_at'] = $request->has('verified') ? now() : null;
+        $validated['verified_at'] = $request->has('verified') && !$request->has('rejected') ? now() : NULL;
 
         if($work->getAttribute('status') == $work::REJECTED && !$request->has('rejected')){
-            $status = Work::PENDING;
+            $status = $validated['status'] ?? Work::PENDING;
         }else{
             if ($request->has('rejected')){
                 $status = Work::REJECTED;
@@ -230,6 +230,23 @@ class WorkController extends Controller
         }
         return response()->setStatusCode('204');
     }
+
+    public function sumVerify(Request $request)
+    {
+        $err = 0;
+        foreach ($request->get('works') ?? [] as $work) {
+            if(!Work::find($work)->update(['verified_at' => now()])){
+                $err = 400;
+            }
+        }
+
+        if ($err == 400) {
+            return response()->setStatusCode('204');
+        }
+
+        return response('OK');
+    }
+
 
     public function destroy(Work $work)
     {

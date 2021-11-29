@@ -150,6 +150,7 @@ return [
         'execute' => 'Execute'
     ],
 
+    'sum' => 'Collective',
     'or' => 'or',
 
     'navbar' => [
