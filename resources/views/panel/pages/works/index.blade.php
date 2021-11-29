@@ -191,9 +191,9 @@
                 </div>
             @endcan
             <div class="col-12">
-                <table class="table table-responsive-sm table-hover text-center">
+                <table class="table table-responsive-sm table-hover">
                     <thead>
-                    <tr>
+                    <tr class="text-center">
                         @if(auth()->user()->hasPermission('canVerify-work'))
                             <th><input type="checkbox" id="works-all"></th>
                         @endif
@@ -364,22 +364,14 @@
                         </tr>
                     @endforelse
                         <tr style="background: #b3b7bb">
-                            <td><p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td colspan="@if(auth()->user()->isDeveloper()) 9 @else 8 @endif">
+                                <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
+                            </td>
                             <!-- loop of totals of countable parameters -->
                             @foreach($totals as $total)
                                 <td><p style="font-size: 16px" class="mb-0"><strong>{{$total}}</strong></p></td>
                             @endforeach
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td colspan="3"></td>
                         </tr>
                     </tbody>
                 </table>
