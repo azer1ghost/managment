@@ -134,8 +134,8 @@
                     </div>
                 @endif
 
-                @if(!is_null($data))
-                    <x-input::text wire:ignore name="datetime" :label="__('translates.fields.date')" value="{{$data->getAttribute('datetime')->format('Y-m-d H:i')}}" type="text" width="3" class="pr-3" />
+                @if(!is_null($data) && (auth()->user()->isDeveloper() || !is_null(optional($data)->getAttribute('datetime'))))
+                    <x-input::text wire:ignore name="datetime" :label="__('translates.fields.date')" value="{{optional($data->getAttribute('datetime'))->format('Y-m-d H:i')}}" type="text" width="3" class="pr-3" />
                 @endif
 
                 @foreach($parameters as $parameter)

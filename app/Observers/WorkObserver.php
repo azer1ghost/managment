@@ -10,7 +10,6 @@ class WorkObserver
     {
         $work->setAttribute('status', $work::PENDING);
         $work->setAttribute('code', $work::generateCustomCode());
-        $work->setAttribute('datetime', now());
     }
 
     public function created(Work $work)
@@ -22,6 +21,9 @@ class WorkObserver
     {
         if($work->isDirty('status')){
             $work->hours()->create(['status' => $work->getAttribute('status'), 'updated_at' => now()]);
+            if($work->getAttribute('status') == $work::DONE){
+                $work->setAttribute('datetime', now());
+            }
         }
     }
 }
