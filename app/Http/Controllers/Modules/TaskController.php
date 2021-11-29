@@ -28,11 +28,11 @@ class TaskController extends Controller
         $limit  = $request->get('limit', 25);
 
         $filters = [
-            'department' => $request->get('department'),
-            'user' => $request->get('user'),
+            'type' => $request->get('type', 1),
             'status' => $request->get('status'),
             'priority' => $request->get('priority'),
-            'type' => $request->get('type') ?? 1
+            'department' => $request->get('department'),
+            'user' => $request->get('user'),
         ];
 
         $statuses = Task::statuses();
