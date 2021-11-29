@@ -196,7 +196,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">@lang('translates.columns.created_by')</th>
-                        @if(\App\Models\Work::userCanViewAll() || \App\Models\Work::userCanViewDepartmentWorks())
+                        @if(\App\Models\Work::userCanViewAll())
                             <th scope="col">@lang('translates.columns.department')</th>
                         @endif
                         <th scope="col">@lang('translates.fields.user')</th>
@@ -220,7 +220,7 @@
                         <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif>
                             <th scope="row">{{$work->getAttribute('code')}}</th>
                             <td>{{$work->getRelationValue('creator')->getAttribute('fullname')}}</td>
-                            @if(\App\Models\Work::userCanViewAll() || \App\Models\Work::userCanViewDepartmentWorks())
+                            @if(\App\Models\Work::userCanViewAll())
                                 <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
                             @endif
                             <td>
