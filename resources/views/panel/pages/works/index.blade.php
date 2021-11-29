@@ -196,7 +196,9 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">@lang('translates.columns.created_by')</th>
-                        <th scope="col">@lang('translates.columns.department')</th>
+                        @if(\App\Models\Work::userCanViewAll() || \App\Models\Work::userCanViewDepartmentWorks())
+                            <th scope="col">@lang('translates.columns.department')</th>
+                        @endif
                         <th scope="col">@lang('translates.fields.user')</th>
                         <th scope="col">Asan imza</th>
                         <th scope="col">@lang('translates.navbar.service')</th>
@@ -218,7 +220,9 @@
                         <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif>
                             <th scope="row">{{$work->getAttribute('code')}}</th>
                             <td>{{$work->getRelationValue('creator')->getAttribute('fullname')}}</td>
-                            <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
+                            @if(\App\Models\Work::userCanViewAll() || \App\Models\Work::userCanViewDepartmentWorks())
+                                <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
+                            @endif
                             <td>
                                 @if(is_numeric($work->getAttribute('user_id')))
                                     {{$work->getRelationValue('user')->getAttribute('fullname_with_position')}}
