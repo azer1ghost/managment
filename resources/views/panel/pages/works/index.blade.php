@@ -6,6 +6,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <style>
+        .table td, .table th{
+            vertical-align: middle !important;
+        }
+    </style>
 @endsection
 @section('content')
     <x-bread-crumb>
@@ -186,7 +191,7 @@
                 </div>
             @endcan
             <div class="col-12">
-                <table class="table table-responsive-sm table-hover">
+                <table class="table table-responsive-sm table-hover text-center">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -336,8 +341,8 @@
                             </th>
                         </tr>
                     @endforelse
-                        <tr>
-                            <td><p style="font-size: 16px"><strong>Total:</strong></p></td>
+                        <tr style="background: #b3b7bb">
+                            <td><p style="font-size: 16px" class="mb-0"><strong>Total:</strong></p></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -347,7 +352,7 @@
                             <td></td>
                             <!-- loop of totals of countable parameters -->
                             @foreach($totals as $total)
-                                <td><p style="font-size: 16px"><strong>{{$total}}</strong></p></td>
+                                <td><p style="font-size: 16px" class="mb-0"><strong>{{$total}}</strong></p></td>
                             @endforeach
                             <td></td>
                             <td></td>
