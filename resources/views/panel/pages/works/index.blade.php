@@ -197,7 +197,9 @@
                         @if(auth()->user()->hasPermission('canVerify-work'))
                             <th><input type="checkbox" id="works-all"></th>
                         @endif
-                        <th scope="col">#</th>
+                        @if(auth()->user()->isDeveloper())
+                            <th scope="col">#</th>
+                        @endif
                         <th scope="col">@lang('translates.columns.created_by')</th>
                         @if(\App\Models\Work::userCanViewAll())
                             <th scope="col">@lang('translates.columns.department')</th>
@@ -226,13 +228,15 @@
                                 $hasPending = true;
                             @endphp
                         @endif
-                        <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif>
+                        <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif data-toggle="tooltip" data-placement="top" title="{{$work->getAttribute('code')}}">
                             @if($work->isDone() && is_null($work->getAttribute('verified_at')) && auth()->user()->hasPermission('canVerify-work'))
                                 <td><input type="checkbox" name="works[]" value="{{$work->getAttribute('id')}}"></td>
                             @else
                                 <td></td>
                             @endif
-                            <th scope="row">{{$work->getAttribute('code')}}</th>
+                            @if(auth()->user()->isDeveloper())
+                                <th scope="row">{{$work->getAttribute('code')}}</th>
+                            @endif
                             <td>{{$work->getRelationValue('creator')->getAttribute('fullname')}}</td>
                             @if(\App\Models\Work::userCanViewAll())
                                 <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
