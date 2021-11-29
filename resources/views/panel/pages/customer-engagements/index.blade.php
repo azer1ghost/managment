@@ -14,15 +14,6 @@
     <form action="{{route('customer-engagement.index')}}">
         <div class="row d-flex justify-content-between mb-2">
 
-            <div class="col-8 col-md-3 pl-3 mb-3">
-                <select name="company" class="custom-select">
-                    <option value="">@lang('translates.fields.company') @lang('translates.placeholders.choose')</option>
-                    @foreach($companies as $company)
-                        <option @if(request()->get('company') == $company->id) selected @endif value="{{$company->id}}">{{$company->name}}</option>
-                    @endforeach
-                </select>
-            </div>
-
             <div class="col-8 col-md-3 mr-md-auto mb-3">
                 <select name="limit" class="custom-select">
                     @foreach([25, 50, 100] as $size)
@@ -40,7 +31,7 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">@lang('translates.fields.user')</th>
-                    <th scope="col">@lang('translates.fields.company')</th>
+                    <th scope="col">@lang('translates.fields.client')</th>
                     <th scope="col">@lang('translates.fields.actions')</th>
                 </tr>
                 </thead>
@@ -49,7 +40,7 @@
                     <tr>
                         <th scope="row">{{$loop->iteration}}</th>
                         <td>{{$customer_engagement->getRelationValue('user')->getFullnameWithPositionAttribute()}}</td>
-                        <td>{{$customer_engagement->getRelationValue('company')->getAttribute('name')}}</td>
+                        <td>{{$customer_engagement->getRelationValue('client')->getAttribute('fullname')}}</td>
                         <td>
                             <div class="btn-sm-group">
                                 @can('view', $customer_engagement)

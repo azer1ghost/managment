@@ -11,7 +11,7 @@ class CustomerEngagementRequest extends FormRequest
     {
         return [
             'user_id'=>'required|integer',
-            'company_id'=>'required|integer',
+            'client_id'=>'required|integer',
         ];
     }
 }
