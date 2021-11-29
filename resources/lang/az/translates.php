@@ -243,6 +243,8 @@ return [
 
     'total_items' => 'Göstərilən: :count.  Ümumi: :total',
 
+    'total' => 'Toplam',
+    
     'access' => 'Icazə',
 
     'disabled' => 'Aktiv deyil',

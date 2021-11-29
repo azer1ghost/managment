@@ -240,6 +240,8 @@ return [
 
     'total_items' => 'Showing :count of :total',
 
+    'total' => 'Total',
+
     'access' => 'Access',
 
     'disabled' => 'Inactive',

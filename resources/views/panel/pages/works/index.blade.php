@@ -342,7 +342,7 @@
                         </tr>
                     @endforelse
                         <tr style="background: #b3b7bb">
-                            <td><p style="font-size: 16px" class="mb-0"><strong>Total:</strong></p></td>
+                            <td><p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p></td>
                             <td></td>
                             <td></td>
                             <td></td>
