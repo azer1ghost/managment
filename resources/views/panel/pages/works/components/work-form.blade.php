@@ -249,7 +249,7 @@
             }, function(start, end, label) {}
         );
 
-        @if(optional(optional($data)->user())->exists() && !is_null(optional($data)->getAttribute('done_at')))
+        @if(optional(optional($data)->user())->exists() && optional($data)->getAttribute('status') == \App\Models\Work::DONE)
             function html(html, type = 'string')
             {
                 let tmp = document.createElement("div");
@@ -288,6 +288,7 @@
 
                 copyToClipboard(html(data, 'html'));
             });
+
         @endif
 
 
