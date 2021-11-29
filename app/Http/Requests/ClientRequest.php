@@ -26,7 +26,7 @@ class ClientRequest extends FormRequest
             'phone2'          => 'nullable|string|max:255',
             'address1'        => 'nullable|string|max:255',
             'address2'        => 'nullable|string|max:255',
-            'voen'            => 'nullable|string',
+            'voen'            => 'required|string',
             'position'        => 'nullable|string',
             'type'            => 'nullable|boolean',
             'client_id'       => 'nullable|integer',

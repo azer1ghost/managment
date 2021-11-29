@@ -63,15 +63,19 @@ class ClientController extends Controller
             ]);
     }
 
-    public function store(ClientRequest  $request)
+    public function store(ClientRequest $request)
     {
         $validated = $request->validated();
 
         $client = Client::create($validated);
 
-        return redirect()
-            ->route('clients.index')
-            ->withNotify('success', $client->getAttribute('fullname'));
+        if(auth()->user()->can('viewAny', new Client())){
+            return redirect()
+                ->route('clients.index')
+                ->withNotify('success', $client->getAttribute('fullname'));
+        }
+
+        return redirect()->route('close');
     }
 
     public function show(Client $client)
