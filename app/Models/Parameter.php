@@ -12,9 +12,8 @@ use Spatie\Translatable\HasTranslations;
 
 /**
  * @method static simplePaginate(int $int)
- * @method static create($validated)
+ * @method static create(array $validated)
  * @method static select(array $array)
- * @method static distinct()
  */
 class Parameter extends Model
 {
@@ -23,6 +22,10 @@ class Parameter extends Model
     public array $translatable = ['label', 'placeholder'];
 
     protected $fillable = ['name', 'label', 'placeholder', 'type', 'option_id', 'order', 'attributes'];
+
+    // attributes which will be hidden or required to control POST and PUT requests on parameter usage
+    // Ex: hideOnPost -> hide parameter which has hideOnPost attribute on POST request
+    private array $parameterAttributes = ['hideOnPost'];
 
     public static function types(): array
     {

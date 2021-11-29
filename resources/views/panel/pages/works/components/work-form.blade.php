@@ -139,6 +139,9 @@
                 @endif
 
                 @foreach($parameters as $parameter)
+                    @if(in_array('hideOnPost', explode(' ', $parameter->attributes)) && $method == 'POST')
+                        @continue
+                    @endif
                     @switch($parameter->type)
                         @case('text')
                             <div class="form-group col-12 col-md-3" wire:ignore>
