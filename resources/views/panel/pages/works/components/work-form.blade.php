@@ -276,7 +276,7 @@
                 const user = '{{$data->getRelationValue('user')->getAttribute('fullname')}}';
                 const client = '{{$data->getRelationValue('client')->getAttribute('fullname_with_voen')}}';
                 const asanImza = '{{$data->getRelationValue('asanImza')->getAttribute('user_with_company')}}';
-                const date = '{{$data->getAttribute('done_at')}}';
+                const date = '{{$data->getAttribute('datetime')}}';
                 const detail = $(html('{{$data->getAttribute('detail')}}')).text();
                 let data = `Xidmət: ${service}<br/>Müştəri: ${client}<br/>İcra edən: ${user}<br/>Asan imza: ${asanImza}<br/>Tarix: ${date}<br/>`;
 
