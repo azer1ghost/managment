@@ -46,8 +46,8 @@
             <p class="text-muted mb-2"> @lang('translates.fields.employment')</p>
             <hr class="my-2">
             <div class="row">
-                <x-input::text name="voen"  :value="$data->getAttribute('voen')"     width="4" class="pr-1"  label="VOEN/GOOEN" />
                 @if(request()->has('client_id') || !is_null($data->client_id))
+                    <x-input::text name="voen"  :value="$data->getAttribute('voen')"     width="4" class="pr-1"  label="VOEN/GOOEN" />
                     <x-input::text name="position"  :value="$data->getAttribute('position')"     width="4" class="pr-1"  :label="trans('translates.fields.position')" />
                 @endif
             </div>
