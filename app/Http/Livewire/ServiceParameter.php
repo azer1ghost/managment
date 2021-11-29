@@ -27,7 +27,8 @@ class ServiceParameter extends Component
             'pivot' => [
                 'service_id' => null,
                 'parameter_id' => null,
-                'show_in_table' => 0
+                'show_in_table' => 0,
+                'show_count' => 0
             ]
         ];
         $this->serviceParameters[] = $newArr;

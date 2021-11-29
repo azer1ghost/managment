@@ -86,7 +86,10 @@ class ServiceController extends Controller
 
         $parameters = [];
         foreach ($validated['parameters'] ?? [] as $parameter){
-            $parameters[$parameter['id']] = ['show_in_table' => $parameter['show'] ?? 0];
+            $parameters[$parameter['id']] = [
+                'show_in_table' => $parameter['show'] ?? 0,
+                'show_count' => $parameter['count'] ?? 0
+            ];
         }
         $service->parameters()->sync($parameters);
 

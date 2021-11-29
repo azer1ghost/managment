@@ -56,7 +56,7 @@ class Parameter extends Model
 
     public function services(): BelongsToMany
     {
-        return $this->belongsToMany(Service::class, 'service_parameter')->withPivot('show_in_table');
+        return $this->belongsToMany(Service::class, 'service_parameter')->withPivot('show_in_table', 'show_count');
     }
 
     public function works(): BelongsToMany

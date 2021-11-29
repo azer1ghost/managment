@@ -13,9 +13,13 @@
                         </div>
                     @endif
                 </div>
-                <div class="form-group form-check">
+                <div class="form-group form-check mb-1">
                     <input type="checkbox" class="form-check-input" id="service-parameter-show-{{$index}}" @if($parameter['pivot']['show_in_table']) checked @endif name="parameters[{{$index}}][show]" value="1">
                     <label class="form-check-label" for="service-parameter-show-{{$index}}">Show in table</label>
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="service-parameter-show-count-{{$index}}" @if($parameter['pivot']['show_count']) checked @endif name="parameters[{{$index}}][count]" value="1">
+                    <label class="form-check-label" for="service-parameter-show-count-{{$index}}">Show count</label>
                 </div>
             </div>
         @empty

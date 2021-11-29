@@ -198,7 +198,7 @@
                         <th scope="col">@lang('translates.fields.clientName')</th>
                         <th scope="col">Status</th>
                         @foreach(\App\Models\Service::serviceParameters() as $param)
-                            <th scope="col">{{$param->getAttribute('label')}}</th>
+                            <th scope="col">{{$param['data']->getAttribute('label')}}</th>
                         @endforeach
                         <th scope="col">@lang('translates.fields.date')</th>
                         <th scope="col">@lang('translates.columns.verified')</th>
@@ -206,6 +206,9 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @php
+                        $totals = []; // array of countable service parameters. Ex: Declaration count
+                    @endphp
                     @forelse($works as $work)
                         <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif>
                             <th scope="row">{{$work->getAttribute('code')}}</th>
@@ -247,7 +250,19 @@
                                 </span>
                             </td>
                             @foreach(\App\Models\Service::serviceParameters() as $param)
-                                <td>{{$work->getParameter($param->getAttribute('id'))}}</td>
+                                <td>{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
+                                @php
+                                    if($param['count']){ // check if parameter is countable
+                                        $count = (int) $work->getParameter($param['data']->getAttribute('id'));
+                                        if(isset($totals[$param['data']->getAttribute('id')])){
+                                            $totals[$param['data']->getAttribute('id')] += $count;
+                                        }else{
+                                            $totals[$param['data']->getAttribute('id')] = $count;
+                                        }
+                                    }else{
+                                        $totals[$param['data']->getAttribute('id')] = NULL;
+                                    }
+                                @endphp
                             @endforeach
                             <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip" data-placement="top">{{$work->getAttribute('datetime')->diffForHumans()}}</td>
                             <td>
@@ -321,6 +336,23 @@
                             </th>
                         </tr>
                     @endforelse
+                        <tr>
+                            <td><p style="font-size: 16px"><strong>Total:</strong></p></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <!-- loop of totals of countable parameters -->
+                            @foreach($totals as $total)
+                                <td><p style="font-size: 16px"><strong>{{$total}}</strong></p></td>
+                            @endforeach
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

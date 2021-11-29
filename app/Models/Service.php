@@ -33,7 +33,7 @@ class Service extends Model
 
     public function parameters(): BelongsToMany
     {
-        return $this->belongsToMany(Parameter::class, 'service_parameter')->withPivot('show_in_table');
+        return $this->belongsToMany(Parameter::class, 'service_parameter')->withPivot('show_in_table', 'show_count');
     }
 
     public function parent(): BelongsTo
@@ -49,8 +49,11 @@ class Service extends Model
     public static function serviceParameters()
     {
         $data = [];
-        foreach (collect(DB::table('service_parameter')->select('parameter_id')->where('show_in_table', 1)->get())->unique('parameter_id')->toArray() as $param){
-            $data[] = Parameter::find($param->parameter_id);
+        foreach (collect(DB::table('service_parameter')->latest('show_count')->select('parameter_id', 'show_count')->where('show_in_table', 1)->get())->unique('parameter_id')->toArray() as $param){
+            $data[] = [
+                'data' => Parameter::findOrFail($param->parameter_id),
+                'count' => (bool) $param->show_count
+            ];
         }
 
         return $data;
