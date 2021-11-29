@@ -16,7 +16,7 @@ class CreateCustomerEngagementsTable extends Migration
         Schema::create('customer_engagements', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->index()->constrained()->onDelete('CASCADE');
-            $table->foreignId('company_id')->index()->constrained()->onDelete('CASCADE');
+            $table->foreignId('client_id')->index()->constrained()->onDelete('CASCADE');
             $table->softDeletes();
             $table->timestamps();
         });
