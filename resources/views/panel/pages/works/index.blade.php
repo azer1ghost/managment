@@ -291,7 +291,7 @@
                                     }
                                 @endphp
                             @endforeach
-                            <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip" data-placement="top">{{$work->getAttribute('datetime')->diffForHumans()}}</td>
+                            <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip" data-placement="top">{{optional($work->getAttribute('datetime'))->diffForHumans()}}</td>
                             <td>
                                 @php
                                     $status = '';
