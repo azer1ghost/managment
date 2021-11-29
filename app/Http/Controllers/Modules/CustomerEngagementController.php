@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerEngagementRequest;
-use App\Models\Company;
+use App\Models\Client;
 use App\Models\CustomerEngagement;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -20,15 +20,12 @@ class CustomerEngagementController extends Controller
     public function index(Request $request)
     {
         $limit = $request->get('limit', 25);
-        $company = $request->get('company');
 
         return view('panel.pages.customer-engagements.index')
             ->with([
                 'customer_engagements' => CustomerEngagement::query()
-                    ->when($company, fn($query) => $query->where('company_id', $company))
                     ->latest('id')
                     ->paginate($limit),
-                'companies' => Company::get(['id', 'name']),
             ]);
     }
 
@@ -40,7 +37,6 @@ class CustomerEngagementController extends Controller
                 'action' => route('customer-engagement.store'),
                 'method' => 'POST',
                 'data' => new CustomerEngagement(),
-                'companies' => Company::get(['id', 'name']),
                 'users' => User::get(['id', 'name', 'surname', 'position_id', 'role_id']),
             ]);
     }
@@ -61,7 +57,6 @@ class CustomerEngagementController extends Controller
                 'action' => null,
                 'method' => null,
                 'data' => $customerEngagement,
-                'companies' => Company::get(['id', 'name']),
                 'users' => User::oldest('name')->get(['id', 'name', 'surname', 'position_id', 'role_id']),
             ]);
     }
@@ -73,7 +68,6 @@ class CustomerEngagementController extends Controller
                 'action' => route('customer-engagement.update', $customerEngagement),
                 'method' => "PUT",
                 'data' => $customerEngagement,
-                'companies' => Company::get(['id', 'name']),
                 'users' => User::get(['id', 'name', 'surname', 'position_id', 'role_id']),
             ]);
     }

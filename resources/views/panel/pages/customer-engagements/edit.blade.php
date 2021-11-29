@@ -1,12 +1,10 @@
-@extends('layouts.main')
-
-@section('title', trans('translates.navbar.customer-engagement'))
-
 @section('style')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 @endsection
 
+@extends('layouts.main')
+@section('title', trans('translates.navbar.customer_engagement'))
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -28,11 +26,11 @@
         <div class="tab-content row mt-4">
 
             <div class="form-group col-6">
-                <label for="company_id">@lang('translates.fields.company')</label><br/>
-                <select class="form-control" name="company_id" id="company_id" data-width="fit">
-                    @foreach($companies as $company)
-                        <option @if($data->getAttribute('company_id') == $company->id) selected @endif value="{{$company->id}}">{{$company->name}}</option>
-                    @endforeach
+                <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
+                <select name="client_id" id="data-client-type" style="width: 100% !important;">
+                    @if(is_numeric($data->getAttribute('client_id')))
+                        <option value="{{$data->getAttribute('client_id')}}">{{$data->getRelationValue('client')->getAttribute('fullname_with_voen')}}</option>
+                    @endif
                 </select>
             </div>
 
@@ -40,34 +38,48 @@
                 <label for="user_id">@lang('translates.columns.user')</label><br/>
                 <select class="select2 form-control" name="user_id" id="user_id">
                     @foreach($users as $user)
-                        <option @if($data->getAttribute('user_id') == $user->id) selected @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
+                        <option @if($data->getAttribute('user_id') == $user->id) selected
+                                @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
                     @endforeach
                 </select>
             </div>
 
         </div>
         @if($action)
-                <x-input::submit :value="__('translates.buttons.save')"/>
-         @endif
+            <x-input::submit :value="trans('translates.buttons.save')"/>
+        @endif
     </form>
 @endsection
 
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
     @if(is_null($action))
         <script>
             $('form :input').attr('disabled', true)
         </script>
     @endif
     <script>
-        const select2 = $('.select2');
-
-        select2.select2({
+        const clientSelect2 = $('select[name="client_id"]');
+        clientSelect2.select2({
+            placeholder: "Search",
+            minimumInputLength: 3,
+            // width: 'resolve',
             theme: 'bootstrap4',
-        });
-
-        select2.on('select2:open', function (e) {
+            focus: true,
+            ajax: {
+                delay: 500,
+                url: "{{route('clients.search')}}",
+                dataType: 'json',
+                type: 'GET',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                    }
+                }
+            }
+        })
+        clientSelect2.on('select2:open', function (e) {
             document.querySelector('.select2-search__field').focus();
         });
     </script>
