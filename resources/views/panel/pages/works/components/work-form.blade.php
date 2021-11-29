@@ -186,7 +186,7 @@
                 </div>
             </div>
 
-            @if(optional(optional($data)->user())->exists() && !is_null(optional($data)->getAttribute('done_at')))
+            @if(optional(optional($data)->user())->exists() && \App\Models\Work::DONE == optional($data)->getAttribute('status'))
                 <div class="col-12">
                     <button type="button" class="btn btn-outline-success copy">@lang('translates.buttons.copy')</button>
                 </div>
