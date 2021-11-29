@@ -431,6 +431,10 @@
         const clientFilter = $('.client-filter');
         const asanUserFilter = $('.asanUser-filter');
 
+        @if(!$hasPending && auth()->user()->hasPermission('canVerify-work'))
+            $('#works-all').parent().hide()
+        @endif
+
         $('select[name="limit"]').change(function () {
             $(this).form().submit();
         });
