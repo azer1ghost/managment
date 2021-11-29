@@ -52,7 +52,13 @@ class TaskController extends Controller
                         foreach ($filters as $column => $value) {
                             $query->when($value, function ($query, $value) use ($column, $filters, $user) {
                                 if ($column == 'department'){
-                                    $query->whereHasMorph('taskable', [Department::class], fn ($q) => $q->where('id', $value));
+                                    $query->whereHasMorph('taskable', [Department::class, User::class], function($q, $type) use ($user, $value){
+                                        if ($type === Department::class) {
+                                            $q->where('id', $value);
+                                        }else{
+                                            $q->where('department_id', $value);
+                                        }
+                                    });
                                 }elseif ($column == 'user'){
                                     $query->whereHasMorph('taskable', [User::class], fn ($q) => $q
                                         ->where('surname', 'like', $value)

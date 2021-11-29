@@ -240,7 +240,7 @@
                                     @php
                                         switch($work->getAttribute('status')){
                                             case(1):
-                                                $color = 'info';
+                                                $color = 'warning';
                                                 break;
                                             case(2):
                                                 $color = 'primary';
