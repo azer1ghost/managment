@@ -69,7 +69,7 @@ class ClientController extends Controller
 
         $client = Client::create($validated);
 
-        if(auth()->user()->can('viewAny', new Client())){
+        if(auth()->user()->hasPermission('viewAny-client')){
             return redirect()
                 ->route('clients.index')
                 ->withNotify('success', $client->getAttribute('fullname'));
