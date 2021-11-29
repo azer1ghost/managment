@@ -92,6 +92,7 @@ class TaskController extends Controller
                                                 }
                                                 $query->orWhere('user_id', $user->getAttribute('id'));
                                             }
+                                            break;
                                     }
                                 }else{
                                     $query->where($column, $value);
