@@ -51,7 +51,7 @@
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$referral->getAttribute('key')}}</td>
-                            <td>{{$referral->getRelationValue('user')->getAttribute("fullname")}}</td>
+                            <td>{{optional($referral->getRelationValue('user'))->getAttribute("fullname")}}</td>
                             <td>{{$referral->getAttribute('total_users')}}</td>
                             <td>{{$referral->getAttribute('bonus')}}</td>
                             <td>{{$referral->getAttribute('efficiency')}}</td>
