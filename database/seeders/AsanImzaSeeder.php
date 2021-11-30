@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\AsanImza;
 use Illuminate\Database\Seeder;
 
 class AsanImzaSeeder extends Seeder
@@ -13,6 +14,6 @@ class AsanImzaSeeder extends Seeder
      */
     public function run()
     {
-        //
+        AsanImza::factory()->count(10)->create();
     }
 }
