@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             UpdateSeeder::class,
             ClientSeeder::class,
             ServiceSeeder::class,
+            AsanImzaSeeder::class
         ]);
     }
 }
