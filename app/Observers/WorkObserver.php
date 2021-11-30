@@ -25,5 +25,8 @@ class WorkObserver
                 $work->setAttribute('datetime', now());
             }
         }
+        if(!auth()->user()->hasPermission('canRedirect-work') && $work->isDirty('user_id')){
+            $work->setAttribute('status', Work::STARTED);
+        }
     }
 }
