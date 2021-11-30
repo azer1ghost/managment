@@ -91,6 +91,13 @@
         @endif
     </form>
 
+    @if($method != 'POST' && auth()->user()->hasPermission('canUploadContract-work'))
+        <div class="my-5">
+            <x-documents :documents="$data->documents" :title="trans('translates.files.contract')" />
+            <x-document-upload :id="$data->id" model="Client"/>
+        </div>
+    @endif
+
     @if($method != 'POST' && is_null($data->client_id) && $data->getAttribute('type') == $data::LEGAL)
         <table class="table table-responsive-sm mt-4">
             <thead>

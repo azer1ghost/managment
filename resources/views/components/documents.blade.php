@@ -5,7 +5,7 @@
                     @php($count = $documents->count())
                     <p class="mb-0" type="button" data-toggle="collapse" data-target="#document-files" style="font-size: 16px">
                         <i class="fa fa-folder"></i>
-                        Related Files
+                        {{$title}}
                         <span class="badge badge-secondary">{{$count}}</span>
                     </p>
                 </div>

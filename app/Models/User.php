@@ -129,6 +129,7 @@ class User extends Authenticatable implements MustVerifyPhone
             $permissions = explode(',',
                 $this->getAttribute('permissions').",".
                 $this->getRelationValue('position')->getAttribute('permissions').",".
+                $this->getRelationValue('department')->getAttribute('permissions').",".
                 $this->getRelationValue('role')->getAttribute('permissions'));
         }
 

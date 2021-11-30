@@ -470,5 +470,10 @@ return [
         1 => 'Easy',
         'Medium',
         'Hard',
+    ],
+
+    'files' => [
+        'default_title' => 'Related Files',
+        'contract' => 'Contract'
     ]
 ];

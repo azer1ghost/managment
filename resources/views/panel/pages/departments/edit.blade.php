@@ -41,6 +41,11 @@
                         Is Active
                     </label>
                 </div>
+                @if(auth()->user()->isDeveloper())
+                    <div class="my-3">
+                        <x-permissions :model="$data" :action="$action" />
+                    </div>
+                @endif
             </div>
         </div>
         @if($action)

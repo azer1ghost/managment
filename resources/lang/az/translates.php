@@ -474,5 +474,10 @@ return [
         1 => 'Asan',
         'Orta',
         'Çətin',
+    ],
+
+    'files' => [
+        'default_title' => 'Əlaqədar Fayllar',
+        'contract' => 'Müqavilə'
     ]
 ];

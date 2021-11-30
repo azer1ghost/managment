@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Requests\DepartmentRequest;
 use App\Models\Department;
+use App\Traits\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
@@ -11,6 +12,8 @@ use App\Http\Controllers\Controller;
 
 class DepartmentController extends Controller
 {
+    use Permission;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -45,6 +48,7 @@ class DepartmentController extends Controller
     {
         $validated = $request->validated();
         $this->translates($validated);
+        $this->permissions($validated, new Department());
 
         $validated['status'] = $request->has('status');
 
@@ -79,6 +83,7 @@ class DepartmentController extends Controller
     {
         $validated = $request->validated();
         $this->translates($validated);
+        $this->permissions($validated, $department);
 
         $validated['status'] = $request->has('status');
 

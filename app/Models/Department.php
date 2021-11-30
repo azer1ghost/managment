@@ -16,7 +16,7 @@ class Department extends Model
 {
     use HasTranslations, HasFactory, SoftDeletes, Loger, GetClassInfo;
 
-    protected $fillable = ['name', 'status', 'short_name'];
+    protected $fillable = ['name', 'status', 'short_name', 'permissions'];
 
     public array $translatable = ['name', 'short_name'];
 
