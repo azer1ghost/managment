@@ -21,7 +21,7 @@ class WorkObserver
     {
         if($work->isDirty('status')){
             $work->hours()->create(['status' => $work->getAttribute('status'), 'updated_at' => now()]);
-            if($work->getAttribute('status') == $work::DONE){
+            if($work->isClean('datetime') && $work->getAttribute('status') == $work::DONE){
                 $work->setAttribute('datetime', now());
             }
         }
