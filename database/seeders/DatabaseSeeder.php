@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Client;
-use App\Models\Position;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -33,6 +31,7 @@ class DatabaseSeeder extends Seeder
             WidgetSeeder::class,
             UpdateSeeder::class,
             ClientSeeder::class,
+            ServiceSeeder::class,
         ]);
     }
 }
