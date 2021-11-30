@@ -231,7 +231,7 @@
                         <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif data-toggle="tooltip" data-placement="top" title="{{$work->getAttribute('code')}}">
                             @if($work->isDone() && is_null($work->getAttribute('verified_at')) && auth()->user()->hasPermission('canVerify-work'))
                                 <td><input type="checkbox" name="works[]" value="{{$work->getAttribute('id')}}"></td>
-                            @elseif( auth()->user()->hasPermission('canVerify-work'))
+                            @elseif(auth()->user()->hasPermission('canVerify-work'))
                                 <td></td>
                             @endif
                             @if(auth()->user()->isDeveloper())
@@ -430,10 +430,6 @@
         const select2 = $('.select2');
         const clientFilter = $('.client-filter');
         const asanUserFilter = $('.asanUser-filter');
-
-        @if(!$hasPending && auth()->user()->hasPermission('canVerify-work'))
-            $('#works-all').parent().hide()
-        @endif
 
         $('select[name="limit"]').change(function () {
             $(this).form().submit();
