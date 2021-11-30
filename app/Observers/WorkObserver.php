@@ -24,9 +24,6 @@ class WorkObserver
             if($work->getAttribute('status') == $work::DONE){
                 $work->setAttribute('datetime', now());
             }
-            if($work->getAttribute('status') == $work::REJECTED){
-                $work->setAttribute('datetime', NULL);
-            }
         }
     }
 }
