@@ -31,8 +31,8 @@
                 @endif
                 @if($data->client()->exists())
                     <div class="form-group col-12 col-md-4 pr-1">
-                        <label for="data-company">Company</label>
-                        <input type="text" class="form-control" id="data-company" value="{{$data->getRelationValue('client')->fullname}}" disabled>
+                        <label for="data-client">@lang('translates.fields.client')</label>
+                        <input type="text" class="form-control" id="data-client" value="{{$data->getRelationValue('client')->fullname}}" disabled>
                     </div>
                 @endif
                 <x-input::select name="type"      :value="$data->getAttribute('type') ?? request()->get('type')"  width="4" class="pr-1" :options="[trans('translates.general.legal'), trans('translates.general.physical')]"/>

@@ -66,11 +66,10 @@ class ClientController extends Controller
     public function store(ClientRequest $request)
     {
         $validated = $request->validated();
-
         $client = Client::create($validated);
 
         if(auth()->user()->hasPermission('viewAny-client')){
-            if($request->has('client_id')){
+            if(is_numeric($client->getAttribute('client_id'))){
                 return redirect()
                     ->route('clients.edit', Client::find($validated['client_id']))
                     ->withNotify('success', $client->getAttribute('fullname'));
