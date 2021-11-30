@@ -52,19 +52,19 @@ class WorkController extends Controller
             'datetime' => $request->has('check-datetime'),
         ];
 
-        $usersQuery = User::isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id']);
+        $usersQuery = User::has('works')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id']);
         $users = Work::userCannotViewAll() && Work::userCanViewDepartmentWorks() ?
             $usersQuery->where('department_id', $user->getAttribute('department_id'))->get() :
             $usersQuery->get();
 
-        $departments = Department::get(['id', 'name']);
+        $departments = Department::has('works')->get(['id', 'name']);
         $companies = Company::query()->has('asanImzalar')->limit(10)->get();
 
         $statuses = Work::statuses();
         $verifies = [1 => trans('translates.columns.unverified'), 2 => trans('translates.columns.verified')];
         $priceVerifies = [1 => trans('translates.columns.price_unverified'), 2 => trans('translates.columns.price_verified')];
 
-        $services = Service::query()
+        $services = Service::has('works')
             ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
                 $query->whereBelongsTo($user->getRelationValue('company'));
             })->get(['id', 'name', 'detail']);

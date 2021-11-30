@@ -26,6 +26,11 @@ class Service extends Model
         return $this->belongsTo(Company::class)->withDefault();
     }
 
+    public function works(): HasMany
+    {
+        return $this->hasMany(Work::class);
+    }
+
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class)->withDefault();
