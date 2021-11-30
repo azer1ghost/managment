@@ -364,7 +364,7 @@
                         </tr>
                     @endforelse
                         <tr style="background: #b3b7bb">
-                            <td colspan="@if(auth()->user()->isDeveloper() && $hasPending) 9 @elseif(auth()->user()->isDeveloper()) 8 @elseif(auth()->user()->hasPermission('viewAll-work')) 8 @elseif(auth()->user()->hasPermission('canVerify-work') && $hasPending) 7 @else 6 @endif">
+                            <td colspan="@if(auth()->user()->isDeveloper() && $hasPending) 9 @elseif(auth()->user()->isDeveloper()) 8 @elseif(auth()->user()->hasPermission('viewAll-work')) 8 @elseif(auth()->user()->hasPermission('canVerify-work') && $hasPending) 8 @else 7 @endif">
                                 <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
                             </td>
                             <!-- loop of totals of countable parameters -->
