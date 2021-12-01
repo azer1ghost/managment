@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Models\Inquiry;
 use App\Models\Task;
 use App\Models\TaskList;
 use App\Models\User;
@@ -10,7 +11,17 @@ class TaskObserver
 {
     public function creating(Task $task)
     {
-        $task->setAttribute('status', 'to_do');
+        $task->setAttribute('status', $task::TO_DO);
+        $task->setAttribute('user_id', auth()->id());
+    }
+
+    public function created(Task $task)
+    {
+        if($task->inquiry()->exists()){
+            $task->getRelationValue('inquiry')
+                ->parameters()
+                ->updateExistingPivot(Inquiry::STATUS_PARAMETER, ['value' => Inquiry::REDIRECTED]);
+        }
     }
 
     public function updating(Task $task)
@@ -21,6 +32,7 @@ class TaskObserver
                 'last_checked_by' => auth()->id()
             ]);
         }
+
         if($task->isDirty('status') && $task->getAttribute('status') == $task::IN_PROGRESS &&
             $task->getAttribute('user_id') != auth()->id() &&
             $task->taskable->getTable() == 'departments' &&
@@ -28,6 +40,19 @@ class TaskObserver
         ){
             $task->setAttribute('taskable_type', User::class);
             $task->setAttribute('taskable_id', auth()->id());
+        }
+
+        if($task->isDirty('status') && $task->getAttribute('status') == $task::DONE){
+            $task->setAttribute('done_at', now());
+            $task->setAttribute('done_by_user_id', auth()->id());
+
+            if($task->inquiry()->exists()){
+                $task->getRelationValue('inquiry')
+                    ->parameters()
+                    ->updateExistingPivot(Inquiry::STATUS_PARAMETER, [
+                        'value' => Inquiry::DONE
+                    ]);
+            }
         }
     }
 }

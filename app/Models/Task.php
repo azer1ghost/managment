@@ -44,7 +44,7 @@ class Task extends Model implements DocumentableInterface, ResultableInterface
 
     public static function statuses(): array
     {
-        return ['to_do', 'in_progress', self::DONE];
+        return [self::TO_DO, self::IN_PROGRESS, self::DONE];
     }
 
     public static function priorities(): array

@@ -199,7 +199,7 @@
     <form action="{{route('inquiry.editable-mass-access-update')}}" method="POST">
         @csrf
         <div class="col-md-12 overflow-auto">
-            <table class="table table-responsive-sm table-hover table-striped">
+            <table class="table table-responsive-sm table-hover table-striped" style="min-height: 200px">
                 <thead>
                 <tr>
                     @if(auth()->user()->isDeveloper())

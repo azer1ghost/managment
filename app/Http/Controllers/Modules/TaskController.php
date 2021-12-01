@@ -11,6 +11,7 @@ use App\Models\Inquiry;
 use App\Models\TaskList;
 use App\Models\User;
 use App\Models\Task;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -33,6 +34,15 @@ class TaskController extends Controller
             'priority' => $request->get('priority'),
             'department' => $request->get('department'),
             'user' => $request->get('user'),
+            'must_start_at' => $request->get('must_start_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
+        ];
+
+        $dateRanges = [
+            'must_start_at' => explode(' - ', $filters['must_start_at']),
+        ];
+
+        $dateFilters = [
+            'must_start_at' => $request->has('check_start_daterange'),
         ];
 
         $statuses = Task::statuses();
@@ -43,14 +53,15 @@ class TaskController extends Controller
 
         return view('panel.pages.tasks.index')
             ->with([
+                'filters' => $filters,
                 'tasks' => Task::withCount([
                     'taskLists as all_tasks_count',
                     'taskLists as done_tasks_count' => fn (Builder $query) => $query->where('is_checked', true)
                 ])
                     ->when($search, fn ($query) => $query->where('name', 'like', "%". $search ."%"))
-                    ->where(function ($query)  use ($filters, $user) {
+                    ->where(function ($query)  use ($filters, $user, $dateFilters, $dateRanges) {
                         foreach ($filters as $column => $value) {
-                            $query->when($value, function ($query, $value) use ($column, $filters, $user) {
+                            $query->when($value, function ($query, $value) use ($column, $filters, $user, $dateFilters, $dateRanges) {
                                 if ($column == 'department'){
                                     $query->whereHasMorph('taskable', [Department::class, User::class], function($q, $type) use ($user, $value){
                                         if ($type === Department::class) {
@@ -101,7 +112,20 @@ class TaskController extends Controller
                                             break;
                                     }
                                 }else{
-                                    $query->where($column, $value);
+                                    if ($column == 'search'){
+                                        $query->where($column, 'LIKE', "%$value%");
+                                    }
+                                    else if (is_numeric($value)){
+                                        $query->where($column, $value);
+                                    }
+                                    else if(is_string($value) && $dateFilters[$column]){
+                                        $query->whereBetween($column,
+                                            [
+                                                Carbon::parse($dateRanges[$column][0])->startOfDay(),
+                                                Carbon::parse($dateRanges[$column][1])->endOfDay()
+                                            ]
+                                        );
+                                    }
                                 }
                             });
                         }
@@ -115,6 +139,10 @@ class TaskController extends Controller
             ]);
     }
 
+    /**
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function create()
     {
         return view('panel.pages.tasks.edit')
@@ -133,8 +161,6 @@ class TaskController extends Controller
 
         list($validated['must_start_at'], $validated['must_end_at']) = explode(' - ', $validated['task_dates']);
 
-        $validated['user_id'] = auth()->id();
-
         if($request->has('user')){
             $taskable = User::find($validated['user']);
         } else {
@@ -142,12 +168,6 @@ class TaskController extends Controller
         }
 
         $task = $taskable->tasks()->create($validated);
-
-        if($task->inquiry()->exists()){
-            $task->getRelationValue('inquiry')
-                ->parameters()
-                ->updateExistingPivot(Inquiry::STATUS_PARAMETER, ['value' => Inquiry::REDIRECTED]);
-        }
 
         if($request->get('list_id')){
             TaskList::find($request->get('list_id'))->update(['parent_task_id' => $task->id]);
@@ -188,16 +208,6 @@ class TaskController extends Controller
 
         list($validated['must_start_at'], $validated['must_end_at']) = explode(' - ', $validated['task_dates']);
 
-        if($validated['status'] == 'done'){
-            $validated['done_at'] = now();
-            $validated['done_by_user_id'] = auth()->id();
-            if($task->inquiry()->exists()){
-                $task->getRelationValue('inquiry')
-                    ->parameters()
-                    ->updateExistingPivot(Inquiry::STATUS_PARAMETER, ['value' => Inquiry::DONE]);
-            }
-        }
-
         if($request->has('user')){
             $validated['taskable_type'] = User::class;
             $validated['taskable_id']   = $validated['user'];
@@ -218,11 +228,9 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         if ($task->delete()) {
-//            foreach (DatabaseNotification::where("data->url", route('tasks.show', $task))->get() as $notification){
-//                $notification->delete();
-//            }
             return response('OK');
         }
+
         return response()->setStatusCode('204');
     }
 }

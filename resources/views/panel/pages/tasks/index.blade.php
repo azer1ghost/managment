@@ -2,6 +2,10 @@
 
 @section('title', __('translates.navbar.task'))
 
+@section('style')
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+@endsection
+
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -13,6 +17,10 @@
     </x-bread-crumb>
     <form>
         <div class="row d-flex mb-2">
+            <div class="col-12 col-md-3">
+                <input class="form-control" id="start-daterange" type="text" name="must_start_at" value="{{$filters['must_start_at']}}">
+                <input type="checkbox" name="check_start_daterange" id="check_start_daterange" @if(request()->has('check_start_daterange')) checked @endif> <label for="check_start_daterange">@lang('translates.filters.filter_by')</label>
+            </div>
             <div class="col-12 col-md-3">
                 <div class="input-group mb-3">
                     <input type="search" placeholder="@lang('translates.placeholders.task_name')" name="search" value="{{request()->get('search')}}" class="form-control">
@@ -68,10 +76,10 @@
                 </div>
             </div>
 
-            <div class="col-3 col-md-6 p-0 pl-3 pb-3">
+            <div class="col-12 col-md-3">
                 <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
             </div>
-            <div class="col-6 pt-2 d-flex align-items-center">
+            <div class="col-8 pt-2 d-flex align-items-center">
                 <p class="mb-0"> @lang('translates.total_items', ['count' => $tasks->count(), 'total' => $tasks->total()])</p>
                 <div class="input-group col-md-3">
                     <select name="limit" class="custom-select" id="size">
@@ -82,7 +90,7 @@
                 </div>
             </div>
             @can('create', App\Models\Task::class)
-                <div class="col-6 p-0 pr-3 pb-3 mt-3">
+                <div class="col-4 p-0 pr-3 pb-3 mt-4">
                     <a class="btn btn-outline-success float-right" href="{{route('tasks.create')}}">@lang('translates.buttons.create')</a>
                 </div>
             @endcan
@@ -125,7 +133,7 @@
                                 {{$task -> getAttribute('done_at')}}
                             </td>
                             <td>
-                                @if ($task->status == 'to_do')
+                                @if ($task->status == $task::TO_DO)
                                     @lang('translates.tasks.not_started')
                                 @elseif ($task->status != 'done' && ($task->all_tasks_count == 0 || $task->done_tasks_count == 0))
                                 @elseif ($task->status == 'done')
@@ -179,6 +187,9 @@
     </form>
 @endsection
 @section('scripts')
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
     <script>
         $('select[name="limit"]').change(function () {
             this.form.submit();
@@ -186,5 +197,18 @@
         $('select[name="type"]').change(function () {
             this.form.submit();
         });
+
+        $(function () {
+            $('#start-daterange').daterangepicker({
+                    opens: 'left',
+                    locale: {
+                        format: "YYYY/MM/DD",
+                    },
+                    maxDate: new Date(),
+                }, function (start, end, label) {
+                }
+            );
+        });
+
     </script>
 @endsection
