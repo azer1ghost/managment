@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Modules;
 
+use App\Http\Controllers\Controller;
 use App\Models\Advertising;
-use Illuminate\Http\Request;
 
 class AdvertisingController extends Controller
 {

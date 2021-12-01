@@ -6,7 +6,7 @@
     <h4>Result</h4>
     <form action="{{$action}}" method="POST">
         @csrf @method($method)
-        <textarea name="content" id="summernote" class="form-control" readonly>{{optional($result)->getAttribute('content')}}</textarea>
+        <textarea name="content" id="summernote" class="form-control">{{optional($result)->getAttribute('content')}}</textarea>
         <input type="hidden" name="model" value="{{$model}}">
         @if($status == 'enable')
             <button type="submit" class="btn btn-outline-primary mt-3">@lang('translates.buttons.save')</button>

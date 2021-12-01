@@ -35,6 +35,7 @@ return [
         'viewAny-meeting', 'view-meeting', 'create-meeting', 'update-meeting', 'delete-meeting',
         'viewAny-conference', 'view-conference', 'create-conference', 'update-conference', 'delete-conference',
         'viewAny-advertising', 'view-advertising', 'manage-advertising', 'update-advertising', 'delete-advertising',
+        'viewAll-report', 'viewAny-report', 'generateReports-report', 'showSubReports-report', 'showSubReport-report', 'generateSubReport-report', 'updateSubReport-report', 'delete-report',
         'viewAny-document', 'view-document', 'create-document', 'update-document', 'delete-document',
         'viewAny-asanImza', 'view-asanImza', 'manage-asanImza', 'delete-asanImza',
         'viewAny-customerEngagement', 'view-customerEngagement', 'manage-customerEngagement', 'delete-customerEngagement',

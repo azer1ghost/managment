@@ -79,6 +79,13 @@ class Sidebar extends Component
             ],
 
             (object)[
+                'title' => __('translates.navbar.report'),
+                'icon' => 'fal fa-file',
+                'url' => route('reports.index'),
+                'permission' => 'viewAny-report',
+            ],
+
+            (object)[
                 'title' => __('translates.navbar.parameter'),
                 'icon' => 'fa fa-list',
                 'url' => route('parameters.index'),

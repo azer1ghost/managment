@@ -27,6 +27,7 @@ class User extends Authenticatable implements MustVerifyPhone
 
     const DIRECTOR = 7;
     const DEVELOPER = 1;
+    const CHIEF_DEVELOPER = 1;
 
     protected $fillable = [
         'name',
@@ -160,6 +161,11 @@ class User extends Authenticatable implements MustVerifyPhone
     public function isDeveloper(): bool
     {
         return $this->getAttribute('role_id') === self::DEVELOPER;
+    }
+
+    public function isNotDeveloper(): bool
+    {
+        return $this->getAttribute('role_id') !== self::DEVELOPER;
     }
 
     public function isDirector(): bool
