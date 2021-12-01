@@ -77,7 +77,9 @@
             </div>
 
             <div class="col-12 col-md-3">
-                <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
+                <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i> @lang('translates.buttons.filter')</button>
+                <a href="{{route('tasks.index')}}" class="btn btn-outline-danger"><i
+                            class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>
             </div>
             <div class="col-8 pt-2 d-flex align-items-center">
                 <p class="mb-0"> @lang('translates.total_items', ['count' => $tasks->count(), 'total' => $tasks->total()])</p>
