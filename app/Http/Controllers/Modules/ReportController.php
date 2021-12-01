@@ -62,7 +62,7 @@ class ReportController extends Controller
         foreach (User::isActive()->get() as $user){
             $user_id = $user->getAttribute('id');
 
-            /* check if a chief is already exist or not in reports table*/
+            /* check if the chief already exists in reports table */
             if(
                 ($user->isDeveloper() && $user_id == User::CHIEF_DEVELOPER ||
                 $user->isNotDeveloper() && $user->hasPermission('department-chief'))
