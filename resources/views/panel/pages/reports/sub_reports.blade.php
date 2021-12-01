@@ -28,7 +28,7 @@
                 @forelse($data as $date => $subReports)
                     @php($date = \Carbon\Carbon::parse($date))
                     <tr>
-                        <td colspan="2">{{$date->year}} {{$date->monthName}}</td>
+                        <td colspan="2"><p class="mb-0"><strong>{{$date->year}} {{$date->monthName}}</strong></p></td>
                     </tr>
                     @foreach($subReports as $report)
                         <tr>
