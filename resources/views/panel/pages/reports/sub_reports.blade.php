@@ -19,22 +19,25 @@
             <table class="table table-responsive-sm table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
                     <th scope="col">@lang('translates.fields.date')</th>
-                    <th scope="col">@lang('translates.columns.actions')</th>
+                    <th></th>
+                    <th scope="col">Report</th>
                 </tr>
                 </thead>
                 <tbody>
-                @forelse($subReports as $report)
+                @forelse($data as $date => $subReports)
+                    @php($date = \Carbon\Carbon::parse($date))
                     <tr>
-                        <th scope="row">{{$loop->iteration}}</th>
-                        <td>
-                            {{$report->getAttribute('date')}}
-                        </td>
-                        <td>
-                            <div class="btn-sm-group">
+                        <td colspan="2">{{$date->year}} {{$date->monthName}}</td>
+                    </tr>
+                    @foreach($subReports as $report)
+                        <tr>
+                            <th scope="row"></th>
+                            <th scope="row"></th>
+                            <td>
+                                {{$report->getAttribute('date')}}
                                 @can('showSubReport', $report)
-                                    <a href="{{route('reports.sub.show', $report)}}" class="btn btn-sm btn-outline-success">
+                                    <a href="{{route('reports.sub.show', $report)}}" class="btn btn-sm btn-outline-success ml-2">
                                         <i class="fal fa-eye"></i>
                                     </a>
                                 @endcan
@@ -43,9 +46,9 @@
                                         <i class="fal fa-pen"></i>
                                     </a>
                                 @endcan
-                            </div>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                    @endforeach
                 @empty
                     <tr>
                         <th colspan="3">
@@ -57,11 +60,6 @@
                 @endforelse
                 </tbody>
             </table>
-            <div class="col-12">
-                <div class="float-right">
-                    {{$subReports->appends(request()->input())->links()}}
-                </div>
-            </div>
         </form>
     </div>
 @endsection

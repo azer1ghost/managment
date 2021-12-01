@@ -8,6 +8,7 @@ use App\Models\Advertising;
 use App\Models\DailyReport;
 use App\Models\Report;
 use App\Models\User;
+use Carbon\Carbon;
 
 class ReportController extends Controller
 {
@@ -52,7 +53,9 @@ class ReportController extends Controller
     {
         return view('panel.pages.reports.sub_reports')->with([
             'parent' => $report,
-            'subReports' => $report->reports()->latest()->paginate(10)
+            'data' => $report->reports()->latest()->get()->groupBy(function($d) {
+                return Carbon::parse($d->date)->format('M Y');
+            }),
         ]);
     }
 
