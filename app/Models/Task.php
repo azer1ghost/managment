@@ -108,7 +108,7 @@ class Task extends Model implements DocumentableInterface, ResultableInterface
     public static function userCanViewAll(): bool
     {
         $user = auth()->user();
-        return $user->isDeveloper() || $user->isAdministrator() || $user->hasPermission('viewAll-task');
+        return $user->isDeveloper() || $user->hasPermission('viewAll-task');
     }
 
     public function isFinished(): bool

@@ -91,8 +91,8 @@ Route::group([
     Route::get('/reports/{report}/sub-report/create', [ReportController::class, 'createSubReport'])->name('reports.sub.create');
     Route::post('/reports/{report}/sub-report/generate', [ReportController::class, 'generateSubReport'])->name('reports.sub.generate');
     Route::get('/reports/sub-report/{report}', [ReportController::class, 'showSubReport'])->name('reports.sub.show');
-    Route::put('/reports/sub-report/{report}', [ReportController::class, 'updateSubReport'])->name('reports.sub.update');
     Route::get('/reports/sub-report/{report}/edit', [ReportController::class, 'editSubReport'])->name('reports.sub.edit');
+    Route::put('/reports/sub-report/{report}', [ReportController::class, 'updateSubReport'])->name('reports.sub.update');
     Route::post('/reports/generate', [ReportController::class, 'generateReports'])->name('reports.generate');
     Route::resource('/reports', ReportController::class)->only('index', 'destroy');
     Route::resource('/customer-engagement', CustomerEngagementController::class);

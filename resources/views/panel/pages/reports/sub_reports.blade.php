@@ -15,11 +15,6 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
     <div class="row">
-{{--        @can('generateSubReport', App\Models\Report::class)--}}
-{{--            <div class="col-12 my-3">--}}
-{{--                <a class="btn btn-outline-success float-right" href="{{route('reports.sub.create', $parent)}}">@lang('translates.buttons.create')</a>--}}
-{{--            </div>--}}
-{{--        @endcan--}}
         <form class="col-12" action="{{route('reports.index')}}">
             <table class="table table-responsive-sm table-hover">
                 <thead>

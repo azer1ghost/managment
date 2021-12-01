@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Report extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = ['chief_id'];
 
     public function chief(): BelongsTo
@@ -23,7 +26,7 @@ class Report extends Model
     public static function canViewAll()
     {
         $user = auth()->user();
-        return $user->isDeveloper() || $user->isAdministrator() || $user->hasPermission('viewAll-report');
+        return $user->isDeveloper() || $user->isDirector() || $user->hasPermission('viewAll-report');
     }
 
     public static function cannotViewAll()

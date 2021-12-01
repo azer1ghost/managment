@@ -15,7 +15,7 @@ class ReportPolicy
 
     public function generateReports(User $user): bool
     {
-        return $user->hasPermission('viewAll-report');
+        return $user->hasPermission('viewAll-report') || auth()->user()->isDirector();
     }
 
     public function showSubReports(User $user, Report $report): bool
@@ -40,8 +40,9 @@ class ReportPolicy
     public function updateSubReport(User $user, DailyReport $report): bool
     {
         return
-            $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
-            $user->getAttribute('id') == $report->getRelationValue('parent')->getAttribute('chief_id');
+            ($this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
+            $user->getAttribute('id') == $report->getRelationValue('parent')->getAttribute('chief_id')) &&
+            $report->getAttribute('date') == now()->format('Y-m-d');
     }
 
     public function delete(User $user, Report $report): bool

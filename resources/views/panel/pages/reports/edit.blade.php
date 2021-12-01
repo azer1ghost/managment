@@ -26,11 +26,24 @@
             @endif
         </x-bread-crumb-link>
     </x-bread-crumb>
+    @if($method == null)
+        @can('updateSubReport', $data)
+            <div class="col-12 my-3 pl-0">
+                <a class="btn btn-outline-success" href="{{route('reports.sub.edit', $data)}}">@lang('translates.tasks.edit')</a>
+            </div>
+        @endcan
+    @endif
     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
         @method($method) @csrf
         <input type="hidden" name="id" value="{{$data->getAttribute('id')}}">
-        <input type="hidden" name="date" value="{{$data->getAttribute('date') ?? request()->get('day') ?? now()}}">
+        <input type="hidden" name="date" value="{{$data->getAttribute('date') ?? request()->get('day')}}">
+        @error('date')
+            <p class="text-danger">{{$message}}</p>
+        @enderror
         <textarea name="detail" id="summernote" class="form-control">{{$data->getAttribute('detail')}}</textarea>
+        @error('detail')
+        <p class="text-danger">{{$message}}</p>
+        @enderror
         @if($action)
             <x-input::submit  :value="__('translates.buttons.save')" />
         @endif
@@ -38,12 +51,6 @@
 @endsection
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-
-    @if(is_null($action))
-        <script>
-            $('input').attr('readonly', true)
-        </script>
-    @endif
 
     <script>
         $(document).ready(function() {
@@ -59,7 +66,19 @@
                     ['table', ['table']],
                     ['insert', ['link']],
                     ['view', ['fullscreen', 'codeview', 'help']]
-                ]
+                ],
+                callbacks: {
+                    onInit: function (content) {
+                        if(summernote.summernote('isEmpty') || content.editable.html() === '<p><br></p>'){
+                            summernote.html('');
+                        }
+                    },
+                    onChange: function (content, $editable) {
+                        if (summernote.summernote('isEmpty') || $editable.html() === '<p><br></p>') {
+                            summernote.html('');
+                        }
+                    }
+                }
             });
             summernote.summernote('{{is_null($action) ? 'disable' : 'enable'}}');
         });

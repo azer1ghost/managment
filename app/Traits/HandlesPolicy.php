@@ -13,7 +13,7 @@ trait HandlesPolicy
 
     public function before(User $user): ?bool
     {
-        return $user->isDeveloper() || $user->isAdministrator() ? true: null;
+        return $user->isDeveloper() ? true : null;
     }
 
     public function viewAny(User $user): bool

@@ -9,8 +9,8 @@ class ReportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'detail' => 'nullable|string',
-            'date' => 'nullable|date:Y-m-d'
+            'detail' => 'required|string',
+            'date' => 'required|date:Y-m-d'
         ];
     }
 }

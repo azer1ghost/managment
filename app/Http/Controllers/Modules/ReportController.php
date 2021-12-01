@@ -17,7 +17,7 @@ class ReportController extends Controller
         $this->authorizeResource(Report::class);
     }
 
-    // Custom policies
+    /* Custom policies to extend default resource policies */
     protected function resourceAbilityMap()
     {
         return [
@@ -47,6 +47,7 @@ class ReportController extends Controller
         ]);
     }
 
+    /*  show all reports of a given chief */
     public function showSubReports(Report $report)
     {
         return view('panel.pages.reports.sub_reports')->with([
@@ -55,11 +56,13 @@ class ReportController extends Controller
         ]);
     }
 
+    /*  generate list of chiefs who should give a report */
     public function generateReports()
     {
         foreach (User::isActive()->get() as $user){
             $user_id = $user->getAttribute('id');
 
+            /* check if a chief is already exist or not in reports table*/
             if(
                 ($user->isDeveloper() && $user_id == User::CHIEF_DEVELOPER ||
                 $user->isNotDeveloper() && $user->hasPermission('department-chief'))
@@ -71,6 +74,7 @@ class ReportController extends Controller
         return back();
     }
 
+    /* view of a daily report creation for the given chief */
     public function createSubReport(Report $report)
     {
         return view('panel.pages.reports.edit')->with([
@@ -81,6 +85,15 @@ class ReportController extends Controller
         ]);
     }
 
+    /* generate daily report for the given chief */
+    public function generateSubReport(ReportRequest $request, Report $report)
+    {
+        $report->reports()->create($request->validated());
+
+        return redirect()->route('reports.subs.show', $report);
+    }
+
+    /* show specific daily report for the given chief */
     public function showSubReport(DailyReport $report)
     {
         return view('panel.pages.reports.edit')->with([
@@ -91,6 +104,7 @@ class ReportController extends Controller
         ]);
     }
 
+    /* edit specific daily report for the given chief */
     public function editSubReport(DailyReport $report)
     {
         return view('panel.pages.reports.edit')->with([
@@ -101,13 +115,7 @@ class ReportController extends Controller
         ]);
     }
 
-    public function generateSubReport(ReportRequest $request, Report $report)
-    {
-        $report->reports()->create($request->validated());
-
-        return redirect()->route('reports.subs.show', $report);
-    }
-
+    /* update specific daily report for the given chief */
     public function updateSubReport(ReportRequest $request, DailyReport $report)
     {
         $report->update($request->validated());
@@ -115,6 +123,7 @@ class ReportController extends Controller
         return redirect()->route('reports.subs.show', $report->getAttribute('report_id'));
     }
 
+    /* delete given chief from reports table */
     public function destroy(Report $report)
     {
         if ($report->delete()) {

@@ -96,7 +96,7 @@ class Work extends Model implements DocumentableInterface
     public static function userCanViewAll(): bool
     {
         $user = auth()->user();
-        return $user->isDeveloper() || $user->isAdministrator() || $user->hasPermission('viewAll-work');
+        return $user->isDeveloper() || $user->hasPermission('viewAll-work');
     }
 
     public static function userCannotViewAll(): bool
@@ -107,7 +107,7 @@ class Work extends Model implements DocumentableInterface
     public static function userCanViewDepartmentWorks(): bool
     {
         $user = auth()->user();
-        return $user->isDeveloper() || $user->isAdministrator() || $user->hasPermission('viewAllDepartment-work');
+        return $user->isDeveloper() || $user->hasPermission('viewAllDepartment-work');
     }
 
     public static function userCannotViewDepartmentWorks(): bool
