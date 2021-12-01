@@ -26,10 +26,25 @@ class DailyReport extends Model
     {
         $week_day = now()->startOfWeek();
 
-        $week_array = [$week_day->copy()];
+        $first_day = $week_day->copy(); // use carbon copy to avoid affecting the original $week_day variable
+
+        $week_array = [];
+
+        if(!Calendar::isDayOff()->get(['date'])->contains('date', $first_day)){
+            $week_array = [$first_day];
+        }
 
         for($i = 0; $i < 5; $i++) {
-            $week_array[] = $week_day->addDay()->copy();
+            $date = $week_day->addDay()->copy();
+            if(!Calendar::isDayOff()->get(['date'])->contains('date', $date)){
+                $week_array[] = $date;
+            }
+        }
+
+        $sunday = $week_day->addDay()->copy();
+
+        if(Calendar::isNotDayOff()->get(['date'])->contains('date', $sunday)){
+            $week_array[] = $sunday;
         }
 
         return $week_array;
