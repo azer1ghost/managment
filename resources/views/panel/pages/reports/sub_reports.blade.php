@@ -19,8 +19,7 @@
             <table class="table table-responsive-sm table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">@lang('translates.fields.date')</th>
-                    <th></th>
+                    <th scope="col" colspan="2">@lang('translates.fields.date')</th>
                     <th scope="col">Report</th>
                 </tr>
                 </thead>
@@ -32,8 +31,7 @@
                     </tr>
                     @foreach($subReports as $report)
                         <tr>
-                            <th scope="row"></th>
-                            <th scope="row"></th>
+                            <td colspan="2"></td>
                             <td>
                                 {{$report->getAttribute('date')}}
                                 @can('showSubReport', $report)
