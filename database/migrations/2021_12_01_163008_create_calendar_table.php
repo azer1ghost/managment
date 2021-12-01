@@ -10,7 +10,7 @@ class CreateCalendarTable extends Migration
     {
         Schema::create('calendar', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('datetime');
+            $table->date('date');
             $table->boolean('is_day_off');
             $table->timestamps();
         });

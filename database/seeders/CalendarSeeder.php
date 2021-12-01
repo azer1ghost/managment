@@ -11,7 +11,15 @@ class CalendarSeeder extends Seeder
     {
         Calendar::insert([
             [
-                'datetime' => [now()->subDay(), now()->subDays(2), now()->subDays(3), now()->subDays(4)][rand(0, 3)],
+                'date' => [now()->subDay(), now()->subDays(2), now()->subDays(3), now()->subDays(4)][rand(0, 3)],
+                'is_day_off' => rand(0, 1),
+            ],
+            [
+                'date' => [now()->subDay(), now()->subDays(2), now()->subDays(3), now()->subDays(4)][rand(0, 3)],
+                'is_day_off' => rand(0, 1),
+            ],
+            [
+                'date' => [now()->subDay(), now()->subDays(2), now()->subDays(3), now()->subDays(4)][rand(0, 3)],
                 'is_day_off' => rand(0, 1),
             ],
             [
@@ -19,17 +27,9 @@ class CalendarSeeder extends Seeder
                 'is_day_off' => rand(0, 1),
             ],
             [
-                'datetime' => [now()->subDay(), now()->subDays(2), now()->subDays(3), now()->subDays(4)][rand(0, 3)],
+                'date' => [now()->subDay(), now()->subDays(2), now()->subDays(3), now()->subDays(4)][rand(0, 3)],
                 'is_day_off' => rand(0, 1),
             ],
-            [
-                'datetime' => [now()->subDay(), now()->subDays(2), now()->subDays(3), now()->subDays(4)][rand(0, 3)],
-                'is_day_off' => rand(0, 1),
-            ],
-            [
-                'datetime' => [now()->subDay(), now()->subDays(2), now()->subDays(3), now()->subDays(4)][rand(0, 3)],
-                'is_day_off' => rand(0, 1),
-            ]
         ]);
     }
 }
