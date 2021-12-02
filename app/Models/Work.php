@@ -30,6 +30,7 @@ class Work extends Model implements DocumentableInterface
         'client_id',
         'status',
         'datetime',
+        'created_at',
         'verified_at',
     ];
 
