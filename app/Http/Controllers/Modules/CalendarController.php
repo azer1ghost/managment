@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 
 class CalendarController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->authorizeResource(Calendar::class, 'calendar');
+    }
+
     public function index()
     {
         $calendars = Calendar::get();
@@ -26,7 +32,9 @@ class CalendarController extends Controller
                         'start_at' => $event->getAttribute('start_at')->addYears($i),
                         'end_at' => $event->getAttribute('end_at')->addYears($i),
                         'type' => (int) $event->getAttribute('type'),
+                        'user_id' => $event->getAttribute('user_id'),
                         'is_day_off' => $event->getAttribute('is_day_off'),
+                        'is_private' => $event->getAttribute('is_private'),
                         'is_repeatable' => $event->getAttribute('is_repeatable'),
                     ]);
                     $i++;
@@ -46,6 +54,8 @@ class CalendarController extends Controller
                 'backgroundColor' => Calendar::types()[$event->getAttribute('type')]['backgroundColor'],
                 'textColor' => Calendar::types()[$event->getAttribute('type')]['textColor'],
                 'allDay' => true,
+                'canDelete' => auth()->user()->can('delete', $event),
+                'canUpdate' => auth()->user()->can('update', $event),
             ];
         });
 
@@ -58,6 +68,7 @@ class CalendarController extends Controller
     public function store(CalendarRequest $request)
     {
         $validated = $request->validated();
+        $validated['user_id'] = auth()->id();
         list($validated['start_at'], $validated['end_at']) = explode(' - ', $validated['daterange']);
 
         Calendar::create($validated);

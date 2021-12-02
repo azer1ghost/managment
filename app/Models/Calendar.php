@@ -9,9 +9,15 @@ class Calendar extends Model
 {
     protected $table = 'calendar';
 
-    protected $fillable = ['name', 'type', 'start_at', 'end_at', 'is_day_off', 'is_repeatable'];
+    protected $fillable = ['name', 'type', 'start_at', 'end_at', 'user_id', 'is_day_off', 'is_repeatable', 'is_private'];
 
-    protected $casts = ['start_at' => 'date', 'end_at' => 'date', 'is_day_off' => 'boolean', 'is_repeatable' => 'boolean'];
+    protected $casts = [
+        'start_at' => 'date',
+        'end_at' => 'date',
+        'is_day_off' => 'boolean',
+        'is_repeatable' => 'boolean',
+        'is_private' => 'boolean',
+    ];
 
     public static function types(): array
     {
@@ -45,6 +51,11 @@ class Calendar extends Model
     public function scopeIsNotDayOff($query)
     {
         return $query->where('is_day_off', 0);
+    }
+
+    public function scopeIsPublic($query)
+    {
+        return $query->where('is_private', 0);
     }
 
     public function scopeCurrentYear($query)

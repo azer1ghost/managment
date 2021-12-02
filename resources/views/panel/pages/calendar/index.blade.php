@@ -84,60 +84,67 @@
 
         $('#calendar').fullCalendar({
             locale: '{{app()->getLocale()}}',
-            selectable: true,
             validRange: {
                 end: '{{now()->endOfYear()->addYears(2)}}'
             },
             events: @json($events),
-            select: function( start, end, jsEvent, view ){
-                $('#data-daterange').val(start.format() + ' - ' + end.format())
-                setTimeout(function() { $('#data-name').focus() }, 500);
-                $('#date-modal').modal('show')
-            },
+            @can('create', \App\Models\Calendar::class)
+                selectable: true,
+                select: function( start, end, jsEvent, view ){
+                    $('#data-daterange').val(start.format() + ' - ' + end.format())
+                    setTimeout(function() { $('#data-name').focus() }, 500);
+                    $('#date-modal').modal('show')
+                },
+            @endcan
             eventRender: function(event, element) {
-                element.append( "<span class='remove-event-btn' style='font-size: 15px'>X</span>" );
-                element.addClass('d-flex').addClass('justify-content-between').addClass('align-items-center');
-                element.find(".remove-event-btn").css({'margin-right': 2, 'cursor': 'pointer'}).click(function(e) {
-                    e.stopPropagation(); // to stop further event click event
-                    $.confirm({
-                        title: 'Confirm delete action',
-                        content: `Are you sure to delete <b>${event.title}</b> ?`,
-                        icon: 'fa fa-question',
-                        type: 'red',
-                        theme: 'modern',
-                        typeAnimated: true,
-                        buttons: {
-                            confirm: function () {
-                                $('input[name="_method"]').val('DELETE');
-                                calendarForm.attr('action', '{{route('calendars.destroy', 'id')}}'.replace('id', event.id));
-                                calendarForm.submit();
-                                $.confirm({
-                                    title: 'Delete successful',
-                                    icon: 'fa fa-check',
-                                    content: '<b>:name</b>'.replace(':name',  event.title),
-                                    type: 'blue',
-                                    typeAnimated: true,
-                                    theme: 'modern',
-                                    buttons: false
-                                });
-                            },
-                            cancel: function () {
-                            },
-                        }
-                    });
-                });
-            },
-            eventClick: function(calEvent, jsEvent, view) {
-                $('#data-daterange').val(calEvent.start.format() + ' - ' + calEvent.end.format());
-                $('input[name="_method"]').val('PUT');
-                $('#data-name').val(calEvent.title);
-                $('#data-type').val(calEvent.type);
-                $('#data-is_day_off').prop('checked', calEvent.is_day_off);
-                $('#data-is_repeatable').prop('checked', calEvent.is_repeatable);
-                calendarForm.attr('action', '{{route('calendars.update', 'id')}}'.replace('id', calEvent.id));
+                if (event.canDelete){
+                    element.append("<span class='remove-event-btn' style='font-size: 15px'>X</span>");
+                    element.addClass('d-flex').addClass('justify-content-between').addClass('align-items-center');
 
-                setTimeout(function() { $('#data-name').focus() }, 500);
-                $('#date-modal').modal('show')
+                    element.find(".remove-event-btn").css({'margin-right': 2, 'cursor': 'pointer'}).click(function (e) {
+                        e.stopPropagation(); // to stop further event click event
+                        $.confirm({
+                            title: 'Confirm delete action',
+                            content: `Are you sure to delete <b>${event.title}</b> ?`,
+                            icon: 'fa fa-question',
+                            type: 'red',
+                            theme: 'modern',
+                            typeAnimated: true,
+                            buttons: {
+                                confirm: function () {
+                                    $('input[name="_method"]').val('DELETE');
+                                    calendarForm.attr('action', '{{route('calendars.destroy', 'id')}}'.replace('id', event.id));
+                                    calendarForm.submit();
+                                    $.confirm({
+                                        title: 'Delete successful',
+                                        icon: 'fa fa-check',
+                                        content: '<b>:name</b>'.replace(':name', event.title),
+                                        type: 'blue',
+                                        typeAnimated: true,
+                                        theme: 'modern',
+                                        buttons: false
+                                    });
+                                },
+                                cancel: function () {
+                                },
+                            }
+                        });
+                    });
+                }
+            },
+            eventClick: function(event, jsEvent, view) {
+                if (event.canUpdate){
+                    $('#data-daterange').val(event.start.format() + ' - ' + event.end.format());
+                    $('input[name="_method"]').val('PUT');
+                    $('#data-name').val(event.title);
+                    $('#data-type').val(event.type);
+                    $('#data-is_day_off').prop('checked', event.is_day_off);
+                    $('#data-is_repeatable').prop('checked', event.is_repeatable);
+                    calendarForm.attr('action', '{{route('calendars.update', 'id')}}'.replace('id', event.id));
+
+                    setTimeout(function() { $('#data-name').focus() }, 500);
+                    $('#date-modal').modal('show')
+                }
             }
         })
 

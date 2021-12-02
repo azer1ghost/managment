@@ -14,6 +14,8 @@ class CreateCalendarTable extends Migration
             $table->date('start_at')->nullable();
             $table->date('end_at')->nullable();
             $table->integer('type')->nullable();
+            $table->foreignId('user_id')->nullable()->index()->constrained()->onDelete('CASCADE');
+            $table->boolean('is_private')->default(0);
             $table->boolean('is_day_off')->default(0);
             $table->boolean('is_repeatable')->default(0);
             $table->timestamps();
