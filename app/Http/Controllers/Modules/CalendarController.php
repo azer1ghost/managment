@@ -17,13 +17,11 @@ class CalendarController extends Controller
 
     public function index()
     {
-        $calendars = Calendar::get();
-
-        foreach ($calendars as $event) {
+        foreach (Calendar::withTrashed()->get() as $event) {
             $i = 1;
-            if($event->isRepeatable()){
+            if($event->isRepeatable() && is_null($event->getAttribute('deleted_at'))){
                 while ($event->getAttribute('start_at')->addYears($i) < now()->addYears(3) &&
-                    is_null(Calendar::where('name', $event->getAttribute('name'))
+                    is_null(Calendar::withTrashed()->where('name', $event->getAttribute('name'))
                         ->where('start_at', $event->getAttribute('start_at')->addYears($i))
                         ->where('end_at', $event->getAttribute('end_at')->addYears($i))->first())
                 ){
@@ -42,7 +40,7 @@ class CalendarController extends Controller
             }
         }
 
-        $events = $calendars->map(function ($event){
+        $events = Calendar::get()->map(function ($event){
             return [
                 'id' => $event->getAttribute('id'),
                 'title' => $event->getAttribute('name'),

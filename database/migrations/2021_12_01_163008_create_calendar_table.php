@@ -19,6 +19,7 @@ class CreateCalendarTable extends Migration
             $table->boolean('is_day_off')->default(0);
             $table->boolean('is_repeatable')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

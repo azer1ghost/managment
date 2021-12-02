@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Calendar extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'calendar';
 
     protected $fillable = ['name', 'type', 'start_at', 'end_at', 'user_id', 'is_day_off', 'is_repeatable', 'is_private'];
