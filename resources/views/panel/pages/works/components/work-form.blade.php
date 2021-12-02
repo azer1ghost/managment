@@ -134,7 +134,7 @@
                     </div>
                 @endif
 
-                @if(!is_null($data) && (auth()->user()->isDeveloper() || !is_null(optional($data)->getAttribute('datetime'))))
+                @if(!is_null($data) && !is_null(optional($data)->getAttribute('datetime')))
                     <x-input::text wire:ignore name="datetime" :label="__('translates.fields.date')" value="{{optional($data->getAttribute('datetime'))->format('Y-m-d H:i') ?? now()->format('Y-m-d H:i')}}" type="text" width="3" class="pr-3" />
                 @endif
 

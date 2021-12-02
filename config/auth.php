@@ -37,6 +37,7 @@ return [
         'viewAny-advertising', 'view-advertising', 'manage-advertising', 'update-advertising', 'delete-advertising',
         'viewAll-report', 'viewAny-report', 'generateReports-report', 'showSubReports-report', 'showSubReport-report', 'generateSubReport-report', 'updateSubReport-report', 'delete-report',
         'viewAny-document', 'view-document', 'create-document', 'update-document', 'delete-document',
+        'viewAny-calendar', 'create-calendar', 'update-calendar', 'delete-document',
         'viewAny-asanImza', 'view-asanImza', 'manage-asanImza', 'delete-asanImza',
         'viewAny-customerEngagement', 'view-customerEngagement', 'manage-customerEngagement', 'delete-customerEngagement',
         'viewAll-work', 'viewAny-work', 'view-work', 'create-work', 'update-work', 'delete-work', 'canVerify-work', 'canRedirect-work', 'viewAllDepartment-work',

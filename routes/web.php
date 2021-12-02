@@ -8,6 +8,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Main\AccountController,
     Main\PlatformController,
     Modules\AsanImzaController,
+    Modules\CalendarController,
     Modules\CompanyController,
     Modules\ConferenceController,
     Modules\CustomerEngagementController,
@@ -68,6 +69,7 @@ Route::group([
     Route::resource('/asan-imza', AsanImzaController::class);
 
     Route::resource('/widgets', WidgetController::class);
+    Route::resource('/calendars', CalendarController::class)->except('show', 'create', 'edit');
     Route::resource('/parameters', ParameterController::class);
     Route::resource('/options', OptionController::class);
     Route::resource('/users', UserController::class);

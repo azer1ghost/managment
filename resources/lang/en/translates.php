@@ -183,7 +183,8 @@ return [
         'service' => 'Service',
         'asan_imza'=>'Asan Signature',
         'customer_engagement'=>'Customer Engagement',
-        'report' => 'Reports'
+        'report' => 'Reports',
+        'calendar' => 'Calendar'
     ],
 
     'date' => [

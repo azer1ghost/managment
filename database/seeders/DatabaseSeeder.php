@@ -33,7 +33,6 @@ class DatabaseSeeder extends Seeder
             WidgetSeeder::class,
             UpdateSeeder::class,
             ClientSeeder::class,
-            CalendarSeeder::class
         ]);
     }
 }

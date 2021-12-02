@@ -10,8 +10,12 @@ class CreateCalendarTable extends Migration
     {
         Schema::create('calendar', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
-            $table->boolean('is_day_off');
+            $table->string('name')->nullable();
+            $table->date('start_at')->nullable();
+            $table->date('end_at')->nullable();
+            $table->integer('type')->nullable();
+            $table->boolean('is_day_off')->default(0);
+            $table->boolean('is_repeatable')->default(0);
             $table->timestamps();
         });
     }

@@ -30,22 +30,22 @@ class DailyReport extends Model
 
         $week_array = [];
 
-        if(!Calendar::isDayOff()->get(['date'])->contains('date', $first_day)){
+//        if(!Calendar::isDayOff()->get(['date'])->contains('date', $first_day)){
             $week_array = [$first_day];
-        }
+//        }
 
         for($i = 0; $i < 5; $i++) {
             $date = $week_day->addDay()->copy();
-            if(!Calendar::isDayOff()->get(['date'])->contains('date', $date)){
+//            if(!Calendar::isDayOff()->get(['date'])->contains('date', $date)){
                 $week_array[] = $date;
-            }
+//            }
         }
 
         $sunday = $week_day->addDay()->copy();
 
-        if(Calendar::isNotDayOff()->get(['date'])->contains('date', $sunday)){
+//        if(Calendar::isNotDayOff()->get(['date'])->contains('date', $sunday)){
             $week_array[] = $sunday;
-        }
+//        }
 
         return $week_array;
     }

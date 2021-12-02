@@ -64,7 +64,7 @@ class WorkController extends Controller
         $verifies = [1 => trans('translates.columns.unverified'), 2 => trans('translates.columns.verified')];
         $priceVerifies = [1 => trans('translates.columns.price_unverified'), 2 => trans('translates.columns.price_verified')];
 
-        $services = Service::has('works')
+        $services = Service::query()
             ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
                 $query->whereBelongsTo($user->getRelationValue('company'));
             })->get(['id', 'name', 'detail']);
@@ -120,6 +120,7 @@ class WorkController extends Controller
                     });
                 }
             })
+            ->latest('datetime')
             ->latest('id')
             ->paginate($limit);
 
