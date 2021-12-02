@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\Models\Calendar;
-use App\Models\Meeting;
 use App\Models\User;
 use App\Traits\GetClassInfo;
 use App\Traits\HandlesPolicy;
