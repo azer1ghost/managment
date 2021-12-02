@@ -37,6 +37,7 @@ class WorkController extends Controller
             'client_id' => $request->get('client_id'),
             'verified_at' => $request->get('verified_at'),
             'status' => $request->get('status'),
+            'created_at' => $request->get('created_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
             'datetime' => $request->get('datetime') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
         ];
 
@@ -46,10 +47,12 @@ class WorkController extends Controller
 
         $dateRanges = [
             'datetime' => explode(' - ', $filters['datetime']),
+            'created_at' => explode(' - ', $filters['created_at']),
         ];
 
         $dateFilters = [
             'datetime' => $request->has('check-datetime'),
+            'created_at' => $request->has('check-created_at'),
         ];
 
         $usersQuery = User::has('works')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id']);
