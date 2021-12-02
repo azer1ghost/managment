@@ -13,6 +13,27 @@ class CalendarController extends Controller
     {
         $calendars = Calendar::get();
 
+        foreach ($calendars as $event) {
+            $i = 1;
+            if($event->isRepeatable()){
+                while ($event->getAttribute('start_at')->addYears($i) < now()->addYears(3) &&
+                    is_null(Calendar::where('name', $event->getAttribute('name'))
+                        ->where('start_at', $event->getAttribute('start_at')->addYears($i))
+                        ->where('end_at', $event->getAttribute('end_at')->addYears($i))->first())
+                ){
+                    Calendar::create([
+                        'name' => $event->getAttribute('name'),
+                        'start_at' => $event->getAttribute('start_at')->addYears($i),
+                        'end_at' => $event->getAttribute('end_at')->addYears($i),
+                        'type' => (int) $event->getAttribute('type'),
+                        'is_day_off' => $event->getAttribute('is_day_off'),
+                        'is_repeatable' => $event->getAttribute('is_repeatable'),
+                    ]);
+                    $i++;
+                }
+            }
+        }
+
         $events = $calendars->map(function ($event){
             return [
                 'id' => $event->getAttribute('id'),
@@ -28,26 +49,8 @@ class CalendarController extends Controller
             ];
         });
 
-        $recurring_events = [];
-        foreach ($calendars as $event) {
-            if($event->isRepeatable()){
-                $recurring_events[] = [
-                    'id' => $event->getAttribute('id'),
-                    'title' => $event->getAttribute('name'),
-                    'type' => (int) $event->getAttribute('type'),
-                    'is_day_off' => $event->getAttribute('is_day_off'),
-                    'is_repeatable' => $event->getAttribute('is_repeatable'),
-                    'start' => $event->getAttribute('start_at')->addDay()->addYear(),
-                    'end' => $event->getAttribute('end_at')->addDay()->addYear(),
-                    'backgroundColor' => Calendar::types()[$event->getAttribute('type')]['backgroundColor'],
-                    'textColor' => Calendar::types()[$event->getAttribute('type')]['textColor'],
-                    'allDay' => true,
-                ];
-            }
-        }
-
         return view('panel.pages.calendar.index')->with([
-            'events' => array_merge($events->toArray(), $recurring_events),
+            'events' => $events,
             'types' => Calendar::types()
         ]);
     }

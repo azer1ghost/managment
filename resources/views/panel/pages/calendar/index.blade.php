@@ -86,7 +86,7 @@
             locale: '{{app()->getLocale()}}',
             selectable: true,
             validRange: {
-                end: '{{now()->endOfYear()->addYear()}}'
+                end: '{{now()->endOfYear()->addYears(2)}}'
             },
             events: @json($events),
             select: function( start, end, jsEvent, view ){
