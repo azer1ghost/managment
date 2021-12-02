@@ -12,6 +12,7 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
     <div class="row">
+{{--        @dd(\App\Models\DailyReport::currentWeek())--}}
         <form class="col-12" action="{{route('reports.index')}}">
                 <table class="table table-responsive-sm table-hover">
                     <thead>

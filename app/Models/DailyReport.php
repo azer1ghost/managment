@@ -28,24 +28,30 @@ class DailyReport extends Model
 
         $first_day = $week_day->copy(); // use carbon copy to avoid affecting the original $week_day variable
 
-        $week_array = [];
-
-//        if(!Calendar::isDayOff()->get(['date'])->contains('date', $first_day)){
-            $week_array = [$first_day];
-//        }
+        $week_array[] = $first_day;
 
         for($i = 0; $i < 5; $i++) {
-            $date = $week_day->addDay()->copy();
-//            if(!Calendar::isDayOff()->get(['date'])->contains('date', $date)){
-                $week_array[] = $date;
-//            }
+            $week_array[] = $week_day->addDay()->copy();
         }
 
-        $sunday = $week_day->addDay()->copy();
-
-//        if(Calendar::isNotDayOff()->get(['date'])->contains('date', $sunday)){
-            $week_array[] = $sunday;
-//        }
+        foreach (Calendar::currentYear()->get(['start_at', 'end_at', 'is_day_off']) as $dates){
+            switch ($dates->getAttribute('is_day_off')){
+                case 0:
+                    for ($first = $dates->getAttribute('start_at'); $first < $dates->getAttribute('end_at'); $first->addDay()){
+                        if((array_search($first, $week_array)) == false){
+                            $week_array[] = $week_day->addDay()->copy();
+                        }
+                    }
+                    break;
+                case 1:
+                    for ($first = $dates->getAttribute('start_at'); $first < $dates->getAttribute('end_at'); $first->addDay()){
+                        if(($key = array_search($first, $week_array)) !== false){
+                            unset($week_array[$key]);
+                        }
+                    }
+                    break;
+            }
+        }
 
         return $week_array;
     }

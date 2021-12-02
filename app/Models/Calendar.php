@@ -17,15 +17,21 @@ class Calendar extends Model
     {
         return [
             1 => [
-                'name' => 'Birthday',
+                'name' => 'Working day',
                 'textColor' => '#fff',
-                'backgroundColor' => '#054468',
+                'backgroundColor' => '#DC3545',
             ],
 
             [
                 'name' => 'Holiday',
                 'textColor' => '#fff',
                 'backgroundColor' => '#28A745',
+            ],
+
+            [
+                'name' => 'Birthday',
+                'textColor' => '#fff',
+                'backgroundColor' => '#054468',
             ],
 
             [
@@ -39,6 +45,11 @@ class Calendar extends Model
     public function scopeIsNotDayOff($query)
     {
         return $query->where('is_day_off', 0);
+    }
+
+    public function scopeCurrentYear($query)
+    {
+        return $query->whereYear('start_at', now()->format('Y'));
     }
 
     public function scopeIsDayOff($query)
