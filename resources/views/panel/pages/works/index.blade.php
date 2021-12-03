@@ -379,7 +379,7 @@
                             @foreach($totals as $total)
                                 <td><p style="font-size: 16px" class="mb-0"><strong>{{$total}}</strong></p></td>
                             @endforeach
-                            <td colspan="3"></td>
+                            <td colspan="4"></td>
                         </tr>
                     </tbody>
                 </table>
