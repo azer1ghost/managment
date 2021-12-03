@@ -59,6 +59,7 @@ class DailyReport extends Model
         return $week_array;
     }
 
+    // function to loop over date ranges from the calendar
     private static function checkDay($dates, $callback)
     {
         for ($date = $dates->getAttribute('start_at'); $date < $dates->getAttribute('end_at'); $date->addDay()){
