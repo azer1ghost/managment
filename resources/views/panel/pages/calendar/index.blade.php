@@ -97,8 +97,8 @@
         const calendarForm = $('#calendar-form');
 
         $('#calendar').fullCalendar({
-            eventLongPressDelay: 100,
-            selectLongPressDelay: 100,
+            eventLongPressDelay: 0,
+            selectLongPressDelay: 0,
             locale: '{{app()->getLocale()}}',
             validRange: {
                 end: '{{now()->endOfYear()->addYears(2)}}'
