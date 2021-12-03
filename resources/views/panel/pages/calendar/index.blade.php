@@ -24,6 +24,14 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
     <div class="row d-flex justify-content-between mb-2">
+        <div class="d-flex col-12">
+            @foreach(\App\Models\Calendar::types() as $type)
+                <div class="d-flex mr-3">
+                    <div style="border-radius:3px;width:20px;height:20px;background-color: {{$type['backgroundColor']}}" class="mr-2"></div>
+                    <p>{{$type['name']}}</p>
+                </div>
+            @endforeach
+        </div>
         <div class="col-12">
             @if($errors->any())
                 {!! implode('', $errors->all('<div class="text-danger">:message</div>')) !!}
