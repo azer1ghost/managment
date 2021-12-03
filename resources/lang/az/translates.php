@@ -115,6 +115,7 @@ return [
         'keywords' => 'Açar sözlər',
         'about' => 'Haqqında',
         'file' => 'Fayl',
+        'count' => 'Ümumi Sayı',
         'priority' => [
             'key' => 'Prioritet',
             'options' => [
@@ -388,6 +389,7 @@ return [
         'unverified' => 'Təsdiq edilməyib',
         'price_verified' => 'Qiymət təsdiqlənib',
         'price_unverified' => 'Qiymət təsdiqlənməyib',
+        'reports_by_the_week' => 'Həftəyə görə hesabatlar'
     ],
 
     'notify' => [
@@ -481,5 +483,26 @@ return [
     'files' => [
         'default_title' => 'Əlaqədar Fayllar',
         'contract' => 'Müqavilə'
+    ],
+
+    'calendar' => [
+        'title' => 'Tədbir',
+        'fields' => [
+            'select_type' => 'Tədbir növünü seçin',
+            'name' => 'Tədbirin adı',
+            'is_day_off' => 'İstirahət Günüdür',
+            'is_repeatable' => 'Təkrarlanır',
+        ],
+        'types' => [
+            1 => 'İş günü',
+            'Bayram',
+            'Tətil',
+            'Ad günü',
+            'Digər'
+        ]
+    ],
+
+    'reports' => [
+        'check_new_chiefs' => 'Yeni rəhbərləri yoxlayın'
     ]
 ];

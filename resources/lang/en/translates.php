@@ -113,6 +113,7 @@ return [
         'detail' => 'Detail',
         'about' => 'About',
         'file' => 'File',
+        'count' => 'Total Count',
         'priority' => [
             'key' => 'Priority',
             'options' => [
@@ -386,6 +387,7 @@ return [
         'unverified' => 'Unverified',
         'price_verified' => 'Price Verified',
         'price_unverified' => 'Price Unverified',
+        'reports_by_the_week' => 'Reports by the week'
     ],
 
     'notify' => [
@@ -478,5 +480,26 @@ return [
     'files' => [
         'default_title' => 'Related Files',
         'contract' => 'Contract'
+    ],
+
+    'calendar' => [
+        'title' => 'Event',
+        'fields' => [
+            'select_type' => 'Select event type',
+            'name' => 'Event name',
+            'is_day_off' => 'Is Day Off',
+            'is_repeatable' => 'Is Repeatable',
+        ],
+        'types' => [
+            1 => 'Working day',
+            'Holiday',
+            'Day off',
+            'Birthday',
+            'Other'
+        ]
+    ],
+
+    'reports' => [
+        'check_new_chiefs' => 'Check for new chiefs'
     ]
 ];

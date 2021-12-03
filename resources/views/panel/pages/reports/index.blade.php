@@ -18,8 +18,8 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">@lang('translates.columns.user')</th>
-                        <th>Reports by the week</th>
-                        <th scope="col">Count</th>
+                        <th scope="col">@lang('translates.columns.reports_by_the_week')</th>
+                        <th scope="col">@lang('translates.fields.count')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
@@ -81,7 +81,7 @@
             <div class="col-12 my-3">
                 <form action="{{route('reports.generate')}}" method="POST">
                     @csrf
-                    <button class="btn btn-outline-success" type="submit">Check for new chiefs</button>
+                    <button class="btn btn-outline-success" type="submit">@lang('translates.reports.check_new_chiefs')</button>
                 </form>
             </div>
         @endcan

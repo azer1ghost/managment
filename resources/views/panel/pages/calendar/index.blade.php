@@ -47,18 +47,17 @@
                 <form action="{{route('calendars.store')}}" method="POST" id="calendar-form">
                     @csrf @method('')
                     <div class="modal-header">
-                        <h5 class="modal-title">Event</h5>
+                        <h5 class="modal-title">@lang('translates.calendar.title')</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <input type="text" name="name" id="data-name" class="form-control mb-3" placeholder="Event name" required>
+                        <input type="text" name="name" id="data-name" class="form-control mb-3" placeholder="@lang('translates.calendar.fields.name')" required>
                         <input type="text" name="daterange" id="data-daterange" class="form-control mb-3" readonly required>
                         <div class="form-group">
-                            <label for="data-type">Type</label>
                             <select class="form-control" id="data-type" name="type" required>
-                                <option value="" disabled selected>--Select event type--</option>
+                                <option value="" disabled selected>--@lang('translates.calendar.fields.select_type')--</option>
                                 @foreach($types as $id => $type)
                                     <option value="{{$id}}">{{$type['name']}}</option>
                                 @endforeach
@@ -66,16 +65,16 @@
                         </div>
                         <div class="form-group form-check mb-1">
                             <input type="checkbox" name="is_day_off" value="1" class="form-check-input" id="data-is_day_off">
-                            <label class="form-check-label" for="data-is_day_off">Is Day Off</label>
+                            <label class="form-check-label" for="data-is_day_off">@lang('translates.calendar.fields.is_day_off')</label>
                         </div>
                         <div class="form-group form-check">
                             <input type="checkbox" name="is_repeatable" value="1" class="form-check-input" id="data-is_repeatable">
-                            <label class="form-check-label" for="data-is_repeatable">Is Repeatable</label>
+                            <label class="form-check-label" for="data-is_repeatable">@lang('translates.calendar.fields.is_repeatable')</label>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
+                        <button type="submit" class="btn btn-primary">@lang('translates.buttons.save')</button>
                     </div>
                 </form>
             </div>

@@ -26,25 +26,31 @@ class Calendar extends Model
     {
         return [
             1 => [
-                'name' => 'Working day',
+                'name' => trans('translates.calendar.types.1'),
                 'textColor' => '#fff',
                 'backgroundColor' => '#DC3545',
             ],
 
             [
-                'name' => 'Holiday',
+                'name' => trans('translates.calendar.types.2'),
                 'textColor' => '#fff',
                 'backgroundColor' => '#28A745',
             ],
 
             [
-                'name' => 'Birthday',
+                'name' => trans('translates.calendar.types.3'),
+                'textColor' => '#fff',
+                'backgroundColor' => '#FFC107',
+            ],
+
+            [
+                'name' => trans('translates.calendar.types.4'),
                 'textColor' => '#fff',
                 'backgroundColor' => '#054468',
             ],
 
             [
-                'name' => 'Other',
+                'name' => trans('translates.calendar.types.5'),
                 'textColor' => '#fff',
                 'backgroundColor' => '#17A2B8',
             ],
