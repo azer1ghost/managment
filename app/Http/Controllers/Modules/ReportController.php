@@ -70,9 +70,13 @@ class ReportController extends Controller
             if(
                 ($user->isDeveloper() && $user_id == User::CHIEF_DEVELOPER ||
                 $user->isNotDeveloper() && $user->hasPermission('department-chief'))
-                && Report::where('chief_id', $user_id)->first() == null
+                && Report::withTrashed()->where('chief_id', $user_id)->first() == null
             ){
                 Report::create(['chief_id' => $user_id]);
+            }else if(!is_null(Report::where('chief_id', $user_id)->first())){
+                if(!User::find($user_id)->isDepartmentChief()){
+                    Report::withTrashed()->where('chief_id', $user_id)->delete();
+                }
             }
         }
         return back();

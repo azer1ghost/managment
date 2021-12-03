@@ -178,6 +178,11 @@ class User extends Authenticatable implements MustVerifyPhone
         return !is_null($this->getAttribute('disabled_at'));
     }
 
+    public function isDepartmentChief(): bool
+    {
+        return $this->hasPermission('department-chief');
+    }
+
     public function scopeIsActive($query)
     {
         return $query->whereNull('disabled_at');

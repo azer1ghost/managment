@@ -197,7 +197,7 @@
                 </div>
             @endcan
             <div class="col-12">
-                <table class="table table-responsive-sm table-hover">
+                <table class="table table-responsive table-hover">
                     <thead>
                     <tr class="text-center">
                         @if(auth()->user()->hasPermission('canVerify-work'))

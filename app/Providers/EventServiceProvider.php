@@ -12,9 +12,11 @@ use App\Events\WorkStatusRejected;
 use App\Listeners\SendNotification;
 use App\Listeners\SendPushNotification;
 use App\Models\DailyReport;
+use App\Models\Report;
 use App\Models\Task;
 use App\Models\Work;
 use App\Observers\DailyReportObserver;
+use App\Observers\ReportObserver;
 use App\Observers\TaskObserver;
 use App\Observers\WorkObserver;
 use Illuminate\Auth\Events\Registered;
@@ -71,6 +73,7 @@ class EventServiceProvider extends ServiceProvider
     {
         Work::observe(WorkObserver::class);
         Task::observe(TaskObserver::class);
+        Report::observe(ReportObserver::class);
         DailyReport::observe(DailyReportObserver::class);
     }
 }
