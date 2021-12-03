@@ -58,7 +58,7 @@ class DailyReport extends Model
         return $week_array;
     }
 
-    private function checkDay($dates, $callback)
+    private static function checkDay($dates, $callback)
     {
         for ($date = $dates->getAttribute('start_at'); $date < $dates->getAttribute('end_at'); $date->addDay()){
             $callback($date);
