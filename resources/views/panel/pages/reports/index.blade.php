@@ -34,7 +34,7 @@
                                         $subReport = \App\Models\DailyReport::where('report_id', $report->getAttribute('id'))->whereDate('date', $day)->first();
                                         $route = is_null($subReport) ? route('reports.sub.create', $report) . "?day={$day->format('Y-m-d')}" : route('reports.sub.show', $day->format('Y-m-d'));
                                     @endphp
-                                    <a href="{{$route}}" class="btn mr-1 @if($day->format('Y-m-d') > now()->format('Y-m-d') || (is_null($subReport) && auth()->user()->cannot('generateSubReport', App\Models\Report::class))) disabled @endif
+                                    <a href="{{$route}}" class="btn mr-1 @if($day->format('Y-m-d') > now()->format('Y-m-d') || (is_null($subReport) && auth()->user()->cannot('generateSubReport', App\Models\DailyReport::class))) disabled @endif
                                         @if(is_null($subReport) && $day->format('Y-m-d') == now()->format('Y-m-d') && \Carbon\Carbon::now()->format('H') >= 17) btn-warning
                                         @elseif(is_null($subReport) && $day->format('Y-m-d') == now()->format('Y-m-d') && \Carbon\Carbon::now()->format('H') < 17) btn-primary
                                         @elseif(is_null($subReport) && $day > now()->format('Y-m-d')) btn-dark
