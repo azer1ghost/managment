@@ -44,7 +44,7 @@ class ReportController extends Controller
         return view('panel.pages.reports.index')->with([
             'reports' => Report::withCount('reports')
                 ->when(Report::cannotViewAll(), fn($query) => $query->where('chief_id', auth()->id()))
-                ->paginate(10)
+                ->simplePaginate(10)
         ]);
     }
 
