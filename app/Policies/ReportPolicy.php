@@ -15,7 +15,7 @@ class ReportPolicy
 
     public function generateReports(User $user): bool
     {
-        return $user->hasPermission('viewAll-report') || auth()->user()->isDirector();
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 
     public function showSubReports(User $user, Report $report): bool
