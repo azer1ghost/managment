@@ -123,8 +123,8 @@ class WorkController extends Controller
                     });
                 }
             })
-            ->latest('datetime')
             ->latest('id')
+            ->latest('datetime')
             ->paginate($limit);
 
         return view('panel.pages.works.index',
