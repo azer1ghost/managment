@@ -22,7 +22,7 @@
             @if ($method != 'POST')
                 {{$data->getAttribute('date')}}
             @else
-                @lang('translates.buttons.create')
+                {{request()->get('day') ?? trans('translates.buttons.create')}}
             @endif
         </x-bread-crumb-link>
     </x-bread-crumb>
