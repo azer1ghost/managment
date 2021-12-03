@@ -20,7 +20,7 @@ class Report extends Model
 
     public function reports(): HasMany
     {
-        return $this->hasMany(DailyReport::class);
+        return $this->hasMany(DailyReport::class)->latest('date');
     }
 
     public static function canViewAll()

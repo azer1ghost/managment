@@ -12,4 +12,9 @@ class DailyReportObserver
             $report->setAttribute('date', now());
         }
     }
+
+    public function created(DailyReport $report)
+    {
+        $report->parent()->update(['updated_at' => now()]);
+    }
 }
