@@ -111,6 +111,11 @@
                     setTimeout(function() { $('#data-name').focus() }, 500);
                     $('#date-modal').modal('show')
                 },
+                dayClick: function(date, jsEvent, view) {
+                    $('#data-daterange').val(date.format() + ' - ' + date.add(1, 'days').format());
+                    setTimeout(function() { $('#data-name').focus() }, 500);
+                    $('#date-modal').modal('show');
+                },
             @endcan
             eventRender: function(event, element) {
                 if (event.canDelete){
