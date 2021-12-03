@@ -38,15 +38,15 @@ class DailyReport extends Model
         foreach (Calendar::currentYear()->get(['start_at', 'end_at', 'is_day_off']) as $dates){
             switch ($dates->getAttribute('is_day_off')){
                 case 0:
-                    for ($first = $dates->getAttribute('start_at'); $first < $dates->getAttribute('end_at'); $first->addDay()){
-                        if($first == $sunday){
+                    for ($date = $dates->getAttribute('start_at'); $date < $dates->getAttribute('end_at'); $date->addDay()){
+                        if($date == $sunday){
                             $week_array[] = $sunday;
                         }
                     }
                     break;
                 case 1:
-                    for ($first = $dates->getAttribute('start_at'); $first < $dates->getAttribute('end_at'); $first->addDay()){
-                        if(($key = array_search($first, $week_array)) !== false){
+                    for ($date = $dates->getAttribute('start_at'); $date < $dates->getAttribute('end_at'); $date->addDay()){
+                        if(($key = array_search($date, $week_array)) !== false){
                             unset($week_array[$key]);
                         }
                     }
