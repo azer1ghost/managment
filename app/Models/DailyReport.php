@@ -36,6 +36,7 @@ class DailyReport extends Model
 
         $sunday = $week_day->addDay()->copy(); // save sunday date as it's references multiple times
 
+        // Check if the given working day is in the day off range or if the weekend is in the working day range
         foreach (Calendar::currentYear()->get(['start_at', 'end_at', 'is_day_off']) as $dates){
             switch ($dates->getAttribute('is_day_off')){
                 case 0:
