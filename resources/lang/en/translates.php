@@ -484,6 +484,7 @@ return [
 
     'calendar' => [
         'title' => 'Event',
+        'eventTypes' => 'Event types',
         'fields' => [
             'select_type' => 'Select event type',
             'name' => 'Event name',

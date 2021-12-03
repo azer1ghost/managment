@@ -487,6 +487,7 @@ return [
 
     'calendar' => [
         'title' => 'Tədbir',
+        'eventTypes' => 'Tədbir növləri',
         'fields' => [
             'select_type' => 'Tədbir növünü seçin',
             'name' => 'Tədbirin adı',

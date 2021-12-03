@@ -22,7 +22,7 @@ class Calendar extends Model
         'is_private' => 'boolean',
     ];
 
-    public static function types(): array
+    public static function eventTypes(): array
     {
         return [
             1 => [

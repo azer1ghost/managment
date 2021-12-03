@@ -24,13 +24,20 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
     <div class="row d-flex justify-content-between mb-2">
-        <div class="d-flex col-12">
-            @foreach(\App\Models\Calendar::types() as $type)
-                <div class="d-flex mr-3">
-                    <div style="border-radius:3px;width:20px;height:20px;background-color: {{$type['backgroundColor']}}" class="mr-1"></div>
-                    <p>{{$type['name']}}</p>
+        <div class="col-12">
+            <button class="btn btn-primary mb-3" type="button" data-toggle="collapse" data-target="#collapseEventTypes">
+                @lang('translates.calendar.eventTypes')
+            </button>
+            <div class="collapse" id="collapseEventTypes">
+                <div>
+                    @foreach(\App\Models\Calendar::eventTypes() as $type)
+                        <div class="d-flex mr-3">
+                            <div style="border-radius:3px;width:20px;height:20px;background-color: {{$type['backgroundColor']}}" class="mr-1"></div>
+                            <p>{{$type['name']}}</p>
+                        </div>
+                    @endforeach
                 </div>
-            @endforeach
+            </div>
         </div>
         <div class="col-12">
             @if($errors->any())

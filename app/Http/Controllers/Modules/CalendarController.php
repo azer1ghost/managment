@@ -49,8 +49,8 @@ class CalendarController extends Controller
                 'is_repeatable' => $event->getAttribute('is_repeatable'),
                 'start' => $event->getAttribute('start_at')->addDay(),
                 'end' => $event->getAttribute('end_at')->addDay(),
-                'backgroundColor' => Calendar::types()[$event->getAttribute('type')]['backgroundColor'],
-                'textColor' => Calendar::types()[$event->getAttribute('type')]['textColor'],
+                'backgroundColor' => Calendar::eventTypes()[$event->getAttribute('type')]['backgroundColor'],
+                'textColor' => Calendar::eventTypes()[$event->getAttribute('type')]['textColor'],
                 'allDay' => true,
                 'canDelete' => auth()->user()->can('delete', $event),
                 'canUpdate' => auth()->user()->can('update', $event),
@@ -59,7 +59,7 @@ class CalendarController extends Controller
 
         return view('panel.pages.calendar.index')->with([
             'events' => $events,
-            'types' => Calendar::types()
+            'types' => Calendar::eventTypes()
         ]);
     }
 
