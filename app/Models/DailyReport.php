@@ -24,45 +24,43 @@ class DailyReport extends Model
 
     public static function currentWeek()
     {
-        $week_day = now()->startOfWeek();
+        $start_of_week = now()->startOfWeek();
 
-        $first_day = $week_day->copy(); // use carbon copy to avoid affecting the original $week_day variable
-
-        $week_array[] = $first_day;
+        $days_of_week[] = $start_of_week->copy(); // use carbon copy to avoid affecting the original $week_day variable
 
         for($i = 0; $i < 5; $i++) {
-            $week_array[] = $week_day->addDay()->copy();
+            $days_of_week[] = $start_of_week->addDay()->copy();
         }
 
-        $sunday = $week_day->addDay()->copy(); // save sunday date as it's referenced multiple times
+        $sunday = $start_of_week->addDay()->copy(); // save sunday date as it's referenced multiple times
 
         // Check if the given working day is in the day off range or if the weekend is in the working day range
-        foreach (Calendar::currentYear()->get(['start_at', 'end_at', 'is_day_off']) as $dates){
-            switch ($dates->getAttribute('is_day_off')){
+        foreach (Calendar::currentYear()->get(['start_at', 'end_at', 'is_day_off']) as $daterange){
+            switch ($daterange->getAttribute('is_day_off')){
                 case 0:
-                    self::checkDay($dates, function ($date) use (&$week_array, $sunday){
+                    self::checkDay($daterange, function ($date) use (&$days_of_week, $sunday){
                         if($date == $sunday){
-                            $week_array[] = $sunday;
+                            $days_of_week[] = $sunday;
                         }
                     });
                     break;
                 case 1:
-                    self::checkDay($dates, function ($date) use (&$week_array){
-                        if(($key = array_search($date, $week_array)) !== false){
-                            unset($week_array[$key]);
+                    self::checkDay($daterange, function ($date) use (&$days_of_week){
+                        if(($key = array_search($date, $days_of_week)) !== false){
+                            unset($days_of_week[$key]);
                         }
                     });
                     break;
             }
         }
 
-        return $week_array;
+        return $days_of_week;
     }
 
     // function to loop over date ranges from the calendar
-    private static function checkDay($dates, $callback)
+    private static function checkDay($daterange, $callback)
     {
-        for ($date = $dates->getAttribute('start_at'); $date < $dates->getAttribute('end_at'); $date->addDay()){
+        for ($date = $daterange->getAttribute('start_at'); $date < $daterange->getAttribute('end_at'); $date->addDay()){
             $callback($date);
         }
     }
