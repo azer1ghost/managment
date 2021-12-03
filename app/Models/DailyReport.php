@@ -34,26 +34,34 @@ class DailyReport extends Model
             $week_array[] = $week_day->addDay()->copy();
         }
 
-        $sunday = $week_day->addDay()->copy();
+        $sunday = $week_day->addDay()->copy(); // save sunday date as it's references multiple times
+
         foreach (Calendar::currentYear()->get(['start_at', 'end_at', 'is_day_off']) as $dates){
             switch ($dates->getAttribute('is_day_off')){
                 case 0:
-                    for ($date = $dates->getAttribute('start_at'); $date < $dates->getAttribute('end_at'); $date->addDay()){
+                    self::checkDay($dates, function ($date) use (&$week_array, $sunday){
                         if($date == $sunday){
                             $week_array[] = $sunday;
                         }
-                    }
+                    });
                     break;
                 case 1:
-                    for ($date = $dates->getAttribute('start_at'); $date < $dates->getAttribute('end_at'); $date->addDay()){
+                    self::checkDay($dates, function ($date) use (&$week_array){
                         if(($key = array_search($date, $week_array)) !== false){
                             unset($week_array[$key]);
                         }
-                    }
+                    });
                     break;
             }
         }
 
         return $week_array;
+    }
+
+    public function checkDay($dates, $callback)
+    {
+        for ($date = $dates->getAttribute('start_at'); $date < $dates->getAttribute('end_at'); $date->addDay()){
+            $callback($date);
+        }
     }
 }
