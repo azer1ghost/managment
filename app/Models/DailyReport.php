@@ -34,12 +34,13 @@ class DailyReport extends Model
             $week_array[] = $week_day->addDay()->copy();
         }
 
+        $sunday = $week_day->addDay()->copy();
         foreach (Calendar::currentYear()->get(['start_at', 'end_at', 'is_day_off']) as $dates){
             switch ($dates->getAttribute('is_day_off')){
                 case 0:
                     for ($first = $dates->getAttribute('start_at'); $first < $dates->getAttribute('end_at'); $first->addDay()){
-                        if((array_search($first, $week_array)) == false){
-                            $week_array[] = $week_day->addDay()->copy();
+                        if($first == $sunday){
+                            $week_array[] = $sunday;
                         }
                     }
                     break;
