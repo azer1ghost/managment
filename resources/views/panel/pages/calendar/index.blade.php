@@ -27,7 +27,7 @@
         <div class="d-flex col-12">
             @foreach(\App\Models\Calendar::types() as $type)
                 <div class="d-flex mr-3">
-                    <div style="border-radius:3px;width:20px;height:20px;background-color: {{$type['backgroundColor']}}" class="mr-2"></div>
+                    <div style="border-radius:3px;width:20px;height:20px;background-color: {{$type['backgroundColor']}}" class="mr-1"></div>
                     <p>{{$type['name']}}</p>
                 </div>
             @endforeach
