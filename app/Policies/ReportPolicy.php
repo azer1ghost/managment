@@ -21,7 +21,6 @@ class ReportPolicy
     public function showSubReports(User $user, Report $report): bool
     {
         return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
-            $this->generateReports($user) ||
             $user->getAttribute('id') == $report->getAttribute('chief_id');
     }
 
@@ -33,7 +32,6 @@ class ReportPolicy
     public function showSubReport(User $user, DailyReport $report): bool
     {
         return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
-            $this->generateReports($user) ||
             $user->getAttribute('id') == $report->getRelationValue('parent')->getAttribute('chief_id');
     }
 
