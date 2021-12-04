@@ -197,7 +197,7 @@
                 </div>
             @endcan
             <div class="col-12">
-                <table class="table table-responsive table-hover">
+                <table class="table @if($works->count()) table-responsive @else table-responsive-sm @endif table-hover">
                     <thead>
                     <tr class="text-center">
                         @if(auth()->user()->hasPermission('canVerify-work'))
