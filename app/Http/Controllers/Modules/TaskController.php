@@ -54,7 +54,7 @@ class TaskController extends Controller
         return view('panel.pages.tasks.index')
             ->with([
                 'filters' => $filters,
-                'tasks' => Task::withCount([
+                'tasks' => Task::with('taskable', 'user')->withCount([
                     'taskLists as all_tasks_count',
                     'taskLists as done_tasks_count' => fn (Builder $query) => $query->where('is_checked', true)
                 ])

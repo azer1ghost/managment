@@ -23,7 +23,7 @@ class ServiceController extends Controller
         $limit = $request->get('limit',10);
 
         return view('panel.pages.services.index')->with([
-            'services' => Service::whereNull('service_id')->paginate($limit)
+            'services' => Service::with('department', 'company')->whereNull('service_id')->paginate($limit)
         ]);
     }
 

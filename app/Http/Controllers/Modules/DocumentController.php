@@ -24,7 +24,7 @@ class DocumentController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search');
-        $documents = Document::query()
+        $documents = Document::with('user', 'documentable')
             ->when($search, fn ($query) => $query->where('name', 'LIKE', "%$search%"));
 
         if(!auth()->user()->isDeveloper()){

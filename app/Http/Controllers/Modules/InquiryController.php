@@ -67,7 +67,7 @@ class InquiryController extends Controller
         $companies = Company::whereNotIn('id', [1])->get();
         $users = User::has('inquiries')->get(['id', 'name', 'surname', 'disabled_at']);
 
-        $inquiries = Inquiry::query()
+        $inquiries = Inquiry::with('user', 'company')
             ->withoutBackups()
             ->when(!Inquiry::userCanViewAll(), function ($query){
                 $query->whereHas('editableUsers', function ($query){

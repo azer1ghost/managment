@@ -20,7 +20,7 @@ class UpdateController extends Controller
             ->latest('datetime');
 
         if($request->has('type') && $type == 'table'){
-            $updates = $updates->simplePaginate();
+            $updates = $updates->with('user', 'parent')->simplePaginate();
         }else{
             $updates = $updates->whereNull('parent_id')->get()->groupBy('datetime');
         }

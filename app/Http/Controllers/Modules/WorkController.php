@@ -72,7 +72,7 @@ class WorkController extends Controller
                 $query->whereBelongsTo($user->getRelationValue('company'));
             })->get(['id', 'name', 'detail']);
 
-        $works = Work::query()
+        $works = Work::with('creator', 'department', 'service', 'user', 'client')
             ->when(Work::userCannotViewAll(), function ($query) use ($user){
                 if(auth()->user()->hasPermission('viewAllDepartment-work')){
                     $query->where('department_id', $user->getAttribute('department_id'));

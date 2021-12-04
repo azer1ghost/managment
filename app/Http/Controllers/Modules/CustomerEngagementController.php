@@ -23,7 +23,7 @@ class CustomerEngagementController extends Controller
 
         return view('panel.pages.customer-engagements.index')
             ->with([
-                'customer_engagements' => CustomerEngagement::query()
+                'customer_engagements' => CustomerEngagement::with('user', 'client')
                     ->latest('id')
                     ->paginate($limit),
             ]);

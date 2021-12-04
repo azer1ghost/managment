@@ -21,7 +21,7 @@ class TaskListController extends Controller
 
         event(new TaskListCreated($list));
 
-        return redirect($request->url . '#task-lists-header');
+        return redirect("{$request->get('url')}#task-lists-header");
     }
 
     public function update(Request $request, TaskList $taskList)
@@ -30,7 +30,6 @@ class TaskListController extends Controller
 
         if(array_key_exists('is_checked', $data)){
             $data['last_checked_by'] = auth()->id();
-//            event(new TaskListDone($taskList, auth()->user()));
         }
 
         $taskList->update($data);
@@ -38,12 +37,8 @@ class TaskListController extends Controller
         return redirect($data['url'] . '#task-lists-header');
     }
 
-    public function destroy(Request $request, TaskList $taskList)
+    public function destroy(TaskList $taskList)
     {
-//        if ($taskList->delete()) {
-//            return redirect($request->url . '#task-lists-header');
-//        }
-//        return back()->withNotify('error', 'Cannot be deleted');
         if ($taskList->delete()) {
             if($taskList->parentTask()->exists()){
                 $taskList->parentTask()->delete();
