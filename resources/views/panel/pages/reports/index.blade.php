@@ -16,7 +16,7 @@
                 <table class="table table-responsive-sm table-hover">
                     <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col"></th>
                         <th scope="col">@lang('translates.columns.user')</th>
                         <th scope="col">@lang('translates.columns.reports_by_the_week')</th>
                         <th scope="col">@lang('translates.fields.count')</th>
@@ -26,7 +26,7 @@
                     <tbody>
                     @forelse($reports as $report)
                         <tr>
-                            <th scope="row">{{$loop->iteration}}</th>
+                            <th scope="row"><img src="{{image($report->getRelationValue('chief')->getAttribute('avatar'))}}" alt="user" class="profile" /></th>
                             <td>{{$report->getRelationValue('chief')->getAttribute('fullname_with_position')}}</td>
                             <td class="d-flex">
                                 @foreach(\App\Models\DailyReport::currentWeek() as $day)
