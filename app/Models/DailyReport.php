@@ -14,6 +14,8 @@ class DailyReport extends Model
 
     protected $fillable = ['detail', 'date'];
 
+    const TIME_LIMIT = 17;
+
     public function getRouteKeyName()
     {
         return 'date';
