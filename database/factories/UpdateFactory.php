@@ -18,7 +18,6 @@ class UpdateFactory extends Factory
             'content' => $this->faker->text('20'),
             'user_id' => User::inRandomOrder()->pluck('id')->first(),
             'status'  => rand(1, 9),
-            'parent_id' => rand(1, 9),
             'datetime' => Carbon::now()->startOfMonth()->addDays(rand(1, 23)),
         ];
     }

@@ -16,8 +16,8 @@ class CreatePositionsTable extends Migration
         Schema::create('positions', function (Blueprint $table) {
             $table->id();
             $table->json('name');
-            $table->integer('role_id')->nullable();
-            $table->integer('department_id')->nullable();
+            $table->foreignId('role_id')->nullable()->index()->constrained()->onDelete('SET NULL');
+            $table->foreignId('department_id')->nullable()->index()->constrained()->onDelete('SET NULL');
             $table->text('permissions')->nullable();
             $table->integer('order')->nullable();
             $table->timestamps();

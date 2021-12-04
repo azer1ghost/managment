@@ -18,10 +18,10 @@ class CreateWorksTable extends Migration
             $table->integer('status')->nullable();
             $table->text('detail')->nullable();
             $table->integer('creator_id')->nullable();
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('SET NULL');
-            $table->foreignId('department_id')->nullable()->constrained()->onDelete('SET NULL');
-            $table->foreignId('service_id')->nullable()->constrained()->onDelete('CASCADE');
-            $table->integer('client_id')->nullable();
+            $table->foreignId('user_id')->index()->nullable()->constrained()->onDelete('SET NULL');
+            $table->foreignId('department_id')->index()->nullable()->constrained()->onDelete('SET NULL');
+            $table->foreignId('service_id')->index()->nullable()->constrained()->onDelete('SET NULL');
+            $table->foreignId('client_id')->index()->nullable()->constrained()->onDelete('SET NULL');
             $table->timestamp('datetime')->nullable();
             $table->timestamp('verified_at')->nullable();
             $table->softDeletes();

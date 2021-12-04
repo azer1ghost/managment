@@ -9,14 +9,14 @@ class AddAsanImzaIdColumnToWorksTable extends Migration
     public function up()
     {
         Schema::table('works', function (Blueprint $table) {
-            $table->integer('asan_imza_id')->after('client_id')->index()->nullable();
+            $table->foreignId('asan_imza_id')->after('client_id')->index()->nullable()->constrained('asan_imzalar')->onDelete('SET NULL');
         });
     }
 
     public function down()
     {
         Schema::table('works', function (Blueprint $table) {
-            $table->dropColumn('asan_imza_id');
+            $table->dropConstrainedForeignId('asan_imza_id');
         });
     }
 }

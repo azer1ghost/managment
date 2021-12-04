@@ -15,10 +15,10 @@ class CreateUpdatesTable extends Migration
     {
         Schema::create('updates', function (Blueprint $table) {
             $table->id();
-            $table->integer('parent_id')->nullable();
+            $table->foreignId('parent_id')->index()->nullable()->constrained('updates')->onDelete('SET NULL');
             $table->string('name')->nullable();
             $table->text('content')->nullable();
-            $table->foreignId('user_id')->constrained()->onDelete('CASCADE');
+            $table->foreignId('user_id')->index()->nullable()->constrained()->onDelete('SET NULL');
             $table->integer('status')->nullable();
             $table->date('datetime')->nullable();
             $table->timestamp('done_at')->nullable();
