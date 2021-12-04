@@ -115,7 +115,7 @@ class TaskController extends Controller
                                     if ($column == 'search'){
                                         $query->where($column, 'LIKE', "%$value%");
                                     }
-                                    if ($column == 'status'){
+                                    if ($column == 'status' || $column == 'priority'){
                                         $query->where($column, $value);
                                     }
                                     else if (is_numeric($value)){
