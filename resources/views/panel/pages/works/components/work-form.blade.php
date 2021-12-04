@@ -124,7 +124,7 @@
                                 <option
                                         @if(optional($data)->getAttribute('status') === $status ) selected
                                         @endif value="{{$status}}"
-                                        @if($status == \App\Models\Work::REJECTED ) disabled
+                                        @if($status == \App\Models\Work::REJECTED || $status == \App\Models\Work::DONE) disabled
                                         @endif
                                 >
                                     @lang('translates.work_status.' . $key)
@@ -313,6 +313,15 @@
                 }
             }
         })
+
+        asanImzaSelect2.change(function (){
+            const DONE = {{\App\Models\Work::DONE}};
+            if($(this).val()){
+                $(`#data-status option:eq(${DONE})`).prop('disabled', false);
+            }else{
+                $(`#data-status option:eq(${DONE})`).prop('disabled', true);
+            }
+        });
 
         clientSelect2.select2({
             placeholder: "Search",
