@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use App\Interfaces\DocumentableInterface;
 use App\Traits\Documentable;
-use App\Traits\Loger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
-class Inquiry extends Model implements DocumentableInterface
+class Inquiry extends Model
 {
     use HasFactory, SoftDeletes, Documentable;
 

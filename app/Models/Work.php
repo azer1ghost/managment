@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Interfaces\DocumentableInterface;
 use App\Traits\Documentable;
 use Illuminate\Database\Eloquent\{Factories\HasFactory,
     Model,
@@ -11,7 +10,7 @@ use Illuminate\Database\Eloquent\{Factories\HasFactory,
     Relations\HasMany,
     SoftDeletes};
 
-class Work extends Model implements DocumentableInterface
+class Work extends Model
 {
     use HasFactory, SoftDeletes, Documentable;
 

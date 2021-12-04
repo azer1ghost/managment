@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Interfaces\DocumentableInterface;
-use App\Interfaces\ResultableInterface;
 use App\Traits\Documentable;
 use App\Traits\Resultable;
 use Illuminate\Database\Eloquent\{Factories\HasFactory,
@@ -19,7 +17,7 @@ use Illuminate\Database\Eloquent\{Factories\HasFactory,
 /**
  * @property mixed $taskable
  */
-class Task extends Model implements DocumentableInterface, ResultableInterface
+class Task extends Model
 {
     use HasFactory, SoftDeletes, Documentable, Resultable;
 

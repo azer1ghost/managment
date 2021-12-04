@@ -2,11 +2,9 @@
 
 namespace App\Events;
 
-use App\Models\Task;
 use App\Models\TaskList;
 use App\Models\User;
 use Illuminate\Foundation\Events\Dispatchable;
-
 
 class TaskListCreated
 {
