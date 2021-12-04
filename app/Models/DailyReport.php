@@ -28,7 +28,7 @@ class DailyReport extends Model
     {
         $start_of_week = now()->startOfWeek();
 
-        $days_of_week[] = $start_of_week->copy(); // use carbon copy to avoid affecting the original $week_day variable
+        $days_of_week[] = $start_of_week->copy(); // use carbon copy to avoid affecting the original $start_of_week variable
 
         for($i = 0; $i < 5; $i++) {
             $days_of_week[] = $start_of_week->addDay()->copy();
