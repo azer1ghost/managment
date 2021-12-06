@@ -65,36 +65,21 @@
                         </option>
                     @endforeach
                 </select>
-                @error('companies')
+                @error('departments')
                 <p class="text-danger">{{$message}}</p>
-                @enderror
-            </div>
-
-            <div class="col-12 mb-3">
-                <label for="companyFilter">Companies</label><br/>
-                <select name="companies[]" id="companyFilter" data-selected-text-format="count" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
-                    @foreach($companies as $company)
-                        <option @if(optional(optional($data)->companies())->exists() && $data->getRelationValue('companies')->pluck('id')->contains($company->getAttribute('id'))) selected  @endif
-                        value="{{$company->getAttribute('id')}}">
-                            {{ucfirst($company->getAttribute('name'))}}
-                        </option>
-                    @endforeach
-                </select>
-                @error('companies')
-                    <p class="text-danger">{{$message}}</p>
                 @enderror
             </div>
 
             @if (optional($data)->getAttribute('type') == 'select')
                 <div class="col-12 py-2" id="parameter-options">
-                    <p class="mb-2">Options</p>
+                    <p class="mb-2">Department Companies</p>
                     @forelse ($parameterDepartments as $department)
-                        <label for="optionFilter-{{$department->getAttribute('id')}}">{{$department->getAttribute('name')}}</label>
-                        <select name="options[{{$department->getAttribute('id')}}][]" data-selected-text-format="count" id="optionFilter-{{$department->getAttribute('id')}}" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
-                            @foreach ($options as $option)
-                                <option @if($company->options(optional($data)->getAttribute('id'))->pluck('id')->contains($option->getAttribute('id'))) selected  @endif
-                                value="{{$option->getAttribute('id')}}">
-                                    {{ucfirst($option->getAttribute('text'))}}
+                        <label for="companyFilter-{{$department->getAttribute('id')}}">{{$department->getAttribute('name')}}</label>
+                        <select name="companies[{{$department->getAttribute('id')}}][]" data-selected-text-format="count" id="companyFilter-{{$department->getAttribute('id')}}" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
+                            @foreach ($companies as $company)
+                                <option @if($department->departmentCompanies->contains($company->getAttribute('id'))) selected  @endif
+                                value="{{$company->getAttribute('id')}}">
+                                    {{$company->getAttribute('name')}}
                                 </option>
                             @endforeach
                         </select>

@@ -14,8 +14,8 @@ class CreateCompanyParameterTable extends Migration
     public function up()
     {
         Schema::create('company_parameter', function (Blueprint $table) {
-            $table->foreignId('company_id')->index()->constrained()->onDelete('CASCADE');
-            $table->foreignId('parameter_id')->index()->constrained()->onDelete('CASCADE');
+            $table->foreignId('company_id')->nullable()->index()->constrained()->onDelete('CASCADE');
+            $table->foreignId('parameter_id')->nullable()->index()->constrained()->onDelete('CASCADE');
         });
     }
 
@@ -29,8 +29,8 @@ class CreateCompanyParameterTable extends Migration
 
         if (Schema::hasTable('company_parameter')){
             Schema::table('company_parameter', function (Blueprint $table) {
-                $table->dropForeign(['company_id']);
-                $table->dropForeign(['parameter_id']);
+                $table->dropConstrainedForeignId('company_id');
+                $table->dropConstrainedForeignId('parameter_id');
             });
         }
         Schema::dropIfExists('company_parameter');

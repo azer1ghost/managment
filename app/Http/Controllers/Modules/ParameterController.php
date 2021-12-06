@@ -49,7 +49,7 @@ class ParameterController extends Controller
                     ->select(['id', 'text'])->get(),
                 'parameterDepartments' => collect([]),
                 'departments' => Department::get(['id','name']),
-                'companies' => Company::isInquirable()->select(['id','name'])->get(),
+                'companies' => Company::get(['id','name']),
                 'types' => Parameter::types()
             ]);
     }
@@ -61,9 +61,15 @@ class ParameterController extends Controller
 
         $parameter = Parameter::create($validated);
 
-        $parameter->companies()->sync($request->get('companies'));
+        $parameter->departments()->sync($validated['departments'] ?? []);
 
-        self::saveParameters($parameter, $request->get('options'));
+        foreach ($validated['companies'] ?? [] as $department => $companies) {
+            foreach ($companies ?? [] as $company){
+                $parameter->departments()->updateExistingPivot($department, ['company_id' => $company]);
+            }
+        }
+
+//        self::saveParameters($parameter, $request->get('options'));
 
         return redirect()
             ->route('parameters.edit', $parameter)
@@ -83,7 +89,7 @@ class ParameterController extends Controller
                 ])
                     ->select(['id', 'text'])->get(),
                 'parameterDepartments' => $parameter->getRelationValue('departments'),
-                'companies' => Company::isInquirable()->get(['id','name']),
+                'companies' => Company::get(['id','name']),
                 'departments' => Department::get(['id','name']),
                 'types' => Parameter::types()
             ]);
@@ -101,9 +107,9 @@ class ParameterController extends Controller
                         fn($query) => $query->select(['id', 'name'])
                     ])
                     ->select(['id', 'text'])->get(),
-                'parameterDepartments' => $parameter->getRelationValue('departments'),
+                'parameterDepartments' => $parameter->getRelationValue('departments')->unique(),
                 'departments' => Department::get(['id','name']),
-                'companies' => Company::isInquirable()->select(['id','name'])->get(),
+                'companies' => Company::get(['id','name']),
                 'types' => Parameter::types()
             ]);
     }
@@ -114,10 +120,15 @@ class ParameterController extends Controller
         $this->translates($validated);
         $parameter->update($validated);
 
-        $parameter->companies()->sync($request->get('companies'));
-        $parameter->departments()->sync($request->get('departments'));
+        $parameter->departments()->sync($validated['departments'] ?? []);
 
-        self::saveParameters($parameter, $request->get('options'));
+        foreach ($validated['companies'] ?? [] as $department => $companies) {
+            foreach ($companies ?? [] as $company){
+                $parameter->departments()->updateExistingPivot($department, ['company_id' => $company]);
+            }
+        }
+
+//        self::saveParameters($parameter, $request->get('options'));
 
         return back()->withNotify('info', $parameter->getAttribute('name'));
     }

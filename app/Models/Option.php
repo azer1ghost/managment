@@ -36,11 +36,11 @@ class Option extends Model
 
     public function companies(): BelongsToMany
     {
-        return $this->belongsToMany(Company::class, 'option_parameter')->withPivot('parameter_id');
+        return $this->belongsToMany(Company::class, 'option_parameter')->withPivot('parameter_id', 'department_id');
     }
 
     public function departments(): BelongsToMany
     {
-        return $this->belongsToMany(Department::class, 'option_parameter')->withPivot('parameter_id');
+        return $this->belongsToMany(Department::class, 'option_parameter')->withPivot('parameter_id', 'company_id');
     }
 }

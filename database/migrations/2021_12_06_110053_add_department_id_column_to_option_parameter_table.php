@@ -9,7 +9,7 @@ class AddDepartmentIdColumnToOptionParameterTable extends Migration
     public function up()
     {
         Schema::table('option_parameter', function (Blueprint $table) {
-            $table->foreignId('department_id')->nullable()->index()->constrained()->onDelete('CASCADE');
+            $table->foreignId('department_id')->after('parameter_id')->nullable()->index()->constrained()->onDelete('CASCADE');
         });
     }
 

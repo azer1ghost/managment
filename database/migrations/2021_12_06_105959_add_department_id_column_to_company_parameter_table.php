@@ -9,7 +9,7 @@ class AddDepartmentIdColumnToCompanyParameterTable extends Migration
     public function up()
     {
         Schema::table('company_parameter', function (Blueprint $table) {
-            $table->foreignId('department_id')->nullable()->index()->constrained()->onDelete('CASCADE');
+            $table->foreignId('department_id')->first()->nullable()->index()->constrained()->onDelete('CASCADE');
         });
     }
 
