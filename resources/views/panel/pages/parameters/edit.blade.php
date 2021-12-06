@@ -56,10 +56,28 @@
             <x-input::number   name="order"         :value="optional($data)->getAttribute('order')"         width="4" class="pr-3" label="Order"/>
 
             <div class="col-12 mb-3">
+                <label for="departmentFilter">Departments</label><br/>
+                <select name="departments[]" id="departmentFilter" data-selected-text-format="count" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
+                    @foreach($departments as $department)
+                        <option @if(optional(optional($data)->departments())->exists() && $data->getRelationValue('departments')->pluck('id')->contains($department->getAttribute('id'))) selected  @endif
+                            value="{{$department->getAttribute('id')}}">
+                                {{ucfirst($department->getAttribute('name'))}}
+                        </option>
+                    @endforeach
+                </select>
+                @error('companies')
+                <p class="text-danger">{{$message}}</p>
+                @enderror
+            </div>
+
+            <div class="col-12 mb-3">
                 <label for="companyFilter">Companies</label><br/>
                 <select name="companies[]" id="companyFilter" data-selected-text-format="count" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
                     @foreach($companies as $company)
-                        <option @if(optional(optional($data)->companies())->exists() && $data->getRelationValue('companies')->pluck('id')->contains($company->getAttribute('id'))) selected  @endif value="{{$company->getAttribute('id')}}">{{ucfirst($company->getAttribute('name'))}}</option>
+                        <option @if(optional(optional($data)->companies())->exists() && $data->getRelationValue('companies')->pluck('id')->contains($company->getAttribute('id'))) selected  @endif
+                        value="{{$company->getAttribute('id')}}">
+                            {{ucfirst($company->getAttribute('name'))}}
+                        </option>
                     @endforeach
                 </select>
                 @error('companies')
@@ -70,16 +88,19 @@
             @if (optional($data)->getAttribute('type') == 'select')
                 <div class="col-12 py-2" id="parameter-options">
                     <p class="mb-2">Options</p>
-                    @forelse ($parameterCompanies as $company)
-                        <label for="optionFilter-{{$company->getAttribute('id')}}">{{$company->getAttribute('name')}}</label>
-                        <select name="options[{{$company->getAttribute('id')}}][]" data-selected-text-format="count" id="optionFilter-{{$company->getAttribute('id')}}" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
+                    @forelse ($parameterDepartments as $department)
+                        <label for="optionFilter-{{$department->getAttribute('id')}}">{{$department->getAttribute('name')}}</label>
+                        <select name="options[{{$department->getAttribute('id')}}][]" data-selected-text-format="count" id="optionFilter-{{$department->getAttribute('id')}}" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
                             @foreach ($options as $option)
-                                <option @if($company->options(optional($data)->getAttribute('id'))->pluck('id')->contains($option->getAttribute('id'))) selected  @endif value="{{$option->getAttribute('id')}}">{{ucfirst($option->getAttribute('text'))}}</option>
+                                <option @if($company->options(optional($data)->getAttribute('id'))->pluck('id')->contains($option->getAttribute('id'))) selected  @endif
+                                value="{{$option->getAttribute('id')}}">
+                                    {{ucfirst($option->getAttribute('text'))}}
+                                </option>
                             @endforeach
                         </select>
                         <br/>
                     @empty
-                        <span>No companies yet</span>
+                        <span>No departments yet</span>
                     @endforelse
                     @error('options')
                     <p class="text-danger">{{$message}}</p>

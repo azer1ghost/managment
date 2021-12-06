@@ -19,6 +19,7 @@ class ParameterRequest extends FormRequest
             'order' => 'required|integer',
             'attributes' => 'nullable|string',
             'companies' => 'array',
+            'departments' => 'array',
             'options' => 'array',
             'option_id'   => 'nullable',
             'translate' => 'nullable|array',

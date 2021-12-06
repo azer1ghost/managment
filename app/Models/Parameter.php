@@ -46,10 +46,10 @@ class Parameter extends Model
     {
         return $this->belongsToMany(Company::class);
     }
-
+    
     public function options(): BelongsToMany
     {
-        return $this->belongsToMany(Option::class)->withPivot('company_id');
+        return $this->belongsToMany(Option::class)->withPivot('company_id', 'department_id');
     }
 
     public function inquiries(): BelongsToMany

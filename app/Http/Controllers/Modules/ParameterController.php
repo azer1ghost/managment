@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ParameterRequest;
 use App\Models\Company;
+use App\Models\Department;
 use App\Models\Option;
 use App\Models\Parameter;
 use Illuminate\Http\Request;
@@ -46,7 +47,8 @@ class ParameterController extends Controller
                         fn($query) => $query->select(['id', 'name'])
                 ])
                     ->select(['id', 'text'])->get(),
-                'parameterCompanies' => collect([]),
+                'parameterDepartments' => collect([]),
+                'departments' => Department::get(['id','name']),
                 'companies' => Company::isInquirable()->select(['id','name'])->get(),
                 'types' => Parameter::types()
             ]);
@@ -80,8 +82,9 @@ class ParameterController extends Controller
                         fn($query) => $query->select(['id', 'name'])
                 ])
                     ->select(['id', 'text'])->get(),
-                'parameterCompanies' => $parameter->getRelationValue('companies'),
-                'companies' => Company::isInquirable()->select(['id','name'])->get(),
+                'parameterDepartments' => $parameter->getRelationValue('departments'),
+                'companies' => Company::isInquirable()->get(['id','name']),
+                'departments' => Department::get(['id','name']),
                 'types' => Parameter::types()
             ]);
     }
@@ -98,7 +101,8 @@ class ParameterController extends Controller
                         fn($query) => $query->select(['id', 'name'])
                     ])
                     ->select(['id', 'text'])->get(),
-                'parameterCompanies' => $parameter->getRelationValue('companies'),
+                'parameterDepartments' => $parameter->getRelationValue('departments'),
+                'departments' => Department::get(['id','name']),
                 'companies' => Company::isInquirable()->select(['id','name'])->get(),
                 'types' => Parameter::types()
             ]);
@@ -111,6 +115,7 @@ class ParameterController extends Controller
         $parameter->update($validated);
 
         $parameter->companies()->sync($request->get('companies'));
+        $parameter->departments()->sync($request->get('departments'));
 
         self::saveParameters($parameter, $request->get('options'));
 

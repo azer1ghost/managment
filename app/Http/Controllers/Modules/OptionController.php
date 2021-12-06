@@ -48,7 +48,7 @@ class OptionController extends Controller
                 'action' => route('options.store'),
                 'method' => null,
                 'data'   => null,
-                'companies' => Company::isInquirable()->select(['id','name'])->get(),
+                'companies' => Company::isInquirable()->get(['id','name']),
                 'parameters' => Parameter::select(['id','name'])->where('type', 'select')->pluck('name', 'id')->map(fn($p) => str_title($p)),
             ]);
     }
