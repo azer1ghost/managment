@@ -120,6 +120,11 @@ class Work extends Model
         return $this->getAttribute('status') == self::DONE;
     }
 
+    public function hasAsanImza(): bool
+    {
+        return $this->getRelationValue('service')->hasAsanImza();
+    }
+
     public static function generateCustomCode($prefix = 'MGW', $digits = 8): string
     {
         do {

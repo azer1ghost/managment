@@ -21,6 +21,11 @@ class Service extends Model
 
     protected $casts = ['has_asan_imza' => 'boolean'];
 
+    public function hasAsanImza()
+    {
+        return $this->getAttribute('has_asan_imza');
+    }
+
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class)->withDefault();
