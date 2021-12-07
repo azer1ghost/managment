@@ -99,7 +99,7 @@
                         <br/>
                         @forelse ($department->departmentCompanies()->where('parameter_id', optional($data)->getAttribute('id'))->get() as $departmentCompany)
                             <label for="optionFilter-{{$department->getAttribute('id')}}-{{$departmentCompany->getAttribute('id')}}">{{$departmentCompany->getAttribute('name')}}</label>
-                            <select name="options[{{$department->getAttribute('id')}}][{{$departmentCompany->getAttribute('id')}}][]" data-selected-text-format="count" id="optionFilter-{{$department->getAttribute('id'}}-{{$departmentCompany->getAttribute('id')}}" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
+                            <select name="options[{{$department->getAttribute('id')}}][{{$departmentCompany->getAttribute('id')}}][]" data-selected-text-format="count" id="optionFilter-{{$department->getAttribute('id')}}-{{$departmentCompany->getAttribute('id')}}" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
                                 @foreach ($options as $option)
                                     <option @if($department->options()->where('parameter_id', optional($data)->getAttribute('id'))->get()->contains($option->getAttribute('id'))) selected  @endif
                                         value="{{$option->getAttribute('id')}}">
