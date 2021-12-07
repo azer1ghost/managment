@@ -154,7 +154,7 @@ class InquiryForm extends Component
             ->where('id', $company_id) // select current company from collection
             ->first()
             ->parameters()
-            ->where('department_id', auth()->user()->getAttribute('department_id'))
+            ->where('company_parameter.department_id', auth()->user()->getAttribute('department_id'))
             ->whereNull('option_id')
             ->with([
                 'options' => fn($query) => $query->where('option_parameter.company_id', $company_id)
