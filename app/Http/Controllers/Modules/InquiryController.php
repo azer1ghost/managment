@@ -64,7 +64,7 @@ class InquiryController extends Controller
         $contact_methods = Parameter::where('name', 'contact_method')->first()->options->unique();
         $sources  = Parameter::where('name', 'source')->first()->options->unique();
         $statuses  = Parameter::where('name', 'status')->first()->options->unique();
-        $companies = Company::whereNotIn('id', [1])->get();
+        $companies = Company::isInquirable()->get();
         $users = User::has('inquiries')->get(['id', 'name', 'surname', 'disabled_at']);
 
         $inquiries = Inquiry::with('user', 'company')

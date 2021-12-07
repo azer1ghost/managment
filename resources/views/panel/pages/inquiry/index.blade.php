@@ -377,8 +377,12 @@
                     <div class="modal-body">
                         <div class="form-group col-12 p-0">
                             <select class="form-control" name="company" required>
+                                <option value="">@lang('translates.register.company')</option>
                                 @foreach($companies as $company)
-                                    <option value="{{$company->getAttribute('id')}}">
+                                    <option
+                                        @if($company->getAttribute('id') == auth()->user()->getAttribute('company_id')) selected @endif
+                                        value="{{$company->getAttribute('id')}}"
+                                    >
                                         {{$company->getAttribute('name')}}
                                     </option>
                                 @endforeach
