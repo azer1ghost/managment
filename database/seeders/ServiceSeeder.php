@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\AsanImza;
+use App\Models\Service;
 use Illuminate\Database\Seeder;
 
-class AsanImzaSeeder extends Seeder
+class ServiceSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +14,6 @@ class AsanImzaSeeder extends Seeder
      */
     public function run()
     {
-        AsanImza::factory()->count(10)->create();
+       Service::factory()->count(10)->create();
     }
 }
