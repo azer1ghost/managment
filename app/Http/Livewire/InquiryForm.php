@@ -154,7 +154,7 @@ class InquiryForm extends Component
             ->where('id', $company_id) // select current company from collection
             ->first()
             ->parameters()
-            ->when($this->method == 'POST', function ($query){
+            ->when(!auth()->user()->isDeveloper() && $this->method == 'POST', function ($query){
                 $query->where('company_parameter.department_id', auth()->user()->getAttribute('department_id'));
             })
             ->whereNull('option_id')
