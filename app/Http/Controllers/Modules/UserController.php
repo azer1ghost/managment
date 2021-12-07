@@ -42,6 +42,8 @@ class UserController extends Controller
                         fn ($query) => $query->where('name', 'like', "%".$search."%")
                                              ->orWhere('surname', 'like', "%".$search."%")
                                              ->orWhere('fin', 'like', "%".$search."%")
+                                             ->orWhere('phone', 'like', "%".$search."%")
+                                             ->orWhere('phone_coop', 'like', "%".$search."%")
                                              ->orWhere('id', $search))
                     ->when($company, fn ($query) => $query->where('company_id', $company))
                     ->when($department, fn ($query) => $query->where('department_id', $department))
