@@ -106,12 +106,12 @@
             @endif
             @if(auth()->user()->isDeveloper())
                 <x-permissions :model="$data" :action="$action" />
+                <div class="col-md-12 px-0">
+                    <br>
+                    <p class="text-muted mb-2">USER DEFAULTS</p>
+                    @livewire('show-user-defaults',['user' => $data, 'action' => $action])
+                </div>
             @endif
-            <div class="col-md-12 px-0">
-                <br>
-                <p class="text-muted mb-2">USER DEFAULTS</p>
-                @livewire('show-user-defaults',['user' => $data, 'action' => $action])
-            </div>
             @if($action)
                 <x-input::submit/>
             @endif
