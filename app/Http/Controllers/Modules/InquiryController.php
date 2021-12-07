@@ -153,7 +153,8 @@ class InquiryController extends Controller
                 $request->validated(),
                 [
                     'code' => Inquiry::generateCustomCode(),
-                    'datetime' => $request->get('date')." ".$request->get('time')
+                    'datetime' => $request->get('date')." ".$request->get('time'),
+                    'department_id' => auth()->user()->getAttribute('department_id')
                 ]
             )
         );

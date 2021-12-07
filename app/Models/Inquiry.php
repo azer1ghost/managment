@@ -25,7 +25,7 @@ class Inquiry extends Model
     const REDIRECTED = 40;
 
     protected $fillable = [
-        'code', 'datetime', 'note', 'redirected_user_id', 'company_id', 'user_id', 'is_out'
+        'code', 'datetime', 'note', 'redirected_user_id', 'company_id', 'user_id', 'is_out', 'department_id'
     ];
 
     protected $casts = [
@@ -56,6 +56,11 @@ class Inquiry extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class);
     }
 
     public function backups(): HasMany
