@@ -70,28 +70,28 @@
                 @enderror
             </div>
 
-            @if (optional($data)->getAttribute('type') == 'select')
-                <div class="col-12 py-2" id="parameter-departments">
-                    <p class="mb-1" style="font-size: 16px"><strong>Department Companies</strong></p>
-                    @forelse (optional($data)->departments as $department)
-                        <label for="companyFilter-{{$department->getAttribute('id')}}">{{$department->getAttribute('name')}}</label>
-                        <select name="companies[{{$department->getAttribute('id')}}][]" data-selected-text-format="count" id="companyFilter-{{$department->getAttribute('id')}}" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
-                            @foreach ($companies as $company)
-                                <option @if($department->departmentCompanies()->where('parameter_id', optional($data)->getAttribute('id'))->get()->contains($company->getAttribute('id'))) selected  @endif
-                                value="{{$company->getAttribute('id')}}">
-                                    {{$company->getAttribute('name')}}
-                                </option>
-                            @endforeach
-                        </select>
-                        <br/>
-                    @empty
-                        <p class="mb-1">No departments yet</p>
-                    @endforelse
-                    @error('companies')
-                    <p class="text-danger">{{$message}}</p>
-                    @enderror
-                </div>
+            <div class="col-12 py-2" id="parameter-departments">
+                <p class="mb-1" style="font-size: 16px"><strong>Department Companies</strong></p>
+                @forelse (optional($data)->departments as $department)
+                    <label for="companyFilter-{{$department->getAttribute('id')}}">{{$department->getAttribute('name')}}</label>
+                    <select name="companies[{{$department->getAttribute('id')}}][]" data-selected-text-format="count" id="companyFilter-{{$department->getAttribute('id')}}" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
+                        @foreach ($companies as $company)
+                            <option @if($department->departmentCompanies()->where('parameter_id', optional($data)->getAttribute('id'))->get()->contains($company->getAttribute('id'))) selected  @endif
+                            value="{{$company->getAttribute('id')}}">
+                                {{$company->getAttribute('name')}}
+                            </option>
+                        @endforeach
+                    </select>
+                    <br/>
+                @empty
+                    <p class="mb-1">No departments yet</p>
+                @endforelse
+                @error('companies')
+                <p class="text-danger">{{$message}}</p>
+                @enderror
+            </div>
 
+            @if (optional($data)->getAttribute('type') == 'select')
                 <div class="col-12 py-2" id="parameter-options">
                     <p class="mb-1" style="font-size: 16px"><strong>Department Companies Options</strong></p>
                     @forelse (optional($data)->departments as $department)
