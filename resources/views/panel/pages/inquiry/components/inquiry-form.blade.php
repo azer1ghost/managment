@@ -17,16 +17,6 @@
     <x-input::text wire:ignore name="date" :label="__('translates.fields.date')" value="{{$datetime->format('d-m-Y')}}" type="text" width="3" class="pr-2" />
     <x-input::text wire:ignore name="time" :label="__('translates.fields.time')" value="{{$datetime->format('H:i')}}" type="time" width="3" class="pr-2" />
 
-    <div class="form-group col-md-3">
-        <label>{{__('translates.fields.company')}}</label>
-        <select class="form-control" name="company_id" required  wire:model="selected.company">
-            <option value="null" disabled selected>{{__('translates.fields.company')}} {{__('translates.placeholders.choose')}}</option>
-            @foreach($companies as $company)
-                <option value="{{ $company->id }}">{{ $company->name }}</option>
-            @endforeach
-        </select>
-    </div>
-
     @foreach($formFields as $formField)
         @if($formField['type'] === 'select' && count($formField['options']) == 0)
             @continue

@@ -143,12 +143,12 @@ class ParameterController extends Controller
         foreach ($requestOptions as $department_id => $companies){
             foreach ($companies ?? [] as $company_id => $options){
                 foreach ($options ?? [] as $option){
-                    $parameter->options()->attach([
-                        $option => [
+                    $parameter->options()->attach(
+                        $option, [
                             'company_id' => $company_id,
                             'department_id' => $department_id
                         ]
-                    ]);
+                    );
                 }
             }
         }

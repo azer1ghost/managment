@@ -39,10 +39,10 @@ class InquiryForm extends Component
 
         if ($this->inquiry->getAttribute('company_id')) {
             $this->updatedSelectedCompany($this->inquiry->getAttribute('company_id'));
-        } elseif (in_array(auth()->user()->getAttribute('company_id'), $this->companies->pluck('id')->toArray())) {
-            $this->updatedSelectedCompany(auth()->user()->getAttribute('company_id'));
         } elseif(is_numeric(request()->get('company')) && Company::pluck('id')->contains(request()->get('company'))) {
             $this->updatedSelectedCompany(request()->get('company'));
+        } elseif (in_array(auth()->user()->getAttribute('company_id'), $this->companies->pluck('id')->toArray())) {
+            $this->updatedSelectedCompany(auth()->user()->getAttribute('company_id'));
         } else {
             $this->selected['company'] = null;
         }
