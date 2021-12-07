@@ -121,7 +121,7 @@ class ParameterController extends Controller
         return back()->withNotify('info', $parameter->getAttribute('name'));
     }
 
-    public static function saveParameterDepartments(Parameter $parameter, array $requestCompanies)
+    protected static function saveParameterDepartments(Parameter $parameter, array $requestCompanies)
     {
         // detach all relations before adding new ones
         $parameter->companies()->detach();
@@ -135,7 +135,7 @@ class ParameterController extends Controller
         }
     }
 
-    public static function saveParameterDepartmentsOptions(Parameter $parameter, array $requestOptions)
+    protected static function saveParameterDepartmentsOptions(Parameter $parameter, array $requestOptions)
     {
         // detach all relations before adding new ones
         $parameter->options()->detach();
