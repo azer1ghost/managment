@@ -143,15 +143,9 @@
     $('.filterSelector').selectpicker()
     $('#data-type').change(function(){
         if (this.value === 'text') {
-            $('#parameter-departments').hide()
-            $('#parameter-departments select').attr('disabled', true)
-
             $('#parameter-options').hide()
             $('#parameter-options select').attr('disabled', true)
         }else if (this.value === 'select'){
-            $('#parameter-departments').show()
-            $('#parameter-departments select').attr('disabled', false)
-
             $('#parameter-options').show()
             $('#parameter-options select').attr('disabled', false)
         }
