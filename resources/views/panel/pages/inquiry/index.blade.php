@@ -23,14 +23,14 @@
     </x-bread-crumb>
     <form class="row" id="inquiryForm">
         <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
-            <label for="daterange">{{__('translates.filters.date')}}</label>
-            <input type="text" placeholder="{{__('translates.placeholders.range')}}" name="daterange"
+            <label for="daterange">@lang('translates.filters.date')</label>
+            <input type="text" placeholder="@lang('translates.placeholders.range')" name="daterange"
                    value="{{$daterange}}" id="daterange" class="form-control">
         </div>
         <div class="form-group col-12 col-md-3 mb-md-0">
-            <label for="codeFilter">{{__('translates.filters.code')}}</label>
+            <label for="codeFilter">@lang('translates.filters.code')</label>
             <input type="search" id="codeFilter" name="code" value="{{request()->get('code')}}"
-                   placeholder="{{__('translates.placeholders.code')}}" class="form-control">
+                   placeholder="@lang('translates.placeholders.code')" class="form-control">
         </div>
 
         <div class="form-group col-12 col-md-3 mb-md-0">
@@ -48,14 +48,14 @@
         </div>
 
         <div class="form-group col-12 col-md-3 mt-3 mb-3 mb-md-0">
-            <label class="d-block" for="subjectFilter">{{__('translates.filters.subject')}}</label>
+            <label class="d-block" for="subjectFilter">@lang('translates.filters.subject')</label>
             <select id="subjectFilter" multiple class="filterSelector form-control" data-selected-text-format="count"
-                    data-width="fit" title="{{__('translates.filters.select')}}">
+                    data-width="fit" title="@lang('translates.filters.select')">
                 @php($subjectsRequest = explode(',', request()->get('subject')))
                 @foreach($subjects as $subject)
                     <option
-                            @if(in_array($subject->id, $subjectsRequest)) selected @endif
-                    value="{{$subject->getAttribute('id')}}"
+                        @if(in_array($subject->id, $subjectsRequest)) selected @endif
+                        value="{{$subject->getAttribute('id')}}"
                     >
                         {{ucfirst($subject->getAttribute('text'))}}
                     </option>
@@ -66,12 +66,12 @@
         <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
             <label class="d-block" for="statusFilter">Status</label>
             <select id="statusFilter" multiple data-selected-text-format="count" class="filterSelector form-control"
-                    data-selected-text-format="count" data-width="fit" title="{{__('translates.filters.select')}}">
+                    data-selected-text-format="count" data-width="fit" title="@lang('translates.filters.select')">
                 @php($statusesRequest = explode(',', request()->get('status')))
                 @foreach($statuses as $status)
                     <option
-                            @if(in_array($status->id, $statusesRequest)) selected @endif
-                    value="{{$status->getAttribute('id')}}"
+                        @if(in_array($status->id, $statusesRequest)) selected @endif
+                        value="{{$status->getAttribute('id')}}"
                     >
                         {{ucfirst($status->getAttribute('text'))}}
                     </option>
@@ -80,14 +80,14 @@
         </div>
 
         <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
-            <label class="d-block" for="companyFilter">{{__('translates.filters.company')}}</label>
+            <label class="d-block" for="companyFilter">@lang('translates.filters.company')</label>
             <select id="companyFilter" multiple data-selected-text-format="count" class="filterSelector"
-                    data-width="fit" title="{{__('translates.filters.select')}}">
+                    data-width="fit" title="@lang('translates.filters.select')">
                 @php($companiesRequest = explode(',', request()->get('company')))
                 @foreach($companies as $company)
                     <option
-                            @if(in_array($company->id, $companiesRequest)) selected @endif
-                    value="{{$company->getAttribute('id')}}"
+                        @if(in_array($company->id, $companiesRequest)) selected @endif
+                        value="{{$company->getAttribute('id')}}"
                     >
                         {{ucfirst($company->getAttribute('name'))}}
                     </option>
@@ -97,14 +97,14 @@
 
         @if(\App\Models\Inquiry::userCanViewAll())
             <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
-                <label class="d-block" for="writtenByFilter">{{__('translates.filters.written_by')}}</label>
+                <label class="d-block" for="writtenByFilter">@lang('translates.filters.written_by')</label>
                 <select id="writtenByFilter" name="user" class="filterSelector" data-width="fit"
-                        title="{{__('translates.filters.written_by')}}">
+                        title="@lang('translates.filters.written_by')">
                     @foreach($users as $user)
                         @php($inactive = (bool) $user->getAttribute('disabled_at'))
                         <option
-                                @if($user->id == request()->get('user')) selected @endif
-                        value="{{$user->getAttribute('id')}}" class="@if ($inactive) text-danger @endif"
+                            @if($user->id == request()->get('user')) selected @endif
+                            value="{{$user->getAttribute('id')}}" class="@if ($inactive) text-danger @endif"
                         >
                             {{$user->getAttribute('fullname')}} @if ($inactive) (@lang('translates.disabled')) @endif
                         </option>
@@ -114,14 +114,14 @@
         @endif
 
         <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
-            <label class="d-block" for="sourceFilter">{{__('translates.filters.source')}}</label>
+            <label class="d-block" for="sourceFilter">@lang('translates.filters.source')</label>
             <select id="sourceFilter" multiple data-selected-text-format="count" class="filterSelector" data-width="fit"
-                    title="{{__('translates.filters.source')}}">
+                    title="@lang('translates.filters.source')">
                 @php($sourcesRequest = explode(',', request()->get('source')))
                 @foreach($sources as $source)
                     <option
-                            @if(in_array($source->id, $sourcesRequest)) selected @endif
-                    value="{{$source->getAttribute('id')}}"
+                        @if(in_array($source->id, $sourcesRequest)) selected @endif
+                        value="{{$source->getAttribute('id')}}"
                     >
                         {{ucfirst($source->getAttribute('text'))}}
                     </option>
@@ -130,14 +130,14 @@
         </div>
 
         <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
-            <label class="d-block" for="contactMethodFilter">{{__('translates.filters.contact_method')}}</label>
+            <label class="d-block" for="contactMethodFilter">@lang('translates.filters.contact_method')</label>
             <select id="contactMethodFilter" multiple data-selected-text-format="count" class="filterSelector"
-                    data-width="fit" title="{{__('translates.filters.contact_method')}}">
+                    data-width="fit" title="@lang('translates.filters.contact_method')">
                 @php($contactMethodsRequest = explode(',', request()->get('contact_method')))
                 @foreach($contact_methods as $contact_method)
                     <option
-                            @if(in_array($contact_method->id, $contactMethodsRequest)) selected @endif
-                    value="{{$contact_method->getAttribute('id')}}"
+                        @if(in_array($contact_method->id, $contactMethodsRequest)) selected @endif
+                        value="{{$contact_method->getAttribute('id')}}"
                     >
                         {{ucfirst($contact_method->getAttribute('text'))}}
                     </option>
@@ -145,14 +145,14 @@
             </select>
         </div>
         <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
-            <label class="d-block" for="typeFilter">{{__('translates.inquiries.label')}}</label>
+            <label class="d-block" for="typeFilter">@lang('translates.inquiries.label')</label>
             <select id="typeFilter" name="is_out" class="filterSelector" data-width="fit"
-                    title="{{__('translates.inquiries.label')}}">
+                    title="@lang('translates.inquiries.label')">
                 @foreach(['from_customers', 'from_us'] as $index => $type)
                     <option
-                            @if(!is_null(request()->get('is_out')) && $index == request()->get('is_out')) selected
-                            @endif
-                            value="{{$index}}"
+                        @if(!is_null(request()->get('is_out')) && $index == request()->get('is_out')) selected
+                        @endif
+                        value="{{$index}}"
                     >
                         @lang('translates.inquiries.types.' . $type)
                     </option>
@@ -181,9 +181,9 @@
         <hr>
         <div class="float-right">
             @can('create', \App\Models\Inquiry::class)
-                <a href="{{route('inquiry.create')}}" class="btn btn-outline-success">
+                <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#inquiry-create-modal-btn">
                     <i class="fal fa-plus"></i>
-                </a>
+                </button>
             @endcan
             <a href="{{ !request()->has('trash-box') ? route('inquiry.index', ['trash-box' => true]) : route('inquiry.index') }}"
                class="btn btn-outline-secondary">
@@ -205,15 +205,15 @@
                     @if(auth()->user()->isDeveloper())
                         <th><input type="checkbox" id="inquiry-all"></th>
                     @endif
-                    <th>{{__('translates.fields.mgCode')}}</th>
-                    <th>{{__('translates.fields.date')}}</th>
-                    <th>{{__('translates.fields.time')}}</th>
-                    <th>{{__('translates.fields.company')}}</th>
-                    <th>{{__('translates.fields.clientName')}}</th>
-                    <th>{{__('translates.fields.writtenBy')}}</th>
-                    <th>{{__('translates.fields.subject')}}</th>
+                    <th>@lang('translates.fields.mgCode')</th>
+                    <th>@lang('translates.fields.date')</th>
+                    <th>@lang('translates.fields.time')</th>
+                    <th>@lang('translates.fields.company')</th>
+                    <th>@lang('translates.fields.clientName')</th>
+                    <th>@lang('translates.fields.writtenBy')</th>
+                    <th>@lang('translates.fields.subject')</th>
                     <th class="text-center">Status</th>
-                    <th>{{__('translates.fields.actions')}}</th>
+                    <th>@lang('translates.fields.actions')</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -363,6 +363,36 @@
             </div>
         </div>
     </form>
+    <!-- Inquiry Create Modal -->
+    <div class="modal fade" id="inquiry-create-modal-btn" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{route('inquiry.create')}}">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">@lang('translates.register.company')</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group col-12 p-0">
+                            <select class="form-control" name="company" required>
+                                @foreach($companies as $company)
+                                    <option value="{{$company->getAttribute('id')}}">
+                                        {{$company->getAttribute('name')}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
+                        <button type="submit" class="btn btn-primary">@lang('translates.buttons.save')</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')

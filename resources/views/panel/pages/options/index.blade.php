@@ -34,6 +34,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Text</th>
                         <th scope="col">Parameters</th>
+                        <th scope="col">Departments</th>
                         <th scope="col">Companies</th>
                     </tr>
                     </thead>
@@ -43,6 +44,7 @@
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$option->getAttribute('text')}}</td>
                             <td>{{implode(',', array_unique($option->getRelationValue('parameters')->pluck('name')->map(fn($p) => str_title($p))->toArray()))}}</td>
+                            <td>{{implode(',', array_unique($option->getRelationValue('departments')->pluck('name')->map(fn($p) => str_title($p))->toArray()))}}</td>
                             <td>{{implode(',', array_unique($option->getRelationValue('companies')->pluck('name')->map(fn($p) => str_title($p))->toArray()))}}</td>
                             <td>
                                 <div class="btn-sm-group">

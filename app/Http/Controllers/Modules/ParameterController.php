@@ -63,14 +63,6 @@ class ParameterController extends Controller
 
         $parameter->departments()->sync($validated['departments'] ?? []);
 
-        foreach ($validated['companies'] ?? [] as $department => $companies) {
-            foreach ($companies ?? [] as $company){
-                $parameter->departments()->updateExistingPivot($department, ['company_id' => $company]);
-            }
-        }
-
-//        self::saveParameters($parameter, $request->get('options'));
-
         return redirect()
             ->route('parameters.edit', $parameter)
             ->withNotify('success', $parameter->getAttribute('name'));
@@ -118,28 +110,47 @@ class ParameterController extends Controller
     {
         $validated = $request->validated();
         $this->translates($validated);
+
         $parameter->update($validated);
 
         $parameter->departments()->sync($validated['departments'] ?? []);
 
-        foreach ($validated['companies'] ?? [] as $department => $companies) {
-            foreach ($companies ?? [] as $company){
-                $parameter->departments()->updateExistingPivot($department, ['company_id' => $company]);
-            }
-        }
-
-//        self::saveParameters($parameter, $request->get('options'));
+        self::saveParameterDepartments($parameter, $validated['companies'] ?? []);
+        self::saveParameterDepartmentsOptions($parameter, $validated['options'] ?? []);
 
         return back()->withNotify('info', $parameter->getAttribute('name'));
     }
 
-    public static function saveParameters($parameter, $requestOptions)
+    public static function saveParameterDepartments(Parameter $parameter, array $requestCompanies)
+    {
+        // detach all relations before adding new ones
+        $parameter->companies()->detach();
+
+        foreach ($requestCompanies as $department => $companies){
+            foreach ($companies ?? [] as $company){
+                $parameter->companies()->attach([
+                    $company => ['department_id' => $department]
+                ]);
+            }
+        }
+    }
+
+    public static function saveParameterDepartmentsOptions(Parameter $parameter, array $requestOptions)
     {
         // detach all relations before adding new ones
         $parameter->options()->detach();
 
-        foreach ($requestOptions ?? [] as $index => $options){
-            $parameter->options()->attach($options, ['company_id' => $index]);
+        foreach ($requestOptions as $department_id => $companies){
+            foreach ($companies ?? [] as $company_id => $options){
+                foreach ($options ?? [] as $option){
+                    $parameter->options()->attach([
+                        $option => [
+                            'company_id' => $company_id,
+                            'department_id' => $department_id
+                        ]
+                    ]);
+                }
+            }
         }
     }
 

@@ -26,6 +26,10 @@ class InquiryForm extends Component
 
     public array $cachedValues = [], $formFields = [], $selected = [];
 
+    /**
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function mount()
     {
         $this->companies = Company::isInquirable()->get();
@@ -37,13 +41,15 @@ class InquiryForm extends Component
             $this->updatedSelectedCompany($this->inquiry->getAttribute('company_id'));
         } elseif (in_array(auth()->user()->getAttribute('company_id'), $this->companies->pluck('id')->toArray())) {
             $this->updatedSelectedCompany(auth()->user()->getAttribute('company_id'));
-        } else{
+        } elseif(is_numeric(request()->get('company')) && Company::pluck('id')->contains(request()->get('company'))) {
+            $this->updatedSelectedCompany(request()->get('company'));
+        } else {
             $this->selected['company'] = null;
         }
 
         $this->selected['is_out'] = is_null($this->inquiry->getAttribute('is_out')) ? 0 : $this->inquiry->getAttribute('is_out');
 
-        if(array_key_exists('status', $this->selected) && $this->selected['status'] == Inquiry::REDIRECTED){
+        if(array_key_exists('status', $this->selected) && $this->selected['status'] == Inquiry::REDIRECTED) {
             $this->isRedirected = true;
         }
     }
@@ -58,7 +64,7 @@ class InquiryForm extends Component
 
         $this->fillFields();
 
-        foreach ($this->selected as $name => $value){
+        foreach ($this->selected as $name => $value) {
             if ($name == 'company' || !is_numeric($value)) continue;
             $this->updatedSelected($value, $name);
         }
@@ -73,14 +79,13 @@ class InquiryForm extends Component
         $this->removeFormField($parameters);
 
         $this->loopSubParams($parameters, 'REMOVE');
-
     }
 
     public function updatedSelected($value, $name)
     {
         $this->getSubFields($value);
 
-        if (in_array($name, ['customer_id', 'phone', 'email']) && $this->selected['company'] == 4){
+        if (in_array($name, ['customer_id', 'phone', 'email']) && $this->selected['company'] == 4) {
             $this->apiForMobexFields($value, $name);
         }
     }
@@ -98,16 +103,16 @@ class InquiryForm extends Component
 
     public function removeFormField($params)
     {
-        foreach ($params as $param){
+        foreach ($params as $param) {
             unset($this->formFields[$param['name']]);
         }
     }
 
     protected function loopSubParams($params, $mode = 'ADD')
     {
-        foreach ($params as $param){
-            foreach ($param['options'] as $option){
-                if ($option['id'] == $this->selected[$param['name']]){
+        foreach ($params as $param) {
+            foreach ($param['options'] as $option) {
+                if ($option['id'] == $this->selected[$param['name']]) {
                     if ($mode == 'REMOVE') $this->updatingSelected($option['id'], $param['name']);
                     if ($mode == 'ADD')    $this->updatedSelected($option['id'], $param['name']);
                     break;
@@ -146,9 +151,10 @@ class InquiryForm extends Component
     protected function getMainParameters($company_id): array
     {
         return  $this->convertFieldsKeys($this->companies
-            ->where('id', $company_id) // select currently company from collection
+            ->where('id', $company_id) // select current company from collection
             ->first()
             ->parameters()
+            ->where('department_id', auth()->user()->getAttribute('department_id'))
             ->whereNull('option_id')
             ->with([
                 'options' => fn($query) => $query->where('option_parameter.company_id', $company_id)
@@ -191,17 +197,14 @@ class InquiryForm extends Component
 
         $fields = ['fullname', 'phone', 'email', 'customer_id'];
 
-        if(!isset($response['errors']))
-        {
-            foreach ($fields as $field)
-            {
+        if(!isset($response['errors'])) {
+            foreach ($fields as $field) {
                 $this->selected[$field] = $response[$field];
                 $this->formFields[$field]['class'] = "is-valid";
             }
         }
         else{
-            foreach ($fields as $field)
-            {
+            foreach ($fields as $field) {
                 $this->formFields[$field]['class'] = "is-invalid";
             }
             $this->formFields['customer_id']['message'] = $response['errors'];

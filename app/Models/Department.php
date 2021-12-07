@@ -51,12 +51,12 @@ class Department extends Model
 
     public function parameters(): BelongsToMany
     {
-        return $this->belongsToMany(Parameter::class, 'company_parameter')->withPivot('company_id');
+        return $this->belongsToMany(Parameter::class);
     }
 
     public function departmentCompanies(): BelongsToMany
     {
-        return $this->belongsToMany(Company::class, 'company_parameter')->withPivot('company_id');
+        return $this->belongsToMany(Company::class, 'company_parameter')->withPivot('parameter_id');
     }
 
     public function options($parameter_id = null): BelongsToMany

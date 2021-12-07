@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OptionRequest;
 use App\Models\Company;
+use App\Models\Department;
 use App\Models\Option;
 use App\Models\Parameter;
 use Illuminate\Http\Request;
@@ -49,6 +50,7 @@ class OptionController extends Controller
                 'method' => null,
                 'data'   => null,
                 'companies' => Company::isInquirable()->get(['id','name']),
+                'departments' => Department::get(['id','name']),
                 'parameters' => Parameter::select(['id','name'])->where('type', 'select')->pluck('name', 'id')->map(fn($p) => str_title($p)),
             ]);
     }
@@ -60,8 +62,6 @@ class OptionController extends Controller
         $this->translates($validated);
 
         $option = Option::create($validated);
-
-        self::saveParameters($option, $request->get('parameters'), $request->get('companies'));
 
         return redirect()
             ->route('options.edit', $option)
@@ -76,6 +76,7 @@ class OptionController extends Controller
                 'method' => null,
                 'data' => $option,
                 'companies' => Company::isInquirable()->select(['id','name'])->get(),
+                'departments' => Department::get(['id','name']),
                 'parameters' => Parameter::select(['id','name'])->where('type', 'select')->pluck('name', 'id')->map(fn($p) => str_title($p)),
             ]);
     }
@@ -88,6 +89,7 @@ class OptionController extends Controller
                 'method' => "PUT",
                 'data'   => $option,
                 'companies' => Company::isInquirable()->select(['id','name'])->get(),
+                'departments' => Department::get(['id','name']),
                 'parameters' => Parameter::select(['id','name'])->where('type', 'select')->pluck('name', 'id')->map(fn($p) => str_title($p)),
             ]);
     }
@@ -99,19 +101,7 @@ class OptionController extends Controller
         $this->translates($validated);
         $option->update($validated);
 
-        self::saveParameters($option, $request->get('parameters'), $request->get('companies'));
-
         return back()->withNotify('info', $option->getAttribute('name'));
-    }
-
-    public static function saveParameters($option, $requestParameters, $requestCompanies)
-    {
-        // detach all relations before adding new ones
-        $option->parameters()->detach();
-
-        foreach ($requestCompanies ?? [] as $company){
-            $option->parameters()->attach($requestParameters, ['company_id' => $company]);
-        }
     }
 
     public function destroy(Option $option)

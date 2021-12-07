@@ -353,7 +353,7 @@
                                                 </a>
                                             @endif
                                             @can('delete', $work)
-                                                <a href="{{route('works.destroy', $work)}}" delete class="dropdown-item-text text-decoration-none">
+                                                <a href="{{route('works.destroy', $work)}}" delete data-name="{{$work->getAttribute('code')}}" class="dropdown-item-text text-decoration-none">
                                                     <i class="fal fa-trash pr-2 text-danger"></i>@lang('translates.tasks.delete')
                                                 </a>
                                             @endcan

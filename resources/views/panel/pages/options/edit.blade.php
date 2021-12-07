@@ -34,28 +34,6 @@
                     </div>
                 @endforeach
             </x-translate>
-            <div class="col-12 py-2">
-                <label for="parameterFilter">Parameters</label><br/>
-                <select name="parameters[]" id="parameterFilter" data-selected-text-format="count" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
-                    @foreach($parameters as $key => $parameter)
-                        <option @if(optional(optional($data)->parameters())->exists() && $data->getRelationValue('parameters')->pluck('id')->contains($key)) selected  @endif value="{{$key}}">{{ucfirst($parameter)}}</option>
-                    @endforeach
-                </select>
-                @error('parameters')
-                    <p class="text-danger">{{$message}}</p>
-                @enderror
-            </div>
-            <div class="col-12 py-2">
-                <label for="companyFilter">Companies</label><br/>
-                <select name="companies[]" id="companyFilter" multiple data-selected-text-format="count" class="filterSelector" data-width="fit"  title="Noting selected" >
-                    @foreach($companies as $company)
-                        <option @if(optional(optional($data)->companies())->exists() && $data->getRelationValue('companies')->pluck('id')->contains($company->getAttribute('id'))) selected  @endif value="{{$company->getAttribute('id')}}">{{ucfirst($company->getAttribute('name'))}}</option>
-                    @endforeach
-                </select>
-                @error('companies')
-                    <p class="text-danger">{{$message}}</p>
-                @enderror
-            </div>
         </div>
         @if($action)
             <x-input::submit />

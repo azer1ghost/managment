@@ -71,13 +71,13 @@
             </div>
 
             @if (optional($data)->getAttribute('type') == 'select')
-                <div class="col-12 py-2" id="parameter-options">
-                    <p class="mb-2">Department Companies</p>
-                    @forelse ($parameterDepartments as $department)
+                <div class="col-12 py-2" id="parameter-departments">
+                    <p class="mb-1" style="font-size: 16px"><strong>Department Companies</strong></p>
+                    @forelse (optional($data)->departments as $department)
                         <label for="companyFilter-{{$department->getAttribute('id')}}">{{$department->getAttribute('name')}}</label>
                         <select name="companies[{{$department->getAttribute('id')}}][]" data-selected-text-format="count" id="companyFilter-{{$department->getAttribute('id')}}" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
                             @foreach ($companies as $company)
-                                <option @if($department->departmentCompanies->contains($company->getAttribute('id'))) selected  @endif
+                                <option @if($department->departmentCompanies()->where('parameter_id', optional($data)->getAttribute('id'))->get()->contains($company->getAttribute('id'))) selected  @endif
                                 value="{{$company->getAttribute('id')}}">
                                     {{$company->getAttribute('name')}}
                                 </option>
@@ -85,7 +85,35 @@
                         </select>
                         <br/>
                     @empty
-                        <span>No departments yet</span>
+                        <p class="mb-1">No departments yet</p>
+                    @endforelse
+                    @error('companies')
+                    <p class="text-danger">{{$message}}</p>
+                    @enderror
+                </div>
+
+                <div class="col-12 py-2" id="parameter-options">
+                    <p class="mb-1" style="font-size: 16px"><strong>Department Companies Options</strong></p>
+                    @forelse (optional($data)->departments as $department)
+                        <label for="optionFilter-{{$department->getAttribute('id')}}"><strong>{{$loop->iteration}}. {{$department->getAttribute('name')}}</strong></label>
+                        <br/>
+                        @forelse ($department->departmentCompanies()->where('parameter_id', optional($data)->getAttribute('id'))->get() as $departmentCompany)
+                            <label for="optionFilter-{{$departmentCompany->getAttribute('id')}}">{{$departmentCompany->getAttribute('name')}}</label>
+                            <select name="options[{{$department->getAttribute('id')}}][{{$departmentCompany->getAttribute('id')}}][]" data-selected-text-format="count" id="optionFilter-{{$departmentCompany->getAttribute('id')}}" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
+                                @foreach ($options as $option)
+                                    <option @if($department->options()->where('parameter_id', optional($data)->getAttribute('id'))->get()->contains($option->getAttribute('id'))) selected  @endif
+                                        value="{{$option->getAttribute('id')}}">
+                                            {{$option->getAttribute('text')}}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <br/>
+                        @empty
+                            <p class="mb-1">No departments companies yet</p>
+                        @endforelse
+                        <br/>
+                    @empty
+                        <p class="mb-1">No departments companies yet</p>
                     @endforelse
                     @error('options')
                     <p class="text-danger">{{$message}}</p>
@@ -115,9 +143,15 @@
     $('.filterSelector').selectpicker()
     $('#data-type').change(function(){
         if (this.value === 'text') {
+            $('#parameter-departments').hide()
+            $('#parameter-departments select').attr('disabled', true)
+
             $('#parameter-options').hide()
             $('#parameter-options select').attr('disabled', true)
         }else if (this.value === 'select'){
+            $('#parameter-departments').show()
+            $('#parameter-departments select').attr('disabled', false)
+
             $('#parameter-options').show()
             $('#parameter-options select').attr('disabled', false)
         }
