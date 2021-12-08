@@ -70,9 +70,13 @@ class InquiryController extends Controller
         $inquiries = Inquiry::with('user', 'company')
             ->withoutBackups()
             ->when(!Inquiry::userCanViewAll(), function ($query){
-                $query->whereHas('editableUsers', function ($query){
-                    $query->where('user_id', auth()->id());
-                });
+                if (auth()->user()->isDepartmentChief()){
+                    $query->where('department_id', auth()->user()->getAttribute('department_id'));
+                }else{
+                    $query->whereHas('editableUsers', function ($query){
+                        $query->where('user_id', auth()->id());
+                    });
+                }
             })
             ->when($trashBox, fn($query) => $query->onlyTrashed())
             ->whereBetween('datetime', [Carbon::parse($from)->startOfDay(), Carbon::parse($to)->endOfDay()])
