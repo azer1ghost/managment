@@ -16,6 +16,7 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
     <form action="{{route('clients.index')}}">
+
             <div class="row d-flex justify-content-between mb-2">
                 <div class="col-4">
                     <div class="input-group mb-3">
@@ -47,7 +48,6 @@
                     </div>
                 @endif
 
-
                 <div class="input-group col-3">
                     <select name="limit" class="custom-select" id="size">
                         @foreach([25, 50, 100, 250, 500] as $size)
@@ -70,6 +70,7 @@
                         <a class="btn btn-outline-success float-right" href="{{route('clients.create', ['type' => \App\Models\Client::LEGAL])}}">@lang('translates.buttons.create')</a>
                     </div>
                 @endcan
+
                 <div class="col-12">
                     <table class="table table-responsive-sm table-hover">
                         <thead>
