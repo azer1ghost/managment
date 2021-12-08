@@ -49,6 +49,11 @@ class Department extends Model
         return $this->hasMany(Work::class);
     }
 
+    public function inquiries(): HasMany
+    {
+        return $this->hasMany(Inquiry::class);
+    }
+
     public function parameters(): BelongsToMany
     {
         return $this->belongsToMany(Parameter::class);

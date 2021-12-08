@@ -47,6 +47,23 @@
                    placeholder="@lang('translates.placeholders.note')" class="form-control"/>
         </div>
 
+        @if(\App\Models\Inquiry::userCanViewAll())
+            <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
+                <label class="d-block" for="departmentFilter">@lang('translates.fields.department')</label>
+                <select id="departmentFilter" name="department" class="filterSelector" data-width="fit"
+                        title="@lang('translates.general.department_select')">
+                    @foreach($departments as $department)
+                        <option
+                            @if($department->getAttribute('id') == request()->get('department')) selected @endif
+                            value="{{$department->getAttribute('id')}}"
+                        >
+                            {{$department->getAttribute('name')}}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        @endif
+
         <div class="form-group col-12 col-md-3 mt-3 mb-3 mb-md-0">
             <label class="d-block" for="subjectFilter">@lang('translates.filters.subject')</label>
             <select id="subjectFilter" multiple class="filterSelector form-control" data-selected-text-format="count"
@@ -95,7 +112,7 @@
             </select>
         </div>
 
-        @if(\App\Models\Inquiry::userCanViewAll())
+        @if(\App\Models\Inquiry::userCanViewAll() || auth()->user()->isDepartmentChief())
             <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
                 <label class="d-block" for="writtenByFilter">@lang('translates.filters.written_by')</label>
                 <select id="writtenByFilter" name="user" class="filterSelector" data-width="fit"
@@ -160,20 +177,21 @@
             </select>
         </div>
 
-        <div class="col-12 col-md-3 mt-3 d-flex align-items-center justify-content-end">
+        <div class="input-group col-4 col-md-2 mt-3">
+            <select name="limit" class="custom-select" id="size">
+                @foreach([25, 50, 100, 250] as $size)
+                    <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="col-12 col-md-10 mt-3 d-flex align-items-center justify-content-end">
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="submit" class="btn btn-outline-primary"><i
                             class="fas fa-filter"></i> @lang('translates.buttons.filter')</button>
                 <a href="{{route('inquiry.index')}}" class="btn btn-outline-danger"><i
                             class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>
             </div>
-        </div>
-        <div class="input-group col-md-3 mt-2">
-            <select name="limit" class="custom-select" id="size">
-                @foreach([25, 50, 100, 250] as $size)
-                    <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
-                @endforeach
-            </select>
         </div>
     </form>
 

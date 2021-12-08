@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InquiryRequest;
 use App\Models\Company;
+use App\Models\Department;
 use App\Models\Inquiry;
 use App\Models\Option;
 use App\Models\Parameter;
@@ -27,6 +28,7 @@ class InquiryController extends Controller
             'code'       => $request->get('code'),
             'note'       => $request->get('note'),
             'company_id' => $request->get('company') == null ? [] : explode(',', $request->get('company')),
+            'department_id' => $request->get('department'),
             'user_id'    => $request->get('user'),
             'is_out'     => $request->get('is_out'),
         ];
@@ -40,11 +42,11 @@ class InquiryController extends Controller
         ];
         $limit  = $request->get('limit', 25);
 
-        foreach ($parameterFilters as $key => $filter){
+        foreach ($parameterFilters as $key => $filter) {
             if($key == 'search_client'){
                 $parameterFilters[$key] = $request->get($key);
-            }else{
-                if($request->get($key) != null){
+            }else {
+                if($request->get($key) != null) {
                     $parameterFilters[$key] = explode(',', $request->get($key));
                 }
             }
@@ -60,12 +62,19 @@ class InquiryController extends Controller
 
         [$from, $to] = explode(' - ', $daterange);
 
+        $departments  =  Department::has('inquiries')->get(['id', 'name']);
         $subjects  =  Parameter::where('name', 'subject')->first()->options->unique();
         $contact_methods = Parameter::where('name', 'contact_method')->first()->options->unique();
         $sources  = Parameter::where('name', 'source')->first()->options->unique();
         $statuses  = Parameter::where('name', 'status')->first()->options->unique();
         $companies = Company::isInquirable()->get();
-        $users = User::has('inquiries')->get(['id', 'name', 'surname', 'disabled_at']);
+
+        $users = User::has('inquiries');
+        if (Inquiry::userCanViewAll()){
+            $users = $users->get(['id', 'name', 'surname', 'disabled_at']);
+        }else{
+            $users = $users->where('department_id', auth()->user()->getAttribute('department_id'))->get(['id', 'name', 'surname', 'disabled_at']);
+        }
 
         $inquiries = Inquiry::with('user', 'company')
             ->withoutBackups()
@@ -82,13 +91,15 @@ class InquiryController extends Controller
             ->whereBetween('datetime', [Carbon::parse($from)->startOfDay(), Carbon::parse($to)->endOfDay()])
             ->where(function ($query) use ($filters) {
                 foreach ($filters as $column => $value) {
-                    if ($column == 'is_out'){
-                        if(!is_null($value)){
+                    if ($column == 'is_out') {
+                        if(!is_null($value)) {
                             $query->where($column, $value);
                         }
-                    } else{
+                    } else {
                         $query->when($value, function ($query, $value) use ($column) {
-                            if (is_array($value)) {
+                            if(is_numeric($value)) {
+                                $query->where($column, $value);
+                            } else if (is_array($value)) {
                                 $query->whereIn($column, $value);
                             } else {
                                 $query->where($column, 'LIKE',  "%$value%");
@@ -130,7 +141,8 @@ class InquiryController extends Controller
                 'companies',
                 'users',
                 'trashBox',
-                'daterange'
+                'daterange',
+                'departments'
             )
         );
     }
