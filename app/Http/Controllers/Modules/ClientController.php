@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use App\Models\Client;
+use App\Models\Department;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -17,7 +19,7 @@ class ClientController extends Controller
 
     public function search(Request $request): object
     {
-        $clients = Client::where('fullname', 'LIKE', "%{$request->get('search')}%")
+        $clients = Client::with('salesUsers')->where('fullname', 'LIKE', "%{$request->get('search')}%")
             ->orWhere('voen', 'LIKE', "%{$request->get('search')}%")
             ->limit(10)
             ->get(['id', 'fullname', 'voen']);
@@ -43,13 +45,17 @@ class ClientController extends Controller
     {
         $search =$request->get('search');
         $limit = $request->get('limit',25);
+        $salesClient = $request->get('salesClient');
 
         return view('panel.pages.clients.index')
             ->with([
                 'clients' => Client::query()
                     ->whereNull('client_id')
                     ->when($search, fn ($query) => $query->where('fullname', 'like', "%".$search."%"))
-                    ->paginate($limit)
+                    ->when($salesClient, fn ($query) => $query->whereHas('salesUsers', fn($q) => $q->where('id', $salesClient)))
+                    ->paginate($limit),
+                'salesUsers' => User::where('department_id', Department::SALES)->get(['id', 'name', 'surname']),
+                'salesClients' => User::has('salesClients')->get(['id', 'name', 'surname'])
             ]);
     }
 
@@ -111,6 +117,22 @@ class ClientController extends Controller
 
         return back()->withNotify('info', $client->getAttribute('name'));
 
+    }
+
+    public function sumAssignSales(Request $request)
+    {
+        $err = 0;
+        foreach (explode(',', $request->get('clients')) as $client) {
+            if(!Client::find($client)->salesUsers()->sync($request->get('users'))){
+                $err = 400;
+            }
+        }
+
+        if ($err == 400) {
+            return response()->setStatusCode('204');
+        }
+
+        return response('OK');
     }
 
     public function destroy(Client $client)

@@ -6,6 +6,7 @@ use App\Traits\Documentable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -39,6 +40,22 @@ class Client extends Model
     public function clients(): HasMany
     {
         return $this->hasMany(__CLASS__, 'client_id');
+    }
+
+
+    public static function userCanViewAll(): bool
+    {
+        return auth()->user()->hasPermission('viewAll-client');
+    }
+
+    public static function userCannotViewAll(): bool
+    {
+        return !self::userCanViewAll();
+    }
+
+    public function salesUsers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'sales_clients_relationship');
     }
 
     public function client(): BelongsTo
