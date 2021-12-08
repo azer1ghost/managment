@@ -49,7 +49,7 @@ class ClientController extends Controller
 
         return view('panel.pages.clients.index')
             ->with([
-                'clients' => Client::query()
+                'clients' => Client::with('salesUsers')
                     ->whereNull('client_id')
                     ->when($search, fn ($query) => $query->where('fullname', 'like', "%".$search."%"))
                     ->when($salesClient, fn ($query) => $query->whereHas('salesUsers', fn($q) => $q->where('id', $salesClient)))
