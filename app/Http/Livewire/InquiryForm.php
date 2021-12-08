@@ -52,6 +52,8 @@ class InquiryForm extends Component
         if(array_key_exists('status', $this->selected) && $this->selected['status'] == Inquiry::REDIRECTED) {
             $this->isRedirected = true;
         }
+
+        $this->sortFields();
     }
 
     public function updatedSelectedCompany($id)
