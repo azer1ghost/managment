@@ -23,6 +23,7 @@
     @stack('style')
     @livewireStyles
 </head>
+<x-notify-modal/>
 <body class="custom-scrollbar">
     <div class="custom-wrapper">
         @if (auth()->check() && (request()->routeIs('account') || auth()->user()->hasVerifiedPhone()) && !request()->routeIs('welcome') && !request()->routeIs('documents.viewer'))
