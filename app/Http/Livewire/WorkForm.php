@@ -30,8 +30,6 @@ class WorkForm extends Component
      */
     public function mount()
     {
-        abort_if(is_null($this->selected['service_id']) || is_null($this->selected['department_id']), 500);
-
         $this->departments = Department::get(['id', 'name']);
         $this->services = Service::get(['id', 'name']);
         $this->statuses = Work::statuses();
@@ -48,6 +46,9 @@ class WorkForm extends Component
             }
             $this->selected[$key] = request()->get($key) ?? optional($this->data)->getAttribute($key);
         }
+
+        // check if user does not a department or service_id is not set from request
+        abort_if(is_null($this->selected['service_id']) || is_null($this->selected['department_id']), 500);
 
         if(auth()->user()->hasPermission('canRedirect-work')){
             $this->users = $this->department->users()->orderBy('name')->with('position')->isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']);

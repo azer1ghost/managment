@@ -50,13 +50,11 @@
                     <input wire:ignore type="hidden" wire:model="selected.department_id" name="department_id">
                 </div>
 
-                @if(request()->has('service_id') || !is_null($data))
-                    <div class="form-group col-12 col-md-6" wire:ignore>
-                        <label for="data-service_id">@lang('translates.general.work_service')</label>
-                        <input wire:ignore disabled type="text" class="form-control" id="data-service_id" value="{{\App\Models\Service::find($selected['service_id'])->name}}">
-                        <input type="hidden" @if(empty($this->subServices)) name="service_id"  @endif wire:model="selected.department_id">
-                    </div>
-                @endif
+                <div class="form-group col-12 col-md-6" wire:ignore>
+                    <label for="data-service_id">@lang('translates.general.work_service')</label>
+                    <input wire:ignore disabled type="text" class="form-control" id="data-service_id" value="{{\App\Models\Service::find($selected['service_id'])->name}}">
+                    <input type="hidden" @if(empty($this->subServices)) name="service_id"  @endif wire:model="selected.service_id">
+                </div>
 
                 @if(!$this->subServices->isEmpty())
                     <div class="form-group col-12 col-md-6" wire:ignore>
