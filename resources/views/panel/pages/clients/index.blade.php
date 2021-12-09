@@ -33,7 +33,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="data-sales-users">Select sales users</label><br/>
-                            <select id="data-sales-users" name="salesClient" required class="filterSelector form-control" data-selected-text-format="count"
+                            <select id="data-sales-users" name="salesClient"  class="filterSelector form-control" data-selected-text-format="count"
                                     data-width="fit" title="@lang('translates.filters.select')">
                                 @foreach($salesClients as $salesClient)
                                     <option
