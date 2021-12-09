@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
+use App\Models\Announcement;
 use App\Models\Document;
 use App\Models\Widget;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -38,9 +39,9 @@ class PlatformController extends Controller
             ]);
     }
 
-    public function closeNotify(Model $model)
+    public function closeNotify(Announcement $announcement)
     {
-        return $model;
+        return back()->cookie('notifyToken', $announcement->getAttribute('key'))->cookie('notifyLastClosedTime', now());
     }
 
     public function storeFcmToken(Request $request)

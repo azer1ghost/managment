@@ -43,7 +43,7 @@ Route::post('/set-location', [PlatformController::class, 'setLocation'])->name('
 // deactivated user
 Route::get('/deactivated', [PlatformController::class, 'deactivated'])->name('deactivated');
 
-Route::get('/close-notify', [PlatformController::class, 'closeNotify'])->name('closeNotify');
+Route::get('/close-notify/{announcement}', [PlatformController::class, 'closeNotify'])->name('closeNotify');
 
 Route::redirect('/','/welcome')->name('home');
 Route::get('/welcome', [PlatformController::class, 'welcome'])->name('welcome');
