@@ -67,6 +67,8 @@ class WorkController extends Controller
         $verifies = [1 => trans('translates.columns.unverified'), 2 => trans('translates.columns.verified')];
         $priceVerifies = [1 => trans('translates.columns.price_unverified'), 2 => trans('translates.columns.price_verified')];
 
+        $allDepartments = Department::get(['id', 'name']);
+
         $services = Service::query()
             ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
                 $query->whereBelongsTo($user->getRelationValue('company'));
@@ -129,7 +131,7 @@ class WorkController extends Controller
 
         return view('panel.pages.works.index',
             compact('works', 'services', 'users', 'departments',
-            'filters', 'statuses', 'verifies', 'priceVerifies', 'companies')
+            'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments')
         );
     }
 

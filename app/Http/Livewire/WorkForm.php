@@ -24,6 +24,41 @@ class WorkForm extends Component
 
     public ?Collection $parameters;
 
+    /**
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function mount()
+    {
+        abort_if(is_null($this->selected['service_id']) || is_null($this->selected['department_id']), 500);
+
+        $this->departments = Department::get(['id', 'name']);
+        $this->services = Service::get(['id', 'name']);
+        $this->statuses = Work::statuses();
+
+        $user = auth()->user();
+        foreach ($this->selected as $key => $selected) {
+            if($key == 'department_id'){
+                $this->selected['department_id'] = optional($this->data)->getAttribute($key) ?? request()->get('department_id') ?? $user->getAttribute('department_id');
+                continue;
+            }
+            if($key == 'user_id' && !$user->hasPermission('canRedirect-work')){
+                $this->selected['user_id'] = optional($this->data)->getAttribute($key) ?? auth()->id();
+                continue;
+            }
+            $this->selected[$key] = request()->get($key) ?? optional($this->data)->getAttribute($key);
+        }
+
+        if(auth()->user()->hasPermission('canRedirect-work')){
+            $this->users = $this->department->users()->orderBy('name')->with('position')->isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']);
+        }else{
+            $this->users = collect([auth()->user()]);
+            $this->selected['user_id'] = auth()->id();
+        }
+
+        $this->getParameters();
+    }
+
     public function getDepartmentProperty()
     {
         return Department::find($this->selected['department_id']);
@@ -36,34 +71,7 @@ class WorkForm extends Component
 
     public function getSubServicesProperty()
     {
-        return Service::find($this->selected['service_id'])->services;
-    }
-
-    public function updatedSelectedDepartmentId()
-    {
-        $this->selected['user_id'] = '';
-    }
-
-    public function mount()
-    {
-        $this->departments = Department::get(['id', 'name']);
-        $this->services = Service::get(['id', 'name']);
-        $this->statuses = Work::statuses();
-
-        $user = auth()->user();
-        foreach ($this->selected as $key => $selected) {
-            if($key == 'department_id'){
-                $this->selected['department_id'] = optional($this->data)->getAttribute($key) ?? $user->getAttribute('department_id');
-                continue;
-            }
-            if($key == 'user_id' && !$user->hasPermission('canRedirect-work')){
-                $this->selected['user_id'] = optional($this->data)->getAttribute($key) ?? auth()->id();
-                continue;
-            }
-            $this->selected[$key] = request()->get($key) ?? optional($this->data)->getAttribute($key);
-        }
-
-        $this->getParameters();
+        return $this->service->services;
     }
 
     public function getParameters()

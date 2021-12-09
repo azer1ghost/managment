@@ -105,8 +105,7 @@ class Task extends Model
 
     public static function userCanViewAll(): bool
     {
-        $user = auth()->user();
-        return $user->isDeveloper() || $user->hasPermission('viewAll-task');
+        return auth()->user()->hasPermission('viewAll-task');
     }
 
     public function isFinished(): bool

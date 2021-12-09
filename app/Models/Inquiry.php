@@ -120,8 +120,7 @@ class Inquiry extends Model
 
     public static function userCanViewAll(): bool
     {
-        $user = auth()->user();
-        return $user->isDeveloper() || $user->hasPermission('viewAll-inquiry');
+        return auth()->user()->hasPermission('viewAll-inquiry');
     }
 
     public function logs(): MorphMany

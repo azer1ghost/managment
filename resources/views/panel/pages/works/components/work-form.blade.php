@@ -45,14 +45,18 @@
                 </div>
 
                 <div class="form-group col-12 col-md-6" wire:ignore>
-                    <label for="data-service_id">@lang('translates.general.work_service')</label>
-                    @if(request()->has('service_id') || !is_null($data))
-                        @php($serviceId = request()->get('service_id') ?? optional($data)->getAttribute('service_id'))
-                        @php($service = \App\Models\Service::find($serviceId))
-                        <input disabled type="text" class="form-control" id="data-service_id" value="{{$service->name}}">
-                        <input type="hidden" @if(empty($this->subServices)) name="service_id"  @endif value="{{$serviceId}}">
-                    @endif
+                    <label for="data-department_id">@lang('translates.fields.department')</label>
+                    <input wire:ignore disabled type="text" class="form-control" id="data-department_id" value="{{\App\Models\Department::find($selected['department_id'])->name}}">
+                    <input wire:ignore type="hidden" wire:model="selected.department_id" name="department_id">
                 </div>
+
+                @if(request()->has('service_id') || !is_null($data))
+                    <div class="form-group col-12 col-md-6" wire:ignore>
+                        <label for="data-service_id">@lang('translates.general.work_service')</label>
+                        <input wire:ignore disabled type="text" class="form-control" id="data-service_id" value="{{\App\Models\Service::find($selected['service_id'])->name}}">
+                        <input type="hidden" @if(empty($this->subServices)) name="service_id"  @endif wire:model="selected.department_id">
+                    </div>
+                @endif
 
                 @if(!$this->subServices->isEmpty())
                     <div class="form-group col-12 col-md-6" wire:ignore>
@@ -69,29 +73,16 @@
                     </div>
                 @endif
 
-                <div class="form-group col-12 col-md-6">
-                    <label for="data-department_id">@lang('translates.general.department_select')</label>
-                    <select name="department_id" id="data-department_id" class="form-control" wire:model="selected.department_id" @if(!auth()->user()->isDeveloper() && !auth()->user()->isDirector()) disabled @endif>
-                        <option value="" selected>@lang('translates.general.department_select')</option>
-                        @foreach($departments as $department)
-                            <option value="{{$department->getAttribute('id')}}">{{$department->getAttribute('name')}}</option>
-                        @endforeach
-                    </select>
-                    @if(!auth()->user()->isDeveloper() && !auth()->user()->isDirector())
-                        <input wire:ignore type="hidden" wire:model="selected.department_id" name="department_id">
-                    @endif
-                </div>
-
                 @if($selected['department_id'])
                     <div class="form-group col-12 col-md-6" wire:key="department-user">
                         <label for="data-user_id">@lang('translates.general.user_select')</label>
-                        <select name="user_id" id="data-user_id" class="form-control" wire:model="selected.user_id" @if(!auth()->user()->isDeveloper() && !auth()->user()->isDirector() && !auth()->user()->hasPermission('canRedirect-work')) disabled @endif>
+                        <select name="user_id" id="data-user_id" class="form-control" wire:model="selected.user_id" @if(!auth()->user()->hasPermission('canRedirect-work')) disabled @endif>
                             <option value="" selected>@lang('translates.general.user_select')</option>
-                            @foreach($this->department->users()->orderBy('name')->with('position')->isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']) as $user)
+                            @foreach($users as $user)
                                 <option value="{{ $user->getAttribute('id') }}">{{ $user->getAttribute('fullname_with_position') }}</option>
                             @endforeach
                         </select>
-                        @if(!auth()->user()->isDeveloper() && !auth()->user()->isDirector() && !auth()->user()->hasPermission('canRedirect-work'))
+                        @if(!auth()->user()->hasPermission('canRedirect-work'))
                             <input type="hidden" wire:model="selected.user_id" name="user_id">
                         @endif
                     </div>
