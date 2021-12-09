@@ -22,7 +22,7 @@ class ExchangeRatesApi
            $XmlResponse = Http::get($this->apiUrl)->body();
            $xmlToObject = json_encode(simplexml_load_string($XmlResponse, 'SimpleXMLElement', LIBXML_NOCDATA));
            $data = json_decode($xmlToObject, true)['ValType'][1]['Valute'];
-           Cache::put('exchange_rates', $data, 720); //12 hours
+           Cache::put('exchange_rates', $data, 43200); //12 hours
        }
 
         $currencies = [];
@@ -34,7 +34,7 @@ class ExchangeRatesApi
             $currencies[$curr['@attributes']['Code']] = $curr['Value'];
         }
         if($from === 'AZN' && $to === 'AZN'){
-            $convertedValue = (float) $value * 1;
+            $convertedValue = (float) $value;
         }else{
             if ($to === "AZN") {
                 $convertedValue = (float) $value * $currencies[$from];
@@ -48,6 +48,5 @@ class ExchangeRatesApi
         }
 
         return round($convertedValue, 2);
-
     }
 }
