@@ -2,11 +2,6 @@
 
 @section('title', __('translates.navbar.report'))
 
-@section('style')
-    <!-- include summernote css -->
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-@endsection
-
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -40,7 +35,7 @@
         @error('date')
             <p class="text-danger">{{$message}}</p>
         @enderror
-        <textarea name="detail" id="summernote" class="form-control">{{$data->getAttribute('detail')}}</textarea>
+        <textarea name="detail" class="form-control tinyMCE">{{$data->getAttribute('detail')}}</textarea>
         @error('detail')
         <p class="text-danger">{{$message}}</p>
         @enderror
@@ -48,40 +43,4 @@
             <x-input::submit  :value="__('translates.buttons.save')" />
         @endif
     </form>
-@endsection
-@section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            const summernote = $('#summernote');
-            summernote.summernote({
-                placeholder: '{{trans('translates.fields.detail')}}',
-                height: 400,
-                toolbar: [
-                    ['style', ['style']],
-                    ['font', ['bold', 'underline', 'clear', 'italic']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['table', ['table']],
-                    ['insert', ['link']],
-                    ['view', ['fullscreen', 'codeview', 'help']]
-                ],
-                callbacks: {
-                    onInit: function (content) {
-                        if(summernote.summernote('isEmpty') || content.editable.html() === '<p><br></p>'){
-                            summernote.html('');
-                        }
-                    },
-                    onChange: function (content, $editable) {
-                        if (summernote.summernote('isEmpty') || $editable.html() === '<p><br></p>') {
-                            summernote.html('');
-                        }
-                    }
-                }
-            });
-            summernote.summernote('{{is_null($action) ? 'disable' : 'enable'}}');
-        });
-    </script>
-
 @endsection
