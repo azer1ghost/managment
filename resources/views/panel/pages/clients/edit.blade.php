@@ -46,11 +46,26 @@
             <p class="text-muted mb-2"> @lang('translates.fields.employment')</p>
             <hr class="my-2">
             <div class="row">
-                @if(request()->has('client_id') || !is_null($data->client_id))
+                @if(request()->has('client_id') || is_numeric($data->client_id))
                     <x-input::text name="position"  :value="$data->getAttribute('position')"     width="4" class="pr-1"  :label="trans('translates.fields.position')" />
                 @endif
                 @if(is_null($data->client_id) && !request()->has('client_id'))
-                    <x-input::text name="voen"  :value="$data->getAttribute('voen')"     width="4" class="pr-1"  label="VOEN/GOOEN" />
+                    <div class="form-group col-12 col-md-4 pr-1">
+                        <label for="data-voen">VOEN</label>
+                        <input type="text"
+                                class="form-control @error('voen') is-invalid @enderror"
+                                name="voen"
+                                id="data-voen"
+                                placeholder="VOEN/GOOEN"
+                               value="{{optional($data)->getAttribute('voen') ?? old('voen')}}"
+                               @if(request()->get('type') == $data::LEGAL && optional($data)->getAttribute('type') == $data::LEGAL) required @endif
+                        >
+                        @error('voen')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
                 @endif
             </div>
         </div>
