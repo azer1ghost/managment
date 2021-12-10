@@ -51,7 +51,14 @@ class ClientController extends Controller
             ->with([
                 'clients' => Client::with('salesUsers')
                     ->whereNull('client_id')
-                    ->when($search, fn ($query) => $query->where('fullname', 'like', "%".$search."%"))
+                    ->when(Client::userCannotViewAll(), function ($query){
+                        $query->where(function ($query){
+                            $query
+                                ->doesnthave('salesUsers')
+                                ->orWhereHas('salesUsers', fn($q) => $q->where('id', auth()->id()));
+                        });
+                    })
+                    ->when($search, fn ($query) => $query->where('fullname', 'like', "%$search%"))
                     ->when($salesClient, fn ($query) => $query->whereHas('salesUsers', fn($q) => $q->where('id', $salesClient)))
                     ->paginate($limit),
                 'salesUsers' => User::where('department_id', Department::SALES)->get(['id', 'name', 'surname']),
