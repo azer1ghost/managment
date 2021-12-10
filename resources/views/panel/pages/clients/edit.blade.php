@@ -91,7 +91,7 @@
         @endif
     </form>
 
-    @if($method != 'POST' && auth()->user()->hasPermission('canUploadContract-client'))
+    @if($method != 'POST')
         <div class="my-5">
             <x-documents :documents="$data->documents" :title="trans('translates.files.contract')" />
             <x-document-upload :id="$data->id" model="Client"/>
@@ -155,6 +155,11 @@
         @if(is_null($action))
             $('#client-form :input').attr('disabled', true)
         @endif
+
+        @if(!auth()->user()->hasPermission('canUploadContract-client'))
+            $('#document-form :input').attr('disabled', true)
+        @endif
+
         @if($method == 'PUT' || request()->has('client_id'))
             $('#data-type').attr('disabled', true);
         @else

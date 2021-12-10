@@ -14,7 +14,14 @@ class DocumentPolicy
 
     public function create(User $user): bool
     {
-        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
+            auth()->user()->hasPermission('canUploadContract-client');
+    }
+
+    public function view(User $user, Document $document): bool
+    {
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
+            $document->getAttribute('user_id') == $user->getAttribute('id');;
     }
 
     public function update(User $user, Document $document): bool
