@@ -16,7 +16,7 @@ class NotifyModal extends Component
         $this->announcement = Announcement::latest('id')->first();
         $this->token = $this->announcement->getAttribute('key');
 
-        if (!request()->routeIs('welcome')){
+        if (!request()->routeIs('welcome', 'phone.verification.notice')){
             $started = $this->announcement->getAttribute('will_notify_at') <= now();
             $notEnded = $this->announcement->getAttribute('will_end_at') >= now();
             $notifyLastClosedTime = Carbon::parse(request()->cookie('notifyLastClosedTime'));
