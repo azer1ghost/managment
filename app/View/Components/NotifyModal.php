@@ -13,10 +13,15 @@ class NotifyModal extends Component
 
     public function render()
     {
-        $this->announcement = Announcement::latest('id')->first();
+        $this->announcement = Announcement::isActive()->latest('id')->first();
         $this->token = $this->announcement->getAttribute('key');
 
-        if (!request()->routeIs('welcome', 'phone.verification.notice')){
+        if (!request()->routeIs('welcome', 'phone.verification.notice') &&
+            (
+                auth()->user()->hasPermission($this->announcement->getAttribute('permissions')) ||
+                in_array(auth()->id(), explode(',', $this->announcement->getAttribute('users')))
+            )
+        ){
             $started = $this->announcement->getAttribute('will_notify_at') <= now();
             $notEnded = $this->announcement->getAttribute('will_end_at') >= now();
             $notifyLastClosedTime = Carbon::parse(request()->cookie('notifyLastClosedTime'));

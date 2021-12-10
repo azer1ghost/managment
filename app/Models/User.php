@@ -127,8 +127,10 @@ class User extends Authenticatable implements MustVerifyPhone
         return $this->department();
     }
 
-    public function hasPermission($perm): bool
+    public function hasPermission(...$perms): bool
     {
+        $isAuthorized = false;
+
         if (app()->environment('local')){
             $permissions = config('auth.permissions');
         }else{
@@ -142,10 +144,14 @@ class User extends Authenticatable implements MustVerifyPhone
         $uniqPermissions = array_unique($permissions);
 
         if(in_array('all', $uniqPermissions, true) || $this->isDeveloper()){
-            return true;
+            $isAuthorized = true;
         }
 
-        return in_array($perm, $uniqPermissions, true);
+        if(array_intersect($uniqPermissions, $perms)){
+            $isAuthorized = true;
+        }
+
+        return $isAuthorized;
     }
 
     public function getFullnameAttribute(): string

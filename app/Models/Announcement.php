@@ -12,7 +12,7 @@ class Announcement extends Model
 
     public array $translatable = ['title', 'detail'];
 
-    protected $casts = ['will_notify_at' => 'datetime', 'will_end_at' => 'datetime'];
+    protected $casts = ['will_notify_at' => 'datetime', 'will_end_at' => 'datetime', 'status' => 'boolean'];
 
     protected static function boot()
     {
@@ -29,5 +29,10 @@ class Announcement extends Model
                 $announcement->setAttribute('will_end_at', now()->addWeek());
             }
         });
+    }
+
+    public function scopeIsActive($query)
+    {
+        return $query->where('status', true);
     }
 }
