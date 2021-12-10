@@ -186,7 +186,8 @@ return [
         'asan_imza'=>'Asan Signature',
         'customer_engagement'=>'Customer Engagement',
         'report' => 'Reports',
-        'calendar' => 'Calendar'
+        'calendar' => 'Calendar',
+        'announcement' => 'Announcements'
     ],
 
     'date' => [

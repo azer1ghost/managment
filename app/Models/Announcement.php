@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use Dotenv\Util\Str;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
 class Announcement extends Model
 {
     use HasTranslations;
+
+    protected $fillable = ['class', 'title', 'detail', 'repeat_rate', 'status', 'permissions', 'users'];
 
     public array $translatable = ['title', 'detail'];
 
@@ -35,4 +36,5 @@ class Announcement extends Model
     {
         return $query->where('status', true);
     }
+
 }

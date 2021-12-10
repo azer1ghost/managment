@@ -182,47 +182,61 @@ class Sidebar extends Component
                 'url' => route('updates.index'),
                 'permission' => 'viewAny-update',
             ],
+
             (object)[
                 'title' => __('translates.navbar.services'),
                 'icon' => 'fas fa-concierge-bell',
                 'url' => route('services.index'),
                 'permission' => 'viewAny-service',
             ],
+
             (object)[
                 'title' => __('translates.navbar.work'),
                 'icon' => 'fas fa-briefcase',
                 'url' => route('works.index'),
                 'permission' => 'viewAny-work',
             ],
+
             (object)[
                 'title' => __('translates.navbar.meeting'),
                 'icon' => 'fas fa-bullhorn',
                 'url' => route('meetings.index'),
                 'permission' => 'viewAny-meeting',
             ],
+
             (object)[
                 'title' => __('translates.navbar.conference'),
                 'icon' => 'fas fa-handshake',
                 'url' => route('conferences.index'),
                 'permission' => 'viewAny-conference',
             ],
+
             (object)[
                 'title' => __('translates.navbar.document'),
                 'icon' => 'fas fa-file-word',
                 'url' => route('documents.index'),
                 'permission' => 'viewAny-document',
             ],
+
             (object)[
                 'title' => __('translates.navbar.asan_imza'),
                 'icon' => 'fas fa-file-signature',
                 'url' => route('asan-imza.index'),
                 'permission' => 'viewAny-asanImza',
             ],
+
             (object)[
                 'title' => __('translates.navbar.customer_engagement'),
                 'icon' => 'fas fa-house-return',
                 'url' => route('customer-engagement.index'),
                 'permission' => 'viewAny-customerEngagement',
+            ],
+
+            (object)[
+                'title' => __('translates.navbar.announcement'),
+                'icon' => 'fas fa-scroll',
+                'url' => route('announcements.index'),
+                'permission' => 'viewAny-announcement',
             ]
         ];
     }
