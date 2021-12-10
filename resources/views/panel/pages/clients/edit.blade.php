@@ -18,7 +18,7 @@
             @endif
         </x-bread-crumb-link>
     </x-bread-crumb>
-    <form class="col-md-12 form-row px-0" action="{{$action}}" method="POST" enctype="multipart/form-data">
+    <form class="col-md-12 form-row px-0" action="{{$action}}" method="POST" enctype="multipart/form-data" id="client-form">
         <!-- Main -->
         @csrf @method($method)
         <div class="col-md-12 pl-2 pr-0">
@@ -153,7 +153,7 @@
 @section('scripts')
     <script>
         @if(is_null($action))
-            $('form :input').attr('disabled', true)
+            $('#client-form :input').attr('disabled', true)
         @endif
         @if($method == 'PUT' || request()->has('client_id'))
             $('#data-type').attr('disabled', true);
