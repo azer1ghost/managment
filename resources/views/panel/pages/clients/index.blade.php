@@ -97,11 +97,11 @@
                                 @endif
                             >
                                 @if(auth()->user()->isDeveloper())
-                                    <td><input type="checkbox" name="clients[]" value="{{$client->getAttribute('id')}}"></td>
+                                    <td><input type="checkbox" name="clients[]" value="{{$client->getAttribute('id')}}" id="data-checkbox-{{$client->getAttribute('id')}}"></td>
                                 @endif
                                 <th scope="row">{{$client->getAttribute('id')}}</th>
                                 <td>@lang("translates.clients_type." . $client->getAttribute('type'))</td>
-                                <td>{{$client->getAttribute('fullname')}}</td>
+                                <td><label for="data-checkbox-{{$client->getAttribute('id')}}">{{$client->getAttribute('fullname')}}</label></td>
                                 <td>{{$client->getAttribute('detail') ? $client->getAttribute('detail') : trans('translates.clients.detail_empty') }} </td>
                                 <td>{{$client->getAttribute('email1') ? $client->getAttribute('email1') : trans('translates.clients.email_empty')}} </td>
                                 <td>{{$client->getAttribute('phone1') ? $client->getAttribute('phone1') : trans('translates.clients.phone_empty')}} </td>
