@@ -16,7 +16,7 @@ class CreateAnnouncementsTable extends Migration
             $table->json('detail')->nullable();
             $table->string('repeat_rate')->nullable();
             $table->boolean('status')->default(true);
-            $table->text('permissions')->default('generally');
+            $table->text('permissions')->nullable();
             $table->text('users')->nullable();
             $table->timestamp('will_notify_at')->nullable();
             $table->timestamp('will_end_at')->nullable();
