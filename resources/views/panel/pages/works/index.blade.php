@@ -299,7 +299,7 @@
                                 @endphp
                             @endforeach
                             <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip" data-placement="top">{{optional($work->getAttribute('created_at'))->diffForHumans()}}</td>
-                            <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip" data-placement="top">{{optional($work->getAttribute('datetime'))->diffForHumans()}}</td>
+                            <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip" data-placement="top">{{optional($work->getAttribute('datetime'))->format('Y-m-d')}}</td>
                             <td>
                                 @php
                                     $status = '';
