@@ -36,8 +36,8 @@
                                     @endphp
                                     <a href="{{$route}}" class="btn mr-1
                                         @if($day->format('Y-m-d') > now()->format('Y-m-d') ||
-                                            ((is_null($subReport) && auth()->user()->can('generateSubReport', App\Models\DailyReport::class) &&
-                                                auth()->user()->isDirector() && $report->getAttribute('chief_id') != auth()->id()) ||
+                                            ((is_null($subReport) && (auth()->user()->can('generateSubReport', App\Models\DailyReport::class) ||
+                                                auth()->user()->isDirector()) && $report->getAttribute('chief_id') != auth()->id()) ||
                                                 (!auth()->user()->hasPermission('viewAll-report') && !auth()->user()->isDirector() && auth()->user()->cannot('generateSubReport', App\Models\DailyReport::class))
                                             )) disabled
                                         @endif
