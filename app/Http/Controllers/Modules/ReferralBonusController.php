@@ -12,6 +12,11 @@ use Illuminate\Http\Request;
 
 class ReferralBonusController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         return view('panel.pages.bonuses.index')
