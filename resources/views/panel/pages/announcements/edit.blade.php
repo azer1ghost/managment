@@ -4,7 +4,7 @@
 @section('style')
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 @endsection
 @section('content')
     <x-bread-crumb>
@@ -27,10 +27,10 @@
         <div class="tab-content row mt-4">
             <div class="form-group col-12">
                 <div class="row">
-
                     <div class="form-group col-6">
                         <label for="user_id">@lang('translates.columns.user')</label><br/>
-                        <select class="select2 form-control" multiple name="users[]" id="user_id">
+                        <select class="userSelector form-control" multiple data-selected-text-format="count"
+                                data-width="fit" title="@lang('translates.filters.select')" name="users[]" id="user_id">
                             @foreach($users as $user)
                                 <option @if(in_array($user->id, explode("," , $data->getAttribute('users')))) selected
                                         @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
@@ -71,12 +71,12 @@
                         <p class="text-danger">{{$message}}</p>
                     @enderror
 
-                    <div class="col-12 col-md-6 pr-3 mt-2">
-                        <label for="data-status">Detail</label>
+                    <div class="col-12 pr-3 mt-2">
+                        <label for="summernote">Detail</label>
                         <textarea name="detail" id="summernote" class="form-control">{{$data->getAttribute('detail')}}</textarea>
                     </div>
 
-                    <div class="my-3">
+                    <div class="col-12 my-3">
                         <x-permissions :model="$data" :action="$action" />
                     </div>
                 </div>
@@ -92,10 +92,10 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
     <script>
-        $('.select2').select2({});
+        $('.userSelector').selectpicker()
 
         $('.announcement-date').daterangepicker({
             opens: 'left',
@@ -111,7 +111,7 @@
         const summernote = $('#summernote');
         summernote.summernote({
             placeholder: '{{trans('translates.fields.detail')}}',
-            height: 200,
+            height: 400,
             toolbar: [
                 ['style', ['style']],
                 ['font', ['bold', 'underline', 'clear', 'italic']],

@@ -16,12 +16,11 @@ class AnnouncementRequest extends FormRequest
     public function rules()
     {
         return [
-            'users' => 'array',
-            'class' => 'string',
+            'users' => 'nullable|array',
+            'class' => 'nullable|string',
             'title' => 'string',
-            'detail' => 'string',
+            'detail' => 'nullable|string',
             'repeat_rate' => 'string',
-            'permissions' => 'string',
             'status' => 'nullable',
             'will_notify_at' => 'date',
             'will_end_at' => 'date',
