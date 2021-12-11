@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
+use App\Models\Announcement;
 use App\Models\Document;
 use App\Models\Widget;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -35,6 +37,11 @@ class PlatformController extends Controller
             ->withHeaders([
                 'Content-Type' => 'text/javascript'
             ]);
+    }
+
+    public function closeNotify(Announcement $announcement)
+    {
+        return back()->cookie('notifyToken', $announcement->getAttribute('key'))->cookie('notifyLastClosedTime', now());
     }
 
     public function storeFcmToken(Request $request)
@@ -69,7 +76,7 @@ class PlatformController extends Controller
 
     public function welcome(): View
     {
-        header("Refresh: 3; URL=". route('login'));
+        header("Refresh: 2; URL=". route('login'));
         return view('panel.pages.main.welcome');
     }
 

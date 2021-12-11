@@ -188,7 +188,8 @@ return [
         'asan_imza'=>'Asan Imza',
         'customer_engagement'=>'Müştəri Cəlbi',
         'report' => 'Hesabatlar',
-        'calendar' => 'Təqvim'
+        'calendar' => 'Təqvim',
+        'announcement' => 'Anonslar'
     ],
 
     'date' => [

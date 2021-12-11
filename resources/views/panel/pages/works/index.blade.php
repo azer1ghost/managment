@@ -410,6 +410,15 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
+                            <label for="data-department">@lang('translates.navbar.department')</label>
+                            <select class="select2" id="data-department" name="department_id" required style="width: 100% !important;">
+                                <option value="">@lang('translates.general.department_select')</option>
+                                @foreach($allDepartments as $dep)
+                                    <option value="{{$dep->id}}">{{$dep->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="data-service">@lang('translates.navbar.service')</label>
                             <select class="select2" id="data-service" name="service_id" required style="width: 100% !important;">
                                 <option value="">@lang('translates.general.select_service')</option>

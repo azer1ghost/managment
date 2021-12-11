@@ -106,8 +106,7 @@ class Work extends Model
 
     public static function userCanViewDepartmentWorks(): bool
     {
-        $user = auth()->user();
-        return $user->isDeveloper() || $user->hasPermission('viewAllDepartment-work');
+        return auth()->user()->hasPermission('viewAllDepartment-work');
     }
 
     public static function userCannotViewDepartmentWorks(): bool

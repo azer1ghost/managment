@@ -19,7 +19,7 @@ class ServiceFactory extends Factory
             'detail' => $this->faker->text(50),
             'company_id' => Company::inRandomOrder()->first()->id,
             'department_id' => Department::inRandomOrder()->first()->id,
-            'service_id' => rand(1,5),
+            'service_id' => null,
             'has_asan_imza' => rand(0,1),
         ];
     }

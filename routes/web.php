@@ -7,6 +7,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Auth\RegisterController,
     Main\AccountController,
     Main\PlatformController,
+    Modules\AnnouncementController,
     Modules\AsanImzaController,
     Modules\CalendarController,
     Modules\CompanyController,
@@ -43,6 +44,8 @@ Route::post('/set-location', [PlatformController::class, 'setLocation'])->name('
 // deactivated user
 Route::get('/deactivated', [PlatformController::class, 'deactivated'])->name('deactivated');
 
+Route::get('/close-notify/{announcement}', [PlatformController::class, 'closeNotify'])->name('closeNotify');
+
 Route::redirect('/','/welcome')->name('home');
 Route::get('/welcome', [PlatformController::class, 'welcome'])->name('welcome');
 Route::get('/dashboard', [PlatformController::class, 'dashboard'])->middleware(['verified_phone', 'deactivated'])->name('dashboard');
@@ -65,9 +68,9 @@ Route::group([
     include 'modules/inquiry.php';
     include 'modules/email-signature.php';
 
+    Route::resource('/announcements', AnnouncementController::class);
     Route::resource('/companies', CompanyController::class);
     Route::resource('/asan-imza', AsanImzaController::class);
-
     Route::resource('/widgets', WidgetController::class);
     Route::resource('/calendars', CalendarController::class)->except('show', 'create', 'edit');
     Route::resource('/parameters', ParameterController::class);

@@ -42,6 +42,11 @@
     @stack('style')
     @livewireStyles
 </head>
+
+@auth
+    <x-notify-modal/>
+@endauth
+
 <body class="custom-scrollbar">
     <div class="custom-wrapper">
         @if (auth()->check() && (request()->routeIs('account') || auth()->user()->hasVerifiedPhone()) && !request()->routeIs('welcome') && !request()->routeIs('documents.viewer'))

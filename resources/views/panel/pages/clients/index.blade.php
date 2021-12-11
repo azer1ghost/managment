@@ -91,9 +91,12 @@
                         <tbody>
                         @forelse($clients as $client)
                             <tr @if(\App\Models\Client::userCanViewAll())
-                                    title="{{implode(', ', $client->salesUsers()->select(['name', 'surname'])->get()->map(fn($user) => $user->getAttribute('fullname'))->toArray())}}"
+                                    title="@foreach($client->salesUsers as $user) {{$user->getAttribute('fullname')}} @if(!$loop->last),@endif @endforeach"
                                     data-toggle="tooltip"
                                     data-placement="top"
+                                @endif
+                                @if(!$client->salesUsers()->exists())
+                                    style="background: #eed58f"
                                 @endif
                             >
                                 @if(auth()->user()->isDeveloper())
