@@ -1,6 +1,7 @@
 require('./bootstrap');
 require('jquery-confirm');
 require('./delete');
+require('./custom');
 
 const firebaseConfig = {
     apiKey: "AIzaSyAUcgmjbHOEs5e83KO9tOBRQokUgvgseaY",
