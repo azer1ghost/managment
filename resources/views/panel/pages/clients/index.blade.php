@@ -97,7 +97,6 @@
                             <tr @if(\App\Models\Client::userCanViewAll())
                                     title="@foreach($client->salesUsers as $user) {{$user->getAttribute('fullname')}} @if(!$loop->last),@endif @endforeach"
                                     data-toggle="tooltip"
-                                    data-placement="top"
                                 @endif
                                 @if(!$client->salesUsers()->exists())
                                     style="background: #eed58f"

@@ -387,6 +387,7 @@ return [
         'deadline' => 'Son tarix',
         'parameter_label' => 'Parameter Label',
         'verified' => 'Təsdiqlənib',
+        'expired' => 'Vaxtı bitib',
         'rejected' => 'Qəbul edilməyib',
         'unverified' => 'Təsdiq edilməyib',
         'price_verified' => 'Qiymət təsdiqlənib',

@@ -7,7 +7,7 @@
 
             {{$comment->user->fullname}}
 
-            <small class="text-muted ml-2"  data-toggle="tooltip" data-placement="top" title="{{$comment->created_at}}">
+            <small class="text-muted ml-2"  data-toggle="tooltip" title="{{$comment->created_at}}">
                 @if(now()->diff($comment->created_at)->d > 2)
                     {{$comment->created_at->translatedFormat('j F Y')}}
                 @else
@@ -20,7 +20,7 @@
             @endif
 
             @if(($comment->user->id != auth()->id()) && (now()->diff($comment->wasViewedAt())->i < 1))
-                <i class="fa fa-circle text-success ml-2 small" data-toggle="tooltip" data-placement="top" title="New"></i>
+                <i class="fa fa-circle text-success ml-2 small" data-toggle="tooltip" title="New"></i>
             @endif
 
             <small class="float-right">

@@ -385,6 +385,7 @@ return [
         'deadline' => 'Deadline',
         'parameter_label' => 'Parameter Label',
         'verified' => 'Verified',
+        'expired' => 'Expired',
         'rejected' => 'Rejected',
         'unverified' => 'Unverified',
         'price_verified' => 'Price Verified',

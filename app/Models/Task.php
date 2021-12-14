@@ -40,6 +40,8 @@ class Task extends Model
     const IN_PROGRESS = 'in_progress';
     const DONE = 'done';
 
+    protected $casts = ['must_start_at' => 'datetime', 'must_end_at' => 'datetime', 'done_at' => 'datetime'];
+
     public static function statuses(): array
     {
         return [self::TO_DO, self::IN_PROGRESS, self::DONE];

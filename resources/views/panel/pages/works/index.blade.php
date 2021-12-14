@@ -235,7 +235,7 @@
                                 $hasPending = true;
                             @endphp
                         @endif
-                        <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif data-toggle="tooltip" data-placement="top" title="{{$work->getAttribute('code')}}">
+                        <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif data-toggle="tooltip" title="{{$work->getAttribute('code')}}">
                             @if($work->isDone() && is_null($work->getAttribute('verified_at')) && auth()->user()->hasPermission('canVerify-work'))
                                 <td><input type="checkbox" name="works[]" value="{{$work->getAttribute('id')}}"></td>
                             @elseif(auth()->user()->hasPermission('canVerify-work'))
@@ -298,8 +298,8 @@
                                     }
                                 @endphp
                             @endforeach
-                            <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip" data-placement="top">{{optional($work->getAttribute('created_at'))->diffForHumans()}}</td>
-                            <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip" data-placement="top">{{optional($work->getAttribute('datetime'))->format('Y-m-d')}}</td>
+                            <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('created_at'))->diffForHumans()}}</td>
+                            <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip">{{optional($work->getAttribute('datetime'))->format('Y-m-d')}}</td>
                             <td>
                                 @php
                                     $status = '';
@@ -319,7 +319,7 @@
                                 <div class="btn-sm-group d-flex align-items-center">
                                     @if($work->getAttribute('creator_id') != auth()->id() && is_null($work->getAttribute('user_id')) && !auth()->user()->isDeveloper())
                                         @can('update', $work)
-                                            <a title="@lang('translates.buttons.execute')" data-toggle="tooltip" data-placement="top" href="{{route('works.edit', $work)}}"
+                                            <a title="@lang('translates.buttons.execute')" data-toggle="tooltip" href="{{route('works.edit', $work)}}"
                                                class="btn btn-sm btn-outline-success">
                                                 <i class="fal fa-arrow-right"></i>
                                             </a>

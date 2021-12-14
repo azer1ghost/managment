@@ -115,7 +115,11 @@
                     </thead>
                     <tbody>
                     @forelse($tasks as $task)
-                        <tr>
+                        <tr @if($task->getAttribute('must_end_at') < now())
+                            style="background: rgba(255,182,191,0.58)"
+                            title="@lang('translates.columns.expired')"
+                            data-toggle="tooltip" @endif
+                        >
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$task->getAttribute('name')}}</td>
                             <td style="font-weight: 700;" class="task-priority {{$task->getAttribute('priority')}}">@lang('translates.fields.priority.options.' . $task->getAttribute('priority'))</td>
