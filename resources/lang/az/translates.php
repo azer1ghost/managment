@@ -27,7 +27,8 @@ return [
         'clear' => 'Filteri təmizlə',
         'select' => 'Seçilməyib',
         'or' => ":first, :second və ya :third filtrləyin",
-        'filter_by' => 'Filterlə'
+        'filter_by' => 'Filterlə',
+        'free_clients' => 'Boş müştərilər'
     ],
 
     'placeholders' => [

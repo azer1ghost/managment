@@ -45,6 +45,10 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="form-group form-check">
+                            <input name="free_clients" @if(request()->has('free_clients')) checked @endif type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">@lang('translates.filters.free_clients')</label>
+                        </div>
                     </div>
                 @endif
 

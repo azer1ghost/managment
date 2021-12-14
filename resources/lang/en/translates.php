@@ -28,7 +28,8 @@ return [
         'clear' => 'Clear filters',
         'select' => 'Not Selected',
         'or' => "Filter by :first, :second or :third",
-        'filter_by' => 'Filter by'
+        'filter_by' => 'Filter by',
+        'free_clients' => 'Free clients'
     ],
 
     'placeholders' => [

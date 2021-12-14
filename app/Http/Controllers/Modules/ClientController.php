@@ -46,6 +46,7 @@ class ClientController extends Controller
         $search =$request->get('search');
         $limit = $request->get('limit',25);
         $salesClient = $request->get('salesClient');
+        $free_clients = $request->has('free_clients');
 
         return view('panel.pages.clients.index')
             ->with([
@@ -58,6 +59,7 @@ class ClientController extends Controller
                                 ->orWhereHas('salesUsers', fn($q) => $q->where('id', auth()->id()));
                         });
                     })
+                    ->when($free_clients, fn ($query) => $query->doesnthave('salesUsers'))
                     ->when($search, fn ($query) => $query->where('fullname', 'like', "%$search%"))
                     ->when($salesClient, fn ($query) => $query->whereHas('salesUsers', fn($q) => $q->where('id', $salesClient)))
                     ->paginate($limit),
