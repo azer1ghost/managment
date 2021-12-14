@@ -414,7 +414,12 @@
                             <select class="select2" id="data-department" name="department_id" required style="width: 100% !important;">
                                 <option value="">@lang('translates.general.department_select')</option>
                                 @foreach($allDepartments as $dep)
-                                    <option value="{{$dep->id}}">{{$dep->name}}</option>
+                                    <option
+                                            value="{{$dep->id}}"
+                                            @if($dep->id == auth()->user()->getAttribute('department_id')) selected @endif
+                                    >
+                                        {{$dep->name}}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
