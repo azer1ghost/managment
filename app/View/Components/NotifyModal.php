@@ -16,12 +16,14 @@ class NotifyModal extends Component
         $this->announcement = Announcement::isActive()->latest('id')->first() ?? new Announcement();
         $this->token = $this->announcement->getAttribute('key');
 
-        if (!request()->routeIs('welcome', 'phone.verification.notice') &&
-            (
-                auth()->user()->hasPermission($this->announcement->getAttribute('permissions')) ||
-                in_array(auth()->id(), explode(',', $this->announcement->getAttribute('users')))
-            )
-        ){
+        $isReuqestNotExcerptedShowingAlert = !request()->routeIs('welcome', 'phone.verification.notice');
+
+        $permissionMustSeeAlert = auth()->user()->hasPermission($this->announcement->getAttribute('permissions'));
+
+        $userMustSeeAlert = in_array(auth()->id(), explode(',', $this->announcement->getAttribute('users')));
+
+        if ($isReuqestNotExcerptedShowingAlert && ( $permissionMustSeeAlert || $userMustSeeAlert)):
+
             $started = $this->announcement->getAttribute('will_notify_at') <= now();
             $notEnded = $this->announcement->getAttribute('will_end_at') >= now();
             $isNotRepeatable = is_null($this->announcement->getAttribute('repeat_rate'));
@@ -42,6 +44,7 @@ class NotifyModal extends Component
                     return view('components.notify-modal');
                 }
             }
-        }
+
+        endif;
     }
 }

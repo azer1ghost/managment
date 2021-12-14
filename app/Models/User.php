@@ -127,7 +127,7 @@ class User extends Authenticatable implements MustVerifyPhone
         return $this->department();
     }
 
-    public function hasPermission(...$perms): bool
+    public function hasPermission(...$perms)
     {
         $isAuthorized = false;
 
@@ -149,6 +149,10 @@ class User extends Authenticatable implements MustVerifyPhone
 
         if(array_intersect($uniqPermissions, $perms)){
             $isAuthorized = true;
+        }
+
+        if ($perms[0] == ""){
+            $isAuthorized = false;
         }
 
         return $isAuthorized;
