@@ -8,12 +8,12 @@ use Illuminate\View\Component;
 
 class NotifyModal extends Component
 {
-    public Announcement $announcement;
-    public string $token;
+    public ?Announcement $announcement;
+    public ?string $token;
 
     public function render()
     {
-        $this->announcement = Announcement::isActive()->latest('id')->first();
+        $this->announcement = Announcement::isActive()->latest('id')->first() ?? new Announcement();
         $this->token = $this->announcement->getAttribute('key');
 
         if (!request()->routeIs('welcome', 'phone.verification.notice') &&
