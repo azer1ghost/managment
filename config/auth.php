@@ -49,7 +49,7 @@ return [
         'viewAny-notification', 'view-notification', 'manage-notification',
         'viewAny-option', 'view-option', 'manage-option',
         'viewAny-user', 'view-user', 'create-user', 'update-user', 'delete-user','manageStatus-user', 'manageReferral-user',
-        'viewAll-inquiry','viewAny-inquiry', 'view-inquiry', 'create-inquiry', 'update-inquiry', 'delete-inquiry', 'forceDelete-inquiry', 'restore-inquiry', 'editAccessToUser-inquiry',
+        'viewAll-inquiry', 'viewAllDepartment-inquiry', 'viewAny-inquiry', 'view-inquiry', 'create-inquiry', 'update-inquiry', 'delete-inquiry', 'forceDelete-inquiry', 'restore-inquiry', 'editAccessToUser-inquiry',
         'viewAll-task', 'viewAny-task', 'view-task', 'create-task', 'update-task', 'delete-task', 'forceDelete-task', 'restore-task',
         'viewAll-client', 'viewAny-client', 'view-client', 'create-client', 'update-client', 'delete-client', 'forceDelete-client', 'restore-client', 'canUploadContract-client',
         'viewAll-announcement', 'viewAny-announcement', 'view-announcement', 'create-announcement', 'update-announcement', 'delete-announcement',

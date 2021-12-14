@@ -79,7 +79,7 @@ class InquiryController extends Controller
         $inquiries = Inquiry::with('user', 'company')
             ->withoutBackups()
             ->when(!Inquiry::userCanViewAll(), function ($query){
-                if (auth()->user()->isDepartmentChief()){
+                if (Inquiry::userCanViewAllDepartment()){
                     $query->where('department_id', auth()->user()->getAttribute('department_id'));
                 }else{
                     $query->whereHas('editableUsers', function ($query){

@@ -123,6 +123,11 @@ class Inquiry extends Model
         return auth()->user()->hasPermission('viewAll-inquiry');
     }
 
+    public static function userCanViewAllDepartment(): bool
+    {
+        return auth()->user()->hasPermission('viewAllDepartment-inquiry');
+    }
+
     public function logs(): MorphMany
     {
         return $this->morphMany(Log::class, 'logable');
