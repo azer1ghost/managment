@@ -115,7 +115,7 @@
                     </thead>
                     <tbody>
                     @forelse($tasks as $task)
-                        <tr @if($task->getAttribute('must_end_at') < now())
+                        <tr @if($task->getAttribute('must_end_at') < now() && is_null($task->getAttribute('done_at')))
                             style="background: rgba(255,182,191,0.58)"
                             title="@lang('translates.columns.expired')"
                             data-toggle="tooltip" @endif
