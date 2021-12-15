@@ -48,7 +48,7 @@
                             <td>{{human_filesize($document->getAttribute('size'), 2)}}</td>
                             <td>{{$document->getRelationValue('user')->getAttribute('fullname')}}</td>
                             <td>{{$document->module()}}</td>
-                            <td>{{$document->getRelationValue('documentable')->getAttribute('name')}}</td>
+                            <td>{{$document->getRelationValue('documentable')->getMainColumn()}}</td>
                             <td>{{$document->getAttribute('created_at')}}</td>
                             <td>
                                 <div class="btn-sm-group">

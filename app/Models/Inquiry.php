@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Interfaces\DocumentableInterface;
 use App\Traits\Documentable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
-class Inquiry extends Model
+class Inquiry extends Model implements DocumentableInterface
 {
     use HasFactory, SoftDeletes, Documentable;
 
@@ -32,6 +33,11 @@ class Inquiry extends Model
         'datetime' => 'datetime',
         'editable_ended_at' => 'datetime'
     ];
+
+    public function getMainColumn(): string
+    {
+        return $this->getAttribute('code');
+    }
 
     public function getColumns(): Collection
     {

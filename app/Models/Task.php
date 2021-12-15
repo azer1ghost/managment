@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Interfaces\DocumentableInterface;
 use App\Traits\Documentable;
 use App\Traits\Resultable;
 use Illuminate\Database\Eloquent\{Factories\HasFactory,
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\{Factories\HasFactory,
 /**
  * @property mixed $taskable
  */
-class Task extends Model
+class Task extends Model implements DocumentableInterface
 {
     use HasFactory, SoftDeletes, Documentable, Resultable;
 
@@ -36,11 +37,16 @@ class Task extends Model
         'taskable_id',
     ];
 
-    const TO_DO = 'to_do';
-    const IN_PROGRESS = 'in_progress';
-    const DONE = 'done';
+    public const TO_DO = 'to_do';
+    public const IN_PROGRESS = 'in_progress';
+    public const DONE = 'done';
 
     protected $casts = ['must_start_at' => 'datetime', 'must_end_at' => 'datetime', 'done_at' => 'datetime'];
+
+    public function getMainColumn(): string
+    {
+        return $this->getAttribute('name');
+    }
 
     public static function statuses(): array
     {

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Interfaces\DocumentableInterface;
 use App\Traits\Documentable;
 use Illuminate\Database\Eloquent\{Factories\HasFactory,
     Model,
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\{Factories\HasFactory,
     Relations\HasMany,
     SoftDeletes};
 
-class Work extends Model
+class Work extends Model implements DocumentableInterface
 {
     use HasFactory, SoftDeletes, Documentable;
 
@@ -34,6 +35,11 @@ class Work extends Model
     ];
 
     protected $casts = ['datetime' => 'datetime'];
+
+    public function getMainColumn(): string
+    {
+        return $this->getAttribute('code');
+    }
 
     public function creator(): BelongsTo
     {

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Interfaces\DocumentableInterface;
 use App\Traits\Documentable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Client extends Model
+class Client extends Model implements DocumentableInterface
 {
     use SoftDeletes, HasFactory, Documentable;
 
@@ -42,6 +43,10 @@ class Client extends Model
         return $this->hasMany(__CLASS__, 'client_id');
     }
 
+    public function getMainColumn(): string
+    {
+        return $this->getAttribute('fullname');
+    }
 
     public static function userCanViewAll(): bool
     {
