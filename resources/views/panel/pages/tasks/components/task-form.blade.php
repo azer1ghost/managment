@@ -22,12 +22,12 @@
     @if($method == "POST")
     <input wire:ignore type="hidden" name="inquiry_id" value="{{request()->get('inquiry_id')}}">
     @endif
-    <x-input::text wire:ignore name="name" :value="request()->get('name') ?? optional($task)->getAttribute('name')"  :label="__('translates.tasks.label.name')"   width="6" class="pr-3" />
+    <x-input::text wire:ignore name="name" required :value="request()->get('name') ?? optional($task)->getAttribute('name') ?? old('name')"  :label="__('translates.tasks.label.name')"   width="6" class="pr-3" />
 
     <div wire:ignore class="form-group col-12 col-md-6 mb-3 mb-md-0" >
         @php($task_dates = optional($task)->getAttribute('must_start_at') && optional($task)->getAttribute('must_end_at') ?  optional($task)->getAttribute('must_start_at') . ' - ' .  optional($task)->getAttribute('must_end_at') : '')
         <label for="task_dates">{{__('translates.placeholders.range')}}</label>
-        <input type="text" id="task_dates" placeholder="{{__('translates.placeholders.range')}}" class="form-control @error('task_dates') is-invalid @enderror" name="task_dates" value="{{$task_dates}}">
+        <input type="text" id="task_dates" readonly placeholder="{{__('translates.placeholders.range')}}" class="form-control @error('task_dates') is-invalid @enderror" name="task_dates" value="{{$task_dates}}">
         @error('task_dates')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>

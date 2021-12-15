@@ -24,7 +24,7 @@
     <form class="row" id="inquiryForm">
         <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
             <label for="daterange">@lang('translates.filters.date')</label>
-            <input type="text" placeholder="@lang('translates.placeholders.range')" name="daterange"
+            <input type="text" readonly placeholder="@lang('translates.placeholders.range')" name="daterange"
                    value="{{$daterange}}" id="daterange" class="form-control">
         </div>
         <div class="form-group col-12 col-md-3 mb-md-0">

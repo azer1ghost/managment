@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <x-input::text wire:ignore name="date" :label="__('translates.fields.date')" value="{{$datetime->format('d-m-Y')}}" type="text" width="3" class="pr-2" />
+    <x-input::text wire:ignore name="date" readonly :label="__('translates.fields.date')" value="{{$datetime->format('d-m-Y')}}" type="text" width="3" class="pr-2" />
     <x-input::text wire:ignore name="time" :label="__('translates.fields.time')" value="{{$datetime->format('H:i')}}" type="time" width="3" class="pr-2" />
 
     <input type="hidden" name="company_id" wire:model="selected.company">

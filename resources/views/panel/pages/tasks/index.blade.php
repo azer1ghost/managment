@@ -18,7 +18,7 @@
     <form>
         <div class="row d-flex mb-2">
             <div class="col-12 col-md-3">
-                <input class="form-control" id="start-daterange" type="text" name="must_start_at" value="{{$filters['must_start_at']}}">
+                <input class="form-control" id="start-daterange" type="text" readonly name="must_start_at" value="{{$filters['must_start_at']}}">
                 <input type="checkbox" name="check_start_daterange" id="check_start_daterange" @if(request()->has('check_start_daterange')) checked @endif> <label for="check_start_daterange">@lang('translates.filters.filter_by')</label>
             </div>
             <div class="col-12 col-md-3">
