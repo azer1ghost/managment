@@ -17,7 +17,7 @@
     </x-bread-crumb>
     <form action="{{route('clients.index')}}">
 
-            <div class="row d-flex justify-content-between mb-2">
+            <div class="row d-flex mb-2">
                 <div class="col-4">
                     <div class="input-group mb-3">
                         <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="Search" aria-label="Recipient's clientname" aria-describedby="basic-addon2">
