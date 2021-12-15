@@ -131,13 +131,13 @@
 
                     <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                         <label class="d-block" for="createdAtFilter">{{trans('translates.fields.created_at')}}</label>
-                        <input class="form-control daterange mb-1" id="createdAtFilter" type="text" name="created_at" value="{{$filters['created_at']}}">
+                        <input class="form-control daterange mb-1" id="createdAtFilter" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
                         <input type="checkbox" name="check-created_at" id="check-created_at" @if(request()->has('check-created_at')) checked @endif> <label for="check-created_at">@lang('translates.filters.filter_by')</label>
                     </div>
 
                     <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                         <label class="d-block" for="datetimeFilter">{{trans('translates.fields.date')}}</label>
-                        <input class="form-control daterange mb-1" id="datetimeFilter" type="text" name="datetime" value="{{$filters['datetime']}}">
+                        <input class="form-control daterange mb-1" id="datetimeFilter" type="text" readonly name="datetime" value="{{$filters['datetime']}}">
                         <input type="checkbox" name="check-datetime" id="check-datetime" @if(request()->has('check-datetime')) checked @endif> <label for="check-datetime">@lang('translates.filters.filter_by')</label>
                     </div>
 
