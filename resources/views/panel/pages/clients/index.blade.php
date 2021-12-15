@@ -52,14 +52,6 @@
                     </div>
                 @endif
 
-                <div class="input-group col-3">
-                    <select name="limit" class="custom-select" id="size">
-                        @foreach([25, 50, 100, 250, 500] as $size)
-                            <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
-                        @endforeach
-                    </select>
-                </div>
-
                 <div class="col-12 mt-3 mb-5 d-flex align-items-center justify-content-end">
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <button type="submit" class="btn btn-outline-primary"><i
@@ -69,11 +61,23 @@
                     </div>
                 </div>
 
+                <div class="col-8 pt-2 d-flex align-items-center">
+                    <p class="mb-0"> @lang('translates.total_items', ['count' => $clients->count(), 'total' => $clients->total()])</p>
+                    <div class="input-group col-md-3">
+                        <select name="limit" class="custom-select" id="size">
+                            @foreach([25, 50, 100, 250, 500] as $size)
+                                <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
                 @can('create', App\Models\Client::class)
-                    <div class="col-12 my-3">
+                    <div class="col-4 p-0 pr-3 pb-3 mt-4">
                         <a class="btn btn-outline-success float-right" href="{{route('clients.create', ['type' => \App\Models\Client::LEGAL])}}">@lang('translates.buttons.create')</a>
                     </div>
                 @endcan
+                </div>
 
                 <div class="col-12">
                     <table class="table table-responsive-sm table-hover">
@@ -134,7 +138,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <th colspan="8">
+                                <th colspan="10">
                                     <div class="row justify-content-center m-3">
                                         <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.not_found')</div>
                                     </div>
