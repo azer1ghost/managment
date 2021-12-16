@@ -50,7 +50,9 @@ class ClientWidget extends Component
                 $subs[$idx]['percent'] = round($sub['percent'] / $clients->count() * 100, 2);
             }
 
-            if($total != $type->count()){
+            if($total == 0){
+                $subs[] = ['type' => 'No users', 'percent' => round(($type->count() - $total) / $clients->count() * 100 , 2)];
+            }else if($total != $type->count()){
                 $subs[] = ['type' => 'Common', 'percent' => round(($type->count() - $total) / $clients->count() * 100 , 2)];
             }
 
