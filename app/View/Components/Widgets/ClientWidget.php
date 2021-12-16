@@ -38,6 +38,7 @@ class ClientWidget extends Component
             foreach ($type as $client) {
 
                 foreach ($client->salesUsers as $salesUser) {
+                    if(count($client->salesUsers) >= 2) continue;
                     $subs[$salesUser->id]['type'] = $salesUser->getAttribute('fullname');
                     @$subs[$salesUser->id]['percent'] += 1;
                 }
@@ -46,14 +47,17 @@ class ClientWidget extends Component
             $total = (int) array_reduce(array_column($subs, 'percent'), fn($c, $i) => $c + $i);
 
             foreach ($subs as $idx => $sub) {
-                $subs[$idx]['percent'] = round(floor($sub['percent'] - ($total - $type->count()) / 2) / $clients->count() * 100, 2);
+                $subs[$idx]['percent'] = round($sub['percent'] / $clients->count() * 100, 2);
+            }
+
+            if($total != $type->count()){
+                $subs[] = ['type' => 'Common', 'percent' => round(($type->count() - $total) / $clients->count() * 100 , 2)];
             }
 
             $subs = array_values($subs);
 
             $this->types[$index]['subs'] = $subs;
         }
-//        dd($this->types);
     }
 
     public function render()

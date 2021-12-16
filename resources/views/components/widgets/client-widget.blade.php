@@ -36,7 +36,7 @@
                     }));
 
                     {{$model}}Series.slices.template.set("templateField", "sliceSettings");
-                    {{$model}}Series.labels.template.set("radius", -30);
+                    {{$model}}Series.labels.template.set("radius", -50);
                     {{$model}}Series.slices.template.events.on("click", function(event) {
                         console.log(event.target.dataItem.dataContext)
                         if (event.target.dataItem.dataContext.id !== undefined) {
