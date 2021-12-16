@@ -13,15 +13,15 @@ input, textarea {
 //Custom sidebar
 .custom-scrollbar{
   &::-webkit-scrollbar {
-    width: 4px;
+    width: 8px;
   }
 
   &::-webkit-scrollbar-track {
-    background: $primary;
+    background: $primaryWhite;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: $primaryWhite;
+    background: $primary;
   }
 }
 

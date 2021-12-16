@@ -3,10 +3,14 @@
 @section('title', __('translates.navbar.dashboard'))
 
 @section('style')
-    <!-- AmCharts -->
+    <!-- Amcharts4 -->
     <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
     <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
     <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+    <!-- Amcharts5 -->
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
     <script src="{{asset('assets/js/am4langs/am4lang_az_AZ.js')}}"></script>
     <script>am4core.useTheme(am4themes_animated);</script>
 @endsection

@@ -70,7 +70,7 @@
                 <div class="input-group mb-3">
                     <select class="form-control" name="type">
                         @foreach ($types as $index => $type)
-                            <option @if (request()->get('type') == $index) selected @endif value="{{$index}}">@lang('translates.tasks.types.' . $type)</option>
+                            <option @if ($filters['type'] == $index) selected @endif value="{{$index}}">@lang('translates.tasks.types.' . $type)</option>
                         @endforeach
                     </select>
                 </div>
