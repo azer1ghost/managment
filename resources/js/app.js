@@ -4,13 +4,13 @@ require('./delete');
 require('./custom');
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAUcgmjbHOEs5e83KO9tOBRQokUgvgseaY",
-    authDomain: "mobilmanagement-35055.firebaseapp.com",
-    projectId: "mobilmanagement-35055",
-    storageBucket: "mobilmanagement-35055.appspot.com",
-    messagingSenderId: "774485323317",
-    appId: "1:774485323317:web:483587d8210795b83ccb7c",
-    databaseURL: "https://mobilmanagement-35055-default-rtdb.firebaseio.com/",
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDDER_ID,
+    appId: process.env.FIREBASE_APP_ID,
+    databaseURL: process.env.FIREBASE_DATABASE_URL,
 };
 
 // Initialize Firebase
