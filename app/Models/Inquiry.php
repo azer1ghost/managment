@@ -20,8 +20,12 @@ class Inquiry extends Model implements DocumentableInterface
 
     // status parameter id
     const STATUS_PARAMETER = 5;
-    // option id of done of status parameter
+    // option IDs of status parameter
+    const ACTIVE = 21;
     const DONE = 22;
+    const REJECTED = 23;
+    const INCOMPATIBLE = 24;
+    const UNREACHABLE = 25;
     // option id of redirected of status parameter
     const REDIRECTED = 40;
 

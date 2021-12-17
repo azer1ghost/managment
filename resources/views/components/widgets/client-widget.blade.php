@@ -18,12 +18,20 @@
 
                     const {{$model}}Series = {{$model}}Chart.series.push(
                         am5percent.PieSeries.new({{$model}}Root, {
-                            valueField: "percent",
+                            valueField: "value",
                             categoryField: "type",
                             fillField: "color",
-                            alignLabels: false
+                            alignLabels: false,
+                            tooltip: am5.Tooltip.new({{$model}}Root, {
+                                labelText: "{type}: {value}"
+                            })
                         })
                     );
+
+                    {{$model}}Series.labels.template.setAll({
+                        maxWidth: 150,
+                        oversizedBehavior: "wrap" // to truncate labels, use "truncate"
+                    });
 
                     {{$model}}Chart.children.unshift(am5.Label.new({{$model}}Root, {
                         text: '{{$widget->details}}',
@@ -59,7 +67,7 @@
                                 for (let x = 0; x < types[i].subs.length; x++) {
                                     chartData.push({
                                         type: types[i].subs[x].type,
-                                        percent: types[i].subs[x].percent,
+                                        value: types[i].subs[x].value,
                                         color: types[i].color,
                                         pulled: true,
                                         sliceSettings: {
@@ -70,15 +78,15 @@
                             } else {
                                 chartData.push({
                                     type: types[i].type,
-                                    percent: types[i].percent,
+                                    value: types[i].value,
                                     color: types[i].color,
                                     id: i
                                 });
                             }
                         }
+
                         return chartData;
                     }
-
                 });
             </script>
         </div>

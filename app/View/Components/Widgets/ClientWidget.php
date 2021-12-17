@@ -21,39 +21,35 @@ class ClientWidget extends Component
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
 
-        $clients = Client::with('salesUsers')->withCount('salesUsers')->whereNull('client_id');
+        $clients = Client::with('salesUsers')->whereNull('client_id');
         $legalClients = (clone $clients)->where('type', Client::LEGAL)->get();
         $physicalClients = (clone $clients)->where('type', Client::PHYSICAL)->get();
 
         $clientTypes = [$legalClients, $physicalClients];
 
         foreach ($clientTypes as $index => $type) {
+            $typeCount = $type->count();
+
             $this->types[$index] = [
                 'type' => trans('translates.clients_type.' . $index),
-                'percent' => round($type->count() / $clients->count() * 100, 2),
+                'value' => $typeCount,
             ];
 
             $subs = [];
-
             foreach ($type as $client) {
-
                 foreach ($client->salesUsers as $salesUser) {
                     if(count($client->salesUsers) >= 2) continue;
                     $subs[$salesUser->id]['type'] = $salesUser->getAttribute('fullname');
-                    @$subs[$salesUser->id]['percent'] += 1;
+                    @$subs[$salesUser->id]['value'] += 1;
                 }
             }
 
-            $total = (int) array_reduce(array_column($subs, 'percent'), fn($c, $i) => $c + $i);
+            $totalClientsWithUsers = array_reduce(array_column($subs, 'value'), fn($c, $i) => $c + $i);
 
-            foreach ($subs as $idx => $sub) {
-                $subs[$idx]['percent'] = round($sub['percent'] / $clients->count() * 100, 2);
-            }
-
-            if($total == 0){
-                $subs[] = ['type' => trans('translates.general.no_users'), 'percent' => round(($type->count() - $total) / $clients->count() * 100 , 2)];
-            }else if($total != $type->count()){
-                $subs[] = ['type' => trans('translates.general.common'), 'percent' => round(($type->count() - $total) / $clients->count() * 100 , 2)];
+            if($totalClientsWithUsers == 0){
+                $subs[] = ['type' => trans('translates.general.no_users'), 'value' => $typeCount - $totalClientsWithUsers];
+            }else if($totalClientsWithUsers != $typeCount){
+                $subs[] = ['type' => trans('translates.general.common'), 'value' => $typeCount - $totalClientsWithUsers];
             }
 
             $subs = array_values($subs);

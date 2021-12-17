@@ -23,11 +23,11 @@ class InquiryStatusWidget extends Component
         $this->model = $this->getClassRealName();
 
         $inquiries = Inquiry::isReal()->select('id')->monthly()->withCount([
-            'parameters as status_active_count' => fn ($q) => $q->where('inquiry_parameter.value', 21),
-            'parameters as status_done_count'   => fn ($q) => $q->where('inquiry_parameter.value', 22),
-            'parameters as status_rejected_count'   => fn ($q) => $q->where('inquiry_parameter.value', 23),
-            'parameters as status_incompatible_count'   => fn ($q) => $q->where('inquiry_parameter.value', 24),
-            'parameters as status_unreachable_count'   => fn ($q) => $q->where('inquiry_parameter.value', 25),
+            'parameters as status_active_count' => fn ($q) => $q->where('inquiry_parameter.value', Inquiry::ACTIVE),
+            'parameters as status_done_count'   => fn ($q) => $q->where('inquiry_parameter.value', Inquiry::DONE),
+            'parameters as status_rejected_count'   => fn ($q) => $q->where('inquiry_parameter.value', Inquiry::REJECTED),
+            'parameters as status_incompatible_count'   => fn ($q) => $q->where('inquiry_parameter.value', Inquiry::INCOMPATIBLE),
+            'parameters as status_unreachable_count'   => fn ($q) => $q->where('inquiry_parameter.value', Inquiry::UNREACHABLE),
         ])->get()->toArray();
 
         $statuses = [0, 0, 0, 0, 0, 0];
