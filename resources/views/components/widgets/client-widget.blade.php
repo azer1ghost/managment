@@ -24,7 +24,7 @@
                             alignLabels: false,
                             tooltip: am5.Tooltip.new({{$model}}Root, {
                                 labelText: "{type}: {value}"
-                            })
+                            }),
                         })
                     );
 
@@ -46,7 +46,6 @@
                     {{$model}}Series.slices.template.set("templateField", "sliceSettings");
                     {{$model}}Series.labels.template.set("radius", -70);
                     {{$model}}Series.slices.template.events.on("click", function(event) {
-                        console.log(event.target.dataItem.dataContext)
                         if (event.target.dataItem.dataContext.id !== undefined) {
                             selected = event.target.dataItem.dataContext.id;
                         } else {
