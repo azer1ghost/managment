@@ -29,7 +29,7 @@ class ClientWidget extends Component
 
         foreach ($clientTypes as $index => $type) {
             $this->types[$index] = [
-                'type' => $index === 0 ? 'Legal' : 'Physical',
+                'type' => trans('translates.clients_type.' . $index),
                 'percent' => round($type->count() / $clients->count() * 100, 2),
             ];
 
@@ -51,9 +51,9 @@ class ClientWidget extends Component
             }
 
             if($total == 0){
-                $subs[] = ['type' => 'No users', 'percent' => round(($type->count() - $total) / $clients->count() * 100 , 2)];
+                $subs[] = ['type' => trans('translates.general.no_users'), 'percent' => round(($type->count() - $total) / $clients->count() * 100 , 2)];
             }else if($total != $type->count()){
-                $subs[] = ['type' => 'Common', 'percent' => round(($type->count() - $total) / $clients->count() * 100 , 2)];
+                $subs[] = ['type' => trans('translates.general.common'), 'percent' => round(($type->count() - $total) / $clients->count() * 100 , 2)];
             }
 
             $subs = array_values($subs);

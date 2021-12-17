@@ -425,6 +425,8 @@ return [
         'sosials' => 'SOSYAL ŞƏBƏKƏLƏR',
         'sosial' => 'Sosyal Şəbəkə',
         'no_sosial_link' => 'Sosyal Şəbəkə Yoxdur',
+        'no_users' => 'İstifadəçi Yoxdur',
+        'common' => 'Ümumi',
         'no_service_parameter' => 'Xidmət Parametri Yoxdur',
         'sosial_url' => 'Sosyal Şəbəkə Linki',
         'empty' => 'Hələlik boşdur.',

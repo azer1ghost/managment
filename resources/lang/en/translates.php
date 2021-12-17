@@ -422,6 +422,8 @@ return [
         'sosials' => 'SOSIALS',
         'sosial' => 'Sosial',
         'no_sosial_link' => 'No Social links',
+        'no_users' => 'No users',
+        'common' => 'Common',
         'no_service_parameter' => 'No Service Parameter',
         'sosial_url' => 'Sosial Url',
         'empty' => 'Empty for now.',
