@@ -58,15 +58,15 @@ class WidgetSeeder extends Seeder
             array(
                 'key' => "service-widget",
                 'class_attribute' => "col-12 mb-3",
-                'style_attribute' => "height: 420px;",
-                'details' => json_encode(['en' => 'Services', 'az' => 'Xidmətlər']),
+                'style_attribute' => "height: 520px;",
+                'details' => json_encode(['en' => 'Services works', 'az' => 'Xidmətlərin işləri']),
                 'order' => 6,
                 'status' => 1
             ),
             array(
                 'key' => "workMonthly-widget",
                 'class_attribute' => "col-12 mb-3",
-                'style_attribute' => "height: 420px;",
+                'style_attribute' => "height: 520px;",
                 'details' => json_encode(['en' => 'Monthly works', 'az' => 'Aylıq işlər']),
                 'order' => 7,
                 'status' => 1
@@ -74,7 +74,7 @@ class WidgetSeeder extends Seeder
             array(
                 'key' => "workPersonal-widget",
                 'class_attribute' => "col-12 mb-3",
-                'style_attribute' => "height: 420px;",
+                'style_attribute' => "height: 520px;",
                 'details' => json_encode(['en' => 'Personal works', 'az' => 'Şəxsi işlər']),
                 'order' => 8,
                 'status' => 1

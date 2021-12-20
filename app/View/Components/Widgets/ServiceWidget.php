@@ -2,8 +2,10 @@
 
 namespace App\View\Components\Widgets;
 
+use App\Models\Service;
 use App\Traits\GetClassInfo;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
 class ServiceWidget extends Component
@@ -12,11 +14,20 @@ class ServiceWidget extends Component
 
     public ?Model $widget;
     public ?string $model = null;
+    public ?Collection $services;
+
 
     public function __construct($widget)
     {
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
+
+        $this->services = Service::has('works')->get()->map(function ($service){
+            return [
+                'service' => $service->getAttribute('name'),
+                'total' => count($service->getRelationValue('works')),
+            ];
+        });
     }
 
     public function render()

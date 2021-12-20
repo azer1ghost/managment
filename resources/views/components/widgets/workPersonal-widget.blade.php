@@ -19,6 +19,16 @@
                         layout: {{$model}}Root.verticalLayout
                     }));
 
+                    {{$model}}Chart.children.unshift(am5.Label.new({{$model}}Root, {
+                        text: '{{$widget->details}}',
+                        fontSize: 25,
+                        textAlign: "center",
+                        x: am5.percent(50),
+                        centerX: am5.percent(50),
+                        paddingTop: 0,
+                        paddingBottom: 0
+                    }));
+
                     const legend = {{$model}}Chart.children.push(
                         am5.Legend.new({{$model}}Root, {
                             centerX: am5.p50,
