@@ -11,6 +11,9 @@ use Illuminate\Database\Eloquent\{Factories\HasFactory,
     Relations\HasMany,
     SoftDeletes};
 
+/**
+ * @method static select(string[] $array)
+ */
 class Work extends Model implements DocumentableInterface
 {
     use HasFactory, SoftDeletes, Documentable;
@@ -122,12 +125,22 @@ class Work extends Model implements DocumentableInterface
 
     public function isDone(): bool
     {
-        return $this->getAttribute('status') == self::DONE;
+        return $this->getAttribute('status') === self::DONE;
     }
 
     public function hasAsanImza(): bool
     {
         return $this->getRelationValue('service')->hasAsanImza();
+    }
+
+    public function scopeIsVerified($query)
+    {
+        return $query->whereNotNull('verified_at');
+    }
+
+    public function scopeWorksDone($query)
+    {
+        return $query->where('status', self::DONE);
     }
 
     public static function generateCustomCode($prefix = 'MGW', $digits = 8): string
