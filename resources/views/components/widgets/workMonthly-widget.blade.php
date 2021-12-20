@@ -7,6 +7,8 @@
 
                     const {{$model}}Root = am5.Root.new("{{$widget->key}}");
 
+                    if ({{$model}}Root !== null) {{$model}}Root.dispose();
+
                     {{$model}}Root.setThemes([
                         am5themes_Animated.new({{$model}}Root)
                     ]);

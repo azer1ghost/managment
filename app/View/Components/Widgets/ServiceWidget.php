@@ -22,7 +22,7 @@ class ServiceWidget extends Component
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
 
-        $this->services = Service::has('works')->get()->map(function ($service){
+        $this->services = Service::withCount('works')->has('works')->orderBy('works_count', 'desc')->get()->map(function ($service){
             return [
                 'service' => $service->getAttribute('name'),
                 'total' => count($service->getRelationValue('works')),
