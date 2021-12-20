@@ -63,6 +63,22 @@ class WidgetSeeder extends Seeder
                 'order' => 6,
                 'status' => 1
             ),
+            array(
+                'key' => "workMonthly-widget",
+                'class_attribute' => "col-12 mb-3",
+                'style_attribute' => "height: 420px;",
+                'details' => json_encode(['en' => 'Monthly works', 'az' => 'Aylıq işlər']),
+                'order' => 7,
+                'status' => 1
+            ),
+            array(
+                'key' => "workPersonal-widget",
+                'class_attribute' => "col-12 mb-3",
+                'style_attribute' => "height: 420px;",
+                'details' => json_encode(['en' => 'Personal works', 'az' => 'Şəxsi işlər']),
+                'order' => 8,
+                'status' => 1
+            ),
         ]);
     }
 }
