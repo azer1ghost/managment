@@ -53,6 +53,7 @@ return [
         'taskDone-widget',
         'bonusTotal-widget',
         'client-widget',
+        'service-widget',
         'viewAll-work', 'viewAny-work', 'view-work', 'create-work', 'update-work', 'delete-work', 'canVerify-work', 'canRedirect-work', 'viewAllDepartment-work',
     ],
 

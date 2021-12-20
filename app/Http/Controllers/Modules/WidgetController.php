@@ -26,7 +26,7 @@ class WidgetController extends Controller
             ->with([
                 'widgets' => Widget::query()
                     ->when($search, fn ($query) => $query->where('key', 'like', "%$search%"))
-                    ->oldest('order')->simplePaginate(5)
+                    ->oldest('order')->simplePaginate(10)
             ]);
     }
     public function create()

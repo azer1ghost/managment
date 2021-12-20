@@ -3,7 +3,6 @@
 namespace App\View\Components\Widgets;
 
 use App\Models\Client;
-use App\Models\User;
 use App\Traits\GetClassInfo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\Component;
