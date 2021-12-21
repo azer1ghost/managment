@@ -29,7 +29,7 @@ class ServiceWidget extends Component
             ];
         });
 
-        $this->total = count($this->services);
+        $this->total = $this->services->reduce(fn($acc, $service) => $acc + $service['total'], 0);
     }
 
     public function render()
