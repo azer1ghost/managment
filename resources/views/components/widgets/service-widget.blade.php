@@ -31,8 +31,18 @@
                     {{$model}}Series.slices.template.set("strokeOpacity", 1);
 
                     const {{$model}}Legend = {{$model}}Chart.children.push(am5.Legend.new({{$model}}Root, {
+                        layout: {{$model}}Root.horizontalLayout,
+                        y: am5.percent(50),
+                        centerY: am5.percent(50),
+                        maxColumns: 1,
                     }));
 
+                    {{$model}}Legend.markerRectangles.template.setAll({
+                        cornerRadiusTL: 10,
+                        cornerRadiusTR: 10,
+                        cornerRadiusBL: 10,
+                        cornerRadiusBR: 10
+                    });
                     {{$model}}Legend.data.setAll({{$model}}Series.dataItems);
                     {{$model}}Series.appear(1000, 100);
                 });
