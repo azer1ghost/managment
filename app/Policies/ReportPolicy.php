@@ -29,21 +29,21 @@ class ReportPolicy
         return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 
-    public function showSubReport(User $user, DailyReport $report): bool
+    public function showSubReport(User $user, DailyReport $subReport): bool
     {
         return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
-            $user->getAttribute('id') == $report->getRelationValue('parent')->getAttribute('chief_id');
+            $user->getAttribute('id') == $subReport->getRelationValue('parent')->getAttribute('chief_id');
     }
 
-    public function updateSubReport(User $user, DailyReport $report): bool
+    public function updateSubReport(User $user, DailyReport $subReport): bool
     {
         return
             ($this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
-            $user->getAttribute('id') == $report->getRelationValue('parent')->getAttribute('chief_id')) &&
-            $report->getAttribute('date') == now()->format('Y-m-d');
+            $user->getAttribute('id') == $subReport->getRelationValue('parent')->getAttribute('chief_id')) &&
+            $subReport->getAttribute('date') == now()->format('Y-m-d');
     }
 
-    public function delete(User $user, Report $report): bool
+    public function delete(User $user, Report $subReport): bool
     {
         return $this->canManage($user, $this->getClassShortName('s'));
     }
