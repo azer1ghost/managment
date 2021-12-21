@@ -32,7 +32,7 @@
                                 @foreach(\App\Models\DailyReport::currentWeek() as $day)
                                     @php
                                         $subReport = \App\Models\DailyReport::where('report_id', $report->getAttribute('id'))->whereDate('date', $day)->first();
-                                        $route = is_null($subReport) ? route('reports.sub.create', $report) . "?day={$day->format('Y-m-d')}" : route('reports.sub.show', ['report' => $report, 'subReport' => $day->format('Y-m-d')]);
+                                        $route = is_null($subReport) ? route('reports.sub.create', $report) . "?day={$day->format('Y-m-d')}" : route('reports.sub.show', ['report' => $report, 'subReport' => $subReport]);
                                     @endphp
                                     <a href="{{$route}}" class="btn mr-1
                                         @if($day->format('Y-m-d') > now()->format('Y-m-d') ||
