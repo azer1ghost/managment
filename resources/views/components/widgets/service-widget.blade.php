@@ -15,7 +15,7 @@
                     ]);
 
                     const {{$model}}Chart = {{$model}}Root.container.children.push(am5percent.PieChart.new({{$model}}Root, {
-                        radius: am5.percent(70),
+                        radius: am5.percent(80),
                         innerRadius: am5.percent(50),
                         layout: {{$model}}Root.horizontalLayout
                     }));
