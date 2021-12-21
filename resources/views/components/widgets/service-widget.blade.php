@@ -2,7 +2,9 @@
     <div class="card border-0" style="background: #e9ecef !important;">
         <div class="py-2 px-1">
             <div id="{{$widget->key}}" style="width: 100%;{{$widget->style_attribute}}" class="text-center">
-                <h3>{{$widget->details}}</h3>
+                <div style="position: absolute; top: 10px;left: 50%;transform: translateX(-50%)">
+                    <h3>{{$widget->details}}</h3>
+                </div>
             </div>
             <script>
                 am5.ready(function() {
@@ -13,7 +15,7 @@
                     ]);
 
                     const {{$model}}Chart = {{$model}}Root.container.children.push(am5percent.PieChart.new({{$model}}Root, {
-                        radius: am5.percent(80),
+                        radius: am5.percent(70),
                         innerRadius: am5.percent(50),
                         layout: {{$model}}Root.horizontalLayout
                     }));
