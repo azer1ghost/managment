@@ -29,13 +29,13 @@ class ReportPolicy
         return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 
-    public function showSubReport(User $user, DailyReport $subReport): bool
+    public function showSubReport(User $user, DailyReport $subReport, Report $report): bool
     {
         return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
             $user->getAttribute('id') == $subReport->getRelationValue('parent')->getAttribute('chief_id');
     }
 
-    public function updateSubReport(User $user, DailyReport $subReport): bool
+    public function updateSubReport(User $user, DailyReport $subReport, Report $report): bool
     {
         return
             ($this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||

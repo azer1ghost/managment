@@ -102,7 +102,7 @@ class ReportController extends Controller
     }
 
     /* show specific daily report for the given chief */
-    public function showSubReport(Report $report, DailyReport $subReport)
+    public function showSubReport(DailyReport $subReport, Report $report)
     {
         return view('panel.pages.reports.edit')->with([
             'method' => null,
@@ -113,7 +113,7 @@ class ReportController extends Controller
     }
 
     /* edit specific daily report for the given chief */
-    public function editSubReport(Report $report, DailyReport $subReport)
+    public function editSubReport(DailyReport $subReport, Report $report)
     {
         return view('panel.pages.reports.edit')->with([
             'method' => 'PUT',
