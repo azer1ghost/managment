@@ -16,7 +16,7 @@
 
                     const {{$model}}Chart = {{$model}}Root.container.children.push(am5percent.PieChart.new({{$model}}Root, {
                         radius: am5.percent(80),
-                        innerRadius: am5.percent(50),
+                        innerRadius: am5.percent(60),
                         layout: {{$model}}Root.horizontalLayout
                     }));
 
@@ -37,8 +37,17 @@
                     const {{$model}}Legend = {{$model}}Chart.children.push(am5.Legend.new({{$model}}Root, {
                         layout: {{$model}}Root.verticalLayout,
                         y: am5.percent(50),
-                        centerY: am5.percent(50),
+                        centerY: am5.percent(45),
                         maxColumns: 1,
+                    }));
+
+                    const {{$model}}Label = {{$model}}Chart.seriesContainer.children.push(am5.Label.new({{$model}}Root, {
+                        textAlign: "center",
+                        fontSize: 30,
+                        fontWeight: 500,
+                        centerY: am5.percent(50),
+                        centerX: am5.percent(50),
+                        text: "{{$total}}"
                     }));
 
                     {{$model}}Legend.markerRectangles.template.setAll({

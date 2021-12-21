@@ -15,7 +15,7 @@ class ServiceWidget extends Component
     public ?Model $widget;
     public ?string $model = null;
     public ?Collection $services;
-
+    public int $total;
 
     public function __construct($widget)
     {
@@ -28,6 +28,8 @@ class ServiceWidget extends Component
                 'total' => count($service->getRelationValue('works')),
             ];
         });
+
+        $this->total = count($this->services);
     }
 
     public function render()
