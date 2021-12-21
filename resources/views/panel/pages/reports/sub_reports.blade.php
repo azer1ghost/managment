@@ -34,12 +34,12 @@
                             <td colspan="2"></td>
                             <td>
                                 {{$subReport->getAttribute('date')}}
-                                @can('showSubReport', ['report' => $parent, 'subReport' => $subReport])
+                                @can('showSubReport', $subReport)
                                     <a href="{{route('reports.sub.show', ['report' => $parent, 'subReport' => $subReport])}}" class="btn btn-sm btn-outline-success ml-2">
                                         <i class="fal fa-eye"></i>
                                     </a>
                                 @endcan
-                                @can('updateSubReport', ['report' => $parent, 'subReport' => $subReport])
+                                @can('updateSubReport', $subReport)
                                     <a href="{{route('reports.sub.edit',  ['report' => $parent, 'subReport' => $subReport])}}" class="btn btn-sm btn-outline-primary">
                                         <i class="fal fa-pen"></i>
                                     </a>
