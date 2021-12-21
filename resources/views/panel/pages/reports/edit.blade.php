@@ -24,7 +24,7 @@
     @if($method == null)
         @can('updateSubReport', $data)
             <div class="col-12 my-3 pl-0">
-                <a class="btn btn-outline-success" href="{{route('reports.sub.edit', ['report' => $report, 'subReport' => $data])}}">@lang('translates.tasks.edit')</a>
+                <a class="btn btn-outline-success" href="{{route('reports.sub.edit', ['report' => $parent, 'subReport' => $data])}}">@lang('translates.tasks.edit')</a>
             </div>
         @endcan
     @endif
