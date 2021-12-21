@@ -102,24 +102,24 @@ class ReportController extends Controller
     }
 
     /* show specific daily report for the given chief */
-    public function showSubReport(DailyReport $report)
+    public function showSubReport(Report $report, DailyReport $subReport)
     {
         return view('panel.pages.reports.edit')->with([
             'method' => null,
-            'data' => $report,
+            'data' => $subReport,
             'action' => null,
-            'parent' => $report->getRelationValue('parent')
+            'parent' => $report
         ]);
     }
 
     /* edit specific daily report for the given chief */
-    public function editSubReport(DailyReport $report)
+    public function editSubReport(Report $report, DailyReport $subReport)
     {
         return view('panel.pages.reports.edit')->with([
             'method' => 'PUT',
-            'data' => $report,
+            'data' => $subReport,
             'action' => route('reports.sub.update', $report),
-            'parent' => $report->getRelationValue('parent')
+            'parent' => $report
         ]);
     }
 
