@@ -21,158 +21,167 @@
             @lang('translates.navbar.work')
         </x-bread-crumb-link>
     </x-bread-crumb>
+    <div>
+        <button class="btn btn-outline-primary" onclick="showFilter()">
+            <i class="far fa-filter"></i> Filteri Aç
+        </button>
+    </div>
     <form action="{{route('works.index')}}">
         <div class="row d-flex justify-content-between mb-2">
-            <div class="col-12">
-                <div class="row m-0">
 
-                    <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">
-                        <label for="codeFilter">{{__('translates.filters.code')}}</label>
-                        <input type="search" id="codeFilter" name="code" value="{{$filters['code']}}"
-                               placeholder="{{__('translates.placeholders.code')}}" class="form-control">
-                    </div>
 
-                    @if(\App\Models\Work::userCanViewAll())
-                        <div class="form-group col-12 col-md-3 my-3 pl-0">
-                            <label class="d-block" for="departmentFilter">{{__('translates.general.department_select')}}</label>
-                            <select id="departmentFilter" class="select2"
-                                    name="department_id"
-                                    data-width="fit" title="{{__('translates.filters.select')}}"
-                                    @if(\App\Models\Work::userCannotViewAll()) disabled @endif
-                            >
-                                <option value="">@lang('translates.filters.select')</option>
-                                @foreach($departments as $department)
-                                    <option
-                                            @if($department->getAttribute('id') == $filters['department_id']) selected @endif
-                                    value="{{$department->getAttribute('id')}}"
-                                    >
-                                        {{ucfirst($department->getAttribute('name'))}}
-                                    </option>
-                                @endforeach
-                            </select>
+            <div id="showenFilter"  style="display:none;">
+                <div class="col-12">
+                    <div class="row m-0">
+
+                        <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">
+                            <label for="codeFilter">{{__('translates.filters.code')}}</label>
+                            <input type="search" id="codeFilter" name="code" value="{{$filters['code']}}"
+                                   placeholder="{{__('translates.placeholders.code')}}" class="form-control">
                         </div>
-                    @endif
 
-                    @if(\App\Models\Work::userCanViewAll() || \App\Models\Work::userCanViewDepartmentWorks())
+                        @if(\App\Models\Work::userCanViewAll())
+                            <div class="form-group col-12 col-md-3 my-3 pl-0">
+                                <label class="d-block" for="departmentFilter">{{__('translates.general.department_select')}}</label>
+                                <select id="departmentFilter" class="select2"
+                                        name="department_id"
+                                        data-width="fit" title="{{__('translates.filters.select')}}"
+                                        @if(\App\Models\Work::userCannotViewAll()) disabled @endif
+                                >
+                                    <option value="">@lang('translates.filters.select')</option>
+                                    @foreach($departments as $department)
+                                        <option
+                                                @if($department->getAttribute('id') == $filters['department_id']) selected @endif
+                                        value="{{$department->getAttribute('id')}}"
+                                        >
+                                            {{ucfirst($department->getAttribute('name'))}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endif
+
+                        @if(\App\Models\Work::userCanViewAll() || \App\Models\Work::userCanViewDepartmentWorks())
+                            <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                                <label class="d-block" for="userFilter">{{__('translates.general.user_select')}}</label>
+                                <select id="userFilter" class="select2"
+                                        name="user_id"
+                                        data-width="fit" title="{{__('translates.filters.select')}}"
+                                >
+                                    <option value="">@lang('translates.filters.select')</option>
+                                    @foreach($users as $user)
+                                        <option
+                                                @if($user->getAttribute('id') == $filters['user_id']) selected @endif
+                                        value="{{$user->getAttribute('id')}}"
+                                        >
+                                            {{$user->getAttribute('fullname_with_position')}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endif
+
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="userFilter">{{__('translates.general.user_select')}}</label>
-                            <select id="userFilter" class="select2"
-                                    name="user_id"
-                                    data-width="fit" title="{{__('translates.filters.select')}}"
-                            >
+                            <label class="d-block" for="serviceFilter">{{__('translates.general.select_service')}}</label>
+                            <select id="serviceFilter" class="select2"
+                                    name="service_id"
+                                    data-width="fit" title="{{__('translates.filters.select')}}">
                                 <option value="">@lang('translates.filters.select')</option>
-                                @foreach($users as $user)
+                                @foreach($services as $service)
                                     <option
-                                            @if($user->getAttribute('id') == $filters['user_id']) selected @endif
-                                    value="{{$user->getAttribute('id')}}"
+                                            @if($service->getAttribute('id') == $filters['service_id']) selected @endif
+                                    value="{{$service->getAttribute('id')}}"
                                     >
-                                        {{$user->getAttribute('fullname_with_position')}}
+                                        {{$service->getAttribute('name')}}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
-                    @endif
 
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                        <label class="d-block" for="serviceFilter">{{__('translates.general.select_service')}}</label>
-                        <select id="serviceFilter" class="select2"
-                                name="service_id"
-                                data-width="fit" title="{{__('translates.filters.select')}}">
-                            <option value="">@lang('translates.filters.select')</option>
-                            @foreach($services as $service)
-                                <option
-                                        @if($service->getAttribute('id') == $filters['service_id']) selected @endif
-                                value="{{$service->getAttribute('id')}}"
-                                >
-                                    {{$service->getAttribute('name')}}
-                                </option>
-                            @endforeach
-                        </select>
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
+                            <select name="client_id" id="clientFilter" class="client-filter" style="width: 100% !important;">
+                                @if(is_numeric($filters['client_id']))
+                                    <option value="{{$filters['client_id']}}">{{\App\Models\Client::find($filters['client_id'])->getAttribute('fullname_with_voen')}}</option>
+                                @endif
+                            </select>
+                        </div>
+
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="asanCompanyFilter">Asan Imza @lang('translates.columns.company')</label>
+                            <select name="asan_imza_company_id" id="asanCompanyFilter" class="select2" data-width="fit" style="width: 100% !important;">
+                                <option value="">@lang('translates.filters.select')</option>
+                                @foreach($companies as $company)
+                                    <option
+                                            @if($company->getAttribute('id') == $filters['asan_imza_company_id']) selected @endif
+                                    value="{{$company->getAttribute('id')}}"
+                                    >
+                                        {{$company->getAttribute('name')}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="asanUserFilter">Asan Imza @lang('translates.columns.user')</label>
+                            <select name="asan_imza_id" id="asanUserFilter" class="asanUser-filter" style="width: 100% !important;">
+                                @if(is_numeric($filters['asan_imza_id']))
+                                    @php
+                                        $asanUser = \App\Models\AsanImza::find($filters['asan_imza_id']);
+                                    @endphp
+                                    <option value="{{$filters['asan_imza_id']}}">
+                                        {{$asanUser->getRelationValue('user')->getAttribute('fullname')}}
+                                        ({{$asanUser->getRelationValue('company')->getAttribute('name')}})
+                                    </option>
+                                @endif
+                            </select>
+                        </div>
+
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="createdAtFilter">{{trans('translates.fields.created_at')}}</label>
+                            <input class="form-control daterange mb-1" id="createdAtFilter" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
+                            <input type="checkbox" name="check-created_at" id="check-created_at" @if(request()->has('check-created_at')) checked @endif> <label for="check-created_at">@lang('translates.filters.filter_by')</label>
+                        </div>
+
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="datetimeFilter">{{trans('translates.fields.date')}}</label>
+                            <input class="form-control daterange mb-1" id="datetimeFilter" type="text" readonly name="datetime" value="{{$filters['datetime']}}">
+                            <input type="checkbox" name="check-datetime" id="check-datetime" @if(request()->has('check-datetime')) checked @endif> <label for="check-datetime">@lang('translates.filters.filter_by')</label>
+                        </div>
+
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="statusFilter">{{trans('translates.general.status_choose')}}</label>
+                            <select name="status" id="statusFilter" class="form-control" style="width: 100% !important;">
+                                <option value="">@lang('translates.filters.select')</option>
+                                @foreach($statuses as $status)
+                                    <option
+                                            value="{{$status}}"
+                                            @if($status == $filters['status']) selected @endif
+                                    >
+                                        @lang('translates.work_status.' . $status)
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="verifiedFilter">@lang('translates.columns.verified')</label>
+                            <select name="verified_at" id="verifiedFilter" class="form-control" style="width: 100% !important;">
+                                <option value="">@lang('translates.filters.select')</option>
+                                @foreach($verifies as $key => $verify)
+                                    <option
+                                            value="{{$key}}"
+                                            @if($key == $filters['verified_at']) selected @endif
+                                    >
+                                        {{$verify}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
                     </div>
+                </div></div>
 
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                        <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
-                        <select name="client_id" id="clientFilter" class="client-filter" style="width: 100% !important;">
-                            @if(is_numeric($filters['client_id']))
-                                <option value="{{$filters['client_id']}}">{{\App\Models\Client::find($filters['client_id'])->getAttribute('fullname_with_voen')}}</option>
-                            @endif
-                        </select>
-                    </div>
-
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                        <label class="d-block" for="asanCompanyFilter">Asan Imza @lang('translates.columns.company')</label>
-                        <select name="asan_imza_company_id" id="asanCompanyFilter" class="select2" data-width="fit" style="width: 100% !important;">
-                            <option value="">@lang('translates.filters.select')</option>
-                            @foreach($companies as $company)
-                                <option
-                                        @if($company->getAttribute('id') == $filters['asan_imza_company_id']) selected @endif
-                                value="{{$company->getAttribute('id')}}"
-                                >
-                                    {{$company->getAttribute('name')}}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                        <label class="d-block" for="asanUserFilter">Asan Imza @lang('translates.columns.user')</label>
-                        <select name="asan_imza_id" id="asanUserFilter" class="asanUser-filter" style="width: 100% !important;">
-                            @if(is_numeric($filters['asan_imza_id']))
-                                @php
-                                    $asanUser = \App\Models\AsanImza::find($filters['asan_imza_id']);
-                                @endphp
-                                <option value="{{$filters['asan_imza_id']}}">
-                                    {{$asanUser->getRelationValue('user')->getAttribute('fullname')}}
-                                    ({{$asanUser->getRelationValue('company')->getAttribute('name')}})
-                                </option>
-                            @endif
-                        </select>
-                    </div>
-
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                        <label class="d-block" for="createdAtFilter">{{trans('translates.fields.created_at')}}</label>
-                        <input class="form-control daterange mb-1" id="createdAtFilter" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
-                        <input type="checkbox" name="check-created_at" id="check-created_at" @if(request()->has('check-created_at')) checked @endif> <label for="check-created_at">@lang('translates.filters.filter_by')</label>
-                    </div>
-
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                        <label class="d-block" for="datetimeFilter">{{trans('translates.fields.date')}}</label>
-                        <input class="form-control daterange mb-1" id="datetimeFilter" type="text" readonly name="datetime" value="{{$filters['datetime']}}">
-                        <input type="checkbox" name="check-datetime" id="check-datetime" @if(request()->has('check-datetime')) checked @endif> <label for="check-datetime">@lang('translates.filters.filter_by')</label>
-                    </div>
-
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                        <label class="d-block" for="statusFilter">{{trans('translates.general.status_choose')}}</label>
-                        <select name="status" id="statusFilter" class="form-control" style="width: 100% !important;">
-                            <option value="">@lang('translates.filters.select')</option>
-                            @foreach($statuses as $status)
-                                <option
-                                        value="{{$status}}"
-                                        @if($status == $filters['status']) selected @endif
-                                >
-                                    @lang('translates.work_status.' . $status)
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                        <label class="d-block" for="verifiedFilter">@lang('translates.columns.verified')</label>
-                        <select name="verified_at" id="verifiedFilter" class="form-control" style="width: 100% !important;">
-                            <option value="">@lang('translates.filters.select')</option>
-                            @foreach($verifies as $key => $verify)
-                                <option
-                                        value="{{$key}}"
-                                        @if($key == $filters['verified_at']) selected @endif
-                                >
-                                    {{$verify}}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                </div>
-            </div>
             <div class="col-12 mt-3 mb-5 d-flex align-items-center justify-content-end">
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <button type="submit" class="btn btn-outline-primary"><i
@@ -197,7 +206,7 @@
                 </div>
             @endcan
             <div class="col-12">
-                <table class="table @if($works->count()) table-responsive @else table-responsive-sm @endif table-hover">
+                <table class="table @if($works->count()) table-responsive-md @else table-responsive-sm @endif ">
                     <thead>
                     <tr class="text-center">
                         @if(auth()->user()->hasPermission('canVerify-work'))
@@ -443,12 +452,23 @@
     </div>
 @endsection
 @section('scripts')
+
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <script>
+
+        function showFilter() {
+            var x = document.getElementById("showenFilter");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+
         const select2 = $('.select2');
         const clientFilter = $('.client-filter');
         const asanUserFilter = $('.asanUser-filter');
