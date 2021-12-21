@@ -140,6 +140,7 @@ return [
         'back' => 'Back',
         'search' => 'Search',
         'filter' => 'Filter',
+        'filter_open' => 'Open Filter',
         'add' => 'Add',
         'copy' => 'Copy',
         'copied' => 'Copied',
