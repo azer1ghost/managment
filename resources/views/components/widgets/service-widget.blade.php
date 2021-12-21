@@ -30,11 +30,6 @@
                     {{$model}}Series.ticks.template.set("visible", false);
                     {{$model}}Series.slices.template.set("strokeOpacity", 1);
 
-                    const {{$model}}Legend = {{$model}}Chart.children.push(am5.Legend.new({{$model}}Root, {
-                        centerY: am5.percent(50),
-                        y: am5.percent(50)
-                    }));
-
                     {{$model}}Legend.data.setAll({{$model}}Series.dataItems);
                     {{$model}}Series.appear(1000, 100);
                 });
