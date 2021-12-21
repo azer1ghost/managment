@@ -29,18 +29,18 @@
                     <tr>
                         <td colspan="2"><p class="mb-0"><strong>{{$date->year}} {{$date->monthName}}</strong></p></td>
                     </tr>
-                    @foreach($subReports as $subReport)
+                    @foreach($subReports as $report)
                         <tr>
                             <td colspan="2"></td>
                             <td>
-                                {{$subReport->getAttribute('date')}}
-                                @can('showSubReport', [$subReport, $parent])
-                                    <a href="{{route('reports.sub.show', ['report' => $parent, 'subReport' => $subReport])}}" class="btn btn-sm btn-outline-success ml-2">
+                                {{$report->getAttribute('date')}}
+                                @can('showSubReport', $report)
+                                    <a href="{{route('reports.sub.show', $report)}}" class="btn btn-sm btn-outline-success ml-2">
                                         <i class="fal fa-eye"></i>
                                     </a>
                                 @endcan
-                                @can('updateSubReport', [$subReport, $parent])
-                                    <a href="{{route('reports.sub.edit',  ['report' => $parent, 'subReport' => $subReport])}}" class="btn btn-sm btn-outline-primary">
+                                @can('updateSubReport', $report)
+                                    <a href="{{route('reports.sub.edit', $report)}}" class="btn btn-sm btn-outline-primary">
                                         <i class="fal fa-pen"></i>
                                     </a>
                                 @endcan

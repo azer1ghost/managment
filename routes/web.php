@@ -96,8 +96,8 @@ Route::group([
     Route::get('/reports/{report}/sub-reports', [ReportController::class, 'showSubReports'])->name('reports.subs.show');
     Route::get('/reports/{report}/sub-report/create', [ReportController::class, 'createSubReport'])->name('reports.sub.create');
     Route::post('/reports/{report}/sub-report/generate', [ReportController::class, 'generateSubReport'])->name('reports.sub.generate');
-    Route::get('/reports/{report}/sub-report/{subReport}', [ReportController::class, 'showSubReport'])->name('reports.sub.show');
-    Route::get('/reports/{report}/sub-report/{subReport}/edit', [ReportController::class, 'editSubReport'])->name('reports.sub.edit');
+    Route::get('/reports/sub-report/{report}', [ReportController::class, 'showSubReport'])->name('reports.sub.show');
+    Route::get('/reports/sub-report/{report}/edit', [ReportController::class, 'editSubReport'])->name('reports.sub.edit');
     Route::put('/reports/sub-report/{report}', [ReportController::class, 'updateSubReport'])->name('reports.sub.update');
     Route::post('/reports/generate', [ReportController::class, 'generateReports'])->name('reports.generate');
     Route::resource('/reports', ReportController::class)->only('index', 'destroy');

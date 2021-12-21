@@ -15,7 +15,6 @@ class ReportController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->authorizeResource(Report::class);
     }
 
     /* Custom policies to extend default resource policies */
@@ -102,24 +101,24 @@ class ReportController extends Controller
     }
 
     /* show specific daily report for the given chief */
-    public function showSubReport(DailyReport $subReport, Report $report)
+    public function showSubReport(DailyReport $report)
     {
         return view('panel.pages.reports.edit')->with([
             'method' => null,
-            'data' => $subReport,
+            'data' => $report,
             'action' => null,
-            'parent' => $report
+            'parent' => $report->getRelationValue('parent')
         ]);
     }
 
     /* edit specific daily report for the given chief */
-    public function editSubReport(DailyReport $subReport, Report $report)
+    public function editSubReport(DailyReport $report)
     {
         return view('panel.pages.reports.edit')->with([
             'method' => 'PUT',
-            'data' => $subReport,
-            'action' => route('reports.sub.update', $subReport),
-            'parent' => $report
+            'data' => $report,
+            'action' => route('reports.sub.update', $report),
+            'parent' => $report->getRelationValue('parent')
         ]);
     }
 
