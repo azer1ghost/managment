@@ -32,7 +32,7 @@ class ReportPolicy
     public function showSubReport(User $user, DailyReport $subReport, Report $report): bool
     {
         return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
-            $user->getAttribute('id') == $subReport->getRelationValue('parent')->getAttribute('chief_id');
+            $user->getAttribute('id') == $report->getAttribute('chief_id');
     }
 
     public function updateSubReport(User $user, DailyReport $subReport, Report $report): bool
