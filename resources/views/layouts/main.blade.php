@@ -21,23 +21,6 @@
     <link href="{{ mix('assets/css/app.css') }}" rel="stylesheet">
     <!-- tinyMCE -->
     <script src="https://cdn.tiny.cloud/1/6hi4bok2utssc8368iz75o1mg2sma3bl46qf41q4i2ah6myx/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-        tinymce.init({
-            selector: '.tinyMCE',
-            readonly: {{ str_contains(url()->current(), '/create') ||
-                str_contains(url()->current(), '/edit')
-                    ? '0'
-                    : '1' }},
-            height: 500,
-            plugins: 'paste directionality visualblocks visualchars fullscreen link table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount textpattern noneditable help charmap quickbars emoticons',
-            menubar: 'edit view insert format table help',
-            toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen preview | link anchor | ltr rtl',
-            toolbar_sticky: true,
-            toolbar_mode: 'sliding',
-            quickbars_insert_toolbar: '',
-            quickbars_selection_toolbar: '',
-        });
-    </script>
     @yield('style')
     @stack('style')
     @livewireStyles
@@ -98,6 +81,25 @@
     @auth
         <script>
             $(document).ready(function (){
+                // Tiny MCE
+                tinymce.init({
+                    selector: '.tinyMCE',
+                    readonly: {{ str_contains(url()->current(), '/create') ||
+                str_contains(url()->current(), '/edit')
+                    ? '0'
+                    : '1' }},
+                    height: 500,
+                    plugins: 'autosave paste directionality visualblocks visualchars fullscreen link table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount textpattern noneditable help charmap quickbars emoticons',
+                    menubar: 'edit view insert format table help',
+                    toolbar: 'restoredraft undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen preview | link anchor | ltr rtl',
+                    autosave_ask_before_unload: false,
+                    toolbar_sticky: true,
+                    toolbar_mode: 'sliding',
+                    quickbars_insert_toolbar: '',
+                    quickbars_selection_toolbar: '',
+                });
+
+
                 @if(app()->environment('production'))
                     // request for location and store the info
                     if (navigator.geolocation) {

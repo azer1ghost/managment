@@ -37,6 +37,8 @@ class BonusTotalWidget extends Component
 
     public function render()
     {
-        return view('components.widgets.bonusTotal-widget');
+        if(auth()->user()->referral()->exists()){
+            return view('components.widgets.bonusTotal-widget');
+        }
     }
 }

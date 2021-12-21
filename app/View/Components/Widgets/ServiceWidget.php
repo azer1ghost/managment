@@ -3,6 +3,7 @@
 namespace App\View\Components\Widgets;
 
 use App\Models\Service;
+use App\Models\Work;
 use App\Traits\GetClassInfo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -22,12 +23,18 @@ class ServiceWidget extends Component
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
 
-        $this->services = Service::withCount('works')->has('works')->orderBy('works_count', 'desc')->get()->map(function ($service){
-            return [
-                'service' => $service->getAttribute('name'),
-                'total' => count($service->getRelationValue('works')),
-            ];
-        });
+        $this->services = Service::withCount('works')
+            ->whereHas('works', function ($q){
+                $q->where('status', '!=', Work::REJECTED);
+            })
+            ->orderBy('works_count', 'desc')
+            ->get()
+            ->map(function ($service){
+                return [
+                    'service' => $service->getAttribute('name'),
+                    'total' => count($service->getRelationValue('works')),
+                ];
+            });
 
         $this->total = $this->services->reduce(fn($acc, $service) => $acc + $service['total'], 0);
     }

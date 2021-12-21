@@ -40,7 +40,7 @@ class ReportPolicy
         return
             ($this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
             $user->getAttribute('id') == $report->getRelationValue('parent')->getAttribute('chief_id')) &&
-            $report->getAttribute('date') == now()->format('Y-m-d');
+            $report->getAttribute('created_at')->format('Y-m-d') == now()->format('Y-m-d');
     }
 
     public function delete(User $user, Report $report): bool
