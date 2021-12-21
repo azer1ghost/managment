@@ -118,7 +118,7 @@ class ReportController extends Controller
         return view('panel.pages.reports.edit')->with([
             'method' => 'PUT',
             'data' => $subReport,
-            'action' => route('reports.sub.update', $report),
+            'action' => route('reports.sub.update', $subReport),
             'parent' => $report
         ]);
     }

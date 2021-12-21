@@ -16,10 +16,10 @@ class DailyReport extends Model
 
     const TIME_LIMIT = 17;
 
-    public function getRouteKeyName()
-    {
-        return 'date';
-    }
+//    public function getRouteKeyName()
+//    {
+//        return 'date';
+//    }
 
     public function parent(): BelongsTo
     {
