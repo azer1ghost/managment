@@ -21,16 +21,16 @@
             @lang('translates.navbar.work')
         </x-bread-crumb-link>
     </x-bread-crumb>
-    <div>
+
         <button class="btn btn-outline-success" onclick="showFilter()">
             <i class="far fa-filter"></i> @lang('translates.buttons.filter_open')
         </button>
-    </div>
+
     <form action="{{route('works.index')}}">
         <div class="row d-flex justify-content-between mb-2">
 
-
             <div id="showenFilter"  style="display:none;">
+
                 <div class="col-12">
                     <div class="row m-0">
 
