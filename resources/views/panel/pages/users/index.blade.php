@@ -45,7 +45,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-12 col-md-2">
+                    <div class="col-8 col-md-2 pl-0 mb-3">
                         <div class="input-group mb-3">
                             <select class="form-control" name="type">
                                 @foreach ($types as $index => $type)
@@ -54,6 +54,16 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-8 col-md-2 pl-0 mb-3">
+                        <div class="input-group mb-3">
+                            <select class="form-control" name="status">
+                                @foreach ($statuses as $index => $status)
+                                    <option @if (request()->get('status') == $index) selected @endif value="{{$index}}">@lang('translates.users.statuses.' . $status)</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="col-4 col-md-1 pl-0 mb-3">
                         <select name="limit" class="custom-select">
                             @foreach([25, 50, 100] as $size)

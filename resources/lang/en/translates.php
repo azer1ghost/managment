@@ -411,6 +411,11 @@ return [
             'partners' => 'Partners',
             'all' => 'All'
         ],
+        'statuses' => [
+            'active' => 'Active',
+            'deactivate' => 'Deactivate',
+            'all' => 'Hamısı'
+        ],
     ],
 
     'bonus' => [
