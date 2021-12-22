@@ -35,11 +35,6 @@ class WorkForm extends Component
         $this->statuses = Work::statuses();
 
         $user = auth()->user();
-        if($user->hasPermission('canRedirect-work')) {
-            $this->users = $this->department->users()->orderBy('name')->with('position')->isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']);
-        }else {
-            $this->users = collect([$user]);
-        }
 
         foreach ($this->selected as $key => $selected) {
             if($key == 'department_id') {
@@ -51,6 +46,12 @@ class WorkForm extends Component
                 continue;
             }
             $this->selected[$key] = request()->get($key) ?? optional($this->data)->getAttribute($key);
+        }
+
+        if($user->hasPermission('canRedirect-work')) {
+            $this->users = $this->department->users()->orderBy('name')->with('position')->isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']);
+        }else {
+            $this->users = collect([$user]);
         }
 
         // check if user does not a department or service_id is not set from request
