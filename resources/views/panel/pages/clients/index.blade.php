@@ -80,7 +80,7 @@
                     @can('create', App\Models\Client::class)
                         <a class="btn btn-outline-success float-right " href="{{route('clients.create', ['type' => \App\Models\Client::LEGAL])}}">@lang('translates.buttons.create')</a>
                     @endcan
-                    <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('clients.export', ['filters' => json_encode($filters)])}}">Export</a>
+                    <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('clients.export', ['filters' => json_encode($filters)])}}">@lang('translates.buttons.export')</a>
                 </div>
                 </div>
 

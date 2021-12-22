@@ -151,7 +151,8 @@ return [
         'close' => 'Close',
         'view' => 'View',
         'verify' => 'Verify',
-        'execute' => 'Execute'
+        'execute' => 'Execute',
+        'export' => 'Export',
     ],
 
     'sum' => 'Collective',

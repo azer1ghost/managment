@@ -153,7 +153,8 @@ return [
         'close' => 'Bağla',
         'view' => 'Göstər',
         'verify' => 'Doğrulayın',
-        'execute' => 'Icra et'
+        'execute' => 'Icra et',
+        'export' => 'İxrac et',
     ],
 
     'sum' => 'Toplu',
