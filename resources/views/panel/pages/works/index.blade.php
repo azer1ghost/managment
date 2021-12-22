@@ -29,7 +29,7 @@
     <form action="{{route('works.index')}}">
         <div class="row d-flex justify-content-between mb-2">
 
-            <div id="showenFilter"  style="display:none;">
+            <div id="showenFilter" class="mb-3" @if(request()->has('datetime')) style="display:block;" @else style="display:none;" @endif>
 
                 <div class="col-12">
                     <div class="row m-0">
@@ -154,10 +154,8 @@
                             <select name="status" id="statusFilter" class="form-control" style="width: 100% !important;">
                                 <option value="">@lang('translates.filters.select')</option>
                                 @foreach($statuses as $status)
-                                    <option
-                                            value="{{$status}}"
-                                            @if($status == $filters['status']) selected @endif
-                                    >
+                                    <option value="{{$status}}"
+                                            @if($status == $filters['status']) selected @endif>
                                         @lang('translates.work_status.' . $status)
                                     </option>
                                 @endforeach
@@ -178,18 +176,20 @@
                                 @endforeach
                             </select>
                         </div>
-
+                        <div class="col-12 mt-3 mb-5 d-flex align-items-center justify-content-end">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="submit" class="btn btn-outline-primary"><i
+                                            class="fas fa-filter"></i> @lang('translates.buttons.filter')</button>
+                                <a href="{{route('works.index')}}" class="btn btn-outline-danger"><i
+                                            class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>
+                            </div>
+                        </div>
                     </div>
-                </div></div>
-
-            <div class="col-12 mt-3 mb-5 d-flex align-items-center justify-content-end">
-                <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="submit" class="btn btn-outline-primary"><i
-                                class="fas fa-filter"></i> @lang('translates.buttons.filter')</button>
-                    <a href="{{route('works.index')}}" class="btn btn-outline-danger"><i
-                                class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>
                 </div>
             </div>
+
+
+
             <div class="col-6 pt-2 d-flex align-items-center">
                 <p class="mb-0"> @lang('translates.total_items', ['count' => $works->count(), 'total' => $works->total()])</p>
                 <div class="input-group col-md-3">
@@ -200,6 +200,8 @@
                     </select>
                 </div>
             </div>
+
+
             @can('create', App\Models\Work::class)
                 <div class="col-6 py-3">
                     <a class="btn btn-outline-success float-right" data-toggle="modal" data-target="#create-work">@lang('translates.buttons.create')</a>

@@ -21,12 +21,12 @@
             @lang('translates.navbar.inquiry')
         </x-bread-crumb-link>
     </x-bread-crumb>
-    <button class="btn btn-outline-success" onclick="showFilter()">
+    <button class="btn btn-outline-success mb-3" onclick="showFilter()">
         <i class="far fa-filter"></i> @lang('translates.buttons.filter_open')
     </button>
     <form class="row" id="inquiryForm">
 
-        <div id="showenFilter" style="display:none;">
+        <div id="showenFilter" @if(request()->has('daterange')) style="display:block;" @else style="display:none;" @endif>
 
             <div class="col-12">
                 <div class="row m-0">
@@ -159,6 +159,13 @@
                             @endforeach
                         </select>
                     </div>
+
+                </div>
+                <div class=" col-offset-9 mt-3 float-right">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="submit" class="btn btn-outline-primary"><i class="fas fa-filter"></i> @lang('translates.buttons.filter')</button>
+                        <a href="{{route('inquiry.index')}}" class="btn btn-outline-danger"><i class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -170,12 +177,7 @@
             </select>
         </div>
 
-        <div class="col-12 col-md-10 mt-3 d-flex align-items-center justify-content-end">
-            <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="submit" class="btn btn-outline-primary"><i class="fas fa-filter"></i> @lang('translates.buttons.filter')</button>
-                <a href="{{route('inquiry.index')}}" class="btn btn-outline-danger"><i class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>
-            </div>
-        </div>
+
     </form>
 
     <div class="col-12">

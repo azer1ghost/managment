@@ -142,7 +142,7 @@ return [
         'back' => 'Geri',
         'search' => 'Axtar',
         'filter' => 'Filterlə',
-        'open_filter' => 'Filteri Aç',
+        'filter_open' => 'Filteri Aç',
         'add' => 'Əlavə et',
         'copy' => 'Kopyala',
         'copied' => 'Kopyalandı',
