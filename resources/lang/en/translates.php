@@ -433,6 +433,7 @@ return [
         'signature_for' => 'Signature for',
         'legal' => 'Legal',
         'physical' => 'Physical',
+        'typeChoose' => 'Type Not Selected',
         'physical_client_name' => 'Name of Legal Client Employees',
         'physical_client_mail' => 'Mail of Legal Client Employees',
         'physical_client_phone' => 'Phone of Legal Client Employees',
@@ -462,7 +463,9 @@ return [
         'phone_empty' => 'Phone is empty',
         'email_empty' => 'Email is empty',
         'voen_empty' => 'VOEN is empty',
-        'add_representative' => 'Add a representative'
+        'add_representative' => 'Add a representative',
+        'selectUser' => 'Select Sales Users',
+
     ],
 
     'clients_type' => [

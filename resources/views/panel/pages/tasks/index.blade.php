@@ -15,71 +15,83 @@
             @lang('translates.navbar.task')
         </x-bread-crumb-link>
     </x-bread-crumb>
+    <button class="btn btn-outline-success" onclick="showFilter()">
+        <i class="far fa-filter"></i> @lang('translates.buttons.filter_open')
+    </button>
+
     <form>
         <div class="row d-flex mb-2">
-            <div class="col-12 col-md-3">
-                <input class="form-control" id="start-daterange" type="text" readonly name="must_start_at" value="{{$filters['must_start_at']}}">
-                <input type="checkbox" name="check_start_daterange" id="check_start_daterange" @if(request()->has('check_start_daterange')) checked @endif> <label for="check_start_daterange">@lang('translates.filters.filter_by')</label>
-            </div>
-            <div class="col-12 col-md-3">
-                <div class="input-group mb-3">
-                    <input type="search" placeholder="@lang('translates.placeholders.task_name')" name="search" value="{{request()->get('search')}}" class="form-control">
-                </div>
-            </div>
-            <div class="col-12 col-md-3">
-                <div class="input-group mb-3">
-                    <input type="search" placeholder="@lang('translates.placeholders.search_users')" name="user" value="{{request()->get('user')}}" class="form-control">
-                </div>
-            </div>
+            <div id="showenFilter" class="mb-3" @if(request()->has('must_start_at')) style="display:block;" @else style="display:none;" @endif>
 
-            @if(\App\Models\Task::userCanViewAll())
-                <div class="col-12 col-md-3">
-                    <div class="input-group mb-3">
-                        <select class="form-control" name="department">
-                            <option value="">@lang('translates.fields.department') @lang('translates.placeholders.choose')</option>
-                            @foreach ($departments as $department)
-                                <option @if ($department->id == request()->get('department')) selected @endif value="{{$department->id}}">{{$department->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-            @endif
+                <div class="col-12 mt-3">
+                    <div class="row m-0">
 
-            <div class="col-12 col-md-3">
-                <div class="input-group mb-3">
-                    <select class="form-control" name="status">
-                        <option value="">@lang('translates.fields.status.key') @lang('translates.placeholders.choose')</option>
-                        @foreach ($statuses as $status)
-                            <option @if ($status == request()->get('status')) selected @endif value="{{$status}}">@lang('translates.fields.status.options.' . $status)</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            <div class="col-12 col-md-3">
-                <div class="input-group mb-3">
-                    <select class="form-control" name="priority">
-                        <option value="">@lang('translates.fields.priority.key') @lang('translates.placeholders.choose')</option>
-                        @foreach ($priorities as $priority)
-                            <option @if ($priority == request()->get('priority')) selected @endif value="{{$priority}}">@lang('translates.fields.priority.options.' . $priority)</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
+                        <div class="col-12 col-md-3">
+                            <input class="form-control" id="start-daterange" type="text" readonly name="must_start_at" value="{{$filters['must_start_at']}}">
+                            <input type="checkbox" name="check_start_daterange" id="check_start_daterange" @if(request()->has('check_start_daterange')) checked @endif> <label for="check_start_daterange">@lang('translates.filters.filter_by')</label>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <div class="input-group mb-3">
+                                <input type="search" placeholder="@lang('translates.placeholders.task_name')" name="search" value="{{request()->get('search')}}" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <div class="input-group mb-3">
+                                <input type="search" placeholder="@lang('translates.placeholders.search_users')" name="user" value="{{request()->get('user')}}" class="form-control">
+                            </div>
+                        </div>
 
-            <div class="col-12 col-md-3">
-                <div class="input-group mb-3">
-                    <select class="form-control" name="type">
-                        @foreach ($types as $index => $type)
-                            <option @if ($filters['type'] == $index) selected @endif value="{{$index}}">@lang('translates.tasks.types.' . $type)</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
+                        @if(\App\Models\Task::userCanViewAll())
+                            <div class="col-12 col-md-3">
+                                <div class="input-group mb-3">
+                                    <select class="form-control" name="department">
+                                        <option value="">@lang('translates.fields.department') @lang('translates.placeholders.choose')</option>
+                                        @foreach ($departments as $department)
+                                            <option @if ($department->id == request()->get('department')) selected @endif value="{{$department->id}}">{{$department->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        @endif
 
-            <div class="col-12 col-md-3">
-                <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i> @lang('translates.buttons.filter')</button>
-                <a href="{{route('tasks.index')}}" class="btn btn-outline-danger"><i
-                            class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>
+                        <div class="col-12 col-md-3">
+                            <div class="input-group mb-3">
+                                <select class="form-control" name="status">
+                                    <option value="">@lang('translates.fields.status.key') @lang('translates.placeholders.choose')</option>
+                                    @foreach ($statuses as $status)
+                                        <option @if ($status == request()->get('status')) selected @endif value="{{$status}}">@lang('translates.fields.status.options.' . $status)</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <div class="input-group mb-3">
+                                <select class="form-control" name="priority">
+                                    <option value="">@lang('translates.fields.priority.key') @lang('translates.placeholders.choose')</option>
+                                    @foreach ($priorities as $priority)
+                                        <option @if ($priority == request()->get('priority')) selected @endif value="{{$priority}}">@lang('translates.fields.priority.options.' . $priority)</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-3">
+                            <div class="input-group mb-3">
+                                <select class="form-control" name="type">
+                                    @foreach ($types as $index => $type)
+                                        <option @if ($filters['type'] == $index) selected @endif value="{{$index}}">@lang('translates.tasks.types.' . $type)</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-3">
+                            <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i> @lang('translates.buttons.filter')</button>
+                            <a href="{{route('tasks.index')}}" class="btn btn-outline-danger"><i
+                                        class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>
+                        </div>
+            </div>
+            </div>
             </div>
             <div class="col-8 pt-2 d-flex align-items-center">
                 <p class="mb-0"> @lang('translates.total_items', ['count' => $tasks->count(), 'total' => $tasks->total()])</p>
@@ -197,6 +209,14 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <script>
+        function showFilter() {
+            var x = document.getElementById("showenFilter");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
         $('select[name="limit"]').change(function () {
             this.form.submit();
         });
