@@ -35,7 +35,7 @@ class OptionController extends Controller
                 'options' => Option::with(['parameters', 'companies'])
                     ->when($type,    fn ($query) => $query->whereHas('parameters', fn($q) => $q->where('option_parameter.parameter_id', $type)))
                     ->when($company, fn ($query) => $query->whereHas('companies',  fn($q) => $q->where('option_parameter.company_id', $company)))
-                    ->when($search,  fn ($query) => $query->where('text', 'like', "%$search%"))
+                    ->when($search, fn ($query) => $query->where('text', 'like', "%$search%"))
                     ->latest('id')
                     ->paginate($limit),
                 'companies' => Company::isInquirable()->pluck('name', 'id')->toArray(),

@@ -29,6 +29,14 @@
                     </div>
                 </div>
 
+                <div class="col-4">
+                    <select name="type" class="custom-select" id="type">
+                        @foreach($types as $key => $type)
+                            <option @if(request()->get('type') === "$key") selected @endif value="{{$key}}">{{$type}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
                 @if(\App\Models\Client::userCanViewAll())
                     <div class="col-4">
                         <div class="form-group">

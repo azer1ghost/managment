@@ -15,7 +15,7 @@
         <div class="row d-flex justify-content-between mb-2">
            <div class="col-6">
                <div class="input-group mb-3">
-                   <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                   <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="Search" aria-label="Recipient's optionname" aria-describedby="basic-addon2">
                    <div class="input-group-append">
                        <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
                        <a class="btn btn-outline-danger" href="{{route('options.index')}}"><i class="fal fa-times"></i></a>
@@ -68,9 +68,9 @@
                         </tr>
                     @empty
                         <tr>
-                            <th colspan="4">
+                            <th colspan="5">
                                 <div class="row justify-content-center m-3">
-                                    <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.empty')t</div>
+                                    <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.empty')</div>
                                 </div>
                             </th>
                         </tr>
