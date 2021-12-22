@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Department;
 use App\Models\Service;
+use App\Models\User;
 use App\Models\Work;
 use App\Services\ExchangeRatesApi;
 use Illuminate\Support\Collection;
@@ -38,20 +39,26 @@ class WorkForm extends Component
 
         foreach ($this->selected as $key => $selected) {
             if($key == 'department_id') {
-                $this->selected['department_id'] = optional($this->data)->getAttribute($key) ?? request()->get('department_id') ?? $user->getAttribute('department_id');
+                $this->selected['department_id'] = optional($this->data)->getAttribute($key) ?? (request()->get('department_id') ?? $user->getAttribute('department_id'));
                 continue;
             }
+
             if($key == 'user_id') {
                 $this->selected['user_id'] = optional($this->data)->getAttribute($key) ?? $user->getAttribute('id');
                 continue;
             }
+
             $this->selected[$key] = request()->get($key) ?? optional($this->data)->getAttribute($key);
         }
 
         if($user->hasPermission('canRedirect-work')) {
             $this->users = $this->department->users()->orderBy('name')->with('position')->isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']);
         }else {
-            $this->users = collect([$user]);
+            if ($this->method == 'POST') {
+                $this->users = collect([$user]);
+            } else {
+                $this->users = collect([User::find($this->selected['user_id'])]);
+            }
         }
 
         // check if user does not a department or service_id is not set from request
