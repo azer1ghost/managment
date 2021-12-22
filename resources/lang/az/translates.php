@@ -475,6 +475,7 @@ return [
         'voen_empty' => 'VOEN yoxdur',
         'add_representative' => 'Nümayəndə əlavə et',
         'selectUser' => 'Satış İstifadəçisi Seç',
+        'assignUser' => 'Satış istifadəçilərini təyin edin'
     ],
 
     'clients_type' => [

@@ -470,6 +470,7 @@ return [
         'voen_empty' => 'VOEN is empty',
         'add_representative' => 'Add a representative',
         'selectUser' => 'Select Sales Users',
+        'assignUser' => 'Assign sales users'
 
     ],
 

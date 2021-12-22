@@ -70,8 +70,8 @@ class ClientController extends Controller
                     ->when($search, fn ($query) => $query->where('fullname', 'like', "%$search%"))
                     ->when($salesClient, fn ($query) => $query->whereHas('salesUsers', fn($q) => $q->where('id', $salesClient)))
                     ->paginate($limit),
-                'salesUsers' => User::where('department_id', Department::SALES)->get(['id', 'name', 'surname']),
-                'salesClients' => User::has('salesClients')->get(['id', 'name', 'surname'])
+                'salesUsers' => User::isActive()->where('department_id', Department::SALES)->get(['id', 'name', 'surname']),
+                'salesClients' => User::isActive()->has('salesClients')->get(['id', 'name', 'surname'])
             ]);
     }
 

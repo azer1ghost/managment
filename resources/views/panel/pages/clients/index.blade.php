@@ -16,7 +16,6 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
     <form action="{{route('clients.index')}}">
-
             <div class="row mb-2">
                 <div class="col-md-4">
                     <div class="input-group mb-3">
@@ -159,11 +158,10 @@
                         {{$clients->appends(request()->input())->links()}}
                     </div>
                 </div>
-            </div>
     </form>
     @if(auth()->user()->hasPermission('canAssignUsers-client'))
         <button type="button" class="btn btn-outline-primary" id="sum-assign-sales" data-toggle="modal" data-target="#sum-assign-modal">
-            Assign sales users
+            @lang('translates.clients.assignUser')
         </button>
         <div class="modal fade" id="sum-assign-modal" tabindex="-1">
             <div class="modal-dialog">
