@@ -459,6 +459,7 @@ return [
         'department_select' => 'Department Select',
         'user_select' => 'User Select',
         'select_client' => 'Select Client',
+        'select_date' => 'Select Date',
     ],
 
     'clients' => [

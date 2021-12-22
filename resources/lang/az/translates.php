@@ -458,6 +458,7 @@ return [
         'hard_level_choose' => 'Çətinlik dərəcəsi Seçin',
         'status_choose' => 'Status Seçin',
         'hard_level' => 'Çətinlik dərəcəsi',
+        'select_date' => 'Tarix Seç',
         'physical_client_name' => 'Hüquqi Müştərinin İşcilerinin Adı',
         'physical_client_mail' => 'Hüquqi Müştərinin İşcilerinin Emaili',
         'physical_client_phone' => 'Hüquqi Müştərinin İşcilerinin Nömrəsi',
