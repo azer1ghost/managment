@@ -21,162 +21,147 @@
             @lang('translates.navbar.inquiry')
         </x-bread-crumb-link>
     </x-bread-crumb>
+    <button class="btn btn-outline-success" onclick="showFilter()">
+        <i class="far fa-filter"></i> @lang('translates.buttons.filter_open')
+    </button>
     <form class="row" id="inquiryForm">
-        <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
-            <label for="daterange">@lang('translates.filters.date')</label>
-            <input type="text" readonly placeholder="@lang('translates.placeholders.range')" name="daterange"
-                   value="{{$daterange}}" id="daterange" class="form-control">
-        </div>
-        <div class="form-group col-12 col-md-3 mb-md-0">
-            <label for="codeFilter">@lang('translates.filters.code')</label>
-            <input type="search" id="codeFilter" name="code" value="{{request()->get('code')}}"
-                   placeholder="@lang('translates.placeholders.code')" class="form-control">
-        </div>
 
-        <div class="form-group col-12 col-md-3 mb-md-0">
-            <label for="clientNamePhoneFilter">@lang('translates.filters.or', ['first' => __('translates.fields.client'), 'second' => __('translates.fields.phone'), 'third' => __('translates.fields.mail')])</label>
-            <input type="search" id="clientNamePhoneFilter" name="search_client"
-                   value="{{request()->get('search_client')}}"
-                   placeholder="@lang('translates.placeholders.or', ['first' => __('translates.fields.client'), 'second' => __('translates.fields.phone'), 'third' =>  __('translates.fields.mail')])"
-                   class="form-control">
-        </div>
+        <div id="showenFilter" style="display:none;">
 
-        <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
-            <label for="noteFilter">@lang('translates.fields.note')</label>
-            <input id="noteFilter" name="note" value="{{request()->get('note')}}"
-                   placeholder="@lang('translates.placeholders.note')" class="form-control"/>
-        </div>
+            <div class="col-12">
+                <div class="row m-0">
 
-        @if(\App\Models\Inquiry::userCanViewAll())
-            <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
-                <label class="d-block" for="departmentFilter">@lang('translates.fields.department')</label>
-                <select id="departmentFilter" name="department" class="filterSelector" data-width="fit"
-                        title="@lang('translates.general.department_select')">
-                    @foreach($departments as $department)
-                        <option
-                            @if($department->getAttribute('id') == request()->get('department')) selected @endif
-                            value="{{$department->getAttribute('id')}}"
-                        >
-                            {{$department->getAttribute('name')}}
-                        </option>
-                    @endforeach
-                </select>
+                    <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
+                        <label for="daterange">@lang('translates.filters.date')</label>
+                        <input type="text" readonly placeholder="@lang('translates.placeholders.range')" name="daterange"
+                               value="{{$daterange}}" id="daterange" class="form-control">
+                    </div>
+                    <div class="form-group col-12 col-md-3 mb-md-0">
+                        <label for="codeFilter">@lang('translates.filters.code')</label>
+                        <input type="search" id="codeFilter" name="code" value="{{request()->get('code')}}"
+                               placeholder="@lang('translates.placeholders.code')" class="form-control">
+                    </div>
+
+                    <div class="form-group col-12 col-md-3 mb-md-0">
+                        <label for="clientNamePhoneFilter">@lang('translates.filters.or', ['first' => __('translates.fields.client'), 'second' => __('translates.fields.phone'), 'third' => __('translates.fields.mail')])</label>
+                        <input type="search" id="clientNamePhoneFilter" name="search_client"  value="{{request()->get('search_client')}}"
+                               placeholder="@lang('translates.placeholders.or', ['first' => __('translates.fields.client'), 'second' => __('translates.fields.phone'), 'third' =>  __('translates.fields.mail')])" class="form-control">
+                    </div>
+
+                    <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
+                        <label for="noteFilter">@lang('translates.fields.note')</label>
+                        <input id="noteFilter" name="note" value="{{request()->get('note')}}" placeholder="@lang('translates.placeholders.note')" class="form-control"/>
+                    </div>
+
+                    @if(\App\Models\Inquiry::userCanViewAll())
+                        <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
+                            <label class="d-block" for="departmentFilter">@lang('translates.fields.department')</label>
+                            <select id="departmentFilter" name="department" class="filterSelector" data-width="fit" title="@lang('translates.general.department_select')">
+                                @foreach($departments as $department)
+                                    <option
+                                            @if($department->getAttribute('id') == request()->get('department')) selected  @endif value="{{$department->getAttribute('id')}}" >
+                                                {{$department->getAttribute('name')}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
+
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3 mb-md-0">
+                        <label class="d-block" for="subjectFilter">@lang('translates.filters.subject')</label>
+                        <select id="subjectFilter" multiple class="filterSelector form-control"  data-selected-text-format="count" data-width="fit" title="@lang('translates.filters.select')">
+                            @php($subjectsRequest = explode(',', request()->get('subject')))
+                            @foreach($subjects as $subject)
+                                <option
+                                        @if(in_array($subject->id, $subjectsRequest)) selected @endif value="{{$subject->getAttribute('id')}}" >
+                                            {{ucfirst($subject->getAttribute('text'))}}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
+                        <label class="d-block" for="statusFilter">Status</label>
+                        <select id="statusFilter" multiple data-selected-text-format="count" class="filterSelector form-control"
+                                data-selected-text-format="count" data-width="fit" title="@lang('translates.filters.select')">
+                            @php($statusesRequest = explode(',', request()->get('status')))
+                            @foreach($statuses as $status)
+                                <option
+                                        @if(in_array($status->id, $statusesRequest)) selected @endif value="{{$status->getAttribute('id')}}" >
+                                            {{ucfirst($status->getAttribute('text'))}}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
+                        <label class="d-block" for="companyFilter">@lang('translates.filters.company')</label>
+                        <select id="companyFilter" multiple data-selected-text-format="count" class="filterSelector" data-width="fit" title="@lang('translates.filters.select')">
+                            @php($companiesRequest = explode(',', request()->get('company')))
+                            @foreach($companies as $company)
+                                <option
+                                        @if(in_array($company->id, $companiesRequest)) selected @endif value="{{$company->getAttribute('id')}}" >
+                                            {{ucfirst($company->getAttribute('name'))}}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    @if(\App\Models\Inquiry::userCanViewAll() || auth()->user()->isDepartmentChief())
+                        <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
+                            <label class="d-block" for="writtenByFilter">@lang('translates.filters.written_by')</label>
+                            <select id="writtenByFilter" name="user" class="filterSelector" data-width="fit" title="@lang('translates.filters.written_by')">
+                                @foreach($users as $user)
+                                    @php($inactive = (bool) $user->getAttribute('disabled_at'))
+                                    <option
+                                            @if($user->id == request()->get('user')) selected @endif value="{{$user->getAttribute('id')}}" class="@if ($inactive) text-danger @endif" >
+                                            {{$user->getAttribute('fullname')}} @if ($inactive) (@lang('translates.disabled')) @endif
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
+
+                    <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
+                        <label class="d-block" for="sourceFilter">@lang('translates.filters.source')</label>
+                        <select id="sourceFilter" multiple data-selected-text-format="count" class="filterSelector" data-width="fit" title="@lang('translates.filters.source')">
+                            @php($sourcesRequest = explode(',', request()->get('source')))
+                            @foreach($sources as $source)
+                                <option
+                                        @if(in_array($source->id, $sourcesRequest)) selected @endif value="{{$source->getAttribute('id')}}" >
+                                        {{ucfirst($source->getAttribute('text'))}}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
+                        <label class="d-block" for="contactMethodFilter">@lang('translates.filters.contact_method')</label>
+                        <select id="contactMethodFilter" multiple data-selected-text-format="count" class="filterSelector" data-width="fit" title="@lang('translates.filters.contact_method')">
+                            @php($contactMethodsRequest = explode(',', request()->get('contact_method')))
+                            @foreach($contact_methods as $contact_method)
+                                <option
+                                        @if(in_array($contact_method->id, $contactMethodsRequest)) selected @endif value="{{$contact_method->getAttribute('id')}}">
+                                        {{ucfirst($contact_method->getAttribute('text'))}}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
+                        <label class="d-block" for="typeFilter">@lang('translates.inquiries.label')</label>
+                        <select id="typeFilter" name="is_out" class="filterSelector" data-width="fit" title="@lang('translates.inquiries.label')">
+                            @foreach(['from_customers', 'from_us'] as $index => $type)
+                                <option
+                                        @if(!is_null(request()->get('is_out')) && $index == request()->get('is_out')) selected @endif value="{{$index}}">
+                                        @lang('translates.inquiries.types.' . $type)
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
             </div>
-        @endif
-
-        <div class="form-group col-12 col-md-3 mt-3 mb-3 mb-md-0">
-            <label class="d-block" for="subjectFilter">@lang('translates.filters.subject')</label>
-            <select id="subjectFilter" multiple class="filterSelector form-control" data-selected-text-format="count"
-                    data-width="fit" title="@lang('translates.filters.select')">
-                @php($subjectsRequest = explode(',', request()->get('subject')))
-                @foreach($subjects as $subject)
-                    <option
-                        @if(in_array($subject->id, $subjectsRequest)) selected @endif
-                        value="{{$subject->getAttribute('id')}}"
-                    >
-                        {{ucfirst($subject->getAttribute('text'))}}
-                    </option>
-                @endforeach
-            </select>
         </div>
-
-        <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
-            <label class="d-block" for="statusFilter">Status</label>
-            <select id="statusFilter" multiple data-selected-text-format="count" class="filterSelector form-control"
-                    data-selected-text-format="count" data-width="fit" title="@lang('translates.filters.select')">
-                @php($statusesRequest = explode(',', request()->get('status')))
-                @foreach($statuses as $status)
-                    <option
-                        @if(in_array($status->id, $statusesRequest)) selected @endif
-                        value="{{$status->getAttribute('id')}}"
-                    >
-                        {{ucfirst($status->getAttribute('text'))}}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
-            <label class="d-block" for="companyFilter">@lang('translates.filters.company')</label>
-            <select id="companyFilter" multiple data-selected-text-format="count" class="filterSelector"
-                    data-width="fit" title="@lang('translates.filters.select')">
-                @php($companiesRequest = explode(',', request()->get('company')))
-                @foreach($companies as $company)
-                    <option
-                        @if(in_array($company->id, $companiesRequest)) selected @endif
-                        value="{{$company->getAttribute('id')}}"
-                    >
-                        {{ucfirst($company->getAttribute('name'))}}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        @if(\App\Models\Inquiry::userCanViewAll() || auth()->user()->isDepartmentChief())
-            <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
-                <label class="d-block" for="writtenByFilter">@lang('translates.filters.written_by')</label>
-                <select id="writtenByFilter" name="user" class="filterSelector" data-width="fit"
-                        title="@lang('translates.filters.written_by')">
-                    @foreach($users as $user)
-                        @php($inactive = (bool) $user->getAttribute('disabled_at'))
-                        <option
-                            @if($user->id == request()->get('user')) selected @endif
-                            value="{{$user->getAttribute('id')}}" class="@if ($inactive) text-danger @endif"
-                        >
-                            {{$user->getAttribute('fullname')}} @if ($inactive) (@lang('translates.disabled')) @endif
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-        @endif
-
-        <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
-            <label class="d-block" for="sourceFilter">@lang('translates.filters.source')</label>
-            <select id="sourceFilter" multiple data-selected-text-format="count" class="filterSelector" data-width="fit"
-                    title="@lang('translates.filters.source')">
-                @php($sourcesRequest = explode(',', request()->get('source')))
-                @foreach($sources as $source)
-                    <option
-                        @if(in_array($source->id, $sourcesRequest)) selected @endif
-                        value="{{$source->getAttribute('id')}}"
-                    >
-                        {{ucfirst($source->getAttribute('text'))}}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
-            <label class="d-block" for="contactMethodFilter">@lang('translates.filters.contact_method')</label>
-            <select id="contactMethodFilter" multiple data-selected-text-format="count" class="filterSelector"
-                    data-width="fit" title="@lang('translates.filters.contact_method')">
-                @php($contactMethodsRequest = explode(',', request()->get('contact_method')))
-                @foreach($contact_methods as $contact_method)
-                    <option
-                        @if(in_array($contact_method->id, $contactMethodsRequest)) selected @endif
-                        value="{{$contact_method->getAttribute('id')}}"
-                    >
-                        {{ucfirst($contact_method->getAttribute('text'))}}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
-            <label class="d-block" for="typeFilter">@lang('translates.inquiries.label')</label>
-            <select id="typeFilter" name="is_out" class="filterSelector" data-width="fit"
-                    title="@lang('translates.inquiries.label')">
-                @foreach(['from_customers', 'from_us'] as $index => $type)
-                    <option
-                        @if(!is_null(request()->get('is_out')) && $index == request()->get('is_out')) selected
-                        @endif
-                        value="{{$index}}"
-                    >
-                        @lang('translates.inquiries.types.' . $type)
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
         <div class="input-group col-4 col-md-2 mt-3">
             <select name="limit" class="custom-select" id="size">
                 @foreach([25, 50, 100, 250] as $size)
@@ -187,10 +172,8 @@
 
         <div class="col-12 col-md-10 mt-3 d-flex align-items-center justify-content-end">
             <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="submit" class="btn btn-outline-primary"><i
-                            class="fas fa-filter"></i> @lang('translates.buttons.filter')</button>
-                <a href="{{route('inquiry.index')}}" class="btn btn-outline-danger"><i
-                            class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>
+                <button type="submit" class="btn btn-outline-primary"><i class="fas fa-filter"></i> @lang('translates.buttons.filter')</button>
+                <a href="{{route('inquiry.index')}}" class="btn btn-outline-danger"><i class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>
             </div>
         </div>
     </form>
@@ -424,6 +407,15 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <script>
+        function showFilter() {
+            var x = document.getElementById("showenFilter");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+
         const inquiryRoute = '{{route('inquiry.index')}}';
 
         $('select[name="limit"]').change(function () {
