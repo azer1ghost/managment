@@ -131,7 +131,7 @@ Route::get('/close', function (){
     return view('close');
 })->name('close');
 
-Route::any('/test', [PlatformController::class, 'test'])->middleware('deactivated');
+Route::any('/test/inquiry', [PlatformController::class, 'test'])->middleware('deactivated');
 Route::any('/clients/search', [ClientController::class, 'search'])->name('clients.search');
 Route::any('/asan-imza/user/search', [AsanImzaController::class, 'searchUser'])->name('asanImza.user.search');
 Route::any('/document-temporary-url/{document}', [PlatformController::class, 'documentTemporaryUrl'])->name('document.temporaryUrl');
