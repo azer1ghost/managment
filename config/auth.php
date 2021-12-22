@@ -28,7 +28,7 @@ return [
         'viewAny-asanImza', 'view-asanImza', 'manage-asanImza', 'delete-asanImza',
         'viewAll-announcement', 'viewAny-announcement', 'view-announcement', 'create-announcement', 'update-announcement', 'delete-announcement',
         'viewAny-calendar', 'create-calendar', 'update-calendar',
-        'viewAll-client', 'viewAny-client', 'view-client', 'create-client', 'update-client', 'delete-client', 'forceDelete-client', 'restore-client', 'canUploadContract-client', 'canAssignUsers-client',
+        'viewAll-client', 'viewAny-client', 'view-client', 'create-client', 'update-client', 'delete-client', 'forceDelete-client', 'restore-client', 'canUploadContract-client', 'canAssignUsers-client', 'canExport-client',
         'viewAny-customerEngagement', 'view-customerEngagement', 'manage-customerEngagement', 'delete-customerEngagement',
         'viewAny-company', 'view-company', 'create-company', 'update-company', 'delete-company',
         'viewAny-conference', 'view-conference', 'create-conference', 'update-conference', 'delete-conference',
