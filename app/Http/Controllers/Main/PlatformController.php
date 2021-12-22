@@ -107,6 +107,8 @@ class PlatformController extends Controller
 
     public function test()
     {
+        abort_if(auth()->user()->isNotDeveloper(), 403);
+
         return 'testing area';
     }
 
