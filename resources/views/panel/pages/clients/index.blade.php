@@ -17,47 +17,44 @@
     </x-bread-crumb>
     <form action="{{route('clients.index')}}">
 
-            <div class="row d-flex mb-2">
-                <div class="col-4">
+            <div class="row mb-2">
+                <div class="col-md-4">
                     <div class="input-group mb-3">
-                        <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="Search" aria-label="Recipient's clientname" aria-describedby="basic-addon2">
+                        <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="@lang('translates.fields.enter', ['field' => trans('translates.fields.client')])" aria-label="Recipient's clientname" aria-describedby="basic-addon2">
                         <div class="input-group-append">
                             <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
                             <a class="btn btn-outline-danger" href="{{route('clients.index')}}"><i class="fal fa-times"></i></a>
                         </div>
-
                     </div>
                 </div>
 
-                <div class="col-4">
+                <div class="col-md-4">
                     <select name="type" class="custom-select" id="type">
                         @foreach($types as $key => $type)
                             <option @if(request()->get('type') === "$key") selected @endif value="{{$key}}">{{$type}}</option>
                         @endforeach
                     </select>
                 </div>
-
                 @if(\App\Models\Client::userCanViewAll())
-                    <div class="col-4">
+                    <div class="col-md-4">
                         <div class="form-group">
-                            <label for="data-sales-users">Select sales users</label><br/>
                             <select id="data-sales-users" name="salesClient"  class="filterSelector form-control" data-selected-text-format="count"
-                                    data-width="fit" title="@lang('translates.filters.select')">
+                                    data-width="fit" title="@lang('translates.clients.selectUser')">
                                 @foreach($salesClients as $salesClient)
                                     <option
-                                        @if(request()->get('salesClient') == $salesClient->getAttribute('id')) selected @endif
-                                        value="{{$salesClient->getAttribute('id')}}"
-                                    >
+                                        @if(request()->get('salesClient') == $salesClient->getAttribute('id')) selected @endif  value="{{$salesClient->getAttribute('id')}}">
                                         {{$salesClient->getAttribute('fullname')}}
                                     </option>
                                 @endforeach
                             </select>
-                        </div>
-                        <div class="form-group form-check">
-                            <input name="free_clients" @if(request()->has('free_clients')) checked @endif type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">@lang('translates.filters.free_clients')</label>
+                            <div class="form-group ml-2 form-check">
+                                <input name="free_clients" @if(request()->has('free_clients')) checked @endif type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">@lang('translates.filters.free_clients')</label>
+                            </div>
                         </div>
                     </div>
+
+
                 @endif
 
                 <div class="col-12 mt-3 mb-5 d-flex align-items-center justify-content-end">

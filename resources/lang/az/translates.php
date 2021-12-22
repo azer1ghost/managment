@@ -436,6 +436,7 @@ return [
         'signature_for' => 'İmza',
         'legal' => 'Hüquqi',
         'physical' => 'Fiziki',
+        'typeChoose' => 'Müştəri Növü Seçilməyib',
         'earning' => 'Məbləğ',
         'currency' => 'Valyuta',
         'currency_rate' => 'Valyuta miqdarı (AZN)',
@@ -466,7 +467,8 @@ return [
         'phone_empty' => 'Nömrə yoxdur',
         'email_empty' => 'Email adresi  yoxdur',
         'voen_empty' => 'VOEN yoxdur',
-        'add_representative' => 'Nümayəndə əlavə et'
+        'add_representative' => 'Nümayəndə əlavə et',
+        'selectUser' => 'Satış İstifadəçisi Seç',
     ],
 
     'clients_type' => [

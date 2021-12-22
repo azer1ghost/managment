@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use App\Models\Client;
-use App\Models\Department;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -52,9 +51,9 @@ class ClientController extends Controller
         return view('panel.pages.clients.index')
             ->with([
                 'types' => [
-                    (string) 'none' => 'Seçilməyib',
-                    (string) Client::LEGAL => 'Hüquqi',
-                    (string) Client::PHYSICAL => 'Fiziki'
+                    (string) 'none' => trans('translates.general.typeChoose'),
+                    (string) Client::LEGAL => trans('translates.general.legal'),
+                    (string) Client::PHYSICAL => trans('translates.general.physical')
                 ],
                 'clients' => Client::with('salesUsers')
                     ->whereNull('client_id')
