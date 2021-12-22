@@ -48,6 +48,14 @@ class ClientsExport implements FromQuery, WithMapping, WithHeadings
     public function query()
     {
         return Client::query()
+            ->whereNull('client_id')
+            ->when(Client::userCannotViewAll(), function ($query){
+                $query->where(function ($query){
+                    $query
+                        ->doesnthave('salesUsers')
+                        ->orWhereHas('salesUsers', fn($q) => $q->where('id', auth()->id()));
+                });
+            })
             ->when($this->filters['free_clients'], fn ($query) => $query->doesnthave('salesUsers'))
             ->when(is_numeric($this->filters['type']), fn ($query) => $query->where('type', $this->filters['type']))
             ->when($this->filters['search'], fn ($query) => $query->where('fullname', 'like', "%{$this->filters['search']}%"))
