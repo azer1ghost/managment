@@ -88,7 +88,7 @@
                     <table class="table table-responsive-sm table-hover">
                         <thead>
                         <tr>
-                            @if(auth()->user()->isDeveloper())
+                            @if(auth()->user()->hasPermission('canAssignUsers-client'))
                                 <th><input type="checkbox" id="clients-all"></th>
                             @endif
                             <th scope="col">#</th>
@@ -111,7 +111,7 @@
                                     style="background: #eed58f"
                                 @endif
                             >
-                                @if(auth()->user()->isDeveloper())
+                                @if(auth()->user()->hasPermission('canAssignUsers-client'))
                                     <td><input type="checkbox" name="clients[]" value="{{$client->getAttribute('id')}}" id="data-checkbox-{{$client->getAttribute('id')}}"></td>
                                 @endif
                                 <th scope="row">{{$client->getAttribute('id')}}</th>
@@ -161,7 +161,7 @@
                 </div>
             </div>
     </form>
-    @if(auth()->user()->isDeveloper())
+    @if(auth()->user()->hasPermission('canAssignUsers-client'))
         <button type="button" class="btn btn-outline-primary" id="sum-assign-sales" data-toggle="modal" data-target="#sum-assign-modal">
             Assign sales users
         </button>
