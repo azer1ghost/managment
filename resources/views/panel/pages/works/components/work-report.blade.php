@@ -37,7 +37,7 @@
 
                         <h4 class="my-2">@lang('translates.columns.user_works')</h4>
 
-                        <table class="table table-lg-responsive">
+                        <table class="table table-responsive-md">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>

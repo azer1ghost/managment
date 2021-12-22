@@ -190,7 +190,7 @@
 
 
 
-            <div class="col-3 pt-2 d-flex align-items-center">
+            <div class="col-sm-3 pt-2 d-flex align-items-center">
                 <p class="mb-0"> @lang('translates.total_items', ['count' => $works->count(), 'total' => $works->total()])</p>
                 <div class="input-group col-md-3">
                     <select name="limit" class="custom-select" id="size">
@@ -201,15 +201,15 @@
                 </div>
             </div>
 
-            <div class="col-3 pt-2 d-flex align-items-center">
-                <div class="input-group col-md-3">
+            <div class="col-sm-3 pt-2 d-flex align-items-center">
+                <div class="input-group">
                     <a class="btn btn-outline-success" data-toggle="modal" data-target="#report-work" >@lang('translates.navbar.report')</a>
                 </div>
             </div>
 
 
             @can('create', App\Models\Work::class)
-                <div class="col-6 py-3">
+                <div class="col-sm-6 py-3">
                     <a class="btn btn-outline-success float-right" data-toggle="modal" data-target="#create-work">@lang('translates.buttons.create')</a>
                 </div>
             @endcan
