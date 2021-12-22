@@ -35,13 +35,19 @@ class WorkForm extends Component
         $this->statuses = Work::statuses();
 
         $user = auth()->user();
+        if($user->hasPermission('canRedirect-work')) {
+            $this->users = $this->department->users()->orderBy('name')->with('position')->isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']);
+        }else {
+            $this->users = collect([$user]);
+        }
+
         foreach ($this->selected as $key => $selected) {
-            if($key == 'department_id'){
+            if($key == 'department_id') {
                 $this->selected['department_id'] = optional($this->data)->getAttribute($key) ?? request()->get('department_id') ?? $user->getAttribute('department_id');
                 continue;
             }
-            if($key == 'user_id' && !$user->hasPermission('canRedirect-work')){
-                $this->selected['user_id'] = optional($this->data)->getAttribute($key) ?? auth()->id();
+            if($key == 'user_id') {
+                $this->selected['user_id'] = optional($this->data)->getAttribute($key) ?? $user->getAttribute('id');
                 continue;
             }
             $this->selected[$key] = request()->get($key) ?? optional($this->data)->getAttribute($key);
@@ -49,13 +55,6 @@ class WorkForm extends Component
 
         // check if user does not a department or service_id is not set from request
         abort_if(is_null($this->selected['service_id']) || is_null($this->selected['department_id']), 500);
-
-        if(auth()->user()->hasPermission('canRedirect-work')){
-            $this->users = $this->department->users()->orderBy('name')->with('position')->isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']);
-        }else{
-            $this->users = collect([auth()->user()]);
-            $this->selected['user_id'] = auth()->id();
-        }
 
         $this->getParameters();
     }
