@@ -122,19 +122,21 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <script>
-        @if(is_null($action))
+        function loadJs() {
+            @if(is_null($action))
             $("#createTaskForm :input").attr("disabled", true);
-        @endif
+            @endif
 
-        @if($task && $task->canManageLists() && $task->getAttribute('status') != 'done' && auth()->id() != $task->getAttribute('user_id'))
+            @if($task && $task->canManageLists() && $task->getAttribute('status') != 'done' && auth()->id() != $task->getAttribute('user_id'))
             $("select[name='status']").attr("disabled", false);
-        @endif
+            @endif
 
-        @if($task && $task->canManageTaskable() && $task->getAttribute('status') != 'done' && auth()->user()->can('update', $task))
+            @if($task && $task->canManageTaskable() && $task->getAttribute('status') != 'done' && auth()->user()->can('update', $task))
             $("select[name='user']").attr("disabled", false);
-        @endif
+            @endif
 
-        $(".inquiry :input").attr("disabled", true);
+            $(".inquiry :input").attr("disabled", true);
+        }
 
         $(function() {
             $('input[name="task_dates"]').daterangepicker({
@@ -148,6 +150,8 @@
             );
         });
 
+        loadJs();
+
         function alertHandler(event){
             $.alert({
                 type:    event?.detail?.type,
@@ -156,6 +160,7 @@
                 theme: 'modern',
                 typeAnimated: true
             });
+            loadJs();
         }
         addEventListener('alert', alertHandler);
 
