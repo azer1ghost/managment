@@ -335,13 +335,10 @@ class InquiryController extends Controller
 
         foreach ($data['inquiries'] as $inquiry_id) {
             $inquiry = Inquiry::find($inquiry_id);
+            $inquiry->editableUsers()->detach();
 
-            if($inquiry->editableUsers->count() > 1){
-                foreach ($inquiry->editableUsers as $editable){
-                    $inquiry->editableUsers()->updateExistingPivot($editable->id, ['editable_ended_at' => $data['editable-date']]);
-                }
-            }else{
-                $inquiry->editableUsers()->sync([$inquiry->user_id => ['editable_ended_at' => $data['editable-date']]]);
+            foreach ($data['users'] as $user) {
+                $inquiry->editableUsers()->attach([$user => ['editable_ended_at' => $data['editable-date']]]);
             }
         }
 

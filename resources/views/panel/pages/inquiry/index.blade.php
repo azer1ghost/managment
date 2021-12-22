@@ -349,6 +349,13 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
+                                    <select name="users[]" class="bootstrap-select form-control mb-3" multiple data-selected-text-format="count" data-width="fit">
+                                        @foreach(\App\Models\User::get(['id', 'name', 'surname', 'role_id', 'position_id']) as $user)
+                                            <option value="{{$user->getAttribute('id')}}">
+                                                {{$user->getAttribute('fullname_with_position')}}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                     <input class="form-control editable-ended-at" type="text" name="editable-date">
                                 </div>
                                 <div class="modal-footer">
@@ -560,6 +567,7 @@
         }
 
         $('.filterSelector').selectpicker()
+        $('.bootstrap-select').selectpicker()
 
         function deleteAction(url, name) {
             $.confirm({
