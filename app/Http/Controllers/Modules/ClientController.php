@@ -44,12 +44,18 @@ class ClientController extends Controller
     public function index(Request $request)
     {
         $search =$request->get('search');
+        $type =$request->get('type');
         $limit = $request->get('limit',25);
         $salesClient = $request->get('salesClient');
         $free_clients = $request->has('free_clients');
 
         return view('panel.pages.clients.index')
             ->with([
+                'types' => [
+                    (string) 'none' => 'Seçilməyib',
+                    (string) Client::LEGAL => 'Hüquqi',
+                    (string) Client::PHYSICAL => 'Fiziki'
+                ],
                 'clients' => Client::with('salesUsers')
                     ->whereNull('client_id')
                     ->when(Client::userCannotViewAll(), function ($query){
@@ -60,6 +66,7 @@ class ClientController extends Controller
                         });
                     })
                     ->when($free_clients, fn ($query) => $query->doesnthave('salesUsers'))
+                    ->when(is_numeric($type), fn ($query) => $query->where('type', $type))
                     ->when($search, fn ($query) => $query->where('fullname', 'like', "%$search%"))
                     ->when($salesClient, fn ($query) => $query->whereHas('salesUsers', fn($q) => $q->where('id', $salesClient)))
                     ->paginate($limit),
