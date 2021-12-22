@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use App\Models\Client;
+use App\Models\Department;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -69,7 +70,7 @@ class ClientController extends Controller
                     ->when($search, fn ($query) => $query->where('fullname', 'like', "%$search%"))
                     ->when($salesClient, fn ($query) => $query->whereHas('salesUsers', fn($q) => $q->where('id', $salesClient)))
                     ->paginate($limit),
-                'salesUsers' => User::where('department_id', 3)->get(['id', 'name', 'surname']),
+                'salesUsers' => User::where('department_id', Department::SALES)->get(['id', 'name', 'surname']),
                 'salesClients' => User::has('salesClients')->get(['id', 'name', 'surname'])
             ]);
     }
