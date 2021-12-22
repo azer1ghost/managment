@@ -151,7 +151,8 @@ return [
         'close' => 'Close',
         'view' => 'View',
         'verify' => 'Verify',
-        'execute' => 'Execute'
+        'execute' => 'Execute',
+        'show' => 'Show',
     ],
 
     'sum' => 'Collective',
@@ -387,6 +388,8 @@ return [
         'parameter_label' => 'Parameter Label',
         'verified' => 'Verified',
         'expired' => 'Expired',
+        'total' => 'Total',
+        'user_works' => 'User\'s Works',
         'rejected' => 'Rejected',
         'unverified' => 'Unverified',
         'price_verified' => 'Price Verified',

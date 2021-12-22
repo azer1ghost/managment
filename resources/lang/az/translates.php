@@ -153,7 +153,8 @@ return [
         'close' => 'Bağla',
         'view' => 'Göstər',
         'verify' => 'Doğrulayın',
-        'execute' => 'Icra et'
+        'execute' => 'Icra et',
+        'show' => 'Göstər',
     ],
 
     'sum' => 'Toplu',
@@ -389,6 +390,8 @@ return [
         'parameter_label' => 'Parameter Label',
         'verified' => 'Təsdiqlənib',
         'expired' => 'Vaxtı bitib',
+        'total' => 'Toplam',
+        'user_works' => 'İstifadəçinin Gördüyü İşlər',
         'rejected' => 'Qəbul edilməyib',
         'unverified' => 'Təsdiq edilməyib',
         'price_verified' => 'Qiymət təsdiqlənib',

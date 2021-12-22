@@ -190,7 +190,7 @@
 
 
 
-            <div class="col-6 pt-2 d-flex align-items-center">
+            <div class="col-3 pt-2 d-flex align-items-center">
                 <p class="mb-0"> @lang('translates.total_items', ['count' => $works->count(), 'total' => $works->total()])</p>
                 <div class="input-group col-md-3">
                     <select name="limit" class="custom-select" id="size">
@@ -198,6 +198,12 @@
                             <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
                         @endforeach
                     </select>
+                </div>
+            </div>
+
+            <div class="col-3 pt-2 d-flex align-items-center">
+                <div class="input-group col-md-3">
+                    <a class="btn btn-outline-success" data-toggle="modal" data-target="#report-work" >@lang('translates.navbar.report')</a>
                 </div>
             </div>
 
@@ -447,6 +453,30 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
                         <button type="submit" class="btn btn-primary">@lang('translates.buttons.create')</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="report-work">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <form action="{{route('works.report')}}" method="GET">
+                    <div class="modal-header">
+                        <h5 class="modal-title">@lang('translates.general.select_service')</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="choose-date">@lang('translates.fields.date')</label>
+                            <input class="form-control daterange" id="choose-date" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
+                        <button type="submit" class="btn btn-primary">@lang('translates.buttons.show')</button>
                     </div>
                 </form>
             </div>
