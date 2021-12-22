@@ -120,6 +120,8 @@ class TaskForm extends Component
         }else{
             $this->dispatchEvent('alert', 'red', 'Unauthorized', 'You cannot change status of this task');
         }
+
+        $this->render();
     }
 
     public function confirmUserChange($oldValue, $newVal)
@@ -156,6 +158,8 @@ class TaskForm extends Component
         } else {
             $this->dispatchEvent('alert', 'red', 'Error', 'Error encountered, please try again later');
         }
+
+        $this->render();
     }
 
     public function dispatchEvent($name, $type, $title, $msg, $old = null, $new = null, $selected = null)
