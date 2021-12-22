@@ -126,11 +126,11 @@
             $("#createTaskForm :input").attr("disabled", true);
         @endif
 
-        @if($task && $task->canManageLists() && $task->getAttribute('status') != 'done')
+        @if($task && $task->canManageLists() && $task->getAttribute('status') != 'done' && auth()->id() != $task->getAttribute('user_id'))
             $("select[name='status']").attr("disabled", false);
         @endif
 
-        @if($task && $task->canManageTaskable() && $task->getAttribute('status') != 'done')
+        @if($task && $task->canManageTaskable() && $task->getAttribute('status') != 'done' && auth()->user()->can('update', $task))
             $("select[name='user']").attr("disabled", false);
         @endif
 

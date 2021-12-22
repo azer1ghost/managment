@@ -97,20 +97,6 @@ class Task extends Model implements DocumentableInterface
         return $this->hasMany(TaskList::class)->orderBy('is_checked')->latest('id');
     }
 
-    public function canManageLists(): bool
-    {
-        $user = auth()->user();
-        $taskable_id = $this->taskable->getAttribute('id');
-
-        return
-            $this->getAttribute('user_id') == $user->getAttribute('id') ||
-            ($this->getAttribute('taskable_type') === 'App\Models\User' ?
-                $taskable_id == $user->getAttribute('id') :
-                $taskable_id == $user->getRelationValue('department')->getAttribute('id')
-            ) ||
-            auth()->user()->isDeveloper();
-    }
-
     public static function userCanViewAll(): bool
     {
         return auth()->user()->hasPermission('viewAll-task');
@@ -129,9 +115,22 @@ class Task extends Model implements DocumentableInterface
         return $this->hasOne(TaskList::class, 'parent_task_id');
     }
 
+    public function canManageLists(): bool
+    {
+        $user = auth()->user();
+        $taskable_id = $this->taskable->getAttribute('id');
+
+        return
+            $this->getAttribute('user_id') == $user->getAttribute('id') ||
+            ($this->getAttribute('taskable_type') === 'App\Models\User' ?
+                $taskable_id == $user->getAttribute('id') :
+                $taskable_id == $user->getRelationValue('department')->getAttribute('id')
+            );
+    }
+
     public function canManageTaskable()
     {
-        switch ($this->taskable->getTable()){
+        switch ($this->taskable->getTable()) {
             case 'departments':
                 $departmentId = $this->taskable->id;
                 break;
@@ -139,9 +138,11 @@ class Task extends Model implements DocumentableInterface
                 $departmentId = $this->taskable->department->id;
                 break;
         }
-        if (auth()->user()->hasPermission('department-chief') && $departmentId == auth()->user()->department->id){
+
+        if (auth()->user()->hasPermission('department-chief') && $departmentId == auth()->user()->department->id) {
             return true;
         }
+
         return false;
     }
 }

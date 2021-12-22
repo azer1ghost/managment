@@ -39,7 +39,7 @@ class TaskPolicy
         return
             ( $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
                 $task->getAttribute('user_id') == $user->getAttribute('id') ) &&
-            is_null($task->getAttribute('done_at'));
+            is_null($task->getAttribute('done_at')) && $task->getAttribute('status') != $task::IN_PROGRESS;
     }
 
     public function restore(User $user, Task $task): bool
