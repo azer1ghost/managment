@@ -8,6 +8,9 @@
         "php": "^7.4|^8.0",
         "ext-curl": "*",
         "ext-json": "*",
+        "ext-libxml": "*",
+        "ext-mbstring": "*",
+        "ext-simplexml": "*",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -17,11 +20,9 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
         "livewire/livewire": "^2.5",
+        "maatwebsite/excel": "^3.1",
         "mailgun/mailgun-php": "^3.5",
-        "spatie/laravel-translatable": "^4.6",
-        "ext-simplexml": "*",
-        "ext-libxml": "*",
-        "ext-mbstring": "*"
+        "spatie/laravel-translatable": "^4.6"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Modules;
 
+use App\Exports\ClientsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use App\Models\Client;
@@ -41,16 +42,26 @@ class ClientController extends Controller
         ];
     }
 
+    public function export(Request $request)
+    {
+        $filters = json_decode($request->get('filters'), true);
+
+        return  (new ClientsExport($filters))->download('clients.xlsx');
+    }
+
     public function index(Request $request)
     {
-        $search =$request->get('search');
-        $type =$request->get('type');
-        $limit = $request->get('limit',25);
-        $salesClient = $request->get('salesClient');
-        $free_clients = $request->has('free_clients');
+        $filters = [
+            'search' => $request->get('search'),
+            'type' => $request->get('type'),
+            'limit' => $request->get('limit',25),
+            'salesClient' => $request->get('salesClient'),
+            'free_clients' => $request->has('free_clients')
+        ];
 
         return view('panel.pages.clients.index')
             ->with([
+                'filters' => $filters,
                 'types' => [
                     (string) 'none' => trans('translates.general.typeChoose'),
                     (string) Client::LEGAL => trans('translates.general.legal'),
@@ -65,11 +76,11 @@ class ClientController extends Controller
                                 ->orWhereHas('salesUsers', fn($q) => $q->where('id', auth()->id()));
                         });
                     })
-                    ->when($free_clients, fn ($query) => $query->doesnthave('salesUsers'))
-                    ->when(is_numeric($type), fn ($query) => $query->where('type', $type))
-                    ->when($search, fn ($query) => $query->where('fullname', 'like', "%$search%"))
-                    ->when($salesClient, fn ($query) => $query->whereHas('salesUsers', fn($q) => $q->where('id', $salesClient)))
-                    ->paginate($limit),
+                    ->when($filters['free_clients'], fn ($query) => $query->doesnthave('salesUsers'))
+                    ->when(is_numeric($filters['type']), fn ($query) => $query->where('type', (int) $filters['type']))
+                    ->when($filters['search'], fn ($query) => $query->where('fullname', 'like', "%{$filters['search']}%"))
+                    ->when($filters['salesClient'], fn ($query) => $query->whereHas('salesUsers', fn($q) => $q->where('id', $filters['salesClient'])))
+                    ->paginate($filters['limit']),
                 'salesUsers' => User::isActive()->where('department_id', Department::SALES)->get(['id', 'name', 'surname']),
                 'salesClients' => User::isActive()->has('salesClients')->get(['id', 'name', 'surname'])
             ]);

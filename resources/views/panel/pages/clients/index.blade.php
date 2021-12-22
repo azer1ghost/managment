@@ -19,7 +19,7 @@
             <div class="row mb-2">
                 <div class="col-md-4">
                     <div class="input-group mb-3">
-                        <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="@lang('translates.fields.enter', ['field' => trans('translates.fields.client')])" aria-label="Recipient's clientname" aria-describedby="basic-addon2">
+                        <input type="search" name="search" value="{{$filters['search']}}" class="form-control" placeholder="@lang('translates.fields.enter', ['field' => trans('translates.fields.client')])" aria-label="Recipient's clientname" aria-describedby="basic-addon2">
                         <div class="input-group-append">
                             <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
                             <a class="btn btn-outline-danger" href="{{route('clients.index')}}"><i class="fal fa-times"></i></a>
@@ -30,7 +30,7 @@
                 <div class="col-md-4">
                     <select name="type" class="custom-select" id="type">
                         @foreach($types as $key => $type)
-                            <option @if(request()->get('type') === "$key") selected @endif value="{{$key}}">{{$type}}</option>
+                            <option @if($filters['type'] === "$key") selected @endif value="{{$key}}">{{$type}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -41,13 +41,13 @@
                                     data-width="fit" title="@lang('translates.clients.selectUser')">
                                 @foreach($salesClients as $salesClient)
                                     <option
-                                        @if(request()->get('salesClient') == $salesClient->getAttribute('id')) selected @endif  value="{{$salesClient->getAttribute('id')}}">
+                                        @if($filters['salesClient'] == $salesClient->getAttribute('id')) selected @endif  value="{{$salesClient->getAttribute('id')}}">
                                         {{$salesClient->getAttribute('fullname')}}
                                     </option>
                                 @endforeach
                             </select>
                             <div class="form-group ml-2 form-check">
-                                <input name="free_clients" @if(request()->has('free_clients')) checked @endif type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <input name="free_clients" @if($filters['free_clients']) checked @endif type="checkbox" class="form-check-input" id="exampleCheck1">
                                 <label class="form-check-label" for="exampleCheck1">@lang('translates.filters.free_clients')</label>
                             </div>
                         </div>
@@ -70,17 +70,18 @@
                     <div class="input-group col-md-3">
                         <select name="limit" class="custom-select" id="size">
                             @foreach([25, 50, 100, 250, 500] as $size)
-                                <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
+                                <option @if($filters['limit'] == $size) selected @endif value="{{$size}}">{{$size}}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
 
-                @can('create', App\Models\Client::class)
-                    <div class="col-4 p-0 pr-3 pb-3 mt-4">
-                        <a class="btn btn-outline-success float-right" href="{{route('clients.create', ['type' => \App\Models\Client::LEGAL])}}">@lang('translates.buttons.create')</a>
-                    </div>
-                @endcan
+                <div class="col-4 p-0 pr-3 pb-3 mt-4">
+                    @can('create', App\Models\Client::class)
+                        <a class="btn btn-outline-success float-right " href="{{route('clients.create', ['type' => \App\Models\Client::LEGAL])}}">@lang('translates.buttons.create')</a>
+                    @endcan
+                    <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('clients.export', ['filters' => json_encode($filters)])}}">Export</a>
+                </div>
                 </div>
 
                 <div class="col-12">
