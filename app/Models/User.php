@@ -89,6 +89,15 @@ class User extends Authenticatable implements MustVerifyPhone
         ];
     }
 
+    public static function status(): array
+    {
+        return [
+            1 => 'active',
+            2 => 'deactivate',
+            3 => 'all'
+        ];
+    }
+
     public function documents(): HasMany
     {
         return $this->hasMany(Document::class);

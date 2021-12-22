@@ -34,6 +34,7 @@ class UserController extends Controller
         $company  = $request->get('company');
         $department  = $request->get('department');
         $type  = $request->get('type') ?? 1;
+        $status  = $request->get('status') ?? 1;
 
         return view('panel.pages.users.index')
             ->with([
@@ -57,10 +58,21 @@ class UserController extends Controller
                                 break;
                         }
                     })
+                    ->when($status, function ($query, $status){
+                        switch ($status){
+                            case 1:
+                                $query->whereNull('disabled_at');
+                                break;
+                            case 2:
+                                $query->whereNotNull('disabled_at');
+                                break;
+                        }
+                    })
                     ->paginate($limit),
                 'companies' => Company::get(['id', 'name']),
                 'departments' => Department::get(['id', 'name']),
-                'types' => User::types()
+                'types' => User::types(),
+                'statuses' => User::status()
             ]);
     }
 

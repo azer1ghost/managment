@@ -414,6 +414,12 @@ return [
             'partners' => 'Ortaqlar',
             'all' => 'Hamısı'
         ],
+        'statuses' => [
+            'active' => 'Aktiv',
+            'deactivate' => 'Deaktiv',
+            'all' => 'Hamısı'
+        ],
+
     ],
 
     'bonus' => [
