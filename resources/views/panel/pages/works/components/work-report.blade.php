@@ -44,6 +44,7 @@
                             <td>{{$user->getRelationValue('position')->getAttribute('name')}}</td>
                             <td class="font-weight-bolder">{{request()->get('created_at')}}</td>
                         </tr>
+
                         </tbody>
                     </table>
 
@@ -61,14 +62,21 @@
                         </thead>
                         <tbody>
                         @foreach($services as $service)
-                            <tr>
+                            <tr @if($loop->last) style="border-bottom: 0.6mm solid black !important;" @endif>
                                 <th scope="row">{{$loop->iteration}}</th>
                                 <td>{{$service->getAttribute('name')}}</td>
-                                <td class="font-weight-bold">{{$service->works_count}}</td>
+                                <td>{{$service->works_count}}</td>
                                 <td>{{$service->works_verified}}</td>
                                 <td>{{$service->works_rejected}}</td>
                             </tr>
                         @endforeach
+
+                        <tr class="font-weight-bolder">
+                            <td colspan="2">@lang('translates.columns.total')</td>
+                            <td>{{$services->sum('works_count')}}</td>
+                            <td>{{$services->sum('works_verified')}}</td>
+                            <td>{{$services->sum('works_rejected')}}</td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
