@@ -130,7 +130,12 @@
                         <tr @if($task->getAttribute('must_end_at') < now() && is_null($task->getAttribute('done_at')))
                             style="background: rgba(255,182,191,0.58)"
                             title="@lang('translates.columns.expired')"
-                            data-toggle="tooltip" @endif
+                            data-toggle="tooltip"
+                            @elseif($task->getAttribute('must_end_at') > now() && is_null($task->getAttribute('done_at')) && $task->getAttribute('status') == $task::TO_DO)
+                            style="background:#fae4a9"
+                           @elseif($task->getAttribute('must_end_at') > now() && is_null($task->getAttribute('done_at')) && $task->getAttribute('status') == $task::IN_PROGRESS)
+                            style="background:#96dee9"
+                           @endif
                         >
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$task->getAttribute('name')}}</td>
@@ -154,6 +159,7 @@
                                 @if ($task->status == $task::TO_DO)
                                     @lang('translates.tasks.not_started')
                                 @elseif ($task->status != 'done' && ($task->all_tasks_count == 0 || $task->done_tasks_count == 0))
+                                    @lang('translates.tasks.is_executing')
                                 @elseif ($task->status == 'done')
                                     <i class="fa fa-check-circle text-success" style="font-size: 20px"></i>
                                 @else
