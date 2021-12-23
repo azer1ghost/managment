@@ -126,8 +126,13 @@ class WorkController extends Controller
                 }
             })
             ->latest('id')
-            ->latest('datetime')
-            ->paginate($limit);
+            ->latest('datetime');
+
+        if(is_numeric($limit)) {
+            $works = $works->paginate($limit);
+        }else {
+            $works = $works->get();
+        }
 
         return view('panel.pages.works.index',
             compact('works', 'services', 'users', 'departments',
