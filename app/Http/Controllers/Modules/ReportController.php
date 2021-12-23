@@ -44,7 +44,7 @@ class ReportController extends Controller
             'reports' => Report::withCount('reports')
                 ->when(Report::cannotViewAll(), fn($query) => $query->where('chief_id', auth()->id()))
                 ->oldest('updated_at')
-                ->simplePaginate(10)
+                ->get()
         ]);
     }
 

@@ -77,11 +77,6 @@
                     @endforelse
                     </tbody>
                 </table>
-            <div class="col-12">
-                <div class="float-right">
-                    {{$reports->appends(request()->input())->links()}}
-                </div>
-            </div>
         </form>
         @can('generateReports', App\Models\Report::class)
             <div class="col-12 my-3">
