@@ -151,8 +151,9 @@ return [
         'close' => 'Close',
         'view' => 'View',
         'verify' => 'Verify',
-        'execute' => 'Execute',
         'export' => 'Export',
+        'execute' => 'Execute',
+        'show' => 'Show',
     ],
 
     'sum' => 'Collective',
@@ -388,6 +389,8 @@ return [
         'parameter_label' => 'Parameter Label',
         'verified' => 'Verified',
         'expired' => 'Expired',
+        'total' => 'Total',
+        'user_works' => 'User\'s Works',
         'rejected' => 'Rejected',
         'unverified' => 'Unverified',
         'price_verified' => 'Price Verified',
@@ -462,6 +465,7 @@ return [
         'department_select' => 'Department Select',
         'user_select' => 'User Select',
         'select_client' => 'Select Client',
+        'select_date' => 'Select Date',
     ],
 
     'clients' => [

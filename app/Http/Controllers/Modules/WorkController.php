@@ -261,4 +261,34 @@ class WorkController extends Controller
         }
         return response()->setStatusCode('204');
     }
+
+    public function report(Request $request)
+    {
+        $created_at = explode(' - ', $request->get('created_at'));
+
+        $services = Service::whereHas('works', function ($q) use ($created_at) {
+            $q->where('user_id', auth()->id())
+                ->whereBetween('created_at',
+                    [
+                        Carbon::parse($created_at[0])->startOfDay(),
+                        Carbon::parse($created_at[1])->endOfDay()
+                    ]
+                );
+        })
+            ->withCount([
+                'works',
+                'works as works_rejected' => function ($q) {
+                    $q->where('status', Work::REJECTED);
+                },
+                'works as works_verified' => function ($q) {
+                    $q->isVerified();
+                },
+
+            ])->get();
+
+        return view('panel.pages.works.components.work-report')->with([
+            'services' => $services,
+            'user' => auth()->user(),
+        ]);
+    }
 }

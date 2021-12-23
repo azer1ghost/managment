@@ -155,6 +155,7 @@ return [
         'verify' => 'Doğrulayın',
         'execute' => 'Icra et',
         'export' => 'İxrac et',
+        'show' => 'Göstər',
     ],
 
     'sum' => 'Toplu',
@@ -390,6 +391,8 @@ return [
         'parameter_label' => 'Parameter Label',
         'verified' => 'Təsdiqlənib',
         'expired' => 'Vaxtı bitib',
+        'total' => 'Toplam',
+        'user_works' => 'İstifadəçinin Gördüyü İşlər',
         'rejected' => 'Qəbul edilməyib',
         'unverified' => 'Təsdiq edilməyib',
         'price_verified' => 'Qiymət təsdiqlənib',
@@ -462,6 +465,7 @@ return [
         'hard_level_choose' => 'Çətinlik dərəcəsi Seçin',
         'status_choose' => 'Status Seçin',
         'hard_level' => 'Çətinlik dərəcəsi',
+        'select_date' => 'Tarix Seç',
         'physical_client_name' => 'Hüquqi Müştərinin İşcilerinin Adı',
         'physical_client_mail' => 'Hüquqi Müştərinin İşcilerinin Emaili',
         'physical_client_phone' => 'Hüquqi Müştərinin İşcilerinin Nömrəsi',
@@ -476,7 +480,6 @@ return [
         'voen_empty' => 'VOEN yoxdur',
         'add_representative' => 'Nümayəndə əlavə et',
         'selectUser' => 'Satış İstifadəçisi Seç',
-        'assignUser' => 'Satış istifadəçilərini təyin edin'
     ],
 
     'clients_type' => [
