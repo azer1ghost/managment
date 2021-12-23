@@ -276,12 +276,15 @@ class WorkController extends Controller
                 );
         })
             ->withCount([
-                'works',
+                'works' => function ($q){
+                $q->where('user_id', auth()->id());
+                },
                 'works as works_rejected' => function ($q) {
-                    $q->where('status', Work::REJECTED);
+                    $q->where('user_id', auth()->id())
+                        ->isRejected();
                 },
                 'works as works_verified' => function ($q) {
-                    $q->isVerified();
+                    $q->where('user_id', auth()->id())->isVerified();
                 },
 
             ])->get();

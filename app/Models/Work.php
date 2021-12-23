@@ -135,7 +135,11 @@ class Work extends Model implements DocumentableInterface
 
     public function scopeIsVerified($query)
     {
-        return $query->whereNotNull('verified_at');
+        return $query->whereNotNull('verified_at')->where('status', '!=', self::REJECTED);
+    }
+    public function scopeIsRejected($query)
+    {
+        return $query->where('status', self::REJECTED);
     }
 
     public function scopeWorksDone($query)
