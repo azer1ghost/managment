@@ -215,7 +215,7 @@
                 </div>
             @endcan
             <div class="col-12">
-                <table class="table @if($works->count()) table-responsive-md @else table-responsive-sm @endif ">
+                <table class="table @if($works->count()) table-responsive-md @else table-responsive-sm @endif " id="table">
                     <thead>
                     <tr class="text-center">
                         @if(auth()->user()->hasPermission('canVerify-work'))
@@ -389,7 +389,7 @@
                             </th>
                         </tr>
                     @endforelse
-                        <tr style="background: #b3b7bb">
+                        <tr style="background: #b3b7bb" id="count">
                             <td colspan="@if(auth()->user()->isDeveloper()) 9 @elseif(auth()->user()->hasPermission('viewAll-work') || auth()->user()->hasPermission('canVerify-work')) 7 @else 6 @endif">
                                 <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
                             </td>
@@ -492,6 +492,9 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <script>
+
+        const count  = document.getElementById("count").cloneNode(true);
+        $("#table>tbody").prepend(count);
 
         function showFilter() {
             var x = document.getElementById("showenFilter");
