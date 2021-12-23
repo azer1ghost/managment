@@ -248,6 +248,7 @@
                         $hasPending = false; // check if there's pending work
                     @endphp
                     @forelse($works as $work)
+
                         @if($work->isDone() && is_null($work->getAttribute('verified_at')))
                             @php
                                 $hasPending = true;
@@ -389,6 +390,7 @@
                             </th>
                         </tr>
                     @endforelse
+                    @if($works->isNotEmpty())
                         <tr style="background: #b3b7bb" id="count">
                             <td colspan="@if(auth()->user()->isDeveloper()) 9 @elseif(auth()->user()->hasPermission('viewAll-work') || auth()->user()->hasPermission('canVerify-work')) 7 @else 6 @endif">
                                 <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
@@ -399,6 +401,7 @@
                             @endforeach
                             <td colspan="4"></td>
                         </tr>
+                       @endif
                     </tbody>
                 </table>
             </div>
