@@ -4,6 +4,13 @@
 @endsection
 
 <form action="{{$action}}" id="createTaskForm" method="POST" class="tab-content form-row mt-4 mb-5">
+    @if(is_null($method))
+        @can('update', $task)
+            <div class="col-12 mt-0 mb-4">
+                <a class="btn btn-outline-success" href="{{route('tasks.edit', $task)}}">Edit</a>
+            </div>
+        @endcan
+    @endif
     @csrf
     @method($method)
     <input type="hidden" wire:ignore name="list_id" value="{{request()->get('list_id')}}">
@@ -127,7 +134,7 @@
             $("#createTaskForm :input").attr("disabled", true);
             @endif
 
-            @if($task && $task->canManageLists() && $task->getAttribute('status') != 'done' && auth()->id() != $task->getAttribute('user_id'))
+            @if($task && $task->canManageLists() && $task->getAttribute('status') != 'done')
             $("select[name='status']").attr("disabled", false);
             @endif
 
