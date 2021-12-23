@@ -192,7 +192,7 @@
 
             <div class="col-sm-3 pt-2 d-flex align-items-center">
                 <p class="mb-0"> @lang('translates.total_items', ['count' => $works->count(), 'total' => $works->total()])</p>
-                <div class="input-group col-md-3">
+                <div class="input-group col-md-6">
                     <select name="limit" class="custom-select" id="size">
                         @foreach([25, 50, 100, 250] as $size)
                             <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
@@ -201,12 +201,13 @@
                 </div>
             </div>
 
-            <div class="col-sm-3 pt-2 d-flex align-items-center">
-                <div class="input-group">
-                    <a class="btn btn-outline-success" data-toggle="modal" data-target="#report-work" >@lang('translates.navbar.report')</a>
+            @if(auth()->user()->works()->exists())
+                <div class="col-sm-3 pt-2 d-flex align-items-center">
+                    <div class="input-group">
+                        <a class="btn btn-outline-success" data-toggle="modal" data-target="#report-work" >@lang('translates.navbar.report')</a>
+                    </div>
                 </div>
-            </div>
-
+            @endif
 
             @can('create', App\Models\Work::class)
                 <div class="col-sm-6 py-3">
@@ -459,9 +460,9 @@
         </div>
     </div>
     <div class="modal fade" id="report-work">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <form action="{{route('works.report')}}" method="GET">
+                <form action="{{route('works.report')}}" method="GET" target="_blank">
                     <div class="modal-header">
                         <h5 class="modal-title">@lang('translates.general.select_date')</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
