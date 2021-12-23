@@ -201,7 +201,7 @@
                 </div>
             </div>
 
-            @if(request()->has('test'))
+            @if(auth()->user()->works()->exists())
                 <div class="col-sm-3 pt-2 d-flex align-items-center">
                     <div class="input-group">
                         <a class="btn btn-outline-success" data-toggle="modal" data-target="#report-work" >@lang('translates.navbar.report')</a>
