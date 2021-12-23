@@ -29,7 +29,7 @@ class TaskController extends Controller
         $limit  = $request->get('limit', 25);
 
         $filters = [
-            'type' => $request->get('type') ?? (Task::userCanViewAll() ? 3 : 1),
+            'type' => $request->get('type') ?? (auth()->user()->isDeveloper() ? 1 : (Task::userCanViewAll() ? 3 : 1)),
             'status' => $request->get('status'),
             'priority' => $request->get('priority'),
             'department' => $request->get('department'),
