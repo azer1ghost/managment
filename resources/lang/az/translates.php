@@ -471,7 +471,7 @@ return [
         'physical_client_mail' => 'Hüquqi Müştərinin İşcilerinin Emaili',
         'physical_client_phone' => 'Hüquqi Müştərinin İşcilerinin Nömrəsi',
         'physical_client_position' => 'Hüquqi Müştərinin İşcilerinin Vəzifəsi',
-
+        'all' => 'Hamısı',
     ],
 
     'clients' => [

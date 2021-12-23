@@ -467,6 +467,7 @@ return [
         'user_select' => 'User Select',
         'select_client' => 'Select Client',
         'select_date' => 'Select Date',
+        'all' => 'All',
     ],
 
     'clients' => [
