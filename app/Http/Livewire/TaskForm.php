@@ -45,20 +45,20 @@ class TaskForm extends Component
         $this->statuses = Task::statuses();
         $this->priorities = Task::priorities();
 
-        $task = optional(optional($this->task)->taskable);
+        $taskable = optional(optional($this->task)->taskable);
 
         foreach (array_keys($this->selected) as $key){
             switch ($key) {
                 case 'department':
                     $this->selected[$key] =
                         request()->has('department') ? request()->get('department') :
-                            ($task->getClassShortName() == $key ?
-                                $task->getAttribute('id') :
-                                optional($task->department)->getAttribute('id'));
+                            ($taskable->getClassShortName() == $key ?
+                                $taskable->getAttribute('id') :
+                                optional($taskable->department)->getAttribute('id'));
                     break;
                 case 'user':
                     $this->selected[$key] =
-                        $task->getClassShortName() == $key ? $task->getAttribute('id') : null;
+                        $taskable->getClassShortName() == $key ? $taskable->getAttribute('id') : null;
                     break;
                 default:
                     $this->selected[$key] = optional($this->task)->getAttribute($key);
