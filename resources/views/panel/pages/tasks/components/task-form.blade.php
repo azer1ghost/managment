@@ -27,7 +27,7 @@
     </div>
 
     @if($method == "POST")
-    <input wire:ignore type="hidden" name="inquiry_id" value="{{$inquiry->getAttribute('id')}}">
+    <input wire:ignore type="hidden" name="inquiry_id" value="{{optional($inquiry)->getAttribute('id')}}">
     @endif
     <x-input::text wire:ignore name="name" required :value="request()->get('name') ?? optional($task)->getAttribute('name') ?? old('name')"  :label="__('translates.tasks.label.name')"   width="6" class="pr-3" />
 
