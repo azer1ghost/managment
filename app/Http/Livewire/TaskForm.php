@@ -9,6 +9,7 @@ use App\Models\Inquiry;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\Rules\In;
 use Livewire\Component;
 
 class TaskForm extends Component
@@ -17,6 +18,7 @@ class TaskForm extends Component
     public array $statuses, $priorities;
     public Collection $departments;
     public ?Task $task;
+    public ?Inquiry $inquiry;
 
     public array $selected = [
         'status' => null,
