@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Modules;
 
 use App\Events\WorkCreated;
 use App\Events\WorkStatusRejected;
+use App\Exports\WorksExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkRequest;
+use App\Interfaces\WorkRepositoryInterface;
 use Carbon\Carbon;
 use App\Models\{Company, Department, Service, User, Work};
 use Illuminate\Http\RedirectResponse;
@@ -13,12 +15,23 @@ use Illuminate\Http\Request;
 
 class WorkController extends Controller
 {
-    public function __construct()
+    protected WorkRepositoryInterface $workRepository;
+
+    public function __construct(WorkRepositoryInterface $workRepository)
     {
         $this->middleware('auth');
         $this->authorizeResource(Work::class, 'work');
+        $this->workRepository = $workRepository;
+
     }
 
+    public function export(Request $request)
+    {
+        $filters = json_decode($request->get('filters'), true);
+        $dateFilters = json_decode($request->get('dateFilters'), true);
+
+        return  (new WorksExport($this->workRepository, $filters, $dateFilters))->download('works.xlsx');
+    }
     public function index(Request $request)
     {
         $user = auth()->user();
@@ -46,11 +59,6 @@ class WorkController extends Controller
             $filters['user_id'] = $request->get('user_id');
         }
 
-        $dateRanges = [
-            'datetime' => explode(' - ', $filters['datetime']),
-            'created_at' => explode(' - ', $filters['created_at']),
-        ];
-
         $dateFilters = [
             'datetime' => $request->has('check-datetime'),
             'created_at' => $request->has('check-created_at'),
@@ -75,60 +83,7 @@ class WorkController extends Controller
                 $query->whereBelongsTo($user->getRelationValue('company'));
             })->get(['id', 'name', 'detail']);
 
-        $works = Work::with('creator', 'department', 'service', 'user', 'client')
-            ->when(Work::userCannotViewAll(), function ($query) use ($user){
-                if(auth()->user()->hasPermission('viewAllDepartment-work')){
-                    $query->where('department_id', $user->getAttribute('department_id'));
-                }else{
-                    $query
-                        ->where(function ($q) use ($user){
-                            $q->whereNull('user_id')->where('department_id', $user->getAttribute('department_id'));
-                        })
-                        ->orWhere('user_id', $user->getAttribute('id'));
-
-                }
-            })
-            ->where(function($query) use ($filters, $dateRanges, $dateFilters){
-                foreach ($filters as $column => $value) {
-                    if($column == 'limit') continue;
-                    $query->when($value, function ($query, $value) use ($column, $dateRanges, $dateFilters) {
-                        if($column == 'verified_at'){
-                            switch ($value){
-                                case 1:
-                                    $query->whereNull($column);
-                                    break;
-                                case 2:
-                                    $query->whereNotNull($column);
-                                    break;
-                            }
-                        }
-                        else if($column == 'asan_imza_company_id'){
-                            $query->whereHas('asanImza', function ($asanImzaQuery) use ($value) {
-                                $asanImzaQuery->whereHas('company', function ($companyQuery) use ($value) {
-                                    $companyQuery->whereId($value);
-                                });
-                            });
-                        }else{
-                            if($column == 'code'){
-                                $query->where($column, 'LIKE', "%$value%");
-                            }
-                            else if (is_numeric($value)){
-                                $query->where($column, $value);
-                            }
-                            else if(is_string($value) && $dateFilters[$column]){
-                                $query->whereBetween($column,
-                                    [
-                                        Carbon::parse($dateRanges[$column][0])->startOfDay(),
-                                        Carbon::parse($dateRanges[$column][1])->endOfDay()
-                                    ]
-                                );
-                            }
-                        }
-                    });
-                }
-            })
-            ->latest('id')
-            ->latest('datetime');
+        $works = $this->workRepository->allFilteredWorks($filters, $dateFilters);
 
         if(is_numeric($limit)) {
             $works = $works->paginate($limit);
@@ -138,7 +93,7 @@ class WorkController extends Controller
 
         return view('panel.pages.works.index',
             compact('works', 'services', 'users', 'departments',
-            'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments')
+            'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters')
         );
     }
 
