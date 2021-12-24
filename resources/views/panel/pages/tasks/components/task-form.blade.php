@@ -57,7 +57,7 @@
         @enderror
     </div>
 
-    @if($task)
+    @if($method != 'POST')
         <div class="form-group col-md-3">
             <label>{{__('translates.fields.status.key')}}</label>
             <select class="form-control @error('status') is-invalid @enderror" id="task-status" name="status" @if (is_null($action)) onfocus="this.oldValue = this.value" onchange="taskStatusHandler(this.oldValue, this.value)" @endif wire:model="selected.status">
@@ -134,11 +134,11 @@
             $("#createTaskForm :input").attr("disabled", true);
             @endif
 
-            @if($task && $task->canManageLists() && $task->getAttribute('status') != 'done')
+            @if($method != 'POST' && $task->canManageLists() && $task->getAttribute('status') != 'done')
             $("select[name='status']").attr("disabled", false);
             @endif
 
-            @if($task && $task->canManageTaskable() && $task->getAttribute('status') != 'done' && auth()->user()->can('update', $task))
+            @if($method != 'POST' && $task->canManageTaskable() && $task->getAttribute('status') != 'done' && auth()->user()->can('update', $task))
             $("select[name='user']").attr("disabled", false);
             @endif
 
