@@ -39,7 +39,7 @@ class Parameter extends Model
 
     public function option(): BelongsTo
     {
-        return $this->belongsTo(Option::class);
+        return $this->belongsTo(Option::class)->withDefault();
     }
 
     public function companies(): BelongsToMany

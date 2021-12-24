@@ -18,9 +18,9 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
 
-    <livewire:task-form :action="$action" :method="$method" :task="$data" />
+    <livewire:task-form :action="$action" :method="$method" :task="$data" :inquiry="$inquiry"/>
 
-    @if(!is_null($data))
+    @if($method != 'POST')
         <x-documents :documents="$data->documents"/>
         <x-document-upload :id="$data->id" model="Task"/>
 
@@ -48,7 +48,7 @@
         @endif
     @endif
 
-    @if($data)
+    @if($method != 'POST')
         <div class="my-3 card p-3 my-5">
             <h3 id="task-lists-header">@lang('translates.tasks.list.to_do')</h3>
             @if($data->canManageLists())
@@ -132,12 +132,12 @@
             </div>
         </div>
     @endif
-    @if($inquiry ?? optional($data)->inquiry_id)
+    @if($inquiry)
         <div class="card-header">
             Inquiry
         </div>
         <div class="card-body inquiry">
-            <livewire:inquiry-form :inquiry="$inquiry ?? $data->getRelationValue('inquiry')" />
+            <livewire:inquiry-form :inquiry="$inquiry" />
         </div>
     @endif
 

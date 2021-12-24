@@ -9,10 +9,12 @@ use App\Models\Department;
 use App\Models\Inquiry;
 use App\Models\Option;
 use App\Models\Parameter;
+use App\Models\Task;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\In;
 
 class InquiryController extends Controller
 {
@@ -147,9 +149,23 @@ class InquiryController extends Controller
         );
     }
 
-    public function createTask($inquiry): RedirectResponse
+    public function createTask(Inquiry $inquiry)
     {
-       return redirect()->route('tasks.create', ['inquiry_id' => $inquiry]);
+        $inquirySubject = $inquiry->getParameter('subject');
+
+        $subjectKinds = '';
+
+        if($inquirySubject->subParameters()->exists()) {
+            $subjectKinds = $inquirySubject->subParameters->map(fn($p) => $inquiry->getParameter($p->name)->text)->implode('name', ',');
+        }
+
+        return view('panel.pages.tasks.edit')->with([
+            'action' => route('tasks.store'),
+            'method' => 'POST',
+            'departments' => Department::pluck('name', 'id')->toArray(),
+            'inquiry' => $inquiry,
+            'data' => new Task(['name' => $inquirySubject->getAttribute('text') . ', ' . rtrim($subjectKinds, ',')])
+       ]);
     }
 
     public function create()

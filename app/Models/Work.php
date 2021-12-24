@@ -46,7 +46,7 @@ class Work extends Model implements DocumentableInterface
 
     public function creator(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'creator_id');
+        return $this->belongsTo(User::class, 'creator_id')->withDefault();
     }
 
     public function hours(): HasMany

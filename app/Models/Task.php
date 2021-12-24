@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Interfaces\DocumentableInterface;
 use App\Traits\Documentable;
+use App\Traits\GetClassInfo;
 use App\Traits\Resultable;
 use Illuminate\Database\Eloquent\{Factories\HasFactory,
     Model,
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\{Factories\HasFactory,
  */
 class Task extends Model implements DocumentableInterface
 {
-    use HasFactory, SoftDeletes, Documentable, Resultable;
+    use HasFactory, SoftDeletes, Documentable, Resultable, GetClassInfo;
 
     protected $fillable = [
         'name',
@@ -79,12 +80,12 @@ class Task extends Model implements DocumentableInterface
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withDefault();
     }
 
     public function inquiry(): BelongsTo
     {
-        return $this->belongsTo(Inquiry::class);
+        return $this->belongsTo(Inquiry::class)->withDefault();
     }
 
     public function comments(): MorphMany
@@ -130,6 +131,7 @@ class Task extends Model implements DocumentableInterface
 
     public function canManageTaskable()
     {
+        $departmentId = null;
         switch ($this->taskable->getTable()) {
             case 'departments':
                 $departmentId = $this->taskable->id;

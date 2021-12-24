@@ -190,7 +190,8 @@ class TaskController extends Controller
                 'action' => null,
                 'method' => null,
                 'data' => $task,
-                'departments' => Department::pluck('name', 'id')->toArray()
+                'departments' => Department::pluck('name', 'id')->toArray(),
+                'inquiry' => $task->getRelationValue('inquiry'),
             ]);
     }
 
@@ -201,7 +202,8 @@ class TaskController extends Controller
                 'action' => route('tasks.update', $task),
                 'method' => "PUT",
                 'data' => $task,
-                'departments' => Department::pluck('name', 'id')->toArray()
+                'departments' => Department::pluck('name', 'id')->toArray(),
+                'inquiry' => $task->getRelationValue('inquiry'),
             ]);
     }
 

@@ -27,7 +27,7 @@ class Update extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withDefault();
     }
 
     public function comments(): MorphMany
@@ -93,6 +93,6 @@ class Update extends Model
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(__CLASS__, 'parent_id');
+        return $this->belongsTo(__CLASS__, 'parent_id')->withDefault();
     }
 }

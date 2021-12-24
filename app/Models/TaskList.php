@@ -15,22 +15,22 @@ class TaskList extends Model
 
     public function task(): BelongsTo
     {
-        return $this->belongsTo(Task::class);
+        return $this->belongsTo(Task::class)->withDefault();
     }
 
     public function parentTask(): BelongsTo
     {
-        return $this->belongsTo(Task::class, 'parent_task_id');
+        return $this->belongsTo(Task::class, 'parent_task_id')->withDefault();
     }
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withDefault();
     }
 
     public function checkedBy(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'last_checked_by');
+        return $this->belongsTo(User::class, 'last_checked_by')->withDefault();
     }
 
     public function canManage(): bool
