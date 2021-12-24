@@ -212,8 +212,15 @@
             @can('create', App\Models\Work::class)
                 <div class="col-sm-6 py-3">
                     <a class="btn btn-outline-success float-right" data-toggle="modal" data-target="#create-work">@lang('translates.buttons.create')</a>
-                    <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('works.export', ['filters' => json_encode($filters), 'dateFilters' => json_encode($dateFilters)])}}">@lang('translates.buttons.export')</a>
-
+                    @if(auth()->user()->hasPermission('canRedirect-work'))
+                        <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('works.export', [
+                            'filters' => json_encode($filters),
+                            'dateFilters' => json_encode($dateFilters)
+                            ])}}"
+                        >
+                            @lang('translates.buttons.export')
+                        </a>
+                    @endif
                 </div>
             @endcan
             <div class="col-12">
