@@ -29,6 +29,7 @@ class WorkController extends Controller
                 $request->get('department_id');
 
         $filters = [
+            'limit' => $limit,
             'code' => $request->get('code'),
             'department_id' => $departmentRequest,
             'service_id' => $request->get('service_id'),
@@ -89,6 +90,7 @@ class WorkController extends Controller
             })
             ->where(function($query) use ($filters, $dateRanges, $dateFilters){
                 foreach ($filters as $column => $value) {
+                    if($column == 'limit') continue;
                     $query->when($value, function ($query, $value) use ($column, $dateRanges, $dateFilters) {
                         if($column == 'verified_at'){
                             switch ($value){

@@ -191,11 +191,11 @@
 
 
             <div class="col-sm-3 pt-2 d-flex align-items-center">
-                <p class="mb-0"> @lang('translates.total_items', ['count' => $works->count(), 'total' => is_numeric(request()->get('limit')) ? $works->total() : $works->count()])</p>
+                <p class="mb-0"> @lang('translates.total_items', ['count' => $works->count(), 'total' => is_numeric($filters['limit']) ? $works->total() : $works->count()])</p>
                 <div class="input-group col-md-6">
                     <select name="limit" class="custom-select" id="size">
                         @foreach([25, 50, 100, 250, trans('translates.general.all')] as $size)
-                            <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
+                            <option @if($filters['limit'] == $size) selected @endif value="{{$size}}">{{$size}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -405,7 +405,7 @@
                     </tbody>
                 </table>
             </div>
-            @if(is_numeric(request()->get('limit')))
+            @if(is_numeric($filters['limit']))
                 <div class="col-12">
                     <div class="float-right">
                         {{$works->appends(request()->input())->links()}}
