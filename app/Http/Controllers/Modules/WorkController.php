@@ -22,7 +22,6 @@ class WorkController extends Controller
         $this->middleware('auth');
         $this->authorizeResource(Work::class, 'work');
         $this->workRepository = $workRepository;
-
     }
 
     public function export(Request $request)
@@ -32,6 +31,7 @@ class WorkController extends Controller
 
         return  (new WorksExport($this->workRepository, $filters, $dateFilters))->download('works.xlsx');
     }
+
     public function index(Request $request)
     {
         $user = auth()->user();
