@@ -497,9 +497,10 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <script>
-
-        const count  = document.getElementById("count").cloneNode(true);
-        $("#table>tbody").prepend(count);
+        @if($works->isNotEmpty())
+            const count  = document.getElementById("count").cloneNode(true);
+            $("#table > tbody").prepend(count);
+        @endif
 
         function showFilter() {
             var x = document.getElementById("showenFilter");
