@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\Client;
+use App\Interfaces\ClientRepositoryInterface;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -12,11 +12,13 @@ class ClientsExport implements FromQuery, WithMapping, WithHeadings
 {
     use Exportable;
 
-    protected array $filters;
+    protected array $filters = [];
+    protected ClientRepositoryInterface $clientRepository;
 
-    public function __construct(array $filters = [])
+    public function __construct(ClientRepositoryInterface $clientRepository, array $filters = [])
     {
         $this->filters = $filters;
+        $this->clientRepository = $clientRepository;
     }
 
     public function headings(): array
@@ -36,29 +38,17 @@ class ClientsExport implements FromQuery, WithMapping, WithHeadings
     {
         return [
             trans('translates.clients_type.' . $row->type),
-            $row->fullname,
-            $row->email1,
-            $row->email2,
-            $row->phone1,
-            $row->phone2,
-            $row->voen
+            $row->getAttribute('fullname'),
+            $row->getAttribute('email1'),
+            $row->getAttribute('email2'),
+            $row->getAttribute('phone1'),
+            $row->getAttribute('phone2'),
+            $row->getAttribute('voen')
         ];
     }
 
     public function query()
     {
-        return Client::query()
-            ->whereNull('client_id')
-            ->when(Client::userCannotViewAll(), function ($query){
-                $query->where(function ($query){
-                    $query
-                        ->doesnthave('salesUsers')
-                        ->orWhereHas('salesUsers', fn($q) => $q->where('id', auth()->id()));
-                });
-            })
-            ->when($this->filters['free_clients'], fn ($query) => $query->doesnthave('salesUsers'))
-            ->when(is_numeric($this->filters['type']), fn ($query) => $query->where('type', $this->filters['type']))
-            ->when($this->filters['search'], fn ($query) => $query->where('fullname', 'like', "%{$this->filters['search']}%"))
-            ->when($this->filters['salesClient'], fn ($query) => $query->whereHas('salesUsers', fn($q) => $q->where('id', $this->filters['salesClient'])));
+        return $this->clientRepository->allFilteredClients($this->filters);
     }
 }

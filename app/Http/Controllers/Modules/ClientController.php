@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Exports\ClientsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
+use App\Interfaces\ClientRepositoryInterface;
 use App\Models\Client;
 use App\Models\Department;
 use App\Models\User;
@@ -12,10 +13,13 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-    public function __construct()
+    protected ClientRepositoryInterface $clientRepository;
+
+    public function __construct(ClientRepositoryInterface $clientRepository)
     {
         $this->middleware('auth');
         $this->authorizeResource(Client::class, 'client');
+        $this->clientRepository = $clientRepository;
     }
 
     public function search(Request $request): object
@@ -46,7 +50,7 @@ class ClientController extends Controller
     {
         $filters = json_decode($request->get('filters'), true);
 
-        return  (new ClientsExport($filters))->download('clients.xlsx');
+        return  (new ClientsExport($this->clientRepository, $filters))->download('clients.xlsx');
     }
 
     public function index(Request $request)
@@ -67,20 +71,7 @@ class ClientController extends Controller
                     (string) Client::LEGAL => trans('translates.general.legal'),
                     (string) Client::PHYSICAL => trans('translates.general.physical')
                 ],
-                'clients' => Client::with('salesUsers')
-                    ->whereNull('client_id')
-                    ->when(Client::userCannotViewAll(), function ($query){
-                        $query->where(function ($query){
-                            $query
-                                ->doesnthave('salesUsers')
-                                ->orWhereHas('salesUsers', fn($q) => $q->where('id', auth()->id()));
-                        });
-                    })
-                    ->when($filters['free_clients'], fn ($query) => $query->doesnthave('salesUsers'))
-                    ->when(is_numeric($filters['type']), fn ($query) => $query->where('type', (int) $filters['type']))
-                    ->when($filters['search'], fn ($query) => $query->where('fullname', 'like', "%{$filters['search']}%"))
-                    ->when($filters['salesClient'], fn ($query) => $query->whereHas('salesUsers', fn($q) => $q->where('id', $filters['salesClient'])))
-                    ->paginate($filters['limit']),
+                'clients' => $this->clientRepository->allFilteredClients($filters)->paginate($filters['limit']),
                 'salesUsers' => User::isActive()->where('department_id', Department::SALES)->get(['id', 'name', 'surname']),
                 'salesClients' => User::isActive()->has('salesClients')->get(['id', 'name', 'surname'])
             ]);

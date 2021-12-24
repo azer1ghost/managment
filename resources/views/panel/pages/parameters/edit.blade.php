@@ -72,7 +72,7 @@
 
             <div class="col-12 py-2" id="parameter-departments">
                 <p class="mb-1" style="font-size: 16px"><strong>Department Companies</strong></p>
-                @forelse (optional($data)->departments as $department)
+                @forelse (optional($data)->departments ?? [] as $department)
                     <label for="companyFilter-{{$department->getAttribute('id')}}">{{$department->getAttribute('name')}}</label>
                     <select name="companies[{{$department->getAttribute('id')}}][]" data-selected-text-format="count" id="companyFilter-{{$department->getAttribute('id')}}" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
                         @foreach ($companies as $company)
