@@ -18,7 +18,7 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
 
-    <livewire:task-form :action="$action" :method="$method" :task="$data" :inquiry="$inquiry"/>
+    <livewire:task-form :action="$action" :method="$method" :task="$data"/>
 
     @if($method != 'POST')
         <x-documents :documents="$data->documents"/>
@@ -132,7 +132,7 @@
             </div>
         </div>
     @endif
-    @if($inquiry)
+    @if(is_numeric(optional($data)->getAttribute('inquiry_id')))
         <div class="card-header">
             Inquiry
         </div>
