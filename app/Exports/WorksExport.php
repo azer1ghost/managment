@@ -59,7 +59,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoSiz
     {
         $maps = [
             $row->getRelationValue('user')->getAttribute('fullname'),
-            $row->getRelationValue('asanImza')->getAttribute('user_with_company'),
+            $row->asanImza()->exists() ? $row->getRelationValue('asanImza')->getAttribute('user_with_company') : trans('translates.filters.select'),
             $row->getRelationValue('service')->getAttribute('name'),
             $row->getRelationValue('client')->getAttribute('type') ? 'HŞ' : 'FŞ',
             $row->getRelationValue('client')->getAttribute('fullname'),
