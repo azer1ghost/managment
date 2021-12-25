@@ -107,6 +107,10 @@ class User extends Authenticatable implements MustVerifyPhone
     {
         return $this->hasMany(Work::class);
     }
+    public function task(): HasMany
+    {
+        return $this->hasMany(Task::class);
+    }
 
     public function salesClients(): BelongsToMany
     {
