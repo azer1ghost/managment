@@ -38,7 +38,7 @@
                             </div>
                         </div>
 
-                        @if(\App\Models\Task::userCanViewAll() || \App\Models\Task::userCanViewDepartmentWorks())
+                        @if(\App\Models\Task::userCanViewAll() || \App\Models\Task::userCanViewDepartmentTasks())
                             <div class="col-12 col-md-3">
                                 <div class="input-group mb-3">
                                 <select id="userFilter" class="select2 form-control" name="user_id">

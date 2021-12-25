@@ -201,7 +201,7 @@
                 </div>
             </div>
 
-            @if(true)
+            @if(auth()->user()->works()->exists())
                 <div class="col-sm-3 pt-2 d-flex align-items-center">
                     <div class="input-group">
                         <div class="d-flex align-items-center">

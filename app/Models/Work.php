@@ -137,6 +137,7 @@ class Work extends Model implements DocumentableInterface
     {
         return $query->whereNotNull('verified_at')->where('status', '!=', self::REJECTED);
     }
+
     public function scopeIsRejected($query)
     {
         return $query->where('status', self::REJECTED);
