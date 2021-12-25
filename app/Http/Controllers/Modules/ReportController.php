@@ -84,6 +84,8 @@ class ReportController extends Controller
     /* view of a daily report creation for the given chief */
     public function createSubReport(Report $report)
     {
+        abort_if(auth()->user()->getRelationValue('userReport')->getAttribute('id') != $report->getAttribute('id'), 403);
+
         return view('panel.pages.reports.edit')->with([
             'method' => 'POST',
             'data' => new DailyReport(),
@@ -95,6 +97,8 @@ class ReportController extends Controller
     /* generate daily report for the given chief */
     public function generateSubReport(ReportRequest $request, Report $report)
     {
+        abort_if(auth()->user()->getRelationValue('userReport')->getAttribute('id') != $report->getAttribute('id'), 403);
+
         $report->reports()->create($request->validated());
 
         return redirect()->route('reports.subs.show', $report);
@@ -103,6 +107,8 @@ class ReportController extends Controller
     /* show specific daily report for the given chief */
     public function showSubReport(DailyReport $report)
     {
+        abort_if(auth()->user()->getRelationValue('userReport')->getAttribute('id') != $report->getRelationValue('parent')->getAttribute('id'), 403);
+
         return view('panel.pages.reports.edit')->with([
             'method' => null,
             'data' => $report,
@@ -114,6 +120,8 @@ class ReportController extends Controller
     /* edit specific daily report for the given chief */
     public function editSubReport(DailyReport $report)
     {
+        abort_if(auth()->user()->getRelationValue('userReport')->getAttribute('id') != $report->getRelationValue('parent')->getAttribute('id'), 403);
+
         return view('panel.pages.reports.edit')->with([
             'method' => 'PUT',
             'data' => $report,
@@ -125,6 +133,8 @@ class ReportController extends Controller
     /* update specific daily report for the given chief */
     public function updateSubReport(ReportRequest $request, DailyReport $report)
     {
+        abort_if(auth()->user()->getRelationValue('userReport')->getAttribute('id') != $report->getRelationValue('parent')->getAttribute('id'), 403);
+
         $report->update($request->validated());
 
         return redirect()->route('reports.subs.show', $report->getAttribute('report_id'));
@@ -133,6 +143,8 @@ class ReportController extends Controller
     /* delete given chief from reports table */
     public function destroy(Report $report)
     {
+        abort_if(auth()->user()->getRelationValue('userReport')->getAttribute('id') != $report->getAttribute('id'), 403);
+
         if ($report->delete()) {
             return response('OK');
         }
