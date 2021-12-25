@@ -84,8 +84,6 @@ class ReportController extends Controller
     /* view of a daily report creation for the given chief */
     public function createSubReport(Report $report)
     {
-        abort_if(auth()->user()->getRelationValue('userReport')->getAttribute('id') != $report->getAttribute('id'), 403);
-
         return view('panel.pages.reports.edit')->with([
             'method' => 'POST',
             'data' => new DailyReport(),
@@ -97,8 +95,6 @@ class ReportController extends Controller
     /* generate daily report for the given chief */
     public function generateSubReport(ReportRequest $request, Report $report)
     {
-        abort_if(auth()->user()->getRelationValue('userReport')->getAttribute('id') != $report->getAttribute('id'), 403);
-
         $report->reports()->create($request->validated());
 
         return redirect()->route('reports.subs.show', $report);
