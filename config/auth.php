@@ -50,6 +50,7 @@ return [
         'viewAny-widget',
         'inquiryStatus-widget',
         'inquiryDaily-widget',
+        'inquiryPersonal-widget',
         'taskDone-widget',
         'bonusTotal-widget',
         'client-widget',
