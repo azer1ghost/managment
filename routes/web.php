@@ -36,7 +36,6 @@ use App\Http\Controllers\{Auth\LoginController,
     TaskListController};
 use Illuminate\Support\Facades\{Auth, Route};
 
-
 Route::get('firebase-messaging-sw.js', [PlatformController::class, 'firebase']);
 Route::post('/store-fcm-token', [PlatformController::class, 'storeFcmToken'])->name('store.fcm-token');
 Route::post('/set-location', [PlatformController::class, 'setLocation'])->name('set-location');
