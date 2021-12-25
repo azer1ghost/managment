@@ -36,13 +36,15 @@ class NotifyModal extends Component
             }
 
             if($started && $notEnded){
-                if($isNotRepeatable || $repeatAt > now()){
+
+
+                if($isNotRepeatable || $repeatAt->isFuture()){
                     if($this->token != request()->cookie('notifyToken')){
                         return view('components.notify-modal');
                     }
-                }else{
-                    return view('components.notify-modal');
                 }
+
+                return view('components.notify-modal');
             }
 
         endif;

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\{Factories\HasFactory,
     SoftDeletes};
 use Illuminate\Support\Facades\DB;
 use Spatie\Translatable\HasTranslations;
+use Str;
 
 class Service extends Model
 {
@@ -54,6 +55,17 @@ class Service extends Model
     public function services(): HasMany
     {
         return $this->hasMany(__CLASS__, 'service_id');
+    }
+
+    public function getShortNameAttribute()
+    {
+        $name = $this->getAttribute('name');
+
+        if (str_word_count($name) > 1){
+            $name = implode('', array_map(function($v) { return $v[0]; },array_filter(array_map('trim',explode(' ', Str::title($name))))));
+        }
+
+        return $name;
     }
 
     public static function serviceParameters()

@@ -7,12 +7,14 @@ use App\Models\Service;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class WorksExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoSize, WithStyles
+class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWidths, ShouldAutoSize, WithStyles
 {
     use Exportable;
 
@@ -46,6 +48,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoSiz
                 trans('translates.columns.created_at'),
                 'Bitirilib',
                 'Təstiqlənib',
+                'Təstiqlənib Saat',
             ]
         );
     }
@@ -60,8 +63,8 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoSiz
         $maps = [
             $row->getRelationValue('user')->getAttribute('fullname'),
             $row->asanImza()->exists() ? $row->getRelationValue('asanImza')->getAttribute('user_with_company') : trans('translates.filters.select'),
-            $row->getRelationValue('service')->getAttribute('name'),
-            $row->getRelationValue('client')->getAttribute('type') ? 'HŞ' : 'FŞ',
+            $row->getRelationValue('service')->getAttribute('shortName'),
+            $row->getRelationValue('client')->getAttribute('type') ? 'FŞ' : 'HŞ',
             $row->getRelationValue('client')->getAttribute('fullname'),
             $row->getRelationValue('client')->getAttribute('voen') ?? 'Yoxdur',
             trans('translates.work_status.' . $row->status),
@@ -72,19 +75,50 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoSiz
         }
 
         return array_merge($maps, [
-            $row->getAttribute('created_at'),
-            $row->getAttribute('datetime') ?? 'Xeyir',
-            $row->getAttribute('verified_at') ?? 'Xeyir'
+            $row->getAttribute('created_at')->format('d-m-Y'),
+            optional($row->getAttribute('datetime'))->format('d-m-Y') ?? 'Xeyir',
+            optional($row->getAttribute('verified_at'))->format('d-m-Y') ?? 'Xeyir',
+            optional($row->getAttribute('verified_at'))->format('H:i') ?? 'Xeyir'
         ]);
     }
 
-    public function styles(Worksheet $sheet)
+    public function styles(Worksheet $sheet): array
     {
-        $sheet->getStyle('1')->getFont()->setBold(true);
-    }
+        return [
+            // Style the first row as bold text.
+            1 => [
+                'font' => ['bold' => true],
+                'alignment' => [
+                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                ],
+                'fill' => [
+                    'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                    'startColor' => [
+                        'argb' => \PhpOffice\PhpSpreadsheet\Style\Color::COLOR_YELLOW,
+                    ],
+                ],
+            ],
 
+        ];
+    }
     public function query()
     {
         return $this->workRepository->allFilteredWorks($this->filters, $this->dateFilters);
     }
+
+    public function columnWidths(): array
+    {
+        return [
+            'E' => 35,
+            'F' => 13,
+        ];
+    }
+
+//    public function columnFormats(): array
+//    {
+//        return [
+//            'B' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+//            'C' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
+//        ];
+//    }
 }

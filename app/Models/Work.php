@@ -37,7 +37,12 @@ class Work extends Model implements DocumentableInterface
         'verified_at',
     ];
 
-    protected $casts = ['datetime' => 'datetime'];
+//    protected $casts = [
+//        'datetime' => 'datetime',
+//        'verified_at' => 'datetime'
+//    ];
+
+    protected $dates = ['datetime', 'verified_at'];
 
     public function getMainColumn(): string
     {
