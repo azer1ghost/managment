@@ -37,6 +37,7 @@
             <div class="form-group col-6">
                 <label for="user_id">@lang('translates.columns.user')</label><br/>
                 <select class="select2 form-control" name="user_id" id="user_id">
+                    <option value="">@lang('translates.general.user_select')</option>
                     @foreach($users as $user)
                         <option @if($data->getAttribute('user_id') == $user->id) selected @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
                     @endforeach
@@ -81,13 +82,13 @@
             document.querySelector('.select2-search__field').focus();
         });
 
-        const select2 = $('.select2');
+        const userSelect2 = $('select[name="user_id"]');
 
-        select2.select2({
+        userSelect2.select2({
             theme: 'bootstrap4',
         });
 
-        select2.on('select2:open', function (e) {
+        userSelect2.on('select2:open', function (e) {
             document.querySelector('.select2-search__field').focus();
         });
     </script>
