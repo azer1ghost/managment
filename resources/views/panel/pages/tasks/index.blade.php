@@ -4,6 +4,9 @@
 
 @section('style')
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 @endsection
 
 @section('content')
@@ -35,13 +38,29 @@
                                 <input type="search" placeholder="@lang('translates.placeholders.task_name')" name="search" value="{{request()->get('search')}}" class="form-control">
                             </div>
                         </div>
-                        <div class="col-12 col-md-3">
-                            <div class="input-group mb-3">
-                                <input type="search" placeholder="@lang('translates.placeholders.search_users')" name="user" value="{{request()->get('user')}}" class="form-control">
-                            </div>
-                        </div>
 
-                        @if(\App\Models\Task::userCanViewAll())
+                        @if(\App\Models\Task::userCanViewAll() || \App\Models\Task::userCanViewDepartmentWorks())
+                            <div class="col-12 col-md-3">
+                                <div class="input-group mb-3">
+                                <select id="userFilter" class="select2 form-control"
+                                        name="user_id"
+                                        data-width="fit" title="{{__('translates.filters.select')}}"
+                                >
+                                    <option value="">@lang('translates.filters.select')</option>
+                                    @foreach($users as $user)
+                                        <option
+                                                @if($user->getAttribute('id') == $filters['user_id']) selected @endif
+                                        value="{{$user->getAttribute('id')}}"
+                                        >
+                                            {{$user->getAttribute('fullname_with_position')}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                </div>
+                            </div>
+                        @endif
+
+                    @if(\App\Models\Task::userCanViewAll())
                             <div class="col-12 col-md-3">
                                 <div class="input-group mb-3">
                                     <select class="form-control" name="department">
@@ -211,6 +230,8 @@
     </form>
 @endsection
 @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
@@ -241,6 +262,46 @@
                 }
             );
         });
+        const select2 = $('.select2');
+        const clientFilter = $('.client-filter');
+
+        $('select[name="limit"]').change(function () {
+            $(this).form().submit();
+        });
+
+        $('.filterSelector').selectpicker()
+
+        select2.select2({
+            theme: 'bootstrap4',
+        });
+
+        select2.on('select2:open', function (e) {
+            document.querySelector('.select2-search__field').focus();
+        });
+        function select2RequestFilter(el, url){
+            el.select2({
+                placeholder: "Search",
+                minimumInputLength: 3,
+                // width: 'resolve',
+                theme: 'bootstrap4',
+                focus: true,
+                ajax: {
+                    delay: 500,
+                    url: url,
+                    dataType: 'json',
+                    type: 'GET',
+                    data: function (params) {
+                        return {
+                            search: params.term,
+                        }
+                    }
+                }
+            })
+
+            el.on('select2:open', function (e) {
+                document.querySelector('.select2-search__field').focus();
+            });
+        }
 
     </script>
 @endsection
