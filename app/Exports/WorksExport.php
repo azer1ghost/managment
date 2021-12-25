@@ -67,8 +67,8 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings
 
         return array_merge($maps, [
             $row->getAttribute('created_at'),
-            $row->getAttribute('datetime'),
-            $row->getAttribute('verified_at')
+            $row->getAttribute('datetime') ?? 'Xeyir',
+            $row->getAttribute('verified_at') ?? 'Xeyir'
         ]);
     }
 
