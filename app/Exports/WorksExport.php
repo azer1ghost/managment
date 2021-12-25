@@ -25,11 +25,12 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings
 
         $this->headings = [
 //            trans('translates.columns.created_by'),
-            trans('translates.fields.department'),
+//            trans('translates.fields.department'),
             trans('translates.columns.user'),
             trans('translates.navbar.asan_imza'),
             trans('translates.general.work_service'),
             'Müştəri adı',
+            'VOEN/GOOEN',
             'Status',
         ];
 
@@ -53,11 +54,11 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings
     public function map($row): array
     {
         $maps = [
-            $row->getRelationValue('department')->getAttribute('name'),
             $row->getRelationValue('user')->getAttribute('fullname'),
             $row->getRelationValue('asanImza')->getAttribute('user_with_company'),
             $row->getRelationValue('service')->getAttribute('name'),
-            $row->getRelationValue('client')->getAttribute('fullname_with_voen'),
+            $row->getRelationValue('client')->getAttribute('fullname'),
+            $row->getRelationValue('client')->getAttribute('voen') ?? 'Yoxdur',
             trans('translates.work_status.' . $row->status),
         ];
 
