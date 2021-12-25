@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\Component;
 use Carbon\Carbon;
 
-class InquiryPersonalWidget extends Component
+class InquiryPersonalDailyWidget extends Component
 {
     use GetClassInfo;
 
@@ -33,7 +33,7 @@ class InquiryPersonalWidget extends Component
     public function render()
     {
         if (auth()->user()->inquiries()->exists()) {
-            return view('components.widgets.inquiryPersonal-widget');
+            return view('components.widgets.inquiryPersonalDaily-widget');
 
         }
     }
