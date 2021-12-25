@@ -108,6 +108,16 @@ class Task extends Model implements DocumentableInterface
         return !self::userCanViewAll();
     }
 
+    public static function userCanViewDepartmentTasks(): bool
+    {
+        return auth()->user()->hasPermission('viewAllDepartment-task');
+    }
+
+    public static function userCannotViewDepartmentTasks(): bool
+    {
+        return !self::userCanViewDepartmentTasks();
+    }
+
     public function isFinished(): bool
     {
         if($this->taskLists()->where('is_checked', 0)->count() > 0){

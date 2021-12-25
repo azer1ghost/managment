@@ -38,9 +38,11 @@ class TaskController extends Controller
             'user' => $request->get('user'),
             'must_start_at' => $request->get('must_start_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
         ];
-        if(Task::userCanViewAll()){
+
+        if(Task::userCanViewAll() || Task::userCanViewDepartmentTasks()){
             $filters['user_id'] = $request->get('user_id');
         }
+
         $usersQuery = User::has('task')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id']);
         $users = Task::userCannotViewAll()  ?
             $usersQuery->where('department_id', $user->getAttribute('department_id'))->get() :
@@ -57,7 +59,6 @@ class TaskController extends Controller
         $statuses = Task::statuses();
         $priorities = Task::priorities();
         $types = Task::types();
-
 
         return view('panel.pages.tasks.index')
             ->with([
@@ -147,14 +148,10 @@ class TaskController extends Controller
                 'statuses' => $statuses,
                 'priorities' => $priorities,
                 'types' => $types,
-                'users' =>$users
+                'users' => $users
             ]);
     }
 
-    /**
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
     public function create()
     {
         return view('panel.pages.tasks.edit')
