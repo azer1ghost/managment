@@ -73,7 +73,7 @@
     <p>@yield('downtime')</p>
 </div>
 <div class="bottomleft">
-    <h2>MobilManagement</h2>
+    <h5>Mobil Management</h5>
 </div>
 </body>
 </html>
