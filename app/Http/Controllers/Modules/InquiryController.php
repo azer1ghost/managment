@@ -158,7 +158,7 @@ class InquiryController extends Controller
         if($inquirySubject->subParameters()->exists()) {
             $subjectKinds = ', ' . $inquirySubject->subParameters->map(
                 fn($p) => $p->getAttribute('type') == 'select' ?
-                    $inquiry->getParameter($p->name)->text :
+                    optional($inquiry->getParameter($p->name))->text :
                     $p->label . ': ' . optional($inquiry->getParameter($p->name))->value)->implode('name', ',');
         }
 
