@@ -7,6 +7,7 @@ use App\Http\Requests\CustomerEngagementRequest;
 use App\Models\Client;
 use App\Models\CustomerEngagement;
 use App\Models\User;
+use App\Models\Work;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
