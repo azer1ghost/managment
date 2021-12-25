@@ -6,10 +6,13 @@ use App\Interfaces\WorkRepositoryInterface;
 use App\Models\Service;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class WorksExport implements FromQuery, WithMapping, WithHeadings
+class WorksExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoSize, WithStyles
 {
     use Exportable;
 
@@ -29,6 +32,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings
             trans('translates.columns.user'),
             trans('translates.navbar.asan_imza'),
             trans('translates.general.work_service'),
+            'Şəxs',
             'Müştəri adı',
             'VOEN/GOOEN',
             'Status',
@@ -57,6 +61,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings
             $row->getRelationValue('user')->getAttribute('fullname'),
             $row->getRelationValue('asanImza')->getAttribute('user_with_company'),
             $row->getRelationValue('service')->getAttribute('name'),
+            $row->getRelationValue('client')->getAttribute('type') ? 'HŞ' : 'FŞ',
             $row->getRelationValue('client')->getAttribute('fullname'),
             $row->getRelationValue('client')->getAttribute('voen') ?? 'Yoxdur',
             trans('translates.work_status.' . $row->status),
@@ -71,6 +76,11 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings
             $row->getAttribute('datetime') ?? 'Xeyir',
             $row->getAttribute('verified_at') ?? 'Xeyir'
         ]);
+    }
+
+    public function styles(Worksheet $sheet)
+    {
+        $sheet->getStyle('1')->getFont()->setBold(true);
     }
 
     public function query()
