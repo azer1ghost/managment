@@ -156,7 +156,7 @@ class InquiryController extends Controller
         $subjectKinds = '';
 
         if($inquirySubject->subParameters()->exists()) {
-            $subjectKinds = $inquirySubject->subParameters->map(fn($p) => $inquiry->getParameter($p->name)->text)->implode('name', ',');
+            $subjectKinds = ',' . $inquirySubject->subParameters->map(fn($p) => $p->getAttribute('select') ? $inquiry->getParameter($p->name)->text : $inquiry->getParameter($p->name))->implode('name', ',');
         }
 
         return view('panel.pages.tasks.edit')->with([
@@ -164,7 +164,7 @@ class InquiryController extends Controller
             'method' => 'POST',
             'departments' => Department::pluck('name', 'id')->toArray(),
             'inquiry' => $inquiry,
-            'data' => new Task(['name' => $inquirySubject->getAttribute('text') . ', ' . rtrim($subjectKinds, ',')])
+            'data' => new Task(['name' => $inquirySubject->getAttribute('text') . rtrim($subjectKinds, ',')])
        ]);
     }
 
