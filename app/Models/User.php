@@ -219,7 +219,7 @@ class User extends Authenticatable implements MustVerifyPhone
 
     public function userReport(): HasOne
     {
-        return $this->hasOne(Report::class);
+        return $this->hasOne(Report::class, 'chief_id');
     }
 
     public function inquiries(): HasMany
