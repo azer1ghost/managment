@@ -217,6 +217,11 @@ class User extends Authenticatable implements MustVerifyPhone
         return $query->whereNull('disabled_at');
     }
 
+    public function userReport(): HasOne
+    {
+        return $this->hasOne(Report::class);
+    }
+
     public function inquiries(): HasMany
     {
         return $this->hasMany(Inquiry::class);
