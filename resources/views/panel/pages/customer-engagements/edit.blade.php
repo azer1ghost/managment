@@ -38,12 +38,10 @@
                 <label for="user_id">@lang('translates.columns.user')</label><br/>
                 <select class="select2 form-control" name="user_id" id="user_id">
                     @foreach($users as $user)
-                        <option @if($data->getAttribute('user_id') == $user->id) selected
-                                @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
+                        <option @if($data->getAttribute('user_id') == $user->id) selected @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
                     @endforeach
                 </select>
             </div>
-
         </div>
         @if($action)
             <x-input::submit :value="trans('translates.buttons.save')"/>
@@ -80,6 +78,16 @@
             }
         })
         clientSelect2.on('select2:open', function (e) {
+            document.querySelector('.select2-search__field').focus();
+        });
+
+        const select2 = $('.select2');
+
+        select2.select2({
+            theme: 'bootstrap4',
+        });
+
+        select2.on('select2:open', function (e) {
             document.querySelector('.select2-search__field').focus();
         });
     </script>
