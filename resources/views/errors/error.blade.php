@@ -70,7 +70,7 @@
     <h2>@yield('error')</h2>
     <p>@yield('content')</p>
     <hr>
-    <p>{{\Carbon\Carbon::parse('25.12.2021')->locale('en')->diffForHumans()}}</p>
+    <p>@yield('downtime')</p>
 </div>
 <div class="bottomleft">
     <h2>MobilManagement</h2>
