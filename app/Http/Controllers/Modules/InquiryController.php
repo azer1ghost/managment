@@ -157,9 +157,9 @@ class InquiryController extends Controller
 
         if($inquirySubject->subParameters()->exists()) {
             $subjectKinds = ', ' . $inquirySubject->subParameters->map(
-                fn($p) => $p->getAttribute('type') == 'select' ?
-                    optional($inquiry->getParameter($p->name))->text :
-                    $p->label . ': ' . optional($inquiry->getParameter($p->name))->value)->implode('name', ',');
+                fn($p) => !is_null($inquiry->getParameter($p->name)) ? ($p->getAttribute('type') == 'select' ?
+                    $inquiry->getParameter($p->name)->text :
+                    $p->label . ': ' . $inquiry->getParameter($p->name)->value) : '')->implode('name', ',');
         }
 
         return view('panel.pages.tasks.edit')->with([
