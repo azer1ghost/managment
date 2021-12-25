@@ -97,6 +97,8 @@ class ReportController extends Controller
     /* generate daily report for the given chief */
     public function generateSubReport(ReportRequest $request, Report $report)
     {
+        abort_if(auth()->user()->getRelationValue('userReport')->getAttribute('id') != $report->getAttribute('id'), 403);
+
         $report->reports()->create($request->validated());
 
         return redirect()->route('reports.subs.show', $report);
