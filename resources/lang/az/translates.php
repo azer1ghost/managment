@@ -525,5 +525,10 @@ return [
 
     'reports' => [
         'check_new_chiefs' => 'Yeni rəhbərləri yoxlayın'
+    ],
+    'errors' => [
+        '404' => 'Səhifə Tapılmadı',
+        '403' => 'Sizin Bu Səhifəyə Daxil Olmaq Üçün İcazəniz Yoxdur',
+        '503' => 'Hal-hazırda Sistemdə Profilaktik İşlər Gedir.Anlayışınız Üçün Təşəkkürlər',
     ]
 ];

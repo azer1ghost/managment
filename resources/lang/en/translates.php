@@ -524,5 +524,10 @@ return [
 
     'reports' => [
         'check_new_chiefs' => 'Check for new chiefs'
+    ],
+    'errors' => [
+        '404' => 'Page Not Found',
+        '403' => 'You don\'t have permission to view this resource',
+        '503' => 'Currently, the system is undergoing preventive work. Thanks for your understanding'
     ]
 ];
