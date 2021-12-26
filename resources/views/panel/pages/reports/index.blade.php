@@ -36,10 +36,9 @@
                                     @endphp
                                     <a href="{{$route}}" class="btn mr-1
                                         @if($day->format('Y-m-d') > now()->format('Y-m-d') ||
-                                            ((is_null($subReport) && (auth()->user()->can('generateSubReport', $report) ||
-                                                auth()->user()->isDirector()) && $report->getAttribute('chief_id') != auth()->id()) ||
-                                                (!auth()->user()->hasPermission('viewAll-report') && !auth()->user()->isDirector() && auth()->user()->cannot('generateSubReport', $report))
-                                            )) disabled
+                                            (is_null($subReport) && $report->getAttribute('chief_id') != auth()->id())
+                                        )
+                                            disabled
                                         @endif
                                         @if(is_null($subReport) && $day->format('Y-m-d') == now()->format('Y-m-d') && \Carbon\Carbon::now()->format('H') >= \App\Models\DailyReport::TIME_LIMIT) btn-warning
                                         @elseif(is_null($subReport) && $day->format('Y-m-d') == now()->format('Y-m-d') && \Carbon\Carbon::now()->format('H') < \App\Models\DailyReport::TIME_LIMIT) btn-primary
