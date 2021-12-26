@@ -48,7 +48,7 @@ return [
              */
             'credentials' => [
                 'file' => storage_path('app/firebase.json'),
-                'fcm_token' => env('FIREBASE_FCM_KEY'),
+                'fcm_token' => env('MIX_FIREBASE_FCM_KEY'),
                 /*
                  * If you want to prevent the auto discovery of credentials, set the
                  * following parameter to false. If you disable it, you must
@@ -85,7 +85,7 @@ return [
                  * Please make sure that you use a full URL like, for example,
                  * https://my-project-id.firebaseio.com
                  */
-                'url' => env('FIREBASE_DATABASE_URL'),
+                'url' => env('MIX_FIREBASE_DATABASE_URL'),
 
                 /*
                  * As a best practice, a service should have access to only the resources it needs. 

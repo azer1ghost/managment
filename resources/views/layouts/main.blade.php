@@ -99,7 +99,6 @@
                     quickbars_selection_toolbar: '',
                 });
 
-
                 @if(app()->environment('production'))
                     // request for location and store the info
                     if (navigator.geolocation) {
