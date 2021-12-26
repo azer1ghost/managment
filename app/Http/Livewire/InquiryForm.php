@@ -26,10 +26,6 @@ class InquiryForm extends Component
 
     public array $cachedValues = [], $formFields = [], $selected = [];
 
-    /**
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
     public function mount()
     {
         $this->companies = Company::isInquirable()->get();
@@ -85,6 +81,8 @@ class InquiryForm extends Component
 
     public function updatedSelected($value, $name)
     {
+        if (empty($value)) return;
+
         $this->getSubFields($value);
 
         if (in_array($name, ['customer_id', 'phone', 'email']) && $this->selected['company'] == 4) {
