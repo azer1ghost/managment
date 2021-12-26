@@ -154,7 +154,7 @@
                         >
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$task->getAttribute('name')}}</td>
-                            <td style="font-weight: 700;" class="task-priority {{$task->getAttribute('priority')}}">@lang('translates.fields.priority.options.' . $task->getAttribute('priority'))</td>
+                            <td style="font-weight: 700;max-width: 100%;white-space: nowrap;" class="task-priority {{$task->getAttribute('priority')}}">@if($task->getAttribute('priority') == 'urgent') <i class="fas fa-exclamation-circle"></i> @endif @lang('translates.fields.priority.options.' . $task->getAttribute('priority'))</td>
                             <td style="font-weight: 700;">@lang('translates.fields.status.options.' . $task->getAttribute('status'))</td>
                             <td>{{$task->getRelationValue('user')->getAttribute('fullname_with_position')}}</td>
                             <td>{{$task->taskable->getClassShortName() == 'department' ? $task->taskable->getAttribute('name') : $task->taskable->getRelationValue('department')->getAttribute('name')}}</td>
