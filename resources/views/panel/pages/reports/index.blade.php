@@ -35,11 +35,11 @@
                                         $route = is_null($subReport) ? route('reports.sub.create', $report) . "?day={$day->format('Y-m-d')}" : route('reports.sub.show', $subReport);
                                     @endphp
                                     <a href="{{$route}}" class="btn mr-1
-{{--                                        @if($day->format('Y-m-d') > now()->format('Y-m-d') ||--}}
-{{--                                            (is_null($subReport) && $report->getAttribute('chief_id') != auth()->id())--}}
-{{--                                        )--}}
-{{--                                            disabled--}}
-{{--                                        @endif--}}
+                                        @if($day->format('Y-m-d') > now()->format('Y-m-d') ||
+                                            (is_null($subReport) && $report->getAttribute('chief_id') != auth()->id())
+                                        )
+                                            disabled
+                                        @endif
                                         @if(is_null($subReport) && $day->format('Y-m-d') == now()->format('Y-m-d') && \Carbon\Carbon::now()->format('H') >= \App\Models\DailyReport::TIME_LIMIT) btn-warning
                                         @elseif(is_null($subReport) && $day->format('Y-m-d') == now()->format('Y-m-d') && \Carbon\Carbon::now()->format('H') < \App\Models\DailyReport::TIME_LIMIT) btn-primary
                                         @elseif(is_null($subReport) && $day > now()->format('Y-m-d')) btn-dark
