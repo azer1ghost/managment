@@ -24,28 +24,30 @@
         <x-documents :documents="$data->documents"/>
         <x-document-upload :id="$data->id" model="Task"/>
 
-        @if(auth()->id() != optional($data)->getRelationValue('user')->id)
-            @switch(optional($data)->getRelationValue('taskable')->getTable())
-                @case('users')
-                    @if(auth()->id() == optional($data)->getRelationValue('taskable')->id)
-                        <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result" status="enable"/>
-                    @endif
-                    @break
+        @switch(optional($data)->getRelationValue('taskable')->getTable())
+            @case('users')
+                @if(optional($data)->getAttribute('user_id') == auth()->id() && auth()->id() == optional($data)->getRelationValue('taskable')->id)
+                    <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result" status="enable"/>
+                @else
+                    <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result" status="disable"/>
+                @endif
 
-                @case('departments')
-                    @php
-                        $departmentUsers = optional($data)->getRelationValue('taskable')->users()->isActive()->pluck('id')->toArray();
-                    @endphp
-                    @if(in_array(auth()->id(), $departmentUsers))
-                        <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result" status="enable"/>
-                    @endif
-                    @break
+                @break
 
-                @default
-            @endswitch
-        @elseif(auth()->id() == optional($data)->getRelationValue('user')->id && optional($data)->status == \App\Models\Task::DONE)
-            <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result" status="disable"/>
-        @endif
+            @case('departments')
+                @php
+                    $departmentUsers = optional($data)->getRelationValue('taskable')->users()->isActive()->pluck('id')->toArray();
+                @endphp
+                @if(optional($data)->getAttribute('user_id') != auth()->id() && in_array(auth()->id(), $departmentUsers))
+                    <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result" status="enable"/>
+                @else
+                    <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result" status="disable"/>
+                @endif
+
+                @break
+
+            @default
+        @endswitch
     @endif
 
     @if($method != 'POST')
