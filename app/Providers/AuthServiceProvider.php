@@ -17,8 +17,6 @@ class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
         DatabaseNotification::class => DatabaseNotificationPolicy::class,
-        DailyReport::class => ReportPolicy::class,
-        Report::class => ReportPolicy::class,
     ];
 
     public function boot(): void

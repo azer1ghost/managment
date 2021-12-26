@@ -15,6 +15,7 @@ class ReportController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->authorizeResource(Report::class, 'report');
     }
 
     /* Custom policies to extend default resource policies */
@@ -26,9 +27,6 @@ class ReportController extends Controller
             'showSubReports' => 'showSubReports',
             'createSubReport' => 'generateSubReport',
             'generateSubReport' => 'generateSubReport',
-            'showSubReport' => 'showSubReport',
-            'editSubReport' => 'updateSubReport',
-            'updateSubReport' => 'updateSubReport',
             'destroy' => 'delete',
         ];
     }
@@ -45,17 +43,6 @@ class ReportController extends Controller
                 ->when(Report::cannotViewAll(), fn($query) => $query->where('chief_id', auth()->id()))
                 ->oldest('updated_at')
                 ->get()
-        ]);
-    }
-
-    /*  show all reports of a given chief */
-    public function showSubReports(Report $report)
-    {
-        return view('panel.pages.reports.sub_reports')->with([
-            'parent' => $report,
-            'data' => $report->reports()->latest()->get()->groupBy(function($d) {
-                return Carbon::parse($d->date)->format('M Y');
-            }),
         ]);
     }
 
@@ -81,6 +68,17 @@ class ReportController extends Controller
         return back();
     }
 
+    /*  show all reports of a given chief */
+    public function showSubReports(Report $report)
+    {
+        return view('panel.pages.reports.sub_reports')->with([
+            'parent' => $report,
+            'data' => $report->reports()->latest()->get()->groupBy(function($d) {
+                return Carbon::parse($d->date)->format('M Y');
+            }),
+        ]);
+    }
+
     /* view of a daily report creation for the given chief */
     public function createSubReport(Report $report)
     {
@@ -97,37 +95,7 @@ class ReportController extends Controller
     {
         $report->reports()->create($request->validated());
 
-        return redirect()->route('reports.subs.show', $report);
-    }
-
-    /* show specific daily report for the given chief */
-    public function showSubReport(DailyReport $report)
-    {
-        return view('panel.pages.reports.edit')->with([
-            'method' => null,
-            'data' => $report,
-            'action' => null,
-            'parent' => $report->getRelationValue('parent')
-        ]);
-    }
-
-    /* edit specific daily report for the given chief */
-    public function editSubReport(DailyReport $report)
-    {
-        return view('panel.pages.reports.edit')->with([
-            'method' => 'PUT',
-            'data' => $report,
-            'action' => route('reports.sub.update', $report),
-            'parent' => $report->getRelationValue('parent')
-        ]);
-    }
-
-    /* update specific daily report for the given chief */
-    public function updateSubReport(ReportRequest $request, DailyReport $report)
-    {
-        $report->update($request->validated());
-
-        return redirect()->route('reports.subs.show', $report->getAttribute('report_id'));
+        return redirect()->route('reports.index');
     }
 
     /* delete given chief from reports table */
