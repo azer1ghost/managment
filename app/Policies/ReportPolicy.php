@@ -20,23 +20,29 @@ class ReportPolicy
 
     public function showSubReports(User $user, Report $report): bool
     {
-        return $user->getAttribute('id') == $report->getAttribute('chief_id');
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
+            $user->getAttribute('id') == $report->getAttribute('chief_id');
     }
 
     public function generateSubReport(User $user, Report $report): bool
     {
-        return $user->getRelationValue('userReport')->getAttribute('id') == $report->getAttribute('id');
+        return
+            $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) &&
+            $user->getRelationValue('chiefReport')->getAttribute('id') == $report->getAttribute('id');
     }
 
     public function showSubReport(User $user, DailyReport $report): bool
     {
-        return $user->getAttribute('id') == $report->getRelationValue('parent')->getAttribute('chief_id');
+        return
+            $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
+            $user->getAttribute('id') == $report->getRelationValue('parent')->getAttribute('chief_id');
     }
 
     public function updateSubReport(User $user, DailyReport $report): bool
     {
         return
-            $user->getAttribute('id') == $report->getRelationValue('parent')->getAttribute('chief_id') &&
+            ($this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
+            $user->getAttribute('id') == $report->getRelationValue('parent')->getAttribute('chief_id')) &&
             $report->getAttribute('created_at')->format('Y-m-d') == now()->format('Y-m-d');
     }
 

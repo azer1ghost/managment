@@ -217,7 +217,7 @@ class User extends Authenticatable implements MustVerifyPhone
         return $query->whereNull('disabled_at');
     }
 
-    public function userReport(): HasOne
+    public function chiefReport(): HasOne
     {
         return $this->hasOne(Report::class, 'chief_id');
     }
