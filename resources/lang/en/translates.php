@@ -118,10 +118,10 @@ return [
         'priority' => [
             'key' => 'Priority',
             'options' => [
-                'low' => 'Low',
-                'medium' => 'Medium',
-                'high' => 'High',
-                'urgent' => 'Urgent'
+                'Low',
+                'Medium',
+                'High',
+                'Urgent'
             ]
         ],
         'status' => [
