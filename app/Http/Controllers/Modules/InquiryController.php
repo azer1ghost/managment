@@ -251,6 +251,14 @@ class InquiryController extends Controller
         return redirect()->route('inquiry.show', $inquiry)->withNotify('info', 'Inquiry Updated');
     }
 
+    public function logs(Inquiry $inquiry)
+    {
+        return view('panel.pages.inquiry.logs')->with([
+            'logs' => $inquiry->ledgers()->latest('id')->with('user')->get(),
+            'inquiry' => $inquiry
+        ]);
+    }
+
     public function updateStatus(Request $request)
     {
         $data = $request->all();

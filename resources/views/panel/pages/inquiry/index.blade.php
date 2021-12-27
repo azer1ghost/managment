@@ -311,10 +311,10 @@
                                                 <i class="fal fa-lock-open-alt pr-2 text-info"></i>@lang('translates.access')
                                             </a>
                                         @endif
-{{--                                        <a href="{{route('inquiry.logs', $inquiry)}}" target="_blank"--}}
-{{--                                           class="dropdown-item-text text-decoration-none">--}}
-{{--                                            <i class="fal fa-sticky-note pr-2 text-info"></i>Logs--}}
-{{--                                        </a>--}}
+                                        <a href="{{route('inquiry.logs', $inquiry)}}" target="_blank"
+                                           class="dropdown-item-text text-decoration-none">
+                                            <i class="fal fa-sticky-note pr-2 text-info"></i>Logs
+                                        </a>
 
                                         @php($taskRoute = $inquiry->task()->exists() ? route('tasks.show', $inquiry->task) : route('inquiry.task', $inquiry))
                                         <a href="{{$taskRoute}}" target="_blank"

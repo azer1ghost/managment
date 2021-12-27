@@ -113,6 +113,19 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
          null;
     }
 
+    public function getParameterById($id)
+    {
+        // Get parameter model
+        $parameter = $this->parameters()->find($id);
+
+        return $parameter ?
+            // Check type of parameter -> if type is "select" return option value / else return pivot value
+            $parameter->getAttribute('type') == 'select' ?
+                Option::find($parameter->pivot->value) :
+                $parameter->pivot:
+            null;
+    }
+
     public function getWasDoneAttribute(): bool
     {
        return optional($this->getParameter('status'))->getAttribute('id') == self::DONE;
