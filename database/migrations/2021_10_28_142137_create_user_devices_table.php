@@ -9,7 +9,7 @@ class CreateUserDevicesTable extends Migration
     {
         Schema::create('user_devices', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained()->onDelete('CASCADE');
-            $table->string('device_key')->index()->nullable()->unique();
+            $table->string('device_key')->index()->nullable();
             $table->string('device')->nullable();
             $table->string('fcm_token')->nullable();
             $table->ipAddress('ip')->index()->nullable();
