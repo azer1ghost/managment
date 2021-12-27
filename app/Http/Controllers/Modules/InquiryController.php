@@ -203,22 +203,6 @@ class InquiryController extends Controller
                 ['editable_ended_at' => $inquiry->getAttribute('created_at')->addHours(5)] //->addMinutes(7)
             );
 
-
-        /* Log created inquiry with params */
-        $createdInquiry = Inquiry::with(['parameters' => function($query){
-            $query->select('name');
-        }])->find($inquiry->getAttribute('id'));
-
-        \Log::channel('daily')->notice("User #" . $request->user()->id . " created new Inquiry. Content is: " . json_encode($createdInquiry));
-
-        $createdInquiry->logs()->create([
-            'user_id' => $request->user()->id,
-            'action' => 'created',
-            'data' => json_encode($createdInquiry),
-            'message' => "User #" . $request->user()->id  . " created new Inquiry."
-        ]);
-        /* End of logging */
-
         return redirect()->route('inquiry.edit', $inquiry)->withNotify('info', 'Inquiry');
     }
 
@@ -262,28 +246,9 @@ class InquiryController extends Controller
            $backup->parameters()->sync(syncResolver($oldParameters ?? [], 'value'));
 
            $inquiry->parameters()->sync(syncResolver($newParameters ?? [], 'value'));
-
-            /* Log created inquiry with params */
-
-            $data['old'] = $backup;
-            $data['old']['parameters'] = $oldParameters;
-
-            $data['new'] = $inquiry->getChanges();
-            $data['new']['parameters'] = array_diff($oldParameters, $newParameters);
-
-            \Log::channel('daily')->notice("User #" . $request->user()->id . " updated Inquiry (CODE {$inquiry->getAttribute('code')}). Content is: " . json_encode($data));
-
-            $inquiry->logs()->create([
-                'user_id' => $request->user()->id,
-                'action' => 'updated',
-                'data' => json_encode($data),
-                'message' => "User #" . $request->user()->id  . " updated Inquiry."
-            ]);
-            /* End of logging */
-
         }
 
-        return redirect()->route('inquiry.index')->withNotify('info', 'Inquiry Updated');
+        return redirect()->route('inquiry.show', $inquiry)->withNotify('info', 'Inquiry Updated');
     }
 
     public function updateStatus(Request $request)
@@ -328,22 +293,11 @@ class InquiryController extends Controller
 
         $editableUsers = [];
 
-        $editableUsersLogs = [];
-
         foreach ($request->get('users') ?? [] as $editable) {
             $editableUsers[$editable['user_id']] = ['editable_ended_at' => $editable['editable_ended_at']];
-            $log = [];
-            $log['user_id'] = $request->user()->getAttribute('id');
-            $log['action'] = __FUNCTION__;
-            $log['message'] = "User #{$request->user()->getAttribute('id')} updated access for {$inquiry->getAttribute('code')}";
-            $log['data'] = json_encode(['access' => "#".$request->user()->getAttribute('id') . " gave access to #{$editable['user_id']}"]);
-
-            $editableUsersLogs[] = $log;
         }
 
         $inquiry->editableUsers()->sync($editableUsers);
-
-        $inquiry->logs()->createMany($editableUsersLogs);
 
         return back()->withNotify('info', $inquiry->getAttribute('code'));
     }
@@ -364,23 +318,8 @@ class InquiryController extends Controller
         return back();
     }
 
-    public function logs(Inquiry $inquiry)
-    {
-        return view('panel.pages.inquiry.logs')->with([
-            'inquiry' => $inquiry
-        ]);
-    }
-
     public function destroy(Inquiry $inquiry)
     {
-        \Log::channel('daily')->warning("User #" . auth()->id() . " deleted inquiry (CODE {$inquiry->getAttribute('code')}).");
-
-        $inquiry->logs()->create([
-            'user_id' => auth()->id(),
-            'action' => 'deleted',
-            'message' => "User #" . auth()->id() . " deleted inquiry. (CODE {$inquiry->getAttribute('code')})"
-        ]);
-
         return $inquiry->delete() ? response('OK') : response('',204);
     }
 
@@ -390,29 +329,12 @@ class InquiryController extends Controller
 
         $inquiry->restore();
 
-        \Log::channel('daily')->alert("User #" . auth()->id() . " restored inquiry (CODE {$inquiry->getAttribute('code')}).");
-
-        $inquiry->logs()->create([
-            'user_id' => auth()->id(),
-            'action' => 'restored',
-            'message' => "User #" . auth()->id() . " restored inquiry. (CODE {$inquiry->getAttribute('code')})"
-        ]);
-
         return redirect()->route('inquiry.index')->withNotify('info', "Inquiry {$inquiry->getAttribute('code')} restored");
     }
 
     public function forceDelete($id)
     {
         $inquiry = Inquiry::onlyTrashed()->find($id);
-
-        \Log::channel('daily')->alert("User #" . auth()->id() . " force-deleted inquiry (CODE {$inquiry->getAttribute('code')}).");
-
-        $inquiry->logs()->create([
-            'user_id' => auth()->id(),
-            'action' => 'force-deleted',
-            'data' => json_encode($inquiry),
-            'message' => "User #" . auth()->id() . " force-deleted inquiry. (CODE {$inquiry->getAttribute('code')})"
-        ]);
 
         return $inquiry->forceDelete() ? response('OK') : response('',204);
     }
@@ -425,24 +347,10 @@ class InquiryController extends Controller
 
         $parameters = $old->getRelationValue('parameters')->pluck('pivot.value', 'id')->toArray();
 
-        $inquiryBeforeRestore = $inquiry;
-
         if (
             $inquiry->update($attributes) &&
             $inquiry->parameters()->sync(syncResolver($parameters ?? [], 'value'))
         ) {
-
-            /* Log created inquiry with params */
-            \Log::channel('daily')->notice("User #" . $request->user()->id . " restored to old version Inquiry (CODE {$inquiry->getAttribute('code')}). Content is: " . json_encode($inquiryBeforeRestore));
-
-            $inquiry->logs()->create([
-                'user_id' => $request->user()->id,
-                'action' => 'version-restored',
-                'data' => json_encode($inquiryBeforeRestore),
-                'message' => "User #" . $request->user()->id  . " restored to old version Inquiry."
-            ]);
-            /* End of logging */
-
             return response('OK');
         }
 

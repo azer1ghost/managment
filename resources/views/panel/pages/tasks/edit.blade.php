@@ -26,7 +26,7 @@
 
         @switch(optional($data)->getRelationValue('taskable')->getTable())
             @case('users')
-                @if(optional($data)->getAttribute('user_id') == auth()->id() && auth()->id() == optional($data)->getRelationValue('taskable')->id)
+                @if(auth()->id() == optional($data)->getRelationValue('taskable')->id)
                     <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result" status="enable"/>
                 @else
                     <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result" status="disable"/>
@@ -38,7 +38,7 @@
                 @php
                     $departmentUsers = optional($data)->getRelationValue('taskable')->users()->isActive()->pluck('id')->toArray();
                 @endphp
-                @if(optional($data)->getAttribute('user_id') != auth()->id() && in_array(auth()->id(), $departmentUsers))
+                @if(in_array(auth()->id(), $departmentUsers))
                     <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result" status="enable"/>
                 @else
                     <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result" status="disable"/>

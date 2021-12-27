@@ -8,24 +8,20 @@
 }
 
 .task-priority{
-  &.low, &.medium{
+  &.priority-0, &.priority-1{
     color: $primary !important;
   }
-  &.high, &.urgent{
+  &.priority-2, &.priority-3{
     color: #DC3545 !important;
   }
 
   &-bg{
-    &.low, &.medium{
+    &.priority-0, &.priority-1{
       background-color: $primary !important;
     }
-    &.high, &.urgent{
+    &.priority-2, &.priority-3{
       background-color: #DC3545 !important;
     }
-  }
-
-  &.urgent {
-
   }
 }
 

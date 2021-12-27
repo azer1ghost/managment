@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Altek\Accountant\Contracts\Recordable;
+use Altek\Eventually\Eventually;
 use App\Interfaces\DocumentableInterface;
 use App\Traits\Documentable;
 use App\Traits\GetClassInfo;
@@ -19,9 +21,9 @@ use Illuminate\Database\Eloquent\{Factories\HasFactory,
 /**
  * @property mixed $taskable
  */
-class Task extends Model implements DocumentableInterface
+class Task extends Model implements DocumentableInterface, Recordable
 {
-    use HasFactory, SoftDeletes, Documentable, Resultable, GetClassInfo;
+    use HasFactory, SoftDeletes, Documentable, Resultable, GetClassInfo, \Altek\Accountant\Recordable, Eventually;
 
     protected $fillable = [
         'name',

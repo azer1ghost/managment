@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Altek\Accountant\Contracts\Identifiable;
+use Altek\Accountant\Contracts\Recordable;
+use Altek\Eventually\Eventually;
 use App\Contracts\Auth\MustVerifyPhone;
 use App\Traits\GetClassInfo;
-use App\Traits\Loger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -21,9 +23,9 @@ use Illuminate\Notifications\Notifiable;
  * @property mixed name
  * @property mixed surname
  */
-class User extends Authenticatable implements MustVerifyPhone
+class User extends Authenticatable implements MustVerifyPhone, Recordable
 {
-    use HasFactory, Notifiable, SoftDeletes, Loger, GetClassInfo, \App\Traits\Auth\MustVerifyPhone;
+    use HasFactory, Notifiable, SoftDeletes, GetClassInfo, \App\Traits\Auth\MustVerifyPhone, \Altek\Accountant\Recordable, Eventually;
 
     const DIRECTOR = 7;
     const DEVELOPER = 1;

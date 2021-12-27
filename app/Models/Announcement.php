@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Altek\Accountant\Contracts\Recordable;
+use Altek\Eventually\Eventually;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
-class Announcement extends Model
+class Announcement extends Model implements Recordable
 {
-    use HasTranslations;
+    use HasTranslations, \Altek\Accountant\Recordable, Eventually;
 
     protected $fillable = ['class', 'title', 'detail', 'repeat_rate', 'status', 'permissions', 'users'];
 

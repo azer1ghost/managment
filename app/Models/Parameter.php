@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Traits\Loger;
+use Altek\Accountant\Contracts\Recordable;
+use Altek\Eventually\Eventually;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -15,9 +16,9 @@ use Spatie\Translatable\HasTranslations;
  * @method static create(array $validated)
  * @method static select(array $array)
  */
-class Parameter extends Model
+class Parameter extends Model implements Recordable
 {
-    use HasTranslations, SoftDeletes, Loger;
+    use HasTranslations, SoftDeletes, \Altek\Accountant\Recordable, Eventually;
 
     public array $translatable = ['label', 'placeholder'];
 

@@ -179,6 +179,7 @@ return [
         App\Providers\RepositoryServiceProvider::class,
         Kreait\Laravel\Firebase\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Altek\Accountant\AccountantServiceProvider::class,
     ],
 
     /*

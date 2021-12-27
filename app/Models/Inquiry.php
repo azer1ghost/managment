@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Altek\Accountant\Contracts\Recordable;
+use Altek\Eventually\Eventually;
 use App\Interfaces\DocumentableInterface;
 use App\Traits\Documentable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,9 +16,9 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
-class Inquiry extends Model implements DocumentableInterface
+class Inquiry extends Model implements DocumentableInterface, Recordable
 {
-    use HasFactory, SoftDeletes, Documentable;
+    use HasFactory, SoftDeletes, Documentable, \Altek\Accountant\Recordable, Eventually;
 
     // status parameter id
     const STATUS_PARAMETER = 5;
@@ -136,11 +138,6 @@ class Inquiry extends Model implements DocumentableInterface
     public static function userCanViewAllDepartment(): bool
     {
         return auth()->user()->hasPermission('viewAllDepartment-inquiry');
-    }
-
-    public function logs(): MorphMany
-    {
-        return $this->morphMany(Log::class, 'logable');
     }
 
     public function task(): HasOne

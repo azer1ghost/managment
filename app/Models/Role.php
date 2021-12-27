@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Traits\Loger;
+use Altek\Accountant\Contracts\Recordable;
+use Altek\Eventually\Eventually;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,9 +14,9 @@ use Illuminate\Support\Str;
  * @method static where(string $string, string $string1)
  * @method static whereIn(string $string, string $string1)
  */
-class Role extends Model
+class Role extends Model implements Recordable
 {
-    use HasTranslations, SoftDeletes, Loger;
+    use HasTranslations, SoftDeletes, \Altek\Accountant\Recordable, Eventually;
 
     public array $translatable = ['name'];
 

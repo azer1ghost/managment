@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Altek\Accountant\Contracts\Recordable;
+use Altek\Eventually\Eventually;
 use App\Interfaces\DocumentableInterface;
 use App\Traits\Documentable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,9 +13,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Client extends Model implements DocumentableInterface
+class Client extends Model implements DocumentableInterface, Recordable
 {
-    use SoftDeletes, HasFactory, Documentable;
+    use SoftDeletes, HasFactory, Documentable, \Altek\Accountant\Recordable, Eventually;
 
     const LEGAL = 0;
     const PHYSICAL  = 1;

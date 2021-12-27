@@ -18,7 +18,7 @@ class InquiryForm extends Component
 
     public ?string $action = null, $method = null;
 
-    public Inquiry $inquiry;
+    public ?Inquiry $inquiry;
     public Carbon $datetime;
     public ?string $note;
     public bool $isRedirected = false;

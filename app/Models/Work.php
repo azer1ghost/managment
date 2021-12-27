@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Altek\Accountant\Contracts\Recordable;
+use Altek\Eventually\Eventually;
 use App\Interfaces\DocumentableInterface;
 use App\Traits\Documentable;
 use Illuminate\Database\Eloquent\{Factories\HasFactory,
@@ -14,9 +16,9 @@ use Illuminate\Database\Eloquent\{Factories\HasFactory,
 /**
  * @method static select(string[] $array)
  */
-class Work extends Model implements DocumentableInterface
+class Work extends Model implements DocumentableInterface, Recordable
 {
-    use HasFactory, SoftDeletes, Documentable;
+    use HasFactory, SoftDeletes, Documentable, \Altek\Accountant\Recordable, Eventually;
 
     const PENDING = 1;
     const STARTED = 2;

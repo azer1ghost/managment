@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
-use App\Traits\Loger;
+use Altek\Accountant\Contracts\Recordable;
+use Altek\Eventually\Eventually;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 
-class Position extends Model
+class Position extends Model implements Recordable
 {
-    use HasFactory, HasTranslations, SoftDeletes, Loger;
+    use HasFactory, HasTranslations, SoftDeletes, \Altek\Accountant\Recordable, Eventually;
 
     public array $translatable = ['name'];
 

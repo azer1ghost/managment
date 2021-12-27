@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use Altek\Accountant\Contracts\Recordable;
+use Altek\Eventually\Eventually;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class TaskList extends Model
+class TaskList extends Model implements Recordable
 {
+    use \Altek\Accountant\Recordable, Eventually;
+
     protected $table = 'task_lists';
 
     protected $fillable = ['task_id', 'name', 'is_checked', 'user_id', 'last_checked_by', 'parent_task_id'];

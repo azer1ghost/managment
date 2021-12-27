@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Altek\Accountant\Contracts\Recordable;
+use Altek\Eventually\Eventually;
 use Illuminate\Database\Eloquent\{Factories\HasFactory,
     Model,
     Relations\BelongsTo,
@@ -12,9 +14,9 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Translatable\HasTranslations;
 use Str;
 
-class Service extends Model
+class Service extends Model implements Recordable
 {
-    use HasFactory, SoftDeletes, HasTranslations;
+    use HasFactory, SoftDeletes, HasTranslations, \Altek\Accountant\Recordable, Eventually;
 
     protected $fillable = ['name', 'detail', 'icon', 'company_id', 'department_id', 'service_id', 'has_asan_imza'];
 

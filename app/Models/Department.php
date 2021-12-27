@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
+use Altek\Accountant\Contracts\Recordable;
+use Altek\Eventually\Eventually;
 use App\Traits\GetClassInfo;
-use App\Traits\Loger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -12,9 +13,9 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 
-class Department extends Model
+class Department extends Model implements Recordable
 {
-    use HasTranslations, HasFactory, SoftDeletes, Loger, GetClassInfo;
+    use HasTranslations, HasFactory, SoftDeletes, GetClassInfo, \Altek\Accountant\Recordable, Eventually;
 
     const SALES  = 7;
 

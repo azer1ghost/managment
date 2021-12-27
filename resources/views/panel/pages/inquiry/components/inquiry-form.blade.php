@@ -1,4 +1,11 @@
-<form action="{{$action}}" id="createForm" method="POST" class="tab-content form-row mt-4 mb-5">
+<form action="{{$action}}" id="createForm" method="POST" class="tab-content form-row mb-5">
+    @if($method == null)
+        @can('update', $inquiry)
+            <div class="col-12 my-4 pl-0">
+                <a class="btn btn-outline-success" href="{{route('inquiry.edit', $inquiry)}}">Edit</a>
+            </div>
+        @endcan
+    @endif
     @csrf
     @method($method)
 

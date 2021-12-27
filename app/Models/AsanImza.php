@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
+use Altek\Accountant\Contracts\Recordable;
+use Altek\Eventually\Eventually;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class AsanImza extends Model
+class AsanImza extends Model implements Recordable
 {
-    use SoftDeletes, HasFactory;
+    use SoftDeletes, HasFactory, \Altek\Accountant\Recordable, Eventually;
 
     protected $table = 'asan_imzalar';
     protected $fillable = ['user_id', 'company_id', 'asan_id', 'phone'];

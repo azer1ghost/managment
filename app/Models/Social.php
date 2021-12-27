@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Traits\Loger;
+use Altek\Accountant\Contracts\Recordable;
+use Altek\Eventually\Eventually;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,9 +11,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @method static insert($array)
  */
-class Social extends Model
+class Social extends Model implements Recordable
 {
-    use Loger, SoftDeletes;
+    use SoftDeletes, \Altek\Accountant\Recordable, Eventually;
 
     protected $fillable = ['name', 'url', 'status', 'company_id'];
 

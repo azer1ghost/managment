@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use Altek\Accountant\Contracts\Recordable;
+use Altek\Eventually\Eventually;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Referral extends Model
+class Referral extends Model implements Recordable
 {
-    use HasFactory;
+    use HasFactory, \Altek\Accountant\Recordable, Eventually;
 
     protected $fillable = [
         'user_id',
