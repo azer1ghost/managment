@@ -93,7 +93,7 @@ class ReportController extends Controller
     {
         $report->reports()->create($request->validated());
 
-        return redirect()->route('reports.index');
+        return redirect()->route('reports.subs.show', $report);
     }
 
     /* delete given chief from reports table */
