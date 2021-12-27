@@ -73,9 +73,7 @@ class ReportController extends Controller
     {
         return view('panel.pages.reports.sub_reports')->with([
             'parent' => $report,
-            'data' => $report->reports()->latest()->get()->groupBy(function($d) {
-                return Carbon::parse($d->date)->format('M Y');
-            }),
+            'currentMonth' => DailyReport::currentMonth(),
         ]);
     }
 

@@ -219,7 +219,7 @@ class InquiryController extends Controller
         ]);
         /* End of logging */
 
-        return redirect()->route('inquiry.index')->withNotify('info', 'Inquiry');
+        return redirect()->route('inquiry.edit', $inquiry)->withNotify('info', 'Inquiry');
     }
 
     public function show(Inquiry $inquiry)

@@ -61,6 +61,51 @@ class DailyReport extends Model
         return $days_of_week;
     }
 
+    public static function currentMonth()
+    {
+        $start_of_month = now()->startOfMonth();
+
+        $days_of_month[] = $start_of_month->copy(); // use carbon copy to avoid affecting the original $start_of_week variable
+
+        $day_offs = []; // array of day offs
+        $working_days = []; // array of working days
+
+        // Check if the given working day is in the day off range or if the weekend is in the working day range
+        foreach (Calendar::currentMonth()->get(['start_at', 'end_at', 'is_day_off']) as $daterange){
+            switch ($daterange->getAttribute('is_day_off')){
+                case 0:
+                    self::checkDay($daterange, function ($date) use (&$working_days){
+                        if($date->format('N') == 7){
+                            $working_days[] = $date->copy();
+                        }
+                    });
+                    break;
+                case 1:
+                    self::checkDay($daterange, function ($date) use (&$day_offs){
+                        $day_offs[] = $date->copy();
+                    });
+                    break;
+            }
+        }
+
+        if ($days_of_month[0]->format('N') == 7 && !in_array($days_of_month[0], $working_days)) {
+            unset($days_of_month[0]);
+        }else if ($days_of_month[0]->format('N') != 7 && in_array($days_of_month[0], $day_offs)) {
+            unset($days_of_month[0]);
+        }
+
+        for($i = 0; $i < 30; $i++) {
+            $date_of_week =  $start_of_month->addDay()->copy();
+
+            if ($date_of_week->format('N') == 7 && !in_array($date_of_week, $working_days)) continue;
+            if ($date_of_week->format('N') != 7 && in_array($date_of_week, $day_offs)) continue;
+
+            $days_of_month[] = $date_of_week;
+        }
+
+        return array_values($days_of_month);
+    }
+
     // function to loop over date ranges from the calendar
     private static function checkDay($daterange, $callback)
     {

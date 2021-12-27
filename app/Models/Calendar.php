@@ -15,12 +15,12 @@ class Calendar extends Model
     protected $fillable = ['name', 'type', 'start_at', 'end_at', 'user_id', 'is_day_off', 'is_repeatable', 'is_private'];
 
     protected $casts = [
-        'start_at' => 'date',
-        'end_at' => 'date',
         'is_day_off' => 'boolean',
         'is_repeatable' => 'boolean',
         'is_private' => 'boolean',
     ];
+
+    protected $dates = ['start_at', 'end_at'];
 
     public static function eventTypes(): array
     {
@@ -70,6 +70,11 @@ class Calendar extends Model
     public function scopeCurrentYear($query)
     {
         return $query->whereYear('start_at', now()->format('Y'));
+    }
+
+    public function scopeCurrentMonth($query)
+    {
+        return $query->whereMonth('start_at', now()->format('m'));
     }
 
     public function scopeIsDayOff($query)

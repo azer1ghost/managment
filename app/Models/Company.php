@@ -17,6 +17,9 @@ class Company extends Model
 {
     use SoftDeletes, Loger;
 
+    // MOBEX ID
+    const MOBIL_EXPRESS = 4;
+
     protected $fillable = [
         'name',
         'logo',
