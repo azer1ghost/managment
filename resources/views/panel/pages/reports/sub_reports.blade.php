@@ -14,7 +14,7 @@
             {{$parent->getRelationValue('chief')->getAttribute('fullname_with_position')}}
         </x-bread-crumb-link>
     </x-bread-crumb>
-    <div class="row">
+    <div class="row m-0">
         <table class="table table-responsive-sm table-hover text-capitalize">
             <thead>
             <tr>
