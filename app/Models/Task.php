@@ -56,7 +56,7 @@ class Task extends Model implements DocumentableInterface
 
     public static function priorities(): array
     {
-        return ['low', 'medium', 'high', 'urgent'];
+        return [0, 1, 2, 3];
     }
 
     public static function types(): array

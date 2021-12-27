@@ -46,8 +46,8 @@
         <label>{{__('translates.fields.priority.key')}}</label>
         <select class="form-control @error('priority') is-invalid @enderror" name="priority" wire:model="selected.priority">
             <option value="null" disabled selected>{{__('translates.fields.priority.key')}} {{__('translates.placeholders.choose')}}</option>
-            @foreach($priorities as $priority)
-                <option value="{{$priority}}">@lang("translates.fields.priority.options.{$priority}")</option>
+            @foreach($priorities as $key => $priority)
+                <option value="{{$key}}">@lang("translates.fields.priority.options.{$key}")</option>
             @endforeach
         </select>
         @error('priority')

@@ -120,10 +120,10 @@ return [
         'priority' => [
             'key' => 'Prioritet',
             'options' => [
-                'low' => 'Aşağı',
-                'medium' => 'Orta',
-                'high' => 'Yüksək',
-                'urgent' => 'Təcili'
+                'Aşağı',
+                'Orta',
+                'Yüksək',
+                'Təcili'
             ]
         ],
         'status' => [
