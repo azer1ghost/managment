@@ -51,6 +51,8 @@ class InquiryStatusWidget extends Component
         }
 
         $this->keys[] =  __('translates.filters.select');
+
+        dd($statuses, Inquiry::isReal()->monthly()->count());
     }
 
     public function render()
