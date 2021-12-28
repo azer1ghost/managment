@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DocumentRequest;
 use App\Models\Document;
+use App\Models\User;
 use App\Services\FirebaseApi;
 use Exception;
 use Illuminate\Http\RedirectResponse;
@@ -23,8 +24,12 @@ class DocumentController extends Controller
      */
     public function index(Request $request)
     {
+        $limit  = $request->get('limit', 25);
         $search = $request->get('search');
+        $user = $request->get('user_id');
+
         $documents = Document::with('user', 'documentable')
+            ->when($user,   fn ($query) => $query->where('user_id', $user))
             ->when($search, fn ($query) => $query->where('name', 'LIKE', "%$search%"));
 
         if(!auth()->user()->isDeveloper()){
@@ -32,7 +37,10 @@ class DocumentController extends Controller
         }
 
         return view('panel.pages.documents.index')->with([
-            'documents' => $documents->paginate(10)
+            'documents' => $documents->paginate($limit),
+            'users' => User::get(['id', 'name', 'surname'])
+
+
         ]);
     }
 
