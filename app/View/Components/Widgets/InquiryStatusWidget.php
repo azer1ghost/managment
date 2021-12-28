@@ -28,9 +28,10 @@ class InquiryStatusWidget extends Component
             'parameters as status_rejected_count'   => fn ($q) => $q->where('inquiry_parameter.value', Inquiry::REJECTED),
             'parameters as status_incompatible_count'   => fn ($q) => $q->where('inquiry_parameter.value', Inquiry::INCOMPATIBLE),
             'parameters as status_unreachable_count'   => fn ($q) => $q->where('inquiry_parameter.value', Inquiry::UNREACHABLE),
+            'parameters as status_redirected_count'   => fn ($q) => $q->where('inquiry_parameter.value', Inquiry::REDIRECTED),
         ])->get()->toArray();
 
-        $statuses = [0, 0, 0, 0, 0, 0];
+        $statuses = [0, 0, 0, 0, 0, 0, 0];
 
         foreach ($inquiries as $item){
             $statuses[0] += $item['status_active_count'];
@@ -38,11 +39,12 @@ class InquiryStatusWidget extends Component
             $statuses[2] += $item['status_rejected_count'];
             $statuses[3] += $item['status_incompatible_count'];
             $statuses[4] += $item['status_unreachable_count'];
+            $statuses[5] += $item['status_redirected_count'];
         }
 
         $this->total = Inquiry::isReal()->monthly()->count();
 
-        $statuses[5] = $this->total - array_sum($statuses);
+        $statuses[6] = $this->total - array_sum($statuses);
 
         $this->results = $statuses;
 
