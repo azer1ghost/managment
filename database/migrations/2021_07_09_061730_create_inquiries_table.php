@@ -18,7 +18,7 @@ class CreateInquiriesTable extends Migration
             $table->string('code')->nullable()->unique();
             $table->dateTime('datetime')->index()->useCurrent();
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('SET NULL');
-            $table->string('note')->nullable();
+            $table->text('note')->nullable();
             $table->foreignId('user_id')->index()->nullable();
             $table->integer('redirected_user_id')->nullable();
             $table->foreignId('inquiry_id')->nullable()->index()->constrained()->onDelete('CASCADE');

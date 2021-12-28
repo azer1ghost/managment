@@ -72,6 +72,13 @@ class Sidebar extends Component
             ],
 
             (object)[
+                'title' => 'Inquiry Sales',
+                'icon' => 'fa fa-phone',
+                'url' => route('inquiry.sales'),
+                'permission' => 'viewAny-salesInquiry',
+            ],
+
+            (object)[
                 'title' => __('translates.navbar.task'),
                 'icon' => 'fal fa-thumbtack',
                 'url' => route('tasks.index'),

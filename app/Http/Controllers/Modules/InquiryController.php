@@ -14,7 +14,6 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\In;
 
 class InquiryController extends Controller
 {
@@ -79,6 +78,7 @@ class InquiryController extends Controller
         }
 
         $inquiries = Inquiry::with('user', 'company')
+            ->whereDepartmentId(Department::CALL_CENTER)
             ->withoutBackups()
             ->when(!Inquiry::userCanViewAll(), function ($query){
                 if (Inquiry::userCanViewAllDepartment()){
