@@ -22,7 +22,7 @@ class InquiryStatusWidget extends Component
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
 
-        $inquiries = Inquiry::isReal()->select('id')->monthly()->withCount([
+        $inquiries = Inquiry::isReal()->monthly()->select('id')->withCount([
             'parameters as status_active_count' => fn ($q) => $q->where('inquiry_parameter.value', Inquiry::ACTIVE),
             'parameters as status_done_count'   => fn ($q) => $q->where('inquiry_parameter.value', Inquiry::DONE),
             'parameters as status_rejected_count'   => fn ($q) => $q->where('inquiry_parameter.value', Inquiry::REJECTED),
@@ -42,9 +42,9 @@ class InquiryStatusWidget extends Component
             $statuses[5] += $item['status_redirected_count'];
         }
 
-//        $this->total = Inquiry::isReal()->monthly()->count();
-//
-//        $statuses[6] = $this->total - array_sum($statuses);
+        $this->total = Inquiry::isReal()->monthly()->count();
+
+        $statuses[6] = $this->total - array_sum($statuses);
 
         $this->results = $statuses;
 
