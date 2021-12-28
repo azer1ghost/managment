@@ -4,8 +4,8 @@ namespace App\View\Components\Widgets;
 
 use App\Models\User;
 use App\Traits\GetClassInfo;
+
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
 class InquiryUserWidget extends Component
@@ -14,7 +14,7 @@ class InquiryUserWidget extends Component
 
     public ?Model $widget;
     public ?string $model = null;
-    public Collection $result;
+    public array $result = [];
 
 
     public function __construct($widget)
@@ -26,21 +26,18 @@ class InquiryUserWidget extends Component
             ->whereHas('inquiries', function ($q){
                 $q->isReal();
             })
-            ->orderByDesc('inquiries_count')
+            ->orderBy('inquiries_count', 'desc')
             ->get()
             ->map(function ($result){
                 return [
                     'name' => $result->getAttribute('fullname'),
                     'steps' => $result->inquiries_count,
-                    'pictureSettings'=> [
-                        'src' => image( $result->getAttribute('avatar'))
-                    ]
+                    'pictureSettings'=> $result->getAttribute('avatar')
 
                 ];
-            });
+            })->toArray();
 
-//        dd($this->result );
-
+        dd($this->result );
 //        {
 //            name: "Monica",
 //                steps: 45688,
