@@ -142,8 +142,8 @@ class TaskController extends Controller
                             });
                         }
                     })
-                    ->orderBy('priority','DESC')
                     ->orderBy('status','DESC')
+                    ->orderBy('priority','DESC')
                     ->latest()
                     ->paginate($limit),
                 'departments' => Department::get(['id', 'name']),
