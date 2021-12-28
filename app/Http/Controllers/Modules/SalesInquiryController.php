@@ -36,6 +36,7 @@ class SalesInquiryController extends Controller
 
         $parameterFilters = [
             'evaluation' => $request->get('evaluation'),
+            'status'     => $request->get('status'),
             'phone'      => $request->get('phone'),
             'qvs'        => $request->get('qvs'),
         ];
@@ -51,14 +52,9 @@ class SalesInquiryController extends Controller
 
         [$from, $to] = explode(' - ', $daterange);
 
-        $statuses  = Parameter::where('name', 'evaluation')->first()->options->unique();
-
-        $users = User::has('inquiries');
-        if (Inquiry::userCanViewAll()){
-            $users = $users->get(['id', 'name', 'surname', 'disabled_at']);
-        }else{
-            $users = $users->where('department_id', auth()->user()->getAttribute('department_id'))->get(['id', 'name', 'surname', 'disabled_at']);
-        }
+        $statuses  = Parameter::where('name', 'status')->first()->options->unique();
+        $evaluations  = Parameter::where('name', 'evaluation')->first()->options->unique();
+        $users = User::has('inquiries')->whereDepartmentId(Department::SALES)->get(['id', 'name', 'surname', 'disabled_at']);
 
         $inquiries = Inquiry::with('user', 'company')
             ->whereDepartmentId(3)
@@ -120,6 +116,7 @@ class SalesInquiryController extends Controller
             compact(
                 'inquiries',
                 'statuses',
+                'evaluations',
                 'trashBox',
                 'daterange',
                 'users'

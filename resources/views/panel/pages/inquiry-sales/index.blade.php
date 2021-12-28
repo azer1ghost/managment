@@ -33,7 +33,7 @@
             <div class="col-12 p-0">
                 <div class="row m-0">
 
-                    <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
+                    <div class="form-group col-12 col-md-3 mb-3">
                         <label for="daterange">@lang('translates.filters.date')</label>
                         <input type="text" readonly placeholder="@lang('translates.placeholders.range')" name="daterange"
                                value="{{$daterange}}" id="daterange" class="form-control">
@@ -49,15 +49,41 @@
                         <input id="noteFilter" name="note" value="{{request()->get('note')}}" placeholder="@lang('translates.placeholders.note')" class="form-control"/>
                     </div>
 
+                    <div class="form-group col-12 col-md-3 mb-3">
+                        <label for="phoneFilter">@lang('translates.fields.phone')</label>
+                        <input id="phoneFilter" name="phone" value="{{request()->get('phone')}}" placeholder="@lang('translates.placeholders.phone')" class="form-control"/>
+                    </div>
+
+                    <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
+                        <label for="qvsFilter">QVS</label>
+                        <input id="qvsFilter" name="qvs" value="{{request()->get('qvs')}}" placeholder="Filter by QVS" class="form-control"/>
+                    </div>
+
+                    <div class="form-group col-12 col-md-3 mb-0">
+                        <label class="d-block" for="evaluationFilter">Evaluation</label>
+                        <select id="evaluationFilter" data-selected-text-format="count" class="filterSelector form-control"
+                                title="@lang('translates.filters.select')" name="evaluation">
+
+                            <option value="">@lang('translates.filters.select')</option>
+                            @foreach($evaluations as $evaluation)
+                                <option
+                                        @if($evaluation->id == request()->get('evaluation')) selected @endif
+                                value="{{$evaluation->getAttribute('id')}}" >
+                                    {{ucfirst($evaluation->getAttribute('text'))}}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <div class="form-group col-12 col-md-3 mb-0">
                         <label class="d-block" for="statusFilter">Status</label>
                         <select id="statusFilter" data-selected-text-format="count" class="filterSelector form-control"
-                                title="@lang('translates.filters.select')" name="evaluation">
+                                title="@lang('translates.filters.select')" name="status">
 
                             <option value="">@lang('translates.filters.select')</option>
                             @foreach($statuses as $status)
                                 <option
-                                        @if($status->id == request()->get('evaluation')) selected @endif
+                                        @if($status->id == request()->get('status')) selected @endif
                                             value="{{$status->getAttribute('id')}}" >
                                             {{ucfirst($status->getAttribute('text'))}}
                                 </option>
@@ -65,7 +91,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3">
+                    <div class="form-group col-12 col-md-3 mb-3">
                         <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
                         <select name="client_id" id="clientFilter" class="client-filter" style="width: 100% !important;">
                             @if(is_numeric(request()->get('client_id')))
