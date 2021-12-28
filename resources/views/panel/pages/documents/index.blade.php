@@ -13,13 +13,33 @@
     </x-bread-crumb>
     <form action="{{route('documents.index')}}">
         <div class="row d-flex justify-content-between mb-2">
-            <div class="col-6">
+            <div class="col-12 col-md-6" >
                 <div class="input-group mb-3">
                     <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2">
                     <div class="input-group-append">
                         <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
                         <a class="btn btn-outline-danger" href="{{route('documents.index')}}"><i class="fal fa-times"></i></a>
                     </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="input-group mb-3">
+                    <select class="select2 form-control" name="user_id" id="user_id">
+                        <option value="">@lang('translates.general.user_select')</option>
+                        @foreach($users as $user)
+                            <option @if(request()->get('user_id') == $user->id) selected @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-8 mb-3 pt-2 d-flex align-items-center">
+                <p class="mb-0"> @lang('translates.total_items', ['count' => $documents->count(), 'total' => $documents->total()])</p>
+                <div class="input-group col-md-3">
+                    <select name="limit" class="custom-select" id="size">
+                        @foreach([25, 50, 100, 250] as $size)
+                            <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
             <div class="col-12">
@@ -90,4 +110,14 @@
             </div>
         </div>
     </form>
+@endsection
+@section('scripts')
+    <script>
+        $('select[name="user_id"]').change(function () {
+            $(this).form().submit();
+        });
+        $('select[name="limit"]').change(function () {
+            this.form.submit();
+        });
+    </script>
 @endsection
