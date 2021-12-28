@@ -31,7 +31,16 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
     const REDIRECTED = 40;
 
     protected $fillable = [
-        'code', 'datetime', 'note', 'redirected_user_id', 'company_id', 'user_id', 'is_out', 'department_id'
+        'code',
+        'datetime',
+        'note',
+        'redirected_user_id',
+        'company_id',
+        'user_id',
+        'is_out',
+        'department_id',
+        'client_id',
+        'next_call_at'
     ];
 
     protected $casts = [
@@ -99,6 +108,11 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
         return $this->belongsToMany(Parameter::class)->withPivot('value');
     }
 
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class)->withDefault();
+    }
+
     public function getParameter($name)
     {
         // Get parameter model
@@ -130,7 +144,7 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
        return optional($this->getParameter('status'))->getAttribute('id') == self::DONE;
     }
 
-    public static function generateCustomCode($prefix = 'MG', $digits = 8): string
+    public static function generateCustomCode($prefix = 'MGI', $digits = 8): string
     {
         do {
             $code = $prefix . str_pad(rand(0, pow(10, $digits) - 1), $digits, '0', STR_PAD_LEFT);

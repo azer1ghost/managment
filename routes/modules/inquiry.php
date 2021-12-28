@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Modules\InquiryController;
+use App\Http\Controllers\Modules\SalesInquiryController;
 
 Route::post('/inquiry/version/{inquiry}', [InquiryController::class, 'versionRestore'])->name('inquiry.versionRestore');
 Route::get('/inquiry/restore/{inquiry}', [InquiryController::class, 'restore'])->name('inquiry.restore');
@@ -11,4 +12,5 @@ Route::get('/inquiry/logs/{inquiry}', [InquiryController::class, 'logs'])->name(
 Route::get('/inquiry/task/{inquiry}', [InquiryController::class, 'createTask'])->name('inquiry.task');
 Route::delete('/inquiry/force-delete/{inquiry}', [InquiryController::class, 'forceDelete'])->name('inquiry.forceDelete');
 Route::put('/inquiry/status-update', [InquiryController::class, 'updateStatus'])->name('inquiry.update-status');
+Route::get('/inquiry/sales', SalesInquiryController::class)->name('inquiry.sales');
 Route::resource('/inquiry', InquiryController::class);

@@ -20,6 +20,7 @@ class Company extends Model implements Recordable
 
     // MOBEX ID
     const MOBIL_EXPRESS = 4;
+    const MOBIL_GROUP = 1;
 
     protected $fillable = [
         'name',

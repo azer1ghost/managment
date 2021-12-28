@@ -2,12 +2,17 @@
 
 @section('title', __('translates.navbar.inquiry'))
 
+@section('style')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
+@endsection
+
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
-        <x-bread-crumb-link :link="route('inquiry.index')">
+        <x-bread-crumb-link :link="auth()->user()->hasPermission('viewAny-salesInquiry') ? route('inquiry.sales') : route('inquiry.index')">
             @lang('translates.navbar.inquiry')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
@@ -49,6 +54,7 @@
 @endsection
 
 @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
         $('#restoreForm select').change(function() {
@@ -102,6 +108,34 @@
                     },
                 });
             });
+
+        const clientFilter = $('.client-filter');
+        select2RequestFilter(clientFilter, '{{route('clients.search')}}');
+
+        function select2RequestFilter(el, url){
+            el.select2({
+                placeholder: "Search",
+                minimumInputLength: 3,
+                // width: 'resolve',
+                theme: 'bootstrap4',
+                focus: true,
+                ajax: {
+                    delay: 500,
+                    url: url,
+                    dataType: 'json',
+                    type: 'GET',
+                    data: function (params) {
+                        return {
+                            search: params.term,
+                        }
+                    }
+                }
+            })
+
+            el.on('select2:open', function (e) {
+                document.querySelector('.select2-search__field').focus();
+            });
+        }
 
     </script>
 @endsection

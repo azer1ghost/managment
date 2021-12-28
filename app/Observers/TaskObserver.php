@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Events\TaskCreated;
 use App\Models\Inquiry;
 use App\Models\Task;
 use App\Models\TaskList;
@@ -53,6 +54,11 @@ class TaskObserver
                         'value' => Inquiry::DONE
                     ]);
             }
+        }
+
+        if($task->isDirty('taskable_type') || $task->isDirty('taskable_id')) {
+            $task->setAttribute('status', Task::TO_DO);
+            event(new TaskCreated($task));
         }
     }
 }

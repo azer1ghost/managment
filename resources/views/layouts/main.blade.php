@@ -79,6 +79,7 @@
     <x-notify/>
 
     @auth
+        <script src="{{asset('assets/js/tinyMCE/az.js')}}"></script>
         <script>
             $(document).ready(function (){
                 // Tiny MCE
@@ -89,6 +90,7 @@
                     ? '0'
                     : '1' }},
                     height: 500,
+                    language: '{{app()->getLocale()}}',
                     plugins: 'autosave paste directionality visualblocks visualchars fullscreen link table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount textpattern noneditable help charmap quickbars emoticons',
                     menubar: 'edit view insert format table help',
                     toolbar: 'restoredraft undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen preview | link anchor | ltr rtl',

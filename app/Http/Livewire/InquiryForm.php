@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Client;
 use App\Models\Company;
 use App\Models\Inquiry;
 use App\Models\Option;
@@ -21,6 +22,7 @@ class InquiryForm extends Component
     public ?Inquiry $inquiry;
     public Carbon $datetime;
     public ?string $note;
+    public ?int $client;
     public bool $isRedirected = false;
     public Collection $companies, $parameters;
 
@@ -32,6 +34,7 @@ class InquiryForm extends Component
 
         $this->datetime = $this->inquiry->getAttribute('datetime') ?? now();
         $this->note = $this->inquiry->getAttribute('note');
+        $this->client = $this->inquiry->getAttribute('client_id') ?? request()->get('client_id');
 
         if ($this->inquiry->getAttribute('company_id')) {
             $this->updatedSelectedCompany($this->inquiry->getAttribute('company_id'));

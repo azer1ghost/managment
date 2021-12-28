@@ -7,28 +7,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class InquiryRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-//    protected function prepareForValidation()
-//    {
-//        $this->merge([
-//            'client'   => $this->client ?? null,
-//        ]);
-//    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules(): array
     {
         return [
@@ -46,7 +29,8 @@ class InquiryRequest extends FormRequest
             'company_id'=> "required|int|max:11",
             'contact_method' => "filled|int",
             'operation' => "filled|int",
-            'is_out' => 'required|numeric'
+            'is_out' => 'required|numeric',
+            'client_id' => 'nullable|integer'
         ];
     }
 }
