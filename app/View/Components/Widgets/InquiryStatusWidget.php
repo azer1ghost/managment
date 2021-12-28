@@ -12,7 +12,7 @@ class InquiryStatusWidget extends Component
 {
     use GetClassInfo;
 
-    public array $results = [], $keys = [], $colors = [];
+    public array $results = [0, 0, 0, 0, 0, 0, 0], $keys = [], $colors = [];
     public ?Model $widget;
     public ?string $model = null;
 
@@ -30,29 +30,23 @@ class InquiryStatusWidget extends Component
             'parameters as status_redirected_count'   => fn ($q) => $q->where('inquiry_parameter.value', Inquiry::REDIRECTED),
         ])->get()->toArray();
 
-        $statuses = [0, 0, 0, 0, 0, 0, 0];
-
         foreach ($inquiries as $item){
-            $statuses[0] += $item['status_active_count'] ?? 0;
-            $statuses[1] += $item['status_done_count'] ?? 0;
-            $statuses[2] += $item['status_rejected_count'] ?? 0;
-            $statuses[3] += $item['status_incompatible_count'] ?? 0;
-            $statuses[4] += $item['status_unreachable_count'] ?? 0;
-            $statuses[5] += $item['status_redirected_count'] ?? 0;
+            $this->results[0] += $item['status_active_count'] ?? 0;
+            $this->results[1] += $item['status_done_count'] ?? 0;
+            $this->results[2] += $item['status_rejected_count'] ?? 0;
+            $this->results[3] += $item['status_incompatible_count'] ?? 0;
+            $this->results[4] += $item['status_unreachable_count'] ?? 0;
+            $this->results[5] += $item['status_redirected_count'] ?? 0;
         }
 
-        // inquiries where status not selected
-        $statuses[6] = Inquiry::isReal()->monthly()->count() - array_sum($statuses);
-
-        $this->results = $statuses;
+        // inquiries where status not selected value
+        $this->results[6] = Inquiry::isReal()->monthly()->count() - array_sum($this->results);
 
         foreach (Option::whereRelation('parameters', 'id', Inquiry::STATUS_PARAMETER)->get(['id', 'text']) as $key){
             $this->keys[] = $key->text;
         }
 
-        $this->keys[] =  __('translates.filters.select');
-
-        dd($statuses, Inquiry::isReal()->monthly()->count());
+        $this->keys[] =  __('translates.filters.select'); // inquiries where status not selected label
     }
 
     public function render()
