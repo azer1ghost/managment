@@ -52,6 +52,7 @@ return [
         'inquiryDaily-widget',
         'inquiryPersonalDaily-widget',
         'inquiryPersonalMonthly-widget',
+        'inquiryUser-widget',
         'taskDone-widget',
         'bonusTotal-widget',
         'client-widget',
