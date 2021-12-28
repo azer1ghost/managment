@@ -21,7 +21,7 @@ class InquiryDailyWidget extends Component
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
 
-        $this->results = ['data' => Inquiry::isReal()->select('id', 'datetime')
+        $this->results = ['data' => Inquiry::isReal()->isCallCenter()->select('id', 'datetime')
             ->where('datetime', '>=', Carbon::now()->subWeek())
             ->get()
             ->groupBy(function($date) {

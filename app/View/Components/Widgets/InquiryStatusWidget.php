@@ -21,7 +21,7 @@ class InquiryStatusWidget extends Component
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
 
-        $inquiries = Inquiry::isReal()->monthly()->select('id')->withCount([
+        $inquiries = Inquiry::isReal()->isCallCenter()->monthly()->select('id')->withCount([
             'parameters as status_active_count' => fn ($q) => $q->where('inquiry_parameter.value', Inquiry::ACTIVE),
             'parameters as status_done_count'   => fn ($q) => $q->where('inquiry_parameter.value', Inquiry::DONE),
             'parameters as status_rejected_count'   => fn ($q) => $q->where('inquiry_parameter.value', Inquiry::REJECTED),

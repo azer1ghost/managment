@@ -63,6 +63,16 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
         return $query->where('inquiry_id', null);
     }
 
+    public function scopeIsCallCenter($query)
+    {
+        return $query->whereDepartmentId(Department::CALL_CENTER);
+    }
+
+    public function scopeIsSales($query)
+    {
+        return $query->whereDepartmentId(Department::SALES);
+    }
+
     public function scopeMonthly($query)
     {
         return $query->where('datetime', '>=', now()->firstOfMonth());
