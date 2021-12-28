@@ -4,6 +4,7 @@
             <div id="{{$widget->key}}" style="width: 100%;{{$widget->style_attribute}}"></div>
             <script>
                 am5.ready(function() {
+
                     const {{$model}}Root = am5.Root.new("{{$widget->key}}");
 
                     {{$model}}Root.setThemes([
