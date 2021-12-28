@@ -130,7 +130,7 @@ return [
             'key' => 'Status',
             'options' => [
                 'to_do' => 'Ediləcək',
-                'in_progress' => 'Davam edən',
+                'in_progress' => 'İcra olunur',
                 'done' => 'Bitmiş'
             ]
         ]
