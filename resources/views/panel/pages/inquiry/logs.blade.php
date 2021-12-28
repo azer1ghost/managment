@@ -1,23 +1,13 @@
 @extends('layouts.main')
 
-@section('title', __('translates.navbar.inquiry'))
+@section('title', 'Logs')
 
 @section('content')
     <x-bread-crumb>
-        <x-bread-crumb-link :link="route('dashboard')">
-            @lang('translates.navbar.dashboard')
-        </x-bread-crumb-link>
-        <x-bread-crumb-link :link="route('inquiry.index')">
-            @lang('translates.navbar.inquiry')
-        </x-bread-crumb-link>
-        <x-bread-crumb-link :link="route('inquiry.show', $inquiry)">
-            {{ $inquiry->getAttribute('code')}}
-        </x-bread-crumb-link>
-        <x-bread-crumb-link>
-            Logs
+        <x-bread-crumb-link :link="back()">
+            <i class="fas fa-arrow-left"></i> Back
         </x-bread-crumb-link>
     </x-bread-crumb>
-{{--    <pre>{!! print_r($logs, true) !!}</pre>--}}
     <div class="row m-0">
         <table class="table table-bordered">
             <thead>
@@ -28,11 +18,16 @@
             </thead>
             <tbody>
                 @foreach($logs as $log)
-                    <tr>
+                    <tr style="border-bottom: 1.5px solid gray">
                         <td>
+                            <p><strong>URL: </strong> {{$log->url}}</p>
                             <p><strong>User: </strong> {{$log->user->name}} {{$log->user->surname}}</p>
                             <p><strong>Date: </strong> {{$log->created_at}}</p>
                             <p><strong>IP: </strong> {{$log->ip_address}}</p>
+                            @php($user_agent = Browser::parse($log->user_agent))
+                            <p><strong>Device: </strong>{{$user_agent->deviceFamily()}}</p>
+                            <p><strong>Browser: </strong>{{$user_agent->browserName()}}</p>
+                            <p><strong>OS: </strong>{{$user_agent->platformName()}} ({{$user_agent->platformFamily()}})</p>
                             <p><strong>Event: </strong> {{$log->event}}</p>
                         </td>
                         <td>
