@@ -213,8 +213,8 @@
                         }
                     ]);
 
-                    {{$model}}Series.data.setAll({{$model}}Data);
-                    yAxis.data.setAll({{$model}}Data);
+                    {{$model}}Series.data.setAll(data);
+                    yAxis.data.setAll(data);
 
                     const cursor = {{$model}}Chart.set("cursor", am5xy.XYCursor.new({{$model}}Root, {}));
                     cursor.lineX.set("visible", false);
