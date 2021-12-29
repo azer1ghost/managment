@@ -203,7 +203,7 @@ class InquiryController extends Controller
                 ['editable_ended_at' => $inquiry->getAttribute('created_at')->addHours(5)] //->addMinutes(7)
             );
 
-        return redirect()->route('inquiry.index')->withNotify('info', 'Inquiry');
+        return redirect()->route(auth()->user()->hasPermission('viewAny-salesInquiry') ? 'inquiry.sales' : 'inquiry.index')->withNotify('info', 'Inquiry');
     }
 
     public function show(Inquiry $inquiry)
