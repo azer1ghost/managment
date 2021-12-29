@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CertificateRequest;
 use App\Models\Certificate;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 
 class CertificateController extends Controller
@@ -31,9 +32,9 @@ class CertificateController extends Controller
         return view('panel.pages.certificates.edit')
             ->with([
                 'action' => route('certificates.store'),
-                'method' => null,
-                'data' => null,
-//                'organizations' => Organization::pluck('name', 'id')->toArray(),
+                'method' => 'POST',
+                'data' => new Certificate(),
+                'organizations' => Organization::pluck('name', 'id')->toArray(),
             ]);
     }
 
@@ -54,9 +55,9 @@ class CertificateController extends Controller
         return view('panel.pages.certificates.edit')
             ->with([
                 'action' => null,
-                'method' => null,
+                'method' => new Certificate(),
                 'data' => $certificate,
-//                'organizations' => Organization::pluck('name', 'id')->toArray(),
+                'organizations' => Organization::pluck('name', 'id')->toArray(),
             ]);
     }
 
@@ -67,7 +68,7 @@ class CertificateController extends Controller
                 'action' => route('certificates.update', $certificate),
                 'method' => "PUT",
                 'data' => $certificate,
-//                'organizations' => Organization::pluck('name', 'id')->toArray(),
+                'organizations' => Organization::pluck('name', 'id')->toArray(),
             ]);
     }
 

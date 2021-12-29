@@ -33,7 +33,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">@lang('translates.fields.name')</th>
-                        <th scope="col">Details</th>
+                        <th scope="col">@lang('translates.fields.detail')</th>
                         <th scope="col">@lang('translates.columns.organization')</th>
                         <th scope="col">Actions</th>
                     </tr>
@@ -44,7 +44,7 @@
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$certificate->getAttribute('name')}}</td>
                             <td>{{$certificate->getAttribute('detail')}}</td>
-{{--                            <td>{!! $certificate->getRelationAttribute('organizations')->getAttribute() !!}</td>--}}
+                            <td>{{ $certificate->getRelationValue('organization')->getAttribute('name') }}</td>
                             <td>
                                 <div class="btn-sm-group">
                                     @can('view', $certificate)

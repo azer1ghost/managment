@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
             AsanImzaSeeder::class,
             WorkSeeder::class,
             OrganizationSeeder::class,
+            CertificateSeeder::class,
         ]);
     }
 }

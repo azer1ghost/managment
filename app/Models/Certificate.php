@@ -16,8 +16,8 @@ class Certificate extends Model
 
     public array $translatable = ['name', 'detail'];
 
-//    public function organizations() :BelongsTo
-//    {
-//        $this->belongsTo(Organization::class)->withDefault();
-//    }
+    public function organization() :BelongsTo
+    {
+       return $this->belongsTo(Organization::class)->withDefault();
+    }
 }

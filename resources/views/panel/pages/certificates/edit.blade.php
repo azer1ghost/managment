@@ -11,8 +11,8 @@
             @lang('translates.navbar.certificate')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
-            @if (!is_null($data))
-                {{optional($data)->getAttribute('name')}}
+            @if ($method !== 'POST'))
+                {{$data->getAttribute('name')}}
             @else
                 @lang('translates.buttons.create')
             @endif
@@ -20,7 +20,7 @@
     </x-bread-crumb>
     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
         @method($method) @csrf
-        <input type="hidden" name="id" value="{{optional($data)->getAttribute('id')}}">
+        <input type="hidden" name="id" value="{{$data->getAttribute('id')}}">
         <div class="tab-content row mt-4" >
             <div class="form-group col-12">
                 <div class="row">
@@ -28,21 +28,21 @@
                         @foreach(config('app.locales') as $key => $locale)
                             <div class="tab-pane fade show @if($loop->first) active @endif" id="data-{{$key}}" role="tabpanel">
                                 <div class="row">
-                                    <x-input::text  name="translate[name][{{$key}}]"  :value="optional($data)->getTranslation('name', $key)"     label="Details"     width="6" class="pr-3" />
-                                    <x-input::textarea     name="translate[detail][{{$key}}]"  :value="optional($data)->getTranslation('detail', $key)"  label="certificate class attribute"  width="6" class="pr-3" />
+                                    <x-input::text  name="translate[name][{{$key}}]"  :value="$data->getTranslation('name', $key)"     :label="trans('translates.fields.name')"     width="6" class="pr-3" />
+                                    <x-input::textarea     name="translate[detail][{{$key}}]"  :value="$data->getTranslation('detail', $key)"  :label="trans('translates.fields.detail')"  width="6" class="pr-3" />
                                 </div>
                             </div>
                         @endforeach
                     </x-translate>
 
-{{--                    <x-input::select  name="organization_id" :value="optional($data)->getAttribute('organization_id')" label="Position role"  width="6" class="pr-3" :options="$organizations"/>--}}
+                    <x-input::select  name="organization_id" :value="$data->getAttribute('organization_id')" :label="trans('translates.columns.organization')"  width="6" class="pr-3" :options="$organizations"/>
 
                 </div>
 
             </div>
         </div>
         @if($action)
-            <x-input::submit  :value="__('translates.buttons.save')" />
+            <x-input::submit  :value="trans('translates.buttons.save')" />
         @endif
     </form>
 @endsection
