@@ -194,6 +194,7 @@ return [
         'report' => 'Hesabatlar',
         'calendar' => 'Təqvim',
         'announcement' => 'Anonslar',
+        'Certificate' => 'Sertifikatlar',
         'organization' => 'Qurumlar',
 
     ],
@@ -389,6 +390,7 @@ return [
         'permissions' => 'İcazələr',
         'type' => 'Növü',
         'order' => 'Sıralaması',
+        'organization' => 'Qurum',
         'parent_option' => 'Ana parametr',
         'deadline' => 'Son tarix',
         'parameter_label' => 'Parameter Label',

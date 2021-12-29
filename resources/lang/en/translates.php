@@ -193,6 +193,7 @@ return [
         'calendar' => 'Calendar',
         'announcement' => 'Announcements',
         'organization' => 'Organizations',
+        'certificate' => 'Certificates',
     ],
 
     'date' => [
@@ -386,6 +387,7 @@ return [
         'permissions' => 'Permissions',
         'order' => 'Order',
         'type' => 'Type',
+        'organization' => 'Organization',
         'parent_option' => 'Parent option',
         'deadline' => 'Deadline',
         'parameter_label' => 'Parameter Label',
