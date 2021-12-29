@@ -191,7 +191,8 @@ return [
         'customer_engagement'=>'Customer Engagement',
         'report' => 'Reports',
         'calendar' => 'Calendar',
-        'announcement' => 'Announcements'
+        'announcement' => 'Announcements',
+        'sales_activities_type' => 'Types Of Activities'
     ],
 
     'date' => [

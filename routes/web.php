@@ -21,6 +21,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\ReferralBonusController,
     Modules\ReportController,
     Modules\ResultController,
+    Modules\SalesActivityTypeController,
     Modules\UpdateController,
     Modules\WidgetController,
     Modules\DatabaseNotificationController,
@@ -68,6 +69,7 @@ Route::group([
     include 'modules/inquiry.php';
     include 'modules/email-signature.php';
 
+    Route::resource('/sales-activities-types', SalesActivityTypeController::class);
     Route::resource('/announcements', AnnouncementController::class);
     Route::resource('/companies', CompanyController::class);
     Route::resource('/asan-imza', AsanImzaController::class);

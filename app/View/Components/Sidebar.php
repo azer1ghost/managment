@@ -244,6 +244,13 @@ class Sidebar extends Component
                 'icon' => 'fas fa-scroll',
                 'url' => route('announcements.index'),
                 'permission' => 'viewAny-announcement',
+            ],
+
+            (object)[
+                'title' => __('translates.navbar.sales_activities_type'),
+                'icon' => 'fas fa-chart-line',
+                'url' => route('sales-activities-types.index'),
+                'permission' => 'viewAny-salesActivityType',
             ]
         ];
     }
