@@ -210,6 +210,12 @@ class Sidebar extends Component
                 'url' => route('meetings.index'),
                 'permission' => 'viewAny-meeting',
             ],
+            (object)[
+                'title' => __('translates.navbar.organization'),
+                'icon' => 'fas fa-bullhorn',
+                'url' => route('organizations.index'),
+                'permission' => 'viewAny-organization',
+            ],
 
             (object)[
                 'title' => __('translates.navbar.conference'),

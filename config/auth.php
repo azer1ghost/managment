@@ -38,6 +38,7 @@ return [
         'viewAny-meeting', 'view-meeting', 'create-meeting', 'update-meeting', 'delete-meeting',
         'viewAny-notification', 'view-notification', 'manage-notification',
         'viewAny-option', 'view-option', 'manage-option',
+        'viewAny-organization', 'view-organization', 'manage-organization','delete-organization',
         'viewAny-parameter', 'view-parameter', 'manage-parameter',
         'viewAny-position', 'view-position', 'manage-position',
         'viewAny-referral', 'view-referral', 'manage-referral',

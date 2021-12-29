@@ -193,7 +193,9 @@ return [
         'customer_engagement'=>'Müştəri Cəlbi',
         'report' => 'Hesabatlar',
         'calendar' => 'Təqvim',
-        'announcement' => 'Anonslar'
+        'announcement' => 'Anonslar',
+        'organization' => 'Qurumlar',
+
     ],
 
     'date' => [
@@ -398,7 +400,9 @@ return [
         'unverified' => 'Təsdiq edilməyib',
         'price_verified' => 'Qiymət təsdiqlənib',
         'price_unverified' => 'Qiymət təsdiqlənməyib',
-        'reports_by_the_week' => 'Həftəyə görə hesabatlar'
+        'reports_by_the_week' => 'Həftəyə görə hesabatlar',
+        'detail' => 'Detallar',
+        'is_certificate' => 'Sertifikat',
     ],
 
     'notify' => [

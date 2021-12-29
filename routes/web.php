@@ -18,6 +18,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\DepartmentController,
     Modules\DocumentController,
     Modules\MeetingController,
+    Modules\OrganizationController,
     Modules\ReferralBonusController,
     Modules\ReportController,
     Modules\ResultController,
@@ -94,6 +95,7 @@ Route::group([
     Route::get('/works/export', [WorkController::class, 'export'])->name('works.export');
     Route::resource('/works', WorkController::class);
     Route::resource('/meetings', MeetingController::class);
+    Route::resource('/organizations', OrganizationController::class);
     Route::resource('/conferences', ConferenceController::class);
     Route::resource('/advertising', AdvertisingController::class);
     Route::get('/reports/{report}/sub-reports', [ReportController::class, 'showSubReports'])->name('reports.subs.show');
