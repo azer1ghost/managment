@@ -244,6 +244,13 @@ class Sidebar extends Component
                 'icon' => 'fas fa-scroll',
                 'url' => route('announcements.index'),
                 'permission' => 'viewAny-announcement',
+            ],
+
+            (object)[
+                'title' => __('translates.navbar.certificate'),
+                'icon' => 'far fa-file-certificate',
+                'url' => route('certificates.index'),
+                'permission' => 'viewAny-certificate',
             ]
         ];
     }

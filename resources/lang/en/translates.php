@@ -191,7 +191,8 @@ return [
         'customer_engagement'=>'Customer Engagement',
         'report' => 'Reports',
         'calendar' => 'Calendar',
-        'announcement' => 'Announcements'
+        'announcement' => 'Announcements',
+        'certificate' => 'Certificates',
     ],
 
     'date' => [
@@ -385,6 +386,7 @@ return [
         'permissions' => 'Permissions',
         'order' => 'Order',
         'type' => 'Type',
+        'organization' => 'Organization',
         'parent_option' => 'Parent option',
         'deadline' => 'Deadline',
         'parameter_label' => 'Parameter Label',
