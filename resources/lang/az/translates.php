@@ -193,7 +193,8 @@ return [
         'customer_engagement'=>'Müştəri Cəlbi',
         'report' => 'Hesabatlar',
         'calendar' => 'Təqvim',
-        'announcement' => 'Anonslar'
+        'announcement' => 'Anonslar',
+        'Certificate' => 'Sertifikatlar'
     ],
 
     'date' => [
@@ -387,6 +388,7 @@ return [
         'permissions' => 'İcazələr',
         'type' => 'Növü',
         'order' => 'Sıralaması',
+        'organization' => 'Qurum',
         'parent_option' => 'Ana parametr',
         'deadline' => 'Son tarix',
         'parameter_label' => 'Parameter Label',

@@ -10,6 +10,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\AnnouncementController,
     Modules\AsanImzaController,
     Modules\CalendarController,
+    Modules\CertificateController,
     Modules\CompanyController,
     Modules\ConferenceController,
     Modules\CustomerEngagementController,
@@ -69,6 +70,7 @@ Route::group([
     include 'modules/email-signature.php';
 
     Route::resource('/announcements', AnnouncementController::class);
+    Route::resource('/certificates', CertificateController::class);
     Route::resource('/companies', CompanyController::class);
     Route::resource('/asan-imza', AsanImzaController::class);
     Route::resource('/widgets', WidgetController::class);
