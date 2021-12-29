@@ -161,7 +161,6 @@
                     <th>@lang('translates.fields.mgCode')</th>
                     <th>@lang('translates.fields.date')</th>
                     <th>@lang('translates.fields.time')</th>
-                    <th>@lang('translates.fields.company')</th>
                     <th>@lang('translates.fields.clientName')</th>
                     <th>@lang('translates.fields.writtenBy')</th>
                     <th>Evaluation</th>
@@ -175,8 +174,7 @@
                         <td>{{$inquiry->getAttribute('code')}}</td>
                         <td>{{$inquiry->getAttribute('datetime')->format('d-m-Y')}}</td>
                         <td>{{$inquiry->getAttribute('datetime')->format('H:i')}}</td>
-                        <td>{{$inquiry->getRelationValue('company')->getAttribute('name')}}</td>
-                        <td>{{optional($inquiry->getRelationValue('client'))->getAttribute('fullname_with_voen')}}</td>
+                        <td>{{$inquiry->client()->exists() ? $inquiry->getRelationValue('client')->getAttribute('fullname_with_voen') : ''}}</td>
                         <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}} {!! $inquiry->getRelationValue('user')->getAttribute('disabled_at') ? ' <span class="text-danger">(' . __('translates.disabled') . ')</span>' : '' !!}</td>
                         <td>{{optional($inquiry->getParameter('evaluation'))->getAttribute('text')}}</td>
                         <td class="text-center">
