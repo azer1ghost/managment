@@ -212,7 +212,7 @@ class Sidebar extends Component
             ],
             (object)[
                 'title' => __('translates.navbar.organization'),
-                'icon' => 'fas fa-bullhorn',
+                'icon' => 'fal fa-house',
                 'url' => route('organizations.index'),
                 'permission' => 'viewAny-organization',
             ],
