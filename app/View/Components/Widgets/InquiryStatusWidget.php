@@ -31,12 +31,12 @@ class InquiryStatusWidget extends Component
         ])->get()->toArray();
 
         foreach ($inquiries as $item){
-            $this->results[0] += $item['status_active_count'] > 0 ? 1 : 0;
-            $this->results[1] += $item['status_active_count'] > 0 ? 1 : 0;
-            $this->results[2] += $item['status_active_count'] > 0 ? 1 : 0;
-            $this->results[3] += $item['status_active_count'] > 0 ? 1 : 0;
-            $this->results[4] += $item['status_active_count'] > 0 ? 1 : 0;
-            $this->results[5] += $item['status_active_count'] > 0 ? 1 : 0;
+            $this->results[0] += $item['status_active_count'];
+            $this->results[1] += $item['status_done_count'];
+            $this->results[2] += $item['status_rejected_count'];
+            $this->results[3] += $item['status_incompatible_count'];
+            $this->results[4] += $item['status_unreachable_count'];
+            $this->results[5] += $item['status_redirected_count'];
         }
 
         foreach (Option::whereRelation('parameters', 'id', Inquiry::STATUS_PARAMETER)->get(['id', 'text']) as $key){
