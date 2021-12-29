@@ -23,31 +23,21 @@ class InquiryUserWidget extends Component
         $this->model = $this->getClassRealName();
 
         $this->result = User::withCount('inquiries')
-            ->whereHas('inquiries', function ($q){
+            ->whereHas('inquiries', function ($q) {
                 $q->isReal();
             })
             ->orderByDesc('inquiries_count')
             ->get()
-            ->map(function ($result){
+            ->map(function ($result) {
                 return [
                     'name' => $result->getAttribute('fullname'),
                     'steps' => $result->inquiries_count,
-                    'pictureSettings'=> [
-                        'src' => image( $result->getAttribute('avatar'))
+                    'pictureSettings' => [
+                        'src' => image($result->getAttribute('avatar'))
                     ]
 
                 ];
             });
-
-//        dd($this->result );
-
-//        {
-//            name: "Monica",
-//                steps: 45688,
-//                pictureSettings: {
-//            src: "https://www.amcharts.com/wp-content/uploads/2019/04/monica.jpg"
-//                }
-//            },
     }
 
     public function render()
