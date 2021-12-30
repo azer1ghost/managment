@@ -54,8 +54,6 @@ return [
         'task_name' => 'Tapşırıq adı',
         'search_users' => 'İstifadəçi axtar',
         'choose_file' => 'Fayl seç',
-
-
     ],
 
     'fields' => [
@@ -193,7 +191,7 @@ return [
         'customer_engagement'=>'Müştəri Cəlbi',
         'report' => 'Hesabatlar',
         'calendar' => 'Təqvim',
-        'Certificate' => 'Sertifikatlar',
+        'certificate' => 'Sertifikatlar',
         'organization' => 'Qurumlar',
         'announcement' => 'Anonslar',
         'sales_activities_type' => 'Fəaliyyət Növləri'

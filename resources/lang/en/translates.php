@@ -399,7 +399,9 @@ return [
         'unverified' => 'Unverified',
         'price_verified' => 'Price Verified',
         'price_unverified' => 'Price Unverified',
-        'reports_by_the_week' => 'Reports by the week'
+        'reports_by_the_week' => 'Reports by the week',
+        'detail' => 'Detallar',
+        'is_certificate' => 'Sertifikat',
     ],
 
     'notify' => [
