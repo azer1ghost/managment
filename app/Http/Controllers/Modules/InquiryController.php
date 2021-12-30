@@ -173,11 +173,14 @@ class InquiryController extends Controller
 
     public function create()
     {
+        $backUrl = back()->getTargetUrl();
+
         return view('panel.pages.inquiry.edit')
             ->with([
                 'method' => 'POST',
                 'action' => route('inquiry.store'),
-                'data'   => new Inquiry()
+                'data'   => new Inquiry(),
+                'backUrl'   => $backUrl
             ]);
     }
 
@@ -203,26 +206,32 @@ class InquiryController extends Controller
                 ['editable_ended_at' => $inquiry->getAttribute('created_at')->addHours(5)] //->addMinutes(7)
             );
 
-        return redirect()->route(auth()->user()->hasPermission('viewAny-salesInquiry') ? 'inquiry.sales' : 'inquiry.index')->withNotify('info', 'Inquiry');
+        return redirect()->to($request->get('backUrl'))->withNotify('info', 'Inquiry');
     }
 
     public function show(Inquiry $inquiry)
     {
+        $backUrl = back()->getTargetUrl();
+
         return view('panel.pages.inquiry.edit')
             ->with([
                 'method' => null,
                 'action' => null,
-                'data'   => $inquiry
+                'data'   => $inquiry,
+                'backUrl' => $backUrl
             ]);
     }
 
     public function edit(Inquiry $inquiry)
     {
+        $backUrl = back()->getTargetUrl();
+
         return view('panel.pages.inquiry.edit')
             ->with([
                 'method' => "PUT",
                 'action' => route('inquiry.update', $inquiry),
-                'data'   => $inquiry
+                'data'   => $inquiry,
+                'backUrl' => $backUrl
             ]);
     }
 
@@ -248,7 +257,7 @@ class InquiryController extends Controller
            $inquiry->parameters()->sync(syncResolver($newParameters ?? [], 'value'));
         }
 
-        return redirect()->route('inquiry.show', $inquiry)->withNotify('info', 'Inquiry Updated');
+        return redirect()->to($request->get('backUrl'))->withNotify('info', 'Inquiry updated');
     }
 
     public function logs(Inquiry $inquiry)
@@ -337,7 +346,7 @@ class InquiryController extends Controller
 
         $inquiry->restore();
 
-        return redirect()->route('inquiry.index')->withNotify('info', "Inquiry {$inquiry->getAttribute('code')} restored");
+        return redirect()->back()->withNotify('info', "Inquiry {$inquiry->getAttribute('code')} restored");
     }
 
     public function forceDelete($id)

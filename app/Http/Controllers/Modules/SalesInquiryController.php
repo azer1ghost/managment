@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InquiryRequest;
+use App\Models\Client;
 use App\Models\Company;
 use App\Models\Department;
 use App\Models\Inquiry;
@@ -55,6 +56,7 @@ class SalesInquiryController extends Controller
         $statuses  = Parameter::where('name', 'status')->first()->options->unique();
         $evaluations  = Parameter::where('name', 'evaluation')->first()->options->unique();
         $users = User::has('inquiries')->whereDepartmentId(Department::SALES)->get(['id', 'name', 'surname', 'disabled_at']);
+        $clients = Client::get(['id', 'fullname', 'voen']);
 
         $inquiries = Inquiry::with('user', 'company')
             ->whereDepartmentId(3)
@@ -119,7 +121,8 @@ class SalesInquiryController extends Controller
                 'evaluations',
                 'trashBox',
                 'daterange',
-                'users'
+                'users',
+                'clients'
             )
         );
     }

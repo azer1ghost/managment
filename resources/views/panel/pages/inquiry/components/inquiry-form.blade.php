@@ -24,17 +24,14 @@
     <x-input::text wire:ignore name="date" readonly :label="__('translates.fields.date')" value="{{$datetime->format('d-m-Y')}}" type="text" width="3" class="pr-2" />
     <x-input::text wire:ignore name="time" :label="__('translates.fields.time')" value="{{$datetime->format('H:i')}}" type="time" width="3" class="pr-2" />
 
+
     <input type="hidden" name="company_id" wire:model="selected.company">
+    <input type="hidden" name="backUrl" wire:model="backUrl">
 
     @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES)
         <div class="form-group col-12 col-md-3 mb-3">
-            <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
-            <select id="clientFilter" class="client-filter" style="width: 100% !important;" disabled>
-                @if(is_numeric($client))
-                    <option value="{{$client}}">{{\App\Models\Client::find($client)->getAttribute('fullname_with_voen')}}</option>
-                @endif
-            </select>
-            <input type="hidden" name="client_id" value="{{$client}}">
+            <label class="d-block" for="clientFilter">@lang('translates.fields.clientName')</label>
+            <input type="text" class="form-control" name="client_name" value="{{$client}}" readonly>
         </div>
     @endif
 

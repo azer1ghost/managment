@@ -18,5 +18,7 @@ class ParameterCompanySeeder extends Seeder
         $company = Company::find(4);
         $ids = Parameter::pluck('id');
         $company->parameters()->sync($ids);
+
+        Company::find(1)->parameters()->sync([10]);
     }
 }

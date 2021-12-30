@@ -12,7 +12,7 @@
         <x-bread-crumb-link :link="route('dashboard')">
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
-        <x-bread-crumb-link :link="auth()->user()->hasPermission('viewAny-salesInquiry') ? route('inquiry.sales') : route('inquiry.index')">
+        <x-bread-crumb-link :link="$backUrl">
             @lang('translates.navbar.inquiry')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
@@ -44,7 +44,7 @@
         </form>
     @endif
     <div class="mt-3 pt-3" style="clear: both">
-        <livewire:inquiry-form :action="$action"  :method="$method" :inquiry="$data" />
+        <livewire:inquiry-form :action="$action"  :method="$method" :inquiry="$data" :backUrl="$backUrl"/>
     </div>
     @if(!is_null($data) && $data->getAttribute('id') != null)
         <x-documents :documents="$data->documents"/>

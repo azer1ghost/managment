@@ -30,7 +30,7 @@ class InquiryRequest extends FormRequest
             'contact_method' => "filled|int",
             'operation' => "filled|int",
             'is_out' => 'required|numeric',
-            'client_id' => 'nullable|integer'
+            'client_name' => 'nullable|string'
         ];
     }
 }

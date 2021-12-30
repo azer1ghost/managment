@@ -25,6 +25,7 @@ class ParameterSeeder extends Seeder
             ['order' => 7, 'type' => 'text',   'name' => 'email', 'label' =>  json_encode(['en' => 'Email']), 'placeholder' =>  json_encode(['en' => 'Email']), 'option_id' => null],
             ['order' => 8, 'type' => 'text',   'name' => 'phone', 'label' =>  json_encode(['en' => 'Phone', 'az' => 'Telefon']), 'placeholder' =>  json_encode(['en' => 'Choose Phone', 'az' => 'Telefonu Seç']), 'option_id' => null],
             ['order' => 9, 'type' => 'select', 'name' => 'operation', 'label' =>  json_encode(['en' => 'Operation', 'az' => 'Əməliyyat']), 'placeholder' =>  json_encode(['en' => 'Choose Operation', 'az' => 'Əməliyyatı Seç']), 'option_id' => null],
+            ['order' => 10, 'type' => 'select', 'name' => 'evaluation', 'label' =>  json_encode(['en' => 'Evaluation', 'az' => 'Evaluation']), 'placeholder' =>  json_encode(['en' => 'Choose evaluation', 'az' => 'evaluation Seç']), 'option_id' => null],
         ]);
     }
 }

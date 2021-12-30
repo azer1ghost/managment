@@ -39,7 +39,7 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
         'user_id',
         'is_out',
         'department_id',
-        'client_id',
+        'client_name',
         'next_call_at'
     ];
 
@@ -116,11 +116,6 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
     public function parameters(): BelongsToMany
     {
         return $this->belongsToMany(Parameter::class)->withPivot('value');
-    }
-
-    public function client(): BelongsTo
-    {
-        return $this->belongsTo(Client::class)->withDefault();
     }
 
     public function getParameter($name)

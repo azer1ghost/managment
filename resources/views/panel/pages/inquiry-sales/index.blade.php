@@ -174,7 +174,7 @@
                         <td>{{$inquiry->getAttribute('code')}}</td>
                         <td>{{$inquiry->getAttribute('datetime')->format('d-m-Y')}}</td>
                         <td>{{$inquiry->getAttribute('datetime')->format('H:i')}}</td>
-                        <td>{{$inquiry->client()->exists() ? $inquiry->getRelationValue('client')->getAttribute('fullname_with_voen') : ''}}</td>
+                        <td>{{$inquiry->getAttribute('client_name')}}</td>
                         <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}} {!! $inquiry->getRelationValue('user')->getAttribute('disabled_at') ? ' <span class="text-danger">(' . __('translates.disabled') . ')</span>' : '' !!}</td>
                         <td>{{optional($inquiry->getParameter('evaluation'))->getAttribute('text')}}</td>
                         <td class="text-center">
@@ -290,7 +290,14 @@
                     <div class="modal-body">
                         <div class="form-group col-12 mt-3 mb-3 pl-0">
                             <label class="d-block" for="clientFilterModal">{{trans('translates.general.select_client')}}</label>
-                            <select name="client_id" id="clientFilterModal" class="client-filter" style="width: 100% !important;"></select>
+                            <select name="client_name" id="clientFilterModal" class="client-filter" style="width: 100% !important;" required>
+                                <option value="">@lang('translates.general.select_client')</option>
+                                @foreach($clients as $client)
+                                    <option value="{{$client->getAttribute('fullname_with_voen')}}">
+                                        {{$client->getAttribute('fullname_with_voen')}}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                         <input type="hidden" name="company" value="{{\App\Models\Company::MOBIL_GROUP}}">
                     </div>
@@ -327,26 +334,13 @@
         });
 
         const clientFilter = $('.client-filter');
-        select2RequestFilter(clientFilter, '{{route('clients.search')}}');
+        select2RequestFilter(clientFilter);
 
-        function select2RequestFilter(el, url){
+        function select2RequestFilter(el){
             el.select2({
-                placeholder: "Search",
-                minimumInputLength: 3,
-                // width: 'resolve',
+                tags: true,
                 theme: 'bootstrap4',
                 focus: true,
-                ajax: {
-                    delay: 500,
-                    url: url,
-                    dataType: 'json',
-                    type: 'GET',
-                    data: function (params) {
-                        return {
-                            search: params.term,
-                        }
-                    }
-                }
             })
 
             el.on('select2:open', function (e) {

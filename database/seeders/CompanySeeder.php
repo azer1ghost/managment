@@ -25,7 +25,7 @@ class CompanySeeder extends Seeder
                 'address' => 'Bakı, Əhməd Rəcəbli 156',
                 'about' => 'MOBİL GROUP gömrük brokeri xidmətləri və beynəlxalq daşımaları həyata keçirən şirkətlər qrupudur. Yerli və xarici vətəndaşlara, o cümlədən fiziki və hüquqi şəxslərə göstəridiyi geniş xidmət diapazonu ilə MOBİL GROUP özünü təsdiq etmiş yerli brenddir. MOBİL GROUP-un tərkibində beynəlxalq təcrübə əsasında qurulan “Mobil Broker” və “Mobil Logistics” fəaliyyət göstərir.',
                 'keywords' => 'office',
-                'is_inquirable' => '0'
+                'is_inquirable' => '1'
             ),
             array(
                 'name' => "Mobil Logistics",
