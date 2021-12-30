@@ -43,7 +43,7 @@
                 </div>
             </div>
         </div>
-        @if($action)
+        @if(!$action)
             <x-input::submit :value="__('translates.buttons.save')"/>
         @endif
     </form>
