@@ -24,6 +24,7 @@ class CertificateController extends Controller
             ->with([
                 'certificates' => Certificate::query()
                     ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"))
+                    ->latest()
                     ->simplePaginate(10)
             ]);
     }

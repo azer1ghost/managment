@@ -401,6 +401,7 @@ return [
         'price_unverified' => 'Price Unverified',
         'reports_by_the_week' => 'Reports by the week',
         'detail' => 'Detail',
+        'organization' => 'Qurum',
         'is_certificate' => 'Sertifikat',
     ],
 

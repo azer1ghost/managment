@@ -19,7 +19,7 @@ class SalesActivityTypeController extends Controller
     public function index()
     {
         return view('panel.pages.sales-activities-types.index')->with([
-            'sale_activities_types' => SalesActivityType::paginate(10),
+            'sale_activities_types' => SalesActivityType::latest()->paginate(10),
         ]);
     }
 

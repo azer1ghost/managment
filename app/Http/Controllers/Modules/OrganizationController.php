@@ -19,7 +19,7 @@ class OrganizationController extends Controller
     public function index()
     {
         return view('panel.pages.organizations.index')->with([
-            'organizations' => Organization::paginate(10)
+            'organizations' => Organization::latest()->paginate(10)
         ]);
     }
 

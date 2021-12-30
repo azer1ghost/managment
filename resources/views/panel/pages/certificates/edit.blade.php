@@ -11,7 +11,7 @@
             @lang('translates.navbar.certificate')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
-            @if ($method !== 'POST'))
+            @if ($method !== 'POST')
                 {{$data->getAttribute('name')}}
             @else
                 @lang('translates.buttons.create')
