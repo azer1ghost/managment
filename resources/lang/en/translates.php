@@ -400,7 +400,7 @@ return [
         'price_verified' => 'Price Verified',
         'price_unverified' => 'Price Unverified',
         'reports_by_the_week' => 'Reports by the week',
-        'detail' => 'Detallar',
+        'detail' => 'Detail',
         'is_certificate' => 'Sertifikat',
     ],
 
