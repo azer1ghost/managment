@@ -24,7 +24,7 @@ class InquiryUserWidget extends Component
 
         $this->result = User::withCount('inquiries')
             ->whereHas('inquiries', function ($q) {
-                $q->isReal();
+                $q->where('datetime', '>=', now()->startOfMonth())->isReal();
             })
             ->orderByDesc('inquiries_count')
             ->get()
