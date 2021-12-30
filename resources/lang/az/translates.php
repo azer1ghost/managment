@@ -193,10 +193,10 @@ return [
         'customer_engagement'=>'Müştəri Cəlbi',
         'report' => 'Hesabatlar',
         'calendar' => 'Təqvim',
-        'announcement' => 'Anonslar',
         'Certificate' => 'Sertifikatlar',
         'organization' => 'Qurumlar',
-
+        'announcement' => 'Anonslar',
+        'sales_activities_type' => 'Fəaliyyət Növləri'
     ],
 
     'date' => [
