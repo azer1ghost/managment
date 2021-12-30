@@ -13,12 +13,13 @@ class CreateSalesActivitiesTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('sales_activities_types', function (Blueprint $table) {
+        Schema::create('sales_activity_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->json('name');
             $table->string('description')->nullable();
             $table->string('hard_columns')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

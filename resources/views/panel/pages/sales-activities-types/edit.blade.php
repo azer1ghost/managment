@@ -31,8 +31,13 @@
 
                         @foreach($hard_columns as $hard_column)
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" @if(in_array($hard_column, explode("," , $data->getAttribute('hard_columns')))) checked @endif  name="hard_columns[]" value="{{$hard_column}}" id="data-hard_columns">
-                                <label class="form-check-label" for="data-hard_columns">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       @if(in_array($hard_column, explode("," , $data->getAttribute('hard_columns')))) checked @endif
+                                       name="hard_columns[]" value="{{$hard_column}}"
+                                       id="data-hard_columns-{{$loop->index}}"
+                                >
+                                <label class="form-check-label" for="data-hard_columns-{{$loop->index}}">
                                     {{$hard_column}}
                                 </label>
                             </div>
@@ -43,7 +48,7 @@
                 </div>
             </div>
         </div>
-        @if(!$action)
+        @if($action)
             <x-input::submit :value="__('translates.buttons.save')"/>
         @endif
     </form>

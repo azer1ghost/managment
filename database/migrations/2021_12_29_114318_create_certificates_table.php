@@ -18,8 +18,8 @@ class CreateCertificatesTable extends Migration
             $table->json('name')->nullable();
             $table->json('detail')->nullable();
             $table->string('organization_id')->nullable();
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

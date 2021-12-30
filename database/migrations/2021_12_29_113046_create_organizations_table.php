@@ -14,8 +14,8 @@ class CreateOrganizationsTable extends Migration
             $table->json('name')->nullable();
             $table->json('detail')->nullable();
             $table->boolean('is_certificate')->default(1);
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

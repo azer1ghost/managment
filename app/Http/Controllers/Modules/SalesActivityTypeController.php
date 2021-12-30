@@ -30,7 +30,7 @@ class SalesActivityTypeController extends Controller
             'action' => route('sales-activities-types.store'),
             'method' => 'POST',
             'data' => new SalesActivityType(),
-            'hard_columns' => SalesActivityType::hard_columns(),
+            'hard_columns' => SalesActivityType::hardColumns(),
         ]);
     }
 
@@ -53,7 +53,7 @@ class SalesActivityTypeController extends Controller
             'action' => route('sales-activities-types.store', $sales_activities_type),
             'method' => null,
             'data' => $sales_activities_type,
-            'hard_columns' => SalesActivityType::hard_columns(),
+            'hard_columns' => SalesActivityType::hardColumns(),
         ]);
     }
 
@@ -63,7 +63,7 @@ class SalesActivityTypeController extends Controller
             'action' => route('sales-activities-types.update', $sales_activities_type),
             'method' => 'PUT',
             'data' => $sales_activities_type,
-            'hard_columns' => SalesActivityType::hard_columns(),
+            'hard_columns' => SalesActivityType::hardColumns(),
         ]);
     }
 
