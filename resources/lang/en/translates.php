@@ -191,7 +191,9 @@ return [
         'customer_engagement'=>'Customer Engagement',
         'report' => 'Reports',
         'calendar' => 'Calendar',
-        'announcement' => 'Announcements'
+        'announcement' => 'Announcements',
+        'organization' => 'Organizations',
+        'certificate' => 'Certificates',
     ],
 
     'date' => [
@@ -385,6 +387,7 @@ return [
         'permissions' => 'Permissions',
         'order' => 'Order',
         'type' => 'Type',
+        'organization' => 'Organization',
         'parent_option' => 'Parent option',
         'deadline' => 'Deadline',
         'parameter_label' => 'Parameter Label',
@@ -396,7 +399,10 @@ return [
         'unverified' => 'Unverified',
         'price_verified' => 'Price Verified',
         'price_unverified' => 'Price Unverified',
-        'reports_by_the_week' => 'Reports by the week'
+        'reports_by_the_week' => 'Reports by the week',
+        'detail' => 'Details',
+        'is_certificate' => 'Certificate',
+
     ],
 
     'notify' => [

@@ -130,7 +130,7 @@ return [
             'key' => 'Status',
             'options' => [
                 'to_do' => 'Ediləcək',
-                'in_progress' => 'Davam edən',
+                'in_progress' => 'İcra olunur',
                 'done' => 'Bitmiş'
             ]
         ]
@@ -193,7 +193,10 @@ return [
         'customer_engagement'=>'Müştəri Cəlbi',
         'report' => 'Hesabatlar',
         'calendar' => 'Təqvim',
-        'announcement' => 'Anonslar'
+        'announcement' => 'Anonslar',
+        'Certificate' => 'Sertifikatlar',
+        'organization' => 'Qurumlar',
+
     ],
 
     'date' => [
@@ -387,6 +390,7 @@ return [
         'permissions' => 'İcazələr',
         'type' => 'Növü',
         'order' => 'Sıralaması',
+        'organization' => 'Qurum',
         'parent_option' => 'Ana parametr',
         'deadline' => 'Son tarix',
         'parameter_label' => 'Parameter Label',
@@ -398,7 +402,9 @@ return [
         'unverified' => 'Təsdiq edilməyib',
         'price_verified' => 'Qiymət təsdiqlənib',
         'price_unverified' => 'Qiymət təsdiqlənməyib',
-        'reports_by_the_week' => 'Həftəyə görə hesabatlar'
+        'reports_by_the_week' => 'Həftəyə görə hesabatlar',
+        'detail' => 'Detallar',
+        'is_certificate' => 'Sertifikat',
     ],
 
     'notify' => [

@@ -33,7 +33,9 @@ class DatabaseSeeder extends Seeder
             ClientSeeder::class,
             ServiceSeeder::class,
             AsanImzaSeeder::class,
-            WorkSeeder::class
+            WorkSeeder::class,
+            OrganizationSeeder::class,
+            CertificateSeeder::class,
         ]);
     }
 }

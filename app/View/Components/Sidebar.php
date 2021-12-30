@@ -210,6 +210,12 @@ class Sidebar extends Component
                 'url' => route('meetings.index'),
                 'permission' => 'viewAny-meeting',
             ],
+            (object)[
+                'title' => __('translates.navbar.organization'),
+                'icon' => 'fas fa-bullhorn',
+                'url' => route('organizations.index'),
+                'permission' => 'viewAny-organization',
+            ],
 
             (object)[
                 'title' => __('translates.navbar.conference'),
@@ -244,6 +250,13 @@ class Sidebar extends Component
                 'icon' => 'fas fa-scroll',
                 'url' => route('announcements.index'),
                 'permission' => 'viewAny-announcement',
+            ],
+
+            (object)[
+                'title' => __('translates.navbar.certificate'),
+                'icon' => 'far fa-file-certificate',
+                'url' => route('certificates.index'),
+                'permission' => 'viewAny-certificate',
             ]
         ];
     }
