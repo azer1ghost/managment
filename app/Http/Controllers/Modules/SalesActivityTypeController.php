@@ -28,7 +28,7 @@ class SalesActivityTypeController extends Controller
 
         return view('panel.pages.sales-activities-types.edit')->with([
             'action' => route('sales-activities-types.store'),
-            'method' => POST,
+            'method' => 'POST',
             'data' => new SalesActivityType(),
             'hard_columns' => SalesActivityType::hard_columns(),
         ]);
