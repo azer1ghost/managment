@@ -93,7 +93,7 @@
 
                     <div class="form-group col-12 col-md-3 mb-3">
                         <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
-                        <select name="client_id" id="clientFilter" class="client-filter" style="width: 100% !important;">
+                        <select name="client_id" id="clientFilter" class="client-search-filter" style="width: 100% !important;">
                             @if(is_numeric(request()->get('client_id')))
                                 <option value="{{request()->get('client_id')}}">{{\App\Models\Client::find(request()->get('client_id'))->getAttribute('fullname_with_voen')}}</option>
                             @endif
@@ -334,19 +334,41 @@
         });
 
         const clientFilter = $('.client-filter');
-        select2RequestFilter(clientFilter);
+        clientFilter.select2({
+            tags: true,
+            theme: 'bootstrap4',
+            focus: true,
+        })
 
-        function select2RequestFilter(el){
-            el.select2({
-                tags: true,
-                theme: 'bootstrap4',
-                focus: true,
-            })
+        clientFilter.on('select2:open', function (e) {
+            document.querySelector('.select2-search__field').focus();
+        });
 
-            el.on('select2:open', function (e) {
-                document.querySelector('.select2-search__field').focus();
-            });
-        }
+
+        const clientSearchFilter = $('.client-search-filter');
+        clientSearchFilter.select2({
+            placeholder: "Search",
+            minimumInputLength: 3,
+            // width: 'resolve',
+            theme: 'bootstrap4',
+            focus: true,
+            ajax: {
+                delay: 500,
+                url: '{{route('clients.search')}}',
+                dataType: 'json',
+                type: 'GET',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                    }
+                }
+            }
+        })
+
+        clientSearchFilter.on('select2:open', function (e) {
+            document.querySelector('.select2-search__field').focus();
+        });
+
 
         $(function () {
             $('#daterange').daterangepicker({
