@@ -89,15 +89,7 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-md-3">
-                            <div class="input-group mb-3">
-                                <select class="form-control" name="type">
-                                    @foreach ($types as $index => $type)
-                                        <option @if ($filters['type'] == $index) selected @endif value="{{$index}}">@lang('translates.tasks.types.' . $type)</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
+
 
                         <div class="col-12 col-md-3">
                             <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i> @lang('translates.buttons.filter')</button>
@@ -115,6 +107,13 @@
                             <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
                         @endforeach
                     </select>
+                </div>
+                <div class="input-group col-md-3">
+                        <select class="form-control" name="type">
+                            @foreach ($types as $index => $type)
+                                <option @if ($filters['type'] == $index) selected @endif value="{{$index}}">@lang('translates.tasks.types.' . $type)</option>
+                            @endforeach
+                        </select>
                 </div>
             </div>
             @can('create', App\Models\Task::class)
