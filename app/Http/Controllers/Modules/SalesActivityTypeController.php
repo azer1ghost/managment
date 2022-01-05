@@ -86,6 +86,7 @@ class SalesActivityTypeController extends Controller
         if ($sales_activities_type->delete()) {
             return response('OK');
         }
+
         return response()->setStatusCode('204');
     }
 }

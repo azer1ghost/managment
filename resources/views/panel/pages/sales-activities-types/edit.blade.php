@@ -11,8 +11,8 @@
             @lang('translates.navbar.sales_activities_type')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
-            @if (!is_null($data))
-                {{optional($data)->getAttribute('name')}}
+            @if ($method != 'POST')
+                {{$data->getAttribute('name')}}
             @else
                 @lang('translates.buttons.create')
             @endif
@@ -36,12 +36,12 @@
                     </x-translate>
                     <div class="col-12">
 
-                        @foreach($hard_columns as $hard_column)
+                        @foreach($hard_columns as $key => $hard_column)
                             <div class="form-check">
                                 <input class="form-check-input"
                                        type="checkbox"
-                                       @if(in_array($hard_column, explode("," , $data->getAttribute('hard_columns')))) checked @endif
-                                       name="hard_columns[]" value="{{$hard_column}}"
+                                       @if(in_array($key, explode("," , $data->getAttribute('hard_columns')))) checked @endif
+                                       name="hard_columns[]" value="{{$key}}"
                                        id="data-hard_columns-{{$loop->index}}"
                                 >
                                 <label class="form-check-label" for="data-hard_columns-{{$loop->index}}">
@@ -50,20 +50,19 @@
                             </div>
                         @endforeach
                     </div>
-
-
                 </div>
             </div>
         </div>
-        @if($action)
+
+        @if($method)
             <x-input::submit :value="__('translates.buttons.save')"/>
         @endif
     </form>
 @endsection
 @section('scripts')
-    @if(is_null($action))
+    @if(is_null($method))
         <script>
-            $('input').attr('readonly', true)
+            $('form :input').attr('disabled', true)
         </script>
     @endif
 @endsection

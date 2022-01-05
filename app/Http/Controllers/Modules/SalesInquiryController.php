@@ -56,7 +56,7 @@ class SalesInquiryController extends Controller
         $statuses  = Parameter::where('name', 'status')->first()->options->unique();
         $evaluations  = Parameter::where('name', 'evaluation')->first()->options->unique();
         $users = User::has('inquiries')->whereDepartmentId(Department::SALES)->get(['id', 'name', 'surname', 'disabled_at']);
-        $clients = Client::get(['id', 'fullname', 'voen']);
+        $clients = Client::get(['id', 'fullname', 'voen'])->unique();
 
         $inquiries = Inquiry::with('user', 'company')
             ->whereDepartmentId(3)

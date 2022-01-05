@@ -15,15 +15,15 @@
         <div class="row d-flex justify-content-between mb-2">
             <div class="col-6">
                 <div class="input-group mb-5">
-
                 </div>
             </div>
 
-        @can('create', App\Models\SalesActivityType::class)
+            @can('create', App\Models\SalesActivityType::class)
                 <div class="col-2">
                     <a class="btn btn-outline-success float-right" href="{{route('sales-activities-types.create')}}">@lang('translates.buttons.create')</a>
                 </div>
             @endcan
+
             <div class="col-12">
                 <table class="table table-responsive-sm table-hover">
                     <thead>
@@ -74,6 +74,7 @@
                     </tbody>
                 </table>
             </div>
+
             <div class="col-12">
                 <div class="float-right">
                     {{$sale_activities_types->appends(request()->input())->links()}}

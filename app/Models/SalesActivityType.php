@@ -17,6 +17,6 @@ class SalesActivityType extends Model
 
     public static function hardColumns(): array
     {
-        return ['A', 'B', 'C', 'D'];
+        return [1 => 'Organization', 'Certificate', 'Activity area', 'Name', 'Address'];
     }
 }

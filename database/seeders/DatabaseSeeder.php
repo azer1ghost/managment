@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
             WorkSeeder::class,
             OrganizationSeeder::class,
             CertificateSeeder::class,
+            SalesActivitiesTypeSeeder::class
         ]);
     }
 }

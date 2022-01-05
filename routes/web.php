@@ -23,6 +23,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\ReferralBonusController,
     Modules\ReportController,
     Modules\ResultController,
+    Modules\SalesActivityController,
     Modules\SalesActivityTypeController,
     Modules\UpdateController,
     Modules\WidgetController,
@@ -72,6 +73,7 @@ Route::group([
     include 'modules/email-signature.php';
 
     Route::resource('/sales-activities-types', SalesActivityTypeController::class);
+    Route::resource('/sales-activities', SalesActivityController::class);
     Route::resource('/announcements', AnnouncementController::class);
     Route::resource('/certificates', CertificateController::class);
     Route::resource('/companies', CompanyController::class);

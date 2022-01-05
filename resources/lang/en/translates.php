@@ -191,10 +191,11 @@ return [
         'customer_engagement'=>'Customer Engagement',
         'report' => 'Reports',
         'calendar' => 'Calendar',
+        'certificate' => 'Certificates',
+        'organization' => 'Organizations',
         'announcement' => 'Announcements',
         'sales_activities_type' => 'Types Of Activities',
-        'organization' => 'Organizations',
-        'certificate' => 'Certificates',
+        'sales_activities' => 'Sales Activities',
     ],
 
     'date' => [

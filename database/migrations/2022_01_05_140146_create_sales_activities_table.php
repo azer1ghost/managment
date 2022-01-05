@@ -10,14 +10,15 @@ class CreateSalesActivitiesTable extends Migration
     {
         Schema::create('sales_activities', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->timestamp('datetime')->nullable();
             $table->string('address')->nullable();
             $table->string('activity_area')->nullable();
-            $table->string('client')->nullable();
-            $table->text('results')->nullable();
+            $table->string('client_name')->nullable();
+            $table->text('result')->nullable();
             $table->foreignId('organization_id')->nullable()->index()->constrained();
-            $table->foreignId('certification_id')->nullable()->index()->constrained();
+            $table->foreignId('certificate_id')->nullable()->index()->constrained();
+            $table->foreignId('sales_activity_type_id')->nullable()->index()->constrained();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -194,7 +194,8 @@ return [
         'certificate' => 'Sertifikatlar',
         'organization' => 'Qurumlar',
         'announcement' => 'Anonslar',
-        'sales_activities_type' => 'Fəaliyyət Növləri'
+        'sales_activities_type' => 'Fəaliyyət Növləri',
+        'sales_activities' => 'Satış Fəaliyyətləri',
     ],
 
     'date' => [
