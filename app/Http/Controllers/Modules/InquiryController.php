@@ -167,7 +167,7 @@ class InquiryController extends Controller
             'method' => 'POST',
             'departments' => Department::pluck('name', 'id')->toArray(),
             'inquiry' => $inquiry,
-            'data' => new Task(['name' => $inquirySubject->getAttribute('text') . rtrim($subjectKinds, ',')])
+            'data' => new Task(['name' => !is_null($inquirySubject) ? $inquirySubject->getAttribute('text') . rtrim($subjectKinds, ',') : ''])
        ]);
     }
 
