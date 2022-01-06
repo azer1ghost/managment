@@ -78,7 +78,7 @@ class InquiryController extends Controller
         }
 
         $inquiries = Inquiry::with('user', 'company')
-//            ->whereDepartmentId(Department::CALL_CENTER)
+            ->whereDepartmentId(Department::CALL_CENTER)
             ->withoutBackups()
             ->when(!Inquiry::userCanViewAll(), function ($query){
                 if (Inquiry::userCanViewAllDepartment()){
