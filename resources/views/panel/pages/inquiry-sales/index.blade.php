@@ -163,7 +163,7 @@
                     <th>@lang('translates.fields.time')</th>
                     <th>@lang('translates.fields.clientName')</th>
                     <th>@lang('translates.fields.writtenBy')</th>
-                    <th>Evaluation</th>
+                    <th>@lang('translates.columns.evaluation')</th>
                     <th class="text-center">Status</th>
                     <th>@lang('translates.fields.actions')</th>
                 </tr>

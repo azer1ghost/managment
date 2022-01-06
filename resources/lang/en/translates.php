@@ -408,6 +408,7 @@ return [
         'sales_activity' => 'Sales Activity',
         'description' => 'Description',
         'hard_columns' => 'Hard Columns',
+        'evaluation' => 'Evaluation',
     ],
 
     'notify' => [
