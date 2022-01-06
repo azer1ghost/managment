@@ -20,7 +20,8 @@ class SalesActivity extends Model
         'result',
         'organization_id',
         'certificate_id',
-        'sales_activity_type_id'
+        'sales_activity_type_id',
+        'user_id'
     ];
 
     public function organization(): BelongsTo

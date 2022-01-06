@@ -44,6 +44,7 @@ class SalesActivityController extends Controller
     public function store(SalesActivityRequest $request)
     {
         $validated = $request->validated();
+        $validated['user_id'] = auth()->id();
 
         $sales_activity = SalesActivity::create($validated);
 
