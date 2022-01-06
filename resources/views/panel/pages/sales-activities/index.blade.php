@@ -36,10 +36,10 @@
                         <th scope="col">@lang('translates.columns.name')</th>
                         <th scope="col">@lang('translates.fields.address')</th>
                         <th scope="col">@lang('translates.fields.clientName')</th>
-                        <th scope="col">Activity area</th>
-                        <th scope="col">Organization</th>
-                        <th scope="col">Certificate</th>
-                        <th scope="col">Sales activity</th>
+                        <th scope="col">@lang('translates.columns.activity_area')</th>
+                        <th scope="col">@lang('translates.columns.organization')</th>
+                        <th scope="col">@lang('translates.columns.is_certificate')</th>
+                        <th scope="col">@lang('translates.columns.sales_activity')</th>
                         <th scope="col">@lang('translates.fields.date')</th>
 
                         <th scope="col">@lang('translates.columns.actions')</th>
@@ -110,7 +110,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="data-sales_activity_type">Sales activity type</label>
+                            <label for="data-sales_activity_type">@lang('translates.filters.sales_activities_type')</label>
                             <select class="form-control" id="data-sales_activity_type" name="sales_activity_type_id" required style="width: 100% !important;">
                                 @foreach($salesActivitiesTypes as $index => $salesActivitiesType)
                                     <option value="{{$index}}">{{$salesActivitiesType}}</option>
@@ -118,7 +118,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="data-client_name">Client name</label>
+                            <label for="data-client_name">@lang('translates.filters.client_name')</label>
                             <select class="form-control" id="data-client_name" name="client_name" required style="width: 100% !important;">
                                 <option value="">@lang('translates.filters.select')</option>
                                 @foreach($clients as $client)

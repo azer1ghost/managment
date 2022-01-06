@@ -30,7 +30,7 @@
                 <div class="row">
                     @php($salesActivitiesTypeId = $data->getAttribute('sales_activity_type_id') ?? request()->get('sales_activity_type_id'))
                     @php($salesActivitiesType = \App\Models\SalesActivityType::find($salesActivitiesTypeId) ?? abort(404))
-                    <x-input::text readonly :value="$salesActivitiesType->getAttribute('name')"  label="Activity type"  width="6" class="pr-3"/>
+                    <x-input::text readonly :value="$salesActivitiesType->getAttribute('name')"  :label="trans('translates.navbar.sales_activities_type')"  width="6" class="pr-3"/>
                     <input type="hidden" name="sales_activity_type_id" value="{{$salesActivitiesTypeId}}">
 
                     @if(str_contains($salesActivitiesType->getAttribute('hard_columns'), '4'))
@@ -42,17 +42,17 @@
                     @endif
 
                     @if(str_contains($salesActivitiesType->getAttribute('hard_columns'), '3'))
-                        <x-input::text  name="activity_area"  :value="$data->getAttribute('activity_area')"  label="Activity area"  width="6" class="pr-3" />
+                        <x-input::text  name="activity_area"  :value="$data->getAttribute('activity_area')"  :label="trans('translates.columns.activity_area')"  width="6" class="pr-3" />
                     @endif
 
-                    <x-input::text readonly name="client_name"  :value="$data->getAttribute('client_name') ?? request()->get('client_name')"  label="Client name"  width="6" class="pr-3" />
+                    <x-input::text readonly name="client_name"  :value="$data->getAttribute('client_name') ?? request()->get('client_name')"  :label="trans('translates.fields.clientName')"  width="6" class="pr-3" />
 
                     @if(str_contains($salesActivitiesType->getAttribute('hard_columns'), '1'))
                         <x-input::select  name="organization_id" :value="$data->getAttribute('organization_id')" :label="trans('translates.columns.organization')"  width="6" class="pr-3" :options="$organizations"/>
                     @endif
 
                     @if(str_contains($salesActivitiesType->getAttribute('hard_columns'), '2'))
-                        <x-input::select  name="certificate_id" :value="$data->getAttribute('certificate_id')"    label="Certificate"  width="6" class="pr-3" :options="$certificates"/>
+                        <x-input::select  name="certificate_id" :value="$data->getAttribute('certificate_id')"    :label="trans('translates.columns.is_certificate')"  width="6" class="pr-3" :options="$certificates"/>
                     @endif
 
                     <x-input::text name="datetime" readonly :label="__('translates.fields.date')" value="{{optional($data->getAttribute('datetime'))->format('Y-m-d H:i')}}" width="6" class="pr-3" />
@@ -60,7 +60,7 @@
                 </div>
 
                 <div class="my-3">
-                    <h5>Sales Supply</h5>
+                    <h5>@lang('translates.sales_supply.sales_supply')</h5>
                     @livewire('show-sales-supplies', ['salesActivity' => $data, 'action' => $action])
                 </div>
             </div>
