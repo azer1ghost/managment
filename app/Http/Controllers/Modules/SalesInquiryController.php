@@ -53,10 +53,15 @@ class SalesInquiryController extends Controller
 
         [$from, $to] = explode(' - ', $daterange);
 
+//        dd(Inquiry::whereNotNull('client_name')->pluck('client_name', 'client_name'));
+
+        $inquiryClients = Inquiry::whereNotNull('client_name')->pluck('client_name', 'client_name');
+        $clients = Client::get()->mapWithKeys(fn($client) => [$client->getAttribute('fullname_with_voen') => $client->getAttribute('fullname_with_voen')]);
+
         $statuses  = Parameter::where('name', 'status')->first()->options->unique();
         $evaluations  = Parameter::where('name', 'evaluation')->first()->options->unique();
         $users = User::has('inquiries')->whereDepartmentId(Department::SALES)->get(['id', 'name', 'surname', 'disabled_at']);
-        $clients = Client::get(['id', 'fullname', 'voen'])->unique();
+        $clients = $clients->merge($inquiryClients);
 
         $inquiries = Inquiry::with('user', 'company')
             ->whereDepartmentId(3)

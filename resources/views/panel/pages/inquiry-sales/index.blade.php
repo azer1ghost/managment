@@ -293,8 +293,8 @@
                             <select name="client_name" id="clientFilterModal" class="client-filter" style="width: 100% !important;" required>
                                 <option value="">@lang('translates.general.select_client')</option>
                                 @foreach($clients as $client)
-                                    <option value="{{$client->getAttribute('fullname_with_voen')}}">
-                                        {{$client->getAttribute('fullname_with_voen')}}
+                                    <option value="{{$client}}">
+                                        {{$client}}
                                     </option>
                                 @endforeach
                             </select>

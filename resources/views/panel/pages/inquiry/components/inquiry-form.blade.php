@@ -28,12 +28,12 @@
     <input type="hidden" name="company_id" wire:model="selected.company">
     <input type="hidden" name="backUrl" wire:model="backUrl">
 
-    @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES)
+{{--    @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES)--}}
         <div class="form-group col-12 col-md-3 mb-3">
             <label class="d-block" for="clientFilter">@lang('translates.fields.clientName')</label>
             <input type="text" class="form-control" name="client_name" value="{{$client}}" readonly>
         </div>
-    @endif
+{{--    @endif--}}
 
     @foreach($formFields as $formField)
         @if($formField['type'] === 'select' && count($formField['options']) == 0)
@@ -71,13 +71,13 @@
         <x-input::textarea name="note"  :value="$note"  label="Note"   width="12" rows="4"/>
         <div class="col-md-3">
             <div class="form-check">
-                <input class="form-check-input" wire:model="selected.is_out" type="radio" name="is_out" id="is_out1" value="0" checked>
+                <input class="form-check-input" wire:model="selected.is_out" type="radio" name="is_out" id="is_out1" value="0" @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::CALL_CENTER) checked @endif>
                 <label class="form-check-label" for="is_out1">
                     @lang('translates.inquiries.types.from_customers')
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" wire:model="selected.is_out" name="is_out" id="is_out" value="1">
+                <input class="form-check-input" type="radio" wire:model="selected.is_out" name="is_out" id="is_out" value="1" @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES) checked @endif>
                 <label class="form-check-label" for="is_out">
                     @lang('translates.inquiries.types.from_us')
                 </label>
