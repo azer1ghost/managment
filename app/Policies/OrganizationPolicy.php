@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Conference;
+use App\Models\Organization;
 use App\Models\User;
 use App\Traits\GetClassInfo;
 use App\Traits\HandlesPolicy;
@@ -17,27 +18,24 @@ class OrganizationPolicy
         return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 
-    public function update(User $user, Conference $conference): bool
+    public function update(User $user, Organization $organization): bool
     {
         return
-            $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
-            $conference->getAttribute('user_id') == $user->getAttribute('id');
+            $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 
-    public function delete(User $user, Conference $conference): bool
+    public function delete(User $user, Organization $organization): bool
     {
         return
-            $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
-            $conference->getAttribute('user_id') == $user->getAttribute('id');
+            $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 
-    public function restore(User $user, Conference $conference): bool
+    public function restore(User $user, Organization $organization): bool
     {
-        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
-            $conference->getAttribute('user_id') == $user->getAttribute('id');
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 
-    public function forceDelete(User $user, Conference $conference): bool
+    public function forceDelete(User $user, Organization $organization): bool
     {
         return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
