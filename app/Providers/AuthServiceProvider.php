@@ -4,11 +4,9 @@ namespace App\Providers;
 
 use App\Models\Company;
 use App\Models\DailyReport;
-use App\Models\Organization;
 use App\Models\Report;
 use App\Models\User;
 use App\Policies\DatabaseNotificationPolicy;
-use App\Policies\OrganizationPolicy;
 use App\Policies\ReportPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Notifications\DatabaseNotification;
@@ -19,7 +17,6 @@ class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
         DatabaseNotification::class => DatabaseNotificationPolicy::class,
-        Organization::class => OrganizationPolicy::class
     ];
 
     public function boot(): void
