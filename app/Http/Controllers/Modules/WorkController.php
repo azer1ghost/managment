@@ -238,15 +238,30 @@ class WorkController extends Controller
                 );
         })
             ->withCount([
-                'works' => function ($q){
-                $q->where('user_id', auth()->id());
+                'works' => function ($q) use ($created_at){
+                $q ->whereBetween('created_at',
+                    [
+                        Carbon::parse($created_at[0])->startOfDay(),
+                        Carbon::parse($created_at[1])->endOfDay()
+                    ]
+                )->where('user_id', auth()->id());
                 },
-                'works as works_rejected' => function ($q) {
-                    $q->where('user_id', auth()->id())
+                'works as works_rejected' => function ($q) use ($created_at) {
+                    $q->whereBetween('created_at',
+                        [
+                            Carbon::parse($created_at[0])->startOfDay(),
+                            Carbon::parse($created_at[1])->endOfDay()
+                        ]
+                    )->where('user_id', auth()->id())
                         ->isRejected();
                 },
-                'works as works_verified' => function ($q) {
-                    $q->where('user_id', auth()->id())->isVerified();
+                'works as works_verified' => function ($q) use ($created_at){
+                    $q->whereBetween('created_at',
+                        [
+                            Carbon::parse($created_at[0])->startOfDay(),
+                            Carbon::parse($created_at[1])->endOfDay()
+                        ]
+                    )->where('user_id', auth()->id())->isVerified();
                 },
 
             ])->get();

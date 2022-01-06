@@ -25,12 +25,11 @@ class InquiryUserWidget extends Component
     {
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
-
-        $this->result = User::whereHas('inquiries', fn($q) => $this->checkUserInquiries($q))
+        $this->result = User::where('department_id', auth()->user()->getAttribute('department_id'))->whereHas('inquiries', fn($q) => $this->checkUserInquiries($q))
             ->withCount([
                 'inquiries' => fn($q) => $this->checkUserInquiries($q)
             ])
-            ->orderByDesc('inquiries_count')
+            ->orderBy('inquiries_count')
             ->get()
             ->map(function ($result) {
                 return [
@@ -39,7 +38,6 @@ class InquiryUserWidget extends Component
                     'pictureSettings' => [
                         'src' => image($result->getAttribute('avatar'))
                     ]
-
                 ];
             });
     }
