@@ -201,7 +201,6 @@
                 </div>
             </div>
 
-{{--            @if(auth()->user()->works()->exists())--}}
                 <div class="col-sm-3 pt-2 d-flex align-items-center">
                     <div class="input-group">
                         <div class="d-flex align-items-center">
@@ -209,7 +208,6 @@
                         </div>
                     </div>
                 </div>
-{{--            @endif--}}
 
             @can('create', App\Models\Work::class)
                 <div class="col-sm-6 py-3">
