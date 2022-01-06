@@ -16,15 +16,19 @@ class InquiryUserWidget extends Component
     public ?string $model = null;
     public Collection $result;
 
+    public function checkUserInquiries($q)
+    {
+        return $q->where('datetime', '>=', now()->startOfMonth())->isReal();
+    }
 
     public function __construct($widget)
     {
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
 
-        $this->result = User::whereHas('inquiries', fn($q) => $q->where('datetime', '>=', now()->startOfMonth())->isReal())
+        $this->result = User::whereHas('inquiries', fn($q) => $this->checkUserInquiries($q))
             ->withCount([
-                'inquiries' => fn($q) => $q->where('datetime', '>=', now()->startOfMonth())->isReal()
+                'inquiries' => fn($q) => $this->checkUserInquiries($q)
             ])
             ->orderByDesc('inquiries_count')
             ->get()
