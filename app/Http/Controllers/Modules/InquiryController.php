@@ -78,7 +78,7 @@ class InquiryController extends Controller
         }
 
         $inquiries = Inquiry::with('user', 'company')
-            ->whereDepartmentId(Department::CALL_CENTER)
+//            ->whereDepartmentId(Department::CALL_CENTER)
             ->withoutBackups()
             ->when(!Inquiry::userCanViewAll(), function ($query){
                 if (Inquiry::userCanViewAllDepartment()){
@@ -240,7 +240,7 @@ class InquiryController extends Controller
         $oldInquiry = $inquiry->replicate(['code'])->getAttributes();
         $inquiry->update(
             array_merge(
-                $request->only(['note', 'company_id', 'is_out']),
+                $request->only(['note', 'company_id', 'is_out', 'client_name']),
                 ['datetime' => Carbon::createFromFormat('d-m-Y H:i', $request->get('date')." ".$request->get('time'))]
             )
         );
@@ -248,7 +248,7 @@ class InquiryController extends Controller
         $newParameters = $request->get('parameters');
         $oldParameters = $inquiry->getRelationValue('parameters')->pluck('pivot.value', 'id')->toArray();
 
-        $changedParams = (bool) array_diff($oldParameters, $newParameters);
+        $changedParams = !(count($oldParameters) > 0) || array_diff($oldParameters, $newParameters);
 
         if ($inquiry->getChanges() || $changedParams) {
            $backup = $inquiry->backups()->create($oldInquiry);

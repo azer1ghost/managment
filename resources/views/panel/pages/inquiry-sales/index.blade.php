@@ -275,6 +275,11 @@
                 </tbody>
             </table>
         </div>
+        <div class="col-12">
+            <div class="float-right">
+                {{$inquiries->appends(request()->input())->links()}}
+            </div>
+        </div>
     </form>
     <!-- Inquiry Create Modal -->
     <div class="modal fade" id="inquiry-create-modal-btn">

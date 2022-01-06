@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Company;
+use App\Models\Department;
 use App\Models\Inquiry;
 use App\Models\Option;
 use App\Services\MobexApi;
@@ -46,7 +47,9 @@ class InquiryForm extends Component
             $this->selected['company'] = null;
         }
 
-        $this->selected['is_out'] = is_null($this->inquiry->getAttribute('is_out')) ? 0 : $this->inquiry->getAttribute('is_out');
+        $isOut = auth()->user()->getAttribute('department_id') == Department::SALES ? 1 : 0;
+
+        $this->selected['is_out'] = is_null($this->inquiry->getAttribute('is_out')) ? $isOut : $this->inquiry->getAttribute('is_out');
 
         if(array_key_exists('status', $this->selected) && $this->selected['status'] == Inquiry::REDIRECTED) {
             $this->isRedirected = true;
