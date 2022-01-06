@@ -4,16 +4,15 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrganizationRequest;
-use App\Models\organization;
+use App\Models\Organization;
 use Illuminate\Http\RedirectResponse;
 
 class OrganizationController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth');
-//        $this->authorizeResource(Organization::class, 'organization');
+        $this->authorizeResource(Organization::class, 'organization');
     }
 
     public function index()
