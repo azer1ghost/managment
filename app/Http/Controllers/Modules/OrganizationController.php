@@ -13,7 +13,7 @@ class OrganizationController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->authorizeResource(Organization::class, 'organization');
+//        $this->authorizeResource(Organization::class, 'organization');
     }
 
     public function index()
