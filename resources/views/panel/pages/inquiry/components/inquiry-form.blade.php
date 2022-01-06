@@ -28,12 +28,12 @@
     <input type="hidden" name="company_id" wire:model="selected.company">
     <input type="hidden" name="backUrl" wire:model="backUrl">
 
-{{--    @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES)--}}
+    @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES)
         <div class="form-group col-12 col-md-3 mb-3">
             <label class="d-block" for="clientFilter">@lang('translates.fields.clientName')</label>
-            <input type="text" class="form-control" name="client_name" value="{{$client}}" readonly>
+            <input type="text" class="form-control" name="client_name" value="{{$client}}">
         </div>
-{{--    @endif--}}
+    @endif
 
     @foreach($formFields as $formField)
         @if($formField['type'] === 'select' && count($formField['options']) == 0)
