@@ -206,7 +206,6 @@
                     <div class="input-group">
                         <div class="d-flex align-items-center">
                             <a class="btn btn-outline-success  mr-2" data-toggle="modal" data-target="#report-work" >@lang('translates.navbar.report')</a>
-                            <small class="text-danger">Hal hazırda hesabatlar üzərində işlər aparıldığı üçün xidmət müvəqqəti olaraq işləmir</small>
                         </div>
                     </div>
                 </div>
