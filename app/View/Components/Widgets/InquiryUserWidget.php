@@ -22,10 +22,9 @@ class InquiryUserWidget extends Component
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
 
-        $this->result = User::withCount('inquiries')
-            ->whereHas('inquiries', function ($q) {
-                $q->where('datetime', '>=', now()->startOfMonth())->isReal();
-            })
+        $this->result = User::has('inquiries')->withCount(['inquiries' => fn($query) => $query->whereHas('inquiries', function ($q) {
+            $q->where('datetime', '>=', now()->startOfMonth())->isReal();
+        })])
             ->orderByDesc('inquiries_count')
             ->get()
             ->map(function ($result) {
