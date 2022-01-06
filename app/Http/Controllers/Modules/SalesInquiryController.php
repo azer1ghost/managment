@@ -53,8 +53,6 @@ class SalesInquiryController extends Controller
 
         [$from, $to] = explode(' - ', $daterange);
 
-//        dd(Inquiry::whereNotNull('client_name')->pluck('client_name', 'client_name'));
-
         $inquiryClients = Inquiry::whereNotNull('client_name')->pluck('client_name', 'client_name');
         $clients = Client::get()->mapWithKeys(fn($client) => [$client->getAttribute('fullname_with_voen') => $client->getAttribute('fullname_with_voen')]);
 
@@ -64,7 +62,7 @@ class SalesInquiryController extends Controller
         $clients = $clients->merge($inquiryClients);
 
         $inquiries = Inquiry::with('user', 'company')
-            ->whereDepartmentId(3)
+            ->whereDepartmentId(Department::SALES)
             ->withoutBackups()
             ->when(!Inquiry::userCanViewAll(), function ($query){
                 if (Inquiry::userCanViewAllDepartment()){
