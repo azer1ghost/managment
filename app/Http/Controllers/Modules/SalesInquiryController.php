@@ -55,11 +55,11 @@ class SalesInquiryController extends Controller
 
         $inquiryClients = Inquiry::whereNotNull('client_name')->pluck('client_name', 'client_name');
         $clients = Client::get(['id', 'fullname', 'voen'])->mapWithKeys(fn($client) => [$client->getAttribute('fullname_with_voen') => $client->getAttribute('fullname_with_voen')]);
+        $clients = $clients->merge($inquiryClients);
 
         $statuses  = Parameter::where('name', 'status')->first()->options->unique();
         $evaluations  = Parameter::where('name', 'evaluation')->first()->options->unique();
         $users = User::has('inquiries')->whereDepartmentId(Department::SALES)->get(['id', 'name', 'surname', 'disabled_at']);
-        $clients = $clients->merge($inquiryClients);
 
         $inquiries = Inquiry::with('user', 'company')
             ->whereDepartmentId(Department::SALES)

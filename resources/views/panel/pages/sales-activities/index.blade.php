@@ -122,8 +122,8 @@
                             <select class="form-control" id="data-client_name" name="client_name" required style="width: 100% !important;">
                                 <option value="">@lang('translates.filters.select')</option>
                                 @foreach($clients as $client)
-                                    <option value="{{$client->getAttribute('fullname_with_voen')}}">
-                                        {{$client->getAttribute('fullname_with_voen')}}
+                                    <option value="{{$client}}">
+                                        {{$client}}
                                     </option>
                                 @endforeach
                             </select>

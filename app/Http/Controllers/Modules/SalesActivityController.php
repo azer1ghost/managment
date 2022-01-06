@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SalesActivityRequest;
 use App\Models\Certificate;
 use App\Models\Client;
+use App\Models\Inquiry;
 use App\Models\Organization;
 use App\Models\SalesActivitiesSupply;
 use App\Models\SalesActivity;
@@ -21,7 +22,9 @@ class SalesActivityController extends Controller
 
     public function index()
     {
-        $clients = Client::get(['id', 'fullname', 'voen'])->unique();
+        $inquiryClients = Inquiry::whereNotNull('client_name')->pluck('client_name', 'client_name');
+        $clients = Client::get(['id', 'fullname', 'voen'])->mapWithKeys(fn($client) => [$client->getAttribute('fullname_with_voen') => $client->getAttribute('fullname_with_voen')]);
+        $clients = $clients->merge($inquiryClients);
 
         return view('panel.pages.sales-activities.index')->with([
             'sale_activities' => SalesActivity::latest()->paginate(10),
