@@ -201,16 +201,16 @@
                 </div>
             </div>
 
-            @if(auth()->user()->works()->exists())
+{{--            @if(auth()->user()->works()->exists())--}}
                 <div class="col-sm-3 pt-2 d-flex align-items-center">
                     <div class="input-group">
                         <div class="d-flex align-items-center">
-                            <a class="btn btn-outline-success disabled mr-2" data-toggle="modal" data-target="#report-work" >@lang('translates.navbar.report')</a>
+                            <a class="btn btn-outline-success  mr-2" data-toggle="modal" data-target="#report-work" >@lang('translates.navbar.report')</a>
                             <small class="text-danger">Hal hazırda hesabatlar üzərində işlər aparıldığı üçün xidmət müvəqqəti olaraq işləmir</small>
                         </div>
                     </div>
                 </div>
-            @endif
+{{--            @endif--}}
 
             @can('create', App\Models\Work::class)
                 <div class="col-sm-6 py-3">

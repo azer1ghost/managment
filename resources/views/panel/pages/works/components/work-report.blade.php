@@ -34,7 +34,7 @@
                             <th scope="col">@lang('translates.columns.full_name')</th>
                             <th scope="col">@lang('translates.columns.department')</th>
                             <th scope="col">@lang('translates.fields.position')</th>
-                            <th scope="col">@lang('translates.general.select_date')</th>
+                            <th scope="col">@lang('translates.fields.date')</th>
                         </tr>
                         </thead>
                         <tbody>
