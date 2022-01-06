@@ -29,7 +29,7 @@ class InquiryUserWidget extends Component
             ->withCount([
                 'inquiries' => fn($q) => $this->checkUserInquiries($q)
             ])
-            ->orderByAsc('inquiries_count')
+            ->orderBy('inquiries_count')
             ->get()
             ->map(function ($result) {
                 return [
