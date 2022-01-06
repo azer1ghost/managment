@@ -410,6 +410,7 @@ return [
         'activity_area' => 'Fəaliyyət Sahəsi',
         'description' => 'Açıqlama',
         'hard_columns' => 'Əsas Sütunlar',
+        'evaluation' => 'Qiymətləndirmə',
     ],
 
     'notify' => [

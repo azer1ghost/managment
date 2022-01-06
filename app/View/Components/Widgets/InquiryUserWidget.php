@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Widgets;
 
+use App\Models\Inquiry;
 use App\Models\User;
 use App\Traits\GetClassInfo;
 use Illuminate\Database\Eloquent\Model;
@@ -25,7 +26,7 @@ class InquiryUserWidget extends Component
     {
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
-        $this->result = User::where('department_id', auth()->user()->getAttribute('department_id'))->whereHas('inquiries', fn($q) => $this->checkUserInquiries($q))
+        $this->result = User::when(!Inquiry::userCanViewAll(), fn($q) => $q->where('department_id', auth()->user()->getAttribute('department_id')))->whereHas('inquiries', fn($q) => $this->checkUserInquiries($q))
             ->withCount([
                 'inquiries' => fn($q) => $this->checkUserInquiries($q)
             ])
