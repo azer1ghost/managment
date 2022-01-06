@@ -45,7 +45,7 @@
                         <x-input::text  name="activity_area"  :value="$data->getAttribute('activity_area')"  :label="trans('translates.columns.activity_area')"  width="6" class="pr-3" />
                     @endif
 
-                    <x-input::text readonly name="client_name"  :value="$data->getAttribute('client_name') ?? request()->get('client_name')"  :label="trans('translates.fields.clientName')"  width="6" class="pr-3" />
+                    <x-input::text name="client_name"  :value="$data->getAttribute('client_name') ?? request()->get('client_name')"  :label="trans('translates.fields.clientName')"  width="6" class="pr-3" />
 
                     @if(str_contains($salesActivitiesType->getAttribute('hard_columns'), '1'))
                         <x-input::select  name="organization_id" :value="$data->getAttribute('organization_id')" :label="trans('translates.columns.organization')"  width="6" class="pr-3" :options="$organizations"/>
