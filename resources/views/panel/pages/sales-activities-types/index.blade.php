@@ -30,8 +30,8 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">@lang('translates.columns.name')</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Hard Columns</th>
+                        <th scope="col">@lang('translates.columns.description')</th>
+                        <th scope="col">@lang('translates.columns.hard_columns')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>

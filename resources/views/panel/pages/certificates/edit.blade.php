@@ -49,7 +49,7 @@
 @section('scripts')
     @if(is_null($action))
         <script>
-            $('input').attr('readonly', true)
+            $('form :input').attr('readonly', true)
         </script>
     @endif
 @endsection

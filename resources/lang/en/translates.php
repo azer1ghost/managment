@@ -404,6 +404,10 @@ return [
         'detail' => 'Detail',
         'organization' => 'Qurum',
         'is_certificate' => 'Sertifikat',
+        'activity_area' => 'Activity Area',
+        'sales_activity' => 'Sales Activity',
+        'description' => 'Description',
+        'hard_columns' => 'Hard Columns',
     ],
 
     'notify' => [
@@ -536,5 +540,10 @@ return [
         '404' => 'Page Not Found',
         '403' => 'You don\'t have permission to view this resource',
         '503' => 'Currently, the system is undergoing preventive work. Thanks for your understanding'
-    ]
+    ],
+    'sales_supply' =>[
+    'sales_supply' => 'Sales Supply',
+    'supply_name' => 'Supply Name',
+    'supply_value' => 'Supply Value',
+]
 ];

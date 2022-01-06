@@ -5,8 +5,8 @@
                 <hr class="m-1">
                 <div class="row d-flex align-items-center">
                     <input type="hidden"  name="supplies[{{$index}}][id]"    value="{{$supply['id']}}">
-                    <x-input::text  name="supplies[{{$index}}][name]" :value="$supply['name']"   label="Supply name"   width="5"/>
-                    <x-input::text  name="supplies[{{$index}}][value]"  :value="$supply['value']"  label="Supply value (AZN)"  width="5"  class="pr-3"/>
+                    <x-input::text  name="supplies[{{$index}}][name]" :value="$supply['name']"   :label="trans('translates.sales_supply.supply_name')"   width="5"/>
+                    <x-input::text  name="supplies[{{$index}}][value]"  :value="$supply['value']"  :label="trans('translates.sales_supply.supply_value')"  width="5"  class="pr-3"/>
                     @if($action)
                         <div class="form-group col-12 col-md-1 mb-3 mb-md-0 mt-0 mt-md-3 pl-3 pl-md-0">
                             <button type="button" wire:click.prevent="removeSupply({{$index}})" class="btn btn-outline-danger">

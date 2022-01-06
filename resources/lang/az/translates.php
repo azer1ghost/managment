@@ -28,7 +28,9 @@ return [
         'select' => 'Seçilməyib',
         'or' => ":first, :second və ya :third filtrləyin",
         'filter_by' => 'Filterlə',
-        'free_clients' => 'Boş müştərilər'
+        'free_clients' => 'Boş müştərilər',
+        'sales_activities_type' => 'Satış Fəaliyyətinə Görə Filterləyin',
+
     ],
 
     'placeholders' => [
@@ -404,6 +406,10 @@ return [
         'reports_by_the_week' => 'Həftəyə görə hesabatlar',
         'detail' => 'Detallar',
         'is_certificate' => 'Sertifikat',
+        'sales_activity' => 'Satış Fəaliyyəti',
+        'activity_area' => 'Fəaliyyət Sahəsi',
+        'description' => 'Açıqlama',
+        'hard_columns' => 'Əsas Sütunlar',
     ],
 
     'notify' => [
@@ -535,5 +541,10 @@ return [
         '404' => 'Səhifə Tapılmadı',
         '403' => 'Sizin Bu Səhifəyə Daxil Olmaq Üçün İcazəniz Yoxdur',
         '503' => 'Hal-hazırda Sistemdə Profilaktik İşlər Gedir.Anlayışınız Üçün Təşəkkürlər',
+    ],
+    'sales_supply' =>[
+        'sales_supply' => 'Satış Təchizatı',
+        'supply_name' => 'Təchizat Adı',
+        'supply_value' => 'Təchizat Dəyəri',
     ]
 ];

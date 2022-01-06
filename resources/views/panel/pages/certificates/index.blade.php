@@ -35,7 +35,7 @@
                         <th scope="col">@lang('translates.fields.name')</th>
                         <th scope="col">@lang('translates.fields.detail')</th>
                         <th scope="col">@lang('translates.columns.organization')</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
                     <tbody>
