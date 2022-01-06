@@ -28,6 +28,9 @@ class Parameter extends Model implements Recordable
     // Ex: hideOnPost -> hide parameter which has hideOnPost attribute on POST request
     private array $parameterAttributes = ['hideOnPost'];
 
+    public const PHONE = 8;
+    public const CUSTOMER_ID = 6;
+
     public static function types(): array
     {
         return ['select' => 'Select', 'text' => 'Text', 'number' => 'Number'];

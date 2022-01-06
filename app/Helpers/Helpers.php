@@ -76,9 +76,9 @@ if(! function_exists('syncResolver')){
         $array = [];
         foreach ($params as $key => $param)
         {
-            if ($key == 8) {
+            if ($key == \App\Models\Parameter::PHONE) {
                 $array[$key] = [$column => phone_cleaner($param)];
-            } elseif ($key == 6) {
+            } elseif ($key == \App\Models\Parameter::CUSTOMER_ID) {
                 $array[$key] = [$column => pattern_adder('MBX', $param)];
             } else {
                 $array[$key] = [$column => $param];
@@ -89,7 +89,7 @@ if(! function_exists('syncResolver')){
 }
 
 if(! function_exists('phone_cleaner')){
-    function phone_cleaner($phone = null): ?string {
+    function phone_cleaner($phone = ''): ?string {
         return substr(str_replace([' ', '-', '(', ')', '+'],'', $phone), -9, 9);
     }
 }
