@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\salesClientRequest;
-use App\Models\Client;
+use App\Http\Requests\SalesClientRequest;
 use App\Models\SalesClient;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -17,7 +16,6 @@ class SalesClientController extends Controller
         $this->middleware('auth');
         $this->authorizeResource(SalesClient::class, 'sales_client');
     }
-
 
     public function search(Request $request)
     {
