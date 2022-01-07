@@ -17,7 +17,6 @@ class InquiryRequest extends FormRequest
         return [
             'date'      => 'date|required',
             'time'      => 'required',
-            'client'    => "nullable|string|max:255",
             'fullname'  => "nullable|string|max:255",
             'phone'     => "filled|string|max:255",
             'subject'   => "filled|int|max:255",
@@ -30,7 +29,7 @@ class InquiryRequest extends FormRequest
             'contact_method' => "filled|int",
             'operation' => "filled|int",
             'is_out' => 'required|numeric',
-            'client_name' => 'nullable|string'
+            'client_id' => 'nullable|integer',
         ];
     }
 }

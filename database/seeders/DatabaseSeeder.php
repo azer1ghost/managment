@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             OptionSeeder::class,
             ParameterSeeder::class,
             ParameterCompanySeeder::class,
+            SalesClientSeeder::class,
             InquirySeeder::class,
 //            TaskSeeder::class,
             DepartmentSeeder::class,
@@ -37,7 +38,6 @@ class DatabaseSeeder extends Seeder
             OrganizationSeeder::class,
             CertificateSeeder::class,
             SalesActivitiesTypeSeeder::class,
-            SalesClientSeeder::class,
         ]);
     }
 }

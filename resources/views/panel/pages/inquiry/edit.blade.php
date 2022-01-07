@@ -110,7 +110,7 @@
             });
 
         const clientFilter = $('.client-filter');
-        select2RequestFilter(clientFilter, '{{route('clients.search')}}');
+        select2RequestFilter(clientFilter, '{{route('sales-clients.search')}}');
 
         function select2RequestFilter(el, url){
             el.select2({

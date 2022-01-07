@@ -39,7 +39,7 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
         'user_id',
         'is_out',
         'department_id',
-        'client_name',
+        'client_id',
         'next_call_at'
     ];
 
@@ -174,5 +174,10 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
     public function task(): HasOne
     {
         return $this->hasOne(Task::class);
+    }
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(SalesClient::class, 'client_id')->withDefault();
     }
 }

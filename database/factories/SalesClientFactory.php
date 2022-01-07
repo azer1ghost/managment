@@ -11,7 +11,7 @@ class SalesClientFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'user_id' => User::inRandomOrder()->first(),
+            'user_id' => User::inRandomOrder()->pluck('id')->first(),
             'phone' => $this->faker->phoneNumber,
             'voen' => rand(1000000, 9999999),
             'detail' => $this->faker->text('50'),

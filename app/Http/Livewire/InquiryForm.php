@@ -35,7 +35,7 @@ class InquiryForm extends Component
 
         $this->datetime = $this->inquiry->getAttribute('datetime') ?? now();
         $this->note = $this->inquiry->getAttribute('note');
-        $this->client = $this->inquiry->getAttribute('client_name') ?? request()->get('client_name');
+        $this->client = $this->inquiry->getAttribute('client_id') ?? request()->get('client_id');
 
         if ($this->inquiry->getAttribute('company_id')) {
             $this->updatedSelectedCompany($this->inquiry->getAttribute('company_id'));

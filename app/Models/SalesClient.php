@@ -28,4 +28,8 @@ class SalesClient extends Model
         return phone_formatter($value, true);
     }
 
+    public function getNameWithVoenAttribute($value): ?string
+    {
+        return "{$this->getAttribute('name')} ({$this->getAttribute('voen')})";
+    }
 }

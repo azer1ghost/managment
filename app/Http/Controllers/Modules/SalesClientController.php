@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\salesClientRequest;
+use App\Models\Client;
 use App\Models\SalesClient;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -15,6 +16,31 @@ class SalesClientController extends Controller
     {
         $this->middleware('auth');
         $this->authorizeResource(SalesClient::class, 'sales_client');
+    }
+
+
+    public function search(Request $request)
+    {
+        $clients = SalesClient::where('name', 'LIKE', "%{$request->get('search')}%")
+            ->orWhere('voen', 'LIKE', "%{$request->get('search')}%")
+            ->limit(10)
+            ->get(['id', 'name', 'voen']);
+
+        $clientsArray = [];
+
+        foreach ($clients as $client) {
+            $clientsArray[] = [
+                "id"   => $client->id,
+                "text" => "{$client->name_with_voen}",
+            ];
+        }
+
+        return (object) [
+            'results' => $clientsArray,
+            'pagination' => [
+                "more" => false
+            ]
+        ];
     }
 
     public function index(Request $request)

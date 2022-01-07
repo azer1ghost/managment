@@ -174,7 +174,7 @@
                         <td>{{$inquiry->getAttribute('code')}}</td>
                         <td>{{$inquiry->getAttribute('datetime')->format('d-m-Y')}}</td>
                         <td>{{$inquiry->getAttribute('datetime')->format('H:i')}}</td>
-                        <td>{{$inquiry->getAttribute('client_name')}}</td>
+                        <td>{{$inquiry->getRelationValue('client')->getAttribute('name_with_voen')}}</td>
                         <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}} {!! $inquiry->getRelationValue('user')->getAttribute('disabled_at') ? ' <span class="text-danger">(' . __('translates.disabled') . ')</span>' : '' !!}</td>
                         <td>{{optional($inquiry->getParameter('evaluation'))->getAttribute('text')}}</td>
                         <td class="text-center">
@@ -295,16 +295,9 @@
                     <div class="modal-body">
                         <div class="form-group col-12 mt-3 mb-3 pl-0">
                             <label class="d-block" for="clientFilterModal">{{trans('translates.general.select_client')}}</label>
-                            <select name="client_name" id="clientFilterModal" class="client-filter" style="width: 100% !important;" required>
-                                <option value="">@lang('translates.general.select_client')</option>
-                                @foreach($clients as $client)
-                                    <option value="{{$client}}">
-                                        {{$client}}
-                                    </option>
-                                @endforeach
+                            <select name="client_id" id="data-client-type" class="client-search-filter" style="width: 100% !important;" required>
                             </select>
                         </div>
-                        <input type="hidden" name="company" value="{{\App\Models\Company::MOBIL_GROUP}}">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
@@ -338,18 +331,6 @@
             this.form.submit();
         });
 
-        const clientFilter = $('.client-filter');
-        clientFilter.select2({
-            tags: true,
-            theme: 'bootstrap4',
-            focus: true,
-        })
-
-        clientFilter.on('select2:open', function (e) {
-            document.querySelector('.select2-search__field').focus();
-        });
-
-
         const clientSearchFilter = $('.client-search-filter');
         clientSearchFilter.select2({
             placeholder: "Search",
@@ -359,7 +340,7 @@
             focus: true,
             ajax: {
                 delay: 500,
-                url: '{{route('clients.search')}}',
+                url: '{{route('sales-clients.search')}}',
                 dataType: 'json',
                 type: 'GET',
                 data: function (params) {
