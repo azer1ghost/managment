@@ -32,7 +32,7 @@
                 </select>
             </div>
             <div class="col-auto mb-3">
-                @can('create', App\Models\AsanImza::class)
+                @can('create', App\Models\SalesClient::class)
                     <a class="btn btn-outline-success" href="{{route('sales-clients.create')}}">@lang('translates.buttons.create')</a>
                 @endcan
             </div>
