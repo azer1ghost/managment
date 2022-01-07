@@ -25,6 +25,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\ResultController,
     Modules\SalesActivityController,
     Modules\SalesActivityTypeController,
+    Modules\SalesClientController,
     Modules\UpdateController,
     Modules\WidgetController,
     Modules\DatabaseNotificationController,
@@ -92,6 +93,7 @@ Route::group([
     Route::post('/clients/sum/assign-sales', [ClientController::class, 'sumAssignSales'])->name('clients.sum.assign-sales');
     Route::get('/clients/export', [ClientController::class, 'export'])->name('clients.export');
     Route::resource('/clients', ClientController::class);
+    Route::resource('/sales-clients', SalesClientController::class);
     Route::resource('/referrals', ReferralController::class)->except('create');
     Route::resource('/updates', UpdateController::class);
     Route::resource('/services', ServiceController::class);

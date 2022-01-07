@@ -196,6 +196,7 @@ return [
         'announcement' => 'Announcements',
         'sales_activities_type' => 'Types Of Activities',
         'sales_activities' => 'Sales Activities',
+        'sales_client' => 'Sales Client',
     ],
 
     'date' => [
@@ -409,6 +410,7 @@ return [
         'description' => 'Description',
         'hard_columns' => 'Hard Columns',
         'evaluation' => 'Evaluation',
+        'sales_client' => 'Sales Clients',
     ],
 
     'notify' => [
