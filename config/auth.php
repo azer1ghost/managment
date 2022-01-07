@@ -46,6 +46,7 @@ return [
         'viewAll-report', 'viewAny-report', 'generateReports-report', 'showSubReports-report', 'showSubReport-report', 'generateSubReport-report', 'updateSubReport-report', 'delete-report',
         'viewAny-role', 'view-role', 'manage-role',
         'viewAny-service', 'view-service', 'create-service', 'update-service', 'delete-service',
+        'viewAny-salesClient', 'view-salesClient', 'manage-salesClient', 'delete-salesClient',
         'viewAny-salesActivityType', 'view-salesActivityType', 'manage-salesActivityType',
         'viewAny-salesActivity', 'view-salesActivity', 'manage-salesActivity',
         'viewAll-task', 'viewAllDepartment-task', 'viewAny-task', 'view-task', 'create-task', 'update-task', 'delete-task', 'forceDelete-task', 'restore-task',
