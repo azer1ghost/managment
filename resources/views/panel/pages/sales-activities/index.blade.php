@@ -117,15 +117,10 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="data-client_name">@lang('translates.filters.client_name')</label>
-                            <select class="form-control" id="data-client_name" name="client_name" required style="width: 100% !important;">
-                                <option value="">@lang('translates.filters.select')</option>
-                                @foreach($clients as $client)
-                                    <option value="{{$client}}">
-                                        {{$client}}
-                                    </option>
-                                @endforeach
+
+                        <div class="form-group col-12 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="clientFilterModal">{{trans('translates.general.select_client')}}</label>
+                            <select name="client_id" id="data-client-type" class="client-search-filter" style="width: 100% !important;" required>
                             </select>
                         </div>
                     </div>
@@ -139,17 +134,37 @@
     </div>
 @endsection
 @section('scripts')
+
+
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+
+
     <script>
-        const clientName = $('#data-client_name');
-        clientName.select2({
-            tags: true,
+        const clientSearchFilter = $('.client-search-filter');
+        clientSearchFilter.select2({
+            placeholder: "Search",
+            minimumInputLength: 3,
+            // width: 'resolve',
             theme: 'bootstrap4',
             focus: true,
+            ajax: {
+                delay: 500,
+                url: '{{route('sales-clients.search')}}',
+                dataType: 'json',
+                type: 'GET',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                    }
+                }
+            }
         })
 
-        clientName.on('select2:open', function (e) {
+        clientSearchFilter.on('select2:open', function (e) {
             document.querySelector('.select2-search__field').focus();
         });
+
     </script>
 @endsection

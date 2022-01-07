@@ -22,7 +22,7 @@
                     </div>
                 </div>
             </div>
-            @can('create', App\Models\Widget::class)
+            @can('create', App\Models\Certificate::class)
                 <div class="col-4">
                     <a class="btn btn-outline-success float-right" href="{{route('certificates.create')}}">@lang('translates.buttons.create')</a>
                 </div>

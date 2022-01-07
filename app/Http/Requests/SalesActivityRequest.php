@@ -13,7 +13,7 @@ class SalesActivityRequest extends FormRequest
             'datetime' => 'nullable|date',
             'address' => 'nullable|string',
             'activity_area' => 'nullable|string',
-            'client_name' => 'nullable|string',
+            'client_id' => 'nullable|integer',
             'result' => 'nullable|string',
             'organization_id' => 'nullable|integer',
             'certificate_id' => 'nullable|integer',

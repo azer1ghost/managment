@@ -16,7 +16,7 @@ class SalesActivity extends Model
         'datetime',
         'address',
         'activity_area',
-        'client_name',
+        'client_id',
         'result',
         'organization_id',
         'certificate_id',
@@ -42,5 +42,10 @@ class SalesActivity extends Model
     public function salesSupplies(): HasMany
     {
         return $this->hasMany(SalesActivitiesSupply::class, 'sales_activity_id');
+    }
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(SalesClient::class, 'client_id')->withDefault();
     }
 }

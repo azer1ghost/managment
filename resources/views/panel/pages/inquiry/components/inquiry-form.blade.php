@@ -28,7 +28,7 @@
     <input type="hidden" name="company_id" wire:model="selected.company">
     <input type="hidden" name="backUrl" wire:model="backUrl">
 
-{{--    @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES)--}}
+    @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES)
         <div class="form-group col-12 col-md-3">
             <label for="clientFilter">@lang('translates.fields.client')</label>
             <select name="client_id" id="clientFilter" class="client-filter" style="width: 100% !important;">
@@ -37,7 +37,7 @@
                 @endif
             </select>
         </div>
-{{--    @endif--}}
+    @endif
 
     @foreach($formFields as $formField)
         @if($formField['type'] === 'select' && count($formField['options']) == 0)

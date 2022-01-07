@@ -14,7 +14,7 @@ class CreateSalesActivitiesTable extends Migration
             $table->timestamp('datetime')->nullable();
             $table->string('address')->nullable();
             $table->string('activity_area')->nullable();
-            $table->string('client_name')->nullable();
+            $table->bigInteger('client_id');
             $table->text('result')->nullable();
             $table->foreignId('organization_id')->nullable()->index()->constrained();
             $table->foreignId('certificate_id')->nullable()->index()->constrained();
