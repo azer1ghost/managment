@@ -298,6 +298,7 @@
                             <select name="client_id" id="data-client-type" class="client-search-filter" style="width: 100% !important;" required>
                             </select>
                         </div>
+                        <input type="hidden" name="company" value="{{\App\Models\Company::MOBIL_GROUP}}">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
