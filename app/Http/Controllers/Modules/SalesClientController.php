@@ -49,7 +49,7 @@ class SalesClientController extends Controller
         return view('panel.pages.sales-clients.index')
             ->with([
                 'sales_clients' => SalesClient::query()
-                    ->when(auth()->user()->hasPermission('viewAll-salesInquiry'), fn ($query) => $query->where('user_id', $request->user()->id))
+                    ->when(!auth()->user()->hasPermission('viewAll-salesInquiry'), fn ($query) => $query->where('user_id', $request->user()->id))
                     ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"))
                     ->paginate($limit),
             ]);
