@@ -171,6 +171,7 @@ return [
         'account' => 'Hesab',
         'signature' => 'Email İmza',
         'inquiry' => 'Sorğular',
+        'inquiry_sales' => 'Satış Sorğuları',
         'task' => 'Tapşırıqlar',
         'parameter' => 'Parametrlər',
         'option' => 'Seçimlər',

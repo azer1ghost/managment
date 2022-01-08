@@ -302,7 +302,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
-                        <button type="submit" class="btn btn-primary">@lang('translates.buttons.save')</button>
+                        <button type="submit" class="btn btn-primary">@lang('translates.buttons.create')</button>
                     </div>
                 </form>
             </div>

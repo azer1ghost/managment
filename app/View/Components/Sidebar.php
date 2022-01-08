@@ -72,7 +72,7 @@ class Sidebar extends Component
             ],
 
             (object)[
-                'title' => 'Inquiry Sales',
+                'title' => __('translates.navbar.inquiry_sales'),
                 'icon' => 'fa fa-phone',
                 'url' => route('inquiry.sales'),
                 'permission' => 'viewAny-salesInquiry',

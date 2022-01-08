@@ -2,7 +2,6 @@
 
 return [
 
-
     'parameters' => [
         'types' => [
             'contact_method' => 'Contact Method',
@@ -169,6 +168,7 @@ return [
         'account' => 'Account',
         'signature' => 'Signature',
         'inquiry' => 'Inquiries',
+        'inquiry_sales' => 'Inquiry Sales',
         'task' => 'Tasks',
         'parameter' => 'Parameters',
         'option' => 'Options',

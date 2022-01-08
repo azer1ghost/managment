@@ -92,7 +92,7 @@
 
     @if($action)
         <div class="col-12">
-            <button class="btn btn-outline-primary float-right">Save</button>
+            <button class="btn btn-outline-primary float-right">@lang('translates.buttons.save')</button>
         </div>
     @endif
 
