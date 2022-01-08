@@ -21,7 +21,6 @@ class InquiryFactory extends Factory
             'redirected_user_id' => User::inRandomOrder()->pluck('id')->first(),
             'company_id' => 4,
             'client_id' => SalesClient::inRandomOrder()->pluck('id')->first(),
-            'client_relation_type' => 'SalesClient',
             'user_id' => User::inRandomOrder()->pluck('id')->first(),
             'is_out' => rand(0, 1)
         ];

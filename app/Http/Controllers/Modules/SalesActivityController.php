@@ -28,12 +28,15 @@ class SalesActivityController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(\Illuminate\Http\Request $request)
     {
         return view('panel.pages.sales-activities.edit')->with([
             'action' => route('sales-activities.store'),
             'method' => 'POST',
-            'data' => new SalesActivity(),
+            'data' => new SalesActivity([
+                'client_id' => $request->get('client_id'),
+                'sales_activity_type_id' => $request->get('sales_activity_type_id')
+            ]),
             'organizations' => Organization::pluck('name', 'id')->prepend(trans('translates.filters.select'), null)->toArray(),
             'certificates' => Certificate::pluck('name', 'id')->prepend(trans('translates.filters.select'), null)->toArray(),
         ]);

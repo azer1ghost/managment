@@ -28,37 +28,43 @@
         <div class="tab-content row mt-4">
             <div class="form-group col-12">
                 <div class="row">
-                    @php($salesActivitiesTypeId = $data->getAttribute('sales_activity_type_id') ?? request()->get('sales_activity_type_id'))
-                    @php($salesActivitiesType = \App\Models\SalesActivityType::find($salesActivitiesTypeId) ?? abort(404))
-                    <x-input::text readonly :value="$salesActivitiesType->getAttribute('name')"  :label="trans('translates.navbar.sales_activities_type')"  width="6" class="pr-3"/>
-                    <input type="hidden" name="sales_activity_type_id" value="{{$salesActivitiesTypeId}}">
+                    <div class="form-group col-12 col-md-6">
+                        <label for="sales_activity_type_id">@lang('translates.navbar.sales_activities_type')</label>
+                        <select name="sales_activity_type_id" id="sales_activity_type_id" class="form-control" style="width: 100% !important;">
+                            <option selected value="{{$data->getAttribute('sales_activity_type_id')}}">
+                                {{$data->getRelationValue('salesActivityType')->getAttribute('name')}}
+                            </option>
+                        </select>
+                    </div>
 
-                    @if(str_contains($salesActivitiesType->getAttribute('hard_columns'), '4'))
+                    @if(str_contains($data->getRelationValue('salesActivityType')->getAttribute('hard_columns'), '4'))
                         <x-input::text  name="name"  :value="$data->getAttribute('name')"  :label="trans('translates.fields.name')"  width="6" class="pr-3" />
                     @endif
 
-                    @if(str_contains($salesActivitiesType->getAttribute('hard_columns'), '5'))
+                    @if(str_contains($data->getRelationValue('salesActivityType')->getAttribute('hard_columns'), '5'))
                         <x-input::text  name="address"  :value="$data->getAttribute('address')"  :label="trans('translates.fields.address')"  width="6" class="pr-3" />
                     @endif
 
-                    @if(str_contains($salesActivitiesType->getAttribute('hard_columns'), '3'))
+                    @if(str_contains($data->getRelationValue('salesActivityType')->getAttribute('hard_columns'), '3'))
                         <x-input::text  name="activity_area"  :value="$data->getAttribute('activity_area')"  :label="trans('translates.columns.activity_area')"  width="6" class="pr-3" />
                     @endif
 
                     @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES || auth()->user()->isDeveloper())
                         <div class="form-group col-12 col-md-6">
                             <label for="clientFilter">@lang('translates.fields.client')</label>
-                            <select name="client_id" id="clientFilter" disabled class="form-control" style="width: 100% !important;">
-                                <option value="{{request()->get('client_id')}}">{{\App\Models\SalesClient::find(request()->get('client_id'))->getAttribute('name_with_voen')}}</option>
+                            <select name="client_id" id="clientFilter" class="form-control" style="width: 100% !important;">
+                                <option selected value="{{$data->getAttribute('client_id')}}">
+                                    {{$data->getRelationValue('client')->getAttribute('name_with_voen')}}
+                                </option>
                             </select>
                         </div>
                     @endif
 
-                    @if(str_contains($salesActivitiesType->getAttribute('hard_columns'), '1'))
+                    @if(str_contains($data->getRelationValue('salesActivityType')->getAttribute('hard_columns'), '1'))
                         <x-input::select  name="organization_id" :value="$data->getAttribute('organization_id')" :label="trans('translates.columns.organization')"  width="6" class="pr-3" :options="$organizations"/>
                     @endif
 
-                    @if(str_contains($salesActivitiesType->getAttribute('hard_columns'), '2'))
+                    @if(str_contains($data->getRelationValue('salesActivityType')->getAttribute('hard_columns'), '2'))
                         <x-input::select  name="certificate_id" :value="$data->getAttribute('certificate_id')"    :label="trans('translates.columns.is_certificate')"  width="6" class="pr-3" :options="$certificates"/>
                     @endif
 

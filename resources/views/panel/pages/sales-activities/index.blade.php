@@ -36,12 +36,10 @@
                         <th scope="col">@lang('translates.columns.name')</th>
                         <th scope="col">@lang('translates.fields.address')</th>
                         <th scope="col">@lang('translates.fields.clientName')</th>
-                        <th scope="col">@lang('translates.columns.activity_area')</th>
                         <th scope="col">@lang('translates.columns.organization')</th>
                         <th scope="col">@lang('translates.columns.is_certificate')</th>
                         <th scope="col">@lang('translates.columns.sales_activity')</th>
                         <th scope="col">@lang('translates.fields.date')</th>
-
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
@@ -51,8 +49,7 @@
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$sale_activity->getAttribute('name')}}</td>
                             <td>{{$sale_activity->getAttribute('address')}}</td>
-                            <td>{{$sale_activity->getAttribute('client_name')}}</td>
-                            <td>{{$sale_activity->getAttribute('activity_area')}}</td>
+                            <td>{{$sale_activity->getRelationValue('client')->getAttribute('name_with_voen')}}</td>
                             <td>{{$sale_activity->getRelationValue('organization')->getAttribute('name')}}</td>
                             <td>{{$sale_activity->getRelationValue('certificate')->getAttribute('name')}}</td>
                             <td>{{$sale_activity->getRelationValue('salesActivityType')->getAttribute('name')}}</td>
