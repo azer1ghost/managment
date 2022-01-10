@@ -252,7 +252,7 @@ class InquiryController extends Controller
             $oldParameters = array_fill_keys(array_keys($newParameters), null);
         }
 
-        $changedParams = (bool) array_diff($oldParameters, $newParameters);
+        $changedParams = array_diff($oldParameters, $newParameters) || array_diff_key($oldParameters, $newParameters);
 
         if ($inquiry->getChanges() || $changedParams) {
            $backup = $inquiry->backups()->create($oldInquiry);
