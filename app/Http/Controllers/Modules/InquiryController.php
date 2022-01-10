@@ -203,7 +203,7 @@ class InquiryController extends Controller
             ->editableInquiries()
             ->attach(
                 $inquiry->getAttribute('id'),
-                ['editable_ended_at' => $inquiry->getAttribute('created_at')->addHours(5)] //->addMinutes(7)
+                ['editable_ended_at' => $inquiry->getAttribute('created_at')->addHours(10)] //->addMinutes(7)
             );
 
         return redirect()->to($request->get('backUrl'))->withNotify('info', 'Inquiry');
@@ -248,7 +248,7 @@ class InquiryController extends Controller
         $newParameters = $request->get('parameters');
         $oldParameters = $inquiry->getRelationValue('parameters')->pluck('pivot.value', 'id')->toArray();
 
-        $changedParams = !(count($oldParameters) > 0) || array_diff($oldParameters, $newParameters);
+        $changedParams =  count(array_diff($oldParameters, $newParameters)) > 0 || (count($oldParameters) == 0 && count($newParameters) > 0);
 
         if ($inquiry->getChanges() || $changedParams) {
            $backup = $inquiry->backups()->create($oldInquiry);
