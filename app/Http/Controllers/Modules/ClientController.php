@@ -97,7 +97,7 @@ class ClientController extends Controller
                 return redirect()
                     ->route('clients.edit', Client::find($validated['client_id']))
                     ->withNotify('success', $client->getAttribute('fullname'));
-            }else{
+            }else {
                 return redirect()
                     ->route('clients.index')
                     ->withNotify('success', $client->getAttribute('fullname'));

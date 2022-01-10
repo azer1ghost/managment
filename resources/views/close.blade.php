@@ -1,4 +1,4 @@
 <script>
     window.close()
-    window.history.back()
+    // window.history.back()
 </script>

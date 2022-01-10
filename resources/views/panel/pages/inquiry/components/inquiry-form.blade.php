@@ -6,8 +6,28 @@
             </div>
         @endcan
     @endif
-    @csrf
-    @method($method)
+
+    @if(($method != 'POST' || auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES) && !is_null($client))
+        <div class="col-12 text-center">
+            <h4>@lang('translates.fields.client')</h4>
+            <div class="row">
+                <div class="col-12 col-md-4">
+                    <p>@lang('translates.columns.name'): {{$client->getAttribute('name')}}</p>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <p>VOEN/GOEN: {{$client->getAttribute('voen')}}</p>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <p>@lang('translates.fields.phone'): {{$client->getAttribute('phone')}}</p>
+                </div>
+                <input type="hidden" name="client_id" value="{{$client->getAttribute('id')}}">
+            </div>
+        </div>
+    @endif
+
+    @csrf @method($method)
 
     <div wire:loading.delay class="col-12">
         <div style="position: absolute;right: 0;top: -25px">
@@ -27,17 +47,6 @@
 
     <input type="hidden" name="company_id" wire:model="selected.company">
     <input type="hidden" name="backUrl" wire:model="backUrl">
-
-    @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES)
-        <div class="form-group col-12 col-md-3">
-            <label for="clientFilter">@lang('translates.fields.client')</label>
-            <select name="client_id" id="clientFilter" class="client-filter" style="width: 100% !important;">
-                @if(is_numeric($client))
-                    <option value="{{$client}}">{{\App\Models\SalesClient::find($client)->getAttribute('name_with_voen')}}</option>
-                @endif
-            </select>
-        </div>
-    @endif
 
     @foreach($formFields as $formField)
         @if($formField['type'] === 'select' && count($formField['options']) == 0)

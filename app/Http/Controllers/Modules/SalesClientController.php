@@ -70,6 +70,10 @@ class SalesClientController extends Controller
     {
         $request->user()->salesInquiryUsers()->create($request->validated());
 
+        if($request->get('close') == 1) {
+            return redirect()->route('close');
+        }
+
         return redirect()
             ->route('sales-clients.index')
             ->withNotify('success', $request->get('name'));

@@ -18,8 +18,9 @@
             @endif
         </x-bread-crumb-link>
     </x-bread-crumb>
-    <form action="{{$action}}" method="POST" enctype="multipart/form-data">
+    <form action="{{$action}}" method="POST">
         @method($method) @csrf
+        <input type="hidden" name="close" value="{{request()->has('close')}}">
         <div class="tab-content row mt-4">
             <x-input::text  name="name"    :label="trans('translates.fields.fullname')"   :value="$data->getAttribute('name')"    width="6"/>
             <x-input::text  name="phone"    :label="trans('translates.fields.phone')"   :value="$data->getAttribute('phone')"    width="6"/>

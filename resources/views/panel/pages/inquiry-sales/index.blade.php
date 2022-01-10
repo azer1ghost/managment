@@ -299,6 +299,8 @@
                             </select>
                         </div>
                         <input type="hidden" name="company" value="{{\App\Models\Company::MOBIL_GROUP}}">
+
+                        <a href="{{route('sales-clients.create', ['close' => true])}}" target="_blank" class="btn btn-outline-success"><i class="fas fa-plus"></i></a>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
