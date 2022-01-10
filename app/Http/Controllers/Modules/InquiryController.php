@@ -248,7 +248,11 @@ class InquiryController extends Controller
         $newParameters = $request->get('parameters');
         $oldParameters = $inquiry->getRelationValue('parameters')->pluck('pivot.value', 'id')->toArray();
 
-        $changedParams =  count(array_diff($oldParameters, $newParameters)) > 0 || (count($oldParameters) == 0 && count($newParameters) > 0);
+        if(count($oldParameters) == 0) {
+            $oldParameters = array_fill_keys(array_keys($newParameters), null);
+        }
+
+        $changedParams = (bool) array_diff($oldParameters, $newParameters);
 
         if ($inquiry->getChanges() || $changedParams) {
            $backup = $inquiry->backups()->create($oldInquiry);
