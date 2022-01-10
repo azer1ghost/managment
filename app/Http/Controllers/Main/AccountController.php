@@ -74,4 +74,12 @@ class AccountController extends Controller
 
         return back()->withNotify('info', $user->getAttribute('fullname'));
     }
+
+    public function security()
+    {
+        return view('panel.pages.main.security')->with([
+            'user' => auth()->user()
+        ]);
+    }
+
 }

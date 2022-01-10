@@ -57,6 +57,7 @@ Route::get('/dashboard', [PlatformController::class, 'dashboard'])->middleware([
 
 Route::get('/account', [AccountController::class, 'account'])->middleware(['verified_phone', 'deactivated'])->name('account');
 Route::post('/account/{user}', [AccountController::class, 'save'])->middleware(['verified_phone', 'deactivated'])->name('account.save');
+Route::get('/security', [AccountController::class, 'security'])->middleware(['verified_phone', 'deactivated'])->name('account.security');
 
 Route::group([
     'prefix' => 'module',

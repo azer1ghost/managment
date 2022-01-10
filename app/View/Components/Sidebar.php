@@ -51,6 +51,18 @@ class Sidebar extends Component
             ],
 
             (object)[
+                'title' => "Security",
+                'icon' => 'fas fa-lock',
+                'url' => route('account.security'),
+                'permission' => 'generally',
+                'badge' => (object) [
+                    'title' => 'New',
+                    'class' => 'info'
+                ],
+            ],
+
+
+            (object)[
                 'title' => __('translates.navbar.bonus'),
                 'icon' => 'fas fa-gift',
                 'url' => route('bonuses'),
