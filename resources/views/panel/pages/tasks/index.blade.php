@@ -32,6 +32,7 @@
                             <input class="form-control" id="start-daterange" type="text" readonly name="must_start_at" value="{{$filters['must_start_at']}}">
                             <input type="checkbox" name="check_start_daterange" id="check_start_daterange" @if(request()->has('check_start_daterange')) checked @endif> <label for="check_start_daterange">@lang('translates.filters.filter_by')</label>
                         </div>
+
                         <div class="col-12 col-md-3">
                             <div class="input-group mb-3">
                                 <input type="search" placeholder="@lang('translates.placeholders.task_name')" name="search" value="{{request()->get('search')}}" class="form-control">
@@ -41,21 +42,19 @@
                         @if(\App\Models\Task::userCanViewAll() || \App\Models\Task::userCanViewDepartmentTasks())
                             <div class="col-12 col-md-3">
                                 <div class="input-group mb-3">
-                                <select id="userFilter" class="select2 form-control" name="user_id">
-                                    <option value="">@lang('translates.filters.select')</option>
-                                    @foreach($users as $user)
-                                        <option
-                                            @if($user->getAttribute('id') == $filters['user_id']) selected @endif
-                                            value="{{$user->getAttribute('id')}}">
-                                            {{$user->getAttribute('fullname_with_position')}}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                    <select id="userFilter" class="select2 form-control" name="user_id">
+                                        <option value="">@lang('translates.filters.select')</option>
+                                        @foreach($users as $user)
+                                            <option
+                                                @if($user->getAttribute('id') == $filters['user_id']) selected @endif value="{{$user->getAttribute('id')}}">  {{$user->getAttribute('fullname_with_position')}}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         @endif
 
-                    @if(\App\Models\Task::userCanViewAll())
+                        @if(\App\Models\Task::userCanViewAll())
                             <div class="col-12 col-md-3">
                                 <div class="input-group mb-3">
                                     <select class="form-control" name="department">
@@ -89,35 +88,37 @@
                             </div>
                         </div>
 
-
-
                         <div class="col-12 col-md-3">
                             <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i> @lang('translates.buttons.filter')</button>
                             <a href="{{route('tasks.index')}}" class="btn btn-outline-danger"><i
                                         class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>
                         </div>
+                    </div>
+                </div>
             </div>
-            </div>
-            </div>
-            <div class="col-8 pt-2 d-flex align-items-center">
-                <p class="mb-0"> @lang('translates.total_items', ['count' => $tasks->count(), 'total' => $tasks->total()])</p>
-                <div class="input-group col-md-3">
+
+            <div class="col-md-8 pt-2 d-flex align-items-center">
+
+                <p class="mb-0 "> @lang('translates.total_items', ['count' => $tasks->count(), 'total' => $tasks->total()])</p>
+
+                <div class="input-group col-4">
                     <select name="limit" class="custom-select" id="size">
                         @foreach([25, 50, 100, 250] as $size)
                             <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="input-group col-md-3">
-                        <select class="form-control" name="type">
-                            @foreach ($types as $index => $type)
-                                <option @if ($filters['type'] == $index) selected @endif value="{{$index}}">@lang('translates.tasks.types.' . $type)</option>
-                            @endforeach
-                        </select>
+                <div class="input-group col-4">
+                    <select class="form-control" name="type">
+                        @foreach ($types as $index => $type)
+                            <option @if ($filters['type'] == $index) selected @endif value="{{$index}}">@lang('translates.tasks.types.' . $type)</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
+
             @can('create', App\Models\Task::class)
-                <div class="col-4 p-0 pr-3 pb-3 mt-4">
+                <div class="col-4 pr-3 pb-3 mt-4">
                     <a class="btn btn-outline-success float-right" href="{{route('tasks.create')}}">@lang('translates.buttons.create')</a>
                 </div>
             @endcan
