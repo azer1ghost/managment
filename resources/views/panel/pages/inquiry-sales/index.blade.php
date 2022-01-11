@@ -118,7 +118,7 @@
                 </div>
                 <div class=" col-offset-9 mt-3 float-right">
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="submit" class="btn btn-outline-primary"><i class="fas fa-filter"></i> @lang('translates.buttons.filter')</button>
+                        <button type="submit" form="inquiryForm" class="btn btn-outline-primary"><i class="fas fa-filter"></i> @lang('translates.buttons.filter')</button>
                         <a href="{{route('inquiry.sales')}}" class="btn btn-outline-danger"><i class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>
                     </div>
                 </div>
@@ -207,6 +207,14 @@
                         </td>
                         <td>
                             <div class="btn-sm-group d-flex align-items-center justify-content-center">
+
+                                @can('view', $inquiry)
+                                    @if($inquiry->getAttribute('client_id'))
+                                        <a class="btn btn-sm btn-outline-primary mr-2" data-toggle="modal" data-target="#inquiry-client-{{$loop->iteration}}">
+                                            <i class="fas fa-user-tie"></i>
+                                        </a>
+                                    @endif
+                                @endcan
                                 @if(!$trashBox)
                                     @can('view', $inquiry)
                                         <a target="_blank" href="{{route('inquiry.show', $inquiry)}}"
@@ -271,6 +279,53 @@
                             </div>
                         </td>
                     </tr>
+
+                    @if($inquiry->getAttribute('client_id'))
+
+                        <div class="modal fade" id="inquiry-client-{{$loop->iteration}}">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <form action="{{route('sales-clients.update', $inquiry->getRelationValue('client'))}}" method="POST" id="client-form">
+                                        @csrf @method('PUT')
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">@lang('translates.general.client_data')</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group mb-0">
+                                                <label for="data-name">@lang('translates.fields.name')</label>
+                                                <input class="form-control" id="data-name" type="text"  name="name" value="{{$inquiry->getRelationValue('client')->getAttribute('name')}}">
+                                            </div>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group mb-0">
+                                                <label for="data-phone">@lang('translates.fields.phone')</label>
+                                                <input class="form-control" id="data-phone" type="text" name="phone" value="{{$inquiry->getRelationValue('client')->getAttribute('phone')}}">
+                                            </div>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group mb-0">
+                                                <label for="data-voen">Voen</label>
+                                                <input class="form-control" id="data-voen" type="text" name="voen" value="{{$inquiry->getRelationValue('client')->getAttribute('voen')}}">
+                                            </div>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group mb-0">
+                                                <label for="data-detail">@lang('translates.fields.detail')</label>
+                                                <input class="form-control" id="data-detail" type="text" name="detail" value="{{$inquiry->getRelationValue('client')->getAttribute('detail')}}">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
+                                            <button type="submit" form="client-form" class="btn btn-primary">@lang('translates.buttons.save')</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 @endforeach
                 </tbody>
             </table>
@@ -310,6 +365,8 @@
             </div>
         </div>
     </div>
+
+
 @endsection
 
 @section('scripts')

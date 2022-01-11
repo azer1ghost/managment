@@ -482,6 +482,7 @@ return [
         'select_client' => 'Select Client',
         'select_date' => 'Select Date',
         'all' => 'All',
+        'client_data' => 'Client Information'
     ],
 
     'clients' => [

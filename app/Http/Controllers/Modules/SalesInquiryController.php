@@ -57,7 +57,7 @@ class SalesInquiryController extends Controller
         $evaluations  = Parameter::where('name', 'evaluation')->first()->options->unique();
         $users = User::has('inquiries')->whereDepartmentId(Department::SALES)->get(['id', 'name', 'surname', 'disabled_at']);
 
-        $inquiries = Inquiry::with('user', 'company')
+        $inquiries = Inquiry::with('user', 'company', 'client')
             ->whereDepartmentId(Department::SALES)
             ->withoutBackups()
             ->when(!Inquiry::userCanViewAll(), function ($query){
@@ -108,7 +108,7 @@ class SalesInquiryController extends Controller
             ->with([
                 'company' => function ($query){
                     $query->select('id', 'name');
-                }
+                },
             ])
             ->latest('datetime')
             ->paginate($limit);
@@ -121,7 +121,6 @@ class SalesInquiryController extends Controller
                 'trashBox',
                 'daterange',
                 'users',
-
             )
         );
     }

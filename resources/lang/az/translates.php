@@ -486,6 +486,7 @@ return [
         'physical_client_phone' => 'Hüquqi Müştərinin İşcilerinin Nömrəsi',
         'physical_client_position' => 'Hüquqi Müştərinin İşcilerinin Vəzifəsi',
         'all' => 'Hamısı',
+        'client_data' => 'Müştəri Məlumatları',
     ],
 
     'clients' => [
