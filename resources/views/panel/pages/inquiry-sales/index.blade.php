@@ -210,9 +210,9 @@
 
                                 @can('view', $inquiry)
                                     @if($inquiry->getAttribute('client_id'))
-                                        <a class="btn btn-sm btn-outline-primary mr-2" data-toggle="modal" data-target="#inquiry-client-{{$loop->iteration}}">
+                                        <button class="btn btn-sm btn-outline-primary mr-2 client-edit-btn" type="button" data-client='@json($inquiry->getRelationValue('client'))' data-toggle="modal" data-target="#inquiry-client">
                                             <i class="fas fa-user-tie"></i>
-                                        </a>
+                                        </button>
                                     @endif
                                 @endcan
                                 @if(!$trashBox)
@@ -224,8 +224,7 @@
                                     @endcan
                                 @endif
                                 <div class="dropdown">
-                                    <button class="btn" type="button" id="inquiry_actions-{{$loop->iteration}}"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button class="btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fal fa-ellipsis-v-alt"></i>
                                     </button>
                                     <div class="dropdown-menu custom-dropdown">
@@ -279,50 +278,6 @@
                             </div>
                         </td>
                     </tr>
-
-                    @if($inquiry->getAttribute('client_id'))
-
-                        <div class="modal fade" id="inquiry-client-{{$loop->iteration}}">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <form action="{{route('sales-clients.update', $inquiry->getRelationValue('client'))}}" method="POST" id="client-form-{{$loop->iteration}}">
-                                        @csrf @method('PUT')
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">@lang('translates.general.client_data')</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="form-group mb-1">
-                                                <label for="data-name">@lang('translates.fields.name')</label>
-                                                <input class="form-control" id="data-name" type="text"  name="name" value="{{$inquiry->getRelationValue('client')->getAttribute('name')}}">
-                                            </div>
-
-                                            <div class="form-group mb-1">
-                                                <label for="data-phone">@lang('translates.fields.phone')</label>
-                                                <input class="form-control" id="data-phone" type="text" name="phone" value="{{$inquiry->getRelationValue('client')->getAttribute('phone')}}">
-                                            </div>
-
-                                            <div class="form-group mb-1">
-                                                <label for="data-voen">Voen</label>
-                                                <input class="form-control" id="data-voen" type="text" name="voen" value="{{$inquiry->getRelationValue('client')->getAttribute('voen')}}">
-                                            </div>
-
-                                            <div class="form-group mb-0">
-                                                <label for="data-detail">@lang('translates.fields.detail')</label>
-                                                <textarea class="form-control" id="data-detail" type="text" name="detail" cols="30" rows="10">{{$inquiry->getRelationValue('client')->getAttribute('detail')}}</textarea>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
-                                            <button type="submit" form="client-form-{{$loop->iteration}}" class="btn btn-primary">@lang('translates.buttons.save')</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
                 @endforeach
                 </tbody>
             </table>
@@ -333,6 +288,10 @@
             </div>
         </div>
     </form>
+
+
+
+
     <!-- Inquiry Create Modal -->
     <div class="modal fade" id="inquiry-create-modal-btn">
         <div class="modal-dialog">
@@ -364,6 +323,47 @@
     </div>
 
 
+    <div class="modal fade" id="inquiry-client">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form action="" method="POST" id="client-form">
+                    @csrf @method('PUT')
+                    <div class="modal-header">
+                        <h5 class="modal-title">@lang('translates.general.client_data')</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group mb-1">
+                            <label for="data-name">@lang('translates.fields.name')</label>
+                            <input class="form-control"  type="text"  name="name">
+                        </div>
+
+                        <div class="form-group mb-1">
+                            <label for="data-phone">@lang('translates.fields.phone')</label>
+                            <input class="form-control" type="text" name="phone">
+                        </div>
+
+                        <div class="form-group mb-1">
+                            <label for="data-voen">Voen</label>
+                            <input class="form-control" type="text" name="voen">
+                        </div>
+
+                        <div class="form-group mb-0">
+                            <label for="data-detail">@lang('translates.fields.detail')</label>
+                            <textarea class="form-control" type="text" name="detail" cols="30" rows="10"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
+                        <button type="submit" form="client-form" class="btn btn-primary submit">@lang('translates.buttons.save')</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('scripts')
@@ -374,6 +374,22 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+    <script>
+        $('.client-edit-btn').on('click', function (e){
+            let client = $(this).data('client')
+
+            let formAction = "{{route('sales-clients.update', 'clinet_id')}}".replace('clinet_id', client.id);
+
+            $('#client-form').attr('action', formAction)
+
+            $('#client-form input[name="name"]').val(client.name)
+            $('#client-form input[name="phone"]').val(client.phone)
+            $('#client-form input[name="voen"]').val(client.voen)
+            $('#client-form textarea[name="detail"]').val(client.detail)
+        })
+    </script>
+
     <script>
         function showFilter() {
             var x = document.getElementById("showenFilter");
