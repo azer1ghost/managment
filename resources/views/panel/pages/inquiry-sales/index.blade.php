@@ -285,7 +285,7 @@
                         <div class="modal fade" id="inquiry-client-{{$loop->iteration}}">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
-                                    <form action="{{route('sales-clients.update', $inquiry->getRelationValue('client'))}}" method="POST" id="client-form">
+                                    <form action="{{route('sales-clients.update', $inquiry->getRelationValue('client'))}}" method="POST" id="client-form-{{$loop->iteration}}">
                                         @csrf @method('PUT')
                                         <div class="modal-header">
                                             <h5 class="modal-title">@lang('translates.general.client_data')</h5>
@@ -294,32 +294,29 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="form-group mb-0">
+                                            <div class="form-group mb-1">
                                                 <label for="data-name">@lang('translates.fields.name')</label>
                                                 <input class="form-control" id="data-name" type="text"  name="name" value="{{$inquiry->getRelationValue('client')->getAttribute('name')}}">
                                             </div>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="form-group mb-0">
+
+                                            <div class="form-group mb-1">
                                                 <label for="data-phone">@lang('translates.fields.phone')</label>
                                                 <input class="form-control" id="data-phone" type="text" name="phone" value="{{$inquiry->getRelationValue('client')->getAttribute('phone')}}">
                                             </div>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="form-group mb-0">
+
+                                            <div class="form-group mb-1">
                                                 <label for="data-voen">Voen</label>
                                                 <input class="form-control" id="data-voen" type="text" name="voen" value="{{$inquiry->getRelationValue('client')->getAttribute('voen')}}">
                                             </div>
-                                        </div>
-                                        <div class="modal-body">
+
                                             <div class="form-group mb-0">
                                                 <label for="data-detail">@lang('translates.fields.detail')</label>
-                                                <input class="form-control" id="data-detail" type="text" name="detail" value="{{$inquiry->getRelationValue('client')->getAttribute('detail')}}">
+                                                <textarea class="form-control" id="data-detail" type="text" name="detail" cols="30" rows="10">{{$inquiry->getRelationValue('client')->getAttribute('detail')}}</textarea>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
-                                            <button type="submit" form="client-form" class="btn btn-primary">@lang('translates.buttons.save')</button>
+                                            <button type="submit" form="client-form-{{$loop->iteration}}" class="btn btn-primary">@lang('translates.buttons.save')</button>
                                         </div>
                                     </form>
                                 </div>
