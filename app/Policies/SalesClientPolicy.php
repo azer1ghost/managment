@@ -36,6 +36,6 @@ class SalesClientPolicy
     {
         return
             $this->canManage($user, 'salesClient', __FUNCTION__ ) ||
-            ($salesClient->getAttribute('user_id') == $user->getAttribute('id') && $salesClient->getAttribute('created_at')->diff(now())->H < 24);
+            ($salesClient->getAttribute('user_id') == $user->getAttribute('id') && $salesClient->getAttribute('created_at')->diff(now())->h < 24);
     }
 }
