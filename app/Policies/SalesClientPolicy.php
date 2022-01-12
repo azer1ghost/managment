@@ -34,6 +34,6 @@ class SalesClientPolicy
 
     public function delete(User $user, SalesClient $salesClient): bool
     {
-        return $this->canManage($user, 'salesClient', __FUNCTION__ ) || ($salesClient->getAttribute('user_id') == $user->getAttribute('id'));
+        return $this->canManage($user, 'salesClient', __FUNCTION__ ) || ($salesClient->getAttribute('user_id') === $user->getAttribute('id') && $salesClient->getAttribute('created_at')->diff(now())->h < 24);
     }
 }
