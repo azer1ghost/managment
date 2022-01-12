@@ -22,6 +22,7 @@ class SalesClientController extends Controller
         $clients = SalesClient::where('name', 'LIKE', "%{$request->get('search')}%")
             ->orWhere('voen', 'LIKE', "%{$request->get('search')}%")
             ->limit(10)
+            ->latest()
             ->get(['id', 'name', 'voen']);
 
         $clientsArray = [];
@@ -51,6 +52,7 @@ class SalesClientController extends Controller
                 'sales_clients' => SalesClient::query()
                     ->when(!auth()->user()->hasPermission('viewAll-salesInquiry'), fn ($query) => $query->where('user_id', $request->user()->id))
                     ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"))
+                    ->latest()
                     ->paginate($limit),
             ]);
     }
