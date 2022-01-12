@@ -22,7 +22,7 @@ class ClientRequest extends FormRequest
             'serial_pattern'  => 'nullable|string|max:255',
             'email1'          => 'nullable|email:rfc,dns',
             'email2'          => 'nullable|email:rfc,dns',
-            'phone1'          => 'nullable|string|max:255',
+            'phone1'          => 'required|string|max:255',
             'phone2'          => 'nullable|string|max:255',
             'address1'        => 'nullable|string|max:255',
             'address2'        => 'nullable|string|max:255',

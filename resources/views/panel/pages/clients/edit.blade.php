@@ -92,6 +92,10 @@
             <x-input::text   name="phone2"      :value="$data->getAttribute('phone2')"   :label="__('translates.fields.phone2')"  width="3" class="pr-1" />
             <x-input::email  name="email1"      :value="$data->getAttribute('email1')"       :label="__('translates.fields.email1')"    width="3" class="pr-1"  required=""/>
             <x-input::email  name="email2"      :value="$data->getAttribute('email2')"  :label="__('translates.fields.email2')"  width="3" class="pr-1" />
+
+            @if(now()->format('m/d/Y') < date_create("02/12/2022")->format('m/d/Y'))
+                <span class="alert alert-danger">Vüsal müəllimin tapşırığı əsasında müştərinin nömrəsinin yazılması vacibdir! </span>
+            @endif
             <!-- Address -->
             <div class="col-md-12">
                 <br>
