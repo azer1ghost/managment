@@ -11,7 +11,10 @@
         <thead>
         <tr><th style="width: 5.5cm" colspan="5">Hörmətlə,</th></tr>
         <tr><th colspan="5">{{$user->getAttribute('fullname')}}</th></tr>
-        <tr><th colspan="5">{{$user->getRelationValue('department')->getAttribute('name')}} – {{$user->getRelationValue('position')->getAttribute('name')}}</th></tr>
+        <tr><th colspan="5">@if($user->isDirector()) {{$user->getRelationValue('company')->getAttribute('name')}} @else {{$user->getRelationValue('department')->getAttribute('name')}} @endif
+                 –
+                @if($user->isDirector()) {{$user->getRelationValue('role')->getAttribute('name')}} @else @endif
+                {{$user->getRelationValue('position')->getAttribute('name')}}</th></tr>
         <tr><th colspan="5">Mob: {{$company->getAttribute('mobile')}}</th></tr>
         <tr><th colspan="5">Email: {{$company->getAttribute('mail')}}</th></tr>
         <tr><th colspan="5"> <br> </th></tr>

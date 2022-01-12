@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\SalesClient;
 use App\Models\User;
 use App\Traits\GetClassInfo;
 use App\Traits\HandlesPolicy;
@@ -31,8 +32,8 @@ class SalesClientPolicy
         return $this->canManage($user, 'salesClient');
     }
 
-    public function delete(User $user): bool
+    public function delete(User $user, SalesClient $salesClient): bool
     {
-        return $this->canManage($user, 'salesClient', __FUNCTION__);
+        return $this->canManage($user, 'salesClient', __FUNCTION__ ) || ($salesClient->getAttribute('user_id') == $user->getAttribute('id') && $salesClient->getAttribute('created_at')->diff(now())->h < 24);
     }
 }
