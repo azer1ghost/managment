@@ -79,6 +79,14 @@ class WidgetSeeder extends Seeder
                 'order' => 8,
                 'status' => 1
             ),
+            array(
+                'key' => "salesClientMonthly-widget",
+                'class_attribute' => "col-12 mb-3",
+                'style_attribute' => "height: 520px;",
+                'details' => json_encode(['en' => 'Sales Client', 'az' => 'Satış Müştəriləri']),
+                'order' => 9,
+                'status' => 1
+            ),
         ]);
     }
 }
