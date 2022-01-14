@@ -71,7 +71,7 @@ class ClientController extends Controller
                     (string) Client::LEGAL => trans('translates.general.legal'),
                     (string) Client::PHYSICAL => trans('translates.general.physical')
                 ],
-                'clients' => $this->clientRepository->allFilteredClients($filters)->paginate($filters['limit']),
+                'clients' => $this->clientRepository->allFilteredClients($filters)->latest()->paginate($filters['limit']),
                 'salesUsers' => User::isActive()->where('department_id', Department::SALES)->get(['id', 'name', 'surname']),
                 'salesClients' => User::isActive()->has('salesClients')->get(['id', 'name', 'surname'])
             ]);

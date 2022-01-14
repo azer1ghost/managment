@@ -21,6 +21,7 @@
     <form class="col-md-12 form-row px-0" action="{{$action}}" method="POST" enctype="multipart/form-data" id="client-form">
         <!-- Main -->
         @csrf @method($method)
+        <input type="hidden" name="id" value="{{$data->getAttribute('id')}}">
         <div class="col-md-12 pl-2 pr-0">
             <p class="text-muted mb-2">@lang('translates.register.progress.personal')</p>
             <hr class="my-2">
