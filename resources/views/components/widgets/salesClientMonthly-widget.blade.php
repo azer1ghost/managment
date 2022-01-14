@@ -88,8 +88,11 @@
                         legend.data.push({{$model}}Series);
                     }
 
-                    makeSeries("Test Test", 1);
-                    makeSeries("Azer Mamedov", 2);
+                    for (let data in {{$model}}Data[0]) {
+                        if (data  === 'day') continue;
+
+                        makeSeries(data, data)
+                    }
 
                     {{$model}}Chart.appear(1000, 31)
 

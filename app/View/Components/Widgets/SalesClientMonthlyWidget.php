@@ -48,6 +48,7 @@ class SalesClientMonthlyWidget extends Component
 
             })->all();
 
+        $this->result = array_values($this->result);
     }
 
     public function render()
