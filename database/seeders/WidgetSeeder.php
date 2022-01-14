@@ -87,6 +87,28 @@ class WidgetSeeder extends Seeder
                 'order' => 9,
                 'status' => 1
             ),
+            array(
+                'key' => "inquiryUser-widget",
+                'class_attribute' => "col-12 mb-3",
+                'style_attribute' => "height: 520px;",
+                'details' => json_encode(['en' => 'User\'s Inquiry', 'az' => 'Əməkdaşların Sorğuları']),
+                'order' => 10,
+                'status' => 1
+            ),array(
+                'key' => "inquiryPersonalMonthly-widget",
+                'class_attribute' => "col-12 mb-3",
+                'style_attribute' => "height: 520px;",
+                'details' => json_encode(['en' => 'Monthly Personal Inquiries', 'az' => 'Aylıq Şəxsi Sorğular']),
+                'order' => 11,
+                'status' => 1
+            ),array(
+                'key' => "inquiryPersonalDaily-widget",
+                'class_attribute' => "col-12 mb-3",
+                'style_attribute' => "height: 520px;",
+                'details' => json_encode(['en' => 'Daily Personal Inquiries', 'az' => 'Həftəlik Şəxsi Sorğular']),
+                'order' => 12,
+                'status' => 1
+            ),
         ]);
     }
 }
