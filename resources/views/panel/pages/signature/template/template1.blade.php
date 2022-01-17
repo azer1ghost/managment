@@ -21,7 +21,7 @@
                 @else {{$user->getRelationValue('position')->getAttribute('name')}} @endif
                 </th></tr>
         <tr><th colspan="5">Mob: {{$user->getAttribute('phone_coop')}}</th></tr>
-        <tr><th colspan="5">Email: {{$company->getAttribute('mail')}}</th></tr>
+        <tr><th colspan="5">Email: {{$user->getAttribute('email_coop')}}</th></tr>
         <tr><th colspan="5"> <br> </th></tr>
         <tr><th colspan="5">Ünvan: {{$company->getAttribute('address')}}</th></tr>
         <tr><th colspan="5">Sayt: {{$company->getAttribute('website')}}</th></tr>
