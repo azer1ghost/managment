@@ -13,6 +13,7 @@
     <table id="email-signature" style="text-align: left">
         <thead>
         <tr><th style="width: 5.5cm" colspan="5">Hörmətlə,</th></tr>
+        <tr><th style="height: 7px" colspan="5"></th></tr>
         <tr><th colspan="5">{{$user->getAttribute('fullname')}}</th></tr>
         <tr><th colspan="5">
                 @if($user->isDirector()) {{$user->getRelationValue('company')->getAttribute('name')}}
@@ -20,9 +21,9 @@
                 @if($user->isDirector()) {{$user->getRelationValue('role')->getAttribute('name')}}
                 @else {{$user->getRelationValue('position')->getAttribute('name')}} @endif
                 </th></tr>
-        <tr><th colspan="5">Mob: {{$user->getAttribute('phone_coop')}}</th></tr>
+        <tr><th colspan="5">Mob: {{Str::replace('-', ' ', $user->getAttribute('phone_coop'))}}</th></tr>
         <tr><th colspan="5">Email: {{$user->getAttribute('email_coop')}}</th></tr>
-        <tr><th colspan="5"> <br> </th></tr>
+        <tr><th style="height: 7px" colspan="5"></th></tr>
         <tr><th colspan="5">Ünvan: {{$company->getAttribute('address')}}</th></tr>
         <tr><th colspan="5">Sayt: {{$company->getAttribute('website')}}</th></tr>
         <tr><th colspan="5">Çağrı Mərkəzi: {{$company->getAttribute("call_center")}}</th></tr>
