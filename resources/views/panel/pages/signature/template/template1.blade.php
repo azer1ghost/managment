@@ -1,10 +1,13 @@
-<div>
+<div id="signature">
     <style>
         .icons {
             width: 28px;
         }
         #email-signature {
             font-family: Arial,sans-serif;
+        }
+        #signature{
+            background-color: white;
         }
     </style>
     <table id="email-signature" style="text-align: left">
@@ -17,7 +20,7 @@
                 @if($user->isDirector()) {{$user->getRelationValue('role')->getAttribute('name')}}
                 @else {{$user->getRelationValue('position')->getAttribute('name')}} @endif
                 </th></tr>
-        <tr><th colspan="5">Mob: {{$company->getAttribute('mobile')}}</th></tr>
+        <tr><th colspan="5">Mob: {{$user->getAttribute('phone_coop')}}</th></tr>
         <tr><th colspan="5">Email: {{$company->getAttribute('mail')}}</th></tr>
         <tr><th colspan="5"> <br> </th></tr>
         <tr><th colspan="5">Ünvan: {{$company->getAttribute('address')}}</th></tr>
@@ -35,16 +38,16 @@
                     </tbody>
                 </table>
             </th>
-            @if($company->getAttribute('id')==2)
+            @if($company->getAttribute('id') == 2)
                 <th>
                     <table style="padding-left: 5px">
                         <tbody>
                         <tr>
-                            <th colspan="5">
-                                <img style="width: 1cm"  src="https://mobilmanagement.com/assets/images/signature/socials/fiata.png"/>
+                            <th>
+                                <img style="width: 1.3cm; margin: 5px"  src="https://mobilmanagement.com/assets/images/signature/socials/fiata.png"/>
                             </th>
-                            <th colspan="5">
-                                <img style="width: 1cm"  src="https://mobilmanagement.com/assets/images/signature/socials/iata.png"/>
+                            <th>
+                                <img style="width: 1.3cm; margin: 5px"  src="https://mobilmanagement.com/assets/images/signature/socials/iata.png"/>
                             </th>
                         </tr>
                         </tbody>
