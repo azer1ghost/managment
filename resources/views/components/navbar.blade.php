@@ -34,10 +34,7 @@
         <div class="dropdown-menu dropdown-menu-right p-3" style="min-width: 280px !important;background: #F5F6FA !important;">
             <div class="d-flex flex-column">
                 <template x-if="$store.state.notifications.length">
-                    <template
-                            x-for="(notification, index) in $store.state.notifications"
-                            :key="index"
-                    >
+                    <template x-for="(notification, index) in $store.state.notifications" :key="index">
                         <a x-bind:href="notification.url" class="mb-1">
                             <div class="media">
                                 <img x-bind:src="notification.user.avatar" class="mr-3 profile" alt="logo" style="width: 30px;height: 30px">
