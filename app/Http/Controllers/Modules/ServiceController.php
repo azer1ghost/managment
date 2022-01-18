@@ -22,14 +22,14 @@ class ServiceController extends Controller
     {
         $limit = $request->get('limit',10);
 
-        return view('panel.pages.services.index')->with([
+        return view('pages.services.index')->with([
             'services' => Service::with('department', 'company')->whereNull('service_id')->paginate($limit)
         ]);
     }
 
     public function create()
     {
-        return view('panel.pages.services.edit')->with([
+        return view('pages.services.edit')->with([
             'action' => route('services.store'),
             'method' => 'POST',
             'data' => null,
@@ -54,7 +54,7 @@ class ServiceController extends Controller
 
     public function show(Service $service)
     {
-        return view('panel.pages.services.edit')->with([
+        return view('pages.services.edit')->with([
             'action' => null,
             'method' => null,
             'data' => $service,
@@ -66,7 +66,7 @@ class ServiceController extends Controller
 
     public function edit(Service $service)
     {
-        return view('panel.pages.services.edit')->with([
+        return view('pages.services.edit')->with([
             'action' => route('services.update', $service),
             'method' => 'PUT',
             'data' => $service,

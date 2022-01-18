@@ -63,7 +63,7 @@ class ClientController extends Controller
             'free_clients' => $request->has('free_clients')
         ];
 
-        return view('panel.pages.clients.index')
+        return view('pages.clients.index')
             ->with([
                 'filters' => $filters,
                 'types' => [
@@ -79,7 +79,7 @@ class ClientController extends Controller
 
     public function create()
     {
-        return view('panel.pages.clients.edit')
+        return view('pages.clients.edit')
             ->with([
                 'action' => route('clients.store'),
                 'method' => 'POST',
@@ -109,7 +109,7 @@ class ClientController extends Controller
 
     public function show(Client $client)
     {
-        return view('panel.pages.clients.edit')
+        return view('pages.clients.edit')
             ->with([
                 'action' => null,
                 'method' => null,
@@ -119,7 +119,7 @@ class ClientController extends Controller
 
     public function edit(Client $client)
     {
-        return view('panel.pages.clients.edit')
+        return view('pages.clients.edit')
             ->with([
                 'action' => route('clients.update', $client),
                 'method' => "PUT",

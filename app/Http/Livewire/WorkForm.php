@@ -92,6 +92,6 @@ class WorkForm extends Component
 
     public function render()
     {
-        return view('panel.pages.works.components.work-form');
+        return view('pages.works.components.work-form');
     }
 }

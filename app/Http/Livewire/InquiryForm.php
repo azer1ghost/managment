@@ -222,7 +222,7 @@ class InquiryForm extends Component
 
     public function render()
     {
-        return view('panel.pages.inquiry.components.inquiry-form');
+        return view('pages.inquiry.components.inquiry-form');
     }
 
 }

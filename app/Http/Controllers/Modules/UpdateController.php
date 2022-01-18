@@ -25,14 +25,14 @@ class UpdateController extends Controller
             $updates = $updates->whereNull('parent_id')->get()->groupBy('datetime');
         }
 
-        return view('panel.pages.updates.' . $view)->with([
+        return view('pages.updates.' . $view)->with([
             'updates' => $updates
         ]);
     }
 
     public function create()
     {
-        return view('panel.pages.updates.edit')->with([
+        return view('pages.updates.edit')->with([
             'action' => route('updates.store'),
             'method' => 'POST',
             'data' => null,
@@ -56,7 +56,7 @@ class UpdateController extends Controller
 
     public function show(Update $update)
     {
-        return view('panel.pages.updates.edit')->with([
+        return view('pages.updates.edit')->with([
             'action' => null,
             'method' => null,
             'data' => $update,
@@ -68,7 +68,7 @@ class UpdateController extends Controller
 
     public function edit(Update $update)
     {
-        return view('panel.pages.updates.edit')->with([
+        return view('pages.updates.edit')->with([
             'action' => route('updates.update', $update),
             'method' => 'PUT',
             'data' => $update,

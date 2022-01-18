@@ -133,7 +133,7 @@ class InquiryController extends Controller
             ->latest('datetime')
             ->paginate($limit);
 
-        return view('panel.pages.inquiry.index',
+        return view('pages.inquiry.index',
             compact(
                 'inquiries',
                 'subjects',
@@ -162,7 +162,7 @@ class InquiryController extends Controller
                     $p->label . ': ' . $inquiry->getParameter($p->name)->value) : '')->implode('name', ',');
         }
 
-        return view('panel.pages.tasks.edit')->with([
+        return view('pages.tasks.edit')->with([
             'action' => route('tasks.store'),
             'method' => 'POST',
             'departments' => Department::pluck('name', 'id')->toArray(),
@@ -175,7 +175,7 @@ class InquiryController extends Controller
     {
         $backUrl = back()->getTargetUrl();
 
-        return view('panel.pages.inquiry.edit')
+        return view('pages.inquiry.edit')
             ->with([
                 'method' => 'POST',
                 'action' => route('inquiry.store'),
@@ -213,7 +213,7 @@ class InquiryController extends Controller
     {
         $backUrl = back()->getTargetUrl();
 
-        return view('panel.pages.inquiry.edit')
+        return view('pages.inquiry.edit')
             ->with([
                 'method' => null,
                 'action' => null,
@@ -226,7 +226,7 @@ class InquiryController extends Controller
     {
         $backUrl = back()->getTargetUrl();
 
-        return view('panel.pages.inquiry.edit')
+        return view('pages.inquiry.edit')
             ->with([
                 'method' => "PUT",
                 'action' => route('inquiry.update', $inquiry),
@@ -262,7 +262,7 @@ class InquiryController extends Controller
 
     public function logs(Inquiry $inquiry)
     {
-        return view('panel.pages.inquiry.logs')->with([
+        return view('pages.inquiry.logs')->with([
             'logs' => $inquiry->ledgers()->latest('id')->with('user')->get(),
             'inquiry' => $inquiry
         ]);
@@ -299,7 +299,7 @@ class InquiryController extends Controller
     {
         abort_if(! auth()->user()->hasPermission('editAccessToUser-inquiry'), 403);
 
-        return view('panel.pages.inquiry.access')->with([
+        return view('pages.inquiry.access')->with([
            'inquiry' => $inquiry
         ]);
     }

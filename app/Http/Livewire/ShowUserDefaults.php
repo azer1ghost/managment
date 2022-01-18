@@ -82,6 +82,6 @@ class ShowUserDefaults extends Component
 
     public function render()
     {
-        return view('panel.pages.main.components.show-user-defaults');
+        return view('pages.main.components.show-user-defaults');
     }
 }

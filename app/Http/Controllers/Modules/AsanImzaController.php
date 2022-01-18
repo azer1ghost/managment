@@ -52,7 +52,7 @@ class AsanImzaController extends Controller
         $limit = $request->get('limit', 25);
         $company = $request->get('company');
 
-        return view('panel.pages.asan-imza.index')
+        return view('pages.asan-imza.index')
             ->with([
                 'asan_imzas' => AsanImza::query()
                     ->when($company, fn($query) => $query->where('company_id', $company))->simplePaginate($limit),
@@ -62,7 +62,7 @@ class AsanImzaController extends Controller
 
     public function create()
     {
-        return view('panel.pages.asan-imza.edit')
+        return view('pages.asan-imza.edit')
             ->with([
                 'action' => route('asan-imza.store'),
                 'method' => 'POST',
@@ -83,7 +83,7 @@ class AsanImzaController extends Controller
 
     public function show(AsanImza $asanImza)
     {
-        return view('panel.pages.asan-imza.edit')
+        return view('pages.asan-imza.edit')
             ->with([
                 'action' => null,
                 'method' => null,
@@ -95,7 +95,7 @@ class AsanImzaController extends Controller
 
     public function edit(AsanImza $asanImza)
     {
-        return view('panel.pages.asan-imza.edit')
+        return view('pages.asan-imza.edit')
             ->with([
                 'action' => route('asan-imza.update', $asanImza),
                 'method' => "PUT",

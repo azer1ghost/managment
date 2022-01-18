@@ -18,7 +18,7 @@ class CompanyController extends Controller
     }
     public function index()
     {
-        return view('panel.pages.companies.index')
+        return view('pages.companies.index')
             ->with([
                 'companies' => Company::select(['id', 'logo', 'name'])->simplePaginate(10)
             ]);
@@ -26,7 +26,7 @@ class CompanyController extends Controller
 
     public function create()
     {
-        return view('panel.pages.companies.edit')
+        return view('pages.companies.edit')
             ->with([
                 'action' => route('companies.store'),
                 'method' => null,
@@ -61,7 +61,7 @@ class CompanyController extends Controller
 
     public function show(Company $company)
     {
-        return view('panel.pages.companies.edit')
+        return view('pages.companies.edit')
             ->with([
                 'action' => null,
                 'method' => null,
@@ -71,7 +71,7 @@ class CompanyController extends Controller
 
     public function edit(Company $company)
     {
-        return view('panel.pages.companies.edit')
+        return view('pages.companies.edit')
             ->with([
                 'action' => route('companies.update', $company),
                 'method' => "PUT",

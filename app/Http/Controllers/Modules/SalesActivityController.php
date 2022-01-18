@@ -22,7 +22,7 @@ class SalesActivityController extends Controller
 
     public function index()
     {
-        return view('panel.pages.sales-activities.index')->with([
+        return view('pages.sales-activities.index')->with([
             'sale_activities' => SalesActivity::latest()->paginate(10),
             'salesActivitiesTypes' => SalesActivityType::pluck('name', 'id')->prepend(trans('translates.filters.select'), null)->toArray(),
         ]);
@@ -30,7 +30,7 @@ class SalesActivityController extends Controller
 
     public function create(\Illuminate\Http\Request $request)
     {
-        return view('panel.pages.sales-activities.edit')->with([
+        return view('pages.sales-activities.edit')->with([
             'action' => route('sales-activities.store'),
             'method' => 'POST',
             'data' => new SalesActivity([
@@ -61,7 +61,7 @@ class SalesActivityController extends Controller
 
     public function show(SalesActivity $sales_activity)
     {
-        return view('panel.pages.sales-activities.edit')->with([
+        return view('pages.sales-activities.edit')->with([
             'action' => route('sales-activities.store', $sales_activity),
             'method' => null,
             'data' => $sales_activity,
@@ -72,7 +72,7 @@ class SalesActivityController extends Controller
 
     public function edit(SalesActivity $sales_activity)
     {
-        return view('panel.pages.sales-activities.edit')->with([
+        return view('pages.sales-activities.edit')->with([
             'action' => route('sales-activities.update', $sales_activity),
             'method' => 'PUT',
             'data' => $sales_activity,

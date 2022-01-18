@@ -175,6 +175,6 @@ class TaskForm extends Component
 
     public function render()
     {
-        return view('panel.pages.tasks.components.task-form');
+        return view('pages.tasks.components.task-form');
     }
 }

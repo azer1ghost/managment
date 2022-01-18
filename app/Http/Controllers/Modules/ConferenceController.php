@@ -18,14 +18,14 @@ class ConferenceController extends Controller
 
     public function index()
     {
-        return view('panel.pages.conferences.index')->with([
+        return view('pages.conferences.index')->with([
             'conferences' => Conference::paginate(10)
         ]);
     }
 
     public function create()
     {
-        return view('panel.pages.conferences.edit')->with([
+        return view('pages.conferences.edit')->with([
             'action' => route('conferences.store'),
             'method' => null,
             'data' => null,
@@ -44,7 +44,7 @@ class ConferenceController extends Controller
 
     public function show(Conference $conference)
     {
-        return view('panel.pages.conferences.edit')->with([
+        return view('pages.conferences.edit')->with([
             'action' => route('conferences.store', $conference),
             'method' => null,
             'data' => $conference,
@@ -54,7 +54,7 @@ class ConferenceController extends Controller
 
     public function edit(Conference $conference)
     {
-        return view('panel.pages.conferences.edit')->with([
+        return view('pages.conferences.edit')->with([
             'action' => route('conferences.update', $conference),
             'method' => 'PUT',
             'data' => $conference,

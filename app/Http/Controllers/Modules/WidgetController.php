@@ -22,7 +22,7 @@ class WidgetController extends Controller
     {
         $search = $request->get('search');
 
-        return view('panel.pages.widgets.index')
+        return view('pages.widgets.index')
             ->with([
                 'widgets' => Widget::query()
                     ->when($search, fn ($query) => $query->where('key', 'like', "%$search%"))
@@ -31,7 +31,7 @@ class WidgetController extends Controller
     }
     public function create()
     {
-        return view('panel.pages.widgets.edit')
+        return view('pages.widgets.edit')
             ->with([
                 'action' => route('widgets.store'),
                 'method' => null,
@@ -54,7 +54,7 @@ class WidgetController extends Controller
 
     public function show(Widget $widget)
     {
-        return view('panel.pages.widgets.edit')
+        return view('pages.widgets.edit')
             ->with([
                 'action' => null,
                 'method' => null,
@@ -64,7 +64,7 @@ class WidgetController extends Controller
 
     public function edit(Widget $widget)
     {
-        return view('panel.pages.widgets.edit')
+        return view('pages.widgets.edit')
             ->with([
                 'action' => route('widgets.update', $widget),
                 'method' => "PUT",

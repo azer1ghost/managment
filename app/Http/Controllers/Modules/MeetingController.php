@@ -17,14 +17,14 @@ class MeetingController extends Controller
 
     public function index()
     {
-        return view('panel.pages.meetings.index')->with([
+        return view('pages.meetings.index')->with([
            'meetings' => Meeting::paginate(10)
         ]);
     }
 
     public function create()
     {
-        return view('panel.pages.meetings.edit')->with([
+        return view('pages.meetings.edit')->with([
             'action' => route('meetings.store'),
             'method' => null,
             'data' => null,
@@ -43,7 +43,7 @@ class MeetingController extends Controller
 
     public function show(Meeting $meeting)
     {
-        return view('panel.pages.meetings.edit')->with([
+        return view('pages.meetings.edit')->with([
             'action' => null,
             'method' => null,
             'data' => $meeting,
@@ -53,7 +53,7 @@ class MeetingController extends Controller
 
     public function edit(Meeting $meeting)
     {
-        return view('panel.pages.meetings.edit')->with([
+        return view('pages.meetings.edit')->with([
             'action' => route('meetings.update', $meeting),
             'method' => 'PUT',
             'data' => $meeting,

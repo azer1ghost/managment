@@ -41,6 +41,6 @@ class ServiceParameter extends Component
 
     public function render()
     {
-        return view('panel.pages.services.components.service-parameter');
+        return view('pages.services.components.service-parameter');
     }
 }

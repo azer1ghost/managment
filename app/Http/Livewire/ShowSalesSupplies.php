@@ -29,6 +29,6 @@ class ShowSalesSupplies extends Component
 
     public function render()
     {
-        return view('panel.pages.sales-activities.components.show-sales-supplies');
+        return view('pages.sales-activities.components.show-sales-supplies');
     }
 }

@@ -26,7 +26,7 @@ class DepartmentController extends Controller
         $limit  = $request->get('limit', 25);
 
 
-        return view('panel.pages.departments.index')
+        return view('pages.departments.index')
             ->with([
                 'departments' => Department::query()
                     ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"))
@@ -36,7 +36,7 @@ class DepartmentController extends Controller
 
     public function create()
     {
-        return view('panel.pages.departments.edit')
+        return view('pages.departments.edit')
             ->with([
                 'action' => route('departments.store'),
                 'method' => null,
@@ -61,7 +61,7 @@ class DepartmentController extends Controller
 
     public function show(Department $department)
     {
-        return view('panel.pages.departments.edit')
+        return view('pages.departments.edit')
             ->with([
                 'action' => null,
                 'method' => null,
@@ -71,7 +71,7 @@ class DepartmentController extends Controller
 
     public function edit(Department $department)
     {
-        return view('panel.pages.departments.edit')
+        return view('pages.departments.edit')
             ->with([
                 'action' => route('departments.update', $department),
                 'method' => "PUT",

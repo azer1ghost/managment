@@ -113,7 +113,7 @@ class SalesInquiryController extends Controller
             ->latest('datetime')
             ->paginate($limit);
 
-        return view('panel.pages.inquiry-sales.index',
+        return view('pages.inquiry-sales.index',
             compact(
                 'inquiries',
                 'statuses',

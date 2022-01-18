@@ -38,7 +38,7 @@ class ReportController extends Controller
 
     public function index()
     {
-        return view('panel.pages.reports.index')->with([
+        return view('pages.reports.index')->with([
             'reports' => Report::withCount('reports')
                 ->when(Report::cannotViewAll(), fn($query) => $query->where('chief_id', auth()->id()))
                 ->oldest('updated_at')
@@ -71,7 +71,7 @@ class ReportController extends Controller
     /*  show all reports of a given chief */
     public function showSubReports(Report $report)
     {
-        return view('panel.pages.reports.sub_reports')->with([
+        return view('pages.reports.sub_reports')->with([
             'parent' => $report,
             'currentMonth' => DailyReport::currentMonth(),
         ]);
@@ -80,7 +80,7 @@ class ReportController extends Controller
     /* view of a daily report creation for the given chief */
     public function createSubReport(Report $report)
     {
-        return view('panel.pages.reports.edit')->with([
+        return view('pages.reports.edit')->with([
             'method' => 'POST',
             'data' => new DailyReport(),
             'action' => route('reports.sub.generate', $report),

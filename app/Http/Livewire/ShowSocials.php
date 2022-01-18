@@ -36,6 +36,6 @@ class ShowSocials extends Component
 
     public function render()
     {
-        return view('panel.pages.companies.components.show-socials');
+        return view('pages.companies.components.show-socials');
     }
 }

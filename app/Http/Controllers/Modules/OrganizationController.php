@@ -17,14 +17,14 @@ class OrganizationController extends Controller
 
     public function index()
     {
-        return view('panel.pages.organizations.index')->with([
+        return view('pages.organizations.index')->with([
             'organizations' => Organization::latest()->paginate(10)
         ]);
     }
 
     public function create()
     {
-        return view('panel.pages.organizations.edit')->with([
+        return view('pages.organizations.edit')->with([
             'action' => route('organizations.store'),
             'method' => null,
             'data' => null,
@@ -47,7 +47,7 @@ class OrganizationController extends Controller
 
     public function show(Organization $organization)
     {
-        return view('panel.pages.organizations.edit')->with([
+        return view('pages.organizations.edit')->with([
             'action' => null,
             'method' => null,
             'data' => $organization,
@@ -56,7 +56,7 @@ class OrganizationController extends Controller
 
     public function edit(Organization $organization)
     {
-        return view('panel.pages.organizations.edit')->with([
+        return view('pages.organizations.edit')->with([
             'action' => route('organizations.update', $organization),
             'method' => 'PUT',
             'data' => $organization,

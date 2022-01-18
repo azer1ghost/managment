@@ -24,7 +24,7 @@ class AccountController extends Controller
 
     public function account(): View
     {
-        return view('panel.pages.main.account',[
+        return view('pages.main.account',[
             'roles' => Role::all()->pluck('name','id')->toArray(),
             'departments' => Department::all()->pluck('name', 'id')->toArray(),
             'companies' => Company::all()->pluck('name', 'id')->toArray(),
@@ -77,7 +77,7 @@ class AccountController extends Controller
 
     public function security()
     {
-        return view('panel.pages.main.security')->with([
+        return view('pages.main.security')->with([
             'user' => auth()->user()
         ]);
     }
