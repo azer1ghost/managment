@@ -24,10 +24,18 @@
                 </div>
             </div>
 
-            <div class="col-8 col-md-3 mr-md-auto mb-3">
+            <div class="col-8 col-md-3  mb-3">
                 <select name="limit" class="custom-select">
                     @foreach([25, 50, 100] as $size)
                         <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-8 col-md-3 mb-3 ">
+                <select name="user" class="custom-select" id="type">
+                    <option selected value="">@lang('translates.navbar.user')</option>
+                    @foreach($users as $user)
+                        <option @if(request()->get('user') == $user->getAttribute('id')) selected @endif value="{{$user->getAttribute('id')}}">{{$user->getAttribute('fullname')}}</option>
                     @endforeach
                 </select>
             </div>
