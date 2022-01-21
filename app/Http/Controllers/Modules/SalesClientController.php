@@ -46,12 +46,15 @@ class SalesClientController extends Controller
     {
         $limit = $request->get('limit', 25);
         $search = $request->get('search');
+        $user_id = $request->get('user');
 
         return view('pages.sales-clients.index')
             ->with([
+                'users' => User::has('salesInquiryUsers')->get(['id', 'name', 'surname']),
                 'sales_clients' => SalesClient::query()
                     ->when(!auth()->user()->hasPermission('viewAll-salesInquiry'), fn ($query) => $query->where('user_id', $request->user()->id))
                     ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"))
+                    ->when($user_id, fn ($query) => $query->where('user_id', $user_id))
                     ->latest()
                     ->paginate($limit),
             ]);
