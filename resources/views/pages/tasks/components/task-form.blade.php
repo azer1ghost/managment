@@ -29,6 +29,10 @@
     @if($method == "POST")
     <input wire:ignore type="hidden" name="inquiry_id" value="{{optional($inquiry)->getAttribute('id')}}">
     @endif
+
+    @if (!is_null($task))
+        <x-input::text readonly :value="optional($task)->getRelationValue('user')->getAttribute('fullname_with_position')"  :label="trans('translates.columns.created_by')" width="6" />
+    @endif
     <x-input::text wire:ignore name="name" required :value="request()->get('name') ?? optional($task)->getAttribute('name') ?? old('name')"  :label="__('translates.tasks.label.name')"   width="6" class="pr-3" />
 
     <div wire:ignore class="form-group col-12 col-md-6 mb-3 mb-md-0" >
