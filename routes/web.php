@@ -1,48 +1,46 @@
 <?php
 
+use App\Http\Middleware\Localization;
+use App\Services\FirebaseApi;
 use App\Http\Controllers\{Auth\LoginController,
     Auth\PhoneVerifycationController,
     Auth\RegisterController,
     Main\AccountController,
     Main\PlatformController,
-    Modules\AdvertisingController,
     Modules\AnnouncementController,
     Modules\AsanImzaController,
     Modules\CalendarController,
     Modules\CertificateController,
-    Modules\ClientController,
     Modules\CompanyController,
     Modules\ConferenceController,
     Modules\CustomerEngagementController,
+    Modules\AdvertisingController,
     Modules\DailyReportController,
-    Modules\DatabaseNotificationController,
     Modules\DepartmentController,
     Modules\DocumentController,
-    Modules\InquiryController,
     Modules\MeetingController,
-    Modules\OptionController,
     Modules\OrganizationController,
-    Modules\ParameterController,
-    Modules\PositionController,
+    Modules\PartnerController,
     Modules\ReferralBonusController,
-    Modules\ReferralController,
     Modules\ReportController,
     Modules\ResultController,
-    Modules\RoleController,
     Modules\SalesActivityController,
     Modules\SalesActivityTypeController,
     Modules\SalesClientController,
-    Modules\SalesInquiryController,
-    Modules\ServiceController,
-    Modules\SignatureController,
-    Modules\TaskController,
-    Modules\TaskListController,
     Modules\UpdateController,
-    Modules\UserController,
     Modules\WidgetController,
-    Modules\WorkController};
-use App\Http\Middleware\Localization;
-use App\Services\FirebaseApi;
+    Modules\DatabaseNotificationController,
+    Modules\OptionController,
+    Modules\ClientController,
+    Modules\ParameterController,
+    Modules\RoleController,
+    Modules\UserController,
+    Modules\PositionController,
+    Modules\TaskController,
+    Modules\ReferralController,
+    Modules\ServiceController,
+    Modules\WorkController,
+    TaskListController};
 use Illuminate\Support\Facades\{Auth, Route};
 
 Route::get('firebase-messaging-sw.js', [PlatformController::class, 'firebase']);
@@ -74,20 +72,8 @@ Route::group([
     Route::get('/cabinet', [PlatformController::class, 'cabinet'])->name('cabinet');
     Route::get('/customer-services', [PlatformController::class, 'customerServices'])->name('customer-services');
 
-    Route::post('/inquiry/version/{inquiry}', [InquiryController::class, 'versionRestore'])->name('inquiry.versionRestore');
-    Route::get('/inquiry/restore/{inquiry}', [InquiryController::class, 'restore'])->name('inquiry.restore');
-    Route::get('/inquiry/access/{inquiry}', [InquiryController::class, 'editAccessToUser'])->name('inquiry.access');
-    Route::post('/inquiry/access/{inquiry}', [InquiryController::class, 'updateAccessToUser']);
-    Route::post('/inquiry/editable-mass-access', [InquiryController::class, 'editableMassAccessUpdate'])->name('inquiry.editable-mass-access-update');
-    Route::get('/inquiry/logs/{inquiry}', [InquiryController::class, 'logs'])->name('inquiry.logs');
-    Route::get('/inquiry/task/{inquiry}', [InquiryController::class, 'createTask'])->name('inquiry.task');
-    Route::delete('/inquiry/force-delete/{inquiry}', [InquiryController::class, 'forceDelete'])->name('inquiry.forceDelete');
-    Route::put('/inquiry/status-update', [InquiryController::class, 'updateStatus'])->name('inquiry.update-status');
-    Route::get('/inquiry/sales', SalesInquiryController::class)->name('inquiry.sales');
-    Route::resource('/inquiry', InquiryController::class);
-
-    Route::get('/signature/select-company', [SignatureController::class, 'selectCompany'])->name('signature-select-company');
-    Route::get('/signature/{company}', [SignatureController::class, 'signature'])->name('signature');
+    include 'modules/inquiry.php';
+    include 'modules/email-signature.php';
 
     Route::resource('/sales-activities-types', SalesActivityTypeController::class);
     Route::resource('/sales-activities', SalesActivityController::class);
@@ -106,29 +92,25 @@ Route::group([
     Route::resource('/tasks', TaskController::class);
     Route::resource('/task-lists', TaskListController::class)->only('store', 'update', 'destroy');
     Route::resource('/notifications', DatabaseNotificationController::class);
-
     Route::post('/clients/sum/assign-sales', [ClientController::class, 'sumAssignSales'])->name('clients.sum.assign-sales');
     Route::get('/clients/export', [ClientController::class, 'export'])->name('clients.export');
     Route::any('/clients/search', [ClientController::class, 'search'])->name('clients.search');
     Route::resource('/clients', ClientController::class);
     Route::any('/sales-clients/search', [SalesClientController::class, 'search'])->name('sales-clients.search');
     Route::resource('/sales-clients', SalesClientController::class);
-
     Route::resource('/referrals', ReferralController::class)->except('create');
     Route::resource('/updates', UpdateController::class);
     Route::resource('/services', ServiceController::class);
-
     Route::put('/works/sum/verify', [WorkController::class, 'sumVerify'])->name('works.sum.verify');
     Route::put('/works/{work}/verify', [WorkController::class, 'verify'])->name('works.verify');
     Route::get('/works/report', [WorkController::class, 'report'])->name('works.report');
     Route::get('/works/export', [WorkController::class, 'export'])->name('works.export');
     Route::resource('/works', WorkController::class);
-
     Route::resource('/meetings', MeetingController::class);
     Route::resource('/organizations', OrganizationController::class);
     Route::resource('/conferences', ConferenceController::class);
     Route::resource('/advertising', AdvertisingController::class);
-
+    Route::resource('/partners', PartnerController::class);
     Route::get('/reports/{report}/sub-reports', [ReportController::class, 'showSubReports'])->name('reports.subs.show');
     Route::get('/reports/{report}/sub-report/create', [ReportController::class, 'createSubReport'])->name('reports.sub.create');
     Route::post('/reports/{report}/sub-report/generate', [ReportController::class, 'generateSubReport'])->name('reports.sub.generate');
@@ -137,11 +119,9 @@ Route::group([
     Route::put('/reports/sub-report/{report}', [DailyReportController::class, 'updateSubReport'])->name('reports.sub.update');
     Route::post('/reports/generate', [ReportController::class, 'generateReports'])->name('reports.generate');
     Route::resource('/reports', ReportController::class)->only('index', 'destroy');
-
     Route::resource('/customer-engagement', CustomerEngagementController::class);
     Route::resource('/documents', DocumentController::class)->except('store');
     Route::post('/documents/{modelId}', [DocumentController::class, 'store'])->name('documents.store');
-
     // resultable routes
     Route::post('/results/{modelId}', [ResultController::class, 'store'])->name('results.store');
     Route::put('/results/{result}',   [ResultController::class, 'update'])->name('results.update');
@@ -165,7 +145,9 @@ Route::post('/validate-register', [RegisterController::class, 'validator'])->nam
 
 Localization::route();
 
-Route::any('/close', fn() => "<html><script>window.close()</script></html>" )->name('close');
+Route::get('/close', function (){
+    return view('close');
+})->name('close');
 
 Route::any('/test', [PlatformController::class, 'test'])->middleware('deactivated');
 Route::any('/asan-imza/user/search', [AsanImzaController::class, 'searchUser'])->name('asanImza.user.search');

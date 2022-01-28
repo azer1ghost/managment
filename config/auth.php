@@ -42,6 +42,7 @@ return [
         'viewAny-option', 'view-option', 'manage-option',
         'viewAny-organization', 'view-organization', 'manage-organization','delete-organization',
         'viewAny-parameter', 'view-parameter', 'manage-parameter',
+        'viewAny-partner', 'view-partner', 'manage-partner',
         'viewAny-position', 'view-position', 'manage-position',
         'viewAny-referral', 'view-referral', 'manage-referral',
         'viewAll-report', 'viewAny-report', 'generateReports-report', 'showSubReports-report', 'showSubReport-report', 'generateSubReport-report', 'updateSubReport-report', 'delete-report',

@@ -289,6 +289,13 @@ class Sidebar extends Component
                 'icon' => 'fas fa-chart-line',
                 'url' => route('sales-activities.index'),
                 'permission' => 'viewAny-salesActivity',
+            ],
+
+            (object)[
+                'title' => __('translates.navbar.partners'),
+                'icon' => 'fas fa-hands-helping',
+                'url' => route('partners.index'),
+                'permission' => 'viewAny-partner',
             ]
         ];
     }

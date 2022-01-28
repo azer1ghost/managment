@@ -197,6 +197,7 @@ return [
         'sales_activities_type' => 'Types Of Activities',
         'sales_activities' => 'Sales Activities',
         'sales_client' => 'Sales Client',
+        'partners' => 'Partners',
     ],
 
     'date' => [
