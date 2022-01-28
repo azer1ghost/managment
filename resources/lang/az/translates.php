@@ -200,6 +200,7 @@ return [
         'sales_activities_type' => 'Fəaliyyət Növləri',
         'sales_activities' => 'Satış Fəaliyyətləri',
         'sales_client' => 'Satış Müştəriləri',
+        'partners' => 'Partnyorlar',
     ],
 
     'date' => [

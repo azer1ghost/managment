@@ -20,6 +20,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\DocumentController,
     Modules\MeetingController,
     Modules\OrganizationController,
+    Modules\PartnerController,
     Modules\ReferralBonusController,
     Modules\ReportController,
     Modules\ResultController,
@@ -109,6 +110,7 @@ Route::group([
     Route::resource('/organizations', OrganizationController::class);
     Route::resource('/conferences', ConferenceController::class);
     Route::resource('/advertising', AdvertisingController::class);
+    Route::resource('/partners', PartnerController::class);
     Route::get('/reports/{report}/sub-reports', [ReportController::class, 'showSubReports'])->name('reports.subs.show');
     Route::get('/reports/{report}/sub-report/create', [ReportController::class, 'createSubReport'])->name('reports.sub.create');
     Route::post('/reports/{report}/sub-report/generate', [ReportController::class, 'generateSubReport'])->name('reports.sub.generate');
