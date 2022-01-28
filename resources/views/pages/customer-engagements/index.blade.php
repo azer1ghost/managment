@@ -32,6 +32,7 @@
                     <th scope="col">#</th>
                     <th scope="col">@lang('translates.fields.user')</th>
                     <th scope="col">@lang('translates.fields.client')</th>
+                    <th scope="col">@lang('translates.columns.partner')</th>
                     <th scope="col">@lang('translates.fields.actions')</th>
                 </tr>
                 </thead>
@@ -41,6 +42,7 @@
                         <th scope="row">{{$loop->iteration}}</th>
                         <td>{{$customer_engagement->getRelationValue('user')->getFullnameWithPositionAttribute()}}</td>
                         <td>{{$customer_engagement->getRelationValue('client')->getAttribute('fullname')}}</td>
+                        <td>{{$customer_engagement->getRelationValue('partner')->getAttribute('name')}}</td>
                         <td>
                             <div class="btn-sm-group">
                                 @can('view', $customer_engagement)

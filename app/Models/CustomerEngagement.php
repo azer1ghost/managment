@@ -12,7 +12,7 @@ class CustomerEngagement extends Model implements Recordable
 {
     use SoftDeletes, \Altek\Accountant\Recordable, Eventually;
 
-    protected $fillable = ['user_id', 'client_id'];
+    protected $fillable = ['user_id', 'client_id', 'partner_id'];
 
     public function user(): BelongsTo
     {
@@ -23,5 +23,11 @@ class CustomerEngagement extends Model implements Recordable
     {
         return $this->belongsTo(Client::class)->withDefault();
     }
+
+    public function partner(): BelongsTo
+    {
+        return $this->belongsTo(Partner::class)->withDefault();
+    }
+
 
 }

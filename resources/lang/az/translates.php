@@ -414,6 +414,7 @@ return [
         'description' => 'Açıqlama',
         'hard_columns' => 'Əsas Sütunlar',
         'evaluation' => 'Qiymətləndirmə',
+        'partner' => 'Partnyor',
     ],
 
     'notify' => [
@@ -474,6 +475,7 @@ return [
         'work_detail' => 'Detal',
         'department_select' => 'Şöbə Seçin',
         'user_select' => 'Əməkdaş Seçin',
+        'partner_select' => 'Partnyor Seçin',
         'select_client' => 'Müştəri Seçin',
         'done_at' => 'Bitirmə vaxtı',
         'verified_at' => 'Təstiqlənmə vaxtı',
