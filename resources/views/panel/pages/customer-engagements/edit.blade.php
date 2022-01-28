@@ -43,6 +43,16 @@
                     @endforeach
                 </select>
             </div>
+
+            <div class="form-group col-6">
+                <label for="partner_id">@lang('translates.columns.partner')</label><br/>
+                <select class="select2 form-control" name="partner_id" id="partner_id">
+                    <option value="">@lang('translates.general.partner_select')</option>
+                    @foreach($partners as $partner)
+                        <option @if($data->getAttribute('partner_id') == $partner->id) selected @endif value="{{$partner->id}}">{{$partner->getAttribute('name')}}</option>
+                    @endforeach
+                </select>
+            </div>
         </div>
         @if($action)
             <x-input::submit :value="trans('translates.buttons.save')"/>
@@ -89,6 +99,16 @@
         });
 
         userSelect2.on('select2:open', function (e) {
+            document.querySelector('.select2-search__field').focus();
+        });
+
+        const partnerSelect2 = $('select[name="partner_id"]');
+
+        partnerSelect2.select2({
+            theme: 'bootstrap4',
+        });
+
+        partnerSelect2.on('select2:open', function (e) {
             document.querySelector('.select2-search__field').focus();
         });
     </script>

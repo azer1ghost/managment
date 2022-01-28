@@ -10,8 +10,9 @@ class CustomerEngagementRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id'=>'required|integer',
             'client_id'=>'required|integer',
+            'user_id'=>'nullable|integer',
+            'partner_id'=>'nullable|integer',
         ];
     }
 }

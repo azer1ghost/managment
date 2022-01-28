@@ -412,6 +412,7 @@ return [
         'hard_columns' => 'Hard Columns',
         'evaluation' => 'Evaluation',
         'sales_client' => 'Sales Clients',
+        'partner' => 'Partner'
     ],
 
     'notify' => [
@@ -480,6 +481,7 @@ return [
         'work_detail' => 'Detail',
         'department_select' => 'Department Select',
         'user_select' => 'User Select',
+        'partner_select' => 'Partner Select',
         'select_client' => 'Select Client',
         'select_date' => 'Select Date',
         'all' => 'All',

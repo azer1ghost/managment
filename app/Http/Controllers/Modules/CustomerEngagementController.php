@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerEngagementRequest;
 use App\Models\Client;
 use App\Models\CustomerEngagement;
+use App\Models\Partner;
 use App\Models\User;
 use App\Models\Work;
 use Illuminate\Http\RedirectResponse;
@@ -24,7 +25,7 @@ class CustomerEngagementController extends Controller
 
         return view('panel.pages.customer-engagements.index')
             ->with([
-                'customer_engagements' => CustomerEngagement::with('user', 'client')
+                'customer_engagements' => CustomerEngagement::with('user', 'client', 'partner')
                     ->latest('id')
                     ->paginate($limit),
             ]);
@@ -39,6 +40,7 @@ class CustomerEngagementController extends Controller
                 'method' => 'POST',
                 'data' => new CustomerEngagement(),
                 'users' => User::get(['id', 'name', 'surname', 'position_id', 'role_id']),
+                'partners' => Partner::get(['id', 'name'])
             ]);
     }
 
@@ -59,6 +61,7 @@ class CustomerEngagementController extends Controller
                 'method' => null,
                 'data' => $customerEngagement,
                 'users' => User::oldest('name')->get(['id', 'name', 'surname', 'position_id', 'role_id']),
+                'partners' => Partner::get(['id', 'name'])
             ]);
     }
 
@@ -70,6 +73,7 @@ class CustomerEngagementController extends Controller
                 'method' => "PUT",
                 'data' => $customerEngagement,
                 'users' => User::get(['id', 'name', 'surname', 'position_id', 'role_id']),
+                'partners' => Partner::get(['id', 'name'])
             ]);
     }
 
