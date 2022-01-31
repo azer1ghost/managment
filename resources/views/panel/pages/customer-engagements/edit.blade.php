@@ -34,7 +34,7 @@
                 </select>
             </div>
 
-            <div class="form-group col-6">
+            <div class="form-group col-6 user">
                 <label for="user_id">@lang('translates.columns.user')</label><br/>
                 <select class="select2 form-control" name="user_id" id="user_id">
                     <option value="">@lang('translates.general.user_select')</option>
@@ -44,7 +44,7 @@
                 </select>
             </div>
 
-            <div class="form-group col-6">
+            <div class="form-group col-6 partner">
                 <label for="partner_id">@lang('translates.columns.partner')</label><br/>
                 <select class="select2 form-control" name="partner_id" id="partner_id">
                     <option value="">@lang('translates.general.partner_select')</option>
@@ -68,6 +68,24 @@
             $('form :input').attr('disabled', true)
         </script>
     @endif
+
+    <script>
+
+        if ( $('#partner_id').val() >= 1) {
+            $('.user').hide()
+        } else if ($('#user_id').val() >= 1) {
+            $('.partner').hide()
+        }
+        $('#user_id').change(function () {
+            $('.partner').hide()
+        });
+
+        $('#partner_id').change(function () {
+            $('.user').hide()
+        });
+
+    </script>
+
     <script>
         const clientSelect2 = $('select[name="client_id"]');
         clientSelect2.select2({
