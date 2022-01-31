@@ -2,12 +2,6 @@
 
 @section('title', __('translates.navbar.task'))
 
-@section('style')
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
-@endsection
-
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -17,7 +11,7 @@
             @lang('translates.navbar.task')
         </x-bread-crumb-link>
     </x-bread-crumb>
-    <button class="btn btn-outline-success" onclick="showFilter()">
+    <button class="btn btn-outline-success showFilter">
         <i class="far fa-filter"></i> @lang('translates.buttons.filter_open')
     </button>
 
@@ -225,22 +219,7 @@
     </form>
 @endsection
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-
     <script>
-        function showFilter() {
-            var x = document.getElementById("showenFilter");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        }
-        $('select[name="limit"]').change(function () {
-            this.form.submit();
-        });
         $('select[name="type"]').change(function () {
             this.form.submit();
         });
@@ -256,20 +235,7 @@
                 }
             );
         });
-        const select2 = $('.select2');
         const clientFilter = $('.client-filter');
-
-        $('select[name="limit"]').change(function () {
-            $(this).form().submit();
-        });
-
-        select2.select2({
-            theme: 'bootstrap4',
-        });
-
-        select2.on('select2:open', function (e) {
-            document.querySelector('.select2-search__field').focus();
-        });
 
         function select2RequestFilter(el, url){
             el.select2({

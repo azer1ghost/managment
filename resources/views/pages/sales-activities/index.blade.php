@@ -1,10 +1,7 @@
 @extends('layouts.main')
 
 @section('title', __('translates.navbar.sales_activities'))
-@section('style')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
-@endsection
+
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -116,8 +113,13 @@
                         </div>
 
                         <div class="form-group col-12 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="clientFilterModal">{{trans('translates.general.select_client')}}</label>
-                            <select name="client_id" id="data-client-type" class="client-search-filter" style="width: 100% !important;" required>
+                            <label class="d-block" for="data-client-type">{{trans('translates.general.select_client')}}</label>
+                            <select name="client_id"
+                                    id="data-client-type"
+                                    class="custom-select2"
+                                    data-url="{{route('sales-clients.search')}}"
+                                    style="width: 100% !important;"
+                                    required>
                             </select>
                         </div>
                     </div>
@@ -129,39 +131,4 @@
             </div>
         </div>
     </div>
-@endsection
-@section('scripts')
-
-
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-
-
-
-    <script>
-        const clientSearchFilter = $('.client-search-filter');
-        clientSearchFilter.select2({
-            placeholder: "Search",
-            minimumInputLength: 3,
-            // width: 'resolve',
-            theme: 'bootstrap4',
-            focus: true,
-            ajax: {
-                delay: 500,
-                url: '{{route('sales-clients.search')}}',
-                dataType: 'json',
-                type: 'GET',
-                data: function (params) {
-                    return {
-                        search: params.term,
-                    }
-                }
-            }
-        })
-
-        clientSearchFilter.on('select2:open', function (e) {
-            document.querySelector('.select2-search__field').focus();
-        });
-
-    </script>
 @endsection

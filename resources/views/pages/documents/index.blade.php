@@ -116,8 +116,5 @@
         $('select[name="user_id"]').change(function () {
             $(this).form().submit();
         });
-        $('select[name="limit"]').change(function () {
-            this.form.submit();
-        });
     </script>
 @endsection

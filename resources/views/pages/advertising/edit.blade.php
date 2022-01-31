@@ -51,7 +51,7 @@
 @section('scripts')
     @if(is_null($action))
         <script>
-            $('input').attr('readonly', true)
+            $('form input').attr('disabled', true)
         </script>
     @endif
 @endsection

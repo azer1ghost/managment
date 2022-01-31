@@ -3,10 +3,6 @@
 @section('title', __('translates.navbar.inquiry'))
 
 @section('style')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
     <style>
         .custom-dropdown {
             min-width: max-content !important;
@@ -23,7 +19,7 @@
             @lang('translates.navbar.inquiry')
         </x-bread-crumb-link>
     </x-bread-crumb>
-    <button class="btn btn-outline-success mb-3" onclick="showFilter()">
+    <button class="btn btn-outline-success mb-3 showFilter">
         <i class="far fa-filter"></i> @lang('translates.buttons.filter_open')
     </button>
     <form class="row" id="inquiryForm">
@@ -93,7 +89,11 @@
 
                     <div class="form-group col-12 col-md-3 mb-3">
                         <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
-                        <select name="client_id" id="clientFilter" class="client-search-filter" style="width: 100% !important;">
+                        <select name="client_id" id="clientFilter"
+                                class="custom-select2"
+                                data-url="{{route('sales-clients.search')}}"
+                                style="width: 100% !important;"
+                        >
                             @if(is_numeric(request()->get('client_id')))
                                 <option value="{{request()->get('client_id')}}">{{\App\Models\Client::find(request()->get('client_id'))->getAttribute('fullname_with_voen')}}</option>
                             @endif
@@ -305,8 +305,12 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group col-12 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="clientFilterModal">{{trans('translates.general.select_client')}}</label>
-                            <select name="client_id" id="data-client-type" class="client-search-filter" style="width: 100% !important;" required>
+                            <label class="d-block" for="data-client-type">{{trans('translates.general.select_client')}}</label>
+                            <select name="client_id" id="data-client-type"
+                                    required
+                                    class="custom-select2"
+                                    data-url="{{route('sales-clients.search')}}"
+                            >
                             </select>
                         </div>
                         <input type="hidden" name="company" value="{{\App\Models\Company::MOBIL_GROUP}}">
@@ -367,14 +371,6 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-
     <script>
         $('.client-edit-btn').on('click', function (e){
             let client = $(this).data('client')
@@ -391,56 +387,6 @@
     </script>
 
     <script>
-        function showFilter() {
-            var x = document.getElementById("showenFilter");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        }
-
-        $('select[name="limit"]').change(function () {
-            this.form.submit();
-        });
-
-        const clientSearchFilter = $('.client-search-filter');
-        clientSearchFilter.select2({
-            placeholder: "Search",
-            minimumInputLength: 3,
-            // width: 'resolve',
-            theme: 'bootstrap4',
-            focus: true,
-            ajax: {
-                delay: 500,
-                url: '{{route('sales-clients.search')}}',
-                dataType: 'json',
-                type: 'GET',
-                data: function (params) {
-                    return {
-                        search: params.term,
-                    }
-                }
-            }
-        })
-
-        clientSearchFilter.on('select2:open', function (e) {
-            document.querySelector('.select2-search__field').focus();
-        });
-
-
-        $(function () {
-            $('#daterange').daterangepicker({
-                    opens: 'left',
-                    locale: {
-                        format: "YYYY/MM/DD",
-                    },
-                    maxDate: new Date(),
-                }, function (start, end, label) {
-                }
-            );
-        });
-
         function alertHandler(event) {
             $.alert({
                 type: event?.detail?.type,
@@ -505,9 +451,6 @@
             });
         }
 
-        $('.filterSelector').selectpicker()
-        $('.bootstrap-select').selectpicker()
-
         function deleteAction(url, name) {
             $.confirm({
                 title: 'Confirm delete action',
@@ -566,14 +509,9 @@
                             }
                         });
                     },
-                    cancel: function () {
-
-                    },
+                    cancel: function () {},
                 }
             });
         }
-
     </script>
-
-
 @endsection

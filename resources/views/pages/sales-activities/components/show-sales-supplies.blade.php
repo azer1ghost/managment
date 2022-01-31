@@ -21,9 +21,6 @@
                 <p class="text-muted">No Sales Supplies</p>
             </div>
         @endforelse
-
-
-
     </div>
     @if($action)
         <x-input::submit wire:click.prevent="addSupply" value="<i class='fal fa-plus'></i>" type="button" color="success" layout="left" class="d-inline pl-0" width="1"/>

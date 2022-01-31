@@ -1,10 +1,7 @@
-@section('style')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
-@endsection
-
 @extends('layouts.main')
+
 @section('title', trans('translates.navbar.customer_engagement'))
+
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -61,8 +58,6 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
     @if(is_null($action))
         <script>
             $('form :input').attr('disabled', true)
@@ -70,17 +65,20 @@
     @endif
 
     <script>
+        const partnerId = $('#partner_id');
+        const userId = $('#user_id');
 
-        if ( $('#partner_id').val() >= 1) {
+        if (partnerId.val() >= 1) {
             $('.user').hide()
-        } else if ($('#user_id').val() >= 1) {
+        } else if (userId.val() >= 1) {
             $('.partner').hide()
         }
-        $('#user_id').change(function () {
+
+        userId.change(function () {
             $('.partner').hide()
         });
 
-        $('#partner_id').change(function () {
+        partnerId.change(function () {
             $('.user').hide()
         });
 
@@ -107,26 +105,6 @@
             }
         })
         clientSelect2.on('select2:open', function (e) {
-            document.querySelector('.select2-search__field').focus();
-        });
-
-        const userSelect2 = $('select[name="user_id"]');
-
-        userSelect2.select2({
-            theme: 'bootstrap4',
-        });
-
-        userSelect2.on('select2:open', function (e) {
-            document.querySelector('.select2-search__field').focus();
-        });
-
-        const partnerSelect2 = $('select[name="partner_id"]');
-
-        partnerSelect2.select2({
-            theme: 'bootstrap4',
-        });
-
-        partnerSelect2.on('select2:open', function (e) {
             document.querySelector('.select2-search__field').focus();
         });
     </script>

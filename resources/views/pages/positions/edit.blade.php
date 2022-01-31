@@ -48,34 +48,9 @@
     </form>
 @endsection
 @section('scripts')
-    <script>
-        checkAll();
-        $('#perm-0').change(function (){
-            checkAll();
-        });
-        $('#check-perms').change(function (){
-            if ($(this).prop('checked') == true) {
-                $("input[name='perms[]']").map(function(){ $(this).prop('checked', true) });
-            }else{
-                $("input[name='perms[]']").map(function(){ $(this).prop('checked', false) });
-            }
-        });
-        function checkAll(check = "perm-0"){
-            if ($(`#${check}`).prop('checked') == true) {
-                $("#check-perms").prop('disabled', true).parent('div').hide();
-                $("input[name='perms[]']").map(function(){ $(this).prop('disabled',true).parent('div').parent('div').hide() });
-            }else{
-                $("#check-perms").prop('disabled', false).parent('div').show();
-                $("input[name='perms[]']").map(function(){ $(this).prop('disabled',false).parent('div').parent('div').show() });
-            }
-        }
-    </script>
     @if(is_null($action))
         <script>
-            $('input').attr('readonly', true)
-            $('input[type="checkbox"]').attr('disabled', true)
-            $('#check-perms').parent().hide()
-            $('select').attr('disabled', true)
+            $('form :input').attr('disabled', true)
         </script>
     @endif
 @endsection

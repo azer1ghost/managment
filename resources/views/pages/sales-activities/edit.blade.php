@@ -2,10 +2,6 @@
 
 @section('title', __('translates.navbar.sales_activities_type'))
 
-@section('style')
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-@endsection
-
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -68,7 +64,7 @@
                         <x-input::select  name="certificate_id" :value="$data->getAttribute('certificate_id')"    :label="trans('translates.columns.is_certificate')"  width="6" class="pr-3" :options="$certificates"/>
                     @endif
 
-                    <x-input::text name="datetime" readonly :label="__('translates.fields.date')" value="{{optional($data->getAttribute('datetime'))->format('Y-m-d H:i')}}" width="6" class="pr-3" />
+                    <x-input::text name="datetime" readonly :label="__('translates.fields.date')" value="{{optional($data->getAttribute('datetime'))->format('Y-m-d H:i')}}" width="6" class="pr-3 custom-single-daterange" />
                     <x-input::textarea  name="result"  :value="$data->getAttribute('result')"  label="Result"  width="6" class="pr-3" />
                 </div>
 
@@ -84,22 +80,6 @@
     </form>
 @endsection
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-
-    <script>
-        $('input[name="datetime"]').daterangepicker({
-                opens: 'left',
-                locale: {
-                    format: "YYYY-MM-DD HH:mm",
-                },
-                singleDatePicker: true,
-                timePicker: true,
-                timePicker24Hour: true,
-            }, function(start, end, label) {}
-        );
-    </script>
-
     @if(is_null($method))
         <script>
             $('form :input').attr('disabled', true)

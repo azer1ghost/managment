@@ -2,10 +2,6 @@
 
 @section('title', __('translates.navbar.parameter'))
 
-@section('style')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-@endsection
-
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -128,28 +124,22 @@
 @endsection
 
 @section('scripts')
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+    @if(is_null($action))
+    <script>
+        $('form :input').attr('disabled', true)
+    </script>
+    @endif
 
-@if(is_null($action))
-<script>
-    $('input').attr('readonly', true)
-    $('select').attr('disabled', true)
-    $('textarea').attr('readonly', true)
-</script>
-@endif
-
-<script>
-    $('.filterSelector').selectpicker()
-    $('#data-type').change(function(){
-        if (this.value === 'text') {
-            $('#parameter-options').hide()
-            $('#parameter-options select').attr('disabled', true)
-        }else if (this.value === 'select'){
-            $('#parameter-options').show()
-            $('#parameter-options select').attr('disabled', false)
-        }
-    });
-</script>
+    <script>
+        $('#data-type').change(function(){
+            if (this.value === 'text') {
+                $('#parameter-options').hide()
+                $('#parameter-options select').attr('disabled', true)
+            }else if (this.value === 'select'){
+                $('#parameter-options').show()
+                $('#parameter-options select').attr('disabled', false)
+            }
+        });
+    </script>
 
 @endsection

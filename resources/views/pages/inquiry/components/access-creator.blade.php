@@ -1,4 +1,3 @@
-
 <div class="row m-0">
     @forelse($editableUsers as $index => $editableUser)
         <div class="col-12 row m-2" wire:key="editable-user-{{$index}}">
@@ -11,7 +10,7 @@
                 </select>
             </div>
             <div class="col-6" wire:ignore>
-                <input class="form-control editable-ended-at" type="text" name="users[{{$index}}][editable_ended_at]" value="{{$editableUser['pivot']['editable_ended_at']}}">
+                <input class="form-control custom-single-daterange" type="text" name="users[{{$index}}][editable_ended_at]" value="{{$editableUser['pivot']['editable_ended_at']}}">
             </div>
             <div class="col-2">
                 <button type="button" wire:click.prevent="removeUser({{$index}})" class="btn btn-outline-danger">

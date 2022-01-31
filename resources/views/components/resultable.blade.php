@@ -1,7 +1,3 @@
-@push('style')
-    <!-- include summernote css -->
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-@endpush
 <div class="my-5">
     <h4>Result</h4>
     <form action="{{$action}}" method="POST">
@@ -14,8 +10,6 @@
     </form>
 </div>
 @push('scripts')
-    <!-- include summernote css/js -->
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
     <script>
         $(document).ready(function() {
             const summernote = $('#summernote');

@@ -2,9 +2,6 @@
 
 @section('title', __('translates.navbar.option'))
 
-@section('style')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-@endsection
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -42,19 +39,9 @@
 @endsection
 
 @section('scripts')
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-
-@if(is_null($action))
-<script>
-    $('input').attr('readonly', true)
-    $('select').attr('disabled', true)
-    $('textarea').attr('readonly', true)
-</script>
-@endif
-
-<script>
-    $('.filterSelector').selectpicker()
-</script>
-
+    @if(is_null($action))
+    <script>
+        $('form :input').attr('disabled', true)
+    </script>
+    @endif
 @endsection

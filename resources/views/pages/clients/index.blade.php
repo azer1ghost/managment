@@ -2,10 +2,6 @@
 
 @section('title', __('translates.navbar.client'))
 
-@section('style')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-@endsection
-
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -199,16 +195,9 @@
     @endif
 @endsection
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-
     <script>
-        $('select[name="limit"]').change(function(){
-            this.form.submit();
-        });
 
         const clientsCheckbox = $("input[name='clients[]']");
-        $('.filterSelector').selectpicker()
-
         $('#clients-all').change(function () {
             if ($(this).is(':checked')) {
                 clientsCheckbox.map(function () {

@@ -3,8 +3,6 @@
 @section('title', __('translates.navbar.inquiry'))
 
 @section('style')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
     <style>
         .custom-dropdown {
             min-width: max-content !important;
@@ -21,7 +19,7 @@
             @lang('translates.navbar.inquiry')
         </x-bread-crumb-link>
     </x-bread-crumb>
-    <button class="btn btn-outline-success mb-3" onclick="showFilter()">
+    <button class="btn btn-outline-success mb-3 showFilter">
         <i class="far fa-filter"></i> @lang('translates.buttons.filter_open')
     </button>
     <form class="row" id="inquiryForm">
@@ -356,7 +354,7 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                    <input class="form-control editable-ended-at" type="text" name="editable-date">
+                                    <input class="form-control custom-single-daterange" type="text" name="editable-date">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-outline-primary">Save</button>
@@ -410,21 +408,7 @@
 @endsection
 
 @section('scripts')
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <script>
-        function showFilter() {
-            var x = document.getElementById("showenFilter");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        }
-
         const inquiryRoute = '{{route('inquiry.index')}}';
 
         $('select[name="limit"]').change(function () {
@@ -447,30 +431,6 @@
         form.on('submit', function (e) {
             e.preventDefault();
             setParams();
-        });
-
-        $('.editable-ended-at').daterangepicker({
-                opens: 'left',
-                locale: {
-                    format: "YYYY-MM-DD HH:mm:ss",
-                },
-                singleDatePicker: true,
-                timePicker: true,
-                timePicker24Hour: true,
-            }, function (start, end, label) {
-            }
-        );
-
-        $(function () {
-            $('#daterange').daterangepicker({
-                    opens: 'left',
-                    locale: {
-                        format: "YYYY/MM/DD",
-                    },
-                    maxDate: new Date(),
-                }, function (start, end, label) {
-                }
-            );
         });
 
         $('#inquiry-all').change(function () {
@@ -566,9 +526,6 @@
             });
         }
 
-        $('.filterSelector').selectpicker()
-        $('.bootstrap-select').selectpicker()
-
         function deleteAction(url, name) {
             $.confirm({
                 title: 'Confirm delete action',
@@ -627,9 +584,7 @@
                             }
                         });
                     },
-                    cancel: function () {
-
-                    },
+                    cancel: function () {},
                 }
             });
         }

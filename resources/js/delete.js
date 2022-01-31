@@ -60,13 +60,8 @@ $( function() {
                         }
                     });
                 },
-                cancel: function () {
-
-                },
+                cancel: function () {},
             }
         });
     });
-
-
-
 });

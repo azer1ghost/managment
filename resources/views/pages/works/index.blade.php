@@ -2,10 +2,6 @@
 
 @section('title', __('translates.navbar.work'))
 @section('style')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <style>
         .table td, .table th{
             vertical-align: middle !important;
@@ -22,7 +18,7 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
 
-        <button class="btn btn-outline-success" onclick="showFilter()">
+        <button class="btn btn-outline-success showFilter">
             <i class="far fa-filter"></i> @lang('translates.buttons.filter_open')
         </button>
 
@@ -100,7 +96,11 @@
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
-                            <select name="client_id" id="clientFilter" class="client-filter" style="width: 100% !important;">
+                            <select name="client_id"
+                                    id="clientFilter"
+                                    class="custom-select2" style="width: 100% !important;"
+                                    data-url="{{route('clients.search')}}"
+                            >
                                 @if(is_numeric($filters['client_id']))
                                     <option value="{{$filters['client_id']}}">{{\App\Models\Client::find($filters['client_id'])->getAttribute('fullname_with_voen')}}</option>
                                 @endif
@@ -124,7 +124,7 @@
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="asanUserFilter">Asan Imza @lang('translates.columns.user')</label>
-                            <select name="asan_imza_id" id="asanUserFilter" class="asanUser-filter" style="width: 100% !important;">
+                            <select name="asan_imza_id" id="asanUserFilter" class="custom-select2" style="width: 100% !important;" data-url="{{route('asanImza.user.search')}}">
                                 @if(is_numeric($filters['asan_imza_id']))
                                     @php
                                         $asanUser = \App\Models\AsanImza::find($filters['asan_imza_id']);
@@ -139,13 +139,13 @@
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="createdAtFilter">{{trans('translates.fields.created_at')}}</label>
-                            <input class="form-control daterange mb-1" id="createdAtFilter" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
+                            <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
                             <input type="checkbox" name="check-created_at" id="check-created_at" @if(request()->has('check-created_at')) checked @endif> <label for="check-created_at">@lang('translates.filters.filter_by')</label>
                         </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="datetimeFilter">{{trans('translates.fields.date')}}</label>
-                            <input class="form-control daterange mb-1" id="datetimeFilter" type="text" readonly name="datetime" value="{{$filters['datetime']}}">
+                            <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly name="datetime" value="{{$filters['datetime']}}">
                             <input type="checkbox" name="check-datetime" id="check-datetime" @if(request()->has('check-datetime')) checked @endif> <label for="check-datetime">@lang('translates.filters.filter_by')</label>
                         </div>
 
@@ -499,56 +499,11 @@
     </div>
 @endsection
 @section('scripts')
-
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-
     <script>
         @if($works->isNotEmpty())
             const count  = document.getElementById("count").cloneNode(true);
             $("#table > tbody").prepend(count);
         @endif
-
-        function showFilter() {
-            var x = document.getElementById("showenFilter");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        }
-
-        const select2 = $('.select2');
-        const clientFilter = $('.client-filter');
-        const asanUserFilter = $('.asanUser-filter');
-
-        $('select[name="limit"]').change(function () {
-            $(this).form().submit();
-        });
-
-        $('.filterSelector').selectpicker()
-
-        select2.select2({
-            theme: 'bootstrap4',
-        });
-
-        select2.on('select2:open', function (e) {
-            document.querySelector('.select2-search__field').focus();
-        });
-
-        $('.daterange').daterangepicker({
-                opens: 'left',
-                locale: {
-                    format: "YYYY-MM-DD",
-                },
-                maxDate: new Date(),
-            }, function(start, end, label) {}
-        );
-
-        select2RequestFilter(clientFilter, '{{route('clients.search')}}');
-        select2RequestFilter(asanUserFilter, '{{route('asanImza.user.search')}}');
 
         confirmJs($("a[verify]"));
         confirmJs($("#sum-verify"));
@@ -657,35 +612,9 @@
                                 }
                             });
                         },
-                        cancel: function () {
-                        },
+                        cancel: function () {},
                     }
                 });
-            });
-        }
-
-        function select2RequestFilter(el, url){
-            el.select2({
-                placeholder: "Search",
-                minimumInputLength: 3,
-                // width: 'resolve',
-                theme: 'bootstrap4',
-                focus: true,
-                ajax: {
-                    delay: 500,
-                    url: url,
-                    dataType: 'json',
-                    type: 'GET',
-                    data: function (params) {
-                        return {
-                            search: params.term,
-                        }
-                    }
-                }
-            })
-
-            el.on('select2:open', function (e) {
-                document.querySelector('.select2-search__field').focus();
             });
         }
     </script>

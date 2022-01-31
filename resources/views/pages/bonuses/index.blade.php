@@ -12,36 +12,16 @@
             margin-bottom: 30px;
             box-shadow: 0 0.46875rem 2.1875rem rgba(90,97,105,0.1), 0 0.9375rem 1.40625rem rgba(90,97,105,0.1), 0 0.25rem 0.53125rem rgba(90,97,105,0.12), 0 0.125rem 0.1875rem rgba(90,97,105,0.1);
         }
-        .l-bg-cherry {
-            background: linear-gradient(to right, #493240, #f09) !important;
-            color: #fff;
-        }
         .l-bg-blue-dark {
             background: linear-gradient(to right, #373b44, #4286f4) !important;
-            color: #fff;
-        }
-        .l-bg-blue-greenyellow {
-            background: linear-gradient(to right, #373b44, #9dc827) !important;
             color: #fff;
         }
         .l-bg-green-dark {
             background: linear-gradient(to right, #0a504a, #38ef7d) !important;
             color: #fff;
         }
-        .l-bg-orange-dark {
-            background: linear-gradient(to right, #a86008, #ffba56) !important;
-            color: #fff;
-        }
-        .l-bg-orange-red {
-            background: linear-gradient(to right, #a86008, #e3342f) !important;
-            color: #fff;
-        }
         .l-bg-blue-purple {
             background: linear-gradient(to right, #3490dc, #bc79ea) !important;
-            color: #fff;
-        }
-        .l-bg-blue-green {
-            background: linear-gradient(to right, #3490dc, #83e08b) !important;
             color: #fff;
         }
         .card .card-statistic-3 .card-icon-large i{
@@ -60,14 +40,6 @@
         }
         .l-bg-cyan {
             background: linear-gradient(135deg, #289cf5, #84c0ec) !important;
-            color: #fff;
-        }
-        .l-bg-green {
-            background: linear-gradient(135deg, #23bdb8 0%, #43e794 100%) !important;
-            color: #fff;
-        }
-        .l-bg-orange {
-            background: linear-gradient(to right, #f9900e, #ffba56) !important;
             color: #fff;
         }
         @media only screen and (max-width: 600px) {
@@ -213,28 +185,6 @@
                 </form>
             </div>
         @endif
-{{--        <div class="col-12">--}}
-{{--            <table class="table table-hover table-sm--responsive">--}}
-{{--                <thead>--}}
-{{--                <tr>--}}
-{{--                    <th scope="col">#</th>--}}
-{{--                    <th scope="col">Fullname</th>--}}
-{{--                    <th scope="col">MBX code</th>--}}
-{{--                    <th scope="col">Delivered packages</th>--}}
-{{--                    <th scope="col">Total earnings</th>--}}
-{{--                </tr>--}}
-{{--                </thead>--}}
-{{--                <tbody>--}}
-{{--                <tr>--}}
-{{--                    <th scope="row">1</th>--}}
-{{--                    <td>Mark</td>--}}
-{{--                    <td>Otto</td>--}}
-{{--                    <td>Otto</td>--}}
-{{--                    <td>Otto</td>--}}
-{{--                </tr>--}}
-{{--                </tbody>--}}
-{{--            </table>--}}
-{{--        </div>--}}
     </div>
 @endsection
 @section('scripts')

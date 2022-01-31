@@ -36,9 +36,7 @@
                     </x-translate>
 
                     <x-input::select  name="organization_id" :value="$data->getAttribute('organization_id')" :label="trans('translates.columns.organization')"  width="6" class="pr-3" :options="$organizations"/>
-
                 </div>
-
             </div>
         </div>
         @if($action)
@@ -46,10 +44,11 @@
         @endif
     </form>
 @endsection
+
 @section('scripts')
     @if(is_null($action))
         <script>
-            $('form :input').attr('readonly', true)
+            $('form :input').attr('disabled', true)
         </script>
     @endif
 @endsection

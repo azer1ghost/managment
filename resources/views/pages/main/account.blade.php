@@ -101,28 +101,6 @@
     </form>
 @endsection
 @section('scripts')
-    <script>
-        checkAll();
-        $('#perm-0').change(function (){
-            checkAll();
-        });
-        $('#check-perms').change(function (){
-            if ($(this).prop('checked') == true) {
-                $("input[name='perms[]']").map(function(){ $(this).prop('checked', true) });
-            }else{
-                $("input[name='perms[]']").map(function(){ $(this).prop('checked', false) });
-            }
-        });
-        function checkAll(check = "perm-0"){
-            if ($(`#${check}`).prop('checked') == true) {
-                $("#check-perms").prop('disabled', true).parent('div').hide();
-                $("input[name='perms[]']").map(function(){ $(this).prop('disabled',true).parent('div').parent('div').hide() });
-            }else{
-                $("#check-perms").prop('disabled', false).parent('div').show();
-                $("input[name='perms[]']").map(function(){ $(this).prop('disabled',false).parent('div').parent('div').show() });
-            }
-        }
-    </script>
     @php // 1, 2 => Admin, President @endphp
     @if(!in_array(auth()->user()->getRelationValue('role')->getAttribute('id'), array(1, 2)))
         <script>
@@ -130,7 +108,6 @@
             $('select[name="department_id"]').attr('disabled', true)
             $('select[name="company_id"]').attr('disabled', true)
             $('select[name="position_id"]').attr('disabled', true)
-            $('#perm-0').parent().parent().hide()
         </script>
     @endif
 @endsection

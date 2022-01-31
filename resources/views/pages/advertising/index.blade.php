@@ -92,10 +92,3 @@
         </div>
     </form>
 @endsection
-@section('scripts')
-    <script>
-        $('select[name="limit"]').change(function (){
-            this.form.submit();
-        });
-    </script>
-@endsection

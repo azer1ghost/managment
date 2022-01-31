@@ -1,8 +1,3 @@
-@section('style')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-@endsection
-
 <form action="{{$action}}" id="createTaskForm" method="POST" class="tab-content form-row mt-4 mb-5">
     @if(is_null($method))
         @can('update', $task)
@@ -38,7 +33,7 @@
     <div wire:ignore class="form-group col-12 col-md-6 mb-3 mb-md-0" >
         @php($task_dates = optional($task)->getAttribute('must_start_at') && optional($task)->getAttribute('must_end_at') ?  optional($task)->getAttribute('must_start_at') . ' - ' .  optional($task)->getAttribute('must_end_at') : '')
         <label for="task_dates">{{__('translates.placeholders.range')}}</label>
-        <input type="text" id="task_dates" readonly placeholder="{{__('translates.placeholders.range')}}" class="form-control @error('task_dates') is-invalid @enderror" name="task_dates" value="{{$task_dates}}">
+        <input type="text" id="task_dates" readonly placeholder="{{__('translates.placeholders.range')}}" class="form-control custom-daterange @error('task_dates') is-invalid @enderror" name="task_dates" value="{{$task_dates}}">
         @error('task_dates')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -129,9 +124,6 @@
 </form>
 
 @push('scripts')
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-
     <script>
         function loadJs() {
             @if(is_null($action))
@@ -148,18 +140,6 @@
 
             $(".inquiry :input").attr("disabled", true);
         }
-
-        $(function() {
-            $('input[name="task_dates"]').daterangepicker({
-                    opens: 'left',
-                    locale: {
-                        format: "YYYY-MM-DD HH:mm",
-                    },
-                    timePicker: true,
-                    timePicker24Hour: true,
-                }, function(start, end, label) {}
-            );
-        });
 
         loadJs();
 

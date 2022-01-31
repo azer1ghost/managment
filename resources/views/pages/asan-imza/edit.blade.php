@@ -2,11 +2,6 @@
 
 @section('title', __('translates.navbar.asan_imza'))
 
-@section('style')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
-@endsection
-
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -56,22 +51,9 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
     @if(is_null($action))
         <script>
             $('form :input').attr('disabled', true)
         </script>
     @endif
-    <script>
-        const select2 = $('.select2');
-
-        select2.select2({
-            theme: 'bootstrap4',
-        });
-
-        select2.on('select2:open', function (e) {
-            document.querySelector('.select2-search__field').focus();
-        });
-    </script>
 @endsection

@@ -53,15 +53,6 @@
     </form>
 @endsection
 @section('scripts')
-    <script>
-        $( "input[name='datetime']" ).datepicker({
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: "yy-mm-dd",
-            showAnim: "slideDown",
-        });
-
-    </script>
     @if(is_null($action))
         <script>
             $('form :input').attr('disabled', true)

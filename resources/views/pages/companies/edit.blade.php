@@ -59,10 +59,7 @@
 @if(is_null($action))
 @section('scripts')
     <script>
-        $('input').attr('readonly', true)
-        $('select').attr('disabled', true)
-        $('input[type="file"]').attr('disabled', true)
-        $('textarea').attr('readonly', true)
+        $('form :input').attr('disabled', true)
     </script>
 @endsection
 @endif

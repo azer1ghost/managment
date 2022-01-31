@@ -1,8 +1,5 @@
 @push('style')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endpush
 <form action="{{$action}}" method="POST" enctype="multipart/form-data" id="work-form">
     @if(!is_null($data) && $method != 'PUT')
@@ -24,7 +21,7 @@
                 <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
                     <div class="d-flex align-items-center">
-                        <select name="client_id" id="data-client-type" style="width: 100% !important;" required>
+                        <select name="client_id" id="data-client-type" data-url="{{route('clients.search')}}" class="custom-select2" style="width: 100% !important;" required>
                             @if(is_numeric(optional($data)->getAttribute('client_id')))
                                 <option value="{{optional($data)->getAttribute('client_id')}}">{{optional($data)->getRelationValue('client')->getAttribute('fullname_with_voen')}}</option>
                             @endif
@@ -89,7 +86,7 @@
                 @if($this->service->getAttribute('has_asan_imza') && $method != 'POST')
                     <div class="form-group col-12 col-md-6" wire:key="asan-imza" wire:ignore>
                         <label for="data-asan_imza_id">Asan imza</label>
-                        <select name="asan_imza_id" id="data-asan_imza_id" class="select2 form-control">
+                        <select name="asan_imza_id" id="data-asan_imza_id" data-url="{{route('asanImza.user.search')}}" class="custom-select2 form-control">
                             <option value="" selected>Asan imza select</option>
                             @foreach(\App\Models\AsanImza::get() as $asanUser)
                                 <option
@@ -124,7 +121,7 @@
                 @endif
 
                 @if(!is_null($data) && !is_null(optional($data)->getAttribute('datetime')))
-                    <x-input::text wire:ignore name="datetime" readonly :label="__('translates.fields.date')" value="{{$data->getAttribute('datetime')->format('Y-m-d H:i')}}" width="3" class="pr-3" />
+                    <x-input::text wire:ignore name="datetime" readonly :label="__('translates.fields.date')" value="{{$data->getAttribute('datetime')->format('Y-m-d H:i')}}" width="3" class="pr-3 custom-single-daterange" />
                 @endif
 
                 @foreach($parameters as $parameter)
@@ -196,10 +193,7 @@
 @endif
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     @php($isShow = is_null($action))
     @php($hasNotPermission = !auth()->user()->can('update', $data))
@@ -226,17 +220,6 @@
         @if($method != 'POST')
             $('#work-form .copy').attr('disabled', false)
         @endif
-
-        $('input[name="datetime"]').daterangepicker({
-                opens: 'left',
-                locale: {
-                    format: "YYYY-MM-DD HH:mm",
-                },
-                singleDatePicker: true,
-                timePicker: true,
-                timePicker24Hour: true,
-            }, function(start, end, label) {}
-        );
 
         @if(optional(optional($data)->user())->exists() && optional($data)->getAttribute('status') == \App\Models\Work::DONE)
             function html(html, type = 'string')
@@ -280,28 +263,7 @@
 
         @endif
 
-
-        const clientSelect2 = $('select[name="client_id"]');
         const asanImzaSelect2 = $('select[name="asan_imza_id"]');
-
-        asanImzaSelect2.select2({
-            placeholder: "Search",
-            minimumInputLength: 3,
-            // width: 'resolve',
-            theme: 'bootstrap4',
-            focus: true,
-            ajax: {
-                delay: 500,
-                url: "{{route('asanImza.user.search')}}",
-                dataType: 'json',
-                type: 'GET',
-                data: function (params) {
-                    return {
-                        search: params.term,
-                    }
-                }
-            }
-        })
 
         asanImzaSelect2.change(function (){
             const DONE = {{\App\Models\Work::DONE}};
@@ -310,32 +272,6 @@
             }else{
                 $(`#data-status option:eq(${DONE})`).prop('disabled', true);
             }
-        });
-
-        clientSelect2.select2({
-            placeholder: "Search",
-            minimumInputLength: 3,
-            // width: 'resolve',
-            theme: 'bootstrap4',
-            focus: true,
-            ajax: {
-                delay: 500,
-                url: "{{route('clients.search')}}",
-                dataType: 'json',
-                type: 'GET',
-                data: function (params) {
-                    return {
-                        search: params.term,
-                    }
-                }
-            }
-        })
-
-        clientSelect2.on('select2:open', function (e) {
-            document.querySelector('.select2-search__field').focus();
-        });
-        asanImzaSelect2.on('select2:open', function (e) {
-            document.querySelector('.select2-search__field').focus();
         });
 
         const summernote = $('.summernote');

@@ -120,10 +120,3 @@
         </div>
     </form>
 @endsection
-@section('scripts')
-    <script>
-        $('select').change(function(){
-            this.form.submit();
-        });
-    </script>
-@endsection

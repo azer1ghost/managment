@@ -8,6 +8,18 @@
 @import '~bootstrap/scss/bootstrap';
 
 // Main theme
+@import "~jquery-confirm/dist/jquery-confirm.min.css";
+@import "~jquery-ui-dist/jquery-ui.min.css";
+@import "~daterangepicker";
+@import "~select2/dist/css/select2.min.css";
+@import "~select2-bootstrap4-theme/dist/select2-bootstrap4.min.css";
+@import "~bootstrap-select/dist/css/bootstrap-select.min.css";
+@import "~bs4-summernote/dist/summernote-bs4.css";
+
+// animate.css
+@import "~animate.css/animate.min.css";
+
+// Main theme
 @import "resources/sass/main";
 
 // Diamond
@@ -15,13 +27,6 @@
 
 // Sidebar
 @import "resources/sass/sidebar";
-
-// Main theme
-@import "~jquery-confirm/dist/jquery-confirm.min.css";
-@import "~jquery-ui-dist/jquery-ui.min.css";
-
-// animate.css
-@import "~animate.css/animate.min.css";
 
 @import "hamburger/hamburgers";
 @import "task-list";

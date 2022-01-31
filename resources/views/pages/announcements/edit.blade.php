@@ -1,11 +1,7 @@
 @extends('layouts.main')
 
 @section('title', __('translates.navbar.announcement'))
-@section('style')
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-@endsection
+
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -48,7 +44,7 @@
                     <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
                         <label for="data-will_notify_at">Will Notify At</label>
                         <input type="text" placeholder="Will Notify At" name="will_notify_at"
-                               value="{{$data->getAttribute('will_notify_at')}}" id="data-will_notify_at" class="form-control announcement-date">
+                               value="{{$data->getAttribute('will_notify_at')}}" id="data-will_notify_at" class="form-control custom-single-daterange">
                     </div>
                     @error('will_notify_at')
                         <p class="text-danger">{{$message}}</p>
@@ -57,7 +53,7 @@
                     <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
                         <label for="data-will_end_at">Will  End At</label>
                         <input type="text" placeholder="Will Notify At" name="will_end_at"
-                               value="{{$data->getAttribute('will_end_at')}}" id="data-will_end_at" class="form-control announcement-date" >
+                               value="{{$data->getAttribute('will_end_at')}}" id="data-will_end_at" class="form-control custom-single-daterange" >
                     </div>
                     @error('will_end_at')
                         <p class="text-danger">{{$message}}</p>
@@ -89,25 +85,7 @@
     </form>
 @endsection
 @section('scripts')
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-
     <script>
-        $('.userSelector').selectpicker()
-
-        $('.announcement-date').daterangepicker({
-            opens: 'left',
-            locale: {
-                format: "YYYY-MM-DD HH:mm:ss",
-            },
-            singleDatePicker: true,
-            timePicker: true,
-            timePicker24Hour: true,
-            }, function (start, end, label) {
-        });
-
         const summernote = $('#summernote');
         summernote.summernote({
             placeholder: '{{trans('translates.fields.detail')}}',

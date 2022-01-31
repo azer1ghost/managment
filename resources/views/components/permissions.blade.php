@@ -48,14 +48,14 @@
             checkAll();
         });
         $('#check-perms').change(function (){
-            if ($(this).prop('checked') == true) {
+            if ($(this).prop('checked') === true) {
                 $("input[name='perms[]']").map(function(){ $(this).prop('checked', true) });
             }else{
                 $("input[name='perms[]']").map(function(){ $(this).prop('checked', false) });
             }
         });
         function checkAll(check = "perm-0"){
-            if ($(`#${check}`).prop('checked') == true) {
+            if ($(`#${check}`).prop('checked') === true) {
                 $("#check-perms").prop('disabled', true).parent('div').hide();
                 $("input[name='perms[]']").map(function(){ $(this).prop('disabled',true).parent('div').parent('div').hide() });
             }else{

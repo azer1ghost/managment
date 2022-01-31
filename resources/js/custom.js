@@ -1,4 +1,5 @@
 $(document).ready(function (){
+    // Hamburger and Sidebar
     const body = $('body');
     const hamburger = $(".hamburger");
 
@@ -41,4 +42,101 @@ $(document).ready(function (){
             return localStorage.getItem("navbar");
         }
     }
+
+    // SelectPicker
+    $('.userSelector').selectpicker()
+    $('.filterSelector').selectpicker()
+    $('.bootstrap-select').selectpicker()
+
+    // Select change
+    $('select[name="limit"]').change(function (){
+        this.form.submit();
+    });
+
+    // Select2
+    const select2 = $('.select2');
+
+    select2.select2({
+        theme: 'bootstrap4',
+    });
+
+    select2.on('select2:open', function (e) {
+        document.querySelector('.select2-search__field').focus();
+    });
+
+    const customSelect2 = $('.custom-select2');
+
+    customSelect2.select2({
+        placeholder: "Search",
+        minimumInputLength: 3,
+        // width: 'resolve',
+        theme: 'bootstrap4',
+        focus: true,
+        ajax: {
+            delay: 500,
+            url: customSelect2.data('url'),
+            dataType: 'json',
+            type: 'GET',
+            data: function (params) {
+                return {
+                    search: params.term,
+                }
+            }
+        }
+    })
+
+    customSelect2.on('select2:open', function (e) {
+        document.querySelector('.select2-search__field').focus();
+    });
+
+    // DateRangePicker
+    $('.custom-single-daterange').daterangepicker({
+            opens: 'left',
+            locale: {
+                format: "YYYY-MM-DD HH:mm",
+            },
+            singleDatePicker: true,
+            timePicker: true,
+            timePicker24Hour: true,
+        }, function(start, end, label) {}
+    );
+
+    $('.custom-daterange').daterangepicker({
+            opens: 'left',
+            locale: {
+                format: "YYYY-MM-DD HH:mm",
+            },
+            timePicker: true,
+            timePicker24Hour: true,
+        }, function(start, end, label) {}
+    );
+
+    $(function () {
+        $('#daterange').daterangepicker({
+                opens: 'left',
+                locale: {
+                    format: "YYYY/MM/DD",
+                },
+                maxDate: new Date(),
+            }, function (start, end, label) {}
+        );
+    });
+
+    // DatePicker
+    $( "input[name='datetime']" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "yy-mm-dd",
+        showAnim: "slideDown",
+    });
+
+    // Shown Filter
+    $('.showFilter').click(function (){
+        const x = document.getElementById("showenFilter");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    });
 });
