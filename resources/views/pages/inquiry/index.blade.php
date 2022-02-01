@@ -24,7 +24,7 @@
     </button>
     <form class="row" id="inquiryForm">
 
-        <div id="showenFilter" @if(request()->has('daterange')) style="display:block;" @else style="display:none;" @endif>
+        <div id="filterContainer" @if(request()->has('daterange')) style="display:block;" @else style="display:none;" @endif>
 
             <div class="col-12">
                 <div class="row m-0">

@@ -25,7 +25,7 @@
     <form action="{{route('works.index')}}">
         <div class="row d-flex justify-content-between mb-2">
 
-            <div id="showenFilter" class="mb-3" @if(request()->has('datetime')) style="display:block;" @else style="display:none;" @endif>
+            <div id="filterContainer" class="mb-3" @if(request()->has('datetime')) style="display:block;" @else style="display:none;" @endif>
 
                 <div class="col-12">
                     <div class="row m-0">

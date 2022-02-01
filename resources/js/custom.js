@@ -131,7 +131,7 @@ $(document).ready(function (){
 
     // Shown Filter
     $('.showFilter').click(function (){
-        const x = document.getElementById("showenFilter");
+        const x = document.getElementById("filterContainer");
         if (x.style.display === "none") {
             x.style.display = "block";
         } else {

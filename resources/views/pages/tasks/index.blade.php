@@ -17,7 +17,7 @@
 
     <form>
         <div class="row d-flex mb-2">
-            <div id="showenFilter" class="mb-3" @if(request()->has('must_start_at')) style="display:block;" @else style="display:none;" @endif>
+            <div id="filterContainer" class="mb-3" @if(request()->has('must_start_at')) style="display:block;" @else style="display:none;" @endif>
 
                 <div class="col-12 mt-3">
                     <div class="row m-0">
