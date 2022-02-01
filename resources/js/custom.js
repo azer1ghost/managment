@@ -65,15 +65,14 @@ $(document).ready(function (){
     });
 
     document.querySelectorAll('.custom-select2').forEach((e) => {
-        const url = $(e).data('url');
-        $(`[data-url='${url}']`).select2({
+        $(e).select2({
             placeholder: "Search",
             minimumInputLength: 3,
             theme: 'bootstrap4',
             focus: true,
             ajax: {
                 delay: 500,
-                url: url,
+                url: $(e).data('url'),
                 dataType: 'json',
                 type: 'GET',
                 data: function (params) {
