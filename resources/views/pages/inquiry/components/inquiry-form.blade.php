@@ -7,7 +7,11 @@
         @endcan
     @endif
 
-    @if(($method != 'POST' || auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES) && !is_null($client))
+    @if(app()->environment('production') &&
+        (
+            ($method != 'POST' || auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES) && !is_null($client)
+        )
+    )
         <div class="col-12 text-center">
             <h4>@lang('translates.fields.client')</h4>
             <div class="row">
