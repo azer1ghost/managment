@@ -169,7 +169,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($inquiries as $inquiry)
+                @forelse($inquiries as $inquiry)
                     <tr>
                         <td>{{$inquiry->getAttribute('code')}}</td>
                         <td>{{$inquiry->getAttribute('datetime')->format('d-m-Y')}}</td>
@@ -278,7 +278,15 @@
                             </div>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <th colspan="20">
+                            <div class="row justify-content-center m-3">
+                                <div class="col-7 alert alert-danger text-center" task="alert">@lang('translates.general.empty')</div>
+                            </div>
+                        </th>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
         </div>

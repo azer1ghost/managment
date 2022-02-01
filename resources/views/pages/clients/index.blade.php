@@ -141,7 +141,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <th colspan="10">
+                                <th colspan="20">
                                     <div class="row justify-content-center m-3">
                                         <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.not_found')</div>
                                     </div>
