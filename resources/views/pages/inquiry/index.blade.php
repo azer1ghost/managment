@@ -218,7 +218,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($inquiries as $inquiry)
+                @forelse($inquiries as $inquiry)
                     <tr>
                         @if(auth()->user()->isDeveloper())
                             <td><input type="checkbox" name="inquiries[]" value="{{$inquiry->id}}"></td>
@@ -324,7 +324,16 @@
                             </div>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <th colspan="20">
+                            <div class="row justify-content-center m-3">
+                                <div class="col-7 alert alert-danger text-center" task="alert">@lang('translates.general.empty')</div>
+                            </div>
+                        </th>
+                    </tr>
+                @endforelse
+
                 </tbody>
             </table>
         </div>
