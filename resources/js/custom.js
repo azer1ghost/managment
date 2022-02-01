@@ -64,29 +64,29 @@ $(document).ready(function (){
         document.querySelector('.select2-search__field').focus();
     });
 
-    const customSelect2 = $('.custom-select2');
-
-    customSelect2.select2({
-        placeholder: "Search",
-        minimumInputLength: 3,
-        // width: 'resolve',
-        theme: 'bootstrap4',
-        focus: true,
-        ajax: {
-            delay: 500,
-            url: customSelect2.data('url'),
-            dataType: 'json',
-            type: 'GET',
-            data: function (params) {
-                return {
-                    search: params.term,
+    document.querySelectorAll('.custom-select2').forEach((e) => {
+        const url = $(e).data('url');
+        $(`[data-url='${url}']`).select2({
+            placeholder: "Search",
+            minimumInputLength: 3,
+            theme: 'bootstrap4',
+            focus: true,
+            ajax: {
+                delay: 500,
+                url: url,
+                dataType: 'json',
+                type: 'GET',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                    }
                 }
             }
-        }
-    })
+        })
 
-    customSelect2.on('select2:open', function (e) {
-        document.querySelector('.select2-search__field').focus();
+        $(e).on('select2:open', function (e) {
+            document.querySelector('.select2-search__field').focus();
+        });
     });
 
     // DateRangePicker

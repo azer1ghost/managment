@@ -21,7 +21,7 @@ class PartnerController extends Controller
         $limit = $request->get('limit', 25);
         $search = $request->get('search');
 
-        return view('panel.pages.partners.index')->with([
+        return view('pages.partners.index')->with([
             'partners' => Partner::query()
                 ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"))
                 ->paginate($limit)
@@ -30,7 +30,7 @@ class PartnerController extends Controller
 
     public function create()
     {
-        return view('panel.pages.partners.edit')->with([
+        return view('pages.partners.edit')->with([
             'action' => route('partners.store'),
             'method' => 'POST',
             'data' => new Partner(),
@@ -48,7 +48,7 @@ class PartnerController extends Controller
 
     public function show(Partner $partner)
     {
-        return view('panel.pages.partners.edit')->with([
+        return view('pages.partners.edit')->with([
             'action' => route('partners.store', $partner),
             'method' => null,
             'data' => $partner,
@@ -57,7 +57,7 @@ class PartnerController extends Controller
 
     public function edit(Partner $partner)
     {
-        return view('panel.pages.partners.edit')->with([
+        return view('pages.partners.edit')->with([
             'action' => route('partners.update', $partner),
             'method' => 'PUT',
             'data' => $partner,

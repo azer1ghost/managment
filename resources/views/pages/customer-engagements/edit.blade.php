@@ -24,7 +24,7 @@
 
             <div class="form-group col-6">
                 <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
-                <select name="client_id" id="data-client-type" style="width: 100% !important;">
+                <select name="client_id" id="data-client-type" style="width: 100% !important;" class="custom-select2" data-url="{{route('clients.search')}}">
                     @if(is_numeric($data->getAttribute('client_id')))
                         <option value="{{$data->getAttribute('client_id')}}">{{$data->getRelationValue('client')->getAttribute('fullname_with_voen')}}</option>
                     @endif
@@ -68,44 +68,20 @@
         const partnerId = $('#partner_id');
         const userId = $('#user_id');
 
-        if (partnerId.val() >= 1) {
-            $('.user').hide()
-        } else if (userId.val() >= 1) {
-            $('.partner').hide()
-        }
+        if (userId.val() === '') $('.partner').show();
+        else $('.partner').hide();
+
+        if (partnerId.val() === '') $('.user').show();
+        else $('.user').hide();
 
         userId.change(function () {
-            $('.partner').hide()
+            if ($(this).val() === '') $('.partner').show();
+            else $('.partner').hide();
         });
 
         partnerId.change(function () {
-            $('.user').hide()
-        });
-
-    </script>
-
-    <script>
-        const clientSelect2 = $('select[name="client_id"]');
-        clientSelect2.select2({
-            placeholder: "Search",
-            minimumInputLength: 3,
-            // width: 'resolve',
-            theme: 'bootstrap4',
-            focus: true,
-            ajax: {
-                delay: 500,
-                url: "{{route('clients.search')}}",
-                dataType: 'json',
-                type: 'GET',
-                data: function (params) {
-                    return {
-                        search: params.term,
-                    }
-                }
-            }
-        })
-        clientSelect2.on('select2:open', function (e) {
-            document.querySelector('.select2-search__field').focus();
+            if ($(this).val() === '') $('.user').show();
+            else $('.user').hide();
         });
     </script>
 @endsection
