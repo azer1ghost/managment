@@ -1,6 +1,3 @@
-@push('style')
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-@endpush
 <form action="{{$action}}" method="POST" enctype="multipart/form-data" id="work-form">
     @if(!is_null($data) && $method != 'PUT')
         @can('update', $data)
@@ -193,8 +190,6 @@
 @endif
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-
     @php($isShow = is_null($action))
     @php($hasNotPermission = !auth()->user()->can('update', $data))
     @php($isDone = optional($data)->getAttribute('status') == \App\Models\Work::DONE)
