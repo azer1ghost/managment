@@ -5,7 +5,6 @@ require('daterangepicker');
 require('select2/dist/js/select2.min');
 require('bootstrap-select/dist/js/bootstrap-select.min');
 require('codemirror');
-require('bs4-summernote/dist/summernote-bs4.min');
 require('./delete');
 require('./custom');
 

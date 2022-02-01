@@ -68,8 +68,8 @@
                     @enderror
 
                     <div class="col-12 pr-3 mt-2">
-                        <label for="summernote">Detail</label>
-                        <textarea name="detail" id="summernote" class="form-control">{{$data->getAttribute('detail')}}</textarea>
+                        <label for="tinymce">Detail</label>
+                        <textarea name="detail" id="tinymce" class="tinyMCE form-control">{{$data->getAttribute('detail')}}</textarea>
                     </div>
 
                     <div class="col-12 my-3">
@@ -84,34 +84,5 @@
         @endif
     </form>
 @endsection
-@section('scripts')
-    <script>
-        const summernote = $('#summernote');
-        summernote.summernote({
-            placeholder: '{{trans('translates.fields.detail')}}',
-            height: 400,
-            toolbar: [
-                ['style', ['style']],
-                ['font', ['bold', 'underline', 'clear', 'italic']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['table', ['table']],
-                ['insert', ['link']],
-                ['view', ['fullscreen', 'codeview', 'help']]
-            ],
-            callbacks: {
-                onInit: function (content) {
-                    if(summernote.summernote('isEmpty') || content.editable.html() === '<p><br></p>'){
-                        summernote.html('');
-                    }
-                },
-                onChange: function (content, $editable) {
-                    if (summernote.summernote('isEmpty') || $editable.html() === '<p><br></p>') {
-                        summernote.html('');
-                    }
-                }
-            }
-        });
-        summernote.summernote('{{is_null($action) ? 'disable' : 'enable'}}');
-</script>
-@endsection
+
+

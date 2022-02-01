@@ -165,7 +165,7 @@
 
                 <div class="form-group col-12" wire:ignore>
                     <label for="data-detail">@lang('translates.general.work_detail')</label>
-                    <textarea wire:ignore name="detail" id="data-detail" class="summernote">{{optional($data)->getAttribute('detail')}}</textarea>
+                    <textarea wire:ignore name="detail" id="data-detail" class="tinyMCE">{{optional($data)->getAttribute('detail')}}</textarea>
                 </div>
             </div>
 
@@ -212,7 +212,7 @@
     @endif
 
     <script>
-        @if($method != 'POST')
+        @if($method !== 'POST')
             $('#work-form .copy').attr('disabled', false)
         @endif
 
@@ -269,21 +269,5 @@
             }
         });
 
-        const summernote = $('.summernote');
-        summernote.summernote({
-            placeholder: 'Detail',
-            height: 250,
-            toolbar: [
-                ['style', ['style']],
-                ['font', ['bold', 'underline', 'clear', 'italic']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['table', ['table']],
-                ['insert', ['link']],
-                ['view', ['fullscreen', 'codeview', 'help']]
-            ]
-        });
-
-        summernote.summernote('{{($isShow || ($hasNotPermission && $method != 'POST')) || ($isDone && $method != 'PUT') || ($isVerified && $method != 'PUT') ? 'disable' : 'enable'}}');
     </script>
 @endpush
