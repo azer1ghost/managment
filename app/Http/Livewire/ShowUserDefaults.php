@@ -60,6 +60,8 @@ class ShowUserDefaults extends Component
     public function removeDefault($index)
     {
         unset($this->selectedColumns[$index], $this->defaults[$index], $this->arrOfColumns[$index], $this->arrOfValues[$index]);
+
+        if (empty($this->defaults)) $this->columnSelected = true;
     }
 
     public function addColumn()
