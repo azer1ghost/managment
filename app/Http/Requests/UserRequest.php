@@ -41,6 +41,7 @@ class UserRequest extends FormRequest
             'password'       => "$password|confirmed|min:6|string",
             'department_id'  => 'filled|integer|min:1',
             'default_lang'   => 'nullable|string',
+            'order'          => 'integer|nullable|max:200',
             'defaults'       => 'nullable|array',
             'defaults.*.id'  => 'nullable|string',
             'defaults.*.parameter_id'  => 'required|integer',

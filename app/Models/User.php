@@ -59,6 +59,7 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
         'permissions',
         'disabled_at',
         'is_partner',
+        'order',
     ];
 
     protected $hidden = [

@@ -104,7 +104,9 @@
                 <x-input::select  name="role_id"   :value="optional(optional($data)->getRelationValue('role'))->getAttribute('id')"  width="3" class="pr-0" :options="$roles" label="Role"/>
                 <x-input::select  name="default_lang" :default="1"   :label="__('translates.fields.default_lang')" :value="optional($data)->getAttribute('default_lang')"  width="3" class="pr-0" :options="config('app.locales')" />
             @endif
-            @if(auth()->user()->isDeveloper())
+            <x-input::number  name="order" :value="optional($data)->getAttribute('order')" width="4" class="pr-0" />
+
+        @if(auth()->user()->isDeveloper())
                 <x-permissions :model="$data" :action="$action" />
                 <div class="col-md-12 px-0">
                     <br>

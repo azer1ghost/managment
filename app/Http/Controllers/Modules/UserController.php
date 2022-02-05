@@ -68,6 +68,7 @@ class UserController extends Controller
                                 break;
                         }
                     })
+                    ->orderByDesc('order')
                     ->paginate($limit),
                 'companies' => Company::get(['id', 'name']),
                 'departments' => Department::get(['id', 'name']),
