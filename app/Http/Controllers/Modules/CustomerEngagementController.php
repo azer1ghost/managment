@@ -23,7 +23,7 @@ class CustomerEngagementController extends Controller
     {
         $limit = $request->get('limit', 25);
 
-        return view('panel.pages.customer-engagements.index')
+        return view('pages.customer-engagements.index')
             ->with([
                 'customer_engagements' => CustomerEngagement::with('user', 'client', 'partner')
                     ->latest('id')
@@ -34,7 +34,7 @@ class CustomerEngagementController extends Controller
 
     public function create()
     {
-        return view('panel.pages.customer-engagements.edit')
+        return view('pages.customer-engagements.edit')
             ->with([
                 'action' => route('customer-engagement.store'),
                 'method' => 'POST',
@@ -55,7 +55,7 @@ class CustomerEngagementController extends Controller
 
     public function show(CustomerEngagement $customerEngagement)
     {
-        return view('panel.pages.customer-engagements.edit')
+        return view('pages.customer-engagements.edit')
             ->with([
                 'action' => null,
                 'method' => null,
@@ -67,7 +67,7 @@ class CustomerEngagementController extends Controller
 
     public function edit(CustomerEngagement $customerEngagement)
     {
-        return view('panel.pages.customer-engagements.edit')
+        return view('pages.customer-engagements.edit')
             ->with([
                 'action' => route('customer-engagement.update', $customerEngagement),
                 'method' => "PUT",

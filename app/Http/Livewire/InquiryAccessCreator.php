@@ -40,6 +40,6 @@ class InquiryAccessCreator extends Component
 
     public function render()
     {
-        return view('panel.pages.inquiry.components.access-creator');
+        return view('pages.inquiry.components.access-creator');
     }
 }

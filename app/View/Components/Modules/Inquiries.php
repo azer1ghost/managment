@@ -14,6 +14,6 @@ class Inquiries extends Component
 
     public function render()
     {
-        return view('panel.pages.cabinet.components.inquiries');
+        return view('pages.cabinet.components.inquiries');
     }
 }

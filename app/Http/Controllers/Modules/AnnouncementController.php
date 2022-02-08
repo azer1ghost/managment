@@ -21,14 +21,14 @@ class AnnouncementController extends Controller
 
     public function index()
     {
-        return view('panel.pages.announcements.index')->with([
+        return view('pages.announcements.index')->with([
             'announcements' => Announcement::paginate(10)
         ]);
     }
 
     public function create()
     {
-        return view('panel.pages.announcements.edit')->with([
+        return view('pages.announcements.edit')->with([
             'action' => route('announcements.store'),
             'method' => 'POST',
             'data' => new Announcement(),
@@ -53,7 +53,7 @@ class AnnouncementController extends Controller
 
     public function show(Announcement $announcement)
     {
-        return view('panel.pages.announcements.edit')->with([
+        return view('pages.announcements.edit')->with([
             'action' => null,
             'method' => null,
             'data' => $announcement,
@@ -63,7 +63,7 @@ class AnnouncementController extends Controller
 
     public function edit(Announcement $announcement)
     {
-        return view('panel.pages.announcements.edit')->with([
+        return view('pages.announcements.edit')->with([
             'action' => route('announcements.update', $announcement),
             'method' => 'PUT',
             'data' => $announcement,

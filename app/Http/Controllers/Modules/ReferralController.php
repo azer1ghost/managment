@@ -21,7 +21,7 @@ class ReferralController extends Controller
         $search = $request->get('search');
         $limit  = $request->get('limit', 25);
 
-        return view('panel.pages.referrals.index', [
+        return view('pages.referrals.index', [
             'referrals' => Referral::with('user')
                 ->when($search, fn($query) => $query->where('key', 'LIKE', "%$search%"))
                 ->paginate($limit)
@@ -41,7 +41,7 @@ class ReferralController extends Controller
 
     public function show(Referral $referral)
     {
-        return view('panel.pages.referrals.edit')
+        return view('pages.referrals.edit')
             ->with([
                 'action' => null,
                 'method' => null,
@@ -52,7 +52,7 @@ class ReferralController extends Controller
 
     public function edit(Referral $referral)
     {
-        return view('panel.pages.referrals.edit')
+        return view('pages.referrals.edit')
             ->with([
                 'action' => route('referrals.update', $referral),
                 'method' => 'PUT',

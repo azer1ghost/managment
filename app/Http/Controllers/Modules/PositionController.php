@@ -25,7 +25,7 @@ class PositionController extends Controller
         $role = $request->get('role');
         $department = $request->get('department');
 
-        return view('panel.pages.positions.index')
+        return view('pages.positions.index')
             ->with([
                 'positions' => Position::with(['role', 'department'])
                     ->when($search, fn($q) => $q->where('name', 'LIKE', "%$search%"))
@@ -40,7 +40,7 @@ class PositionController extends Controller
 
     public function create()
     {
-        return view('panel.pages.positions.edit')
+        return view('pages.positions.edit')
             ->with([
                 'action' => route('positions.store'),
                 'method' => null,
@@ -66,7 +66,7 @@ class PositionController extends Controller
 
     public function show(Position $position)
     {
-        return view('panel.pages.positions.edit')
+        return view('pages.positions.edit')
             ->with([
                 'action' => null,
                 'method' => null,
@@ -78,7 +78,7 @@ class PositionController extends Controller
 
     public function edit(Position $position)
     {
-        return view('panel.pages.positions.edit')
+        return view('pages.positions.edit')
             ->with([
                 'action' => route('positions.update', $position),
                 'method' => 'PUT',

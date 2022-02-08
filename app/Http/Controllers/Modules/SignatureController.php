@@ -16,13 +16,13 @@ class SignatureController extends Controller
 
     public function selectCompany(): View
     {
-        return view('panel.pages.signature.select')->with([
+        return view('pages.signature.select')->with([
             'companies' => Company::all()
         ]);
     }
 
     public function signature(Company $company)
     {
-        return view('panel.pages.signature.render', compact('company'));
+        return view('pages.signature.render', compact('company'));
     }
 }

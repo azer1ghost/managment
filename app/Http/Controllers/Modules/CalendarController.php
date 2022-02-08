@@ -57,7 +57,7 @@ class CalendarController extends Controller
             ];
         });
 
-        return view('panel.pages.calendar.index')->with([
+        return view('pages.calendar.index')->with([
             'events' => $events,
             'types' => Calendar::eventTypes()
         ]);

@@ -31,7 +31,7 @@ class DailyReportController extends Controller
     /* show specific daily report for the given chief */
     public function showSubReport(DailyReport $report)
     {
-        return view('panel.pages.reports.edit')->with([
+        return view('pages.reports.edit')->with([
             'method' => null,
             'data' => $report,
             'action' => null,
@@ -42,7 +42,7 @@ class DailyReportController extends Controller
     /* edit specific daily report for the given chief */
     public function editSubReport(DailyReport $report)
     {
-        return view('panel.pages.reports.edit')->with([
+        return view('pages.reports.edit')->with([
             'method' => 'PUT',
             'data' => $report,
             'action' => route('reports.sub.update', $report),

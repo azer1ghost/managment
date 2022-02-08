@@ -14,6 +14,6 @@ class Tasks extends Component
 
     public function render()
     {
-        return view('panel.pages.cabinet.components.tasks');
+        return view('pages.cabinet.components.tasks');
     }
 }

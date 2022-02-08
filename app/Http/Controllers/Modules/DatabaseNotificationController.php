@@ -18,7 +18,7 @@ class DatabaseNotificationController extends Controller
     {
         $search = $request->get('search');
 
-        return view('panel.pages.notifications.index')
+        return view('pages.notifications.index')
             ->with([
                 'notifications' => DatabaseNotification::query()
                     ->when($search, fn ($query) => $query

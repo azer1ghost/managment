@@ -79,7 +79,7 @@ class PlatformController extends Controller
     public function welcome(): View
     {
         header("Refresh: 2; URL=". route('login'));
-        return view('panel.pages.main.welcome');
+        return view('pages.main.welcome');
     }
 
     public function deactivated()
@@ -90,12 +90,12 @@ class PlatformController extends Controller
             ]);
         }
 
-        return view('panel.pages.main.deactivated');
+        return view('pages.main.deactivated');
     }
 
     public function dashboard(): View
     {
-        return view('panel.pages.main.dashboard', [
+        return view('pages.main.dashboard', [
             'widgets' => Widget::isActive()->oldest('order')->get()
         ]);
     }

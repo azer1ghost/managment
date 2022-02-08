@@ -91,7 +91,7 @@ class WorkController extends Controller
             $works = $works->get();
         }
 
-        return view('panel.pages.works.index',
+        return view('pages.works.index',
             compact('works', 'services', 'users', 'departments',
             'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters')
         );
@@ -99,7 +99,7 @@ class WorkController extends Controller
 
     public function create()
     {
-        return view('panel.pages.works.edit')->with([
+        return view('pages.works.edit')->with([
             'action' => route('works.store'),
             'method' => 'POST',
             'data' => null,
@@ -133,7 +133,7 @@ class WorkController extends Controller
 
     public function show(Work $work)
     {
-        return view('panel.pages.works.edit')->with([
+        return view('pages.works.edit')->with([
             'action' => null,
             'method' => null,
             'data' => $work,
@@ -146,7 +146,7 @@ class WorkController extends Controller
 
     public function edit(Work $work)
     {
-        return view('panel.pages.works.edit')->with([
+        return view('pages.works.edit')->with([
             'action' => route('works.update', $work),
             'method' => 'PUT',
             'data' => $work,
@@ -266,7 +266,7 @@ class WorkController extends Controller
 
             ])->get();
 
-        return view('panel.pages.works.components.work-report')->with([
+        return view('pages.works.components.work-report')->with([
             'services' => $services,
             'user' => auth()->user(),
         ]);

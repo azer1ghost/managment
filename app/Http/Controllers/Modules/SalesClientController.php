@@ -48,7 +48,7 @@ class SalesClientController extends Controller
         $search = $request->get('search');
         $user_id = $request->get('user');
 
-        return view('panel.pages.sales-clients.index')
+        return view('pages.sales-clients.index')
             ->with([
                 'users' => User::has('salesInquiryUsers')->get(['id', 'name', 'surname']),
                 'sales_clients' => SalesClient::query()
@@ -62,7 +62,7 @@ class SalesClientController extends Controller
 
     public function create()
     {
-        return view('panel.pages.sales-clients.edit')
+        return view('pages.sales-clients.edit')
             ->with([
                 'action' => route('sales-clients.store'),
                 'method' => 'POST',
@@ -86,7 +86,7 @@ class SalesClientController extends Controller
 
     public function show(SalesClient $salesClient)
     {
-        return view('panel.pages.sales-clients.edit')
+        return view('pages.sales-clients.edit')
             ->with([
                 'action' => null,
                 'method' => null,
@@ -96,7 +96,7 @@ class SalesClientController extends Controller
 
     public function edit(SalesClient $salesClient)
     {
-        return view('panel.pages.sales-clients.edit')
+        return view('pages.sales-clients.edit')
             ->with([
                 'action' => route('sales-clients.update', $salesClient),
                 'method' => "PUT",

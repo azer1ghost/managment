@@ -36,7 +36,7 @@ class DocumentController extends Controller
             $documents = $documents->whereBelongsTo(auth()->user());
         }
 
-        return view('panel.pages.documents.index')->with([
+        return view('pages.documents.index')->with([
             'documents' => $documents->paginate($limit),
             'users' => User::get(['id', 'name', 'surname'])
 
@@ -46,7 +46,7 @@ class DocumentController extends Controller
 
     public function create()
     {
-        return view('panel.pages.documents.edit')->with([
+        return view('pages.documents.edit')->with([
             'action' => route('documents.store'),
             'method' => null,
             'data' => null,
@@ -100,7 +100,7 @@ class DocumentController extends Controller
     {
         abort_if(!$request->hasValidSignature(), 404);
 
-        return view('panel.pages.main.file-viewer', compact('document'));
+        return view('pages.main.file-viewer', compact('document'));
     }
 
     public function temporaryViewerUrl(Document $document)
@@ -112,7 +112,7 @@ class DocumentController extends Controller
 
     public function edit(Document $document)
     {
-        return view('panel.pages.documents.edit')->with([
+        return view('pages.documents.edit')->with([
             'action' => route('documents.update', $document),
             'method' => 'PUT',
             'data' => $document,

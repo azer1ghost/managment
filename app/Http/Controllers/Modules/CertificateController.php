@@ -20,7 +20,7 @@ class CertificateController extends Controller
     {
         $search = $request->get('search');
 
-        return view('panel.pages.certificates.index')
+        return view('pages.certificates.index')
             ->with([
                 'certificates' => Certificate::query()
                     ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"))
@@ -30,7 +30,7 @@ class CertificateController extends Controller
     }
     public function create()
     {
-        return view('panel.pages.certificates.edit')
+        return view('pages.certificates.edit')
             ->with([
                 'action' => route('certificates.store'),
                 'method' => 'POST',
@@ -53,7 +53,7 @@ class CertificateController extends Controller
 
     public function show(Certificate $certificate)
     {
-        return view('panel.pages.certificates.edit')
+        return view('pages.certificates.edit')
             ->with([
                 'action' => null,
                 'method' => new Certificate(),
@@ -64,7 +64,7 @@ class CertificateController extends Controller
 
     public function edit(Certificate $certificate)
     {
-        return view('panel.pages.certificates.edit')
+        return view('pages.certificates.edit')
             ->with([
                 'action' => route('certificates.update', $certificate),
                 'method' => "PUT",

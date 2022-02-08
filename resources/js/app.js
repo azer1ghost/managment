@@ -1,5 +1,10 @@
 require('./bootstrap');
-require('jquery-confirm');
+require('jquery-confirm/dist/jquery-confirm.min');
+require('moment');
+require('daterangepicker');
+require('select2/dist/js/select2.min');
+require('bootstrap-select/dist/js/bootstrap-select.min');
+require('codemirror');
 require('./delete');
 require('./custom');
 

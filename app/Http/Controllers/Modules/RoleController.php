@@ -23,7 +23,7 @@ class RoleController extends Controller
     {
         $search = $request->get('search');
 
-        return view('panel.pages.roles.index')
+        return view('pages.roles.index')
             ->with([
                 'roles' => Role::query()
                     ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"))
@@ -33,7 +33,7 @@ class RoleController extends Controller
 
     public function create()
     {
-        return view('panel.pages.roles.edit')
+        return view('pages.roles.edit')
             ->with([
                 'action' => route('roles.store'),
                 'method' => null,
@@ -57,7 +57,7 @@ class RoleController extends Controller
 
     public function show(Role $role)
     {
-        return view('panel.pages.roles.edit')
+        return view('pages.roles.edit')
             ->with([
                 'action' => null,
                 'method' => null,
@@ -67,7 +67,7 @@ class RoleController extends Controller
 
     public function edit(Role $role)
     {
-        return view('panel.pages.roles.edit')
+        return view('pages.roles.edit')
             ->with([
                 'action' => route('roles.update', $role),
                 'method' => "PUT",

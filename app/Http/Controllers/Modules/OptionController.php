@@ -25,7 +25,7 @@ class OptionController extends Controller
         $type      =  $request->get('type');
         $company   =  $request->get('company');
 
-        return view('panel.pages.options.index')
+        return view('pages.options.index')
             ->with([
                 'names' => Parameter::query()
                     ->where('type', 'select')
@@ -44,7 +44,7 @@ class OptionController extends Controller
 
     public function create()
     {
-        return view('panel.pages.options.edit')
+        return view('pages.options.edit')
             ->with([
                 'action' => route('options.store'),
                 'method' => null,
@@ -70,7 +70,7 @@ class OptionController extends Controller
 
     public function show(Option $option)
     {
-        return view('panel.pages.options.edit')
+        return view('pages.options.edit')
             ->with([
                 'action' => null,
                 'method' => null,
@@ -83,7 +83,7 @@ class OptionController extends Controller
 
     public function edit(Option $option)
     {
-        return view('panel.pages.options.edit')
+        return view('pages.options.edit')
             ->with([
                 'action' => route('options.update', $option),
                 'method' => "PUT",

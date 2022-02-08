@@ -60,7 +60,7 @@ class TaskController extends Controller
         $priorities = Task::priorities();
         $types = Task::types();
 
-        return view('panel.pages.tasks.index')
+        return view('pages.tasks.index')
             ->with([
                 'filters' => $filters,
                 'tasks' => Task::with('taskable', 'user')->withCount([
@@ -156,7 +156,7 @@ class TaskController extends Controller
 
     public function create()
     {
-        return view('panel.pages.tasks.edit')
+        return view('pages.tasks.edit')
             ->with([
                 'action' => route('tasks.store'),
                 'method' => 'POST',
@@ -193,7 +193,7 @@ class TaskController extends Controller
 
     public function show(Task $task)
     {
-        return view('panel.pages.tasks.edit')
+        return view('pages.tasks.edit')
             ->with([
                 'action' => null,
                 'method' => null,
@@ -205,7 +205,7 @@ class TaskController extends Controller
 
     public function edit(Task $task)
     {
-        return view('panel.pages.tasks.edit')
+        return view('pages.tasks.edit')
             ->with([
                 'action' => route('tasks.update', $task),
                 'method' => "PUT",

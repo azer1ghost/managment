@@ -36,7 +36,7 @@ class UserController extends Controller
         $type  = $request->get('type') ?? 1;
         $status  = $request->get('status') ?? 1;
 
-        return view('panel.pages.users.index')
+        return view('pages.users.index')
             ->with([
                 'users' => User::with('company', 'department', 'role')
                     ->when($search,
@@ -79,7 +79,7 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('panel.pages.users.edit')
+        return view('pages.users.edit')
             ->with([
                 'action' => route('users.store'),
                 'method' => null,
@@ -125,7 +125,7 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        return view('panel.pages.users.edit')
+        return view('pages.users.edit')
             ->with([
                 'action' => null,
                 'method' => null,
@@ -141,7 +141,7 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        return view('panel.pages.users.edit')
+        return view('pages.users.edit')
             ->with([
                 'action' => route('users.update', $user),
                 'method' => "PUT",

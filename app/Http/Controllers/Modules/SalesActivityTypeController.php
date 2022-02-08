@@ -18,7 +18,7 @@ class SalesActivityTypeController extends Controller
 
     public function index()
     {
-        return view('panel.pages.sales-activities-types.index')->with([
+        return view('pages.sales-activities-types.index')->with([
             'sale_activities_types' => SalesActivityType::latest()->paginate(10),
         ]);
     }
@@ -26,7 +26,7 @@ class SalesActivityTypeController extends Controller
     public function create()
     {
 
-        return view('panel.pages.sales-activities-types.edit')->with([
+        return view('pages.sales-activities-types.edit')->with([
             'action' => route('sales-activities-types.store'),
             'method' => 'POST',
             'data' => new SalesActivityType(),
@@ -50,7 +50,7 @@ class SalesActivityTypeController extends Controller
 
     public function show(SalesActivityType $sales_activities_type)
     {
-        return view('panel.pages.sales-activities-types.edit')->with([
+        return view('pages.sales-activities-types.edit')->with([
             'action' => route('sales-activities-types.store', $sales_activities_type),
             'method' => null,
             'data' => $sales_activities_type,
@@ -60,7 +60,7 @@ class SalesActivityTypeController extends Controller
 
     public function edit(SalesActivityType $sales_activities_type)
     {
-        return view('panel.pages.sales-activities-types.edit')->with([
+        return view('pages.sales-activities-types.edit')->with([
             'action' => route('sales-activities-types.update', $sales_activities_type),
             'method' => 'PUT',
             'data' => $sales_activities_type,

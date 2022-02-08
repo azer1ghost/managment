@@ -24,7 +24,7 @@ class ParameterController extends Controller
         $limit  = $request->get('limit', 10);
         $type   = $request->get('type');
 
-        return view('panel.pages.parameters.index')
+        return view('pages.parameters.index')
             ->with([
                 'types' => Parameter::types(),
                 'parameters' => Parameter::with('option')
@@ -37,7 +37,7 @@ class ParameterController extends Controller
 
     public function create()
     {
-        return view('panel.pages.parameters.edit')
+        return view('pages.parameters.edit')
             ->with([
                 'action' => route('parameters.store'),
                 'method' => null,
@@ -70,7 +70,7 @@ class ParameterController extends Controller
 
     public function show(Parameter $parameter)
     {
-        return view('panel.pages.parameters.edit')
+        return view('pages.parameters.edit')
             ->with([
                 'action' => null,
                 'method' => null,
@@ -89,7 +89,7 @@ class ParameterController extends Controller
 
     public function edit(Parameter $parameter)
     {
-        return view('panel.pages.parameters.edit')
+        return view('pages.parameters.edit')
             ->with([
                 'action' => route('parameters.update', $parameter),
                 'method' => "PUT",
