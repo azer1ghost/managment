@@ -1,4 +1,4 @@
-<div class="col-md-12 px-0">
+<div class="col-md-12">
     <p class="text-muted mb-2">PERMISSIONS</p>
     <div class="px-2">
         <p class="text-muted my-2">All</p>

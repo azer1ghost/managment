@@ -18,18 +18,15 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
 
-        <button class="btn btn-outline-success showFilter">
-            <i class="far fa-filter"></i> @lang('translates.buttons.filter_open')
-        </button>
+    <button class="btn btn-outline-success showFilter">
+        <i class="far fa-filter"></i> @lang('translates.buttons.filter_open')
+    </button>
 
     <form action="{{route('works.index')}}">
         <div class="row d-flex justify-content-between mb-2">
-
             <div id="filterContainer" class="mb-3" @if(request()->has('datetime')) style="display:block;" @else style="display:none;" @endif>
-
                 <div class="col-12">
                     <div class="row m-0">
-
                         <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">
                             <label for="codeFilter">{{__('translates.filters.code')}}</label>
                             <input type="search" id="codeFilter" name="code" value="{{$filters['code']}}"
@@ -188,8 +185,6 @@
                 </div>
             </div>
 
-
-
             <div class="col-sm-3 pt-2 d-flex align-items-center">
                 <p class="mb-0"> @lang('translates.total_items', ['count' => $works->count(), 'total' => is_numeric($filters['limit']) ? $works->total() : $works->count()])</p>
                 <div class="input-group col-md-6">
@@ -201,13 +196,13 @@
                 </div>
             </div>
 
-                <div class="col-sm-3 pt-2 d-flex align-items-center">
-                    <div class="input-group">
-                        <div class="d-flex align-items-center">
-                            <a class="btn btn-outline-success  mr-2" data-toggle="modal" data-target="#report-work" >@lang('translates.navbar.report')</a>
-                        </div>
+            <div class="col-sm-3 pt-2 d-flex align-items-center">
+                <div class="input-group">
+                    <div class="d-flex align-items-center">
+                        <a class="btn btn-outline-success  mr-2" data-toggle="modal" data-target="#report-work" >@lang('translates.navbar.report')</a>
                     </div>
                 </div>
+            </div>
 
             @can('create', App\Models\Work::class)
                 <div class="col-sm-6 py-3">
@@ -223,8 +218,8 @@
                     @endif
                 </div>
             @endcan
-            <div class="col-12">
-                <table class="table @if($works->count()) table-responsive-md @else table-responsive-sm @endif " id="table">
+
+            <table class="table col-12 mx-2 @if($works->count()) table-responsive-md @else table-responsive-sm @endif " id="table">
                     <thead>
                     <tr class="text-center">
                         @if(auth()->user()->hasPermission('canVerify-work'))
@@ -413,7 +408,6 @@
                        @endif
                     </tbody>
                 </table>
-            </div>
             @if(is_numeric($filters['limit']))
                 <div class="col-12">
                     <div class="float-right">

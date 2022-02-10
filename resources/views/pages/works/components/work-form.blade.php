@@ -12,7 +12,7 @@
             <div class="spinner-border text-primary" role="status"></div>
         </div>
     </div>
-    <div class="tab-content row my-5">
+    <div class=" row my-5">
         <div class="form-group col-12">
             <div class="row m-0">
                 <div class="form-group col-12 col-md-6" wire:ignore>

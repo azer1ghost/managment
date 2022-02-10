@@ -1,12 +1,18 @@
 require('./bootstrap');
+require('./template');
+require('./dashboard');
+require('./off-canvas');
+require('./settings');
 require('jquery-confirm/dist/jquery-confirm.min');
 require('moment');
 require('daterangepicker');
 require('select2/dist/js/select2.min');
 require('bootstrap-select/dist/js/bootstrap-select.min');
-require('codemirror');
 require('./delete');
 require('./custom');
+
+
+$.fn.selectpicker.Constructor.BootstrapVersion = '4.6.0';
 
 const firebaseConfig = {
     apiKey: process.env.MIX_FIREBASE_API_KEY,

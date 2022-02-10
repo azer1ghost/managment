@@ -21,7 +21,7 @@
     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
         @method($method) @csrf
         <input type="hidden" name="id" value="{{optional($data)->getAttribute('id')}}">
-        <div class="tab-content row mt-4" >
+        <div class=" row mt-4" >
             <div class="form-group col-12">
                 <div class="row">
                     <x-translate>

@@ -21,7 +21,7 @@
     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
         @method($method) @csrf
         <input type="hidden" name="id" value="{{optional($data)->getAttribute('id')}}">
-        <div class="tab-content row mt-4" >
+        <div class=" row mt-4" >
             @if (is_null($data))
                 <x-input::text  name="logo"  :value="optional($data)->getAttribute('logo')"  width="6" class="pr-3" />
             @else

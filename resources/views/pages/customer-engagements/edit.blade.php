@@ -20,7 +20,7 @@
     </x-bread-crumb>
     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
         @method($method) @csrf
-        <div class="tab-content row mt-4">
+        <div class=" row mt-4">
 
             <div class="form-group col-6">
                 <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>

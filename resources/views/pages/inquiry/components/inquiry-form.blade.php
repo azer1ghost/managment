@@ -1,4 +1,4 @@
-<form action="{{$action}}" id="createForm" method="POST" class="tab-content form-row mb-5">
+<form action="{{$action}}" id="createForm" method="POST" class=" form-row mb-5">
     @if($method == null)
         @can('update', $inquiry)
             <div class="col-12 my-4 pl-0">

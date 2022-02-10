@@ -1,50 +1,38 @@
- <ul class="d-flex justify-content-center align-items-center mb-0" x-data>
-    @guest
-        @if (Route::has('login'))
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('login') }}">Login</a>
-            </li>
-        @endif
-
-        @if (Route::has('register'))
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('register') }}">Register</a>
-            </li>
-        @endif
-    @else
-        @if(request()->hasCookie('user_id'))
-             <a class="py-1" href="{{ route('users.loginAs', request()->cookie('user_id')) }}">
-                 Back
-             </a>
-        @else
-             <a class="py-1" href="{{ route('logout') }}"
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                 {{ __('translates.logout') }}
-             </a>
-             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                 @csrf
-             </form>
-         @endif
-    @endguest
-    <div class="dropdown">
-        <div class="d-none" id="notification-badge" style="position: absolute;right: 0"><i class="fas fa-circle text-danger" style="font-size: 7px"></i></div>
-        <a id="notificationsDropdown" class="nav-link pr-0" href="#" role="button" data-toggle="dropdown">
-            <span><i class="far fa-bell"></i></span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right p-3" style="min-width: 280px !important;background: #F5F6FA !important;">
-            <div class="d-flex flex-column">
+<div class="navbar-menu-wrapper d-flex align-items-center justify-content-end" x-data>
+    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+        <i class="fas fa-bars"></i>
+    </button>
+    <ul class="navbar-nav mr-lg-2">
+        <li class="nav-item nav-search d-none d-lg-block">
+            <div class="input-group">
+                <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
+                            <span class="input-group-text" id="search">
+                              <i class="fas fa-search"></i>
+                            </span>
+                </div>
+                <input type="text" class="form-control" id="navbar-search-input" placeholder="Search now" aria-label="search" aria-describedby="search">
+            </div>
+        </li>
+    </ul>
+    <ul class="navbar-nav navbar-nav-right">
+        <li class="nav-item dropdown">
+            <a class="nav-link count-indicator dropdown-toggle" id="notificationsDropdown" href="#" data-toggle="dropdown">
+                <i class="fas fa-bell mx-0"></i>
+                <span class="count d-none" id="notification-badge"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list p-2" style="min-width: 280px;max-width: 100%;height: 400px;overflow: auto">
                 <template x-if="$store.state.notifications.length">
                     <template x-for="(notification, index) in $store.state.notifications" :key="index">
-                        <a x-bind:href="notification.url" class="mb-1">
-                            <div class="media">
-                                <img x-bind:src="notification.user.avatar" class="mr-3 profile" alt="logo" style="width: 30px;height: 30px">
-                                <div class="media-body">
-                                    <h6 class="my-0" style="font-size: 12px;color: #000">
-                                        <p x-text="notification.user.fullname" class="mb-1" style="font-size: 14px;"></p>
-                                        <p x-text="notification.message" class="mb-1" style="font-size: 12px"></p>
-                                        <p class="text-muted" x-text="notification.content"></p>
-                                    </h6>
+                        <a x-bind:href="notification.url" class="dropdown-item preview-item">
+                            <div class="preview-thumbnail">
+                                <div class="preview-icon">
+                                    <img x-bind:src="notification.user.avatar" class="mr-3 profile" alt="logo" style="width: 100%;height: 100%">
                                 </div>
+                            </div>
+                            <div class="preview-item-content">
+                                <h6 class="preview-subject font-weight-normal" x-text="notification.user.fullname"></h6>
+                                <p x-text="notification.message" class="mb-1" style="font-size: 12px"></p>
+                                <p class="text-muted" x-text="notification.content"></p>
                             </div>
                         </a>
                     </template>
@@ -53,9 +41,39 @@
                     <p style="color: black!important;">No notifications yet</p>
                 </template>
             </div>
-        </div>
-    </div>
-</ul>
+        </li>
+        <li class="nav-item nav-profile dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+                <img src="{{image(auth()->user()->getAttribute('avatar'))}}" alt="profile"/>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                <a class="dropdown-item" href="{{route('account')}}">
+                    <i class="fas fa-user text-primary"></i>
+                    {{auth()->user()->getAttribute('fullname')}}
+                </a>
+                @if(request()->hasCookie('user_id'))
+                    <a class="dropdown-item" href="{{ route('users.loginAs', request()->cookie('user_id')) }}">
+                        Back
+                    </a>
+                @else
+                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">
+                        <i class="fas fa-house-leave text-primary"></i>
+                        Logout
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                @endif
+
+            </div>
+        </li>
+    </ul>
+    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+        <i class="fas fa-bars"></i>
+    </button>
+</div>
+
  @push('scripts')
      <script>
          Spruce.store('state', {

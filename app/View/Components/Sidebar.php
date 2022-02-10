@@ -39,18 +39,6 @@ class Sidebar extends Component
             ],
 
             (object)[
-                'title' => __('translates.navbar.account'),
-                'icon' => 'fa fa-user',
-                'url' => route('account'),
-                'permission' => 'viewAny-account',
-                'badge' => null,
-//                (object) [
-//                    'title' => 'New',
-//                    'class' => 'info'
-//                ],
-            ],
-
-            (object)[
                 'title' => "Security",
                 'icon' => 'fas fa-lock',
                 'url' => route('account.security'),
@@ -309,27 +297,32 @@ class Sidebar extends Component
     {
         return /* @lang Blade */
             <<<'blade'
-            <ul>
-                @foreach($items as $item)
-                    @can($item->permission ?? 'generally') 
-                        @if($item->type ?? '' == "title")
-                            <li>
-                                <h2 class="text-muted">{{$item->title}}</h2>
-                            </li>
-                        @else
-                            <li @class(['active' => request()->url() == $item->url ]) >
-                                <a href="{{$item->url}}">
-                                    <span class="icon"><i class="{{$item->icon}} mr-2"></i></span>
-                                    <span class="item">{{$item->title}}</span>
-                                    @if($item->badge ?? false)
-                                        <span class="badge badge-pill badge-{{$item->badge->class}}">{{$item->badge->title}}</span>
-                                    @endif
-                                </a>
-                            </li>
-                        @endif
+            <nav class="sidebar sidebar-offcanvas pb-4" id="sidebar" 
+                style="height: 500px;overflow-y: auto;min-width: 250px;max-width: 100%;"
+            >
+                <ul class="nav">
+                  @foreach($items as $item)
+                    @can($item->permission ?? 'generally')
+                        <li @class(['nav-item', 'active' => request()->url() == $item->url])>
+                            <a class="nav-link" @if(isset($item->children)) data-toggle="collapse" href="#ui-basic{{$loop->index}}" @else href="{{$item->url}}" @endif>
+                                <i class="{{$item->icon}} mr-2"></i>
+                                <span class="menu-title">{{$item->title}}</span>
+                                @if(isset($item->children)) <i class="menu-arrow"></i> @endif
+                            </a>
+                            @if(isset($item->children))
+                                <div class="collapse" id="ui-basic{{$loop->index}}">
+                                    <ul class="nav flex-column sub-menu">
+                                    @foreach($item->children as $menu)
+                                        <li class="nav-item"> <a class="nav-link" href="{{$menu->url}}">{{$menu->title}}</a></li>
+                                    @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                        </li>
                     @endcan
-                @endforeach
-            </ul>
+                  @endforeach
+                </ul>
+            </nav>
         blade;
     }
 }

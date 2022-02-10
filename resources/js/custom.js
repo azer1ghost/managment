@@ -1,48 +1,4 @@
 $(document).ready(function (){
-    // Hamburger and Sidebar
-    const body = $('body');
-    const hamburger = $(".hamburger");
-
-    body.addClass(sidebarStatus(checkWindowWidth()));
-
-    if(!body.hasClass('active')){
-        hamburger.addClass('is-active');
-    }
-
-    hamburger.click(function(){
-        if(body.hasClass('active')){
-            hamburger.addClass('is-active');
-            body.removeClass('active');
-            body.addClass('inactive');
-            localStorage.setItem("navbar", 'inactive');
-        }else{
-            hamburger.removeClass('is-active');
-            body.removeClass('inactive');
-            body.addClass('active');
-            localStorage.setItem("navbar", 'active');
-        }
-    });
-
-    function checkWindowWidth(){
-        if($(window).width() < 576){
-            return 'active';
-        }else{
-            return 'inactive';
-        }
-    }
-
-    function sidebarStatus(status){
-        if($(window).width() < 576){
-            return 'active';
-        }
-        if(localStorage.getItem("navbar") !== null){
-            return localStorage.getItem("navbar");
-        }else{
-            localStorage.setItem("navbar", status);
-            return localStorage.getItem("navbar");
-        }
-    }
-
     // SelectPicker
     $('.userSelector').selectpicker()
     $('.filterSelector').selectpicker()
@@ -129,6 +85,15 @@ $(document).ready(function (){
         showAnim: "slideDown",
     });
 
+    $( "input[name='date']" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "dd-mm-yy",
+        showAnim: "slideDown",
+        minDate: '-1m',
+        maxDate: new Date()
+    });
+
     // Shown Filter
     $('.showFilter').click(function (){
         const x = document.getElementById("filterContainer");
@@ -137,5 +102,14 @@ $(document).ready(function (){
         } else {
             x.style.display = "none";
         }
+    });
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip({
+            html: true,
+            content: function(){
+                return $(this).attr('title');
+            }
+        })
     });
 });
