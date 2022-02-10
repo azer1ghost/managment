@@ -29,8 +29,8 @@ class HasMany extends Component
                 <label for="data-{{$name}}">{{$label ?? Str::ucfirst($name).' input'}}</label>
                <div class="p-2 border">
                 @foreach($relations as $relation)
-                <div class="form-check">
-                  <input class="form-check-input" @if(in_array($relation->$store ,$value)) checked @endif id="{{$name}}-{{$relation->$store}}" type="checkbox" name="{{$name}}[]" value="{{$relation->$store}}">
+                <div>
+                  <input @if(in_array($relation->$store ,$value)) checked @endif id="{{$name}}-{{$relation->$store}}" type="checkbox" name="{{$name}}[]" value="{{$relation->$store}}">
                   <label class="form-check-label user-select-none" for="{{$name}}-{{$relation->id}}">
                     {{$relation->$show}}
                   </label>

@@ -79,14 +79,11 @@
                                 @endphp
                                 <form action="{{route('task-lists.update', $list)}}" class="edit-form" method="POST">
                                     @method('PUT') @csrf
-                                    <div class="form-check">
+                                    <div>
                                         <input type="hidden" value="{{request()->url()}}" name="url">
                                         <input type="hidden" value="{{$list->name}}" name="name">
                                         @if($data->canManageLists() && $data->getAttribute('status') != 'done' && !$list->parentTask()->exists())
-                                            <input class="form-check-input" type="checkbox"
-                                                   id="list-check-{{$list->id}}"
-                                                   @if($list->is_checked) checked @endif
-                                            >
+                                            <input type="checkbox" id="list-check-{{$list->id}}" @if($list->is_checked) checked @endif>
                                         @endif
                                         <label class="form-check-label @if($list->is_checked) completed @endif" for="list-check-{{$list->id}}"
                                                data-toggle="tooltip"

@@ -35,8 +35,8 @@
                         @endforeach
                     </x-translate>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" @if(optional($data)->getAttribute('status') === true) checked @endif name="status" id="data-status">
+                <div>
+                    <input  type="checkbox" @if(optional($data)->getAttribute('status') === true) checked @endif name="status" id="data-status">
                     <label class="form-check-label" for="data-status">
                         Is Active
                     </label>

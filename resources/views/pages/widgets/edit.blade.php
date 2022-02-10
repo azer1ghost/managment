@@ -39,11 +39,9 @@
                     <x-input::text     name="icon"  :value="optional($data)->getAttribute('icon')"  label="Widget icon"  width="6" class="pr-3" />
                     <x-input::number   name="order"  :value="optional($data)->getAttribute('order')"  label="Widget order"  width="6" class="pr-3" />
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" @if(optional($data)->getAttribute('status') === true) checked @endif name="status" id="data-status">
-                    <label class="form-check-label" for="data-status">
-                        Is Active
-                    </label>
+                <div>
+                    <input type="checkbox" @if(optional($data)->getAttribute('status') === true) checked @endif name="status" id="data-status">
+                    <label class="form-check-label" for="data-status"> Is Active </label>
                 </div>
             </div>
         </div>
