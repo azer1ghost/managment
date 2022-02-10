@@ -297,9 +297,7 @@ class Sidebar extends Component
     {
         return /* @lang Blade */
             <<<'blade'
-            <nav class="sidebar sidebar-offcanvas pb-4" id="sidebar" 
-                style="height: 500px;overflow-y: auto;min-width: 250px;max-width: 100%;"
-            >
+            <nav class="sidebar sidebar-offcanvas pb-4" id="sidebar">
                 <ul class="nav">
                   @foreach($items as $item)
                     @can($item->permission ?? 'generally')

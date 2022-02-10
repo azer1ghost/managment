@@ -20,7 +20,7 @@
                 <i class="fas fa-bell mx-0"></i>
                 <span class="count d-none" id="notification-badge"></span>
             </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list p-2" style="min-width: 280px;max-width: 100%;height: 400px;overflow: auto">
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list p-2">  <!-- style="min-width: 280px;max-width: 100%;height: 400px;overflow: auto" -->
                 <template x-if="$store.state.notifications.length">
                     <template x-for="(notification, index) in $store.state.notifications" :key="index">
                         <a x-bind:href="notification.url" class="dropdown-item preview-item">
@@ -82,7 +82,7 @@
 
          let notifications = Spruce.store('state').notifications;
 
-         @if(app()->environment('production'))
+{{--         @if(app()->environment('production'))--}}
             const userID = {{auth()->id()}};
             const notificationsRef = firebase.database().ref().child('notifications');
             const sound = new Audio('{{asset('assets/audio/notify/notify.wav')}}');
@@ -103,7 +103,7 @@
                  }
                  notifications = notifications.reverse();
              });
-         @endif
+{{--         @endif--}}
 
          $('#notificationsDropdown').click(function (){
              if(!$('#notification-badge').hasClass('d-none')){
