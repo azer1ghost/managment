@@ -480,7 +480,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="choose-date">@lang('translates.fields.date')</label>
-                            <input class="form-control daterange" id="choose-date" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
+                            <input class="form-control custom-daterange" id="choose-date" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
                         </div>
                     </div>
                     <div class="modal-footer">

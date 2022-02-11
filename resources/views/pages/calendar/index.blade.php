@@ -61,7 +61,7 @@
                     </div>
                     <div class="modal-body">
                         <input type="text" name="name" id="data-name" class="form-control mb-3" placeholder="@lang('translates.calendar.fields.name')" required>
-                        <input type="text" name="daterange" id="data-daterange" class="form-control mb-3" readonly required>
+                        <input type="text" name="daterange" id="data-daterange" class="form-control mb-3 custom-daterange" readonly required>
                         <div class="form-group">
                             <select class="form-control" id="data-type" name="type" required>
                                 <option value="" disabled selected>--@lang('translates.calendar.fields.select_type')--</option>
