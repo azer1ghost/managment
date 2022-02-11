@@ -419,7 +419,7 @@
     </table>
 
     @if($hasPending && auth()->user()->hasPermission('canVerify-work'))
-        <div class="col-12 pl-0">
+        <div class="col-12 pl-0 py-3">
             <a href="{{route('works.sum.verify')}}" id="sum-verify" class="btn btn-outline-primary">@lang('translates.sum') @lang('translates.buttons.verify')</a>
         </div>
     @endif
