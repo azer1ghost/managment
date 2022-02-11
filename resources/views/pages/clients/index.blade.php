@@ -42,8 +42,8 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <div class="form-group ml-2 form-check">
-                                <input name="free_clients" @if($filters['free_clients']) checked @endif type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <div class="form-group ml-2">
+                                <input name="free_clients" @if($filters['free_clients']) checked @endif type="checkbox" id="exampleCheck1">
                                 <label class="form-check-label" for="exampleCheck1">@lang('translates.filters.free_clients')</label>
                             </div>
                         </div>

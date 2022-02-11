@@ -2,14 +2,14 @@
     <p class="text-muted mb-2">PERMISSIONS</p>
     <div class="px-2">
         <p class="text-muted my-2">All</p>
-        <div class="form-check">
-            <input class="form-check-input" @if (Str::of(optional($model)->getAttribute('permissions'))->trim() == 'all')) checked @endif type="checkbox" name="all_perms" value="all" id="perm-0">
+        <div>
+            <input @if (Str::of(optional($model)->getAttribute('permissions'))->trim() == 'all')) checked @endif type="checkbox" name="all_perms" value="all" id="perm-0">
             <label class="form-check-label" for="perm-0">
                 All
             </label>
         </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="check-perms">
+        <div>
+            <input type="checkbox" id="check-perms">
             <label class="form-check-label" for="check-perms">
                 Choose All
             </label>
@@ -29,8 +29,8 @@
                     <div class="col-12 col-md-4 my-2">
                         <p class="text-muted my-2">{{ucfirst($type)}}</p>
                         @endif
-                        <div class="form-check">
-                            <input class="form-check-input" @if (Str::contains(optional($model)->getAttribute('permissions'),$perm)) checked @endif type="checkbox" name="perms[]" value="{{$perm}}" id="perm-{{$loop->iteration}}">
+                        <div>
+                            <input @if (Str::contains(optional($model)->getAttribute('permissions'),$perm)) checked @endif type="checkbox" name="perms[]" value="{{$perm}}" id="perm-{{$loop->iteration}}">
                             <label class="form-check-label" for="perm-{{$loop->iteration}}">
                                 {{$perm}}
                             </label>

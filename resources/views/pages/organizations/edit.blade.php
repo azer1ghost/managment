@@ -37,8 +37,8 @@
                     </x-translate>
 
                     <div class="col-12 col-md-6 pr-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" @if(optional($data)->getAttribute('is_certificate') === true) checked @endif name="is_certificate" id="data-certificate">
+                        <div>
+                            <input type="checkbox" @if(optional($data)->getAttribute('is_certificate') === true) checked @endif name="is_certificate" id="data-certificate">
                             <label class="form-check-label" for="data-certificate">
                                 Is Certificate
                             </label>

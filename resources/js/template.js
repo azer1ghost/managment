@@ -55,13 +55,16 @@
 
     $('[data-toggle="minimize"]').on("click", function() {
       if ((body.hasClass('sidebar-toggle-display')) || (body.hasClass('sidebar-absolute'))) {
-        body.toggleClass('sidebar-hidden');
+        body.toggleClass('sidebar-hidden')
+
       } else {
         body.toggleClass('sidebar-icon-only');
+        $('.content-offcanvas').css('margin-left', '4%')
       }
+
     });
 
-    //checkbox and radios
+      //checkbox and radios
     $(".form-check label,.form-radio label").append('<i class="input-helper"></i>');
 
     //Horizontal menu in mobile
@@ -76,6 +79,7 @@
           navItemClicked.removeClass('show-submenu');
         }
         $(this).toggleClass('show-submenu');
+
       }        
     })
 

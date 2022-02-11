@@ -5689,7 +5689,6 @@ input[type=submit].btn-block, input[type=reset].btn-block, input[type=button].bt
   font-weight: 400;
   color: #1F1F1F;
   text-align: inherit;
-  white-space: nowrap;
   background-color: transparent;
   border: 0;
 }
@@ -19494,7 +19493,6 @@ ul li, ol li, dl li {
   color: #000000;
   border-radius: 0;
   border: 1px solid #CED4DA;
-  padding: 0.75rem 1.5rem;
 }
 .nav-tabs .nav-item:first-child .nav-link {
   border-radius: 4px 0 0 0;
@@ -21283,10 +21281,10 @@ table.dataTable tbody td.select-checkbox:after {
   font: normal normal normal 15px/1 "Font Awesome 5 Pro";
 }
 .fc button .fc-icon-right-single-arrow:after {
-  content: "\e649";
+  content: "\f061";
 }
 .fc button .fc-icon-left-single-arrow:after {
-  content: "\e64a";
+  content: "\f060";
 }
 .fc .fc-button-group .fc-button {
   background-color: #ffffff;
@@ -22787,7 +22785,7 @@ div.tagsinput span.tag a {
 }
 
 .sidebar .nav .nav-item .nav-link i.menu-arrow:before {
-  content: "\f078";
+  content: "\e649";
   font-family: "Font Awesome 5 Pro";
   font-style: normal;
   display: block;
@@ -24656,6 +24654,19 @@ a {
   color: #919aa3;
 }
 
+@media (min-width: 992px) {
+  .sidebar-offcanvas {
+    position: fixed;
+    overflow-y: scroll;
+    top: 4%;
+    height: 100%;
+    width: 15%;
+  }
+
+  .content-offcanvas {
+    margin-left: 15%;
+  }
+}
 .daterangepicker {
   position: absolute;
   color: inherit;

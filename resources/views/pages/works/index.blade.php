@@ -219,7 +219,7 @@
                 </div>
             @endcan
 
-            <table class="table col-12 mx-2 @if($works->count()) table-responsive-md @else table-responsive-sm @endif " id="table">
+            <table class="table col-12 mr-2 ml-1 @if($works->count()) table-responsive-md @else table-responsive-sm @endif " id="table">
                     <thead>
                     <tr class="text-center">
                         @if(auth()->user()->hasPermission('canVerify-work'))

@@ -87,14 +87,14 @@
     @if($selected['company'])
         <x-input::textarea name="note"  :value="$note"  label="Note"   width="12" rows="4"/>
         <div class="col-md-3">
-            <div class="form-check">
-                <input class="form-check-input" wire:model="selected.is_out" type="radio" name="is_out" id="is_out1" value="0">
+            <div>
+                <input wire:model="selected.is_out" type="radio" name="is_out" id="is_out1" value="0">
                 <label class="form-check-label" for="is_out1">
                     @lang('translates.inquiries.types.from_customers')
                 </label>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" wire:model="selected.is_out" name="is_out" id="is_out" value="1">
+            <div>
+                <input type="radio" wire:model="selected.is_out" name="is_out" id="is_out" value="1">
                 <label class="form-check-label" for="is_out">
                     @lang('translates.inquiries.types.from_us')
                 </label>

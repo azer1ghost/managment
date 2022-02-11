@@ -20,7 +20,7 @@
                 <i class="fas fa-bell mx-0"></i>
                 <span class="count d-none" id="notification-badge"></span>
             </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list p-2">  <!-- style="min-width: 280px;max-width: 100%;height: 400px;overflow: auto" -->
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list p-2" style="min-width: 400px;max-width: 100%;overflow-wrap: break-word !important;height: 400px;overflow-x: hidden">  <!--  -->
                 <template x-if="$store.state.notifications.length">
                     <template x-for="(notification, index) in $store.state.notifications" :key="index">
                         <a x-bind:href="notification.url" class="dropdown-item preview-item">
@@ -31,7 +31,7 @@
                             </div>
                             <div class="preview-item-content">
                                 <h6 class="preview-subject font-weight-normal" x-text="notification.user.fullname"></h6>
-                                <p x-text="notification.message" class="mb-1" style="font-size: 12px"></p>
+                                <p x-text="notification.message" class="mb-1" style="font-size: 14px;"></p>
                                 <p class="text-muted" x-text="notification.content"></p>
                             </div>
                         </a>
