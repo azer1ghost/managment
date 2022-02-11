@@ -65,7 +65,7 @@
             <x-sidebar/>
             @endif
 
-        <div class="p-3 w-100">
+        <div class="p-3 w-100 content-offcanvas">
             @yield('content')
         </div>
     </div>

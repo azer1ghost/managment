@@ -233,3 +233,16 @@ a{
 table td {
   
 }
+
+@media (min-width: 992px) {
+.sidebar-offcanvas {
+  position: fixed;
+  overflow-y: scroll;
+  top: 4%;
+  height: 100%;
+  width: 15%;
+}
+  .content-offcanvas{
+    margin-left: 15%;
+  }
+}
