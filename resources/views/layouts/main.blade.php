@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Robots -->
+    <meta name="robots" content="nofollow,noindex">
     <title>@yield('title') | {{ config('app.name', 'Laravel') }}</title>
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="{{asset('assets/images/favicons/favicon.ico')}}"/>
