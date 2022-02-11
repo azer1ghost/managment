@@ -7,7 +7,7 @@
         <x-bread-crumb-link :link="route('dashboard')">
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
-        <x-bread-crumb-link :link="route('sales-clients.index')">
+        <x-bread-crumb-link :link="route('sales-client.index')">
             @lang('translates.navbar.sales_client')
         </x-bread-crumb-link>
         <x-bread-crumb-link>

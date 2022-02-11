@@ -93,7 +93,7 @@
     </form>
 
     <div class="modal fade" id="create-sales-activity">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <form action="{{route('sales-activities.create')}}">
                     <div class="modal-header">
@@ -117,7 +117,7 @@
                             <select name="client_id"
                                     id="data-client-type"
                                     class="custom-select2"
-                                    data-url="{{route('sales-clients.search')}}"
+                                    data-url="{{route('sales-client.search')}}"
                                     style="width: 100% !important;"
                                     required>
                             </select>

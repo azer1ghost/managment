@@ -91,7 +91,7 @@
                         <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
                         <select name="client_id" id="clientFilter"
                                 class="custom-select2"
-                                data-url="{{route('sales-clients.search')}}"
+                                data-url="{{route('sales-client.search')}}"
                                 style="width: 100% !important;"
                         >
                             @if(is_numeric(request()->get('client_id')))
@@ -317,13 +317,13 @@
                             <select name="client_id" id="data-client-type"
                                     required
                                     class="custom-select2"
-                                    data-url="{{route('sales-clients.search')}}"
+                                    data-url="{{route('sales-client.search')}}"
                             >
                             </select>
                         </div>
                         <input type="hidden" name="company" value="{{\App\Models\Company::MOBIL_GROUP}}">
 
-                        <a href="{{route('sales-clients.create', ['close' => true])}}" target="_blank" class="btn btn-outline-success"><i class="fas fa-plus"></i></a>
+                        <a href="{{route('sales-client.create', ['close' => true])}}" target="_blank" class="btn btn-outline-success"><i class="fas fa-plus"></i></a>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
@@ -383,7 +383,7 @@
         $('.client-edit-btn').on('click', function (e){
             let client = $(this).data('client')
 
-            let formAction = "{{route('sales-clients.update', 'clinet_id')}}".replace('clinet_id', client.id);
+            let formAction = "{{route('sales-client.update', 'clinet_id')}}".replace('clinet_id', client.id);
 
             $('#client-form').attr('action', formAction)
 

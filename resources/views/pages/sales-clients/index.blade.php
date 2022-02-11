@@ -11,7 +11,7 @@
             @lang('translates.navbar.sales_client')
         </x-bread-crumb-link>
     </x-bread-crumb>
-    <form action="{{route('sales-clients.index')}}">
+    <form action="{{route('sales-client.index')}}">
         <div class="row d-flex justify-content-between mb-2">
 
             <div class="col-md-4">
@@ -19,7 +19,7 @@
                     <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="@lang('translates.fields.enter', ['field' => trans('translates.fields.clientName')])" aria-label="Recipient's clientname" aria-describedby="basic-addon2">
                     <div class="input-group-append">
                         <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
-                        <a class="btn btn-outline-danger d-flex align-items-center" href="{{route('sales-clients.index')}}"><i class="fal fa-times"></i></a>
+                        <a class="btn btn-outline-danger d-flex align-items-center" href="{{route('sales-client.index')}}"><i class="fal fa-times"></i></a>
                     </div>
                 </div>
             </div>
@@ -41,7 +41,7 @@
             </div>
             <div class="col-auto mb-3">
                 @can('create', App\Models\SalesClient::class)
-                    <a class="btn btn-outline-success" href="{{route('sales-clients.create')}}">@lang('translates.buttons.create')</a>
+                    <a class="btn btn-outline-success" href="{{route('sales-client.create')}}">@lang('translates.buttons.create')</a>
                 @endcan
             </div>
             <table class="table table-responsive-sm table-hover">
@@ -69,15 +69,15 @@
                         <td>
                             <div class="btn-sm-group">
                                 @can('view', $sales_client)
-                                    <a href="{{route('sales-clients.show', $sales_client)}}" class="btn btn-sm btn-outline-primary"> <i class="fal fa-eye"></i></a>
+                                    <a href="{{route('sales-client.show', $sales_client)}}" class="btn btn-sm btn-outline-primary"> <i class="fal fa-eye"></i></a>
                                 @endcan
 
                                 @can('update', $sales_client)
-                                    <a href="{{route('sales-clients.edit', $sales_client)}}" class="btn btn-sm btn-outline-success"> <i class="fal fa-pen"></i></a>
+                                    <a href="{{route('sales-client.edit', $sales_client)}}" class="btn btn-sm btn-outline-success"> <i class="fal fa-pen"></i></a>
                                 @endcan
 
                                 @can('delete', $sales_client)
-                                    <a href="{{route('sales-clients.destroy', $sales_client)}}" delete data-name="{{$sales_client->getAttribute('name')}}" class="btn btn-sm btn-outline-danger"> <i class="fal fa-trash"></i> </a>
+                                    <a href="{{route('sales-client.destroy', $sales_client)}}" delete data-name="{{$sales_client->getAttribute('name')}}" class="btn btn-sm btn-outline-danger"> <i class="fal fa-trash"></i> </a>
                                 @endcan
                             </div>
                         </td>

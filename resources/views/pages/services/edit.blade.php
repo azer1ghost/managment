@@ -75,7 +75,7 @@
 
                     <x-input::textarea name="detail" :value="optional($data)->getAttribute('detail')" label="Service detail" width="6" class="pr-3"/>
 
-                    <div class="form-group" style="padding-left: 38px">
+                    <div class="form-group col-12">
                         <input type="checkbox" id="has_asan_imza" name="has_asan_imza" @if(optional($data)->getAttribute('has_asan_imza')) checked @endif>
                         <label class="form-check-label" for="has_asan_imza">Has Asan Imza</label>
                     </div>

@@ -120,7 +120,7 @@ class Sidebar extends Component
                     (object)[
                         'title' => __('translates.navbar.sales_client'),
                         'icon' => 'fas fa-portrait',
-                        'url' => route('sales-clients.index'),
+                        'url' => route('sales-client.index'),
                         'permission' => 'viewAny-salesClient',
                     ],
                     (object)[

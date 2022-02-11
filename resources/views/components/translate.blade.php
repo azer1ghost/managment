@@ -6,7 +6,7 @@
             </li>
         @endforeach
     </ul>
-    <div class="tab-content pt-3">
+    <div class="tab-content pt-3 pb-1 px-0">
         {{$slot}}
     </div>
 </div>

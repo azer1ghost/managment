@@ -264,6 +264,22 @@ a{
   height: 50px !important;
 }
 
+// Custom list items
+.sidebar .nav.sub-menu {
+  padding: 0 !important;
+}
+
+.sidebar .nav.sub-menu .nav-item:before {
+  content: none !important;
+}
+
+// Custom sidebar-icons-only
+@media (min-width: 992px) {
+  .sidebar-icon-only .sidebar .nav .nav-item .nav-link {
+    padding: 0.5rem !important;
+  }
+}
+
 // Custom scrollbars
 /* width */
 ::-webkit-scrollbar {

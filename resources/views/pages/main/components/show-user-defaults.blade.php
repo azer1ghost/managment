@@ -28,7 +28,7 @@
                             </select>
                         </div>
                         @if($action)
-                            <div class="form-group col-12 col-md-2 mb-3 mb-md-0 mt-0 mt-md-3 pl-3 pl-md-0">
+                            <div class="form-group col-12 col-md-2 mb-3 mb-md-0 mt-0 pl-3 pl-md-0">
                                 <button type="button" wire:click.prevent="removeDefault({{$index}})" class="btn btn-outline-danger">
                                     <i class='fal fa-times'></i>
                                 </button>
