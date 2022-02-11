@@ -18,7 +18,7 @@ class InquirySeeder extends Seeder
 
     public function run()
     {
-         Inquiry::factory(1)->create()->each(
+         Inquiry::factory(100)->create()->each(
             function ($inquiry) {
                 $inquiry->parameters()->syncWithoutDetaching([1 => ['value' => rand(1, 3)]]);
                 $inquiry->parameters()->syncWithoutDetaching([2 => ['value' => rand(10, 18)]]);
