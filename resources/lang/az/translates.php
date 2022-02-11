@@ -201,6 +201,8 @@ return [
         'sales_activities' => 'Satış Fəaliyyətləri',
         'sales_client' => 'Satış Müştəriləri',
         'partners' => 'Partnyorlar',
+        'sales' => 'Satış',
+        'human_resources' => 'İnsan Resursları',
     ],
 
     'date' => [

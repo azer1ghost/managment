@@ -198,6 +198,8 @@ return [
         'sales_activities' => 'Sales Activities',
         'sales_client' => 'Sales Client',
         'partners' => 'Partners',
+        'sales' => 'Sales',
+        'human_resources' => 'Human Resources',
     ],
 
     'date' => [

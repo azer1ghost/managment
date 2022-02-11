@@ -85,7 +85,7 @@ class Sidebar extends Component
             ],
 
             (object)[
-                'title' => 'HR',
+                'title' => __('translates.navbar.human_resources'),
                 'icon' => 'fas fa-user',
                 'url' => '#',
                 'permission' => 'viewAny-calendar',
@@ -112,7 +112,7 @@ class Sidebar extends Component
             ],
 
             (object)[
-                'title' => 'Sales',
+                'title' => __('translates.navbar.sales'),
                 'icon' => 'fas fa-dollar-sign',
                 'url' => '#',
                 'permission' => 'generally',
