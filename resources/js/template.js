@@ -59,7 +59,6 @@
 
       } else {
         body.toggleClass('sidebar-icon-only');
-        $('.content-offcanvas').css('margin-left', '4%')
       }
 
     });

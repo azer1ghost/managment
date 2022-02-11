@@ -4,6 +4,9 @@
 
 @section('content')
     <x-bread-crumb>
+        <x-bread-crumb-link :link="route('dashboard')">
+            @lang('translates.navbar.dashboard')
+        </x-bread-crumb-link>
         <x-bread-crumb-link is-current="1">
             Security
         </x-bread-crumb-link>

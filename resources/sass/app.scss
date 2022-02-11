@@ -3,10 +3,8 @@
 
 // Bootstrap
 @import "bootstrap";
-// Main theme
-@import "resources/sass/main";
 
-// Main theme
+// Plugins css
 @import "~jquery-confirm/dist/jquery-confirm.min.css";
 @import "~jquery-ui-dist/jquery-ui.min.css";
 @import "~daterangepicker";
@@ -16,6 +14,9 @@
 
 // animate.css
 @import "~animate.css/animate.min.css";
+
+// Main theme
+@import "resources/sass/main";
 
 // Tast list
 @import "task-list";
