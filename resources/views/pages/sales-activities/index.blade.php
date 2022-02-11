@@ -104,7 +104,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="data-sales_activity_type">@lang('translates.filters.sales_activities_type')</label>
+                            <label for="data-sales_activity_type">@lang('translates.navbar.sales_activities_type')</label>
                             <select class="form-control" id="data-sales_activity_type" name="sales_activity_type_id" required style="width: 100% !important;">
                                 @foreach($salesActivitiesTypes as $index => $salesActivitiesType)
                                     <option value="{{$index}}">{{$salesActivitiesType}}</option>

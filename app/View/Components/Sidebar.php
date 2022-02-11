@@ -39,28 +39,34 @@ class Sidebar extends Component
             ],
 
             (object)[
-                'title' => "Security",
-                'icon' => 'fas fa-lock',
-                'url' => route('account.security'),
-                'permission' => 'generally',
-                'badge' => (object) [
-                    'title' => 'New',
-                    'class' => 'info'
-                ],
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.bonus'),
-                'icon' => 'fas fa-gift',
-                'url' => route('bonuses'),
-                'permission' => 'generally',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.signature'),
-                'icon' => 'fa fa-envelope',
-                'url' => route('signature-select-company'),
-                'permission' => 'signature',
+                'title' => __('translates.navbar.account'),
+                'icon' => 'fas fa-user',
+                'url' => '#',
+                'permission' => 'viewAny-company',
+                'children' => [
+                    (object)[
+                        'title' => __('translates.navbar.signature'),
+                        'icon' => 'fa fa-envelope',
+                        'url' => route('signature-select-company'),
+                        'permission' => 'signature',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.bonus'),
+                        'icon' => 'fas fa-gift',
+                        'url' => route('bonuses'),
+                        'permission' => 'generally',
+                    ],
+                    (object)[
+                        'title' => "Security",
+                        'icon' => 'fas fa-lock',
+                        'url' => route('account.security'),
+                        'permission' => 'generally',
+                        'badge' => (object) [
+                            'title' => 'New',
+                            'class' => 'info'
+                        ],
+                    ],
+                ]
             ],
 
             (object)[
@@ -147,7 +153,18 @@ class Sidebar extends Component
                         'url' => route('partners.index'),
                         'permission' => 'viewAny-partner',
                     ],
-
+                    (object)[
+                        'title' => __('translates.navbar.organization'),
+                        'icon' => 'fal fa-house',
+                        'url' => route('organizations.index'),
+                        'permission' => 'viewAny-organization',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.certificate'),
+                        'icon' => 'far fa-file-certificate',
+                        'url' => route('certificates.index'),
+                        'permission' => 'viewAny-certificate',
+                    ],
                 ]
             ],
 
@@ -181,6 +198,12 @@ class Sidebar extends Component
                         'url' => route('notifications.index'),
                         'permission' => 'viewAny-notification',
                     ],
+                    (object)[
+                        'title' => __('translates.navbar.option'),
+                        'icon' => 'fa fa-list-alt',
+                        'url' => route('options.index'),
+                        'permission' => 'viewAny-option',
+                    ],
                 ]
             ],
 
@@ -189,13 +212,6 @@ class Sidebar extends Component
                 'icon' => 'fal fa-file',
                 'url' => route('reports.index'),
                 'permission' => 'viewAny-report',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.option'),
-                'icon' => 'fa fa-list-alt',
-                'url' => route('options.index'),
-                'permission' => 'viewAny-option',
             ],
 
             (object)[
@@ -213,13 +229,38 @@ class Sidebar extends Component
             ],
 
             (object)[
+                'title' => __('translates.navbar.meeting'),
+                'icon' => 'fas fa-bullhorn',
+                'url' => '#',
+                'permission' => 'viewAny-advertising',
+                'children' => [
+                    (object)[
+                        'title' => __('translates.navbar.meeting'),
+                        'icon' => 'fas fa-bullhorn',
+                        'url' => route('meetings.index'),
+                        'permission' => 'viewAny-meeting',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.announcement'),
+                        'icon' => 'fas fa-scroll',
+                        'url' => route('announcements.index'),
+                        'permission' => 'viewAny-announcement',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.conference'),
+                        'icon' => 'fas fa-handshake',
+                        'url' => route('conferences.index'),
+                        'permission' => 'viewAny-conference',
+                    ],
+                ]
+            ],
+
+            (object)[
                 'title' => "Advertising",
                 'icon' => 'fab fa-adversal',
                 'url' => route('advertising.index'),
                 'permission' => 'viewAny-advertising',
             ],
-
-
 
             (object)[
                 'title' => __('translates.navbar.update'),
@@ -243,20 +284,6 @@ class Sidebar extends Component
             ],
 
             (object)[
-                'title' => __('translates.navbar.meeting'),
-                'icon' => 'fas fa-bullhorn',
-                'url' => route('meetings.index'),
-                'permission' => 'viewAny-meeting',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.conference'),
-                'icon' => 'fas fa-handshake',
-                'url' => route('conferences.index'),
-                'permission' => 'viewAny-conference',
-            ],
-
-            (object)[
                 'title' => __('translates.navbar.document'),
                 'icon' => 'fas fa-file-word',
                 'url' => route('documents.index'),
@@ -276,29 +303,6 @@ class Sidebar extends Component
                 'url' => route('customer-engagement.index'),
                 'permission' => 'viewAny-customerEngagement',
             ],
-
-            (object)[
-                'title' => __('translates.navbar.announcement'),
-                'icon' => 'fas fa-scroll',
-                'url' => route('announcements.index'),
-                'permission' => 'viewAny-announcement',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.certificate'),
-                'icon' => 'far fa-file-certificate',
-                'url' => route('certificates.index'),
-                'permission' => 'viewAny-certificate',
-            ],
-            (object)[
-                'title' => __('translates.navbar.organization'),
-                'icon' => 'fal fa-house',
-                'url' => route('organizations.index'),
-                'permission' => 'viewAny-organization',
-            ],
-
-
-
         ];
     }
 
