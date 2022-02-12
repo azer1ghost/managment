@@ -106,7 +106,7 @@ class PlatformController extends Controller
 
         $getData = fn($count, $total, $text) => (object)[
             'total' => $total,
-            'percentage' => $count/$total * 100,
+            'percentage' => $total == 0 ? 0 : $count/$total * 100,
             'text' => $text
         ];
 
