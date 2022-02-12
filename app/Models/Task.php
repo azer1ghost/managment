@@ -70,6 +70,11 @@ class Task extends Model implements DocumentableInterface, Recordable
         ];
     }
 
+    public function scopeNewTasks($query)
+    {
+        return $query->whereStatus(Task::TO_DO);
+    }
+
     public function taskable(): MorphTo
     {
         return $this->morphTo()->withDefault();

@@ -6,13 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Announcement;
 use App\Models\Document;
 use App\Models\Inquiry;
+use App\Models\Task;
+use App\Models\User;
 use App\Models\Widget;
+use App\Models\Work;
 use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rules\In;
 
 class PlatformController extends Controller
 {
@@ -95,8 +99,48 @@ class PlatformController extends Controller
 
     public function dashboard(): View
     {
+        $usersCount = User::count();
+        $worksCount = Work::count();
+        $inquiriesCount = Inquiry::count();
+        $tasksCount = Task::count();
+
+        $getData = fn($count, $total, $text) => (object)[
+            'total' => $total,
+            'percentage' => $count/$total * 100,
+            'text' => $text
+        ];
+
+        $statistics = [
+            (object)[
+                'title' => 'Number of users',
+                'color' => 'tale',
+                'data' => $getData(User::isActive()->count(), $usersCount, 'Active'),
+                'class' => 'mb-4'
+            ],
+            (object)[
+                'title' => 'Number of works',
+                'color' => 'dark-blue',
+                'data' => $getData(Work::isVerified()->count(), $worksCount, 'Verified'),
+                'class' => 'mb-4'
+            ],
+            (object)[
+                'title' => 'Number of inquiries',
+                'color' => 'light-blue',
+                'data' => $getData(Inquiry::whereHas('parameters', fn($q) => $q->whereId(Inquiry::ACTIVE))->count(), $inquiriesCount, 'Active'),
+                'class' => 'mb-4'
+            ],
+            (object)[
+                'title' => 'Number of tasks',
+                'color' => 'light-danger',
+                'data' => $getData(Task::newTasks()->count(), $tasksCount, 'To do'),
+                'class' => ''
+            ],
+        ];
+
         return view('pages.main.dashboard', [
-            'widgets' => Widget::isActive()->oldest('order')->get()
+            'widgets'    => Widget::isActive()->oldest('order')->get(),
+            'tasksCount' => auth()->user()->tasks()->newTasks()->count(),
+            'statistics' => $statistics
         ]);
     }
 

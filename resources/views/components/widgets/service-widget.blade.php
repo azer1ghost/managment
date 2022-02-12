@@ -1,5 +1,5 @@
 <div class="{{$widget->class_attribute}}">
-    <div class="card border-0" style="background: #e9ecef !important;">
+    <div class="card border-0 widget-container">
         <div class="py-2 px-1">
             <div id="{{$widget->key}}" style="width: 100%;{{$widget->style_attribute}}" class="text-center">
                 <div style="position: absolute; top: 10px;left: 50%;transform: translateX(-50%)">

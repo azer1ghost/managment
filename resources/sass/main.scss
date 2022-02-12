@@ -264,6 +264,16 @@ a{
   height: 50px !important;
 }
 
+// Custom fc-event
+.fc .fc-event {
+  padding: 0 !important;
+}
+
+// Custom widget styles
+.widget-container {
+  //background: #e9ecef !important;
+}
+
 // Custom list items
 .sidebar .nav.sub-menu {
   padding: 0 !important;
