@@ -67,7 +67,7 @@
 
                     <div class="form-group col-12 col-md-3 mt-3 mb-3 mb-md-0">
                         <label class="d-block" for="subjectFilter">@lang('translates.filters.subject')</label>
-                        <select id="subjectFilter" multiple class="filterSelector form-control"  data-selected-text-format="count" data-width="fit" title="@lang('translates.filters.select')">
+                        <select id="subjectFilter" multiple class="filterSelector"  data-selected-text-format="count" data-width="fit" title="@lang('translates.filters.select')">
                             @php($subjectsRequest = explode(',', request()->get('subject')))
                             @foreach($subjects as $subject)
                                 <option
@@ -80,7 +80,7 @@
 
                     <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
                         <label class="d-block" for="statusFilter">Status</label>
-                        <select id="statusFilter" multiple data-selected-text-format="count" class="filterSelector form-control"
+                        <select id="statusFilter" multiple data-selected-text-format="count" class="filterSelector"
                                 data-selected-text-format="count" data-width="fit" title="@lang('translates.filters.select')">
                             @php($statusesRequest = explode(',', request()->get('status')))
                             @foreach($statuses as $status)
