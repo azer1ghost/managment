@@ -26,6 +26,20 @@
     @yield('style')
     @stack('style')
     @livewireStyles
+
+    @unless (auth()->check() && (request()->routeIs('account') || auth()->user()->hasVerifiedPhone()) && !request()->routeIs('welcome') && !request()->routeIs('documents.viewer'))
+        <style>
+            .main-panel {
+                width: 100%;
+            }
+            .page-body-wrapper {
+                padding-top: 0;
+            }
+            .content-wrapper {
+                padding: 0;
+            }
+        </style>
+    @endunless
 </head>
 
 @auth
@@ -34,41 +48,17 @@
 
 <body>
 <div class="container-scroller">
-
     @if (auth()->check() && (request()->routeIs('account') || auth()->user()->hasVerifiedPhone()) && !request()->routeIs('welcome') && !request()->routeIs('documents.viewer'))
-        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo" href="{{ route('dashboard') }}"><h6 class="m-0">Mobil Management</h6></a>
-                <a class="navbar-brand brand-logo-mini" href="{{ route('dashboard') }}"><img src="{{asset('assets/images/logo.svg')}}" alt="logo"/></a>
-            </div>
-            <x-navbar/>
-        </nav>
-
-        <div class="container-fluid page-body-wrapper">
-{{--            <div class="theme-setting-wrapper">--}}
-{{--                <div id="settings-trigger"><i class="fas fa-cog"></i></div>--}}
-{{--                <div id="theme-settings" class="settings-panel">--}}
-{{--                    <i class="fas fa-times settings-close"></i>--}}
-{{--                    <p class="settings-heading">SIDEBAR SKINS</p>--}}
-{{--                    <div class="sidebar-bg-options selected" id="sidebar-light-theme"><div class="img-ss rounded-circle bg-light border mr-3"></div>Light</div>--}}
-{{--                    <div class="sidebar-bg-options" id="sidebar-dark-theme"><div class="img-ss rounded-circle bg-dark border mr-3"></div>Dark</div>--}}
-{{--                    <p class="settings-heading mt-2">HEADER SKINS</p>--}}
-{{--                    <div class="color-tiles mx-0 px-4">--}}
-{{--                        <div class="tiles success"></div>--}}
-{{--                        <div class="tiles warning"></div>--}}
-{{--                        <div class="tiles danger"></div>--}}
-{{--                        <div class="tiles info"></div>--}}
-{{--                        <div class="tiles dark"></div>--}}
-{{--                        <div class="tiles default"></div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-
+        <x-navbar/>
+    @endif
+    <div class="container-fluid page-body-wrapper">
+        @if (auth()->check() && (request()->routeIs('account') || auth()->user()->hasVerifiedPhone()) && !request()->routeIs('welcome') && !request()->routeIs('documents.viewer'))
             <x-sidebar/>
-            @endif
-
-        <div class="p-3 w-100 content-offcanvas">
-            @yield('content')
+        @endif
+        <div class="main-panel">
+            <div class="content-wrapper">
+                @yield('content')
+            </div>
         </div>
     </div>
 </div>

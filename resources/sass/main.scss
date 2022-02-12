@@ -273,6 +273,11 @@ a{
   content: none !important;
 }
 
+// Custom content wrapper
+.content-wrapper {
+  padding: 1.1rem !important;
+}
+
 // Custom sidebar-icons-only
 @media (min-width: 992px) {
   .sidebar-icon-only .sidebar .nav .nav-item .nav-link {

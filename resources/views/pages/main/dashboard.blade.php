@@ -22,7 +22,7 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
     </x-bread-crumb>
-    <div class="row">
+    <div class="row m-0">
         @foreach($widgets as $widget)
             @if(auth()->user()->hasPermission($widget->key))
                 <x-dynamic-component component="widgets.{{$widget->key}}" :widget="$widget" />
