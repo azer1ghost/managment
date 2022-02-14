@@ -26,8 +26,8 @@
         <div class="col-md-12 grid-margin">
             <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0 px-0 pb-3">
-                    <h3 class="font-weight-bold">Welcome {{auth()->user()->getAttribute('fullname')}}</h3>
-                    <h6 class="font-weight-normal mb-0">All systems are running smoothly! You have <span class="text-primary">{{$tasksCount}} tasks!</span></h6>
+                    <h3 class="font-weight-bold">@lang('translates.navbar.welcome') {{auth()->user()->getAttribute('fullname')}}</h3>
+                    <h6 class="font-weight-normal mb-0">@lang('translates.widgets.all_systems_are_running_smoothly')! @lang('translates.widgets.you_have') <span class="text-primary">{{$tasksCount}} @lang('translates.navbar.task')!</span></h6>
                 </div>
                 <div class="col-12 col-xl-4">
                     <div class="justify-content-end d-flex align-items-center">

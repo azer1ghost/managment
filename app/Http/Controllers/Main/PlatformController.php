@@ -112,27 +112,27 @@ class PlatformController extends Controller
 
         $statistics = [
             (object)[
-                'title' => 'Number of users',
+                'title' => __('translates.widgets.number_of_users'),
                 'color' => 'tale',
-                'data' => $getData(User::isActive()->count(), $usersCount, 'Active'),
+                'data' => $getData(User::isActive()->count(), $usersCount, __('translates.users.statuses.active')),
                 'class' => 'mb-4'
             ],
             (object)[
-                'title' => 'Number of works',
+                'title' => __('translates.widgets.number_of_works'),
                 'color' => 'dark-blue',
-                'data' => $getData(Work::isVerified()->count(), $worksCount, 'Verified'),
+                'data' => $getData(Work::isVerified()->count(), $worksCount, __('translates.columns.verified')),
                 'class' => 'mb-4'
             ],
             (object)[
-                'title' => 'Number of inquiries',
+                'title' => __('translates.widgets.number_of_inquiries'),
                 'color' => 'light-blue',
-                'data' => $getData(Inquiry::whereHas('parameters', fn($q) => $q->whereId(Inquiry::ACTIVE))->count(), $inquiriesCount, 'Active'),
+                'data' => $getData(Inquiry::whereHas('parameters', fn($q) => $q->whereId(Inquiry::ACTIVE))->count(), $inquiriesCount, __('translates.users.statuses.active')),
                 'class' => 'mb-4'
             ],
             (object)[
-                'title' => 'Number of tasks',
+                'title' => __('translates.widgets.number_of_tasks'),
                 'color' => 'light-danger',
-                'data' => $getData(Task::newTasks()->count(), $tasksCount, 'To do'),
+                'data' => $getData(Task::newTasks()->count(), $tasksCount, __('translates.tasks.list.to_do')),
                 'class' => ''
             ],
         ];

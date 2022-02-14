@@ -561,5 +561,13 @@ return [
         'sales_supply' => 'Satış Təchizatı',
         'supply_name' => 'Təchizat Adı',
         'supply_value' => 'Təchizat Dəyəri',
+    ],
+    'widgets' => [
+        'number_of_users' => 'Istifadəçi Sayı',
+        'number_of_inquiries' => 'Sorğu Sayı',
+        'number_of_works' => 'İşlərin Sayı',
+        'number_of_tasks' => 'Tapşırıqların Sayı',
+        'all_systems_are_running_smoothly' => 'Bütün sistemlər fasiləsiz işləyir',
+        'you_have' => 'Sizin var'
     ]
 ];

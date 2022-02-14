@@ -556,9 +556,18 @@ return [
         '403' => 'You don\'t have permission to view this resource',
         '503' => 'Currently, the system is undergoing preventive work. Thanks for your understanding'
     ],
-    'sales_supply' =>[
-    'sales_supply' => 'Sales Supply',
-    'supply_name' => 'Supply Name',
-    'supply_value' => 'Supply Value',
-]
+    'sales_supply' => [
+        'sales_supply' => 'Sales Supply',
+        'supply_name' => 'Supply Name',
+        'supply_value' => 'Supply Value',
+    ],
+    'widgets' => [
+        'number_of_users' => 'Number Of Users',
+        'number_of_inquiries' => 'Number Of Inquiries',
+        'number_of_works' => 'Number Of Works',
+        'number_of_tasks' => 'Number Of Tasks',
+        'all_systems_are_running_smoothly' => 'All systems are running smoothly',
+        'you_have' => 'You Have'
+    ]
+
 ];
