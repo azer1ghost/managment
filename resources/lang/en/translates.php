@@ -567,7 +567,7 @@ return [
         'number_of_works' => 'Number Of Works',
         'number_of_tasks' => 'Number Of Tasks',
         'all_systems_are_running_smoothly' => 'All systems are running smoothly',
-        'you_have' => 'You Have'
+        'you_have' => 'You Have :count task'
     ]
 
 ];

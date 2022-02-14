@@ -568,6 +568,6 @@ return [
         'number_of_works' => 'İşlərin Sayı',
         'number_of_tasks' => 'Tapşırıqların Sayı',
         'all_systems_are_running_smoothly' => 'Bütün sistemlər fasiləsiz işləyir',
-        'you_have' => 'Sizin var'
+        'you_have' => 'Sizin :count tapşırığınız var '
     ]
 ];
