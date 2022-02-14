@@ -88,7 +88,7 @@
 
          let notifications = Spruce.store('state').notifications;
 
-{{--         @if(app()->environment('production'))--}}
+         @if(app()->environment('production'))
             const userID = {{auth()->id()}};
             const notificationsRef = firebase.database().ref().child('notifications');
             const sound = new Audio('{{asset('assets/audio/notify/notify.wav')}}');
@@ -109,7 +109,7 @@
                  }
                  notifications = notifications.reverse();
              });
-{{--         @endif--}}
+         @endif
 
          $('#notificationsDropdown').click(function (){
              if(!$('#notification-badge').hasClass('d-none')){

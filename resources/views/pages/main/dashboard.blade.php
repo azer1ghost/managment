@@ -29,7 +29,10 @@
             <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0 px-0 pb-3">
                     <h3 class="font-weight-bold">@lang('translates.navbar.welcome') {{auth()->user()->getAttribute('fullname')}}</h3>
-                    <h6 class="font-weight-normal mb-0">@lang('translates.widgets.welcome_msg')! @lang('translates.widgets.you_have', ['count' => $tasksCount])</h6>
+                    <h6 class="font-weight-normal mb-0">
+                        @lang('translates.widgets.welcome_msg')!
+                        <a href="{{route('tasks.index')}}" class="text-primary">@lang('translates.widgets.you_have', ['count' => $tasksCount])</a>
+                    </h6>
                 </div>
                 <div class="col-12 col-xl-4">
                     <div class="justify-content-end d-flex align-items-center">

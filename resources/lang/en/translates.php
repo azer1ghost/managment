@@ -568,7 +568,7 @@ return [
         'number_of_works' => 'Number Of Works',
         'number_of_tasks' => 'Number Of Tasks',
         'welcome_msg' => 'We wish you a happy day',
-        'you_have' => 'You Have :count task'
+        'you_have' => 'You Have :count tasks'
     ]
 
 ];
