@@ -563,7 +563,7 @@ return [
         'supply_value' => 'Təchizat Dəyəri',
     ],
     'widgets' => [
-        'number_of_users' => 'Istifadəçi Sayı',
+        'number_of_users' => 'İstifadəçi Sayı',
         'number_of_inquiries' => 'Sorğu Sayı',
         'number_of_works' => 'İşlərin Sayı',
         'number_of_tasks' => 'Tapşırıqların Sayı',
