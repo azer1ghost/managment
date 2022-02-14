@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Announcement;
 use App\Models\Document;
 use App\Models\Inquiry;
+use App\Models\Service;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\Widget;
@@ -137,10 +138,34 @@ class PlatformController extends Controller
             ],
         ];
 
+        $colors = [
+            'bg-primary',
+            'bg-primary',
+            'bg-success',
+            'bg-success',
+            'bg-danger',
+            'bg-danger',
+            'bg-warning',
+            'bg-warning',
+            'bg-info',
+            'bg-info',
+            'bg-secondary',
+        ];
+        $services = Service::withCount('works')
+            ->whereHas('works', function ($q){
+                $q->where('status', '!=', Work::REJECTED);
+            })
+            ->orderBy('works_count', 'desc')
+            ->limit(9)
+            ->get();
+
+
         return view('pages.main.dashboard', [
             'widgets'    => Widget::isActive()->oldest('order')->get(),
             'tasksCount' => auth()->user()->tasks()->newTasks()->count(),
-            'statistics' => $statistics
+            'statistics' => $statistics,
+            'services' => $services,
+            'colors' => $colors
         ]);
     }
 

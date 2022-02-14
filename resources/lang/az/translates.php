@@ -203,6 +203,7 @@ return [
         'partners' => 'Partnyorlar',
         'sales' => 'Satış',
         'human_resources' => 'İnsan Resursları',
+        'law' => 'Hüquq'
     ],
 
     'date' => [
@@ -567,7 +568,7 @@ return [
         'number_of_inquiries' => 'Sorğu Sayı',
         'number_of_works' => 'İşlərin Sayı',
         'number_of_tasks' => 'Tapşırıqların Sayı',
-        'all_systems_are_running_smoothly' => 'Bütün sistemlər fasiləsiz işləyir',
+        'welcome_msg' => 'Sizə Xoş Gün Arzulayırıq',
         'you_have' => 'Sizin :count tapşırığınız var '
     ]
 ];

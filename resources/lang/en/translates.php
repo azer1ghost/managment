@@ -200,6 +200,7 @@ return [
         'partners' => 'Partners',
         'sales' => 'Sales',
         'human_resources' => 'Human Resources',
+        'law' => 'Law'
     ],
 
     'date' => [
@@ -566,7 +567,7 @@ return [
         'number_of_inquiries' => 'Number Of Inquiries',
         'number_of_works' => 'Number Of Works',
         'number_of_tasks' => 'Number Of Tasks',
-        'all_systems_are_running_smoothly' => 'All systems are running smoothly',
+        'welcome_msg' => 'We wish you a happy day',
         'you_have' => 'You Have :count task'
     ]
 

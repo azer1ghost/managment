@@ -67,6 +67,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
+
     <!-- tinyMCE -->
     <script src="https://cdn.tiny.cloud/1/6hi4bok2utssc8368iz75o1mg2sma3bl46qf41q4i2ah6myx/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="{{asset('assets/js/tinyMCE/az.js')}}"></script>
@@ -74,11 +75,13 @@
     <!-- Scripts -->
     <script src="{{ mix('assets/js/app.js') }}" ></script>
 
+
     @livewireScripts
 
     <!-- Alpine js and Spruce state management for it -->
     <script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/spruce@2.x.x/dist/spruce.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
     @stack('scripts')
     @yield('scripts')

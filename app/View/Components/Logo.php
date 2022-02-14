@@ -14,8 +14,8 @@ class Logo extends Component
                 <tbody>
                 <tr>
                     <td>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="animate__animated animate__flip" width="80px"
-                                 style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                        <svg xmlns="http://www.w3.org/2000/svg" class="animate__animated"  width="80px"
+                                 style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd;  clip-rule:evenodd"
                                  viewBox="0 0 50000 50000">
                               <linearGradient id="id0" gradientUnits="userSpaceOnUse" x1="12801.63" y1="24140.65" x2="46649.1" y2="24140.65">
                                <stop offset="0" style="stop-opacity:1; stop-color:#9CCB48"/>

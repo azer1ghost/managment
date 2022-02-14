@@ -97,12 +97,6 @@ class Sidebar extends Component
                 'permission' => 'viewAny-calendar',
                 'children' => [
                     (object)[
-                        'title' => __('translates.navbar.role'),
-                        'icon' => 'fas fa-key',
-                        'url' => route('roles.index'),
-                        'permission' => 'viewAny-role',
-                    ],
-                    (object)[
                         'title' => __('translates.navbar.user'),
                         'icon' => 'fa fa-users',
                         'url' => route('users.index'),
@@ -113,6 +107,32 @@ class Sidebar extends Component
                         'icon' => 'fas fa-briefcase',
                         'url' => route('positions.index'),
                         'permission' => 'viewAny-position',
+                    ],
+                ]
+            ],
+            (object)[
+                'title' => __('translates.navbar.law'),
+                'icon' => 'fas fa-gavel',
+                'url' => '#',
+                'permission' => 'viewAny-report',
+                'children' => [
+                    (object)[
+                        'title' => __('translates.navbar.partners'),
+                        'icon' => 'fas fa-hands-helping',
+                        'url' => route('partners.index'),
+                        'permission' => 'viewAny-partner',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.customer_engagement'),
+                        'icon' => 'fas fa-house-return',
+                        'url' => route('customer-engagement.index'),
+                        'permission' => 'viewAny-customerEngagement',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.asan_imza'),
+                        'icon' => 'fas fa-file-signature',
+                        'url' => route('asan-imza.index'),
+                        'permission' => 'viewAny-asanImza',
                     ],
                 ]
             ],
@@ -146,12 +166,6 @@ class Sidebar extends Component
                         'icon' => 'fas fa-chart-line',
                         'url' => route('sales-activities-types.index'),
                         'permission' => 'viewAny-salesActivityType',
-                    ],
-                    (object)[
-                        'title' => __('translates.navbar.partners'),
-                        'icon' => 'fas fa-hands-helping',
-                        'url' => route('partners.index'),
-                        'permission' => 'viewAny-partner',
                     ],
                     (object)[
                         'title' => __('translates.navbar.organization'),
@@ -203,6 +217,12 @@ class Sidebar extends Component
                         'icon' => 'fa fa-list-alt',
                         'url' => route('options.index'),
                         'permission' => 'viewAny-option',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.role'),
+                        'icon' => 'fas fa-key',
+                        'url' => route('roles.index'),
+                        'permission' => 'viewAny-role',
                     ],
                 ]
             ],
@@ -288,20 +308,6 @@ class Sidebar extends Component
                 'icon' => 'fas fa-file-word',
                 'url' => route('documents.index'),
                 'permission' => 'viewAny-document',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.asan_imza'),
-                'icon' => 'fas fa-file-signature',
-                'url' => route('asan-imza.index'),
-                'permission' => 'viewAny-asanImza',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.customer_engagement'),
-                'icon' => 'fas fa-house-return',
-                'url' => route('customer-engagement.index'),
-                'permission' => 'viewAny-customerEngagement',
             ],
         ];
     }
