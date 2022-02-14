@@ -85,7 +85,7 @@
                                         @if($data->canManageLists() && $data->getAttribute('status') != 'done' && !$list->parentTask()->exists())
                                             <input type="checkbox" id="list-check-{{$list->id}}" @if($list->is_checked) checked @endif>
                                         @endif
-                                        <label class="form-check-label @if($list->is_checked) completed @endif" for="list-check-{{$list->id}}"
+                                        <label class="check-label @if($list->is_checked) completed @endif" for="list-check-{{$list->id}}"
                                                data-toggle="tooltip"
                                                title="
                                                 Created:    <strong>{{$list->created_at}}</strong> </br>
@@ -169,7 +169,7 @@
             $(this).parent().parent().find('.edit-form').submit();
         });
 
-        const label = $('.form-check-label');
+        const label = $('.check-label');
 
         label.on('input', function (){
             $(this).prev().prev().val($(this).text())
