@@ -33,7 +33,7 @@
                     <tbody>
                     <tr>
                         <th style="@if($company->getAttribute('id')==2) border-right: 1px solid #051542; @endif height: 60px">
-                            <img style="width: 4cm; padding: 0 14px 0 0; margin: 0;"  src="https://mobilgroup.az/signature/{{ $company->getAttribute('logo') }}"/>
+                            <img style="width: 4cm; padding: 0 14px 0 0; margin: 0;"  src="{{asset("assets/images/{$company->getAttribute('logo')}")}}"/>
                         </th>
                     </tr>
                     </tbody>

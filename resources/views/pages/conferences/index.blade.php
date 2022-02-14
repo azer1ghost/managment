@@ -33,8 +33,8 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">@lang('translates.columns.name')</th>
-                        <th scope="col">datetime</th>
-                        <th scope="col">status</th>
+                        <th scope="col">@lang('translates.columns.date_time')</th>
+                        <th scope="col">@lang('translates.columns.status')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>

@@ -417,6 +417,12 @@ return [
         'hard_columns' => 'Əsas Sütunlar',
         'evaluation' => 'Qiymətləndirmə',
         'partner' => 'Partnyor',
+        'will_notify_at' => 'Bildirələcək',
+        'will_end_at' => 'Bitəcək',
+        'repeat_rate' => 'Repeat Rate',
+        'class' => 'Kateqoriya',
+        'title' => 'Başlıq',
+        'date_time' => 'Görüş Vaxtı',
     ],
 
     'notify' => [

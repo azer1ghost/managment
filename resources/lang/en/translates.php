@@ -414,7 +414,13 @@ return [
         'hard_columns' => 'Hard Columns',
         'evaluation' => 'Evaluation',
         'sales_client' => 'Sales Clients',
-        'partner' => 'Partner'
+        'partner' => 'Partner',
+        'will_notify_at' => 'Will Notify At',
+        'will_end_at' => 'Will End At',
+        'repeat_rate' => 'Repeat Rate',
+        'class' => 'Category',
+        'title' => 'Title',
+        'date_time' => 'Date Time',
     ],
 
     'notify' => [
