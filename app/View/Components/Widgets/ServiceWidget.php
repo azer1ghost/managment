@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Widgets;
 
+use App\Models\Department;
 use App\Models\Service;
 use App\Models\Work;
 use App\Traits\GetClassInfo;
@@ -16,7 +17,7 @@ class ServiceWidget extends Component
     public ?Model $widget;
     public ?string $model = null;
     public $services;
-    public $colors;
+    public  array $colors;
     public ?Collection $works;
     public int $total;
 
@@ -49,7 +50,11 @@ class ServiceWidget extends Component
         $this->services  = $serviceQuery;
 
 
-        $this->works = $serviceQuery
+        $this->works = Department::withCount('works')
+            ->whereHas('works', function ($q){
+                $q->where('status', '!=', Work::REJECTED);
+            })
+            ->get()
             ->map(function ($work){
                 return [
                     'y' => count($work->getRelationValue('works')),

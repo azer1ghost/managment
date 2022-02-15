@@ -15,7 +15,7 @@
                             </div>
                             <div class="col-md-12 col-xl-10">
                                 <div class="row">
-                                    <div class="col-md-6 border-right">
+                                    <div class="col-md-6 border-right" style="overflow-y: scroll; height: 300px">
                                         <div class="table-responsive mb-3 mb-md-0 mt-3">
                                             <table class="table table-borderless report-table">
                                                 @foreach($services as $service)
@@ -32,21 +32,21 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="{{$widget->class_attribute}}"><div id="chartContainer" style="{{$widget->style_attribute}}; width: 100%;"></div>
+                                    <div class="{{$widget->class_attribute}}"><div id="{{$widget->key}}" style="{{$widget->style_attribute}}; width: 100%;"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <a class="carousel-control-prev" href="#detailedReports" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#detailedReports" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
+{{--                <a class="carousel-control-prev" href="#detailedReports" role="button" data-slide="prev">--}}
+{{--                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>--}}
+{{--                    <span class="sr-only">Previous</span>--}}
+{{--                </a>--}}
+{{--                <a class="carousel-control-next" href="#detailedReports" role="button" data-slide="next">--}}
+{{--                    <span class="carousel-control-next-icon" aria-hidden="true"></span>--}}
+{{--                    <span class="sr-only">Next</span>--}}
+{{--                </a>--}}
             </div>
         </div>
     </div>
@@ -55,17 +55,21 @@
 <script>
     window.onload = function () {
 
-        var chart = new CanvasJS.Chart("chartContainer", {
+        var chart = new CanvasJS.Chart("{{$widget->key}}", {
             animationEnabled: true,
             title: {
                 text: "Works",
                 horizontalAlign: "left"
             },
+
             data: [{
                 type: "doughnut",
-                startAngle: 60,
-                //innerRadius: 60,
-                indexLabelFontSize: 17,
+                startAngle: 20,
+
+                // showInLegend: "true",
+                // legendText: "{label}",
+
+                indexLabelFontSize: 12,
                 indexLabel: "{label} - #percent%",
                 toolTipContent: "<b>{label}:</b> {y} (#percent%)",
                 dataPoints: @json($works)
