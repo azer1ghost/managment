@@ -1,66 +1,76 @@
-<div class="{{$widget->class_attribute}}">
-    <div class="card border-0 widget-container">
-        <div class="py-2 px-1">
-            <div id="{{$widget->key}}" style="width: 100%;{{$widget->style_attribute}}" class="text-center">
-                <div style="position: absolute; top: 10px;left: 50%;transform: translateX(-50%)">
-                    <h3>{{$widget->details}}</h3>
+<div class="col-md-12 grid-margin stretch-card">
+    <div class="card position-relative">
+        <div class="card-body">
+            <div id="detailedReports" class="carousel slide detailed-report-carousel position-static pt-2" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row">
+                            <div class="col-md-12 col-xl-2 d-flex flex-column justify-content-start">
+                                <div class="ml-xl-4 mt-3">
+                                    <p class="card-title">Xidmətlər</p>
+                                    <h1 class="text-primary">{{\App\Models\Work::count()}}</h1>
+                                    <h3 class="font-weight-500 mb-xl-4 text-primary">{{$widget->details}}</h3>
+                                    <p class="mb-2 mb-xl-0">Daha ətraflı məlumat üçün <a href="{{ route('works.index') }}" class="text-primary">işlər</a> bölməsindən xidmətlər haqqında məlumat ala bilərsiniz</p>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-xl-10">
+                                <div class="row">
+                                    <div class="col-md-6 border-right">
+                                        <div class="table-responsive mb-3 mb-md-0 mt-3">
+                                            <table class="table table-borderless report-table">
+                                                @foreach($services as $service)
+                                                    <tr>
+                                                        <td class="text-muted w-50">{{$service->getAttribute('name')}}</td>
+                                                        <td class="w-100 px-0">
+                                                            <div class="progress progress-md mx-4">
+                                                                <div class="progress-bar {{$colors[$loop->iteration]}}" role="progressbar" style="width: {{$service->getAttribute('works_count') / \App\Models\Work::count() * 100}}%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td><h5 class="font-weight-bold mb-0">{{$service->getAttribute('works_count')}}</h5></td>
+                                                    </tr>
+                                                @endforeach
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="{{$widget->class_attribute}}"><div id="chartContainer" style="{{$widget->style_attribute}}; width: 100%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <a class="carousel-control-prev" href="#detailedReports" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#detailedReports" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
-            <script>
-                am5.ready(function() {
-                    const {{$model}}Root = am5.Root.new("{{$widget->key}}");
-
-                    {{$model}}Root.setThemes([
-                        am5themes_Animated.new({{$model}}Root)
-                    ]);
-
-                    const {{$model}}Chart = {{$model}}Root.container.children.push(am5percent.PieChart.new({{$model}}Root, {
-                        radius: am5.percent(80),
-                        innerRadius: am5.percent(60),
-                        layout: {{$model}}Root.horizontalLayout
-                    }));
-
-                    const {{$model}}Series = {{$model}}Chart.series.push(am5percent.PieSeries.new({{$model}}Root, {
-                        valueField: "total",
-                        categoryField: "service",
-                        tooltip: am5.Tooltip.new({{$model}}Root, {
-                            labelText: "{service}: {total}"
-                        }),
-                    }));
-
-                    {{$model}}Series.data.setAll(@json($services));
-
-                    {{$model}}Series.labels.template.set("visible", false);
-                    {{$model}}Series.ticks.template.set("visible", false);
-                    {{$model}}Series.slices.template.set("strokeOpacity", 1);
-
-                    const {{$model}}Legend = {{$model}}Chart.children.push(am5.Legend.new({{$model}}Root, {
-                        layout: {{$model}}Root.verticalLayout,
-                        y: am5.percent(50),
-                        centerY: am5.percent(45),
-                        maxColumns: 1,
-                    }));
-
-                    const {{$model}}Label = {{$model}}Chart.seriesContainer.children.push(am5.Label.new({{$model}}Root, {
-                        textAlign: "center",
-                        fontSize: 30,
-                        fontWeight: 500,
-                        centerY: am5.percent(50),
-                        centerX: am5.percent(50),
-                        text: "{{$total}}"
-                    }));
-
-                    {{$model}}Legend.markerRectangles.template.setAll({
-                        cornerRadiusTL: 10,
-                        cornerRadiusTR: 10,
-                        cornerRadiusBL: 10,
-                        cornerRadiusBR: 10
-                    });
-                    {{$model}}Legend.data.setAll({{$model}}Series.dataItems);
-
-                    {{$model}}Series.appear(1000, 100);
-                });
-            </script>
         </div>
     </div>
 </div>
+
+<script>
+    window.onload = function () {
+
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            title: {
+                text: "Works",
+                horizontalAlign: "left"
+            },
+            data: [{
+                type: "doughnut",
+                startAngle: 60,
+                //innerRadius: 60,
+                indexLabelFontSize: 17,
+                indexLabel: "{label} - #percent%",
+                toolTipContent: "<b>{label}:</b> {y} (#percent%)",
+                dataPoints: @json($works)
+            }]
+        });
+        chart.render();
+    }
+</script>
