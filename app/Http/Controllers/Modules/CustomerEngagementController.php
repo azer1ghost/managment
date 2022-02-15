@@ -22,15 +22,20 @@ class CustomerEngagementController extends Controller
     public function index(Request $request)
     {
         $limit = $request->get('limit', 25);
+        $search = $request->get('search');
 
         return view('pages.customer-engagements.index')
             ->with([
                 'customer_engagements' => CustomerEngagement::with('user', 'client', 'partner')
+                    ->when($search, fn ($query) => $query
+                        ->whereHas('user',fn($q) => $q->where('name', 'like', "%$search%"))
+                        ->orWhereHas('client',fn($q) => $q->where('fullname', 'like', "%$search%"))
+                        ->orWhereHas('partner',fn($q) => $q->where('name', 'like', "%$search%"))
+                    )
                     ->latest('id')
                     ->paginate($limit),
             ]);
     }
-
 
     public function create()
     {

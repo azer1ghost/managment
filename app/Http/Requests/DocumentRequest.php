@@ -13,8 +13,8 @@ class DocumentRequest extends FormRequest
 
         return [
             'name' => "$name|string",
-            'file' => "$file|mimes:jpeg,jpg,png,doc,docx,pdf,xls,xlsx|max:2048",
-            'model'  => "$file|string",
+            'file' => "$file|mimes:jpeg,jpg,png,doc,docx,pdf,xls,xlsx|max:10240",
+            'model' => "$file|string",
         ];
     }
 }
