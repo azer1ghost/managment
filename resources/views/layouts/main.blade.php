@@ -62,7 +62,6 @@
         </div>
     </div>
 </div>
-
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>

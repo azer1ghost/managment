@@ -2,10 +2,10 @@
 
 namespace App\View\Components\Widgets;
 
-use App\Models\Work;
-use App\Traits\GetClassInfo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\Component;
+use App\Traits\GetClassInfo;
+use App\Models\Work;
 
 class WorkMonthlyWidget extends Component
 {
@@ -34,6 +34,7 @@ class WorkMonthlyWidget extends Component
                     'verified' => $works->where('verified_at', '!=', NULL)->count(),
                 ];
             })->values();
+//        dd($this->widget);
     }
 
     public function render()

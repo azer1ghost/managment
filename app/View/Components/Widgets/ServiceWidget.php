@@ -40,14 +40,13 @@ class ServiceWidget extends Component
             'bg-secondary',
         ];
 
-        $serviceQuery =Service::withCount('works')
+        $serviceQuery = Service::withCount('works')
             ->whereHas('works', function ($q){
                 $q->where('status', '!=', Work::REJECTED);
             })
             ->orderBy('works_count', 'desc')
             ->get();
 
-        $this->services  = $serviceQuery;
 
 
         $this->works = Department::withCount('works')
@@ -63,6 +62,7 @@ class ServiceWidget extends Component
             });
 
         $this->total = $this->works->reduce(fn($acc, $work) => $acc + $work['y'], 0);
+        $this->services  = $serviceQuery;
     }
 
     public function render()

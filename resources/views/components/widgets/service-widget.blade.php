@@ -66,8 +66,8 @@
                 type: "doughnut",
                 startAngle: 20,
 
-                // showInLegend: "true",
-                // legendText: "{label}",
+                showInLegend: "true",
+                legendText: "{label}",
 
                 indexLabelFontSize: 12,
                 indexLabel: "{label} - #percent%",
