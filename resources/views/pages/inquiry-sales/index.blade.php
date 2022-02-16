@@ -72,6 +72,22 @@
                     </div>
 
                     <div class="form-group col-12 col-md-3 mb-0">
+                        <label class="d-block" for="subjectFilter">@lang('translates.filters.subject')</label>
+                        <select id="subjectFilter" data-selected-text-format="count" class="filterSelector form-control"
+                                title="@lang('translates.filters.subject')" name="subject">
+
+                            <option value="">@lang('translates.filters.select')</option>
+                            @foreach($subjects as $subject)
+                                <option
+                                        @if($subject->id == request()->get('subject')) selected @endif
+                                value="{{$subject->getAttribute('id')}}" >
+                                    {{ucfirst($subject->getAttribute('text'))}}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group col-12 col-md-3 mb-0">
                         <label class="d-block" for="statusFilter">Status</label>
                         <select id="statusFilter" data-selected-text-format="count" class="filterSelector form-control"
                                 title="@lang('translates.filters.select')" name="status">
@@ -164,6 +180,7 @@
                     <th>@lang('translates.fields.clientName')</th>
                     <th>@lang('translates.fields.writtenBy')</th>
                     <th>@lang('translates.columns.evaluation')</th>
+                    <th>@lang('translates.fields.subject')</th>
                     <th class="text-center">Status</th>
                     <th>@lang('translates.fields.actions')</th>
                 </tr>
@@ -177,6 +194,7 @@
                         <td>{{$inquiry->getRelationValue('client')->getAttribute('name_with_voen')}}</td>
                         <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}} {!! $inquiry->getRelationValue('user')->getAttribute('disabled_at') ? ' <span class="text-danger">(' . __('translates.disabled') . ')</span>' : '' !!}</td>
                         <td>{{optional($inquiry->getParameter('evaluation'))->getAttribute('text')}}</td>
+                        <td>{{optional($inquiry->getParameter('subject'))->getAttribute('text')}}</td>
                         <td class="text-center">
                             @if($inquiry->getAttribute('wasDone'))
                                 <i class="fa fa-check text-success" style="font-size: 18px"></i>

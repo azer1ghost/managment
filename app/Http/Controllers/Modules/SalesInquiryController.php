@@ -36,6 +36,7 @@ class SalesInquiryController extends Controller
         ];
 
         $parameterFilters = [
+            'subject'    => $request->get('subject'),
             'evaluation' => $request->get('evaluation'),
             'status'     => $request->get('status'),
             'phone'      => $request->get('phone'),
@@ -54,6 +55,7 @@ class SalesInquiryController extends Controller
         [$from, $to] = explode(' - ', $daterange);
 
         $statuses  = Parameter::where('name', 'status')->first()->options->unique();
+        $subjects  = Parameter::where('name', 'subject')->first()->options->unique();
         $evaluations  = Parameter::where('name', 'evaluation')->first()->options->unique();
         $users = User::has('inquiries')->whereDepartmentId(Department::SALES)->get(['id', 'name', 'surname', 'disabled_at']);
 
@@ -117,6 +119,7 @@ class SalesInquiryController extends Controller
             compact(
                 'inquiries',
                 'statuses',
+                'subjects',
                 'evaluations',
                 'trashBox',
                 'daterange',
