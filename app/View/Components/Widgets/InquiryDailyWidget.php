@@ -21,15 +21,22 @@ class InquiryDailyWidget extends Component
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
 
-        $this->results = ['data' => Inquiry::isReal()->select('id', 'datetime')
-            ->where('datetime', '>=', Carbon::now()->subWeek())
-            ->get()
-            ->groupBy(function($date) {
-                return Carbon::parse($date->datetime)->format('m-d-Y');
-            })];
+        $this->results = \Cache::remember($this->widget->getAttribute('key'), 3600, function () {
+            $data = Inquiry::isReal()->select('id', 'datetime')
+                ->where('datetime', '>=', now()->subWeek())
+                ->get()
+                ->groupBy(function($date) {
+                    return Carbon::parse($date->datetime)->format('d-m');
+                })
+                ->toArray()
+            ;
 
-//        dd($this->results);
+            return array_map(function ($item) {
+                return count($item);
+            }, $data);
+        });
 
+        // dd($this->results);
     }
 
 

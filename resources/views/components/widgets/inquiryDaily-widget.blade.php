@@ -6,16 +6,16 @@
     </div>
 </div>
 <script>
-    const {{$model}}Labels = ['day1','day2','day3','day4'];
+    const {{$model}}Labels = @json(array_keys($results));
 
     const {{$model}}Data = {
         labels: {{$model}}Labels,
         datasets: [
             {
-                label: 'Dataset 1',
-                data: [1,2,3,4],
-                borderColor: '#454554',
-                backgroundColor: '#a45421',
+                label: 'Say',
+                data: @json(array_values($results)),
+                borderColor: '#2262D9',
+                backgroundColor: '#2262D9',
             },
 
         ]
