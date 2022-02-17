@@ -16,14 +16,12 @@ class ExchangeRatesApi
 
     public function convert($from, $to = 'AZN', $value = 1): float
     {
-       if (Cache::has('exchange_rates')) {
-           $data = Cache::get('exchange_rates');
-       } else {
-           $XmlResponse = Http::get($this->apiUrl)->body();
-           $xmlToObject = json_encode(simplexml_load_string($XmlResponse, 'SimpleXMLElement', LIBXML_NOCDATA));
-           $data = json_decode($xmlToObject, true)['ValType'][1]['Valute'];
-           Cache::put('exchange_rates', $data, 43200); //12 hours
-       }
+        $data = Cache::remember('exchange_rates', 43200, function (){
+            $XmlResponse = Http::get($this->apiUrl)->body();
+            $xmlToObject = json_encode(simplexml_load_string($XmlResponse, 'SimpleXMLElement', LIBXML_NOCDATA));
+
+            return json_decode($xmlToObject, true)['ValType'][1]['Valute'];
+        });
 
         $currencies = [];
 

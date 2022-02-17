@@ -11,6 +11,7 @@ use App\Models\Task;
 use App\Models\User;
 use App\Models\Widget;
 use App\Models\Work;
+use App\Services\OpenWeatherApi;
 use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\View\View;
@@ -105,6 +106,10 @@ class PlatformController extends Controller
         $inquiriesCount = Inquiry::count();
         $tasksCount = Task::count();
 
+        $weather = \Cache::remember('open_weather', 7200, function () {
+            return (new OpenWeatherApi())->location(40.4093, 49.8671)->send();
+        });
+
         $getData = fn($count, $total, $text) => (object)[
             'total' => $total,
             'percentage' => $total == 0 ? 0 : $count/$total * 100,
@@ -142,6 +147,7 @@ class PlatformController extends Controller
             'widgets'    => Widget::isActive()->oldest('order')->get(),
             'tasksCount' => auth()->user()->tasks()->newTasks()->count(),
             'statistics' => $statistics,
+            'weather' => $weather
         ]);
     }
 
@@ -154,7 +160,7 @@ class PlatformController extends Controller
     {
         abort_if(auth()->user()->isNotDeveloper(), 403);
 
-        return 'testing area';
+        return 'test';
     }
 
     public function documentTemporaryUrl(Document $document)

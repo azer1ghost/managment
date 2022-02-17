@@ -42,14 +42,20 @@
                 <div class="card-people mt-auto">
                         <img src="{{asset('assets/images/dashboard/people.svg')}}" alt="people">
                     <div class="weather-info">
-                        <div class="d-flex">
-                            <div>
-                                <h2 class="mb-0 font-weight-normal"><i class="icon-sun mr-2"></i>15<sup>C</sup></h2>
+                        <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center">
+                                <img src="{{$weather['icon']}}" alt="" width="70" height="70"/>
+                                <h2 class="mb-0 font-weight-normal">
+                                    {{$weather['temp']}}<sup>C</sup>
+                                </h2>
                             </div>
                             <div class="ml-2">
                                 <h4 class="location font-weight-normal">Baku</h4>
                                 <h6 class="font-weight-normal">Azerbaijan</h6>
                             </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-capitalize">{{$weather['description'][app()->getLocale()]}}</p>
                         </div>
                     </div>
                 </div>
