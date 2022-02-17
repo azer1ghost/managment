@@ -58,7 +58,7 @@
         var chart = new CanvasJS.Chart("{{$widget->key}}", {
             animationEnabled: true,
             title: {
-                text: "Works",
+                text: '@lang('translates.navbar.services')',
                 horizontalAlign: "left"
             },
 

@@ -33,7 +33,7 @@ class InquiryPersonalMonthlyWidget extends Component
     public function render()
     {
         if (auth()->user()->inquiries()->exists()) {
-            return view('components.widgets.inquiryPersonalDaily-widget');
+            return view('components.widgets.inquiryPersonalMonthly-widget');
 
         }
     }
