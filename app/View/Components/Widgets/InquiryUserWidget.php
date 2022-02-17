@@ -15,7 +15,8 @@ class InquiryUserWidget extends Component
 
     public ?Model $widget;
     public ?string $model = null;
-    public Collection $result;
+    public Collection $users;
+    public array $colors;
 
     public function checkUserInquiries($q)
     {
@@ -24,23 +25,29 @@ class InquiryUserWidget extends Component
 
     public function __construct($widget)
     {
+       $this->colors = [
+            'bg-primary',
+            'bg-primary',
+            'bg-success',
+            'bg-success',
+            'bg-danger',
+            'bg-danger',
+            'bg-warning',
+            'bg-warning',
+            'bg-info',
+            'bg-info',
+            'bg-secondary',
+        ];
+
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
-        $this->result = User::when(!Inquiry::userCanViewAll(), fn($q) => $q->where('department_id', auth()->user()->getAttribute('department_id')))->whereHas('inquiries', fn($q) => $this->checkUserInquiries($q))
+
+        $this->users = User::when(!Inquiry::userCanViewAll(), fn($q) => $q->where('department_id', auth()->user()->getAttribute('department_id')))->whereHas('inquiries', fn($q) => $this->checkUserInquiries($q))
             ->withCount([
                 'inquiries' => fn($q) => $this->checkUserInquiries($q)
             ])
-            ->orderBy('inquiries_count')
-            ->get()
-            ->map(function ($result) {
-                return [
-                    'name' => $result->getAttribute('fullname'),
-                    'steps' => $result->inquiries_count,
-                    'pictureSettings' => [
-                        'src' => image($result->getAttribute('avatar'))
-                    ]
-                ];
-            });
+            ->orderByDesc('inquiries_count')
+            ->get();
     }
 
     public function render()

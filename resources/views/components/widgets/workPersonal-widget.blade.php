@@ -13,9 +13,9 @@
     </div>
 </div>
 <script>
-    const labels = ['day1', 'day2', 'day3'];
-    const data = {
-        labels: labels,
+    const {{$model}}Labels = ['day1', 'day2', 'day3'];
+    const {{$model}}Data = {
+        labels: {{$model}}Labels,
         datasets: [
             {
                 label: 'Verified',
@@ -34,7 +34,7 @@
 
     const {{$model}}Config = {
         type: 'bar',
-        data: data,
+        data: {{$model}}Data,
         options: {
             responsive: true,
             plugins: {
