@@ -20,7 +20,7 @@ class PositionRequest extends FormRequest
             'perms' => 'nullable|array',
             'all_perms' => 'nullable|string',
             'order' => 'nullable|integer',
-            'translate' => 'nullable|array'
+            'name' => 'nullable|array'
         ];
     }
 }

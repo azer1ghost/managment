@@ -27,11 +27,12 @@
                 @foreach(config('app.locales') as $key => $locale)
                     <div class="tab-pane fade show @if($loop->first) active @endif" id="data-{{$key}}" role="tabpanel">
                         <div class="row">
-{{--                            <x-form-group  class="pr-3 col-12 col-lg-3">--}}
-{{--                                <x-form-input  name="translate[label][{{$key}}]"  label="Parameter label"/>--}}
-{{--                            </x-form-group>--}}
-                            <x-input::text  name="translate[label][{{$key}}]"  :value="optional($data)->getTranslation('label', $key)"     label="Parameter label"     width="4" class="pr-3" />
-                            <x-input::text  name="translate[placeholder][{{$key}}]"  :value="optional($data)->getTranslation('placeholder', $key)"     label="Parameter placeholder"     width="4" class="pr-3" />
+                            <x-form-group class="pr-3 col-12 col-lg-6">
+                                <x-form-input name="label" :language="$key" label="Parameter label"/>
+                            </x-form-group>
+                            <x-form-group class="pr-3 col-12 col-lg-6">
+                                <x-form-input name="placeholder" :language="$key" label="Parameter placeholder"/>
+                            </x-form-group>
                         </div>
                     </div>
                 @endforeach
