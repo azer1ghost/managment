@@ -20,19 +20,16 @@
     </x-bread-crumb>
     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
         @method($method) @csrf
-
-        <div class=" row mt-4">
+        @bind($data)
+        <div class="row mt-4">
             <div class="form-group col-12">
                 <div class="row">
-                    @bind($data)
-
                     <x-form-group  class="pr-3 col-12 col-lg-6"  >
                         <x-form-input  name="name" label="Meeting name" placeholder="Meeting name daxil edin"/>
                     </x-form-group>
                     <x-form-group  class="pr-3 col-12 col-lg-6"  :label="__('translates.fields.date')">
                         <x-form-input  name="datetime"  placeholder="Meeting name daxil edin"/>
                     </x-form-group>
-
                     <div class="col-12 col-md-6 pr-3">
                         <label for="data-status">Update Status</label>
                         <select name="status" id="data-status" class="form-control">
@@ -41,7 +38,6 @@
                                 <option @if(optional($data)->getAttribute('status') === $index) selected @endif value="{{$index}}">{{$status}}</option>
                             @endforeach
                         </select>
-
                     </div>
                 </div>
             </div>

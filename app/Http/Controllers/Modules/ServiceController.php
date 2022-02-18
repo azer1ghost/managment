@@ -43,7 +43,6 @@ class ServiceController extends Controller
     {
         $validated = $request->validated();
         $validated['has_asan_imza'] = $request->has('has_asan_imza');
-        $this->translates($validated);
 
         $service = Service::create($validated);
 
@@ -80,7 +79,6 @@ class ServiceController extends Controller
     {
         $validated = $request->validated();
         $validated['has_asan_imza'] = $request->has('has_asan_imza');
-        $this->translates($validated);
 
         $service->update($validated);
 

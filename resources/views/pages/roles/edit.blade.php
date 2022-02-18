@@ -20,6 +20,7 @@
     </x-bread-crumb>
     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
         @method($method) @csrf
+        @bind($data)
         <input type="hidden" name="id" value="{{optional($data)->id}}">
         <div class=" row mt-4" >
             <div class="form-group col-12">
@@ -28,18 +29,23 @@
                         @foreach(config('app.locales') as $key => $locale)
                             <div class="tab-pane fade show @if($loop->first) active @endif" id="data-{{$key}}" role="tabpanel">
                                 <div class="row">
-                                    <x-input::text  name="translate[name][{{$key}}]"  :value="optional($data)->getTranslation('name', $key)"     label="Role name {{$key}}"     width="6" class="pr-3" />
+                                    <x-form-group class="pr-3 col-12 col-lg-6">
+                                        <x-form-input name="name" :language="$key" label="Role name {{$key}}" placeholder="Rol daxil edin"/>
+                                    </x-form-group>
                                 </div>
                             </div>
                         @endforeach
                     </x-translate>
-                    <x-input::text  name="key"   :value="optional($data)->getAttribute('key')"   label="Role key"   width="6" class="pr-3" />
+                    <x-form-group class="pr-3 col-12 col-lg-6"  >
+                        <x-form-input  name="key" label="Role key" placeholder="Meeting name daxil edin"/>
+                    </x-form-group>
                 </div>
                 @if(auth()->user()->isDeveloper())
                     <x-permissions :model="$data" :action="$action" />
                 @endif
             </div>
         </div>
+        @endbind
         @if($action)
             <x-input::submit  :value="__('translates.buttons.save')" />
         @endif
