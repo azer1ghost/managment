@@ -24,10 +24,14 @@
         <div class=" row mt-4">
             <div class="form-group col-12">
                 <div class="row">
+                    @bind($data)
 
-                    <x-input::text name="name" :value="optional($data)->getAttribute('name')" label="Meeting name" width="6" class="pr-3"/>
-
-                    <x-input::text name="datetime" :label="__('translates.fields.date')" value="{{optional($data)->getAttribute('datetime') ?? now()->format('Y-m-d')}}" type="text" width="6" class="pr-2" />
+                    <x-form-group  class="pr-3 col-12 col-lg-6"  >
+                        <x-form-input  name="name" label="Meeting name" placeholder="Meeting name daxil edin"/>
+                    </x-form-group>
+                    <x-form-group  class="pr-3 col-12 col-lg-6"  :label="__('translates.fields.date')">
+                        <x-form-input  name="datetime"  placeholder="Meeting name daxil edin"/>
+                    </x-form-group>
 
                     <div class="col-12 col-md-6 pr-3">
                         <label for="data-status">Update Status</label>
@@ -45,6 +49,7 @@
         @if($action)
             <x-input::submit :value="__('translates.buttons.save')"/>
         @endif
+        @endbind
     </form>
 @endsection
 @section('scripts')

@@ -12,6 +12,8 @@ class Meeting extends Model implements Recordable
 
     protected $fillable = ['name', 'status', 'datetime'];
 
+    public $dates = ['datetime'];
+
     public static function statuses(): array
     {
         return ['deger1', 'deger2', 'deger3'];

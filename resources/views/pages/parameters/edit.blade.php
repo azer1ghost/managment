@@ -20,12 +20,16 @@
     </x-bread-crumb>
     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
         @method($method) @csrf
+        @bind($data)
         <input type="hidden" name="id" value="{{optional($data)->getAttribute('id')}}">
         <div class=" form-row mt-4" >
             <x-translate>
                 @foreach(config('app.locales') as $key => $locale)
                     <div class="tab-pane fade show @if($loop->first) active @endif" id="data-{{$key}}" role="tabpanel">
                         <div class="row">
+{{--                            <x-form-group  class="pr-3 col-12 col-lg-3">--}}
+{{--                                <x-form-input  name="translate[label][{{$key}}]"  label="Parameter label"/>--}}
+{{--                            </x-form-group>--}}
                             <x-input::text  name="translate[label][{{$key}}]"  :value="optional($data)->getTranslation('label', $key)"     label="Parameter label"     width="4" class="pr-3" />
                             <x-input::text  name="translate[placeholder][{{$key}}]"  :value="optional($data)->getTranslation('placeholder', $key)"     label="Parameter placeholder"     width="4" class="pr-3" />
                         </div>
@@ -46,11 +50,18 @@
                     </span>
                 @enderror
             </div>
-            <x-input::select   name="type"          :value="optional($data)->getAttribute('type')"          width="4" class="pr-3" :options="$types" />
-            <x-input::text     name="name"          :value="optional($data)->getAttribute('name')"          width="4" class="pr-3" />
-            <x-input::text     name="attributes"    :value="optional($data)->getAttribute('attributes')"    width="4" class="pr-3" />
-            <x-input::number   name="order"         :value="optional($data)->getAttribute('order')"         width="4" class="pr-3" label="Order"/>
-
+            <x-form-group  class="pr-3 col-12 col-lg-3" >
+                <x-form-select name="type" :options="$types" label="Type "/>
+            </x-form-group>
+            <x-form-group  class="pr-3 col-12 col-lg-3">
+                <x-form-input  name="name"  label="Name"/>
+            </x-form-group>
+            <x-form-group  class="pr-3 col-12 col-lg-3">
+                <x-form-input  name="attributes"  label="Attributes" placeholder="attribut daxil edin"/>
+            </x-form-group>
+            <x-form-group  class="pr-3 col-12 col-lg-3">
+                <x-form-input type="number" name="order"  label="Order"/>
+            </x-form-group>
             <div class="col-12 mb-3">
                 <label for="departmentFilter">Departments</label><br/>
                 <select name="departments[]" id="departmentFilter" data-selected-text-format="count" multiple class="filterSelector" data-width="fit"  title="Noting selected" >
@@ -120,6 +131,7 @@
         @if($action)
             <x-input::submit />
         @endif
+        @endbind
     </form>
 @endsection
 

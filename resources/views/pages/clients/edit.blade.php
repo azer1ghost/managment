@@ -21,6 +21,8 @@
     <form class="col-md-12 form-row px-0" action="{{$action}}" method="POST" enctype="multipart/form-data" id="client-form">
         <!-- Main -->
         @csrf @method($method)
+        @bind($data)
+
         <input type="hidden" name="id" value="{{$data->getAttribute('id')}}">
         <div class="col-md-12 pl-2 pr-0">
             <p class="text-muted mb-2">@lang('translates.register.progress.personal')</p>
@@ -36,19 +38,29 @@
                         <input type="text" class="form-control" id="data-client" value="{{$data->getRelationValue('client')->fullname}}" disabled>
                     </div>
                 @endif
-                <x-input::select name="type"      :value="$data->getAttribute('type') ?? request()->get('type')"  width="4" class="pr-1" :options="[trans('translates.general.legal'), trans('translates.general.physical')]"/>
-                <x-input::text   name="fullname"  :value="$data->getAttribute('fullname')"    width="4" class="pr-1" :label="__('translates.fields.name')" required=""/>
+                <x-form-group  class="pr-3 col-12 col-lg-4" :label="trans('translates.filters.type')">
+                    <x-form-select name="type" :options="[trans('translates.general.legal'), trans('translates.general.physical')]" />
+                </x-form-group>
+                <x-form-group  class="pr-3 col-12 col-lg-8" :label="trans('translates.fields.name')" required>
+                    <x-form-input name="fullname" />
+                </x-form-group>
                 @if (request()->get('type') == $data::PHYSICAL || $data->getAttribute('type') == $data::PHYSICAL)
-                    <x-input::text  name="father"   :value="$data->getAttribute('father')"  width="4" class="pr-1" :label="__('translates.fields.father')" />
+                    <x-form-group  class="pr-3 col-12 col-lg-4" :label="trans('translates.fields.father')">
+                        <x-form-input name="father" />
+                    </x-form-group>
                 @endif
-                <x-input::textarea name="detail" :value="optional($data)->getAttribute('detail')" :label="trans('translates.fields.detail')" width="4" class="pr-3"/>
+                <x-form-group  class="pr-3 col-12 col-lg-8" :label="trans('translates.fields.detail')">
+                    <x-form-textarea name="detail" />
+                </x-form-group>
             </div>
             <!-- Employment -->
             <p class="text-muted mb-2"> @lang('translates.fields.employment')</p>
             <hr class="my-2">
             <div class="row">
                 @if(request()->has('client_id') || is_numeric($data->client_id))
-                    <x-input::text name="position"  :value="$data->getAttribute('position')"     width="4" class="pr-1"  :label="trans('translates.fields.position')" />
+                    <x-form-group  class="pr-3 col-12 col-lg-4" :label="trans('translates.fields.position')">
+                        <x-form-input name="position" />
+                    </x-form-group>
                 @endif
                 @if(is_null($data->client_id) && !request()->has('client_id'))
                     <div class="form-group col-12 col-md-4 pr-1">
@@ -78,10 +90,18 @@
                     <p class="text-muted mb-2">@lang('translates.fields.passport')</p>
                     <hr class="my-2">
                 </div>
-                <x-input::select  name="serial_pattern" :value="$data->getAttribute('serial_pattern')" :label="__('translates.fields.serial')" width="1" class="p-0"   :options="['AA' => 'AA','AZE' => 'AZE']"/>
-                <x-input::text    name="serial"         :value="$data->getAttribute('serial')"   label=" "   width="2" class="pr-1"  :placeholder="__('translates.placeholders.serial_pattern')"/>
-                <x-input::text    name="fin"            :value="$data->getAttribute('fin')"       width="2" class="pr-1"  :placeholder="__('translates.placeholders.fin')"/>
-                <x-input::select  name="gender"         :value="$data->getAttribute('gender')"   :options="[__('translates.gender.male'),__('translates.gender.female')]" :label="__('translates.fields.gender')" width="2" class="pr-1" />
+                <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.serial')">
+                    <x-form-select name="serial_pattern" :options="['AA' => 'AA','AZE' => 'AZE']" />
+                </x-form-group>
+                <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.position')" >
+                    <x-form-input name="serial" :placeholder="__('translates.placeholders.serial_pattern')"/>
+                </x-form-group>
+                <x-form-group  class="pr-3 col-12 col-lg-3"  >
+                    <x-form-input name="fin" :placeholder="__('translates.placeholders.fin')" label="fin"/>
+                </x-form-group>
+                <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.gender')">
+                    <x-form-select name="gender" :options="[__('translates.gender.male'),__('translates.gender.female')]" />
+                </x-form-group>
             @endif
             <!-- Contact -->
             <div class="col-md-12">
@@ -89,11 +109,18 @@
                 <p class="text-muted mb-2">@lang('translates.fields.contact')</p>
                 <hr class="my-2">
             </div>
-            <x-input::text   name="phone1"      :value="$data->getAttribute('phone1')"        :label="__('translates.fields.phone1')"   width="3" class="pr-1" />
-            <x-input::text   name="phone2"      :value="$data->getAttribute('phone2')"   :label="__('translates.fields.phone2')"  width="3" class="pr-1" />
-            <x-input::email  name="email1"      :value="$data->getAttribute('email1')"       :label="__('translates.fields.email1')"    width="3" class="pr-1"  required=""/>
-            <x-input::email  name="email2"      :value="$data->getAttribute('email2')"  :label="__('translates.fields.email2')"  width="3" class="pr-1" />
-
+            <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.phone1')" >
+                <x-form-input name="phone1"/>
+            </x-form-group>
+            <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.phone2')" >
+                <x-form-input name="phone2"/>
+            </x-form-group>
+            <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.email1')" required >
+                <x-form-input type="email" name="email1"/>
+            </x-form-group>
+            <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.email2')" >
+                <x-form-input type="email" name="email2"/>
+            </x-form-group>
             @if(now()->format('m/d/Y') < date_create("02/12/2022")->format('m/d/Y'))
                 <span class="alert alert-danger">Vüsal müəllimin tapşırığı əsasında müştərinin nömrəsinin yazılması vacibdir! </span>
             @endif
@@ -103,12 +130,17 @@
                 <p class="text-muted mb-2">@lang('translates.fields.address')</p>
                 <hr class="my-2">
             </div>
-            <x-input::text    name="address1"   :value="$data->getAttribute('address1')"       :label="__('translates.fields.address1')"   width="6" class="pr-1" />
-            <x-input::text    name="address2"   :value="$data->getAttribute('address2')"  :label="__('translates.fields.address2')" width="6" class="pr-1"  />
+            <x-form-group  class="pr-3 col-12 col-lg-6" :label="trans('translates.fields.address1')" >
+                <x-form-input name="address1"/>
+            </x-form-group>
+            <x-form-group  class="pr-3 col-12 col-lg-6" :label="trans('translates.fields.address2')" >
+                <x-form-input name="address2"/>
+            </x-form-group>
         </div>
         @if($action)
             <x-input::submit/>
         @endif
+        @endbind
     </form>
 
     @if($method != 'POST')

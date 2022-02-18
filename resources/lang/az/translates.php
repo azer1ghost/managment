@@ -30,7 +30,7 @@ return [
         'filter_by' => 'Filterlə',
         'free_clients' => 'Boş müştərilər',
         'sales_activities_type' => 'Satış Fəaliyyətinə Görə Filterləyin',
-
+        'type' => 'Növü',
     ],
 
     'placeholders' => [

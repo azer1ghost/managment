@@ -29,21 +29,36 @@
                     <img src="{{asset("assets/images/".optional($data)->getAttribute('logo'))}}" alt="company" width="300px" height="100px" }}>
                 </div>
             @endif
-            <x-input::text  name="name"      :value="optional($data)->getAttribute('name')"      :label="__('translates.fields.name')"    width="6" class="pr-3" />
-            <x-input::text  name="address"   :value="optional($data)->getAttribute('address')"   :label="__('translates.fields.address')" width="6" class="pr-3" />
-            <x-input::text  name="website"   :value="optional($data)->getAttribute('website')"   :label="__('translates.fields.website')" width="6" class="pr-3" />
-            <x-input::text  name="mobile"    :value="optional($data)->getAttribute('mobile')"    :label="__('translates.fields.mobile')"  width="6" class="pr-3" />
-            <x-input::text  name="mail"      :value="optional($data)->getAttribute('mail')"      :label="__('translates.fields.mail')"   width="6" class="pr-3" />
-            <x-input::text  name="intercity_phone"     :value="optional($data)->getAttribute('intercity_phone')"     :label="__('translates.fields.intercity_phone')"   width="6" class="pr-3" />
-            <x-input::text  name="call_center"  :value="optional($data)->getAttribute('call_center')"     :label="__('translates.fields.call_center')"   width="6" class="pr-3" />
-            <x-input::text  name="keywords"     :value="optional($data)->getAttribute('keywords')"        :label="__('translates.fields.keywords')"      width="6" class="pr-3" />
-            <x-input::textarea name="about"  :value="optional($data)->getAttribute('about')"      :label="__('translates.fields.about')"   width="12" class="pr-3" rows="6"/>
-            <div class="col-12 mb-2">
-                <div>
-                    <input type="checkbox" name="is_inquirable" @if(optional($data)->getAttribute('is_inquirable') === true) checked @endif id="id-is_inquirable">
-                    <label class="form-check-label" for="id-is_inquirable">@lang('translates.general.inquirable')</label>
-                </div>
-            </div>
+            @bind($data)
+                <x-form-group :label="__('translates.fields.name')" class="pr-3 col-12 col-lg-6">
+                    <x-form-input name="name"/>
+                </x-form-group>
+                <x-form-group :label="__('translates.fields.address')" class="pr-3 col-12 col-lg-6">
+                    <x-form-input name="address"/>
+                </x-form-group>
+                <x-form-group :label="__('translates.fields.website')" class="pr-3 col-12 col-lg-6">
+                    <x-form-input name="website"/>
+                </x-form-group>
+                <x-form-group :label="__('translates.fields.mobile')" class="pr-3 col-12 col-lg-6">
+                    <x-form-input name="mobile"/>
+                </x-form-group>
+                <x-form-group :label="__('translates.fields.mail')" class="pr-3 col-12 col-lg-6">
+                    <x-form-input name="mail"/>
+                </x-form-group>
+                <x-form-group :label="__('translates.fields.intercity_phone')" class="pr-3 col-12 col-lg-6">
+                    <x-form-input name="intercity_phone"/>
+                </x-form-group>
+                <x-form-group :label="__('translates.fields.call_center')" class="pr-3 col-12 col-lg-6">
+                    <x-form-input name="call_center"/>
+                </x-form-group>
+                <x-form-group :label="__('translates.fields.keywords')" class="pr-3 col-12 col-lg-6">
+                    <x-form-textarea name="keywords"/>
+                </x-form-group>
+                <x-form-group  class="pr-3 col-12 mb-2  pl-5 m-0">
+                    <x-form-checkbox name="is_inquirable" :label="trans('translates.general.inquirable')"  />
+                </x-form-group>
+            @endbind
+
             <div class="col-12 col-md-12">
                 <p class="text-muted mb-2">@lang('translates.general.sosials')</p>
                 @livewire('show-socials',['company' => $data,'action' => $action])
