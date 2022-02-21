@@ -1,4 +1,4 @@
-<div class="{{$widget->class_attribute}}">
+<div class="{{$widget->class_attribute}} col-md-6">
     <div class="card border-0 widget-container">
         <div class="py-2 px-1">
             <canvas id="{{$widget->key}}" style="width: 100%;{{$widget->style_attribute}}"></canvas>

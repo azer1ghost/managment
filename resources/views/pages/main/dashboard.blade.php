@@ -39,8 +39,7 @@
     <div class="row">
         <div class="col-md-6 grid-margin stretch-card">
             <div class="card tale-bg">
-                <div class="card-people mt-auto">
-                        <img src="{{asset('assets/images/dashboard/people.svg')}}" alt="people">
+                        <img style="border-radius: 20px" src="{{asset('https://static.vecteezy.com/system/resources/previews/002/406/571/original/business-meeting-and-teamwork-concept-illustration-of-people-characters-in-flat-design-vector.jpg')}}" alt="people">
                     <div class="weather-info">
                         <div class="d-flex align-items-center">
                             <div class="d-flex align-items-center">
@@ -58,7 +57,6 @@
                             <p class="text-capitalize">{{$weather['description'][app()->getLocale()]}}</p>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
         <div class="col-md-6 grid-margin transparent">

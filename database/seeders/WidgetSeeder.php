@@ -25,10 +25,10 @@ class WidgetSeeder extends Seeder
             ),
             array(
                 'key' => "inquiryDaily-widget",
-                'class_attribute' => "col-12 col-md-6 mb-3",
+                'class_attribute' => "col-12 col-md-8 mb-3",
                 'style_attribute' => "height: 320px;",
                 'details' => json_encode(['en' => 'Daily Inquires', 'az' => 'Günlük sorğular']),
-                'order' => 3,
+                'order' => 6,
                 'status' => 1
             ),
             array(
@@ -65,7 +65,7 @@ class WidgetSeeder extends Seeder
             ),
             array(
                 'key' => "workMonthly-widget",
-                'class_attribute' => "col-12 mb-3",
+                'class_attribute' => "col-12 mb-3 col-md-6",
                 'style_attribute' => "height: 520px;",
                 'details' => json_encode(['en' => 'Monthly works', 'az' => 'Aylıq işlər']),
                 'order' => 7,
@@ -73,7 +73,7 @@ class WidgetSeeder extends Seeder
             ),
             array(
                 'key' => "workPersonal-widget",
-                'class_attribute' => "col-12 mb-3",
+                'class_attribute' => "col-12 mb-3 col-md-6",
                 'style_attribute' => "height: 520px;",
                 'details' => json_encode(['en' => 'Personal works', 'az' => 'Şəxsi işlər']),
                 'order' => 8,
@@ -81,10 +81,10 @@ class WidgetSeeder extends Seeder
             ),
             array(
                 'key' => "salesClientMonthly-widget",
-                'class_attribute' => "col-12 mb-3",
+                'class_attribute' => "col-12 mb-3 col-md-8",
                 'style_attribute' => "height: 520px;",
                 'details' => json_encode(['en' => 'Sales Client', 'az' => 'Satış Müştəriləri']),
-                'order' => 9,
+                'order' => 3,
                 'status' => 1
             ),
             array(
@@ -96,14 +96,14 @@ class WidgetSeeder extends Seeder
                 'status' => 1
             ),array(
                 'key' => "inquiryPersonalMonthly-widget",
-                'class_attribute' => "col-12 mb-3",
+                'class_attribute' => "col-12 mb-3 col-md-6",
                 'style_attribute' => "height: 520px;",
                 'details' => json_encode(['en' => 'Monthly Personal Inquiries', 'az' => 'Aylıq Şəxsi Sorğular']),
                 'order' => 10,
                 'status' => 1
             ),array(
                 'key' => "inquiryPersonalDaily-widget",
-                'class_attribute' => "col-12 mb-3",
+                'class_attribute' => "col-12 mb-3 col-md-6",
                 'style_attribute' => "height: 520px;",
                 'details' => json_encode(['en' => 'Daily Personal Inquiries', 'az' => 'Həftəlik Şəxsi Sorğular']),
                 'order' => 11,
