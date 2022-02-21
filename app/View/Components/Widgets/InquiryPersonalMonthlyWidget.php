@@ -21,13 +21,19 @@ class InquiryPersonalMonthlyWidget extends Component
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
 
-        $this->results = ['data' => Inquiry::isReal()->select('id', 'datetime')
-            ->where('user_id', auth()->id())
-            ->where('datetime', '>=', now()->startOfMonth())
-            ->get()
-            ->groupBy(function($date) {
-                return Carbon::parse($date->datetime)->format('m-d-Y');
-            })];
+        $this->results = \Cache::remember($this->widget->getAttribute('key'), 3600, function () {
+            $data = Inquiry::isReal()->select('id', 'datetime')
+                ->where('user_id', auth()->id())
+                ->where('datetime', '>=', Carbon::now()->subWeek())
+                ->get()
+                ->groupBy(function ($date) {
+                    return Carbon::parse($date->datetime)->format('d-m');
+                })->toArray();
+            return array_map(function ($item) {
+                return count($item);
+            }, $data);
+        });
+
     }
 
     public function render()

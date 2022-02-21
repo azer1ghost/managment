@@ -25,9 +25,9 @@ class WorkMonthlyWidget extends Component
             ->orderBy('datetime')
             ->worksDone()
             ->get()
-            ->groupBy(function($work) {
+            ->groupBy(function ($work) {
                 return $work->datetime->format('d');
-            })->map(function ($works, $day){
+            })->map(function ($works, $day) {
                 return [
                     'day' => $day,
                     'total' => $works->count(),

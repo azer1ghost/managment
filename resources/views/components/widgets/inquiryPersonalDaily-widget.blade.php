@@ -8,14 +8,14 @@
 </div>
 
 <script>
-    const {{$model}}Labels = ['day1', 'day2', 'day3', 'day4', 'day2', 'day3', 'day4', 'day2', 'day3', 'day4'];
+    const {{$model}}Labels = @json(array_keys($results));
 
     const {{$model}}Data = {
         labels: {{$model}}Labels,
         datasets: [
             {
                 label: '{{$widget->details}}',
-                data: [1,2,3,4,2,3,4,2,3,5],
+                data: @json(array_values($results)),
                 borderColor: '#454554',
                 backgroundColor: '#21a481',
             },

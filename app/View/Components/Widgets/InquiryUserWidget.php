@@ -42,7 +42,9 @@ class InquiryUserWidget extends Component
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
 
-        $this->users = User::when(!Inquiry::userCanViewAll(), fn($q) => $q->where('department_id', auth()->user()->getAttribute('department_id')))->whereHas('inquiries', fn($q) => $this->checkUserInquiries($q))
+        $this->users = User::when(!Inquiry::userCanViewAll(), fn($q) => $q
+            ->where('department_id', auth()->user()->getAttribute('department_id')))
+            ->whereHas('inquiries', fn($q) => $this->checkUserInquiries($q))
             ->withCount([
                 'inquiries' => fn($q) => $this->checkUserInquiries($q)
             ])
