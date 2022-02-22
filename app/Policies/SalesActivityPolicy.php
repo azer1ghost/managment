@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Meeting;
+use App\Models\SalesActivity;
 use App\Models\User;
 use App\Traits\GetClassInfo;
 use App\Traits\HandlesPolicy;
@@ -17,9 +18,9 @@ class SalesActivityPolicy
         return $this->canManage($user, 'salesActivity', __FUNCTION__);
     }
 
-    public function view(User $user): bool
+    public function view(User $user, SalesActivity $salesActivity): bool
     {
-        return $this->canManage($user, 'salesActivity', __FUNCTION__);
+        return $this->canManage($user, 'salesActivity', __FUNCTION__) || ($salesActivity->getAttribute('user_id') === $user->getAttribute('id')) || $user->hasPermission('viewAll-salesActivity');
     }
 
     public function create(User $user): bool
@@ -27,13 +28,13 @@ class SalesActivityPolicy
         return $this->canManage($user, 'salesActivity');
     }
 
-    public function update(User $user): bool
+    public function update(User $user, SalesActivity $salesActivity): bool
     {
-        return $this->canManage($user, 'salesActivity');
+        return $this->canManage($user, 'salesActivity',__FUNCTION__) || ($salesActivity->getAttribute('user_id') === $user->getAttribute('id'));
     }
 
-    public function delete(User $user): bool
+    public function delete(User $user, SalesActivity $salesActivity): bool
     {
-        return $this->canManage($user, 'salesActivity');
+        return $this->canManage($user, 'salesActivity',__FUNCTION__) || ($salesActivity->getAttribute('user_id') === $user->getAttribute('id'));
     }
 }
