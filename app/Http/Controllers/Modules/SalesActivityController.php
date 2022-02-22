@@ -11,6 +11,8 @@ use App\Models\Organization;
 use App\Models\SalesActivitiesSupply;
 use App\Models\SalesActivity;
 use App\Models\SalesActivityType;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class SalesActivityController extends Controller
 {
@@ -20,10 +22,17 @@ class SalesActivityController extends Controller
         $this->authorizeResource(SalesActivity::class, 'sales_activity');
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $user_id = $request->get('user');
+        $limit = $request->get('limit', 25);
+
+
         return view('pages.sales-activities.index')->with([
-            'sale_activities' => SalesActivity::latest()->paginate(10),
+            'users' => User::has('salesActivityUsers')->get(['id', 'name', 'surname']),
+            'sale_activities' => SalesActivity::query()
+                ->when($user_id, fn ($query) => $query->where('user_id', $request->user()->id))
+                ->latest()->paginate($limit),
             'salesActivitiesTypes' => SalesActivityType::pluck('name', 'id')->prepend(trans('translates.filters.select'), null)->toArray(),
         ]);
     }
