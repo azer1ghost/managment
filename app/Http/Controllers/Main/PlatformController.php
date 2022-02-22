@@ -11,6 +11,7 @@ use App\Models\Task;
 use App\Models\User;
 use App\Models\Widget;
 use App\Models\Work;
+use App\Services\CacheService;
 use App\Services\OpenWeatherApi;
 use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -22,9 +23,18 @@ use Illuminate\Validation\Rules\In;
 
 class PlatformController extends Controller
 {
-    public function __construct()
+    /**
+     * @var CacheService $cacheService
+     */
+    private CacheService $cacheService;
+
+    /**
+     * @param CacheService $cacheService
+     */
+    public function __construct(CacheService $cacheService)
     {
         $this->middleware('auth', ['except'=> ['welcome', 'downloadBat', 'documentTemporaryUrl']]);
+        $this->cacheService = $cacheService;
     }
 
     /**
@@ -91,9 +101,7 @@ class PlatformController extends Controller
     public function deactivated()
     {
         if(!auth()->user()->isDisabled()){
-            return redirect()->route('dashboard', [
-                'widgets' => Widget::isActive()->oldest('order')->get()
-            ]);
+            return $this->dashboard();
         }
 
         return view('pages.main.deactivated');
@@ -101,53 +109,11 @@ class PlatformController extends Controller
 
     public function dashboard(): View
     {
-        $usersCount = User::count();
-        $worksCount = Work::count();
-        $inquiriesCount = Inquiry::count();
-        $tasksCount = Task::count();
-
-        $weather = \Cache::remember('open_weather', 7200, function () {
-            return (new OpenWeatherApi())->location(40.4093, 49.8671)->send();
-        });
-
-        $getData = fn($count, $total, $text) => (object)[
-            'total' => $total,
-            'percentage' => $total == 0 ? 0 : $count/$total * 100,
-            'text' => $text
-        ];
-
-        $statistics = [
-            (object)[
-                'title' => __('translates.widgets.number_of_users'),
-                'color' => 'tale',
-                'data' => $getData(User::isActive()->count(), $usersCount, __('translates.users.statuses.active')),
-                'class' => 'mb-4'
-            ],
-            (object)[
-                'title' => __('translates.widgets.number_of_works'),
-                'color' => 'dark-blue',
-                'data' => $getData(Work::isVerified()->count(), $worksCount, __('translates.columns.verified')),
-                'class' => 'mb-4'
-            ],
-            (object)[
-                'title' => __('translates.widgets.number_of_inquiries'),
-                'color' => 'light-blue',
-                'data' => $getData(Inquiry::whereHas('parameters', fn($q) => $q->whereId(Inquiry::ACTIVE))->count(), $inquiriesCount, __('translates.users.statuses.active')),
-                'class' => 'mb-4'
-            ],
-            (object)[
-                'title' => __('translates.widgets.number_of_tasks'),
-                'color' => 'light-danger',
-                'data' => $getData(Task::newTasks()->count(), $tasksCount, __('translates.tasks.list.to_do')),
-                'class' => ''
-            ],
-        ];
-
         return view('pages.main.dashboard', [
             'widgets'    => Widget::isActive()->oldest('order')->get(),
             'tasksCount' => auth()->user()->tasks()->newTasks()->count(),
-            'statistics' => $statistics,
-            'weather' => $weather
+            'statistics' => $this->cacheService->getData('statistics') ?? [],
+            'weather' => $this->cacheService->getData('open_weather'),
         ]);
     }
 

@@ -39,7 +39,8 @@
     <div class="row">
         <div class="col-md-6 grid-margin stretch-card">
             <div class="card tale-bg">
-                        <img style="border-radius: 20px" src="{{asset('https://static.vecteezy.com/system/resources/previews/002/406/571/original/business-meeting-and-teamwork-concept-illustration-of-people-characters-in-flat-design-vector.jpg')}}" alt="people">
+                <img style="border-radius: 20px" src="{{asset('https://static.vecteezy.com/system/resources/previews/002/406/571/original/business-meeting-and-teamwork-concept-illustration-of-people-characters-in-flat-design-vector.jpg')}}" alt="people">
+                @if($weather)
                     <div class="weather-info">
                         <div class="d-flex align-items-center">
                             <div class="d-flex align-items-center">
@@ -54,20 +55,21 @@
                             </div>
                         </div>
                         <div class="text-right">
-                            <p class="text-capitalize">{{$weather['description'][app()->getLocale()]}}</p>
+                            <p class="text-capitalize text-muted">{{$weather['description'][app()->getLocale()]}}</p>
                         </div>
                     </div>
+                @endif
             </div>
         </div>
         <div class="col-md-6 grid-margin transparent">
             <div class="row">
                 @foreach($statistics as $stat)
-                    <div class="col-md-6 {{$stat->class}} mb-4 stretch-card transparent">
-                        <div class="card card-{{$stat->color}}">
+                    <div class="col-md-6 {{$stat['class']}} mb-4 stretch-card transparent">
+                        <div class="card card-{{$stat['color']}}">
                             <div class="card-body">
-                                <p class="mb-4">{{$stat->title}}</p>
-                                <p class="fs-30 mb-2">{{$stat->data->total}}</p>
-                                <p>{{$stat->data->percentage}}% ( {{$stat->data->text}} )</p>
+                                <p class="mb-4">{{$stat['title']}}</p>
+                                <p class="fs-30 mb-2">{{$stat['data']['total']}}</p>
+                                <p>{{$stat['data']['percentage']}}% ( {{$stat['data']['text']}} )</p>
                             </div>
                         </div>
                     </div>

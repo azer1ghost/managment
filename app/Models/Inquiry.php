@@ -48,6 +48,8 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
         'editable_ended_at' => 'datetime'
     ];
 
+    protected $touches = ['parameters'];
+
     public function getMainColumn(): string
     {
         return $this->getAttribute('code');
