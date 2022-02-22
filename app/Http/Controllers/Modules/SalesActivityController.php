@@ -29,7 +29,7 @@ class SalesActivityController extends Controller
 
 
         return view('pages.sales-activities.index')->with([
-            'users' => User::get(['id', 'name', 'surname']),
+            'users' => User::has('salesActivityUsers')->get(['id', 'name', 'surname']),
             'sale_activities' => SalesActivity::query()
                 ->when($user_id, fn ($query) => $query->where('user_id', $request->user()->id))
                 ->latest()->paginate($limit),
