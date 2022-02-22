@@ -20,14 +20,14 @@
                     @endforeach
                 </select>
             </div>
-{{--            <div class="col-8 col-md-3 mb-3 ">--}}
-{{--                <select name="user" class="custom-select" id="type">--}}
-{{--                    <option selected value="">@lang('translates.navbar.user')</option>--}}
-{{--                    @foreach($users as $user)--}}
-{{--                        <option @if(request()->get('user') == $user->getAttribute('id')) selected @endif value="{{$user->getAttribute('id')}}">{{$user->getAttribute('fullname')}}</option>--}}
-{{--                    @endforeach--}}
-{{--                </select>--}}
-{{--            </div>--}}
+            <div class="col-8 col-md-3 mb-3 ">
+                <select name="user" class="custom-select" id="type">
+                    <option selected value="">@lang('translates.navbar.user')</option>
+                    @foreach($users as $user)
+                        <option @if(request()->get('user') == $user->getAttribute('id')) selected @endif value="{{$user->getAttribute('id')}}">{{$user->getAttribute('fullname')}}</option>
+                    @endforeach
+                </select>
+            </div>
 
             @can('create', App\Models\SalesActivity::class)
                 <div class="col-2">

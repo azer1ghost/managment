@@ -31,7 +31,7 @@ class SalesActivityController extends Controller
         return view('pages.sales-activities.index')->with([
             'users' => User::has('salesActivityUsers')->get(['id', 'name', 'surname']),
             'sale_activities' => SalesActivity::query()
-                ->when($user_id, fn ($query) => $query->where('user_id', $request->user()->id))
+                ->when($user_id, fn ($query) => $query->where('user_id', $user_id))
                 ->latest()->paginate($limit),
             'salesActivitiesTypes' => SalesActivityType::pluck('name', 'id')->prepend(trans('translates.filters.select'), null)->toArray(),
         ]);
