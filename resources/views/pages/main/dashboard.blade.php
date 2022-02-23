@@ -3,13 +3,10 @@
 @section('title', __('translates.navbar.dashboard'))
 
 @section('style')
-
     <!-- Canvas JS -->
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-
     <!-- Chart JS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 @endsection
 
 @section('content')
@@ -61,15 +58,16 @@
                 @endif
             </div>
         </div>
+
         <div class="col-md-6 grid-margin transparent">
             <div class="row">
                 @foreach($statistics as $stat)
-                    <div class="col-md-6 {{$stat['class']}} mb-4 stretch-card transparent">
-                        <div class="card card-{{$stat['color']}}">
+                    <div class="col-md-6 {{$stat['class'] ?? ''}} mb-4 stretch-card transparent">
+                        <div class="card card-{{$stat['color'] ?? ''}}">
                             <div class="card-body">
-                                <p class="mb-4">{{$stat['title']}}</p>
-                                <p class="fs-30 mb-2">{{$stat['data']['total']}}</p>
-                                <p>{{$stat['data']['percentage']}}% ( {{$stat['data']['text']}} )</p>
+                                <p class="mb-4">{{$stat['title'] ?? ''}}</p>
+                                <p class="fs-30 mb-2">{{$stat['data']['total'] ?? 0}}</p>
+                                <p>{{$stat['data']['percentage'] ?? 0}}% ( {{$stat['data']['text'] ?? ''}} )</p>
                             </div>
                         </div>
                     </div>
