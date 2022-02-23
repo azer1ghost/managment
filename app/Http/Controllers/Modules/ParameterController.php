@@ -57,7 +57,6 @@ class ParameterController extends Controller
     public function store(ParameterRequest $request)
     {
         $validated = $request->validated();
-        $this->translates($validated);
 
         $parameter = Parameter::create($validated);
 
@@ -109,7 +108,6 @@ class ParameterController extends Controller
     public function update(ParameterRequest $request, Parameter $parameter)
     {
         $validated = $request->validated();
-        $this->translates($validated);
 
         $parameter->update($validated);
 

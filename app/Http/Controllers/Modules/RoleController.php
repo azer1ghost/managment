@@ -45,7 +45,6 @@ class RoleController extends Controller
     {
         $validated = $request->validated();
 
-        $this->translates($validated);
         $this->permissions($validated, new Role());
 
         $role = Role::create($validated);
@@ -79,7 +78,6 @@ class RoleController extends Controller
     {
         $validated = $request->validated();
 
-        $this->translates($validated);
         $this->permissions($validated, $role);
 
         $role->update($validated);

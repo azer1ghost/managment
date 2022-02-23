@@ -20,18 +20,23 @@
     </x-bread-crumb>
     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
         @method($method) @csrf
-
+        @bind($data)
         <div class=" row mt-4">
             <div class="form-group col-12">
                 <div class="row">
-                    <x-input::text name="name" :value="optional($data)->getAttribute('name')" label="Document name" width="6" class="pr-3"/>
-                    <x-input::text readonly :value="optional($data)->getAttribute('file')" label="Document file" width="6" class="pr-3"/>
+                    <x-form-group  class="pr-3 col-12 col-lg-6">
+                        <x-form-input name="name" label="Document name"/>
+                    </x-form-group>
+                    <x-form-group  class="pr-3 col-12 col-lg-6">
+                        <x-form-input readonly name="name" label="Document file"/>
+                    </x-form-group>
                 </div>
             </div>
         </div>
         @if($action)
             <x-input::submit :value="__('translates.buttons.save')"/>
         @endif
+        @endbind
     </form>
 @endsection
 @section('scripts')

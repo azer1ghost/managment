@@ -54,7 +54,6 @@ class PositionController extends Controller
     {
         $validated = $request->validated();
 
-        $this->translates($validated);
         $this->permissions($validated, new Position());
 
         $position = Position::create($validated);
@@ -92,7 +91,6 @@ class PositionController extends Controller
     {
         $validated = $request->validated();
 
-        $this->translates($validated);
         $this->permissions($validated, $position);
 
         $position->update($validated);

@@ -20,6 +20,8 @@
     </x-bread-crumb>
     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
         @method($method) @csrf
+        @bind($data)
+
         <input type="hidden" name="id" value="{{optional($data)->getAttribute('id')}}">
         <div class=" row mt-4" >
             <div class="form-group col-12">
@@ -28,14 +30,23 @@
                         @foreach(config('app.locales') as $key => $locale)
                             <div class="tab-pane fade show @if($loop->first) active @endif" id="data-{{$key}}" role="tabpanel">
                                 <div class="row">
-                                    <x-input::text  name="translate[name][{{$key}}]"  :value="optional($data)->getTranslation('name', $key)"     label="Position name {{$key}}"     width="6" class="pr-3" />
+                                    <x-form-group class="pr-3 col-12 col-lg-6">
+                                        <x-form-input name="name" :language="$key" label="Position name {{$key}}" />
+                                    </x-form-group>
                                 </div>
                             </div>
                         @endforeach
                     </x-translate>
-                    <x-input::select  name="role_id" :value="optional($data)->getAttribute('role_id')" label="Position role"  width="6" class="pr-3" :options="$roles"/>
-                    <x-input::select  default="1" name="department_id"  :value="optional($data)->getAttribute('department_id')"  label="Position department"  width="6" class="pr-3" :options="$departments"/>
-                    <x-input::number  default="1" name="order" :value="optional($data)->getAttribute('order')"  label="Position Order"  width="6" class="pr-3" />
+
+                    <x-form-group  class="pr-3 col-12 col-lg-3">
+                        <x-form-select name="role_id" label="Position role" :options="$roles" />
+                    </x-form-group>
+                    <x-form-group  class="pr-3 col-12 col-lg-3">
+                        <x-form-select name="department_id" label="Position department" :options="$departments" />
+                    </x-form-group>
+                    <x-form-group  class="pr-3 col-12 col-lg-3"  >
+                        <x-form-input type="number" name="order" label="Position Order"/>
+                    </x-form-group>
                 </div>
                 @if(auth()->user()->isDeveloper())
                     <x-permissions :model="$data" :action="$action" />
@@ -45,6 +56,7 @@
         @if($action)
             <x-input::submit  :value="__('translates.buttons.save')" />
         @endif
+        @endbind
     </form>
 @endsection
 @section('scripts')

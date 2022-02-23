@@ -22,7 +22,8 @@ class ParameterRequest extends FormRequest
             'companies' => 'array',
             'options' => 'array',
             'option_id'   => 'nullable',
-            'translate' => 'nullable|array',
+            'label' => 'nullable|array',
+            'placeholder' => 'nullable|array',
         ];
     }
 }

@@ -20,16 +20,26 @@
     </x-bread-crumb>
     <form action="{{$action}}" method="POST">
         @method($method) @csrf
+        @bind($data)
         <input type="hidden" name="close" value="{{request()->has('close')}}">
         <div class=" row mt-4">
-            <x-input::text  name="name"    :label="trans('translates.fields.fullname')"   :value="$data->getAttribute('name')"    width="6"/>
-            <x-input::text  name="phone"    :label="trans('translates.fields.phone')"   :value="$data->getAttribute('phone')"    width="6"/>
-            <x-input::text  name="voen"   label="VOEN"    :value="$data->getAttribute('voen')"    width="6"/>
-            <x-input::textarea  name="detail"   :label="trans('translates.columns.detail')"    :value="$data->getAttribute('detail')"    width="6"/>
+            <x-form-group  :label="trans('translates.fields.fullname')"  class="pr-3 col-12 col-lg-6">
+                <x-form-input  name="name"/>
+            </x-form-group>
+            <x-form-group  :label="trans('translates.fields.phone')"  class="pr-3 col-12 col-lg-6">
+                <x-form-input  name="phone"/>
+            </x-form-group>
+            <x-form-group   class="pr-3 col-12 col-lg-6">
+                <x-form-input  name="voen"  label="VOEN"/>
+            </x-form-group>
+            <x-form-group :label="trans('translates.columns.detail')"   class="pr-3 col-12 col-lg-6">
+                <x-form-textarea  name="detail"/>
+            </x-form-group>
         </div>
         @if($action)
             <x-input::submit :value="__('translates.buttons.save')"/>
         @endif
+        @endbind
     </form>
 @endsection
 

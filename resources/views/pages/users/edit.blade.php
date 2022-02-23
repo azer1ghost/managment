@@ -20,6 +20,8 @@
     </x-bread-crumb>
     <form class="form-row mr-0" action="{{$action}}" method="post" enctype="multipart/form-data">
         @csrf @method($method)
+        @bind($data)
+
         <div class="col-md-2 px-0">
             @if (!is_null($action))
                 <x-input::image name="avatar" :value="optional($data)->getAttribute('avatar')"/>
@@ -32,24 +34,43 @@
             <p class="text-muted mb-2">PERSONAL</p>
             <hr class="my-2">
             <div class="row mr-0">
-                <x-input::text  name="name"    :value="optional($data)->getAttribute('name')"    width="4" class="pr-0" required=""/>
-                <x-input::text  name="surname" :value="optional($data)->getAttribute('surname')" width="4" class="pr-0" />
-                <x-input::text  name="father"  :value="optional($data)->getAttribute('father')"  width="4" class="pr-0" label="Father's name" />
+                <x-form-group  class="pr-3 col-12 col-lg-6">
+                    <x-form-input name="name"/>
+                </x-form-group>
+                <x-form-group  class="pr-3 col-12 col-lg-6">
+                    <x-form-input name="surname"/>
+                </x-form-group>
+                <x-form-group  class="pr-3 col-12 col-lg-6">
+                    <x-form-input name="father"  label="Father's name"/>
+                </x-form-group>
             </div>
             <!-- Employment -->
             <p class="text-muted mb-2">EMPLOYMENT</p>
             <hr class="my-2">
             <div class="row mr-0">
-                <x-input::select default="1" name="department_id" :value="optional(optional($data)->getRelationValue('department'))->getAttribute('id')"  width="6"  class="pr-0" :options="$departments" label="Department" />
+                <x-form-group  class="pr-3 col-12 col-lg-6">
+                    <x-form-select name="department_id" :options="$departments" label="Department" />
+                </x-form-group>
+
                 @if (auth()->user()->isDirector())
-                    <x-input::select default="1" name="position_id"   :value="optional(optional($data)->getRelationValue('position'))->getAttribute('id')"   width="6"  class="pr-0" :options="$directorPositions" label="Position" />
+                    <x-form-group  class="pr-3 col-12 col-lg-6">
+                        <x-form-select  name="position_id" :options="$directorPositions" label="Department" />
+                    </x-form-group>
                 @else
-                    <x-input::select default="1"  name="position_id"   :value="optional(optional($data)->getRelationValue('position'))->getAttribute('id')"    width="6"  class="pr-0" :options="$positions"   label="Position" />
-                    <x-input::select default="1"  name="official_position_id"   :value="optional($data)->getAttribute('official_position_id')"    width="6"  class="pr-0" :options="$positions"   label="Official Position" />
+                    <x-form-group  class="pr-3 col-12 col-lg-6">
+                        <x-form-select  name="position_id" :options="$positions" label="Position" />
+                    </x-form-group>
+                    <x-form-group  class="pr-3 col-12 col-lg-6">
+                        <x-form-select  name="official_position_id" :options="$positions" label="Official Position" />
+                    </x-form-group>
                 @endif
-                <x-input::select default="1" name="company_id"    :value="optional(optional($data)->getRelationValue('company'))->getAttribute('id')"     width="6"  class="pr-0" :options="$companies"   label="Company" />
+                <x-form-group  class="pr-3 col-12 col-lg-6">
+                    <x-form-select  name="company_id" :options="$companies" label="Company" />
+                </x-form-group>
                 @if (auth()->user()->isDeveloper() && !is_null($data))
-                    <x-input::text name="verify_code" readonly :value="optional($data)->getAttribute('verify_code')"   width="6"  class="pr-0" label="Verify Code"/>
+                    <x-form-group  class="pr-3 col-12 col-lg-6">
+                        <x-form-input name="verify_code"  readonly label="Verify Code" />
+                    </x-form-group>
                 @endif
             </div>
         </div>
@@ -60,8 +81,12 @@
                 <p class="text-muted mb-2">PASSPORT</p>
                 <hr class="my-2">
             </div>
-            <x-input::select  name="serial_pattern" :label="__('translates.fields.serial')" :value="optional($data)->getAttribute('serial_pattern')" width="1" class="p-0"   :options="$serial_pattern"/>            <x-input::text    name="serial" :value="optional($data)->getAttribute('serial')" label=" "   width="3" class="pr-0"  placeholder="Enter serial number"/>
-            <x-input::text    name="fin"    :value="optional($data)->getAttribute('fin')"    label="FIN"    width="2" class="pr-0" />
+            <x-form-group :label="__('translates.fields.serial')"  class="pr-3 col-12 col-lg-6">
+                <x-form-select name="serial_pattern" :options="$serial_pattern"  />
+            </x-form-group>
+            <x-form-group  class="pr-3 col-12 col-lg-6">
+                <x-form-input name="fin"   label="FIN" />
+            </x-form-group>
             <div class="form-group col-12 col-md-2">
                 <label for="data-gender">{{__('translates.fields.gender')}}</label>
                 <select class="form-control @error('gender') is-invalid @enderror" name="gender" id="data-gender" style="padding: .375rem 0.75rem !important;">
@@ -83,29 +108,52 @@
                 <p class="text-muted mb-2">CONTACT</p>
                 <hr class="my-2">
             </div>
-            <x-input::text   name="phone_coop" :value="optional($data)->getAttribute('phone_coop')"   label="Cooperative number" width="3" class="pr-0" />
-            <x-input::text   name="phone"      :value="optional($data)->getAttribute('phone')"        label="Personal number"    width="3" class="pr-0" />
-            <x-input::email  name="email_coop" :value="optional($data)->getAttribute('email_coop')"   label="Cooperative Email"  width="3" class="pr-0" />
-            <x-input::email  name="email"      :value="optional($data)->getAttribute('email')"        label="Personal Email"     width="3" class="pr-0"  required=""/>
+            <x-form-group  class="pr-3 col-12 col-lg-6">
+                <x-form-input name="phone_coop"   label="Cooperative number" />
+            </x-form-group>
+            <x-form-group  class="pr-3 col-12 col-lg-6">
+                <x-form-input name="phone"   label="Personal number" />
+            </x-form-group>
+            <x-form-group  class="pr-3 col-12 col-lg-6">
+                <x-form-input type="email" name="email_coop" placeholder="Cooperative Email" />
+            </x-form-group>
+            <x-form-group  class="pr-3 col-12 col-lg-6">
+                <x-form-input type="email" name="email_coop" placeholder="Personal Email"  required=""/>
+            </x-form-group>
             <!-- Address -->
             <div class="col-md-12 px-0">
                 <br>
                 <p class="text-muted mb-2">ADDRESS</p>
                 <hr class="my-2">
             </div>
-            <x-input::select  name="country"   :value="optional($data)->getAttribute('country')"  width="3" class="pr-0" :options="['Azerbaijan' => 'Azerbaijan', 'Turkey' => 'Turkey']"/>
-            <x-input::select  name="city"      :value="optional($data)->getAttribute('city')"     width="3" class="pr-0" :options="['Baku' => 'Baku', 'Sumgayit' => 'Sumgayit']"/>
-            <x-input::text    name="address"   :value="optional($data)->getAttribute('address')"  width="6" class="pr-0" />
+            <x-form-group  class="pr-3 col-12 col-lg-6">
+                <x-form-select name="country" :options="['Azerbaijan' => 'Azerbaijan', 'Turkey' => 'Turkey']" label="Country" />
+            </x-form-group>
+            <x-form-group  class="pr-3 col-12 col-lg-6">
+                <x-form-select name="city" :options="['Baku' => 'Baku', 'Sumgayit' => 'Sumgayit']" label="City" />
+            </x-form-group>
+            <x-form-group  class="pr-3 col-12 col-lg-6">
+                <x-form-input  name="address" label="Address"/>
+            </x-form-group>
             @if(auth()->user()->isDeveloper())
-                <x-input::text type="password" name="password" width="6" class="pr-0" autocomplete="off"/>
-                <x-input::text type="password" name="password_confirmation" width="6" class="pr-0" label="Password Confirmation" autocomplete="off"/>
+                <x-form-group  class="pr-3 col-12 col-lg-6">
+                    <x-form-input type="password" :bind="false"  name="password" label="password"  autocomplete="off"/>
+                </x-form-group>
+                <x-form-group  class="pr-3 col-12 col-lg-6">
+                    <x-form-input type="password"  name="password_confirmation" label="Password Confirmation" autocomplete="off"/>
+                </x-form-group>
             @endif
             @if(!is_null($data))
-                <x-input::select  name="role_id"   :value="optional(optional($data)->getRelationValue('role'))->getAttribute('id')"  width="3" class="pr-0" :options="$roles" label="Role"/>
-                <x-input::select  name="default_lang" :default="1"   :label="__('translates.fields.default_lang')" :value="optional($data)->getAttribute('default_lang')"  width="3" class="pr-0" :options="config('app.locales')" />
+                <x-form-group  class="pr-3 col-12 col-lg-6">
+                    <x-form-select name="role_id" :options="$roles" label="Role" />
+                </x-form-group>
+                <x-form-group :label="__('translates.fields.default_lang')" class="pr-3 col-12 col-lg-6">
+                    <x-form-select name="default_lang" :options="config('app.locales')" />
+                </x-form-group>
             @endif
-            <x-input::number  name="order" :value="optional($data)->getAttribute('order')" width="4" class="pr-0" />
-
+            <x-form-group  class="pr-3 col-12 col-lg-6">
+                <x-form-input type="number" name="order" label="Order" />
+            </x-form-group>
         @if(auth()->user()->isDeveloper())
                 <x-permissions :model="$data" :action="$action" />
                 <div class="col-md-12 px-0">
@@ -118,6 +166,8 @@
                 <x-input::submit/>
             @endif
         </div>
+        @endbind
+
     </form>
 @endsection
 @section('scripts')

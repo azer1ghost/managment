@@ -18,7 +18,7 @@ class RoleRequest extends FormRequest
             'key'   => 'required|string',
             'perms' => 'nullable|array',
             'all_perms' => 'nullable|string',
-            'translate' => 'nullable|array',
+            'name' => 'nullable|array',
         ];
     }
 
