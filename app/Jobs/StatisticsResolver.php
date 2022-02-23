@@ -38,7 +38,7 @@ class StatisticsResolver implements ShouldQueue
     public function handle()
     {
         if ($this->cacheService->doesntHave('statistics')) {
-            ProcessStatistics::dispatch();
+            $this->cacheService->resolveStatistics();
         }
     }
 }
