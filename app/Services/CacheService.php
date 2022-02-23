@@ -27,6 +27,24 @@ class CacheService
 
     /**
      * @param string $key
+     * @return bool
+     */
+    public function has(string $key): bool
+    {
+        return Cache::has($key);
+    }
+
+    /**
+     * @param string $key
+     * @return bool
+     */
+    public function doesntHave(string $key): bool
+    {
+        return !$this->has($key);
+    }
+
+    /**
+     * @param string $key
      * @return array|mixed
      */
     public function getData(string $key)
@@ -78,27 +96,16 @@ class CacheService
      */
     public function resolveStatistics(): void
     {
-        $cached = $this->getData('statistics') ?? [];
-        $cachedLastTime =  $this->getLastTime('statistics') ?? null;
+        $users = User::query();
+        $works = Work::query();
+        $inquiries = Inquiry::query()->isReal();
+        $tasks = Task::query();
 
-        $filterHandler = fn($q) => $q->whereDate('created_at', '>=', $cachedLastTime);
-
-        $users = User::query()->when($cachedLastTime && !$cached['users'], $filterHandler);
-        $works = Work::query()->when($cachedLastTime && !$cached['works'], $filterHandler);
-        $inquiries = Inquiry::query()->when($cachedLastTime && !$cached['inquiries'], $filterHandler);
-        $tasks = Task::query()->when($cachedLastTime && !$cached['tasks'], $filterHandler);
-
-        $getData = function(int $total, int $count, string $text, string $key) use ($cached) {
-            $data = @$cached[$key]['data'];
-            $newTotal = @$data['total'] + $total;
-            $newPercentage = round(((@$data['total'] * @$data['percentage'] / 100) + $count) / max($newTotal, 1), 2) * 100;
-
-            return [
-                'total' => $newTotal,
-                'percentage' => $newPercentage,
-                'text' => $text
-            ];
-        };
+        $getData = fn(int $total, int $count, string $text) => [
+            'total' => $total,
+            'percentage' => round($count/max($total, 1) * 100, 2),
+            'text' => $text
+        ];
 
         $statistics = [
             'users' => [

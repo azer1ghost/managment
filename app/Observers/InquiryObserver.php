@@ -30,8 +30,8 @@ class InquiryObserver
     /**
      * @return void
      */
-    public function updating()
+    public function updating(Inquiry $inquiry)
     {
-        unset($this->cacheService->getData('statistics')['inquiries']);
+        //
     }
 }

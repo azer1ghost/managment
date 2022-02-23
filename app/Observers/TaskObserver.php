@@ -77,9 +77,5 @@ class TaskObserver
             $task->setAttribute('status', Task::TO_DO);
             event(new TaskCreated($task));
         }
-
-        if ($task->isDirty('status')) {
-            unset($this->cacheService->getData('statistics')['tasks']);
-        }
     }
 }

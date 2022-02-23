@@ -32,8 +32,8 @@ class UserObserver
      */
     public function updating(User $user)
     {
-        if ($user->isDirty('disabled_at')) {
-            unset($this->cacheService->getData('statistics')['users']);
+        if($user->isDirty('department_id')) {
+            $user->setAttribute('position_id', null);
         }
     }
 }

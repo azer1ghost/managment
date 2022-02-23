@@ -42,8 +42,6 @@ class WorkObserver
             if($work->isClean('datetime') && $work->getAttribute('status') == $work::DONE){
                 $work->setAttribute('datetime', now());
             }
-
-            unset($this->cacheService->getData('statistics')['works']);
         }
 
         if(!auth()->user()->hasPermission('canRedirect-work') && $work->isDirty('user_id')){
