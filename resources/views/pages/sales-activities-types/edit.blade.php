@@ -21,7 +21,7 @@
     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
         @method($method) @csrf
 
-        <div class="tab-content row mt-4">
+        <div class=" row mt-4">
             <div class="form-group col-12">
                 <div class="row">
                     <x-translate>
@@ -37,13 +37,12 @@
                     <div class="col-12">
 
                         @foreach($hard_columns as $key => $hard_column)
-                            <div class="form-check">
-                                <input class="form-check-input"
-                                       type="checkbox"
+                            <div>
+                                <input type="checkbox"
                                        @if(in_array($key, explode("," , $data->getAttribute('hard_columns')))) checked @endif
                                        name="hard_columns[]" value="{{$key}}"
-                                       id="data-hard_columns-{{$loop->index}}"
-                                >
+                                       id="data-hard_columns-{{$loop->index}}">
+
                                 <label class="form-check-label" for="data-hard_columns-{{$loop->index}}">
                                     {{$hard_column}}
                                 </label>

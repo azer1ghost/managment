@@ -21,7 +21,7 @@
     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
         @method($method) @csrf
         <input type="hidden" name="id" value="{{optional($data)->getAttribute('id')}}">
-        <div class="tab-content row mt-4" >
+        <div class=" row mt-4" >
             @if (is_null($data))
                 <x-input::text  name="logo"  :value="optional($data)->getAttribute('logo')"  width="6" class="pr-3" />
             @else
@@ -39,8 +39,8 @@
             <x-input::text  name="keywords"     :value="optional($data)->getAttribute('keywords')"        :label="__('translates.fields.keywords')"      width="6" class="pr-3" />
             <x-input::textarea name="about"  :value="optional($data)->getAttribute('about')"      :label="__('translates.fields.about')"   width="12" class="pr-3" rows="6"/>
             <div class="col-12 mb-2">
-                <div class="form-check">
-                    <input type="checkbox" name="is_inquirable" @if(optional($data)->getAttribute('is_inquirable') === true) checked @endif class="form-check-input" id="id-is_inquirable">
+                <div>
+                    <input type="checkbox" name="is_inquirable" @if(optional($data)->getAttribute('is_inquirable') === true) checked @endif id="id-is_inquirable">
                     <label class="form-check-label" for="id-is_inquirable">@lang('translates.general.inquirable')</label>
                 </div>
             </div>

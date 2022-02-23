@@ -1,4 +1,4 @@
-<form action="{{$action}}" id="createTaskForm" method="POST" class="tab-content form-row mt-4 mb-5">
+<form action="{{$action}}" id="createTaskForm" method="POST" class=" form-row mt-4 mb-5">
     @if(is_null($method))
         @can('update', $task)
             <div class="col-12 mt-0 mb-4">

@@ -22,7 +22,7 @@ class CompanySeeder extends Seeder
                 'mail' => 'info@mobilgroup.az',
                 'call_center' => '*0090',
                 'mobile' => '+994513339090',
-                'address' => 'Bakı, Əhməd Rəcəbli 156',
+                'address' => 'Bakı, Babək p-ti 39Q',
                 'about' => 'MOBİL GROUP gömrük brokeri xidmətləri və beynəlxalq daşımaları həyata keçirən şirkətlər qrupudur. Yerli və xarici vətəndaşlara, o cümlədən fiziki və hüquqi şəxslərə göstəridiyi geniş xidmət diapazonu ilə MOBİL GROUP özünü təsdiq etmiş yerli brenddir. MOBİL GROUP-un tərkibində beynəlxalq təcrübə əsasında qurulan “Mobil Broker” və “Mobil Logistics” fəaliyyət göstərir.',
                 'keywords' => 'office',
                 'is_inquirable' => '1'
@@ -34,7 +34,7 @@ class CompanySeeder extends Seeder
                 'mail' => 'info@mobillogistics.az',
                 'call_center' => '*0090',
                 'mobile' => '+994513339090',
-                'address' => 'Bakı, Əhməd Rəcəbli 156',
+                'address' => 'Bakı, Babək p-ti 39Q',
                 'about' => 'Fake MOBİL GROUP məhsulu olan Mobil Broker MMC beynəlxalq təcrübə əsasında qurulan müasir gömrük təmsilçiliyidir. Mobil Broker 2017-cı ildən etibarən gömrük brokeri qismində fəaliyyətdədir. Böyük şəbəkəyə sahib olan şirkət kompleks gömrük xidmətləri təklif edir. Fiziki və ya hüquqi şəxslərə idxal və ixrac əməliyyatlarından yaxından köməklik edir.',
                 'keywords' => 'logistics,shipping',
                 'is_inquirable' => '1'
@@ -46,7 +46,7 @@ class CompanySeeder extends Seeder
                 'mail' => 'info@mobilbroker.az',
                 'call_center' => '*0090',
                 'mobile' => '+994513339090',
-                'address' => 'Bakı, Əhməd Rəcəbli 156',
+                'address' => 'Bakı, Babək p-ti 39Q',
                 'about' => 'MOBİL GROUP məhsulu olan Mobil Broker MMC beynəlxalq təcrübə əsasında qurulan müasir gömrük təmsilçiliyidir. Mobil Broker 2017-cı ildən etibarən gömrük brokeri qismində fəaliyyətdədir. Böyük şəbəkəyə sahib olan şirkət kompleks gömrük xidmətləri təklif edir. Fiziki və ya hüquqi şəxslərə idxal və ixrac əməliyyatlarından yaxından köməklik edir.',
                 'keywords' => 'documents',
                 'is_inquirable' => '1'

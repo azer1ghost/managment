@@ -1,41 +1,40 @@
-<div class="{{$widget->class_attribute}}">
-    <div class="card border-0" style="background: #e9ecef !important;">
+<div class="col-md-4 mb-4">  {{--classin yeirne bunu yazmaq lazimdi  {{$widget->class_attribute}}--}}
+    <div class="card  ">
         <div class="py-2 px-1">
-            <div id="{{$widget->key}}" style="width: 100%;{{$widget->style_attribute}}"></div>
-            <script>
-                const {{$model}}Chart = am4core.create("{{$widget->key}}", am4charts.PieChart);
-                {{$model}}Chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-
-                {{$model}}Chart.data = @json($results)
-
-                {{$model}}Chart.radius = am4core.percent(70);
-                {{$model}}Chart.innerRadius = am4core.percent(40);
-                {{$model}}Chart.startAngle = 180;
-                {{$model}}Chart.endAngle = 360;
-
-                // Title
-                const {{$model}}Title = {{$model}}Chart.titles.create();
-                {{$model}}Title.text = '{{$widget->details}}';
-                {{$model}}Title.fontSize = 25;
-                {{$model}}Title.marginBottom = 10;
-
-                // Series
-                const {{$model}}Series = {{$model}}Chart.series.push(new am4charts.PieSeries());
-                {{$model}}Series.dataFields.value = "total";
-                {{$model}}Series.dataFields.category = "users";
-                {{$model}}Series.slices.template.cornerRadius = 10;
-                {{$model}}Series.slices.template.innerCornerRadius = 7;
-                {{$model}}Series.slices.template.draggable = true;
-                {{$model}}Series.slices.template.inert = true;
-                {{$model}}Series.alignLabels = false;
-                {{$model}}Series.labels.template.disabled = true;
-                {{$model}}Series.ticks.template.disabled = true;
-
-                {{$model}}Series.hiddenState.properties.startAngle = 90;
-                {{$model}}Series.hiddenState.properties.endAngle = 90;
-
-                {{$model}}Chart.legend = new am4charts.Legend();
-            </script>
+            <canvas id="{{$widget->key}}"></canvas>
         </div>
     </div>
 </div>
+
+<script>
+    let ctx = document.getElementById("{{$widget->key}}");
+    let {{$model}}MyChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['@lang('translates.bonus.effective')', '@lang('translates.bonus.ineffective')'],
+            datasets: [{
+                label: '# of Votes',
+                data: [12, 19],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            circumference: 58 * Math.PI,
+            rotation: -29 * Math.PI,
+            plugins: {
+                title: {
+                    display: true,
+                    text: '{{$widget->details}}'
+                }
+            }
+        }
+    });
+</script>

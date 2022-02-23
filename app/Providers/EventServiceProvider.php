@@ -12,12 +12,16 @@ use App\Events\WorkStatusRejected;
 use App\Listeners\SendNotification;
 use App\Listeners\SendPushNotification;
 use App\Models\DailyReport;
+use App\Models\Inquiry;
 use App\Models\Report;
 use App\Models\Task;
+use App\Models\User;
 use App\Models\Work;
 use App\Observers\DailyReportObserver;
+use App\Observers\InquiryObserver;
 use App\Observers\ReportObserver;
 use App\Observers\TaskObserver;
+use App\Observers\UserObserver;
 use App\Observers\WorkObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -75,5 +79,7 @@ class EventServiceProvider extends ServiceProvider
         Task::observe(TaskObserver::class);
         Report::observe(ReportObserver::class);
         DailyReport::observe(DailyReportObserver::class);
+        Inquiry::observe(InquiryObserver::class);
+        User::observe(UserObserver::class);
     }
 }

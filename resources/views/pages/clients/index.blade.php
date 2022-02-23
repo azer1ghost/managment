@@ -18,7 +18,7 @@
                         <input type="search" name="search" value="{{$filters['search']}}" class="form-control" placeholder="@lang('translates.fields.enter', ['field' => trans('translates.fields.client')])" aria-label="Recipient's clientname" aria-describedby="basic-addon2">
                         <div class="input-group-append">
                             <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
-                            <a class="btn btn-outline-danger" href="{{route('clients.index')}}"><i class="fal fa-times"></i></a>
+                            <a class="btn btn-outline-danger d-flex align-items-center" href="{{route('clients.index')}}"><i class="fal fa-times"></i></a>
                         </div>
                     </div>
                 </div>
@@ -42,8 +42,8 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <div class="form-group ml-2 form-check">
-                                <input name="free_clients" @if($filters['free_clients']) checked @endif type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <div class="form-group ml-2">
+                                <input name="free_clients" @if($filters['free_clients']) checked @endif type="checkbox" id="exampleCheck1">
                                 <label class="form-check-label" for="exampleCheck1">@lang('translates.filters.free_clients')</label>
                             </div>
                         </div>

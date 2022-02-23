@@ -103,7 +103,7 @@
     </form>
 
     <div class="modal fade" id="create-sales-activity">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <form action="{{route('sales-activities.create')}}">
                     <div class="modal-header">
@@ -114,7 +114,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="data-sales_activity_type">@lang('translates.filters.sales_activities_type')</label>
+                            <label for="data-sales_activity_type">@lang('translates.navbar.sales_activities_type')</label>
                             <select class="form-control" id="data-sales_activity_type" name="sales_activity_type_id" required style="width: 100% !important;">
                                 @foreach($salesActivitiesTypes as $index => $salesActivitiesType)
                                     <option value="{{$index}}">{{$salesActivitiesType}}</option>
@@ -127,7 +127,7 @@
                             <select name="client_id"
                                     id="data-client-type"
                                     class="custom-select2"
-                                    data-url="{{route('sales-clients.search')}}"
+                                    data-url="{{route('sales-client.search')}}"
                                     style="width: 100% !important;"
                                     required>
                             </select>

@@ -201,6 +201,9 @@ return [
         'sales_activities' => 'Satış Fəaliyyətləri',
         'sales_client' => 'Satış Müştəriləri',
         'partners' => 'Partnyorlar',
+        'sales' => 'Satış',
+        'human_resources' => 'İnsan Resursları',
+        'law' => 'Hüquq'
     ],
 
     'date' => [
@@ -415,6 +418,12 @@ return [
         'hard_columns' => 'Əsas Sütunlar',
         'evaluation' => 'Qiymətləndirmə',
         'partner' => 'Partnyor',
+        'will_notify_at' => 'Bildirələcək',
+        'will_end_at' => 'Bitəcək',
+        'repeat_rate' => 'Repeat Rate',
+        'class' => 'Kateqoriya',
+        'title' => 'Başlıq',
+        'date_time' => 'Görüş Vaxtı',
     ],
 
     'notify' => [
@@ -553,5 +562,13 @@ return [
         'sales_supply' => 'Satış Təchizatı',
         'supply_name' => 'Təchizat Adı',
         'supply_value' => 'Təchizat Dəyəri',
+    ],
+    'widgets' => [
+        'number_of_users' => 'İstifadəçi Sayı',
+        'number_of_inquiries' => 'Sorğu Sayı',
+        'number_of_works' => 'İşlərin Sayı',
+        'number_of_tasks' => 'Tapşırıqların Sayı',
+        'welcome_msg' => 'Sizə Xoş Gün Arzulayırıq',
+        'you_have' => 'Sizin :count tapşırığınız var '
     ]
 ];

@@ -23,12 +23,12 @@
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">class</th>
-                        <th scope="col">title</th>
+                        <th scope="col">@lang('translates.columns.class')</th>
+                        <th scope="col">@lang('translates.columns.title')</th>
                         <th scope="col">repeat_rate</th>
-                        <th scope="col">status</th>
-                        <th scope="col">will_notify_at</th>
-                        <th scope="col">will_end_at</th>
+                        <th scope="col">@lang('translates.columns.status')</th>
+                        <th scope="col">@lang('translates.columns.will_notify_at')</th>
+                        <th scope="col">@lang('translates.columns.will_end_at')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>

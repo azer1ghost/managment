@@ -198,6 +198,9 @@ return [
         'sales_activities' => 'Sales Activities',
         'sales_client' => 'Sales Client',
         'partners' => 'Partners',
+        'sales' => 'Sales',
+        'human_resources' => 'Human Resources',
+        'law' => 'Law'
     ],
 
     'date' => [
@@ -412,7 +415,13 @@ return [
         'hard_columns' => 'Hard Columns',
         'evaluation' => 'Evaluation',
         'sales_client' => 'Sales Clients',
-        'partner' => 'Partner'
+        'partner' => 'Partner',
+        'will_notify_at' => 'Will Notify At',
+        'will_end_at' => 'Will End At',
+        'repeat_rate' => 'Repeat Rate',
+        'class' => 'Category',
+        'title' => 'Title',
+        'date_time' => 'Date Time',
     ],
 
     'notify' => [
@@ -548,9 +557,18 @@ return [
         '403' => 'You don\'t have permission to view this resource',
         '503' => 'Currently, the system is undergoing preventive work. Thanks for your understanding'
     ],
-    'sales_supply' =>[
-    'sales_supply' => 'Sales Supply',
-    'supply_name' => 'Supply Name',
-    'supply_value' => 'Supply Value',
-]
+    'sales_supply' => [
+        'sales_supply' => 'Sales Supply',
+        'supply_name' => 'Supply Name',
+        'supply_value' => 'Supply Value',
+    ],
+    'widgets' => [
+        'number_of_users' => 'Number Of Users',
+        'number_of_inquiries' => 'Number Of Inquiries',
+        'number_of_works' => 'Number Of Works',
+        'number_of_tasks' => 'Number Of Tasks',
+        'welcome_msg' => 'We wish you a happy day',
+        'you_have' => 'You Have :count tasks'
+    ]
+
 ];

@@ -40,40 +40,33 @@ class Sidebar extends Component
 
             (object)[
                 'title' => __('translates.navbar.account'),
-                'icon' => 'fa fa-user',
-                'url' => route('account'),
-                'permission' => 'viewAny-account',
-                'badge' => null,
-//                (object) [
-//                    'title' => 'New',
-//                    'class' => 'info'
-//                ],
-            ],
-
-            (object)[
-                'title' => "Security",
-                'icon' => 'fas fa-lock',
-                'url' => route('account.security'),
-                'permission' => 'generally',
-                'badge' => (object) [
-                    'title' => 'New',
-                    'class' => 'info'
-                ],
-            ],
-
-
-            (object)[
-                'title' => __('translates.navbar.bonus'),
-                'icon' => 'fas fa-gift',
-                'url' => route('bonuses'),
-                'permission' => 'generally',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.signature'),
-                'icon' => 'fa fa-envelope',
-                'url' => route('signature-select-company'),
-                'permission' => 'signature',
+                'icon' => 'fas fa-user',
+                'url' => '#',
+                'permission' => 'viewAny-company',
+                'children' => [
+                    (object)[
+                        'title' => __('translates.navbar.signature'),
+                        'icon' => 'fa fa-envelope',
+                        'url' => route('signature-select-company'),
+                        'permission' => 'signature',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.bonus'),
+                        'icon' => 'fas fa-gift',
+                        'url' => route('bonuses'),
+                        'permission' => 'generally',
+                    ],
+                    (object)[
+                        'title' => "Security",
+                        'icon' => 'fas fa-lock',
+                        'url' => route('account.security'),
+                        'permission' => 'generally',
+                        'badge' => (object) [
+                            'title' => 'New',
+                            'class' => 'info'
+                        ],
+                    ],
+                ]
             ],
 
             (object)[
@@ -81,13 +74,6 @@ class Sidebar extends Component
                 'icon' => 'fa fa-phone',
                 'url' => route('inquiry.index'),
                 'permission' => 'viewAny-inquiry',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.inquiry_sales'),
-                'icon' => 'fa fa-phone',
-                'url' => route('inquiry.sales'),
-                'permission' => 'viewAny-salesInquiry',
             ],
 
             (object)[
@@ -105,6 +91,143 @@ class Sidebar extends Component
             ],
 
             (object)[
+                'title' => __('translates.navbar.human_resources'),
+                'icon' => 'fas fa-user',
+                'url' => '#',
+                'permission' => 'viewAny-calendar',
+                'children' => [
+                    (object)[
+                        'title' => __('translates.navbar.user'),
+                        'icon' => 'fa fa-users',
+                        'url' => route('users.index'),
+                        'permission' => 'viewAny-user',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.position'),
+                        'icon' => 'fas fa-briefcase',
+                        'url' => route('positions.index'),
+                        'permission' => 'viewAny-position',
+                    ],
+                ]
+            ],
+            (object)[
+                'title' => __('translates.navbar.law'),
+                'icon' => 'fas fa-gavel',
+                'url' => '#',
+                'permission' => 'viewAny-report',
+                'children' => [
+                    (object)[
+                        'title' => __('translates.navbar.partners'),
+                        'icon' => 'fas fa-hands-helping',
+                        'url' => route('partners.index'),
+                        'permission' => 'viewAny-partner',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.customer_engagement'),
+                        'icon' => 'fas fa-house-return',
+                        'url' => route('customer-engagement.index'),
+                        'permission' => 'viewAny-customerEngagement',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.asan_imza'),
+                        'icon' => 'fas fa-file-signature',
+                        'url' => route('asan-imza.index'),
+                        'permission' => 'viewAny-asanImza',
+                    ],
+                ]
+            ],
+
+            (object)[
+                'title' => __('translates.navbar.sales'),
+                'icon' => 'fas fa-dollar-sign',
+                'url' => '#',
+                'permission' => 'generally',
+                'children' => [
+                    (object)[
+                        'title' => __('translates.navbar.sales_client'),
+                        'icon' => 'fas fa-portrait',
+                        'url' => route('sales-client.index'),
+                        'permission' => 'viewAny-salesClient',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.inquiry_sales'),
+                        'icon' => 'fa fa-phone',
+                        'url' => route('inquiry.sales'),
+                        'permission' => 'viewAny-salesInquiry',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.sales_activities'),
+                        'icon' => 'fas fa-chart-line',
+                        'url' => route('sales-activities.index'),
+                        'permission' => 'viewAny-salesActivity',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.sales_activities_type'),
+                        'icon' => 'fas fa-chart-line',
+                        'url' => route('sales-activities-types.index'),
+                        'permission' => 'viewAny-salesActivityType',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.organization'),
+                        'icon' => 'fal fa-house',
+                        'url' => route('organizations.index'),
+                        'permission' => 'viewAny-organization',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.certificate'),
+                        'icon' => 'far fa-file-certificate',
+                        'url' => route('certificates.index'),
+                        'permission' => 'viewAny-certificate',
+                    ],
+                ]
+            ],
+
+            (object)[
+                'title' => 'Dev Tools',
+                'icon' => 'fas fa-laptop-code',
+                'url' => '#',
+                'permission' => 'viewAny-report',
+                'children' => [
+                    (object)[
+                        'title' => __('translates.navbar.parameter'),
+                        'icon' => 'fa fa-list',
+                        'url' => route('parameters.index'),
+                        'permission' => 'viewAny-parameter',
+                    ],
+                    (object)[
+                        'title' => "Widgets",
+                        'icon' => 'fas fa-tools',
+                        'url' => route('widgets.index'),
+                        'permission' => 'viewAny-widget',
+                    ],
+                    (object)[
+                        'title' => "Debug Log",
+                        'icon' => 'fal fa-bug',
+                        'url' => url('module/log-reader'),
+                        'permission' => 'viewAny-log',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.notification'),
+                        'icon' => 'far fa-bell',
+                        'url' => route('notifications.index'),
+                        'permission' => 'viewAny-notification',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.option'),
+                        'icon' => 'fa fa-list-alt',
+                        'url' => route('options.index'),
+                        'permission' => 'viewAny-option',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.role'),
+                        'icon' => 'fas fa-key',
+                        'url' => route('roles.index'),
+                        'permission' => 'viewAny-role',
+                    ],
+                ]
+            ],
+
+            (object)[
                 'title' => __('translates.navbar.report'),
                 'icon' => 'fal fa-file',
                 'url' => route('reports.index'),
@@ -112,65 +235,10 @@ class Sidebar extends Component
             ],
 
             (object)[
-                'title' => __('translates.navbar.parameter'),
-                'icon' => 'fa fa-list',
-                'url' => route('parameters.index'),
-                'permission' => 'viewAny-parameter',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.option'),
-                'icon' => 'fa fa-list-alt',
-                'url' => route('options.index'),
-                'permission' => 'viewAny-option',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.role'),
-                'icon' => 'fas fa-key',
-                'url' => route('roles.index'),
-                'permission' => 'viewAny-role',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.user'),
-                'icon' => 'fa fa-users',
-                'url' => route('users.index'),
-                'permission' => 'viewAny-user',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.department'),
-                'icon' => 'fa fa-users-cog',
-                'url' => route('departments.index'),
-                'permission' => 'viewAny-department',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.position'),
-                'icon' => 'fas fa-briefcase',
-                'url' => route('positions.index'),
-                'permission' => 'viewAny-position',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.notification'),
-                'icon' => 'far fa-bell',
-                'url' => route('notifications.index'),
-                'permission' => 'viewAny-notification',
-            ],
-
-            (object)[
                 'title' => __('translates.navbar.client'),
                 'icon' => 'fas fa-portrait',
                 'url' => route('clients.index'),
                 'permission' => 'viewAny-client',
-            ],
-            (object)[
-                'title' => __('translates.navbar.sales_client'),
-                'icon' => 'fas fa-portrait',
-                'url' => route('sales-clients.index'),
-                'permission' => 'viewAny-salesClient',
             ],
 
             (object)[
@@ -181,10 +249,30 @@ class Sidebar extends Component
             ],
 
             (object)[
-                'title' => "Widgets",
-                'icon' => 'fas fa-tools',
-                'url' => route('widgets.index'),
-                'permission' => 'viewAny-widget',
+                'title' => __('translates.navbar.meeting'),
+                'icon' => 'fas fa-bullhorn',
+                'url' => '#',
+                'permission' => 'viewAny-advertising',
+                'children' => [
+                    (object)[
+                        'title' => __('translates.navbar.meeting'),
+                        'icon' => 'fas fa-bullhorn',
+                        'url' => route('meetings.index'),
+                        'permission' => 'viewAny-meeting',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.announcement'),
+                        'icon' => 'fas fa-scroll',
+                        'url' => route('announcements.index'),
+                        'permission' => 'viewAny-announcement',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.conference'),
+                        'icon' => 'fas fa-handshake',
+                        'url' => route('conferences.index'),
+                        'permission' => 'viewAny-conference',
+                    ],
+                ]
             ],
 
             (object)[
@@ -192,13 +280,6 @@ class Sidebar extends Component
                 'icon' => 'fab fa-adversal',
                 'url' => route('advertising.index'),
                 'permission' => 'viewAny-advertising',
-            ],
-
-            (object)[
-                'title' => "Debug Log",
-                'icon' => 'fal fa-bug',
-                'url' => url('module/log-reader'),
-                'permission' => 'viewAny-log',
             ],
 
             (object)[
@@ -223,80 +304,11 @@ class Sidebar extends Component
             ],
 
             (object)[
-                'title' => __('translates.navbar.meeting'),
-                'icon' => 'fas fa-bullhorn',
-                'url' => route('meetings.index'),
-                'permission' => 'viewAny-meeting',
-            ],
-            (object)[
-                'title' => __('translates.navbar.organization'),
-                'icon' => 'fal fa-house',
-                'url' => route('organizations.index'),
-                'permission' => 'viewAny-organization',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.conference'),
-                'icon' => 'fas fa-handshake',
-                'url' => route('conferences.index'),
-                'permission' => 'viewAny-conference',
-            ],
-
-            (object)[
                 'title' => __('translates.navbar.document'),
                 'icon' => 'fas fa-file-word',
                 'url' => route('documents.index'),
                 'permission' => 'viewAny-document',
             ],
-
-            (object)[
-                'title' => __('translates.navbar.asan_imza'),
-                'icon' => 'fas fa-file-signature',
-                'url' => route('asan-imza.index'),
-                'permission' => 'viewAny-asanImza',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.customer_engagement'),
-                'icon' => 'fas fa-house-return',
-                'url' => route('customer-engagement.index'),
-                'permission' => 'viewAny-customerEngagement',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.announcement'),
-                'icon' => 'fas fa-scroll',
-                'url' => route('announcements.index'),
-                'permission' => 'viewAny-announcement',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.certificate'),
-                'icon' => 'far fa-file-certificate',
-                'url' => route('certificates.index'),
-                'permission' => 'viewAny-certificate',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.sales_activities_type'),
-                'icon' => 'fas fa-chart-line',
-                'url' => route('sales-activities-types.index'),
-                'permission' => 'viewAny-salesActivityType',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.sales_activities'),
-                'icon' => 'fas fa-chart-line',
-                'url' => route('sales-activities.index'),
-                'permission' => 'viewAny-salesActivity',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.partners'),
-                'icon' => 'fas fa-hands-helping',
-                'url' => route('partners.index'),
-                'permission' => 'viewAny-partner',
-            ]
         ];
     }
 
@@ -309,27 +321,30 @@ class Sidebar extends Component
     {
         return /* @lang Blade */
             <<<'blade'
-            <ul>
-                @foreach($items as $item)
-                    @can($item->permission ?? 'generally') 
-                        @if($item->type ?? '' == "title")
-                            <li>
-                                <h2 class="text-muted">{{$item->title}}</h2>
-                            </li>
-                        @else
-                            <li @class(['active' => request()->url() == $item->url ]) >
-                                <a href="{{$item->url}}">
-                                    <span class="icon"><i class="{{$item->icon}} mr-2"></i></span>
-                                    <span class="item">{{$item->title}}</span>
-                                    @if($item->badge ?? false)
-                                        <span class="badge badge-pill badge-{{$item->badge->class}}">{{$item->badge->title}}</span>
-                                    @endif
-                                </a>
-                            </li>
-                        @endif
+            <nav class="sidebar sidebar-offcanvas pb-4" id="sidebar">
+                <ul class="nav">
+                  @foreach($items as $item)
+                    @can($item->permission ?? 'generally')
+                        <li @class(['nav-item', 'active' => request()->url() == $item->url])>
+                            <a class="nav-link" @if(isset($item->children)) data-toggle="collapse" href="#ui-basic{{$loop->index}}" @else href="{{$item->url}}" @endif>
+                                <i class="{{$item->icon}} mr-2"></i>
+                                <span class="menu-title">{{$item->title}}</span>
+                                @if(isset($item->children)) <i class="menu-arrow"></i> @endif
+                            </a>
+                            @if(isset($item->children))
+                                <div class="collapse" id="ui-basic{{$loop->index}}">
+                                    <ul class="nav flex-column sub-menu">
+                                    @foreach($item->children as $menu)
+                                        <li class="nav-item"> <a class="nav-link" href="{{$menu->url}}">{{$menu->title}}</a></li>
+                                    @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                        </li>
                     @endcan
-                @endforeach
-            </ul>
+                  @endforeach
+                </ul>
+            </nav>
         blade;
     }
 }

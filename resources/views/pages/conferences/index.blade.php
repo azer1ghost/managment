@@ -18,7 +18,7 @@
                     <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2">
                     <div class="input-group-append">
                         <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
-                        <a class="btn btn-outline-danger" href="{{route('conferences.index')}}"><i class="fal fa-times"></i></a>
+                        <a class="btn btn-outline-danger d-flex align-items-center" href="{{route('conferences.index')}}"><i class="fal fa-times"></i></a>
                     </div>
                 </div>
             </div>
@@ -33,8 +33,8 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">@lang('translates.columns.name')</th>
-                        <th scope="col">datetime</th>
-                        <th scope="col">status</th>
+                        <th scope="col">@lang('translates.columns.date_time')</th>
+                        <th scope="col">@lang('translates.columns.status')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>

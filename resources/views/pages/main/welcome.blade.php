@@ -2,16 +2,8 @@
 
 @section('title', __('translates.navbar.welcome'))
 
-@section('style')
-    <style>
-        .custom-wrapper main {
-            width: 100% !important;
-            margin-left: 0 !important;
-        }
-    </style>
-@endsection
-
 @section('content')
+
     <div class="container">
         <div class="row">
             <div class="col-md-12 d-flex align-items-center justify-content-center vh-100">

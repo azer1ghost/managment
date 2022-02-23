@@ -19,7 +19,7 @@
                     <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2">
                     <div class="input-group-append">
                         <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
-                        <a class="btn btn-outline-danger" href="{{route('updates.index', ['type' => 'table'])}}"><i class="fal fa-times"></i></a>
+                        <a class="btn btn-outline-danger d-flex align-items-center" href="{{route('updates.index', ['type' => 'table'])}}"><i class="fal fa-times"></i></a>
                     </div>
                 </div>
             </div>

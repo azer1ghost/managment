@@ -21,7 +21,7 @@
     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
         @method($method) @csrf
         <input type="hidden" name="id" value="{{optional($data)->getAttribute('id')}}">
-        <div class="tab-content row mt-4" >
+        <div class="row mt-4" >
             <div class="form-group col-12">
                 <div class="row">
                     <x-translate>
@@ -35,8 +35,8 @@
                         @endforeach
                     </x-translate>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" @if(optional($data)->getAttribute('status') === true) checked @endif name="status" id="data-status">
+                <div>
+                    <input  type="checkbox" @if(optional($data)->getAttribute('status') === true) checked @endif name="status" id="data-status">
                     <label class="form-check-label" for="data-status">
                         Is Active
                     </label>

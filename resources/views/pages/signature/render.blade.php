@@ -19,7 +19,7 @@
             <div class="col-md-6">
                 <div class="row">
                     <section class="border border-info mb-3" id="signature_rendered">
-                        @include('panel.pages.signature.template.template1', ['company'=> $company, 'user' => auth()->user()])
+                        @include('pages.signature.template.template1', ['company'=> $company, 'user' => auth()->user()])
                     </section>
                     <div>
                         <button type="button" onclick="copy()" class="btn btn-outline-primary">

@@ -7,9 +7,26 @@ use App\Models\Inquiry;
 use App\Models\Task;
 use App\Models\TaskList;
 use App\Models\User;
+use App\Services\CacheService;
 
 class TaskObserver
 {
+    /**
+     * @var CacheService $cacheService
+     */
+    private CacheService $cacheService;
+
+    /**
+     * Create a new job instance.
+     *
+     * @param CacheService $cacheService
+     * @return void
+     */
+    public function __construct(CacheService $cacheService)
+    {
+        $this->cacheService = $cacheService;
+    }
+
     public function creating(Task $task)
     {
         $task->setAttribute('status', $task::TO_DO);

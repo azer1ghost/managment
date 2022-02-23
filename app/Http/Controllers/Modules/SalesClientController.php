@@ -64,7 +64,7 @@ class SalesClientController extends Controller
     {
         return view('pages.sales-clients.edit')
             ->with([
-                'action' => route('sales-clients.store'),
+                'action' => route('sales-client.store'),
                 'method' => 'POST',
                 'data'   => new SalesClient(),
                 'users'  => User::get(['id', 'name', 'surname']),
@@ -80,7 +80,7 @@ class SalesClientController extends Controller
         }
 
         return redirect()
-            ->route('sales-clients.index')
+            ->route('sales-client.index')
             ->withNotify('success', $request->get('name'));
     }
 
@@ -98,7 +98,7 @@ class SalesClientController extends Controller
     {
         return view('pages.sales-clients.edit')
             ->with([
-                'action' => route('sales-clients.update', $salesClient),
+                'action' => route('sales-client.update', $salesClient),
                 'method' => "PUT",
                 'data' => $salesClient,
             ]);

@@ -21,7 +21,7 @@
     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
         @method($method) @csrf
 
-        <div class="tab-content row mt-4">
+        <div class=" row mt-4">
             <div class="form-group col-12">
                 <div class="row">
                     <div class="form-group col-12 col-md-6">
@@ -64,7 +64,7 @@
                         <x-input::select  name="certificate_id" :value="$data->getAttribute('certificate_id')"    :label="trans('translates.columns.is_certificate')"  width="6" class="pr-3" :options="$certificates"/>
                     @endif
 
-                    <x-input::text name="datetime" readonly :label="__('translates.fields.date')" value="{{optional($data->getAttribute('datetime'))->format('Y-m-d H:i')}}" width="6" class="pr-3 custom-single-daterange" />
+                    <x-input::text name="datetime" readonly :label="__('translates.fields.date')" value="{{optional($data->getAttribute('datetime'))->format('Y-m-d H:i')}}" width="6" class="pr-3" />
                     <x-input::textarea  name="result"  :value="$data->getAttribute('result')"  label="Result"  width="6" class="pr-3" />
                 </div>
 

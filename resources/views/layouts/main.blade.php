@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Robots -->
+    <meta name="robots" content="nofollow,noindex">
     <title>@yield('title') | {{ config('app.name', 'Laravel') }}</title>
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="{{asset('assets/images/favicons/favicon.ico')}}"/>
@@ -18,60 +20,67 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Styles -->
     <link href="{{ asset('assets/fonts/fontawesome.pro.min.css') }}" rel="stylesheet">
+
     <link href="{{ mix('assets/css/app.css') }}" rel="stylesheet">
-    <!-- tinyMCE -->
-    <script src="https://cdn.tiny.cloud/1/6hi4bok2utssc8368iz75o1mg2sma3bl46qf41q4i2ah6myx/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
     @yield('style')
     @stack('style')
     @livewireStyles
+
+    @unless (auth()->check() && (request()->routeIs('account') || auth()->user()->hasVerifiedPhone()) && !request()->routeIs('welcome') && !request()->routeIs('documents.viewer'))
+        <style>
+            .main-panel {
+                width: 100%;
+            }
+            .page-body-wrapper {
+                padding-top: 0;
+            }
+            .content-wrapper {
+                padding: 0;
+            }
+        </style>
+    @endunless
 </head>
 
 @auth
     <x-notify-modal/>
 @endauth
 
-<body class="custom-scrollbar">
-    <div class="custom-wrapper">
+<body>
+<div class="container-scroller">
+    @if (auth()->check() && (request()->routeIs('account') || auth()->user()->hasVerifiedPhone()) && !request()->routeIs('welcome') && !request()->routeIs('documents.viewer'))
+        <x-navbar/>
+    @endif
+    <div class="container-fluid page-body-wrapper">
         @if (auth()->check() && (request()->routeIs('account') || auth()->user()->hasVerifiedPhone()) && !request()->routeIs('welcome') && !request()->routeIs('documents.viewer'))
-            <div class="section">
-                <div class="top_navbar d-flex justify-content-between align-items-center">
-                    <div style="position: relative;top: 2px">
-                        <button class="hamburger hamburger--slider" type="button">
-                          <span class="hamburger-box">
-                            <span class="hamburger-inner"></span>
-                          </span>
-                        </button>
-                    </div>
-                    @include('components.navbar')
-                </div>
-            </div>
-            <div class="sidebar custom-scrollbar">
-                <div class="profile-container">
-                    <img src="{{image(auth()->user()->getAttribute('avatar'))}}" alt="profile_picture">
-                    <h4>{{auth()->user()->getAttribute('fullname')}}</h4>
-                    <p>{{auth()->user()->getRelationValue('compartment')->getAttribute('name')}}</p>
-                    <p>{{auth()->user()->getRelationValue('position')->getAttribute('name')}}</p>
-                </div>
-                <x-sidebar />
-            </div>
+            <x-sidebar/>
         @endif
-            <main class="py-4">
-                <div class="container-fluid">
-                    @yield('content')
-                </div>
-            </main>
+        <div class="main-panel">
+            <div class="content-wrapper">
+                @yield('content')
+            </div>
+        </div>
     </div>
-
+</div>
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
+
+    <!-- tinyMCE -->
+    <script src="https://cdn.tiny.cloud/1/6hi4bok2utssc8368iz75o1mg2sma3bl46qf41q4i2ah6myx/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="{{asset('assets/js/tinyMCE/az.js')}}"></script>
+
     <!-- Scripts -->
     <script src="{{ mix('assets/js/app.js') }}" ></script>
+
+
     @livewireScripts
+
     <!-- Alpine js and Spruce state management for it -->
     <script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/spruce@2.x.x/dist/spruce.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
     @stack('scripts')
     @yield('scripts')
@@ -79,7 +88,6 @@
     <x-notify/>
 
     @auth
-        <script src="{{asset('assets/js/tinyMCE/az.js')}}"></script>
         <script>
             $(document).ready(function (){
                 // Tiny MCE
@@ -160,24 +168,6 @@
                         });
                     });
                 @endif
-
-                $(function () {
-                    $('[data-toggle="tooltip"]').tooltip({
-                        html: true,
-                        content: function(){
-                            return $(this).attr('title');
-                        }
-                    })
-                });
-
-                $( "input[name='date']" ).datepicker({
-                    changeMonth: true,
-                    changeYear: true,
-                    dateFormat: "dd-mm-yy",
-                    showAnim: "slideDown",
-                    minDate: '-1m',
-                    maxDate: new Date()
-                });
             });
         </script>
     @endauth

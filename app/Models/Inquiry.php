@@ -48,6 +48,8 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
         'editable_ended_at' => 'datetime'
     ];
 
+    protected $touches = ['parameters'];
+
     public function getMainColumn(): string
     {
         return $this->getAttribute('code');
@@ -110,7 +112,7 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
 
     public function options(): BelongsToMany
     {
-        return $this->belongsToMany(Option::class, 'inquiry_parameter', 'value')->withPivot('parameter_id');
+        return $this->belongsToMany(Option::class, 'inquiry_parameter', 'inquiry_id', 'value')->withPivot('parameter_id');
     }
 
     public function parameters(): BelongsToMany

@@ -84,6 +84,8 @@ class ServiceController extends Controller
 
         $service->update($validated);
 
+        // Service parameters
+        \Cache::forget('serviceParameters');
         $parameters = [];
         foreach ($validated['parameters'] ?? [] as $parameter){
             $parameters[$parameter['id']] = [

@@ -25,12 +25,12 @@ class Onoff extends Component
         <<<'blade'
           <div {{ $attributes->merge(['class' => 'form-group col-6 col-md-'.$width]) }}>
                 <p>{{$label ?? Str::ucfirst($name).' input'}}</p>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="{{$name}}" id="data-true-{{$name}}" value="1" @if($value) checked @endif>
+                <div class="form-check-inline">
+                    <input type="radio" name="{{$name}}" id="data-true-{{$name}}" value="1" @if($value) checked @endif>
                     <label class="form-check-label" for="data-true-{{$name}}">On</label>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="{{$name}}" id="data-false-{{$name}}" value="0" @if(!$value) checked @endif>
+                <div class="form-check-inline">
+                    <input type="radio" name="{{$name}}" id="data-false-{{$name}}" value="0" @if(!$value) checked @endif>
                     <label class="form-check-label" for="data-false-{{$name}}">Off</label>
                 </div>
             </div>

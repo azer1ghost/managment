@@ -61,7 +61,7 @@
                     </div>
                     <div class="modal-body">
                         <input type="text" name="name" id="data-name" class="form-control mb-3" placeholder="@lang('translates.calendar.fields.name')" required>
-                        <input type="text" name="daterange" id="data-daterange" class="form-control mb-3" readonly required>
+                        <input type="text" name="daterange" id="data-daterange" class="form-control mb-3 custom-daterange" readonly required>
                         <div class="form-group">
                             <select class="form-control" id="data-type" name="type" required>
                                 <option value="" disabled selected>--@lang('translates.calendar.fields.select_type')--</option>
@@ -70,12 +70,12 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group form-check mb-1">
-                            <input type="checkbox" name="is_day_off" value="1" class="form-check-input" id="data-is_day_off">
+                        <div class="form-group mb-1">
+                            <input type="checkbox" name="is_day_off" value="1" id="data-is_day_off">
                             <label class="form-check-label" for="data-is_day_off">@lang('translates.calendar.fields.is_day_off')</label>
                         </div>
-                        <div class="form-group form-check">
-                            <input type="checkbox" name="is_repeatable" value="1" class="form-check-input" id="data-is_repeatable">
+                        <div class="form-group">
+                            <input type="checkbox" name="is_repeatable" value="1" id="data-is_repeatable">
                             <label class="form-check-label" for="data-is_repeatable">@lang('translates.calendar.fields.is_repeatable')</label>
                         </div>
                     </div>

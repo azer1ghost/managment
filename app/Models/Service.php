@@ -64,7 +64,13 @@ class Service extends Model implements Recordable
         $name = $this->getAttribute('name');
 
         if (str_word_count($name) > 1){
-            $name = implode('', array_map(function($v) { return $v[0]; },array_filter(array_map('trim',explode(' ', Str::title($name))))));
+            $name = implode('',
+                array_map(function($v) { return $v[0]; },
+                    array_filter(
+                        array_map('trim',explode(' ', Str::title($name)))
+                    )
+                )
+            );
         }
 
         return $name;
@@ -72,14 +78,20 @@ class Service extends Model implements Recordable
 
     public static function serviceParameters()
     {
-        $data = [];
-        foreach (collect(DB::table('service_parameter')->latest('show_count')->latest('show_in_table')->select('parameter_id', 'show_count')->where('show_in_table', 1)->get())->unique('parameter_id')->toArray() as $param){
-            $data[] = [
-                'data' => Parameter::findOrFail($param->parameter_id),
-                'count' => (bool) $param->show_count
-            ];
+        if (\Cache::has('serviceParameters')) {
+            return \Cache::get('serviceParameters');
         }
 
-        return $data;
+        return \Cache::rememberForever('serviceParameters', function (){
+            $data = [];
+            foreach (collect(DB::table('service_parameter')->latest('show_count')->latest('show_in_table')->select('parameter_id', 'show_count')->where('show_in_table', 1)->get())->unique('parameter_id')->toArray() as $param){
+                $data[] = [
+                    'data' => Parameter::findOrFail($param->parameter_id),
+                    'count' => (bool) $param->show_count
+                ];
+            }
+
+            return $data;
+        });
     }
 }

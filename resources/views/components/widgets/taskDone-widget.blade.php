@@ -1,5 +1,5 @@
 <div class="{{$widget->class_attribute}}">
-    <div class="card border-0" style="background: #e9ecef !important;">
+    <div class="card border-0 widget-container">
         <div class="d-flex pt-2 px-3 justify-content-between">
             <div class="d-flex">
                 @lang('translates.navbar.user')

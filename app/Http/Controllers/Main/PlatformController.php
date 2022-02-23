@@ -6,19 +6,35 @@ use App\Http\Controllers\Controller;
 use App\Models\Announcement;
 use App\Models\Document;
 use App\Models\Inquiry;
+use App\Models\Service;
+use App\Models\Task;
+use App\Models\User;
 use App\Models\Widget;
+use App\Models\Work;
+use App\Services\CacheService;
+use App\Services\OpenWeatherApi;
 use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rules\In;
 
 class PlatformController extends Controller
 {
-    public function __construct()
+    /**
+     * @var CacheService $cacheService
+     */
+    private CacheService $cacheService;
+
+    /**
+     * @param CacheService $cacheService
+     */
+    public function __construct(CacheService $cacheService)
     {
         $this->middleware('auth', ['except'=> ['welcome', 'downloadBat', 'documentTemporaryUrl']]);
+        $this->cacheService = $cacheService;
     }
 
     /**
@@ -85,9 +101,7 @@ class PlatformController extends Controller
     public function deactivated()
     {
         if(!auth()->user()->isDisabled()){
-            return redirect()->route('dashboard', [
-                'widgets' => Widget::isActive()->oldest('order')->get()
-            ]);
+            return $this->dashboard();
         }
 
         return view('pages.main.deactivated');
@@ -96,7 +110,10 @@ class PlatformController extends Controller
     public function dashboard(): View
     {
         return view('pages.main.dashboard', [
-            'widgets' => Widget::isActive()->oldest('order')->get()
+            'widgets'    => Widget::isActive()->oldest('order')->get(),
+            'tasksCount' => auth()->user()->tasks()->newTasks()->count(),
+            'statistics' => $this->cacheService->getData('statistics') ?? [],
+            'weather' => $this->cacheService->getData('open_weather'),
         ]);
     }
 
@@ -109,7 +126,7 @@ class PlatformController extends Controller
     {
         abort_if(auth()->user()->isNotDeveloper(), 403);
 
-        return 'testing area';
+        return 'test';
     }
 
     public function documentTemporaryUrl(Document $document)

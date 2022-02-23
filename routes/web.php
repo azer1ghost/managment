@@ -84,7 +84,7 @@ Route::group([
     Route::get('/inquiry/task/{inquiry}', [InquiryController::class, 'createTask'])->name('inquiry.task');
     Route::delete('/inquiry/force-delete/{inquiry}', [InquiryController::class, 'forceDelete'])->name('inquiry.forceDelete');
     Route::put('/inquiry/status-update', [InquiryController::class, 'updateStatus'])->name('inquiry.update-status');
-    Route::get('/inquiry/sales', SalesInquiryController::class)->name('inquiry.sales');
+    Route::get('/inquiries-sales', SalesInquiryController::class)->name('inquiry.sales');
     Route::resource('/inquiry', InquiryController::class);
 
     Route::get('/signature/select-company', [SignatureController::class, 'selectCompany'])->name('signature-select-company');
@@ -112,8 +112,8 @@ Route::group([
     Route::get('/clients/export', [ClientController::class, 'export'])->name('clients.export');
     Route::any('/clients/search', [ClientController::class, 'search'])->name('clients.search');
     Route::resource('/clients', ClientController::class);
-    Route::any('/sales-clients/search', [SalesClientController::class, 'search'])->name('sales-clients.search');
-    Route::resource('/sales-clients', SalesClientController::class);
+    Route::any('/sales-client/search', [SalesClientController::class, 'search'])->name('sales-client.search');
+    Route::resource('/sales-client', SalesClientController::class);
 
     Route::resource('/referrals', ReferralController::class)->except('create');
     Route::resource('/updates', UpdateController::class);

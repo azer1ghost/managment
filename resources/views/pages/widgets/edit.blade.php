@@ -21,7 +21,7 @@
     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
         @method($method) @csrf
         <input type="hidden" name="id" value="{{optional($data)->getAttribute('id')}}">
-        <div class="tab-content row mt-4" >
+        <div class=" row mt-4" >
             <div class="form-group col-12">
                 <div class="row">
                     <x-translate>
@@ -39,11 +39,9 @@
                     <x-input::text     name="icon"  :value="optional($data)->getAttribute('icon')"  label="Widget icon"  width="6" class="pr-3" />
                     <x-input::number   name="order"  :value="optional($data)->getAttribute('order')"  label="Widget order"  width="6" class="pr-3" />
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" @if(optional($data)->getAttribute('status') === true) checked @endif name="status" id="data-status">
-                    <label class="form-check-label" for="data-status">
-                        Is Active
-                    </label>
+                <div>
+                    <input type="checkbox" @if(optional($data)->getAttribute('status') === true) checked @endif name="status" id="data-status">
+                    <label class="form-check-label" for="data-status"> Is Active </label>
                 </div>
             </div>
         </div>

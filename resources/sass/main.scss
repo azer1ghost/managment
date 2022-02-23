@@ -3,26 +3,11 @@ body{
 }
 
 input, textarea {
-   user-select: text !important;
+  user-select: text !important;
   -webkit-user-select: text !important;
   -khtml-user-select: text !important;
   -moz-user-select: text !important;
   -ms-user-select: text !important;
-}
-
-//Custom sidebar
-.custom-scrollbar{
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: $primaryWhite;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: $primary;
-  }
 }
 
 *{
@@ -87,7 +72,6 @@ a{
       background: inherit;
       -webkit-filter: grayscale(1);
       -moz-filter: grayscale(100%);
-      -ms-filter: grayscale(100%);
       -o-filter: grayscale(100%);
       filter: grayscale(100%);
     }
@@ -244,4 +228,85 @@ a{
       color: #919aa3;
     }
   }
+}
+
+//@media (min-width: 992px) {
+//  .sidebar-offcanvas {
+//    overflow-y: scroll;
+//    height: 500px;
+//  }
+//}
+
+// Remove select2 option y-axis padding
+.select2-container--bootstrap4 .select2-results__option {
+  padding: 0 0.375rem !important;
+}
+
+// Custom prepends height
+.input-group-append, .input-group-prepend {
+  height: 2.5rem !important;
+}
+
+// Custom breadcrumb
+.breadcrumb {
+  border: none !important;
+  padding-left: 0!important;
+}
+
+// Custom card title
+.card .card-title {
+  color: inherit !important;
+}
+
+// Custom notification dropdown images
+.preview-list .preview-item .preview-thumbnail .preview-icon {
+  width: 50px !important;
+  height: 50px !important;
+}
+
+// Custom fc-event
+.fc .fc-event {
+  padding: 0 !important;
+}
+
+// Custom widget styles
+.widget-container {
+  //background: #e9ecef !important;
+}
+
+// Custom list items
+.sidebar .nav.sub-menu {
+  padding: 0 0 0 1.2rem !important;
+}
+
+.sidebar .nav.sub-menu .nav-item:before {
+  content: none !important;
+}
+
+// Custom content wrapper
+.content-wrapper {
+  padding: 1.1rem !important;
+}
+
+// Custom sidebar-icons-only
+@media (min-width: 992px) {
+  .sidebar-icon-only .sidebar .nav .nav-item .nav-link {
+    padding: 0.5rem !important;
+  }
+}
+
+// Custom scrollbars
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #4b49ac;
 }

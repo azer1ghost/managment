@@ -67,7 +67,7 @@
 
                     <div class="form-group col-12 col-md-3 mt-3 mb-3 mb-md-0">
                         <label class="d-block" for="subjectFilter">@lang('translates.filters.subject')</label>
-                        <select id="subjectFilter" multiple class="filterSelector form-control"  data-selected-text-format="count" data-width="fit" title="@lang('translates.filters.select')">
+                        <select id="subjectFilter" multiple class="filterSelector"  data-selected-text-format="count" data-width="fit" title="@lang('translates.filters.select')">
                             @php($subjectsRequest = explode(',', request()->get('subject')))
                             @foreach($subjects as $subject)
                                 <option
@@ -80,7 +80,7 @@
 
                     <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
                         <label class="d-block" for="statusFilter">Status</label>
-                        <select id="statusFilter" multiple data-selected-text-format="count" class="filterSelector form-control"
+                        <select id="statusFilter" multiple data-selected-text-format="count" class="filterSelector"
                                 data-selected-text-format="count" data-width="fit" title="@lang('translates.filters.select')">
                             @php($statusesRequest = explode(',', request()->get('status')))
                             @foreach($statuses as $status)
@@ -174,8 +174,6 @@
                 @endforeach
             </select>
         </div>
-
-
     </form>
 
     <div class="col-12">
@@ -223,6 +221,7 @@
                         @if(auth()->user()->isDeveloper())
                             <td><input type="checkbox" name="inquiries[]" value="{{$inquiry->id}}"></td>
                         @endif
+                        @php($status = optional($inquiry->getParameter('status')))
                         <td>{{$inquiry->getAttribute('code')}}</td>
                         <td>{{$inquiry->getAttribute('datetime')->format('d-m-Y')}}</td>
                         <td>{{$inquiry->getAttribute('datetime')->format('H:i')}}</td>
@@ -233,23 +232,23 @@
                         <td class="text-center">
                             @if($inquiry->getAttribute('wasDone'))
                                 <i class="fa fa-check text-success" style="font-size: 18px"></i>
-                            @elseif (auth()->id() != $inquiry->getAttribute('user_id') || optional($inquiry->getParameter('status'))->getAttribute('id') == \App\Models\Inquiry::REDIRECTED)
-                                {{optional($inquiry->getParameter('status'))->getAttribute('text') ?? __('translates.filters.select')}}
+                            @elseif (auth()->id() != $inquiry->getAttribute('user_id') || $status->getAttribute('id') == \App\Models\Inquiry::REDIRECTED)
+                                {{$status->getAttribute('text') ?? __('translates.filters.select')}}
                             @else
                                 @if($trashBox)
-                                    {{optional($inquiry->getParameter('status'))->getAttribute('text') ?? __('translates.filters.select')}}
+                                    {{$status->getAttribute('text') ?? __('translates.filters.select')}}
                                 @else
                                     <select class="form-control" style="width:auto;"
                                             onfocus="this.oldValue = this.value"
                                             id="inquiry-{{$inquiry->getAttribute('id')}}"
                                             onchange="inquiryStatusHandler(this, {{$inquiry->getAttribute('id')}}, '{{$inquiry->getAttribute('code')}}', this.oldValue, this.value)">
-                                        <option value="0" @if (!optional($inquiry->getParameter('status'))->getAttribute('id')) selected @endif>@lang('translates.filters.select')</option>
+                                        <option value="0" @if (!$status->getAttribute('id')) selected @endif>@lang('translates.filters.select')</option>
                                         @foreach ($statuses as $status)
                                             @if($status->getAttribute('id') == \App\Models\Inquiry::REDIRECTED)
                                                 @continue
                                             @endif
                                             <option
-                                                    @if ($status->getAttribute('id') == optional($inquiry->getParameter('status'))->getAttribute('id')) selected @endif
+                                                    @if ($status->getAttribute('id') == $status->getAttribute('id')) selected @endif
                                                     value="{{$status->getAttribute('id')}}">
                                                 {{$status->getAttribute('text')}}
                                             </option>
