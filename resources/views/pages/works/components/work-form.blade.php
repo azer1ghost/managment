@@ -70,7 +70,7 @@
                         <label for="data-user_id">@lang('translates.general.user_select')</label>
                         <select name="user_id" id="data-user_id" class="form-control" wire:model="selected.user_id" @if(!auth()->user()->hasPermission('canRedirect-work')) disabled @endif>
                             <option value="" selected>@lang('translates.general.user_select')</option>
-                            @foreach($users as $user)
+                            @foreach($users ?? [] as $user)
                                 @php($position = $user['position']['name'][app()->getLocale()] ?? $user['position']['name']['en'])
                                 <option value="{{ $user['id'] }}">{{ $user['name'] . ' ' . $user['surname'] . ' (' .  $position . ')'}}</option>
                             @endforeach

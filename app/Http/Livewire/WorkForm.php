@@ -38,6 +38,7 @@ class WorkForm extends Component
         $this->statuses = Work::statuses();
 
         $user = auth()->user();
+        $userModel = User::with('position')->find(auth()->id())->toArray();
 
         foreach ($this->selected as $key => $selected) {
             if($key == 'department_id') {
@@ -57,9 +58,9 @@ class WorkForm extends Component
             $this->users = $this->department->users()->orderBy('name')->with('position')->isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id'])->toArray();
         }else {
             if ($this->method == 'POST') {
-                $this->users = [$user];
+                $this->users = [$userModel];
             } else {
-                $this->users = [User::find($this->selected['user_id'])];
+                $this->users = $this->selected['user_id'] ? [User::with('position')->find($this->selected['user_id'])->toArray()] : [];
             }
         }
 
