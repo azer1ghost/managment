@@ -9,13 +9,15 @@ use App\Models\Work;
 use App\Services\ExchangeRatesApi;
 use Illuminate\Support\Collection;
 use Livewire\Component;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class WorkForm extends Component
 {
     public ?Work $data;
     public ?string $method, $action;
-    public ?Collection $departments, $services, $users, $companies;
-    public array $statuses;
+    public ?Collection $departments, $services, $companies;
+    public array $statuses, $users;
     public array $selected = [
         'department_id' => '',
         'service_id' => '',
@@ -26,8 +28,8 @@ class WorkForm extends Component
     public ?Collection $parameters;
 
     /**
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function mount()
     {
@@ -52,12 +54,12 @@ class WorkForm extends Component
         }
 
         if($user->hasPermission('canRedirect-work')) {
-            $this->users = $this->department->users()->orderBy('name')->with('position')->isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']);
+            $this->users = $this->department->users()->orderBy('name')->with('position')->isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id'])->toArray();
         }else {
             if ($this->method == 'POST') {
-                $this->users = collect([$user]);
+                $this->users = [$user];
             } else {
-                $this->users = collect([User::find($this->selected['user_id'])]);
+                $this->users = [User::find($this->selected['user_id'])];
             }
         }
 
