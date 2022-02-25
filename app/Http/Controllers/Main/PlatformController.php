@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Widget;
 use App\Models\Work;
 use App\Services\CacheService;
+use App\Services\ExchangeRatesApi;
 use App\Services\OpenWeatherApi;
 use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -29,12 +30,18 @@ class PlatformController extends Controller
     private CacheService $cacheService;
 
     /**
+     * @var ExchangeRatesApi $exchangeRatesApi
+     */
+    private ExchangeRatesApi $exchangeRatesApi;
+
+    /**
      * @param CacheService $cacheService
      */
-    public function __construct(CacheService $cacheService)
+    public function __construct(CacheService $cacheService, ExchangeRatesApi $exchangeRatesApi)
     {
         $this->middleware('auth', ['except'=> ['welcome', 'downloadBat', 'documentTemporaryUrl']]);
         $this->cacheService = $cacheService;
+        $this->exchangeRatesApi = $exchangeRatesApi;
     }
 
     /**
@@ -109,11 +116,31 @@ class PlatformController extends Controller
 
     public function dashboard(): View
     {
+        $currencies = [
+            'USD' => [
+                'flag' => 'dollar',
+                'value' => 0,
+            ],
+            'EUR' => [
+                'flag' => 'euro',
+                'value' => 0,
+            ],
+            'TRY' => [
+                'flag' => 'lira',
+                'value' => 0,
+            ]
+        ];
+
+        foreach ($currencies as $currency => $value) {
+            $currencies[$currency]['value'] = $this->exchangeRatesApi->convert($currency);
+        }
+
         return view('pages.main.dashboard', [
             'widgets'    => Widget::isActive()->oldest('order')->get(),
             'tasksCount' => auth()->user()->tasks()->newTasks()->count(),
             'statistics' => $this->cacheService->getData('statistics') ?? [],
             'weather' => $this->cacheService->getData('open_weather'),
+            'currencies' => $currencies,
         ]);
     }
 

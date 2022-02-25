@@ -75,7 +75,34 @@
                     </div>
                 @endforeach
             </div>
+
+            <div class="card">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Currency</th>
+                        <th scope="col">Value</th>
+                        <th scope="col">AZN</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($currencies as $currency => $value)
+
+                        <tr>
+                            <td><i class="far fa-{{$value['flag']}}-sign "></i> {{$currency}}</td>
+                            <td>{{$value['value']}}</td>
+                            <td>AZN</td>
+                        </tr>
+                    @endforeach
+
+                    </tbody>
+                </table>
+            </div>
+
+
+
         </div>
+
     </div>
 
     <div class="row">
