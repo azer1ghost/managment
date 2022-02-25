@@ -94,7 +94,7 @@ class PlatformController extends Controller
 
     public function welcome(): View
     {
-        header("Refresh: 2; URL=". route('login'));
+        header("Refresh: 1; URL=". route('login'));
         return view('pages.main.welcome');
     }
 

@@ -11,10 +11,10 @@
     let {{$model}}MyChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['@lang('translates.bonus.effective')', '@lang('translates.bonus.ineffective')'],
+            labels: ['{{$results[0]->label}}', '{{$results[1]->label}}'],
             datasets: [{
-                label: '# of Votes',
-                data: [12, 19],
+                label: '{{$widget->details}}',
+                data: [{{$results[0]->total}}, {{$results[1]->total}}],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',

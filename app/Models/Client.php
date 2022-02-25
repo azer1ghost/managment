@@ -45,6 +45,16 @@ class Client extends Model implements DocumentableInterface, Recordable
         return $this->hasMany(__CLASS__, 'client_id');
     }
 
+    public function scopeLegal($query)
+    {
+        return $query->whereType(self::LEGAL);
+    }
+
+    public function scopePhysical($query)
+    {
+        return $query->whereType(self::PHYSICAL);
+    }
+
     public function getMainColumn(): string
     {
         return $this->getAttribute('fullname');

@@ -27,7 +27,9 @@
                 </div>
                 <div class="col-12 col-xl-4">
                     <div class="justify-content-end d-flex align-items-center">
-                        <i class="fas fa-calendar mr-2"></i> {{now()->format('d F Y')}}
+                        <i class="fas fa-calendar mr-1"></i>
+                        {{now()->format('d F Y')}}
+                        <span id="dashboard-clock" class="ml-1"></span>
                     </div>
                 </div>
             </div>

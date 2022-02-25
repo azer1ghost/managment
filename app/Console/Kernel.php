@@ -28,10 +28,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // TODO add widgets caching
-//        $schedule->job(ProcessWidgets::class)->everyTwoHours()->environments(['staging', 'production']);
-//        $schedule->job(ProcessWidgets::class)->everyMinute()->environments(['testing', 'local']);
-
         $schedule->job(ProcessStatistics::class)->everyFourHours()->environments(['staging', 'production']);
         $schedule->job(ProcessStatistics::class)->everyMinute()->environments(['testing', 'local']);
 

@@ -13,29 +13,9 @@
     </div>
 </div>
 <script>
-    const {{$model}}Labels = ['day1', 'day2', 'day3'];
     const {{$model}}Data = {
-        labels: {{$model}}Labels,
-        datasets: [
-            {
-                label: 'User1',
-                data: [11, 16, 12],
-                borderColor: '#2d66f6',
-                backgroundColor: '#53c477',
-            },
-            {
-                label: 'User2',
-                data: [18, 27, 32],
-                borderColor: '#537bc4',
-                backgroundColor: '#537bc4',
-            },
-            {
-                label: 'User3',
-                data: [18, 27, 32],
-                borderColor: '#9bc453',
-                backgroundColor: '#79c453',
-            }
-        ]
+        labels: @json($results['labels']),
+        datasets: @json($results['data'])
     };
 
     const {{$model}}Config = {
@@ -54,6 +34,7 @@
             }
         },
     };
+
     const {{$model}}MyChart = new Chart(
         document.getElementById('{{$widget->key}}'),
             {{$model}}Config
