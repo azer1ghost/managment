@@ -26,12 +26,12 @@ class SalesClientController extends Controller
             ->latest()
             ->get(['id', 'name', 'voen']);
 
-
-        $clients = Client::where('fullname', 'LIKE', "%{$request->get('search')}%")
-            ->orWhere('voen', 'LIKE', "%{$request->get('search')}%")
-            ->limit(10)
-            ->latest()
-            ->get(['id', 'fullname', 'voen']);
+//
+//        $clients = Client::where('fullname', 'LIKE', "%{$request->get('search')}%")
+//            ->orWhere('voen', 'LIKE', "%{$request->get('search')}%")
+//            ->limit(10)
+//            ->latest()
+//            ->get(['id', 'fullname', 'voen']);
 
         $clientsArray = [];
 
@@ -41,13 +41,13 @@ class SalesClientController extends Controller
                 "text" => "{$client->name_with_voen}",
             ];
         }
-
-        foreach ($clients as $client) {
-            $clientsArray[] = [
-                "id"   => $client->id,
-                "text" => "{$client->fullname_with_voen}",
-            ];
-        }
+//
+//        foreach ($clients as $client) {
+//            $clientsArray[] = [
+//                "id"   => $client->id,
+//                "text" => "{$client->fullname_with_voen}",
+//            ];
+//        }
 
         return (object) [
             'results' => $clientsArray,
