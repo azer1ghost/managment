@@ -14,4 +14,6 @@ function checkTime(i) {
     return i;
 }
 
-setInterval(startTime, 1000);
+if (document.getElementById('dashboard-clock')) {
+    setInterval(startTime, 1000);
+}
