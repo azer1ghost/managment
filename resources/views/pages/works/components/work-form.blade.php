@@ -1,4 +1,5 @@
 <form action="{{$action}}" method="POST" enctype="multipart/form-data" id="work-form">
+
     @if(!is_null($data) && $method != 'PUT')
         @can('update', $data)
             <div class="col-12 my-4 pl-0">
@@ -40,14 +41,14 @@
 
                 <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-department_id">@lang('translates.fields.department')</label>
-                    <input wire:ignore disabled type="text" class="form-control" id="data-department_id" value="{{\App\Models\Department::find($selected['department_id'])->name}}">
+                    <input wire:ignore readonly type="text" class="form-control" id="data-department_id" value="{{\App\Models\Department::find($selected['department_id'])->name}}">
                     <input wire:ignore type="hidden" wire:model="selected.department_id" name="department_id">
                 </div>
 
                 <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-service_id">@lang('translates.general.work_service')</label>
                     <input wire:ignore disabled type="text" class="form-control" id="data-service_id" value="{{\App\Models\Service::find($selected['service_id'])->name}}">
-                    <input type="hidden" @if(empty($this->subServices)) name="service_id"  @endif wire:model="selected.service_id">
+                    <input type="hidden" @if($this->subServices->isEmpty()) name="service_id"  @endif wire:model="selected.service_id">
                 </div>
 
                 @if(!$this->subServices->isEmpty())

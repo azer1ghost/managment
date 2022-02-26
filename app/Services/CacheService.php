@@ -109,34 +109,34 @@ class CacheService
 
         $statistics = [
             'users' => [
-                'title' => trans('translates.widgets.number_of_users', 'az'),
+                'title' => trans('translates.widgets.number_of_users', [], 'az'),
                 'color' => 'tale',
-                'data' => $getData($users->count(), $users->isActive()->count(), trans('translates.users.statuses.active','az'), 'users'),
+                'data' => $getData($users->count(), $users->isActive()->count(), trans('translates.users.statuses.active', [], 'az'), 'users'),
                 'class' => 'mb-4'
             ],
             'works' => [
-                'title' => trans('translates.widgets.number_of_works', 'az'),
+                'title' => trans('translates.widgets.number_of_works',  [], 'az'),
                 'color' => 'dark-blue',
-                'data' => $getData($works->count(), $works->isVerified()->count(), trans('translates.columns.verified','az'), 'works'),
+                'data' => $getData($works->count(), $works->isVerified()->count(), trans('translates.columns.verified', [], 'az'), 'works'),
                 'class' => 'mb-4'
             ],
             'inquiries' => [
-                'title' => trans('translates.widgets.number_of_inquiries', 'az'),
+                'title' => trans('translates.widgets.number_of_inquiries',  [], 'az'),
                 'color' => 'light-blue',
                 'data' => $getData(
                     $inquiries->count(),
                     $inquiries
                         ->whereHas('options', fn($q) => $q->whereId(Inquiry::ACTIVE))
                         ->count(),
-                    trans('translates.users.statuses.active', 'az'),
+                    trans('translates.users.statuses.active',  [], 'az'),
                     'inquiries'
                 ),
                 'class' => 'mb-4'
             ],
             'tasks' => [
-                'title' => trans('translates.widgets.number_of_tasks', 'az'),
+                'title' => trans('translates.widgets.number_of_tasks',  [], 'az'),
                 'color' => 'light-danger',
-                'data' => $getData($tasks->count(), $tasks->newTasks()->count(), trans('translates.tasks.list.to_do', 'az'), 'tasks'),
+                'data' => $getData($tasks->count(), $tasks->newTasks()->count(), trans('translates.tasks.list.to_do',  [], 'az'), 'tasks'),
                 'class' => ''
             ],
         ];

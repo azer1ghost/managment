@@ -43,6 +43,11 @@ class WorkForm extends Component
                 continue;
             }
 
+            if($key == 'service_id') {
+                $this->selected['service_id'] = optional($this->data)->getAttribute($key) ?? request()->get('service_id');
+                continue;
+            }
+
             if($key == 'user_id') {
                 $this->selected['user_id'] = optional($this->data)->getAttribute($key) ?? $user->getAttribute('id');
                 continue;
