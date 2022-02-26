@@ -1,4 +1,4 @@
-<div class="{{$widget->class_attribute}} grid-margin stretch-card col-md-8" style="">
+<div class="{{$widget->class_attribute}} grid-margin stretch-card" style="">
     <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between">
