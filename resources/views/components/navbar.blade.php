@@ -58,6 +58,7 @@
                     </a>
                     @if(request()->hasCookie('user_id'))
                         <a class="dropdown-item" href="{{ route('users.loginAs', request()->cookie('user_id')) }}">
+                            <i class="fas fa-arrow-left text-primary"></i>
                             Back
                         </a>
                     @else
