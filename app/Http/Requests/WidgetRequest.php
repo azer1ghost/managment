@@ -20,8 +20,7 @@ class WidgetRequest extends FormRequest
             'icon' => 'nullable|string',
             'order' => 'required|integer',
             'status' => 'nullable',
-            'translate' => 'nullable|array',
-
+            'details' => 'nullable|array',
         ];
     }
 }

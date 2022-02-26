@@ -108,6 +108,12 @@ class Sidebar extends Component
                         'url' => route('positions.index'),
                         'permission' => 'viewAny-position',
                     ],
+                    (object)[
+                        'title' => __('translates.navbar.department'),
+                        'icon' => 'fas fa-briefcase',
+                        'url' => route('departments.index'),
+                        'permission' => 'viewAny-department',
+                    ],
                 ]
             ],
             (object)[

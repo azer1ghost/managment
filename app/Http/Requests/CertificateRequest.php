@@ -11,7 +11,8 @@ class CertificateRequest extends FormRequest
     {
         return [
             'organization_id' => 'nullable',
-            'translate' => 'nullable|array',
+            'name' => 'nullable|array',
+            'detail' => 'nullable|array',
         ];
     }
 }

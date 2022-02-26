@@ -25,7 +25,8 @@ class DepartmentRequest extends FormRequest
     {
         return [
             'status' => 'nullable',
-            'translate' => 'nullable|array',
+            'name' => 'nullable|array',
+            'short_name' => 'nullable|array',
             'perms' => 'nullable|array',
             'all_perms' => 'nullable|string',
         ];

@@ -42,7 +42,6 @@ class CertificateController extends Controller
     public function store(CertificateRequest $request)
     {
         $validated = $request->validated();
-        $this->translates($validated);
 
         $certificate = Certificate::create($validated);
 
@@ -76,7 +75,6 @@ class CertificateController extends Controller
     public function update(CertificateRequest $request, Certificate $certificate)
     {
         $validated = $request->validated();
-        $this->translates($validated);
 
         $certificate->update($validated);
 

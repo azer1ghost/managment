@@ -20,6 +20,7 @@
     </x-bread-crumb>
     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
         @method($method) @csrf
+        @bind($data)
         <input type="hidden" name="id" value="{{optional($data)->getAttribute('id')}}">
         <div class="row mt-4" >
             <div class="form-group col-12">
@@ -28,8 +29,12 @@
                         @foreach(config('app.locales') as $key => $locale)
                             <div class="tab-pane fade show @if($loop->first) active @endif" id="data-{{$key}}" role="tabpanel">
                                 <div class="row">
-                                    <x-input::text  name="translate[name][{{$key}}]"  :value="optional($data)->getTranslation('name', $key)"     :label="trans('translates.columns.department')"     width="6" class="pr-3" />
-                                    <x-input::text  name="translate[short_name][{{$key}}]"  :value="optional($data)->getTranslation('short_name', $key)"     :label="trans('translates.columns.short_name')"     width="6" class="pr-3" />
+                                    <x-form-group class="col-12 col-md-6">
+                                        <x-form-input name="name" :language="$key" label="Name {{$key}}" placeholder="Ad daxil edin"/>
+                                    </x-form-group>
+                                    <x-form-group class="col-12 col-md-6">
+                                        <x-form-textarea name="short_name" :language="$key" label="Detail {{$key}}" placeholder="Qısa ad daxil edin"/>
+                                    </x-form-group>
                                 </div>
                             </div>
                         @endforeach
@@ -43,7 +48,8 @@
                 </div>
             </div>
         </div>
-        @if($action)
+        @endbind
+    @if($action)
             <x-input::submit  :value="__('translates.buttons.save')" />
         @endif
     </form>

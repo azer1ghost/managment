@@ -9,7 +9,8 @@ class OrganizationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'translate' => 'nullable',
+            'name' => 'nullable|array',
+            'detail' => 'nullable|array',
             'is_certificate' => 'nullable',
         ];
     }

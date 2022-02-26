@@ -10,7 +10,8 @@ class SalesActivityTypeRequest extends FormRequest
     {
         return [
             'hard_columns' => 'nullable|array',
-            'translate' => 'nullable|array'
+            'name' => 'nullable|array',
+            'description' => 'nullable|array',
         ];
     }
 }

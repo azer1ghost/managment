@@ -54,7 +54,7 @@
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                     <a class="dropdown-item" href="{{route('account')}}">
                         <i class="fas fa-user text-primary"></i>
-                        {{auth()->user()->getAttribute('fullname')}}
+                        Profil
                     </a>
                     @if(request()->hasCookie('user_id'))
                         <a class="dropdown-item" href="{{ route('users.loginAs', request()->cookie('user_id')) }}">
