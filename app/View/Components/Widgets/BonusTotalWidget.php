@@ -23,16 +23,18 @@ class BonusTotalWidget extends Component
         $effective = $referral->total_users * $referral->efficiency / 100 ;
         $ineffective = $referral->total_users - $effective;
 
-        $this->results = [
-            (object) [
-                'users' => __('translates.bonus.effective'),
-                'total' => $effective
-            ],
-            (object) [
-                'users' => __('translates.bonus.ineffective'),
-                'total' => $ineffective
-            ]
-        ];
+        $this->results = \Cache::remember("{$this->widget->getAttribute('key')}_widget", 7200, function () use ($effective, $ineffective){
+            return [
+                (object) [
+                    'label' => __('translates.bonus.effective'),
+                    'total' => $effective
+                ],
+                (object) [
+                    'label' => __('translates.bonus.ineffective'),
+                    'total' => $ineffective
+                ]
+            ];
+        });
     }
 
     public function render()

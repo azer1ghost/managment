@@ -1,9 +1,9 @@
 require('./bootstrap');
 require('./template');
-require('./dashboard');
 require('./off-canvas');
 require('./settings');
 require('./hoverable-collapse');
+require('./clock');
 require('jquery-confirm/dist/jquery-confirm.min');
 require('moment');
 require('daterangepicker');

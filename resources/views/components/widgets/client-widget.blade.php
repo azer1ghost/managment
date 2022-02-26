@@ -1,4 +1,4 @@
-<div class="col-md-4 mb-4">  {{--classin yeirne bunu yazmaq lazimdi  {{$widget->class_attribute}}--}}
+<div class="{{$widget->class_attribute}}">
     <div class="card border-0 widget-container">
         <div class="py-2 px-1">
             <canvas id="{{$widget->key}}" style="width: 100%;"></canvas>
@@ -7,12 +7,12 @@
 </div>
 <script>
     const {{$model}}Data = {
-        labels: ['ksd', 'slkdks', 'msdfks', 'slkdks', 'msdfks', 'slkdks', 'msdfks'],
+        labels: ['{{$results[0]->label}}', '{{$results[1]->label}}'],
         datasets: [
             {
-                label: 'Dataset 1',
-                data: [1, 2, 3, 2, 3, 2, 3],
-                backgroundColor: ['#2a5125', '#7d5451', '#545a45', '#7d5451', '#545a45', '#7d5451', '#545a45'],
+                label: '{{$widget->details}}',
+                data: [{{$results[0]->total}}, {{$results[1]->total}}],
+                backgroundColor: ['#D38583', '#84A7D0'],
             }
         ]
     };

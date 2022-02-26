@@ -1,4 +1,4 @@
-<div class="col-md-4 mb-4">  {{--classin yeirne bunu yazmaq lazimdi  {{$widget->class_attribute}}--}}
+<div class="{{$widget->class_attribute}}">
     <div class="card  ">
         <div class="py-2 px-1">
             <canvas id="{{$widget->key}}"></canvas>
@@ -11,10 +11,10 @@
     let {{$model}}MyChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['@lang('translates.bonus.effective')', '@lang('translates.bonus.ineffective')'],
+            labels: ['{{$results[0]->label}}', '{{$results[1]->label}}'],
             datasets: [{
-                label: '# of Votes',
-                data: [12, 19],
+                label: '{{$widget->details}}',
+                data: [{{$results[0]->total}}, {{$results[1]->total}}],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',

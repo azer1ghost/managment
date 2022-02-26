@@ -1,4 +1,4 @@
-<div class="col-md-4 stretch-card grid-margin">
+<div class="{{$widget->class_attribute}} stretch-card grid-margin">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body" style="overflow-y: scroll; min-height: 535px !important;">

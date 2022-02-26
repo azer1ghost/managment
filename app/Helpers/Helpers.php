@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Parameter;
+
 if (! function_exists('image')) {
     function image($url): string
     {
@@ -76,9 +78,9 @@ if(! function_exists('syncResolver')){
         $array = [];
         foreach ($params as $key => $param)
         {
-            if ($key == \App\Models\Parameter::PHONE) {
+            if ($key == Parameter::PHONE) {
                 $array[$key] = [$column => phone_cleaner($param)];
-            } elseif ($key == \App\Models\Parameter::CUSTOMER_ID) {
+            } elseif ($key == Parameter::CUSTOMER_ID) {
                 $array[$key] = [$column => pattern_adder('MBX', $param)];
             } else {
                 $array[$key] = [$column => $param];

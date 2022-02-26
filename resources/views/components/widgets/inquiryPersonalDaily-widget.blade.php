@@ -1,4 +1,4 @@
-<div class="{{$widget->class_attribute}} col-md-6">
+<div class="{{$widget->class_attribute}}">
     <div class="card border-0 widget-container">
         <div class="py-2 px-1">
             <canvas id="{{$widget->key}}" style="width: 100%;{{$widget->style_attribute}}"></canvas>
@@ -8,10 +8,8 @@
 </div>
 
 <script>
-    const {{$model}}Labels = @json(array_keys($results));
-
     const {{$model}}Data = {
-        labels: {{$model}}Labels,
+        labels: @json(array_keys($results)),
         datasets: [
             {
                 label: '{{$widget->details}}',
