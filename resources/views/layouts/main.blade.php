@@ -91,10 +91,7 @@
                 // Tiny MCE
                 tinymce.init({
                     selector: '.tinyMCE',
-                    readonly: {{ str_contains(url()->current(), '/create') ||
-                str_contains(url()->current(), '/edit')
-                    ? '0'
-                    : '1' }},
+                    readonly: 0,
                     height: 500,
                     language: '{{app()->getLocale()}}',
                     plugins: 'autosave paste directionality visualblocks visualchars fullscreen link table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount textpattern noneditable help charmap quickbars emoticons',
