@@ -228,7 +228,7 @@
         </div>
     </form>
 
-    <table class="table @if($works->count()) table-responsive-md @else table-responsive-sm @endif " id="table">
+    <table class="table table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif " id="table">
         <thead>
         <tr class="text-center">
             @if(auth()->user()->hasPermission('canVerify-work'))
