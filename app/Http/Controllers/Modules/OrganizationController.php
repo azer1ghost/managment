@@ -34,7 +34,6 @@ class OrganizationController extends Controller
     public function store(OrganizationRequest $request): RedirectResponse
     {
         $validated = $request->validated();
-        $this->translates($validated);
         $validated['is_certificate'] = $request->has('is_certificate');
 
         $organization = Organization::create($validated);
@@ -66,7 +65,6 @@ class OrganizationController extends Controller
     public function update(OrganizationRequest $request, Organization $organization): RedirectResponse
     {
         $validated = $request->validated();
-        $this->translates($validated);
         $validated['is_certificate'] = $request->has('is_certificate');
 
         $organization->update($validated);

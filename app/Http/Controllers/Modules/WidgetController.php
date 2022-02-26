@@ -42,7 +42,6 @@ class WidgetController extends Controller
     public function store(WidgetRequest $request)
     {
         $validated = $request->validated();
-        $this->translates($validated);
         $validated['status'] = $request->has('status');
 
         $widget = Widget::create($validated);
@@ -75,7 +74,6 @@ class WidgetController extends Controller
     public function update(WidgetRequest $request, Widget $widget)
     {
         $validated = $request->validated();
-        $this->translates($validated);
         $validated['status'] = $request->has('status');
 
         $widget->update($validated);

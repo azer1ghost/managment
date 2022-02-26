@@ -39,7 +39,6 @@ class SalesActivityTypeController extends Controller
         $validated = $request->validated();
 
         $validated['hard_columns'] = implode(",", $request->hard_columns);
-        $this->translates($validated);
 
         $sales_activity_type = SalesActivityType::create($validated);
 
@@ -72,7 +71,6 @@ class SalesActivityTypeController extends Controller
     {
         $validated = $request->validated();
         $validated['hard_columns'] = implode(",", $request->hard_columns);
-        $this->translates($validated);
 
         $sales_activities_type->update($validated);
 
