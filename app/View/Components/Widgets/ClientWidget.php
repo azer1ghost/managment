@@ -22,7 +22,7 @@ class ClientWidget extends Component
 
         $clients = clone Client::query()->whereNull('client_id');
 
-        $this->results = \Cache::remember("{$this->widget->getAttribute('keey')}_widget", 7200, function () use ($clients){
+        $this->results = \Cache::remember("{$this->widget->getAttribute('key')}_widget", 7200, function () use ($clients){
            return [
                (object) [
                    'label' => __('translates.clients_type')[0],

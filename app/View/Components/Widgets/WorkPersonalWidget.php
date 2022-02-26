@@ -4,6 +4,7 @@ namespace App\View\Components\Widgets;
 
 use App\Models\Work;
 use App\Traits\GetClassInfo;
+use Cache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\Component;
 
@@ -13,28 +14,38 @@ class WorkPersonalWidget extends Component
 
     public ?Model $widget;
     public ?string $model = null;
-    public $works;
+    public array $results = [];
 
     public function __construct($widget)
     {
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
 
-        $this->works = Work::select(['id', 'datetime', 'user_id', 'verified_at'])
-            ->where('user_id', auth()->id())
-            ->whereDate('datetime', '>=', now()->startOfMonth())
-            ->orderBy('datetime')
-            ->worksDone()
-            ->get()
-            ->groupBy(function($work) {
-                return $work->datetime->format('d');
-            })->map(function ($works, $day){
-                return [
-                    'day' => $day,
-                    'total' => $works->count(),
-                    'verified' => $works->where('verified_at', '!=', NULL)->count(),
-                ];
-            })->values();
+        if (Cache::has("{$this->widget->getAttribute('key')}_widget")) {
+            $this->results = Cache::get("{$this->widget->getAttribute('key')}_widget");
+        } else {
+            $data = [];
+
+            $works = auth()->user()
+                ->works()
+                ->select(['id', 'datetime', 'user_id'])
+                ->whereDate('datetime', '>=', now()->startOfMonth())
+                ->orderBy('datetime')
+                ->worksDone()
+                ->get()
+                ->groupBy(function($work) {
+                    return $work->datetime->format('d');
+                });
+
+            $works->each(function ($works) use (&$data){
+                $data[] = $works->count();
+            });
+
+            $this->results['keys'] = $works->keys()->toArray();
+            $this->results['data'] = $data;
+
+            Cache::put("{$this->widget->getAttribute('key')}_widget", $this->results, 7200);
+        }
     }
 
     public function render()

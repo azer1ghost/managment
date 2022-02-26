@@ -37,6 +37,7 @@ class WorkFactory extends Factory
             'service_id' => Service::inRandomOrder()->pluck('id')->first(),
             'client_id' => Client::inRandomOrder()->pluck('id')->first(),
             'asan_imza_id' => AsanImza::inRandomOrder()->pluck('id')->first(),
+            'datetime' => now()
         ];
     }
 }

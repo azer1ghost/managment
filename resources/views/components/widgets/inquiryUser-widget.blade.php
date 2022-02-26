@@ -1,9 +1,9 @@
-<div class="col-md-4 stretch-card grid-margin">
+<div class="{{$widget->class_attribute}} stretch-card grid-margin">
 {{--    <div class="row">--}}
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body" style="overflow-y: scroll; min-height: 535px !important;">
-                    <p class="card-title">Charts</p>
+                    <p class="card-title">User inquiries</p>
                     <div class="charts-data">
                        @foreach($users as $user)
 
@@ -17,7 +17,6 @@
                                 </div>
                             </div>
                         @endforeach
-
                     </div>
                 </div>
             </div>

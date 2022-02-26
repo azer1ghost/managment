@@ -1,4 +1,4 @@
-<div class="col-md-4 mb-4">  {{--classin yeirne bunu yazmaq lazimdi  {{$widget->class_attribute}}--}}
+<div class="{{$widget->class_attribute}}">
     <div class="card  ">
         <div class="py-2 px-1">
             <canvas id="{{$widget->key}}"></canvas>

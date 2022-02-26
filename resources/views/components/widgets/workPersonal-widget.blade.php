@@ -5,27 +5,19 @@
                 <p class="card-title">{{$widget->details}}</p>
                 <a href="#" class="text-info">View all</a>
             </div>
-            <p class="font-weight-500">The total number of sessions within the date range. It is the period time a user
-                is actively engaged with your website, page or app, etc</p>
+            <p class="font-weight-500"></p>
             <div></div>
             <canvas id="{{$widget->key}}"></canvas>
         </div>
     </div>
 </div>
 <script>
-    const {{$model}}Labels = ['day1', 'day2', 'day3'];
     const {{$model}}Data = {
-        labels: {{$model}}Labels,
+        labels: @json($results['keys']),
         datasets: [
             {
-                label: 'Verified',
-                data: [11, 16, 12],
-                borderColor: '#2d66f6',
-                backgroundColor: '#53c477',
-            },
-            {
                 label: 'Total',
-                data: [18, 27, 32],
+                data: @json($results['data']),
                 borderColor: '#537bc4',
                 backgroundColor: '#537bc4',
             }
