@@ -495,7 +495,9 @@ return [
         'select_client' => 'Select Client',
         'select_date' => 'Select Date',
         'all' => 'All',
-        'client_data' => 'Client Information'
+        'client_data' => 'Client Information',
+        'currency_value' => 'Currency Value',
+        'symbol' => 'Symbol'
     ],
 
     'clients' => [
