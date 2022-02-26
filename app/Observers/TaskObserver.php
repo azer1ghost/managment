@@ -73,9 +73,9 @@ class TaskObserver
             }
         }
 
-        if($task->isDirty('taskable_type') || $task->isDirty('taskable_id')) {
-            $task->setAttribute('status', Task::TO_DO);
-            event(new TaskCreated($task));
-        }
+//        if($task->isDirty('taskable_type') || $task->isDirty('taskable_id')) {
+//            $task->setAttribute('status', Task::TO_DO);
+//            event(new TaskCreated($task));
+//        }
     }
 }

@@ -15,5 +15,5 @@ function checkTime(i) {
 }
 
 if (document.getElementById('dashboard-clock')) {
-    setInterval(startTime, 1000);
+    setInterval(startTime, 60000); // only need to update minutes
 }
