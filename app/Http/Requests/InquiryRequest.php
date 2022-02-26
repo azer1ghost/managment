@@ -22,7 +22,7 @@ class InquiryRequest extends FormRequest
             'subject'   => "filled|int|max:255",
             'kind'      => "filled|int|max:255",
             'source'    => "filled|int|max:255",
-            'note'      => "nullable|string|max:255",
+            'note'      => "nullable|string|max:5000",
             'redirected'=> "nullable|string|max:255",
             'status'    => "filled|int",
             'company_id'=> "required|int|max:11",

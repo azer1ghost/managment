@@ -9,7 +9,7 @@ use Illuminate\Queue\SerializesModels;
 
 class WorkCreated
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, SerializesModels;
     public User $creator;
     public array $receivers = [];
     public string $title, $body = '', $url;
