@@ -1,4 +1,4 @@
-<div class="{{$widget->class_attribute}} grid-margin stretch-card">
+<div class="col-12 mb-3 grid-margin stretch-card">
     <div class="card position-relative">
         <div class="card-body">
             <div id="detailedReports" class="carousel slide detailed-report-carousel position-static pt-2" data-ride="carousel">
