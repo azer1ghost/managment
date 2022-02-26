@@ -73,6 +73,26 @@
                     </div>
                 @endforeach
             </div>
+            <div class="card">
+                <table class="table text-center">
+                    <thead>
+                        <tr>
+                            <th>@lang('translates.general.currency')</th>
+                            <th>@lang('translates.general.currency_value')</th>
+                            <th>@lang('translates.general.symbol')</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($currencies as $currency => $value)
+                            <tr>
+                                <td><i class="far fa-{{$value['flag']}}-sign "></i> {{$currency}}</td>
+                                <td>{{$value['value']}}</td>
+                                <td>AZN</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

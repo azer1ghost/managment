@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Modules;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\SalesClientRequest;
-use App\Models\SalesClient;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\SalesClient;
+use App\Models\Client;
+use App\Models\User;
 
 class SalesClientController extends Controller
 {
@@ -19,20 +20,34 @@ class SalesClientController extends Controller
 
     public function search(Request $request)
     {
-        $clients = SalesClient::where('name', 'LIKE', "%{$request->get('search')}%")
+        $salesclients = SalesClient::where('name', 'LIKE', "%{$request->get('search')}%")
             ->orWhere('voen', 'LIKE', "%{$request->get('search')}%")
             ->limit(10)
             ->latest()
             ->get(['id', 'name', 'voen']);
 
+//
+//        $clients = Client::where('fullname', 'LIKE', "%{$request->get('search')}%")
+//            ->orWhere('voen', 'LIKE', "%{$request->get('search')}%")
+//            ->limit(10)
+//            ->latest()
+//            ->get(['id', 'fullname', 'voen']);
+
         $clientsArray = [];
 
-        foreach ($clients as $client) {
+        foreach ($salesclients as $client) {
             $clientsArray[] = [
-                "id"   => $client->id,
+                "id" => $client->id,
                 "text" => "{$client->name_with_voen}",
             ];
         }
+//
+//        foreach ($clients as $client) {
+//            $clientsArray[] = [
+//                "id"   => $client->id,
+//                "text" => "{$client->fullname_with_voen}",
+//            ];
+//        }
 
         return (object) [
             'results' => $clientsArray,

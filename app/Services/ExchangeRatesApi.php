@@ -16,7 +16,7 @@ class ExchangeRatesApi
 
     public function convert($from, $to = 'AZN', $value = 1): float
     {
-        $data = Cache::remember('exchange_rates', 43200, function (){
+        $data = Cache::remember('exchange_rates', 3600, function (){
             $XmlResponse = Http::get($this->apiUrl)->body();
             $xmlToObject = json_encode(simplexml_load_string($XmlResponse, 'SimpleXMLElement', LIBXML_NOCDATA));
 

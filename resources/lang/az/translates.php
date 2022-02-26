@@ -499,6 +499,8 @@ return [
         'physical_client_position' => 'Hüquqi Müştərinin İşcilerinin Vəzifəsi',
         'all' => 'Hamısı',
         'client_data' => 'Müştəri Məlumatları',
+        'currency_value' => 'Valyuta Miqdarı',
+        'symbol' => 'Simvol'
     ],
 
     'clients' => [
