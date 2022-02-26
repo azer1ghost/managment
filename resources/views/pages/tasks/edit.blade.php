@@ -24,9 +24,7 @@
         <x-documents :documents="$data->documents"/>
         <x-document-upload :id="$data->id" model="Task"/>
 
-        @switch(optional($data)->getRelationValue('taskable')->getTable())
-            <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result" status="enable"/>
-        @endswitch
+        <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result" status="enable"/>
     @endif
 
     @if($method != 'POST')

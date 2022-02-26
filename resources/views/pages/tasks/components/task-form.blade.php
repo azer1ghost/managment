@@ -26,7 +26,7 @@
     @endif
 
     @if (!is_null($task))
-        <x-input::text readonly :value="optional($task)->getRelationValue('user')->getAttribute('fullname_with_position')"  :label="trans('translates.columns.created_by')" width="6" />
+        <x-input::text readonly name="by_user" :value="optional($task)->getRelationValue('user')->getAttribute('fullname_with_position')"  :label="trans('translates.columns.created_by')" width="6" />
     @endif
     <x-input::text wire:ignore name="name" required :value="request()->get('name') ?? optional($task)->getAttribute('name') ?? old('name')"  :label="__('translates.tasks.label.name')"   width="6" class="pr-3" />
 
