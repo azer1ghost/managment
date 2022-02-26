@@ -11,7 +11,7 @@
             @lang('translates.navbar.sales_activities')
         </x-bread-crumb-link>
     </x-bread-crumb>
-    <form action="{{route('sales-activities.index')}}">
+    <form action="{{route('sales-activities.index')}}" class="filterForm">
         <div class="row d-flex justify-content-between mb-2">
             <div class="col-8 col-md-3  mb-3">
                 <select name="limit" class="custom-select">
@@ -144,7 +144,7 @@
 @endsection
 @section('scripts')
     <script>
-        $('select').change(function () {
+        $('form.filterForm select').change(function () {
             this.form.submit();
         });
     </script>
