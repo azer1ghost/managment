@@ -74,13 +74,11 @@
     <!-- Scripts -->
     <script src="{{ mix('assets/js/app.js') }}" ></script>
 
-
     @livewireScripts
 
     <!-- Alpine js and Spruce state management for it -->
     <script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/spruce@2.x.x/dist/spruce.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>
-    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
     @stack('scripts')
     @yield('scripts')

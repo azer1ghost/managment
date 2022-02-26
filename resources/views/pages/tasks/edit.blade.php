@@ -25,28 +25,7 @@
         <x-document-upload :id="$data->id" model="Task"/>
 
         @switch(optional($data)->getRelationValue('taskable')->getTable())
-            @case('users')
-                @if(auth()->id() == optional($data)->getRelationValue('taskable')->id)
-                    <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result" status="enable"/>
-                @else
-                    <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result" status="disable"/>
-                @endif
-
-                @break
-
-            @case('departments')
-                @php
-                    $departmentUsers = optional($data)->getRelationValue('taskable')->users()->isActive()->pluck('id')->toArray();
-                @endphp
-                @if(in_array(auth()->id(), $departmentUsers))
-                    <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result" status="enable"/>
-                @else
-                    <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result" status="disable"/>
-                @endif
-
-                @break
-
-            @default
+            <x-resultable  :id="$data->id" model="Task" :result="optional($data)->result" status="enable"/>
         @endswitch
     @endif
 
