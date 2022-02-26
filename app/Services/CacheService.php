@@ -109,34 +109,34 @@ class CacheService
 
         $statistics = [
             'users' => [
-                'title' => __('translates.widgets.number_of_users'),
+                'title' => trans('translates.widgets.number_of_users', 'az'),
                 'color' => 'tale',
-                'data' => $getData($users->count(), $users->isActive()->count(), __('translates.users.statuses.active'), 'users'),
+                'data' => $getData($users->count(), $users->isActive()->count(), trans('translates.users.statuses.active','az'), 'users'),
                 'class' => 'mb-4'
             ],
             'works' => [
-                'title' => __('translates.widgets.number_of_works'),
+                'title' => trans('translates.widgets.number_of_works', 'az'),
                 'color' => 'dark-blue',
-                'data' => $getData($works->count(), $works->isVerified()->count(), __('translates.columns.verified'), 'works'),
+                'data' => $getData($works->count(), $works->isVerified()->count(), trans('translates.columns.verified','az'), 'works'),
                 'class' => 'mb-4'
             ],
             'inquiries' => [
-                'title' => __('translates.widgets.number_of_inquiries'),
+                'title' => trans('translates.widgets.number_of_inquiries', 'az'),
                 'color' => 'light-blue',
                 'data' => $getData(
                     $inquiries->count(),
                     $inquiries
                         ->whereHas('options', fn($q) => $q->whereId(Inquiry::ACTIVE))
                         ->count(),
-                    __('translates.users.statuses.active'),
+                    trans('translates.users.statuses.active', 'az'),
                     'inquiries'
                 ),
                 'class' => 'mb-4'
             ],
             'tasks' => [
-                'title' => __('translates.widgets.number_of_tasks'),
+                'title' => trans('translates.widgets.number_of_tasks', 'az'),
                 'color' => 'light-danger',
-                'data' => $getData($tasks->count(), $tasks->newTasks()->count(), __('translates.tasks.list.to_do'), 'tasks'),
+                'data' => $getData($tasks->count(), $tasks->newTasks()->count(), trans('translates.tasks.list.to_do', 'az'), 'tasks'),
                 'class' => ''
             ],
         ];
