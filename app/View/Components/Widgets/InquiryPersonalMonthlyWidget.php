@@ -21,7 +21,7 @@ class InquiryPersonalMonthlyWidget extends Component
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
 
-        $this->results = \Cache::remember("{$this->widget->getAttribute('key')}_widget", 7200, function () {
+        $this->results = \Cache::remember("{$this->widget->getAttribute('key')}_widget", 900, function () {
             $data = Inquiry::isReal()->select('id', 'datetime')
                 ->where('user_id', auth()->id())
                 ->where('datetime', '>=', Carbon::now()->subWeek())
