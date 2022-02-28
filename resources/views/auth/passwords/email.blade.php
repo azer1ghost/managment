@@ -22,7 +22,7 @@
                             <div class="brand-wrapper">
                                 <img src="{{asset('assets/images/logos/group.png')}}" alt="logo" class="logo">
                             </div>
-                            <div class="card-header">{{ __('Reset Password') }}</div>
+                            <div class="card-header">Şifrəmi Yenilə</div>
 
                             <div class="card-body">
                                 @if (session('status'))
@@ -34,7 +34,7 @@
                                 <form method="POST" action="{{ route('password.email') }}">
                                     @csrf
                                     <div class="form-group">
-                                        <label for="email">{{ __('E-Mail Address') }}</label>
+                                        <label for="email">E-Mail Adresi</label>
                                         <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                                         @error('email')
                                             <span class="invalid-feedback" role="alert">
@@ -43,7 +43,7 @@
                                         @enderror
                                     </div>
                                     <button type="submit" class="btn btn-primary">
-                                        {{ __('Send Password Reset Link') }}
+                                        Şifrə Yeniləmə Linki Göndər
                                     </button>
                                 </form>
                             </div>
