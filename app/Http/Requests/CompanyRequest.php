@@ -34,7 +34,7 @@ class CompanyRequest extends FormRequest
             'call_center' => 'required|string|max:255',
             'intercity_phone' => 'required|string|max:255',
             'address'   => 'required|string|max:255',
-            'about'     => 'required|string|max:500',
+//            'about'     => 'required|string|max:500',
             'keywords' => 'required|string|max:255',
             'is_inquirable' => 'nullable',
             'socials'   => 'nullable|array',
