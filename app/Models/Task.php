@@ -80,7 +80,8 @@ class Task extends Model implements DocumentableInterface, Recordable
     {
         return $query
             ->orWhere('taskable_type', Department::class)
-            ->where('taskable_id', auth()->user()->getAttribute('department_id'));
+            ->where('taskable_id', auth()->user()->getAttribute('department_id'))
+            ->whereNotIn('status', [self::REDIRECTED, self::DONE]);
     }
 
     public function taskable(): MorphTo
