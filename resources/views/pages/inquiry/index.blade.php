@@ -248,7 +248,7 @@
                                                 @continue
                                             @endif
                                             <option
-                                                    @if ($status->getAttribute('id') == $status->getAttribute('id')) selected @endif
+                                                    @if ($status->getAttribute('id') ==  optional($inquiry->getParameter('status'))->getAttribute('id')) selected @endif
                                                     value="{{$status->getAttribute('id')}}">
                                                 {{$status->getAttribute('text')}}
                                             </option>
