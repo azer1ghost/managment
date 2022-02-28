@@ -118,7 +118,7 @@
                 <x-form-input type="email" name="email_coop" placeholder="Cooperative Email" />
             </x-form-group>
             <x-form-group  class="pr-3 col-12 col-lg-6">
-                <x-form-input type="email" name="email_coop" placeholder="Personal Email"  required=""/>
+                <x-form-input type="email" name="email" placeholder="Personal Email"  required=""/>
             </x-form-group>
             <!-- Address -->
             <div class="col-md-12 px-0">
