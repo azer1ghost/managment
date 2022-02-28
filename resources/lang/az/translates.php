@@ -236,7 +236,7 @@ return [
     'login' => [
         'login' => 'Hesabınıza daxil olun',
         'remember' => 'Yadda saxla',
-        'forgot_pwd' => 'Şifrəni unutmusan?',
+        'forgot_pwd' => 'Şifrəmi Bərpa et',
         'no_account' => 'Hesabınız yoxdur?',
         'register_here' => 'Burada qeydiyyatdan keçin'
     ],

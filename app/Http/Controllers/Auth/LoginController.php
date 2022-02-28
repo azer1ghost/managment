@@ -18,6 +18,7 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except(['logout', 'phoneUpdate']);
+        app()->setLocale('az');
     }
 
     protected function authenticated(Request $request, $user)

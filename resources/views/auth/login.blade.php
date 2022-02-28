@@ -52,7 +52,7 @@
                         </form>
                         @if (Route::has('password.request'))
                             <a class="forgot-password-link" href="{{ route('password.request') }}">
-                                @lang('translates.login.forgot_pwd')
+                                <button class="btn btn-block login-btn mb-4" type="button">@lang('translates.login.forgot_pwd')</button>
                             </a>
                         @endif
                         <p class="login-card-footer-text">@lang('translates.login.no_account') <a href="{{route('register')}}" class="text-reset">@lang('translates.login.register_here')</a></p>
