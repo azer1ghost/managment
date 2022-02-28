@@ -137,7 +137,7 @@ class PlatformController extends Controller
 
         return view('pages.main.dashboard', [
             'widgets'    => Widget::isActive()->oldest('order')->get(),
-            'tasksCount' => auth()->user()->tasks()->newTasks()->count(),
+            'tasksCount' => auth()->user()->tasks()->newTasks()->departmentNewTasks()->count(),
             'statistics' => $this->cacheService->getData('statistics') ?? [],
             'weather' => $this->cacheService->getData('open_weather'),
             'currencies' => $currencies,

@@ -121,11 +121,6 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
         return $this->hasMany(Work::class);
     }
 
-    public function task(): HasMany
-    {
-        return $this->hasMany(Task::class);
-    }
-
     public function salesClients(): BelongsToMany
     {
         return $this->belongsToMany(Client::class, 'sales_clients_relationship');

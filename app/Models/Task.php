@@ -73,7 +73,14 @@ class Task extends Model implements DocumentableInterface, Recordable
 
     public function scopeNewTasks($query)
     {
-        return $query->whereStatus(Task::TO_DO);
+        return $query->whereNotIn('status', [self::REDIRECTED, self::DONE]);
+    }
+
+    public function scopeDepartmentNewTasks($query)
+    {
+        return $query
+            ->orWhere('taskable_type', Department::class)
+            ->where('taskable_id', auth()->user()->getAttribute('department_id'));
     }
 
     public function taskable(): MorphTo

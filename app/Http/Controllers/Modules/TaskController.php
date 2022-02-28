@@ -43,7 +43,7 @@ class TaskController extends Controller
             $filters['user_id'] = $request->get('user_id');
         }
 
-        $usersQuery = User::has('task')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id']);
+        $usersQuery = User::has('definedTasks')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id']);
         $users = Task::userCannotViewAll()  ?
             $usersQuery->where('department_id', $user->getAttribute('department_id'))->get() :
             $usersQuery->get();
