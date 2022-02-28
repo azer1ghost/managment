@@ -24,7 +24,7 @@ class InquiryPersonalMonthlyWidget extends Component
         $this->results = \Cache::remember("{$this->widget->getAttribute('key')}_widget", 900, function () {
             $data = Inquiry::isReal()->select('id', 'datetime')
                 ->where('user_id', auth()->id())
-                ->where('datetime', '>=', Carbon::now()->subWeek())
+                ->where('datetime', '>=', Carbon::now()->startOfMonth())
                 ->get()
                 ->groupBy(function ($date) {
                     return Carbon::parse($date->datetime)->format('d-m');

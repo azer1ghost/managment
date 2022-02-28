@@ -10,7 +10,7 @@
         labels: @json(array_keys($results)),
         datasets: [
             {
-                label: 'Say',
+                label: '{{$widget->details}}',
                 data: @json(array_values($results)),
                 borderColor: '#2262D9',
                 backgroundColor: '#2262D9',
