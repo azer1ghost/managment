@@ -166,6 +166,8 @@
                             <td>
                                 @if ($task->status == $task::TO_DO)
                                     @lang('translates.tasks.not_started')
+                                @elseif ($task->status == $task::REDIRECTED)
+                                    @lang('translates.fields.status.options.redirected')
                                 @elseif ($task->status != 'done' && ($task->all_tasks_count == 0 || $task->done_tasks_count == 0))
                                     @lang('translates.tasks.is_executing')
                                 @elseif ($task->status == 'done')
@@ -181,6 +183,10 @@
                             <td>
                                 <div class="btn-sm-group">
                                     @can('view', $task)
+                                        <a  data-tasks='@json($task)' data-toggle="modal" data-target="#exampleModal" class="btn btn-sm btn-outline-primary task-redirect-btn">
+                                            <i class="fal fa-paper-plane"></i>
+                                        </a>
+                                    @endcan @can('view', $task)
                                         <a href="{{route('tasks.show', $task)}}" class="btn btn-sm btn-outline-primary">
                                             <i class="fal fa-eye"></i>
                                         </a>
@@ -210,6 +216,7 @@
                     </tbody>
                 </table>
             </div>
+
             <div class="col-12">
                 <div class="float-right">
                     {{$tasks->appends(request()->input())->links()}}
@@ -217,8 +224,55 @@
             </div>
         </div>
     </form>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tapşırığı yönləndir</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{route('task.redirect', 'task_id')}}" method="POST" id="taskRedirect">
+                    <div class="modal-body">
+                        <h3 id="redirect-task-name"></h3>
+                            @csrf
+                            <div class="form-group col-md-12">
+                                <label>{{trans('translates.fields.department')}}</label>
+                                <select class="form-control @error('department') is-invalid @enderror" name="department_id">
+                                    <option value="null" disabled selected>{{trans('translates.fields.department')}} {{trans('translates.placeholders.choose')}}</option>
+                                    @foreach($departments as $depart)
+                                        <option value="{{ $depart->getAttribute('id') }}">{{ $depart->getAttribute('name') }}</option>
+                                    @endforeach
+                                </select>
+                                @error('department')
+                                    <span class="invalid-feedback" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Yönləndir</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('scripts')
+    <script>
+        $('.task-redirect-btn').on('click', function (e){
+            let tasks = $(this).data('tasks')
+console.log(tasks)
+            let formAction = $('#taskRedirect').attr('action')
+            $('#taskRedirect').attr('action', formAction.replace('task_id', tasks.id))
+
+            $('#redirect-task-name').html(tasks.name)
+
+        })
+    </script>
     <script>
         $('select[name="type"]').change(function () {
             this.form.submit();

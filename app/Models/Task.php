@@ -43,6 +43,7 @@ class Task extends Model implements DocumentableInterface, Recordable
     public const TO_DO = 'to_do';
     public const IN_PROGRESS = 'in_progress';
     public const DONE = 'done';
+    public const REDIRECTED = 'redirected';
 
     protected $casts = ['must_start_at' => 'datetime', 'must_end_at' => 'datetime', 'done_at' => 'datetime'];
 

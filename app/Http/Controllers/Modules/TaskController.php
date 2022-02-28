@@ -246,4 +246,22 @@ class TaskController extends Controller
 
         return response()->setStatusCode('204');
     }
+
+    public function redirect(Task $task)
+    {
+
+        $newTask = $task->replicate();
+        $newTask->setAttribute('taskable_id', request('department_id'));
+        $newTask->setAttribute('taskable_type', Department::class);
+        $newTask->setAttribute('user_id', auth()->id());
+        $newTask->save();
+
+        event(new TaskCreated($newTask));
+
+        $task->setAttribute('status', Task::REDIRECTED)->save();
+
+        return redirect()
+            ->route('tasks.show', $newTask)
+            ->withNotify('success', __('translates.tasks.created', ['name' => $newTask->getAttribute('name')]), true);
+    }
 }

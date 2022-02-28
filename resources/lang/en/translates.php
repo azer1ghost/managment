@@ -129,7 +129,8 @@ return [
             'options' => [
                 'to_do' => 'To do',
                 'in_progress' => 'In progress',
-                'done' => 'Done'
+                'done' => 'Done',
+                'redirected' => 'Redirected',
             ]
         ]
     ],

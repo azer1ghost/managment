@@ -131,7 +131,8 @@ return [
             'options' => [
                 'to_do' => 'Ediləcək',
                 'in_progress' => 'İcra olunur',
-                'done' => 'Bitmiş'
+                'done' => 'Bitmiş',
+                'redirected' => 'Yönləndirilib',
             ]
         ]
     ],

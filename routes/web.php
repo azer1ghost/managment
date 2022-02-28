@@ -108,6 +108,9 @@ Route::group([
     Route::resource('/task-lists', TaskListController::class)->only('store', 'update', 'destroy');
     Route::resource('/notifications', DatabaseNotificationController::class);
 
+
+    Route::post('/tasks/redirect/{task}', [TaskController::class, 'redirect'])->name('task.redirect');
+
     Route::post('/clients/sum/assign-sales', [ClientController::class, 'sumAssignSales'])->name('clients.sum.assign-sales');
     Route::get('/clients/export', [ClientController::class, 'export'])->name('clients.export');
     Route::any('/clients/search', [ClientController::class, 'search'])->name('clients.search');
