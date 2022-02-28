@@ -39,6 +39,13 @@
         <div class="col-md-6 grid-margin stretch-card">
             <div class="card tale-bg">
                 <img style="border-radius: 20px" src="{{asset('https://static.vecteezy.com/system/resources/previews/002/406/571/original/business-meeting-and-teamwork-concept-illustration-of-people-characters-in-flat-design-vector.jpg')}}" alt="people">
+                <div style="position: absolute">
+                    @foreach($currencies as $currency => $value)
+                        <ul class="list-group">
+                            <li class="list-group-item border-0 bg-transparent"><i class="far fa-{{$value['flag']}}-sign "></i> {{$currency}} {{$value['value']}} AZN</li>
+                        </ul>
+                    @endforeach
+                </div>
                 @if($weather)
                     <div class="weather-info">
                         <div class="d-flex align-items-center">
@@ -74,26 +81,6 @@
                         </div>
                     </div>
                 @endforeach
-            </div>
-            <div class="card">
-                <table class="table text-center">
-                    <thead>
-                        <tr>
-                            <th>@lang('translates.general.currency')</th>
-                            <th>@lang('translates.general.currency_value')</th>
-                            <th>@lang('translates.general.symbol')</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($currencies as $currency => $value)
-                            <tr>
-                                <td><i class="far fa-{{$value['flag']}}-sign "></i> {{$currency}}</td>
-                                <td>{{$value['value']}}</td>
-                                <td>AZN</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>

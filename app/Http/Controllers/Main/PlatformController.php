@@ -128,7 +128,11 @@ class PlatformController extends Controller
             'TRY' => [
                 'flag' => 'lira',
                 'value' => 0,
-            ]
+            ],
+            'RUB' => [
+                'flag' => 'ruble',
+                'value' => 0,
+            ],
         ];
 
         foreach ($currencies as $currency => $value) {
