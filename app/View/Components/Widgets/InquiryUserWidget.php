@@ -16,7 +16,6 @@ class InquiryUserWidget extends Component
     public ?Model $widget;
     public ?string $model = null;
     public Collection $users;
-    public array $colors;
 
     public function checkUserInquiries($q)
     {
@@ -25,20 +24,6 @@ class InquiryUserWidget extends Component
 
     public function __construct($widget)
     {
-       $this->colors = [
-            'bg-primary',
-            'bg-primary',
-            'bg-success',
-            'bg-success',
-            'bg-danger',
-            'bg-danger',
-            'bg-warning',
-            'bg-warning',
-            'bg-info',
-            'bg-info',
-            'bg-secondary',
-        ];
-
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
 

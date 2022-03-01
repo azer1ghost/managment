@@ -23,7 +23,7 @@
                                                         <td class="text-muted w-50">{{$service->getAttribute('name')}}</td>
                                                         <td class="w-100 px-0">
                                                             <div class="progress progress-md mx-4">
-                                                                <div class="progress-bar {{$colors[$loop->iteration]}}" role="progressbar" style="width: {{$service->getAttribute('works_count') / \App\Models\Work::count() * 100}}%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                <div class="progress-bar" role="progressbar" style="width: {{$service->getAttribute('works_count') / \App\Models\Work::count() * 100}}%;background-color: {{rand_color()}}!important;"></div>
                                                             </div>
                                                         </td>
                                                         <td><h5 class="font-weight-bold mb-0">{{$service->getAttribute('works_count')}}</h5></td>

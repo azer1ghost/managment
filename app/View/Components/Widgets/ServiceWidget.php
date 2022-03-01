@@ -17,7 +17,6 @@ class ServiceWidget extends Component
     public ?Model $widget;
     public ?string $model = null;
     public $services;
-    public  array $colors;
     public ?Collection $works;
     public int $total;
 
@@ -26,28 +25,12 @@ class ServiceWidget extends Component
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
 
-        $this->colors = [
-            'bg-primary',
-            'bg-primary',
-            'bg-success',
-            'bg-success',
-            'bg-danger',
-            'bg-danger',
-            'bg-warning',
-            'bg-warning',
-            'bg-info',
-            'bg-info',
-            'bg-secondary',
-        ];
-
         $serviceQuery = Service::withCount('works')
             ->whereHas('works', function ($q){
                 $q->where('status', '!=', Work::REJECTED);
             })
             ->orderBy('works_count', 'desc')
             ->get();
-
-
 
         $this->works = Department::withCount('works')
             ->whereHas('works', function ($q){
