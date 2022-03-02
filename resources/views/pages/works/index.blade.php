@@ -157,7 +157,7 @@
                                 @endforeach
                             </select>
                         </div>
-{{--                        @if(auth()->user()->getAttribute('department_id') == 1)--}}
+                        @if(auth()->user()->hasPermission('satisfactionMeasure-work'))
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="satisfactionFilter">{{trans('translates.general.satisfaction')}}</label>
                             <select name="satisfaction" id="satisfactionFilter" class="form-control" style="width: 100% !important;">
@@ -170,7 +170,7 @@
                                 @endforeach
                             </select>
                         </div>
-{{--                        @endif--}}
+                        @endif
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="verifiedFilter">@lang('translates.columns.verified')</label>
                             <select name="verified_at" id="verifiedFilter" class="form-control" style="width: 100% !important;">
@@ -243,11 +243,11 @@
     <table class="table table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif " id="table">
         <thead>
         <tr class="text-center">
-            @if(auth()->user()->hasPermission('satisfactionMeasure-work'))
-                <th> </th>
-            @endif
             @if(auth()->user()->hasPermission('canVerify-work'))
                 <th><input type="checkbox" id="works-all"></th>
+            @endif
+            @if(auth()->user()->hasPermission('satisfactionMeasure-work'))
+                <th> </th>
             @endif
             @if(auth()->user()->isDeveloper())
                 <th scope="col">#</th>
@@ -300,7 +300,7 @@
                                         $colors = 'danger';
                                         break;
                                     case(3):
-                                        $colors = 'primary';
+                                        $colors = 'warning';
                                         break;
                                 }
                             @endphp
