@@ -157,7 +157,20 @@
                                 @endforeach
                             </select>
                         </div>
-
+{{--                        @if(auth()->user()->getAttribute('department_id') == 1)--}}
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="satisfactionFilter">{{trans('translates.general.satisfaction')}}</label>
+                            <select name="satisfaction" id="satisfactionFilter" class="form-control" style="width: 100% !important;">
+                                <option value="">@lang('translates.filters.select')</option>
+                                @foreach($satisfactions as $satisfaction)
+                                    <option value="{{$satisfaction}}"
+                                            @if($satisfaction == $filters['satisfaction']) selected @endif>
+                                        @lang('translates.satisfactions.' . $satisfaction)
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+{{--                        @endif--}}
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="verifiedFilter">@lang('translates.columns.verified')</label>
                             <select name="verified_at" id="verifiedFilter" class="form-control" style="width: 100% !important;">
@@ -210,8 +223,7 @@
                         <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('works.export', [
                             'filters' => json_encode($filters),
                             'dateFilters' => json_encode($dateFilters)
-                            ])}}"
-                        >
+                            ])}}">
                             @lang('translates.buttons.export')
                         </a>
                     @endif
@@ -231,6 +243,9 @@
     <table class="table table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif " id="table">
         <thead>
         <tr class="text-center">
+            @if(auth()->user()->hasPermission('satisfactionMeasure-work'))
+                <th> </th>
+            @endif
             @if(auth()->user()->hasPermission('canVerify-work'))
                 <th><input type="checkbox" id="works-all"></th>
             @endif
@@ -273,6 +288,28 @@
                 @elseif(auth()->user()->hasPermission('canVerify-work'))
                     <td></td>
                 @endif
+
+                @if(auth()->user()->hasPermission('satisfactionMeasure-work'))
+                        @if(is_numeric($work->getAttribute('satisfaction')))
+                            @php
+                                switch($work->getAttribute('satisfaction')){
+                                    case(1):
+                                        $colors = 'success';
+                                        break;
+                                    case(2):
+                                        $colors = 'danger';
+                                        break;
+                                    case(3):
+                                        $colors = 'primary';
+                                        break;
+                                }
+                            @endphp
+                        @endif
+                    <th scope="row">
+                        <span class="badge badge-{{$colors}}"><i class="far fa-smile"></i></span>
+                    </th>
+                @endif
+
                 @if(auth()->user()->isDeveloper())
                     <th scope="row">{{$work->getAttribute('code')}}</th>
                 @endif
@@ -312,8 +349,8 @@
                         @endphp
                     @endif
                     <span class="badge badge-{{$color}}" style="font-size: 12px">
-                                    {{trans('translates.work_status.' . $work->getAttribute('status'))}}
-                                </span>
+                         {{trans('translates.work_status.' . $work->getAttribute('status'))}}
+                    </span>
                 </td>
                 @foreach(\App\Models\Service::serviceParameters() as $param)
                     <td>{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
@@ -412,7 +449,7 @@
                 @foreach($totals as $total)
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{$total}}</strong></p></td>
                 @endforeach
-                <td colspan="4"></td>
+                <td colspan="5"></td>
             </tr>
         @endif
         </tbody>

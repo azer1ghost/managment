@@ -204,7 +204,7 @@ return [
         'partners' => 'Partnyorlar',
         'sales' => 'Satış',
         'human_resources' => 'İnsan Resursları',
-        'law' => 'Hüquq'
+        'law' => 'Hüquq',
     ],
 
     'date' => [
@@ -501,7 +501,8 @@ return [
         'all' => 'Hamısı',
         'client_data' => 'Müştəri Məlumatları',
         'currency_value' => 'Valyuta Miqdarı',
-        'symbol' => 'Simvol'
+        'symbol' => 'Simvol',
+        'satisfaction' => 'Məmnuniyət',
     ],
 
     'clients' => [
@@ -524,6 +525,13 @@ return [
         'Tamamlandı',
         'Qəbul edilmyib'
     ],
+
+    'satisfactions' => [
+        1 => 'Məmnun',
+        'Məmnun Deyil',
+        'Bilinmir',
+    ],
+
     'hard_level' => [
         1 => 'Asan',
         'Orta',

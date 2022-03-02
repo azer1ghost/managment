@@ -154,6 +154,23 @@
                     @endswitch
                 @endforeach
 
+                @if(optional($data)->getAttribute('status') == \App\Models\Work::DONE && auth()->user()->hasPermission('satisfactionMeasure-work') )
+
+                    <div class="form-group col-12 col-md-3" wire:ignore>
+                        <label for="data-satisfaction">@lang('translates.general.satisfaction')</label>
+                        <select name="satisfaction" id="data-satisfaction" class="form-control">
+                            <option disabled >@lang('translates.general.satisfaction')</option>
+                            @foreach($satisfactions as $key => $satisfaction)
+                                <option
+                                        @if(optional($data)->getAttribute('satisfaction') === $satisfaction ) selected @endif
+                                        value="{{$satisfaction}}">
+                                    @lang('translates.satisfactions.' . $key)
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
+
                 @if(auth()->user()->hasPermission('canVerify-work') && $method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Work::DONE)
                     <div class="col-12" wire:ignore>
                         <input type="checkbox" id="data-verified" name="verified" @if(!is_null(optional($data)->getAttribute('verified_at'))) checked @endif>

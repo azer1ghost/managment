@@ -202,7 +202,7 @@ return [
         'partners' => 'Partners',
         'sales' => 'Sales',
         'human_resources' => 'Human Resources',
-        'law' => 'Law'
+        'law' => 'Law',
     ],
 
     'date' => [
@@ -498,7 +498,8 @@ return [
         'all' => 'All',
         'client_data' => 'Client Information',
         'currency_value' => 'Currency Value',
-        'symbol' => 'Symbol'
+        'symbol' => 'Symbol',
+        'satisfaction' => 'Satisfaction',
     ],
 
     'clients' => [
@@ -522,6 +523,12 @@ return [
         'Continue',
         'Done',
         'Rejected'
+    ],
+
+    'satisfactions' => [
+        1 => 'Satisfied',
+        'Unsatisfied',
+        'Unknown'
     ],
 
     'hard_level' => [
