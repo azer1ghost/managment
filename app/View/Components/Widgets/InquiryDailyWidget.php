@@ -21,7 +21,7 @@ class InquiryDailyWidget extends Component
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
 
-        $this->results = \Cache::remember("{$this->widget->getAttribute('key')}_widget", 900, function () {
+        $this->results = \Cache::remember("{$this->widget->getAttribute('key')}_widget", 1, function () {
             $data = Inquiry::isReal()->select('id', 'datetime')
                 ->where('datetime', '>=', now()->subWeek())
                 ->get()

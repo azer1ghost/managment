@@ -66,7 +66,7 @@ class SalesClientMonthlyWidget extends Component
             $this->results['data']   = array_values($userData);
             $this->results['labels'] = array_keys($salesClients->toArray());
 
-            Cache::put("{$this->widget->getAttribute('key')}_widget", $this->results, 900);
+            Cache::put("{$this->widget->getAttribute('key')}_widget", $this->results, 1);
         }
 
     }
