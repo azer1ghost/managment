@@ -42,7 +42,7 @@ class Sidebar extends Component
                 'title' => __('translates.navbar.account'),
                 'icon' => 'fas fa-user',
                 'url' => '#',
-                'permission' => 'viewAny-company',
+                'permission' => 'generally',
                 'children' => [
                     (object)[
                         'title' => __('translates.navbar.signature'),
