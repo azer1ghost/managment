@@ -58,7 +58,7 @@
         var chart = new CanvasJS.Chart("{{$widget->key}}", {
             animationEnabled: true,
             title: {
-                text: '@lang('translates.navbar.services')',
+                {{--text: '@lang('translates.navbar.services')',--}}
                 horizontalAlign: "left"
             },
 
@@ -66,8 +66,8 @@
                 type: "doughnut",
                 startAngle: 20,
 
-                showInLegend: "true",
-                legendText: "{label}",
+                // showInLegend: "true",
+                // legendText: "{label}",
 
                 indexLabelFontSize: 12,
                 indexLabel: "{label} - #percent%",
