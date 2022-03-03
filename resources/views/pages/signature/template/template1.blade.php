@@ -45,10 +45,10 @@
                         <tbody>
                         <tr>
                             <th>
-                                <img style="width: 1.3cm; margin: 5px"  src="https://mobilmanagement.com/assets/images/signature/socials/fiata.png"/>
+                                <img style="width: 1.3cm; margin: 5px"  src="https://my.mobilgroup.az/assets/images/signature/socials/fiata.png"/>
                             </th>
                             <th>
-                                <img style="width: 1.3cm; margin: 5px"  src="https://mobilmanagement.com/assets/images/signature/socials/iata.png"/>
+                                <img style="width: 1.3cm; margin: 5px"  src="https://my.mobilgroup.az/assets/images/signature/socials/iata.png"/>
                             </th>
                         </tr>
                         </tbody>
@@ -62,7 +62,7 @@
                 @foreach ($company->socials as $social)
                     <th>
                         <a href="{{$social->url}}">
-                            <img class="icons" src="https://mobilmanagement.com/assets/images/signature/socials/{{$social->name}}.png" />
+                            <img class="icons" src="https://my.mobilgroup.az/assets/images/signature/socials/colored/{{$social->name}}.jpg" />
                         </a>
                     </th>
                 @endforeach
