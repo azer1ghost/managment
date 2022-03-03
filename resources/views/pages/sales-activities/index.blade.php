@@ -34,7 +34,7 @@
                 </select>
             </div>
             <div class="col-2">
-                <a class="btn btn-outline-success "  type="submit">@lang('translates.buttons.filter')</a>
+                <button class="btn btn-outline-success" type="submit">@lang('translates.buttons.filter')</button>
             </div>
 
 
