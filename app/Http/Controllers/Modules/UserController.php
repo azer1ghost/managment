@@ -29,6 +29,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
+        $userCount = User::whereNull('disabled_at')->count();
         $search = $request->get('search');
         $limit  = $request->get('limit', 25);
         $company  = $request->get('company');
@@ -73,7 +74,8 @@ class UserController extends Controller
                 'companies' => Company::get(['id', 'name']),
                 'departments' => Department::get(['id', 'name']),
                 'types' => User::types(),
-                'statuses' => User::status()
+                'statuses' => User::status(),
+                'user_count' => $userCount
             ]);
     }
 

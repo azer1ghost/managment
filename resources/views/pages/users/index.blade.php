@@ -71,6 +71,9 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="col-8 pt-2 d-flex align-items-center">
+                        <p class="mb-0"> @lang('translates.total_items', ['count' => $users->count(), 'total' => $user_count])</p>
+                    </div>
                 </div>
                 <table class="table table-responsive-sm table-hover">
                     <thead>
