@@ -62,7 +62,7 @@
                 @foreach ($company->socials as $social)
                     <th>
                         <a href="{{$social->url}}">
-                            <img class="icons" src="https://my.mobilgroup.az/assets/images/signature/socials/colored/{{$social->name}}.jpg" />
+                            <img class="icons" src="https://my.mobilgroup.az/assets/images/signature/socials/{{$social->name}}.jpg" />
                         </a>
                     </th>
                 @endforeach
