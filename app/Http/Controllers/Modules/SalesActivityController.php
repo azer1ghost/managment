@@ -12,6 +12,7 @@ use App\Models\SalesActivitiesSupply;
 use App\Models\SalesActivity;
 use App\Models\SalesActivityType;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SalesActivityController extends Controller
@@ -24,16 +25,26 @@ class SalesActivityController extends Controller
 
     public function index(Request $request)
     {
-        $user_id = $request->get('user');
         $limit = $request->get('limit', 25);
+
+            $user_id = $request->get('user');
+
+        if($request->has('datetime')){
+            $datetime = $request->get('datetime');
+        }else{
+            $datetime = now()->firstOfYear()->format('Y/m/d') . ' - ' . now()->endOfYear()->format('Y/m/d');
+        }
+        [$from, $to] = explode(' - ', $datetime);
 
 
         return view('pages.sales-activities.index')->with([
             'users' => User::has('salesActivityUsers')->get(['id', 'name', 'surname']),
             'sale_activities' => SalesActivity::query()
                 ->when($user_id, fn ($query) => $query->where('user_id', $user_id))
+                ->when($request->has('datetime'), fn($query) => $query->whereBetween('datetime', [Carbon::parse($from)->startOfDay(), Carbon::parse($to)->endOfDay()]))
                 ->latest()->paginate($limit),
             'salesActivitiesTypes' => SalesActivityType::pluck('name', 'id')->prepend(trans('translates.filters.select'), null)->toArray(),
+            'datetime' => $datetime
         ]);
     }
 

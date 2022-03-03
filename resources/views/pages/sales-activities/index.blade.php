@@ -13,13 +13,6 @@
     </x-bread-crumb>
     <form action="{{route('sales-activities.index')}}" class="filterForm">
         <div class="row d-flex justify-content-between mb-2">
-            <div class="col-8 col-md-3  mb-3">
-                <select name="limit" class="custom-select">
-                    @foreach([25, 50, 100] as $size)
-                        <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
-                    @endforeach
-                </select>
-            </div>
             <div class="col-8 col-md-3 mb-3 ">
                 <select name="user" class="custom-select" id="type">
                     <option selected value="">@lang('translates.navbar.user')</option>
@@ -28,6 +21,22 @@
                     @endforeach
                 </select>
             </div>
+
+            <div class="form-group col-12 col-md-3 mb-3">
+                <input type="text" aria-label="datetime" readonly placeholder="@lang('translates.placeholders.range')" name="datetime"
+                value="{{$datetime}}" id="daterange" class="form-control">
+            </div>
+            <div class="col-8 col-md-2  mb-3">
+                <select name="limit" class="custom-select">
+                    @foreach([25, 50, 100] as $size)
+                        <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-2">
+                <a class="btn btn-outline-success "  type="submit">@lang('translates.buttons.filter')</a>
+            </div>
+
 
             @can('create', App\Models\SalesActivity::class)
                 <div class="col-2">
