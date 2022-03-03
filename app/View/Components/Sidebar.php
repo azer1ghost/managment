@@ -87,7 +87,7 @@ class Sidebar extends Component
                 'title' => __('translates.navbar.calendar'),
                 'icon' => 'fal fa-calendar',
                 'url' => route('calendars.index'),
-                'permission' => 'viewAny-calendar',
+                'permission' => 'generally',
             ],
 
             (object)[
