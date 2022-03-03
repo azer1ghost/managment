@@ -38,11 +38,11 @@
     <div class="row">
         <div class="col-md-6 grid-margin stretch-card">
             <div class="card tale-bg">
-                <img style="border-radius: 20px" src="{{asset('https://static.vecteezy.com/system/resources/previews/002/406/571/original/business-meeting-and-teamwork-concept-illustration-of-people-characters-in-flat-design-vector.jpg')}}" alt="people">
-                <div style="position: absolute">
+                <img style="border-radius: 20px" src="{{asset('https://img.freepik.com/free-vector/meeting-office-interior-business-conference-room-with-people-managers-working-team-cartoon-interior_80590-7766.jpg?w=1380')}}" alt="people">
+                <div style="position: absolute; color: #e70d0d; font-weight: bold">
                     @foreach($currencies as $currency => $value)
                         <ul class="list-group">
-                            <li class="list-group-item border-0 bg-transparent"><i class="far fa-{{$value['flag']}}-sign "></i> {{$currency}} {{$value['value']}} AZN</li>
+                            <li class="list-group-item border-0 bg-transparent p-1"><i class="far fa-{{$value['flag']}}-sign "></i> {{$currency}} {{$value['value']}} AZN</li>
                         </ul>
                     @endforeach
                 </div>
@@ -61,7 +61,7 @@
                             </div>
                         </div>
                         <div class="text-right">
-                            <p class="text-capitalize text-muted">{{$weather['description'][app()->getLocale()]}}</p>
+                            <p class="text-capitalize">{{$weather['description'][app()->getLocale()]}}</p>
                         </div>
                     </div>
                 @endif
