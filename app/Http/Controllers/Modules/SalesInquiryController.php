@@ -32,7 +32,7 @@ class SalesInquiryController extends Controller
             'note'       => $request->get('note'),
             'user_id'    => $request->get('user'),
             'is_out'     => $request->get('is_out'),
-            'client'     => $request->get('client'),
+            'client_id'     => $request->get('client_id'),
         ];
 
         $parameterFilters = [
