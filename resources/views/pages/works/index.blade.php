@@ -289,7 +289,7 @@
                     <td></td>
                 @endif
 
-                @if(auth()->user()->hasPermission('satisfactionMeasure-work'))
+                @if(auth()->user()->hasPermission('satisfactionMeasure-work') && $work->isdone())
                         @if(is_numeric($work->getAttribute('satisfaction')))
                             @php
                                 switch($work->getAttribute('satisfaction')){
@@ -305,9 +305,11 @@
                                 }
                             @endphp
                         @endif
-                    <th scope="row">
-                        <span class="badge badge-{{$colors}}"><i class="far fa-smile"></i></span>
-                    </th>
+                    <td>
+                        <span class="badge badge-{{$colors}}"><i class="far fa-smile "></i></span>
+                    </td>
+                    @else
+                    <td></td>
                 @endif
 
                 @if(auth()->user()->isDeveloper())
@@ -405,10 +407,10 @@
                                         <i class="fal fa-eye pr-2 text-primary"></i>@lang('translates.buttons.view')
                                     </a>
                                 @endcan
-                                @if($work->getAttribute('creator_id') == auth()->id() || $work->getAttribute('user_id') == auth()->id() || auth()->user()->isDeveloper())
+                                @if(auth()->user()->hasPermission('update-work') || $work->getAttribute('creator_id') == auth()->id() || $work->getAttribute('user_id') == auth()->id() || auth()->user()->isDeveloper() )
                                     @can('update', $work)
                                         <a href="{{route('works.edit', $work)}}" class="dropdown-item-text text-decoration-none">
-                                            @if($work->getAttribute('creator_id') == auth()->id() || auth()->user()->isDeveloper())
+                                            @if($work->getAttribute('creator_id') == auth()->id() || auth()->user()->isDeveloper() || auth()->user()->hasPermission('update-work'))
                                                 <i class="fal fa-pen pr-2 text-success"></i>@lang('translates.tasks.edit')
                                             @elseif($work->getAttribute('user_id') == auth()->id())
                                                 <i class="fal fa-arrow-right pr-2 text-success"></i>@lang('translates.buttons.execute')
@@ -449,7 +451,7 @@
                 @foreach($totals as $total)
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{$total}}</strong></p></td>
                 @endforeach
-                <td colspan="5"></td>
+                <td colspan="6"></td>
             </tr>
         @endif
         </tbody>
