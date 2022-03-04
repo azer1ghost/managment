@@ -50,14 +50,26 @@
                         <input id="phoneFilter" name="phone" value="{{request()->get('phone')}}" placeholder="@lang('translates.placeholders.phone')" class="form-control"/>
                     </div>
 
+                    <div class="form-group col-12 col-md-3 mb-3">
+                        <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
+                        <select name="client_id" id="clientFilter"
+                                class="custom-select2"
+                                data-url="{{route('sales-client.search')}}"
+                                style="width: 100% !important;">
+                            @if(is_numeric(request()->get('client_id')))
+                                <option value="{{request()->get('client_id')}}">{{\App\Models\SalesClient::find(request()->get('client_id'))->getAttribute('name_with_voen')}}</option>
+                            @endif
+                        </select>
+                    </div>
+
                     <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
                         <label for="qvsFilter">QVS</label>
                         <input id="qvsFilter" name="qvs" value="{{request()->get('qvs')}}" placeholder="Filter by QVS" class="form-control"/>
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mb-0">
+                    <div class="form-group col-12 col-md-2 mb-0">
                         <label class="d-block" for="evaluationFilter">Evaluation</label>
-                        <select id="evaluationFilter" data-selected-text-format="count" class="filterSelector form-control"
+                        <select id="evaluationFilter" data-selected-text-format="count" class="filterSelector"
                                 title="@lang('translates.filters.select')" name="evaluation">
 
                             <option value="">@lang('translates.filters.select')</option>
@@ -71,9 +83,9 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mb-0">
+                    <div class="form-group col-12 col-md-2 mb-0">
                         <label class="d-block" for="subjectFilter">@lang('translates.filters.subject')</label>
-                        <select id="subjectFilter" data-selected-text-format="count" class="filterSelector form-control"
+                        <select id="subjectFilter" data-selected-text-format="count" class="filterSelector"
                                 title="@lang('translates.filters.subject')" name="subject">
 
                             <option value="">@lang('translates.filters.select')</option>
@@ -87,9 +99,9 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mb-0">
+                    <div class="form-group col-12 col-md-2 mb-0">
                         <label class="d-block" for="statusFilter">Status</label>
-                        <select id="statusFilter" data-selected-text-format="count" class="filterSelector form-control"
+                        <select id="statusFilter" data-selected-text-format="count" class="filterSelector"
                                 title="@lang('translates.filters.select')" name="status">
 
                             <option value="">@lang('translates.filters.select')</option>
@@ -100,19 +112,6 @@
                                             {{ucfirst($status->getAttribute('text'))}}
                                 </option>
                             @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group col-12 col-md-3 mb-3">
-                        <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
-                        <select name="client_id" id="clientFilter"
-                                class="custom-select2"
-                                data-url="{{route('sales-client.search')}}"
-                                style="width: 100% !important;"
-                        >
-                            @if(is_numeric(request()->get('client_id')))
-                                <option value="{{request()->get('client_id')}}">{{\App\Models\SalesClient::find(request()->get('client_id'))->getAttribute('name_with_voen')}}</option>
-                            @endif
                         </select>
                     </div>
 
