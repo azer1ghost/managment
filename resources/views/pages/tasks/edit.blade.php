@@ -60,7 +60,7 @@
                                         <input type="hidden" value="{{request()->url()}}" name="url">
                                         <input type="hidden" value="{{$list->name}}" name="name">
                                         @if($data->canManageLists() && $data->getAttribute('status') != 'done' && !$list->parentTask()->exists())
-                                            <input type="checkbox" id="list-check-{{$list->id}}" @if($list->is_checked) checked @endif>
+                                            <input class="todo-list-custom" type="checkbox" id="list-check-{{$list->id}}" @if($list->is_checked) checked @endif>
                                         @endif
                                         <label class="check-label @if($list->is_checked) completed @endif" for="list-check-{{$list->id}}"
                                                data-toggle="tooltip"
@@ -152,7 +152,7 @@
             $(this).prev().prev().val($(this).text())
         });
 
-        $('.form-check-input').change(function (){
+        $('.todo-list-custom').change(function (){
             let checked;
             if ($(this).is(':checked')) {
                 checked = 1;
