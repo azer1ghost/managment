@@ -200,6 +200,12 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
         return $this->getAttribute('role_id') === self::DEVELOPER;
     }
 
+
+    public function isSales(): bool
+    {
+        return $this->getAttribute('department_id') === 7;
+    }
+
     public function isNotDeveloper(): bool
     {
         return !self::isDeveloper();
