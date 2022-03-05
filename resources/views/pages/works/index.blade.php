@@ -157,7 +157,20 @@
                                 @endforeach
                             </select>
                         </div>
-
+                        @if(auth()->user()->hasPermission('satisfactionMeasure-work'))
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="satisfactionFilter">{{trans('translates.general.satisfaction')}}</label>
+                            <select name="satisfaction" id="satisfactionFilter" class="form-control" style="width: 100% !important;">
+                                <option value="">@lang('translates.filters.select')</option>
+                                @foreach($satisfactions as $satisfaction)
+                                    <option value="{{$satisfaction}}"
+                                            @if($satisfaction == $filters['satisfaction']) selected @endif>
+                                        @lang('translates.satisfactions.' . $satisfaction)
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @endif
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="verifiedFilter">@lang('translates.columns.verified')</label>
                             <select name="verified_at" id="verifiedFilter" class="form-control" style="width: 100% !important;">
@@ -210,21 +223,13 @@
                         <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('works.export', [
                             'filters' => json_encode($filters),
                             'dateFilters' => json_encode($dateFilters)
-                            ])}}"
-                        >
+                            ])}}">
                             @lang('translates.buttons.export')
                         </a>
                     @endif
                 </div>
             @endcan
 
-            @if(is_numeric($filters['limit']))
-                <div class="col-12">
-                    <div class="float-right">
-                        {{$works->appends(request()->input())->links()}}
-                    </div>
-                </div>
-            @endif
         </div>
     </form>
 
@@ -233,6 +238,9 @@
         <tr class="text-center">
             @if(auth()->user()->hasPermission('canVerify-work'))
                 <th><input type="checkbox" id="works-all"></th>
+            @endif
+            @if(auth()->user()->hasPermission('satisfactionMeasure-work'))
+                <th> </th>
             @endif
             @if(auth()->user()->isDeveloper())
                 <th scope="col">#</th>
@@ -273,6 +281,30 @@
                 @elseif(auth()->user()->hasPermission('canVerify-work'))
                     <td></td>
                 @endif
+
+                @if(auth()->user()->hasPermission('satisfactionMeasure-work') && $work->isdone())
+                        @if(is_numeric($work->getAttribute('satisfaction')))
+                            @php
+                                switch($work->getAttribute('satisfaction')){
+                                    case(1):
+                                        $colors = 'success';
+                                        break;
+                                    case(2):
+                                        $colors = 'danger';
+                                        break;
+                                    case(3):
+                                        $colors = 'warning';
+                                        break;
+                                }
+                            @endphp
+                        @endif
+                    <td>
+                        <span class="badge badge-{{$colors}}"><i class="far fa-smile fa-2x"></i></span>
+                    </td>
+                    @else
+                    <td></td>
+                @endif
+
                 @if(auth()->user()->isDeveloper())
                     <th scope="row">{{$work->getAttribute('code')}}</th>
                 @endif
@@ -312,8 +344,8 @@
                         @endphp
                     @endif
                     <span class="badge badge-{{$color}}" style="font-size: 12px">
-                                    {{trans('translates.work_status.' . $work->getAttribute('status'))}}
-                                </span>
+                         {{trans('translates.work_status.' . $work->getAttribute('status'))}}
+                    </span>
                 </td>
                 @foreach(\App\Models\Service::serviceParameters() as $param)
                     <td>{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
@@ -368,10 +400,10 @@
                                         <i class="fal fa-eye pr-2 text-primary"></i>@lang('translates.buttons.view')
                                     </a>
                                 @endcan
-                                @if($work->getAttribute('creator_id') == auth()->id() || $work->getAttribute('user_id') == auth()->id() || auth()->user()->isDeveloper())
+                                @if(auth()->user()->hasPermission('update-work') || $work->getAttribute('creator_id') == auth()->id() || $work->getAttribute('user_id') == auth()->id() || auth()->user()->isDeveloper() )
                                     @can('update', $work)
                                         <a href="{{route('works.edit', $work)}}" class="dropdown-item-text text-decoration-none">
-                                            @if($work->getAttribute('creator_id') == auth()->id() || auth()->user()->isDeveloper())
+                                            @if($work->getAttribute('creator_id') == auth()->id() || auth()->user()->isDeveloper() || auth()->user()->hasPermission('update-work'))
                                                 <i class="fal fa-pen pr-2 text-success"></i>@lang('translates.tasks.edit')
                                             @elseif($work->getAttribute('user_id') == auth()->id())
                                                 <i class="fal fa-arrow-right pr-2 text-success"></i>@lang('translates.buttons.execute')
@@ -412,12 +444,18 @@
                 @foreach($totals as $total)
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{$total}}</strong></p></td>
                 @endforeach
-                <td colspan="4"></td>
+                <td colspan="6"></td>
             </tr>
         @endif
         </tbody>
     </table>
-
+    @if(is_numeric($filters['limit']))
+        <div class="col-12 mt-2">
+            <div class="float-right">
+                {{$works->appends(request()->input())->links()}}
+            </div>
+        </div>
+    @endif
     @if($hasPending && auth()->user()->hasPermission('canVerify-work'))
         <div class="col-12 pl-0 py-3">
             <a href="{{route('works.sum.verify')}}" id="sum-verify" class="btn btn-outline-primary">@lang('translates.sum') @lang('translates.buttons.verify')</a>

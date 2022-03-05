@@ -25,6 +25,10 @@ class Work extends Model implements DocumentableInterface, Recordable
     const DONE = 3;
     const REJECTED = 4;
 
+    const SATISFIED = 1;
+    const UNSATISFIED = 2;
+    const UNKNOWN = 3;
+
     protected $fillable = [
         'detail',
         'creator_id',
@@ -34,6 +38,7 @@ class Work extends Model implements DocumentableInterface, Recordable
         'service_id',
         'client_id',
         'status',
+        'satisfaction',
         'datetime',
         'created_at',
         'verified_at',
@@ -107,6 +112,11 @@ class Work extends Model implements DocumentableInterface, Recordable
     public static function statuses(): array
     {
         return [1 => 1, 2, 3, 4];
+    }
+
+    public static function satisfactions(): array
+    {
+        return [1 => 1, 2, 3];
     }
 
     public static function userCanViewAll(): bool
