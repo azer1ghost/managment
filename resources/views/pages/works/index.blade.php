@@ -230,13 +230,6 @@
                 </div>
             @endcan
 
-            @if(is_numeric($filters['limit']))
-                <div class="col-12">
-                    <div class="float-right">
-                        {{$works->appends(request()->input())->links()}}
-                    </div>
-                </div>
-            @endif
         </div>
     </form>
 
@@ -306,7 +299,7 @@
                             @endphp
                         @endif
                     <td>
-                        <span class="badge badge-{{$colors}}"><i class="far fa-smile "></i></span>
+                        <span class="badge badge-{{$colors}}"><i class="far fa-smile fa-2x"></i></span>
                     </td>
                     @else
                     <td></td>
@@ -456,7 +449,13 @@
         @endif
         </tbody>
     </table>
-
+    @if(is_numeric($filters['limit']))
+        <div class="col-12 mt-2">
+            <div class="float-right">
+                {{$works->appends(request()->input())->links()}}
+            </div>
+        </div>
+    @endif
     @if($hasPending && auth()->user()->hasPermission('canVerify-work'))
         <div class="col-12 pl-0 py-3">
             <a href="{{route('works.sum.verify')}}" id="sum-verify" class="btn btn-outline-primary">@lang('translates.sum') @lang('translates.buttons.verify')</a>
