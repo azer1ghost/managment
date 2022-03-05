@@ -301,8 +301,8 @@
                     <td>
                         <span class="badge badge-{{$colors}}"><i class="far fa-smile fa-2x"></i></span>
                     </td>
-                    @else
-                    <td></td>
+{{--                    @else--}}
+{{--                    <td></td>--}}
                 @endif
 
                 @if(auth()->user()->isDeveloper())
@@ -444,7 +444,7 @@
                 @foreach($totals as $total)
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{$total}}</strong></p></td>
                 @endforeach
-                <td colspan="4"></td>
+                <td colspan="6"></td>
             </tr>
         @endif
         </tbody>
