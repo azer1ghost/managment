@@ -15,7 +15,7 @@ class OptionRequest extends FormRequest
     public function rules()
     {
         return [
-            'translate' => 'nullable|array'
+            'text' => 'nullable|array'
         ];
     }
 }

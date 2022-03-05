@@ -20,18 +20,20 @@
     </x-bread-crumb>
     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
         @method($method) @csrf
+        @bind($data)
         <input type="hidden" name="id" value="{{optional($data)->getAttribute('id')}}">
         <div class=" form-row mt-4" >
             <x-translate>
                 @foreach(config('app.locales') as $key => $locale)
                     <div class="tab-pane fade show @if($loop->first) active @endif" id="data-{{$key}}" role="tabpanel">
-                        <div class="row">
-                            <x-input::text  name="translate[text][{{$key}}]"  :value="optional($data)->getTranslation('text', $key)"     label="Text"     width="6" class="pr-3" />
-                        </div>
+                        <x-form-group class="col-12 col-md-6">
+                            <x-form-input name="text" :language="$key" label="Name {{$key}}" placeholder="Ad daxil edin"/>
+                        </x-form-group>
                     </div>
                 @endforeach
             </x-translate>
         </div>
+        @endbind
         @if($action)
             <x-input::submit />
         @endif

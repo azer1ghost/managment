@@ -59,8 +59,6 @@ class OptionController extends Controller
     {
         $validated = $request->validated();
 
-        $this->translates($validated);
-
         $option = Option::create($validated);
 
         return redirect()
@@ -98,7 +96,6 @@ class OptionController extends Controller
     {
         $validated = $request->validated();
 
-        $this->translates($validated);
         $option->update($validated);
 
         return back()->withNotify('info', $option->getAttribute('name'));
