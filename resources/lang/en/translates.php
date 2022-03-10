@@ -420,6 +420,7 @@ return [
         'partner' => 'Partner',
         'will_notify_at' => 'Will Notify At',
         'will_end_at' => 'Will End At',
+        'will_start_at' => 'Will Start At',
         'repeat_rate' => 'Repeat Rate',
         'class' => 'Category',
         'title' => 'Title',

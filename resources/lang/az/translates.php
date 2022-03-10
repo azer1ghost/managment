@@ -421,6 +421,7 @@ return [
         'partner' => 'Partnyor',
         'will_notify_at' => 'Bildirələcək',
         'will_end_at' => 'Bitəcək',
+        'will_start_at' => 'Başlayacaq',
         'repeat_rate' => 'Repeat Rate',
         'class' => 'Kateqoriya',
         'title' => 'Başlıq',
