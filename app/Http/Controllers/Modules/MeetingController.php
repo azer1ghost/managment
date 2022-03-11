@@ -43,6 +43,7 @@ class MeetingController extends Controller
         return redirect()
             ->route('meetings.edit', $meeting)
             ->withNotify('success', $meeting->getAttribute('name'));
+
     }
 
     public function show(Meeting $meeting)
@@ -80,4 +81,5 @@ class MeetingController extends Controller
         }
         return response()->setStatusCode('204');
     }
+
 }
