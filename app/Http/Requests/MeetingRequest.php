@@ -12,8 +12,8 @@ class MeetingRequest extends FormRequest
             'name' => 'required|string|nullable',
             'status' => 'int|nullable',
             'department_id' => 'int|nullable',
-            'will_start_at'      => 'required|date|before:will_end_at',
-            'will_end_at'        => 'date|after:will_start_at',
+            'will_start_at' => 'required|date|before:will_end_at',
+            'will_end_at' => 'date|after:will_start_at',
         ];
     }
 }
