@@ -258,7 +258,7 @@ class Sidebar extends Component
                 'title' => __('translates.navbar.meeting'),
                 'icon' => 'fas fa-bullhorn',
                 'url' => '#',
-                'permission' => 'viewAny-advertising',
+                'permission' => 'viewAny-meeting',
                 'children' => [
                     (object)[
                         'title' => __('translates.navbar.meeting'),
