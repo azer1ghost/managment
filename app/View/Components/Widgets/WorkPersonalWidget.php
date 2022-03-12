@@ -20,8 +20,9 @@ class WorkPersonalWidget extends Component
     {
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
+        $auth = auth()->id();
 
-        if (Cache::has("{$this->widget->getAttribute('key')}_widget")) {
+        if (Cache::has("{$this->widget->getAttribute('key')}_{$auth}_widget")) {
             $this->results = Cache::get("{$this->widget->getAttribute('key')}_widget");
         } else {
             $data = [];

@@ -20,8 +20,9 @@ class InquiryPersonalDailyWidget extends Component
     {
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
+        $auth = auth()->id();
 
-        $this->results = \Cache::remember("{$this->widget->getAttribute('key')}_widget", 1, function () {
+        $this->results = \Cache::remember("{$this->widget->getAttribute('key')}_{$auth}_widget", 1, function () {
             $data = Inquiry::isReal()->select('id', 'datetime')
                 ->where('user_id', auth()->id())
                 ->where('datetime', '>=', Carbon::now()->subWeek())
