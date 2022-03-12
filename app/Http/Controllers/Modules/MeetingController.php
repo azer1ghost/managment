@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MeetingRequest;
+use App\Models\Department;
 use App\Models\Meeting;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class MeetingController extends Controller
 {
@@ -15,10 +17,12 @@ class MeetingController extends Controller
         $this->authorizeResource(Meeting::class, 'meeting');
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $department  = $request->get('department');
+
         return view('pages.meetings.index')->with([
-           'meetings' => Meeting::paginate(10)
+           'meetings' => Meeting::paginate(10),
         ]);
     }
 
@@ -28,7 +32,7 @@ class MeetingController extends Controller
             'action' => route('meetings.store'),
             'method' => null,
             'data' => null,
-            'statuses' => Meeting::statuses()
+            'departments' => Department::get(['id', 'name']),
         ]);
     }
 
@@ -39,6 +43,7 @@ class MeetingController extends Controller
         return redirect()
             ->route('meetings.edit', $meeting)
             ->withNotify('success', $meeting->getAttribute('name'));
+
     }
 
     public function show(Meeting $meeting)
@@ -47,7 +52,6 @@ class MeetingController extends Controller
             'action' => null,
             'method' => null,
             'data' => $meeting,
-            'statuses' => $meeting::statuses()
         ]);
     }
 
@@ -57,7 +61,7 @@ class MeetingController extends Controller
             'action' => route('meetings.update', $meeting),
             'method' => 'PUT',
             'data' => $meeting,
-            'statuses' => $meeting::statuses()
+            'departments' => Department::get(['id', 'name']),
         ]);
     }
 
@@ -77,4 +81,5 @@ class MeetingController extends Controller
         }
         return response()->setStatusCode('204');
     }
+
 }

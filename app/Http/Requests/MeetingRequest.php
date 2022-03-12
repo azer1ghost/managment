@@ -10,8 +10,10 @@ class MeetingRequest extends FormRequest
     {
         return [
             'name' => 'required|string|nullable',
-            'status' => 'required|integer|nullable',
-            'datetime' => 'required|date|nullable',
+            'status' => 'int|nullable',
+            'department_id' => 'int|nullable',
+            'will_start_at' => 'required|date|before:will_end_at',
+            'will_end_at' => 'date|after:will_start_at',
         ];
     }
 }

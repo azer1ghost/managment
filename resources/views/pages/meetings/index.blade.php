@@ -33,8 +33,9 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">@lang('translates.columns.name')</th>
-                        <th scope="col">datetime</th>
-                        <th scope="col">status</th>
+                        <th scope="col">@lang('translates.columns.department')</th>
+                        <th scope="col">@lang('translates.columns.will_start_at')</th>
+                        <th scope="col">@lang('translates.columns.will_end_at')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
@@ -43,8 +44,9 @@
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$meeting->getAttribute('name')}}</td>
-                            <td>{{$meeting->getAttribute('datetime')}}</td>
-                            <td>{{__('translates.meetings')[$meeting->getAttribute('status')]}}</td>
+                            <td>{{$meeting->getRelationValue('department')->getAttribute('name')}}</td>
+                            <td>{{$meeting->getAttribute('will_start_at')}}</td>
+                            <td>{{$meeting->getAttribute('will_end_at')}}</td>
                             <td>
                                 <div class="btn-sm-group">
                                     @can('view', $meeting)
