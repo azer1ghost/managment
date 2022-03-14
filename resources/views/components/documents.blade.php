@@ -17,8 +17,8 @@
                                 @php($type = $supportedTypes[$document->type])
                                 <li class="col-12 py-2 d-flex align-items-center list-group-item">
                                     @php($route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document))
-                                    <a href="{{$route}}" data-toggle="tooltip" title="{{$document->file}}" target="_blank" class="text-dark d-flex align-items-center mr-2" style="word-break: break-word">
-                                        <i class="fa fa-file-{{$type['icon']}} fa-2x mr-2 text-{{$type['color']}}"></i>
+                                    <a href="{{$route}}" data-toggle="tooltip" title="{{$document->file}}" target="_blank" class="text-dark d-flex align-items-center mr-2" style="font-size: 20px; word-break: break-word">
+                                        <i style="font-size: 70px" class="fa fa-file-{{$type['icon']}} fa-3x mr-2 text-{{$type['color']}}"></i>
                                         <span>{{$document->name}}</span>
                                     </a>
                                     @can('update', $document)
