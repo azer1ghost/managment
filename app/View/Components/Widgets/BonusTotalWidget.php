@@ -22,8 +22,9 @@ class BonusTotalWidget extends Component
         $referral = optional(auth()->user()->getRelationValue('referral'));
         $effective = $referral->total_users * $referral->efficiency / 100 ;
         $ineffective = $referral->total_users - $effective;
+        $auth = auth()->id();
 
-        $this->results = \Cache::remember("{$this->widget->getAttribute('key')}_widget", 7200, function () use ($effective, $ineffective){
+        $this->results = \Cache::remember("{$this->widget->getAttribute('key')}_{$auth}_widget", 7200, function () use ($effective, $ineffective){
             return [
                 (object) [
                     'label' => __('translates.bonus.effective'),
