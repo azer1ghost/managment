@@ -186,7 +186,7 @@
                 </thead>
                 <tbody>
                 @forelse($inquiries as $inquiry)
-                    <tr>
+                    <tr @if( optional($inquiry->getParameter('status'))->getAttribute('id') == \App\Models\Inquiry::REJECTED) style="background-color: red" @endif >
                         <td>{{$inquiry->getAttribute('code')}}</td>
                         <td>{{$inquiry->getAttribute('datetime')->format('d-m-Y')}}</td>
                         <td>{{$inquiry->getAttribute('datetime')->format('H:i')}}</td>
@@ -275,6 +275,12 @@
                                             @endcan
                                         @endif
                                         @if(auth()->user()->hasPermission('editAccessToUser-inquiry'))
+                                            <a href="{{route('inquiry.access', $inquiry)}}" target="_blank"
+                                               class="dropdown-item-text text-decoration-none">
+                                                <i class="fal fa-lock-open-alt pr-2 text-info"></i>@lang('translates.access')
+                                            </a>
+                                        @endif
+                                        @if(auth()->user()->hasPermission('checkReasion-inquiry'))
                                             <a href="{{route('inquiry.access', $inquiry)}}" target="_blank"
                                                class="dropdown-item-text text-decoration-none">
                                                 <i class="fal fa-lock-open-alt pr-2 text-info"></i>@lang('translates.access')
