@@ -280,10 +280,10 @@
                                                 <i class="fal fa-lock-open-alt pr-2 text-info"></i>@lang('translates.access')
                                             </a>
                                         @endif
-                                        @if(auth()->user()->hasPermission('checkReasion-inquiry'))
-                                            <a href="{{route('inquiry.access', $inquiry)}}" target="_blank"
+                                        @if(auth()->user()->hasPermission('checkRejectedReasion-inquiry'))
+                                            <a href="{{route('inquiry.checkRejectedReason', $inquiry)}}" target="_blank"
                                                class="dropdown-item-text text-decoration-none">
-                                                <i class="fal fa-lock-open-alt pr-2 text-info"></i>@lang('translates.access')
+                                                <i class="fal fa-check pr-2 text-info"></i>Call center check
                                             </a>
                                         @endif
                                         <a href="{{route('inquiry.logs', $inquiry)}}" target="_blank"
