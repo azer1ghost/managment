@@ -103,7 +103,7 @@
 {{--    <x-input::select name="redirected" :options="$operators" label="Redirect" width="4" class="pr-2" />--}}
     @endif
 
-    @if(auth()->user()->hasPermission('checkRejectedReason-inquiry'))
+{{--    @if(auth()->user()->hasPermission('checkRejectedReason-inquiry'))--}}
         <div class="col-md-3">
             <div>
                 <input type="checkbox" name="checking" id="checking" value="0">
@@ -112,7 +112,7 @@
                 </label>
             </div>
         </div>
-    @endif
+{{--    @endif--}}
 
     @if($action)
         <div class="col-12">
