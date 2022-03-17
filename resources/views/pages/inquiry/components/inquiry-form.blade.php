@@ -103,6 +103,17 @@
 {{--    <x-input::select name="redirected" :options="$operators" label="Redirect" width="4" class="pr-2" />--}}
     @endif
 
+    @if(auth()->user()->hasPermission('checkRejectedReason-inquiry'))
+        <div class="col-md-3">
+            <div>
+                <input type="checkbox" name="checking" id="checking" value="0">
+                <label class="form-check-label" for="checking">
+                    @lang('translates.columns.verified')
+                </label>
+            </div>
+        </div>
+    @endif
+
     @if($action)
         <div class="col-12">
             <button class="btn btn-outline-primary float-right">@lang('translates.buttons.save')</button>

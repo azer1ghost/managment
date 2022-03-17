@@ -30,7 +30,7 @@ class InquiryRequest extends FormRequest
             'operation' => "filled|int",
             'is_out' => 'required|numeric',
             'client_id' => 'nullable|integer',
-            'checking' => 'nullable',
+            'checking' => 'required',
         ];
     }
 }
