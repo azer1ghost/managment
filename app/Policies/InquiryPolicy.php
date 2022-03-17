@@ -27,10 +27,10 @@ class InquiryPolicy
     public function update(User $user, Inquiry $inquiry): \Illuminate\Auth\Access\Response
     {
         if (
-            ($inquiry->getAttribute('user_id') === $user->getAttribute('id'))  &&
+           ( ($inquiry->getAttribute('user_id') === $user->getAttribute('id'))  &&
             $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) &&
-            $user->canEditInquiry($inquiry)
-//            auth()->user()->hasPermission('checkRejectedReason-inquiry')
+            $user->canEditInquiry($inquiry) )||
+            auth()->user()->hasPermission('checkRejectedReason-inquiry')
         ) {
             return $this->allow();
         }
