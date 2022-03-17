@@ -37,7 +37,7 @@ return [
         'viewAny-document', 'view-document', 'create-document', 'update-document', 'delete-document',
         'viewAll-inquiry', 'viewAllDepartment-inquiry', 'viewAny-inquiry', 'view-inquiry', 'create-inquiry', 'update-inquiry', 'delete-inquiry', 'forceDelete-inquiry', 'restore-inquiry', 'editAccessToUser-inquiry',
         'viewAny-meeting', 'view-meeting', 'create-meeting', 'update-meeting', 'delete-meeting',
-        'viewAny-salesInquiry', 'viewAll-salesInquiry',
+        'viewAny-salesInquiry', 'viewAll-salesInquiry', 'checkRejectedReason-inquiry',
         'viewAny-notification', 'view-notification', 'manage-notification',
         'viewAny-option', 'view-option', 'manage-option',
         'viewAny-organization', 'view-organization', 'manage-organization','delete-organization',
