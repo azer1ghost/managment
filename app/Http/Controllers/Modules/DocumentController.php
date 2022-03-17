@@ -37,7 +37,7 @@ class DocumentController extends Controller
         }
 
         return view('pages.documents.index')->with([
-            'documents' => $documents->paginate($limit),
+            'documents' => $documents->orderByDesc('id')->paginate($limit),
             'users' => User::get(['id', 'name', 'surname'])
 
 
