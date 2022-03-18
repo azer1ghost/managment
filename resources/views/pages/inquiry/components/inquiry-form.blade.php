@@ -103,16 +103,22 @@
 {{--    <x-input::select name="redirected" :options="$operators" label="Redirect" width="4" class="pr-2" />--}}
     @endif
 
-{{--    @if(auth()->user()->hasPermission('checkRejectedReason-inquiry'))--}}
+    @if(auth()->user()->hasPermission('checkRejectedReason-inquiry') && optional($inquiry->getParameter('status'))->getAttribute('id') == \App\Models\Inquiry::REJECTED))
         <div class="col-md-3">
             <div>
-                <input type="checkbox" name="checking" id="checking" value="0">
+                <input type="radio" name="checking" id="checking" @if($inquiry->getAttribute('checking') == 0) checked @endif value="0">
                 <label class="form-check-label" for="checking">
-                    @lang('translates.columns.verified')
+                    Imtina səbəbi uygun deyil
+                </label>
+            </div>
+            <div>
+                <input type="radio" name="checking" id="checking1" @if($inquiry->getAttribute('checking') == 1) checked @endif value="1">
+                <label class="form-check-label" for="checking1">
+                    İmtina sebebi duzgundur
                 </label>
             </div>
         </div>
-{{--    @endif--}}
+    @endif
 
     @if($action)
         <div class="col-12">

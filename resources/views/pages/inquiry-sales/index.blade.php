@@ -186,7 +186,7 @@
                 </thead>
                 <tbody>
                 @forelse($inquiries as $inquiry)
-                    <tr @if( optional($inquiry->getParameter('status'))->getAttribute('id') == \App\Models\Inquiry::REJECTED) style="background-color: red" @endif >
+                    <tr @if((optional($inquiry->getParameter('status'))->getAttribute('id') == \App\Models\Inquiry::REJECTED) && $inquiry->getAttribute('checking') == 0) style="background-color: red" @endif >
                         <td>{{$inquiry->getAttribute('code')}}</td>
                         <td>{{$inquiry->getAttribute('datetime')->format('d-m-Y')}}</td>
                         <td>{{$inquiry->getAttribute('datetime')->format('H:i')}}</td>
