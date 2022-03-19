@@ -25,7 +25,7 @@ class SalesInquiryController extends Controller
         $this->authorizeResource(Inquiry::class, 'inquiry');
     }
 
-    public function __invoke(Request $request)
+    public function index(Request $request)
     {
         $filters = [
             'code'       => $request->get('code'),
@@ -126,5 +126,10 @@ class SalesInquiryController extends Controller
                 'users',
             )
         );
+    }
+
+    public function checkRejectedReason(Inquiry $inquiry)
+    {
+
     }
 }
