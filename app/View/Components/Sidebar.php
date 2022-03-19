@@ -147,7 +147,7 @@ class Sidebar extends Component
                 'title' => __('translates.navbar.sales'),
                 'icon' => 'fas fa-dollar-sign',
                 'url' => '#',
-                'permission' => 'viewAny-salesInquiry',
+                'permission' => 'viewAny-salesClient',
                 'children' => [
                     (object)[
                         'title' => __('translates.navbar.sales_client'),
