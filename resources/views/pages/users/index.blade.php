@@ -117,13 +117,13 @@
                                         </button>
                                         <div class="dropdown-menu custom-dropdown">
                                             @unless ($user->getAttribute('id') === auth()->id())
-                                                @if(auth()->user()->hasPermission('update-user'))
+                                                @can('update', $user)
                                                     <a href="{{ $user->getAttribute('id') === auth()->id() ? route('account') : route('users.edit', $user)}}"
                                                        class="dropdown-item-text text-decoration-none"
                                                     >
                                                         <i class="fal fa-pen pr-2 text-success"></i>Edit
                                                     </a>
-                                                @endif
+                                                @endcan
                                                 @can('delete', $user)
                                                     <a href="{{route('users.destroy', $user)}}"
                                                        class="dropdown-item-text text-decoration-none"
