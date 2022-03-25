@@ -97,7 +97,7 @@ class Sidebar extends Component
                 'permission' => 'viewAny-user',
                 'children' => [
                     (object)[
-                        'title' => __('translates.navbar.user'),
+                        'title' => __('translates.users.types.employees'),
                         'icon' => 'fa fa-users',
                         'url' => route('users.index'),
                         'permission' => 'viewAny-user',
