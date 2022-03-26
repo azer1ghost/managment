@@ -162,6 +162,7 @@
                     @livewire('show-user-defaults',['user' => $data, 'action' => $action])
                 </div>
             @endif
+
             @if($action)
                 <x-input::submit/>
             @endif
@@ -169,6 +170,12 @@
         @endbind
 
     </form>
+    @if($method != 'POST')
+        <div class="my-5">
+            <x-documents :documents="$data->documents" :title="trans('translates.files.contract')" />
+            <x-document-upload :id="$data->id" model="User"/>
+        </div>
+    @endif
 @endsection
 @section('scripts')
     @if(is_null($action))

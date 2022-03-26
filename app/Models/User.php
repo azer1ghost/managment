@@ -6,6 +6,7 @@ use Altek\Accountant\Contracts\Identifiable;
 use Altek\Accountant\Contracts\Recordable;
 use Altek\Eventually\Eventually;
 use App\Contracts\Auth\MustVerifyPhone;
+use App\Traits\Documentable;
 use App\Traits\GetClassInfo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -25,7 +26,7 @@ use Illuminate\Notifications\Notifiable;
  */
 class User extends Authenticatable implements MustVerifyPhone, Recordable
 {
-    use HasFactory, Notifiable, SoftDeletes, GetClassInfo, \App\Traits\Auth\MustVerifyPhone, \Altek\Accountant\Recordable, Eventually;
+    use HasFactory, Notifiable, SoftDeletes, Documentable, GetClassInfo, \App\Traits\Auth\MustVerifyPhone, \Altek\Accountant\Recordable, Eventually;
 
     const DIRECTOR = 7;
     const DEVELOPER = 1;
@@ -101,10 +102,10 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
         ];
     }
 
-    public function documents(): HasMany
-    {
-        return $this->hasMany(Document::class);
-    }
+//    public function documents(): HasMany
+//    {
+//        return $this->hasMany(Document::class);
+//    }
 
     public function salesInquiryUsers(): HasMany
     {
