@@ -85,7 +85,7 @@ Route::group([
     Route::delete('/inquiry/force-delete/{inquiry}', [InquiryController::class, 'forceDelete'])->name('inquiry.forceDelete');
     Route::put('/inquiry/status-update', [InquiryController::class, 'updateStatus'])->name('inquiry.update-status');
     Route::get('/inquiries-sales', [SalesInquiryController::class, 'index'])->name('inquiry.sales');
-    Route::get('/inquiry-sales/checkRejectedReason/{inquiry}', [SalesInquiryController::class, 'checkRejectedReason'])->name('inquiry.checkRejectedReason');
+    Route::get('/potential-customers', [SalesInquiryController::class, 'potentialCustomers'])->name('inquiry.potential-customers');
     Route::resource('/inquiry', InquiryController::class);
 
     Route::get('/signature/select-company', [SignatureController::class, 'selectCompany'])->name('signature-select-company');

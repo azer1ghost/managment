@@ -152,6 +152,11 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
        return optional($this->getParameter('status'))->getAttribute('id') == self::DONE;
     }
 
+    public function scopePotentialCustomer($query)
+    {
+       return $query->wheregetParameter('status')->getAttribute('id') == self::REJECTED;
+    }
+
     public static function generateCustomCode($prefix = 'MGI', $digits = 8): string
     {
         do {
