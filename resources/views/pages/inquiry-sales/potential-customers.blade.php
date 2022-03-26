@@ -11,14 +11,21 @@
 @endsection
 
 @section('content')
+
+<div class="text-center">
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
-        <x-bread-crumb-link>
+        <x-bread-crumb-link :link="route('inquiry.sales')">
             @lang('translates.navbar.inquiry')
         </x-bread-crumb-link>
+        <x-bread-crumb-link>
+         Potensial Müştərilər
+        </x-bread-crumb-link>
     </x-bread-crumb>
+</div>
+
     <button class="btn btn-outline-success mb-3 showFilter">
         <i class="far fa-filter"></i> @lang('translates.buttons.filter_open')
     </button>
@@ -46,11 +53,6 @@
                     </div>
 
                     <div class="form-group col-12 col-md-3 mb-3">
-                        <label for="phoneFilter">@lang('translates.fields.phone')</label>
-                        <input id="phoneFilter" name="phone" value="{{request()->get('phone')}}" placeholder="@lang('translates.placeholders.phone')" class="form-control"/>
-                    </div>
-
-                    <div class="form-group col-12 col-md-3 mb-3">
                         <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
                         <select name="client_id" id="clientFilter"
                                 class="custom-select2"
@@ -67,7 +69,7 @@
                         <input id="qvsFilter" name="qvs" value="{{request()->get('qvs')}}" placeholder="Filter by QVS" class="form-control"/>
                     </div>
 
-                    <div class="form-group col-12 col-md-2 mb-0">
+                    <div class="form-group col-12 col-md-3 mb-0">
                         <label class="d-block" for="evaluationFilter">Evaluation</label>
                         <select id="evaluationFilter" data-selected-text-format="count" class="filterSelector"
                                 title="@lang('translates.filters.select')" name="evaluation">
@@ -83,7 +85,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12 col-md-2 mb-0">
+                    <div class="form-group col-12 col-md-3 mb-0">
                         <label class="d-block" for="subjectFilter">@lang('translates.filters.subject')</label>
                         <select id="subjectFilter" data-selected-text-format="count" class="filterSelector"
                                 title="@lang('translates.filters.subject')" name="subject">
@@ -99,24 +101,8 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12 col-md-2 mb-0">
-                        <label class="d-block" for="statusFilter">Status</label>
-                        <select id="statusFilter" data-selected-text-format="count" class="filterSelector"
-                                title="@lang('translates.filters.select')" name="status">
-
-                            <option value="">@lang('translates.filters.select')</option>
-                            @foreach($statuses as $status)
-                                <option
-                                        @if($status->id == request()->get('status')) selected @endif
-                                            value="{{$status->getAttribute('id')}}" >
-                                            {{ucfirst($status->getAttribute('text'))}}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
                     @if(\App\Models\Inquiry::userCanViewAll() || auth()->user()->isDepartmentChief())
-                        <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
+                        <div class="form-group col-12 col-md-3 mb-md-0">
                             <label class="d-block" for="writtenByFilter">@lang('translates.filters.written_by')</label>
                             <select id="writtenByFilter" name="user" class="filterSelector" data-width="fit" title="@lang('translates.filters.written_by')">
                                 @foreach($users as $user)
@@ -147,23 +133,9 @@
             </select>
         </div>
     </form>
-    <div class="input-group col-4 col-md-2 mt-3">
-        <button class="btn btn-success"><a href="{{ route('inquiry.potential-customers') }}">Potensial Müştərilər</a></button>
-    </div>
+
     <div class="col-12">
         <hr>
-        <div class="float-right">
-            @can('create', \App\Models\Inquiry::class)
-                <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#inquiry-create-modal-btn">
-                    <i class="fal fa-plus"></i>
-                </button>
-            @endcan
-            <a href="{{ !request()->has('trash-box') ? route('inquiry.sales', ['trash-box' => true]) : route('inquiry.sales') }}"
-               class="btn btn-outline-secondary">
-                <i class="far {{ !request()->has('trash-box') ? 'fa-recycle' : 'fa-phone' }}"></i>
-            </a>
-        </div>
-
         <div class="col-6 pt-2 ">
             <p> @lang('translates.total_items', ['count' => $inquiries->count(), 'total' => $inquiries->total()])</p>
         </div>
