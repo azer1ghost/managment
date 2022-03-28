@@ -83,7 +83,12 @@
             @endif
         </div>
     @endforeach
-
+{{--        @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES))--}}
+            <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
+                <label for="alarm">Alarm Vaxtı</label>
+                <input type="text" name="alarm" value="" id="alarm" class="form-control custom-single-daterange" >
+            </div>
+{{--        @endif--}}
     @if($selected['company'])
         <x-input::textarea name="note"  :value="$note"  label="Note"   width="12" rows="4"/>
         <div class="col-md-3">
@@ -108,13 +113,13 @@
             <div>
                 <input type="radio" name="checking" id="checking" @if($inquiry->getAttribute('checking') == 0) checked @endif value="0">
                 <label class="form-check-label" for="checking">
-                    Imtina səbəbi uygun deyil
+                    İmtina səbəbi uyğun deyil
                 </label>
             </div>
             <div>
                 <input type="radio" name="checking" id="checking1" @if($inquiry->getAttribute('checking') == 1) checked @endif value="1">
                 <label class="form-check-label" for="checking1">
-                    İmtina sebebi duzgundur
+                    İmtina səbəbi düzgündür
                 </label>
             </div>
         </div>

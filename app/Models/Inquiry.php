@@ -41,6 +41,7 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
         'department_id',
         'client_id',
         'checking',
+        'alarm',
         'next_call_at'
     ];
 

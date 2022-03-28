@@ -294,6 +294,7 @@ return [
             'from_customers' => 'From customers'
         ],
         'label' => 'Inquiry type',
+        'alarm' => 'You must contact the customer'
     ],
 
     'tasks' => [
