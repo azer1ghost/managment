@@ -84,8 +84,8 @@ class UserController extends Controller
         return view('pages.users.edit')
             ->with([
                 'action' => route('users.store'),
-                'method' => null,
-                'data' => null,
+                'method' => 'POST',
+                'data' => new User(),
                 'roles'  => Role::all()->pluck('name','id')->toArray(),
                 'departments' => Department::all()->pluck('name', 'id')->toArray(),
                 'companies' => Company::all()->pluck('name', 'id')->toArray(),
