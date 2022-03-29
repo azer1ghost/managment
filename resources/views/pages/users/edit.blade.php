@@ -41,7 +41,7 @@
                     <x-form-input name="surname"/>
                 </x-form-group>
                 <x-form-group  class="pr-3 col-12 col-lg-6">
-                    <x-form-input name="father"  label="Father's name"/>
+                    <x-form-input name="father"  :label="__('translates.fields.father')"/>
                 </x-form-group>
             </div>
             <!-- Employment -->
@@ -49,23 +49,23 @@
             <hr class="my-2">
             <div class="row mr-0">
                 <x-form-group  class="pr-3 col-12 col-lg-6">
-                    <x-form-select name="department_id" :options="$departments" label="Department" />
+                    <x-form-select name="department_id" :options="$departments" :label="__('translates.fields.department')" />
                 </x-form-group>
 
                 @if (auth()->user()->isDirector())
                     <x-form-group  class="pr-3 col-12 col-lg-6">
-                        <x-form-select  name="position_id" :options="$directorPositions" label="Department" />
+                        <x-form-select  name="position_id" :options="$directorPositions" :label="__('translates.fields.department')" />
                     </x-form-group>
                 @else
                     <x-form-group  class="pr-3 col-12 col-lg-6">
-                        <x-form-select  name="position_id" :options="$positions" label="Position" />
+                        <x-form-select  name="position_id" :options="$positions" :label="__('translates.fields.position')" />
                     </x-form-group>
                     <x-form-group  class="pr-3 col-12 col-lg-6">
-                        <x-form-select  name="official_position_id" :options="$positions" label="Official Position" />
+                        <x-form-select  name="official_position_id" :options="$positions" :label="__('translates.fields.position')" />
                     </x-form-group>
                 @endif
                 <x-form-group  class="pr-3 col-12 col-lg-6">
-                    <x-form-select  name="company_id" :options="$companies" label="Company" />
+                    <x-form-select  name="company_id" :options="$companies" :label="__('translates.fields.company')" />
                 </x-form-group>
                 @if (auth()->user()->isDeveloper() && !is_null($data))
                     <x-form-group  class="pr-3 col-12 col-lg-6">
@@ -109,16 +109,16 @@
                 <hr class="my-2">
             </div>
             <x-form-group  class="pr-3 col-12 col-lg-6">
-                <x-form-input name="phone_coop"   label="Cooperative number" />
+                <x-form-input name="phone_coop"   :label="__('translates.fields.phone_coop')" />
             </x-form-group>
             <x-form-group  class="pr-3 col-12 col-lg-6">
-                <x-form-input name="phone"   label="Personal number" />
+                <x-form-input name="phone"   :label="__('translates.fields.phone_private')" />
             </x-form-group>
             <x-form-group  class="pr-3 col-12 col-lg-6">
-                <x-form-input type="email" name="email_coop" label="Korparativ Email" placeholder="Cooperative Email" />
+                <x-form-input type="email" name="email_coop" :label="__('translates.fields.email_coop')" placeholder="Cooperative Email" />
             </x-form-group>
             <x-form-group  class="pr-3 col-12 col-lg-6">
-                <x-form-input type="email" name="email" label="Şəxsi Email" placeholder="Personal Email"  required=""/>
+                <x-form-input type="email" name="email" :label="__('translates.fields.email_private')" placeholder="Personal Email"  required=""/>
             </x-form-group>
             <!-- Address -->
             <div class="col-md-12 px-0">
@@ -127,25 +127,25 @@
                 <hr class="my-2">
             </div>
             <x-form-group  class="pr-3 col-12 col-lg-6">
-                <x-form-select name="country" :options="['Azerbaijan' => 'Azerbaijan', 'Turkey' => 'Turkey']" label="Country" />
+                <x-form-select name="country" :options="['Azerbaijan' => 'Azerbaijan', 'Turkey' => 'Turkey']" :label="__('translates.fields.country')" />
             </x-form-group>
             <x-form-group  class="pr-3 col-12 col-lg-6">
-                <x-form-select name="city" :options="['Baku' => 'Baku', 'Sumgayit' => 'Sumgayit']" label="City" />
+                <x-form-select name="city" :options="['Baku' => 'Baku', 'Sumgayit' => 'Sumgayit']" :label="__('translates.fields.city')" />
             </x-form-group>
             <x-form-group  class="pr-3 col-12 col-lg-6">
-                <x-form-input  name="address" label="Address"/>
+                <x-form-input  name="address" :label="__('translates.fields.address')"/>
             </x-form-group>
             @if(auth()->user()->isDeveloper())
                 <x-form-group  class="pr-3 col-12 col-lg-6">
-                    <x-form-input type="password" :bind="false"  name="password" label="password"  autocomplete="off"/>
+                    <x-form-input type="password" :bind="false"  name="password" :label="__('translates.fields.password')"  autocomplete="off"/>
                 </x-form-group>
                 <x-form-group  class="pr-3 col-12 col-lg-6">
-                    <x-form-input type="password"  name="password_confirmation" label="Password Confirmation" autocomplete="off"/>
+                    <x-form-input type="password"  name="password_confirmation" :label="__('translates.fields.password_confirm')" autocomplete="off"/>
                 </x-form-group>
             @endif
             @if(!is_null($data))
                 <x-form-group  class="pr-3 col-12 col-lg-6">
-                    <x-form-select name="role_id" :options="$roles" label="Role" />
+                    <x-form-select name="role_id" :options="$roles" :label="__('translates.fields.role')" />
                 </x-form-group>
                 <x-form-group :label="__('translates.fields.default_lang')" class="pr-3 col-12 col-lg-6">
                     <x-form-select name="default_lang" :options="config('app.locales')" />
@@ -172,7 +172,7 @@
     </form>
     @if($method != 'POST')
         <div class="my-5">
-            <x-documents :documents="$data->documents" :title="trans('translates.files.contract')" />
+            <x-documents :documents="$data->documents" :title="trans('translates.files.personal_work')" />
             <x-document-upload :id="$data->id" model="User"/>
         </div>
     @endif
