@@ -540,7 +540,9 @@ return [
 
     'files' => [
         'default_title' => 'Related Files',
-        'contract' => 'Contract'
+        'contract' => 'Contract',
+        'personal_work' => 'Personal Work'
+
     ],
 
     'calendar' => [

@@ -541,7 +541,8 @@ return [
 
     'files' => [
         'default_title' => 'Əlaqədar Fayllar',
-        'contract' => 'Müqavilə'
+        'contract' => 'Müqavilə',
+        'personal_work' => 'Şəxsi İşlər'
     ],
 
     'calendar' => [

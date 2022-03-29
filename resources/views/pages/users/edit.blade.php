@@ -31,7 +31,7 @@
         </div>
         <!-- Main -->
         <div class="col-md-10 px-0 pl-3">
-            <p class="text-muted mb-2">PERSONAL</p>
+            <p class="text-muted mb-2">@lang('translates.fields.personal')</p>
             <hr class="my-2">
             <div class="row mr-0">
                 <x-form-group  class="pr-3 col-12 col-lg-6">
@@ -45,7 +45,7 @@
                 </x-form-group>
             </div>
             <!-- Employment -->
-            <p class="text-muted mb-2">EMPLOYMENT</p>
+            <p class="text-muted mb-2">@lang('translates.fields.employment')</p>
             <hr class="my-2">
             <div class="row mr-0">
                 <x-form-group  class="pr-3 col-12 col-lg-6">
@@ -78,7 +78,7 @@
             <!-- Passport -->
             <div class="col-md-12 px-0">
                 <br>
-                <p class="text-muted mb-2">PASSPORT</p>
+                <p class="text-muted mb-2">@lang('translates.fields.passport')</p>
                 <hr class="my-2">
             </div>
             <x-form-group :label="__('translates.fields.serial')"  class="pr-3 col-12 col-lg-6">
@@ -105,7 +105,7 @@
             <!-- Contact -->
             <div class="col-md-12 px-0">
                 <br>
-                <p class="text-muted mb-2">CONTACT</p>
+                <p class="text-muted mb-2">@lang('translates.fields.contact')</p>
                 <hr class="my-2">
             </div>
             <x-form-group  class="pr-3 col-12 col-lg-6">
@@ -123,7 +123,7 @@
             <!-- Address -->
             <div class="col-md-12 px-0">
                 <br>
-                <p class="text-muted mb-2">ADDRESS</p>
+                <p class="text-muted mb-2">@lang('translates.columns.adress')</p>
                 <hr class="my-2">
             </div>
             <x-form-group  class="pr-3 col-12 col-lg-6">
