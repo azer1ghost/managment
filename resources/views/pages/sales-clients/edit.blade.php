@@ -35,6 +35,9 @@
             <x-form-group :label="trans('translates.columns.detail')"   class="pr-3 col-12 col-lg-6">
                 <x-form-textarea  name="detail"/>
             </x-form-group>
+            <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.columns.email')" required >
+                <x-form-input type="email" name="email"/>
+            </x-form-group>
         </div>
         @if($action)
             <x-input::submit :value="__('translates.buttons.save')"/>

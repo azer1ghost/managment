@@ -48,10 +48,7 @@
                             </div>
                         </div>
                     </div>
-
-
                 @endif
-
                 <div class="col-12 mt-3 mb-5 d-flex align-items-center justify-content-end">
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <button type="submit" class="btn btn-outline-primary"><i

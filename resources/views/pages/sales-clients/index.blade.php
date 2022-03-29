@@ -52,6 +52,7 @@
                     <th scope="col">@lang('translates.columns.user')</th>
                     <th scope="col">@lang('translates.fields.phone')</th>
                     <th scope="col">@lang('translates.columns.detail')</th>
+                    <th scope="col">@lang('translates.columns.email')</th>
                     <th scope="col">VOEN</th>
                     <th scope="col">@lang('translates.fields.actions')</th>
                 </tr>
@@ -64,6 +65,7 @@
                         <td>{{$sales_client->getRelationValue('user')->getAttribute('fullname')}}</td>
                         <td>{{$sales_client->getAttribute('phone')}}</td>
                         <td>{{$sales_client->getAttribute('detail')}}</td>
+                        <td>{{$sales_client->getAttribute('email') ? $sales_client->getAttribute('email') : trans('translates.clients.email_empty')}} </td>
                         <td>{{$sales_client->getAttribute('voen')}}</td>
 
                         <td>

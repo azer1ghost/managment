@@ -11,7 +11,7 @@ class SalesClient extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'user_id', 'voen', 'phone', 'detail'];
+    protected $fillable = ['name', 'user_id', 'voen', 'phone', 'detail', 'email'];
 
     public function user(): BelongsTo
     {

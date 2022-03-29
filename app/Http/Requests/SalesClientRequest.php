@@ -13,7 +13,8 @@ class SalesClientRequest extends FormRequest
             'phone'=>'nullable|string',
             'voen'=>'nullable|string',
             'detail'=>'nullable|string',
-            'close' => 'nullable'
+            'close' => 'nullable',
+            'email' => 'nullable|email:rfc,dns',
         ];
     }
 }
