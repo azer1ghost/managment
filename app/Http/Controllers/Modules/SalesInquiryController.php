@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Modules;
 
+use App\Services\FirebaseApi;
 use App\Models\{Department, Inquiry, Parameter, User};
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -119,21 +120,21 @@ class SalesInquiryController extends Controller
         );
     }
 
-    public function potentialCustomers(Request $request, Inquiry $inquiry)
+    public function potentialCustomers(Request $request)
     {
 
-        $inquiries = $inquiry->where('id',5)->where('notified', 0)->get(['alarm','notified']);
+        $inquiries = Inquiry::query()->where('notified', 0)->whereNotNull('alarm')->get();
 
-        foreach ($notification_dates as $date) {
-            $alarm = $date->getAttributes('alarm');
-            if (Carbon::parse($alarm['alarm'])->format('Y-m-d h:i') == now()->format('Y-m-d h:i')) {
-//                dd(Carbon::parse($alarm['alarm'])->format('Y-m-d h:i'),now()->format('m-d-Y h:i'));
-//                echo 'hello';
+        foreach ($inquiries as $inquiry) {
+            if ($inquiry->getAttribute('alarm')->format('Y-m-d h:i') == now()->format('Y-m-d h:i')) {
+                (new FirebaseApi)->sendNotification($inquiry->getRelationValue('user'), [$inquiry->getRelationValue('user')], '$this->title', '$this->body', '$this->url');
+                (new FirebaseApi)->sendPushNotification([$inquiry->getRelationValue('user')], '$this->url', '$this->title', '$this->body');
+
                 $inquiry->setAttribute('notified', 1);
-
+                $inquiry->save();
             }
         }
-
+    }
 
 
 //        $filters = [
@@ -234,6 +235,6 @@ class SalesInquiryController extends Controller
 //                'users',
 //            )
 //        );
-    }
+//    }
 
 }

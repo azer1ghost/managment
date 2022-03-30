@@ -10,6 +10,7 @@ use Illuminate\{Bus\Queueable,
     Foundation\Bus\Dispatchable,
     Queue\InteractsWithQueue,
     Queue\SerializesModels};
+use Carbon\Carbon;
 
 class InquiryAlarm implements ShouldQueue
 {
@@ -22,23 +23,24 @@ class InquiryAlarm implements ShouldQueue
     public function __construct(Inquiry $inquiry)
     {
         $this->url = route('inquiry.show', $inquiry);
-        $this->creator = $inquiry->getAttribute('user_id');
+        $this->creator = $inquiry->getRelationValue('user');
         $this->title = trans('translates.inquiries.alarm');
         $this->body = $inquiry->getRelationValue('client')->getAttribute('name').' : '.$inquiry->getRelationValue('client')->getAttribute('phone');
         $this->receivers[] = $this->creator;
     }
 
-    public function handle(Inquiry $inquiry)
+    public function handle()
     {
-        $notification_dates = $inquiry->where('notified', 0)->get('alarm');
+        $inquiries = Inquiry::query()->where('notified', 0)->whereNotNull('alarm')->get();
 
-        foreach ($notification_dates as $date) {
-            $alarm = $date->getAttribute('alarm');
-        }
+        foreach ($inquiries as $inquiry) {
+            if ($inquiry->getAttribute('alarm')->format('Y-m-d h:i') == now()->format('Y-m-d h:i')) {
+                (new FirebaseApi)->sendNotification($this->creator, $this->receivers, $this->title, $this->body, $this->url);
+                (new FirebaseApi)->sendPushNotification($this->receivers, $this->url, $this->title, $this->body);
 
-        if ($alarm == now()) {
-            (new FirebaseApi)->sendNotification($this->creator, $this->receivers, $this->title, $this->body, $this->url);
-            $inquiry->setAttribute('notified', 1);
+                $inquiry->setAttribute('notified', 1);
+                $inquiry->save();
+            }
         }
     }
 }
