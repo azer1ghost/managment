@@ -120,7 +120,7 @@ class Sidebar extends Component
                 'title' => __('translates.navbar.law'),
                 'icon' => 'fas fa-gavel',
                 'url' => '#',
-                'permission' => 'viewAny-report',
+                'permission' => 'viewAny-partner',
                 'children' => [
                     (object)[
                         'title' => __('translates.navbar.partners'),
@@ -192,7 +192,7 @@ class Sidebar extends Component
                 'title' => 'Dev Tools',
                 'icon' => 'fas fa-laptop-code',
                 'url' => '#',
-                'permission' => 'viewAny-report',
+                'permission' => 'viewAny-parameter',
                 'children' => [
                     (object)[
                         'title' => __('translates.navbar.parameter'),
