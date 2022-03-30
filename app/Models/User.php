@@ -349,5 +349,8 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
             'DYI' => 'DYI',
         ];
     }
-
+    public function getMainColumn(): string
+    {
+        return $this->getAttribute('name');
+    }
 }
