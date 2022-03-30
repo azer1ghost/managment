@@ -27,9 +27,9 @@
                     <x-form-group  class="pr-3 col-12 col-lg-6">
                         <x-form-input name="name" label="Document name"/>
                     </x-form-group>
-                    <x-form-group  class="pr-3 col-12 col-lg-6">
-                        <x-form-input readonly name="file" label="Document file"/>
-                    </x-form-group>
+{{--                    <x-form-group  class="pr-3 col-12 col-lg-6">--}}
+{{--                        <x-form-input readonly name="name" label="Document file"/>--}}
+{{--                    </x-form-group>--}}
                 </div>
             </div>
         </div>
