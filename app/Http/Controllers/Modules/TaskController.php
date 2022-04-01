@@ -7,6 +7,7 @@ use App\Events\TaskStatusDone;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskRequest;
 use App\Models\Department;
+use App\Models\Document;
 use App\Models\Inquiry;
 use App\Models\TaskList;
 use App\Models\User;
@@ -249,12 +250,23 @@ class TaskController extends Controller
 
     public function redirect(Task $task)
     {
+        $documents = $task->getRelationValue('documents');
+        $result = $task->result()->first();
 
         $newTask = $task->replicate();
         $newTask->setAttribute('taskable_id', request('department_id'));
         $newTask->setAttribute('taskable_type', Department::class);
         $newTask->setAttribute('user_id', auth()->id());
         $newTask->save();
+
+        /** @var Document $document */
+        foreach ($documents as $document) {
+            $newTask->documents()->create($document->toArray());
+        }
+
+        if ($result) {
+            $newTask->result()->create($result->toArray());
+        }
 
         event(new TaskCreated($newTask));
 

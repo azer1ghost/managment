@@ -2,9 +2,9 @@
 
 namespace App\Console;
 
+use App\Jobs\InquiryAlarm;
 use App\Jobs\ProcessStatistics;
 use App\Jobs\ProcessWeather;
-use App\Jobs\ProcessWidgets;
 use App\Jobs\StatisticsResolver;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -28,6 +28,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->job(InquiryAlarm::class)->everyMinute()->environments(['staging', 'production']);
+        $schedule->job(InquiryAlarm::class)->everyMinute()->environments(['testing', 'local']);
+
         $schedule->job(ProcessStatistics::class)->everyFourHours()->environments(['staging', 'production']);
         $schedule->job(ProcessStatistics::class)->everyMinute()->environments(['testing', 'local']);
 

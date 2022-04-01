@@ -31,6 +31,7 @@ class InquiryRequest extends FormRequest
             'is_out' => 'required|numeric',
             'client_id' => 'nullable|integer',
             'checking' => 'nullable|numeric',
+            'alarm' => 'date|nullable',
         ];
     }
 }

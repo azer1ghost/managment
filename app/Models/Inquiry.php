@@ -41,12 +41,14 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
         'department_id',
         'client_id',
         'checking',
+        'alarm',
         'next_call_at'
     ];
 
     protected $casts = [
         'datetime' => 'datetime',
-        'editable_ended_at' => 'datetime'
+        'editable_ended_at' => 'datetime',
+        'alarm' => 'datetime',
     ];
 
     protected $touches = ['parameters'];

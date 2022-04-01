@@ -296,6 +296,7 @@ return [
             'from_customers' => 'Müştərilərdən'
         ],
         'label' => 'Sorğu növü',
+        'alarm' => 'You must contact the customer'
     ],
 
     'tasks' => [
