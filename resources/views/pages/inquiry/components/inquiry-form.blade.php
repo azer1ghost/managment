@@ -83,14 +83,14 @@
             @endif
         </div>
     @endforeach
-{{--        @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES))--}}
+        @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES))
             <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
                 <label for="alarm">Alarm Vaxtı</label>
                 <input type="text" name="alarm"
                        value="{{$inquiry->getAttribute('alarm')}}"
                        id="alarm" class="form-control custom-single-daterange" >
             </div>
-{{--        @endif--}}
+        @endif
     @if($selected['company'])
         <x-input::textarea name="note"  :value="$note"  label="Note"   width="12" rows="4"/>
         <div class="col-md-3">
