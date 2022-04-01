@@ -122,21 +122,6 @@ class SalesInquiryController extends Controller
 
     public function potentialCustomers(Request $request)
     {
-
-//        $inquiries = Inquiry::query()->where('notified', 0)->whereNotNull('alarm')->get();
-//
-//        foreach ($inquiries as $inquiry) {
-//            if ($inquiry->getAttribute('alarm')->format('Y-m-d h') == now()->format('Y-m-d h')) {
-//                (new FirebaseApi)->sendNotification($inquiry->getRelationValue('user'), [$inquiry->getRelationValue('user')], '$this->title', '$this->body', '$this->url');
-//                (new FirebaseApi)->sendPushNotification([$inquiry->getRelationValue('user')], '$this->url', '$this->title', '$this->body');
-//
-//                $inquiry->setAttribute('notified', 1);
-//                $inquiry->save();
-//            }
-//        }
-//    }
-
-
         $filters = [
             'code'       => $request->get('code'),
             'note'       => $request->get('note'),
