@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Events\InquiryAlarm;
 use App\Events\TaskCreated;
 use App\Events\TaskListCreated;
 use App\Events\TaskListDone;
@@ -61,10 +60,6 @@ class EventServiceProvider extends ServiceProvider
             SendNotification::class,
             SendPushNotification::class,
 //            SendEmailNotification::class,
-        ],
-        InquiryAlarm::class => [
-            SendNotification::class,
-            SendPushNotification::class,
         ],
 //        TaskListDone::class => [
 //            SendNotification::class,

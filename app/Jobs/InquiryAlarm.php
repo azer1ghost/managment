@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Inquiry;
+use App\Models\Log;
 use App\Models\User;
 use App\Services\FirebaseApi;
 use Illuminate\{Bus\Queueable,
@@ -10,7 +11,7 @@ use Illuminate\{Bus\Queueable,
     Foundation\Bus\Dispatchable,
     Queue\InteractsWithQueue,
     Queue\SerializesModels};
-use Carbon\Carbon;
+
 
 class InquiryAlarm implements ShouldQueue
 {
@@ -34,10 +35,9 @@ class InquiryAlarm implements ShouldQueue
         $inquiries = Inquiry::query()->where('notified', 0)->whereNotNull('alarm')->get();
 
         foreach ($inquiries as $inquiry) {
-            if ($inquiry->getAttribute('alarm')->format('Y-m-d h:i') == now()->format('Y-m-d h:i')) {
+            if ($inquiry->getAttribute('alarm')->format('Y-m-d h') == now()->format('Y-m-d h')) {
                 (new FirebaseApi)->sendNotification($this->creator, $this->receivers, $this->title, $this->body, $this->url);
                 (new FirebaseApi)->sendPushNotification($this->receivers, $this->url, $this->title, $this->body);
-
                 $inquiry->setAttribute('notified', 1);
                 $inquiry->save();
             }
