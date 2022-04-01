@@ -3,41 +3,38 @@
 namespace App\Jobs;
 
 use App\Models\Inquiry;
-use App\Models\Log;
-use App\Models\User;
 use App\Services\FirebaseApi;
 use Illuminate\{Bus\Queueable,
     Contracts\Queue\ShouldQueue,
     Foundation\Bus\Dispatchable,
     Queue\InteractsWithQueue,
     Queue\SerializesModels};
-
+use Illuminate\Support\Facades\Log;
 
 class InquiryAlarm implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public User $creator;
-    public array $receivers = [];
-    public string $title, $body = '', $url;
+    public string $title;
 
-    public function __construct(Inquiry $inquiry)
+    public function __construct()
     {
-        $this->url = route('inquiry.show', $inquiry);
-        $this->creator = $inquiry->getRelationValue('user');
         $this->title = trans('translates.inquiries.alarm');
-        $this->body = $inquiry->getRelationValue('client')->getAttribute('name').' : '.$inquiry->getRelationValue('client')->getAttribute('phone');
-        $this->receivers[] = $this->creator;
     }
 
-    public function handle()
+    public function handle(): void
     {
         $inquiries = Inquiry::query()->where('notified', 0)->whereNotNull('alarm')->get();
 
         foreach ($inquiries as $inquiry) {
-            if ($inquiry->getAttribute('alarm')->format('Y-m-d h') == now()->format('Y-m-d h')) {
-                (new FirebaseApi)->sendNotification($this->creator, $this->receivers, $this->title, $this->body, $this->url);
-                (new FirebaseApi)->sendPushNotification($this->receivers, $this->url, $this->title, $this->body);
+            if ($inquiry->getAttribute('alarm')->format('d m Y H:i') <= now()->format('d m Y H:i')) {
+                $url = route('inquiry.show', $inquiry);
+                $creator = $inquiry->getRelationValue('user');
+                $body = $inquiry->getRelationValue('client')->getAttribute('name').' : '.$inquiry->getRelationValue('client')->getAttribute('phone');
+
+                (new FirebaseApi)->sendNotification($creator, [$creator], $this->title, $body, $url);
+                (new FirebaseApi)->sendPushNotification([$creator], $url, $this->title, $body);
+
                 $inquiry->setAttribute('notified', 1);
                 $inquiry->save();
             }

@@ -239,8 +239,8 @@
                             @csrf
                             <div class="form-group col-md-12">
                                 <label>{{trans('translates.fields.department')}}</label>
-                                <select class="form-control @error('department') is-invalid @enderror" name="department_id">
-                                    <option value="null" disabled selected>{{trans('translates.fields.department')}} {{trans('translates.placeholders.choose')}}</option>
+                                <select class="form-control @error('department') is-invalid @enderror" name="department_id" required>
+                                    <option value="" disabled selected>{{trans('translates.fields.department')}} {{trans('translates.placeholders.choose')}}</option>
                                     @foreach($departments as $depart)
                                         <option value="{{ $depart->getAttribute('id') }}">{{ $depart->getAttribute('name') }}</option>
                                     @endforeach
