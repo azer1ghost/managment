@@ -8,7 +8,11 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
         <x-bread-crumb-link :link="$backUrl">
-            @lang('translates.navbar.inquiry')
+            @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES))
+                @lang('translates.navbar.inquiry_sales')
+            @else
+                @lang('translates.navbar.inquiry')
+            @endif
         </x-bread-crumb-link>
         <x-bread-crumb-link>
             @if ($method != 'POST')
