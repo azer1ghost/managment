@@ -27,7 +27,7 @@ class InquiryAlarm implements ShouldQueue
         $inquiries = Inquiry::query()->where('notified', 0)->whereNotNull('alarm')->get();
 
         foreach ($inquiries as $inquiry) {
-            if ($inquiry->getAttribute('alarm')->format('d m Y H:i') <= now()->format('d m Y H:i')) {
+            if ($inquiry->getAttribute('alarm')->format('d m Y H:i') == now()->format('d m Y H:i')) {
                 $url = route('inquiry.show', $inquiry);
                 $creator = $inquiry->getRelationValue('user');
                 $body = $inquiry->getRelationValue('client')->getAttribute('name').' : '.$inquiry->getRelationValue('client')->getAttribute('phone');
