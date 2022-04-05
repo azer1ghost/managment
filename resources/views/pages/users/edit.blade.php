@@ -18,6 +18,7 @@
             @endif
         </x-bread-crumb-link>
     </x-bread-crumb>
+
     <form class="form-row mr-0" action="{{$action}}" method="post" enctype="multipart/form-data">
         @csrf @method($method)
         @bind($data)
@@ -28,7 +29,17 @@
             @else
                 <img src="{{image(optional($data)->getAttribute('avatar'))}}" alt="user" class="img-fluid"}}>
             @endif
+            <div>
+                @if(auth()->user()->isDeveloper() && !$data->isDeveloper() && !$data->isDisabled())
+                    <a href="{{route('users.loginAs', $data)}}"
+                       class="dropdown-item-text text-decoration-none"
+                    >
+                        <i class="fal fa-user pr-2 text-info"></i>Login as
+                    </a>
+                @endif
+            </div>
         </div>
+
         <!-- Main -->
         <div class="col-md-10 px-0 pl-3">
             <p class="text-muted mb-2">@lang('translates.fields.personal')</p>
