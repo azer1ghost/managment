@@ -172,7 +172,7 @@ return [
         'account' => 'Hesab',
         'signature' => 'Email İmza',
         'inquiry' => 'Sorğular',
-        'inquiry_sales' => 'Satış Sorğuları',
+        'inquiry_sales' => 'Zənglər',
         'task' => 'Tapşırıqlar',
         'parameter' => 'Parametrlər',
         'option' => 'Seçimlər',
@@ -296,6 +296,7 @@ return [
             'from_customers' => 'Müştərilərdən'
         ],
         'label' => 'Sorğu növü',
+        'alarm' => 'Müştəri ilə əlaqə saxlamalısınız'
     ],
 
     'tasks' => [

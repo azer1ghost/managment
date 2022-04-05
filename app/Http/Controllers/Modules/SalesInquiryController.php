@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Modules;
 
+use App\Services\FirebaseApi;
 use App\Models\{Department, Inquiry, Parameter, User};
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

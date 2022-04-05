@@ -18,7 +18,7 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
         <x-bread-crumb-link :link="route('inquiry.sales')">
-            @lang('translates.navbar.inquiry')
+            @lang('translates.navbar.inquiry_sales')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
          Potensial Müştərilər

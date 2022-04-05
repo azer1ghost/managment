@@ -16,7 +16,7 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
-            @lang('translates.navbar.inquiry')
+            @lang('translates.navbar.inquiry_sales')
         </x-bread-crumb-link>
     </x-bread-crumb>
     <button class="btn btn-outline-success mb-3 showFilter">
