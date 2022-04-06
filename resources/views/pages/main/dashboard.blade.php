@@ -106,6 +106,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-success copy">Copy</button>
                             </div>
                         </div>
                     </div>
@@ -121,4 +122,16 @@
             @endif
         @endforeach
     </div>
+@endsection
+@section('scripts')
+    <script>
+        $('.copy').click(function () {
+            const newCustomer = '{{$newCustomer}}';
+            const meetings = '{{$meetings}}';
+            const recall = '{{$recall}}';
+            let data = `Yeni Müştəri: ${newCustomer}, Təkrakr Zəng: ${recall}, Görüşmə: ${meetings}`;
+            navigator.clipboard.writeText(data);
+            $(this).text('@lang('translates.buttons.copied')');
+        });
+    </script>
 @endsection
