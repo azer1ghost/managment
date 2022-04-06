@@ -82,7 +82,7 @@
                     </div>
                 @endforeach
             </div>
-            @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES))
+            @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES)
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                     @lang('translates.navbar.report')
                 </button>

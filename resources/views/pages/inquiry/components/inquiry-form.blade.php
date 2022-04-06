@@ -83,7 +83,7 @@
             @endif
         </div>
     @endforeach
-        @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES))
+        @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES)
             <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
                 <label for="alarm">Alarm Vaxtı</label>
                 <input type="text" name="alarm"
