@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Announcement;
 use App\Models\Document;
 use App\Models\Inquiry;
+use App\Models\SalesActivity;
 use App\Models\Service;
 use App\Models\Task;
 use App\Models\User;
@@ -116,6 +117,17 @@ class PlatformController extends Controller
 
     public function dashboard(): View
     {
+        $newCustomer = Inquiry::isReal()->where('user_id', auth()->id())->monthly()->whereHas('options', function ($q) {
+            $q->where('inquiry_parameter.value', Inquiry::NEWCUSTOMER);
+        })->count();
+        $recall = Inquiry::isReal()->monthly()->whereHas('options', function ($q) {
+            $q->where('inquiry_parameter.value', Inquiry::RECALL);
+        })->count();
+        $meetings = SalesActivity::query()
+            ->where('user_id', auth()->id())
+            ->where('sales_activity_type_id', 1)
+            ->count();
+
         $currencies = [
             'USD' => [
                 'flag' => 'dollar',
@@ -145,6 +157,9 @@ class PlatformController extends Controller
             'statistics' => $this->cacheService->getData('statistics') ?? [],
             'weather' => $this->cacheService->getData('open_weather'),
             'currencies' => $currencies,
+            'newCustomer' => $newCustomer,
+            'recall' => $recall,
+            'meetings' => $meetings,
         ]);
     }
 
@@ -155,9 +170,7 @@ class PlatformController extends Controller
 
     public function test()
     {
-        abort_if(auth()->user()->isNotDeveloper(), 403);
 
-        return 'test';
     }
 
     public function documentTemporaryUrl(Document $document)

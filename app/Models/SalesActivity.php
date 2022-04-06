@@ -48,4 +48,8 @@ class SalesActivity extends Model
     {
         return $this->belongsTo(SalesClient::class, 'client_id')->withDefault();
     }
+    public function scopeMonthly($query)
+    {
+        return $query->where('datetime', '>=', now()->firstOfMonth());
+    }
 }
