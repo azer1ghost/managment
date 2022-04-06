@@ -120,7 +120,7 @@ class PlatformController extends Controller
         $newCustomer = Inquiry::isReal()->where('user_id', auth()->id())->monthly()->whereHas('options', function ($q) {
             $q->where('inquiry_parameter.value', Inquiry::NEWCUSTOMER);
         })->count();
-        $recall = Inquiry::isReal()->monthly()->whereHas('options', function ($q) {
+        $recall = Inquiry::isReal()->where('user_id', auth()->id())->monthly()->whereHas('options', function ($q) {
             $q->where('inquiry_parameter.value', Inquiry::RECALL);
         })->count();
         $meetings = SalesActivity::query()
