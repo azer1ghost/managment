@@ -105,8 +105,8 @@
                                 </ul>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-success copy">Copy</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
+                                <button type="button" class="btn btn-success copy">@lang('translates.buttons.copy')</button>
                             </div>
                         </div>
                     </div>
