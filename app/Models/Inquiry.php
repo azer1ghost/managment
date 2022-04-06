@@ -29,6 +29,9 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
     const UNREACHABLE = 25;
     // option id of redirected of status parameter
     const REDIRECTED = 40;
+    // option IDs of subject parameter
+    const NEWCUSTOMER = 68;
+    const RECALL = 69;
 
     protected $fillable = [
         'code',
