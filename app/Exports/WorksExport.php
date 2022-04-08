@@ -38,6 +38,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             'Müştəri adı',
             'VOEN/GOOEN',
             'Status',
+            'Qalıq',
         ];
 
         foreach (Service::serviceParameters() as $serviceParameter) {
@@ -68,6 +69,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             $row->getRelationValue('client')->getAttribute('fullname'),
             $row->getRelationValue('client')->getAttribute('voen') ?? 'Yoxdur',
             trans('translates.work_status.' . $row->status),
+            $row->getParameter(32) - $row->getParameter(19)
         ];
 
         foreach (Service::serviceParameters() as $serviceParameter) {
