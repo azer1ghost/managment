@@ -21,8 +21,8 @@ class ReportPolicy
     public function generateSubReport(User $user, Report $report): bool
     {
         return
-            ($this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) &&
-            $user->getAttribute('id') == $report->getAttribute('chief_id')) || auth()->user()->hasPermission('updateSubReport');
+            $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) &&
+            $user->getAttribute('id') == $report->getAttribute('chief_id');
     }
 
     public function showSubReports(User $user, Report $report): bool
