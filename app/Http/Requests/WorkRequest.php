@@ -15,6 +15,7 @@ class WorkRequest extends FormRequest
             'asan_imza_id' => 'nullable|integer',
             'service_id' => 'nullable|integer',
             'client_id' => 'nullable|integer',
+            'custom_asan' => 'nullable|string',
             'parameters' => 'nullable|array',
             'status' => 'nullable|integer',
             'satisfaction' => 'nullable|integer',
