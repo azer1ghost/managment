@@ -297,11 +297,11 @@
     <script>
         const AsanId = $('#data-asan_imza_id');
 
-        if (AsanId.val() === '21') $('.custom_asan').show();
+        if (AsanId.val() === '22') $('.custom_asan').show();
         else $('.custom_asan').hide();
 
         AsanId.change(function () {
-            if ($(this).val() === '21') $('.custom_asan').show();
+            if ($(this).val() === '22') $('.custom_asan').show();
             else $('.custom_asan').hide();
         });
     </script>
