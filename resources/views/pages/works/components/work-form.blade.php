@@ -98,6 +98,11 @@
                             @endforeach
                         </select>
                     </div>
+
+                    <div class="form-group col-12 col-md-3 custom_asan">
+                        <label for="custom_asan">Digər Şirkət Asan İmza</label>
+                        <input @if(auth()->user()->isSales()) readonly @endif value="{{optional($data)->getAttribute('custom_asan')}}" type="text" name="custom_asan" id="custom_asan" class="form-control" placeholder="Digər şirkətin Asan imzasını daxil edin">
+                    </div>
                 @endif
 
                 @if($method != 'POST')
@@ -288,5 +293,16 @@
             }
         });
 
+    </script>
+    <script>
+        const AsanId = $('#data-asan_imza_id');
+
+        if (AsanId.val() === '21') $('.custom_asan').show();
+        else $('.custom_asan').hide();
+
+        AsanId.change(function () {
+            if ($(this).val() === '21') $('.custom_asan').show();
+            else $('.custom_asan').hide();
+        });
     </script>
 @endpush

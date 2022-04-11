@@ -37,6 +37,7 @@ class Work extends Model implements DocumentableInterface, Recordable
         'asan_imza_id',
         'service_id',
         'client_id',
+        'custom_asan',
         'status',
         'satisfaction',
         'datetime',
