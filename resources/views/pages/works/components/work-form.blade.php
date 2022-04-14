@@ -170,7 +170,19 @@
                         </select>
                     </div>
                 @endif
-
+                <div class="form-group col-12 col-md-3" wire:ignore>
+                    <label for="data-payment_method">@lang('translates.general.payment_method')</label>
+                    <select name="payment_method" id="data-payment_method" class="form-control">
+                        <option disabled >@lang('translates.general.payment_method')</option>
+                        @foreach($payment_methods as $key => $payment_method)
+                            <option
+                                    @if(optional($data)->getAttribute('payment_method') === $payment_method ) selected @endif
+                            value="{{$payment_method}}">
+                                @lang('translates.payment_methods.' . $key)
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
                 @if(auth()->user()->hasPermission('canVerify-work') && $method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Work::DONE)
                     <div class="col-12" wire:ignore>
                         <input type="checkbox" @if(auth()->user()->isSales()) disabled @endif  id="data-verified" name="verified" @if(!is_null(optional($data)->getAttribute('verified_at'))) checked @endif>

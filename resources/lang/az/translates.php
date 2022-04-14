@@ -505,6 +505,7 @@ return [
         'currency_value' => 'Valyuta Miqdarı',
         'symbol' => 'Simvol',
         'satisfaction' => 'Məmnuniyət',
+        'payment_method' => 'Ödəmə Üsulu'
     ],
 
     'clients' => [
@@ -526,6 +527,12 @@ return [
         'Davam Edir',
         'Tamamlandı',
         'Qəbul edilmyib'
+    ],
+
+    'payment_methods' => [
+        1 => 'Cash',
+        'Bank',
+        'PBank'
     ],
 
     'satisfactions' => [

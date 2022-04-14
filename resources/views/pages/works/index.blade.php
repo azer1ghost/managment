@@ -263,6 +263,7 @@
             @foreach(\App\Models\Service::serviceParameters() as $param)
                 <th scope="col">{{$param['data']->getAttribute('label')}}</th>
             @endforeach
+            <th scope="col">Qal;q</th>
             <th scope="col">@lang('translates.fields.created_at')</th>
             <th scope="col">@lang('translates.fields.date')</th>
             <th scope="col">@lang('translates.columns.verified')</th>
@@ -272,6 +273,7 @@
         <tbody>
         @php
             $totals = []; // array of countable service parameters. Ex: Declaration count
+            $qaliq = null; // array of countable service parameters. Ex: Declaration count
             $hasPending = false; // check if there's pending work
         @endphp
         @forelse($works as $work)
@@ -288,27 +290,28 @@
                     <td></td>
                 @endif
 
-                @if(auth()->user()->hasPermission('satisfactionMeasure-work') && $work->isdone())
-                        @if(is_numeric($work->getAttribute('satisfaction')))
-                            @php
-                                switch($work->getAttribute('satisfaction')){
-                                    case(1):
-                                        $colors = 'success';
-                                        break;
-                                    case(2):
-                                        $colors = 'danger';
-                                        break;
-                                    case(3):
-                                        $colors = 'warning';
-                                        break;
-                                }
-                            @endphp
-                        @endif
-                    <td>
-                        <span class="badge badge-{{$colors}}"><i class="far fa-smile fa-2x"></i></span>
-                    </td>
-{{--                    @else--}}
-{{--                    <td></td>--}}
+                @if(auth()->user()->hasPermission('satisfactionMeasure-work'))
+                    @if(is_numeric($work->getAttribute('satisfaction')) && $work->isDone())
+                        @php
+                            switch($work->getAttribute('satisfaction')){
+                                case(1):
+                                    $colors = 'success';
+                                    break;
+                                case(2):
+                                    $colors = 'danger';
+                                    break;
+                                case(3):
+                                    $colors = 'warning';
+                                    break;
+                            }
+                        @endphp
+                        <td>
+                            <span class="badge badge-{{$colors}}"><i class="far fa-smile fa-2x"></i></span>
+                        </td>
+
+                    @else
+                        <td></td>
+                    @endif
                 @endif
 
                 @if(auth()->user()->isDeveloper())
@@ -368,6 +371,7 @@
                         }
                     @endphp
                 @endforeach
+                <td style="color: red;" title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip">{{($work->getParameter(32) + $work->getParameter(19) - $work->getParameter(34)) * (-1)}}</td>
                 <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('created_at'))->diffForHumans()}}</td>
                 <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip">{{optional($work->getAttribute('datetime'))->format('Y-m-d')}}</td>
                 <td>
@@ -440,6 +444,7 @@
                     </div>
                 </th>
             </tr>
+
         @endforelse
         @if($works->isNotEmpty())
             <tr style="background: #b3b7bb" id="count">
@@ -447,14 +452,18 @@
                     <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
                 </td>
                 <!-- loop of totals of countable parameters -->
+
                 @foreach($totals as $total)
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{$total}}</strong></p></td>
                 @endforeach
+
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{($work->getParameter(32) + $work->getParameter(19) - $work->getParameter(34)) * (-1)}}</strong></p></td>
                 <td colspan="6"></td>
             </tr>
         @endif
         </tbody>
     </table>
+{{--    @dd(count( 1 + 2 - 3))--}}
 
     @if($hasPending && auth()->user()->hasPermission('canVerify-work'))
         <div class="col-12 pl-0 py-3">

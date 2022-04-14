@@ -39,6 +39,7 @@ class Work extends Model implements DocumentableInterface, Recordable
         'client_id',
         'status',
         'satisfaction',
+        'payment_method',
         'datetime',
         'created_at',
         'verified_at',
@@ -112,6 +113,11 @@ class Work extends Model implements DocumentableInterface, Recordable
     public static function statuses(): array
     {
         return [1 => 1, 2, 3, 4];
+    }
+
+    public static function paymentMethods(): array
+    {
+        return [1 => 1, 2, 3];
     }
 
     public static function satisfactions(): array

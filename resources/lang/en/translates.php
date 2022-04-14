@@ -502,6 +502,7 @@ return [
         'currency_value' => 'Currency Value',
         'symbol' => 'Symbol',
         'satisfaction' => 'Satisfaction',
+        'payment_method' => 'Payment Method',
     ],
 
     'clients' => [
@@ -525,6 +526,12 @@ return [
         'Continue',
         'Done',
         'Rejected'
+    ],
+
+    'payment_methods' => [
+         1 => 'Cash',
+         'Bank',
+         'PBank'
     ],
 
     'satisfactions' => [

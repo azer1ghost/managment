@@ -38,7 +38,6 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             'Müştəri adı',
             'VOEN/GOOEN',
             'Status',
-            'Qalıq',
         ];
 
         foreach (Service::serviceParameters() as $serviceParameter) {
@@ -46,6 +45,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         }
 
         $this->headings = array_merge($this->headings, [
+                'Qalıq',
                 trans('translates.columns.created_at'),
                 'Bitirilib',
                 'Təstiqlənib',
@@ -69,7 +69,6 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             $row->getRelationValue('client')->getAttribute('fullname'),
             $row->getRelationValue('client')->getAttribute('voen') ?? 'Yoxdur',
             trans('translates.work_status.' . $row->status),
-            $row->getParameter(32) - $row->getParameter(19)
         ];
 
         foreach (Service::serviceParameters() as $serviceParameter) {
@@ -77,6 +76,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         }
 
         return array_merge($maps, [
+            $row->getParameter(32) + $row->getParameter(19) - $row->getParameter(34),
             $row->getAttribute('created_at')->format('d-m-Y'),
             optional($row->getAttribute('datetime'))->format('d-m-Y') ?? 'Xeyir',
             optional($row->getAttribute('verified_at'))->format('d-m-Y') ?? 'Xeyir',
