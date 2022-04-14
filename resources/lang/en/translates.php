@@ -426,6 +426,7 @@ return [
         'class' => 'Category',
         'title' => 'Title',
         'date_time' => 'Date Time',
+        'residue' => 'Balance',
     ],
 
     'notify' => [

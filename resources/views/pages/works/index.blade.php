@@ -263,7 +263,7 @@
             @foreach(\App\Models\Service::serviceParameters() as $param)
                 <th scope="col">{{$param['data']->getAttribute('label')}}</th>
             @endforeach
-            <th scope="col">Qal;q</th>
+            <th scope="col">@lang('translates.columns.residue')</th>
             <th scope="col">@lang('translates.fields.created_at')</th>
             <th scope="col">@lang('translates.fields.date')</th>
             <th scope="col">@lang('translates.columns.verified')</th>
@@ -273,7 +273,7 @@
         <tbody>
         @php
             $totals = []; // array of countable service parameters. Ex: Declaration count
-            $qaliq = null; // array of countable service parameters. Ex: Declaration count
+            $balance = [];
             $hasPending = false; // check if there's pending work
         @endphp
         @forelse($works as $work)
@@ -371,7 +371,10 @@
                         }
                     @endphp
                 @endforeach
-                <td style="color: red;" title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip">{{($work->getParameter(32) + $work->getParameter(19) - $work->getParameter(34)) * (-1)}}</td>
+                    @php
+                        $residue = ($work->getParameter($work::VAL) + $work->getParameter($work::AMOUNT) - $work->getParameter($work::PAID)) * -1;
+                    @endphp
+                <td class="font-weight-bold" style="color: @if($residue < 0) red @elseif($residue > 0) green @endif;" data-toggle="tooltip">{{$residue}}</td>
                 <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('created_at'))->diffForHumans()}}</td>
                 <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip">{{optional($work->getAttribute('datetime'))->format('Y-m-d')}}</td>
                 <td>
@@ -436,6 +439,10 @@
                     </div>
                 </td>
             </tr>
+            @php
+                $balance[] = $residue;
+                $sum_balance = array_sum($balance)
+            @endphp
         @empty
             <tr>
                 <th colspan="20">
@@ -445,7 +452,9 @@
                 </th>
             </tr>
 
+
         @endforelse
+
         @if($works->isNotEmpty())
             <tr style="background: #b3b7bb" id="count">
                 <td colspan="@if(auth()->user()->isDeveloper()) 10 @elseif(auth()->user()->hasPermission('satisfactionMeasure-work')) 8 @elseif(auth()->user()->hasPermission('viewAll-work') || auth()->user()->hasPermission('canVerify-work'))  7 @else 6 @endif">
@@ -457,7 +466,7 @@
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{$total}}</strong></p></td>
                 @endforeach
 
-                <td><p style="font-size: 16px" class="mb-0"><strong>{{($work->getParameter(32) + $work->getParameter(19) - $work->getParameter(34)) * (-1)}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_balance}}</strong></p></td>
                 <td colspan="6"></td>
             </tr>
         @endif

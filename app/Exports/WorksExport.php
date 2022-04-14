@@ -76,7 +76,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         }
 
         return array_merge($maps, [
-            $row->getParameter(32) + $row->getParameter(19) - $row->getParameter(34),
+            ($row->getParameter($row::VAL) + $row->getParameter($row::AMOUNT) - $row->getParameter($row::PAID)) * -1,
             $row->getAttribute('created_at')->format('d-m-Y'),
             optional($row->getAttribute('datetime'))->format('d-m-Y') ?? 'Xeyir',
             optional($row->getAttribute('verified_at'))->format('d-m-Y') ?? 'Xeyir',

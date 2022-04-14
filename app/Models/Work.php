@@ -29,6 +29,10 @@ class Work extends Model implements DocumentableInterface, Recordable
     const UNSATISFIED = 2;
     const UNKNOWN = 3;
 
+    const AMOUNT = 19;
+    const VAL = 32;
+    const PAID = 34;
+
     protected $fillable = [
         'detail',
         'creator_id',
