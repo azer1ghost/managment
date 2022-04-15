@@ -188,11 +188,16 @@
                         <input type="checkbox" @if(auth()->user()->isSales()) disabled @endif  id="data-verified" name="verified" @if(!is_null(optional($data)->getAttribute('verified_at'))) checked @endif>
                         <label class="form-check-label" for="data-verified">@lang('translates.columns.verified')</label>
                     </div>
-                    <div class="form-group col-12" wire:ignore>
+                    <div class="col-12" wire:ignore>
                         <input type="checkbox" id="data-rejected" name="rejected" @if(optional($data)->getAttribute('status') == \App\Models\Work::REJECTED) checked @endif>
                         <label class="form-check-label" for="data-rejected">@lang('translates.columns.rejected')</label>
                     </div>
+                    <div class=" form-group col-12" wire:ignore>
+                        <input type="checkbox" @if(auth()->user()->isSales()) disabled @endif id="data-paid-check" name="paid_check" @if(!is_null(optional($data)->getAttribute('paid_at'))) checked @endif>
+                        <label class="form-check-label" for="data-paid-check">@lang('translates.columns.paid')</label>
+                    </div>
                 @endif
+
 
                 <div class="form-group col-12" wire:ignore>
                     <label for="data-detail">@lang('translates.general.work_detail')</label>

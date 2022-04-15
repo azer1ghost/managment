@@ -47,6 +47,7 @@ class Work extends Model implements DocumentableInterface, Recordable
         'datetime',
         'created_at',
         'verified_at',
+        'paid_at',
     ];
 
 //    protected $casts = [
@@ -54,7 +55,7 @@ class Work extends Model implements DocumentableInterface, Recordable
 //        'verified_at' => 'datetime'
 //    ];
 
-    protected $dates = ['datetime', 'verified_at'];
+    protected $dates = ['datetime', 'verified_at', 'paid_at'];
 
     public function getMainColumn(): string
     {
@@ -163,6 +164,10 @@ class Work extends Model implements DocumentableInterface, Recordable
     public function scopeIsVerified($query)
     {
         return $query->whereNotNull('verified_at')->where('status', '!=', self::REJECTED);
+    }
+    public function scopeIsPaid($query)
+    {
+        return $query->whereNotNull('paid_at')->where('status', '!=', self::REJECTED);
     }
 
     public function scopeIsRejected($query)

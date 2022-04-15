@@ -404,6 +404,7 @@ return [
         'deadline' => 'Son tarix',
         'parameter_label' => 'Parameter Label',
         'verified' => 'Təsdiqlənib',
+        'paid' => 'Ödənilib',
         'expired' => 'Vaxtı bitib',
         'total' => 'Toplam',
         'user_works' => 'İstifadəçinin Gördüyü İşlər',
