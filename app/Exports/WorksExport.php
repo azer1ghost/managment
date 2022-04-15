@@ -47,6 +47,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         $this->headings = array_merge($this->headings, [
                 'Qalıq',
                 trans('translates.columns.created_at'),
+                'Ödəniş Tarixi',
                 'Bitirilib',
                 'Təstiqlənib',
                 'Təstiqlənib Saat',
@@ -78,6 +79,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         return array_merge($maps, [
             ($row->getParameter($row::VAL) + $row->getParameter($row::AMOUNT) - $row->getParameter($row::PAID)) * -1,
             $row->getAttribute('created_at')->format('d-m-Y'),
+            optional($row->getAttribute('paid_at'))->format('d-m-Y') ?? 'Tam Ödəniş olmayıb',
             optional($row->getAttribute('datetime'))->format('d-m-Y') ?? 'Xeyir',
             optional($row->getAttribute('verified_at'))->format('d-m-Y') ?? 'Xeyir',
             optional($row->getAttribute('verified_at'))->format('H:i') ?? 'Xeyir'
