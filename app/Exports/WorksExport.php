@@ -29,28 +29,24 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         $this->dateFilters = $dateFilters;
 
         $this->headings = [
-//            trans('translates.columns.created_by'),
-//            trans('translates.fields.department'),
-            trans('translates.columns.user'),
-            trans('translates.navbar.asan_imza'),
-            trans('translates.general.work_service'),
-            'Şəxs',
+            trans('translates.columns.created_at'),
             'Müştəri adı',
-            'VOEN/GOOEN',
-            'Status',
+            'Şəxs',
+            trans('translates.general.work_service'),
+
         ];
 
-        foreach (Service::serviceParameters() as $serviceParameter) {
+        foreach (Service::serviceParametersExport() as $serviceParameter) {
             $this->headings[] = $serviceParameter['data']->getAttribute('label');
         }
 
         $this->headings = array_merge($this->headings, [
-                'Qalıq',
-                trans('translates.columns.created_at'),
                 'Ödəniş Tarixi',
-                'Bitirilib',
-                'Təstiqlənib',
-                'Təstiqlənib Saat',
+                'Qalıq',
+                'Bəyannaməçi',
+                'Sistemdə (ASAN IMZA)',
+                trans('translates.columns.department'),
+                'Ödəniş Üsulu',
             ]
         );
     }
@@ -63,26 +59,24 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
     public function map($row): array
     {
         $maps = [
-            $row->getRelationValue('user')->getAttribute('fullname'),
-            $row->asanImza()->exists() ? $row->getRelationValue('asanImza')->getAttribute('user_with_company') : trans('translates.filters.select'),
-            $row->getRelationValue('service')->getAttribute('shortName'),
-            $row->getRelationValue('client')->getAttribute('type') ? 'FŞ' : 'HŞ',
+            $row->getAttribute('created_at')->format('d-m-Y'),
             $row->getRelationValue('client')->getAttribute('fullname'),
-            $row->getRelationValue('client')->getAttribute('voen') ?? 'Yoxdur',
-            trans('translates.work_status.' . $row->status),
+            $row->getRelationValue('client')->getAttribute('type') ? 'FŞ' : 'HŞ',
+            $row->getRelationValue('service')->getAttribute('shortName'),
         ];
 
-        foreach (Service::serviceParameters() as $serviceParameter) {
+        foreach (Service::serviceParametersExport() as $serviceParameter) {
             $maps[] = $row->getParameter($serviceParameter['data']->getAttribute('id'));
         }
 
         return array_merge($maps, [
-            ($row->getParameter($row::VAL) + $row->getParameter($row::AMOUNT) - ($row->getParameter($row::PAID) + $row->getParameter($row::ILLEGALPAID))) * -1,
-            $row->getAttribute('created_at')->format('d-m-Y'),
             optional($row->getAttribute('paid_at'))->format('d-m-Y') ?? 'Tam Ödəniş olmayıb',
-            optional($row->getAttribute('datetime'))->format('d-m-Y') ?? 'Xeyir',
-            optional($row->getAttribute('verified_at'))->format('d-m-Y') ?? 'Xeyir',
-            optional($row->getAttribute('verified_at'))->format('H:i') ?? 'Xeyir'
+            ($row->getParameter($row::VAL) + $row->getParameter($row::AMOUNT) - ($row->getParameter($row::PAID) + $row->getParameter($row::ILLEGALPAID))) * -1,
+            $row->getRelationValue('user')->getAttribute('fullname'),
+            $row->asanImza()->exists() ? $row->getRelationValue('asanImza')->getAttribute('user_with_company') : trans('translates.filters.select'),
+            $row->getRelationValue('department')->getAttribute('short'),
+            $row->getAttribute('payment_method') ? trans('translates.payment_methods.' . $row->getAttribute('payment_method')) : '',
+
         ]);
     }
 
