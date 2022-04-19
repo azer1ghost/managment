@@ -29,10 +29,11 @@ class Work extends Model implements DocumentableInterface, Recordable
     const UNSATISFIED = 2;
     const UNKNOWN = 3;
 
-    const AMOUNT = 19;
-    const VAL = 33;
-    const PAID = 34;
-    const ILLEGALPAID = 35;
+    const AMOUNT = 33;
+    const VAT = 34;
+    const PAID = 35;
+    const ILLEGALPAID = 37;
+    const VATPAYMENT = 36;
 
     protected $fillable = [
         'detail',
@@ -49,14 +50,10 @@ class Work extends Model implements DocumentableInterface, Recordable
         'created_at',
         'verified_at',
         'paid_at',
+        'vat_date',
     ];
 
-//    protected $casts = [
-//        'datetime' => 'datetime',
-//        'verified_at' => 'datetime'
-//    ];
-
-    protected $dates = ['datetime', 'verified_at', 'paid_at'];
+    protected $dates = ['datetime', 'verified_at', 'paid_at', 'vat_date'];
 
     public function getMainColumn(): string
     {

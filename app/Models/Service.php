@@ -93,15 +93,16 @@ class Service extends Model implements Recordable
 
             return $data;
         });
-    }public static function serviceParametersExport()
+    }
+    public static function serviceParametersExport()
     {
-        if (\Cache::has('serviceParameters')) {
-            return \Cache::get('serviceParameters');
+        if (\Cache::has('serviceParametersExport')) {
+            return \Cache::get('serviceParametersExport');
         }
 
-        return \Cache::rememberForever('serviceParameters', function (){
+        return \Cache::rememberForever('serviceParametersExport', function (){
             $data = [];
-            foreach (collect(DB::table('service_parameter')->select('parameter_id', 'show_count')->get())->unique('parameter_id')->toArray() as $param){
+            foreach (collect(DB::table('service_parameter')->select('parameter_id', 'show_count')->where('show_count', 1)->get())->unique('parameter_id')->toArray() as $param){
                 $data[] = [
                     'data' => Parameter::findOrFail($param->parameter_id),
                     'count' => (bool) $param->show_count

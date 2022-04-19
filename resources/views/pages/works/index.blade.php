@@ -372,7 +372,7 @@
                     @endphp
                 @endforeach
                     @php
-                        $residue = ($work->getParameter($work::VAL) + $work->getParameter($work::AMOUNT) - ($work->getParameter($work::PAID) + $work->getParameter($work::ILLEGALPAID))) * -1;
+                        $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) - ($work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID))) * -1;
                     @endphp
                 <td class="font-weight-bold" style="color: @if($residue < 0) red @elseif($residue > 0) green @endif;" data-toggle="tooltip">{{$residue}}</td>
                 <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('created_at'))->diffForHumans()}}</td>

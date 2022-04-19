@@ -405,6 +405,7 @@ return [
         'parameter_label' => 'Parameter Label',
         'verified' => 'Təsdiqlənib',
         'paid' => 'Ödənilib',
+        'vat_paid' => 'ƏDV Ödənilib',
         'expired' => 'Vaxtı bitib',
         'total' => 'Toplam',
         'user_works' => 'İstifadəçinin Gördüyü İşlər',
@@ -532,7 +533,7 @@ return [
     ],
 
     'payment_methods' => [
-        1 => 'Cash',
+        1 => 'Nəğd',
         'Bank',
         'PBank'
     ],

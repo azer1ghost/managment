@@ -402,6 +402,7 @@ return [
         'parameter_label' => 'Parameter Label',
         'verified' => 'Verified',
         'paid' => 'Paid',
+        'vat_paid' => 'VAT Paid',
         'expired' => 'Expired',
         'total' => 'Total',
         'user_works' => 'User\'s Works',

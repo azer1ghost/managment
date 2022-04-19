@@ -11,7 +11,6 @@ use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWidths, ShouldAutoSize, WithStyles
@@ -29,6 +28,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         $this->dateFilters = $dateFilters;
 
         $this->headings = [
+            'İş Kodu',
             trans('translates.columns.created_at'),
             'Müştəri adı',
             'Şəxs',
@@ -36,13 +36,14 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
 
         ];
 
-        foreach (Service::serviceParametersExport() as $serviceParameter) {
-            $this->headings[] = $serviceParameter['data']->getAttribute('label');
+        foreach (Service::serviceParametersExport() as $servicesParameter) {
+            $this->headings[] = $servicesParameter['data']->getAttribute('label');
         }
 
         $this->headings = array_merge($this->headings, [
-                'Ödəniş Tarixi',
-                'Qalıq',
+                'Əsas Məbləğ Ödəniş Tarixi',
+                'Ədv Ödəniş Tarixi',
+                'Borc',
                 'Bəyannaməçi',
                 'Sistemdə (ASAN IMZA)',
                 trans('translates.columns.department'),
@@ -59,19 +60,20 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
     public function map($row): array
     {
         $maps = [
+            $row->getAttribute('code'),
             $row->getAttribute('created_at')->format('d-m-Y'),
             $row->getRelationValue('client')->getAttribute('fullname'),
             $row->getRelationValue('client')->getAttribute('type') ? 'FŞ' : 'HŞ',
-            $row->getRelationValue('service')->getAttribute('shortName'),
+            $row->getRelationValue('service')->getAttribute('shortName')
         ];
-
-        foreach (Service::serviceParametersExport() as $serviceParameter) {
-            $maps[] = $row->getParameter($serviceParameter['data']->getAttribute('id'));
+        foreach (Service::serviceParametersExport() as $servicesParameter) {
+            $maps[] = $row->getParameter($servicesParameter['data']->getAttribute('id'));
         }
 
         return array_merge($maps, [
             optional($row->getAttribute('paid_at'))->format('d-m-Y') ?? 'Tam Ödəniş olmayıb',
-            ($row->getParameter($row::VAL) + $row->getParameter($row::AMOUNT) - ($row->getParameter($row::PAID) + $row->getParameter($row::ILLEGALPAID))) * -1,
+            optional($row->getAttribute('vat_date'))->format('d-m-Y') ?? 'ƏDV Ödənişi olmayıb',
+            ($row->getParameter($row::VAT) + $row->getParameter($row::AMOUNT) - ($row->getParameter($row::PAID) + $row->getParameter($row::VATPAYMENT) +  $row->getParameter($row::ILLEGALPAID))) * -1,
             $row->getRelationValue('user')->getAttribute('fullname'),
             $row->asanImza()->exists() ? $row->getRelationValue('asanImza')->getAttribute('user_with_company') : trans('translates.filters.select'),
             $row->getRelationValue('department')->getAttribute('short'),
