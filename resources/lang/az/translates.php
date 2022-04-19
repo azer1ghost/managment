@@ -429,7 +429,7 @@ return [
         'class' => 'Kateqoriya',
         'title' => 'Başlıq',
         'date_time' => 'Görüş Vaxtı',
-        'residue' => 'Qalıq',
+        'residue' => 'Borc',
     ],
 
     'notify' => [
