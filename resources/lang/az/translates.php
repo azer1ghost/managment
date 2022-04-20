@@ -404,7 +404,7 @@ return [
         'deadline' => 'Son tarix',
         'parameter_label' => 'Parameter Label',
         'verified' => 'Təsdiqlənib',
-        'paid' => 'Ödənilib',
+        'paid' => 'Əsas Məbləğ Ödənilib',
         'vat_paid' => 'ƏDV Ödənilib',
         'expired' => 'Vaxtı bitib',
         'total' => 'Toplam',
