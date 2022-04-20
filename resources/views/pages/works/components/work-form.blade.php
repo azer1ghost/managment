@@ -175,17 +175,38 @@
                         </select>
                     </div>
                 @endif
-
+                <div class="form-group col-12 col-md-3" wire:ignore>
+                    <label for="data-payment_method">@lang('translates.general.payment_method')</label>
+                    <select name="payment_method" id="data-payment_method" class="form-control">
+                        <option disabled >@lang('translates.general.payment_method')</option>
+                        @foreach($payment_methods as $key => $payment_method)
+                            <option
+                                    @if(optional($data)->getAttribute('payment_method') === $payment_method ) selected @endif
+                            value="{{$payment_method}}">
+                                @lang('translates.payment_methods.' . $key)
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
                 @if(auth()->user()->hasPermission('canVerify-work') && $method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Work::DONE)
                     <div class="col-12" wire:ignore>
                         <input type="checkbox" @if(auth()->user()->isSales()) disabled @endif  id="data-verified" name="verified" @if(!is_null(optional($data)->getAttribute('verified_at'))) checked @endif>
                         <label class="form-check-label" for="data-verified">@lang('translates.columns.verified')</label>
                     </div>
-                    <div class="form-group col-12" wire:ignore>
+                    <div class="col-12" wire:ignore>
                         <input type="checkbox" id="data-rejected" name="rejected" @if(optional($data)->getAttribute('status') == \App\Models\Work::REJECTED) checked @endif>
                         <label class="form-check-label" for="data-rejected">@lang('translates.columns.rejected')</label>
                     </div>
+                    <div class="col-12" wire:ignore>
+                        <input type="checkbox" @if(auth()->user()->isSales()) disabled @endif id="data-paid-check" name="paid_check" @if(!is_null(optional($data)->getAttribute('paid_at'))) checked @endif>
+                        <label class="form-check-label" for="data-paid-check">@lang('translates.columns.paid')</label>
+                    </div>
+                    <div class=" form-group col-12" wire:ignore>
+                        <input type="checkbox" @if(auth()->user()->isSales()) disabled @endif id="data-vat-paid-check" name="vat_paid" @if(!is_null(optional($data)->getAttribute('vat_date'))) checked @endif>
+                        <label class="form-check-label" for="data-vat-paid-check">@lang('translates.columns.vat_paid')</label>
+                    </div>
                 @endif
+
 
                 <div class="form-group col-12" wire:ignore>
                     <label for="data-detail">@lang('translates.general.work_detail')</label>

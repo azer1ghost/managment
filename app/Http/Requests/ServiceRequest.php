@@ -9,6 +9,7 @@ class ServiceRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'code' => 'nullable|string',
             'detail' => 'nullable|string',
             'icon' => 'nullable|string',
             'company_id' => 'nullable|integer',

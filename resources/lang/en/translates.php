@@ -401,6 +401,8 @@ return [
         'deadline' => 'Deadline',
         'parameter_label' => 'Parameter Label',
         'verified' => 'Verified',
+        'paid' => 'Paid',
+        'vat_paid' => 'VAT Paid',
         'expired' => 'Expired',
         'total' => 'Total',
         'user_works' => 'User\'s Works',
@@ -426,6 +428,7 @@ return [
         'class' => 'Category',
         'title' => 'Title',
         'date_time' => 'Date Time',
+        'residue' => 'Balance',
     ],
 
     'notify' => [
@@ -502,6 +505,7 @@ return [
         'currency_value' => 'Currency Value',
         'symbol' => 'Symbol',
         'satisfaction' => 'Satisfaction',
+        'payment_method' => 'Payment Method',
     ],
 
     'clients' => [
@@ -525,6 +529,12 @@ return [
         'Continue',
         'Done',
         'Rejected'
+    ],
+
+    'payment_methods' => [
+         1 => 'Cash',
+         'Bank',
+         'PBank'
     ],
 
     'satisfactions' => [

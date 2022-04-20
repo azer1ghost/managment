@@ -18,6 +18,7 @@ class WorkRequest extends FormRequest
             'custom_asan' => 'nullable|string',
             'parameters' => 'nullable|array',
             'status' => 'nullable|integer',
+            'payment_method' => 'nullable|integer',
             'satisfaction' => 'nullable|integer',
             'datetime' => 'nullable|date',
             'verified' => 'nullable',

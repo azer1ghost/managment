@@ -404,6 +404,8 @@ return [
         'deadline' => 'Son tarix',
         'parameter_label' => 'Parameter Label',
         'verified' => 'Təsdiqlənib',
+        'paid' => 'Ödənilib',
+        'vat_paid' => 'ƏDV Ödənilib',
         'expired' => 'Vaxtı bitib',
         'total' => 'Toplam',
         'user_works' => 'İstifadəçinin Gördüyü İşlər',
@@ -427,6 +429,7 @@ return [
         'class' => 'Kateqoriya',
         'title' => 'Başlıq',
         'date_time' => 'Görüş Vaxtı',
+        'residue' => 'Borc',
     ],
 
     'notify' => [
@@ -505,6 +508,7 @@ return [
         'currency_value' => 'Valyuta Miqdarı',
         'symbol' => 'Simvol',
         'satisfaction' => 'Məmnuniyət',
+        'payment_method' => 'Ödəmə Üsulu'
     ],
 
     'clients' => [
@@ -526,6 +530,12 @@ return [
         'Davam Edir',
         'Tamamlandı',
         'Qəbul edilmyib'
+    ],
+
+    'payment_methods' => [
+        1 => 'Nəğd',
+        'Bank',
+        'PBank'
     ],
 
     'satisfactions' => [

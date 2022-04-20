@@ -163,6 +163,8 @@ class WorkController extends Controller
     {
         $validated = $request->validated();
         $validated['verified_at'] = $request->has('verified') && !$request->has('rejected') ? now() : NULL;
+        $validated['paid_at'] = $request->has('paid_check') && !$request->has('rejected') ? now() : NULL;
+        $validated['vat_date'] = $request->has('vat_paid') && !$request->has('rejected') ? now() : NULL;
 
         if($work->getAttribute('status') == $work::REJECTED && !$request->has('rejected')){
             $status = $validated['status'] ?? Work::PENDING;

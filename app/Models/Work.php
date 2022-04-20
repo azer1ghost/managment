@@ -29,6 +29,12 @@ class Work extends Model implements DocumentableInterface, Recordable
     const UNSATISFIED = 2;
     const UNKNOWN = 3;
 
+    const AMOUNT = 33;
+    const VAT = 34;
+    const PAID = 35;
+    const ILLEGALPAID = 37;
+    const VATPAYMENT = 36;
+
     protected $fillable = [
         'detail',
         'creator_id',
@@ -40,17 +46,15 @@ class Work extends Model implements DocumentableInterface, Recordable
         'custom_asan',
         'status',
         'satisfaction',
+        'payment_method',
         'datetime',
         'created_at',
         'verified_at',
+        'paid_at',
+        'vat_date',
     ];
 
-//    protected $casts = [
-//        'datetime' => 'datetime',
-//        'verified_at' => 'datetime'
-//    ];
-
-    protected $dates = ['datetime', 'verified_at'];
+    protected $dates = ['datetime', 'verified_at', 'paid_at', 'vat_date'];
 
     public function getMainColumn(): string
     {
@@ -115,6 +119,11 @@ class Work extends Model implements DocumentableInterface, Recordable
         return [1 => 1, 2, 3, 4];
     }
 
+    public static function paymentMethods(): array
+    {
+        return [1 => 1, 2, 3];
+    }
+
     public static function satisfactions(): array
     {
         return [1 => 1, 2, 3];
@@ -154,6 +163,10 @@ class Work extends Model implements DocumentableInterface, Recordable
     public function scopeIsVerified($query)
     {
         return $query->whereNotNull('verified_at')->where('status', '!=', self::REJECTED);
+    }
+    public function scopeIsPaid($query)
+    {
+        return $query->whereNotNull('paid_at')->where('status', '!=', self::REJECTED);
     }
 
     public function scopeIsRejected($query)
