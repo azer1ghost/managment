@@ -466,7 +466,7 @@
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{$total}}</strong></p></td>
                 @endforeach
 
-                <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_balance}}</strong></p></td>
+{{--                <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_balance}}</strong></p></td>--}}
                 <td colspan="6"></td>
             </tr>
         @endif
