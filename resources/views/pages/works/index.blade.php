@@ -374,7 +374,8 @@
                     @php
                         $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) - ($work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID))) * -1;
                     @endphp
-                <td class="font-weight-bold" style="color: @if($residue < 0) red @elseif($residue > 0) green @endif;" data-toggle="tooltip">{{$residue}}</td>
+                <td class="font-weight-bold" @if($residue < 0) style="color:red" @endif data-toggle="tooltip">@if($residue < 0)
+                    {{$residue}} @else 0 @endif</td>
                 <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('created_at'))->diffForHumans()}}</td>
                 <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip">{{optional($work->getAttribute('datetime'))->format('Y-m-d')}}</td>
                 <td>
