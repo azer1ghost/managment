@@ -263,6 +263,7 @@
             @foreach(\App\Models\Service::serviceParameters() as $param)
                 <th scope="col">{{$param['data']->getAttribute('label')}}</th>
             @endforeach
+            <th scope="col">@lang('translates.columns.sum_paid')</th>
             <th scope="col">@lang('translates.columns.residue')</th>
             <th scope="col">@lang('translates.fields.created_at')</th>
             <th scope="col">@lang('translates.fields.date')</th>
@@ -274,6 +275,7 @@
         @php
             $totals = []; // array of countable service parameters. Ex: Declaration count
             $balance = [];
+            $total_payment = [];
             $hasPending = false; // check if there's pending work
         @endphp
         @forelse($works as $work)
@@ -372,10 +374,11 @@
                     @endphp
                 @endforeach
                     @php
-                        $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) - ($work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID))) * -1;
+                        $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID);
+                        $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) - $sum_payment) * -1;
                     @endphp
-                <td class="font-weight-bold" @if($residue < 0) style="color:red" @endif data-toggle="tooltip">@if($residue < 0)
-                    {{$residue}} @else 0 @endif</td>
+                <td class="font-weight-bold" data-toggle="tooltip">{{$sum_payment}}</td>
+                <td class="font-weight-bold" @if($residue < 0) style="color:red" @endif data-toggle="tooltip">@if($residue < 0) {{$residue}} @else 0 @endif</td>
                 <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('created_at'))->diffForHumans()}}</td>
                 <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip">{{optional($work->getAttribute('datetime'))->format('Y-m-d')}}</td>
                 <td>
@@ -442,7 +445,9 @@
             </tr>
             @php
                 $balance[] = $residue;
-                $sum_balance = array_sum($balance)
+                $sum_balance = array_sum($balance);
+                $total_payment[] = $sum_payment;
+                $sum_total_payment = array_sum($total_payment)
             @endphp
         @empty
             <tr>
@@ -466,8 +471,8 @@
                 @foreach($totals as $total)
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{$total}}</strong></p></td>
                 @endforeach
-
-{{--                <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_balance}}</strong></p></td>--}}
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_total_payment}}</strong></p></td>
+                {{--                <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_balance}}</strong></p></td>--}}
                 <td colspan="6"></td>
             </tr>
         @endif

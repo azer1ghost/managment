@@ -429,6 +429,7 @@ return [
         'title' => 'Title',
         'date_time' => 'Date Time',
         'residue' => 'Balance',
+        'sum_paid' => 'Sum Payment',
     ],
 
     'notify' => [

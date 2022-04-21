@@ -430,6 +430,7 @@ return [
         'title' => 'Başlıq',
         'date_time' => 'Görüş Vaxtı',
         'residue' => 'Borc',
+        'sum_paid' => 'Toplam Ödənilən',
     ],
 
     'notify' => [
