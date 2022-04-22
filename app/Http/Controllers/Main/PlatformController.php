@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
+use App\Models\Company;
 use App\Models\Document;
 use App\Models\Inquiry;
 use App\Models\SalesActivity;
@@ -117,50 +118,54 @@ class PlatformController extends Controller
 
     public function dashboard(): View
     {
-        $newCustomer = Inquiry::isReal()->where('user_id', auth()->id())->monthly()->whereHas('options', function ($q) {
-            $q->where('inquiry_parameter.value', Inquiry::NEWCUSTOMER);
-        })->count();
-        $recall = Inquiry::isReal()->where('user_id', auth()->id())->monthly()->whereHas('options', function ($q) {
-            $q->where('inquiry_parameter.value', Inquiry::RECALL);
-        })->count();
-        $meetings = SalesActivity::query()
-            ->where('user_id', auth()->id())
-            ->where('sales_activity_type_id', 1)
-            ->count();
-
-        $currencies = [
-            'USD' => [
-                'flag' => 'dollar',
-                'value' => 0,
-            ],
-            'EUR' => [
-                'flag' => 'euro',
-                'value' => 0,
-            ],
-            'TRY' => [
-                'flag' => 'lira',
-                'value' => 0,
-            ],
-            'RUB' => [
-                'flag' => 'ruble',
-                'value' => 0,
-            ],
-        ];
-
-        foreach ($currencies as $currency => $value) {
-            $currencies[$currency]['value'] = $this->exchangeRatesApi->convert($currency);
-        }
-
-        return view('pages.main.dashboard', [
-            'widgets'    => Widget::isActive()->oldest('order')->get(),
-            'tasksCount' => auth()->user()->tasks()->newTasks()->departmentNewTasks()->count(),
-            'statistics' => $this->cacheService->getData('statistics') ?? [],
-            'weather' => $this->cacheService->getData('open_weather'),
-            'currencies' => $currencies,
-            'newCustomer' => $newCustomer,
-            'recall' => $recall,
-            'meetings' => $meetings,
-        ]);
+//        $newCustomer = Inquiry::isReal()->where('user_id', auth()->id())->monthly()->whereHas('options', function ($q) {
+//            $q->where('inquiry_parameter.value', Inquiry::NEWCUSTOMER);
+//        })->count();
+//        $recall = Inquiry::isReal()->where('user_id', auth()->id())->monthly()->whereHas('options', function ($q) {
+//            $q->where('inquiry_parameter.value', Inquiry::RECALL);
+//        })->count();
+//        $meetings = SalesActivity::query()
+//            ->where('user_id', auth()->id())
+//            ->where('sales_activity_type_id', 1)
+//            ->count();
+//
+//        $currencies = [
+//            'USD' => [
+//                'flag' => 'dollar',
+//                'value' => 0,
+//            ],
+//            'EUR' => [
+//                'flag' => 'euro',
+//                'value' => 0,
+//            ],
+//            'TRY' => [
+//                'flag' => 'lira',
+//                'value' => 0,
+//            ],
+//            'RUB' => [
+//                'flag' => 'ruble',
+//                'value' => 0,
+//            ],
+//        ];
+//
+//        foreach ($currencies as $currency => $value) {
+//            $currencies[$currency]['value'] = $this->exchangeRatesApi->convert($currency);
+//        }
+//
+//        return view('pages.main.dashboard', [
+//            'widgets'    => Widget::isActive()->oldest('order')->get(),
+//            'tasksCount' => auth()->user()->tasks()->newTasks()->departmentNewTasks()->count(),
+//            'statistics' => $this->cacheService->getData('statistics') ?? [],
+//            'weather' => $this->cacheService->getData('open_weather'),
+//            'currencies' => $currencies,
+//            'newCustomer' => $newCustomer,
+//            'recall' => $recall,
+//            'meetings' => $meetings,
+//        ]);
+        return view('pages.companies.index')
+            ->with([
+                'companies' => Company::select(['id', 'logo', 'name'])->simplePaginate(10)
+            ]);
     }
 
     public function languageSelector()
