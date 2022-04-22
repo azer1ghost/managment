@@ -131,49 +131,49 @@ class PlatformController extends Controller
 
     public function test()
     {
-        $newCustomer = Inquiry::isReal()->where('user_id', auth()->id())->monthly()->whereHas('options', function ($q) {
-            $q->where('inquiry_parameter.value', Inquiry::NEWCUSTOMER);
-        })->count();
-        $recall = Inquiry::isReal()->where('user_id', auth()->id())->monthly()->whereHas('options', function ($q) {
-            $q->where('inquiry_parameter.value', Inquiry::RECALL);
-        })->count();
-        $meetings = SalesActivity::query()
-            ->where('user_id', auth()->id())
-            ->where('sales_activity_type_id', 1)
-            ->count();
-
-        $currencies = [
-            'USD' => [
-                'flag' => 'dollar',
-                'value' => 0,
-            ],
-            'EUR' => [
-                'flag' => 'euro',
-                'value' => 0,
-            ],
-            'TRY' => [
-                'flag' => 'lira',
-                'value' => 0,
-            ],
-            'RUB' => [
-                'flag' => 'ruble',
-                'value' => 0,
-            ],
-        ];
-
-        foreach ($currencies as $currency => $value) {
-            $currencies[$currency]['value'] = $this->exchangeRatesApi->convert($currency);
-        }
+//        $newCustomer = Inquiry::isReal()->where('user_id', auth()->id())->monthly()->whereHas('options', function ($q) {
+//            $q->where('inquiry_parameter.value', Inquiry::NEWCUSTOMER);
+//        })->count();
+//        $recall = Inquiry::isReal()->where('user_id', auth()->id())->monthly()->whereHas('options', function ($q) {
+//            $q->where('inquiry_parameter.value', Inquiry::RECALL);
+//        })->count();
+//        $meetings = SalesActivity::query()
+//            ->where('user_id', auth()->id())
+//            ->where('sales_activity_type_id', 1)
+//            ->count();
+//
+//        $currencies = [
+//            'USD' => [
+//                'flag' => 'dollar',
+//                'value' => 0,
+//            ],
+//            'EUR' => [
+//                'flag' => 'euro',
+//                'value' => 0,
+//            ],
+//            'TRY' => [
+//                'flag' => 'lira',
+//                'value' => 0,
+//            ],
+//            'RUB' => [
+//                'flag' => 'ruble',
+//                'value' => 0,
+//            ],
+//        ];
+//
+//        foreach ($currencies as $currency => $value) {
+//            $currencies[$currency]['value'] = $this->exchangeRatesApi->convert($currency);
+//        }
 
         return view('pages.main.dashboard', [
             'widgets'    => Widget::isActive()->oldest('order')->get(),
             'tasksCount' => auth()->user()->tasks()->newTasks()->departmentNewTasks()->count(),
-            'statistics' => $this->cacheService->getData('statistics') ?? [],
-            'weather' => $this->cacheService->getData('open_weather'),
-            'currencies' => $currencies,
-            'newCustomer' => $newCustomer,
-            'recall' => $recall,
-            'meetings' => $meetings,
+//            'statistics' => $this->cacheService->getData('statistics') ?? [],
+//            'weather' => $this->cacheService->getData('open_weather'),
+//            'currencies' => $currencies,
+//            'newCustomer' => $newCustomer,
+//            'recall' => $recall,
+//            'meetings' => $meetings,
         ]);
     }
 
