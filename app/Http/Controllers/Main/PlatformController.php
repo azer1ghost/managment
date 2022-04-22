@@ -161,9 +161,9 @@ class PlatformController extends Controller
 //            ],
 //        ];
 
-        foreach ($currencies as $currency => $value) {
-            $currencies[$currency]['value'] = $this->exchangeRatesApi->convert($currency);
-        }
+//        foreach ($currencies as $currency => $value) {
+//            $currencies[$currency]['value'] = $this->exchangeRatesApi->convert($currency);
+//        }
 
         return view('pages.main.dashboard', [
             'widgets'    => Widget::isActive()->oldest('order')->get(),
