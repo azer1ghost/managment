@@ -115,13 +115,13 @@
         </div>
     </div>
 
-    <div class="row">
-        @foreach($widgets as $widget)
-            @if(auth()->user()->hasPermission($widget->key))
-                <x-dynamic-component component="widgets.{{$widget->key}}" :widget="$widget" />
-            @endif
-        @endforeach
-    </div>
+{{--    <div class="row">--}}
+{{--        @foreach($widgets as $widget)--}}
+{{--            @if(auth()->user()->hasPermission($widget->key))--}}
+{{--                <x-dynamic-component component="widgets.{{$widget->key}}" :widget="$widget" />--}}
+{{--            @endif--}}
+{{--        @endforeach--}}
+{{--    </div>--}}
 @endsection
 @section('scripts')
     <script>
