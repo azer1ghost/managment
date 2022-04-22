@@ -35,53 +35,53 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6 grid-margin stretch-card">
-            <div class="card tale-bg">
-                <img style="border-radius: 20px" src="{{asset('https://img.freepik.com/free-vector/meeting-office-interior-business-conference-room-with-people-managers-working-team-cartoon-interior_80590-7766.jpg?w=1380')}}" alt="people">
-                <div style="position: absolute; color: #e70d0d; font-weight: bold">
-                    @foreach($currencies as $currency => $value)
-                        <ul class="list-group">
-                            <li class="list-group-item border-0 bg-transparent p-1"><i class="far fa-{{$value['flag']}}-sign "></i> {{$currency}} {{$value['value']}} AZN</li>
-                        </ul>
-                    @endforeach
-                </div>
-                @if($weather)
-                    <div class="weather-info">
-                        <div class="d-flex align-items-center">
-                            <div class="d-flex align-items-center">
-                                <img src="{{$weather['icon']}}" alt="" width="70" height="70"/>
-                                <h2 class="mb-0 font-weight-normal">
-                                    {{$weather['temp']}}<sup>C</sup>
-                                </h2>
-                            </div>
-                            <div class="ml-2">
-                                <h4 class="location font-weight-normal">Baku</h4>
-                                <h6 class="font-weight-normal">Azerbaijan</h6>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-capitalize">{{$weather['description'][app()->getLocale()]}}</p>
-                        </div>
-                    </div>
-                @endif
-            </div>
-        </div>
+{{--    <div class="row">--}}
+{{--        <div class="col-md-6 grid-margin stretch-card">--}}
+{{--            <div class="card tale-bg">--}}
+{{--                <img style="border-radius: 20px" src="{{asset('https://img.freepik.com/free-vector/meeting-office-interior-business-conference-room-with-people-managers-working-team-cartoon-interior_80590-7766.jpg?w=1380')}}" alt="people">--}}
+{{--                <div style="position: absolute; color: #e70d0d; font-weight: bold">--}}
+{{--                    @foreach($currencies as $currency => $value)--}}
+{{--                        <ul class="list-group">--}}
+{{--                            <li class="list-group-item border-0 bg-transparent p-1"><i class="far fa-{{$value['flag']}}-sign "></i> {{$currency}} {{$value['value']}} AZN</li>--}}
+{{--                        </ul>--}}
+{{--                    @endforeach--}}
+{{--                </div>--}}
+{{--                @if($weather)--}}
+{{--                    <div class="weather-info">--}}
+{{--                        <div class="d-flex align-items-center">--}}
+{{--                            <div class="d-flex align-items-center">--}}
+{{--                                <img src="{{$weather['icon']}}" alt="" width="70" height="70"/>--}}
+{{--                                <h2 class="mb-0 font-weight-normal">--}}
+{{--                                    {{$weather['temp']}}<sup>C</sup>--}}
+{{--                                </h2>--}}
+{{--                            </div>--}}
+{{--                            <div class="ml-2">--}}
+{{--                                <h4 class="location font-weight-normal">Baku</h4>--}}
+{{--                                <h6 class="font-weight-normal">Azerbaijan</h6>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="text-right">--}}
+{{--                            <p class="text-capitalize">{{$weather['description'][app()->getLocale()]}}</p>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                @endif--}}
+{{--            </div>--}}
+{{--        </div>--}}
 
-        <div class="col-md-6 grid-margin transparent">
-            <div class="row">
-                @foreach($statistics as $stat)
-                    <div class="col-md-6 {{$stat['class'] ?? ''}} mb-4 stretch-card transparent">
-                        <div class="card card-{{$stat['color'] ?? ''}}">
-                            <div class="card-body">
-                                <p class="mb-4">{{$stat['title'] ?? ''}}</p>
-                                <p class="fs-30 mb-2">{{$stat['data']['total'] ?? 0}}</p>
-                                <p>{{$stat['data']['percentage'] ?? 0}}% ( {{$stat['data']['text'] ?? ''}} )</p>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
+{{--        <div class="col-md-6 grid-margin transparent">--}}
+{{--            <div class="row">--}}
+{{--                @foreach($statistics as $stat)--}}
+{{--                    <div class="col-md-6 {{$stat['class'] ?? ''}} mb-4 stretch-card transparent">--}}
+{{--                        <div class="card card-{{$stat['color'] ?? ''}}">--}}
+{{--                            <div class="card-body">--}}
+{{--                                <p class="mb-4">{{$stat['title'] ?? ''}}</p>--}}
+{{--                                <p class="fs-30 mb-2">{{$stat['data']['total'] ?? 0}}</p>--}}
+{{--                                <p>{{$stat['data']['percentage'] ?? 0}}% ( {{$stat['data']['text'] ?? ''}} )</p>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                @endforeach--}}
+{{--            </div>--}}
             @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES)
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                     @lang('translates.navbar.report')
@@ -115,13 +115,13 @@
         </div>
     </div>
 
-{{--    <div class="row">--}}
-{{--        @foreach($widgets as $widget)--}}
-{{--            @if(auth()->user()->hasPermission($widget->key))--}}
-{{--                <x-dynamic-component component="widgets.{{$widget->key}}" :widget="$widget" />--}}
-{{--            @endif--}}
-{{--        @endforeach--}}
-{{--    </div>--}}
+    <div class="row">
+        @foreach($widgets as $widget)
+            @if(auth()->user()->hasPermission($widget->key))
+                <x-dynamic-component component="widgets.{{$widget->key}}" :widget="$widget" />
+            @endif
+        @endforeach
+    </div>
 @endsection
 @section('scripts')
     <script>
