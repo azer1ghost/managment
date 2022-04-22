@@ -116,7 +116,7 @@ class PlatformController extends Controller
         return view('pages.main.deactivated');
     }
 
-    public function dashboard(): View
+    public function dashboard(Company $company): View
     {
 //        $newCustomer = Inquiry::isReal()->where('user_id', auth()->id())->monthly()->whereHas('options', function ($q) {
 //            $q->where('inquiry_parameter.value', Inquiry::NEWCUSTOMER);
@@ -162,10 +162,9 @@ class PlatformController extends Controller
 //            'recall' => $recall,
 //            'meetings' => $meetings,
 //        ]);
-        return view('pages.companies.index')
-            ->with([
-                'companies' => Company::select(['id', 'logo', 'name'])->simplePaginate(10)
-            ]);
+        {
+            return view('pages.signature.render', compact('company'));
+        }
     }
 
     public function languageSelector()
