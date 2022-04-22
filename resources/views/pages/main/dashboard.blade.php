@@ -15,26 +15,26 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
     </x-bread-crumb>
-    <div class="row m-0">
-        <div class="col-md-12 grid-margin">
-            <div class="row">
-                <div class="col-12 col-xl-8 mb-4 mb-xl-0 px-0 pb-3">
-                    <h3 class="font-weight-bold">@lang('translates.navbar.welcome') {{auth()->user()->getAttribute('fullname')}}</h3>
-                    <h6 class="font-weight-normal mb-0">
-                        @lang('translates.widgets.welcome_msg')!
-                        <a href="{{route('tasks.index')}}" class="text-primary">@lang('translates.widgets.you_have', ['count' => $tasksCount])</a>
-                    </h6>
-                </div>
-                <div class="col-12 col-xl-4">
-                    <div class="justify-content-end d-flex align-items-center">
-                        <i class="fas fa-calendar mr-1"></i>
-                        {{now()->format('d F Y')}}
-                        <span id="dashboard-clock" class="ml-1"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+{{--    <div class="row m-0">--}}
+{{--        <div class="col-md-12 grid-margin">--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-12 col-xl-8 mb-4 mb-xl-0 px-0 pb-3">--}}
+{{--                    <h3 class="font-weight-bold">@lang('translates.navbar.welcome') {{auth()->user()->getAttribute('fullname')}}</h3>--}}
+{{--                    <h6 class="font-weight-normal mb-0">--}}
+{{--                        @lang('translates.widgets.welcome_msg')!--}}
+{{--                        <a href="{{route('tasks.index')}}" class="text-primary">@lang('translates.widgets.you_have', ['count' => $tasksCount])</a>--}}
+{{--                    </h6>--}}
+{{--                </div>--}}
+{{--                <div class="col-12 col-xl-4">--}}
+{{--                    <div class="justify-content-end d-flex align-items-center">--}}
+{{--                        <i class="fas fa-calendar mr-1"></i>--}}
+{{--                        {{now()->format('d F Y')}}--}}
+{{--                        <span id="dashboard-clock" class="ml-1"></span>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 {{--    <div class="row">--}}
 {{--        <div class="col-md-6 grid-margin stretch-card">--}}
 {{--            <div class="card tale-bg">--}}
@@ -82,56 +82,56 @@
 {{--                    </div>--}}
 {{--                @endforeach--}}
 {{--            </div>--}}
-            @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES)
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    @lang('translates.navbar.report')
-                </button>
+{{--            @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES)--}}
+{{--                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">--}}
+{{--                    @lang('translates.navbar.report')--}}
+{{--                </button>--}}
 
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">@lang('translates.navbar.report')</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <ul class="list-group">
-                                    <li class="list-group-item">Yeni Müştəri: {{$newCustomer}}</li>
-                                    <li class="list-group-item">Təkrar Zəng: {{$recall}}</li>
-                                    <li class="list-group-item">Görüş: {{$meetings}}</li>
-                                </ul>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
-                                <button type="button" class="btn btn-success copy">@lang('translates.buttons.copy')</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endif
-        </div>
-    </div>
+{{--                <!-- Modal -->--}}
+{{--                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
+{{--                    <div class="modal-dialog" role="document">--}}
+{{--                        <div class="modal-content">--}}
+{{--                            <div class="modal-header">--}}
+{{--                                <h5 class="modal-title" id="exampleModalLabel">@lang('translates.navbar.report')</h5>--}}
+{{--                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
+{{--                                    <span aria-hidden="true">&times;</span>--}}
+{{--                                </button>--}}
+{{--                            </div>--}}
+{{--                            <div class="modal-body">--}}
+{{--                                <ul class="list-group">--}}
+{{--                                    <li class="list-group-item">Yeni Müştəri: {{$newCustomer}}</li>--}}
+{{--                                    <li class="list-group-item">Təkrar Zəng: {{$recall}}</li>--}}
+{{--                                    <li class="list-group-item">Görüş: {{$meetings}}</li>--}}
+{{--                                </ul>--}}
+{{--                            </div>--}}
+{{--                            <div class="modal-footer">--}}
+{{--                                <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>--}}
+{{--                                <button type="button" class="btn btn-success copy">@lang('translates.buttons.copy')</button>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            @endif--}}
+{{--        </div>--}}
+{{--    </div>--}}
 
-    <div class="row">
-        @foreach($widgets as $widget)
-            @if(auth()->user()->hasPermission($widget->key))
-                <x-dynamic-component component="widgets.{{$widget->key}}" :widget="$widget" />
-            @endif
-        @endforeach
-    </div>
+{{--    <div class="row">--}}
+{{--        @foreach($widgets as $widget)--}}
+{{--            @if(auth()->user()->hasPermission($widget->key))--}}
+{{--                <x-dynamic-component component="widgets.{{$widget->key}}" :widget="$widget" />--}}
+{{--            @endif--}}
+{{--        @endforeach--}}
+{{--    </div>--}}
 @endsection
-@section('scripts')
-    <script>
-        $('.copy').click(function () {
-            const newCustomer = '{{$newCustomer}}';
-            const meetings = '{{$meetings}}';
-            const recall = '{{$recall}}';
-            let data = `Yeni Müştəri: ${newCustomer}, Təkrakr Zəng: ${recall}, Görüşmə: ${meetings}`;
-            navigator.clipboard.writeText(data);
-            $(this).text('@lang('translates.buttons.copied')');
-        });
-    </script>
-@endsection
+{{--@section('scripts')--}}
+{{--    <script>--}}
+{{--        $('.copy').click(function () {--}}
+{{--            const newCustomer = '{{$newCustomer}}';--}}
+{{--            const meetings = '{{$meetings}}';--}}
+{{--            const recall = '{{$recall}}';--}}
+{{--            let data = `Yeni Müştəri: ${newCustomer}, Təkrakr Zəng: ${recall}, Görüşmə: ${meetings}`;--}}
+{{--            navigator.clipboard.writeText(data);--}}
+{{--            $(this).text('@lang('translates.buttons.copied')');--}}
+{{--        });--}}
+{{--    </script>--}}
+{{--@endsection--}}
