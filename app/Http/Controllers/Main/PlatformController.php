@@ -116,20 +116,7 @@ class PlatformController extends Controller
         return view('pages.main.deactivated');
     }
 
-    public function dashboard(Company $company): View
-    {
-
-        {
-            return view('pages.signature.render', compact('company'));
-        }
-    }
-
-    public function languageSelector()
-    {
-        return view('auth.lang-selector');
-    }
-
-    public function test()
+    public function dashboard(): View
     {
         $newCustomer = Inquiry::isReal()->where('user_id', auth()->id())->monthly()->whereHas('options', function ($q) {
             $q->where('inquiry_parameter.value', Inquiry::NEWCUSTOMER);
@@ -175,6 +162,16 @@ class PlatformController extends Controller
             'recall' => $recall,
             'meetings' => $meetings,
         ]);
+    }
+
+    public function languageSelector()
+    {
+        return view('auth.lang-selector');
+    }
+
+    public function test()
+    {
+
     }
 
     public function documentTemporaryUrl(Document $document)
