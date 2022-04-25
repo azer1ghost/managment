@@ -62,7 +62,7 @@
                 @foreach ($company->socials as $social)
                     <th>
                         <a href="{{$social->url}}">
-                            <img class="icons" src="https://image.shutterstock.com/image-vector/dice-cube-casino-game-black-600w-1663698937.jpg" />
+                            <img class="icons" src="https://my.mobilgroup.az/assets/images/signature/socials/{{$social->name}}.png" />
                         </a>
                     </th>
                 @endforeach
