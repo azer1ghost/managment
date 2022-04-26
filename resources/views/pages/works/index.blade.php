@@ -260,6 +260,10 @@
             <th scope="col">@lang('translates.navbar.service')</th>
             <th scope="col">@lang('translates.fields.clientName')</th>
             <th scope="col">Status</th>
+                @if(!auth()->user()->hasPermission('viewPrice-work'))
+            <th scope="col">Gb Say</th>
+            <th scope="col">Kod Say</th>
+                @endif
             @if(auth()->user()->hasPermission('viewPrice-work'))
             @foreach(\App\Models\Service::serviceParameters() as $param)
                 <th scope="col">{{$param['data']->getAttribute('label')}}</th>
@@ -359,6 +363,10 @@
                          {{trans('translates.work_status.' . $work->getAttribute('status'))}}
                     </span>
                 </td>
+                    @if(!auth()->user()->hasPermission('viewPrice-work'))
+                    <td>{{$work->getParameter($work::GB)}}</td>
+                    <td>{{$work->getParameter($work::CODE)}}</td>
+                    @endif
                 @if(is_null(optional($work)->getAttribute('verified_at')) || auth()->user()->hasPermission('viewPrice-work'))
                     @foreach(\App\Models\Service::serviceParameters() as $param)
                         <td>{{$work->getParameter($param['data']->getAttribute('id'))}}</td>

@@ -29,6 +29,8 @@ class Work extends Model implements DocumentableInterface, Recordable
     const UNSATISFIED = 2;
     const UNKNOWN = 3;
 
+    const GB = 17;
+    const CODE = 18;
     const AMOUNT = 33;
     const VAT = 34;
     const PAID = 35;
