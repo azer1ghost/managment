@@ -127,7 +127,7 @@
                 @if(!is_null($data) && !is_null(optional($data)->getAttribute('datetime')))
                     <x-input::text wire:ignore name="datetime"  readonly :label="__('translates.fields.date')" value="{{$data->getAttribute('datetime')->format('Y-m-d H:i')}}" width="3" class="pr-3 custom-single-daterange" />
                 @endif
-
+                @if(is_null(optional($data)->getAttribute('verified_at')) || auth()->user()->hasPermission('viewPrice-work'))
                 @foreach($parameters as $parameter)
                     @if(in_array('hideOnPost', explode(' ', $parameter->attributes)) && $method == 'POST')
                         @continue
@@ -158,6 +158,7 @@
                             @break
                     @endswitch
                 @endforeach
+                @endif
 
                 @if(optional($data)->getAttribute('status') == \App\Models\Work::DONE && auth()->user()->hasPermission('satisfactionMeasure-work') )
 
