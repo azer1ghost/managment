@@ -162,6 +162,12 @@ class Sidebar extends Component
                         'permission' => 'viewAny-salesInquiry',
                     ],
                     (object)[
+                        'title' => __('translates.navbar.barcode'),
+                        'icon' => 'fal fa-barcode',
+                        'url' => route('barcode.index'),
+                        'permission' => 'viewAny-barcode',
+                    ],
+                    (object)[
                         'title' => __('translates.navbar.sales_activities'),
                         'icon' => 'fas fa-chart-line',
                         'url' => route('sales-activities.index'),

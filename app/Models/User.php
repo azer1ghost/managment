@@ -242,6 +242,11 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
         return $this->hasMany(Inquiry::class);
     }
 
+    public function barcodes(): HasMany
+    {
+        return $this->hasMany(Barcode::class);
+    }
+
     public function editableInquiries(): BelongsToMany
     {
         return $this->belongsToMany(Inquiry::class, 'user_can_edit_inquiries')->withPivot('editable_ended_at');

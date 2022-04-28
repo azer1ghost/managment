@@ -32,4 +32,8 @@ class SalesClient extends Model
     {
         return "{$this->getAttribute('name')} ({$this->getAttribute('voen')})";
     }
+    public function getNameWithPhoneAttribute($value): ?string
+    {
+        return "{$this->getAttribute('name')} ({$this->getAttribute('phone')})";
+    }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\{Auth\LoginController,
     Auth\PhoneVerifycationController,
     Auth\RegisterController,
+    BarcodeController,
     Main\AccountController,
     Main\PlatformController,
     Modules\AdvertisingController,
@@ -108,6 +109,7 @@ Route::group([
     Route::resource('/tasks', TaskController::class);
     Route::resource('/task-lists', TaskListController::class)->only('store', 'update', 'destroy');
     Route::resource('/notifications', DatabaseNotificationController::class);
+    Route::resource('/barcode', BarcodeController::class);
 
 
     Route::post('/tasks/redirect/{task}', [TaskController::class, 'redirect'])->name('task.redirect');

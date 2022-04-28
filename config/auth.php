@@ -27,6 +27,7 @@ return [
         'viewAny-advertising', 'view-advertising', 'manage-advertising', 'update-advertising', 'delete-advertising',
         'viewAny-asanImza', 'view-asanImza', 'manage-asanImza', 'delete-asanImza',
         'viewAll-announcement', 'viewAny-announcement', 'view-announcement', 'create-announcement', 'update-announcement', 'delete-announcement',
+        'viewAll-barcode', 'viewAllDepartment-barcode', 'viewAny-barcode', 'view-barcode', 'create-barcode', 'update-barcode', 'delete-barcode',
         'viewAny-calendar', 'create-calendar', 'update-calendar',
         'viewAny-certificate', 'manage-certificate', 'delete-certificate',
         'viewAll-client', 'viewAny-client', 'view-client', 'create-client', 'update-client', 'delete-client', 'forceDelete-client', 'restore-client', 'canUploadContract-client', 'canAssignUsers-client', 'canExport-client',

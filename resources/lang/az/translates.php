@@ -173,6 +173,7 @@ return [
         'signature' => 'Email İmza',
         'inquiry' => 'Sorğular',
         'inquiry_sales' => 'Zənglər',
+        'barcode' => 'Barkodlar',
         'task' => 'Tapşırıqlar',
         'parameter' => 'Parametrlər',
         'option' => 'Seçimlər',

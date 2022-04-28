@@ -171,6 +171,7 @@ return [
         'signature' => 'Signature',
         'inquiry' => 'Inquiries',
         'inquiry_sales' => 'Inquiry Sales',
+        'barcode' => 'Barcodes',
         'task' => 'Tasks',
         'parameter' => 'Parameters',
         'option' => 'Options',

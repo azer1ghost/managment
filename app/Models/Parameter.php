@@ -66,6 +66,11 @@ class Parameter extends Model implements Recordable
         return $this->belongsToMany(Inquiry::class)->withPivot('value');
     }
 
+    public function barcodes(): BelongsToMany
+    {
+        return $this->belongsToMany(Barcode::class)->withPivot('value');
+    }
+
     public function services(): BelongsToMany
     {
         return $this->belongsToMany(Service::class, 'service_parameter')->withPivot('show_in_table', 'show_count');

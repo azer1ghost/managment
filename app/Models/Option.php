@@ -35,6 +35,11 @@ class Option extends Model implements Recordable
         return $this->belongsToMany(Inquiry::class, 'inquiry_parameter', 'value')->withPivot('parameter_id');
     }
 
+    public function barcodes(): BelongsToMany
+    {
+        return $this->belongsToMany(Inquiry::class, 'inquiry_parameter', 'value')->withPivot('parameter_id');
+    }
+
     public function companies(): BelongsToMany
     {
         return $this->belongsToMany(Company::class, 'option_parameter')->withPivot('parameter_id', 'department_id');
