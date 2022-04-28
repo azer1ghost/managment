@@ -367,7 +367,7 @@
                     <td>{{$work->getParameter($work::GB)}}</td>
                     <td>{{$work->getParameter($work::CODE)}}</td>
                     @endif
-                @if(is_null(optional($work)->getAttribute('verified_at')) || auth()->user()->hasPermission('viewPrice-work'))
+                @if(auth()->user()->hasPermission('viewPrice-work'))
                     @foreach(\App\Models\Service::serviceParameters() as $param)
                         <td>{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
                         @php
@@ -470,8 +470,6 @@
                     </div>
                 </th>
             </tr>
-
-
         @endforelse
 
         @if($works->isNotEmpty())
