@@ -50,7 +50,7 @@
                     </div>
                 @endif
                 @if(auth()->user()->hasPermission('satisfactionMeasure-client'))
-                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                    <div class="form-group col-md-4">
                         <label class="d-block" for="satisfactionFilter">{{trans('translates.general.satisfaction')}}</label>
                         <select name="satisfaction" id="satisfactionFilter" class="form-control" style="width: 100% !important;">
                             <option value="">@lang('translates.filters.select')</option>
