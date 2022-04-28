@@ -93,6 +93,7 @@ class ClientController extends Controller
                 'action' => route('clients.store'),
                 'method' => 'POST',
                 'data' => new Client(),
+                'satisfactions' => Client::satisfactions()
             ]);
     }
 
