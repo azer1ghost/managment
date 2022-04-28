@@ -56,13 +56,19 @@ class ClientController extends Controller
     public function index(Request $request)
     {
         $filters = [
+            'satisfaction' => $request->get('satisfaction'),
             'search' => $request->get('search'),
             'type' => $request->get('type'),
             'limit' => $request->get('limit',25),
             'salesClient' => $request->get('salesClient'),
-            'free_clients' => $request->has('free_clients')
+            'free_clients' => $request->has('free_clients'),
         ];
-
+        if ( $request->get('satisfaction')) {
+           $clients = $this->clientRepository->allFilteredClients($filters)->where('satisfaction', $request->get('satisfaction'))->latest()->paginate($filters['limit']);
+        }
+        else {
+            $clients = $this->clientRepository->allFilteredClients($filters)->latest()->paginate($filters['limit']);
+        }
         return view('pages.clients.index')
             ->with([
                 'filters' => $filters,
@@ -71,10 +77,13 @@ class ClientController extends Controller
                     (string) Client::LEGAL => trans('translates.general.legal'),
                     (string) Client::PHYSICAL => trans('translates.general.physical')
                 ],
-                'clients' => $this->clientRepository->allFilteredClients($filters)->latest()->paginate($filters['limit']),
+                'clients' => $clients,
                 'salesUsers' => User::isActive()->where('department_id', Department::SALES)->get(['id', 'name', 'surname']),
-                'salesClients' => User::isActive()->has('salesClients')->get(['id', 'name', 'surname'])
+                'salesClients' => User::isActive()->has('salesClients')->get(['id', 'name', 'surname']),
+                'satisfactions' => Client::satisfactions()
             ]);
+
+
     }
 
     public function create()
@@ -124,6 +133,7 @@ class ClientController extends Controller
                 'action' => route('clients.update', $client),
                 'method' => "PUT",
                 'data' => $client,
+                'satisfactions' => Client::satisfactions()
             ]);
     }
 

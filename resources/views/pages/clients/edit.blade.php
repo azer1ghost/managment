@@ -136,6 +136,21 @@
             <x-form-group  class="pr-3 col-12 col-lg-6" :label="trans('translates.fields.address2')" >
                 <x-form-input name="address2"/>
             </x-form-group>
+            @if(auth()->user()->hasPermission('satisfactionMeasure-client') )
+                <div class="form-group col-12 col-md-3" wire:ignore>
+                    <label for="data-satisfaction">@lang('translates.general.satisfaction')</label>
+                    <select name="satisfaction" id="data-satisfaction" class="form-control">
+                        <option disabled >@lang('translates.general.satisfaction')</option>
+                        @foreach($satisfactions as $key => $satisfaction)
+                            <option
+                                    @if(optional($data)->getAttribute('satisfaction') === $satisfaction ) selected @endif
+                            value="{{$satisfaction}}">
+                                @lang('translates.satisfactions.' . $key)
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            @endif
         </div>
         @if($action)
             <x-input::submit/>

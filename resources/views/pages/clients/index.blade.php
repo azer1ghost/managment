@@ -49,6 +49,20 @@
                         </div>
                     </div>
                 @endif
+                @if(auth()->user()->hasPermission('satisfactionMeasure-client'))
+                    <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                        <label class="d-block" for="satisfactionFilter">{{trans('translates.general.satisfaction')}}</label>
+                        <select name="satisfaction" id="satisfactionFilter" class="form-control" style="width: 100% !important;">
+                            <option value="">@lang('translates.filters.select')</option>
+                            @foreach($satisfactions as $satisfaction)
+                                <option value="{{$satisfaction}}"
+                                        @if($satisfaction == $filters['satisfaction']) selected @endif>
+                                    @lang('translates.satisfactions.' . $satisfaction)
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
                 <div class="col-12 mt-3 mb-5 d-flex align-items-center justify-content-end">
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <button type="submit" class="btn btn-outline-primary"><i
@@ -87,6 +101,9 @@
                                 <th><input type="checkbox" id="clients-all"></th>
                             @endif
                             <th scope="col">#</th>
+                                @if(auth()->user()->hasPermission('satisfactionMeasure-client'))
+                                    <th> </th>
+                                @endif
                             <th scope="col">@lang('translates.columns.type')</th>
                             <th scope="col">@lang('translates.columns.full_name')</th>
                             <th scope="col">@lang('translates.fields.detail')</th>
@@ -110,6 +127,28 @@
                                     <td><input type="checkbox" name="clients[]" value="{{$client->getAttribute('id')}}" id="data-checkbox-{{$client->getAttribute('id')}}"></td>
                                 @endif
                                 <th scope="row">{{$client->getAttribute('id')}}</th>
+                                    @if(auth()->user()->hasPermission('satisfactionMeasure-client'))
+                                        @if(is_numeric($client->getAttribute('satisfaction')))
+                                            @php
+                                                switch($client->getAttribute('satisfaction')){
+                                                    case(1):
+                                                        $colors = 'success';
+                                                        break;
+                                                    case(2):
+                                                        $colors = 'danger';
+                                                        break;
+                                                    case(3):
+                                                        $colors = 'warning';
+                                                        break;
+                                                }
+                                            @endphp
+                                            <td>
+                                                <span class="badge badge-{{$colors}}"><i class="far fa-smile fa-2x"></i></span>
+                                            </td>
+                                        @else
+                                            <td></td>
+                                        @endif
+                                    @endif
                                 <td>@lang("translates.clients_type." . $client->getAttribute('type'))</td>
                                 <td><label for="data-checkbox-{{$client->getAttribute('id')}}">{{$client->getAttribute('fullname')}}</label></td>
                                 <td>{{$client->getAttribute('detail') ? $client->getAttribute('detail') : trans('translates.clients.detail_empty') }} </td>

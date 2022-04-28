@@ -30,7 +30,7 @@ return [
         'viewAll-barcode', 'viewAllDepartment-barcode', 'viewAny-barcode', 'view-barcode', 'create-barcode', 'update-barcode', 'delete-barcode',
         'viewAny-calendar', 'create-calendar', 'update-calendar',
         'viewAny-certificate', 'manage-certificate', 'delete-certificate',
-        'viewAll-client', 'viewAny-client', 'view-client', 'create-client', 'update-client', 'delete-client', 'forceDelete-client', 'restore-client', 'canUploadContract-client', 'canAssignUsers-client', 'canExport-client',
+        'viewAll-client', 'viewAny-client', 'view-client', 'create-client', 'update-client', 'delete-client', 'forceDelete-client', 'restore-client', 'canUploadContract-client', 'canAssignUsers-client', 'canExport-client', 'satisfactionMeasure-client',
         'viewAny-customerEngagement', 'view-customerEngagement', 'manage-customerEngagement', 'delete-customerEngagement',
         'viewAny-company', 'view-company', 'create-company', 'update-company', 'delete-company',
         'viewAny-conference', 'view-conference', 'manage-conference',

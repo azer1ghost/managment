@@ -37,7 +37,8 @@ class Client extends Model implements DocumentableInterface, Recordable
         'position',
         'type',
         'detail',
-        'client_id'
+        'client_id',
+        'satisfaction',
     ];
 
     public function clients(): HasMany
@@ -82,6 +83,10 @@ class Client extends Model implements DocumentableInterface, Recordable
     public function setPhone1Attribute($value): ?string
     {
         return $this->attributes['phone1'] = phone_cleaner($value);
+    }
+    public static function satisfactions(): array
+    {
+        return [1 => 1, 2, 3];
     }
 
     public function setPhone2Attribute($value): ?string
