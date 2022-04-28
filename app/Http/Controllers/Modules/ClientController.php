@@ -124,6 +124,7 @@ class ClientController extends Controller
                 'action' => null,
                 'method' => null,
                 'data' => $client,
+                'satisfactions' => Client::satisfactions()
             ]);
     }
 
