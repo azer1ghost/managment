@@ -55,6 +55,13 @@ class ClientController extends Controller
 
     public function index(Request $request)
     {
+
+        if($request->has('created_at')){
+            $createdTime = $request->get('created_at');
+        }else{
+            $createdTime = now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d');
+        }
+
         $filters = [
             'satisfaction' => $request->get('satisfaction'),
             'search' => $request->get('search'),
@@ -62,13 +69,9 @@ class ClientController extends Controller
             'limit' => $request->get('limit',25),
             'salesClient' => $request->get('salesClient'),
             'free_clients' => $request->has('free_clients'),
+            'check-created_at' => $request->has('check-created_at'),
+            'created_at' => $createdTime,
         ];
-        if ( $request->get('satisfaction')) {
-           $clients = $this->clientRepository->allFilteredClients($filters)->where('satisfaction', $request->get('satisfaction'))->latest()->paginate($filters['limit']);
-        }
-        else {
-            $clients = $this->clientRepository->allFilteredClients($filters)->latest()->paginate($filters['limit']);
-        }
         return view('pages.clients.index')
             ->with([
                 'filters' => $filters,
@@ -77,7 +80,7 @@ class ClientController extends Controller
                     (string) Client::LEGAL => trans('translates.general.legal'),
                     (string) Client::PHYSICAL => trans('translates.general.physical')
                 ],
-                'clients' => $clients,
+                'clients' =>$this->clientRepository->allFilteredClients($filters)->latest()->paginate($filters['limit']),
                 'salesUsers' => User::isActive()->where('department_id', Department::SALES)->get(['id', 'name', 'surname']),
                 'salesClients' => User::isActive()->has('salesClients')->get(['id', 'name', 'surname']),
                 'satisfactions' => Client::satisfactions()

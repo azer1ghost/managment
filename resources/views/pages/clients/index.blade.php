@@ -30,6 +30,11 @@
                         @endforeach
                     </select>
                 </div>
+
+                <div class="form-group col-12 col-md-3">
+                    <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
+                    <input type="checkbox" name="check-created_at" id="check-created_at" @if(request()->has('check-created_at')) checked @endif> <label for="check-created_at">@lang('translates.filters.filter_by')</label>
+                </div>
                 @if(\App\Models\Client::userCanViewAll())
                     <div class="col-md-4">
                         <div class="form-group">

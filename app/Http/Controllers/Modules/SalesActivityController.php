@@ -27,7 +27,7 @@ class SalesActivityController extends Controller
     {
         $limit = $request->get('limit', 25);
 
-            $user_id = $request->get('user');
+        $user_id = $request->get('user');
 
         if($request->has('datetime')){
             $datetime = $request->get('datetime');

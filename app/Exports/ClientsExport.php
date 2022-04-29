@@ -15,7 +15,7 @@ class ClientsExport implements FromQuery, WithMapping, WithHeadings
     protected array $filters = [];
     protected ClientRepositoryInterface $clientRepository;
 
-    public function __construct(ClientRepositoryInterface $clientRepository, array $filters = [])
+    public function __construct(ClientRepositoryInterface $clientRepository, array $filters = [] )
     {
         $this->filters = $filters;
         $this->clientRepository = $clientRepository;
