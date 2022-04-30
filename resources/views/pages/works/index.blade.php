@@ -157,20 +157,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        @if(auth()->user()->hasPermission('satisfactionMeasure-work'))
-                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="satisfactionFilter">{{trans('translates.general.satisfaction')}}</label>
-                            <select name="satisfaction" id="satisfactionFilter" class="form-control" style="width: 100% !important;">
-                                <option value="">@lang('translates.filters.select')</option>
-                                @foreach($satisfactions as $satisfaction)
-                                    <option value="{{$satisfaction}}"
-                                            @if($satisfaction == $filters['satisfaction']) selected @endif>
-                                        @lang('translates.satisfactions.' . $satisfaction)
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        @endif
+
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="verifiedFilter">@lang('translates.columns.verified')</label>
                             <select name="verified_at" id="verifiedFilter" class="form-control" style="width: 100% !important;">
@@ -245,9 +232,7 @@
             @if(auth()->user()->hasPermission('canVerify-work'))
                 <th><input type="checkbox" id="works-all"></th>
             @endif
-            @if(auth()->user()->hasPermission('satisfactionMeasure-work'))
-                <th> </th>
-            @endif
+
             @if(auth()->user()->isDeveloper())
                 <th scope="col">#</th>
             @endif
@@ -298,28 +283,7 @@
                     <td></td>
                 @endif
 
-                @if(auth()->user()->hasPermission('satisfactionMeasure-work'))
-                    @if(is_numeric($work->getAttribute('satisfaction')) && $work->isDone())
-                        @php
-                            switch($work->getAttribute('satisfaction')){
-                                case(1):
-                                    $colors = 'success';
-                                    break;
-                                case(2):
-                                    $colors = 'danger';
-                                    break;
-                                case(3):
-                                    $colors = 'warning';
-                                    break;
-                            }
-                        @endphp
-                        <td>
-                            <span class="badge badge-{{$colors}}"><i class="far fa-smile fa-2x"></i></span>
-                        </td>
-                    @else
-                        <td></td>
-                    @endif
-                @endif
+
 
                 @if(auth()->user()->isDeveloper())
                     <th scope="row">{{$work->getAttribute('code')}}</th>
@@ -474,7 +438,7 @@
 
         @if($works->isNotEmpty())
             <tr style="background: #b3b7bb" id="count">
-                <td colspan="@if(auth()->user()->isDeveloper()) 10 @elseif(auth()->user()->hasPermission('satisfactionMeasure-work')) 8 @elseif(auth()->user()->hasPermission('viewAll-work') || auth()->user()->hasPermission('canVerify-work'))  7 @else 6 @endif">
+                <td colspan="@if(auth()->user()->isDeveloper()) 10 @elseif(auth()->user()->hasPermission('viewAll-work') || auth()->user()->hasPermission('canVerify-work'))  7 @else 6 @endif">
                     <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
                 </td>
                 <!-- loop of totals of countable parameters -->

@@ -51,7 +51,6 @@ class WorkController extends Controller
             'client_id' => $request->get('client_id'),
             'verified_at' => $request->get('verified_at'),
             'status' => $request->get('status'),
-            'satisfaction' => $request->get('satisfaction'),
             'created_at' => $request->get('created_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
             'datetime' => $request->get('datetime') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
         ];
@@ -74,7 +73,6 @@ class WorkController extends Controller
         $companies = Company::query()->has('asanImzalar')->limit(10)->get();
 
         $statuses = Work::statuses();
-        $satisfactions = Work::satisfactions();
         $verifies = [1 => trans('translates.columns.unverified'), 2 => trans('translates.columns.verified')];
         $priceVerifies = [1 => trans('translates.columns.price_unverified'), 2 => trans('translates.columns.price_verified')];
 
@@ -95,7 +93,7 @@ class WorkController extends Controller
 
         return view('pages.works.index',
             compact('works', 'services', 'users', 'departments',
-            'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'satisfactions')
+            'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters')
         );
     }
 

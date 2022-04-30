@@ -17,7 +17,7 @@ class WorkForm extends Component
     public ?Work $data;
     public ?string $method, $action;
     public ?Collection $departments, $services, $companies;
-    public array $statuses, $users, $satisfactions, $payment_methods;
+    public array $statuses, $users, $payment_methods;
     public array $selected = [
         'department_id' => '',
         'service_id' => '',
@@ -37,7 +37,6 @@ class WorkForm extends Component
         $this->services = Service::get(['id', 'name']);
         $this->statuses = Work::statuses();
         $this->payment_methods = Work::paymentMethods();
-        $this->satisfactions = Work::satisfactions();
 
         $user = auth()->user();
         $userModel = User::with('position')->find(auth()->id())->toArray();

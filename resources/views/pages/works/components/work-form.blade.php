@@ -160,22 +160,6 @@
                 @endforeach
                 @endif
 
-                @if(optional($data)->getAttribute('status') == \App\Models\Work::DONE && auth()->user()->hasPermission('satisfactionMeasure-work') )
-
-                    <div class="form-group col-12 col-md-3" wire:ignore>
-                        <label for="data-satisfaction">@lang('translates.general.satisfaction')</label>
-                        <select name="satisfaction" id="data-satisfaction" class="form-control">
-                            <option disabled >@lang('translates.general.satisfaction')</option>
-                            @foreach($satisfactions as $key => $satisfaction)
-                                <option
-                                        @if(optional($data)->getAttribute('satisfaction') === $satisfaction ) selected @endif
-                                        value="{{$satisfaction}}">
-                                    @lang('translates.satisfactions.' . $key)
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                @endif
                 <div class="form-group col-12 col-md-3" wire:ignore>
                     <label for="data-payment_method">@lang('translates.general.payment_method')</label>
                     <select name="payment_method" id="data-payment_method" class="form-control">
