@@ -27,10 +27,10 @@
             @if (!is_null($action))
                 <x-input::image name="avatar" :value="optional($data)->getAttribute('avatar')"/>
             @else
-                <img src="{{image(optional($data)->getAttribute('avatar'))}}" alt="user" class="img-fluid"}}>
+                <img src="{{image(optional($data)->getAttribute('avatar'))}}" alt="user" class="img-fluid">
             @endif
             <div>
-                @if(auth()->user()->isDeveloper() && !$data->isDeveloper() && !$data->isDisabled())
+                @if(auth()->user()->isDeveloper() && !$data->isDeveloper() && !$data->isDisabled() && $method !== 'POST')
                     <a href="{{route('users.loginAs', $data)}}"
                        class="dropdown-item-text text-decoration-none"
                     >
