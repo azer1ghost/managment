@@ -15,7 +15,12 @@
         <TR>
             <TD width="300" style="FONT-SIZE: 10pt; FONT-FAMILY: Arial, sans-serif;line-height:14pt;" vAlign="bottom">
                 <STRONG><SPAN style="FONT-SIZE: 18pt; FONT-FAMILY: Arial, sans-serif; COLOR: #051542">{{$user->getAttribute('fullname')}}</SPAN></STRONG><BR>
-                <SPAN style="FONT-SIZE: 14pt; FONT-FAMILY: Arial, sans-serif; COLOR: #051542">{{$user->getRelationValue('role')->getAttribute('name')}}</SPAN>
+                <SPAN style="FONT-SIZE: 14pt; FONT-FAMILY: Arial, sans-serif; COLOR: #051542">
+                    @if($user->isDirector()) {{$user->getRelationValue('company')->getAttribute('name')}}
+                    @else {{$user->getRelationValue('department')->getAttribute('name')}} @endif -
+                    @if($user->isDirector()) {{$user->getRelationValue('role')->getAttribute('name')}}
+                    @else {{$user->getRelationValue('position')->getAttribute('name')}} @endif
+                </SPAN>
             </TD>
 
             <TD vAlign="bottom" width="160">
