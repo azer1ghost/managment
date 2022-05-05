@@ -455,8 +455,6 @@
         @endif
         </tbody>
     </table>
-{{--    @dd(count( 1 + 2 - 3))--}}
-
     @if($hasPending && auth()->user()->hasPermission('canVerify-work'))
         <div class="col-12 pl-0 py-3">
             <a href="{{route('works.sum.verify')}}" id="sum-verify" class="btn btn-outline-primary">@lang('translates.sum') @lang('translates.buttons.verify')</a>
@@ -481,8 +479,7 @@
                                 @foreach($allDepartments as $dep)
                                     <option
                                             value="{{$dep->id}}"
-                                            @if($dep->id == auth()->user()->getAttribute('department_id')) selected @endif
-                                    >
+                                            @if($dep->id == auth()->user()->getAttribute('department_id')) selected @endif>
                                         {{$dep->name}}
                                     </option>
                                 @endforeach

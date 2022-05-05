@@ -22,16 +22,9 @@
     </div>
 
         <x-input::text name="code" :value="$code" label="Barcode" width="3" rows="4"/>
+        <x-input::text name="customer" :value="$customer" :label="trans('translates.fields.client')" width="3" rows="4"/>
+        <x-input::text name="phone" :value="$phone" :label="trans('translates.fields.phone')" width="3" rows="4"/>
 
-        <div class="form-group col-md-3" wire:ignore>
-            <label class="" for="data-client-type">{{trans('translates.general.select_client')}}</label>
-
-            <select name="client_id" id="data-client-type" style="width: 100%" class="custom-select2" data-url="{{route('sales-client.search')}}">
-                @if(is_numeric(optional($barcode)->getAttribute('client_id')))
-                    <option value="{{optional($barcode)->getAttribute('client_id')}}">{{optional($barcode)->getRelationValue('client')->getAttribute('name_with_phone')}}</option>
-                @endif
-            </select>
-        </div>
         <div class="form-group col-md-3">
             <label for="data-mediator">İşi göndərən</label>
             <select class="form-control" name="mediator_id" id="data-mediator">
@@ -74,23 +67,6 @@
         </div>
     @endforeach
         <x-input::textarea name="note" :value="$note" label="Note" width="12" rows="4"/>
-
-{{--    @if(auth()->user()->hasPermission('checkRejectedReason-inquiry') && optional($inquiry->getParameter('status'))->getAttribute('id') == \App\Models\Inquiry::REJECTED)--}}
-{{--        <div class="col-md-3">--}}
-{{--            <div>--}}
-{{--                <input type="radio" name="checking" id="checking" @if($inquiry->getAttribute('checking') == 0) checked @endif value="0">--}}
-{{--                <label class="form-check-label" for="checking">--}}
-{{--                    İmtina səbəbi uyğun deyil--}}
-{{--                </label>--}}
-{{--            </div>--}}
-{{--            <div>--}}
-{{--                <input type="radio" name="checking" id="checking1" @if($inquiry->getAttribute('checking') == 1) checked @endif value="1">--}}
-{{--                <label class="form-check-label" for="checking1">--}}
-{{--                    İmtina səbəbi düzgündür--}}
-{{--                </label>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    @endif--}}
 
     @if($action)
         <div class="col-12">

@@ -19,10 +19,11 @@ class WorkRequest extends FormRequest
             'parameters' => 'nullable|array',
             'status' => 'nullable|integer',
             'payment_method' => 'nullable|integer',
-            'satisfaction' => 'nullable|integer',
             'datetime' => 'nullable|date',
             'verified' => 'nullable',
-            'rejected' => 'nullable'
+            'rejected' => 'nullable',
+            'paid_check' => 'nullable',
+            'vat_paid' => 'nullable'
         ];
     }
 }

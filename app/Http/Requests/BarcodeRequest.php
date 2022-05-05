@@ -15,7 +15,8 @@ class BarcodeRequest extends FormRequest
             'note'      => "nullable|string|max:5000",
             'code'      => "nullable|string",
             'status'    => "filled|int",
-            'client_id' => 'nullable|integer',
+            'customer' => 'string|nullable',
+            'phone' => 'string|nullable',
             'mediator_id' => 'nullable|integer',
         ];
     }

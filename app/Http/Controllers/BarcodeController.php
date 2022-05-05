@@ -25,7 +25,6 @@ class BarcodeController extends Controller
             'code'       => $request->get('code'),
             'note'       => $request->get('note'),
             'user_id'    => $request->get('user'),
-            'client_id'  => $request->get('client_id'),
         ];
 
         $parameterFilters = [
@@ -154,7 +153,7 @@ class BarcodeController extends Controller
     public function update(BarcodeRequest $request, Barcode $barcode): RedirectResponse
     {
         $barcode->update(
-            array_merge($request->only(['note', 'company_id', 'code', 'mediator_id', 'client_id']))
+            array_merge($request->only(['note', 'company_id', 'code', 'mediator_id', 'customer', 'phone']))
         );
         $barcode->parameters()->sync(syncResolver($request->get('parameters') ?? [], 'value'));
 

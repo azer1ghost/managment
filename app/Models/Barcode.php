@@ -28,7 +28,8 @@ class Barcode extends Model
         'note',
         'company_id',
         'user_id',
-        'client_id',
+        'customer',
+        'phone',
         'mediator_id',
     ];
 
@@ -110,9 +111,14 @@ class Barcode extends Model
         return auth()->user()->hasPermission('viewAll-barcode');
     }
 
-    public function client(): BelongsTo
+    public function setPhoneAttribute($value): ?string
     {
-        return $this->belongsTo(SalesClient::class, 'client_id')->withDefault();
+        return $this->attributes['phone'] = phone_cleaner($value);
+    }
+
+    public function getPhoneAttribute($value): ?string
+    {
+        return phone_formatter($value, true);
     }
 
 }

@@ -5,7 +5,6 @@ namespace App\Http\Livewire;
 use App\Models\Barcode;
 use App\Models\Company;
 use App\Models\Option;
-use App\Models\SalesClient;
 use App\Models\User;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -20,9 +19,8 @@ class BarcodeForm extends Component
     public ?string $action = null, $method = null;
 
     public ?Barcode $barcode;
-    public ?string $code;
-    public ?string $note;
-    public Collection $companies, $parameters, $mediators, $clients;
+    public ?string $code, $note, $customer, $phone;
+    public Collection $companies, $parameters, $mediators;
 
     public array $cachedValues = [], $formFields = [], $selected = [];
 
@@ -32,8 +30,9 @@ class BarcodeForm extends Component
 
         $this->note = $this->barcode->getAttribute('note');
         $this->code = $this->barcode->getAttribute('code');
+        $this->customer = $this->barcode->getAttribute('customer');
+        $this->phone = $this->barcode->getAttribute('phone');
         $this->mediators = User::get(['id', 'name', 'surname']);
-        $this->clients = SalesClient::get('name');
 
         if ($this->barcode->getAttribute('company_id')) {
             $this->updatedSelectedCompany($this->barcode->getAttribute('company_id'));

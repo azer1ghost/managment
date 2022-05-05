@@ -40,18 +40,6 @@
                                placeholder="@lang('translates.placeholders.code')" class="form-control">
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mb-3">
-                        <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
-                        <select name="client_id" id="clientFilter"
-                                class="custom-select2"
-                                data-url="{{route('sales-client.search')}}"
-                                style="width: 100% !important;">
-                            @if(is_numeric(request()->get('client_id')))
-                                <option value="{{request()->get('client_id')}}">{{\App\Models\SalesClient::find(request()->get('client_id'))->getAttribute('name_with_voen')}}</option>
-                            @endif
-                        </select>
-                    </div>
-
                     <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
                         <label for="noteFilter">@lang('translates.fields.note')</label>
                         <input id="noteFilter" name="note" value="{{request()->get('note')}}" placeholder="@lang('translates.placeholders.note')" class="form-control"/>
@@ -62,7 +50,7 @@
                         <input id="qvsFilter" name="qvs" value="{{request()->get('qvs')}}" placeholder="Filter by QVS" class="form-control"/>
                     </div>
 
-                    <div class="form-group col-12 col-md-2 mb-0">
+                    <div class="form-group col-12 col-md-3 mb-0">
                         <label class="d-block" for="evaluationFilter">Evaluation</label>
                         <select id="evaluationFilter" data-selected-text-format="count" class="filterSelector"
                                 title="@lang('translates.filters.select')" name="evaluation">
@@ -78,7 +66,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12 col-md-2 mb-0">
+                    <div class="form-group col-12 col-md-3 mb-0">
                         <label class="d-block" for="subjectFilter">@lang('translates.filters.subject')</label>
                         <select id="subjectFilter" data-selected-text-format="count" class="filterSelector"
                                 title="@lang('translates.filters.subject')" name="subject">
@@ -94,7 +82,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12 col-md-2 mb-0">
+                    <div class="form-group col-12 col-md-3 mb-0">
                         <label class="d-block" for="statusFilter">Status</label>
                         <select id="statusFilter" data-selected-text-format="count" class="filterSelector"
                                 title="@lang('translates.filters.select')" name="status">
@@ -109,7 +97,6 @@
                             @endforeach
                         </select>
                     </div>
-
 
                 @if(\App\Models\Barcode::userCanViewAll() || auth()->user()->isDepartmentChief())
                         <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
@@ -175,11 +162,10 @@
                 <tbody>
                 @forelse($barcodes as $barcode)
                     <tr>
-
                         @php($status = optional($barcode->getParameter('status')))
                         <td>{{$barcode->getAttribute('code')}}</td>
                         <td>{{$barcode->getAttribute('created_at')->format('d-m-Y')}}</td>
-                        <td>{{$barcode->getRelationValue('client')->getAttribute('name_with_phone')}}</td>
+                        <td>{{$barcode->getAttribute('customer')}}</td>
                         <td>{{$barcode->getRelationValue('user')->getAttribute('fullname')}} {!! $barcode->getRelationValue('user')->getAttribute('disabled_at') ? ' <span class="text-danger">(' . __('translates.disabled') . ')</span>' : '' !!}</td>
                         <td>{{optional($barcode->getParameter('evaluation'))->getAttribute('text')}}</td>
                         <td>{{optional($barcode->getParameter('subject'))->getAttribute('text')}}</td>
@@ -194,13 +180,6 @@
                         </td>
                         <td>
                             <div class="btn-sm-group d-flex align-items-center justify-content-center">
-                                @can('view', $barcode)
-                                    @if($barcode->getAttribute('client_id'))
-                                        <button class="btn btn-sm btn-outline-primary mr-2 client-edit-btn" type="button" data-client='@json($barcode->getRelationValue('client'))' data-toggle="modal" data-target="#inquiry-client">
-                                            <i class="fas fa-user-tie"></i>
-                                        </button>
-                                    @endif
-                                @endcan
                                 @if(!$trashBox)
                                     @can('view', $barcode)
                                         <a target="_blank" href="{{route('barcode.show', $barcode)}}"
@@ -255,64 +234,10 @@
             </div>
         </div>
 
-    <div class="modal fade" id="inquiry-client">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <form action="" method="POST" id="client-form">
-                    @csrf @method('PUT')
-                    <div class="modal-header">
-                        <h5 class="modal-title">@lang('translates.general.client_data')</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group mb-1">
-                            <label for="data-name">@lang('translates.fields.name')</label>
-                            <input class="form-control"  type="text"  name="name">
-                        </div>
 
-                        <div class="form-group mb-1">
-                            <label for="data-phone">@lang('translates.fields.phone')</label>
-                            <input class="form-control" type="text" name="phone">
-                        </div>
-
-                        <div class="form-group mb-1">
-                            <label for="data-voen">Voen</label>
-                            <input class="form-control" type="text" name="voen">
-                        </div>
-
-                        <div class="form-group mb-0">
-                            <label for="data-detail">@lang('translates.fields.detail')</label>
-                            <textarea class="form-control" type="text" name="detail" cols="30" rows="10"></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
-                        <button type="submit" form="client-form" class="btn btn-primary submit">@lang('translates.buttons.save')</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section('scripts')
-    <script>
-        $('.client-edit-btn').on('click', function (e){
-            let client = $(this).data('client')
-
-            let formAction = "{{route('sales-client.update', 'clinet_id')}}".replace('clinet_id', client.id);
-
-            $('#client-form').attr('action', formAction)
-
-            $('#client-form input[name="name"]').val(client.name)
-            $('#client-form input[name="phone"]').val(client.phone)
-            $('#client-form input[name="voen"]').val(client.voen)
-            $('#client-form textarea[name="detail"]').val(client.detail)
-        })
-    </script>
-
     <script>
 
         function deleteAction(url, name) {
