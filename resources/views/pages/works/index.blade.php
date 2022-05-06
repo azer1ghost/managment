@@ -61,14 +61,14 @@
                                         data-width="fit" title="{{__('translates.filters.select')}}"
                                 >
                                     <option value="">@lang('translates.filters.select')</option>
-{{--                                    @foreach($users as $user)--}}
-{{--                                        <option--}}
-{{--                                                @if($user->getAttribute('id') == $filters['user_id']) selected @endif--}}
-{{--                                        value="{{$user->getAttribute('id')}}"--}}
-{{--                                        >--}}
-{{--                                            {{$user->getAttribute('fullname_with_position')}}--}}
-{{--                                        </option>--}}
-{{--                                    @endforeach--}}
+                                    @foreach($users as $user)
+                                        <option
+                                                @if($user->getAttribute('id') == $filters['user_id']) selected @endif
+                                        value="{{$user->getAttribute('id')}}"
+                                        >
+                                            {{$user->getAttribute('fullname_with_position')}}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                         @endif
