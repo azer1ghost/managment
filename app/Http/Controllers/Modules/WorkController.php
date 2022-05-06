@@ -69,7 +69,7 @@ class WorkController extends Controller
             $usersQuery->where('department_id', $user->getAttribute('department_id'))->get() :
             $usersQuery->get();
 
-        $departments = Department::has('works')->get(['id', 'name']);
+        $departments = Department::get(['id', 'name']);
         $companies = Company::query()->has('asanImzalar')->limit(10)->get();
 
         $statuses = Work::statuses();
