@@ -45,9 +45,8 @@
                                 @case('synced')
                                     @foreach($log->getPivotData()['properties'] as $parameter)
                                         <p>
-                                            <strong>{{str_title(\App\Models\Parameter::find($parameter['parameter_id'])->name)}}: </strong>
-                                            @php($val = $work->getParameterById($parameter['parameter_id']))
-                                            {{optional($val)->text ?? optional($val)->value}}
+                                            <strong>{{str_title(\App\Models\Parameter::find($parameter['parameter_id'])->label)}}: </strong>
+                                            {{$work->getParameter($parameter['parameter_id'])}}
                                         </p>
                                     @endforeach
                                     @break
