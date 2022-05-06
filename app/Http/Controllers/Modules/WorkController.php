@@ -65,7 +65,8 @@ class WorkController extends Controller
         ];
 
         $usersQuery = User::has('works')->with('position', 'role')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id']);
-//        $users = Work::userCannotViewAll() && Work::userCanViewDepartmentWorks() ?
+        $users =
+// Work::userCannotViewAll() && Work::userCanViewDepartmentWorks() ?
 //            $usersQuery->where('department_id', $user->getAttribute('department_id'))->get() :
             $usersQuery->get();
 
@@ -93,7 +94,7 @@ class WorkController extends Controller
 
         return view('pages.works.index'
             ,
-            compact('works', 'services', 'departments',
+            compact('works', 'services', 'departments', 'users',
             'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters')
         );
     }
