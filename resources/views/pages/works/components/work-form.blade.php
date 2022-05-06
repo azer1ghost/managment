@@ -208,7 +208,9 @@
         </div>
     </div>
     @if($action)
+            @if(is_null(optional($data)->getAttribute('verified_at')) || auth()->user()->hasPermission('viewPrice-work'))
         <x-input::submit :value="__('translates.buttons.save')"/>
+            @endif
     @endif
 </form>
 
