@@ -1,26 +1,26 @@
-@extends('layouts.main')
+{{--@extends('layouts.main')--}}
 
-@section('title', __('translates.navbar.work'))
-@section('style')
-    <style>
-        .table td, .table th{
-            vertical-align: middle !important;
-        }
-    </style>
-@endsection
-@section('content')
-    <x-bread-crumb>
-        <x-bread-crumb-link :link="route('dashboard')">
-            @lang('translates.navbar.dashboard')
-        </x-bread-crumb-link>
-        <x-bread-crumb-link>
-            @lang('translates.navbar.work')
-        </x-bread-crumb-link>
-    </x-bread-crumb>
+{{--@section('title', __('translates.navbar.work'))--}}
+{{--@section('style')--}}
+{{--    <style>--}}
+{{--        .table td, .table th{--}}
+{{--            vertical-align: middle !important;--}}
+{{--        }--}}
+{{--    </style>--}}
+{{--@endsection--}}
+{{--@section('content')--}}
+{{--    <x-bread-crumb>--}}
+{{--        <x-bread-crumb-link :link="route('dashboard')">--}}
+{{--            @lang('translates.navbar.dashboard')--}}
+{{--        </x-bread-crumb-link>--}}
+{{--        <x-bread-crumb-link>--}}
+{{--            @lang('translates.navbar.work')--}}
+{{--        </x-bread-crumb-link>--}}
+{{--    </x-bread-crumb>--}}
 
-    <button class="btn btn-outline-success showFilter">
-        <i class="far fa-filter"></i> @lang('translates.buttons.filter_open')
-    </button>
+{{--    <button class="btn btn-outline-success showFilter">--}}
+{{--        <i class="far fa-filter"></i> @lang('translates.buttons.filter_open')--}}
+{{--    </button>--}}
 
 {{--    <form action="{{route('works.index')}}">--}}
 {{--        <div class="row d-flex justify-content-between mb-2">--}}
@@ -652,4 +652,5 @@
 {{--            });--}}
 {{--        }--}}
 {{--    </script>--}}
-@endsection
+{{--@endsection--}}
+<p>salam</p>
