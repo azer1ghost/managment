@@ -65,9 +65,8 @@ class WorkController extends Controller
         ];
 
         $usersQuery = User::with('position', 'role')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id']);
-        $users =
-// Work::userCannotViewAll() && Work::userCanViewDepartmentWorks() ?
-//            $usersQuery->where('department_id', $user->getAttribute('department_id'))->get() :
+        $users = Work::userCannotViewAll() && Work::userCanViewDepartmentWorks() ?
+            $usersQuery->where('department_id', $user->getAttribute('department_id'))->get() :
             $usersQuery->get();
 
         $departments = Department::has('works')->get(['id', 'name']);
