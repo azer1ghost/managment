@@ -34,66 +34,67 @@ class WorkController extends Controller
 
     public function index(Request $request)
     {
-        $user = auth()->user();
-        $limit  = $request->get('limit', 25);
+//        $user = auth()->user();
+//        $limit  = $request->get('limit', 25);
+//
+//        $departmentRequest = Work::userCannotViewAll() ?
+//            $user->getAttribute('department_id') :
+//                $request->get('department_id');
+//
+//        $filters = [
+//            'limit' => $limit,
+//            'code' => $request->get('code'),
+//            'department_id' => $departmentRequest,
+//            'service_id' => $request->get('service_id'),
+//            'asan_imza_id' => $request->get('asan_imza_id'),
+//            'asan_imza_company_id' => $request->get('asan_imza_company_id'),
+//            'client_id' => $request->get('client_id'),
+//            'verified_at' => $request->get('verified_at'),
+//            'status' => $request->get('status'),
+//            'created_at' => $request->get('created_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
+//            'datetime' => $request->get('datetime') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
+//        ];
+//
+//        if(Work::userCanViewAll() || Work::userCanViewDepartmentWorks()){
+//            $filters['user_id'] = $request->get('user_id');
+//        }
+//
+//        $dateFilters = [
+//            'datetime' => $request->has('check-datetime'),
+//            'created_at' => $request->has('check-created_at'),
+//        ];
+//
+//        $usersQuery = User::has('works')->with('position', 'role')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id']);
+//        $users = Work::userCannotViewAll() && Work::userCanViewDepartmentWorks() ?
+//            $usersQuery->where('department_id', $user->getAttribute('department_id'))->get() :
+//            $usersQuery->get();
+//
+//        $departments = Department::has('works')->get(['id', 'name']);
+//        $companies = Company::query()->has('asanImzalar')->limit(10)->get();
+//
+//        $statuses = Work::statuses();
+//        $verifies = [1 => trans('translates.columns.unverified'), 2 => trans('translates.columns.verified')];
+//        $priceVerifies = [1 => trans('translates.columns.price_unverified'), 2 => trans('translates.columns.price_verified')];
+//
+//        $allDepartments = Department::get(['id', 'name']);
+//
+//        $services = Service::query()
+//            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
+//                $query->whereBelongsTo($user->getRelationValue('company'));
+//            })->get(['id', 'name', 'detail']);
+//
+//        $works = $this->workRepository->allFilteredWorks($filters, $dateFilters);
+//
+//        if(is_numeric($limit)) {
+//            $works = $works->paginate($limit);
+//        }else {
+//            $works = $works->get();
+//        }
 
-        $departmentRequest = Work::userCannotViewAll() ?
-            $user->getAttribute('department_id') :
-                $request->get('department_id');
-
-        $filters = [
-            'limit' => $limit,
-            'code' => $request->get('code'),
-            'department_id' => $departmentRequest,
-            'service_id' => $request->get('service_id'),
-            'asan_imza_id' => $request->get('asan_imza_id'),
-            'asan_imza_company_id' => $request->get('asan_imza_company_id'),
-            'client_id' => $request->get('client_id'),
-            'verified_at' => $request->get('verified_at'),
-            'status' => $request->get('status'),
-            'created_at' => $request->get('created_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
-            'datetime' => $request->get('datetime') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
-        ];
-
-        if(Work::userCanViewAll() || Work::userCanViewDepartmentWorks()){
-            $filters['user_id'] = $request->get('user_id');
-        }
-
-        $dateFilters = [
-            'datetime' => $request->has('check-datetime'),
-            'created_at' => $request->has('check-created_at'),
-        ];
-
-        $usersQuery = User::has('works')->with('position', 'role')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id']);
-        $users = Work::userCannotViewAll() && Work::userCanViewDepartmentWorks() ?
-            $usersQuery->where('department_id', $user->getAttribute('department_id'))->get() :
-            $usersQuery->get();
-
-        $departments = Department::has('works')->get(['id', 'name']);
-        $companies = Company::query()->has('asanImzalar')->limit(10)->get();
-
-        $statuses = Work::statuses();
-        $verifies = [1 => trans('translates.columns.unverified'), 2 => trans('translates.columns.verified')];
-        $priceVerifies = [1 => trans('translates.columns.price_unverified'), 2 => trans('translates.columns.price_verified')];
-
-        $allDepartments = Department::get(['id', 'name']);
-
-        $services = Service::query()
-            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
-                $query->whereBelongsTo($user->getRelationValue('company'));
-            })->get(['id', 'name', 'detail']);
-
-        $works = $this->workRepository->allFilteredWorks($filters, $dateFilters);
-
-        if(is_numeric($limit)) {
-            $works = $works->paginate($limit);
-        }else {
-            $works = $works->get();
-        }
-
-        return view('pages.works.index',
-            compact('works', 'services', 'users', 'departments',
-            'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters')
+        return view('pages.works.index'
+//            ,
+//            compact('works', 'services', 'users', 'departments',
+//            'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters')
         );
     }
 
