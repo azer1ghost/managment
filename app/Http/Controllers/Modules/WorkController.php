@@ -92,9 +92,9 @@ class WorkController extends Controller
         }
 
         return view('pages.works.index'
-//            ,
-//            compact('works', 'services', 'users', 'departments',
-//            'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters')
+            ,
+            compact('works', 'services', 'departments',
+            'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters')
         );
     }
 
