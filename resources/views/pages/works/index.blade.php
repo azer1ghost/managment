@@ -226,287 +226,287 @@
             </div>
         </div>
     @endif
-    <table class="table table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif " id="table">
-        <thead>
-        <tr class="text-center">
-            @if(auth()->user()->hasPermission('canVerify-work'))
-                <th><input type="checkbox" id="works-all"></th>
-            @endif
+{{--    <table class="table table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif " id="table">--}}
+{{--        <thead>--}}
+{{--        <tr class="text-center">--}}
+{{--            @if(auth()->user()->hasPermission('canVerify-work'))--}}
+{{--                <th><input type="checkbox" id="works-all"></th>--}}
+{{--            @endif--}}
 
-            @if(auth()->user()->isDeveloper())
-                <th scope="col">#</th>
-            @endif
-            <th scope="col">@lang('translates.columns.created_by')</th>
-            @if(\App\Models\Work::userCanViewAll())
-                <th scope="col">@lang('translates.columns.department')</th>
-            @endif
-            <th scope="col">@lang('translates.fields.user')</th>
-            <th scope="col">Asan imza</th>
-            <th scope="col">@lang('translates.navbar.service')</th>
-            <th scope="col">@lang('translates.fields.clientName')</th>
-            <th scope="col">Status</th>
-                @if(!auth()->user()->hasPermission('viewPrice-work'))
-            <th scope="col">Gb Say</th>
-            <th scope="col">Kod Say</th>
-                @endif
-            @if(auth()->user()->hasPermission('viewPrice-work'))
-            @foreach(\App\Models\Service::serviceParameters() as $param)
-                <th scope="col">{{$param['data']->getAttribute('label')}}</th>
-            @endforeach
-                <th scope="col">@lang('translates.columns.sum_paid')</th>
-                <th scope="col">@lang('translates.columns.residue')</th>
-            @endif
-            <th scope="col">@lang('translates.fields.created_at')</th>
-            <th scope="col">@lang('translates.fields.date')</th>
-            <th scope="col">@lang('translates.columns.verified')</th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        @php
-            $totals = []; // array of countable service parameters. Ex: Declaration count
-            $balance = [];
-            $total_payment = [];
-            $hasPending = false; // check if there's pending work
-        @endphp
-        @forelse($works as $work)
+{{--            @if(auth()->user()->isDeveloper())--}}
+{{--                <th scope="col">#</th>--}}
+{{--            @endif--}}
+{{--            <th scope="col">@lang('translates.columns.created_by')</th>--}}
+{{--            @if(\App\Models\Work::userCanViewAll())--}}
+{{--                <th scope="col">@lang('translates.columns.department')</th>--}}
+{{--            @endif--}}
+{{--            <th scope="col">@lang('translates.fields.user')</th>--}}
+{{--            <th scope="col">Asan imza</th>--}}
+{{--            <th scope="col">@lang('translates.navbar.service')</th>--}}
+{{--            <th scope="col">@lang('translates.fields.clientName')</th>--}}
+{{--            <th scope="col">Status</th>--}}
+{{--                @if(!auth()->user()->hasPermission('viewPrice-work'))--}}
+{{--            <th scope="col">Gb Say</th>--}}
+{{--            <th scope="col">Kod Say</th>--}}
+{{--                @endif--}}
+{{--            @if(auth()->user()->hasPermission('viewPrice-work'))--}}
+{{--            @foreach(\App\Models\Service::serviceParameters() as $param)--}}
+{{--                <th scope="col">{{$param['data']->getAttribute('label')}}</th>--}}
+{{--            @endforeach--}}
+{{--                <th scope="col">@lang('translates.columns.sum_paid')</th>--}}
+{{--                <th scope="col">@lang('translates.columns.residue')</th>--}}
+{{--            @endif--}}
+{{--            <th scope="col">@lang('translates.fields.created_at')</th>--}}
+{{--            <th scope="col">@lang('translates.fields.date')</th>--}}
+{{--            <th scope="col">@lang('translates.columns.verified')</th>--}}
+{{--            <th scope="col"></th>--}}
+{{--        </tr>--}}
+{{--        </thead>--}}
+{{--        <tbody>--}}
+{{--        @php--}}
+{{--            $totals = []; // array of countable service parameters. Ex: Declaration count--}}
+{{--            $balance = [];--}}
+{{--            $total_payment = [];--}}
+{{--            $hasPending = false; // check if there's pending work--}}
+{{--        @endphp--}}
+{{--        @forelse($works as $work)--}}
 
-            @if($work->isDone() && is_null($work->getAttribute('verified_at')))
-                @php
-                    $hasPending = true;
-                @endphp
-            @endif
-            <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif data-toggle="tooltip" title="{{$work->getAttribute('code')}}">
-                @if($work->isDone() && is_null($work->getAttribute('verified_at')) && auth()->user()->hasPermission('canVerify-work'))
-                    <td><input type="checkbox" name="works[]" value="{{$work->getAttribute('id')}}"></td>
-                @elseif(auth()->user()->hasPermission('canVerify-work'))
-                    <td></td>
-                @endif
+{{--            @if($work->isDone() && is_null($work->getAttribute('verified_at')))--}}
+{{--                @php--}}
+{{--                    $hasPending = true;--}}
+{{--                @endphp--}}
+{{--            @endif--}}
+{{--            <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif data-toggle="tooltip" title="{{$work->getAttribute('code')}}">--}}
+{{--                @if($work->isDone() && is_null($work->getAttribute('verified_at')) && auth()->user()->hasPermission('canVerify-work'))--}}
+{{--                    <td><input type="checkbox" name="works[]" value="{{$work->getAttribute('id')}}"></td>--}}
+{{--                @elseif(auth()->user()->hasPermission('canVerify-work'))--}}
+{{--                    <td></td>--}}
+{{--                @endif--}}
 
 
 
-                @if(auth()->user()->isDeveloper())
-                    <th scope="row">{{$work->getAttribute('code')}}</th>
-                @endif
-                <td>{{$work->getRelationValue('creator')->getAttribute('fullname')}}</td>
-                @if(\App\Models\Work::userCanViewAll())
-                    <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
-                @endif
-                <td>
-                    @if(is_numeric($work->getAttribute('user_id')))
-                        {{$work->getRelationValue('user')->getAttribute('fullname_with_position')}}
-                    @else
-                        @lang('translates.navbar.general')
-                    @endif
-                </td>
-                <td>{{$work->asanImza()->exists() ? $work->getRelationValue('asanImza')->getAttribute('user_with_company') : trans('translates.filters.select')}}</td>
+{{--                @if(auth()->user()->isDeveloper())--}}
+{{--                    <th scope="row">{{$work->getAttribute('code')}}</th>--}}
+{{--                @endif--}}
+{{--                <td>{{$work->getRelationValue('creator')->getAttribute('fullname')}}</td>--}}
+{{--                @if(\App\Models\Work::userCanViewAll())--}}
+{{--                    <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>--}}
+{{--                @endif--}}
+{{--                <td>--}}
+{{--                    @if(is_numeric($work->getAttribute('user_id')))--}}
+{{--                        {{$work->getRelationValue('user')->getAttribute('fullname_with_position')}}--}}
+{{--                    @else--}}
+{{--                        @lang('translates.navbar.general')--}}
+{{--                    @endif--}}
+{{--                </td>--}}
+{{--                <td>{{$work->asanImza()->exists() ? $work->getRelationValue('asanImza')->getAttribute('user_with_company') : trans('translates.filters.select')}}</td>--}}
 {{--                <td><i class="{{$work->getRelationValue('service')->getAttribute('icon')}} pr-2" style="font-size: 20px"></i> {{$work->getRelationValue('service')->getAttribute('name')}}</td>--}}
-                <td data-toggle="tooltip" data-placement="bottom" title="{{$work->getRelationValue('client')->getAttribute('fullname')}}" >
-                    {{mb_strimwidth($work->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}
-                </td>
-                <td>
-                    @if(is_numeric($work->getAttribute('status')))
-                        @php
-                            switch($work->getAttribute('status')){
-                                case(1):
-                                    $color = 'warning';
-                                    break;
-                                case(2):
-                                    $color = 'primary';
-                                    break;
-                                case(3):
-                                    $color = 'success';
-                                    break;
-                                case(4):
-                                    $color = 'danger';
-                                    break;
-                            }
-                        @endphp
-                    @endif
-                    <span class="badge badge-{{$color}}" style="font-size: 12px">
-                         {{trans('translates.work_status.' . $work->getAttribute('status'))}}
-                    </span>
-                </td>
-                    @if(!auth()->user()->hasPermission('viewPrice-work'))
-                    <td>{{$work->getParameter($work::GB)}}</td>
-                    <td>{{$work->getParameter($work::CODE)}}</td>
-                    @endif
-                @if(auth()->user()->hasPermission('viewPrice-work'))
-                    @foreach(\App\Models\Service::serviceParameters() as $param)
-                        <td>{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
-                        @php
-                            if($param['count']){ // check if parameter is countable
-                                $count = (int) $work->getParameter($param['data']->getAttribute('id'));
-                                if(isset($totals[$param['data']->getAttribute('id')])){
-                                    $totals[$param['data']->getAttribute('id')] += $count;
-                                }else{
-                                    $totals[$param['data']->getAttribute('id')] = $count;
-                                }
-                            }else{
-                                $totals[$param['data']->getAttribute('id')] = NULL;
-                            }
-                        @endphp
-                    @endforeach
-                @endif
-                    @php
-                        $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID);
-                        $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) - $sum_payment) * -1;
-                    @endphp
-                @if(auth()->user()->hasPermission('viewPrice-work'))
-                    <td class="font-weight-bold" data-toggle="tooltip">{{$sum_payment}}</td>
-                    <td class="font-weight-bold" @if($residue < 0) style="color:red" @endif data-toggle="tooltip">@if($residue < 0) {{$residue}} @else 0 @endif</td>
-                @endif
-                <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('created_at'))->diffForHumans()}}</td>
-                <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip">{{optional($work->getAttribute('datetime'))->format('Y-m-d')}}</td>
-                <td>
-                    @php
-                        $status = '';
-                        if(is_null($work->getAttribute('verified_at')) && $work->status == \App\Models\Work::DONE){
-                            $status = "<i data-toggle='tooltip' data-placement='top' title='". trans('translates.work_status.1') ."' class='fas fa-clock text-info mr-2' style='font-size: 22px'></i>";
-                        }
-                        if(!is_null($work->getAttribute('verified_at'))){
-                            $status = "<i data-toggle='tooltip' data-placement='top' title='". trans('translates.columns.verified') ."' class='fas fa-check text-success mr-2' style='font-size: 22px'></i>";
-                        }
-                        if($work->getAttribute('status') == $work::REJECTED){
-                            $status = "<i data-toggle='tooltip' data-placement='top' title='". trans('translates.columns.rejected') ."' class='fas fa-times text-danger' style='font-size: 22px'></i>";
-                        }
-                    @endphp
-                    {!! $status !!}
-                </td>
-                <td>
-                    <div class="btn-sm-group d-flex align-items-center">
-                        @if($work->getAttribute('creator_id') != auth()->id() && is_null($work->getAttribute('user_id')) && !auth()->user()->isDeveloper())
-                            @can('update', $work)
-                                <a title="@lang('translates.buttons.execute')" data-toggle="tooltip" href="{{route('works.edit', $work)}}"
-                                   class="btn btn-sm btn-outline-success">
-                                    <i class="fal fa-arrow-right"></i>
-                                </a>
-                            @endcan
-                        @endif
-                        <div class="dropdown">
-                            <button class="btn" type="button" id="inquiry_actions-{{$loop->iteration}}"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fal fa-ellipsis-v-alt"></i>
-                            </button>
-                            <div class="dropdown-menu custom-dropdown">
-                                @can('view', $work)
-                                    <a href="{{route('works.show', $work)}}" class="dropdown-item-text text-decoration-none">
-                                        <i class="fal fa-eye pr-2 text-primary"></i>@lang('translates.buttons.view')
-                                    </a>
-                                @endcan
-                                @if(auth()->user()->hasPermission('update-work') || $work->getAttribute('creator_id') == auth()->id() || $work->getAttribute('user_id') == auth()->id() || auth()->user()->isDeveloper() )
-                                    @can('update', $work)
-                                        <a href="{{route('works.edit', $work)}}" class="dropdown-item-text text-decoration-none">
-                                            @if($work->getAttribute('creator_id') == auth()->id() || auth()->user()->isDeveloper() || auth()->user()->hasPermission('update-work'))
-                                                <i class="fal fa-pen pr-2 text-success"></i>@lang('translates.tasks.edit')
-                                            @elseif($work->getAttribute('user_id') == auth()->id())
-                                                <i class="fal fa-arrow-right pr-2 text-success"></i>@lang('translates.buttons.execute')
-                                            @endif
-                                        </a>
-                                    @endcan
-                                @endif
-                                @if(auth()->user()->hasPermission('canVerify-work') && $work->getAttribute('status') == $work::DONE && is_null($work->getAttribute('verified_at')))
-                                    <a href="{{route('works.verify', $work)}}" verify data-name="{{$work->getAttribute('code')}}" class="dropdown-item-text text-decoration-none">
-                                        <i class="fal fa-check pr-2 text-success"></i>@lang('translates.buttons.verify')
-                                    </a>
-                                @endif
-                                @can('delete', $work)
-                                    <a href="{{route('works.destroy', $work)}}" delete data-name="{{$work->getAttribute('code')}}" class="dropdown-item-text text-decoration-none">
-                                        <i class="fal fa-trash pr-2 text-danger"></i>@lang('translates.tasks.delete')
-                                    </a>
-                                        <a href="{{route('works.logs', $work)}}" target="_blank"
-                                           class="dropdown-item-text text-decoration-none">
-                                            <i class="fal fa-sticky-note pr-2 text-info"></i>Logs
-                                        </a>
-                                @endcan
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            @php
-                $balance[] = $residue;
-                $sum_balance = array_sum($balance);
-                $total_payment[] = $sum_payment;
-                $sum_total_payment = array_sum($total_payment)
-            @endphp
-        @empty
-            <tr>
-                <th colspan="20">
-                    <div class="row justify-content-center m-3">
-                        <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.empty')</div>
-                    </div>
-                </th>
-            </tr>
-        @endforelse
+{{--                <td data-toggle="tooltip" data-placement="bottom" title="{{$work->getRelationValue('client')->getAttribute('fullname')}}" >--}}
+{{--                    {{mb_strimwidth($work->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}--}}
+{{--                </td>--}}
+{{--                <td>--}}
+{{--                    @if(is_numeric($work->getAttribute('status')))--}}
+{{--                        @php--}}
+{{--                            switch($work->getAttribute('status')){--}}
+{{--                                case(1):--}}
+{{--                                    $color = 'warning';--}}
+{{--                                    break;--}}
+{{--                                case(2):--}}
+{{--                                    $color = 'primary';--}}
+{{--                                    break;--}}
+{{--                                case(3):--}}
+{{--                                    $color = 'success';--}}
+{{--                                    break;--}}
+{{--                                case(4):--}}
+{{--                                    $color = 'danger';--}}
+{{--                                    break;--}}
+{{--                            }--}}
+{{--                        @endphp--}}
+{{--                    @endif--}}
+{{--                    <span class="badge badge-{{$color}}" style="font-size: 12px">--}}
+{{--                         {{trans('translates.work_status.' . $work->getAttribute('status'))}}--}}
+{{--                    </span>--}}
+{{--                </td>--}}
+{{--                    @if(!auth()->user()->hasPermission('viewPrice-work'))--}}
+{{--                    <td>{{$work->getParameter($work::GB)}}</td>--}}
+{{--                    <td>{{$work->getParameter($work::CODE)}}</td>--}}
+{{--                    @endif--}}
+{{--                @if(auth()->user()->hasPermission('viewPrice-work'))--}}
+{{--                    @foreach(\App\Models\Service::serviceParameters() as $param)--}}
+{{--                        <td>{{$work->getParameter($param['data']->getAttribute('id'))}}</td>--}}
+{{--                        @php--}}
+{{--                            if($param['count']){ // check if parameter is countable--}}
+{{--                                $count = (int) $work->getParameter($param['data']->getAttribute('id'));--}}
+{{--                                if(isset($totals[$param['data']->getAttribute('id')])){--}}
+{{--                                    $totals[$param['data']->getAttribute('id')] += $count;--}}
+{{--                                }else{--}}
+{{--                                    $totals[$param['data']->getAttribute('id')] = $count;--}}
+{{--                                }--}}
+{{--                            }else{--}}
+{{--                                $totals[$param['data']->getAttribute('id')] = NULL;--}}
+{{--                            }--}}
+{{--                        @endphp--}}
+{{--                    @endforeach--}}
+{{--                @endif--}}
+{{--                    @php--}}
+{{--                        $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID);--}}
+{{--                        $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) - $sum_payment) * -1;--}}
+{{--                    @endphp--}}
+{{--                @if(auth()->user()->hasPermission('viewPrice-work'))--}}
+{{--                    <td class="font-weight-bold" data-toggle="tooltip">{{$sum_payment}}</td>--}}
+{{--                    <td class="font-weight-bold" @if($residue < 0) style="color:red" @endif data-toggle="tooltip">@if($residue < 0) {{$residue}} @else 0 @endif</td>--}}
+{{--                @endif--}}
+{{--                <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('created_at'))->diffForHumans()}}</td>--}}
+{{--                <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip">{{optional($work->getAttribute('datetime'))->format('Y-m-d')}}</td>--}}
+{{--                <td>--}}
+{{--                    @php--}}
+{{--                        $status = '';--}}
+{{--                        if(is_null($work->getAttribute('verified_at')) && $work->status == \App\Models\Work::DONE){--}}
+{{--                            $status = "<i data-toggle='tooltip' data-placement='top' title='". trans('translates.work_status.1') ."' class='fas fa-clock text-info mr-2' style='font-size: 22px'></i>";--}}
+{{--                        }--}}
+{{--                        if(!is_null($work->getAttribute('verified_at'))){--}}
+{{--                            $status = "<i data-toggle='tooltip' data-placement='top' title='". trans('translates.columns.verified') ."' class='fas fa-check text-success mr-2' style='font-size: 22px'></i>";--}}
+{{--                        }--}}
+{{--                        if($work->getAttribute('status') == $work::REJECTED){--}}
+{{--                            $status = "<i data-toggle='tooltip' data-placement='top' title='". trans('translates.columns.rejected') ."' class='fas fa-times text-danger' style='font-size: 22px'></i>";--}}
+{{--                        }--}}
+{{--                    @endphp--}}
+{{--                    {!! $status !!}--}}
+{{--                </td>--}}
+{{--                <td>--}}
+{{--                    <div class="btn-sm-group d-flex align-items-center">--}}
+{{--                        @if($work->getAttribute('creator_id') != auth()->id() && is_null($work->getAttribute('user_id')) && !auth()->user()->isDeveloper())--}}
+{{--                            @can('update', $work)--}}
+{{--                                <a title="@lang('translates.buttons.execute')" data-toggle="tooltip" href="{{route('works.edit', $work)}}"--}}
+{{--                                   class="btn btn-sm btn-outline-success">--}}
+{{--                                    <i class="fal fa-arrow-right"></i>--}}
+{{--                                </a>--}}
+{{--                            @endcan--}}
+{{--                        @endif--}}
+{{--                        <div class="dropdown">--}}
+{{--                            <button class="btn" type="button" id="inquiry_actions-{{$loop->iteration}}"--}}
+{{--                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
+{{--                                <i class="fal fa-ellipsis-v-alt"></i>--}}
+{{--                            </button>--}}
+{{--                            <div class="dropdown-menu custom-dropdown">--}}
+{{--                                @can('view', $work)--}}
+{{--                                    <a href="{{route('works.show', $work)}}" class="dropdown-item-text text-decoration-none">--}}
+{{--                                        <i class="fal fa-eye pr-2 text-primary"></i>@lang('translates.buttons.view')--}}
+{{--                                    </a>--}}
+{{--                                @endcan--}}
+{{--                                @if(auth()->user()->hasPermission('update-work') || $work->getAttribute('creator_id') == auth()->id() || $work->getAttribute('user_id') == auth()->id() || auth()->user()->isDeveloper() )--}}
+{{--                                    @can('update', $work)--}}
+{{--                                        <a href="{{route('works.edit', $work)}}" class="dropdown-item-text text-decoration-none">--}}
+{{--                                            @if($work->getAttribute('creator_id') == auth()->id() || auth()->user()->isDeveloper() || auth()->user()->hasPermission('update-work'))--}}
+{{--                                                <i class="fal fa-pen pr-2 text-success"></i>@lang('translates.tasks.edit')--}}
+{{--                                            @elseif($work->getAttribute('user_id') == auth()->id())--}}
+{{--                                                <i class="fal fa-arrow-right pr-2 text-success"></i>@lang('translates.buttons.execute')--}}
+{{--                                            @endif--}}
+{{--                                        </a>--}}
+{{--                                    @endcan--}}
+{{--                                @endif--}}
+{{--                                @if(auth()->user()->hasPermission('canVerify-work') && $work->getAttribute('status') == $work::DONE && is_null($work->getAttribute('verified_at')))--}}
+{{--                                    <a href="{{route('works.verify', $work)}}" verify data-name="{{$work->getAttribute('code')}}" class="dropdown-item-text text-decoration-none">--}}
+{{--                                        <i class="fal fa-check pr-2 text-success"></i>@lang('translates.buttons.verify')--}}
+{{--                                    </a>--}}
+{{--                                @endif--}}
+{{--                                @can('delete', $work)--}}
+{{--                                    <a href="{{route('works.destroy', $work)}}" delete data-name="{{$work->getAttribute('code')}}" class="dropdown-item-text text-decoration-none">--}}
+{{--                                        <i class="fal fa-trash pr-2 text-danger"></i>@lang('translates.tasks.delete')--}}
+{{--                                    </a>--}}
+{{--                                        <a href="{{route('works.logs', $work)}}" target="_blank"--}}
+{{--                                           class="dropdown-item-text text-decoration-none">--}}
+{{--                                            <i class="fal fa-sticky-note pr-2 text-info"></i>Logs--}}
+{{--                                        </a>--}}
+{{--                                @endcan--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </td>--}}
+{{--            </tr>--}}
+{{--            @php--}}
+{{--                $balance[] = $residue;--}}
+{{--                $sum_balance = array_sum($balance);--}}
+{{--                $total_payment[] = $sum_payment;--}}
+{{--                $sum_total_payment = array_sum($total_payment)--}}
+{{--            @endphp--}}
+{{--        @empty--}}
+{{--            <tr>--}}
+{{--                <th colspan="20">--}}
+{{--                    <div class="row justify-content-center m-3">--}}
+{{--                        <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.empty')</div>--}}
+{{--                    </div>--}}
+{{--                </th>--}}
+{{--            </tr>--}}
+{{--        @endforelse--}}
 
-        @if($works->isNotEmpty())
-            <tr style="background: #b3b7bb" id="count">
-                <td colspan="@if(auth()->user()->isDeveloper()) 9 @elseif(auth()->user()->hasPermission('viewAll-work') || auth()->user()->hasPermission('canVerify-work'))  7 @else 6 @endif">
-                    <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
-                </td>
-                <!-- loop of totals of countable parameters -->
-                @if(auth()->user()->hasPermission('viewPrice-work'))
-                    @foreach($totals as $total)
-                        <td><p style="font-size: 16px" class="mb-0"><strong>{{$total}}</strong></p></td>
-                    @endforeach
-                <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_total_payment}}</strong></p></td>
-                @endif
-                {{--                <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_balance}}</strong></p></td>--}}
-                <td colspan="6"></td>
-            </tr>
+{{--        @if($works->isNotEmpty())--}}
+{{--            <tr style="background: #b3b7bb" id="count">--}}
+{{--                <td colspan="@if(auth()->user()->isDeveloper()) 9 @elseif(auth()->user()->hasPermission('viewAll-work') || auth()->user()->hasPermission('canVerify-work'))  7 @else 6 @endif">--}}
+{{--                    <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>--}}
+{{--                </td>--}}
+{{--                <!-- loop of totals of countable parameters -->--}}
+{{--                @if(auth()->user()->hasPermission('viewPrice-work'))--}}
+{{--                    @foreach($totals as $total)--}}
+{{--                        <td><p style="font-size: 16px" class="mb-0"><strong>{{$total}}</strong></p></td>--}}
+{{--                    @endforeach--}}
+{{--                <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_total_payment}}</strong></p></td>--}}
+{{--                @endif--}}
+{{--                --}}{{--                <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_balance}}</strong></p></td>--}}
+{{--                <td colspan="6"></td>--}}
+{{--            </tr>--}}
 
-        @endif
-        </tbody>
-    </table>
+{{--        @endif--}}
+{{--        </tbody>--}}
+{{--    </table>--}}
     @if($hasPending && auth()->user()->hasPermission('canVerify-work'))
         <div class="col-12 pl-0 py-3">
             <a href="{{route('works.sum.verify')}}" id="sum-verify" class="btn btn-outline-primary">@lang('translates.sum') @lang('translates.buttons.verify')</a>
         </div>
     @endif
 
-{{--    <div class="modal fade" id="create-work">--}}
-{{--        <div class="modal-dialog modal-lg modal-dialog-centered">--}}
-{{--            <div class="modal-content">--}}
-{{--                <form action="{{route('works.create')}}" method="GET">--}}
-{{--                    <div class="modal-header">--}}
-{{--                        <h5 class="modal-title">@lang('translates.general.select_service')</h5>--}}
-{{--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-{{--                            <span aria-hidden="true">&times;</span>--}}
-{{--                        </button>--}}
-{{--                    </div>--}}
-{{--                    <div class="modal-body">--}}
-{{--                        <div class="form-group">--}}
-{{--                            <label for="data-department">@lang('translates.navbar.department')</label>--}}
-{{--                            <select class="select2" id="data-department" name="department_id" required style="width: 100% !important;">--}}
-{{--                                <option value="">@lang('translates.general.department_select')</option>--}}
-{{--                                @foreach($allDepartments as $dep)--}}
-{{--                                    <option--}}
-{{--                                            value="{{$dep->id}}"--}}
-{{--                                            @if($dep->id == auth()->user()->getAttribute('department_id')) selected @endif>--}}
-{{--                                        {{$dep->name}}--}}
-{{--                                    </option>--}}
-{{--                                @endforeach--}}
-{{--                            </select>--}}
-{{--                        </div>--}}
-{{--                        <div class="form-group">--}}
-{{--                            <label for="data-service">@lang('translates.navbar.service')</label>--}}
-{{--                            <select class="select2" id="data-service" name="service_id" required style="width: 100% !important;">--}}
-{{--                                <option value="">@lang('translates.general.select_service')</option>--}}
-{{--                                @foreach($services as $service)--}}
-{{--                                    <option value="{{$service->id}}">{{$service->name}} ({{$service->detail}})</option>--}}
-{{--                                @endforeach--}}
-{{--                            </select>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="modal-footer">--}}
-{{--                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>--}}
-{{--                        <button type="submit" class="btn btn-primary">@lang('translates.buttons.create')</button>--}}
-{{--                    </div>--}}
-{{--                </form>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+    <div class="modal fade" id="create-work">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <form action="{{route('works.create')}}" method="GET">
+                    <div class="modal-header">
+                        <h5 class="modal-title">@lang('translates.general.select_service')</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="data-department">@lang('translates.navbar.department')</label>
+                            <select class="select2" id="data-department" name="department_id" required style="width: 100% !important;">
+                                <option value="">@lang('translates.general.department_select')</option>
+                                @foreach($allDepartments as $dep)
+                                    <option
+                                            value="{{$dep->id}}"
+                                            @if($dep->id == auth()->user()->getAttribute('department_id')) selected @endif>
+                                        {{$dep->name}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="data-service">@lang('translates.navbar.service')</label>
+                            <select class="select2" id="data-service" name="service_id" required style="width: 100% !important;">
+                                <option value="">@lang('translates.general.select_service')</option>
+                                @foreach($services as $service)
+                                    <option value="{{$service->id}}">{{$service->name}} ({{$service->detail}})</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
+                        <button type="submit" class="btn btn-primary">@lang('translates.buttons.create')</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="report-work">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
