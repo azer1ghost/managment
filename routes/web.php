@@ -129,6 +129,7 @@ Route::group([
     Route::put('/works/{work}/verify', [WorkController::class, 'verify'])->name('works.verify');
     Route::get('/works/report', [WorkController::class, 'report'])->name('works.report');
     Route::get('/works/export', [WorkController::class, 'export'])->name('works.export');
+    Route::get('/works/logs/{work}', [WorkController::class, 'logs'])->name('works.logs');
     Route::resource('/works', WorkController::class);
 
     Route::resource('/meetings', MeetingController::class);
