@@ -91,10 +91,9 @@ class WorkController extends Controller
             $works = $works->get();
         }
 
-        return view('pages.works.index'
-//            ,
-//            compact('works', 'services', 'users', 'departments',
-//            'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters')
+        return view('pages.works.index',
+            compact('works', 'services', 'users', 'departments',
+            'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters')
         );
     }
 
