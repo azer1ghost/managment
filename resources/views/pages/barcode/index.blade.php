@@ -34,6 +34,7 @@
                         <input type="text" readonly placeholder="@lang('translates.placeholders.range')" name="daterange"
                                value="{{$daterange}}" id="daterange" class="form-control">
                     </div>
+
                     <div class="form-group col-12 col-md-3 mb-md-0">
                         <label for="codeFilter">@lang('translates.filters.code')</label>
                         <input type="search" id="codeFilter" name="code" value="{{request()->get('code')}}"
@@ -50,7 +51,7 @@
                         <input id="qvsFilter" name="qvs" value="{{request()->get('qvs')}}" placeholder="Filter by QVS" class="form-control"/>
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mb-0">
+                    <div class="form-group col-12 col-md-3 mt-3">
                         <label class="d-block" for="evaluationFilter">Evaluation</label>
                         <select id="evaluationFilter" data-selected-text-format="count" class="filterSelector"
                                 title="@lang('translates.filters.select')" name="evaluation">
@@ -66,7 +67,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mb-0">
+                    <div class="form-group col-12 col-md-3 mt-3">
                         <label class="d-block" for="subjectFilter">@lang('translates.filters.subject')</label>
                         <select id="subjectFilter" data-selected-text-format="count" class="filterSelector"
                                 title="@lang('translates.filters.subject')" name="subject">
@@ -82,7 +83,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mb-0">
+                    <div class="form-group col-12 col-md-3 mt-3">
                         <label class="d-block" for="statusFilter">Status</label>
                         <select id="statusFilter" data-selected-text-format="count" class="filterSelector"
                                 title="@lang('translates.filters.select')" name="status">
@@ -99,19 +100,19 @@
                     </div>
 
                 @if(\App\Models\Barcode::userCanViewAll() || auth()->user()->isDepartmentChief())
-                        <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
-                            <label class="d-block" for="writtenByFilter">@lang('translates.filters.written_by')</label>
-                            <select id="writtenByFilter" name="user" class="filterSelector" data-width="fit" title="@lang('translates.filters.written_by')">
-                                @foreach($users as $user)
-                                    @php($inactive = (bool) $user->getAttribute('disabled_at'))
-                                    <option
-                                            @if($user->id == request()->get('user')) selected @endif value="{{$user->getAttribute('id')}}" class="@if ($inactive) text-danger @endif" >
-                                            {{$user->getAttribute('fullname')}} @if ($inactive) (@lang('translates.disabled')) @endif
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    @endif
+                    <div class="form-group col-12 col-md-3 mt-3 mb-md-0">
+                        <label class="d-block" for="writtenByFilter">@lang('translates.filters.written_by')</label>
+                        <select id="writtenByFilter" name="user" class="filterSelector" data-width="fit" title="@lang('translates.filters.written_by')">
+                            @foreach($users as $user)
+                                @php($inactive = (bool) $user->getAttribute('disabled_at'))
+                                <option
+                                        @if($user->id == request()->get('user')) selected @endif value="{{$user->getAttribute('id')}}" class="@if ($inactive) text-danger @endif" >
+                                        {{$user->getAttribute('fullname')}} @if ($inactive) (@lang('translates.disabled')) @endif
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
 
                 </div>
                 <div class=" col-offset-9 mt-3 float-right">
@@ -135,9 +136,7 @@
         <hr>
         <div class="float-right">
             @can('create', \App\Models\Barcode::class)
-                <button type="button" class="btn btn-outline-success">
-                    <a href="{{route('barcode.create')}}" class="text-secondary">@lang('translates.buttons.create')</a>
-                </button>
+                <a type="button" class="btn btn-outline-success" href="{{route('barcode.create')}}" class="text-secondary">@lang('translates.buttons.create')</a>
             @endcan
         </div>
 
