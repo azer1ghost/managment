@@ -226,13 +226,13 @@ class WorkController extends Controller
         return response()->setStatusCode('204');
     }
 
-//    public function logs(Work $work)
-//    {
-//        return view('pages.works.components.logs')->with([
-//            'logs' => $work->ledgers()->latest('id')->with('user')->get(),
-//            'work' => $work
-//        ]);
-//    }
+    public function logs(Work $work)
+    {
+        return view('pages.works.components.logs')->with([
+            'logs' => $work->ledgers()->latest('id')->with('user')->get(),
+            'work' => $work
+        ]);
+    }
 
     public function report(Request $request)
     {

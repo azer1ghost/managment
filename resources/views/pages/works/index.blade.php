@@ -300,7 +300,7 @@
                     @endif
                 </td>
                 <td>{{$work->asanImza()->exists() ? $work->getRelationValue('asanImza')->getAttribute('user_with_company') : trans('translates.filters.select')}}</td>
-                <td><i class="{{$work->getRelationValue('service')->getAttribute('icon')}} pr-2" style="font-size: 20px"></i> {{$work->getRelationValue('service')->getAttribute('name')}}</td>
+{{--                <td><i class="{{$work->getRelationValue('service')->getAttribute('icon')}} pr-2" style="font-size: 20px"></i> {{$work->getRelationValue('service')->getAttribute('name')}}</td>--}}
                 <td data-toggle="tooltip" data-placement="bottom" title="{{$work->getRelationValue('client')->getAttribute('fullname')}}" >
                     {{mb_strimwidth($work->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}
                 </td>
@@ -414,10 +414,10 @@
                                     <a href="{{route('works.destroy', $work)}}" delete data-name="{{$work->getAttribute('code')}}" class="dropdown-item-text text-decoration-none">
                                         <i class="fal fa-trash pr-2 text-danger"></i>@lang('translates.tasks.delete')
                                     </a>
-{{--                                        <a href="{{route('works.logs', $work)}}" target="_blank"--}}
-{{--                                           class="dropdown-item-text text-decoration-none">--}}
-{{--                                            <i class="fal fa-sticky-note pr-2 text-info"></i>Logs--}}
-{{--                                        </a>--}}
+                                        <a href="{{route('works.logs', $work)}}" target="_blank"
+                                           class="dropdown-item-text text-decoration-none">
+                                            <i class="fal fa-sticky-note pr-2 text-info"></i>Logs
+                                        </a>
                                 @endcan
                             </div>
                         </div>
@@ -465,48 +465,48 @@
         </div>
     @endif
 
-    <div class="modal fade" id="create-work">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <form action="{{route('works.create')}}" method="GET">
-                    <div class="modal-header">
-                        <h5 class="modal-title">@lang('translates.general.select_service')</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="data-department">@lang('translates.navbar.department')</label>
-                            <select class="select2" id="data-department" name="department_id" required style="width: 100% !important;">
-                                <option value="">@lang('translates.general.department_select')</option>
-                                @foreach($allDepartments as $dep)
-                                    <option
-                                            value="{{$dep->id}}"
-                                            @if($dep->id == auth()->user()->getAttribute('department_id')) selected @endif>
-                                        {{$dep->name}}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="data-service">@lang('translates.navbar.service')</label>
-                            <select class="select2" id="data-service" name="service_id" required style="width: 100% !important;">
-                                <option value="">@lang('translates.general.select_service')</option>
-                                @foreach($services as $service)
-                                    <option value="{{$service->id}}">{{$service->name}} ({{$service->detail}})</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
-                        <button type="submit" class="btn btn-primary">@lang('translates.buttons.create')</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+{{--    <div class="modal fade" id="create-work">--}}
+{{--        <div class="modal-dialog modal-lg modal-dialog-centered">--}}
+{{--            <div class="modal-content">--}}
+{{--                <form action="{{route('works.create')}}" method="GET">--}}
+{{--                    <div class="modal-header">--}}
+{{--                        <h5 class="modal-title">@lang('translates.general.select_service')</h5>--}}
+{{--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
+{{--                            <span aria-hidden="true">&times;</span>--}}
+{{--                        </button>--}}
+{{--                    </div>--}}
+{{--                    <div class="modal-body">--}}
+{{--                        <div class="form-group">--}}
+{{--                            <label for="data-department">@lang('translates.navbar.department')</label>--}}
+{{--                            <select class="select2" id="data-department" name="department_id" required style="width: 100% !important;">--}}
+{{--                                <option value="">@lang('translates.general.department_select')</option>--}}
+{{--                                @foreach($allDepartments as $dep)--}}
+{{--                                    <option--}}
+{{--                                            value="{{$dep->id}}"--}}
+{{--                                            @if($dep->id == auth()->user()->getAttribute('department_id')) selected @endif>--}}
+{{--                                        {{$dep->name}}--}}
+{{--                                    </option>--}}
+{{--                                @endforeach--}}
+{{--                            </select>--}}
+{{--                        </div>--}}
+{{--                        <div class="form-group">--}}
+{{--                            <label for="data-service">@lang('translates.navbar.service')</label>--}}
+{{--                            <select class="select2" id="data-service" name="service_id" required style="width: 100% !important;">--}}
+{{--                                <option value="">@lang('translates.general.select_service')</option>--}}
+{{--                                @foreach($services as $service)--}}
+{{--                                    <option value="{{$service->id}}">{{$service->name}} ({{$service->detail}})</option>--}}
+{{--                                @endforeach--}}
+{{--                            </select>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="modal-footer">--}}
+{{--                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>--}}
+{{--                        <button type="submit" class="btn btn-primary">@lang('translates.buttons.create')</button>--}}
+{{--                    </div>--}}
+{{--                </form>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
     <div class="modal fade" id="report-work">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
