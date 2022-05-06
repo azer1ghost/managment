@@ -78,10 +78,10 @@ class WorkController extends Controller
 
         $allDepartments = Department::get(['id', 'name']);
 
-        $services = Service::query()
-            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
-                $query->whereBelongsTo($user->getRelationValue('company'));
-            })->get(['id', 'name', 'detail']);
+//        $services = Service::query()
+//            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
+//                $query->whereBelongsTo($user->getRelationValue('company'));
+//            })->get(['id', 'name', 'detail']);
 
         $works = $this->workRepository->allFilteredWorks($filters, $dateFilters);
 
@@ -92,7 +92,7 @@ class WorkController extends Controller
         }
 
         return view('pages.works.index',
-            compact('works', 'services', 'users', 'departments',
+            compact('works',  'users', 'departments',
             'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters')
         );
     }
