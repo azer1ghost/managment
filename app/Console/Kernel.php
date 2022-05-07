@@ -28,6 +28,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('model:prune')->daily();
+
         $schedule->job(InquiryAlarm::class)->everyMinute()->environments(['staging', 'production']);
         $schedule->job(InquiryAlarm::class)->everyMinute()->environments(['testing', 'local']);
 

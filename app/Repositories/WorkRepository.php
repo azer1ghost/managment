@@ -21,7 +21,13 @@ class WorkRepository implements WorkRepositoryInterface {
         ];
 
         return Work::query()
-            ->with(['creator','department', 'service', 'user', 'client', 'asanImza'])
+            ->with([
+                'creator','department:id,name,short_name',
+                'service',
+                'user:id,name,surname,department_id,permissions',
+                'client:id,fullname,voen',
+                'asanImza:id,user_id,company_id'
+            ])
             ->when(Work::userCannotViewAll(), function ($query) use ($user){
                 if($user->hasPermission('viewAllDepartment-work')){
                     $query->where('department_id', $user->getAttribute('department_id'));

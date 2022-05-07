@@ -36,6 +36,8 @@ class WorkController extends Controller
     {
         $user = auth()->user();
         $limit  = $request->get('limit', 25);
+        $startOfMonth = now()->firstOfMonth()->format('Y/m/d');
+        $endOfMonth = now()->format('Y/m/d');
 
         $departmentRequest = Work::userCannotViewAll() ?
             $user->getAttribute('department_id') :
@@ -51,8 +53,8 @@ class WorkController extends Controller
             'client_id' => $request->get('client_id'),
             'verified_at' => $request->get('verified_at'),
             'status' => $request->get('status'),
-            'created_at' => $request->get('created_at') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
-            'datetime' => $request->get('datetime') ?? now()->firstOfMonth()->format('Y/m/d') . ' - ' . now()->format('Y/m/d'),
+            'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
+            'datetime' => $request->get('datetime') ?? $startOfMonth . ' - ' . $endOfMonth,
         ];
 
         if(Work::userCanViewAll() || Work::userCanViewDepartmentWorks()){
@@ -85,14 +87,17 @@ class WorkController extends Controller
 
         $works = $this->workRepository->allFilteredWorks($filters, $dateFilters);
 
+        if (!$request->has('check-created_at')){
+            $works = $works->whereBetween('created_at', [ Carbon::parse($startOfMonth)->startOfDay(), Carbon::parse($endOfMonth)->endOfDay()]);
+                }
+
         if(is_numeric($limit)) {
             $works = $works->paginate($limit);
         }else {
             $works = $works->get();
         }
 
-        return view('pages.works.index'
-            ,
+        return view('pages.works.index',
             compact('works', 'services', 'departments',
             'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters')
         );
