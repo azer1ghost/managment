@@ -245,17 +245,9 @@
             <th scope="col">@lang('translates.navbar.service')</th>
             <th scope="col">@lang('translates.fields.clientName')</th>
             <th scope="col">Status</th>
-                @if(!auth()->user()->hasPermission('viewPrice-work'))
             <th scope="col">Gb Say</th>
             <th scope="col">Kod Say</th>
-                @endif
-            @if(auth()->user()->hasPermission('viewPrice-work'))
-            @foreach(\App\Models\Service::serviceParameters() as $param)
-                <th scope="col">{{$param['data']->getAttribute('label')}}</th>
-            @endforeach
-                <th scope="col">@lang('translates.columns.sum_paid')</th>
-                <th scope="col">@lang('translates.columns.residue')</th>
-            @endif
+
             <th scope="col">@lang('translates.fields.created_at')</th>
             <th scope="col">@lang('translates.fields.date')</th>
             <th scope="col">@lang('translates.columns.verified')</th>
@@ -265,8 +257,7 @@
         <tbody>
         @php
             $totals = []; // array of countable service parameters. Ex: Declaration count
-            $balance = [];
-            $total_payment = [];
+
             $hasPending = false; // check if there's pending work
         @endphp
         @forelse($works as $work)
@@ -327,35 +318,9 @@
                          {{trans('translates.work_status.' . $work->getAttribute('status'))}}
                     </span>
                 </td>
-                    @if(!auth()->user()->hasPermission('viewPrice-work'))
                     <td>{{$work->getParameter($work::GB)}}</td>
                     <td>{{$work->getParameter($work::CODE)}}</td>
-                    @endif
-                @if(auth()->user()->hasPermission('viewPrice-work'))
-                    @foreach(\App\Models\Service::serviceParameters() as $param)
-                        <td>{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
-                        @php
-                            if($param['count']){ // check if parameter is countable
-                                $count = (int) $work->getParameter($param['data']->getAttribute('id'));
-                                if(isset($totals[$param['data']->getAttribute('id')])){
-                                    $totals[$param['data']->getAttribute('id')] += $count;
-                                }else{
-                                    $totals[$param['data']->getAttribute('id')] = $count;
-                                }
-                            }else{
-                                $totals[$param['data']->getAttribute('id')] = NULL;
-                            }
-                        @endphp
-                    @endforeach
-                @endif
-                    @php
-                        $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID);
-                        $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) - $sum_payment) * -1;
-                    @endphp
-                @if(auth()->user()->hasPermission('viewPrice-work'))
-                    <td class="font-weight-bold" data-toggle="tooltip">{{$sum_payment}}</td>
-                    <td class="font-weight-bold" @if($residue < 0) style="color:red" @endif data-toggle="tooltip">@if($residue < 0) {{$residue}} @else 0 @endif</td>
-                @endif
+
                 <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('created_at'))->diffForHumans()}}</td>
                 <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip">{{optional($work->getAttribute('datetime'))->format('Y-m-d')}}</td>
                 <td>
@@ -420,12 +385,7 @@
                     </div>
                 </td>
             </tr>
-            @php
-                $balance[] = $residue;
-                $sum_balance = array_sum($balance);
-                $total_payment[] = $sum_payment;
-                $sum_total_payment = array_sum($total_payment)
-            @endphp
+
         @empty
             <tr>
                 <th colspan="20">
@@ -442,13 +402,7 @@
                     <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
                 </td>
                 <!-- loop of totals of countable parameters -->
-                @if(auth()->user()->hasPermission('viewPrice-work'))
-                    @foreach($totals as $total)
-                        <td><p style="font-size: 16px" class="mb-0"><strong>{{$total}}</strong></p></td>
-                    @endforeach
-                <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_total_payment}}</strong></p></td>
-                <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_balance}}</strong></p></td>
-                @endif
+
                 <td colspan="6"></td>
             </tr>
 
