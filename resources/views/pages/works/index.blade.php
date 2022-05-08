@@ -414,10 +414,6 @@
                                     <a href="{{route('works.destroy', $work)}}" delete data-name="{{$work->getAttribute('code')}}" class="dropdown-item-text text-decoration-none">
                                         <i class="fal fa-trash pr-2 text-danger"></i>@lang('translates.tasks.delete')
                                     </a>
-                                        <a href="{{route('works.logs', $work)}}" target="_blank"
-                                           class="dropdown-item-text text-decoration-none">
-                                            <i class="fal fa-sticky-note pr-2 text-info"></i>Logs
-                                        </a>
                                 @endcan
                             </div>
                         </div>
