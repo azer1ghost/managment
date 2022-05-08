@@ -66,7 +66,7 @@ class WorkController extends Controller
             'created_at' => $request->has('check-created_at'),
         ];
 
-        $usersQuery = User::has('works')->with('position', 'role')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id']);
+        $usersQuery = User::with('position', 'role')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id']);
         $users = Work::userCannotViewAll() && Work::userCanViewDepartmentWorks() ?
             $usersQuery->where('department_id', $user->getAttribute('department_id'))->get() :
             $usersQuery->get();
