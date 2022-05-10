@@ -17,10 +17,8 @@ class MeetingController extends Controller
         $this->authorizeResource(Meeting::class, 'meeting');
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        $department  = $request->get('department');
-
         return view('pages.meetings.index')->with([
            'meetings' => Meeting::paginate(10),
         ]);
