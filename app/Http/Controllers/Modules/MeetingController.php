@@ -52,6 +52,7 @@ class MeetingController extends Controller
             'action' => null,
             'method' => null,
             'data' => $meeting,
+            'departments' => Department::get(['id', 'name']),
         ]);
     }
 
