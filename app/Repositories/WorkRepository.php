@@ -2,13 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\ClientRepositoryInterface;
 use App\Interfaces\WorkRepositoryInterface;
-use App\Models\Client;
-use App\Models\User;
 use App\Models\Work;
 use Carbon\Carbon;
-use Illuminate\Contracts\Auth\Authenticatable;
 
 class WorkRepository implements WorkRepositoryInterface {
 
