@@ -111,7 +111,7 @@ class CacheService
             'users' => [
                 'title' => trans('translates.widgets.number_of_users', [], 'az'),
                 'color' => 'tale',
-                'data' => $getData($users->count(), $users->isActive()->count(), trans('translates.users.statuses.active', [], 'az'), 'users'),
+                'data' => $getData($users->isActive()->count(), $users->count(), trans('translates.users.statuses.active', [], 'az'), 'users'),
                 'class' => 'mb-4'
             ],
             'works' => [

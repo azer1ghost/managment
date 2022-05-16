@@ -88,7 +88,7 @@ class WorkController extends Controller
         $works = $this->workRepository->allFilteredWorks($filters, $dateFilters);
 
         if (!$request->has('check-created_at')){
-            $works = $works->whereBetween('created_at', [ Carbon::parse($startOfMonth)->startOfDay(), Carbon::parse($endOfMonth)->endOfDay()]);
+            $works = $works->whereBetween('created_at', [Carbon::parse($startOfMonth)->startOfDay(), Carbon::parse($endOfMonth)->endOfDay()]);
                 }
 
         if(is_numeric($limit)) {
