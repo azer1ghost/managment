@@ -42,14 +42,14 @@ class WorkRepository implements WorkRepositoryInterface {
                     if($column == 'limit') continue;
                     $query->when($value, function ($query, $value) use ($column, $dateRanges, $dateFilters) {
                         if($column == 'verified_at'){
-                            switch ($value){
-                                case 1:
-                                    $query->whereNull($column);
-                                    break;
-                                case 2:
-                                    $query->whereNotNull($column);
-                                    break;
-                            }
+//                            switch ($value){
+//                                case 1:
+//                                    $query->whereNull($column);
+//                                    break;
+//                                case 2:
+//                                    $query->whereNotNull($column);
+//                                    break;
+//                            }
                         }
                         elseif($column == 'asan_imza_company_id'){
 //                            $query->whereHas('asanImza', function ($asanImzaQuery) use ($value) {
