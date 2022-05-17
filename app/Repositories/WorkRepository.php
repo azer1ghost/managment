@@ -50,13 +50,13 @@ class WorkRepository implements WorkRepositoryInterface {
                                     break;
                             }
                         }
-//                        elseif($column == 'asan_imza_company_id'){
-//                            $query->whereHas('asanImza', function ($asanImzaQuery) use ($value) {
-//                                $asanImzaQuery->whereHas('company', function ($companyQuery) use ($value) {
-//                                    $companyQuery->whereId($value);
-//                                });
-//                            });
-//                        }
+                        elseif($column == 'asan_imza_company_id'){
+                            $query->whereHas('asanImza', function ($asanImzaQuery) use ($value) {
+                                $asanImzaQuery->whereHas('company', function ($companyQuery) use ($value) {
+                                    $companyQuery->whereId($value);
+                                });
+                            });
+                        }
                         else{
 //                            if($column == 'code'){
 //                                $query->where($column, 'LIKE', "%$value%");
