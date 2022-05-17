@@ -66,12 +66,12 @@ class WorkRepository implements WorkRepositoryInterface {
 //                                $query->where($column, $value);
 //                            }
                             elseif(is_string($value) && $dateFilters[$column]){
-                                $query->whereBetween($column,
-                                    [
-                                        Carbon::parse($dateRanges[$column][0])->startOfDay(),
-                                        Carbon::parse($dateRanges[$column][1])->endOfDay()
-                                    ]
-                                );
+//                                $query->whereBetween($column,
+//                                    [
+//                                        Carbon::parse($dateRanges[$column][0])->startOfDay(),
+//                                        Carbon::parse($dateRanges[$column][1])->endOfDay()
+//                                    ]
+//                                );
                             }
                         }
                     });
