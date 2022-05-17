@@ -34,6 +34,10 @@ class WorkController extends Controller
 
     public function index(Request $request)
     {
+
+       return Work::query()->count();
+
+
         $user = auth()->user();
         $limit  = $request->get('limit', 25);
         $startOfMonth = now()->firstOfMonth()->format('Y/m/d');
