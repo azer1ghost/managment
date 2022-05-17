@@ -35,7 +35,7 @@ class WorkController extends Controller
     public function index(Request $request)
     {
 
-       return Work::query()->where('service_id', 1)->count();
+       return Work::query()->where('user_id', 1)->count();
 
 
         $user = auth()->user();
