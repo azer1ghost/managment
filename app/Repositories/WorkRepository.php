@@ -17,7 +17,7 @@ class WorkRepository implements WorkRepositoryInterface {
         ];
 
         return Work::query()
-            ->where('user_id', $user->getAttribute('id'))
+            ->where('user_id', $user->getAttribute('id'));
 //            ->with([
 //                'creator','department:id,name,short_name',
 //                'service',
@@ -77,7 +77,7 @@ class WorkRepository implements WorkRepositoryInterface {
 //                    });
 //                }
 //            })
-            ->latest('id')
-            ->latest('datetime');
+//            ->latest('id')
+//            ->latest('datetime');
     }
 }
