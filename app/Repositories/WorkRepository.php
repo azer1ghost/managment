@@ -24,7 +24,7 @@ class WorkRepository implements WorkRepositoryInterface {
 //                'client:id,fullname,voen',
 //                'asanImza:id,user_id,company_id'
 //            ])
-            ->when(Work::userCannotViewAll(), function ($query) use ($user){
+            ->when(true, function ($query) use ($user){
                 if($user->hasPermission('viewAllDepartment-work')){
                     $query->where('department_id', $user->getAttribute('department_id'));
                 }else{
