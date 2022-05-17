@@ -31,8 +31,8 @@ class WorkRepository implements WorkRepositoryInterface {
                     $query
                         ->where(function ($q) use ($user){
                             $q->whereNull('user_id')->where('department_id', $user->getAttribute('department_id'));
-                        });
-//                        ->orWhere('user_id', $user->getAttribute('id'));
+                        })
+                        ->orWhere('user_id', $user->getAttribute('id'));
 
                 }
             })
