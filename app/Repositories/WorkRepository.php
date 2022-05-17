@@ -17,25 +17,25 @@ class WorkRepository implements WorkRepositoryInterface {
         ];
 
         return Work::query()
-//            ->with([
-//                'department:id,name,short_name',
-//                'service',
-//                'user:id,name,surname,department_id,permissions',
-//                'client:id,fullname,voen',
-//                'asanImza:id,user_id,company_id'
-//            ])
-            ->when(Work::userCannotViewAll(), function ($query) use ($user){
-                if($user->hasPermission('viewAllDepartment-work')){
-                    $query->where('department_id', $user->getAttribute('department_id'));
-                }else{
-                    $query
-                        ->where(function ($q) use ($user){
-                            $q->whereNull('user_id')->where('department_id', $user->getAttribute('department_id'));
-                        })
-                        ->orWhere('user_id', $user->getAttribute('id'));
-
-                }
-            })
+            ->with([
+                'department:id,name,short_name',
+                'service',
+                'user:id,name,surname,department_id,permissions',
+                'client:id,fullname,voen',
+                'asanImza:id,user_id,company_id'
+            ])
+//            ->when(Work::userCannotViewAll(), function ($query) use ($user){
+//                if($user->hasPermission('viewAllDepartment-work')){
+//                    $query->where('department_id', $user->getAttribute('department_id'));
+//                }else{
+//                    $query
+//                        ->where(function ($q) use ($user){
+//                            $q->whereNull('user_id')->where('department_id', $user->getAttribute('department_id'));
+//                        })
+//                        ->orWhere('user_id', $user->getAttribute('id'));
+//
+//                }
+//            })
 //            ->where(function($query) use ($filters, $dateRanges, $dateFilters){
 //                foreach ($filters as $column => $value) {
 //                    if($column == 'limit') continue;
