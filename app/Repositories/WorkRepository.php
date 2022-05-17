@@ -58,20 +58,21 @@ class WorkRepository implements WorkRepositoryInterface {
 //                            });
 //                        }
                         else{
-                            if($column == 'code'){
-                                $query->where($column, 'LIKE', "%$value%");
-                            }
-                            else if (is_numeric($value)){
+//                            if($column == 'code'){
+//                                $query->where($column, 'LIKE', "%$value%");
+//                            }
+//                            else
+                                if (is_numeric($value)){
                                 $query->where($column, $value);
                             }
-                            else if(is_string($value) && $dateFilters[$column]){
-                                $query->whereBetween($column,
-                                    [
-                                        Carbon::parse($dateRanges[$column][0])->startOfDay(),
-                                        Carbon::parse($dateRanges[$column][1])->endOfDay()
-                                    ]
-                                );
-                            }
+//                            else if(is_string($value) && $dateFilters[$column]){
+//                                $query->whereBetween($column,
+//                                    [
+//                                        Carbon::parse($dateRanges[$column][0])->startOfDay(),
+//                                        Carbon::parse($dateRanges[$column][1])->endOfDay()
+//                                    ]
+//                                );
+//                            }
                         }
                     });
                 }
