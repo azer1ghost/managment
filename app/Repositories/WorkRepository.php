@@ -40,16 +40,16 @@ class WorkRepository implements WorkRepositoryInterface {
                 foreach ($filters as $column => $value) {
                     if($column == 'limit') continue;
                     $query->when($value, function ($query, $value) use ($column, $dateRanges, $dateFilters) {
-                        if($column == 'verified_at'){
-                            switch ($value){
-                                case 1:
-                                    $query->whereNull($column);
-                                    break;
-                                case 2:
-                                    $query->whereNotNull($column);
-                                    break;
-                            }
-                        }
+//                        if($column == 'verified_at'){
+//                            switch ($value){
+//                                case 1:
+//                                    $query->whereNull($column);
+//                                    break;
+//                                case 2:
+//                                    $query->whereNotNull($column);
+//                                    break;
+//                            }
+//                        }
 //                        else if($column == 'asan_imza_company_id'){
 //                            $query->whereHas('asanImza', function ($asanImzaQuery) use ($value) {
 //                                $asanImzaQuery->whereHas('company', function ($companyQuery) use ($value) {
@@ -57,14 +57,14 @@ class WorkRepository implements WorkRepositoryInterface {
 //                                });
 //                            });
 //                        }
-                        else{
-//                            if($column == 'code'){
-//                                $query->where($column, 'LIKE', "%$value%");
+//                        else{
+////                            if($column == 'code'){
+////                                $query->where($column, 'LIKE', "%$value%");
+////                            }
+////                            else
+//                                if (is_numeric($value)){
+//                                $query->where($column, $value);
 //                            }
-//                            else
-                                if (is_numeric($value)){
-                                $query->where($column, $value);
-                            }
 //                            else if(is_string($value) && $dateFilters[$column]){
 //                                $query->whereBetween($column,
 //                                    [
@@ -73,7 +73,7 @@ class WorkRepository implements WorkRepositoryInterface {
 //                                    ]
 //                                );
 //                            }
-                        }
+//                        }
                     });
                 }
             })
