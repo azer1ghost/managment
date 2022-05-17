@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkRequest;
 use App\Interfaces\WorkRepositoryInterface;
 use Carbon\Carbon;
-use App\Models\{Company, Department, Service, User, Work};
+use App\Models\{Company, Department, Ledger, Service, User, Work};
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -35,7 +35,7 @@ class WorkController extends Controller
     public function index(Request $request)
     {
 
-       return Work::query()->where('user_id', 43)->count();
+       return Ledger::query()->count();
 
 
         $user = auth()->user();
