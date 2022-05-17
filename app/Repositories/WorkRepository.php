@@ -30,10 +30,10 @@ class WorkRepository implements WorkRepositoryInterface {
                 }
                 else{
                     $query
-                        ->where(function ($q) use ($user){
-                            $q->whereNull('user_id')->where('department_id', $user->getAttribute('department_id'));
-                        });
-//                        ->orWhere('user_id', $user->getAttribute('id'));
+//                        ->where(function ($q) use ($user){
+//                            $q->whereNull('user_id')->where('department_id', $user->getAttribute('department_id'));
+//                        });
+                        ->where('user_id', $user->getAttribute('id'));
                 }
             })
             ->where(function($query) use ($filters, $dateRanges, $dateFilters){
