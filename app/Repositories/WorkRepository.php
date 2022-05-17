@@ -37,11 +37,11 @@ class WorkRepository implements WorkRepositoryInterface {
 //                        ->where('user_id', $user->getAttribute('id'));
 //                }
 //            })
-            ->where(function($query) use ($filters, $dateRanges, $dateFilters){
-                foreach ($filters as $column => $value) {
-                    if($column == 'limit') continue;
-                    $query->when($value, function ($query, $value) use ($column, $dateRanges, $dateFilters) {
-                        if($column == 'verified_at'){
+//            ->where(function($query) use ($filters, $dateRanges, $dateFilters){
+//                foreach ($filters as $column => $value) {
+//                    if($column == 'limit') continue;
+//                    $query->when($value, function ($query, $value) use ($column, $dateRanges, $dateFilters) {
+//                        if($column == 'verified_at'){
 //                            switch ($value){
 //                                case 1:
 //                                    $query->whereNull($column);
@@ -50,33 +50,33 @@ class WorkRepository implements WorkRepositoryInterface {
 //                                    $query->whereNotNull($column);
 //                                    break;
 //                            }
-                        }
-                        elseif($column == 'asan_imza_company_id'){
+//                        }
+//                        elseif($column == 'asan_imza_company_id'){
 //                            $query->whereHas('asanImza', function ($asanImzaQuery) use ($value) {
 //                                $asanImzaQuery->whereHas('company', function ($companyQuery) use ($value) {
 //                                    $companyQuery->whereId($value);
 //                                });
 //                            });
-                        }
-                        else{
-                            if($column == 'code'){
-                                $query->where($column, 'LIKE', "%$value%");
-                            }
+//                        }
+//                        else{
+//                            if($column == 'code'){
+//                                $query->where($column, 'LIKE', "%$value%");
+//                            }
 //                            elseif (is_numeric($value)){
 //                                $query->where($column, $value);
 //                            }
-                            elseif(is_string($value) && $dateFilters[$column]){
+//                            elseif(is_string($value) && $dateFilters[$column]){
 //                                $query->whereBetween($column,
 //                                    [
 //                                        Carbon::parse($dateRanges[$column][0])->startOfDay(),
 //                                        Carbon::parse($dateRanges[$column][1])->endOfDay()
 //                                    ]
 //                                );
-                            }
-                        }
-                    });
-                }
-            })
+//                            }
+//                        }
+//                    });
+//                }
+//            })
             ->latest('id')
             ->latest('datetime');
     }
