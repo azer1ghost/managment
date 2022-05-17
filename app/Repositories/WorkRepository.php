@@ -36,45 +36,46 @@ class WorkRepository implements WorkRepositoryInterface {
 
                 }
             })
-//            ->where(function($query) use ($filters, $dateRanges, $dateFilters){
-//                foreach ($filters as $column => $value) {
-//                    if($column == 'limit') continue;
-//                    $query->when($value, function ($query, $value) use ($column, $dateRanges, $dateFilters) {
-//                        if($column == 'verified_at'){
-//                            switch ($value){
-//                                case 1:
-//                                    $query->whereNull($column);
-//                                    break;
-//                                case 2:
-//                                    $query->whereNotNull($column);
-//                                    break;
-//                            }
-//                        }
+            ->where(function($query) use ($filters, $dateRanges, $dateFilters){
+                foreach ($filters as $column => $value) {
+                    if($column == 'limit') continue;
+                    $query->when($value, function ($query, $value) use ($column, $dateRanges, $dateFilters) {
+                        if($column == 'verified_at'){
+                            switch ($value){
+                                case 1:
+                                    $query->whereNull($column);
+                                    break;
+                                case 2:
+                                    $query->whereNotNull($column);
+                                    break;
+                            }
+                        }
 //                        else if($column == 'asan_imza_company_id'){
 //                            $query->whereHas('asanImza', function ($asanImzaQuery) use ($value) {
 //                                $asanImzaQuery->whereHas('company', function ($companyQuery) use ($value) {
 //                                    $companyQuery->whereId($value);
 //                                });
 //                            });
-//                        }else{
-//                            if($column == 'code'){
-//                                $query->where($column, 'LIKE', "%$value%");
-//                            }
-//                            else if (is_numeric($value)){
-//                                $query->where($column, $value);
-//                            }
-//                            else if(is_string($value) && $dateFilters[$column]){
-//                                $query->whereBetween($column,
-//                                    [
-//                                        Carbon::parse($dateRanges[$column][0])->startOfDay(),
-//                                        Carbon::parse($dateRanges[$column][1])->endOfDay()
-//                                    ]
-//                                );
-//                            }
 //                        }
-//                    });
-//                }
-//            })
+                        else{
+                            if($column == 'code'){
+                                $query->where($column, 'LIKE', "%$value%");
+                            }
+                            else if (is_numeric($value)){
+                                $query->where($column, $value);
+                            }
+                            else if(is_string($value) && $dateFilters[$column]){
+                                $query->whereBetween($column,
+                                    [
+                                        Carbon::parse($dateRanges[$column][0])->startOfDay(),
+                                        Carbon::parse($dateRanges[$column][1])->endOfDay()
+                                    ]
+                                );
+                            }
+                        }
+                    });
+                }
+            })
             ->latest('id')
             ->latest('datetime');
     }
