@@ -91,11 +91,13 @@ class WorkController extends Controller
 //            $works = $works->whereBetween('created_at', [Carbon::parse($startOfMonth)->startOfDay(), Carbon::parse($endOfMonth)->endOfDay()]);
 //        }
 
-        if(is_numeric($limit)) {
-            $works = $works->paginate($limit);
-        }else {
-            $works = $works->get();
-        }
+        $works = $works->get();
+
+//        if(is_numeric($limit)) {
+//            $works = $works->paginate($limit);
+//        }else {
+//            $works = $works->get();
+//        }
 
         return view('pages.works.index',
             compact('works', 'services', 'departments','users',

@@ -222,7 +222,7 @@
     @if(is_numeric($filters['limit']))
         <div class="col-12 mt-2">
             <div class="float-right">
-                {{$works->appends(request()->input())->links()}}
+{{--                {{$works->appends(request()->input())->links()}}--}}
             </div>
         </div>
     @endif
