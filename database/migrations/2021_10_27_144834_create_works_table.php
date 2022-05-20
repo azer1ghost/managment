@@ -41,7 +41,7 @@ class CreateWorksTable extends Migration
         });
     }
     /**
-     * Reverse the migrations.
+     * Reverse these migrations.
      *
      * @return void
      */
