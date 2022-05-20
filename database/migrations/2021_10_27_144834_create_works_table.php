@@ -27,7 +27,7 @@ class CreateWorksTable extends Migration
             $table->integer('status')->nullable();
             $table->foreignId('creator_id')->constrained('users')->restrictOnDelete();
             $table->integer('payment_method')->nullable();
-            $table->foreignId('asan_imza_id')->constrained('asan_imzalar')->restrictOnDelete();
+            $table->foreignId('asan_imza_id')->nullable()->constrained('asan_imzalar')->restrictOnDelete();
             $table->foreignId('user_id')->constrained()->restrictOnDelete();
             $table->foreignId('department_id')->constrained()->restrictOnDelete();
             $table->foreignId('service_id')->constrained()->restrictOnDelete();
