@@ -13,22 +13,33 @@ class CreateWorksTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('work_status_logs');
+
+        Schema::dropIfExists('work_parameter');
+
+        Schema::dropIfExists('works');
+
         Schema::create('works', function (Blueprint $table) {
             $table->id();
-            $table->integer('status')->nullable();
+            $table->string('code')->nullable()->unique();
+            $table->string('custom_asan')->nullable();
             $table->text('detail')->nullable();
-            $table->integer('creator_id')->nullable();
-            $table->foreignId('user_id')->index()->nullable()->constrained()->onDelete('SET NULL');
-            $table->foreignId('department_id')->index()->nullable()->constrained()->onDelete('SET NULL');
-            $table->foreignId('service_id')->index()->nullable()->constrained()->onDelete('SET NULL');
-            $table->foreignId('client_id')->index()->nullable()->constrained()->onDelete('SET NULL');
-            $table->timestamp('datetime')->nullable();
+            $table->integer('status')->nullable();
+            $table->foreignId('creator_id')->constrained('users')->restrictOnDelete();
+            $table->integer('payment_method')->nullable();
+            $table->foreignId('asan_imza_id')->constrained('asan_imzalar')->restrictOnDelete();
+            $table->foreignId('user_id')->constrained()->restrictOnDelete();
+            $table->foreignId('department_id')->constrained()->restrictOnDelete();
+            $table->foreignId('service_id')->constrained()->restrictOnDelete();
+            $table->foreignId('client_id')->constrained()->restrictOnDelete();
             $table->timestamp('verified_at')->nullable();
-            $table->softDeletes();
+            $table->timestamp('datetime')->nullable();
+            $table->timestamp('paid_at')->nullable();
+            $table->timestamp('vat_date')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
-
     /**
      * Reverse the migrations.
      *
