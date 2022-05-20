@@ -11,8 +11,8 @@ class OpenWeatherApi
 
     public function __construct()
     {
-        $this->key = config('services.open_weather.key');
-        $this->url = config('services.open_weather.url');
+        $this->key = config('services.open_weather.key', 'key');
+        $this->url = config('services.open_weather.url', 'key');
     }
 
     public function location(float $lat, float $lon)

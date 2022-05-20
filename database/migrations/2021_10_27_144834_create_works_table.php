@@ -13,12 +13,6 @@ class CreateWorksTable extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('work_status_logs');
-
-        Schema::dropIfExists('work_parameter');
-
-        Schema::dropIfExists('works');
-
         Schema::create('works', function (Blueprint $table) {
             $table->id();
             $table->string('code')->nullable()->unique();
@@ -27,7 +21,6 @@ class CreateWorksTable extends Migration
             $table->integer('status')->nullable();
             $table->foreignId('creator_id')->constrained('users')->restrictOnDelete();
             $table->integer('payment_method')->nullable();
-            $table->foreignId('asan_imza_id')->nullable()->constrained('asan_imzalar')->restrictOnDelete();
             $table->foreignId('user_id')->constrained()->restrictOnDelete();
             $table->foreignId('department_id')->constrained()->restrictOnDelete();
             $table->foreignId('service_id')->constrained()->restrictOnDelete();
