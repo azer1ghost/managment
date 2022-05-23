@@ -350,7 +350,7 @@
                 @endif
                     @php
                         $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID);
-                        $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) - $sum_payment) * -1;
+                        $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) + $work->getParameter($work::ILLEGALAMOUNT) - $sum_payment) * -1;
                     @endphp
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     <td class="font-weight-bold" data-toggle="tooltip">{{$sum_payment}}</td>
