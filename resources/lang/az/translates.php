@@ -71,6 +71,7 @@ return [
         'mgCode' => 'MG Kodu',
         'date' => 'Bitmə Tarixi',
         'created_at'=>'Yaranma Tarixi',
+        'paid_at'=>'Ödənmə Tarixi',
         'time' => 'Vaxt',
         'company' => 'Şirkət',
         'clientName' => 'Müştəri Adı',

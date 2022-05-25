@@ -70,6 +70,7 @@ return [
         'position' => 'Position',
         'mgCode' => 'MG Code',
         'date' => 'Date',
+        'paid_at' => 'Paid Date',
         'time' => 'Time',
         'company' => 'Company',
         'clientName' => 'Client Name',

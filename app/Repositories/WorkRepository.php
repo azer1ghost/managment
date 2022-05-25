@@ -14,6 +14,7 @@ class WorkRepository implements WorkRepositoryInterface {
         $dateRanges = [
             'datetime' => explode(' - ', $filters['datetime']),
             'created_at' => explode(' - ', $filters['created_at']),
+            'paid_at' => explode(' - ', $filters['paid_at']),
         ];
 
         return Work::query()
