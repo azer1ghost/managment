@@ -264,6 +264,7 @@
             @endif
             <th scope="col">@lang('translates.fields.created_at')</th>
             <th scope="col">@lang('translates.fields.date')</th>
+            <th scope="col">@lang('translates.fields.paid_at')</th>
             <th scope="col">@lang('translates.columns.verified')</th>
             <th scope="col"></th>
         </tr>
@@ -364,6 +365,7 @@
                 @endif
                 <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('created_at'))->diffForHumans()}}</td>
                 <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip">{{optional($work->getAttribute('datetime'))->format('Y-m-d')}}</td>
+                <td title="{{$work->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
                 <td>
                     @php
                         $status = '';

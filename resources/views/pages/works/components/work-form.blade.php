@@ -39,6 +39,11 @@
                     </div>
                 </div>
 
+                <div class="form-group col-12 col-md-3 custom_client">
+                    <label for="custom_client">Digər Müştəri</label>
+                    <input value="{{optional($data)->getAttribute('custom_client')}}" type="text" name="custom_client" id="custom_client" class="form-control" placeholder="Digər Müştəri qeydiyatını daxil edin">
+                </div>
+
                 <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-department_id">@lang('translates.fields.department')</label>
                     <input wire:ignore readonly type="text" class="form-control" id="data-department_id" value="{{\App\Models\Department::find($selected['department_id'])->name}}">
@@ -173,6 +178,10 @@
                         @endforeach
                     </select>
                 </div>
+
+                @if(!is_null($data) && !is_null(optional($data)->getAttribute('paid_at')))
+                    <x-input::text wire:ignore name="paid_at"  readonly :label="__('translates.fields.paid_at')" value="{{$data->getAttribute('paid_at')->format('Y-m-d H:i')}}" width="3" class="pr-3" />
+                @endif
                 @if(auth()->user()->hasPermission('canVerify-work') && $method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Work::DONE)
                     <div class="col-12" wire:ignore>
                         <input type="checkbox" @if(auth()->user()->isSales()) disabled @endif  id="data-verified" name="verified" @if(!is_null(optional($data)->getAttribute('verified_at'))) checked @endif>
@@ -311,6 +320,16 @@
         AsanId.change(function () {
             if ($(this).val() === '22') $('.custom_asan').show();
             else $('.custom_asan').hide();
+        });
+
+        const clientId = $('#data-client-type');
+
+        if (clientId.val() === '1865') $('.custom_client').show();
+        else $('.custom_client').hide();
+
+        clientId.change(function () {
+            if ($(this).val() === '1865') $('.custom_client').show();
+            else $('.custom_client').hide();
         });
     </script>
 @endpush

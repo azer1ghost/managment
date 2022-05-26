@@ -85,6 +85,13 @@ $(document).ready(function (){
         showAnim: "slideDown",
     });
 
+    $( "input[name='paid_at']" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "yy-mm-dd",
+        showAnim: "slideDown",
+    });
+
     $( "input[name='date']" ).datepicker({
         changeMonth: true,
         changeYear: true,
