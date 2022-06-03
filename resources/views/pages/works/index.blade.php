@@ -232,7 +232,7 @@
             </div>
         </div>
     @endif
-    <table class="table table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif " id="table">
+    <table class="table table-responsive items @if($works->count()) table-responsive-md @else table-responsive-sm @endif " id="table">
         <thead>
         <tr class="text-center">
             @if(auth()->user()->hasPermission('canVerify-work'))
@@ -655,5 +655,34 @@
                 });
             });
         }
+    </script>
+    <script>
+        const slider = document.querySelector('.items');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.classList.add('active');
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.classList.remove('active');
+        });
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.classList.remove('active');
+        });
+        slider.addEventListener('mousemove', (e) => {
+            if(!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 3; //scroll-fast
+            slider.scrollLeft = scrollLeft - walk;
+            console.log(walk);
+        });
     </script>
 @endsection
