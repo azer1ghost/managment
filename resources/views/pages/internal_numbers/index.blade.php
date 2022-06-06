@@ -22,11 +22,11 @@
                     </div>
                 </div>
             </div>
-{{--            @can('create', App\Models\InternalNumber::class)--}}
+            @can('create', App\Models\InternalNumber::class)
                 <div class="col-2">
                     <a class="btn btn-outline-success float-right" href="{{route('internal-numbers.create')}}">@lang('translates.buttons.create')</a>
                 </div>
-{{--            @endcan--}}
+            @endcan
             <div class="col-12">
                 <table class="table table-responsive-sm table-hover">
                     <thead>
