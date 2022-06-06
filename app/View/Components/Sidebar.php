@@ -72,7 +72,7 @@ class Sidebar extends Component
 
             (object)[
                 'title' => __('translates.navbar.intern_number'),
-                'icon' => 'fa fa-phone',
+                'icon' => 'fal fa-phone-office',
                 'url' => route('internal-numbers.index'),
                 'permission' => 'generally',
             ],
