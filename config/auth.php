@@ -34,6 +34,7 @@ return [
         'viewAny-customerEngagement', 'view-customerEngagement', 'manage-customerEngagement', 'delete-customerEngagement',
         'viewAny-company', 'view-company', 'create-company', 'update-company', 'delete-company',
         'viewAny-conference', 'view-conference', 'manage-conference',
+        'viewAny-internalNumber', 'view-internalNumber', 'create-internalNumber', 'update-internalNumber','manage-internalNumber','delete-internalNumber',
         'viewAny-department', 'view-department', 'manage-department',
         'viewAny-document', 'view-document', 'create-document', 'update-document', 'delete-document',
         'viewAll-inquiry', 'viewAllDepartment-inquiry', 'viewAny-inquiry', 'view-inquiry', 'create-inquiry', 'update-inquiry', 'delete-inquiry', 'forceDelete-inquiry', 'restore-inquiry', 'editAccessToUser-inquiry',

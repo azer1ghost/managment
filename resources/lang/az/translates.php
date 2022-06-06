@@ -207,6 +207,7 @@ return [
         'sales' => 'Satış',
         'human_resources' => 'İnsan Resursları',
         'law' => 'Hüquq',
+        'intern_number' => 'Daxili nömrələr',
     ],
 
     'date' => [

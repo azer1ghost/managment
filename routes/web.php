@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Document;
 use App\Http\Controllers\{Auth\LoginController,
     Auth\PhoneVerifycationController,
     Auth\RegisterController,
@@ -20,6 +21,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\DepartmentController,
     Modules\DocumentController,
     Modules\InquiryController,
+    Modules\InternalNumberController,
     Modules\MeetingController,
     Modules\OptionController,
     Modules\OrganizationController,
@@ -132,6 +134,7 @@ Route::group([
     Route::resource('/works', WorkController::class);
 
     Route::resource('/meetings', MeetingController::class);
+    Route::resource('/internal-numbers', InternalNumberController::class);
     Route::resource('/organizations', OrganizationController::class);
     Route::resource('/conferences', ConferenceController::class);
     Route::resource('/advertising', AdvertisingController::class);
@@ -178,11 +181,11 @@ Route::any('/asan-imza/user/search', [AsanImzaController::class, 'searchUser'])-
 Route::any('/document-temporary-url/{document}', [PlatformController::class, 'documentTemporaryUrl'])->name('document.temporaryUrl');
 Route::any('/document-temporary-viewer-url/{document}', [DocumentController::class, 'temporaryViewerUrl'])->name('document.temporaryViewerUrl');
 Route::get('/documents/{document}/viewer', [DocumentController::class, 'viewer'])->name('documents.viewer');
-Route::get('/document/{document}', function (\Illuminate\Http\Request $request, \App\Models\Document $document) {
+Route::get('/document/{document}', function (\Illuminate\Http\Request $request, Document $document) {
     abort_if(!$request->hasValidSignature(), 404);
 
     $url = (new FirebaseApi)->getDoc()->object("Documents/{$document->module()}/{$document->getAttribute('file')}")->signedUrl(
-        new \DateTime('1 min')
+        new DateTime('1 min')
     );
 
     return response(file_get_contents($url))
