@@ -66,13 +66,15 @@ class Sidebar extends Component
                             'class' => 'info'
                         ],
                     ],
-                    (object)[
-                        'title' => __('translates.navbar.intern_number'),
-                        'icon' => 'fa fa-phone',
-                        'url' => route('internal-numbers.index'),
-                        'permission' => 'generally',
-                    ],
+
                 ]
+            ],
+
+            (object)[
+                'title' => __('translates.navbar.intern_number'),
+                'icon' => 'fa fa-phone',
+                'url' => route('internal-numbers.index'),
+                'permission' => 'generally',
             ],
 
             (object)[
