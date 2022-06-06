@@ -17,11 +17,17 @@ class InternalNumberController extends Controller
         $this->authorizeResource(InternalNumber::class, 'internal_number');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('pages.internal_numbers.index')->with([
-            'internalNumbers' => InternalNumber::paginate(10),
-        ]);
+        $search = $request->get('search');
+        return view('pages.internal_numbers.index')
+            ->with([
+                'internalNumbers' => InternalNumber::when($search,
+                        fn ($query) => $query->where('name', 'like', "%".$search."%")
+                            ->orWhere('phone', 'like', "%".$search."%")
+                            ->orWhere('detail', 'like', "%".$search."%"))
+                            ->paginate(10)]);
+
     }
 
     public function create()
