@@ -26,7 +26,7 @@ class InternalNumberController extends Controller
                         fn ($query) => $query->where('name', 'like', "%".$search."%")
                             ->orWhere('phone', 'like', "%".$search."%")
                             ->orWhere('detail', 'like', "%".$search."%"))
-                            ->paginate(10)]);
+                            ->paginate(25)]);
 
     }
 
