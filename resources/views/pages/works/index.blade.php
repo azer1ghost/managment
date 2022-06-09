@@ -430,9 +430,13 @@
             </tr>
             @php
                 $balance[] = $residue;
+                $gb[] = $work->getParameter($work::GB);
+                $code[] =  $work->getParameter($work::CODE);
                 $sum_balance = array_sum($balance);
                 $total_payment[] = $sum_payment;
-                $sum_total_payment = array_sum($total_payment)
+                $sum_total_payment = array_sum($total_payment);
+                $gb_count = array_sum($gb);
+                $code_count = array_sum($code);
             @endphp
         @empty
             <tr>
@@ -450,6 +454,11 @@
                     <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
                 </td>
                 <!-- loop of totals of countable parameters -->
+
+                @if(!auth()->user()->hasPermission('viewPrice-work'))
+                    <td><p style="font-size: 16px" class="mb-0"><strong>{{ $gb_count}}</strong></p></td>
+                    <td><p style="font-size: 16px" class="mb-0"><strong>{{ $code_count}}</strong></p></td>
+                @endif
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     @foreach($totals as $total)
                         <td><p style="font-size: 16px" class="mb-0"><strong>{{$total}}</strong></p></td>
