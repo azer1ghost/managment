@@ -72,6 +72,13 @@ class ClientController extends Controller
             'check-created_at' => $request->has('check-created_at'),
             'created_at' => $createdTime,
         ];
+        $clients = $this->clientRepository->allFilteredClients($filters)->latest();
+        if(is_numeric($filters['limit'])) {
+            $clients = $clients->paginate($filters['limit']);
+        }else {
+            $clients = $clients->get();
+        }
+
         return view('pages.clients.index')
             ->with([
                 'filters' => $filters,
@@ -80,7 +87,7 @@ class ClientController extends Controller
                     (string) Client::LEGAL => trans('translates.general.legal'),
                     (string) Client::PHYSICAL => trans('translates.general.physical')
                 ],
-                'clients' =>$this->clientRepository->allFilteredClients($filters)->latest()->paginate($filters['limit']),
+                'clients' => $clients,
                 'salesUsers' => User::isActive()->where('department_id', Department::SALES)->get(['id', 'name', 'surname']),
                 'salesClients' => User::isActive()->has('salesClients')->get(['id', 'name', 'surname']),
                 'satisfactions' => Client::satisfactions()

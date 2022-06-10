@@ -60,93 +60,99 @@ class TaskController extends Controller
         $statuses = Task::statuses();
         $priorities = Task::priorities();
         $types = Task::types();
-
-        return view('pages.tasks.index')
-            ->with([
-                'filters' => $filters,
-                'tasks' => Task::with('taskable', 'user')->withCount([
-                    'taskLists as all_tasks_count',
-                    'taskLists as done_tasks_count' => fn (Builder $query) => $query->where('is_checked', true)
-                ])
-                    ->when($search, fn ($query) => $query->where('name', 'like', "%". $search ."%"))
-                    ->where(function ($query)  use ($filters, $user, $dateFilters, $dateRanges) {
-                        foreach ($filters as $column => $value) {
-                            $query->when($value, function ($query, $value) use ($column, $filters, $user, $dateFilters, $dateRanges) {
-                                if ($column == 'department'){
-                                    $query->whereHasMorph('taskable', [Department::class, User::class], function($q, $type) use ($user, $value){
+        $tasks = Task::with('taskable', 'user')->withCount([
+            'taskLists as all_tasks_count',
+            'taskLists as done_tasks_count' => fn (Builder $query) => $query->where('is_checked', true)
+        ])
+            ->when($search, fn ($query) => $query->where('name', 'like', "%". $search ."%"))
+            ->where(function ($query)  use ($filters, $user, $dateFilters, $dateRanges) {
+                foreach ($filters as $column => $value) {
+                    $query->when($value, function ($query, $value) use ($column, $filters, $user, $dateFilters, $dateRanges) {
+                        if ($column == 'department'){
+                            $query->whereHasMorph('taskable', [Department::class, User::class], function($q, $type) use ($user, $value){
+                                if ($type === Department::class) {
+                                    $q->where('id', $value);
+                                }else{
+                                    $q->where('department_id', $value);
+                                }
+                            });
+                        }elseif ($column == 'user'){
+                            $query->whereHasMorph('taskable', [User::class], fn ($q) => $q
+                                ->where('surname', 'like', $value)
+                                ->orWhere('name', 'like', $value));
+                        }elseif($column == 'type'){
+                            switch ($value){
+                                case 1:
+                                    $query->whereHasMorph('taskable', [Department::class, User::class], function($q, $type) use ($user){
                                         if ($type === Department::class) {
-                                            $q->where('id', $value);
+                                            $q->where('id', $user->getRelationValue('department')->getAttribute('id'));
                                         }else{
-                                            $q->where('department_id', $value);
+                                            $q->where('id', $user->getAttribute('id'));
                                         }
                                     });
-                                }elseif ($column == 'user'){
-                                    $query->whereHasMorph('taskable', [User::class], fn ($q) => $q
-                                        ->where('surname', 'like', $value)
-                                        ->orWhere('name', 'like', $value));
-                                }elseif($column == 'type'){
-                                    switch ($value){
-                                        case 1:
-                                            $query->whereHasMorph('taskable', [Department::class, User::class], function($q, $type) use ($user){
+                                    break;
+                                case 2:
+                                    $query->where('user_id', $user->getAttribute('id'));
+                                    break;
+                                case 3:
+                                    if(!Task::userCanViewAll()){
+                                        if ($user->hasPermission('department-chief')){
+                                            $query->whereHasMorph('taskable', [Department::class, User::class] , function ($q, $type) use ($user){
+                                                if ($type === Department::class) {
+                                                    $q->where('id', $user->getRelationValue('department')->getAttribute('id'));
+                                                }else{
+                                                    $q->where('department_id', $user->getRelationValue('department')->getAttribute('id'));
+                                                }
+                                            });
+                                        }else{
+                                            $query->whereHasMorph('taskable', [Department::class, User::class] , function ($q, $type) use ($user){
                                                 if ($type === Department::class) {
                                                     $q->where('id', $user->getRelationValue('department')->getAttribute('id'));
                                                 }else{
                                                     $q->where('id', $user->getAttribute('id'));
                                                 }
                                             });
-                                            break;
-                                        case 2:
-                                            $query->where('user_id', $user->getAttribute('id'));
-                                            break;
-                                        case 3:
-                                            if(!Task::userCanViewAll()){
-                                                if ($user->hasPermission('department-chief')){
-                                                    $query->whereHasMorph('taskable', [Department::class, User::class] , function ($q, $type) use ($user){
-                                                        if ($type === Department::class) {
-                                                            $q->where('id', $user->getRelationValue('department')->getAttribute('id'));
-                                                        }else{
-                                                            $q->where('department_id', $user->getRelationValue('department')->getAttribute('id'));
-                                                        }
-                                                    });
-                                                }else{
-                                                    $query->whereHasMorph('taskable', [Department::class, User::class] , function ($q, $type) use ($user){
-                                                        if ($type === Department::class) {
-                                                            $q->where('id', $user->getRelationValue('department')->getAttribute('id'));
-                                                        }else{
-                                                            $q->where('id', $user->getAttribute('id'));
-                                                        }
-                                                    });
-                                                }
-                                                $query->orWhere('user_id', $user->getAttribute('id'));
-                                            }
-                                            break;
+                                        }
+                                        $query->orWhere('user_id', $user->getAttribute('id'));
                                     }
-                                }else{
-                                    if ($column == 'search'){
-                                        $query->where($column, 'LIKE', "%$value%");
-                                    }
-                                    if ($column == 'status' || $column == 'priority'){
-                                        $query->where($column, $value);
-                                    }
-                                    else if (is_numeric($value)){
-                                        $query->where($column, $value);
-                                    }
-                                    else if(is_string($value) && $dateFilters[$column]){
-                                        $query->whereBetween($column,
-                                            [
-                                                Carbon::parse($dateRanges[$column][0])->startOfDay(),
-                                                Carbon::parse($dateRanges[$column][1])->endOfDay()
-                                            ]
-                                        );
-                                    }
-                                }
-                            });
+                                    break;
+                            }
+                        }else{
+                            if ($column == 'search'){
+                                $query->where($column, 'LIKE', "%$value%");
+                            }
+                            if ($column == 'status' || $column == 'priority'){
+                                $query->where($column, $value);
+                            }
+                            else if (is_numeric($value)){
+                                $query->where($column, $value);
+                            }
+                            else if(is_string($value) && $dateFilters[$column]){
+                                $query->whereBetween($column,
+                                    [
+                                        Carbon::parse($dateRanges[$column][0])->startOfDay(),
+                                        Carbon::parse($dateRanges[$column][1])->endOfDay()
+                                    ]
+                                );
+                            }
                         }
-                    })
-                    ->orderBy('status','DESC')
-                    ->orderBy('priority','DESC')
-                    ->latest()
-                    ->paginate($limit),
+                    });
+                }
+            })
+            ->orderBy('status','DESC')
+            ->orderBy('priority','DESC')
+            ->latest();
+
+        if(is_numeric($limit)) {
+            $tasks = $tasks->paginate($limit);
+        }else {
+            $tasks = $tasks->get();
+        }
+
+        return view('pages.tasks.index')
+            ->with([
+                'filters' => $filters,
+                'tasks' => $tasks,
                 'departments' => Department::get(['id', 'name']),
                 'statuses' => $statuses,
                 'priorities' => $priorities,
