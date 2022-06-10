@@ -21,7 +21,7 @@ class DocumentPolicy
     public function view(User $user, Document $document): bool
     {
         return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__) ||
-            $document->getAttribute('user_id') == $user->getAttribute('id');;
+            $document->getAttribute('user_id') == $user->getAttribute('id');
     }
 
     public function update(User $user, Document $document): bool

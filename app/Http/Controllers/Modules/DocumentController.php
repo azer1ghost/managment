@@ -32,7 +32,7 @@ class DocumentController extends Controller
             ->when($user,   fn ($query) => $query->where('user_id', $user))
             ->when($search, fn ($query) => $query->where('name', 'LIKE', "%$search%"));
 
-        if(!auth()->user()->isDeveloper()){
+        if(!auth()->user()->isDeveloper() && !auth()->user()->isDirector() ){
             $documents = $documents->whereBelongsTo(auth()->user());
         }
 

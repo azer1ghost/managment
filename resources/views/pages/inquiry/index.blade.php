@@ -169,7 +169,7 @@
         </div>
         <div class="input-group col-4 col-md-2 mt-3">
             <select name="limit" class="custom-select" id="size">
-                @foreach([25, 50, 100, 250] as $size)
+                @foreach([25, 50, 100, 250, trans('translates.general.all')] as $size)
                     <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
                 @endforeach
             </select>
@@ -191,7 +191,7 @@
         </div>
 
         <div class="col-6 pt-2 ">
-            <p> @lang('translates.total_items', ['count' => $inquiries->count(), 'total' => $inquiries->total()])</p>
+            <p> @lang('translates.total_items', ['count' => $inquiries->count(), 'total' => is_numeric(request()->get('limit')) ? $inquiries->total() : $inquiries->count()])</p>
         </div>
     </div>
 
@@ -373,9 +373,11 @@
                 </div>
             @endif
             <div class="@if(auth()->user()->isDeveloper()) col-9 @else col-12 @endif">
-                <div class="float-right">
-                    {{$inquiries->appends(request()->input())->links()}}
-                </div>
+                @if(is_numeric(request()->get('limit')))
+                    <div class="float-right">
+                        {{$inquiries->appends(request()->input())->links()}}
+                    </div>
+                @endif
             </div>
         </div>
     </form>

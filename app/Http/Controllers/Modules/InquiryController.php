@@ -130,9 +130,14 @@ class InquiryController extends Controller
                     $query->select('id', 'name');
                 }
             ])
-            ->latest('datetime')
-            ->paginate($limit);
+            ->latest('datetime');
 
+        if(is_numeric($limit)) {
+            $inquiries = $inquiries->paginate($limit);
+        }
+        else {
+            $inquiries = $inquiries->get();
+        }
         return view('pages.inquiry.index',
             compact(
                 'inquiries',
