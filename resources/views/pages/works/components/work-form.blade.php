@@ -286,12 +286,9 @@
                 const asanImza = '{{$data->getRelationValue('asanImza')->getAttribute('user_with_company')}}';
                 const date = '{{$data->getAttribute('datetime')}}';
                 const detail = $(html('{{$data->getAttribute('detail')}}')).text();
-                let data = `Xidmət: ${service}<br/>Müştəri: ${client}<br/>İcra edən: ${user}<br/>Asan imza: ${asanImza}<br/>Tarix: ${date}<br/>`;
-
-                $(".parameters").map(function (){
-                    let value = $(this).is('select') ? $(this).find('option:selected').data('value') : $(this).val();
-                    data += `${$(this).data('label')}: ${value}<br/>`;
-                });
+                const gb = '{{$data->getParameter($data::GB)}}';
+                const code = '{{$data->getParameter($data::CODE)}}';
+                let data = `Xidmət: ${service}<br/>Müştəri: ${client}<br/>İcra edən: ${user}<br/>Asan imza: ${asanImza}<br/>Tarix: ${date}<br/>GB Sayı: ${gb}<br/>Kod Sayı: ${code}<br/>`;
                 data += `${detail ? `Detal: ${detail}` : ''}`;
 
                 copyToClipboard(html(data, 'html'));
