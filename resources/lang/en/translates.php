@@ -71,6 +71,7 @@ return [
         'mgCode' => 'MG Code',
         'date' => 'Date',
         'paid_at' => 'Paid Date',
+        'vat_paid_at' => 'VAT Paid Date',
         'time' => 'Time',
         'company' => 'Company',
         'clientName' => 'Client Name',

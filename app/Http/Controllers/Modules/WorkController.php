@@ -171,7 +171,6 @@ class WorkController extends Controller
 
         $validated = $request->validated();
         $validated['verified_at'] = $request->has('verified') && !$request->has('rejected') ? now() : NULL;
-        $validated['vat_date'] = $request->has('vat_paid') && !$request->has('rejected') ? now() : NULL;
 
         if (!$request->has('paid_check') && $request->has('rejected') && $request->has('paid_at')){
             $validated['paid_at'] = null;
@@ -181,6 +180,16 @@ class WorkController extends Controller
         }
         elseif ($request->has('paid_at')){
             $validated['paid_at'] = $request->get('paid_at');
+        }
+
+        if (!$request->has('vat_paid_check') && $request->has('rejected') && $request->has('vat_date')){
+            $validated['vat_date'] = null;
+        }
+        elseif ($request->has('vat_paid_check') && !$request->has('rejected') && !$request->has('vat_date')) {
+            $validated['vat_date'] = now();
+        }
+        elseif ($request->has('vat_date')){
+            $validated['vat_date'] = $request->get('vat_date');
         }
 
 

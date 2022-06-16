@@ -91,6 +91,12 @@ $(document).ready(function (){
         dateFormat: "yy-mm-dd",
         showAnim: "slideDown",
     });
+    $( "input[name='vat_date']" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "yy-mm-dd",
+        showAnim: "slideDown",
+    });
 
     $( "input[name='date']" ).datepicker({
         changeMonth: true,
