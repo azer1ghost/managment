@@ -67,7 +67,7 @@ class WorkController extends Controller
             'datetime' => $request->has('check-datetime'),
             'created_at' => $request->has('check-created_at'),
             'paid_at' => $request->has('check-paid_at'),
-            'vat_paid_at' => $request->has('check-vat_paid_at'),
+            'vat_date' => $request->has('check-vat_paid_at'),
         ];
 
         $usersQuery = User::has('works')->with('position', 'role')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id']);
