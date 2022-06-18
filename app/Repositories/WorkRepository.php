@@ -15,6 +15,7 @@ class WorkRepository implements WorkRepositoryInterface {
             'datetime' => explode(' - ', $filters['datetime']),
             'created_at' => explode(' - ', $filters['created_at']),
             'paid_at' => explode(' - ', $filters['paid_at']),
+            'vat_paid_at' => explode(' - ', $filters['vat_paid_at']),
         ];
 
         return Work::query()
