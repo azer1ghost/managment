@@ -54,7 +54,7 @@ class WorkController extends Controller
             'verified_at' => $request->get('verified_at'),
             'status' => $request->get('status'),
             'paid_at' => $request->get('paid_at'),
-            'vat_paid_at' => $request->get('vat_paid_at'),
+            'vat_date' => $request->get('vat_date'),
             'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
             'datetime' => $request->get('datetime') ?? $startOfMonth . ' - ' . $endOfMonth,
         ];
