@@ -54,6 +54,7 @@ class WorkController extends Controller
             'verified_at' => $request->get('verified_at'),
             'status' => $request->get('status'),
             'paid_at' => $request->get('paid_at'),
+            'vat_paid_at' => $request->get('vat_paid_at'),
             'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
             'datetime' => $request->get('datetime') ?? $startOfMonth . ' - ' . $endOfMonth,
         ];
@@ -66,6 +67,7 @@ class WorkController extends Controller
             'datetime' => $request->has('check-datetime'),
             'created_at' => $request->has('check-created_at'),
             'paid_at' => $request->has('check-paid_at'),
+            'vat_paid_at' => $request->has('check-vat_paid_at'),
         ];
 
         $usersQuery = User::has('works')->with('position', 'role')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id']);

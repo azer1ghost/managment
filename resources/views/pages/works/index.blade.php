@@ -163,6 +163,12 @@
                             <input type="checkbox" name="check-paid_at" id="check-paid_at" @if(request()->has('check-paid_at')) checked @endif> <label for="check-paid_at">@lang('translates.filters.filter_by')</label>
                         </div>
 
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="datetimeFilter">{{trans('translates.fields.vat_paid_at')}}</label>
+                            <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly name="vat_paid_at" value="{{$filters['vat_paid_at']}}">
+                            <input type="checkbox" name="check-vat_paid_at" id="check-vat_paid_at" @if(request()->has('check-vat_paid_at')) checked @endif> <label for="check-vat_paid_at">@lang('translates.filters.filter_by')</label>
+                        </div>
+
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="verifiedFilter">@lang('translates.columns.verified')</label>
