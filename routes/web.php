@@ -90,6 +90,8 @@ Route::group([
     Route::get('/inquiries-sales', [SalesInquiryController::class, 'index'])->name('inquiry.sales');
     Route::get('/potential-customers', [SalesInquiryController::class, 'potentialCustomers'])->name('inquiry.potential-customers');
     Route::resource('/inquiry', InquiryController::class);
+    Route::get('/inquiries/export', [InquiryController::class, 'export'])->name('inquiry.export');
+
 
     Route::get('/signature/select-company', [SignatureController::class, 'selectCompany'])->name('signature-select-company');
     Route::get('/signature/{company}', [SignatureController::class, 'signature'])->name('signature');

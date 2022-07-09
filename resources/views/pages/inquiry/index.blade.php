@@ -175,7 +175,6 @@
             </select>
         </div>
     </form>
-
     <div class="col-12">
         <hr>
         <div class="float-right">
@@ -188,8 +187,10 @@
                class="btn btn-outline-secondary">
                 <i class="far {{ !request()->has('trash-box') ? 'fa-recycle' : 'fa-phone' }}"></i>
             </a>
+                @if(auth()->user()->hasPermission('canExport-client'))
+                    <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('inquiry.export')}}">@lang('translates.buttons.export')</a>
+                @endif
         </div>
-
         <div class="col-6 pt-2 ">
             <p> @lang('translates.total_items', ['count' => $inquiries->count(), 'total' => is_numeric(request()->get('limit')) ? $inquiries->total() : $inquiries->count()])</p>
         </div>
