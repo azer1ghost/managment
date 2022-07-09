@@ -122,6 +122,8 @@ Route::group([
     Route::resource('/clients', ClientController::class);
     Route::any('/sales-client/search', [SalesClientController::class, 'search'])->name('sales-client.search');
     Route::resource('/sales-client', SalesClientController::class);
+    Route::get('/sales-client/export', [SalesClientController::class, 'export'])->name('sales-client.export');
+
 
     Route::resource('/referrals', ReferralController::class)->except('create');
     Route::resource('/updates', UpdateController::class);

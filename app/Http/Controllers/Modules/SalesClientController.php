@@ -2,20 +2,26 @@
 
 namespace App\Http\Controllers\Modules;
 
+use App\Exports\ClientsExport;
+use App\Exports\SalesClientsExport;
 use App\Http\Requests\SalesClientRequest;
+use App\Interfaces\SalesClientRepositoryInterface;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SalesClient;
-use App\Models\Client;
 use App\Models\User;
 
 class SalesClientController extends Controller
 {
-    public function __construct()
+    protected SalesClientRepositoryInterface $salesClientRepository;
+
+    public function __construct(SalesClientRepositoryInterface $salesClientRepository)
     {
         $this->middleware('auth');
-        $this->authorizeResource(SalesClient::class, 'sales_client');
+        $this->authorizeResource(SalesClient::class, 'sales_clients');
+        $this->salesClientRepository = $salesClientRepository;
+
     }
 
     public function search(Request $request)
@@ -117,6 +123,13 @@ class SalesClientController extends Controller
                 'method' => "PUT",
                 'data' => $salesClient,
             ]);
+    }
+
+    public function export(Request $request)
+    {
+        $filters = json_decode($request->get('filters'), true);
+
+        return  (new SalesClientsExport($this->salesClientRepository, $filters))->download('sales-clients.xlsx');
     }
 
     public function update(SalesClientRequest $request, SalesClient $salesClient): RedirectResponse
