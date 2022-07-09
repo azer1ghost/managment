@@ -36,7 +36,7 @@
                     <a class="btn btn-outline-success float-right " href="{{route('sales-client.create')}}">@lang('translates.buttons.create')</a>
                 @endcan
                 @if(auth()->user()->hasPermission('canExport-client'))
-                    <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('sales-client.export', ['filters' => json_encode($filters)])}}">@lang('translates.buttons.export')</a>
+                    <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('sales-clients.export')}}">@lang('translates.buttons.export')</a>
                 @endif
             </div>
             <div class="col-8 col-md-3 mb-3 ">
