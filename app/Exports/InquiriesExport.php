@@ -21,6 +21,6 @@ class InquiriesExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        return Inquiry::get(['client_id', 'company_id', ]);
+        return Inquiry::all();
     }
 }
