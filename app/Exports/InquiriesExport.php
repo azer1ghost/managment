@@ -21,6 +21,8 @@ class InquiriesExport implements FromCollection, WithHeadings, WithMapping
         return [
             '#',
             'Phone',
+            'Client',
+            'Company'
         ];
     }
 
@@ -29,7 +31,8 @@ class InquiriesExport implements FromCollection, WithHeadings, WithMapping
         return [
             $row->id,
             optional($row->getParameter('phone'))->getAttribute('value'),
-
+            optional($row->getParameter('fullname'))->getAttribute('value'),
+            $row->getAttribute('company_id')
         ];
     }
 }
