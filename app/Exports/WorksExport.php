@@ -48,6 +48,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
                 'Sistemdə (ASAN IMZA)',
                 trans('translates.columns.department'),
                 'Ödəniş Üsulu',
+                'Bank Xərci',
             ]
         );
     }
@@ -78,6 +79,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             $row->asanImza()->exists() ? $row->getRelationValue('asanImza')->getAttribute('user_with_company') : trans('translates.filters.select'),
             $row->getRelationValue('department')->getAttribute('short'),
             $row->getAttribute('payment_method') ? trans('translates.payment_methods.' . $row->getAttribute('payment_method')) : '',
+            $row->getAttribute('bank_charge')
 
         ]);
     }

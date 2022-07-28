@@ -177,16 +177,12 @@
                             </option>
                         @endforeach
                     </select>
-
-                </div>
-                <div class="form-group col-12 col-md-3">
-                    <div class="form-group col-12 col-md-6 bank_charge" style="width: 100vh">
-                        <label for="bank_charge" >Bank Xərci</label>
-                        <input type="text" name="bank_charge" value="{{$data->getAttribute('bank_charge')}}">
-                    </div>
                 </div>
 
-
+                <div class="form-group col-12 col-md-3 bank_charge" wire:ignore>
+                    <label for="bank_charge" >Bank Xərci</label>
+                    <input class="form-control" type="text" name="bank_charge" value="{{optional($data)->getAttribute('bank_charge')}}">
+                </div>
 
                 @if(!is_null($data) && !is_null(optional($data)->getAttribute('paid_at')))
                     <x-input::text wire:ignore name="paid_at"  readonly :label="__('translates.fields.paid_at')" value="{{$data->getAttribute('paid_at')->format('Y-m-d H:i')}}" width="3" class="pr-3" />
