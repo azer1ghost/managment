@@ -24,7 +24,8 @@ class WorkRequest extends FormRequest
             'verified' => 'nullable',
             'rejected' => 'nullable',
             'paid_check' => 'nullable',
-            'vat_paid' => 'nullable'
+            'vat_paid' => 'nullable',
+            'bank_charge' => 'nullable'
         ];
     }
 }

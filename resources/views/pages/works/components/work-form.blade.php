@@ -177,7 +177,16 @@
                             </option>
                         @endforeach
                     </select>
+
                 </div>
+                <div class="form-group col-12 col-md-3">
+                    <div class="form-group col-12 col-md-6 bank_charge" style="width: 100vh">
+                        <label for="bank_charge" >Bank Xərci</label>
+                        <input type="text" name="bank_charge" value="{{$data->getAttribute('bank_charge')}}">
+                    </div>
+                </div>
+
+
 
                 @if(!is_null($data) && !is_null(optional($data)->getAttribute('paid_at')))
                     <x-input::text wire:ignore name="paid_at"  readonly :label="__('translates.fields.paid_at')" value="{{$data->getAttribute('paid_at')->format('Y-m-d H:i')}}" width="3" class="pr-3" />
@@ -320,6 +329,16 @@
         AsanId.change(function () {
             if ($(this).val() === '22') $('.custom_asan').show();
             else $('.custom_asan').hide();
+        });
+
+        const PaymentMethod = $('#data-payment_method');
+
+        if (PaymentMethod.val() === '3') $('.bank_charge').show();
+        else $('.bank_charge').hide();
+
+        PaymentMethod.change(function () {
+            if ($(this).val() === '3') $('.bank_charge').show();
+            else $('.bank_charge').hide();
         });
 
         const clientId = $('#data-client-type');
