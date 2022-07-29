@@ -184,6 +184,18 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="paymentMethodFilter">@lang('translates.general.payment_method')</label>
+                            <select name="verified_at" id="paymentMethodFilter" class="form-control" style="width: 100% !important;">
+                                <option value="">@lang('translates.filters.select')</option>
+                                @foreach($paymentMethods as $paymentMethod)
+                                    <option value="{{$paymentMethod}}"
+                                            @if($paymentMethod == $filters['payment_method']) selected @endif>
+                                        @lang('translates.payment_methods.' . $paymentMethod)
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="col-12 mt-3 mb-5 d-flex align-items-center justify-content-end">
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <button type="submit" class="btn btn-outline-primary"><i

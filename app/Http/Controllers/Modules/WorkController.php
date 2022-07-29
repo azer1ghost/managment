@@ -52,6 +52,7 @@ class WorkController extends Controller
             'asan_imza_company_id' => $request->get('asan_imza_company_id'),
             'client_id' => $request->get('client_id'),
             'verified_at' => $request->get('verified_at'),
+            'payment_method' => $request->get('payment_method'),
             'status' => $request->get('status'),
             'paid_at' => $request->get('paid_at'),
             'vat_date' => $request->get('vat_date'),
@@ -78,6 +79,7 @@ class WorkController extends Controller
         $departments = Department::has('works')->get(['id', 'name']);
         $companies = Company::query()->has('asanImzalar')->limit(10)->get();
 
+        $paymentMethods = Work::paymentMethods();
         $statuses = Work::statuses();
         $verifies = [1 => trans('translates.columns.unverified'), 2 => trans('translates.columns.verified')];
         $priceVerifies = [1 => trans('translates.columns.price_unverified'), 2 => trans('translates.columns.price_verified')];
@@ -103,7 +105,7 @@ class WorkController extends Controller
 
         return view('pages.works.index',
             compact('works', 'services', 'departments','users',
-            'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters')
+            'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods')
         );
     }
 
