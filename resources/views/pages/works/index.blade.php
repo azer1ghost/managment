@@ -280,6 +280,7 @@
                 <th scope="col">@lang('translates.columns.sum_paid')</th>
                 <th scope="col">@lang('translates.columns.residue')</th>
             @endif
+            <th scope="col">@lang('translates.general.payment_method')</th>
             <th scope="col">@lang('translates.fields.created_at')</th>
             <th scope="col">@lang('translates.fields.date')</th>
             <th scope="col">@lang('translates.fields.paid_at')</th>
@@ -381,6 +382,7 @@
                     <td class="font-weight-bold" data-toggle="tooltip">{{$sum_payment}}</td>
                     <td class="font-weight-bold" @if($residue < 0) style="color:red" @endif data-toggle="tooltip">@if($residue < 0) {{$residue}} @else 0 @endif</td>
                 @endif
+                <td title="{{$work->getAttribute('payment_method')}}" data-toggle="tooltip">{{trans('translates.payment_methods.' . $work->getAttribute('status'))}}</td>
                 <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('created_at'))->diffForHumans()}}</td>
                 <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip">{{optional($work->getAttribute('datetime'))->format('Y-m-d')}}</td>
                 <td title="{{$work->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
