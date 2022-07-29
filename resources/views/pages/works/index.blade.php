@@ -186,7 +186,7 @@
                         </div>
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="paymentMethodFilter">@lang('translates.general.payment_method')</label>
-                            <select name="verified_at" id="paymentMethodFilter" class="form-control" style="width: 100% !important;">
+                            <select name="payment_method" id="paymentMethodFilter" class="form-control" style="width: 100% !important;">
                                 <option value="">@lang('translates.filters.select')</option>
                                 @foreach($paymentMethods as $paymentMethod)
                                     <option value="{{$paymentMethod}}"
