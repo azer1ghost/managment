@@ -18,7 +18,7 @@
         <table class="table table-responsive-sm table-hover text-capitalize">
             <thead>
             <tr>
-                <th scope="col" colspan="100">{{$currentMonth[0]->translatedFormat('Y F')}}</th>
+                <th scope="col" colspan="100">Cari il</th>
             </tr>
             </thead>
             <tbody>
@@ -39,7 +39,7 @@
                             @elseif(is_null($subReport) && $day > now()->format('Y-m-d')) btn-dark
                             @elseif(is_null($subReport)) btn-danger
                             @else btn-success @endif">
-                                {{$day->format('d')}}
+                                {{$day->format('M d')}}
                             </a>
                             {{$day->translatedFormat('l')}}
                         </td>
