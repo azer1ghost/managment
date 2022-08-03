@@ -136,6 +136,7 @@ Route::group([
     Route::get('/works/report', [WorkController::class, 'report'])->name('works.report');
     Route::get('/works/export', [WorkController::class, 'export'])->name('works.export');
     Route::resource('/works', WorkController::class);
+    Route::post('/test', [WorkController::class, 'editable'])->name('editable');
 
     Route::resource('/meetings', MeetingController::class);
     Route::resource('/internal-numbers', InternalNumberController::class);

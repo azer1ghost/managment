@@ -8,6 +8,7 @@
         }
     </style>
 @endsection
+
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -354,12 +355,14 @@
                     </span>
                 </td>
                     @if(!auth()->user()->hasPermission('viewPrice-work'))
+
                     <td>{{$work->getParameter($work::GB)}}</td>
                     <td>{{$work->getParameter($work::CODE)}}</td>
                     @endif
+
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     @foreach(\App\Models\Service::serviceParameters() as $param)
-                        <td>{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
+                        <td class="update" data-name="{{$param['data']->getAttribute('id')}}" data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
                         @php
                             if($param['count']){ // check if parameter is countable
                                 $count = (int) $work->getParameter($param['data']->getAttribute('id'));
@@ -566,6 +569,8 @@
     </div>
 @endsection
 @section('scripts')
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/js/jquery-editable-poshytip.min.js"></script>
+
     <script>
         @if($works->isNotEmpty())
             const count  = document.getElementById("count").cloneNode(true);
@@ -712,6 +717,19 @@
             const walk = (x - startX) * 3; //scroll-fast
             slider.scrollLeft = scrollLeft - walk;
             console.log(walk);
+        });
+    </script>
+    <script type="text/javascript">
+        $.fn.editable.defaults.mode = 'inline';
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': '{{csrf_token()}}'
+            }
+        });
+
+        $('.update').editable({
+            url: "{{ route('editable') }}",
         });
     </script>
 @endsection

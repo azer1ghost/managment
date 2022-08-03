@@ -306,4 +306,15 @@ class WorkController extends Controller
             'user' => auth()->user(),
         ]);
     }
+
+    public function editable(Request $request)
+    {
+        if ($request->ajax()) {
+            $work = Work::find($request->pk);
+
+            $work->parameters()->updateExistingPivot($request->name, ['value' => $request->value]);
+
+            return response()->json(['success' => true]);
+        }
+    }
 }
