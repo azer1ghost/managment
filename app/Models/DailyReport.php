@@ -65,9 +65,9 @@ class DailyReport extends Model implements Recordable
 
     public static function currentMonth()
     {
-        $start_of_month = now()->startOfYear();
+        $start_of_year = now()->startOfYear();
 
-        $days_of_month[] = $start_of_month->copy(); // use carbon copy to avoid affecting the original $start_of_week variable
+        $days_of_month[] = $start_of_year->copy(); // use carbon copy to avoid affecting the original $start_of_week variable
 
         $day_offs = []; // array of day offs
         $working_days = []; // array of working days
@@ -97,7 +97,7 @@ class DailyReport extends Model implements Recordable
         }
 
         for($i = 0; $i < 365; $i++) {
-            $date_of_week =  $start_of_month->addDay()->copy();
+            $date_of_week =  $start_of_year->addDay()->copy();
 
             if ($date_of_week->format('N') == 7 && !in_array($date_of_week, $working_days)) continue;
             if ($date_of_week->format('N') != 7 && in_array($date_of_week, $day_offs)) continue;
