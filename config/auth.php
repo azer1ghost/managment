@@ -69,7 +69,7 @@ return [
         'salesClientMonthly-widget',
         'workPersonal-widget',
         'service-widget',
-        'viewAll-work', 'viewAny-work', 'view-work', 'create-work', 'update-work', 'delete-work', 'canVerify-work', 'canRedirect-work', 'viewAllDepartment-work', 'viewPrice-work',
+        'viewAll-work', 'viewAny-work', 'view-work', 'create-work', 'update-work', 'delete-work', 'canVerify-work', 'canRedirect-work', 'viewAllDepartment-work', 'viewPrice-work', 'editPrice-work',
     ],
 
     /*

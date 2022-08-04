@@ -362,7 +362,7 @@
 
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     @foreach(\App\Models\Service::serviceParameters() as $param)
-                        <td class="update" data-name="{{$param['data']->getAttribute('id')}}" data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
+                        <td @if(auth()->user()->hasPermission('editPrice-work')) class="update" @endif data-name="{{$param['data']->getAttribute('id')}}" data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
                         @php
                             if($param['count']){ // check if parameter is countable
                                 $count = (int) $work->getParameter($param['data']->getAttribute('id'));
