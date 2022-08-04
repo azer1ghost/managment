@@ -92,10 +92,13 @@
                 <p class="text-muted mb-2">@lang('translates.fields.passport')</p>
                 <hr class="my-2">
             </div>
-            <x-form-group :label="__('translates.fields.serial')"  class="pr-3 col-12 col-lg-6">
+            <x-form-group :label="__('translates.fields.serial')"  class="col-3 col-lg-1">
                 <x-form-select name="serial_pattern" :options="$serial_pattern"  />
             </x-form-group>
-            <x-form-group  class="pr-3 col-12 col-lg-6">
+            <x-form-group :label="__('translates.fields.serial')"  class="pr-3 col-12 col-lg-3">
+                <x-form-input name="serial"   label="" />
+            </x-form-group>
+            <x-form-group  class="pr-3 col-12 col-lg-3">
                 <x-form-input name="fin"   label="FIN" />
             </x-form-group>
             <div class="form-group col-12 col-md-2">
