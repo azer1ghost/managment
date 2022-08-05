@@ -312,8 +312,9 @@ class WorkController extends Controller
     {
         if ($request->ajax()) {
             $work = Work::find($request->pk);
-
-            $work->update([$request->name => (string)$request->value]);
+            if ($request->name) {
+            $work->update([$request->name => $request->value]);
+            }
             $work->parameters()->updateExistingPivot($request->name, ['value' => $request->value]);
 
             return response()->json(['success' => true]);
