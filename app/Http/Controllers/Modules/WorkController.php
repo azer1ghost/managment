@@ -314,7 +314,7 @@ class WorkController extends Controller
             $work = Work::find($request->pk);
 
             $work->update([$request->name => (string)$request->value]);
-//            $work->parameters()->updateExistingPivot($request->name, ['value' => $request->value]);
+            $work->parameters()->updateExistingPivot($request->name, ['value' => $request->value]);
 
             return response()->json(['success' => true]);
         }
