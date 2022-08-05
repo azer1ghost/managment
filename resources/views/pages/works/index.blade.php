@@ -258,7 +258,7 @@
                 <th><input type="checkbox" id="works-all"></th>
             @endif
 
-            @if(auth()->user()->hasPermission('editPrice-work') )
+            @if(auth()->user()->hasPermission('viewPrice-work') )
                 <th scope="col">E-Qaimə</th>
             @endif
             @if(\App\Models\Work::userCanViewAll())
@@ -308,7 +308,7 @@
                 @elseif(auth()->user()->hasPermission('canVerify-work'))
                     <td></td>
                 @endif
-                @if(auth()->user()->hasPermission('editPrice-work'))
+                @if(auth()->user()->hasPermission('viewPrice-work'))
                     <th class="update" data-name="code" data-pk="{{ $work->getAttribute('id') }}" scope="row">{{$work->getAttribute('code')}}</th>
                 @endif
                 @if(\App\Models\Work::userCanViewAll())
