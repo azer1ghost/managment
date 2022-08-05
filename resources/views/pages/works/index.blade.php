@@ -259,7 +259,7 @@
             @endif
 
             @if(auth()->user()->hasPermission('editPrice-work') )
-                <th scope="col">#</th>
+                <th scope="col">E-Qaimə</th>
             @endif
             @if(\App\Models\Work::userCanViewAll())
                 <th scope="col">@lang('translates.columns.department')</th>
