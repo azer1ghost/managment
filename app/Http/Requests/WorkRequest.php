@@ -9,6 +9,7 @@ class WorkRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'code' => 'nullable|string',
             'detail' => 'nullable|string',
             'user_id' => 'nullable|integer',
             'department_id' => 'nullable|integer',

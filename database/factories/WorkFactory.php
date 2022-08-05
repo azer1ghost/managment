@@ -28,7 +28,7 @@ class WorkFactory extends Factory
     public function definition(): array
     {
         return [
-            'code' => Work::generateCustomCode(),
+            'code' => rand(1,10),
             'status' => rand(1,4),
             'detail' => $this->faker->text('160'),
             'user_id' => User::inRandomOrder()->pluck('id')->first(),

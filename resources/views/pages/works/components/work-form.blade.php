@@ -16,7 +16,13 @@
     <div class=" row my-5">
         <div class="form-group col-12">
             <div class="row m-0">
-                <div class="form-group col-12 col-md-6" wire:ignore>
+                    @if(auth()->user()->hasPermission('viewPrice-work'))
+                        <div class="form-group col-12 col-md-3">
+                            <label for="e-invoice">E-qaimə</label>
+                            <input value="{{optional($data)->getAttribute('code')}}" type="text" name="code" id="invoice" class="form-control" placeholder="E-qaimə nömrəsi daxil edin">
+                        </div>
+                    @endif
+                    <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
                     <div class="d-flex align-items-center">
                         <select name="client_id" @if(auth()->user()->isSales()) disabled @endif id="data-client-type" data-url="{{route('clients.search')}}" class="custom-select2" style="width: 100% !important;" required>
@@ -141,7 +147,7 @@
                         @case('text')
                             <div class="form-group col-12 col-md-3" wire:ignore>
                                 <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
-                                <input @if(auth()->user()->isSales()) readonly @endif  type="text" data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
+                                <input @if(auth()->user()->isSales()) readonly @endif  type="text" data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters parameters[{{$parameter->id}}]" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
                             </div>
                             @break
                         @case('number')

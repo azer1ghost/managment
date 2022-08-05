@@ -258,10 +258,9 @@
                 <th><input type="checkbox" id="works-all"></th>
             @endif
 
-            @if(auth()->user()->isDeveloper())
+            @if(auth()->user()->hasPermission('editPrice-work') )
                 <th scope="col">#</th>
             @endif
-            <th scope="col">@lang('translates.columns.created_by')</th>
             @if(\App\Models\Work::userCanViewAll())
                 <th scope="col">@lang('translates.columns.department')</th>
             @endif
@@ -309,13 +308,9 @@
                 @elseif(auth()->user()->hasPermission('canVerify-work'))
                     <td></td>
                 @endif
-
-
-
-                @if(auth()->user()->isDeveloper())
+                @if(auth()->user()->hasPermission('editPrice-work'))
                     <th scope="row">{{$work->getAttribute('code')}}</th>
                 @endif
-                <td>{{$work->getRelationValue('creator')->getAttribute('fullname')}}</td>
                 @if(\App\Models\Work::userCanViewAll())
                     <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
                 @endif

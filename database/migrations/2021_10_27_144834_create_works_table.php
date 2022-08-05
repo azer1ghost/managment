@@ -15,7 +15,7 @@ class CreateWorksTable extends Migration
     {
         Schema::create('works', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->nullable()->unique();
+            $table->string('code')->nullable();
             $table->string('custom_asan')->nullable();
             $table->text('detail')->nullable();
             $table->integer('status')->nullable();

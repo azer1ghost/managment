@@ -26,7 +26,6 @@ class WorkObserver
     public function creating(Work $work)
     {
         $work->setAttribute('status', $work::PENDING);
-        $work->setAttribute('code', $work::generateCustomCode());
     }
 
     public function created(Work $work)

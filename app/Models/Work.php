@@ -39,6 +39,7 @@ class Work extends Model implements DocumentableInterface, Recordable
     const VATPAYMENT = 36;
 
     protected $fillable = [
+        'code',
         'detail',
         'creator_id',
         'user_id',
@@ -176,17 +177,5 @@ class Work extends Model implements DocumentableInterface, Recordable
     public function scopeWorksDone($query)
     {
         return $query->where('status', self::DONE);
-    }
-
-    public static function generateCustomCode($prefix = 'MGW', $digits = 8): string
-    {
-        do {
-            $code = $prefix . str_pad(rand(0, pow(10, $digits) - 1), $digits, '0', STR_PAD_LEFT);
-            if (! self::select('code')->withTrashed()->whereCode($code)->exists()) {
-                break;
-            }
-        } while (true);
-
-        return $code;
     }
 }
