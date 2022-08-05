@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use App\Models\{Company, Department, Service, User, Work};
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use function PHPUnit\Framework\stringContains;
 
 class WorkController extends Controller
 {
@@ -311,7 +312,8 @@ class WorkController extends Controller
     {
         if ($request->ajax()) {
             $work = Work::find($request->pk);
-            $work->update([$request->name => $request->value]);
+
+            $work->update([$request->name => (string)$request->value]);
             $work->parameters()->updateExistingPivot($request->name, ['value' => $request->value]);
 
             return response()->json(['success' => true]);
