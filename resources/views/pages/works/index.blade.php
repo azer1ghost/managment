@@ -309,7 +309,7 @@
                     <td></td>
                 @endif
                 @if(auth()->user()->hasPermission('editPrice-work'))
-                    <th scope="row">{{$work->getAttribute('code')}}</th>
+                    <th class="update" data-name="code" data-pk="{{ $work->getAttribute('id') }}" scope="row">{{$work->getAttribute('code')}}</th>
                 @endif
                 @if(\App\Models\Work::userCanViewAll())
                     <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
