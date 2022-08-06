@@ -196,6 +196,9 @@
                 @if(!is_null($data) && !is_null(optional($data)->getAttribute('vat_date')))
                     <x-input::text wire:ignore name="vat_date"  readonly :label="__('translates.fields.vat_paid_at')" value="{{$data->getAttribute('vat_date')->format('Y-m-d H:i')}}" width="3" class="pr-3" />
                 @endif
+                @if(!is_null($data))
+                    <x-input::text wire:ignore name="invoiced_date"  readonly :label="__('translates.fields.invoiced_date')" value="{{optional($data->getAttribute('invoiced_date'))->format('Y-m-d H:i')}}" width="3" class="pr-3" />
+                @endif
                 @if(auth()->user()->hasPermission('canVerify-work') && $method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Work::DONE)
                     <div class="col-12" wire:ignore>
                         <input type="checkbox" @if(auth()->user()->isSales()) disabled @endif  id="data-verified" name="verified" @if(!is_null(optional($data)->getAttribute('verified_at'))) checked @endif>

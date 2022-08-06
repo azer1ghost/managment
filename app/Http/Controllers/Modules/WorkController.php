@@ -59,6 +59,8 @@ class WorkController extends Controller
             'vat_date' => $request->get('vat_date'),
             'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
             'datetime' => $request->get('datetime') ?? $startOfMonth . ' - ' . $endOfMonth,
+            'invoiced_date' => $request->get('invoiced_date') ?? $startOfMonth . ' - ' . $endOfMonth,
+
         ];
 
         if(Work::userCanViewAll() || Work::userCanViewDepartmentWorks()){
@@ -70,6 +72,7 @@ class WorkController extends Controller
             'created_at' => $request->has('check-created_at'),
             'paid_at' => $request->has('check-paid_at'),
             'vat_date' => $request->has('check-vat_paid_at'),
+            'invoiced_date' => $request->has('check-invoiced_date')
         ];
 
         $usersQuery = User::has('works')->with('position', 'role')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id']);

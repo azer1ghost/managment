@@ -72,6 +72,7 @@ return [
         'date' => 'Date',
         'paid_at' => 'Paid Date',
         'vat_paid_at' => 'VAT Paid Date',
+        'invoiced_date' => 'Invoice Date',
         'time' => 'Time',
         'company' => 'Company',
         'clientName' => 'Client Name',

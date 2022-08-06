@@ -73,6 +73,7 @@ return [
         'created_at'=>'Yaranma Tarixi',
         'paid_at'=>'Ödənmə Tarixi',
         'vat_paid_at'=>'ƏDV Ödənmə Tarixi',
+        'invoiced_date'=>'E-Qaimə Tarixi',
         'time' => 'Vaxt',
         'company' => 'Şirkət',
         'clientName' => 'Müştəri Adı',

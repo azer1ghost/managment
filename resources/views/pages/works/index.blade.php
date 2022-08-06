@@ -163,6 +163,11 @@
                             <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly name="paid_at" value="{{$filters['paid_at']}}">
                             <input type="checkbox" name="check-paid_at" id="check-paid_at" @if(request()->has('check-paid_at')) checked @endif> <label for="check-paid_at">@lang('translates.filters.filter_by')</label>
                         </div>
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="datetimeFilter">{{trans('translates.fields.invoiced_date')}}</label>
+                            <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly name="invoiced_date" value="{{$filters['invoiced_date']}}">
+                            <input type="checkbox" name="check-invoiced_date" id="check-invoiced_date" @if(request()->has('check-invoiced_date')) checked @endif> <label for="check-invoiced_date">@lang('translates.filters.filter_by')</label>
+                        </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="datetimeFilter">{{trans('translates.fields.vat_paid_at')}}</label>
@@ -284,6 +289,7 @@
             <th scope="col">@lang('translates.fields.created_at')</th>
             <th scope="col">@lang('translates.fields.date')</th>
             <th scope="col">@lang('translates.fields.paid_at')</th>
+            <th scope="col">@lang('translates.fields.invoiced_date')</th>
             <th scope="col">@lang('translates.columns.verified')</th>
             <th scope="col"></th>
         </tr>
@@ -384,6 +390,7 @@
                 <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('created_at'))->diffForHumans()}}</td>
                 <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip">{{optional($work->getAttribute('datetime'))->format('Y-m-d')}}</td>
                 <td title="{{$work->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
+                <td title="{{$work->getAttribute('invoiced_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
                 <td>
                     @php
                         $status = '';
