@@ -29,9 +29,9 @@
                 <div class="col-12">
                     <div class="row m-0">
                         <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">
-                            <label for="codeFilter">{{__('translates.filters.code')}}</label>
+                            <label for="codeFilter">Qaimə nömrəsinə görə axtarış</label>
                             <input type="search" id="codeFilter" name="code" value="{{$filters['code']}}"
-                                   placeholder="{{__('translates.placeholders.code')}}" class="form-control">
+                                   placeholder="E-qaimə" class="form-control">
                         </div>
 
                         @if(\App\Models\Work::userCanViewAll())

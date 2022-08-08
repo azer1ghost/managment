@@ -326,6 +326,7 @@ class WorkController extends Controller
             $work = Work::find($request->pk);
 
             $work->update([$request->name => $request->value]);
+            $work->update(['invoiced_date' => now()]);
 
             return response()->json(['success' => true]);
         }
