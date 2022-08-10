@@ -44,6 +44,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\UpdateController,
     Modules\UserController,
     Modules\WidgetController,
+    Modules\ChatController,
     Modules\WorkController};
 use App\Http\Middleware\Localization;
 use App\Services\FirebaseApi;
@@ -156,6 +157,8 @@ Route::group([
     Route::resource('/customer-engagement', CustomerEngagementController::class);
     Route::resource('/documents', DocumentController::class)->except('store');
     Route::post('/documents/{modelId}', [DocumentController::class, 'store'])->name('documents.store');
+    Route::get('/chats', [ChatController::class, 'index'])->name('chats.index');
+
 
     // resultable routes
     Route::post('/results/{modelId}', [ResultController::class, 'store'])->name('results.store');

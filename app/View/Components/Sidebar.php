@@ -329,6 +329,13 @@ class Sidebar extends Component
                 'url' => route('documents.index'),
                 'permission' => 'viewAny-document',
             ],
+
+            (object)[
+                'title' => 'Chat',
+                'icon' => 'fab fa-rocketchat',
+                'url' => route('chats.index'),
+                'permission' => 'generally',
+            ],
         ];
     }
 
