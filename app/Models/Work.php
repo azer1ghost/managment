@@ -64,7 +64,7 @@ class Work extends Model implements DocumentableInterface, Recordable
 
     public function getMainColumn(): string
     {
-        return $this->getAttribute('code');
+        return $this->get->getRelationValue('department')->getAttribute('name');
     }
 
     public function creator(): BelongsTo
