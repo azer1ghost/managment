@@ -39,6 +39,7 @@ class Client extends Model implements DocumentableInterface, Recordable
         'detail',
         'client_id',
         'satisfaction',
+        'company_id',
     ];
 
     public function clients(): HasMany
@@ -74,6 +75,10 @@ class Client extends Model implements DocumentableInterface, Recordable
     public function salesUsers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'sales_clients_relationship');
+    }
+    public function companies(): BelongsToMany
+    {
+        return $this->belongsToMany(Company::class, 'clients_companies_relationship');
     }
 
     public function client(): BelongsTo

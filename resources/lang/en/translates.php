@@ -29,6 +29,7 @@ return [
         'or' => "Filter by :first, :second or :third",
         'filter_by' => 'Filter by',
         'free_clients' => 'Free clients',
+        'free_company' => 'Free Company',
         'type' => 'Type',
     ],
 
@@ -522,7 +523,9 @@ return [
         'voen_empty' => 'VOEN is empty',
         'add_representative' => 'Add a representative',
         'selectUser' => 'Select Sales Users',
-        'assignUser' => 'Assign sales users'
+        'assignUser' => 'Assign sales users',
+        'assignCompany' => 'Assign Companies',
+        'selectCompany' => 'Select Company'
 
     ],
 

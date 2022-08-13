@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use App\Interfaces\ClientRepositoryInterface;
 use App\Models\Client;
+use App\Models\Company;
 use App\Models\Department;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -71,6 +72,8 @@ class ClientController extends Controller
             'free_clients' => $request->has('free_clients'),
             'check-created_at' => $request->has('check-created_at'),
             'created_at' => $createdTime,
+            'company' => $request->get('company'),
+            'free_company' => $request->get('free_company')
         ];
         $clients = $this->clientRepository->allFilteredClients($filters)->latest();
         if(is_numeric($filters['limit'])) {
@@ -90,6 +93,7 @@ class ClientController extends Controller
                 'clients' => $clients,
                 'salesUsers' => User::isActive()->where('department_id', Department::SALES)->get(['id', 'name', 'surname']),
                 'salesClients' => User::isActive()->has('salesClients')->get(['id', 'name', 'surname']),
+                'companies' => Company::get(['id','name']),
                 'satisfactions' => Client::satisfactions()
             ]);
 
@@ -174,6 +178,22 @@ class ClientController extends Controller
 
         return response('OK');
     }
+    public function sumAssignCompanies(Request $request)
+    {
+        $err = 0;
+        foreach (explode(',', $request->get('clients')) as $client) {
+            if(!Client::find($client)->companies()->sync($request->get('companies'))){
+                $err = 400;
+            }
+        }
+
+        if ($err == 400) {
+            return response()->setStatusCode('204');
+        }
+
+        return response('OK');
+    }
+
 
     public function destroy(Client $client)
     {

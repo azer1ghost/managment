@@ -54,6 +54,25 @@
                         </div>
                     </div>
                 @endif
+                @if(\App\Models\Client::userCanViewAll())
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <select id="data-sales-company" name="company"  class="filterSelector form-control" data-selected-text-format="count"
+                                    data-width="fit" title="@lang('translates.clients.selectCompany')">
+                                @foreach($companies as $company)
+                                    <option
+                                        @if($filters['company'] == $company->getAttribute('id')) selected @endif  value="{{$company->getAttribute('id')}}">
+                                        {{$company->getAttribute('name')}}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <div class="form-group ml-2">
+                                <input name="free_company" @if($filters['free_company']) checked @endif type="checkbox" id="exampleCheck2">
+                                <label class="form-check-label" for="exampleCheck2">@lang('translates.filters.free_company')</label>
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 @if(auth()->user()->hasPermission('satisfactionMeasure-client'))
                     <div class="form-group col-md-4">
                         <label class="d-block" for="satisfactionFilter">{{trans('translates.general.satisfaction')}}</label>
@@ -110,11 +129,12 @@
                                     <th> </th>
                                 @endif
                             <th scope="col">@lang('translates.columns.type')</th>
-                            <th scope="col">@lang('translates.columns.full_name')</th>
-                            <th scope="col">@lang('translates.fields.detail')</th>
-                            <th scope="col">@lang('translates.columns.email')</th>
-                            <th scope="col">@lang('translates.columns.phone')</th>
-                            <th scope="col">VOEN/GOOEN</th>
+                                <th scope="col">@lang('translates.columns.company')</th>
+                                <th scope="col">@lang('translates.columns.full_name')</th>
+                                <th scope="col">@lang('translates.fields.detail')</th>
+                                <th scope="col">@lang('translates.columns.email')</th>
+                                <th scope="col">@lang('translates.columns.phone')</th>
+                                <th scope="col">VOEN/GOOEN</th>
                             <th scope="col">@lang('translates.columns.actions')</th>
                         </tr>
                         </thead>
@@ -155,11 +175,12 @@
                                         @endif
                                     @endif
                                 <td>@lang("translates.clients_type." . $client->getAttribute('type'))</td>
-                                <td><label for="data-checkbox-{{$client->getAttribute('id')}}">{{$client->getAttribute('fullname')}}</label></td>
-                                <td>{{$client->getAttribute('detail') ? $client->getAttribute('detail') : trans('translates.clients.detail_empty') }} </td>
-                                <td>{{$client->getAttribute('email1') ? $client->getAttribute('email1') : trans('translates.clients.email_empty')}} </td>
-                                <td>{{$client->getAttribute('phone1') ? $client->getAttribute('phone1') : trans('translates.clients.phone_empty')}} </td>
-                                <td>{{$client->getAttribute('voen') ? $client->getAttribute('voen') : trans('translates.clients.voen_empty')}} </td>
+                                    <td>@foreach($client->companies as $company) {{$company->getAttribute('name')}} @if(!$loop->last),@endif @endforeach</td>
+                                    <td><label for="data-checkbox-{{$client->getAttribute('id')}}">{{$client->getAttribute('fullname')}}</label></td>
+                                    <td>{{$client->getAttribute('detail') ? $client->getAttribute('detail') : trans('translates.clients.detail_empty') }} </td>
+                                    <td>{{$client->getAttribute('email1') ? $client->getAttribute('email1') : trans('translates.clients.email_empty')}} </td>
+                                    <td>{{$client->getAttribute('phone1') ? $client->getAttribute('phone1') : trans('translates.clients.phone_empty')}} </td>
+                                    <td>{{$client->getAttribute('voen') ? $client->getAttribute('voen') : trans('translates.clients.voen_empty')}} </td>
                                 <td>
                                     <div class="btn-sm-group">
                                         @can('view', $client)
@@ -205,6 +226,9 @@
         <button type="button" class="btn btn-outline-primary" id="sum-assign-sales" data-toggle="modal" data-target="#sum-assign-modal">
             @lang('translates.clients.assignUser')
         </button>
+        <button type="button" class="btn btn-outline-primary" id="sum-assign-companies" data-toggle="modal" data-target="#sum-assign-modal-companies">
+            @lang('translates.clients.assignCompany')
+        </button>
         <div class="modal fade" id="sum-assign-modal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -235,6 +259,38 @@
                 </div>
             </div>
         </div>
+            <div class="modal fade" id="sum-assign-modal-companies" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{route('clients.sum.assign-companies')}}" method="POST" id="sum-assign-form-companies">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Assign Company</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="data-companies">Select Company</label><br/>
+                                    <select id="data-companies" name="companies[]" multiple required class="filterSelector form-control" data-selected-text-format="count"
+                                            data-width="fit" title="@lang('translates.filters.select')">
+                                        @foreach($companies as $company)
+                                            <option value="{{$company->getAttribute('id')}}">{{$company->getAttribute('name')}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
+                            <button type="submit" class="btn btn-primary">@lang('translates.buttons.save')</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @endif
 @endsection
 @section('scripts')
@@ -246,11 +302,13 @@
                 clientsCheckbox.map(function () {
                     $(this).prop('checked', true)
                 });
+                $('#sum-assign-companies').attr('disabled', false);
                 $('#sum-assign-sales').attr('disabled', false);
             } else {
                 clientsCheckbox.map(function () {
                     $(this).prop('checked', false)
                 });
+                $('#sum-assign-companies').attr('disabled', true);
                 $('#sum-assign-sales').attr('disabled', true);
             }
         });
@@ -271,8 +329,10 @@
             });
             if (hasOneChecked) {
                 $('#sum-assign-sales').attr('disabled', false);
+                $('#sum-assign-companies').attr('disabled', false);
             } else {
                 $('#sum-assign-sales').attr('disabled', true);
+                $('#sum-assign-companies').attr('disabled', true);
             }
         }
 
@@ -293,6 +353,60 @@
                 type: "POST",
                 url: '{{route('clients.sum.assign-sales')}}',
                 data: $('#sum-assign-form').serialize() + "&" + params.toString(),
+                success: function() {
+                    $.confirm({
+                        title: 'Successful',
+                        icon: 'fa fa-check',
+                        type: 'blue',
+                        typeAnimated: true,
+                        autoClose: 'reload|3000',
+                        theme: 'modern',
+                        buttons: {
+                            reload: {
+                                text: 'Ok',
+                                btnClass: 'btn-blue',
+                                keys: ['enter'],
+                                action: function(){
+                                    window.location.reload()
+                                }
+                            }
+                        }
+                    });
+                },
+                error: function (err) {
+                    $.confirm({
+                        title: 'Ops something went wrong!',
+                        content: err?.responseJSON,
+                        type: 'red',
+                        typeAnimated: true,
+                        buttons: {
+                            close: {
+                                text: 'Close',
+                                btnClass: 'btn-blue',
+                                keys: ['enter'],
+                            }
+                        }
+                    });
+                }
+            });
+        });
+        $('#sum-assign-form-companies').submit(function (e){
+            e.preventDefault();
+            const checkedClients = [];
+            $("input[name='clients[]']:checked").each(function(){
+                checkedClients.push($(this).val());
+            });
+
+            const params = new URLSearchParams({
+                clients: checkedClients,
+            });
+
+            $('#sum-assign-modal-companies').modal('hide');
+
+            $.ajax({
+                type: "POST",
+                url: '{{route('clients.sum.assign-companies')}}',
+                data: $('#sum-assign-form-companies').serialize() + "&" + params.toString(),
                 success: function() {
                     $.confirm({
                         title: 'Successful',

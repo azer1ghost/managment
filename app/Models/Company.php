@@ -73,4 +73,8 @@ class Company extends Model implements Recordable
     {
         return $this->hasMany(AsanImza::class);
     }
+    public function clients(): BelongsToMany
+    {
+        return $this->belongsToMany(Client::class, 'clients_companies_relationship');
+    }
 }

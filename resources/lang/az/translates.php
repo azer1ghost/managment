@@ -29,6 +29,7 @@ return [
         'or' => ":first, :second və ya :third filtrləyin",
         'filter_by' => 'Filterlə',
         'free_clients' => 'Boş müştərilər',
+        'free_company' => 'Boş Şirkət',
         'sales_activities_type' => 'Satış Fəaliyyətinə Görə Filterləyin',
         'type' => 'Növü',
     ],
@@ -524,6 +525,7 @@ return [
         'voen_empty' => 'VOEN yoxdur',
         'add_representative' => 'Nümayəndə əlavə et',
         'selectUser' => 'Satış İstifadəçisi Seç',
+        'selectCompany' => 'Şirkət Seçin'
     ],
 
     'clients_type' => [
