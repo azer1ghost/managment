@@ -34,7 +34,6 @@ class ClientRequest extends FormRequest
             'client_id'       => 'nullable|integer',
             'detail'          => 'nullable|string',
             'satisfaction'   =>  'nullable|integer',
-            'company_id'     => 'nullable|integer',
         ];
     }
 }
