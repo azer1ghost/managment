@@ -159,6 +159,8 @@ Route::group([
     Route::resource('/documents', DocumentController::class)->except('store');
     Route::post('/documents/{modelId}', [DocumentController::class, 'store'])->name('documents.store');
     Route::get('/chats', [ChatController::class, 'index'])->name('chats.index');
+    Route::get('/message/{id}', [ChatController::class, 'message'])->name('message');
+    Route::post('/message', [ChatController::class, 'sendMessage']);
 
 
     // resultable routes

@@ -89,6 +89,7 @@
     <x-notify/>
 
     @auth
+        <script src="https://js.pusher.com/7.1/pusher.min.js"></script>
         <script>
             $(document).ready(function (){
                 // Tiny MCE
@@ -169,5 +170,97 @@
             });
         </script>
     @endauth
+<script>
+        $("#search-project").keyup(function () {
+            var filter = $(this).val();
+            $(".chat-list li").each(function () {
+                if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+                    $(this).addClass('hidden');
+                } else {
+                    $(this).removeClass('hidden');
+                }
+            });
+        });
+
+    //chat system
+    var reciever_id = '';
+    var my_id = '{{Auth::id()}}';
+    $(document).ready(function () {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        })
+
+        var pusher = new Pusher('5e68408656b975a4e1e4', {
+            cluster: 'mt1'
+        });
+
+        var channel = pusher.subscribe('my-channel');
+        channel.bind('my-event', function (data) {
+            if (my_id == data.from) {
+                $('#' + data.to).click()
+            } else if (my_id == data.to) {
+                if (reciever_id == data.from) {
+                    $('#' + data.from).click()
+                } else {
+                    var pendinghtml = $('#' + data.from).find('.pending').html()
+                    var pending = parseInt(pendinghtml.replace(/[^0-9.]/g, ""));
+                    console.log(pending)
+                    if (pending) {
+                        $('#' + data.from).find('.pending').html(pending + 1)
+                    } else {
+                        $('#' + data.from).append('<span class="pending">sad1</span>');
+                    }
+                }
+            }
+        });
+
+        $('.user').click(function () {
+            $('.user').removeClass('active');
+            $(this).addClass('active');
+            $(this).find('.pending').remove();
+            reciever_id = $(this).attr('id')
+            $.ajax({
+                type: 'get',
+                url: 'message/' + reciever_id,
+                data: '',
+                cache: false,
+                success: function (data) {
+                    $('#messages').html(data);
+                    scrollToBottomFunc();
+                }
+            })
+        });
+
+        $(document).on('keyup', '.input-text input', function (e) {
+            var message = $(this).val();
+            if (e.keyCode == 13 && message != '' && reciever_id != '') {
+                $(this).val('')
+                var datastr = "reciever_id=" + reciever_id + "&message=" + message;
+                $.ajax({
+                    type: 'post',
+                    url: "message",
+                    data: datastr,
+                    cache: false,
+                    success: function ($data) {
+                    },
+                    error: function (jqXHR, status, err) {
+                    },
+                    complete: function () {
+                        scrollToBottomFunc()
+                    }
+                })
+            }
+        });
+    });
+
+    function scrollToBottomFunc() {
+        $('.message-wrapper').animate({
+            scrollTop: $('.message-wrapper').get(0).scrollHeight
+        },50);
+        $('.chat-input').focus()
+    }
+</script>
 </body>
 </html>
