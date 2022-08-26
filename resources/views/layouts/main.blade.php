@@ -187,7 +187,7 @@
     //chat system
     var reciever_id = '';
     var my_id = '{{Auth::id()}}';
-    $(document).ready(function () {
+    // $(document).ready(function () {
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -271,7 +271,7 @@
                 })
             }
         });
-    });
+    // });
 
     function scrollToBottomFunc() {
         $('.message-wrapper').animate({
