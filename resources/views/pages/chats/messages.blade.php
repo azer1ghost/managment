@@ -5,16 +5,16 @@
                 <img src="{{image($user->getAttribute('avatar'))}}" alt="avatar">
             </a>
             <div class="chat-about">
-                <h6 class="m-b-0">{{$user->getAttribute('name')}}</h6>
-                <small>Last seen: 2 hours ago</small>
+                <h6 class="m-b-0">{{$user->getAttribute('fullname')}}</h6>
+                <small>{{$user->getAttribute('fullname_with_position')}}</small>
             </div>
         </div>
-        <div class="col-lg-6 hidden-sm text-right">
-            <a href="javascript:void(0);" class="btn btn-outline-secondary"><i class="fa fa-camera"></i></a>
-            <a href="javascript:void(0);" class="btn btn-outline-primary"><i class="fa fa-image"></i></a>
-            <a href="javascript:void(0);" class="btn btn-outline-info"><i class="fa fa-cogs"></i></a>
-            <a href="javascript:void(0);" class="btn btn-outline-warning"><i class="fa fa-question"></i></a>
-        </div>
+{{--        <div class="col-lg-6 hidden-sm text-right">--}}
+{{--            <a href="javascript:void(0);" class="btn btn-outline-secondary"><i class="fa fa-camera"></i></a>--}}
+{{--            <a href="javascript:void(0);" class="btn btn-outline-primary"><i class="fa fa-image"></i></a>--}}
+{{--            <a href="javascript:void(0);" class="btn btn-outline-info"><i class="fa fa-cogs"></i></a>--}}
+{{--            <a href="javascript:void(0);" class="btn btn-outline-warning"><i class="fa fa-question"></i></a>--}}
+{{--        </div>--}}
     </div>
 </div>
 <div class="chat-history message-wrapper">
@@ -40,9 +40,9 @@
 </div>
 <div class="chat-message clearfix">
     <div class="input-group mb-0 input-text chat-text-entered">
-        <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fa fa-send"></i></span>
-        </div>
         <input type="text" class="chat-input input form-control" placeholder="">
+        <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-share"></i></span>
+        </div>
     </div>
 </div>

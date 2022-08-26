@@ -173,11 +173,13 @@
 <script>
         $("#search-project").keyup(function () {
             var filter = $(this).val();
-            $(".chat-list li").each(function () {
+            $(".searching-list").each(function () {
                 if ($(this).text().search(new RegExp(filter, "i")) < 0) {
                     $(this).addClass('hidden');
+                    $('.removing-list').addClass('hidden');
                 } else {
                     $(this).removeClass('hidden');
+                    $('.removing-list').removeClass('hidden');
                 }
             });
         });
@@ -198,6 +200,7 @@
 
         var channel = pusher.subscribe('my-channel');
         channel.bind('my-event', function (data) {
+
             if (my_id == data.from) {
                 $('#' + data.to).click()
             } else if (my_id == data.to) {
@@ -205,12 +208,21 @@
                     $('#' + data.from).click()
                 } else {
                     var pendinghtml = $('#' + data.from).find('.pending').html()
-                    var pending = parseInt(pendinghtml.replace(/[^0-9.]/g, ""));
+                    var pending = parseInt(pendinghtml?.replace(/[^0-9.]/g, ""));
+                    function playSound(url) {
+                        const audio = new Audio(url)
+                        audio.play()
+                    }
                     console.log(pending)
                     if (pending) {
                         $('#' + data.from).find('.pending').html(pending + 1)
+                        $('.unread' + data.from).css('display','block')
+                        playSound('{{asset('assets/audio/notify/message.wav')}}')
                     } else {
-                        $('#' + data.from).append('<span class="pending">sad1</span>');
+
+                        $('#' + data.from).append('<span class="pending">1</span>');
+                        $('.unread' + data.from).css('display','block')
+                        playSound('{{asset('assets/audio/notify/message.wav')}}')
                     }
                 }
             }
@@ -220,6 +232,7 @@
             $('.user').removeClass('active');
             $(this).addClass('active');
             $(this).find('.pending').remove();
+            $(this).find('.total-unread').css('display','none');
             reciever_id = $(this).attr('id')
             $.ajax({
                 type: 'get',
@@ -234,6 +247,10 @@
         });
 
         $(document).on('keyup', '.input-text input', function (e) {
+            function playSound(url) {
+                const audio = new Audio(url)
+                audio.play()
+            }
             var message = $(this).val();
             if (e.keyCode == 13 && message != '' && reciever_id != '') {
                 $(this).val('')
@@ -249,6 +266,7 @@
                     },
                     complete: function () {
                         scrollToBottomFunc()
+                        playSound('{{asset('assets/audio/notify/send.wav')}}')
                     }
                 })
             }

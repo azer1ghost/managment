@@ -353,8 +353,8 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
     {
         return $this->getAttribute('name');
     }
-    public function messages() :HasMany
+    public function chats() :HasMany
     {
-        return $this->hasMany(Chat::class, 'from');
+        return $this->hasMany(Chat::class, 'from')->orderBy('is_read');
     }
 }

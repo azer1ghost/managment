@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
-use App\Models\Chat;
-use App\Models\User;
+use App\Models\{Chat, User};
 use Illuminate\Http\Request;
 use Pusher\Pusher;
 
@@ -12,14 +11,28 @@ class ChatController extends Controller
 {
     public function index()
     {
-        $users = User::with('messages')->isActive()->where('id', '!=', auth()->id())->get();
+        $users = User::isActive()
+            ->where('id', '!=', auth()->id())
+            ->get();
+
+        $recentUsers = User::query()
+            ->isActive()
+            ->join('chats', 'chats.to', '=', 'users.id')
+            ->where('from',  '=', auth()->id())
+            ->orderBy('chats.is_read')
+            ->select('users.*')
+            ->get()
+            ->unique('name');
+
         return view('pages.chats.index')->with([
-            'users' => $users
+            'users' => $users,
+            'recentUsers' => $recentUsers,
         ]);
+
     }
     public function message($user_id)
     {
-        $user = User::find($user_id);
+        $user = User::with('position')->find($user_id);
         $my_id = auth()->id();
         Chat::where(['from' => $user_id, 'to' => $my_id])->update(['is_read' => 1]);
         $messages = Chat::where(function ($query) use ($user_id, $my_id) {
