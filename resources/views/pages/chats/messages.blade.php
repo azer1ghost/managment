@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-6">
             <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
-                <img src="{{image($user->getAttribute('avatar'))}}" alt="avatar">
+                <img src="{{image($user->getAttribute('avatar'))}}" alt="avatar" class="profile">
             </a>
             <div class="chat-about">
                 <h6 class="m-b-0">{{$user->getAttribute('fullname')}}</h6>
