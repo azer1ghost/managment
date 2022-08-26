@@ -27,7 +27,7 @@
                             <li class="removing-list" >Mesaj Göndərilənlər</li>
                             @foreach($recentUsers as $user)
                                 <li class="clearfix user removing-list" id="{{$user->getAttribute('id')}}">
-                                    <img src="{{image($user->getAttribute('avatar'))}}" loading="lazy" alt="avatar" style="height: 50px;width: 50px">
+                                    <img src="{{image($user->getAttribute('avatar'))}}" loading="lazy" alt="avatar" class="profile">
                                     <div class="about">
                                         <div class="name">{{$user->getAttribute('fullname')}}</div>
                                         <div>

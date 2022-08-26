@@ -13,6 +13,7 @@ class ChatController extends Controller
     {
         $users = User::isActive()
             ->where('id', '!=', auth()->id())
+            ->orderByDesc('order')
             ->get();
 
         $recentUsers = User::query()
