@@ -191,15 +191,15 @@
                             </select>
                         </div>
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="verifiedFilter">@lang('translates.columns.paid')</label>
-                            <select name="verified_at" id="verifiedFilter" class="form-control" style="width: 100% !important;">
+                            <label class="d-block" for="paidVerifiedFilter">@lang('translates.columns.paid')</label>
+                            <select name="paid_at" id="paidVerifiedFilter" class="form-control" style="width: 100% !important;">
                                 <option value="">@lang('translates.filters.select')</option>
-                                @foreach($priceVerifies as $key => $price)
+                                @foreach($priceVerifies as $key => $paid)
                                     <option
                                             value="{{$key}}"
                                             @if($key == $filters['paid_at']) selected @endif
                                     >
-                                        {{$price}}
+                                        {{$paid}}
                                     </option>
                                 @endforeach
                             </select>

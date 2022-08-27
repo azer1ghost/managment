@@ -53,6 +53,16 @@ class WorkRepository implements WorkRepositoryInterface {
                                     break;
                             }
                         }
+                        else if ($column == 'paid_at'){
+                            switch ($value){
+                                case 1:
+                                    $query->whereNull($column);
+                                    break;
+                                case 2:
+                                    $query->whereNotNull($column);
+                                    break;
+                            }
+                        }
                         else if($column == 'asan_imza_company_id'){
                             $query->whereHas('asanImza', function ($asanImzaQuery) use ($value) {
                                 $asanImzaQuery->whereHas('company', function ($companyQuery) use ($value) {
