@@ -40,6 +40,7 @@ class WorkController extends Controller
         $startOfMonth = now()->firstOfMonth()->format('Y/m/d');
         $endOfMonth = now()->format('Y/m/d');
 
+
         $departmentRequest = Work::userCannotViewAll() ?
             $user->getAttribute('department_id') :
                 $request->get('department_id');
@@ -70,7 +71,7 @@ class WorkController extends Controller
         $dateFilters = [
             'datetime' => $request->has('check-datetime'),
             'created_at' => $request->has('check-created_at'),
-            'paid_at' => $request->has('check-paid_at'),
+//            'paid_at_date' => $request->has('check-paid_at'),
             'vat_date' => $request->has('check-vat_paid_at'),
             'invoiced_date' => $request->has('check-invoiced_date')
         ];
@@ -97,9 +98,11 @@ class WorkController extends Controller
 
         $works = $this->workRepository->allFilteredWorks($filters, $dateFilters);
 
-//        if (!$request->has('check-created_at')){
-//            $works = $works->whereBetween('created_at', [Carbon::parse($startOfMonth)->startOfDay(), Carbon::parse($endOfMonth)->endOfDay()]);
-//        }
+        $paid_at_explode = explode(' - ', $request->get('paid_at_date'));
+
+        if ($request->has('check-paid_at')){
+            $works = $works->whereBetween('paid_at', [Carbon::parse($paid_at_explode[0])->startOfDay(), Carbon::parse($paid_at_explode[1])->endOfDay()]);
+        }
 
         if(is_numeric($limit)) {
             $works = $works->paginate($limit);

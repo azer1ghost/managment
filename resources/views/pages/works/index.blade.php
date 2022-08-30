@@ -160,7 +160,7 @@
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="datetimeFilter">{{trans('translates.fields.paid_at')}}</label>
-                            <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly name="paid_at" value="{{$filters['paid_at']}}">
+                            <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly name="paid_at_date" value="{{request()->get('paid_at_time')}}">
                             <input type="checkbox" name="check-paid_at" id="check-paid_at" @if(request()->has('check-paid_at')) checked @endif> <label for="check-paid_at">@lang('translates.filters.filter_by')</label>
                         </div>
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
@@ -182,10 +182,7 @@
                                 <option value="">@lang('translates.filters.select')</option>
                                 @foreach($verifies as $key => $verify)
                                     <option
-                                            value="{{$key}}"
-                                            @if($key == $filters['verified_at']) selected @endif
-                                    >
-                                        {{$verify}}
+                                        value="{{$key}}" @if($key == $filters['verified_at']) selected @endif>{{$verify}}
                                     </option>
                                 @endforeach
                             </select>
@@ -196,10 +193,7 @@
                                 <option value="">@lang('translates.filters.select')</option>
                                 @foreach($priceVerifies as $key => $paid)
                                     <option
-                                            value="{{$key}}"
-                                            @if($key == $filters['paid_at']) selected @endif
-                                    >
-                                        {{$paid}}
+                                        value="{{$key}}" @if($key == $filters['paid_at']) selected @endif>{{$paid}}
                                     </option>
                                 @endforeach
                             </select>
