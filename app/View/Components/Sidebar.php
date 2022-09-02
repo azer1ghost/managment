@@ -334,7 +334,7 @@ class Sidebar extends Component
                 'title' => 'Chat',
                 'icon' => 'fab fa-rocketchat',
                 'url' => route('chats.index'),
-                'permission' => 'signature',
+                'permission' => 'viewAny-task',
             ],
         ];
     }
