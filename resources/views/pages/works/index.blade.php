@@ -272,7 +272,7 @@
             </div>
         </div>
     @endif
-    <table class="table table-condensedtable-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;"  id="table">
+    <table class="table @if(auth()->user()->hasPermission('viewPrice-work')) @endif table-condensedtable-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;"  id="table">
         <thead>
         <tr class="text-center">
             @if(auth()->user()->hasPermission('canVerify-work'))
@@ -290,16 +290,14 @@
             <th scope="col">@lang('translates.navbar.service')</th>
             <th scope="col">@lang('translates.fields.clientName')</th>
             <th scope="col">Status</th>
-                @if(!auth()->user()->hasPermission('viewPrice-work'))
             <th scope="col">Gb Say</th>
             <th scope="col">Kod Say</th>
-                @endif
             @if(auth()->user()->hasPermission('viewPrice-work'))
 {{--            @foreach(\App\Models\Service::serviceParameters() as $param)--}}
 {{--                <th scope="col">{{$param['data']->getAttribute('label')}}</th>--}}
 {{--            @endforeach--}}
-                <th scope="col">@lang('translates.columns.sum_paid')</th>
-                <th scope="col">@lang('translates.columns.residue')</th>
+            <th scope="col">@lang('translates.columns.sum_paid')</th>
+            <th scope="col">@lang('translates.columns.residue')</th>
             @endif
             <th scope="col">@lang('translates.columns.verified')</th>
             <th scope="col"></th>
@@ -366,10 +364,8 @@
                          {{trans('translates.work_status.' . $work->getAttribute('status'))}}
                     </span>
                 </td>
-                    @if(!auth()->user()->hasPermission('viewPrice-work'))
                     <td>{{$work->getParameter($work::GB)}}</td>
                     <td>{{$work->getParameter($work::CODE)}}</td>
-                    @endif
                     @php
                         $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID) + $work->getAttribute('bank_charge');
                         $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) + $work->getParameter($work::ILLEGALAMOUNT) - $sum_payment) * -1;
@@ -512,10 +508,8 @@
                 <td colspan="@if(auth()->user()->isDeveloper()) 8 @elseif(auth()->user()->hasPermission('viewAll-work') || auth()->user()->hasPermission('canVerify-work'))  7 @else 6 @endif">
                     <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
                 </td>
-                @if(!auth()->user()->hasPermission('viewPrice-work'))
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{ $gb_count}}</strong></p></td>
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{ $code_count}}</strong></p></td>
-                @endif
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_total_payment}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_balance}}</strong></p></td>
