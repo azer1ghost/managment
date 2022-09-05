@@ -6,6 +6,14 @@
         .table td, .table th{
             vertical-align: middle !important;
         }
+        .table tr {
+            cursor: pointer;
+        }
+        .hiddenRow {
+            padding: 0 4px !important;
+            background-color: #eeeeee;
+            font-size: 13px;
+        }
     </style>
 @endsection
 
@@ -226,7 +234,7 @@
                 <p class="mb-0"> @lang('translates.total_items', ['count' => $works->count(), 'total' => is_numeric($filters['limit']) ? $works->total() : $works->count()])</p>
                 <div class="input-group col-md-6">
                     <select name="limit" class="custom-select" id="size">
-                        @foreach([25, 50, 100, 250, 500, 1000, trans('translates.general.all')] as $size)
+                        @foreach([25, 50, 100, 250, 500] as $size)
                             <option @if($filters['limit'] == $size) selected @endif value="{{$size}}">{{$size}}</option>
                         @endforeach
                     </select>
@@ -237,6 +245,14 @@
                 <div class="input-group">
                     <div class="d-flex align-items-center">
                         <a class="btn btn-outline-success  mr-2" data-toggle="modal" data-target="#report-work" >@lang('translates.navbar.report')</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3 pt-2 d-flex align-items-center">
+                <div class="input-group">
+                    <div class="d-flex align-items-center">
+                        <a class="btn btn-outline-success mr-2 hideButton" >@lang('translates.navbar.report')</a>
                     </div>
                 </div>
             </div>
@@ -264,7 +280,7 @@
             </div>
         </div>
     @endif
-    <table class="table table-responsive items @if($works->count()) table-responsive-md @else table-responsive-sm @endif " id="table">
+    <table class="table table-condensedtable-responsive items @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;"  id="table">
         <thead>
         <tr class="text-center">
             @if(auth()->user()->hasPermission('canVerify-work'))
@@ -316,7 +332,7 @@
                     $hasPending = true;
                 @endphp
             @endif
-            <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif data-toggle="tooltip" title="{{$work->getAttribute('code')}}">
+            <tr data-toggle="collapse" data-target="#demo{{$work->getAttribute('id')}}" class="accordion-toggle" @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}">
                 @if($work->isDone() && is_null($work->getAttribute('verified_at')) && auth()->user()->hasPermission('canVerify-work'))
                     <td><input type="checkbox" name="works[]" value="{{$work->getAttribute('id')}}"></td>
                 @elseif(auth()->user()->hasPermission('canVerify-work'))
@@ -364,35 +380,16 @@
                     </span>
                 </td>
                     @if(!auth()->user()->hasPermission('viewPrice-work'))
-
                     <td>{{$work->getParameter($work::GB)}}</td>
                     <td>{{$work->getParameter($work::CODE)}}</td>
                     @endif
-
-                @if(auth()->user()->hasPermission('viewPrice-work'))
-                    @foreach(\App\Models\Service::serviceParameters() as $param)
-                        <td @if(auth()->user()->hasPermission('editPrice-work')) class="update" @endif data-name="{{$param['data']->getAttribute('id')}}" data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
-                        @php
-                            if($param['count']){ // check if parameter is countable
-                                $count = (int) $work->getParameter($param['data']->getAttribute('id'));
-                                if(isset($totals[$param['data']->getAttribute('id')])){
-                                    $totals[$param['data']->getAttribute('id')] += $count;
-                                }else{
-                                    $totals[$param['data']->getAttribute('id')] = $count;
-                                }
-                            }else{
-                                $totals[$param['data']->getAttribute('id')] = NULL;
-                            }
-                        @endphp
-                    @endforeach
-                @endif
                     @php
                         $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID) + $work->getAttribute('bank_charge');
                         $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) + $work->getParameter($work::ILLEGALAMOUNT) - $sum_payment) * -1;
                     @endphp
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     <td class="font-weight-bold" data-toggle="tooltip">{{$sum_payment}}</td>
-                    <td class="font-weight-bold" @if($residue < 0) style="color:red" @endif data-toggle="tooltip">@if($residue < 0) {{$residue}} @else 0 @endif</td>
+                    <td  class="font-weight-bold" @if($residue < 0) style="color:red" @endif data-toggle="tooltip">@if($residue < 0) {{$residue}} @else 0 @endif</td>
                 @endif
                 <td title="{{$work->getAttribute('payment_method')}}" data-toggle="tooltip">{{trans('translates.payment_methods.' . $work->getAttribute('payment_method'))}}</td>
                 <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('created_at'))->diffForHumans()}}</td>
@@ -458,6 +455,31 @@
                                 @endcan
                             </div>
                         </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                @foreach(\App\Models\Service::serviceParameters() as $param)
+                    <th class="priceColumn" style="display: none" scope="col">{{$param['data']->getAttribute('label')}}</th>
+                @endforeach
+                <td colspan="6" class="hiddenRow">
+                    <div class="accordian-body collapse" id="demo{{$work->getAttribute('id')}}">
+                    @foreach(\App\Models\Service::serviceParameters() as $param)
+                        <p>{{$param['data']->getAttribute('label')}}</p>
+                        <p @if(auth()->user()->hasPermission('editPrice-work')) class="update"  @endif data-name="{{$param['data']->getAttribute('id')}}" data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</p>
+                        @php
+                            if($param['count']){ // check if parameter is countable
+                                $count = (int) $work->getParameter($param['data']->getAttribute('id'));
+                                if(isset($totals[$param['data']->getAttribute('id')])){
+                                    $totals[$param['data']->getAttribute('id')] += $count;
+                                }else{
+                                    $totals[$param['data']->getAttribute('id')] = $count;
+                                }
+                            }else{
+                                $totals[$param['data']->getAttribute('id')] = NULL;
+                            }
+                        @endphp
+                        @endforeach
                     </div>
                 </td>
             </tr>
@@ -745,8 +767,6 @@
         $('.update').editable({
             url: "{{ route('editable') }}",
         });
-
-
     </script>
 
-@endsection
+    @endsection
