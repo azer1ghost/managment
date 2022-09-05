@@ -303,9 +303,9 @@
             <th scope="col">Kod Say</th>
                 @endif
             @if(auth()->user()->hasPermission('viewPrice-work'))
-            @foreach(\App\Models\Service::serviceParameters() as $param)
-                <th scope="col">{{$param['data']->getAttribute('label')}}</th>
-            @endforeach
+{{--            @foreach(\App\Models\Service::serviceParameters() as $param)--}}
+{{--                <th scope="col">{{$param['data']->getAttribute('label')}}</th>--}}
+{{--            @endforeach--}}
                 <th scope="col">@lang('translates.columns.sum_paid')</th>
                 <th scope="col">@lang('translates.columns.residue')</th>
             @endif
@@ -459,28 +459,40 @@
                 </td>
             </tr>
             <tr>
-                @foreach(\App\Models\Service::serviceParameters() as $param)
-                    <th class="priceColumn" style="display: none" scope="col">{{$param['data']->getAttribute('label')}}</th>
-                @endforeach
-                <td colspan="6" class="hiddenRow">
+                <td colspan="99" class="hiddenRow">
                     <div class="accordian-body collapse" id="demo{{$work->getAttribute('id')}}">
-                    @foreach(\App\Models\Service::serviceParameters() as $param)
-                        <p>{{$param['data']->getAttribute('label')}}</p>
-                        <p @if(auth()->user()->hasPermission('editPrice-work')) class="update"  @endif data-name="{{$param['data']->getAttribute('id')}}" data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</p>
-                        @php
-                            if($param['count']){ // check if parameter is countable
-                                $count = (int) $work->getParameter($param['data']->getAttribute('id'));
-                                if(isset($totals[$param['data']->getAttribute('id')])){
-                                    $totals[$param['data']->getAttribute('id')] += $count;
-                                }else{
-                                    $totals[$param['data']->getAttribute('id')] = $count;
-                                }
-                            }else{
-                                $totals[$param['data']->getAttribute('id')] = NULL;
-                            }
-                        @endphp
-                        @endforeach
-                    </div>
+                        <table>
+                            <thead>
+                            <tr>
+                                @foreach(\App\Models\Service::serviceParameters() as $param)
+                                <td>{{$param['data']->getAttribute('label')}}</td>
+                                @endforeach
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr>
+                                @foreach(\App\Models\Service::serviceParameters() as $param)
+                                <td @if(auth()->user()->hasPermission('editPrice-work')) class="update"  @endif data-name="{{$param['data']->getAttribute('id')}}" data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
+                                    @php
+                                        if($param['count']){ // check if parameter is countable
+                                            $count = (int) $work->getParameter($param['data']->getAttribute('id'));
+                                            if(isset($totals[$param['data']->getAttribute('id')])){
+                                                $totals[$param['data']->getAttribute('id')] += $count;
+                                            }else{
+                                                $totals[$param['data']->getAttribute('id')] = $count;
+                                            }
+                                        }else{
+                                            $totals[$param['data']->getAttribute('id')] = NULL;
+                                        }
+                                    @endphp
+                                @endforeach
+                            </tr>
+                            </tbody>
+                        </table>
+
+                       </div>
+
                 </td>
             </tr>
             @php
