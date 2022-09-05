@@ -249,14 +249,6 @@
                 </div>
             </div>
 
-            <div class="col-sm-3 pt-2 d-flex align-items-center">
-                <div class="input-group">
-                    <div class="d-flex align-items-center">
-                        <a class="btn btn-outline-success mr-2 hideButton" >@lang('translates.navbar.report')</a>
-                    </div>
-                </div>
-            </div>
-
             @can('create', App\Models\Work::class)
                 <div class="col-sm-6 py-3">
                     <a class="btn btn-outline-success float-right" data-toggle="modal" data-target="#create-work">@lang('translates.buttons.create')</a>
@@ -280,7 +272,7 @@
             </div>
         </div>
     @endif
-    <table class="table table-condensedtable-responsive items @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;"  id="table">
+    <table class="table table-condensedtable-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;"  id="table">
         <thead>
         <tr class="text-center">
             @if(auth()->user()->hasPermission('canVerify-work'))
@@ -309,11 +301,6 @@
                 <th scope="col">@lang('translates.columns.sum_paid')</th>
                 <th scope="col">@lang('translates.columns.residue')</th>
             @endif
-            <th scope="col">@lang('translates.general.payment_method')</th>
-            <th scope="col">@lang('translates.fields.created_at')</th>
-            <th scope="col">@lang('translates.fields.date')</th>
-            <th scope="col">@lang('translates.fields.paid_at')</th>
-            <th scope="col">@lang('translates.fields.invoiced_date')</th>
             <th scope="col">@lang('translates.columns.verified')</th>
             <th scope="col"></th>
         </tr>
@@ -391,12 +378,7 @@
                     <td class="font-weight-bold" data-toggle="tooltip">{{$sum_payment}}</td>
                     <td  class="font-weight-bold" @if($residue < 0) style="color:red" @endif data-toggle="tooltip">@if($residue < 0) {{$residue}} @else 0 @endif</td>
                 @endif
-                <td title="{{$work->getAttribute('payment_method')}}" data-toggle="tooltip">{{trans('translates.payment_methods.' . $work->getAttribute('payment_method'))}}</td>
-                <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('created_at'))->diffForHumans()}}</td>
-                <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip">{{optional($work->getAttribute('datetime'))->format('Y-m-d')}}</td>
-                <td title="{{$work->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
-                <td title="{{$work->getAttribute('invoiced_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
-                <td>
+               <td>
                     @php
                         $status = '';
                         if(is_null($work->getAttribute('verified_at')) && $work->status == \App\Models\Work::DONE){
@@ -465,11 +447,16 @@
                             <thead>
                             <tr>
                                 @foreach(\App\Models\Service::serviceParameters() as $param)
-                                <td>{{$param['data']->getAttribute('label')}}</td>
+                                    <th>{{$param['data']->getAttribute('label')}}</th>
                                 @endforeach
+                                    <th scope="col">@lang('translates.general.payment_method')</th>
+                                    <th scope="col">@lang('translates.fields.created_at')</th>
+                                    <th scope="col">@lang('translates.fields.date')</th>
+                                    <th scope="col">@lang('translates.fields.paid_at')</th>
+                                    <th scope="col">@lang('translates.fields.invoiced_date')</th>
+
                             </tr>
                             </thead>
-
                             <tbody>
                             <tr>
                                 @foreach(\App\Models\Service::serviceParameters() as $param)
@@ -487,10 +474,15 @@
                                         }
                                     @endphp
                                 @endforeach
+                                    <td title="{{$work->getAttribute('payment_method')}}" data-toggle="tooltip">{{trans('translates.payment_methods.' . $work->getAttribute('payment_method'))}}</td>
+                                    <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('created_at'))->diffForHumans()}}</td>
+                                    <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip">{{optional($work->getAttribute('datetime'))->format('Y-m-d')}}</td>
+                                    <td title="{{$work->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
+                                    <td title="{{$work->getAttribute('invoiced_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
+
                             </tr>
                             </tbody>
                         </table>
-
                        </div>
 
                 </td>
@@ -520,22 +512,16 @@
                 <td colspan="@if(auth()->user()->isDeveloper()) 8 @elseif(auth()->user()->hasPermission('viewAll-work') || auth()->user()->hasPermission('canVerify-work'))  7 @else 6 @endif">
                     <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
                 </td>
-                <!-- loop of totals of countable parameters -->
-
                 @if(!auth()->user()->hasPermission('viewPrice-work'))
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{ $gb_count}}</strong></p></td>
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{ $code_count}}</strong></p></td>
                 @endif
                 @if(auth()->user()->hasPermission('viewPrice-work'))
-                    @foreach($totals as $total)
-                        <td><p style="font-size: 16px" class="mb-0"><strong>{{$total}}</strong></p></td>
-                    @endforeach
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_total_payment}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_balance}}</strong></p></td>
                 @endif
                 <td colspan="6"></td>
             </tr>
-
         @endif
         </tbody>
     </table>
@@ -735,7 +721,7 @@
         }
     </script>
     <script>
-        const slider = document.querySelector('.items');
+        const slider = document.querySelector('#table');
         let isDown = false;
         let startX;
         let scrollLeft;
