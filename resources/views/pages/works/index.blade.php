@@ -272,7 +272,7 @@
             </div>
         </div>
     @endif
-    <table class="table @if(auth()->user()->hasPermission('viewPrice-work'))table-condensedtable-responsive @endif  @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;"  id="table">
+    <table class="table table-condensedtable-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;"  id="table">
         <thead>
         <tr class="text-center">
             @if(auth()->user()->hasPermission('canVerify-work'))
@@ -455,32 +455,32 @@
                             </thead>
                             <tbody>
                             <tr>
+                                @if(auth()->user()->hasPermission('viewPrice-work'))
                                 @foreach(\App\Models\Service::serviceParameters() as $param)
-                                <td @if(auth()->user()->hasPermission('editPrice-work')) class="update"  @endif data-name="{{$param['data']->getAttribute('id')}}" data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
-                                    @php
-                                        if($param['count']){ // check if parameter is countable
-                                            $count = (int) $work->getParameter($param['data']->getAttribute('id'));
-                                            if(isset($totals[$param['data']->getAttribute('id')])){
-                                                $totals[$param['data']->getAttribute('id')] += $count;
+                                    <td @if(auth()->user()->hasPermission('editPrice-work')) class="update"  @endif data-name="{{$param['data']->getAttribute('id')}}" data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
+                                        @php
+                                            if($param['count']){ // check if parameter is countable
+                                                $count = (int) $work->getParameter($param['data']->getAttribute('id'));
+                                                if(isset($totals[$param['data']->getAttribute('id')])){
+                                                    $totals[$param['data']->getAttribute('id')] += $count;
+                                                }else{
+                                                    $totals[$param['data']->getAttribute('id')] = $count;
+                                                }
                                             }else{
-                                                $totals[$param['data']->getAttribute('id')] = $count;
+                                                $totals[$param['data']->getAttribute('id')] = NULL;
                                             }
-                                        }else{
-                                            $totals[$param['data']->getAttribute('id')] = NULL;
-                                        }
-                                    @endphp
-                                @endforeach
+                                        @endphp
+                                    @endforeach
+                                @endif
                                     <td title="{{$work->getAttribute('payment_method')}}" data-toggle="tooltip">{{trans('translates.payment_methods.' . $work->getAttribute('payment_method'))}}</td>
                                     <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('created_at'))->diffForHumans()}}</td>
                                     <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip">{{optional($work->getAttribute('datetime'))->format('Y-m-d')}}</td>
                                     <td title="{{$work->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
                                     <td title="{{$work->getAttribute('invoiced_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
-
                             </tr>
                             </tbody>
                         </table>
-                       </div>
-
+                   </div>
                 </td>
             </tr>
             @php
