@@ -442,9 +442,11 @@
                         <table>
                             <thead>
                             <tr>
-                                @foreach(\App\Models\Service::serviceParameters() as $param)
-                                    <th>{{$param['data']->getAttribute('label')}}</th>
-                                @endforeach
+                                @if(auth()->user()->hasPermission('viewPrice-work'))
+                                    @foreach(\App\Models\Service::serviceParameters() as $param)
+                                        <th>{{$param['data']->getAttribute('label')}}</th>
+                                    @endforeach
+                                @endif
                                     <th scope="col">@lang('translates.general.payment_method')</th>
                                     <th scope="col">@lang('translates.fields.created_at')</th>
                                     <th scope="col">@lang('translates.fields.date')</th>
@@ -456,20 +458,20 @@
                             <tbody>
                             <tr>
                                 @if(auth()->user()->hasPermission('viewPrice-work'))
-                                @foreach(\App\Models\Service::serviceParameters() as $param)
-                                    <td @if(auth()->user()->hasPermission('editPrice-work')) class="update"  @endif data-name="{{$param['data']->getAttribute('id')}}" data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
-                                        @php
-                                            if($param['count']){ // check if parameter is countable
-                                                $count = (int) $work->getParameter($param['data']->getAttribute('id'));
-                                                if(isset($totals[$param['data']->getAttribute('id')])){
-                                                    $totals[$param['data']->getAttribute('id')] += $count;
+                                    @foreach(\App\Models\Service::serviceParameters() as $param)
+                                        <td @if(auth()->user()->hasPermission('editPrice-work')) class="update"  @endif data-name="{{$param['data']->getAttribute('id')}}" data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
+                                            @php
+                                                if($param['count']){ // check if parameter is countable
+                                                    $count = (int) $work->getParameter($param['data']->getAttribute('id'));
+                                                    if(isset($totals[$param['data']->getAttribute('id')])){
+                                                        $totals[$param['data']->getAttribute('id')] += $count;
+                                                    }else{
+                                                        $totals[$param['data']->getAttribute('id')] = $count;
+                                                    }
                                                 }else{
-                                                    $totals[$param['data']->getAttribute('id')] = $count;
+                                                    $totals[$param['data']->getAttribute('id')] = NULL;
                                                 }
-                                            }else{
-                                                $totals[$param['data']->getAttribute('id')] = NULL;
-                                            }
-                                        @endphp
+                                            @endphp
                                     @endforeach
                                 @endif
                                     <td title="{{$work->getAttribute('payment_method')}}" data-toggle="tooltip">{{trans('translates.payment_methods.' . $work->getAttribute('payment_method'))}}</td>
