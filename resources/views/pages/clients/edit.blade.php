@@ -69,6 +69,7 @@
                                 class="form-control @error('voen') is-invalid @enderror"
                                 name="voen"
                                 id="data-voen"
+                                maxlength="11"
                                 placeholder="VOEN/GOOEN"
                                value="{{optional($data)->getAttribute('voen') ?? old('voen')}}"
                                @if(request()->get('type') == $data::LEGAL && optional($data)->getAttribute('type') == $data::LEGAL) required @endif
