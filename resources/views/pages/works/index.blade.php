@@ -272,7 +272,7 @@
             </div>
         </div>
     @endif
-    <table class="table @if(auth()->user()->hasPermission('viewPrice-work')) @endif table-condensedtable-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;"  id="table">
+    <table class="table @if(auth()->user()->hasPermission('viewPrice-work'))table-condensedtable-responsive @endif  @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;"  id="table">
         <thead>
         <tr class="text-center">
             @if(auth()->user()->hasPermission('canVerify-work'))
