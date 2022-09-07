@@ -35,6 +35,19 @@
                     <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
                     <input type="checkbox" name="check-created_at" id="check-created_at" @if(request()->has('check-created_at')) checked @endif> <label for="check-created_at">@lang('translates.filters.filter_by')</label>
                 </div>
+                <div class="form-group col-md-4">
+                    <label class="d-block" for="userFilter">{{trans('translates.columns.user')}}</label>
+                    <select name="users" id="userFilter" class="form-control" style="width: 100% !important;">
+                        <option value="">@lang('translates.filters.select')</option>
+                        @foreach($users as $user)
+                            <option value="{{$user->getAttribute('id')}}"
+                                    @if($user->getAttribute('id') == $filters['users']) selected @endif>
+                                {{$user->getAttribute('fullname')}}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 @if(\App\Models\Client::userCanViewAll())
                     <div class="col-md-4">
                         <div class="form-group">
@@ -130,6 +143,7 @@
                                 @endif
                             <th scope="col">@lang('translates.columns.type')</th>
                                 <th scope="col">@lang('translates.columns.company')</th>
+                                <th scope="col">@lang('translates.columns.creator')</th>
                                 <th scope="col">@lang('translates.columns.full_name')</th>
                                 <th scope="col">@lang('translates.fields.detail')</th>
                                 <th scope="col">@lang('translates.columns.email')</th>
@@ -176,6 +190,7 @@
                                     @endif
                                 <td>@lang("translates.clients_type." . $client->getAttribute('type'))</td>
                                     <td>@foreach($client->companies as $company) {{$company->getAttribute('name')}} @if(!$loop->last),@endif @endforeach</td>
+                                    <td>{{$client->getRelationValue('users')->getAttribute('fullnamewithdepartment')}}</td>
                                     <td><label for="data-checkbox-{{$client->getAttribute('id')}}">{{$client->getAttribute('fullname')}}</label></td>
                                     <td>{{$client->getAttribute('detail') ? $client->getAttribute('detail') : trans('translates.clients.detail_empty') }} </td>
                                     <td>{{$client->getAttribute('email1') ? $client->getAttribute('email1') : trans('translates.clients.email_empty')}} </td>

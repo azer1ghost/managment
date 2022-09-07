@@ -397,6 +397,7 @@ return [
         'email' => 'Email',
         'phone' => 'Mobil Telefon',
         'company' => 'Şirkət',
+        'creator' => 'Yaradan',
         'department' => 'Şöbə',
         'short_name' => 'Qısa Ad',
         'role' => 'Vəzifə',

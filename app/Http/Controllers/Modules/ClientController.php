@@ -73,7 +73,8 @@ class ClientController extends Controller
             'check-created_at' => $request->has('check-created_at'),
             'created_at' => $createdTime,
             'company' => $request->get('company'),
-            'free_company' => $request->get('free_company')
+            'free_company' => $request->get('free_company'),
+            'users' => $request->get('users')
         ];
         $clients = $this->clientRepository->allFilteredClients($filters)->latest();
         if(is_numeric($filters['limit'])) {
@@ -94,7 +95,8 @@ class ClientController extends Controller
                 'salesUsers' => User::isActive()->where('department_id', Department::SALES)->get(['id', 'name', 'surname']),
                 'salesClients' => User::isActive()->has('salesClients')->get(['id', 'name', 'surname']),
                 'companies' => Company::get(['id','name']),
-                'satisfactions' => Client::satisfactions()
+                'satisfactions' => Client::satisfactions(),
+                'users' => User::isActive()->get(['id', 'name', 'surname'])
             ]);
 
 
@@ -114,6 +116,7 @@ class ClientController extends Controller
     public function store(ClientRequest $request)
     {
         $validated = $request->validated();
+        $validated['user_id'] = auth()->id();
         $client = Client::create($validated);
 
         if(auth()->user()->hasPermission('viewAny-client')){

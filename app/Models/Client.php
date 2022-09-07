@@ -39,6 +39,7 @@ class Client extends Model implements DocumentableInterface, Recordable
         'detail',
         'client_id',
         'satisfaction',
+        'user_id',
     ];
 
     public function clients(): HasMany
@@ -111,6 +112,10 @@ class Client extends Model implements DocumentableInterface, Recordable
     public function getFullnameWithVoenAttribute($value): ?string
     {
         return "{$this->getAttribute('fullname')} ({$this->getAttribute('voen')})";
+    }
+    public function users():BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id')->withDefault();
     }
 
 }

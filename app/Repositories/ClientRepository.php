@@ -31,6 +31,7 @@ class ClientRepository implements ClientRepositoryInterface {
                                                             ->orWhere('phone1', 'like', "%{$filters['search']}%")
                                                             ->orWhere('phone2', 'like', "%{$filters['search']}%"))
             ->when($filters['salesClient'], fn ($query) => $query->whereHas('salesUsers', fn($q) => $q->where('id', $filters['salesClient'])))
-            ->when($filters['company'], fn ($query) => $query->whereHas('companies', fn($q) => $q->where('id', $filters['company'])));
+            ->when($filters['company'], fn ($query) => $query->whereHas('companies', fn($q) => $q->where('id', $filters['company'])))
+            ->when($filters['users'], fn ($query) => $query->where('user_id', $filters['users']));
     }
 }
