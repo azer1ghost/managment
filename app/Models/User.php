@@ -357,4 +357,10 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
     {
         return $this->hasMany(Chat::class, 'from')->orderBy('is_read');
     }
+    public function getFullNameWithDepartmentAttribute(): string
+    {
+        $department = $this->getRelationValue('department')->getAttribute('name');
+
+        return "{$this->getAttribute('name')} {$this->getAttribute('surname')} ({$department})";
+    }
 }

@@ -396,6 +396,7 @@ return [
         'email' => 'Email',
         'phone' => 'Phone',
         'company' => 'Company',
+        'creator' => 'Creator',
         'department' => 'Department',
         'short_name' => 'Short Name',
         'role' => 'Role',
