@@ -13,8 +13,10 @@ use App\Models\Task;
 use App\Models\User;
 use App\Models\Widget;
 use App\Models\Work;
+use App\Notifications\Messages\SmsMessage;
 use App\Services\CacheService;
 use App\Services\ExchangeRatesApi;
+use App\Services\MailgunApi;
 use App\Services\OpenWeatherApi;
 use App\Services\SmsProviders\PoctGoyercini;
 use Carbon\Carbon;
@@ -184,6 +186,11 @@ class PlatformController extends Controller
 
     public function send()
     {
-       new PoctGoyercini('+994 77-319-93-24', 'test');
+        $user = User::where('id', 26)->first();
+        $number = $user->getAttribute('phone_coop');
+//        $mail = $user->getAttribute('email');
+        $message = 'test';
+//      dd($mail);
+        (new PoctGoyercini($number, $message))->send();
     }
 }
