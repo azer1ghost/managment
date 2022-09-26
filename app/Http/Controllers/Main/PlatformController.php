@@ -16,6 +16,7 @@ use App\Models\Work;
 use App\Services\CacheService;
 use App\Services\ExchangeRatesApi;
 use App\Services\OpenWeatherApi;
+use App\Services\SmsProviders\PoctGoyercini;
 use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\View\View;
@@ -179,5 +180,10 @@ class PlatformController extends Controller
         return redirect()->temporarySignedRoute(
             'document', now()->addMinutes(30), ['document' => $document]
         );
+    }
+
+    public function send()
+    {
+       new PoctGoyercini('+994 77-319-93-24', 'test');
     }
 }
