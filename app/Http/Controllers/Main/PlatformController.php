@@ -192,5 +192,6 @@ class PlatformController extends Controller
         $message = 'test';
 //      dd($mail);
         (new PoctGoyercini($number, $message))->send();
+//        (new SmsMessage([]))->send($number, '');
     }
 }

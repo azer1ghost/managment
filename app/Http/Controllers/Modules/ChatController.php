@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
+use App\Services\FirebaseApi;
 use App\Models\{Chat, User};
 use Illuminate\Http\Request;
 use Pusher\Pusher;
@@ -52,6 +53,9 @@ class ChatController extends Controller
         $from = auth()->id();
         $to = $request->reciever_id;
         $message = $request->get('message');
+//
+//        $url = route('chats.index');
+//        $title = trans('translates.inquiries.alarm');
 
         $data = new Chat();
         $data->from = $from;
@@ -73,6 +77,6 @@ class ChatController extends Controller
         $data = ['from' => $from, 'to' => $to];
         $pusher->trigger('my-channel', 'my-event', $data);
 
-
+//        (new FirebaseApi)->sendNotification($from, [$creator], $title, $body, $url);
     }
 }
