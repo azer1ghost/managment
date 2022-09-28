@@ -28,6 +28,8 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\In;
 
@@ -191,11 +193,24 @@ class PlatformController extends Controller
     public function send()
     {
         $user = User::where('id', 26)->first();
-//        $mail = $user->getAttribute('email');
-        $message = 'test';
+        $project = [
+            'greeting' => 'Hi ',
+            'body' => 'This is the project assigned to you.',
+            'thanks' => 'Thank you this is from codeanddeploy.com',
+            'actionText' => 'View Project',
+            'actionURL' => url('/'),
+        ];
+//        $user->notify(new NotifyClientMail($project));
+//        \Notification::send($user, new NotifyClientMail($project));
+        $user->notify(new NotifyClientMail($project));
+        dd('Notification sent!');
+
+        //        $mail = $user->getAttribute('email');
+//        $message = 'test';
 //      dd($mail);
 //        (new NotifyClientSms())->toSms($user)->send();
-        (new NotifyClientMail())->toMail($user);
+//        (new NotifyClientMail())->toMail($user);
+//        Mail::to($mail);
 //        (new NotifyClientMail())->toMail($mail);
 //        (new SmsMessage([]))->send($number, '');
 

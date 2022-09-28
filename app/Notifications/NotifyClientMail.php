@@ -6,16 +6,16 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\HtmlString;
-use Throwable;
+
 
 class NotifyClientMail extends Notification implements ShouldQueue
 {
     use Queueable;
-
-    public function __construct()
+    public $user;
+    protected $project;
+    public function __construct($user)
     {
-
+        $this->user = $user;
     }
 
     public function via($notifiable)
@@ -26,7 +26,7 @@ class NotifyClientMail extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Error report from ' . config('app.name'))
-            ->line('hello');
+            ->line($this->project['body'])
+            ->action($this->project['actionText'], $this->project['actionURL']);
     }
 }
