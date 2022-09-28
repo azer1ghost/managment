@@ -12,10 +12,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
 class Client extends Model implements DocumentableInterface, Recordable
 {
-    use SoftDeletes, HasFactory, Documentable, \Altek\Accountant\Recordable, Eventually;
+    use SoftDeletes, Notifiable, HasFactory, Documentable, \Altek\Accountant\Recordable, Eventually;
 
     const LEGAL = 0;
     const PHYSICAL  = 1;

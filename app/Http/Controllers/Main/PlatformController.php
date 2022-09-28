@@ -13,7 +13,11 @@ use App\Models\Task;
 use App\Models\User;
 use App\Models\Widget;
 use App\Models\Work;
+use App\Notifications\ClientNotifyMail;
+use App\Notifications\ExceptionMail;
 use App\Notifications\Messages\SmsMessage;
+use App\Notifications\NotifyClientMail;
+use App\Notifications\NotifyClientSms;
 use App\Services\CacheService;
 use App\Services\ExchangeRatesApi;
 use App\Services\MailgunApi;
@@ -187,11 +191,13 @@ class PlatformController extends Controller
     public function send()
     {
         $user = User::where('id', 26)->first();
-        $number = $user->getAttribute('phone_coop');
 //        $mail = $user->getAttribute('email');
         $message = 'test';
 //      dd($mail);
-        (new PoctGoyercini($number, $message))->send();
+//        (new NotifyClientSms())->toSms($user)->send();
+        (new NotifyClientMail())->toMail($user);
+//        (new NotifyClientMail())->toMail($mail);
 //        (new SmsMessage([]))->send($number, '');
+
     }
 }
