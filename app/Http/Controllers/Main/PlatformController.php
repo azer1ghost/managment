@@ -196,7 +196,7 @@ class PlatformController extends Controller
         $project = [
             'body' => 'This is the project assigned to you.',
             'actionText' => 'View Project',
-            'actionURL' => url('/'),
+            'actionURL' => 'sds',
         ];
 //        $user->notify(new NotifyClientMail($project));
 //        \Notification::send($user, new NotifyClientMail($project));
