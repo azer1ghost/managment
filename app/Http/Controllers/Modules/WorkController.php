@@ -41,9 +41,12 @@ class WorkController extends Controller
         $endOfMonth = now()->format('Y/m/d');
 
 
-        $departmentRequest = Work::userCannotViewAll() ?
-            $user->getAttribute('department_id') :
-                $request->get('department_id');
+//        $departmentRequest = Work::userCannotViewAll() ?
+//            $user->getAttribute('department_id') :
+//                $request->get('department_id');
+
+        $departmentRequest = $request->get('department_id');
+
 
         $filters = [
             'limit' => $limit,

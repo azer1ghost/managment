@@ -28,7 +28,7 @@ class NotifyClientMail extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('sadsa')
+            ->line('sadsasdaa')
             ->action('asdas', url('/'));
     }
 }
