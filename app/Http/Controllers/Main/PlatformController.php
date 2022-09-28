@@ -194,16 +194,13 @@ class PlatformController extends Controller
     {
         $user = User::where('id', 26)->first();
         $project = [
-            'greeting' => 'Hi ',
             'body' => 'This is the project assigned to you.',
-            'thanks' => 'Thank you this is from codeanddeploy.com',
             'actionText' => 'View Project',
             'actionURL' => url('/'),
         ];
 //        $user->notify(new NotifyClientMail($project));
 //        \Notification::send($user, new NotifyClientMail($project));
         $user->notify(new NotifyClientMail($project));
-        dd('Notification sent!');
 
         //        $mail = $user->getAttribute('email');
 //        $message = 'test';
