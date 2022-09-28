@@ -11,8 +11,10 @@ use Illuminate\Notifications\Notification;
 class NotifyClientMail extends Notification implements ShouldQueue
 {
     use Queueable;
+
     public $user;
     protected $project;
+
     public function __construct($user)
     {
         $this->user = $user;
@@ -26,7 +28,7 @@ class NotifyClientMail extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line($this->project['body'])
-            ->action($this->project['actionText'], $this->project['actionURL']);
+            ->line('sadsa')
+            ->action('asdas', url('/'));
     }
 }

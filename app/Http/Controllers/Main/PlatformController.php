@@ -200,7 +200,7 @@ class PlatformController extends Controller
         ];
 //        $user->notify(new NotifyClientMail($project));
 //        \Notification::send($user, new NotifyClientMail($project));
-        $user->notify(new NotifyClientMail($project));
+        $user->notify((new NotifyClientMail($project)));
 
         //        $mail = $user->getAttribute('email');
 //        $message = 'test';
