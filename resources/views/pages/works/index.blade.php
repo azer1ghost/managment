@@ -282,9 +282,9 @@
             @if(auth()->user()->hasPermission('viewPrice-work') )
                 <th scope="col">E-Qaimə</th>
             @endif
-            @if(\App\Models\Work::userCanViewAll())
+{{--            @if(\App\Models\Work::userCanViewAll())--}}
                 <th scope="col">@lang('translates.columns.department')</th>
-            @endif
+{{--            @endif--}}
             <th scope="col">@lang('translates.fields.user')</th>
             <th scope="col">Asan imza</th>
             <th scope="col">@lang('translates.navbar.service')</th>
@@ -326,9 +326,9 @@
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     <th class="code" data-name="code" data-pk="{{ $work->getAttribute('id') }}" scope="row">{{$work->getAttribute('code')}}</th>
                 @endif
-                @if(\App\Models\Work::userCanViewAll())
+{{--                @if(\App\Models\Work::userCanViewAll())--}}
                     <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
-                @endif
+{{--                @endif--}}
                 <td>
                     @if(is_numeric($work->getAttribute('user_id')))
                         {{$work->getRelationValue('user')->getAttribute('fullname_with_position')}}
