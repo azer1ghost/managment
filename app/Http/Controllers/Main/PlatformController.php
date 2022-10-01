@@ -193,8 +193,8 @@ class PlatformController extends Controller
 
     public function send()
     {
-        $user = User::where('id', 26)->first();
-        $client = Client::where('id', 2528);
+//        $user = User::where('id', 26)->first();
+        $client = Client::where('id', 2528)->first();
         $project = [
             'body' => 'This is the project assigned to you.',
             'actionText' => 'View Project',

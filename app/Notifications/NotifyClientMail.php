@@ -12,12 +12,12 @@ class NotifyClientMail extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public $user;
+    public $client;
     protected $project;
 
-    public function __construct($user)
+    public function __construct($client)
     {
-        $this->user = $user;
+        $this->client = $client;
     }
 
     public function via($notifiable)
