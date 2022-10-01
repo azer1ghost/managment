@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
+use App\Models\Client;
 use App\Models\Company;
 use App\Models\Document;
 use App\Models\Inquiry;
@@ -193,6 +194,7 @@ class PlatformController extends Controller
     public function send()
     {
         $user = User::where('id', 26)->first();
+        $client = Client::where('id', 2528);
         $project = [
             'body' => 'This is the project assigned to you.',
             'actionText' => 'View Project',
@@ -200,13 +202,12 @@ class PlatformController extends Controller
         ];
 //        $user->notify(new NotifyClientMail($project));
 //        \Notification::send($user, new NotifyClientMail($project));
-        $user->notify((new NotifyClientMail($project)));
+        $client->notify((new NotifyClientMail($project)));
 
         //        $mail = $user->getAttribute('email');
 //        $message = 'test';
 //      dd($mail);
 //        (new NotifyClientSms())->toSms($user)->send();
-//        (new NotifyClientMail())->toMail($user);
 //        Mail::to($mail);
 //        (new NotifyClientMail())->toMail($mail);
 //        (new SmsMessage([]))->send($number, '');

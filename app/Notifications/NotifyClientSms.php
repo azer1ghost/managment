@@ -10,10 +10,11 @@ use Illuminate\Notifications\Notification;
 class NotifyClientSms extends Notification implements ShouldQueue
 {
     use Queueable;
+    private $message;
 
-    public function __construct()
+    public function __construct($message)
     {
-        //
+        $this->message = $message;
     }
 
     public function via($notifiable)
@@ -23,15 +24,10 @@ class NotifyClientSms extends Notification implements ShouldQueue
 
     public function toSms($notifiable)
     {
-        $message = now();
+
+        $time = now();
         return (new SmsMessage)
             ->to(phone_cleaner($notifiable->getAttribute('phone')))
-            ->line('The introduction to the asnn.'. $message);
-    }
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
+            ->line($this->message . '' . $time);
     }
 }

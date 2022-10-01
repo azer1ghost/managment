@@ -8,11 +8,12 @@ use App\Exports\WorksExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkRequest;
 use App\Interfaces\WorkRepositoryInterface;
+use App\Notifications\NotifyClientMail;
+use App\Notifications\NotifyClientSms;
 use Carbon\Carbon;
-use App\Models\{Company, Department, Service, User, Work};
+use App\Models\{Company, Department, Service, User, Work, Client};
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use function PHPUnit\Framework\stringContains;
 
 class WorkController extends Controller
 {
@@ -181,8 +182,17 @@ class WorkController extends Controller
 
     public function update(WorkRequest $request, Work $work): RedirectResponse
     {
-
-
+//        if ($request->status = 1) {
+//            $client = Client::where('id', $request->client_id)->first();
+//            $project = [
+//                'body' => 'This is the project assigned to you.',
+//                'actionText' => 'View Project',
+//                'actionURL' => 'sds',
+//            ];
+//            $client->notify(new NotifyClientMail($project));
+//        (new NotifyClientSms(''))->toSms($client)->send();
+//
+//        }
         $validated = $request->validated();
         $validated['verified_at'] = $request->has('verified') && !$request->has('rejected') ? now() : NULL;
 
