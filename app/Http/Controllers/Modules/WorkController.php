@@ -183,12 +183,20 @@ class WorkController extends Controller
     public function update(WorkRequest $request, Work $work): RedirectResponse
     {
         $client = Client::where('id', $request->client_id)->first();
+
+        $serviceText = trim($work->getRelationValue('service')->getAttribute('name'));
+        $clientText = trim($client->getAttribute('fullname'));
+        $search = array('Ç','ç','Ğ','ğ','ı','İ','Ö','ö','Ş','ş','Ü','ü','Ə','ə');
+        $replace = array('c','c','g','g','i','i','o','o','s','s','u','u','E','e');
+        $serviceName = str_replace($search,$replace,$serviceText);
+        $clientName = str_replace($search,$replace,$clientText);
+
         if (!empty($client->getAttribute('phone1'))) {
                 if ($request->status == 2) {
-                    $message = 'Deyerli ' . $client->getAttribute('fullname') . ' sizin ' . $work->getRelationValue('service')->getAttribute('name') . ' uzre isiniz icra olunur. ' . $work->getAttribute('created_at');
+                    $message = 'Deyerli ' . $clientName . ' sizin ' . $serviceName . ' uzre isiniz icra olunur. ' . $work->getAttribute('created_at');
                     (new NotifyClientSms($message))->toSms($client)->send();
                 } elseif ($request->status == 3) {
-                    $message = 'Deyerli ' . $client->getAttribute('fullname') . ' sizin ' . $work->getRelationValue('service')->getAttribute('name') . ' uzre isiniz tamamlandi. ' . $work->getAttribute('created_at');
+                    $message = 'Deyerli ' . $clientName . ' sizin ' . $serviceName . ' uzre isiniz tamamlandi. ' . $work->getAttribute('created_at');
                     (new NotifyClientSms($message))->toSms($client)->send();
                 }
             }
