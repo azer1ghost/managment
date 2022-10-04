@@ -187,7 +187,7 @@ class WorkController extends Controller
         $serviceText = trim($work->getRelationValue('service')->getAttribute('name'));
         $clientText = trim($client->getAttribute('fullname'));
         $search = array('Ç','ç','Ğ','ğ','ı','İ','Ö','ö','Ş','ş','Ü','ü','Ə','ə');
-        $replace = array('c','c','g','g','i','i','o','o','s','s','u','u','E','e');
+        $replace = array('C','c','G','g','i','I','O','o','S','s','U','u','E','e');
         $serviceName = str_replace($search,$replace,$serviceText);
         $clientName = str_replace($search,$replace,$clientText);
 
