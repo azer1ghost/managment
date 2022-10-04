@@ -603,5 +603,8 @@ return [
         'number_of_tasks' => 'Tapşırıqların Sayı',
         'welcome_msg' => 'Sizə Xoş Gün Arzulayırıq',
         'you_have' => 'Sizin :count tapşırığınız var '
+    ],
+    'chats' => [
+        'title' => 'Sizə bir mesaj göndərildi',
     ]
 ];

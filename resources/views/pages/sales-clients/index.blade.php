@@ -31,14 +31,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-4 p-0 pr-3 pb-3 mt-4">
-                @can('create', App\Models\SalesClient::class)
-                    <a class="btn btn-outline-success float-right " href="{{route('sales-client.create')}}">@lang('translates.buttons.create')</a>
-                @endcan
-                @if(auth()->user()->hasPermission('canExport-client'))
-                    <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('sales-clients.export')}}">@lang('translates.buttons.export')</a>
-                @endif
-            </div>
+
             <div class="col-8 col-md-3 mb-3 ">
                 <select name="user" class="custom-select" id="type">
                     <option selected value="">@lang('translates.navbar.user')</option>
@@ -47,10 +40,13 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-auto mb-3">
+            <div class="col-12 mb-3">
                 @can('create', App\Models\SalesClient::class)
-                    <a class="btn btn-outline-success" href="{{route('sales-client.create')}}">@lang('translates.buttons.create')</a>
+                    <a class="btn btn-outline-success float-right " href="{{route('sales-client.create')}}">@lang('translates.buttons.create')</a>
                 @endcan
+                @if(auth()->user()->hasPermission('canExport-client'))
+                    <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('sales-clients.export')}}">@lang('translates.buttons.export')</a>
+                @endif
             </div>
             <table class="table table-responsive-sm table-hover">
                 <thead>

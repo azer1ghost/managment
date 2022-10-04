@@ -53,15 +53,17 @@ class ChatController extends Controller
         $from = auth()->id();
         $to = $request->reciever_id;
         $message = $request->get('message');
+        $url= route('chats.index');
+        $title = trans('translates.chats.title');
 //
 //        $url = route('chats.index');
 //        $title = trans('translates.inquiries.alarm');
-
         $data = new Chat();
         $data->from = $from;
         $data->to = $to;
         $data->message = $message;
         $data->is_read = 0;
+
         $data->save();
 
         $options = [
@@ -76,7 +78,8 @@ class ChatController extends Controller
 
         $data = ['from' => $from, 'to' => $to];
         $pusher->trigger('my-channel', 'my-event', $data);
+//        (new FirebaseApi)->sendNotification($sender, [$reciever], $title, $data->message, $url);
+//        (new FirebaseApi)->sendPushNotification([$reciever], $url, $title, $data->message);
 
-//        (new FirebaseApi)->sendNotification($from, [$creator], $title, $body, $url);
     }
 }

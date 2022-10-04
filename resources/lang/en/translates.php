@@ -605,6 +605,9 @@ return [
         'number_of_tasks' => 'Number Of Tasks',
         'welcome_msg' => 'We wish you a happy day',
         'you_have' => 'You Have :count tasks'
+    ],
+    'chats' => [
+        'title' => 'The message has been sent to you',
     ]
 
 ];

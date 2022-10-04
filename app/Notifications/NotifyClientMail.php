@@ -13,7 +13,6 @@ class NotifyClientMail extends Notification implements ShouldQueue
     use Queueable;
 
     public $client;
-    protected $project;
 
     public function __construct($client)
     {
@@ -25,7 +24,7 @@ class NotifyClientMail extends Notification implements ShouldQueue
         return ['mail'];
     }
 
-    public function toMail1($notifiable)
+    public function toMail($notifiable)
     {
         return (new MailMessage)
             ->line('sadsasdaa')

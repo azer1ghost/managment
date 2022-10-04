@@ -24,10 +24,8 @@ class NotifyClientSms extends Notification implements ShouldQueue
 
     public function toSms($notifiable)
     {
-
-        $time = now();
         return (new SmsMessage)
-            ->to(phone_cleaner($notifiable->getAttribute('phone')))
-            ->line($this->message . '' . $time);
+            ->to(phone_cleaner($notifiable->getAttribute('phone1')))
+            ->line($this->message);
     }
 }

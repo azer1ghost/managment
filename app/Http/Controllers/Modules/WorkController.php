@@ -182,17 +182,20 @@ class WorkController extends Controller
 
     public function update(WorkRequest $request, Work $work): RedirectResponse
     {
-//        if ($request->status = 1) {
-//            $client = Client::where('id', $request->client_id)->first();
-//            $project = [
-//                'body' => 'This is the project assigned to you.',
-//                'actionText' => 'View Project',
-//                'actionURL' => 'sds',
-//            ];
-//            $client->notify(new NotifyClientMail($project));
-//        (new NotifyClientSms(''))->toSms($client)->send();
-//
-//        }
+        $client = Client::where('id', $request->client_id)->first();
+        if (!empty($client->getAttribute('phone1'))) {
+                if ($request->status == 2) {
+                    $message = 'Deyerli ' . $client->getAttribute('fullname') . ' sizin ' . $work->getRelationValue('service')->getAttribute('name') . ' uzre isiniz icra olunur. ' . $work->getAttribute('created_at');
+                    (new NotifyClientSms($message))->toSms($client)->send();
+                } elseif ($request->status == 3) {
+                    $message = 'Deyerli ' . $client->getAttribute('fullname') . ' sizin ' . $work->getRelationValue('service')->getAttribute('name') . ' uzre isiniz tamamlandi. ' . $work->getAttribute('created_at');
+                    (new NotifyClientSms($message))->toSms($client)->send();
+                }
+            }
+
+//        $client->notify(new NotifyClientMail($project));
+//        (new NotifyClientSms($message))->toSms($client)->send();
+
         $validated = $request->validated();
         $validated['verified_at'] = $request->has('verified') && !$request->has('rejected') ? now() : NULL;
 
