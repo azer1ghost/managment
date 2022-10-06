@@ -190,27 +190,4 @@ class PlatformController extends Controller
             'document', now()->addMinutes(30), ['document' => $document]
         );
     }
-
-    public function send()
-    {
-//        $user = User::where('id', 26)->first();
-        $client = Client::where('id', 2528)->first();
-        $project = [
-            'body' => 'This is the project assigned to you.',
-            'actionText' => 'View Project',
-            'actionURL' => 'sds',
-        ];
-//        $user->notify(new NotifyClientMail($project));
-//        \Notification::send($user, new NotifyClientMail($project));
-        $client->notify((new NotifyClientMail($project)));
-
-        //        $mail = $user->getAttribute('email');
-//        $message = 'test';
-//      dd($mail);
-//        (new NotifyClientSms())->toSms($user)->send();
-//        Mail::to($mail);
-//        (new NotifyClientMail())->toMail($mail);
-//        (new SmsMessage([]))->send($number, '');
-
-    }
 }

@@ -50,7 +50,6 @@ use App\Http\Middleware\Localization;
 use App\Services\FirebaseApi;
 use Illuminate\Support\Facades\{Auth, Route};
 
-Route::get('/send', [PlatformController::class, 'send'])->name('send');
 Route::get('firebase-messaging-sw.js', [PlatformController::class, 'firebase']);
 Route::post('/store-fcm-token', [PlatformController::class, 'storeFcmToken'])->name('store.fcm-token');
 Route::post('/set-location', [PlatformController::class, 'setLocation'])->name('set-location');
