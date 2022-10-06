@@ -222,7 +222,11 @@
 
                 <div class="form-group col-12" wire:ignore>
                     <label for="data-detail">@lang('translates.general.work_detail')</label>
-                    <textarea wire:ignore name="detail" id="data-detail" class="tinyMCE">{{optional($data)->getAttribute('detail')}}</textarea>
+                    <textarea wire:ignore name="detail" id="data-detail"
+{{--                              class="tinyMCE"--}}
+                            class="form-control"
+                              style="height: 300px"
+                    >{{optional($data)->getAttribute('detail')}}</textarea>
                 </div>
             </div>
 

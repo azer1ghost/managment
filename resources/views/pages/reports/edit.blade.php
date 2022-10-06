@@ -35,7 +35,9 @@
         @error('date')
             <p class="text-danger">{{$message}}</p>
         @enderror
-        <textarea name="detail" class="form-control tinyMCE">{{$data->getAttribute('detail')}}</textarea>
+        <textarea name="detail" class="form-control"
+                  style="height: 300px"
+        >{{$data->getAttribute('detail')}}</textarea>
         @error('detail')
         <p class="text-danger">{{$message}}</p>
         @enderror
