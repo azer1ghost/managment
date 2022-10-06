@@ -71,7 +71,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
 
     <!-- tinyMCE -->
-    <script src="https://cdn.tiny.cloud/1/6hi4bok2utssc8368iz75o1mg2sma3bl46qf41q4i2ah6myx/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+{{--    <script src="https://cdn.tiny.cloud/1/6hi4bok2utssc8368iz75o1mg2sma3bl46qf41q4i2ah6myx/tinymce/5/tinymce.min.js"></script>--}}
     <script src="{{asset('assets/js/tinyMCE/az.js')}}"></script>
 
     <!-- Scripts -->
