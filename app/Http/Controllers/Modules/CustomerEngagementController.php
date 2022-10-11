@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Work;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use function PHPUnit\Framework\isNull;
 
 class CustomerEngagementController extends Controller
 {
@@ -104,12 +105,16 @@ class CustomerEngagementController extends Controller
     {
         $client = $customerEngagement->getAttribute('client_id');
         $works = Work::where('client_id', $client)->whereMonth('created_at', date('m'))->get();
-
+        if (isNull($works)){
+            $sum_total_payment = 0;
+        }
         foreach ($works as $work){
             $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID) + $work->getAttribute('bank_charge');
             $total_payment[] = $sum_payment;
             $sum_total_payment = array_sum($total_payment);
         }
+
+
         $customerEngagement->setAttribute('amount',$sum_total_payment)->save();
 
         return redirect()->back();
