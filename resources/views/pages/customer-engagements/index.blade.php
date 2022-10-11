@@ -13,7 +13,7 @@
     </x-bread-crumb>
     <form action="{{route('customer-engagement.index')}}">
         <div class="row d-flex justify-content-between mb-2">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="input-group mb-3">
                     <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="@lang('translates.fields.enter', ['field' => trans('translates.fields.name')])" aria-label="Recipient's clientname" aria-describedby="basic-addon2">
                     <div class="input-group-append">
@@ -22,7 +22,18 @@
                     </div>
                 </div>
             </div>
-            <div class="col-8 col-md-3 mr-md-auto mb-3">
+            <div class="form-group col-md-4">
+                <select name="user" id="userFilter" class="form-control" style="width: 100% !important;">
+                    <option value="">@lang('translates.general.user_select')</option>
+                    @foreach($users as $user)
+                        <option value="{{$user->getAttribute('id')}}"
+                                @if($user->getAttribute('id') == request()->get('user')) selected @endif>
+                            {{$user->getAttribute('fullname')}}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-4 col-md-4 mr-md-auto mb-3">
                 <select name="limit" class="custom-select">
                     @foreach([25, 50, 100] as $size)
                         <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
@@ -39,8 +50,10 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">@lang('translates.fields.user')</th>
-                    <th scope="col">@lang('translates.fields.client')</th>
                     <th scope="col">@lang('translates.columns.partner')</th>
+                    <th scope="col">@lang('translates.fields.client')</th>
+                    <th scope="col">@lang('translates.general.work_earning')</th>
+                    <th scope="col">@lang('translates.referrals.earnings')</th>
                     <th scope="col">@lang('translates.fields.actions')</th>
                 </tr>
                 </thead>
@@ -49,12 +62,18 @@
                     <tr>
                         <th scope="row">{{$loop->iteration}}</th>
                         <td>{{$customer_engagement->getRelationValue('user')->getFullnameWithPositionAttribute()}}</td>
-                        <td>{{$customer_engagement->getRelationValue('client')->getAttribute('fullname')}}</td>
                         <td>{{$customer_engagement->getRelationValue('partner')->getAttribute('name')}}</td>
+                        <td>{{$customer_engagement->getRelationValue('client')->getAttribute('fullname')}}</td>
+                        <td>{{$customer_engagement->getAttribute('amount')}}</td>
+                        <td>{{$customer_engagement->getAttribute('amount')*0.10}}</td>
                         <td>
                             <div class="btn-sm-group">
                                 @can('view', $customer_engagement)
                                     <a href="{{route('customer-engagement.show', $customer_engagement)}}" class="btn btn-sm btn-outline-primary"> <i class="fal fa-eye"></i></a>
+                                @endcan
+
+                                @can('view', $customer_engagement)
+                                    <a href="{{route('getAmount', $customer_engagement)}}" class="btn btn-sm btn-outline-secondary"> <i class="fal fa-money-bill"></i></a>
                                 @endcan
 
                                 @can('update', $customer_engagement)

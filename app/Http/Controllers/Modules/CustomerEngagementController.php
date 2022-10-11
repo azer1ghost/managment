@@ -23,6 +23,7 @@ class CustomerEngagementController extends Controller
     {
         $limit = $request->get('limit', 25);
         $search = $request->get('search');
+        $user = $request->get('user');
 
         return view('pages.customer-engagements.index')
             ->with([
@@ -31,9 +32,10 @@ class CustomerEngagementController extends Controller
                         ->whereHas('user',fn($q) => $q->where('name', 'like', "%$search%"))
                         ->orWhereHas('client',fn($q) => $q->where('fullname', 'like', "%$search%"))
                         ->orWhereHas('partner',fn($q) => $q->where('name', 'like', "%$search%"))
-                    )
+                    )->when($user, fn ($q) => $q->where('user_id', $user))
                     ->latest('id')
                     ->paginate($limit),
+                'users' => User::isActive()->get(['id', 'name', 'surname'])
             ]);
     }
 
@@ -96,5 +98,20 @@ class CustomerEngagementController extends Controller
             return response('OK');
         }
         return response()->setStatusCode('204');
+    }
+
+    public function getAmount(CustomerEngagement $customerEngagement)
+    {
+        $client = $customerEngagement->getAttribute('client_id');
+        $works = Work::where('client_id', $client)->whereMonth('created_at', date('m'))->get();
+
+        foreach ($works as $work){
+            $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID) + $work->getAttribute('bank_charge');
+            $total_payment[] = $sum_payment;
+            $sum_total_payment = array_sum($total_payment);
+        }
+        $customerEngagement->setAttribute('amount',$sum_total_payment)->save();
+
+        return redirect()->back();
     }
 }

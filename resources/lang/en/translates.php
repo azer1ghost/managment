@@ -208,7 +208,7 @@ return [
         'sales' => 'Sales',
         'human_resources' => 'Human Resources',
         'law' => 'Law',
-        'intern_number' => 'Nntern numbers',
+        'intern_number' => 'Intern Numbers',
 
     ],
 

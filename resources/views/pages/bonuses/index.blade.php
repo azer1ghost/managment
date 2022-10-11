@@ -48,6 +48,94 @@
                 font-size: .75rem;
             }
         }
+
+
+
+
+
+
+
+
+
+        section {
+            width: 90%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        section + section {
+            margin-top: 2.5em;
+        }
+
+        h1 {
+            font-weight: 700;
+            line-height: 1.125;
+            font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+        }
+
+        h2 {
+            margin-top: 0.25em;
+            color: #999;
+            font-size: clamp(1.125rem, 2.5vw, 1.25rem);
+        }
+        h2 + * {
+            margin-top: 1.5em;
+        }
+
+        summary {
+            background-color: #fff;
+            position: relative;
+            cursor: pointer;
+            padding: 1em 0.5em;
+            list-style: none;
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        summary:hover {
+            background-color: #f2f5f9;
+        }
+        summary div {
+            display: flex;
+            align-items: center;
+        }
+        summary h3 {
+            display: flex;
+            flex-direction: column;
+        }
+        summary small {
+            color: #999;
+            font-size: 0.875em;
+        }
+        summary strong {
+            font-weight: 700;
+        }
+        summary span:first-child {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 10px;
+            background-color: #f3e1e1;
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1.25em;
+        }
+        summary span:first-child svg {
+            width: 2.25rem;
+            height: 2.25rem;
+        }
+        summary span:last-child {
+            font-weight: 700;
+            margin-left: auto;
+        }
+        summary:focus {
+            outline: none;
+        }
+
+        details {
+            border-bottom: 1px solid #b5bfd9;
+        }
     </style>
 @endsection
 
@@ -60,6 +148,8 @@
             @lang('translates.navbar.bonus')
         </x-bread-crumb-link>
     </x-bread-crumb>
+    <h1 class="mb-4" style="text-align: center">Mobex Bonus</h1>
+
     <div class="row mb-2">
         <div class="col-xl-5 col-lg-6">
             <div class="card widget l-bg-cyan">
@@ -90,7 +180,7 @@
                                     </button>
                                 </div>
                                 @error('key')
-                                    <p class="mb-1">{{$message}}</p>
+{{--                                    <p class="mb-1">{{$message}}</p>--}}
                                 @enderror
                             </div>
                         @endif
@@ -186,6 +276,33 @@
             </div>
         @endif
     </div>
+
+
+
+
+
+    <section class="col-12">
+        <h1 style="text-align: center">@lang('translates.navbar.customer_engagement') Bonus</h1>
+        <h2 style="text-align:center">{{now()->englishMonth}}</h2>
+        @foreach($clientBonuses as $bonus)
+            <details>
+                <summary>
+                    <div>
+                    <span style="background-color: #f2dcbb;">
+                       <a href="{{route('getAmount', $bonus)}}" class="btn btn-sm">Yoxla</a>
+                    </span>
+                        <h3>
+                            <strong>{{$bonus->getRelationValue('client')->getAttribute('fullname')}}</strong>
+                        </h3>
+                        <span>{{$sumBonus[] = $bonus->getAttribute('amount')*0.10}} AZN</span>
+                    </div>
+                </summary>
+
+            </details>
+        @endforeach
+       <h4 class="float-right m-2"><b> @lang('translates.columns.total'): {{array_sum($sumBonus)}} AZN</b></h4>
+
+    </section>
 @endsection
 @section('scripts')
     <script>

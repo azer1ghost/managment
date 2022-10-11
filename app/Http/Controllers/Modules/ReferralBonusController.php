@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ReferralRequest;
+use App\Models\CustomerEngagement;
 use App\Models\Referral;
+use App\Models\Work;
 use App\Services\MobexReferralApi;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\RedirectResponse;
@@ -19,8 +21,11 @@ class ReferralBonusController extends Controller
 
     public function index()
     {
+        $clientBonuses = CustomerEngagement::where('user_id', auth()->id())->get();
+
         return view('pages.bonuses.index')
-            ->with(['referral' => $this->referral()->first() ?? new Referral()
+            ->with(['referral' => $this->referral()->first() ?? new Referral(),
+                'clientBonuses' => $clientBonuses
         ]);
     }
 

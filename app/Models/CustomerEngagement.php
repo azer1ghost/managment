@@ -28,6 +28,4 @@ class CustomerEngagement extends Model implements Recordable
     {
         return $this->belongsTo(Partner::class)->withDefault();
     }
-
-
 }
