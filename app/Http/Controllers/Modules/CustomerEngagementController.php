@@ -113,8 +113,6 @@ class CustomerEngagementController extends Controller
             $total_payment[] = $sum_payment;
             $sum_total_payment = array_sum($total_payment);
         }
-
-
         $customerEngagement->setAttribute('amount',$sum_total_payment)->save();
 
         return redirect()->back();

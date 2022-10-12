@@ -276,11 +276,6 @@
             </div>
         @endif
     </div>
-
-
-
-
-
     <section class="col-12">
         <h1 style="text-align: center">@lang('translates.navbar.customer_engagement') Bonus</h1>
         <h2 style="text-align:center">{{now()->englishMonth}}</h2>
@@ -297,11 +292,11 @@
                         <span>{{$sumBonus[] = $bonus->getAttribute('amount')*0.10}} AZN</span>
                     </div>
                 </summary>
-
             </details>
         @endforeach
-       <h4 class="float-right m-2"><b> @lang('translates.columns.total'): {{array_sum($sumBonus)}} AZN</b></h4>
-
+            @if(isset($sumBonus))
+                <h4 class="float-right m-2"><b> @lang('translates.columns.total'): {{array_sum($sumBonus)}} AZN</b></h4>
+            @endif
     </section>
 @endsection
 @section('scripts')
