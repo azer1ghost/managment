@@ -104,7 +104,7 @@ class CustomerEngagementController extends Controller
     public function getAmount(CustomerEngagement $customerEngagement)
     {
         $client = $customerEngagement->getAttribute('client_id');
-        $works = Work::where('client_id', $client)->whereMonth('created_at', date('m'))->get();
+        $works = Work::where('client_id', $client)->whereMonth('paid_at', date('m'))->get();
         if (isNull($works)){
             $sum_total_payment = 0;
         }

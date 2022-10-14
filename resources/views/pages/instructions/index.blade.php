@@ -25,22 +25,22 @@
         <div class="col-12 justify-content-center">
                 <h2 data-toggle="collapse" href="#task">@lang('translates.navbar.task')</h2>
                 <div class="col-12 collapse" id="task">
-                    <iframe class="mr-5" width="100%" style="height: 400px" src="https://www.youtube.com/embed/dNMOj-3Fwls" title="Task" allowfullscreen></iframe>
+{{--                    <iframe class="mr-5" width="100%" style="height: 400px" src="https://www.youtube.com/embed/dNMOj-3Fwls" title="Task" allowfullscreen></iframe>--}}
                 </div>
 
                 <h2 data-toggle="collapse" href="#inquiry">@lang('translates.navbar.inquiry')</h2>
                 <div class="collapse" id="inquiry">
-                    <iframe class="mr-5" width="100%" style="height: 400px" src="https://www.youtube.com/embed/dNMOj-3Fwls" title="Inquiry"  allowfullscreen></iframe>
+{{--                    <iframe class="mr-5" width="100%" style="height: 400px" src="https://www.youtube.com/embed/dNMOj-3Fwls" title="Inquiry"  allowfullscreen></iframe>--}}
                 </div>
 
                 <h2 data-toggle="collapse" href="#calendar">@lang('translates.navbar.calendar')</h2>
                 <div class="collapse" id="calendar">
-                    <iframe class="mr-5" width="100%" style="height: 400px" src="https://www.youtube.com/embed/dNMOj-3Fwls" title="Calendar" allowfullscreen></iframe>
+{{--                    <iframe class="mr-5" width="100%" style="height: 400px" src="https://www.youtube.com/embed/dNMOj-3Fwls" title="Calendar" allowfullscreen></iframe>--}}
                 </div>
 
                 <h2 data-toggle="collapse" href="#work">@lang('translates.navbar.work')</h2>
                 <div class="collapse" id="work">
-                    <iframe class="mr-5" width="100%" style="height: 400px" src="https://www.youtube.com/embed/dNMOj-3Fwls" title="Work" allowfullscreen></iframe>
+{{--                    <iframe class="mr-5" width="100%" style="height: 400px" src="https://www.youtube.com/embed/dNMOj-3Fwls" title="Work" allowfullscreen></iframe>--}}
                 </div>
             </div>
     </div>
