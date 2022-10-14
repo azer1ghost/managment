@@ -211,6 +211,7 @@ return [
         'human_resources' => 'İnsan Resursları',
         'law' => 'Hüquq',
         'intern_number' => 'Daxili Nömrələr',
+        'instruction' => 'Video Təlimat',
     ],
 
     'date' => [

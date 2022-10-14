@@ -209,6 +209,7 @@ return [
         'human_resources' => 'Human Resources',
         'law' => 'Law',
         'intern_number' => 'Intern Numbers',
+        'instruction' => 'Video Instruction',
 
     ],
 

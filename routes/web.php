@@ -162,6 +162,7 @@ Route::group([
     Route::get('/chats', [ChatController::class, 'index'])->name('chats.index');
     Route::get('/message/{id}', [ChatController::class, 'message'])->name('message');
     Route::post('/message', [ChatController::class, 'sendMessage']);
+    Route::view('/instruction','pages.instructions.index' )->name('instruction');
 
 
     // resultable routes

@@ -331,6 +331,13 @@ class Sidebar extends Component
             ],
 
             (object)[
+                'title' => __('translates.navbar.instruction'),
+                'icon' => 'far fa-chalkboard-teacher',
+                'url' => route('instruction'),
+                'permission' => 'viewAny-task',
+            ],
+
+            (object)[
                 'title' => 'Chat',
                 'icon' => 'fab fa-rocketchat',
                 'url' => route('chats.index'),
