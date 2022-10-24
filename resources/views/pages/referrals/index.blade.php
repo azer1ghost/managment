@@ -21,6 +21,18 @@
                         <a class="btn btn-outline-danger d-flex align-items-center" href="{{route('referrals.index')}}"><i class="fal fa-times"></i></a>
                     </div>
                 </div>
+                <div class="form-group col-md-4">
+                    <label class="d-block" for="userFilter">{{trans('translates.columns.user')}}</label>
+                    <select name="user_id" id="userFilter" class="form-control" style="width: 100% !important;">
+                        <option value="">@lang('translates.filters.select')</option>
+                        @foreach($users as $user)
+                            <option value="{{$user->getAttribute('id')}}"
+                                    @if($user->getAttribute('id') == request()->get('user_id')) selected @endif>
+                                {{$user->getAttribute('fullname')}}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="col-md-2 mb-3">
                     <select name="limit" class="custom-select">
                         @foreach([25, 50, 100] as $size)
@@ -107,4 +119,11 @@
         <input type="hidden" id="referral-key" name="key">
         @csrf
     </form>
+@endsection
+@section('scripts')
+    <script>
+        $('select').change(function () {
+            this.form.submit();
+        });
+    </script>
 @endsection

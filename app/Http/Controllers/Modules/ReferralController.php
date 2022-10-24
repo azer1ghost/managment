@@ -20,11 +20,15 @@ class ReferralController extends Controller
     {
         $search = $request->get('search');
         $limit  = $request->get('limit', 25);
-        $user = User::isActive()->get('id');
+        $user = $request->get('user_id');
+        $users = User::isActive()->get(['id', 'name', 'surname']);
 
         return view('pages.referrals.index', [
+            'users' => $users,
             'referrals' => Referral::with('user')
-                ->when($search, fn($query) => $query->where('key', 'LIKE', "%$search%"))->whereIn('user_id', $user)
+                ->when($search, fn($query) => $query->where('key', 'LIKE', "%$search%"))
+                ->when($user, fn($query)=> $query->where('user_id', $user))
+                ->whereIn('user_id', $users)
                 ->paginate($limit)
         ]);
     }
