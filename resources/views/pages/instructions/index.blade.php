@@ -26,6 +26,11 @@
                 <h2 data-toggle="collapse" href="#task">@lang('translates.navbar.task')</h2>
                 <div class="col-12 collapse" id="task">
 {{--                    <iframe class="mr-5" width="100%" style="height: 400px" src="https://www.youtube.com/embed/dNMOj-3Fwls" title="Task" allowfullscreen></iframe>--}}
+{{--                    <video width="320" height="240" controls>--}}
+{{--                        <source src="movie.mp4" type="video/mp4">--}}
+
+{{--                        Your browser does not support the video tag.--}}
+{{--                    </video>--}}
                 </div>
 
                 <h2 data-toggle="collapse" href="#inquiry">@lang('translates.navbar.inquiry')</h2>

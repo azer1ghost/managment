@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerEngagementRequest;
-use App\Models\Client;
 use App\Models\CustomerEngagement;
 use App\Models\Partner;
 use App\Models\User;

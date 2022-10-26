@@ -8,7 +8,6 @@ use App\Exports\WorksExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkRequest;
 use App\Interfaces\WorkRepositoryInterface;
-use App\Notifications\NotifyClientMail;
 use App\Notifications\NotifyClientSms;
 use Carbon\Carbon;
 use App\Models\{Company, Department, Service, User, Work, Client};
@@ -40,7 +39,6 @@ class WorkController extends Controller
         $limit  = $request->get('limit', 25);
         $startOfMonth = now()->firstOfMonth()->format('Y/m/d');
         $endOfMonth = now()->format('Y/m/d');
-
 
 //        $departmentRequest = Work::userCannotViewAll() ?
 //            $user->getAttribute('department_id') :
@@ -190,17 +188,12 @@ class WorkController extends Controller
         $replace = array('C','c','G','g','i','I','O','o','S','s','U','u','E','e');
         $serviceName = str_replace($search,$replace,$serviceText);
         $clientName = str_replace($search,$replace,$clientText);
-
         if (!empty($client->getAttribute('phone1'))) {
-                if ($request->status == 2) {
-                    $message = 'Deyerli ' . $clientName . ' sizin ' . $serviceName . ' uzre isiniz icra olunur. ' . $work->getAttribute('created_at');
-                    (new NotifyClientSms($message))->toSms($client)->send();
-                } elseif ($request->status == 3) {
-                    $message = 'Deyerli ' . $clientName . ' sizin ' . $serviceName . ' uzre isiniz tamamlandi. ' . $work->getAttribute('created_at');
+                if ($request->status == 3) {
+                    $message = 'Deyerli ' . $clientName . ' sizin ' . $serviceName . ' uzre isiniz icra olunur. ' . $work->getAttribute('created_at')->format('d/m/y');
                     (new NotifyClientSms($message))->toSms($client)->send();
                 }
             }
-
 //        $client->notify(new NotifyClientMail($project));
 //        (new NotifyClientSms($message))->toSms($client)->send();
 
