@@ -108,7 +108,7 @@ class CustomerEngagementController extends Controller
             $sum_total_payment = 0;
         }
         foreach ($works as $work){
-            $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID) + $work->getAttribute('bank_charge');
+            $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::ILLEGALPAID);
             $total_payment[] = $sum_payment;
             $sum_total_payment = array_sum($total_payment);
         }
