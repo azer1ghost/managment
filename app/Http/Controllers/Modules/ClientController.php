@@ -113,8 +113,8 @@ class ClientController extends Controller
 
     public function store(ClientRequest $request)
     {
-        $price = 'EGB = '. $request->get('egb') . ' AZN, QIB = ' . $request->get('qib') . ' AZN, Ticarnet = '. $request->get('ticarnet') . ' AZN, Temsilcilik = '
-            . $request->get('t') . ' AZN, CMR = ' . $request->get('cmr') . ' AZN, SB = ' . $request->get('sb') . ' AZN, TGB = ' . $request->get('tgb') . ' AZN';
+        $price = 'EGB = '. $request->get('egb') . ' AZN, QIB = ' . $request->get('qib') . ' AZN, Temsilcilik = '
+            . $request->get('t') . ' AZN, CMR = ' . $request->get('cmr') . ' AZN, TGB = ' . $request->get('tgb') . ' AZN, SB = ' . $request->get('sb') . ' AZN, Tircarnet = '. $request->get('tircarnet') .' AZN';
 
         $validated = $request->validated();
         $validated['price'] = $price;
@@ -160,8 +160,8 @@ class ClientController extends Controller
 
     public function update(ClientRequest $request, Client $client)
     {
-        $price = 'EGB = '. $request->get('egb') . ' AZN, QIB = ' . $request->get('qib') . ' AZN, Ticarnet = '. $request->get('ticarnet') . ' AZN, Temsilcilik = '
-            . $request->get('t') . ' AZN, CMR = ' . $request->get('cmr') . ' AZN, SB = ' . $request->get('sb') . ' AZN, TGB = ' . $request->get('tgb') . ' AZN';
+        $price = 'EGB = '. $request->get('egb') . ' AZN, QIB = ' . $request->get('qib') . ' AZN, Temsilcilik = '
+            . $request->get('t') . ' AZN, CMR = ' . $request->get('cmr') . ' AZN, TGB = ' . $request->get('tgb') . ' AZN, SB = ' . $request->get('sb') . ' AZN, Tircarnet = '. $request->get('tircarnet') .' AZN';
 
         $validated = $request->validated();
         $validated['price'] = $price;

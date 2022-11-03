@@ -170,25 +170,23 @@
         @php
             $price = $data->getAttribute('price');
             preg_match('/(?<=EGB = )(.*)(?= AZN, Q)/', $price, $egb);
-            preg_match('/(?<=QIB = )(.*)(?= AZN, Ticarnet)/', $price, $qib);
-            preg_match('/(?<=Ticarnet = )(.*)(?= AZN, Temsilcilik )/', $price, $ticarnet);
+            preg_match('/(?<=QIB = )(.*)(?= AZN, Temsilcilik)/', $price, $qib);
             preg_match('/(?<=Temsilcilik = )(.*)(?= AZN, CMR)/', $price, $t);
-            preg_match('/(?<=CMR = )(.*)(?= AZN, SB)/', $price, $cmr);
-            preg_match('/(?<=SB = )(.*)(?= AZN, TGB)/', $price, $sb);
-            preg_match('/(?<=TGB = )(.*)(?= AZN)/', $price, $tgb);
+            preg_match('/(?<=CMR = )(.*)(?= AZN, TGB)/', $price, $cmr);
+            preg_match('/(?<=TGB = )(.*)(?= AZN, SB)/', $price, $tgb);
+            preg_match('/(?<=SB = )(.*)(?= AZN, Tircarnet)/', $price, $sb);
+            preg_match('/(?<=Tircarnet = )(.*)(?= AZN)/', $price, $tircarnet);
         @endphp
         <div class="col-12">
+            <p>{{$price}}</p>
+
            <p>
-               Gömrük Bəyannaməsi
+               Elektron Gömrük Bəyannaməsi
                <input aria-label="egb" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $egb[1]}}" name="egb" type="number" />
                 AZN,
                <br>
-               Qısa İdxal
+               Qısa İdxal Bəyannaməsi
                <input aria-label="qib" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $qib[1]}}" name="qib" type="number" />
-                AZN,
-               <br>
-               TİCARNET
-               <input aria-label="ticarnet" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $ticarnet[1]}}" name="ticarnet" type="number" />
                 AZN,
                <br>
                Təmsilçilik
@@ -199,13 +197,18 @@
                <input aria-label="cmr" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $cmr[1]}}" name="cmr" type="number" />
                 AZN,
                <br>
+               Tranzit Gömrük Bəyannaməsi
+               <input aria-label="tgb" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $tgb[1]}}" name="tgb" type="number" />
+               AZN
+               <br>
                Sadələşdirilmiş Bəyannamə
                <input aria-label="sb" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $sb[1]}}" name="sb" type="number" />
                 AZN,
                <br>
-               Tranzit Gömrük Bəyannaməsi
-               <input aria-label="tgb" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $tgb[1]}}" name="tgb" type="number" />
-                AZN
+               TİRCARNET
+               <input aria-label="tircarnet" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $tircarnet[0]}}" name="tircarnet" type="number" />
+               AZN,
+
            </p>
         </div>
 
