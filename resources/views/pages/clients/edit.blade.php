@@ -1,6 +1,19 @@
 @extends('layouts.main')
 
 @section('title', __('translates.navbar.client'))
+@section('style')
+    <style>
+        .customInput {
+            outline: 0;
+            border-width: 0 0 2px;
+            border-color: blue;
+            width: 50px
+        }
+        .customInput:focus {
+            border-color: green
+        }
+    </style>
+@endsection
 
 @section('content')
     <x-bread-crumb>
@@ -152,7 +165,50 @@
                     </select>
                 </div>
             @endif
+
         </div>
+        @php
+            $price = $data->getAttribute('price');
+            preg_match('/(?<=EGB = )(.*)(?= AZN, Q)/', $price, $egb);
+            preg_match('/(?<=QIB = )(.*)(?= AZN, Ticarnet)/', $price, $qib);
+            preg_match('/(?<=Ticarnet = )(.*)(?= AZN, Temsilcilik )/', $price, $ticarnet);
+            preg_match('/(?<=Temsilcilik = )(.*)(?= AZN, CMR)/', $price, $t);
+            preg_match('/(?<=CMR = )(.*)(?= AZN, SB)/', $price, $cmr);
+            preg_match('/(?<=SB = )(.*)(?= AZN, TGB)/', $price, $sb);
+            preg_match('/(?<=TGB = )(.*)(?= AZN)/', $price, $tgb);
+        @endphp
+        <div class="col-12">
+           <p>
+               Gömrük Bəyannaməsi
+               <input aria-label="egb" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $egb[1]}}" name="egb" type="number" />
+                AZN,
+               <br>
+               Qısa İdxal
+               <input aria-label="qib" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $qib[1]}}" name="qib" type="number" />
+                AZN,
+               <br>
+               TİCARNET
+               <input aria-label="ticarnet" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $ticarnet[1]}}" name="ticarnet" type="number" />
+                AZN,
+               <br>
+               Təmsilçilik
+               <input aria-label="t" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $t[1]}}" name="t" type="number" />
+                AZN,
+               <br>
+               CMR
+               <input aria-label="cmr" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $cmr[1]}}" name="cmr" type="number" />
+                AZN,
+               <br>
+               Sadələşdirilmiş Bəyannamə
+               <input aria-label="sb" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $sb[1]}}" name="sb" type="number" />
+                AZN,
+               <br>
+               Tranzit Gömrük Bəyannaməsi
+               <input aria-label="tgb" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $tgb[1]}}" name="tgb" type="number" />
+                AZN
+           </p>
+        </div>
+
         @if($action)
             <x-input::submit/>
         @endif

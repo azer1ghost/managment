@@ -33,7 +33,7 @@ class ClientRequest extends FormRequest
             'type'            => 'nullable|boolean',
             'client_id'       => 'nullable|integer',
             'detail'          => 'nullable|string',
-            'satisfaction'   =>  'nullable|integer',
+            'satisfaction'    =>  'nullable|integer',
         ];
     }
 }

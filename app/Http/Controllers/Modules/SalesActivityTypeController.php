@@ -25,7 +25,6 @@ class SalesActivityTypeController extends Controller
 
     public function create()
     {
-
         return view('pages.sales-activities-types.edit')->with([
             'action' => route('sales-activities-types.store'),
             'method' => 'POST',

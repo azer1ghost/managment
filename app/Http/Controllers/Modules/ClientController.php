@@ -98,8 +98,6 @@ class ClientController extends Controller
                 'satisfactions' => Client::satisfactions(),
                 'users' => User::isActive()->get(['id', 'name', 'surname'])
             ]);
-
-
     }
 
     public function create()
@@ -115,7 +113,11 @@ class ClientController extends Controller
 
     public function store(ClientRequest $request)
     {
+        $price = 'EGB = '. $request->get('egb') . ' AZN, QIB = ' . $request->get('qib') . ' AZN, Ticarnet = '. $request->get('ticarnet') . ' AZN, Temsilcilik = '
+            . $request->get('t') . ' AZN, CMR = ' . $request->get('cmr') . ' AZN, SB = ' . $request->get('sb') . ' AZN, TGB = ' . $request->get('tgb') . ' AZN';
+
         $validated = $request->validated();
+        $validated['price'] = $price;
         $validated['user_id'] = auth()->id();
         $client = Client::create($validated);
 
@@ -158,8 +160,11 @@ class ClientController extends Controller
 
     public function update(ClientRequest $request, Client $client)
     {
-        $validated = $request->validated();
+        $price = 'EGB = '. $request->get('egb') . ' AZN, QIB = ' . $request->get('qib') . ' AZN, Ticarnet = '. $request->get('ticarnet') . ' AZN, Temsilcilik = '
+            . $request->get('t') . ' AZN, CMR = ' . $request->get('cmr') . ' AZN, SB = ' . $request->get('sb') . ' AZN, TGB = ' . $request->get('tgb') . ' AZN';
 
+        $validated = $request->validated();
+        $validated['price'] = $price;
         $client->update($validated);
 
         return back()->withNotify('info', $client->getAttribute('name'));
