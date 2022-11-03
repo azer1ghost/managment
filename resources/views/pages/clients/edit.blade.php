@@ -178,8 +178,6 @@
             preg_match('/(?<=Tircarnet = )(.*)(?= AZN)/', $price, $tircarnet);
         @endphp
         <div class="col-12">
-            <p>{{$price}}</p>
-
            <p>
                Elektron Gömrük Bəyannaməsi
                <input aria-label="egb" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $egb[1]}}" name="egb" type="number" />
@@ -199,7 +197,7 @@
                <br>
                Tranzit Gömrük Bəyannaməsi
                <input aria-label="tgb" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $tgb[1]}}" name="tgb" type="number" />
-               AZN
+               AZN,
                <br>
                Sadələşdirilmiş Bəyannamə
                <input aria-label="sb" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $sb[1]}}" name="sb" type="number" />
@@ -207,7 +205,7 @@
                <br>
                TİRCARNET
                <input aria-label="tircarnet" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $tircarnet[0]}}" name="tircarnet" type="number" />
-               AZN,
+               AZN
 
            </p>
         </div>
