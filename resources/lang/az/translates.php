@@ -210,7 +210,9 @@ return [
         'sales' => 'Satış',
         'human_resources' => 'İnsan Resursları',
         'law' => 'Hüquq',
+        'structure' => 'Struktur',
         'intern_number' => 'Daxili Nömrələr',
+        'intern_relation' => 'Daxili Əlaqələr',
         'instruction' => 'Video Təlimat',
     ],
 

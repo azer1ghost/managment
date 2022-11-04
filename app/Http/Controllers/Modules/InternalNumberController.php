@@ -27,7 +27,6 @@ class InternalNumberController extends Controller
                             ->orWhere('phone', 'like', "%".$search."%")
                             ->orWhere('detail', 'like', "%".$search."%"))
                             ->paginate(25)]);
-
     }
 
     public function create()

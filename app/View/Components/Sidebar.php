@@ -71,10 +71,24 @@ class Sidebar extends Component
             ],
 
             (object)[
-                'title' => __('translates.navbar.intern_number'),
-                'icon' => 'fal fa-phone-office',
-                'url' => route('internal-numbers.index'),
+                'title' => __('translates.navbar.structure'),
+                'icon' => 'fad fa-chart-network',
+                'url' => '#',
                 'permission' => 'generally',
+                'children' => [
+                    (object)[
+                        'title' => __('translates.navbar.intern_number'),
+                        'icon' => 'fal fa-phone-office',
+                        'url' => route('internal-numbers.index'),
+                        'permission' => 'generally',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.intern_relation'),
+                        'icon' => 'fad fa-chart-network',
+                        'url' => route('internal-relations.index'),
+                        'permission' => 'generally',
+                    ],
+                ]
             ],
 
             (object)[

@@ -22,6 +22,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\DocumentController,
     Modules\InquiryController,
     Modules\InternalNumberController,
+    Modules\InternalRelationController,
     Modules\MeetingController,
     Modules\OptionController,
     Modules\OrganizationController,
@@ -143,6 +144,7 @@ Route::group([
 
     Route::resource('/meetings', MeetingController::class);
     Route::resource('/internal-numbers', InternalNumberController::class);
+    Route::resource('/internal-relations', InternalRelationController::class);
     Route::resource('/organizations', OrganizationController::class);
     Route::resource('/conferences', ConferenceController::class);
     Route::resource('/advertising', AdvertisingController::class);

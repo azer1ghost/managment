@@ -2,85 +2,79 @@
 
 namespace App\Http\Controllers\Modules;
 
-use App\Http\Controllers\Controller;
-use App\Models\InternalRelation;
-use Illuminate\Http\Request;
+use App\Http\{Controllers\Controller, Requests\InternalRelationRequest};
+use App\Models\{Department, InternalRelation, User};
 
 class InternalRelationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->authorizeResource(InternalRelation::class, 'internal_relation');
+    }
+
     public function index()
     {
-        //
+        return view('pages.internal_relations.index')
+            ->with([ 'internalRelations' => InternalRelation::get() ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('pages.internal_relations.edit')->with([
+            'action' => route('internal-relations.store'),
+            'method' => null,
+            'data' => new InternalRelation(),
+            'users' => User::get(['id', 'name', 'surname']),
+            'departments' => Department::get(['id', 'name'])
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(InternalRelationRequest $request)
     {
-        //
+        $internalRelation = InternalRelation::create($request->validated());
+
+        return redirect()
+            ->route('internal-relations.edit', $internalRelation)
+            ->withNotify('success', $internalRelation->getAttribute('name'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\InternalRelation  $internalRelation
-     * @return \Illuminate\Http\Response
-     */
     public function show(InternalRelation $internalRelation)
     {
-        //
+        return view('pages.internal_relations.edit')->with([
+            'action' => null,
+            'method' => null,
+            'data' => $internalRelation,
+            'users' => User::get(['id', 'name', 'surname']),
+            'departments' => Department::get(['id', 'name'])
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\InternalRelation  $internalRelation
-     * @return \Illuminate\Http\Response
-     */
     public function edit(InternalRelation $internalRelation)
     {
-        //
+        return view('pages.internal_relations.edit')->with([
+            'action' => route('internal-relations.update', $internalRelation),
+            'method' => 'PUT',
+            'data' => $internalRelation,
+            'users' => User::get(['id', 'name', 'surname']),
+            'departments' => Department::get(['id', 'name'])
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\InternalRelation  $internalRelation
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, InternalRelation $internalRelation)
+    public function update(InternalRelationRequest $request, InternalRelation $internalRelation)
     {
-        //
+        $internalRelation->update($request->validated());
+
+        return redirect()
+            ->route('internal-relations.edit', $internalRelation)
+            ->withNotify('success', $internalRelation->getAttribute('name'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\InternalRelation  $internalRelation
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(InternalRelation $internalRelation)
     {
-        //
+        if ($internalRelation->delete()) {
+            return response('OK');
+        }
+        return response()->setStatusCode('204');
     }
 }
