@@ -32,7 +32,6 @@
                         <th scope="col">Əlaqə Saxlanılacaq Şəxs</th>
                         <th scope="col">Əlaqə Vasitəsi</th>
                         <th scope="col">Əlaqə Zamanı</th>
-                        <th scope="col">Operator</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -49,25 +48,22 @@
                             </td>
                             <td style="word-wrap: break-word;">{{$internalRelation->getAttribute('tool')}}</td>
                             <td>{{$internalRelation->getAttribute('contact_time')}}</td>
-                            <td>
-                                <div class="btn-sm-group">
-                                    @can('view', $internalRelation)
-                                        <a href="{{route('internal-relations.show', $internalRelation)}}" class="btn btn-sm btn-outline-primary">
-                                            <i class="fal fa-eye"></i>
-                                        </a>
-                                    @endcan
-                                    @can('update', $internalRelation)
-                                        <a href="{{route('internal-relations.edit', $internalRelation)}}" class="btn btn-sm btn-outline-success">
-                                            <i class="fal fa-pen"></i>
-                                        </a>
-                                    @endcan
-                                    @can('delete', $internalRelation)
-                                        <a href="{{route('internal-relations.destroy', $internalRelation)}}" delete data-name="{{$internalRelation->getAttribute('id')}}" class="btn btn-sm btn-outline-danger" >
-                                            <i class="fal fa-trash"></i>
-                                        </a>
-                                    @endcan
-                                </div>
-                            </td>
+                            @if(auth()->user()->isDeveloper())
+                                <td>
+                                    <div class="btn-sm-group">
+                                            <a href="{{route('internal-relations.show', $internalRelation)}}" class="btn btn-sm btn-outline-primary">
+                                                <i class="fal fa-eye"></i>
+                                            </a>
+                                            <a href="{{route('internal-relations.edit', $internalRelation)}}" class="btn btn-sm btn-outline-success">
+                                                <i class="fal fa-pen"></i>
+                                            </a>
+                                            <a href="{{route('internal-relations.destroy', $internalRelation)}}" delete data-name="{{$internalRelation->getAttribute('id')}}" class="btn btn-sm btn-outline-danger" >
+                                                <i class="fal fa-trash"></i>
+                                            </a>
+                                    </div>
+                                </td>
+                            @endif
+
                         </tr>
                     @empty
                         <tr>
