@@ -16,7 +16,7 @@ class InternalRelationController extends Controller
     public function index()
     {
         return view('pages.internal_relations.index')
-            ->with([ 'internalRelations' => InternalRelation::get() ]);
+            ->with([ 'internalRelations' => InternalRelation::latest()->get() ]);
     }
 
     public function create()
