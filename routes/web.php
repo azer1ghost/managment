@@ -145,6 +145,7 @@ Route::group([
     Route::resource('/meetings', MeetingController::class);
     Route::resource('/internal-numbers', InternalNumberController::class);
     Route::resource('/internal-relations', InternalRelationController::class);
+    Route::get('/foreign', [InternalRelationController::class, 'foreign'])->name('foreign');
     Route::resource('/organizations', OrganizationController::class);
     Route::resource('/conferences', ConferenceController::class);
     Route::resource('/advertising', AdvertisingController::class);

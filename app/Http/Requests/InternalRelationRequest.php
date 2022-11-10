@@ -16,6 +16,6 @@ class InternalRelationRequest extends FormRequest
             'reciever' => 'nullable|string',
             'tool' => 'nullable|string',
             'contact_time' => 'nullable|string',
-        ];
+            ];
     }
 }

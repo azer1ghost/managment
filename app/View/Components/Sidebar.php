@@ -88,6 +88,12 @@ class Sidebar extends Component
                         'url' => route('internal-relations.index'),
                         'permission' => 'generally',
                     ],
+                    (object)[
+                        'title' => __('translates.navbar.foreign_relation'),
+                        'icon' => 'fad fa-chart-network',
+                        'url' => route('foreign'),
+                        'permission' => 'generally',
+                    ],
                 ]
             ],
 

@@ -213,6 +213,7 @@ return [
         'structure' => 'Struktur',
         'intern_number' => 'Daxili Nömrələr',
         'intern_relation' => 'Daxili Əlaqələr',
+        'foreign_relation' => 'Xarici Əlaqələr',
         'instruction' => 'Video Təlimat',
     ],
 

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class InternalRelation extends Model
 {
-    protected $fillable = ['user_id', 'department_id', 'case', 'applicant', 'reciever', 'tool', 'contact_time'];
+    protected $fillable = ['user_id', 'department_id', 'case', 'applicant', 'reciever', 'tool', 'contact_time', 'is_foreign'];
 
     public function users(): BelongsTo
     {

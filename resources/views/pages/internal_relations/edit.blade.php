@@ -57,6 +57,11 @@
                     <x-form-group  class="pr-3 col-12 col-lg-6">
                         <x-form-input  name="contact_time" label="Əlaqə Zamanı" placeholder="Əlaqə Zamanı daxil edin"/>
                     </x-form-group>
+
+                </div>
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" name="is_foreign" class="custom-control-input" id="foreign" @if($data->getAttribute('is_foreign')) checked @endif>
+                    <label class="custom-control-label" for="foreign">@lang('translates.navbar.foreign_relation')</label>
                 </div>
             </div>
         </div>

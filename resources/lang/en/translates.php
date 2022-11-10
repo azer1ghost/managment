@@ -211,8 +211,8 @@ return [
         'structure' => 'Structure',
         'intern_number' => 'Intern Numbers',
         'intern_relation' => 'Intern Relations',
+        'foreign_relation' => 'Foreign Relations',
         'instruction' => 'Video Instruction',
-
     ],
 
     'date' => [

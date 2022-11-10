@@ -16,7 +16,13 @@ class InternalRelationController extends Controller
     public function index()
     {
         return view('pages.internal_relations.index')
-            ->with([ 'internalRelations' => InternalRelation::latest()->get() ]);
+            ->with([ 'internalRelations' => InternalRelation::where('is_foreign', 0)->latest()->get()]);
+    }
+
+    public function foreign()
+    {
+        return view('pages.foreign_relations.index')
+            ->with([ 'internalRelations' => InternalRelation::where('is_foreign', 1)->latest()->get()]);
     }
 
     public function create()
@@ -32,7 +38,9 @@ class InternalRelationController extends Controller
 
     public function store(InternalRelationRequest $request)
     {
-        $internalRelation = InternalRelation::create($request->validated());
+        $validated = $request->validated();
+        $validated['is_foreign'] = $request->has('is_foreign');
+        $internalRelation = InternalRelation::create($validated);
 
         return redirect()
             ->route('internal-relations.edit', $internalRelation)
@@ -63,7 +71,9 @@ class InternalRelationController extends Controller
 
     public function update(InternalRelationRequest $request, InternalRelation $internalRelation)
     {
-        $internalRelation->update($request->validated());
+        $validated = $request->validated();
+        $validated['is_foreign'] = $request->has('is_foreign');
+        $internalRelation->update($validated);
 
         return redirect()
             ->route('internal-relations.edit', $internalRelation)
