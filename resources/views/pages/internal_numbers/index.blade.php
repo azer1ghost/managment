@@ -33,7 +33,8 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">@lang('translates.columns.name')</th>
-                        <th scope="col">@lang('translates.columns.phone')</th>
+                        <th scope="col">@lang('translates.fields.phone_coop')</th>
+                        <th scope="col">@lang('translates.columns.internal_number')</th>
                         <th scope="col">@lang('translates.columns.detail')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
@@ -42,7 +43,8 @@
                     @forelse($internalNumbers as $internalNumber)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
-                            <td>{{$internalNumber->getAttribute('name')}}</td>
+                            <td>{{$internalNumber->getAttribute('user_id') == null ? $internalNumber->getAttribute('name') : $internalNumber->getRelationValue('users')->getFullnameWithPositionAttribute()}}</td>
+                            <td>{{$internalNumber->getRelationValue('users')->getAttribute('phone_coop')}}</td>
                             <td>{{$internalNumber->getAttribute('phone')}}</td>
                             <td>{{$internalNumber->getAttribute('detail')}}</td>
                             <td>

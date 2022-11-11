@@ -24,6 +24,15 @@
         <div class="row mt-4">
             <div class="form-group col-12">
                 <div class="row">
+                    <div class="form-group col-6 user">
+                        <label for="user_id">@lang('translates.columns.user')</label><br/>
+                        <select class="select2 form-control" name="user_id" id="user_id">
+                            <option value="">@lang('translates.general.user_select')</option>
+                            @foreach($users as $user)
+                                <option @if($data->getAttribute('user_id') == $user->id) selected @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <x-form-group  class="pr-3 col-12 col-lg-6"  >
                         <x-form-input  name="name" label="Ad" placeholder="Ad daxil edin"/>
                     </x-form-group>

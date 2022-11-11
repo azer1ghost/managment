@@ -423,6 +423,7 @@ return [
         'price_unverified' => 'Price Unverified',
         'reports_by_the_week' => 'Reports by the week',
         'detail' => 'Detail',
+        'internal_number' => 'Internal Number',
         'organization' => 'Qurum',
         'is_certificate' => 'Sertifikat',
         'activity_area' => 'Activity Area',

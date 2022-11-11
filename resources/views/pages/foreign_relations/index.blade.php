@@ -63,7 +63,6 @@
                                     </div>
                                 </td>
                             @endif
-
                         </tr>
                     @empty
                         <tr>

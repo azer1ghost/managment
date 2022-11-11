@@ -7,6 +7,7 @@ use App\Http\Requests\InternalNumberRequest;
 use App\Models\Department;
 use App\Models\InternalNumber;
 use App\Models\Meeting;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class InternalNumberController extends Controller
@@ -34,7 +35,8 @@ class InternalNumberController extends Controller
         return view('pages.internal_numbers.edit')->with([
             'action' => route('internal-numbers.store'),
             'method' => null,
-            'data' => null,
+            'data' => new InternalNumber(),
+            'users' => User::get(['id', 'name', 'surname']),
         ]);
     }
 
@@ -53,7 +55,7 @@ class InternalNumberController extends Controller
             'action' => null,
             'method' => null,
             'data' => $internalNumber,
-
+            'users' => User::get(['id', 'name', 'surname']),
         ]);
     }
 
@@ -63,6 +65,7 @@ class InternalNumberController extends Controller
             'action' => route('internal-numbers.update', $internalNumber),
             'method' => 'PUT',
             'data' => $internalNumber,
+            'users' => User::get(['id', 'name', 'surname']),
         ]);
     }
 

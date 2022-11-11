@@ -12,6 +12,7 @@ class InternalNumberRequest extends FormRequest
             'name' => 'nullable|string',
             'phone'=> 'nullable|string',
             'detail' => 'nullable|string',
+            'user_id' => 'nullable',
         ];
     }
 }
