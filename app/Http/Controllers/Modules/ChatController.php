@@ -39,9 +39,9 @@ class ChatController extends Controller
         Chat::where(['from' => $user_id, 'to' => $my_id])->update(['is_read' => 1]);
         $messages = Chat::where(function ($query) use ($user_id, $my_id) {
             $query->where('from', $my_id)->where('to', $user_id);
-            $query->where('from', $user_id)->where('to', $my_id);
-//        })->orWhere(function ($query) use ($user_id, $my_id) {
 //            $query->where('from', $user_id)->where('to', $my_id);
+        })->orWhere(function ($query) use ($user_id, $my_id) {
+            $query->where('from', $user_id)->where('to', $my_id);
         })->get();
         return view('pages.chats.messages')->with([
             'user' => $user ,
