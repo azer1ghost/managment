@@ -66,7 +66,6 @@
                                     @endcan
                                 </div>
                             </td>
-                            </td>
                         </tr>
                     @empty
                         <tr>
