@@ -212,6 +212,7 @@ return [
         'law' => 'Hüquq',
         'structure' => 'Struktur',
         'intern_number' => 'Daxili Nömrələr',
+        'job_instruction' => 'Vəzifə Təlimatları',
         'intern_relation' => 'Daxili Əlaqələr',
         'foreign_relation' => 'Xarici Əlaqələr',
         'instruction' => 'Video Təlimat',

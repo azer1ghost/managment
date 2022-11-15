@@ -210,6 +210,7 @@ return [
         'law' => 'Law',
         'structure' => 'Structure',
         'intern_number' => 'Intern Numbers',
+        'job_instruction' => 'Job Instructions',
         'intern_relation' => 'Intern Relations',
         'foreign_relation' => 'Foreign Relations',
         'instruction' => 'Video Instruction',

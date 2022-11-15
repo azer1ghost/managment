@@ -36,6 +36,7 @@ return [
         'viewAny-conference', 'view-conference', 'manage-conference',
         'viewAny-department', 'view-department', 'manage-department',
         'viewAny-document', 'view-document', 'create-document', 'update-document', 'delete-document',
+        'viewAny-jobInstruction', 'view-jobInstruction', 'create-jobInstruction', 'update-jobInstruction','manage-jobInstruction','delete-jobInstruction',
         'viewAny-internalNumber', 'view-internalNumber', 'create-internalNumber', 'update-internalNumber','manage-internalNumber','delete-internalNumber',
         'viewAny-internalRelation', 'view-internalRelation', 'create-internalRelation', 'update-internalRelation','manage-internalRelation','delete-internalNumber',
         'viewAll-inquiry', 'viewAllDepartment-inquiry', 'viewAny-inquiry', 'view-inquiry', 'create-inquiry', 'update-inquiry', 'delete-inquiry', 'forceDelete-inquiry', 'restore-inquiry', 'editAccessToUser-inquiry',
@@ -57,6 +58,7 @@ return [
         'viewAny-salesActivity', 'view-salesActivity', 'manage-salesActivity',
         'viewAny-update', 'view-update', 'create-update', 'update-update', 'delete-update',
         'viewAny-user', 'view-user', 'create-user', 'update-user', 'delete-user','manageStatus-user', 'manageReferral-user',
+        'viewAll-work', 'viewAny-work', 'view-work', 'create-work', 'update-work', 'delete-work', 'canVerify-work', 'canRedirect-work', 'viewAllDepartment-work', 'viewPrice-work', 'editPrice-work',
         'viewAny-widget',
         'inquiryStatus-widget',
         'inquiryDaily-widget',
@@ -70,7 +72,6 @@ return [
         'salesClientMonthly-widget',
         'workPersonal-widget',
         'service-widget',
-        'viewAll-work', 'viewAny-work', 'view-work', 'create-work', 'update-work', 'delete-work', 'canVerify-work', 'canRedirect-work', 'viewAllDepartment-work', 'viewPrice-work', 'editPrice-work',
     ],
 
     /*

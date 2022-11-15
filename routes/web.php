@@ -23,6 +23,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\InquiryController,
     Modules\InternalNumberController,
     Modules\InternalRelationController,
+    Modules\JobInstructionController,
     Modules\MeetingController,
     Modules\OptionController,
     Modules\OrganizationController,
@@ -143,6 +144,7 @@ Route::group([
     Route::post('/code', [WorkController::class, 'code'])->name('work.code');
 
     Route::resource('/meetings', MeetingController::class);
+    Route::resource('/job-instructions', JobInstructionController::class);
     Route::resource('/internal-numbers', InternalNumberController::class);
     Route::resource('/internal-relations', InternalRelationController::class);
     Route::get('/foreign', [InternalRelationController::class, 'foreign'])->name('foreign');
