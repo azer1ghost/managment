@@ -40,12 +40,12 @@
 
                 <h2 data-toggle="collapse" href="#calendar">@lang('translates.navbar.calendar')</h2>
                 <div class="collapse" id="calendar">
-{{--                    <iframe class="mr-5" width="100%" style="height: 400px" src="https://www.youtube.com/embed/dNMOj-3Fwls" title="Calendar" allowfullscreen></iframe>--}}
+                    <iframe class="mr-5" width="100%" style="height: 400px" src="{{asset('videos/teqvim.mp4')}}" title="Calendar" allowfullscreen></iframe>
                 </div>
 
                 <h2 data-toggle="collapse" href="#work">@lang('translates.navbar.work')</h2>
                 <div class="collapse" id="work">
-{{--                    <iframe class="mr-5" width="100%" style="height: 400px" src="https://www.youtube.com/embed/dNMOj-3Fwls" title="Work" allowfullscreen></iframe>--}}
+                    <iframe class="mr-5" width="100%" style="height: 400px" src="{{asset('videos/isler.mp4')}}" title="Work" allowfullscreen></iframe>
                 </div>
             </div>
     </div>
