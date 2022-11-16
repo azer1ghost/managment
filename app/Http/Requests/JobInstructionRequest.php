@@ -10,7 +10,8 @@ class JobInstructionRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required'
+            'user_id' => 'required',
+            'instruction' => 'required'
         ];
     }
 }

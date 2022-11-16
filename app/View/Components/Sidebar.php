@@ -100,6 +100,12 @@ class Sidebar extends Component
                         'url' => route('foreign'),
                         'permission' => 'generally',
                     ],
+                    (object)[
+                        'title' => __('translates.navbar.instruction'),
+                        'icon' => 'far fa-chalkboard-teacher',
+                        'url' => route('instruction'),
+                        'permission' => 'viewAny-task',
+                    ],
                 ]
             ],
 
@@ -354,13 +360,6 @@ class Sidebar extends Component
                 'icon' => 'fas fa-file-word',
                 'url' => route('documents.index'),
                 'permission' => 'viewAny-document',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.instruction'),
-                'icon' => 'far fa-chalkboard-teacher',
-                'url' => route('instruction'),
-                'permission' => 'viewAny-task',
             ],
 
             (object)[

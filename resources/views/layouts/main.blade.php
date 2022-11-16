@@ -20,6 +20,9 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <!-- Flags Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+{{--    <link href="{{asset('assets/css/summernote/summernote.css') }}" rel="stylesheet">--}}
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Styles -->
     <link href="{{ asset('assets/fonts/fontawesome.pro.min.css') }}" rel="stylesheet">
@@ -72,7 +75,8 @@
 
     <!-- tinyMCE -->
 {{--    <script src="https://cdn.tiny.cloud/1/6hi4bok2utssc8368iz75o1mg2sma3bl46qf41q4i2ah6myx/tinymce/5/tinymce.min.js"></script>--}}
-    <script src="{{asset('assets/js/tinyMCE/az.js')}}"></script>
+{{--    <script src="{{asset('assets/js/tinyMCE/az.js')}}"></script>--}}
+
 
     <!-- Scripts -->
     <script src="{{ mix('assets/js/app.js') }}" ></script>
@@ -83,31 +87,19 @@
     <script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/spruce@2.x.x/dist/spruce.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>
 
+    <!-- summernote -->
+    <script src="{{ asset('assets/js/summernote/summernote.js') }}"></script>
+
     @stack('scripts')
     @yield('scripts')
 
     <x-notify/>
 
     @auth
-        <script src="https://js.pusher.com/7.1/pusher.min.js"></script>
+{{--        <script src="https://js.pusher.com/7.1/pusher.min.js"></script>--}}
+<script src="{{asset('assets/js/pusher/pusher.js')}}" ></script>
         <script>
             $(document).ready(function (){
-                // Tiny MCE
-                tinymce.init({
-                    selector: '.tinyMCE',
-                    readonly: 0,
-                    height: 500,
-                    language: '{{app()->getLocale()}}',
-                    plugins: 'autosave paste directionality visualblocks visualchars fullscreen link table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount textpattern noneditable help charmap quickbars emoticons',
-                    menubar: 'edit view insert format table help',
-                    toolbar: 'restoredraft undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen preview | link anchor | ltr rtl',
-                    autosave_ask_before_unload: false,
-                    toolbar_sticky: true,
-                    toolbar_mode: 'sliding',
-                    quickbars_insert_toolbar: '',
-                    quickbars_selection_toolbar: '',
-                });
-
                 @if(app()->environment('production'))
                     // request for location and store the info
                     if (navigator.geolocation) {

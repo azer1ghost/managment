@@ -35,9 +35,7 @@
         @error('date')
             <p class="text-danger">{{$message}}</p>
         @enderror
-        <textarea name="detail" class="form-control"
-                  style="height: 300px"
-        >{{$data->getAttribute('detail')}}</textarea>
+        <textarea aria-label="detail" name="detail" id="summernote" class="form-control">{{$data->getAttribute('detail')}}</textarea>
         @error('detail')
         <p class="text-danger">{{$message}}</p>
         @enderror
@@ -45,4 +43,14 @@
             <x-input::submit  :value="__('translates.buttons.save')" />
         @endif
     </form>
+@endsection
+@section('scripts')
+    <script>
+        $('#summernote').summernote({
+            height: 400,
+            minHeight: null,
+            maxHeight: null,
+            focus: true
+        });
+    </script>
 @endsection
