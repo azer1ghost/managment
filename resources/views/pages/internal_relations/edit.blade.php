@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', __('translates.navbar.intern_relation'))
+@section('title', trans('translates.navbar.intern_relation'))
 
 @section('content')
     <x-bread-crumb>
@@ -12,7 +12,7 @@
         </x-bread-crumb-link>
         <x-bread-crumb-link>
             @if (!is_null($data))
-                {{optional($data)->getAttribute('name')}}
+                {{optional($data)->getAttribute('case')}}
             @else
                 @lang('translates.buttons.create')
             @endif
@@ -25,9 +25,9 @@
             <div class="form-group col-12">
                 <div class="row">
                     <div class="form-group col-6 user">
-                        <label for="department_id">@lang('translates.columns.user')</label><br/>
+                        <label for="department_id">@lang('translates.columns.department')</label><br/>
                         <select class="select2 form-control" name="department_id" id="department_id">
-                            <option value="">@lang('translates.general.user_select')</option>
+                            <option value="">@lang('translates.general.department_select')</option>
                             @foreach($departments as $department)
                                 <option @if($data->getAttribute('department_id') == $department->id) selected @endif value="{{$department->id}}">{{$department->getAttribute('name')}}</option>
                             @endforeach
@@ -56,6 +56,9 @@
                     </x-form-group>
                     <x-form-group  class="pr-3 col-12 col-lg-6">
                         <x-form-input  name="contact_time" label="Əlaqə Zamanı" placeholder="Əlaqə Zamanı daxil edin"/>
+                    </x-form-group>
+                    <x-form-group  class="pr-3 col-12 col-lg-6">
+                        <x-form-input  name="ordering" label="Sıra" placeholder="Hansı sırada olacağını yazın"/>
                     </x-form-group>
 
                 </div>

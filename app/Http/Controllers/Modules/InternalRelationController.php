@@ -16,13 +16,13 @@ class InternalRelationController extends Controller
     public function index()
     {
         return view('pages.internal_relations.index')
-            ->with([ 'internalRelations' => InternalRelation::where('is_foreign', 0)->latest()->get()]);
+            ->with([ 'internalRelations' => InternalRelation::where('is_foreign', 0)->OrderBy('ordering')->get()]);
     }
 
     public function foreign()
     {
         return view('pages.foreign_relations.index')
-            ->with([ 'internalRelations' => InternalRelation::where('is_foreign', 1)->latest()->get()]);
+            ->with([ 'internalRelations' => InternalRelation::where('is_foreign', 1)->OrderBy('ordering')->get()]);
     }
 
     public function create()

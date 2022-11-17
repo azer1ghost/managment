@@ -38,7 +38,7 @@
                     @forelse($internalRelations as $internalRelation)
                         <tr>
                             <th>{{$internalRelation->getRelationValue('departments')->getAttribute('name')}}</th>
-                            <th style="width: 10px">{{$loop->iteration}}</th>
+                            <th>{{$internalRelation->getAttribute('ordering')}}</th>
                             <td>{{$internalRelation->getAttribute('case')}}</td>
                             <td>{{$internalRelation->getAttribute('applicant')}}</td>
                             <td class="overflow-wrap-hack">

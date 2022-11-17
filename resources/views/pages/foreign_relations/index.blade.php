@@ -27,8 +27,8 @@
                     <tr>
                         <th scope="col">Department</th>
                         <th scope="col">#</th>
-                        <th scope="col">Əlaqə Saxlanılacaq Hal</th>
                         <th scope="col">Müraciət Edən Şəxs</th>
+                        <th scope="col">Əlaqə Saxlanılacaq Hal</th>
                         <th scope="col">Əlaqə Saxlanılacaq Şəxs</th>
                         <th scope="col">Əlaqə Vasitəsi</th>
                         <th scope="col">Əlaqə Zamanı</th>
@@ -38,9 +38,9 @@
                     @forelse($internalRelations as $internalRelation)
                         <tr>
                             <th>{{$internalRelation->getRelationValue('departments')->getAttribute('name')}}</th>
-                            <th style="width: 10px">{{$loop->iteration}}</th>
-                            <td>{{$internalRelation->getAttribute('case')}}</td>
+                            <th>{{$internalRelation->getAttribute('ordering')}}</th>
                             <td>{{$internalRelation->getAttribute('applicant')}}</td>
+                            <td>{{$internalRelation->getAttribute('case')}}</td>
                             <td class="overflow-wrap-hack">
                                 <div class="content">
                                     {{$internalRelation->getAttribute('user_id') == null ? $internalRelation->getAttribute('reciever') : $internalRelation->getRelationValue('users')->getFullnameWithPositionAttribute()}}

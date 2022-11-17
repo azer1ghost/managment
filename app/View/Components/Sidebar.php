@@ -12,24 +12,12 @@ class Sidebar extends Component
     {
         $this->items = (array)[
 
-//            (object) [
-//                'title' => __('translates.navbar.general'),
-//                'type' => 'title',
-//            ],
-
             (object)[
                 'title' => __('translates.navbar.dashboard'),
                 'icon' => 'fa fa-home',
                 'url' => route('dashboard'),
                 'permission' => 'generally',
             ],
-
-//            (object) [
-//                'title' => __('translates.navbar.cabinet'),
-//                'icon'  => 'fal fa-tasks-alt',
-//                'url'  => route('cabinet'),
-//                'permission' => 'generally',
-//            ],
 
             (object)[
                 'title' => __('translates.navbar.company'),
