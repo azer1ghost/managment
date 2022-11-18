@@ -48,7 +48,7 @@
                             </td>
                             <td style="word-wrap: break-word;">{{$internalRelation->getAttribute('tool')}}</td>
                             <td>{{$internalRelation->getAttribute('contact_time')}}</td>
-                            @if(auth()->user()->isDeveloper())
+                            @can('update', App\Models\InternalRelation::class)
                                 <td>
                                     <div class="btn-sm-group">
                                             <a href="{{route('internal-relations.show', $internalRelation)}}" class="btn btn-sm btn-outline-primary">
@@ -62,7 +62,7 @@
                                             </a>
                                     </div>
                                 </td>
-                            @endif
+                            @endcan
                         </tr>
                     @empty
                         <tr>
