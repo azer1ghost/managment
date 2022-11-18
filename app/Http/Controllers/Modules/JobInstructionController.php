@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Requests\JobInstructionRequest;
 use App\Http\Controllers\Controller;
+use App\Models\Department;
 use App\Models\JobInstruction;
 use App\Models\User;
 
@@ -17,8 +18,15 @@ class JobInstructionController extends Controller
 
     public function index()
     {
+        if (auth()->user()->hasPermission('viewAll-jobInstruction') || auth()->user()->isDeveloper() || auth()->user()->isDirector()) {
+            $jobInstructions = JobInstruction::paginate();
+        } elseif (auth()->user()->hasPermission('viewAllDepartment-jobInstruction')) {
+            $jobInstructions = JobInstruction::where('department_id', auth()->user()->getAttribute('department_id'))->paginate();
+        } else {
+            $jobInstructions = JobInstruction::where('user_id', auth()->id())->paginate();
+        }
         return view('pages.job-instructions.index')->with([
-            'jobInstructions' => JobInstruction::paginate(),
+            'jobInstructions' => $jobInstructions,
         ]);
     }
 
@@ -29,6 +37,7 @@ class JobInstructionController extends Controller
             'method' => 'POST',
             'data' => new JobInstruction(),
             'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'departments' => Department::get(['id', 'name'])
         ]);
     }
 
@@ -48,6 +57,7 @@ class JobInstructionController extends Controller
             'method' => null,
             'data' =>$jobInstruction,
             'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'departments' => Department::get(['id', 'name'])
         ]);
     }
 
@@ -58,6 +68,7 @@ class JobInstructionController extends Controller
             'method' => 'PUT',
             'data' => $jobInstruction,
             'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'departments' => Department::get(['id', 'name'])
         ]);
     }
 

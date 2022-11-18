@@ -36,7 +36,7 @@ return [
         'viewAny-conference', 'view-conference', 'manage-conference',
         'viewAny-department', 'view-department', 'manage-department',
         'viewAny-document', 'view-document', 'create-document', 'update-document', 'delete-document',
-        'viewAny-jobInstruction', 'view-jobInstruction', 'create-jobInstruction', 'update-jobInstruction','manage-jobInstruction','delete-jobInstruction',
+        'viewAny-jobInstruction', 'viewAll-jobInstruction', 'viewAllDepartment-jobInstruction', 'view-jobInstruction', 'create-jobInstruction', 'update-jobInstruction','manage-jobInstruction','delete-jobInstruction',
         'viewAny-internalNumber', 'view-internalNumber', 'create-internalNumber', 'update-internalNumber','manage-internalNumber','delete-internalNumber',
         'viewAny-internalRelation', 'view-internalRelation', 'create-internalRelation', 'update-internalRelation','manage-internalRelation','delete-internalNumber',
         'viewAll-inquiry', 'viewAllDepartment-inquiry', 'viewAny-inquiry', 'view-inquiry', 'create-inquiry', 'update-inquiry', 'delete-inquiry', 'forceDelete-inquiry', 'restore-inquiry', 'editAccessToUser-inquiry',
