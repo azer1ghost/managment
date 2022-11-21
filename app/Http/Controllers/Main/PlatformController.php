@@ -181,7 +181,7 @@ class PlatformController extends Controller
 
     public function test()
     {
-
+        return view('pages.main.test');
     }
 
     public function documentTemporaryUrl(Document $document)

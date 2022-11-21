@@ -131,6 +131,7 @@
                 </div>
 
                 <div class="col-12">
+                    @if(auth()->user()->hasPermission('viewAll-client'))
                     <table class="table table-responsive-sm table-hover">
                         <thead>
                         <tr>
@@ -160,8 +161,7 @@
                                 @endif
                                 @if(!$client->salesUsers()->exists())
                                     style="background: #eed58f"
-                                @endif
-                            >
+                                @endif>
                                 @if(auth()->user()->hasPermission('canAssignUsers-client'))
                                     <td><input type="checkbox" name="clients[]" value="{{$client->getAttribute('id')}}" id="data-checkbox-{{$client->getAttribute('id')}}"></td>
                                 @endif
@@ -227,6 +227,48 @@
                         @endforelse
                         </tbody>
                     </table>
+                    @else
+                        <table class="table table-responsive-sm table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">@lang('translates.columns.type')</th>
+                            <th scope="col">@lang('translates.columns.company')</th>
+                            <th scope="col">@lang('translates.columns.full_name')</th>
+                            <th scope="col">@lang('translates.navbar.document')</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @forelse($clients as $client)
+                            <tr>
+                                <th scope="row">{{$loop->iteration}}</th>
+                                <td>@lang("translates.clients_type." . $client->getAttribute('type'))</td>
+                                <td>@foreach($client->companies as $company) {{$company->getAttribute('name')}} @if(!$loop->last),@endif @endforeach</td>
+                                <td><label for="data-checkbox-{{$client->getAttribute('id')}}">{{$client->getAttribute('fullname')}}</label></td>
+                                <td>
+                                    @php($supportedTypes = \App\Models\Document::supportedTypeIcons())
+                                    @foreach($client->documents as $document)
+                                        @php($type = $supportedTypes[$document->type])
+                                            @php($route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document))
+                                            <a href="{{$route}}" data-toggle="tooltip" title="{{$document->file}}" target="_blank" class="text-dark d-flex align-items-center mr-2" style="font-size: 20px; word-break: break-word">
+                                                <i style="font-size: 70px" class="fa fa-file-{{$type['icon']}} fa-3x mr-2 text-{{$type['color']}}"></i>
+                                                <span>{{$document->name}}</span>
+                                            </a>
+                                    @endforeach
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <th colspan="20">
+                                    <div class="row justify-content-center m-3">
+                                        <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.not_found')</div>
+                                    </div>
+                                </th>
+                            </tr>
+                        @endforelse
+                        </tbody>
+                        </table>
+                    @endif
                 </div>
 
                 <div class="col-12">
