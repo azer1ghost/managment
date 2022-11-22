@@ -41,6 +41,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\SalesInquiryController,
     Modules\ServiceController,
     Modules\SignatureController,
+    Modules\StatementController,
     Modules\TaskController,
     Modules\TaskListController,
     Modules\UpdateController,
@@ -116,6 +117,7 @@ Route::group([
     Route::resource('/tasks', TaskController::class);
     Route::resource('/task-lists', TaskListController::class)->only('store', 'update', 'destroy');
     Route::resource('/notifications', DatabaseNotificationController::class);
+    Route::resource('/statements', StatementController::class);
     Route::resource('/barcode', BarcodeController::class);
 
 

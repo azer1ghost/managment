@@ -264,6 +264,12 @@ class Sidebar extends Component
                         'url' => route('roles.index'),
                         'permission' => 'viewAny-role',
                     ],
+                    (object)[
+                        'title' => __('translates.navbar.announcement'),
+                        'icon' => 'fas fa-scroll',
+                        'url' => route('statements.index'),
+                        'permission' => 'viewAny-statements',
+                    ],
                 ]
             ],
 
