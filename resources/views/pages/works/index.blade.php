@@ -357,6 +357,12 @@
                                 case(4):
                                     $color = 'danger';
                                     break;
+                                case(5):
+                                    $color = 'info';
+                                    break;
+                                case(6):
+                                    $color = 'secondary';
+                                    break;
                             }
                         @endphp
                     @endif

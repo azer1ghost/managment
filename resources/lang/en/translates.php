@@ -545,7 +545,10 @@ return [
         1 => 'Pending',
         'Continue',
         'Done',
-        'Rejected'
+        'Rejected',
+        'Injected to System',
+        'Returned',
+
     ],
 
     'payment_methods' => [

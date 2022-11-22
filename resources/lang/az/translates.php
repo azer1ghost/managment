@@ -545,7 +545,9 @@ return [
         1 => 'Gözləmədə',
         'Davam Edir',
         'Tamamlandı',
-        'Qəbul edilmyib'
+        'Qəbul edilmyib',
+        'Sistemə Vuruldu',
+        'Geri Qaytarıldı'
     ],
 
     'payment_methods' => [
