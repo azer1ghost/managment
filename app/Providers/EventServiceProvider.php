@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\StatementCreated;
 use App\Events\TaskCreated;
 use App\Events\TaskListCreated;
 use App\Events\TaskListDone;
@@ -17,6 +18,7 @@ use App\Models\Report;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\Work;
+use App\Notifications\NotifyStatement;
 use App\Observers\DailyReportObserver;
 use App\Observers\InquiryObserver;
 use App\Observers\ReportObserver;
@@ -37,6 +39,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        StatementCreated::class => [
+            NotifyStatement::class,
         ],
         WorkCreated::class => [
             SendNotification::class,

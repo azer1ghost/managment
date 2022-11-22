@@ -427,6 +427,7 @@ return [
         'price_unverified' => 'Qiymət təsdiqlənməyib',
         'reports_by_the_week' => 'Həftəyə görə hesabatlar',
         'detail' => 'Detallar',
+        'attribute' => 'Atributlar',
         'internal_number' => 'Daxili Nömrə',
         'is_certificate' => 'Sertifikat',
         'sales_activity' => 'Satış Fəaliyyəti',
