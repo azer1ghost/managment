@@ -26,7 +26,7 @@
             @foreach($jobInstructions as $jobInstruction)
                 <h2 data-toggle="collapse" href="#instruction-{{$loop->iteration}}">{{$jobInstruction->getRelationValue('users')->getFullnameWithPositionAttribute()}}
                     <div class="btn-sm-group">
-                        @if(auth()->user()->isDeveloper())
+                        @can('update', App\Models\JobInstruction::class)
                             <a href="{{route('job-instructions.edit', $jobInstruction)}}" class="btn btn-sm btn-outline-success">
                                 <i class="fal fa-pen"></i>
                             </a>
