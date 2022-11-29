@@ -91,18 +91,18 @@
                 </div>
             </div>
 
-            <div class="col-md-8 pt-2 d-flex align-items-center">
+            <div class="col-md-10 pt-2 d-flex align-items-center">
 
                 <p class="mb-0 "> @lang('translates.total_items', ['count' => $tasks->count(), 'total' => is_numeric(request()->get('limit')) ? $tasks->total() : $tasks->count()])</p>
 
-                <div class="input-group col-4">
+                <div class="input-group col-3">
                     <select name="limit" class="custom-select" id="size">
                         @foreach([25, 50, 100, 250, trans('translates.general.all')] as $size)
                             <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="input-group col-4">
+                <div class="input-group col-3">
                     <select class="form-control" name="type">
                         @foreach ($types as $index => $type)
                             <option @if ($filters['type'] == $index) selected @endif value="{{$index}}">@lang('translates.tasks.types.' . $type)</option>
@@ -111,11 +111,21 @@
                 </div>
             </div>
 
-            @can('create', App\Models\Task::class)
-                <div class="col-4 pr-3 pb-3 mt-4">
-                    <a class="btn btn-outline-success float-right" href="{{route('tasks.create')}}">@lang('translates.buttons.create')</a>
-                </div>
-            @endcan
+            <div class="col-ml-1 align-items-end">
+                @if(auth()->user()->hasPermission('canExport-clientin'))
+                        <a class="btn btn-outline-primary" href="{{route('tasks.export')}}">@lang('translates.buttons.export')</a>
+                @endif
+            </div>
+            <div class="col-ml-1 ml-3">
+                @can('create', App\Models\Task::class)
+
+                        <a class="btn btn-outline-success " href="{{route('tasks.create')}}">@lang('translates.buttons.create')</a>
+
+                @endcan
+            </div>
+
+
+
             <div class="col-12">
                 <table class="table table-responsive-sm table-hover">
                     <thead>

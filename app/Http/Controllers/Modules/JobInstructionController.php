@@ -19,15 +19,15 @@ class JobInstructionController extends Controller
     public function index()
     {
         if (auth()->user()->hasPermission('viewAll-jobInstruction') || auth()->user()->isDeveloper() || auth()->user()->isDirector()) {
-            $jobInstructions = JobInstruction::paginate();
+            $jobInstructions = JobInstruction::orderBy('ordering')->paginate();
         } elseif (auth()->user()->hasPermission('viewAllDepartment-jobInstruction')) {
-            $jobInstructions = JobInstruction::where('department_id', auth()->user()->getAttribute('department_id'))->paginate();
+            $jobInstructions = JobInstruction::where('department_id', auth()->user()->getAttribute('department_id'))->orderBy('ordering')->paginate();
         } else {
-            $jobInstructions = JobInstruction::where('user_id', auth()->id())->paginate();
+            $jobInstructions = JobInstruction::where('user_id', auth()->id())->orderBy('ordering')->paginate();
         }
-        return view('pages.job-instructions.index')->with([
-            'jobInstructions' => $jobInstructions,
-        ]);
+        return view('pages.job-instructions.index')
+            ->with(['jobInstructions' => $jobInstructions
+            ]);
     }
 
     public function create()

@@ -12,7 +12,8 @@ class JobInstructionRequest extends FormRequest
         return [
             'user_id' => 'required',
             'department_id' => 'nullable',
-            'instruction' => 'required'
+            'instruction' => 'required',
+            'ordering' => 'nullable|integer',
         ];
     }
 }

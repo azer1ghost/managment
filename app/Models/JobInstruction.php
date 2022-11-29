@@ -10,7 +10,7 @@ class JobInstruction extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['user_id', 'department_id', 'instruction'];
+    protected $fillable = ['user_id', 'department_id', 'instruction', 'ordering'];
 
     public function users(): BelongsTo
     {

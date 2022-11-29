@@ -38,6 +38,9 @@
                     @endforeach
                 </select>
             </div>
+                <x-form-group  class="pr-3 col-12 col-lg-6">
+                    <x-form-input  name="ordering" label="Sıra" placeholder="Hansı sırada olacağını yazın"/>
+                </x-form-group>
             <div class="form-group col-12">
                 <textarea id="summernote" name="instruction"> {{$data->getAttribute('instruction')}}</textarea>
             </div>

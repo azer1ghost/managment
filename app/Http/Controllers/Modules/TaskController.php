@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Events\TaskCreated;
 use App\Events\TaskStatusDone;
+use App\Exports\TasksExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskRequest;
 use App\Models\Department;
@@ -220,6 +221,10 @@ class TaskController extends Controller
                 'departments' => Department::pluck('name', 'id')->toArray(),
                 'inquiry' => $task->getRelationValue('inquiry'),
             ]);
+    }
+    public function export()
+    {
+        return \Excel::download(new TasksExport(), 'tasks.xlsx');
     }
 
     public function update(TaskRequest $request, Task $task)
