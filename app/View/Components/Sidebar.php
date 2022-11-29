@@ -302,7 +302,7 @@ class Sidebar extends Component
 
             (object)[
                 'title' => __('translates.navbar.meeting'),
-                'icon' => 'fas fa-bullhorn',
+                'icon' => 'fas fa-handshake',
                 'url' => '#',
                 'permission' => 'viewAny-meeting',
                 'children' => [
@@ -360,6 +360,13 @@ class Sidebar extends Component
                 'icon' => 'fas fa-file-word',
                 'url' => route('documents.index'),
                 'permission' => 'viewAny-document',
+            ],
+
+            (object)[
+                'title' => __('translates.navbar.announcement'),
+                'icon' => 'fas fa-bullhorn',
+                'url' => route('statement'),
+                'permission' => 'viewAny-task',
             ],
 
             (object)[

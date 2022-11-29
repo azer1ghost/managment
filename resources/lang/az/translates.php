@@ -202,7 +202,7 @@ return [
         'calendar' => 'Təqvim',
         'certificate' => 'Sertifikatlar',
         'organization' => 'Qurumlar',
-        'announcement' => 'Anonslar',
+        'announcement' => 'Elanlar',
         'sales_activities_type' => 'Fəaliyyət Növləri',
         'sales_activities' => 'Satış Fəaliyyətləri',
         'sales_client' => 'Satış Müştəriləri',
