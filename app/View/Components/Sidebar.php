@@ -65,6 +65,12 @@ class Sidebar extends Component
                 'permission' => 'generally',
                 'children' => [
                     (object)[
+                        'title' => __('translates.navbar.structure'),
+                        'icon' => 'fal fa-users-class',
+                        'url' => route('structure'),
+                        'permission' => 'viewAny-jobInstruction',
+                    ],
+                    (object)[
                         'title' => __('translates.navbar.job_instruction'),
                         'icon' => 'fal fa-users-class',
                         'url' => route('job-instructions.index'),

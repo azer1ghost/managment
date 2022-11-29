@@ -117,7 +117,6 @@ Route::group([
     Route::resource('/tasks', TaskController::class);
     Route::resource('/task-lists', TaskListController::class)->only('store', 'update', 'destroy');
     Route::resource('/notifications', DatabaseNotificationController::class);
-    Route::resource('/statements', StatementController::class);
     Route::resource('/barcode', BarcodeController::class);
 
 
@@ -170,6 +169,11 @@ Route::group([
     Route::get('/message/{id}', [ChatController::class, 'message'])->name('message');
     Route::post('/message', [ChatController::class, 'sendMessage']);
     Route::view('/instruction','pages.instructions.index' )->name('instruction');
+    Route::view('/structure','pages.instructions.structure' )->name('structure');
+    Route::resource('/statements', StatementController::class);
+    Route::view('/statement','pages.statements.statements' )->name('statement');
+    Route::post('/markAsRead', [StatementController::class, 'markAsRead'])->name('mark-as-read');
+
 
 
     // resultable routes

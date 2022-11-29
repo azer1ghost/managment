@@ -216,6 +216,7 @@ return [
         'intern_relation' => 'Daxili Əlaqələr',
         'foreign_relation' => 'Xarici Əlaqələr',
         'instruction' => 'Video Təlimat',
+
     ],
 
     'date' => [
@@ -523,7 +524,10 @@ return [
         'currency_value' => 'Valyuta Miqdarı',
         'symbol' => 'Simvol',
         'satisfaction' => 'Məmnuniyət',
-        'payment_method' => 'Ödəmə Üsulu'
+        'payment_method' => 'Ödəmə Üsulu',
+        'no_announcement' => 'Oxunmamış elan yoxdur',
+        'mark_as_read' => 'Oxudum',
+        'mark_all' => 'Hamısını Oxudum'
     ],
 
     'clients' => [

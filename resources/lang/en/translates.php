@@ -521,6 +521,9 @@ return [
         'symbol' => 'Symbol',
         'satisfaction' => 'Satisfaction',
         'payment_method' => 'Payment Method',
+        'no_announcement' => 'No announcement yet',
+        'mark_as_read' => 'Mark as Read',
+        'mark_all' => 'Mark All as Read'
     ],
 
     'clients' => [

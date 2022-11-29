@@ -1,7 +1,7 @@
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo" href="{{ route('dashboard') }}"><img src="{{asset('assets/images/logo.svg')}}" alt="logo"/><h6 class="m-0">Mobil Management</h6></a>
-        <a class="navbar-brand brand-logo-mini" href="{{ route('dashboard') }}"><img src="{{asset('assets/images/logo.svg')}}" alt="logo"/></a>
+{{--        <a class="navbar-brand brand-logo" href="{{ route('dashboard') }}"><img src="{{asset('assets/images/logo.svg')}}" alt="logo"/><h6 class="m-0">Mobil Management</h6></a>--}}
+{{--        <a class="navbar-brand brand-logo-mini" href="{{ route('dashboard') }}"><img src="{{asset('assets/images/logo.svg')}}" alt="logo"/></a>--}}
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end px-3" x-data>
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -19,7 +19,34 @@
 {{--                </div>--}}
 {{--            </li>--}}
 {{--        </ul>--}}
+
         <ul class="navbar-nav navbar-nav-right">
+            <li class="nav-item dropdown">
+                <a class="nav-link count-indicator dropdown-toggle" id="notificationsDropdown" href="#" data-toggle="dropdown">
+                    <i class="far fa-envelope mx-0"></i>
+                    @php $notifications = auth()->user()->unreadNotifications->where('type', 'App\Notifications\NotifyStatement')->all() @endphp
+                    @if(count($notifications) > 0)  <span class="count" ></span> @endif
+                </a>
+                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list p-2" style="min-width: 400px;max-width: 100%;overflow-wrap: break-word !important;height: 400px;overflow-x: hidden">
+
+                    @if($notifications)
+                        <div>
+                            @foreach($notifications as $notification)
+                                <a class="text-black" href="{{route('statement')}}">
+                                    <h4 class="preview-subject font-weight-normal">{{$notification->data['title']}}</h4>
+                                    <p class="mb-1"> @if (strlen($notification->data['body']) > 200) {{substr($notification->data['body'], 0, 200) . '...'}} @endif </p>
+                                </a>
+                            @endforeach
+                        </div>
+                    @else
+                    <div>
+                        <p class="text-black text-center">@lang('translates.general.no_announcement')</p>
+                    </div>
+                    @endif
+                </div>
+            </li>
+
+
             <li class="nav-item dropdown">
                 <a class="nav-link count-indicator dropdown-toggle" id="notificationsDropdown" href="#" data-toggle="dropdown">
                     <i class="fas fa-bell mx-0"></i>
@@ -47,6 +74,8 @@
                     </template>
                 </div>
             </li>
+
+
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
                     <img src="{{image(auth()->user()->getAttribute('avatar'))}}" alt="profile"/>

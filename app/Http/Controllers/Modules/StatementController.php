@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Modules;
 
+use Illuminate\Http\Request;
 use App\Http\{Requests\StatementRequest, Controllers\Controller};
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\NotifyStatement;
@@ -38,7 +39,7 @@ class StatementController extends Controller
         $user = User::all();
         $validator = $request->validated();
         $statement = Statement::create($validator);
-        Notification::send($user, new NotifyStatement($request->title));
+        Notification::send($user, new NotifyStatement($request->title, $request->body, $request->attribute));
 
         return redirect()
             ->route('statements.edit', $statement)
@@ -78,6 +79,14 @@ class StatementController extends Controller
             return response('OK');
         }
         return response()->setStatusCode('204');
+    }
+    public function markAsRead(Request $request)
+    {
+       auth()->user()->unreadNotifications->when($request->input('id'),function ($query) use ($request) {
+           return $query->where('id',$request->input('id'));
+       })->markAsRead();
+
+        return route('statement');
     }
 
 }

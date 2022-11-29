@@ -25,9 +25,9 @@
         <div class="col-12 justify-content-center">
                 <h2 data-toggle="collapse" href="#task">@lang('translates.navbar.task')</h2>
                 <div class="col-12 collapse" id="task">
-                    <video width="320" height="240" controls>
-                        <source src="movie.mp4" type="video/mp4">
-                    </video>
+{{--                    <video width="320" height="240" controls>--}}
+{{--                        <source src="movie.mp4" type="video/mp4">--}}
+{{--                    </video>--}}
                 </div>
 
                 <h2 data-toggle="collapse" href="#inquiry">@lang('translates.navbar.inquiry')</h2>
