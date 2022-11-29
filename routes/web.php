@@ -115,6 +115,7 @@ Route::group([
     Route::resource('/departments', DepartmentController::class);
     Route::resource('/positions', PositionController::class);
     Route::resource('/tasks', TaskController::class);
+    Route::get('/task/export', [TaskController::class, 'export'])->name('tasks.export');
     Route::resource('/task-lists', TaskListController::class)->only('store', 'update', 'destroy');
     Route::resource('/notifications', DatabaseNotificationController::class);
     Route::resource('/statements', StatementController::class);
