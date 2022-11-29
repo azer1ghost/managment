@@ -229,7 +229,7 @@
 
                                 @can('view', $inquiry)
                                     @if($inquiry->getAttribute('client_id'))
-                                        <button class="btn btn-sm btn-outline-primary mr-2 client-edit-btn" type="button" data-client='@json($inquiry->getRelationValue('client'))' data-toggle="modal" data-target="#inquiry-client">
+                                            <button class="btn btn-sm btn-outline-primary mr-2 client-edit-btn" type="button" data-client='@json($inquiry->getRelationValue('client'))' data-toggle="modal" data-target="#inquiry-client">
                                             <i class="fas fa-user-tie"></i>
                                         </button>
                                     @endif
