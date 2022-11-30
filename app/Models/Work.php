@@ -42,6 +42,7 @@ class Work extends Model implements DocumentableInterface, Recordable
 
     protected $fillable = [
         'code',
+        'declaration_no',
         'detail',
         'creator_id',
         'user_id',

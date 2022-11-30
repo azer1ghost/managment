@@ -10,6 +10,7 @@ class WorkRequest extends FormRequest
     {
         return [
             'code' => 'nullable|string',
+            'declaration_no' => 'nullable|string',
             'detail' => 'nullable|string',
             'user_id' => 'nullable|integer',
             'department_id' => 'nullable|integer',

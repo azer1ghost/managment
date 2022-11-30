@@ -351,4 +351,15 @@ class WorkController extends Controller
             return response()->json(['success' => true]);
         }
     }
+
+    public function declaration(Request $request)
+    {
+        if ($request->ajax()) {
+            $work = Work::find($request->pk);
+
+            $work->update([$request->name => $request->value]);
+
+            return response()->json(['success' => true]);
+        }
+    }
 }

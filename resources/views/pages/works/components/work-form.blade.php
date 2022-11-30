@@ -22,6 +22,10 @@
                             <input value="{{optional($data)->getAttribute('code')}}" type="text" name="code" id="invoice" class="form-control" placeholder="E-qaimə nömrəsi daxil edin">
                         </div>
                     @endif
+                    <div class="form-group col-12 col-md-3">
+                        <label for="declaration_no">Sorğu nömrəsi</label>
+                        <input value="{{optional($data)->getAttribute('declaration_no')}}" type="text" name="declaration_no" id="declaration_no" class="form-control" placeholder="E-qaimə nömrəsi daxil edin">
+                    </div>
                     <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
                     <div class="d-flex align-items-center">

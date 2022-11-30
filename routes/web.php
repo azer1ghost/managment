@@ -144,6 +144,7 @@ Route::group([
     Route::resource('/works', WorkController::class);
     Route::post('/test', [WorkController::class, 'editable'])->name('editable');
     Route::post('/code', [WorkController::class, 'code'])->name('work.code');
+    Route::post('/declaration', [WorkController::class, 'declaration'])->name('work.declaration');
 
     Route::resource('/meetings', MeetingController::class);
     Route::resource('/job-instructions', JobInstructionController::class);
