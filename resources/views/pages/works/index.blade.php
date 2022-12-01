@@ -516,7 +516,7 @@
 
         @if($works->isNotEmpty())
             <tr style="background: #b3b7bb" id="count">
-                <td colspan="@if(auth()->user()->isDeveloper()) 9 @elseif(auth()->user()->isDirector() || auth()->user()->hasPermission('viewPrice-work')) 8 @elseif(auth()->user()->hasPermission('viewAll-work') || auth()->user()->hasPermission('canVerify-work'))  8 @else 7 @endif">
+                <td colspan="@if(auth()->user()->isDeveloper()) 9 @elseif(auth()->user()->isDirector() || auth()->user()->hasPermission('viewPrice-work')) 9 @elseif(auth()->user()->hasPermission('viewAll-work') || auth()->user()->hasPermission('canVerify-work'))  8 @else 7 @endif">
                     <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
                 </td>
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{ $gb_count}}</strong></p></td>
