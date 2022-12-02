@@ -190,7 +190,7 @@ class WorkController extends Controller
         $clientName = str_replace($search,$replace,$clientText);
         if (!empty($client->getAttribute('phone1'))) {
                 if ($request->status == 3) {
-                    $message = 'Deyerli ' . $clientName . ' sizin ' . $serviceName . ' uzre isiniz tamamlandi. ' . $work->getAttribute('created_at')->format('d/m/y') . 'https://wf.qmeter.net/LLbJKa -linke kecid ederek xidmeti keyfiyyetini deyerlendirmeyinizi xahis edirik!';
+                    $message = 'Deyerli ' . $clientName . ' sizin ' . $serviceName . ' uzre isiniz tamamlandi. ' . $work->getAttribute('created_at')->format('d/m/y') . ' https://wf.qmeter.net/LLbJKa -linke kecid ederek xidmeti keyfiyyetini deyerlendirmeyinizi xahis edirik!';
                     (new NotifyClientSms($message))->toSms($client)->send();
                 }
             }
