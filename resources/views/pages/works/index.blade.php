@@ -44,7 +44,7 @@
                         <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">
                             <label for="codeFilter">Sorğu nömrəsinə görə axtarış</label>
                             <input type="search" id="codeFilter" name="declaration_no" value="{{$filters['declaration_no']}}"
-                                   placeholder="E-qaimə" class="form-control">
+                                   placeholder="Sorğu nömrəsi" class="form-control">
                         </div>
 
                         @if(\App\Models\Work::userCanViewAll())
