@@ -107,7 +107,8 @@ class ClientController extends Controller
                 'action' => route('clients.store'),
                 'method' => 'POST',
                 'data' => new Client(),
-                'satisfactions' => Client::satisfactions()
+                'satisfactions' => Client::satisfactions(),
+                'companies' => Company::get(['id','name'])
             ]);
     }
 
@@ -120,6 +121,7 @@ class ClientController extends Controller
         $validated['price'] = $price;
         $validated['user_id'] = auth()->id();
         $client = Client::create($validated);
+        $client->companies()->sync($request->get('companies'));
 
         if(auth()->user()->hasPermission('viewAny-client')){
             if(is_numeric($client->getAttribute('client_id'))){
@@ -132,7 +134,6 @@ class ClientController extends Controller
                     ->withNotify('success', $client->getAttribute('fullname'));
             }
         }
-
         return redirect()->route('close');
     }
 
@@ -143,7 +144,8 @@ class ClientController extends Controller
                 'action' => null,
                 'method' => null,
                 'data' => $client,
-                'satisfactions' => Client::satisfactions()
+                'satisfactions' => Client::satisfactions(),
+                'companies' => Company::get(['id','name'])
             ]);
     }
 
@@ -154,7 +156,8 @@ class ClientController extends Controller
                 'action' => route('clients.update', $client),
                 'method' => "PUT",
                 'data' => $client,
-                'satisfactions' => Client::satisfactions()
+                'satisfactions' => Client::satisfactions(),
+                'companies' => Company::get(['id','name'])
             ]);
     }
 
@@ -166,9 +169,8 @@ class ClientController extends Controller
         $validated = $request->validated();
         $validated['price'] = $price;
         $client->update($validated);
-
+        $client->companies()->sync($request->get('companies'));
         return back()->withNotify('info', $client->getAttribute('name'));
-
     }
 
     public function sumAssignSales(Request $request)
@@ -179,11 +181,9 @@ class ClientController extends Controller
                 $err = 400;
             }
         }
-
         if ($err == 400) {
             return response()->setStatusCode('204');
         }
-
         return response('OK');
     }
     public function sumAssignCompanies(Request $request)

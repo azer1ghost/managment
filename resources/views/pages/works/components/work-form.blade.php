@@ -29,7 +29,7 @@
                     <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
                     <div class="d-flex align-items-center">
-                        <select name="client_id" @if(auth()->user()->isSales()) disabled @endif id="data-client-type" data-url="{{route('clients.search')}}" class="custom-select2" style="width: 100% !important;" required>
+                        <select name="client_id" id="data-client-type" data-url="{{route('clients.search')}}" class="custom-select2" style="width: 100% !important;" required>
                             @if(is_numeric(optional($data)->getAttribute('client_id')))
                                 <option value="{{optional($data)->getAttribute('client_id')}}">{{optional($data)->getRelationValue('client')->getAttribute('fullname_with_voen')}}</option>
                             @endif
@@ -84,7 +84,7 @@
                 @if($selected['department_id'])
                     <div class="form-group col-12 col-md-6" wire:key="department-user" wire:ignore>
                         <label for="data-user_id">@lang('translates.general.user_select')</label>
-                        <select @if(auth()->user()->isSales()) disabled @endif name="user_id" id="data-user_id" class="form-control" wire:model="selected.user_id" @if(!auth()->user()->hasPermission('canRedirect-work')) disabled @endif>
+                        <select @endif name="user_id" id="data-user_id" class="form-control" wire:model="selected.user_id" @if(!auth()->user()->hasPermission('canRedirect-work')) disabled @endif>
                             <option value="" selected>@lang('translates.general.user_select')</option>
                             <option value="{{ auth()->id() }}">{{  auth()->user()->name . ' ' . auth()->user()->surname }}</option>
                         @foreach($users ?? [] as $user)
@@ -101,7 +101,7 @@
                 @if($this->service->getAttribute('has_asan_imza') && $method != 'POST')
                     <div class="form-group col-12 col-md-6" wire:key="asan-imza" wire:ignore>
                         <label for="data-asan_imza_id">Asan imza</label>
-                        <select @if(auth()->user()->isSales()) disabled @endif  name="asan_imza_id" id="data-asan_imza_id" data-url="{{route('asanImza.user.search')}}" class="custom-select2 form-control">
+                        <select name="asan_imza_id" id="data-asan_imza_id" data-url="{{route('asanImza.user.search')}}" class="custom-select2 form-control">
                             <option value="" selected>Asan imza select</option>
                             @foreach(\App\Models\AsanImza::get() as $asanUser)
                                 <option
@@ -117,14 +117,14 @@
 
                     <div class="form-group col-12 col-md-3 custom_asan">
                         <label for="custom_asan">Digər Şirkət Asan İmza</label>
-                        <input @if(auth()->user()->isSales()) readonly @endif value="{{optional($data)->getAttribute('custom_asan')}}" type="text" name="custom_asan" id="custom_asan" class="form-control" placeholder="Digər şirkətin Asan imzasını daxil edin">
+                        <input value="{{optional($data)->getAttribute('custom_asan')}}" type="text" name="custom_asan" id="custom_asan" class="form-control" placeholder="Digər şirkətin Asan imzasını daxil edin">
                     </div>
                 @endif
 
                 @if($method != 'POST')
                     <div class="form-group col-12 col-md-3" wire:ignore>
                         <label for="data-status">@lang('translates.general.status_choose')</label>
-                        <select @if(auth()->user()->isSales()) disabled @endif  name="status" id="data-status" class="form-control">
+                        <select name="status" id="data-status" class="form-control">
                             <option disabled >@lang('translates.general.status_choose')</option>
                             @foreach($statuses as $key => $status)
                                 <option
@@ -152,19 +152,19 @@
                         @case('text')
                             <div class="form-group col-12 col-md-3" wire:ignore>
                                 <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
-                                <input @if(auth()->user()->isSales()) readonly @endif  type="text" data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters parameters[{{$parameter->id}}]" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
+                                <input type="text" data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters parameters[{{$parameter->id}}]" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
                             </div>
                             @break
                         @case('number')
                             <div class="form-group col-12 col-md-3" wire:ignore>
                                 <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
-                                <input @if(auth()->user()->isSales()) readonly @endif  type="number" data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
+                                <input type="number" data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
                             </div>
                         @break
                         @case('select')
                             <div class="form-group col-12 col-md-3" wire:ignore>
                                 <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
-                                <select @if(auth()->user()->isSales()) disabled @endif  data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters" wire:model="workParameters.{{$parameter->name}}">
+                                <select data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters" wire:model="workParameters.{{$parameter->name}}">
                                     <option value="" selected>{{$parameter->placeholder}}</option>
                                     @foreach($parameter->getRelationValue('options') as $option)
                                         <option value="{{$option->id}}" data-value="{{$option->getTranslation('text', 'az')}}">{{$option->text}}</option>
@@ -206,7 +206,7 @@
                 @endif
                 @if(auth()->user()->hasPermission('canVerify-work') && $method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Work::DONE)
                     <div class="col-12" wire:ignore>
-                        <input type="checkbox" @if(auth()->user()->isSales()) disabled @endif  id="data-verified" name="verified" @if(!is_null(optional($data)->getAttribute('verified_at'))) checked @endif>
+                        <input type="checkbox" id="data-verified" name="verified" @if(!is_null(optional($data)->getAttribute('verified_at'))) checked @endif>
                         <label class="form-check-label" for="data-verified">@lang('translates.columns.verified')</label>
                     </div>
                     <div class="col-12" wire:ignore>
@@ -214,11 +214,11 @@
                         <label class="form-check-label" for="data-rejected">@lang('translates.columns.rejected')</label>
                     </div>
                     <div class="col-12" wire:ignore>
-                        <input type="checkbox" @if(auth()->user()->isSales()) disabled @endif id="data-paid-check" name="paid_check" @if(!is_null(optional($data)->getAttribute('paid_at'))) checked @endif>
+                        <input type="checkbox" id="data-paid-check" name="paid_check" @if(!is_null(optional($data)->getAttribute('paid_at'))) checked @endif>
                         <label class="form-check-label" for="data-paid-check">@lang('translates.columns.paid')</label>
                     </div>
                     <div class=" form-group col-12" wire:ignore>
-                        <input type="checkbox" @if(auth()->user()->isSales()) disabled @endif id="data-vat-paid-check" name="vat_paid_check" @if(!is_null(optional($data)->getAttribute('vat_date'))) checked @endif>
+                        <input type="checkbox" id="data-vat-paid-check" name="vat_paid_check" @if(!is_null(optional($data)->getAttribute('vat_date'))) checked @endif>
                         <label class="form-check-label" for="data-vat-paid-check">@lang('translates.columns.vat_paid')</label>
                     </div>
                 @endif

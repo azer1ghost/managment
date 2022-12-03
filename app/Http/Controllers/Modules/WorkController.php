@@ -46,10 +46,10 @@ class WorkController extends Controller
 
         $departmentRequest = $request->get('department_id');
 
-
         $filters = [
             'limit' => $limit,
             'code' => $request->get('code'),
+            'declaration_no' => $request->get('declaration_no'),
             'department_id' => $departmentRequest,
             'service_id' => $request->get('service_id'),
             'asan_imza_id' => $request->get('asan_imza_id'),

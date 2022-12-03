@@ -71,6 +71,9 @@ class WorkRepository implements WorkRepositoryInterface {
                             if($column == 'code'){
                                 $query->where($column, 'LIKE', "%$value%");
                             }
+                            elseif($column == 'declaration_no'){
+                                $query->where($column, 'LIKE', "%$value%");
+                            }
                             else if (is_numeric($value)){
                                 $query->where($column, $value);
                             }

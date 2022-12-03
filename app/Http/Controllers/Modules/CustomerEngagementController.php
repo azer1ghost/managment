@@ -103,11 +103,14 @@ class CustomerEngagementController extends Controller
     public function getAmount(CustomerEngagement $customerEngagement)
     {
         $client = $customerEngagement->getAttribute('client_id');
-        $works = Work::where('client_id', $client)->whereMonth('paid_at', now()->subMonth())->get();
+        $works = Work::query()->where('client_id', $client)->whereMonth('paid_at', now()->subMonth())->get();
         if (isNull($works)){
             $sum_total_payment = 0;
         }
         foreach ($works as $work){
+            /**
+             * @var Work $work
+             */
             $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::ILLEGALPAID);
             $total_payment[] = $sum_payment;
             $sum_total_payment = array_sum($total_payment);

@@ -54,6 +54,15 @@
                 <x-form-group  class="pr-3 col-12 col-lg-4" :label="trans('translates.filters.type')">
                     <x-form-select name="type" :options="[trans('translates.general.legal'), trans('translates.general.physical')]" />
                 </x-form-group>
+                <div class="form-group">
+                    <label for="data-companies">Select Company</label><br/>
+                    <select id="data-companies" name="companies[]" multiple required class="filterSelector" data-selected-text-format="count"
+                            data-width="fit" title="@lang('translates.filters.select')">
+                        @foreach($companies as $company)
+                            <option value="{{$company->getAttribute('id')}}">{{$company->getAttribute('name')}}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <x-form-group  class="pr-3 col-12 col-lg-8" :label="trans('translates.fields.name')" required>
                     <x-form-input name="fullname" />
                 </x-form-group>
