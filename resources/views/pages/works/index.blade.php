@@ -287,7 +287,6 @@
             @if(auth()->user()->hasPermission('viewPrice-work') )
                 <th scope="col">E-Qaimə</th>
             @endif
-            <th scope="col">Sorğu nömrəsi</th>
 
                 {{--            @if(\App\Models\Work::userCanViewAll())--}}
                 <th scope="col">@lang('translates.columns.department')</th>
@@ -333,11 +332,9 @@
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     <th class="code" data-name="code" data-pk="{{ $work->getAttribute('id') }}" scope="row">{{$work->getAttribute('code')}}</th>
                 @endif
-                    <th class="declaration" data-name="declaration_no" data-pk="{{ $work->getAttribute('id') }}" scope="row">{{$work->getAttribute('declaration_no')}}</th>
 
-                    {{--                @if(\App\Models\Work::userCanViewAll())--}}
                     <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
-{{--                @endif--}}
+
                 <td>
                     @if(is_numeric($work->getAttribute('user_id')))
                         {{$work->getRelationValue('user')->getAttribute('fullname_with_position')}}
@@ -468,6 +465,7 @@
                                     <th scope="col">@lang('translates.fields.paid_at')</th>
                                     <th scope="col">@lang('translates.fields.invoiced_date')</th>
                             </tr>
+
                             </thead>
                             <tbody>
                             <tr>
@@ -494,6 +492,11 @@
                                     <td title="{{$work->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
                                     <td title="{{$work->getAttribute('invoiced_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
                             </tr>
+                            <tr>
+                                <th colspan="24">Sorğu nömrəsi</th>
+                            </tr>
+                                <td colspan="24" class="declaration" data-name="declaration_no" data-pk="{{$work->getAttribute('id')}}">{{$work->getAttribute('declaration_no')}}</td>
+
                             </tbody>
                         </table>
                    </div>
