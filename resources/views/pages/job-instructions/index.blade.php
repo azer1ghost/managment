@@ -123,7 +123,7 @@
                 </div>
 
                 <div class="modal-body">
-                            <p class="text-black">{!! $jobInstruction->getAttribute('instruction') !!}</p>
+                            <p>{!! $jobInstruction->getAttribute('instruction') !!}</p>
                 </div>
 
                 <div class="modal-footer">
