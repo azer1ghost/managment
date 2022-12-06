@@ -57,9 +57,9 @@
             outline: none;
         }
         .btn-1 {
-            width: 250px;
-            height: 250px;
-            padding: 50px;
+            width: 403px;
+            height: 90px;
+            padding: 30px;
             border: none;
             background: rgb(0, 21, 255);
             background: linear-gradient(0deg, rgb(8, 0, 255) 0%, rgb(2, 52, 251) 100%);
