@@ -53,11 +53,10 @@
                     <th scope="col">@lang('translates.fields.department')</th>
                     <th scope="col">@lang('translates.fields.phone')</th>
                     <th scope="col">Asan ID</th>
-                    <th scope="col">@lang('translates.fields.actions')</th>
                     <th scope="col">Pin 1</th>
                     <th scope="col">Pin 2</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Operator</th>
+                    <th scope="col">@lang('translates.fields.actions')</th>
                 </tr>
                 </thead>
                 <tbody>
