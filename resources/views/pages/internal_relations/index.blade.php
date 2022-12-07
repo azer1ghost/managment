@@ -22,7 +22,7 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
             <div class="col-12">
-                <table  class="table table-responsive-sm table-hover">
+                <table class="table table-responsive-sm table-hover">
                     <thead>
                     <tr>
                         <th scope="col">Department</th>
@@ -34,11 +34,11 @@
                         <th scope="col">Əlaqə Zamanı</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="sortable">
                     @forelse($internalRelations as $internalRelation)
-                        <tr>
-                            <th>{{$internalRelation->getRelationValue('departments')->getAttribute('name')}}</th>
-                            <th>{{$internalRelation->getAttribute('ordering')}}</th>
+                            <tr id="item-{{$internalRelation->getAttribute('id')}}">
+                            <th class="sortable">{{$internalRelation->getRelationValue('departments')->getAttribute('name')}}</th>
+                            <th class="sortable">{{$internalRelation->getAttribute('ordering') +1 }}</th>
                             <td>{{$internalRelation->getAttribute('case')}}</td>
                             <td>{{$internalRelation->getAttribute('applicant')}}</td>
                             <td class="overflow-wrap-hack">
@@ -63,7 +63,6 @@
                                     </div>
                                 </td>
                             @endcan
-
                         </tr>
                     @empty
                         <tr>
@@ -83,4 +82,28 @@
         </div>
     @endcan
 
+@endsection
+
+@section('scripts')
+    <script>
+        $(function () {
+            $('#sortable').sortable({
+                axis: 'y',
+                handle: ".sortable",
+                update: function (event, ui) {
+                    var data = $(this).sortable('serialize');
+                    // $(this).children().each(function (index) {
+                    //     console.log(index)
+                    // })
+                    // alert(data)
+                    $.ajax({
+                        type: "POST",
+                        data: data,
+                        url: "{{route('internal-relation.sortable')}}",
+                    });
+                }
+            });
+            $('#sortable').disableSelection();
+        });
+    </script>
 @endsection

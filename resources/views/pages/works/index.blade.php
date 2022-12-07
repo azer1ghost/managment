@@ -527,8 +527,8 @@
                 <td colspan=" @if(auth()->user()->isDeveloper() || auth()->user()->hasPermission('viewPrice-work')) 8 @elseif(auth()->user()->hasPermission('viewAll-work') || auth()->user()->hasPermission('canVerify-work'))  7 @else 6 @endif">
                     <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
                 </td>
-                    <td><p style="font-size: 16px" class="mb-0"><strong>{{ $gb_count}}</strong></p></td>
-                    <td><p style="font-size: 16px" class="mb-0"><strong>{{ $code_count}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $gb_count}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $code_count}}</strong></p></td>
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_total_payment}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_balance}}</strong></p></td>

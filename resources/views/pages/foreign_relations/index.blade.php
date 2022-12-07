@@ -34,11 +34,11 @@
                         <th scope="col">Əlaqə Zamanı</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="sortable">
                     @forelse($internalRelations as $internalRelation)
-                        <tr>
-                            <th>{{$internalRelation->getRelationValue('departments')->getAttribute('name')}}</th>
-                            <th>{{$internalRelation->getAttribute('ordering')}}</th>
+                        <tr id="item-{{$internalRelation->getAttribute('id')}}">
+                            <th class="sortable">{{$internalRelation->getRelationValue('departments')->getAttribute('name')}}</th>
+                            <th class="sortable">{{$internalRelation->getAttribute('ordering')+1}}</th>
                             <td>{{$internalRelation->getAttribute('applicant')}}</td>
                             <td>{{$internalRelation->getAttribute('case')}}</td>
                             <td class="overflow-wrap-hack">
@@ -82,4 +82,23 @@
         </div>
     @endcan
 
+@endsection
+@section('scripts')
+    <script>
+        $(function () {
+            $('#sortable').sortable({
+                axis: 'y',
+                handle: ".sortable",
+                update: function () {
+                    var data = $(this).sortable('serialize');
+                    $.ajax({
+                        type: "POST",
+                        data: data,
+                        url: "{{route('internal-relation.sortable')}}",
+                    });
+                }
+            });
+            $('#sortable').disableSelection();
+        });
+    </script>
 @endsection

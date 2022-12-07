@@ -151,6 +151,7 @@ Route::group([
     Route::resource('/internal-numbers', InternalNumberController::class);
     Route::resource('/internal-relations', InternalRelationController::class);
     Route::get('/foreign', [InternalRelationController::class, 'foreign'])->name('foreign');
+    Route::post('/sortable', [InternalRelationController::class, 'sortable'])->name('internal-relation.sortable');
     Route::resource('/organizations', OrganizationController::class);
     Route::resource('/conferences', ConferenceController::class);
     Route::resource('/advertising', AdvertisingController::class);

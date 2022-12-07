@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\{Controllers\Controller, Requests\InternalRelationRequest};
 use App\Models\{Department, InternalRelation, User};
+use Illuminate\Http\Request;
 
 class InternalRelationController extends Controller
 {
@@ -86,5 +87,14 @@ class InternalRelationController extends Controller
             return response('OK');
         }
         return response()->setStatusCode('204');
+    }
+
+    public function sortable(Request $request)
+    {
+        foreach ($request->get('item') as $key => $value) {
+            $internalRelation = InternalRelation::find($value);
+            $internalRelation->ordering = $key;
+            $internalRelation->save();
+        }
     }
 }
