@@ -80,7 +80,10 @@ class AsanImzaController extends Controller
 
     public function store(AsanImzaRequest $request): RedirectResponse
     {
-        $asanImza = AsanImza::create($request->validated());
+        $validated = $request->validated();
+        $validated['is_active'] = $request->has('is_active');
+        $asanImza = AsanImza::create($validated);
+
 
         return redirect()
             ->route('asan-imza.index')
@@ -115,7 +118,9 @@ class AsanImzaController extends Controller
 
     public function update(AsanImzaRequest $request, AsanImza $asanImza): RedirectResponse
     {
-        $asanImza->update($request->validated());
+        $validated = $request->validated();
+        $validated['is_active'] = $request->has('is_active');
+        $asanImza->update($validated);
 
         return back()->withNotify('info', $asanImza->getAttribute('name'));
     }

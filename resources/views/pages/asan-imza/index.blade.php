@@ -56,6 +56,8 @@
                     <th scope="col">@lang('translates.fields.actions')</th>
                     <th scope="col">Pin 1</th>
                     <th scope="col">Pin 2</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Operator</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -69,6 +71,7 @@
                         <td>{{$asan_imza->getAttribute('asan_id')}}</td>
                         <td>{{$asan_imza->getAttribute('pin1')}}</td>
                         <td>{{$asan_imza->getAttribute('pin2')}}</td>
+                        <td>@if($asan_imza->getAttribute('is_active') == 1) <span style="color: green" >@lang('translates.users.statuses.active')</span> @else <span style="color: red">@lang('translates.users.statuses.deactivate') @endif</td>
                         <td>
                             <div class="btn-sm-group">
                                 @can('view', $asan_imza)
