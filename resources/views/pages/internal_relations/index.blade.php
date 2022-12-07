@@ -90,12 +90,8 @@
             $('#sortable').sortable({
                 axis: 'y',
                 handle: ".sortable",
-                update: function (event, ui) {
+                update: function () {
                     var data = $(this).sortable('serialize');
-                    // $(this).children().each(function (index) {
-                    //     console.log(index)
-                    // })
-                    // alert(data)
                     $.ajax({
                         type: "POST",
                         data: data,

@@ -23,6 +23,15 @@
                 </select>
             </div>
 
+            <div class="col-8 col-md-3 pl-3 mb-3">
+                <select name="department" class="custom-select">
+                    <option value="">@lang('translates.fields.department') @lang('translates.placeholders.choose')</option>
+                    @foreach($departments as $department)
+                        <option @if(request()->get('department') == $department->id) selected @endif value="{{$department->id}}">{{$department->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+
             <div class="col-8 col-md-3 mr-md-auto mb-3">
                 <select name="limit" class="custom-select">
                     @foreach([25, 50, 100] as $size)
@@ -41,9 +50,12 @@
                     <th scope="col">#</th>
                     <th scope="col">@lang('translates.fields.user')</th>
                     <th scope="col">@lang('translates.fields.company')</th>
+                    <th scope="col">@lang('translates.fields.department')</th>
                     <th scope="col">@lang('translates.fields.phone')</th>
                     <th scope="col">Asan ID</th>
                     <th scope="col">@lang('translates.fields.actions')</th>
+                    <th scope="col">Pin 1</th>
+                    <th scope="col">Pin 2</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -52,8 +64,11 @@
                         <th scope="row">{{$loop->iteration}}</th>
                         <td>{{$asan_imza->getRelationValue('user')->getFullnameWithPositionAttribute()}}</td>
                         <td>{{$asan_imza->getRelationValue('company')->getAttribute('name')}}</td>
+                        <td>{{$asan_imza->getRelationValue('department')->getAttribute('name')}}</td>
                         <td>{{$asan_imza->getAttribute('phone')}}</td>
                         <td>{{$asan_imza->getAttribute('asan_id')}}</td>
+                        <td>{{$asan_imza->getAttribute('pin1')}}</td>
+                        <td>{{$asan_imza->getAttribute('pin2')}}</td>
                         <td>
                             <div class="btn-sm-group">
                                 @can('view', $asan_imza)

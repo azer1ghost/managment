@@ -32,6 +32,15 @@
             </div>
 
             <div class="form-group col-6">
+                <label for="department_id">@lang('translates.fields.company')</label><br/>
+                <select class="form-control" name="department_id" id="department_id" data-width="fit">
+                    @foreach($departments as $department)
+                        <option @if($data->getAttribute('department_id') == $department->id) selected @endif value="{{$department->id}}">{{$department->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group col-6">
                 <label for="user_id">@lang('translates.columns.user')</label><br/>
                 <select class="select2 form-control" name="user_id" id="user_id">
                     @foreach($users as $user)
@@ -42,6 +51,8 @@
 
             <x-input::text  name="phone"    :label="__('translates.fields.phone')"   :value="$data->getAttribute('phone')"    width="6"/>
             <x-input::text  name="asan_id"   label="Asan ID"    :value="$data->getAttribute('asan_id')"    width="6"/>
+            <x-input::text  name="pin1"   label="Pin 1"    :value="$data->getAttribute('pin1')"    width="6"/>
+            <x-input::text  name="pin2"   label="Pin 2"    :value="$data->getAttribute('pin2')"    width="6"/>
 
         </div>
         @if($action)

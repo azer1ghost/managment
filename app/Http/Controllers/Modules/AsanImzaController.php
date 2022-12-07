@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AsanImzaRequest;
 use App\Models\AsanImza;
 use App\Models\Company;
+use App\Models\Department;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -51,12 +52,16 @@ class AsanImzaController extends Controller
     {
         $limit = $request->get('limit', 25);
         $company = $request->get('company');
+        $department = $request->get('department');
 
         return view('pages.asan-imza.index')
             ->with([
                 'asan_imzas' => AsanImza::query()
-                    ->when($company, fn($query) => $query->where('company_id', $company))->simplePaginate($limit),
+                    ->when($company, fn($query) => $query->where('company_id', $company))
+                    ->when($department, fn($query) => $query->where('department_id', $department))
+                    ->simplePaginate($limit),
                 'companies' => Company::get(['id', 'name']),
+                'departments' => Department::get(['id', 'name']),
             ]);
     }
 
@@ -68,6 +73,7 @@ class AsanImzaController extends Controller
                 'method' => 'POST',
                 'data' => new AsanImza(),
                 'companies' => Company::get(['id', 'name']),
+                'departments' => Department::get(['id', 'name']),
                 'users' => User::get(['id', 'name', 'surname', 'position_id', 'role_id']),
             ]);
     }
@@ -89,6 +95,7 @@ class AsanImzaController extends Controller
                 'method' => null,
                 'data' => $asanImza,
                 'companies' => Company::get(['id', 'name']),
+                'departments' => Department::get(['id', 'name']),
                 'users' => User::oldest('name')->get(['id', 'name', 'surname', 'position_id', 'role_id']),
             ]);
     }
@@ -101,6 +108,7 @@ class AsanImzaController extends Controller
                 'method' => "PUT",
                 'data' => $asanImza,
                 'companies' => Company::get(['id', 'name']),
+                'departments' => Department::get(['id', 'name']),
                 'users' => User::get(['id', 'name', 'surname', 'position_id', 'role_id']),
             ]);
     }

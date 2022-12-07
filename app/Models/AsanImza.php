@@ -14,7 +14,7 @@ class AsanImza extends Model implements Recordable
     use SoftDeletes, HasFactory, \Altek\Accountant\Recordable, Eventually;
 
     protected $table = 'asan_imzalar';
-    protected $fillable = ['user_id', 'company_id', 'asan_id', 'phone'];
+    protected $fillable = ['user_id', 'department_id', 'company_id', 'asan_id', 'phone', 'pin1', 'pin2'];
     protected $with = ['user:id,name,surname', 'company:id,name'];
 
     public function user(): BelongsTo
@@ -25,6 +25,11 @@ class AsanImza extends Model implements Recordable
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class)->withDefault();
+    }
+
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class)->withDefault();
     }
 
     public function setPhoneAttribute($value): ?string
