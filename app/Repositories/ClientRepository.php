@@ -14,14 +14,14 @@ class ClientRepository implements ClientRepositoryInterface {
         [$from, $to] = explode(' - ', $filters['created_at']);
         return Client::with('salesUsers')
             ->whereNull('client_id')
-            ->when(Client::userCannotViewAll(), function ($query){
-                $query->where(function ($query){
-                    $query
-                        ->doesnthave('salesUsers')
-                        ->orWhereHas('salesUsers', fn($q) => $q->where('id', auth()->id()));
-
-                });
-            })
+//            ->when(Client::userCannotViewAll(), function ($query){
+//                $query->where(function ($query){
+//                    $query
+//                        ->doesnthave('salesUsers')
+//                        ->orWhereHas('salesUsers', fn($q) => $q->where('id', auth()->id()));
+//
+//                });
+//            })
             ->when($filters['check-created_at'], fn($query) => $query->whereBetween('created_at', [Carbon::parse($from)->startOfDay(), Carbon::parse($to)->endOfDay()]))
             ->when($filters['free_clients'], fn ($query) => $query->doesnthave('salesUsers'))
             ->when(is_numeric($filters['type']), fn ($query) => $query->where('type', (int) $filters['type']))
