@@ -288,8 +288,9 @@
                 <th scope="col">E-Qaimə</th>
             @endif
 
-                {{--            @if(\App\Models\Work::userCanViewAll())--}}
-                <th scope="col">@lang('translates.columns.department')</th>
+{{--            @if(\App\Models\Work::userCanViewAll())--}}
+            <th scope="col">@lang('translates.columns.created_by')</th>
+            <th scope="col">@lang('translates.columns.department')</th>
 {{--            @endif--}}
             <th scope="col">@lang('translates.fields.user')</th>
             <th scope="col">Asan imza</th>
@@ -332,6 +333,8 @@
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     <th class="code" data-name="code" data-pk="{{ $work->getAttribute('id') }}" scope="row">{{$work->getAttribute('code')}}</th>
                 @endif
+
+                    <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
 
                     <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
 
@@ -486,16 +489,16 @@
                                             @endphp
                                     @endforeach
                                 @endif
-                                    <td title="{{$work->getAttribute('payment_method')}}" data-toggle="tooltip">{{trans('translates.payment_methods.' . $work->getAttribute('payment_method'))}}</td>
-                                    <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('created_at'))->diffForHumans()}}</td>
-                                    <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip">{{optional($work->getAttribute('datetime'))->format('Y-m-d')}}</td>
-                                    <td title="{{$work->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
-                                    <td title="{{$work->getAttribute('invoiced_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
+                                <td title="{{$work->getAttribute('payment_method')}}" data-toggle="tooltip">{{trans('translates.payment_methods.' . $work->getAttribute('payment_method'))}}</td>
+                                <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('created_at'))->diffForHumans()}}</td>
+                                <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip">{{optional($work->getAttribute('datetime'))->format('Y-m-d')}}</td>
+                                <td title="{{$work->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
+                                <td title="{{$work->getAttribute('invoiced_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
                             </tr>
                             <tr>
                                 <th colspan="24">Sorğu nömrəsi</th>
                             </tr>
-                                <td colspan="24" class="declaration" data-name="declaration_no" data-pk="{{$work->getAttribute('id')}}">{{$work->getAttribute('declaration_no')}}</td>
+                                <td colspan="24" @if(auth()->user()->hasPermission('editTable-work')) class="declaration" @endif data-name="declaration_no" data-pk="{{$work->getAttribute('id')}}">{{$work->getAttribute('declaration_no')}}</td>
 
                             </tbody>
                         </table>
@@ -524,7 +527,7 @@
 
         @if($works->isNotEmpty())
             <tr style="background: #b3b7bb" id="count">
-                <td colspan=" @if(auth()->user()->isDeveloper() || auth()->user()->hasPermission('viewPrice-work')) 8 @elseif(auth()->user()->hasPermission('viewAll-work') || auth()->user()->hasPermission('canVerify-work'))  7 @else 6 @endif">
+                <td colspan=" @if(auth()->user()->isDeveloper() || auth()->user()->hasPermission('viewPrice-work')) 9 @elseif(auth()->user()->hasPermission('viewAll-work') || auth()->user()->hasPermission('canVerify-work'))  8 @else 7 @endif">
                     <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
                 </td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $gb_count}}</strong></p></td>
