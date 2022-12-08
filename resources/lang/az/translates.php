@@ -527,7 +527,8 @@ return [
         'payment_method' => 'Ödəmə Üsulu',
         'no_announcement' => 'Oxunmamış elan yoxdur',
         'mark_as_read' => 'Oxudum',
-        'mark_all' => 'Hamısını Oxudum'
+        'mark_all' => 'Hamısını Oxudum',
+        'declaration' => 'Bəyannamə'
     ],
 
     'clients' => [
