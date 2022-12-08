@@ -331,7 +331,7 @@
                     <td></td>
                 @endif
                 @if(auth()->user()->hasPermission('viewPrice-work'))
-                    <th class="code" data-name="code" data-pk="{{ $work->getAttribute('id') }}" scope="row">{{$work->getAttribute('code')}}</th>
+                    <th @if(auth()->user()->hasPermission('editPrice-work')) class="code" @endif data-name="code" data-pk="{{ $work->getAttribute('id') }}" scope="row">{{$work->getAttribute('code')}}</th>
                 @endif
 
                     <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
