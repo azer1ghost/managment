@@ -35,7 +35,7 @@
                         <p class="text-center">Xitam</p>
                         <video class="mr-5" width="100%" controls><source src="{{asset('videos/xitam.mp4')}}" type="video/mp4"></video>
                         <p class="text-center">Əmək haqqı</p>
-                        <video class="mr-5" width="100%" controls><source src="{{asset('videos/emekhaqqi.mp4')}}" type="video/mp4"></video>
+                        <video class="mr-5" width="100%" controls><source src="{{asset('videos/salary.mp4')}}" type="video/mp4"></video>
                     </div>
                  @endif
                 <h2 data-toggle="collapse" href="#inquiry">@lang('translates.navbar.inquiry')</h2>
