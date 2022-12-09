@@ -59,7 +59,7 @@ class AsanImzaController extends Controller
                 'asan_imzas' => AsanImza::query()
                     ->when($company, fn($query) => $query->where('company_id', $company))
                     ->when($department, fn($query) => $query->where('department_id', $department))
-                    ->simplePaginate($limit),
+                    ->orderByDesc('is_active')->simplePaginate($limit),
                 'companies' => Company::get(['id', 'name']),
                 'departments' => Department::get(['id', 'name']),
             ]);

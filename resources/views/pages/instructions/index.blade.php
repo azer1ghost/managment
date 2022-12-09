@@ -56,7 +56,7 @@
                 @if(auth()->user()->isDirector() || auth()->user()->hasPermission('editTable-work'))
                     <h2 data-toggle="collapse" href="#declaration">@lang('translates.general.declaration')</h2>
                     <div class="collapse" id="declaration">
-{{--                        <video class="mr-5" width="100%" controls><source src="{{asset('videos/declaration.mp4')}}" type="video/mp4"></video>--}}
+                        <video class="mr-5" width="100%" controls><source src="{{asset('videos/declaration.mp4')}}" type="video/mp4"></video>
                     </div>
                 @endif
             </div>
