@@ -162,7 +162,7 @@
                                 @if(auth()->user()->hasPermission('canAssignUsers-client'))
                                     <td><input type="checkbox" name="clients[]" value="{{$client->getAttribute('id')}}" id="data-checkbox-{{$client->getAttribute('id')}}"></td>
                                 @endif
-                                <th scope="row">{{$client->getAttribute('id')}}</th>
+                                <th scope="row">{{$loop->iteration}}</th>
                                     @if(auth()->user()->hasPermission('satisfactionMeasure-client'))
                                         @if(is_numeric($client->getAttribute('satisfaction')))
                                             @php
