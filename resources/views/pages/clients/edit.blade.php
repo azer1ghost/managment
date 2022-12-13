@@ -57,7 +57,9 @@
                 <div class="form-group">
                     <label for="data-companies">@lang('translates.clients.selectCompany')</label><br/>
                     <select id="data-companies" name="companies[]"  required class="form-control" title="@lang('translates.filters.select')">
-                        @foreach($companies as $company)
+                        <option value="">@lang('translates.clients.selectCompany')</option>
+
+                    @foreach($companies as $company)
                             <option @foreach($data->companies as $companie) @if($company->getAttribute('id') == $companie->id) selected @endif @endforeach value="{{$company->getAttribute('id')}}">{{$company->getAttribute('name')}}</option>
                         @endforeach
                     </select>
