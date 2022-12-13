@@ -13,7 +13,7 @@ class ClientRequest extends FormRequest
 
     public function rules(): array
     {
-        $voen = $this->isMethod('POST') && !$this->routeIs('clients.store') ? null : $this->request->get('id');
+//        $voen = $this->isMethod('POST') && !$this->routeIs('clients.store') ? null : $this->request->get('id');
 
         return [
             'fullname'        => 'required|string|max:255',
@@ -28,7 +28,8 @@ class ClientRequest extends FormRequest
             'phone2'          => 'nullable|string|max:255',
             'address1'        => 'nullable|string|max:255',
             'address2'        => 'nullable|string|max:255',
-            'voen'            => 'nullable|string|unique:clients,voen,' . $voen,
+//            'voen'            => 'nullable|string|unique:clients,voen,' . $voen,
+            'voen'            => 'string|required',
             'position'        => 'nullable|string',
             'type'            => 'nullable|boolean',
             'client_id'       => 'nullable|integer',
