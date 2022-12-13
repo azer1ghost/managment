@@ -56,7 +56,7 @@
                 </x-form-group>
                 <div class="form-group">
                     <label for="data-companies">Select Company</label><br/>
-                    <select id="data-companies" name="companies[]" multiple required class="filterSelector" data-selected-text-format="count"
+                    <select id="data-companies" name="companies[]"  multiple required class="filterSelector" data-selected-text-format="count"
                             data-width="fit" title="@lang('translates.filters.select')">
                         @foreach($companies as $company)
                             <option value="{{$company->getAttribute('id')}}">{{$company->getAttribute('name')}}</option>
@@ -74,6 +74,7 @@
                 <x-form-group  class="pr-3 col-12 col-lg-8" :label="trans('translates.fields.detail')">
                     <x-form-textarea name="detail" />
                 </x-form-group>
+                    <x-input::date  :label="__('translates.fields.bcreated_at')"   name="birthday" :value="optional($data)->getAttribute('birthday')" width="4" class="pr-0" />
             </div>
             <!-- Employment -->
             <p class="text-muted mb-2"> @lang('translates.fields.employment')</p>
