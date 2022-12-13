@@ -108,6 +108,7 @@ return [
         'serial' => 'Serial',
         'gender' => 'Gender',
         'birthday' => 'Birthday',
+        'bcreated_at' => 'Birthday or Created At',
         'address' => 'Address',
         'website' => 'Website',
         'mobile' => 'Mobile',

@@ -110,6 +110,7 @@ return [
         'serial' => 'Seriya',
         'gender' => 'Cins',
         'birthday' => 'Doğum tarixi',
+        'bcreated_at' => 'Doğum günü yaxud Yaranma tarixi',
         'address' => 'Ünvan',
         'website' => 'Sayt',
         'mobile' => 'Mobil',
