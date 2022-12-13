@@ -136,7 +136,7 @@
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>@lang("translates.clients_type." . $client->getAttribute('type'))</td>
                                 <td>@foreach($client->companies as $company) {{$company->getAttribute('name')}} @if(!$loop->last),@endif @endforeach</td>
-                                <td>{{$client->getRelationValue('users')->getAttribute('id')  ? $client->getRelationValue('users')->getAttribute('fullnameWithDepartment') : 'Toğrul Surxayzadə (İnsan Resursları Hüquq və İnzibati İdarəetmə Şöbəsi)'}}</td>
+                                <td>{{$client->getRelationValue('users')->getAttribute('id')  ? $client->getRelationValue('users')->getAttribute('fullnameWithDepartment') : 'Toğrul Surxayzadə (İnsan Resursları Hüquq və İnzibati İdarəetmə Şöbəsi.)'}}</td>
                                 <td><label for="data-checkbox-{{$client->getAttribute('id')}}">{{$client->getAttribute('fullname')}}</label></td>
                                     @if(auth()->user()->hasPermission('viewAll-client'))
                                         <td>{{$client->getAttribute('detail') ? $client->getAttribute('detail') : trans('translates.clients.detail_empty') }} </td>
