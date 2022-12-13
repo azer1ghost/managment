@@ -118,10 +118,10 @@
                                 <th scope="col">@lang('translates.columns.phone')</th>
                                 <th scope="col">VOEN/GOOEN</th>
                             @endif
-                            @if(!auth()->user()->hasPermission('viewAll-client'))
-                                <th scope="col">@lang('translates.navbar.document')</th>
+                        <th scope="col">@lang('translates.navbar.document')</th>
+                            @if(auth()->user()->hasPermission('viewAll-client'))
+                                <th scope="col">@lang('translates.columns.actions')</th>
                             @endif
-                        <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
                 <tbody>
@@ -144,38 +144,38 @@
                                         <td>{{$client->getAttribute('phone1') ? $client->getAttribute('phone1') : trans('translates.clients.phone_empty')}} </td>
                                         <td>{{$client->getAttribute('voen') ? $client->getAttribute('voen') : trans('translates.clients.voen_empty')}} </td>
                                    @endif
-                                @if(!auth()->user()->hasPermission('viewAll-client'))
                                     <td>
                                         @php($supportedTypes = \App\Models\Document::supportedTypeIcons())
                                         @foreach($client->documents as $document)
                                             @php($type = $supportedTypes[$document->type])
                                             @php($route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document))
                                             <a href="{{$route}}" data-toggle="tooltip" title="{{$document->file}}" target="_blank" class="text-dark d-flex align-items-center mr-2" style=" word-break: break-word">
-                                                <i class="fa fa-file-{{$type['icon']}} fa-2x mr-2 text-{{$type['color']}}"></i>
-                                                <span>{{$document->name}}</span>
+                                                <i class="fa fa-file-{{$type['icon']}} fa-2x m-1 text-{{$type['color']}}"></i>
+                                                <span>{{substr($document->name, 0, 10) . '...'}} </span>
                                             </a>
                                         @endforeach
                                     </td>
-                                @endif
-                            <td>
-                                <div class="btn-sm-group">
-                                    @can('view', $client)
-                                        <a href="{{route('clients.show', $client)}}" class="btn btn-sm btn-outline-primary">
-                                            <i class="fal fa-eye"></i>
-                                        </a>
-                                    @endcan
-                                    @can('update', $client)
-                                        <a href="{{route('clients.edit', $client)}}" class="btn btn-sm btn-outline-success">
-                                            <i class="fal fa-pen"></i>
-                                        </a>
-                                    @endcan
-                                    @can('delete', $client)
-                                        <a href="{{route('clients.destroy', $client)}}" delete data-name="{{$client->getAttribute('fullname')}}" class="btn btn-sm btn-outline-danger" >
-                                            <i class="fal fa-trash"></i>
-                                        </a>
-                                    @endcan
-                                </div>
-                            </td>
+                            @if(auth()->user()->hasPermission('viewAll-client'))
+                                <td>
+                                    <div class="btn-sm-group">
+                                        @can('view', $client)
+                                            <a href="{{route('clients.show', $client)}}" class="btn btn-sm btn-outline-primary">
+                                                <i class="fal fa-eye"></i>
+                                            </a>
+                                        @endcan
+                                        @can('update', $client)
+                                            <a href="{{route('clients.edit', $client)}}" class="btn btn-sm btn-outline-success">
+                                                <i class="fal fa-pen"></i>
+                                            </a>
+                                        @endcan
+                                        @can('delete', $client)
+                                            <a href="{{route('clients.destroy', $client)}}" delete data-name="{{$client->getAttribute('fullname')}}" class="btn btn-sm btn-outline-danger" >
+                                                <i class="fal fa-trash"></i>
+                                            </a>
+                                        @endcan
+                                    </div>
+                                </td>
+                            @endif
                         </tr>
                         @empty
                         <tr>
