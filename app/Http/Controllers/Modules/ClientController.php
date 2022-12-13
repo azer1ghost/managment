@@ -73,7 +73,7 @@ class ClientController extends Controller
             'check-created_at' => $request->has('check-created_at'),
             'created_at' => $createdTime,
             'company' => $request->get('company'),
-            'free_company' => $request->get('free_company'),
+            'free_company' => $request->has('free_company'),
             'users' => $request->get('users')
         ];
         $clients = $this->clientRepository->allFilteredClients($filters)->latest();
