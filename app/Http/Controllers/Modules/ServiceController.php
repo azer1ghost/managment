@@ -33,7 +33,7 @@ class ServiceController extends Controller
         return view('pages.services.edit')->with([
             'action' => route('services.store'),
             'method' => 'POST',
-            'data' => null,
+            'data' => new Service(),
             'companies' => Company::get(['id','name']),
             'departments' => Department::get(['id','name']),
             'services' => Service::whereNull('service_id')->latest()->get(['id', 'name'])
