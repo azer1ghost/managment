@@ -143,15 +143,18 @@
             <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.phone2')" >
                 <x-form-input name="phone2"/>
             </x-form-group>
-            <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.email1')" >
-                <x-form-input type="email" name="email1" required/>
-            </x-form-group>
+{{--            <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.email1')" >--}}
+{{--                <x-form-input type="email" name="email1" @if(auth()->id() !== 2 ) required @endif/>--}}
+{{--            </x-form-group>--}}
+            <div class="form-group col-md-3">
+                <label for="data-companies">@lang('translates.fields.email1')</label><br/>
+                <input type="email" class="form-control" value="{{optional($data->getAttribute('email1'))}}" name="email1" @if(auth()->id() !== 103 ) required @endif>
+            </div>
+
             <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.email2')" >
                 <x-form-input type="email" name="email2"/>
             </x-form-group>
-            @if(now()->format('m/d/Y') < date_create("02/12/2022")->format('m/d/Y'))
-                <span class="alert alert-danger">Vüsal müəllimin tapşırığı əsasında müştərinin nömrəsinin yazılması vacibdir! </span>
-            @endif
+
             <!-- Address -->
             <div class="col-md-12">
                 <br>
