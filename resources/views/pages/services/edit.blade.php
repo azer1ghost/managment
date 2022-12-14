@@ -80,6 +80,13 @@
                     <x-form-group  class="pr-3 col-12 col-lg-6">
                         <x-form-textarea name="detail" label="Service detail"/>
                     </x-form-group>
+                    <x-form-group  class="pr-3 col-12 col-lg-6">
+                        <x-form-input  name="ordering" label="Sıra" placeholder="Hansı sırada olacağını yazın"/>
+                    </x-form-group>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" name="is_active" class="custom-control-input" id="is_active" @if($data->getAttribute('is_active')) checked @endif>
+                        <label class="custom-control-label" for="is_active">@lang('translates.users.statuses.active')</label>
+                    </div>
                     <div class="form-group col-12">
                         <input type="checkbox" id="has_asan_imza" name="has_asan_imza" @if(optional($data)->getAttribute('has_asan_imza')) checked @endif>
                         <label class="form-check-label" for="has_asan_imza">Has Asan Imza</label>

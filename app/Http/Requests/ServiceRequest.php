@@ -17,7 +17,9 @@ class ServiceRequest extends FormRequest
             'service_id' => 'nullable|integer',
             'name' => 'nullable|array',
             'has_asan_imza' => 'nullable',
-            'parameters' => 'nullable|array'
+            'parameters' => 'nullable|array',
+            'ordering' => 'nullable|integer',
+
         ];
     }
 }

@@ -22,8 +22,9 @@ class ServiceController extends Controller
     {
         $limit = $request->get('limit',10);
 
-        return view('pages.services.index')->with([
-            'services' => Service::with('department', 'company')->whereNull('service_id')->paginate($limit)
+        return view('pages.services.index')
+            ->with([
+            'services' => Service::with('department', 'company')->whereNull('service_id')->OrderBy('ordering')->paginate($limit)
         ]);
     }
 
@@ -42,6 +43,7 @@ class ServiceController extends Controller
     public function store(ServiceRequest $request): RedirectResponse
     {
         $validated = $request->validated();
+        $validated['is_active'] = $request->has('is_active');
         $validated['has_asan_imza'] = $request->has('has_asan_imza');
 
         $service = Service::create($validated);
@@ -78,6 +80,7 @@ class ServiceController extends Controller
     public function update(ServiceRequest $request, Service $service): RedirectResponse
     {
         $validated = $request->validated();
+        $validated['is_active'] = $request->has('is_active');
         $validated['has_asan_imza'] = $request->has('has_asan_imza');
 
         $service->update($validated);

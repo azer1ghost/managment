@@ -18,7 +18,7 @@ class Service extends Model implements Recordable
 {
     use HasFactory, SoftDeletes, HasTranslations, \Altek\Accountant\Recordable, Eventually;
 
-    protected $fillable = ['name', 'detail', 'icon', 'company_id', 'department_id', 'service_id', 'has_asan_imza'];
+    protected $fillable = ['name', 'detail', 'icon', 'company_id', 'department_id', 'service_id', 'has_asan_imza', 'ordering', 'is_active'];
 
     public array $translatable = ['name'];
 

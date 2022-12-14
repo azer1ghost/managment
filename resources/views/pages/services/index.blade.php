@@ -43,6 +43,7 @@
                         <th scope="col">@lang('translates.fields.detail')</th>
                         <th scope="col">@lang('translates.columns.department')</th>
                         <th scope="col">@lang('translates.columns.company')</th>
+                        <th scope="col">Status</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
@@ -54,6 +55,7 @@
                             <td>{{$service->getAttribute('detail')}}</td>
                             <td>{{$service->getRelationValue('department')->getAttribute('name')}}</td>
                             <td>{{$service->getRelationValue('company')->getAttribute('name')}}</td>
+                            <td>@if($service->getAttribute('is_active') == 1) <span style="color: green" >@lang('translates.users.statuses.active')</span> @else <span style="color: red">@lang('translates.users.statuses.deactivate') @endif</td>
                             <td>
                                 <div class="btn-sm-group">
                                     @can('view', $service)
@@ -79,6 +81,7 @@
                                 <td></td>
                                 <td><i class="{{$subservice->getAttribute('icon')}} pr-2" style="font-size: 20px"></i> {{$subservice->getAttribute('name')}}</td>
                                 <td colspan="3">{{$subservice->getAttribute('detail')}}</td>
+                                <td>@if($service->getAttribute('is_active') == 1) <span style="color: green" >@lang('translates.users.statuses.active')</span> @else <span style="color: red">@lang('translates.users.statuses.deactivate') @endif</td>
                                 <td>
                                     <div class="btn-sm-group">
                                         @can('view', $subservice)
