@@ -75,8 +75,10 @@
                 <x-form-group  class="pr-3 col-12 col-lg-8" :label="trans('translates.fields.detail')">
                     <x-form-textarea name="detail" style="height: 300px" />
                 </x-form-group>
-                    <x-input::date  :label="__('translates.fields.created_at')"   name="celebrate_at" :value="optional($data)->getAttribute('celebrate_at')" width="4" class="pr-0" />
-                    <x-input::date  :label="__('translates.fields.birthday')"   name="birthday" :value="optional($data)->getAttribute('birthday')" width="4" class="pr-0" />
+                @if (request()->get('type') == $data::LEGAL && optional($data)->getAttribute('type') == $data::LEGAL)
+                    <x-input::date  :label="__('translates.fields.created_at')" name="celebrate_at" :value="optional($data)->getAttribute('celebrate_at')" width="4" class="pr-0" />
+                @endif
+                    <x-input::date  :label="__('translates.fields.birthday')" name="birthday" :value="optional($data)->getAttribute('birthday')" width="4" class="pr-0" />
             </div>
             <!-- Employment -->
             <p class="text-muted mb-2"> @lang('translates.fields.employment')</p>
