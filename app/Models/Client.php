@@ -42,7 +42,8 @@ class Client extends Model implements DocumentableInterface, Recordable
         'satisfaction',
         'user_id',
         'price',
-        'birthday'
+        'birthday',
+        'celebrate_at'
     ];
 
     public function clients(): HasMany
