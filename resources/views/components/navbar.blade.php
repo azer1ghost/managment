@@ -34,7 +34,7 @@
                             @foreach($notifications as $notification)
                                 <a class="text-black" href="{{route('statement')}}">
                                     <h4 class="preview-subject font-weight-normal">{{$notification->data['title']}}</h4>
-                                    <p class="mb-1"> @if (strlen($notification->data['body']) > 200) {{substr($notification->data['body'], 0, 200) . '...'}}@else
+                                    <p class="mb-1"> @if (strlen($notification->data['body']) > 200) {!!substr($notification->data['body'], 0, 200) . '...'!!}@else
                                         {{$notification->data['body']}} @endif </p>
                                 </a>
                             @endforeach

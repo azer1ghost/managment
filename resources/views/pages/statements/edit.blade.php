@@ -29,12 +29,10 @@
                     </x-form-group>
 
                     <x-form-group  class="pr-3 col-12 col-lg-6"  >
-                        <x-form-input  name="body" label="Statement Body" placeholder="Statement Bodyody daxil edin"/>
-                    </x-form-group>
-
-                    <x-form-group  class="pr-3 col-12 col-lg-6"  >
                         <x-form-input  name="attribute" label="Statement Attribute" placeholder="Statement attribute daxil edin"/>
                     </x-form-group>
+
+                    <textarea aria-label="body" name="body" id="summernote" class="form-control">{{optional($data)->getAttribute('body')}}</textarea>
                 </div>
             </div>
         </div>
@@ -45,6 +43,14 @@
     </form>
 @endsection
 @section('scripts')
+    <script>
+        $('#summernote').summernote({
+            height: 400,
+            minHeight: null,
+            maxHeight: null,
+            focus: true
+        });
+    </script>
     @if(is_null($action))
         <script>
             $('form :input').attr('disabled', true)

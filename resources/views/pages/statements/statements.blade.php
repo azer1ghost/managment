@@ -64,7 +64,7 @@
             </div>
             <div  class="copy col-8">
                 <h4>{{$notification->data['title']}}</h4>
-                <p>{{$notification->data['body']}}</p>
+                <p>{!!$notification->data['body']!!}</p>
             </div>
             @if($notification->unread())
             <a href="#" class="mark-as-read col-3 mark-as-read" data-id="{{$notification->id}}">
