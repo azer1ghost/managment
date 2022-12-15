@@ -100,6 +100,12 @@ class Sidebar extends Component
                         'url' => route('instruction'),
                         'permission' => 'viewAny-task',
                     ],
+                    (object)[
+                        'title' => __('translates.navbar.asan_imza'),
+                        'icon' => 'fas fa-file-signature',
+                        'url' => route('asan-imza.index'),
+                        'permission' => 'viewAny-asanImza',
+                    ],
                 ]
             ],
 
@@ -168,12 +174,7 @@ class Sidebar extends Component
                         'url' => route('customer-engagement.index'),
                         'permission' => 'viewAny-customerEngagement',
                     ],
-                    (object)[
-                        'title' => __('translates.navbar.asan_imza'),
-                        'icon' => 'fas fa-file-signature',
-                        'url' => route('asan-imza.index'),
-                        'permission' => 'viewAny-asanImza',
-                    ],
+
                 ]
             ],
 
