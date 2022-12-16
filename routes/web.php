@@ -20,6 +20,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\DatabaseNotificationController,
     Modules\DepartmentController,
     Modules\DocumentController,
+    Modules\EmployeeSatisfactionController,
     Modules\InquiryController,
     Modules\InternalNumberController,
     Modules\InternalRelationController,
@@ -119,8 +120,6 @@ Route::group([
     Route::resource('/task-lists', TaskListController::class)->only('store', 'update', 'destroy');
     Route::resource('/notifications', DatabaseNotificationController::class);
     Route::resource('/barcode', BarcodeController::class);
-
-
     Route::post('/tasks/redirect/{task}', [TaskController::class, 'redirect'])->name('task.redirect');
 
     Route::post('/clients/sum/assign-sales', [ClientController::class, 'sumAssignSales'])->name('clients.sum.assign-sales');
@@ -131,7 +130,6 @@ Route::group([
     Route::any('/sales-client/search', [SalesClientController::class, 'search'])->name('sales-client.search');
     Route::resource('/sales-client', SalesClientController::class);
     Route::get('/sales-clients/export', [SalesClientController::class, 'export'])->name('sales-clients.export');
-
 
     Route::resource('/referrals', ReferralController::class)->except('create');
     Route::resource('/updates', UpdateController::class);
@@ -174,10 +172,9 @@ Route::group([
     Route::view('/instruction','pages.instructions.index' )->name('instruction');
     Route::view('/structure','pages.instructions.structure' )->name('structure');
     Route::resource('/statements', StatementController::class);
+    Route::resource('/employee-satisfaction', EmployeeSatisfactionController::class);
     Route::view('/statement','pages.statements.statements' )->name('statement');
     Route::post('/markAsRead', [StatementController::class, 'markAsRead'])->name('mark-as-read');
-
-
 
     // resultable routes
     Route::post('/results/{modelId}', [ResultController::class, 'store'])->name('results.store');

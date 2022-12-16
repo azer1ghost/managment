@@ -217,7 +217,7 @@ return [
         'intern_relation' => 'Daxili Əlaqələr',
         'foreign_relation' => 'Xarici Əlaqələr',
         'instruction' => 'Video Təlimat',
-
+        'employee_satisfaction' => 'İşçi Məmnuniyyəti'
     ],
 
     'date' => [
@@ -478,6 +478,20 @@ return [
     'bonus' => [
         'effective' => 'Effektiv',
         'ineffective' => 'Karsız'
+    ],
+
+    'employee_satisfactions' => [
+        'satisfaction_types' => 'Məmnuniyyət Növləri',
+        '1' => 'Təklif və İstəyiniz',
+        'activity' => 'Düzəldici Fəaliyyət',
+        'content-1' => 'Təklif və İstəyiniz',
+        'content-2' => 'Şikayətiniz',
+        'content-3' => 'Uyğunsuzluğun məzmunu',
+        'types' => [
+            '1' => 'Təklif',
+            '2' => 'Şikayət',
+            '3' => 'Uyğunsuzluq'
+        ]
     ],
 
     'general' => [

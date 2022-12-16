@@ -103,6 +103,13 @@ class Sidebar extends Component
                 ]
             ],
 
+//            (object)[
+//                'title' => __('translates.navbar.employeeSatisfaction'),
+//                'icon' => 'fad fa-chart-network',
+//                'url' => route('employee-satisfaction.index'),
+//                'permission' => 'generally',
+//            ],
+
             (object)[
                 'title' => __('translates.navbar.inquiry'),
                 'icon' => 'fa fa-phone',

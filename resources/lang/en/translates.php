@@ -215,6 +215,8 @@ return [
         'intern_relation' => 'Intern Relations',
         'foreign_relation' => 'Foreign Relations',
         'instruction' => 'Video Instruction',
+        'employee_satisfaction' => 'Employee Satisfaction'
+
     ],
 
     'date' => [
@@ -474,6 +476,15 @@ return [
     'bonus' => [
         'effective' => 'Effective',
         'ineffective' => 'Ineffective'
+    ],
+
+    'employee_satisfactions' => [
+        'new' => '',
+        'types' => [
+            '1' => 'Offer',
+            '2' => 'Complaint',
+            '3' => 'Inconsistency'
+        ]
     ],
 
     'general' => [
