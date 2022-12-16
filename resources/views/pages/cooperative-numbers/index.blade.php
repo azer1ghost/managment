@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', __('translates.navbar.cooperative_number'))
+@section('title', trans('translates.fields.cooperative_numbers'))
 
 @section('content')
     <x-bread-crumb>
