@@ -22,13 +22,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-2">
-                <select name="limit" class="custom-select">
-                    @foreach([10, 25, 50] as $size)
-                        <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
-                    @endforeach
-                </select>
-            </div>
             @can('create', App\Models\Service::class)
                 <div class="col-3">
                     <a class="btn btn-outline-success float-right" href="{{route('services.create')}}">@lang('translates.buttons.create')</a>
@@ -114,11 +107,6 @@
                     @endforelse
                     </tbody>
                 </table>
-            </div>
-            <div class="col-12">
-                <div class="float-right">
-                    {{$services->appends(request()->input())->links()}}
-                </div>
             </div>
         </div>
     </form>
