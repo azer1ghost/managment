@@ -98,9 +98,6 @@
                 @endforelse
                 </tbody>
             </table>
-            <div class="float-right">
-                {{$asan_imzas->appends(request()->input())->links()}}
-            </div>
         </div>
     </form>
 @endsection

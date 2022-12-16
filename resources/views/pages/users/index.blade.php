@@ -90,11 +90,11 @@
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="sortableUser">
                     @forelse($users as $user)
-                        <tr>
-                            <th scope="row"><img src="{{image($user->getAttribute('avatar'))}}" alt="user" class="profile" /></th>
-                            <td>{{$user->getAttribute('fullname_with_position')}}
+                        <tr id="item-{{$user->getAttribute('id')}}">
+                            <th scope="row"><img src="{{image($user->getAttribute('avatar'))}}" alt="user" class="profile sortable" /></th>
+                            <td class="sortable">{{$user->getAttribute('fullname_with_position')}}
                                 @if($user->getAttribute('id') === auth()->id()) <h5 class="d-inline"><span class="badge badge-info text-white">Me</span></h5> @endif
                                 @if($user->getAttribute('disabled_at')) <span class="text-danger">(@lang('translates.disabled'))</span> @endif
                             </td>
@@ -183,6 +183,25 @@
     </form>
 @endsection
 @section('scripts')
+    @if(auth()->user()->hasPermission('update-user'))
+        <script>
+            $(function () {
+                $('#sortableUser').sortable({
+                    axis: 'y',
+                    handle: ".sortable",
+                    update: function () {
+                        var data = $(this).sortable('serialize');
+                        $.ajax({
+                            type: "POST",
+                            data: data,
+                            url: "{{route('user.sortable')}}",
+                        });
+                    }
+                });
+                $('#sortableUser').disableSelection();
+            });
+        </script>
+    @endif
     <script>
         $('select').change(function(){
             this.form.submit();

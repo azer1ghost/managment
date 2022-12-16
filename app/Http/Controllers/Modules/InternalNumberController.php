@@ -33,7 +33,7 @@ class InternalNumberController extends Controller
     public function cooperative()
     {
         return view('pages.cooperative-numbers.index')
-            ->with([ 'cooperativeNumbers' => User::isActive()
+            ->with([ 'cooperativeNumbers' => User::isActive()->where('is_partner', 0)->orderBy('order')
                 ->get(['phone_coop', 'name', 'surname', 'position_id'])]);
 
     }

@@ -50,7 +50,6 @@ class AsanImzaController extends Controller
 
     public function index(Request $request)
     {
-        $limit = $request->get('limit', 25);
         $company = $request->get('company');
         $department = $request->get('department');
 
@@ -59,7 +58,7 @@ class AsanImzaController extends Controller
                 'asan_imzas' => AsanImza::query()
                     ->when($company, fn($query) => $query->where('company_id', $company))
                     ->when($department, fn($query) => $query->where('department_id', $department))
-                    ->orderByDesc('is_active')->simplePaginate($limit),
+                    ->orderByDesc('is_active')->get(),
                 'companies' => Company::get(['id', 'name']),
                 'departments' => Department::get(['id', 'name']),
             ]);

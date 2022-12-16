@@ -124,7 +124,7 @@ class WorkController extends Controller
             'action' => route('works.store'),
             'method' => 'POST',
             'data' => null,
-            'users' => User::get(['id', 'name', 'surname']),
+            'users' => User::isActive()->get(['id', 'name', 'surname']),
             'companies' => Company::get(['id', 'name']),
             'departments' => Department::get(['id', 'name']),
             'services' => Service::get(['id', 'name']),

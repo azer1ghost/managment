@@ -35,7 +35,7 @@
                     @forelse($cooperativeNumbers as $cooperativeNumber)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
-                            <td>{{$cooperativeNumber->getFullnameWithPositionAttribute()}}</td>
+                            <td>{{$cooperativeNumber->getAttribute('fullname_with_position')}}</td>
                             <td>{{$cooperativeNumber->getAttribute('phone_coop')}}</td>
                         </tr>
                     @empty

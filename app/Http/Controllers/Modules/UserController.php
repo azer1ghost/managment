@@ -69,7 +69,7 @@ class UserController extends Controller
                                 break;
                         }
                     })
-                    ->orderByDesc('order')
+                    ->orderBy('order')
                     ->paginate($limit),
                 'companies' => Company::get(['id', 'name']),
                 'departments' => Department::get(['id', 'name']),
@@ -226,6 +226,14 @@ class UserController extends Controller
         }
 
         return redirect()->route('dashboard')->withCookie('user_id', $previousId);
+    }
 
+    public function sortable(Request $request)
+    {
+        foreach ($request->get('item') as $key => $value) {
+            $internalRelation = User::find($value);
+            $internalRelation->order = $key;
+            $internalRelation->save();
+        }
     }
 }
