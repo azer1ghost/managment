@@ -147,6 +147,7 @@ Route::group([
     Route::resource('/meetings', MeetingController::class);
     Route::resource('/job-instructions', JobInstructionController::class);
     Route::resource('/internal-numbers', InternalNumberController::class);
+    Route::get('/cooperative-numbers', [InternalNumberController::class, 'cooperative'])->name('cooperative-numbers');
     Route::resource('/internal-relations', InternalRelationController::class);
     Route::get('/foreign', [InternalRelationController::class, 'foreign'])->name('foreign');
     Route::post('/sortable', [InternalRelationController::class, 'sortable'])->name('internal-relation.sortable');

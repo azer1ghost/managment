@@ -83,6 +83,12 @@ class Sidebar extends Component
                         'permission' => 'generally',
                     ],
                     (object)[
+                        'title' => __('translates.fields.cooperative_numbers'),
+                        'icon' => 'fal fa-phone-office',
+                        'url' => route('cooperative-numbers'),
+                        'permission' => 'generally',
+                    ],
+                    (object)[
                         'title' => __('translates.navbar.intern_relation'),
                         'icon' => 'fad fa-chart-network',
                         'url' => route('internal-relations.index'),
@@ -99,6 +105,12 @@ class Sidebar extends Component
                         'icon' => 'far fa-chalkboard-teacher',
                         'url' => route('instruction'),
                         'permission' => 'viewAny-task',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.asan_imza'),
+                        'icon' => 'fas fa-file-signature',
+                        'url' => route('asan-imza.index'),
+                        'permission' => 'viewAny-asanImza',
                     ],
                 ]
             ],
@@ -175,12 +187,7 @@ class Sidebar extends Component
                         'url' => route('customer-engagement.index'),
                         'permission' => 'viewAny-customerEngagement',
                     ],
-                    (object)[
-                        'title' => __('translates.navbar.asan_imza'),
-                        'icon' => 'fas fa-file-signature',
-                        'url' => route('asan-imza.index'),
-                        'permission' => 'viewAny-asanImza',
-                    ],
+
                 ]
             ],
 

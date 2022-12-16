@@ -20,11 +20,11 @@ class ServiceController extends Controller
 
     public function index(Request $request)
     {
-        $limit = $request->get('limit',10);
+
 
         return view('pages.services.index')
             ->with([
-            'services' => Service::with('department', 'company')->whereNull('service_id')->OrderBy('ordering')->paginate($limit)
+            'services' => Service::with('department', 'company')->whereNull('service_id')->OrderBy('ordering')->get()
         ]);
     }
 

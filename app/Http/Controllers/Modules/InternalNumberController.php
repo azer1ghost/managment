@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\InternalNumberRequest;
 use App\Models\Department;
 use App\Models\InternalNumber;
+use App\Models\InternalRelation;
 use App\Models\Meeting;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,6 +29,13 @@ class InternalNumberController extends Controller
                             ->orWhere('phone', 'like', "%".$search."%")
                             ->orWhere('detail', 'like', "%".$search."%"))
                             ->paginate(25)]);
+    }
+    public function cooperative()
+    {
+        return view('pages.cooperative-numbers.index')
+            ->with([ 'cooperativeNumbers' => User::isActive()
+                ->get(['phone_coop', 'name', 'surname', 'position_id'])]);
+
     }
 
     public function create()
