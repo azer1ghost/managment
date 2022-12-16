@@ -85,6 +85,7 @@
                         <th scope="col">@lang('translates.columns.phone')</th>
                         <th scope="col">@lang('translates.columns.company')</th>
                         <th scope="col">@lang('translates.columns.department')</th>
+                        <th scope="col">@lang('translates.fields.work_started_at')</th>
                         <th scope="col">@lang('translates.columns.role')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
@@ -102,6 +103,7 @@
                             <td>{{$user->getAttribute('phone_coop')}}</td>
                             <td>{{$user->getRelationValue('company')->getAttribute('name')}}</td>
                             <td>{{$user->getRelationValue('department')->getAttribute('name')}}</td>
+                            <td>{{$user->getAttribute('started_at')}}</td>
                             <td>{{$user->getRelationValue('role')->getAttribute('name')}}</td>
                             <td>
                                 <div class="btn-sm-group">

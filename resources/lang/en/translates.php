@@ -109,6 +109,7 @@ return [
         'gender' => 'Gender',
         'birthday' => 'Birthday',
         'bcreated_at' => 'Birthday or Created At',
+        'work_started_at' => 'Date of employment',
         'address' => 'Address',
         'website' => 'Website',
         'mobile' => 'Mobile',

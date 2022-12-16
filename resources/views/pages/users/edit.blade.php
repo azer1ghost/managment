@@ -71,9 +71,9 @@
                     <x-form-group  class="pr-3 col-12 col-lg-6">
                         <x-form-select  name="position_id" :options="$positions" :label="__('translates.fields.position')" />
                     </x-form-group>
-                    <x-form-group  class="pr-3 col-12 col-lg-6">
-                        <x-form-select  name="official_position_id" :options="$positions" :label="__('translates.fields.position')" />
-                    </x-form-group>
+{{--                    <x-form-group  class="pr-3 col-12 col-lg-6">--}}
+{{--                        <x-form-select  name="official_position_id" :options="$positions" :label="__('translates.fields.position')" />--}}
+{{--                    </x-form-group>--}}
                 @endif
                 <x-form-group  class="pr-3 col-12 col-lg-6">
                     <x-form-select  name="company_id" :options="$companies" :label="__('translates.fields.company')" />
@@ -83,6 +83,7 @@
                         <x-form-input name="verify_code"  readonly label="Verify Code" />
                     </x-form-group>
                 @endif
+                <x-input::date  :label="__('translates.fields.work_started_at')"  name="started_at" :value="optional($data)->getAttribute('started_at')" width="4" class="pr-0" />
             </div>
         </div>
         <div class="form-row mx-0 col-md-12">
