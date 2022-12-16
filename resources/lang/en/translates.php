@@ -84,6 +84,7 @@ return [
         'phone' => 'Phone',
         'phone_private' => 'Personal phone',
         'phone_coop' => 'Cooperative phone',
+        'cooperative_numbers' => 'Cooperative numbers',
         'phone1' => 'Phone one',
         'phone2' => 'Phone two',
         'email1' => 'Email one',
