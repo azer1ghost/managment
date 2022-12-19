@@ -299,6 +299,7 @@
             <th scope="col">Status</th>
             <th scope="col">Gb Say</th>
             <th scope="col">Kod Say</th>
+            <th scope="col">Say</th>
             @if(auth()->user()->hasPermission('viewPrice-work'))
 {{--            @foreach(\App\Models\Service::serviceParameters() as $param)--}}
 {{--                <th scope="col">{{$param['data']->getAttribute('label')}}</th>--}}
@@ -381,6 +382,7 @@
                 </td>
                     <td>{{$work->getParameter($work::GB)}}</td>
                     <td>{{$work->getParameter($work::CODE)}}</td>
+                    <td>{{$work->getParameter($work::SERVICECOUNT)}}</td>
                     @php
                         $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID) + $work->getAttribute('bank_charge');
                         $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) + $work->getParameter($work::ILLEGALAMOUNT) - $sum_payment) * -1;
@@ -509,11 +511,13 @@
                 $balance[] = $residue;
                 $gb[] = $work->getParameter($work::GB);
                 $code[] =  $work->getParameter($work::CODE);
+                $serviceCount[] = $work->getParameter($work::SERVICECOUNT);
                 $sum_balance = array_sum($balance);
                 $total_payment[] = $sum_payment;
                 $sum_total_payment = array_sum($total_payment);
                 $gb_count = array_sum($gb);
                 $code_count = array_sum($code);
+                $service_count = array_sum($serviceCount);
             @endphp
         @empty
             <tr>
@@ -532,6 +536,7 @@
                 </td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $gb_count}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $code_count}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $service_count}}</strong></p></td>
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_total_payment}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_balance}}</strong></p></td>
