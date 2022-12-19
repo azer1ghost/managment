@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class EmployeeSatisfaction extends Model
 {
@@ -19,25 +20,31 @@ class EmployeeSatisfaction extends Model
         'is_enough',
         'more_time',
         'datetime',
-        'deadline'
+        'deadline',
+        'status',
+        'effectivity'
     ];
 
     const OFFER = 1;
     const COMPLAINT = 2;
     const INCONSISTENCY = 3;
 
-    public function users()
+    public function users():BelongsTo
     {
-        $this->belongsTo(User::class)->withDefault();
+       return $this->belongsTo(User::class,'user_id')->withDefault();
     }
 
     public function departments()
     {
-        $this->belongsTo(Department::class)->withDefault();
+       return $this->belongsTo(Department::class)->withDefault();
     }
 
     public function types()
     {
         return [1 => 1, 2, 3];
+    }
+    public function statuses()
+    {
+        return [1 => 1, 2];
     }
 }

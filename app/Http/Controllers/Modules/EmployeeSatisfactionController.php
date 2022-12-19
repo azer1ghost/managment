@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Modules;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeeSatisfactionRequest;
-use App\Models\Department;
-use App\Models\EmployeeSatisfaction;
-use App\Models\Partner;
-use App\Models\User;
-use App\Models\Work;
 use Illuminate\Http\RedirectResponse;
+use App\Models\EmployeeSatisfaction;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Department;
+use App\Models\User;
 
 class EmployeeSatisfactionController extends Controller
 {
@@ -22,13 +20,14 @@ class EmployeeSatisfactionController extends Controller
     public function index(Request $request)
     {
         $limit = $request->get('limit', 25);
-//        $search = $request->get('search');
-//        $user = $request->get('user');
+        $type = $request->get('type');
 
         return view('pages.employee-satisfactions.index')
             ->with([
-                'employee_satisfactions' => EmployeeSatisfaction::paginate(),
-                'users' => User::isActive()->get(['id', 'name', 'surname']),
+                'employee_satisfactions' => EmployeeSatisfaction::query()
+                    ->with('users')
+                    ->when($type, fn ($q) => $q->where('type', $type))
+                ->paginate($limit),
                 'types' => EmployeeSatisfaction::types()
             ]);
     }
@@ -40,13 +39,17 @@ class EmployeeSatisfactionController extends Controller
                 'action' => route('employee-satisfaction.store'),
                 'method' => 'POST',
                 'data' => new EmployeeSatisfaction(),
-                'departments' => Department::get()->pluck('name', 'id')->toArray()
+                'departments' => Department::get()->pluck('name', 'id')->toArray(),
+                'statuses' => EmployeeSatisfaction::statuses()
             ]);
     }
 
     public function store(EmployeeSatisfactionRequest $request): RedirectResponse
     {
-        $employeeSatisfaction = EmployeeSatisfaction::create($request->validated());
+        $validated = $request->validated();
+        $validated['user_id'] = auth()->id();
+
+        $employeeSatisfaction = EmployeeSatisfaction::create($validated);
 
         return redirect()
             ->route('employee-satisfaction.index')
@@ -60,8 +63,8 @@ class EmployeeSatisfactionController extends Controller
                 'action' => null,
                 'method' => null,
                 'data' => $employeeSatisfaction,
-                'users' => User::oldest('name')->get(['id', 'name', 'surname', 'position_id', 'role_id']),
-                'partners' => Partner::get(['id', 'name'])
+                'departments' => Department::get()->pluck('name', 'id')->toArray(),
+                'statuses' => EmployeeSatisfaction::statuses()
             ]);
     }
 
@@ -72,15 +75,20 @@ class EmployeeSatisfactionController extends Controller
                 'action' => route('employee-satisfaction.update', $employeeSatisfaction),
                 'method' => "PUT",
                 'data' => $employeeSatisfaction,
-                'users' => User::get(['id', 'name', 'surname', 'position_id', 'role_id']),
-                'partners' => Partner::get(['id', 'name'])
+                'departments' => Department::get()->pluck('name', 'id')->toArray(),
+                'statuses' => EmployeeSatisfaction::statuses()
             ]);
     }
 
     public function update(EmployeeSatisfactionRequest $request, EmployeeSatisfaction $employeeSatisfaction): RedirectResponse
     {
-        $employeeSatisfaction->update($request->validated());
-
+        $validated = $request->validated();
+        if ($request->status == 2) {
+            $validated['datetime'] = now();
+        }
+        $validated['more_time'] = $request->has('more_time');
+        $validated['is_enough'] = $request->has('is_enough');
+        $employeeSatisfaction->update($validated);
         return back()->withNotify('info', $employeeSatisfaction->getAttribute('name'));
     }
 
@@ -91,25 +99,5 @@ class EmployeeSatisfactionController extends Controller
             return response('OK');
         }
         return response()->setStatusCode('204');
-    }
-
-    public function getAmount(EmployeeSatisfaction $employeeSatisfaction)
-    {
-        $client = $employeeSatisfaction->getAttribute('client_id');
-        $works = Work::query()->where('client_id', $client)->whereMonth('paid_at', now()->subMonth())->get();
-        if (isNull($works)){
-            $sum_total_payment = 0;
-        }
-        foreach ($works as $work){
-            /**
-             * @var Work $work
-             */
-            $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::ILLEGALPAID);
-            $total_payment[] = $sum_payment;
-            $sum_total_payment = array_sum($total_payment);
-        }
-        $employeeSatisfaction->setAttribute('amount',$sum_total_payment)->save();
-
-        return redirect()->back();
     }
 }

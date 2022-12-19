@@ -12,7 +12,7 @@
         </x-bread-crumb-link>
         <x-bread-crumb-link>
             @if ($method !== 'POST')
-                {{$data->getRelationValue('user')->getAttribute('name')}}
+                @lang('translates.employee_satisfactions.types.' . $data->getAttribute('type'))
             @else
                 @lang('translates.buttons.create')
             @endif
@@ -20,28 +20,54 @@
     </x-bread-crumb>
     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
         @method($method) @csrf
-
-            @if(request()->get('type') == '3' || $data->getAttribute('name') == 3)
-                <p class="text-muted mb-2">@lang('translates.fields.employment')</p>
-                <hr class="my-2">
+        <input type="hidden" name="type" value="{{request()->get('type') ?? $data->getAttribute('type')}}">
+            @if((request()->get('type') == '3' || $data->getAttribute('type') == 3))
                 <div class="row mr-0">
-                    <x-input::text  name="employee" :label="trans('translates.fields.name')" :value="$data->getAttribute('name')" width="6"/>
-                    <x-input::select name="department_id" :label="trans('translates.fields.department')" value="" width="6"  class="pr-0" :options="$departments" />
+                    <x-input::text  name="employee" :label="trans('translates.fields.name')" :value="$data->getAttribute('employee')" width="6"/>
+                    <x-input::select name="department_id" :label="trans('translates.fields.department')" :value="$data->getAttribute('department_id')" width="6" :options="$departments" />
                 </div>
-        @endif
+            @endif
+        <p> Mövzu Əlavə edin</p>
+        <textarea id="summernote" name="content"  aria-label="content">{{$data->getAttribute('content')}}</textarea>
+        @if(request()->get('type') == '3' || $data->getAttribute('type') == 3)
+            <div class="row mt-3">
+                <x-input::text name="activity" :label="trans('translates.employee_satisfactions.activity')" :value="$data->getAttribute('activity')" width="6"/>
+                <div class="custom-control col-6">
+                    <label  for="is_enough">@lang('translates.columns.deadline')</label>
+                    <input type="date" name="deadline" class="form-control deadline" label="@lang('translates.columns.deadline')" value="{{$data->getAttribute('deadline')}}"/>
+                </div>
+            </div>
+            @if ($method !== 'POST')
+            <div class="custom-control custom-switch is_enough">
+                <input type="checkbox" name="is_enough" class="custom-control-input" id="is_enough" @if($data->getAttribute('is_enough')) checked @endif>
+                <label class="custom-control-label" for="is_enough">@lang('translates.employee_satisfactions.is_enough')</label>
+            </div>
 
-{{--            @if(request()->get('type') == '3' || $data->getAttribute('name') == 3)--}}
-            <textarea id="summernote" name="content" aria-label="content">{{$data->getAttribute('name')}}</textarea>
-{{--            @elseif(request()->get('type') == '1' || $data->getAttribute('name') == 1)--}}
+            <div class="custom-control custom-switch more_time">
+                <input type="checkbox" name="more_time" class="custom-control-input" id="more_time" @if($data->getAttribute('more_time')) checked @endif>
+                <label class="custom-control-label" for="more_time">@lang('translates.employee_satisfactions.more_time')</label>
+            </div>
+                <x-input::textarea name="reason" class="reason" :value="$data->getAttribute('reason')"  :label="trans('translates.employee_satisfactions.reason')" width="12" rows="4"/>
+                <x-input::textarea name="result" class="result" :value="$data->getAttribute('result')"  :label="trans('translates.employee_satisfactions.result')" width="12" rows="4"/>
+            @endif
 
-{{--            @else--}}
-
-{{--            @endif--}}
-
-        @if(request()->get('type') == '3' || $data->getAttribute('name') == 3)
-            <x-input::text  name="activity" :label="trans('translates.employee_satisfactions.activity')" :value="$data->getAttribute('activity')" width="6"/>
-            <x-input::date  name="deadline" :label="trans('translates.columns.deadline')" :value="$data->getAttribute('deadline')" width="6"/>
-            <x-input::text  name="activity" :label="trans('translates.employee_satisfactions.activity')" :value="$data->getAttribute('activity')" width="6"/>
+            @if($method !== 'POST')
+                <div class="row">
+                    <div class="form-group col-12 col-md-6" wire:ignore>
+                        <label for="data-status">@lang('translates.general.status_choose')</label>
+                        <select name="status" id="data-status" class="form-control">
+                            <option disabled >@lang('translates.general.status_choose')</option>
+                            @foreach($statuses as $key => $status)
+                                <option
+                                        @if(optional($data)->getAttribute('status') === $status ) selected @endif value="{{$status}}">
+                                    @lang('translates.employee_satisfactions.statuses.' . $key)
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <x-input::text name="effectivity" :label="trans('translates.employee_satisfactions.effectivity')" :value="$data->getAttribute('effectivity')" width="6"/>
+                </div>
+            @endif
         @endif
         @if($action)
             <x-input::submit :value="trans('translates.buttons.save')"/>
@@ -50,7 +76,6 @@
 @endsection
 
 @section('scripts')
-
         <script>
             $('#summernote').summernote({
                 height: 250,
@@ -66,24 +91,60 @@
         </script>
     @endif
 
-    <script>
-        // const partnerId = $('#partner_id');
-        // const userId = $('#user_id');
-        //
-        // if (userId.val() === '') $('.partner').show();
-        // else $('.partner').hide();
-        //
-        // if (partnerId.val() === '') $('.user').show();
-        // else $('.user').hide();
-        //
-        // userId.change(function () {
-        //     if ($(this).val() === '') $('.partner').show();
-        //     else $('.partner').hide();
-        // });
-        //
-        // partnerId.change(function () {
-        //     if ($(this).val() === '') $('.user').show();
-        //     else $('.user').hide();
-        // });
-    </script>
+    @if(!is_null($data->getAttribute('deadline')))
+        <script>
+            // $(".deadline").prop("readonly", true)
+        </script>
+    @endif
+    @if ($method !== 'POST')
+            <script>
+                // $('#is_enough').attr('checked',true)
+                $('.more_time').hide()
+                $('.reason').hide()
+                $('.result').hide()
+
+
+                $('#is_enough').change(function()
+                {
+                    if ($(this).prop('checked')) {
+                        $('.more_time').hide()
+                        $('.result').show()
+                        $(".reason").hide()
+                    }
+                    else
+                        $('.result').hide(),
+                        $('.more_time').show()
+                })
+
+                $('#more_time').change(function()
+                {
+                    if ($(this).prop('checked')) {
+                        $('.is_enough').hide()
+                        // $(".deadline").prop("readonly", false);
+                            $(".reason").hide()
+                    }
+                    else
+                        $('.result').hide(),
+                        $('.is_enough').show(),
+                        $(".reason").show()
+                        // $(".deadline").prop("readonly", true)
+                })
+            </script>
+        @endif
+    @if(!is_null($data->getAttribute('reason')))
+        <script>
+            $('.reason').show()
+            $('.more_time').hide()
+            $('.is_enough').hide()
+        </script>
+    @endif
+        @if(!is_null($data->getAttribute('result')))
+        <script>
+            $('.result').show()
+            $('.more_time').hide()
+            $('.is_enough').hide()
+        </script>
+    @endif
+
+
 @endsection

@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\Modules;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\InternalNumberRequest;
-use App\Models\Department;
+use App\Http\Controllers\Controller;
 use App\Models\InternalNumber;
-use App\Models\InternalRelation;
-use App\Models\Meeting;
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class InternalNumberController extends Controller
 {
@@ -24,11 +21,11 @@ class InternalNumberController extends Controller
         $search = $request->get('search');
         return view('pages.internal_numbers.index')
             ->with([
-                'internalNumbers' => InternalNumber::when($search,
-                        fn ($query) => $query->where('name', 'like', "%".$search."%")
-                            ->orWhere('phone', 'like', "%".$search."%")
-                            ->orWhere('detail', 'like', "%".$search."%"))
-                            ->paginate(25)]);
+                'internalNumbers' => InternalNumber::when($search, fn ($query) => $query
+                    ->where('name', 'like', "%".$search."%")
+                    ->orWhere('phone', 'like', "%".$search."%")
+                    ->orWhere('detail', 'like', "%".$search."%"))
+                    ->paginate(25)]);
     }
     public function cooperative()
     {

@@ -218,7 +218,6 @@ return [
         'foreign_relation' => 'Foreign Relations',
         'instruction' => 'Video Instruction',
         'employee_satisfaction' => 'Employee Satisfaction'
-
     ],
 
     'date' => [
@@ -481,11 +480,24 @@ return [
     ],
 
     'employee_satisfactions' => [
-        'new' => '',
+        'satisfaction_types' => 'Types of Satisfaction',
+        'is_enough' => 'Is the measure taken enough?',
+        'reason' => 'Reason for failure of corrective action',
+        'result' => 'Result of corrective action',
+        'effectivity' => 'Efficiency',
+        'more_time' => 'Need more time?',
+        'activity' => 'Corrective Action',
+        'content-1' => 'Offer and Request',
+        'content-2' => 'Your complaint',
+        'content-3' => 'The content of the discrepancy',
         'types' => [
             '1' => 'Offer',
             '2' => 'Complaint',
-            '3' => 'Inconsistency'
+            '3' => 'Incompatibility'
+        ],
+        'statuses' => [
+            '1' => 'In Progress',
+            '2' => 'Executed'
         ]
     ],
 

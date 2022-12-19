@@ -484,7 +484,11 @@ return [
 
     'employee_satisfactions' => [
         'satisfaction_types' => 'Məmnuniyyət Növləri',
-        '1' => 'Təklif və İstəyiniz',
+        'is_enough' => 'Görülən tədbir yetərlidir mi?',
+        'reason' => 'Düzəldici fəaliyyətin uğursuzluq səbəbi',
+        'result' => 'Düzəldici fəaliyyətin nəticəsi',
+        'effectivity' => 'Effektivlik',
+        'more_time' => 'Əlavə zamana ehtiyac var mı?',
         'activity' => 'Düzəldici Fəaliyyət',
         'content-1' => 'Təklif və İstəyiniz',
         'content-2' => 'Şikayətiniz',
@@ -493,6 +497,10 @@ return [
             '1' => 'Təklif',
             '2' => 'Şikayət',
             '3' => 'Uyğunsuzluq'
+        ],
+        'statuses' => [
+            '1' => 'İcra Olunur',
+            '2' => 'İcra Olundu'
         ]
     ],
 

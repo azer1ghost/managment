@@ -115,12 +115,12 @@ class Sidebar extends Component
                 ]
             ],
 
-//            (object)[
-//                'title' => __('translates.navbar.employeeSatisfaction'),
-//                'icon' => 'fad fa-chart-network',
-//                'url' => route('employee-satisfaction.index'),
-//                'permission' => 'generally',
-//            ],
+            (object)[
+                'title' => __('translates.navbar.employeeSatisfaction'),
+                'icon' => 'fad fa-chart-network',
+                'url' => route('employee-satisfaction.index'),
+                'permission' => 'generally',
+            ],
 
             (object)[
                 'title' => __('translates.navbar.inquiry'),
@@ -150,8 +150,8 @@ class Sidebar extends Component
                 'permission' => 'viewAny-user',
                 'children' => [
                     (object)[
-                        'title' => __('translates.users.types.employees'),
-                        'icon' => 'fa fa-users',
+                        'title' => __('translates.navbar.employee_satisfaction'),
+                        'icon' => 'fal fa-user-shield',
                         'url' => route('users.index'),
                         'permission' => 'viewAny-user',
                     ],
