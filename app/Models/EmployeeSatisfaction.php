@@ -39,11 +39,11 @@ class EmployeeSatisfaction extends Model
        return $this->belongsTo(Department::class)->withDefault();
     }
 
-    public function types()
+    public static function types()
     {
         return [1 => 1, 2, 3];
     }
-    public function statuses()
+    public static function statuses()
     {
         return [1 => 1, 2];
     }
