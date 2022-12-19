@@ -174,11 +174,11 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-12">
-                <div class="float-right">
-                    {{$users->appends(request()->input())->links()}}
-                </div>
-            </div>
+{{--            <div class="col-12">--}}
+{{--                <div class="float-right">--}}
+{{--                    {{$users->appends(request()->input())->links()}}--}}
+{{--                </div>--}}
+{{--            </div>--}}
         </div>
     </form>
 @endsection
