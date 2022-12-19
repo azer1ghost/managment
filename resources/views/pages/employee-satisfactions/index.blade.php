@@ -69,9 +69,9 @@
                                     <a href="{{route('employee-satisfaction.show', $employee_satisfaction)}}" class="btn btn-sm btn-outline-primary"> <i class="fal fa-eye"></i></a>
                                 @endcan
 
-                                @can('update', $employee_satisfaction)
+                                @if(auth()->user()->hasPermission('measure-employeeSatisfaction'))
                                     <a href="{{route('employee-satisfaction.edit', $employee_satisfaction)}}" class="btn btn-sm btn-outline-success"> <i class="fal fa-pen"></i></a>
-                                @endcan
+                                @endif
 
                                 @can('delete', $employee_satisfaction)
                                     <a href="{{route('employee-satisfaction.destroy', $employee_satisfaction)}}" delete data-name="{{$employee_satisfaction->getAttribute('name')}}" class="btn btn-sm btn-outline-danger"> <i class="fal fa-trash"></i> </a>
