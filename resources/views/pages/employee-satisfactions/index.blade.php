@@ -57,7 +57,7 @@
                             @endif
                         </td>
                         <td> @lang('translates.employee_satisfactions.types.' . $employee_satisfaction->getAttribute('type'))</td>
-                        <td> @lang('translates.employee_satisfactions.statuses.' . $employee_satisfaction->getAttribute('status'))</td>
+                        <td>  @lang('translates.employee_satisfactions.statuses.' . $employee_satisfaction->getAttribute('status') ?? 1)</td>
                         <td>
                             <div class="progress">
                                 <div class="progress-bar" role="progressbar" style="width: {{$employee_satisfaction->getAttribute('effectivity')}}%" aria-valuenow="{{$employee_satisfaction->getAttribute('effectivity')}}" aria-valuemin="0" aria-valuemax="100"></div>
