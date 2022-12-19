@@ -183,7 +183,7 @@
     </form>
 @endsection
 @section('scripts')
-    @if(auth()->user()->hasPermission('update-user'))
+    @if(auth()->user()->hasPermission('update-user') && is_null(request()->get('status')))
         <script>
             $(function () {
                 $('#sortableUser').sortable({
