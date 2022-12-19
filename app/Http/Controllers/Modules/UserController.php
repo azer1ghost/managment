@@ -31,7 +31,7 @@ class UserController extends Controller
     {
         $userCount = User::whereNull('disabled_at')->count();
         $search = $request->get('search');
-        $limit  = $request->get('limit', 25);
+//        $limit  = $request->get('limit', 100);
         $company  = $request->get('company');
         $department  = $request->get('department');
         $type  = $request->get('type') ?? 1;
@@ -70,7 +70,7 @@ class UserController extends Controller
                         }
                     })
                     ->orderBy('order')
-                    ->paginate($limit),
+                    ->get(),
                 'companies' => Company::get(['id', 'name']),
                 'departments' => Department::get(['id', 'name']),
                 'types' => User::types(),

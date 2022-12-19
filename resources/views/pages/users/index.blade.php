@@ -64,13 +64,13 @@
                         </div>
                     </div>
 
-                    <div class="col-4 col-md-1 pl-0 mb-3">
-                        <select name="limit" class="custom-select">
-                            @foreach([25, 50, 100] as $size)
-                                <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
-                            @endforeach
-                        </select>
-                    </div>
+{{--                    <div class="col-4 col-md-1 pl-0 mb-3">--}}
+{{--                        <select name="limit" class="custom-select">--}}
+{{--                            @foreach([25, 50, 100] as $size)--}}
+{{--                                <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>--}}
+{{--                            @endforeach--}}
+{{--                        </select>--}}
+{{--                    </div>--}}
                     <div class="col-8 pt-2 d-flex align-items-center">
                         <p class="mb-0"> @lang('translates.total_items', ['count' => $users->count(), 'total' => $user_count])</p>
                     </div>
