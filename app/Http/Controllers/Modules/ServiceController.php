@@ -20,11 +20,9 @@ class ServiceController extends Controller
 
     public function index(Request $request)
     {
-
-
         return view('pages.services.index')
             ->with([
-            'services' => Service::with('department', 'company')->whereNull('service_id')->OrderBy('ordering')->get()
+            'services' => Service::with('department', 'company')->orderBy('ordering')->whereNull('service_id')->get()
         ]);
     }
 
