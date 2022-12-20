@@ -34,7 +34,7 @@ class CustomerEngagementController extends Controller
                         ->orWhereHas('client',fn($q) => $q->where('fullname', 'like', "%$search%"))
                         ->orWhereHas('partner',fn($q) => $q->where('name', 'like', "%$search%")))
                     ->when($user, fn ($q) => $q->where('user_id', $user))
-                    ->when($user, fn ($q) => $q->where('executant', $executant))
+                    ->when($executant, fn ($q) => $q->where('executant', $executant))
                     ->latest('id')
                     ->paginate($limit),
                 'users' => User::isActive()->get(['id', 'name', 'surname'])
