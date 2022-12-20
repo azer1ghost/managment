@@ -32,6 +32,16 @@
                         </option>
                     @endforeach
                 </select>
+            </div><div class="form-group col-md-4">
+                <select name="executant" id="userFilter" class="form-control" style="width: 100% !important;">
+                    <option value="">@lang('translates.columns.executant')</option>
+                    @foreach($users as $user)
+                        <option value="{{$user->getAttribute('id')}}"
+                                @if($user->getAttribute('id') == request()->get('executant')) selected @endif>
+                            {{$user->getAttribute('fullname')}}
+                        </option>
+                    @endforeach
+                </select>
             </div>
             <div class="col-4 col-md-4 mr-md-auto mb-3">
                 <select name="limit" class="custom-select">
@@ -51,6 +61,7 @@
                     <th scope="col">#</th>
                     <th scope="col">@lang('translates.fields.user')</th>
                     <th scope="col">@lang('translates.columns.partner')</th>
+                    <th scope="col">@lang('translates.columns.executant')</th>
                     <th scope="col">@lang('translates.fields.client')</th>
                     <th scope="col">@lang('translates.general.work_earning')</th>
                     <th scope="col">@lang('translates.referrals.earnings')</th>
@@ -63,6 +74,7 @@
                         <th scope="row">{{$loop->iteration}}</th>
                         <td>{{$customer_engagement->getRelationValue('user')->getFullnameWithPositionAttribute()}}</td>
                         <td>{{$customer_engagement->getRelationValue('partner')->getAttribute('name')}}</td>
+                        <td>{{$customer_engagement->getRelationValue('executants')->getFullnameWithPositionAttribute()}}</td>
                         <td>{{$customer_engagement->getRelationValue('client')->getAttribute('fullname')}}</td>
                         <td>{{$customer_engagement->getAttribute('amount')}}</td>
                         <td>{{$customer_engagement->getAttribute('amount')*0.10}}</td>

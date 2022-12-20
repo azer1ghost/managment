@@ -41,11 +41,21 @@
                 </select>
             </div>
 
+            <div class="form-group col-6">
+                <label for="executant">@lang('translates.columns.executant')</label><br/>
+                <select class="select2 form-control" name="executant" id="executant">
+                    <option value="">@lang('translates.general.user_select')</option>
+                    @foreach($users as $user)
+                        <option @if($data->getAttribute('executant') == $user->id) selected @endif value="{{$user->id}}">{{$user->getAttribute('fullname')}}</option>
+                    @endforeach
+                </select>
+            </div>
+
             <div class="form-group col-6 partner">
                 <label for="partner_id">@lang('translates.columns.partner')</label><br/>
                 <select class="select2 form-control" name="partner_id" id="partner_id">
                     <option value="">@lang('translates.general.partner_select')</option>
-                    @foreach($partners as $partner)
+                @foreach($partners as $partner)
                         <option @if($data->getAttribute('partner_id') == $partner->id) selected @endif value="{{$partner->id}}">{{$partner->getAttribute('name')}}</option>
                     @endforeach
                 </select>

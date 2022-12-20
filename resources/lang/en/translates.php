@@ -448,6 +448,7 @@ return [
         'date_time' => 'Date Time',
         'residue' => 'Balance',
         'sum_paid' => 'Sum Payment',
+        'executant' => 'Executant',
     ],
 
     'notify' => [

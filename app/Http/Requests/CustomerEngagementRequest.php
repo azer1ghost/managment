@@ -13,6 +13,7 @@ class CustomerEngagementRequest extends FormRequest
             'client_id'=>'required|integer',
             'user_id'=>'nullable|integer',
             'partner_id'=>'nullable|integer',
+            'executant'=>'nullable|integer',
         ];
     }
 }
