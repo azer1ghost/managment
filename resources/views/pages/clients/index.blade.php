@@ -116,9 +116,9 @@
                                 <th scope="col">@lang('translates.fields.detail')</th>
                                 <th scope="col">@lang('translates.columns.email')</th>
                                 <th scope="col">@lang('translates.columns.phone')</th>
-                                <th scope="col">VOEN/GOOEN</th>
                             @endif
-                        <th scope="col">@lang('translates.navbar.document')</th>
+                            <th scope="col">VOEN/GOOEN</th>
+                            <th scope="col">@lang('translates.navbar.document')</th>
                             @if(auth()->user()->hasPermission('viewAll-client'))
                                 <th scope="col">@lang('translates.columns.actions')</th>
                             @endif
@@ -142,9 +142,9 @@
                                         <td>{{$client->getAttribute('detail') ? $client->getAttribute('detail') : trans('translates.clients.detail_empty') }} </td>
                                         <td>{{$client->getAttribute('email1') ? $client->getAttribute('email1') : trans('translates.clients.email_empty')}} </td>
                                         <td>{{$client->getAttribute('phone1') ? $client->getAttribute('phone1') : trans('translates.clients.phone_empty')}} </td>
-                                        <td>{{$client->getAttribute('voen') ? $client->getAttribute('voen') : trans('translates.clients.voen_empty')}} </td>
                                    @endif
-                                    <td>
+                                <td>{{$client->getAttribute('voen') ? $client->getAttribute('voen') : trans('translates.clients.voen_empty')}} </td>
+                                <td>
                                         @php($supportedTypes = \App\Models\Document::supportedTypeIcons())
                                         @foreach($client->documents as $document)
                                             @php($type = $supportedTypes[$document->type])
