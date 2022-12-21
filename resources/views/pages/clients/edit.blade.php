@@ -146,7 +146,7 @@
 
             <div class="form-group col-md-3">
                 <label for="email1">@lang('translates.fields.email1')</label>
-                <input type="email" id="email1" class="form-control" name="email1" value="{{optional($data)->getAttribute('email1')}}" @if(auth()->id() !== 103) required @endif>
+                <input type="email" id="email1" class="form-control" name="email1" value="{{optional($data)->getAttribute('email1')}}" @if(auth()->id() !== 103 || auth()->id() !== 123 || auth()->id() !== 124) required @endif>
             </div>
 
             <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.email2')" >
@@ -182,6 +182,21 @@
             @endif
 
         </div>
+{{--        <div class="input-group mb-3">--}}
+{{--            <div class="custom-file">--}}
+{{--                <input type="file" name="protocol" class="custom-file-input" id="protocol">--}}
+{{--                <label class="custom-file-label" for="protocol" aria-describedby="protocol2">@lang('translates.placeholders.choose_file')</label>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+
+        <div class="card-body p-0">
+            <a class="col-12 py-2 d-flex align-items-center list-group-item" href="{{ route('protocol.download', $data) }}">
+                <i style="font-size: 70px" class="fa fa-file-pdf fa-3x mr-2"></i>
+                <span>{{$data->getAttribute('protocol')}}</span>
+            </a>
+        </div>
+
+
         @php
             $price = $data->getAttribute('price');
             preg_match('/(?<=EGB = )(.*)(?= AZN, Q)/', $price, $egb);
