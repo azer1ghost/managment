@@ -29,6 +29,7 @@ class DepartmentRequest extends FormRequest
             'short_name' => 'nullable|array',
             'perms' => 'nullable|array',
             'all_perms' => 'nullable|string',
+            'ordering' => 'nullable|integer'
         ];
     }
 }

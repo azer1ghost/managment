@@ -40,6 +40,9 @@
                         @endforeach
                     </x-translate>
                 </div>
+                <x-form-group  class="pr-3 col-12 col-lg-6">
+                    <x-form-input  name="ordering" label="Sıra" placeholder="Hansı sırada olacağını yazın"/>
+                </x-form-group>
                 <div>
                     <input type="checkbox" @if(optional($data)->getAttribute('status') === true) checked @endif name="status" id="data-status">
                     <label class="form-check-label" for="data-status">

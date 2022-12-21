@@ -30,6 +30,7 @@ class DepartmentController extends Controller
             ->with([
                 'departments' => Department::query()
                     ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"))
+                    ->orderBy('ordering')
                     ->simplePaginate($limit),
             ]);
     }
