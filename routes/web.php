@@ -5,6 +5,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Auth\PhoneVerifycationController,
     Auth\RegisterController,
     BarcodeController,
+    ClientContoller,
     Main\AccountController,
     Main\PlatformController,
     Modules\AdvertisingController,
@@ -131,6 +132,8 @@ Route::group([
     Route::any('/sales-client/search', [SalesClientController::class, 'search'])->name('sales-client.search');
     Route::resource('/sales-client', SalesClientController::class);
     Route::get('/sales-clients/export', [SalesClientController::class, 'export'])->name('sales-clients.export');
+    Route::get('/protocol-download/{client}', [ClientController::class, 'download'])->name('protocol.download');
+
 
     Route::resource('/referrals', ReferralController::class)->except('create');
     Route::resource('/updates', UpdateController::class);

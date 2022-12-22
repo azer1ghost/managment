@@ -190,7 +190,8 @@
 {{--        </div>--}}
 
 {{--        <div class="card-body p-0">--}}
-{{--            <a class="col-12 py-2 d-flex align-items-center list-group-item" href="{{ route('protocol.download', $data) }}">--}}
+
+{{--            <a class="col-12 py-2 d-flex align-items-center list-group-item" href="{{route('protocol.download', $data)}}">--}}
 {{--                <i style="font-size: 70px" class="fa fa-file-pdf fa-3x mr-2"></i>--}}
 {{--                <span>{{$data->getAttribute('protocol')}}</span>--}}
 {{--            </a>--}}

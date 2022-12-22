@@ -11,6 +11,7 @@ use App\Models\Company;
 use App\Models\Department;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ClientController extends Controller
 {
@@ -123,6 +124,15 @@ class ClientController extends Controller
         $client = Client::create($validated);
         $client->companies()->sync($request->get('companies'));
 
+
+        if ($request->file('protocol')) {
+
+            $protocol = $request->file('protocol');
+
+            $validated['protocol'] = $protocol->storeAs('protocol', $protocol->getFilename());
+        }
+
+
         if(auth()->user()->hasPermission('viewAny-client')){
             if(is_numeric($client->getAttribute('client_id'))){
                 return redirect()
@@ -166,6 +176,17 @@ class ClientController extends Controller
         $price = 'EGB = '. $request->get('egb') . ' AZN, QIB = ' . $request->get('qib') . ' AZN, Temsilcilik = '
             . $request->get('t') . ' AZN, CMR = ' . $request->get('cmr') . ' AZN, TGB = ' . $request->get('tgb') . ' AZN, SB = ' . $request->get('sb') . ' AZN, Tircarnet = '. $request->get('tircarnet') .' AZN';
 
+
+        if ($request->file('protocol')) {
+
+            $protocol = $request->file('protocol');
+
+            $validated['protocol'] = $protocol->storeAs('protocol', $protocol->getFilename());
+
+            if (Storage::exists($client->getAttribute('protocol'))) {
+                Storage::delete($client->getAttribute('protocol'));
+            }
+        }
         $validated = $request->validated();
         $validated['price'] = $price;
         $client->update($validated);
@@ -202,12 +223,33 @@ class ClientController extends Controller
         return response('OK');
     }
 
-
     public function destroy(Client $client)
     {
         if ($client->delete()) {
+            if (Storage::exists($client->getAttribute('protocol'))) {
+                Storage::delete($client->getAttribute('protocol'));
+        }
             return response('OK');
         }
         return response()->setStatusCode('204');
+    }
+
+    public function download(Client $client)
+    {
+        $fileName = basename($client->getAttribute('protocol'));
+        $filePath = storage_path('protocol\\');
+        $file = $filePath.$fileName;
+//        dd($fileName,$filePath);
+//        $filePath = public_path("storage\\".$fileName);
+//        $file = Storage::disk('public')->get($fileName);
+         return response()->download($file);
+
+//        $contents = Storage::disk('s3')->get($fileName);
+//        $tempFile = "temp.pdf";
+//        file_put_contents($tempFile, $contents);
+//
+//        header("Content-type: application/pdf");
+//        header("Content-Length: " . filesize($tempFile));
+//        readfile($tempFile);
     }
 }

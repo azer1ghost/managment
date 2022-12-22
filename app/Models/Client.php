@@ -38,6 +38,7 @@ class Client extends Model implements DocumentableInterface, Recordable
         'position',
         'type',
         'detail',
+        'protocol',
         'client_id',
         'satisfaction',
         'user_id',

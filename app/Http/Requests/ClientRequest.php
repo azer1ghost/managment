@@ -29,6 +29,7 @@ class ClientRequest extends FormRequest
             'address1'        => 'nullable|string|max:255',
             'address2'        => 'nullable|string|max:255',
 //            'voen'            => 'nullable|string|unique:clients,voen,' . $voen,
+            'protocol'         => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls|max:4096',
             'voen'            => 'string|required',
             'position'        => 'nullable|string',
             'type'            => 'nullable|boolean',
