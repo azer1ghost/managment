@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\EmployeeSatisfaction;
 use App\Models\User;
 use App\Traits\GetClassInfo;
 use App\Traits\HandlesPolicy;
@@ -11,9 +12,10 @@ class EmployeeSatisfactionPolicy
 {
     use HandlesAuthorization, HandlesPolicy, GetClassInfo;
 
-    public function viewAny(User $user): bool
+    public function viewAny(User $user, EmployeeSatisfaction $satisfaction): bool
     {
-        return $this->canManage($user, 'employeeSatisfaction', __FUNCTION__);
+        return $this->canManage($user, 'employeeSatisfaction', __FUNCTION__) &&
+            $satisfaction->getAttribute('user_id') === $user->getAttribute('id');
     }
 
     public function view(User $user): bool

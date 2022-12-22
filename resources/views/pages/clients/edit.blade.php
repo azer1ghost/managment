@@ -165,81 +165,22 @@
             <x-form-group  class="pr-3 col-12 col-lg-6" :label="trans('translates.fields.address2')" >
                 <x-form-input name="address2"/>
             </x-form-group>
-            @if(auth()->user()->hasPermission('satisfactionMeasure-client') )
-                <div class="form-group col-12 col-md-3">
-                    <label for="data-satisfaction">@lang('translates.general.satisfaction')</label>
-                    <select name="satisfaction" id="data-satisfaction" class="form-control">
-                        <option disabled >@lang('translates.general.satisfaction')</option>
-                        @foreach($satisfactions as $key => $satisfaction)
-                            <option
-                                    @if(optional($data)->getAttribute('satisfaction') === $satisfaction ) selected @endif
-                            value="{{$satisfaction}}">
-                                @lang('translates.satisfactions.' . $key)
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            @endif
 
         </div>
-{{--        <div class="input-group mb-3">--}}
-{{--            <div class="custom-file">--}}
-{{--                <input type="file" name="protocol" class="custom-file-input" id="protocol">--}}
-{{--                <label class="custom-file-label" for="protocol" aria-describedby="protocol2">@lang('translates.placeholders.choose_file')</label>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-
-{{--        <div class="card-body p-0">--}}
-
-{{--            <a class="col-12 py-2 d-flex align-items-center list-group-item" href="{{route('protocol.download', $data)}}">--}}
-{{--                <i style="font-size: 70px" class="fa fa-file-pdf fa-3x mr-2"></i>--}}
-{{--                <span>{{$data->getAttribute('protocol')}}</span>--}}
-{{--            </a>--}}
-{{--        </div>--}}
-
-
-        @php
-            $price = $data->getAttribute('price');
-            preg_match('/(?<=EGB = )(.*)(?= AZN, Q)/', $price, $egb);
-            preg_match('/(?<=QIB = )(.*)(?= AZN, Temsilcilik)/', $price, $qib);
-            preg_match('/(?<=Temsilcilik = )(.*)(?= AZN, CMR)/', $price, $t);
-            preg_match('/(?<=CMR = )(.*)(?= AZN, TGB)/', $price, $cmr);
-            preg_match('/(?<=TGB = )(.*)(?= AZN, SB)/', $price, $tgb);
-            preg_match('/(?<=SB = )(.*)(?= AZN, Tircarnet)/', $price, $sb);
-            preg_match('/(?<=Tircarnet = )(.*)(?= AZN)/', $price, $tircarnet);
-        @endphp
-        <div class="col-12">
-           <p>
-               Elektron Gömrük Bəyannaməsi
-               <input aria-label="egb" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $egb[1]}}" name="egb" type="number" />
-                AZN,
-               <br>
-               Qısa İdxal Bəyannaməsi
-               <input aria-label="qib" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $qib[1]}}" name="qib" type="number" />
-                AZN,
-               <br>
-               Təmsilçilik
-               <input aria-label="t" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $t[1]}}" name="t" type="number" />
-                AZN,
-               <br>
-               CMR
-               <input aria-label="cmr" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $cmr[1]}}" name="cmr" type="number" />
-                AZN,
-               <br>
-               Tranzit Gömrük Bəyannaməsi
-               <input aria-label="tgb" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $tgb[1]}}" name="tgb" type="number" />
-               AZN,
-               <br>
-               Sadələşdirilmiş Bəyannamə
-               <input aria-label="sb" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $sb[1]}}" name="sb" type="number" />
-                AZN,
-               <br>
-               TİRCARNET
-               <input aria-label="tircarnet" class="customInput" value="{{$data->getAttribute('price') == null ? 0 : $tircarnet[0]}}" name="tircarnet" type="number" />
-               AZN
-
-           </p>
+        <div class="input-group col-6 mb-3">
+            <div class="custom-file">
+                <label class="custom-file-label" id="protocol-label" for="protocol">@lang('translates.placeholders.choose_file')</label>
+                <input type="file" value="{{$data->getAttribute('protocol')}}" name="protocol" class="custom-file-input" id="protocol">
+            </div>
         </div>
+        @if(!is_null($data->getAttribute('protocol')))
+            <div class="card-body col-6 col p-0">
+                <a class=" py-2 d-flex align-items-center list-group-item text-black" href="{{route('protocol.download', $data)}}">
+                    <i style="font-size: 20px" class="fas fa-file fa-3x mr-2"></i>
+                    <span>{{$data->getAttribute('document_type')}} Qiymət protokolu</span>
+                </a>
+            </div>
+       @endif
 
         @if($action)
             <x-input::submit/>
@@ -308,6 +249,10 @@
 @endsection
 @section('scripts')
     <script>
+        $('#protocol').change(function(e) {
+            let fileName = (e.target.files.length > 0) ? e.target.files[0].name : '@lang('translates.placeholders.choose_file')';
+            $('#protocol-label').text(fileName);
+        });
         @if(is_null($action))
             $('#client-form :input').attr('disabled', true)
         @endif

@@ -28,8 +28,8 @@ class ClientRequest extends FormRequest
             'phone2'          => 'nullable|string|max:255',
             'address1'        => 'nullable|string|max:255',
             'address2'        => 'nullable|string|max:255',
-//            'voen'            => 'nullable|string|unique:clients,voen,' . $voen,
-            'protocol'         => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls|max:4096',
+            'protocol'        => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls|max:4096',
+            'document_type'   => 'nullable|string',
             'voen'            => 'string|required',
             'position'        => 'nullable|string',
             'type'            => 'nullable|boolean',
@@ -37,7 +37,7 @@ class ClientRequest extends FormRequest
             'detail'          => 'nullable|string',
             'satisfaction'    => 'nullable|integer',
             'birthday'        => 'nullable|date',
-            'celebrate_at'        => 'nullable|date'
+            'celebrate_at'    => 'nullable|date'
         ];
     }
 }
