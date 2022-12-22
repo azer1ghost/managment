@@ -181,6 +181,7 @@ return [
         'barcode' => 'Barcodes',
         'task' => 'Tasks',
         'parameter' => 'Parameters',
+        'necessary' => 'Necessary documents',
         'option' => 'Options',
         'role' => 'Roles',
         'user' => 'Users',
