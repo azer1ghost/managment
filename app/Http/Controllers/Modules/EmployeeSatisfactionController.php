@@ -21,13 +21,16 @@ class EmployeeSatisfactionController extends Controller
     {
         $limit = $request->get('limit', 25);
         $type = $request->get('type');
+        $employeeSatisfaction = EmployeeSatisfaction::query()->with('users');
+        if (!auth()->user()->hasPermission('measure-employeeSatisfaction')) {
+            $employeeSatisfaction = $employeeSatisfaction->where('user_id', auth()->id());
+        }
 
         return view('pages.employee-satisfactions.index')
             ->with([
-                'employee_satisfactions' => EmployeeSatisfaction::query()
-                    ->with('users')
+                'employee_satisfactions' =>$employeeSatisfaction
                     ->when($type, fn ($q) => $q->where('type', $type))
-                ->paginate($limit),
+                    ->paginate($limit),
                 'types' => EmployeeSatisfaction::types()
             ]);
     }
