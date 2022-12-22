@@ -173,8 +173,10 @@ Route::group([
     Route::post('/message', [ChatController::class, 'sendMessage']);
     Route::view('/instruction','pages.instructions.index' )->name('instruction');
     Route::view('/structure','pages.instructions.structure' )->name('structure');
+    Route::view('/necessary','pages.instructions.necessary' )->name('necessary');
     Route::resource('/statements', StatementController::class);
     Route::resource('/employee-satisfaction', EmployeeSatisfactionController::class);
+    Route::view('/statement','pages.statements.statements' )->name('statement');
     Route::view('/statement','pages.statements.statements' )->name('statement');
     Route::post('/markAsRead', [StatementController::class, 'markAsRead'])->name('mark-as-read');
 
