@@ -347,19 +347,19 @@ class Sidebar extends Component
                 ]
             ],
 
-            (object)[
-                'title' => "Advertising",
-                'icon' => 'fab fa-adversal',
-                'url' => route('advertising.index'),
-                'permission' => 'viewAny-advertising',
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.update'),
-                'icon' => 'fas fa-sync',
-                'url' => route('updates.index'),
-                'permission' => 'viewAny-update',
-            ],
+//            (object)[
+//                'title' => "Advertising",
+//                'icon' => 'fab fa-adversal',
+//                'url' => route('advertising.index'),
+//                'permission' => 'viewAny-advertising',
+//            ],
+//
+//            (object)[
+//                'title' => __('translates.navbar.update'),
+//                'icon' => 'fas fa-sync',
+//                'url' => route('updates.index'),
+//                'permission' => 'viewAny-update',
+//            ],
 
             (object)[
                 'title' => __('translates.navbar.services'),
