@@ -138,7 +138,7 @@
                 <hr class="my-2">
             </div>
             <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.phone1')">
-                <x-form-input name="phone1" required/>
+                <x-form-input name="phone1"/>
             </x-form-group>
             <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.phone2')" >
                 <x-form-input name="phone2"/>
