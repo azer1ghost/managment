@@ -29,6 +29,7 @@
                         <th scope="col">#</th>
                         <th scope="col">@lang('translates.columns.name')</th>
                         <th scope="col">@lang('translates.fields.phone_coop')</th>
+                        <th scope="col">@lang('translates.fields.email_coop')</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -37,6 +38,7 @@
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$cooperativeNumber->getAttribute('fullname_with_position')}}</td>
                             <td>{{$cooperativeNumber->getAttribute('phone_coop')}}</td>
+                            <td>{{$cooperativeNumber->getAttribute('email_coop')}}</td>
                         </tr>
                     @empty
                         <tr>
