@@ -33,6 +33,10 @@ class EmployeeSatisfaction extends Model
     {
        return $this->belongsTo(User::class,'user_id')->withDefault();
     }
+    public function employee():BelongsTo
+    {
+       return $this->belongsTo(User::class,'employee')->withDefault();
+    }
 
     public function departments()
     {

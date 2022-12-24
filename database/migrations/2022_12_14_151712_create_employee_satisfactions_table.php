@@ -18,7 +18,6 @@ class CreateEmployeeSatisfactionsTable extends Migration
             $table->integer('type')->nullable();
             $table->foreignId('user_id')->nullable()->constrained()->restrictOnDelete();
             $table->foreignId('department_id')->nullable()->constrained()->restrictOnDelete();
-            $table->string('employee')->nullable();
             $table->string('activity')->nullable();
             $table->text('content')->nullable();
             $table->string('reason')->nullable();
