@@ -51,25 +51,25 @@
                 <x-input::textarea name="result" class="result" :value="$data->getAttribute('result')"  :label="trans('translates.employee_satisfactions.result')" width="12" rows="4"/>
             @endif
 
-            @if($method !== 'POST')
-                <div class="row">
-                    <div class="form-group col-12 col-md-6" wire:ignore>
-                        <label for="data-status">@lang('translates.general.status_choose')</label>
-                        <select name="status" id="data-status" class="form-control">
-                            <option disabled >@lang('translates.general.status_choose')</option>
-                            @foreach($statuses as $key => $status)
-                                <option
-                                        @if(optional($data)->getAttribute('status') === $status ) selected @endif value="{{$status}}">
-                                    @lang('translates.employee_satisfactions.statuses.' . $key)
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <x-input::text name="effectivity" :label="trans('translates.employee_satisfactions.effectivity')" :value="$data->getAttribute('effectivity')" width="6"/>
-                </div>
-            @endif
         @endif
-        @if($action)
+        @if($method !== 'POST')
+            <div class="row">
+                <div class="form-group col-12 col-md-6" wire:ignore>
+                    <label for="data-status">@lang('translates.general.status_choose')</label>
+                    <select name="status" id="data-status" class="form-control">
+                        <option disabled >@lang('translates.general.status_choose')</option>
+                        @foreach($statuses as $key => $status)
+                            <option
+                                    @if(optional($data)->getAttribute('status') === $status ) selected @endif value="{{$status}}">
+                                @lang('translates.employee_satisfactions.statuses.' . $key)
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <x-input::text name="effectivity" :label="trans('translates.employee_satisfactions.effectivity')" :value="$data->getAttribute('effectivity')" width="6"/>
+            </div>
+        @endif
+    @if($action)
             <x-input::submit :value="trans('translates.buttons.save')"/>
         @endif
     </form>
