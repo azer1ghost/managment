@@ -72,6 +72,7 @@ return [
         'mgCode' => 'MG Kodu',
         'date' => 'Bitmə Tarixi',
         'created_at'=>'Yaranma Tarixi',
+        'inappropriate_worker' => 'Uyğunsuzluq aşkarlanan işçi',
         'paid_at'=>'Ödənmə Tarixi',
         'vat_paid_at'=>'ƏDV Ödənmə Tarixi',
         'invoiced_date'=>'E-Qaimə Tarixi',

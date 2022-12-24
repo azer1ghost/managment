@@ -68,6 +68,7 @@ return [
         'user' => 'User',
         'department' => 'Department',
         'intercity_phone' => 'Intercity Phone',
+        'inappropriate_worker' => 'Inappropriate Worker',
         'position' => 'Position',
         'mgCode' => 'MG Code',
         'date' => 'Date',
