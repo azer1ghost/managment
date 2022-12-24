@@ -24,7 +24,10 @@
             @if((request()->get('type') == '3' || $data->getAttribute('type') == 3))
                 <div class="row mr-0">
 {{--                    <x-input::text  name="employee" :label="trans('translates.fields.name')" :value="$data->getAttribute('employee')" width="6"/>--}}
-                    <x-input::select  name="employee" :label="trans('translates.fields.inappropriate_worker')" :value="$data->getAttribute('employee')" width="6" :options="$users"/>
+{{--                    <x-input::select  name="employee" :label="trans('translates.fields.inappropriate_worker')" :value="$data->getAttribute('employee')" width="6" :options="$users"/>--}}
+                    <x-form-group  class="pr-3 col-12 col-lg-6">
+                        <x-form-select  name="employee" :options="$users" :label="__('translates.fields.inappropriate_worker')" />
+                    </x-form-group>
                     <x-input::select name="department_id" :label="trans('translates.fields.department')" :value="$data->getAttribute('department_id')" width="6" :options="$departments" />
                 </div>
             @endif

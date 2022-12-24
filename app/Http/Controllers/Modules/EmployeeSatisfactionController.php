@@ -44,7 +44,7 @@ class EmployeeSatisfactionController extends Controller
                 'data' => new EmployeeSatisfaction(),
                 'departments' => Department::get()->pluck('name', 'id')->toArray(),
                 'statuses' => EmployeeSatisfaction::statuses(),
-                'users' => User::get()->pluck('name', 'surname', 'id')->toArray()
+                'users' => User::isActive()->get()->pluck('name', 'id')->toArray()
             ]);
     }
 
@@ -69,7 +69,7 @@ class EmployeeSatisfactionController extends Controller
                 'data' => $employeeSatisfaction,
                 'departments' => Department::get()->pluck('name', 'id')->toArray(),
                 'statuses' => EmployeeSatisfaction::statuses(),
-                'users' => User::isActive()->get()->pluck('name', 'surname', 'id')->toArray()
+                'users' => User::isActive()->get()->pluck('name', 'id')->toArray()
             ]);
     }
 
@@ -82,7 +82,7 @@ class EmployeeSatisfactionController extends Controller
                 'data' => $employeeSatisfaction,
                 'departments' => Department::get()->pluck('name', 'id')->toArray(),
                 'statuses' => EmployeeSatisfaction::statuses(),
-                'users' => User::isActive()->get()->pluck('name', 'surname', 'id')->toArray()
+                'users' => User::isActive()->get()->pluck('name', 'id')->toArray()
             ]);
     }
 
