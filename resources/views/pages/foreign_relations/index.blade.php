@@ -27,8 +27,8 @@
                     <tr>
                         <th scope="col">Department</th>
                         <th scope="col">#</th>
-                        <th scope="col">Müraciət Edən Şəxs</th>
                         <th scope="col">Əlaqə Saxlanılacaq Hal</th>
+                        <th scope="col">Müraciət Edən Şəxs</th>
                         <th scope="col">Əlaqə Saxlanılacaq Şəxs</th>
                         <th scope="col">Əlaqə Vasitəsi</th>
                         <th scope="col">Əlaqə Zamanı</th>
@@ -39,8 +39,8 @@
                         <tr id="item-{{$internalRelation->getAttribute('id')}}">
                             <th class="sortable">{{$internalRelation->getRelationValue('departments')->getAttribute('name')}}</th>
                             <th class="sortable">{{$internalRelation->getAttribute('ordering')+1}}</th>
-                            <td>{{$internalRelation->getAttribute('applicant')}}</td>
                             <td>{{$internalRelation->getAttribute('case')}}</td>
+                            <td>{{$internalRelation->getAttribute('applicant')}}</td>
                             <td class="overflow-wrap-hack">
                                 <div class="content">
                                     {{$internalRelation->getAttribute('user_id') == null ? $internalRelation->getAttribute('reciever') : $internalRelation->getRelationValue('users')->getFullnameWithPositionAttribute()}}
