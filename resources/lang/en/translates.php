@@ -552,6 +552,7 @@ return [
         'satisfaction' => 'Satisfaction',
         'payment_method' => 'Payment Method',
         'no_announcement' => 'No announcement yet',
+        'no_message' => 'No message yet',
         'mark_as_read' => 'Mark as Read',
         'mark_all' => 'Mark All as Read',
         'declaration' => 'Declaration'

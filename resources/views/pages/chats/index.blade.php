@@ -11,7 +11,7 @@
             Chat
         </x-bread-crumb-link>
     </x-bread-crumb>
-    <div class="container">
+
         <div class="row clearfix">
             <div class="col-lg-12">
                 <div class="chat-card chat-app">
@@ -24,31 +24,14 @@
                                    placeholder="@lang('translates.buttons.search')...">
                         </div>
                         <ul class="list-unstyled chat-list mt-2 mb-0">
-                            <li class="removing-list" >Mesaj Göndərilənlər</li>
-                            @foreach($recentUsers as $user)
-                                <li class="clearfix user removing-list" id="{{$user->getAttribute('id')}}">
-                                    <img src="{{image($user->getAttribute('avatar'))}}" loading="lazy" alt="avatar" class="profile">
+                            @foreach($users as $user)
+                                <li class="searching-list clearfix user" id="{{$user->id}}">
+                                    <img src="{{image($user->avatar)}}" loading="lazy" alt="avatar" class="profile">
                                     <div class="about">
-                                        <div class="name">{{$user->getAttribute('fullname')}}</div>
+                                        <div class="name">{{$user->name .' '. $user->surname}}</div>
                                         <div>
                                             {{--<i class="fa fa-circle offline"></i>--}}
-                                            <span class="unread{{$user->getAttribute('id')}} total-unread float-right pl-1"
-                                                  style="display:none; color:red">Oxunmamış mesaj sayı: </span>
-                                            @if($user->unread)
-                                                <span class="pending float-right pl-1" style="color:red">Oxunmamış mesaj sayı: {{$user->unread}}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </li>
-                            @endforeach
-                            <li>Bütün İstifadəçilər</li>
-                            @foreach($users as $user)
-                                <li class="clearfix user searching-list" id="{{$user->getAttribute('id')}}">
-                                    <img src="{{image($user->getAttribute('avatar'))}}" loading="lazy" alt="avatar" class="profile">
-                                    <div class="about">
-                                        <div class="name">{{$user->getAttribute('fullname')}}</div>
-                                        <div>
-                                            <span class="unread{{$user->getAttribute('id')}} total-unread float-right pl-1"
+                                            <span class="unread{{$user->id}} total-unread float-right pl-1"
                                                   style="display:none; color:red">Oxunmamış mesaj sayı: </span>
                                             @if($user->unread)
                                                 <span class="pending float-right pl-1" style="color:red">Oxunmamış mesaj sayı: {{$user->unread}}</span>
@@ -63,6 +46,5 @@
                 </div>
             </div>
         </div>
-    </div>
 
 @endsection

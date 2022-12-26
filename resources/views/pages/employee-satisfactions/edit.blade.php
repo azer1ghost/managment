@@ -28,7 +28,7 @@
                             <select class="form-control" title="@lang('translates.filters.select')">
                                 @foreach($users as $user)
                                     <option
-                                            @if($user->getAttribute('id') == $data->getAttribute('employee')) selected @endif value="{{$user->getAttribute('id')}}"> {{$user->getAttribute('fullname_with_position')}}
+                                        @if($user->getAttribute('id') == $data->getAttribute('employee')) selected @endif value="{{$user->getAttribute('id')}}"> {{$user->getAttribute('fullname_with_position')}}
                                     </option>
                                 @endforeach
                             </select>
@@ -48,8 +48,8 @@
             <div class="row mt-3">
                 <x-input::text name="activity" :label="trans('translates.employee_satisfactions.activity')" :value="$data->getAttribute('activity')" width="6"/>
                 <div class="custom-control col-6">
-                    <label  for="is_enough">@lang('translates.columns.deadline')</label>
-                    <input type="date" name="deadline" class="form-control deadline" label="@lang('translates.columns.deadline')" value="{{$data->getAttribute('deadline')}}"/>
+                    <label for="deadline">@lang('translates.columns.deadline')</label>
+                    <input type="date" name="deadline" id="deadline" class="form-control deadline" label="@lang('translates.columns.deadline')" value="{{$data->getAttribute('deadline')}}"/>
                 </div>
             </div>
             @if ($method !== 'POST')

@@ -23,6 +23,35 @@
         <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item dropdown">
                 <a class="nav-link count-indicator dropdown-toggle" id="notificationsDropdown" href="#" data-toggle="dropdown">
+                    <i class="fas fa-comment-dots"></i>
+                    @php $messages = \App\Models\Chat::where('to', auth()->id())->where('is_read',0)->get() @endphp
+                    @if(count($messages) > 0)  <span class="count" style="color: red"></span> @endif
+                </a>
+                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list p-2" style="min-width: 400px;max-width: 100%;overflow-wrap: break-word !important;height: 400px;overflow-x: hidden">
+
+                    @if(count($messages) > 0)
+                        <div>
+                            @foreach($messages as $message)
+                                @php $user = \App\Models\User::whereId($message->from)->first() @endphp
+
+                                <a class="text-black" href="{{route('chats.index')}}">
+                                    <h4 class="preview-subject font-weight-normal">{{$user->getAttribute('fullname')}}</h4>
+                                    <p class="mb-1">Sizə Bir Mesaj Var: @if (strlen($message->message) > 200) {!!substr($message->message, 0, 200) . '...'!!}@else
+                                        {{$message->message}} @endif
+                                    </p>
+                                </a>
+                            @endforeach
+                        </div>
+                    @else
+                    <div>
+                        <p class="text-black text-center">@lang('translates.general.no_message')</p>
+                    </div>
+                    @endif
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link count-indicator dropdown-toggle" id="notificationsDropdown" href="#" data-toggle="dropdown">
                     <i class="far fa-envelope mx-0"></i>
                     @php $notifications = auth()->user()->unreadNotifications->where('type', 'App\Notifications\NotifyStatement')->all() @endphp
                     @if(count($notifications) > 0)  <span class="count" ></span> @endif

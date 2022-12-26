@@ -6,29 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Services\FirebaseApi;
 use App\Models\{Chat, User};
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Pusher\Pusher;
 
 class ChatController extends Controller
 {
     public function index()
     {
-        $users = User::isActive()
-            ->where('id', '!=', auth()->id())
-            ->orderByDesc('order')
-            ->get();
-
-        $recentUsers = User::query()
-            ->isActive()
-            ->join('chats', 'chats.to', '=', 'users.id')
-            ->where('from',  '=', auth()->id())
-            ->orderBy('chats.is_read')
-            ->select('users.*')
-            ->get()
-            ->unique('name');
-
+        $users = DB::select("select users.id, users.name, users.surname, users.avatar, users.email, count(is_read) as unread 
+        from users LEFT  JOIN  chats ON users.id = chats.from and is_read = 0 and chats.to = " . Auth::id() . "
+        where users.id != " . Auth::id() . " 
+        group by users.id, users.name, users.surname, users.avatar, users.email");
         return view('pages.chats.index')->with([
             'users' => $users,
-            'recentUsers' => $recentUsers,
+
         ]);
 
     }

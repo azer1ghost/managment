@@ -556,6 +556,7 @@ return [
         'satisfaction' => 'Məmnuniyət',
         'payment_method' => 'Ödəmə Üsulu',
         'no_announcement' => 'Oxunmamış elan yoxdur',
+        'no_message' => 'Oxunmamış mesaj yoxdur',
         'mark_as_read' => 'Oxudum',
         'mark_all' => 'Hamısını Oxudum',
         'declaration' => 'Bəyannamə'
