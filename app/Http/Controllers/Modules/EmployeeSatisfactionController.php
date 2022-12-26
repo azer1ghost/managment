@@ -42,9 +42,9 @@ class EmployeeSatisfactionController extends Controller
                 'action' => route('employee-satisfaction.store'),
                 'method' => 'POST',
                 'data' => new EmployeeSatisfaction(),
-                'departments' => Department::get()->pluck('name', 'id')->toArray(),
                 'statuses' => EmployeeSatisfaction::statuses(),
-                'users' => User::isActive()->get()->pluck('name', 'id')->toArray()
+                'departments' => Department::get()->pluck('name', 'id')->toArray(),
+                'users' => User::isActive()->get()
             ]);
     }
 
@@ -69,7 +69,7 @@ class EmployeeSatisfactionController extends Controller
                 'data' => $employeeSatisfaction,
                 'departments' => Department::get()->pluck('name', 'id')->toArray(),
                 'statuses' => EmployeeSatisfaction::statuses(),
-                'users' => User::isActive()->get()->pluck('name', 'id')->toArray()
+                'users' => User::isActive()->get()
             ]);
     }
 
@@ -82,7 +82,7 @@ class EmployeeSatisfactionController extends Controller
                 'data' => $employeeSatisfaction,
                 'departments' => Department::get()->pluck('name', 'id')->toArray(),
                 'statuses' => EmployeeSatisfaction::statuses(),
-                'users' => User::isActive()->get()->pluck('name', 'id')->toArray()
+                'users' => User::isActive()->get()
             ]);
     }
 

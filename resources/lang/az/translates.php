@@ -493,17 +493,19 @@ return [
         'effectivity' => 'Effektivlik',
         'more_time' => 'Əlavə zamana ehtiyac var mı?',
         'activity' => 'Düzəldici Fəaliyyət',
-        'content-1' => 'Təklif və İstəyiniz',
-        'content-2' => 'Şikayətiniz',
-        'content-3' => 'Uyğunsuzluğun məzmunu',
+        'content-1' => 'Təklif və İstəyinizin Məzmununu Yazın',
+        'content-2' => 'Qarşılaşdığınız Çətinliyin Məzmununu Yazın',
+        'content-3' => 'Uyğunsuzluğun Məzmununu Yazın',
         'types' => [
             '1' => 'Təklif',
-            '2' => 'Şikayət',
+            '2' => 'Qarşılaşdığınız Çətinlik',
             '3' => 'Uyğunsuzluq'
         ],
         'statuses' => [
-            '1' => 'İcra Olunur',
-            '2' => 'İcra Olundu'
+            '1' => 'Baxılmayıb',
+            '2' => 'İcra Olunur',
+            '3' => 'Tamamlandı',
+            '4' => 'Rədd Edildi'
         ]
     ],
 

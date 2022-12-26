@@ -500,7 +500,8 @@ return [
         ],
         'statuses' => [
             '1' => 'In Progress',
-            '2' => 'Executed'
+            '2' => 'Executed',
+            '3' => 'Rejected'
         ]
     ],
 

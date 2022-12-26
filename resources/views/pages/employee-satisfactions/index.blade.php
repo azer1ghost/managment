@@ -114,6 +114,7 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="alert alert-success">"Qarşılaşdığınız Çətinlik" anonim şəkildə olur. Adınız heç bir yerdə qeyd olunmur!</div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>

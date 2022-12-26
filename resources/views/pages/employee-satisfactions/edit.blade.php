@@ -23,15 +23,26 @@
         <input type="hidden" name="type" value="{{request()->get('type') ?? $data->getAttribute('type')}}">
             @if((request()->get('type') == '3' || $data->getAttribute('type') == 3))
                 <div class="row mr-0">
-{{--                    <x-input::text  name="employee" :label="trans('translates.fields.name')" :value="$data->getAttribute('employee')" width="6"/>--}}
-{{--                    <x-input::select  name="employee" :label="trans('translates.fields.inappropriate_worker')" :value="$data->getAttribute('employee')" width="6" :options="$users"/>--}}
-                    <x-form-group  class="pr-3 col-12 col-lg-6">
-                        <x-form-select  name="employee" :options="$users" :label="__('translates.fields.inappropriate_worker')" />
-                    </x-form-group>
+                        <div class="form-group col-md-6">
+                            <label for="employee">@lang('translates.filters.subject')</label>
+                            <select class="form-control" title="@lang('translates.filters.select')">
+                                @foreach($users as $user)
+                                    <option
+                                            @if($user->getAttribute('id') == $data->getAttribute('employee')) selected @endif value="{{$user->getAttribute('id')}}"> {{$user->getAttribute('fullname_with_position')}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                     <x-input::select name="department_id" :label="trans('translates.fields.department')" :value="$data->getAttribute('department_id')" width="6" :options="$departments" />
                 </div>
             @endif
-        <p> Mövzu Əlavə edin</p>
+        @if((request()->get('type') == '3' || $data->getAttribute('type') == 3))
+            <p> @lang('translates.employee_satisfactions.content-3')</p>
+        @elseif((request()->get('type') == '2' || $data->getAttribute('type') == 2))
+            <p>@lang('translates.employee_satisfactions.content-2')</p>
+        @else
+            <p>@lang('translates.employee_satisfactions.content-1')</p>
+        @endif
         <textarea id="summernote" name="content"  aria-label="content">{{$data->getAttribute('content')}}</textarea>
         @if(request()->get('type') == '3' || $data->getAttribute('type') == 3)
             <div class="row mt-3">
