@@ -16,7 +16,7 @@ class ChatController extends Controller
     {
         $users = DB::select("select users.id, users.name, users.surname, users.avatar, users.email, count(is_read) as unread 
         from users LEFT  JOIN  chats ON users.id = chats.from and is_read = 0 and chats.to = " . Auth::id() . "
-        where users.id != " . Auth::id() . " 
+        where users.id != " . Auth::id() . " and users.disabled_at IS NULL
         group by users.id, users.name, users.surname, users.avatar, users.email");
         return view('pages.chats.index')->with([
             'users' => $users,
