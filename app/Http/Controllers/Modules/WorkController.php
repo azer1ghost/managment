@@ -83,7 +83,7 @@ class WorkController extends Controller
             $usersQuery->where('department_id', $user->getAttribute('department_id'))->get() :
             $usersQuery->get();
 
-        $departments = Department::has('works')->get(['id', 'name']);
+        $departments = Department::isActive()->has('works')->get(['id', 'name']);
         $companies = Company::query()->has('asanImzalar')->limit(10)->get();
 
         $paymentMethods = Work::paymentMethods();
@@ -91,7 +91,7 @@ class WorkController extends Controller
         $verifies = [1 => trans('translates.columns.unverified'), 2 => trans('translates.columns.verified')];
         $priceVerifies = [1 => trans('translates.columns.price_unverified'), 2 => trans('translates.columns.price_verified')];
 
-        $allDepartments = Department::orderBy('ordering')->get(['id', 'name']);
+        $allDepartments = Department::isActive()->orderBy('ordering')->get(['id', 'name']);
 
         $services = Service::query()
             ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
@@ -126,7 +126,7 @@ class WorkController extends Controller
             'data' => null,
             'users' => User::isActive()->get(['id', 'name', 'surname']),
             'companies' => Company::get(['id', 'name']),
-            'departments' => Department::get(['id', 'name']),
+            'departments' => Department::isActive()->get(['id', 'name']),
             'services' => Service::get(['id', 'name']),
         ]);
     }

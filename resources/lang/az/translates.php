@@ -216,7 +216,7 @@ return [
         'human_resources' => 'İnsan Resursları',
         'law' => 'Hüquq',
         'structure' => 'Struktur',
-        'intern_number' => 'Daxili Nömrələr',
+        'intern_number' => 'CISCO Nömrələr',
         'job_instruction' => 'Vəzifə Təlimatları',
         'intern_relation' => 'Daxili Əlaqələr',
         'foreign_relation' => 'Xarici Əlaqələr',

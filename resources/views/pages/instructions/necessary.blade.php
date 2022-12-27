@@ -27,12 +27,12 @@
                         <li>İdxalçının anbar (obyekt) kodu</li>
                         <li>İdxalçının VÖEN-ə bağlı hesabı</li>
                         <li>Alqı - satqı müqaviləsi</li>
-                        <ol>
+                        <ul>
                             <li>Malın dəyəri</li>
                             <li>Çatdırılma şərti</li>
                             <li>Ödəniş şərti</li>
                             <li>Və digər məlumatlar</li>
-                        </ol>
+                        </ul>
                         <li>Müqavilənin pin kodu</li>
                         <li>Müqaviləyə əlavə</li>
                         <li>Müqaviləyə əlavənin pin kodu </li>

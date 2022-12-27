@@ -214,7 +214,7 @@ return [
         'human_resources' => 'Human Resources',
         'law' => 'Law',
         'structure' => 'Structure',
-        'intern_number' => 'Intern Numbers',
+        'intern_number' => 'CISCO Numbers',
         'job_instruction' => 'Job Instructions',
         'intern_relation' => 'Intern Relations',
         'foreign_relation' => 'Foreign Relations',
