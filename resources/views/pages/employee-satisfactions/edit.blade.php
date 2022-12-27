@@ -25,7 +25,8 @@
                 <div class="row mr-0">
                         <div class="form-group col-md-6">
                             <label for="employee">@lang('translates.filters.subject')</label>
-                            <select class="form-control" title="@lang('translates.filters.select')">
+                            <select class="form-control" name="employee" title="@lang('translates.filters.select')">
+                            <option value=""> @lang('translates.general.user_select') </option>
                                 @foreach($users as $user)
                                     <option
                                         @if($user->getAttribute('id') == $data->getAttribute('employee')) selected @endif value="{{$user->getAttribute('id')}}"> {{$user->getAttribute('fullname_with_position')}}

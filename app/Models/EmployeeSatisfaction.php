@@ -33,7 +33,7 @@ class EmployeeSatisfaction extends Model
     {
        return $this->belongsTo(User::class,'user_id')->withDefault();
     }
-    public function employee():BelongsTo
+    public function employees():BelongsTo
     {
        return $this->belongsTo(User::class,'employee')->withDefault();
     }
@@ -49,6 +49,6 @@ class EmployeeSatisfaction extends Model
     }
     public static function statuses()
     {
-        return [1 => 1, 2, 3, 4];
+        return [1 => 1, 2, 3, 4, 5];
     }
 }

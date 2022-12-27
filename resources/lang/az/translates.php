@@ -503,9 +503,10 @@ return [
         ],
         'statuses' => [
             '1' => 'Baxılmayıb',
-            '2' => 'İcra Olunur',
-            '3' => 'Tamamlandı',
-            '4' => 'Rədd Edildi'
+            '2' => 'Dəyərləndirilir',
+            '3' => 'İcra Olunur',
+            '4' => 'Tamamlandı',
+            '5' => 'Rədd Edildi'
         ]
     ],
 

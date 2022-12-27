@@ -499,9 +499,11 @@ return [
             '3' => 'Incompatibility'
         ],
         'statuses' => [
-            '1' => 'In Progress',
-            '2' => 'Executed',
-            '3' => 'Rejected'
+            '1' => 'Not Viewed',
+            '2' => 'Evaluating',
+            '3' => 'appreciated',
+            '4' => 'Executed',
+            '5' => 'Rejected',
         ]
     ],
 
