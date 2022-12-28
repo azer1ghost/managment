@@ -116,7 +116,13 @@ class Sidebar extends Component
                         'title' => __('translates.navbar.necessary'),
                         'icon' => 'fas fa-file-signature',
                         'url' => route('necessary'),
-                        'permission' => 'viewAny-asanImza',
+                        'permission' => 'generally',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.changes'),
+                        'icon' => 'fas fa-file-signature',
+                        'url' => route('changes.index'),
+                        'permission' => 'generally',
                     ],
                 ]
             ],

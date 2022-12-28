@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', __('translates.navbar.intern_relation'))
+@section('title', __('translates.navbar.changes'))
 @section('style')
     <style>
         table {
@@ -18,46 +18,57 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
-            @lang('translates.navbar.intern_relation')
+            @lang('translates.navbar.changes')
         </x-bread-crumb-link>
     </x-bread-crumb>
             <div class="col-12">
+                @can('create', \App\Models\Change::class)
+                    <div class="col-12">
+                        <a class="btn btn-outline-success float-right" href="{{route('changes.create')}}">@lang('translates.buttons.create')</a>
+                    </div>
+                @endcan
                 <table class="table table-responsive-sm table-hover">
                     <thead>
                     <tr>
-                        <th scope="col">Department</th>
                         <th scope="col">#</th>
-                        <th scope="col">Əlaqə Saxlanılacaq Hal</th>
-                        <th scope="col">Müraciət Edən Şəxs</th>
-                        <th scope="col">Əlaqə Saxlanılacaq Şəxs</th>
-                        <th scope="col">Əlaqə Vasitəsi</th>
-                        <th scope="col">Əlaqə Zamanı</th>
+                        <th scope="col">Dəyişikliyin tarixi</th>
+                        <th scope="col">Dəyişikliyin sahibi</th>
+                        <th scope="col">Aid olduğu proses/şöbə</th>
+                        <th scope="col">Dəyişikliyin təsviri</th>
+                        <th scope="col">Dəyişikliyin səbəbi</th>
+                        <th scope="col">Təsiri</th>
+                        <th scope="col">Istinad edilən sənəd</th>
+                        <th scope="col">Dəyişikliyin təhlilinə və tətbiq edilməsinə məsul bölmə/şəxs</th>
+                        <th scope="col">Dəyişikliyin effektivliyi</th>
+                        <th scope="col">Qeydlər</th>
+                        <th scope="col">@lang('translates.parameters.types.operation')</th>
                     </tr>
                     </thead>
-                    <tbody id="sortable">
-                    @forelse($internalRelations as $internalRelation)
-                            <tr id="item-{{$internalRelation->getAttribute('id')}}">
-                            <th class="sortable">{{$internalRelation->getRelationValue('departments')->getAttribute('name')}}</th>
-                            <th class="sortable">{{$internalRelation->getAttribute('ordering') +1 }}</th>
-                            <td>{{$internalRelation->getAttribute('case')}}</td>
-                            <td>{{$internalRelation->getAttribute('applicant')}}</td>
-                            <td class="overflow-wrap-hack">
-                                <div class="content">
-                                    {{$internalRelation->getAttribute('user_id') == null ? $internalRelation->getAttribute('reciever') : $internalRelation->getRelationValue('users')->getFullnameWithPositionAttribute()}}
-                                </div>
-                            </td>
-                            <td style="word-wrap: break-word;">{{$internalRelation->getAttribute('tool')}}</td>
-                            <td>{{$internalRelation->getAttribute('contact_time')}}</td>
-                            @can('update', App\Models\InternalRelation::class)
+                    <tbody>
+                    @forelse($changes as $change)
+                         <tr>
+
+                            <td>{{$loop->iteration}}</td>
+                            <td>{{$change->getAttribute('datetime')}}</td>
+                            <td>{{$change->getRelationValue('users')->getAttribute('fullname')}}</td>
+                            <td>{{$change->getRelationValue('departments')->getAttribute('name')}}</td>
+                            <td>{{$change->getAttribute('description')}}</td>
+                            <td>{{$change->getAttribute('reason')}}</td>
+                            <td>{{$change->getAttribute('result')}}</td>
+                            <td>{{$change->getAttribute('document')}}</td>
+                            <td>{{$change->getRelationValue('responsibles')->getAttribute('fullname')}}</td>
+                            <td>{{$change->getAttribute('effectivity')}}</td>
+                            <td>{{$change->getAttribute('note')}}</td>
+                            @can('update', App\Models\Change::class)
                                 <td>
                                     <div class="btn-sm-group">
-                                            <a href="{{route('internal-relations.show', $internalRelation)}}" class="btn btn-sm btn-outline-primary">
+                                            <a href="{{route('changes.show', $change)}}" class="btn btn-sm btn-outline-primary">
                                                 <i class="fal fa-eye"></i>
                                             </a>
-                                            <a href="{{route('internal-relations.edit', $internalRelation)}}" class="btn btn-sm btn-outline-success">
+                                            <a href="{{route('changes.edit', $change)}}" class="btn btn-sm btn-outline-success">
                                                 <i class="fal fa-pen"></i>
                                             </a>
-                                            <a href="{{route('internal-relations.destroy', $internalRelation)}}" delete data-name="{{$internalRelation->getAttribute('id')}}" class="btn btn-sm btn-outline-danger" >
+                                            <a href="{{route('changes.destroy', $change)}}" delete data-name="{{$change->getAttribute('id')}}" class="btn btn-sm btn-outline-danger" >
                                                 <i class="fal fa-trash"></i>
                                             </a>
                                     </div>
@@ -75,31 +86,8 @@
                     @endforelse
                     </tbody>
                 </table>
+                    <div class="float-right">
+                        {{$changes->appends(request()->input())->links()}}
+                    </div>
             </div>
-    @can('create', App\Models\InternalRelation::class)
-        <div class="col-12">
-            <a class="btn btn-outline-success float-right" href="{{route('internal-relations.create')}}">@lang('translates.buttons.create')</a>
-        </div>
-    @endcan
-
-@endsection
-
-@section('scripts')
-    <script>
-        $(function () {
-            $('#sortable').sortable({
-                axis: 'y',
-                handle: ".sortable",
-                update: function () {
-                    var data = $(this).sortable('serialize');
-                    $.ajax({
-                        type: "POST",
-                        data: data,
-                        url: "{{route('internal-relation.sortable')}}",
-                    });
-                }
-            });
-            $('#sortable').disableSelection();
-        });
-    </script>
 @endsection

@@ -13,6 +13,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\AsanImzaController,
     Modules\CalendarController,
     Modules\CertificateController,
+    Modules\ChangeController,
     Modules\ClientController,
     Modules\CompanyController,
     Modules\ConferenceController,
@@ -151,6 +152,7 @@ Route::group([
     Route::resource('/meetings', MeetingController::class);
     Route::resource('/job-instructions', JobInstructionController::class);
     Route::resource('/internal-numbers', InternalNumberController::class);
+    Route::resource('/changes', ChangeController::class);
     Route::get('/cooperative-numbers', [InternalNumberController::class, 'cooperative'])->name('cooperative-numbers');
     Route::resource('/internal-relations', InternalRelationController::class);
     Route::get('/foreign', [InternalRelationController::class, 'foreign'])->name('foreign');

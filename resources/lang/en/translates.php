@@ -174,6 +174,7 @@ return [
         'welcome' => 'Welcome',
         'cabinet' => 'Cabinet',
         'company' => 'Companies',
+        'changes' => 'Changes',
         'customer_company' => 'Customer Company',
         'account' => 'Account',
         'signature' => 'Signature',

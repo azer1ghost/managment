@@ -176,6 +176,7 @@ return [
         'dashboard' => 'Məlumat Paneli',
         'cabinet' => 'Kabinet',
         'company' => 'Şirkətlər',
+        'changes' => 'Dəyişikliklər',
         'customer_company' => 'Müştəri Şirkətlər',
         'account' => 'Hesab',
         'signature' => 'Email İmza',

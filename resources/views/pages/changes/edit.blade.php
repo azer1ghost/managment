@@ -7,12 +7,12 @@
         <x-bread-crumb-link :link="route('dashboard')">
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
-        <x-bread-crumb-link :link="route('internal-relations.index')">
-            @lang('translates.navbar.intern_relation')
+        <x-bread-crumb-link :link="route('changes.index')">
+            @lang('translates.navbar.changes')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
             @if (!is_null($data))
-                {{optional($data)->getAttribute('case')}}
+                {{optional($data)->getAttribute('id')}}
             @else
                 @lang('translates.buttons.create')
             @endif
@@ -25,7 +25,7 @@
             <div class="form-group col-12">
                 <div class="row">
                     <div class="form-group col-6 user">
-                        <label for="department_id">@lang('translates.columns.department')</label><br/>
+                        <label for="department_id">Aid olduğu proses/şöbə</label><br/>
                         <select class="select2 form-control" name="department_id" id="department_id">
                             <option value="">@lang('translates.general.department_select')</option>
                             @foreach($departments as $department)
@@ -33,41 +33,54 @@
                             @endforeach
                         </select>
                     </div>
-{{--                    <div class="form-group col-6 user">--}}
-{{--                        <label for="user_id">@lang('translates.columns.user')</label><br/>--}}
-{{--                        <select class="select2 form-control" name="user_id" id="user_id">--}}
-{{--                            <option value="">@lang('translates.general.user_select')</option>--}}
-{{--                            @foreach($users as $user)--}}
-{{--                                <option @if($data->getAttribute('user_id') == $user->id) selected @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>--}}
-{{--                            @endforeach--}}
-{{--                        </select>--}}
-{{--                    </div>--}}
+                    <div class="form-group col-6 user">
+                        <label for="user_id">Dəyişikliyin sahibi</label><br/>
+                        <select class="select2 form-control" name="user_id" id="user_id">
+                            <option value="">@lang('translates.general.user_select')</option>
+                            @foreach($users as $user)
+                                <option @if($data->getAttribute('user_id') == $user->id) selected @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-6 user">
+                        <label for="responsible">Dəyişikliyin təhlilinə və tətbiq edilməsinə məsul bölmə/şəxs</label><br/>
+                        <select class="select2 form-control" name="responsible" id="responsible">
+                            <option value="">@lang('translates.general.user_select')</option>
+                            @foreach($users as $user)
+                                <option @if($data->getAttribute('responsible') == $user->id) selected @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-6 col-md-6 ">
+                        <label for="user_id">Tarix Seçin</label><br/>
+                        <input type="text" aria-label="datetime" readonly placeholder="@lang('translates.placeholders.range')" name="datetime"
+                               value="{{$data->getAttribute('datetime')}}" class="form-control">
+                    </div>
                     <x-form-group  class="pr-3 col-12 col-lg-6"  >
-                        <x-form-textarea  name="case" label="Əlaqə Saxlanılacaq Hal" placeholder="Əlaqə Saxlanılacaq Hal daxil edin"/>
+                        <x-form-textarea  name="description" label="Dəyişikliyin təsviri" placeholder="Dəyişikliyin təsvirini daxil edin"/>
                     </x-form-group>
                     <x-form-group  class="pr-3 col-12 col-lg-6"  >
-                        <x-form-input  name="applicant" label="Müraciət Edən Şəxs" placeholder="Müraciət Edən Şəxs daxil edin"/>
+                        <x-form-textarea  name="reason" label="Dəyişikliyin səbəbi" placeholder="Dəyişikliyin səbəbini daxil edin"/>
                     </x-form-group>
                     <x-form-group  class="pr-3 col-12 col-lg-6"  >
-                        <x-form-input  name="reciever" label="Əlaqə Saxlanılacaq Şəxs" placeholder="Əlaqə Saxlanılacaq Şəxs daxil edin"/>
+                        <x-form-textarea  name="result" label="Təsiri" placeholder="Təsirini daxil edin"/>
                     </x-form-group>
-                    <x-form-group  class="pr-3 col-12 col-lg-6">
-                        <x-form-input  name="tool" label="Əlaqə Vasitəsi" placeholder="Əlaqə Vasitəsi daxil edin"/>
+                    <x-form-group  class="pr-3 col-12 col-lg-6"  >
+                        <x-form-textarea  name="note" label="Note" placeholder="Note daxil edin"/>
                     </x-form-group>
-                    <x-form-group  class="pr-3 col-12 col-lg-6">
-                        <x-form-input  name="contact_time" label="Əlaqə Zamanı" placeholder="Əlaqə Zamanı daxil edin"/>
-                    </x-form-group>
-                    <x-form-group  class="pr-3 col-12 col-lg-6">
-                        <x-form-input  name="ordering" label="Sıra" placeholder="Hansı sırada olacağını yazın"/>
-                    </x-form-group>
+                    <x-input::text name="effectivity" :label="trans('translates.employee_satisfactions.effectivity')" :value="$data->getAttribute('effectivity')" width="6"/>
+
 
                 </div>
-                <div class="custom-control custom-switch">
-                    <input type="checkbox" name="is_foreign" class="custom-control-input" id="foreign" @if($data->getAttribute('is_foreign')) checked @endif>
-                    <label class="custom-control-label" for="foreign">@lang('translates.navbar.foreign_relation')</label>
-                </div>
             </div>
+
         </div>
+        @if($method != 'POST')
+            <div class="my-5">
+                <x-documents :documents="$data->documents" :title="trans('translates.navbar.document')" />
+                <x-document-upload :id="$data->id" model="Change"/>
+            </div>
+        @endif
         @if($action)
             <x-input::submit :value="__('translates.buttons.save')"/>
         @endif
@@ -80,4 +93,5 @@
             $('form :input').attr('disabled', true)
         </script>
     @endif
+
 @endsection
