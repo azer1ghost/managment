@@ -54,7 +54,15 @@
                             <td>{{$change->getRelationValue('departments')->getAttribute('name')}}</td>
                             <td>{{$change->getAttribute('description')}}</td>
                             <td>{{$change->getAttribute('reason')}}</td>
-                            <td>{{$change->getAttribute('result')}}</td>
+                            <td> @php($supportedTypes = \App\Models\Document::supportedTypeIcons())
+                                @foreach($change->documents as $document)
+                                    @php($type = $supportedTypes[$document->type])
+                                    @php($route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document))
+                                    <a href="{{$route}}" data-toggle="tooltip" title="{{$document->file}}" target="_blank" class="text-dark d-flex align-items-center mr-2" style=" word-break: break-word">
+                                        <i class="fa fa-file-{{$type['icon']}} fa-2x m-1 text-{{$type['color']}}"></i>
+                                        <span>{{substr($document->name, 0, 10) . '...'}} </span>
+                                    </a>
+                                @endforeach</td>
                             <td>{{$change->getAttribute('document')}}</td>
                             <td>{{$change->getRelationValue('responsibles')->getAttribute('fullname')}}</td>
                             <td>{{$change->getAttribute('effectivity')}}</td>
