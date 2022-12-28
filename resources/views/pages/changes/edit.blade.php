@@ -53,8 +53,8 @@
                     </div>
                     <div class="form-group col-6 col-md-6 ">
                         <label for="user_id">Tarix Seçin</label><br/>
-                        <input type="text" aria-label="datetime" readonly placeholder="@lang('translates.placeholders.range')" name="datetime"
-                               value="{{$data->getAttribute('datetime')}}" class="form-control">
+                        <input type="text" aria-label="datetime" class="form-control" readonly placeholder="@lang('translates.placeholders.range')" name="datetime"
+                               value="{{$data->getAttribute('datetime')}}" >
                     </div>
                     <x-form-group  class="pr-3 col-12 col-lg-6"  >
                         <x-form-textarea  name="description" label="Dəyişikliyin təsviri" placeholder="Dəyişikliyin təsvirini daxil edin"/>
@@ -68,24 +68,22 @@
                     <x-form-group  class="pr-3 col-12 col-lg-6"  >
                         <x-form-textarea  name="note" label="Note" placeholder="Note daxil edin"/>
                     </x-form-group>
-                    <x-input::text name="effectivity" :label="trans('translates.employee_satisfactions.effectivity')" :value="$data->getAttribute('effectivity')" width="6"/>
-
-
+                    <x-input::number name="effectivity" :label="trans('translates.employee_satisfactions.effectivity')" :value="$data->getAttribute('effectivity')" width="6"/>
                 </div>
             </div>
-
         </div>
-        @if($method != 'POST')
-            <div class="my-5">
-                <x-documents :documents="$data->documents" :title="trans('translates.navbar.document')" />
-                <x-document-upload :id="$data->id" model="Change"/>
-            </div>
-        @endif
+
         @if($action)
             <x-input::submit :value="__('translates.buttons.save')"/>
         @endif
         @endbind
     </form>
+    @if($method != 'POST')
+        <div class="my-5">
+            <x-documents :documents="$data->documents" :title="trans('translates.navbar.document')" />
+            <x-document-upload :id="$data->id" model="Change"/>
+        </div>
+    @endif
 @endsection
 @section('scripts')
     @if(is_null($action))
