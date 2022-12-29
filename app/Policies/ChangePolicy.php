@@ -13,26 +13,26 @@ class ChangePolicy
 
     public function viewAny(User $user): bool
     {
-        return $this->canManage($user, 'changes', __FUNCTION__);
+        return $this->canManage($user, 'change', __FUNCTION__);
     }
 
     public function view(User $user): bool
     {
-        return $this->canManage($user, 'changes', __FUNCTION__);
+        return $this->canManage($user, 'change', __FUNCTION__);
     }
 
     public function create(User $user): bool
     {
-        return $this->canManage($user, 'changes');
+        return $this->canManage($user, 'change');
     }
 
     public function update(User $user): bool
     {
-        return $this->canManage($user, 'changes');
+        return $this->canManage($user, 'change');
     }
 
     public function delete(User $user): bool
     {
-        return $this->canManage($user, 'changes', __FUNCTION__);
+        return $this->canManage($user, 'change', __FUNCTION__);
     }
 }
