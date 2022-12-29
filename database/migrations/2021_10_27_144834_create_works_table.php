@@ -17,6 +17,8 @@ class CreateWorksTable extends Migration
             $table->id();
             $table->string('code')->nullable();
             $table->string('custom_asan')->nullable();
+            $table->string('custom_client')->nullable();
+            $table->string('bank_charge')->nullable();
             $table->text('detail')->nullable();
             $table->integer('status')->nullable();
             $table->foreignId('creator_id')->constrained('users')->restrictOnDelete();
@@ -29,6 +31,7 @@ class CreateWorksTable extends Migration
             $table->timestamp('datetime')->nullable();
             $table->timestamp('paid_at')->nullable();
             $table->timestamp('vat_date')->nullable();
+            $table->timestamp('invoiced_date')->nullable();
             $table->foreignId('asan_imza_id')->index()->nullable()->constrained('asan_imzalar')->onDelete('SET NULL');
             $table->timestamps();
             $table->softDeletes();

@@ -20,6 +20,7 @@ class CreateSalesClientsTable extends Migration
             $table->string('phone')->nullable();
             $table->string('voen')->nullable();
             $table->string('user_id')->nullable();
+            $table->string('email')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

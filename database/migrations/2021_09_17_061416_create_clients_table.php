@@ -11,6 +11,7 @@ class CreateClientsTable extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->foreignId('client_id')->nullable()->index()->constrained()->onDelete('SET NULL');
+            $table->integer('user_id')->nullable();
             $table->string('fullname')->nullable();
             $table->string('father')->nullable();
             $table->string('gender')->nullable();
@@ -27,6 +28,7 @@ class CreateClientsTable extends Migration
             $table->boolean('type')->nullable();
             $table->text('detail')->nullable();
             $table->string('position')->nullable();
+            $table->integer('satisfaction')->nullable()->default(3);
             $table->timestamps();
             $table->softDeletes();
         });

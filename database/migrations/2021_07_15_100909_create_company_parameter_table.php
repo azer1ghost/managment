@@ -16,6 +16,7 @@ class CreateCompanyParameterTable extends Migration
         Schema::create('company_parameter', function (Blueprint $table) {
             $table->foreignId('company_id')->nullable()->index()->constrained()->onDelete('CASCADE');
             $table->foreignId('parameter_id')->nullable()->index()->constrained()->onDelete('CASCADE');
+            $table->foreignId('department_id')->first()->nullable()->index()->constrained()->onDelete('CASCADE');
         });
     }
 
