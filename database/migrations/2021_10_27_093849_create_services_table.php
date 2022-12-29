@@ -22,6 +22,8 @@ class CreateServicesTable extends Migration
             $table->foreignId('department_id')->nullable()->index()->constrained()->onDelete('SET NULL');
             $table->foreignId('service_id')->nullable()->index()->constrained()->onDelete('SET NULL');
             $table->boolean('has_asan_imza');
+            $table->integer('ordering')->nullable();
+            $table->boolean('is_active')->default(1)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

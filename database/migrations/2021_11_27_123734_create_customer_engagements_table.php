@@ -19,6 +19,7 @@ class CreateCustomerEngagementsTable extends Migration
             $table->foreignId('client_id')->index()->constrained()->onDelete('CASCADE');
             $table->string('amount')->nullable();
             $table->integer('partner_id')->nullable();
+            $table->integer('executant')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

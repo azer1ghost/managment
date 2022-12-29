@@ -19,6 +19,7 @@ class CreateWorksTable extends Migration
             $table->string('custom_asan')->nullable();
             $table->string('custom_client')->nullable();
             $table->string('bank_charge')->nullable();
+            $table->string('declaration_no')->nullable();
             $table->text('detail')->nullable();
             $table->integer('status')->nullable();
             $table->foreignId('creator_id')->constrained('users')->restrictOnDelete();

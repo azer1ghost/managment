@@ -16,6 +16,9 @@ class CreateJobInstructionsTable extends Migration
         Schema::create('job_instructions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->restrictOnDelete();
+            $table->integer('ordering')->nullable();
+            $table->longText('instruction')->nullable();
+            $table->foreignId('department_id')->nullable()->constrained()->restrictOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

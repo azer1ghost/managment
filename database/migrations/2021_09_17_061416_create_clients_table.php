@@ -25,10 +25,15 @@ class CreateClientsTable extends Migration
             $table->string('voen')->nullable();
             $table->string('address1')->nullable();
             $table->string('address2')->nullable();
+            $table->string('price')->nullable();
+            $table->string('protocol')->nullable();
+            $table->string('document_type')->nullable();
             $table->boolean('type')->nullable();
             $table->text('detail')->nullable();
             $table->string('position')->nullable();
             $table->integer('satisfaction')->nullable()->default(3);
+            $table->date('birthday')->nullable();
+            $table->date('celebrate_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

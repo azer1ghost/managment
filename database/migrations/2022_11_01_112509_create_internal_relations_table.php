@@ -22,6 +22,8 @@ class CreateInternalRelationsTable extends Migration
             $table->string('reciever')->nullable();
             $table->string('tool')->nullable();
             $table->string('contact_time')->nullable();
+            $table->boolean('is_foreign')->nullable()->default(0);
+            $table->integer('ordering')->nullable();
             $table->timestamps();
         });
     }
