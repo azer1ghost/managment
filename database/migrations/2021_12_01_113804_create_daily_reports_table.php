@@ -14,6 +14,7 @@ class CreateDailyReportsTable extends Migration
             $table->date('date')->nullable();
             $table->text('detail')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('serial')->nullable();
             $table->string('fin')->nullable();
             $table->date('birthday')->nullable();
+            $table->date('started_at')->nullable();
             $table->integer('position_id')->nullable();
             $table->integer('official_position_id')->nullable();
             $table->text('permissions')->nullable();
@@ -44,6 +45,7 @@ class CreateUsersTable extends Migration
             $table->string('default_lang',5)->nullable();
             $table->integer('personal_id')->nullable()->unique();
             $table->boolean('is_partner')->default(false);
+            $table->integer('order')->nullable()->default(0);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

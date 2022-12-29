@@ -21,6 +21,8 @@ class CreateBarcodesTable extends Migration
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('SET NULL');
             $table->string('code')->nullable();
             $table->text('note')->nullable();
+            $table->string('customer')->nullable();
+            $table->string('phone')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

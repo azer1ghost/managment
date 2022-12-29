@@ -15,6 +15,7 @@ class CreateInternalNumbersTable extends Migration
     {
         Schema::create('internal_numbers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained()->restrictOnDelete();
             $table->string('phone')->nullable();
             $table->string('name')->nullable();
             $table->text('detail')->nullable();

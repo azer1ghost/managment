@@ -19,6 +19,7 @@ class CreateSalesActivitiesTable extends Migration
             $table->foreignId('organization_id')->nullable()->index()->constrained();
             $table->foreignId('certificate_id')->nullable()->index()->constrained();
             $table->foreignId('sales_activity_type_id')->nullable()->index()->constrained();
+            $table->foreignId('user_id')->nullable()->index()->constrained();
             $table->timestamps();
             $table->softDeletes();
         });

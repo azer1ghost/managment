@@ -26,6 +26,8 @@ class CreateEmployeeSatisfactionsTable extends Migration
             $table->boolean('more_time')->nullable();
             $table->date('datetime')->nullable();
             $table->date('deadline')->nullable();
+            $table->integer('status')->nullable();
+            $table->integer('effectivity')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
