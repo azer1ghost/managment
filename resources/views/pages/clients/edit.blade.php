@@ -137,8 +137,8 @@
                 <p class="text-muted mb-2">@lang('translates.fields.contact')</p>
                 <hr class="my-2">
             </div>
-            <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.phone1')">
-                <x-form-input name="phone1"/>
+            <x-form-group class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.phone1')">
+                <x-form-input name="phone1" required/>
             </x-form-group>
             <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.phone2')" >
                 <x-form-input name="phone2"/>
@@ -146,7 +146,7 @@
 
             <div class="form-group col-md-3">
                 <label for="email1">@lang('translates.fields.email1')</label>
-                <input type="email" id="email1" class="form-control" name="email1" value="{{optional($data)->getAttribute('email1')}}" @if(!auth()->user()->hasPermission('satisfactionMeasure-client')) required @endif>
+                <input type="text" id="email1" class="form-control" name="email1" value="{{optional($data)->getAttribute('email1')}}" @if(!auth()->user()->hasPermission('satisfactionMeasure-client')) required @endif>
             </div>
 
             <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.email2')" >
