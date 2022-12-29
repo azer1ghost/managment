@@ -29,6 +29,7 @@ class CreateWorksTable extends Migration
             $table->timestamp('datetime')->nullable();
             $table->timestamp('paid_at')->nullable();
             $table->timestamp('vat_date')->nullable();
+            $table->foreignId('asan_imza_id')->index()->nullable()->constrained('asan_imzalar')->onDelete('SET NULL');
             $table->timestamps();
             $table->softDeletes();
         });

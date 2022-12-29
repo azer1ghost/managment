@@ -15,8 +15,10 @@ class CreateAsanImzalarTable extends Migration
     {
         Schema::create('asan_imzalar', function (Blueprint $table) {
             $table->id();
+            $table->string('asan_id')->nullable();
             $table->foreignId('user_id')->index()->constrained()->onDelete('CASCADE');
             $table->foreignId('company_id')->index()->constrained()->onDelete('CASCADE');
+            $table->string('phone')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

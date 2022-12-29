@@ -17,6 +17,7 @@ class CreateDepartmentsTable extends Migration
             $table->id();
             $table->json('name');
             $table->json('short_name')->nullable();
+            $table->text('permissions')->nullable();
             $table->boolean('status')->nullable();
             $table->timestamps();
             $table->softDeletes();

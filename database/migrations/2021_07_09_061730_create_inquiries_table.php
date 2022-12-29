@@ -23,6 +23,7 @@ class CreateInquiriesTable extends Migration
             $table->integer('redirected_user_id')->nullable();
             $table->foreignId('inquiry_id')->nullable()->index()->constrained()->onDelete('CASCADE');
             $table->boolean('is_out')->default(false);
+            $table->foreignId('department_id')->after('datetime')->nullable()->index()->constrained()->onDelete('SET NULL');
             $table->timestamps();
             $table->softDeletes();
         });

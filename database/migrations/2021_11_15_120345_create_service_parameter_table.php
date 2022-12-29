@@ -11,6 +11,8 @@ class CreateServiceParameterTable extends Migration
         Schema::create('service_parameter', function (Blueprint $table) {
             $table->foreignId('service_id')->nullable()->index()->constrained()->onDelete('CASCADE');
             $table->foreignId('parameter_id')->nullable()->index()->constrained()->onDelete('CASCADE');
+            $table->boolean('show_in_table');
+            $table->boolean('show_count');
         });
     }
 
