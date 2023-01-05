@@ -52,7 +52,7 @@ class SalesInquiryController extends Controller
         $users = User::has('inquiries')->whereDepartmentId(Department::SALES)->get(['id', 'name', 'surname', 'disabled_at']);
 
         $inquiries = Inquiry::with('user', 'company', 'client')
-            ->when(app()->environment('production'), fn($q) => $q->whereDepartmentId(Department::SALES)->whereClientId(!null))
+            ->when(app()->environment('production'), fn($q) => $q->whereDepartmentId(Department::SALES)->where('client_id', '!=', null))
             ->withoutBackups()
             ->when(!Inquiry::userCanViewAll(), function ($query){
                 if (Inquiry::userCanViewAllDepartment()){
