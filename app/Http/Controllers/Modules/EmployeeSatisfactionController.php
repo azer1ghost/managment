@@ -55,6 +55,7 @@ class EmployeeSatisfactionController extends Controller
     {
         $validated = $request->validated();
         $validated['user_id'] = auth()->id();
+        $validated['status'] = 1;
 
         $employeeSatisfaction = EmployeeSatisfaction::create($validated);
 
