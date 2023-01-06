@@ -35,8 +35,7 @@ class ChangeController extends Controller
             'action' => route('changes.store'),
             'method' => 'POST',
             'data' => new Change(),
-            'users' => User::get(['id', 'name', 'surname']),
-            'responsible' => User::get(['id', 'name', 'surname']),
+            'users' =>User::isActive()->get(['id', 'name', 'surname']),
             'departments' => Department::get(['id', 'name']),
         ]);
     }
@@ -56,8 +55,7 @@ class ChangeController extends Controller
             'action' => null,
             'method' => null,
             'data' => $change,
-            'users' => User::get(['id', 'name', 'surname']),
-            'responsible' => User::get(['id', 'name', 'surname']),
+            'users' =>User::isActive()->get(['id', 'name', 'surname']),
             'departments' => Department::get(['id', 'name']),
         ]);
     }
@@ -68,8 +66,7 @@ class ChangeController extends Controller
             'action' => route('changes.update', $change),
             'method' => 'PUT',
             'data' => $change,
-            'users' => User::get(['id', 'name', 'surname']),
-            'responsible' => User::get(['id', 'name', 'surname']),
+            'users' =>User::isActive()->get(['id', 'name', 'surname']),
             'departments' => Department::get(['id', 'name']),
         ]);
     }
