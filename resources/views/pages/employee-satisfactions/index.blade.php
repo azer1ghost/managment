@@ -13,7 +13,7 @@
     </x-bread-crumb>
     <form action="{{route('employee-satisfaction.index')}}">
         <div class="row d-flex justify-content-between">
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
                 <label for="type">@lang('translates.employee_satisfactions.satisfaction_types')</label>
                 <select class="form-control" id="type" name="type" style="width: 100% !important;">
                     <option value="">@lang('translates.filters.select')</option>
@@ -22,7 +22,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
                 <label for="status">@lang('translates.columns.status')</label>
                 <select class="form-control" id="status" name="status" style="width: 100% !important;">
                     <option value="">@lang('translates.filters.select')</option>
@@ -31,7 +31,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
                 <label for="limit">@lang('translates.fields.count')</label>
                 <select name="limit" id="limit" class="custom-select">
                     @foreach([25, 50, 100] as $size)
