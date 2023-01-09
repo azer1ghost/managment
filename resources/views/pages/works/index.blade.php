@@ -72,14 +72,12 @@
                                 <label class="d-block" for="userFilter">{{__('translates.general.user_select')}}</label>
                                 <select id="userFilter" class="select2"
                                         name="user_id"
-                                        data-width="fit" title="{{__('translates.filters.select')}}"
-                                >
+                                        data-width="fit" title="{{__('translates.filters.select')}}">
                                     <option value="">@lang('translates.filters.select')</option>
                                     @foreach($users as $user)
                                         <option
-                                                @if($user->getAttribute('id') == $filters['user_id']) selected @endif
-                                        value="{{$user->getAttribute('id')}}"
-                                        >
+                                            @if($user->getAttribute('id') == $filters['user_id']) selected @endif
+                                                value="{{$user->getAttribute('id')}}">
                                             {{$user->getAttribute('fullname_with_position')}}
                                         </option>
                                     @endforeach
@@ -89,15 +87,18 @@
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="serviceFilter">{{__('translates.general.select_service')}}</label>
-                            <select id="serviceFilter" class="select2"
-                                    name="service_id"
-                                    data-width="fit" title="{{__('translates.filters.select')}}">
+                            <select id="serviceFilter" multiple
+                                    class="select2 js-example-theme-multiple"
+                                    name="service_id[]"
+                                    data-width="fit"
+                                    title="{{__('translates.filters.select')}}">
                                 <option value="">@lang('translates.filters.select')</option>
                                 @foreach($services as $service)
                                     <option
-                                            @if($service->getAttribute('id') == $filters['service_id']) selected @endif
-                                    value="{{$service->getAttribute('id')}}"
-                                    >
+                                            @if($filters['service_id'])
+                                            @if(in_array($service->getAttribute('id'), $filters['service_id'])) selected @endif
+                                    @endif
+                                    value="{{$service->getAttribute('id')}}">
                                         {{$service->getAttribute('name')}}
                                     </option>
                                 @endforeach
@@ -492,7 +493,7 @@
                                     @endforeach
                                 @endif
                                 <td title="{{$work->getAttribute('payment_method')}}" data-toggle="tooltip">{{trans('translates.payment_methods.' . $work->getAttribute('payment_method'))}}</td>
-                                <td title="{{$work->getAttribute('created_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('created_at'))->diffForHumans()}}</td>
+                                <td title="{{optional($work->getAttribute('created_at'))->diffForHumans()}}" data-toggle="tooltip">{{$work->getAttribute('created_at')}}</td>
                                 <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip">{{optional($work->getAttribute('datetime'))->format('Y-m-d')}}</td>
                                 <td title="{{$work->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
                                 <td title="{{$work->getAttribute('invoiced_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
@@ -791,5 +792,9 @@
             url: "{{ route('editable') }}",
         });
     </script>
-
+    <script>
+        $(".js-example-theme-multiple").select2({
+            theme: "classic"
+        });
+    </script>
     @endsection

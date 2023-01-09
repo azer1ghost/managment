@@ -22,10 +22,13 @@
                             <input value="{{optional($data)->getAttribute('code')}}" type="text" name="code" id="invoice" class="form-control" placeholder="E-qaimə nömrəsi daxil edin">
                         </div>
                     @endif
-                    <div class="form-group col-12 col-md-3">
-                        <label for="declaration_no">Sorğu nömrəsi</label>
-                        <input value="{{optional($data)->getAttribute('declaration_no')}}" type="text" name="declaration_no" id="declaration_no" class="form-control" placeholder="Sorğu nömrəsi daxil edin">
-                    </div>
+                        @php($service_id = \App\Models\Service::find($selected['service_id'])->id)
+                    @if(in_array($service_id, [1,2,14,16,17,18,19,20,21,22,23,26,27,29,30,15]))
+                        <div class="form-group col-12 col-md-3">
+                            <label for="declaration_no">Sorğu nömrəsi</label>
+                            <input value="{{optional($data)->getAttribute('declaration_no')}}" type="text" name="declaration_no" id="declaration_no" class="form-control" placeholder="Sorğu nömrəsi daxil edin" @if(!auth()->user()->hasPermission('canRedirect-work') && $data->getAttribute('status') > 1) required @endif>
+                        </div>
+                    @endif
                     <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
                     <div class="d-flex align-items-center">
@@ -72,8 +75,7 @@
                         <select name="service_id" id="data-service_id" class="form-control">
                             @foreach($this->subServices as $service)
                                 <option @if(optional($data)->getAttribute('service_id') === $service->id ) selected @endif
-                                value="{{ $service->getAttribute('id') }}"
-                                >
+                                value="{{ $service->getAttribute('id') }}">
                                     {{ $service->getAttribute('name') }}
                                 </option>
                             @endforeach

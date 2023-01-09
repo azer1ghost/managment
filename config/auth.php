@@ -33,7 +33,7 @@ return [
         'viewAll-client', 'viewAny-client', 'view-client', 'create-client', 'update-client', 'delete-client', 'forceDelete-client', 'restore-client', 'canUploadContract-client', 'canAssignUsers-client', 'canExport-client', 'satisfactionMeasure-client',
         'viewAny-customerEngagement', 'view-customerEngagement', 'manage-customerEngagement', 'delete-customerEngagement',
         'viewAny-company', 'view-company', 'create-company', 'update-company', 'delete-company',
-        'viewAny-change', 'view-change', 'create-change', 'update-change', 'delete-change',
+        'viewAny-change', 'view-change', 'manage-change', 'delete-change',
         'viewAny-conference', 'view-conference', 'manage-conference',
         'viewAny-department', 'view-department', 'manage-department',
         'viewAny-document', 'view-document', 'create-document', 'update-document', 'delete-document',
