@@ -98,7 +98,7 @@
                                                 <tbody>
                                                 <tr>
                                                     <td colspan="2">
-                                                        <div class="node"><a href="{{route('getInstruction',2)}}">Qafar Qafarzadə</a>
+                                                        <div class="node"><a href="{{route('getInstruction',26)}}">Qafar Qafarzadə</a>
                                                         </div>
                                                     </td>
                                                 </tr>
