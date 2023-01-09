@@ -184,6 +184,7 @@ Route::group([
     Route::view('/statement','pages.statements.statements' )->name('statement');
     Route::view('/statement','pages.statements.statements' )->name('statement');
     Route::post('/markAsRead', [StatementController::class, 'markAsRead'])->name('mark-as-read');
+    Route::get('/jobInstruction/{id}', [JobInstructionController::class, 'getInstruction'])->name('getInstruction');
 
     // resultable routes
     Route::post('/results/{modelId}', [ResultController::class, 'store'])->name('results.store');

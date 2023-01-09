@@ -29,6 +29,8 @@
 
     <link href="{{ mix('assets/css/app.css') }}" rel="stylesheet">
 
+    <link rel="stylesheet" href="{{asset('assets/css/jquery.orgchart.css')}}">
+
     @yield('style')
     @stack('style')
     @livewireStyles

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Department;
 use App\Models\JobInstruction;
 use App\Models\User;
+use http\Client\Request;
 
 class JobInstructionController extends Controller
 {
@@ -16,15 +17,16 @@ class JobInstructionController extends Controller
         $this->authorizeResource(JobInstruction::class, 'job_instruction');
     }
 
-    public function index()
+    public function index($id)
     {
-        if (auth()->user()->hasPermission('viewAll-jobInstruction') || auth()->user()->isDeveloper() || auth()->user()->isDirector()) {
-            $jobInstructions = JobInstruction::orderBy('ordering')->paginate();
-        } elseif (auth()->user()->hasPermission('viewAllDepartment-jobInstruction')) {
-            $jobInstructions = JobInstruction::where('department_id', auth()->user()->getAttribute('department_id'))->orderBy('ordering')->paginate();
-        } else {
-            $jobInstructions = JobInstruction::where('user_id', auth()->id())->orderBy('ordering')->paginate();
-        }
+//        if (auth()->user()->hasPermission('viewAll-jobInstruction') || auth()->user()->isDeveloper() || auth()->user()->isDirector()) {
+//            $jobInstructions = JobInstruction::orderBy('ordering')->get();
+//        } elseif (auth()->user()->hasPermission('viewAllDepartment-jobInstruction')) {
+//            $jobInstructions = JobInstruction::where('department_id', auth()->user()->getAttribute('department_id'))->orderBy('ordering')->paginate();
+//        } else {
+//            $jobInstructions = JobInstruction::where('user_id', auth()->id())->orderBy('ordering')->paginate();
+//        }
+        $jobInstructions = JobInstruction::where('user_id',$id)->first();
         return view('pages.job-instructions.index')
             ->with(['jobInstructions' => $jobInstructions
             ]);
@@ -87,5 +89,13 @@ class JobInstructionController extends Controller
             return response('OK');
         }
         return response()->setStatusCode('204');
+    }
+
+    public function getInstruction($id)
+    {
+        $jobInstructions = JobInstruction::where('user_id',$id)->first();
+        return view('pages.job-instructions.index')
+            ->with(['jobInstructions' => $jobInstructions
+            ]);
     }
 }
