@@ -8,7 +8,7 @@
             <tbody>
             <tr>
                 <td colspan="2">
-                    <div style="background-color: #0A1549 !important;" class="node"><a href="{{route('getInstruction', 15)}}">Vüsal Xəlilov</a>
+                    <div style="background-color: #0A1549 !important;" class="node"><a href="#">Vüsal Xəlilov</a>
                     </div>
                 </td>
             </tr>
@@ -34,7 +34,7 @@
                         <tbody>
                         <tr>
                             <td colspan="2">
-                                <div class="node"><a href="{{route('getInstruction', 94)}}">Fərhad İbrahimli</a>
+                                <div class="node"><a href="#">Fərhad İbrahimli</a>
                                 </div>
                             </td>
                         </tr>
@@ -60,7 +60,7 @@
                                     <tbody>
                                     <tr>
                                         <td colspan="14">
-                                            <div class="node"><a href="{{route('getInstruction', 123)}}">Zeynəb Mustafayeva</a>
+                                            <div class="node"><a href="#">Zeynəb Mustafayeva</a>
                                             </div>
                                         </td>
                                     </tr>
@@ -168,7 +168,7 @@
                                                             <tr>
                                                                 <td colspan="2">
                                                                     <div class="node">
-                                                                        <a href="{{route('getInstruction', 111)}}">PR üzrə mütəxəssis</a>
+                                                                        <a href="#">PR üzrə mütəxəssis</a>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -194,7 +194,7 @@
                                                                         <tbody>
                                                                         <tr>
                                                                             <td colspan="2">
-                                                                                <div class="node"><a href="{{route('getInstruction', 37)}}">Marketing üzrə mütəxəssis</a>
+                                                                                <div class="node"><a href="#">Marketing üzrə mütəxəssis</a>
                                                                                 </div>
                                                                             </td>
                                                                         </tr>
@@ -223,7 +223,7 @@
                                                                                     <tr>
                                                                                         <td colspan="2">
                                                                                             <div class="node">
-                                                                                                <a href="{{route('getInstruction', 11)}}">Dizayner</a>
+                                                                                                <a href="#">Dizayner</a>
                                                                                             </div>
                                                                                         </td>
                                                                                     </tr>
@@ -353,7 +353,7 @@
                                                 <tbody>
                                                 <tr>
                                                     <td colspan="2">
-                                                        <div class="node" style="background-color: #0A1549 !important;"><a href="{{route('getInstruction', 129)}}">Alişan Cəlilov</a>
+                                                        <div class="node" style="background-color: #0A1549 !important;"><a href="#">Alişan Cəlilov</a>
                                                         </div>
                                                     </td>
                                                 </tr>
