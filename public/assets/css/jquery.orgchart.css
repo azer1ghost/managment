@@ -3,6 +3,7 @@ div.orgChart {
   margin : 10px;
   padding : 20px;
   zoom: 0.8;
+  overflow-x: scroll;
 }
 
 div.orgChart h2 {
