@@ -14,6 +14,9 @@
             background-color: #eeeeee;
             font-size: 13px;
         }
+        .table{
+            overflow-x: scroll;
+        }
     </style>
 @endsection
 
@@ -278,7 +281,7 @@
             </div>
         </div>
     @endif
-    <table class="table table-condensedtable-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;"  id="table">
+    <table class="table table-condensed-table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;"  id="table">
         <thead>
         <tr class="text-center">
             @if(auth()->user()->hasPermission('canVerify-work'))
