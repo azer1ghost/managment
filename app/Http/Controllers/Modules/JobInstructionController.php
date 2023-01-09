@@ -17,16 +17,9 @@ class JobInstructionController extends Controller
         $this->authorizeResource(JobInstruction::class, 'job_instruction');
     }
 
-    public function index($id)
+    public function index()
     {
-//        if (auth()->user()->hasPermission('viewAll-jobInstruction') || auth()->user()->isDeveloper() || auth()->user()->isDirector()) {
-//            $jobInstructions = JobInstruction::orderBy('ordering')->get();
-//        } elseif (auth()->user()->hasPermission('viewAllDepartment-jobInstruction')) {
-//            $jobInstructions = JobInstruction::where('department_id', auth()->user()->getAttribute('department_id'))->orderBy('ordering')->paginate();
-//        } else {
-//            $jobInstructions = JobInstruction::where('user_id', auth()->id())->orderBy('ordering')->paginate();
-//        }
-        $jobInstructions = JobInstruction::where('user_id',$id)->first();
+        $jobInstructions = JobInstruction::where('user_id',auth()->id())->first();
         return view('pages.job-instructions.index')
             ->with(['jobInstructions' => $jobInstructions
             ]);
