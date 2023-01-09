@@ -639,7 +639,7 @@
                                                                                                             <tr>
                                                                                                                 <td colspan="2">
                                                                                                                     <div class="node">
-                                                                                                                        <a href="{{route('getInstruction', 139)}}">Broker</a>
+                                                                                                                        <a href="#">Broker</a>
                                                                                                                     </div>
                                                                                                                 </td>
                                                                                                             </tr>
@@ -1253,7 +1253,7 @@
                                                                                                             <tr>
                                                                                                                 <td colspan="2">
                                                                                                                     <div class="node">
-                                                                                                                        <a href="{{route('getInstruction', 59)}}">Broker</a>
+                                                                                                                        <a href="#">Broker</a>
                                                                                                                     </div>
                                                                                                                 </td>
                                                                                                             </tr>
