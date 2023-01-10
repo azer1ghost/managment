@@ -25,7 +25,7 @@
                 <div class="row">
                     <x-input::text name="name" :label="trans('translates.columns.name')" :value="$data->getAttribute('name')" width="6" class="pr-3"/>
                     <x-input::text name="phone" :label="trans('translates.columns.phone')" :value="$data->getAttribute('phone')" width="6" class="pr-2" />
-                    <x-input::textarea name="note" :label="trans('translates.fields.note')" :value="$data->getAttribute('note')" width="6" class="pr-2" />
+                    <x-input::textarea name="note" :label="trans('translates.navbar.company')" :value="$data->getAttribute('note')" width="6" class="pr-2" />
                 </div>
             </div>
         </div>

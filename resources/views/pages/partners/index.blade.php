@@ -43,7 +43,7 @@
                         <th scope="col">#</th>
                         <th scope="col">@lang('translates.columns.name')</th>
                         <th scope="col">@lang('translates.columns.phone')</th>
-                        <th scope="col">@lang('translates.fields.note')</th>
+                        <th scope="col">@lang('translates.navbar.company')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
