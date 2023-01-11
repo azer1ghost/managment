@@ -32,7 +32,19 @@
                         </option>
                     @endforeach
                 </select>
-            </div><div class="form-group col-md-4">
+            </div>
+            <div class="form-group col-md-4">
+                <select name="partner" id="userFilter" class="form-control" style="width: 100% !important;">
+                    <option value="">@lang('translates.general.partner_select')</option>
+                    @foreach($partners as $partner)
+                        <option value="{{$partner->getAttribute('id')}}"
+                                @if($partner->getAttribute('id') == request()->get('partner')) selected @endif>
+                            {{$partner->getAttribute('name')}}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group col-md-4">
                 <select name="executant" id="userFilter" class="form-control" style="width: 100% !important;">
                     <option value="">@lang('translates.columns.executant')</option>
                     @foreach($users as $user)

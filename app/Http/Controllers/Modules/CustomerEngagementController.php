@@ -24,6 +24,7 @@ class CustomerEngagementController extends Controller
         $limit = $request->get('limit', 25);
         $search = $request->get('search');
         $user = $request->get('user');
+        $partner = $request->get('partner');
         $executant = $request->get('executant');
 
         return view('pages.customer-engagements.index')
@@ -34,10 +35,12 @@ class CustomerEngagementController extends Controller
                         ->orWhereHas('client',fn($q) => $q->where('fullname', 'like', "%$search%"))
                         ->orWhereHas('partner',fn($q) => $q->where('name', 'like', "%$search%")))
                     ->when($user, fn ($q) => $q->where('user_id', $user))
+                    ->when($partner, fn ($q) => $q->where('partner_id', $partner))
                     ->when($executant, fn ($q) => $q->where('executant', $executant))
                     ->latest('id')
                     ->paginate($limit),
-                'users' => User::isActive()->get(['id', 'name', 'surname'])
+                'users' => User::isActive()->get(['id', 'name', 'surname']),
+                'partners' => Partner::get(['id', 'name',])
             ]);
     }
 
