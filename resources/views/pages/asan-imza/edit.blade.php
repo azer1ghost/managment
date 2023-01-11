@@ -24,6 +24,7 @@
             <div class="form-group col-6">
                 <label for="company_id">@lang('translates.fields.company')</label><br/>
                 <select class="form-control" name="company_id" id="company_id" data-width="fit">
+                    <option value="">@lang('translates.filters.select')</option>
                     @foreach($companies as $company)
                         <option @if($data->getAttribute('company_id') == $company->id) selected @endif value="{{$company->id}}">{{$company->name}}</option>
                     @endforeach
@@ -32,7 +33,8 @@
             <div class="form-group col-6">
                 <label for="department_id">@lang('translates.fields.department')</label><br/>
                 <select class="form-control" name="department_id" id="department_id" data-width="fit">
-                    @foreach($departments as $department)
+                    <option value="">@lang('translates.general.department_select')</option>
+                     @foreach($departments as $department)
                         <option @if($data->getAttribute('department_id') == $department->id) selected @endif value="{{$department->id}}">{{$department->name}}</option>
                     @endforeach
                 </select>
@@ -41,6 +43,7 @@
             <div class="form-group col-6">
                 <label for="user_id">@lang('translates.columns.user')</label><br/>
                 <select class="select2 form-control" name="user_id" id="user_id">
+                    <option value="">@lang('translates.general.user_select')</option>
                     @foreach($users as $user)
                         <option @if($data->getAttribute('user_id') == $user->id) selected @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
                     @endforeach
