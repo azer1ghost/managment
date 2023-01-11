@@ -29,7 +29,7 @@ class DepartmentController extends Controller
         return view('pages.departments.index')
             ->with([
                 'departments' => Department::query()
-                    ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"))
+                    ->when($search, fn ($query) => $query->where('name', 'like', "%".$search."%")->orWhere('name', 'like', "%".$search."%"))
                     ->orderBy('ordering')
                     ->simplePaginate($limit),
             ]);

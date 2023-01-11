@@ -165,14 +165,19 @@
             <x-form-group  class="pr-3 col-12 col-lg-6" :label="trans('translates.fields.address2')" >
                 <x-form-input name="address2"/>
             </x-form-group>
-
+            <div class="custom-control custom-switch mb-3">
+                <input type="checkbox" name="send_sms" class="custom-control-input" id="send_sms" @if($data->getAttribute('send_sms') || $method == 'POST' ) checked @endif>
+                <label class="custom-control-label" for="send_sms">@lang('translates.buttons.send_sms')</label>
+            </div>
         </div>
+
         <div class="input-group col-6 mb-3">
             <div class="custom-file">
                 <label class="custom-file-label" id="protocol-label" for="protocol">@lang('translates.placeholders.choose_file')</label>
                 <input type="file" value="{{$data->getAttribute('protocol')}}" name="protocol" class="custom-file-input" id="protocol">
             </div>
         </div>
+
         @if(!is_null($data->getAttribute('protocol')))
             <div class="card-body col-6 col p-0">
                 <a class=" py-2 d-flex align-items-center list-group-item text-black" href="{{route('protocol.download', $data)}}">
@@ -180,7 +185,7 @@
                     <span>{{$data->getAttribute('document_type')}} Qiymət protokolu</span>
                 </a>
             </div>
-       @endif
+        @endif
 
         @if($action)
             <x-input::submit/>

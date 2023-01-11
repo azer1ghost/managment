@@ -163,6 +163,8 @@ return [
         'export' => 'Export',
         'execute' => 'Execute',
         'show' => 'Show',
+        'send_sms' => 'Send Sms',
+
     ],
 
     'sum' => 'Collective',

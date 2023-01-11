@@ -73,7 +73,7 @@ class AsanImzaController extends Controller
                 'data' => new AsanImza(),
                 'companies' => Company::get(['id', 'name']),
                 'departments' => Department::get(['id', 'name']),
-                'users' => User::get(['id', 'name', 'surname', 'position_id', 'role_id']),
+                'users' => User::isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']),
             ]);
     }
 
@@ -82,7 +82,6 @@ class AsanImzaController extends Controller
         $validated = $request->validated();
         $validated['is_active'] = $request->has('is_active');
         $asanImza = AsanImza::create($validated);
-
 
         return redirect()
             ->route('asan-imza.index')
@@ -111,7 +110,7 @@ class AsanImzaController extends Controller
                 'data' => $asanImza,
                 'companies' => Company::get(['id', 'name']),
                 'departments' => Department::get(['id', 'name']),
-                'users' => User::get(['id', 'name', 'surname', 'position_id', 'role_id']),
+                'users' => User::isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']),
             ]);
     }
 

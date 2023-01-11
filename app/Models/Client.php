@@ -37,6 +37,7 @@ class Client extends Model implements DocumentableInterface, Recordable
         'voen',
         'position',
         'type',
+        'send_sms',
         'detail',
         'protocol',
         'document_type',

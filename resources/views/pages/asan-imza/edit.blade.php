@@ -30,7 +30,7 @@
                 </select>
             </div>
             <div class="form-group col-6">
-                <label for="department_id">@lang('translates.fields.company')</label><br/>
+                <label for="department_id">@lang('translates.fields.department')</label><br/>
                 <select class="form-control" name="department_id" id="department_id" data-width="fit">
                     @foreach($departments as $department)
                         <option @if($data->getAttribute('department_id') == $department->id) selected @endif value="{{$department->id}}">{{$department->name}}</option>

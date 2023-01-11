@@ -165,6 +165,7 @@ return [
         'execute' => 'Icra et',
         'export' => 'İxrac et',
         'show' => 'Göstər',
+        'send_sms' => 'SMS Göndər',
     ],
 
     'sum' => 'Toplu',

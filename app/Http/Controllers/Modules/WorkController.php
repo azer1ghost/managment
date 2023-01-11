@@ -188,7 +188,7 @@ class WorkController extends Controller
         $replace = array('C','c','G','g','i','I','O','o','S','s','U','u','E','e');
         $serviceName = str_replace($search,$replace,$serviceText);
         $clientName = str_replace($search,$replace,$clientText);
-        if (!empty($client->getAttribute('phone1'))) {
+        if (!empty($client->getAttribute('phone1') && $client->getAttribute('send_sms') == 1)) {
                 if ($request->status == 3) {
                     $message = 'Deyerli ' . $clientName . ' sizin ' . $serviceName . ' uzre isiniz tamamlandi. ' . $work->getAttribute('created_at')->format('d/m/y') . ' https://wf.qmeter.net/LLbJKa -linke kecid ederek xidmeti keyfiyyetini deyerlendirmeyinizi xahis edirik!';
                     (new NotifyClientSms($message))->toSms($client)->send();

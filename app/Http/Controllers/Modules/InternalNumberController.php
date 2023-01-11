@@ -20,19 +20,29 @@ class InternalNumberController extends Controller
     {
         $search = $request->get('search');
         return view('pages.internal_numbers.index')
-            ->with([
-                'internalNumbers' => InternalNumber::when($search, fn ($query) => $query
-                    ->where('name', 'like', "%".$search."%")
-                    ->orWhere('phone', 'like', "%".$search."%")
+            ->with([ 'internalNumbers' => InternalNumber::with('users')->when($search, fn ($query) => $query
+                    ->whereHas('users',fn($q) => $q->where('name', 'like', "%$search%"))
+                    ->orwhere('name', 'like', "%".$search."%")
+                    ->orwhereHas('users',fn($q) => $q->where('phone', 'like', "%$search%"))
                     ->orWhere('detail', 'like', "%".$search."%"))
-                    ->paginate(25)]);
+                    ->paginate(25)
+            ]);
     }
-    public function cooperative()
+    public function cooperative(Request $request)
     {
-        return view('pages.cooperative-numbers.index')
-            ->with([ 'cooperativeNumbers' => User::isActive()->where('is_partner', 0)->orderBy('order')
-                ->get()]);
+        $search = $request->get('search');
 
+        return view('pages.cooperative-numbers.index')
+            ->with([ 'cooperativeNumbers' => User::isActive()
+                ->where('is_partner', 0)
+                ->when($search, fn ($query) => $query
+                ->where('name', 'like', "%".$search."%")
+                ->orWhere('surname', 'like', "%".$search."%")
+                ->orWhere('phone', 'like', "%".$search."%")
+                ->orWhere('email', 'like', "%".$search."%"))
+                ->orderBy('order')
+                ->get()
+            ]);
     }
 
     public function create()

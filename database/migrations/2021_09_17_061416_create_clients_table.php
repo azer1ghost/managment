@@ -29,6 +29,7 @@ class CreateClientsTable extends Migration
             $table->string('protocol')->nullable();
             $table->string('document_type')->nullable();
             $table->boolean('type')->nullable();
+            $table->boolean('send_sms')->nullable()->default(1);
             $table->text('detail')->nullable();
             $table->string('position')->nullable();
             $table->integer('satisfaction')->nullable()->default(3);

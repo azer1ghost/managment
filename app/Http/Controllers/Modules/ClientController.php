@@ -117,6 +117,8 @@ class ClientController extends Controller
     {
         $validated = $request->validated();
         $validated['user_id'] = auth()->id();
+        $validated['send_sms'] = $request->has('send_sms');
+
         if ($request->file('protocol')) {
             $protocol = $request->file('protocol');
             $document_type = $request->get('fullname').'-'.time(). '.' .$protocol->getClientOriginalExtension();
@@ -167,6 +169,7 @@ class ClientController extends Controller
     public function update(ClientRequest $request, Client $client)
     {
         $validated = $request->validated();
+        $validated['send_sms'] = $request->has('send_sms');
 
         if ($request->file('protocol')) {
             $protocol = $request->file('protocol');
