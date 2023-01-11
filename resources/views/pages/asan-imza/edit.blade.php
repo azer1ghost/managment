@@ -49,7 +49,6 @@
                     @endforeach
                 </select>
             </div>
-
             <x-input::text  name="phone"    :label="__('translates.fields.phone')"   :value="$data->getAttribute('phone')"    width="6"/>
             <x-input::text  name="asan_id"   label="Asan ID"    :value="$data->getAttribute('asan_id')"    width="6"/>
             <x-input::text  name="pin1"   label="Pin 1"    :value="$data->getAttribute('pin1')"    width="6"/>
@@ -60,8 +59,8 @@
             <label class="custom-control-label" for="is_active">@lang('translates.users.statuses.active')</label>
         </div>
         @if($action)
-                <x-input::submit :value="__('translates.buttons.save')"/>
-         @endif
+            <x-input::submit :value="__('translates.buttons.save')"/>
+        @endif
     </form>
 @endsection
 
