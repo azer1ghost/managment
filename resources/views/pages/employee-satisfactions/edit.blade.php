@@ -24,7 +24,7 @@
             @if((request()->get('type') == '3' || $data->getAttribute('type') == 3))
                 <div class="row mr-0">
                         <div class="form-group col-md-6">
-                            <label for="employee">@lang('translates.filters.subject')</label>
+                            <label for="employee">@lang('translates.columns.user')</label>
                             <select class="form-control" name="employee" title="@lang('translates.filters.select')">
                             <option value=""> @lang('translates.general.user_select') </option>
                                 @foreach($users as $user)
@@ -34,7 +34,17 @@
                                 @endforeach
                             </select>
                         </div>
-                    <x-input::select name="department_id" :label="trans('translates.fields.department')" :value="$data->getAttribute('department_id')" width="6" :options="$departments" />
+                    <div class="form-group col-md-6">
+                        <label for="department_id">@lang('translates.fields.department')</label>
+                        <select class="form-control" name="department_id">
+                        <option value=""> @lang('translates.general.department_select') </option>
+                            @foreach($departments as $department)
+                                <option
+                                    @if($department->getAttribute('id') == $data->getAttribute('department_id')) selected @endif value="{{$department->getAttribute('id')}}"> {{$department->getAttribute('name')}}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
             @endif
         @if((request()->get('type') == '3' || $data->getAttribute('type') == 3))
