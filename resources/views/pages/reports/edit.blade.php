@@ -22,11 +22,11 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
     @if($method == null)
-        @can('updateSubReport', $data)
+{{--        @can('updateSubReport', $data)--}}
             <div class="col-12 my-3 pl-0">
                 <a class="btn btn-outline-success" href="{{route('reports.sub.edit', $data)}}">@lang('translates.tasks.edit')</a>
             </div>
-        @endcan
+{{--        @endcan--}}
     @endif
     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
         @method($method) @csrf
