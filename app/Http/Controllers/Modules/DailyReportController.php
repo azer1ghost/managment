@@ -12,11 +12,11 @@ use Carbon\Carbon;
 
 class DailyReportController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->authorizeResource(DailyReport::class, 'report');
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('auth');
+//        $this->authorizeResource(DailyReport::class, 'report');
+//    }
 
     /* Custom policies to extend default resource policies */
     protected function resourceAbilityMap()
