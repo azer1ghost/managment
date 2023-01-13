@@ -32,10 +32,14 @@ class EmployeeSatisfactionController extends Controller
                 'employee_satisfactions' =>$employeeSatisfaction
                     ->when($status, fn ($q) => $q->where('status', $status))
                     ->when($type, fn ($q) => $q->where('type', $type))
+                    ->latest('created_at')
                     ->paginate($limit),
                 'types' => EmployeeSatisfaction::types(),
                 'statuses' => EmployeeSatisfaction::statuses()
+
+
             ]);
+
     }
 
     public function create()

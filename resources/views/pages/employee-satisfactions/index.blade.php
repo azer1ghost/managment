@@ -53,6 +53,7 @@
                     <th scope="col">@lang('translates.columns.type')</th>
                     <th scope="col">@lang('translates.columns.status')</th>
                     <th scope="col">@lang('translates.employee_satisfactions.effectivity')</th>
+                    <th scope="col">@lang('translates.fields.created_at')</th>
                     <th scope="col">@lang('translates.parameters.types.operation')</th>
                 </tr>
                 </thead>
@@ -74,6 +75,7 @@
                                 <div class="progress-bar" role="progressbar" style="width: {{$employee_satisfaction->getAttribute('effectivity')}}%" aria-valuenow="{{$employee_satisfaction->getAttribute('effectivity')}}" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </td>
+                        <td>{{$employee_satisfaction->getAttribute('created_at')}}</td>
                         <td>
                             <div class="btn-sm-group">
                                 @can('view', $employee_satisfaction)
