@@ -18,6 +18,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\CompanyController,
     Modules\ConferenceController,
     Modules\CustomerEngagementController,
+    Modules\CustomerSatisfactionController,
     Modules\DailyReportController,
     Modules\DatabaseNotificationController,
     Modules\DepartmentController,
@@ -139,6 +140,7 @@ Route::group([
     Route::resource('/referrals', ReferralController::class)->except('create');
     Route::resource('/updates', UpdateController::class);
     Route::resource('/services', ServiceController::class);
+    Route::resource('/customer-satisfactions', CustomerSatisfactionController::class);
 
     Route::put('/works/sum/verify', [WorkController::class, 'sumVerify'])->name('works.sum.verify');
     Route::put('/works/{work}/verify', [WorkController::class, 'verify'])->name('works.verify');
