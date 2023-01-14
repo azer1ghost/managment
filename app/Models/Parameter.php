@@ -78,7 +78,7 @@ class Parameter extends Model implements Recordable
 
     public function satisfactions(): BelongsToMany
     {
-        return $this->belongsToMany(CustomerSatisfaction::class, 'customer_satisfaction_parameter')->withPivot('ordering');
+        return $this->belongsToMany(Satisfaction::class, 'satisfaction_parameter')->withPivot('ordering');
     }
 
     public function works(): BelongsToMany

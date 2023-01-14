@@ -24,7 +24,7 @@
             </div>
             @can('create', App\Models\Service::class)
                 <div class="col-3">
-                    <a class="btn btn-outline-success float-right" href="{{route('customer-satisfactions.create')}}">@lang('translates.buttons.create')</a>
+                    <a class="btn btn-outline-success float-right" href="{{route('satisfactions.create')}}">@lang('translates.buttons.create')</a>
                 </div>
             @endcan
             <div class="col-12">
@@ -39,7 +39,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @forelse($customerSatisfactions as $service)
+                    @forelse($satisfactions as $service)
                         <tr>
                             <th scope="row">{{$loop->iteration}}.</th>
                             <td>{{$service->getRelationValue('company')->getAttribute('name')}}</td>

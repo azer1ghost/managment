@@ -45,7 +45,7 @@
             </div>
         </div>
         @if(!is_null($data) && auth()->user()->isDeveloper())
-            <livewire:customer-satisfaction-parameter :data="$data" :action="$action"/>
+            <livewire:satisfaction-parameter :data="$data" :action="$action"/>
         @endif
         @if($action)
             <x-input::submit :value="__('translates.buttons.save')"/>

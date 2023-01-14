@@ -43,6 +43,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\SalesActivityTypeController,
     Modules\SalesClientController,
     Modules\SalesInquiryController,
+    Modules\SatisfactionController,
     Modules\ServiceController,
     Modules\SignatureController,
     Modules\StatementController,
@@ -140,7 +141,8 @@ Route::group([
     Route::resource('/referrals', ReferralController::class)->except('create');
     Route::resource('/updates', UpdateController::class);
     Route::resource('/services', ServiceController::class);
-    Route::resource('/customer-satisfactions', CustomerSatisfactionController::class);
+    Route::resource('/satisfactions', SatisfactionController::class);
+//    Route::resource('/satisfactions', CustomerSatisfactionController::class);
 
     Route::put('/works/sum/verify', [WorkController::class, 'sumVerify'])->name('works.sum.verify');
     Route::put('/works/{work}/verify', [WorkController::class, 'verify'])->name('works.verify');

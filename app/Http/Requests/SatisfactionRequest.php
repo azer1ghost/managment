@@ -4,13 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CustomerSatisfactionRequest extends FormRequest
+class SatisfactionRequest extends FormRequest
 {
 
     public function rules()
     {
         return [
-            'service_id' => 'nullable|integer',
+            'company_id' => 'nullable',
+            'parameters' => 'nullable|array',
         ];
     }
 }

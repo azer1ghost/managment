@@ -1,6 +1,6 @@
 <div class="my-5">
     <div class="row">
-        @forelse($customerSatisfactionParameter as $index => $parameter)
+        @forelse($satisfactionParameter as $index => $parameter)
             <div class="col-12">
                 <hr class="m-1">
                 <div class="row d-flex align-items-center">

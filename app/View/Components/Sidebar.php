@@ -374,9 +374,9 @@ class Sidebar extends Component
                 'permission' => 'viewAny-service',
             ],
             (object)[
-                'title' => __('translates.navbar.customer_satisfaction'),
+                'title' => __('translates.navbar.satisfaction'),
                 'icon' => 'fas fa-concierge-bell',
-                'url' => route('customer-satisfactions.index'),
+                'url' => route('satisfactions.index'),
                 'permission' => 'viewAny-service',
             ],
 

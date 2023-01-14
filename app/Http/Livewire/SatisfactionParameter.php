@@ -2,20 +2,20 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\CustomerSatisfaction;
+use App\Models\Satisfaction;
 use App\Models\Parameter;
 use Livewire\Component;
 
-class CustomerSatisfactionParameter extends Component
+class SatisfactionParameter extends Component
 {
-    public CustomerSatisfaction $data;
-    public array  $customerSatisfactionParameter;
+    public Satisfaction $data;
+    public array  $satisfactionParameter;
     public array  $parameters;
     public ?string $action;
 
     public function mount()
     {
-        $this->customerSatisfactionParameter = $this->data->parameters()->get()->toArray() ?? [];
+        $this->satisfactionParameter = $this->data->parameters()->get()->toArray() ?? [];
         $this->parameters = Parameter::pluck('name', 'id')->toArray();
     }
 
@@ -25,20 +25,21 @@ class CustomerSatisfactionParameter extends Component
             "id" => null,
             'name' => null,
             'pivot' => [
-                'customer_satisfaction_id' => null,
+                'satisfaction_id' => null,
                 'parameter_id' => null,
+                'ordering' => null,
             ]
         ];
-        $this->customerSatisfactionParameter[] = $newArr;
+        $this->satisfactionParameter[] = $newArr;
     }
 
     public function removeParameter($index)
     {
-        unset($this->customerSatisfactionParameter[$index]);
+        unset($this->satisfactionParameter[$index]);
     }
 
     public function render()
     {
-        return view('pages.customer-satisfactions.components.service-parameter');
+        return view('pages.satisfactions.components.satisfaction-parameter');
     }
 }

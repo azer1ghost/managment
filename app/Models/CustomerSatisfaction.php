@@ -10,33 +10,12 @@ use Illuminate\Support\Facades\DB;
 
 class CustomerSatisfaction extends Model
 {
-    protected $fillable = ['company_id', 'is_active'];
+    protected $fillable = ['satisfaction_id'];
 
-    public function company(): BelongsTo
+    public function service(): BelongsTo
     {
-        return $this->belongsTo(Company::class)->withDefault();
+        return $this->belongsTo(Service::class)->withDefault();
     }
 
-    public function parameters(): BelongsToMany
-    {
-        return $this->belongsToMany(Parameter::class, 'customer_satisfaction_parameter', 'customer_satisfaction_id')->withPivot('ordering');
-    }
 
-    public static function customerSatisfactionParameters()
-    {
-        if (\Cache::has('customerSatisfactionParameters')) {
-            return \Cache::get('customerSatisfactionParameters');
-        }
-
-        return \Cache::rememberForever('customerSatisfactionParameters', function (){
-            $data = [];
-            foreach (collect(DB::table('customer_satisfaction_parameter')->select('parameter_id')->get())->unique('parameter_id')->toArray() as $param){
-                $data[] = [
-                    'data' => Parameter::findOrFail($param->parameter_id),
-                ];
-            }
-
-            return $data;
-        });
-    }
 }

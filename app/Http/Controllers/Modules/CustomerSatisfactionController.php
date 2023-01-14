@@ -12,15 +12,15 @@ use Illuminate\Http\Request;
 
 class CustomerSatisfactionController extends Controller
 {
-//    public function __construct()
-//    {
-//        $this->middleware('auth');
-//        $this->authorizeResource(CustomerSatisfaction::class, 'customerSatisfaction');
-//    }
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->authorizeResource(CustomerSatisfaction::class, 'customerSatisfaction');
+    }
 
     public function index(Request $request)
     {
-        return view('pages.customer-satisfactions.index')
+        return view('pages.satisfactions.index')
             ->with([
             'customerSatisfactions' => CustomerSatisfaction::with( 'company')->get()
         ]);
@@ -28,8 +28,8 @@ class CustomerSatisfactionController extends Controller
 
     public function create()
     {
-        return view('pages.customer-satisfactions.edit')->with([
-            'action' => route('customer-satisfactions.store'),
+        return view('pages.satisfactions.edit')->with([
+            'action' => route('satisfactions.store'),
             'method' => 'POST',
             'data' => new CustomerSatisfaction(),
             'companies' => Company::get(['id','name']),
@@ -44,13 +44,13 @@ class CustomerSatisfactionController extends Controller
         $customerSatisfaction = CustomerSatisfaction::create($validated);
 
         return redirect()
-            ->route('customer-satisfactions.edit', $customerSatisfaction)
+            ->route('satisfactions.edit', $customerSatisfaction)
             ->withNotify('success', $customerSatisfaction->getAttribute('name'));
     }
 
     public function show(CustomerSatisfaction $customerSatisfaction)
     {
-        return view('pages.customer-satisfactions.edit')->with([
+        return view('pages.satisfactions.edit')->with([
             'action' => null,
             'method' => null,
             'data' => $customerSatisfaction,
@@ -60,8 +60,8 @@ class CustomerSatisfactionController extends Controller
 
     public function edit(CustomerSatisfaction $customerSatisfaction)
     {
-        return view('pages.customer-satisfactions.edit')->with([
-            'action' => route('customer-satisfactions.update', $customerSatisfaction),
+        return view('pages.satisfactions.edit')->with([
+            'action' => route('satisfactions.update', $customerSatisfaction),
             'method' => 'PUT',
             'data' => $customerSatisfaction,
             'companies' => Company::get(['id','name']),
@@ -81,13 +81,12 @@ class CustomerSatisfactionController extends Controller
         foreach ($validated['parameters'] ?? [] as $parameter){
             $parameters[$parameter['id']] = [
                 'ordering' => $parameter['ordering'] ?? 0,
-
             ];
         }
         $customerSatisfaction->parameters()->sync($parameters);
 
         return redirect()
-            ->route('customer-satisfactions.edit', $customerSatisfaction)
+            ->route('satisfactions.edit', $customerSatisfaction)
             ->withNotify('success', $customerSatisfaction->getAttribute('id'));
     }
 

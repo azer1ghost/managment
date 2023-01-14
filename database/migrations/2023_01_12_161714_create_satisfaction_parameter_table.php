@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCustomerSatisfactionParameterTable extends Migration
+class CreateSatisfactionParameterTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateCustomerSatisfactionParameterTable extends Migration
      */
     public function up()
     {
-        Schema::create('customer_satisfaction_parameter', function (Blueprint $table) {
+        Schema::create('satisfaction_parameter', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_satisfaction_id')->nullable()->index()->constrained()->onDelete('CASCADE');
+            $table->foreignId('satisfaction_id')->nullable()->index()->constrained()->onDelete('CASCADE');
             $table->foreignId('parameter_id')->nullable()->index()->constrained()->onDelete('CASCADE');
             $table->integer('ordering')->nullable();
         });
@@ -28,6 +28,6 @@ class CreateCustomerSatisfactionParameterTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customer_satisfaction_parameter');
+        Schema::dropIfExists('satisfaction_parameter');
     }
 }

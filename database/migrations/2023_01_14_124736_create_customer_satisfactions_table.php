@@ -15,8 +15,7 @@ class CreateCustomerSatisfactionsTable extends Migration
     {
         Schema::create('customer_satisfactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->nullable()->constrained()->restrictOnDelete();
-            $table->boolean('is_active')->nullable()->default(1);
+            $table->foreignId('satisfaction_id')->constrained()->restrictOnDelete();
             $table->timestamps();
         });
     }
