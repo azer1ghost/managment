@@ -195,6 +195,7 @@ return [
         'notification' => 'Bildirişlər',
         'client' => 'Müştərilər',
         'referral' => 'Referrallar',
+        'reference' => 'Referans',
         'bonus' => 'Bonuslar',
         'update' => 'Yeniləmələr',
         'services' => 'Xidmətlər',

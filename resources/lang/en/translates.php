@@ -194,6 +194,7 @@ return [
         'notification' => 'Notifications',
         'client' => 'Clients',
         'referral' => 'Referrals',
+        'reference' => 'Referans',
         'bonus' => 'Bonuses',
         'update' => 'Updates',
         'services' => 'Services',
