@@ -36,7 +36,10 @@ class AsanImza extends Model implements Recordable
     {
         return $this->attributes['phone'] = phone_cleaner($value);
     }
-
+    public function scopeIsActive($query)
+    {
+        return $query->where('is_active', 1);
+    }
     public function getPhoneAttribute($value): ?string
     {
         return phone_formatter($value, true);

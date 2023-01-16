@@ -21,7 +21,7 @@ class AsanImzaController extends Controller
 
     public function searchUser(Request $request): object
     {
-        $asanImzaUsers = AsanImza::whereHas('user', function ($query) use ($request){
+        $asanImzaUsers = AsanImza::isActive()->whereHas('user', function ($query) use ($request){
             $query->where('name', 'LIKE', "%{$request->get('search')}%")
                   ->orWhere('surname', 'LIKE', "%{$request->get('search')}%");
         })
