@@ -188,13 +188,13 @@ class Sidebar extends Component
                 'permission' => 'viewAny-partner',
                 'children' => [
                     (object)[
-                        'title' => __('translates.navbar.reference'),
+                        'title' => __('translates.navbar.intermediary'),
                         'icon' => 'fas fa-hands-helping',
                         'url' => route('partners.index'),
                         'permission' => 'viewAny-partner',
                     ],
                     (object)[
-                        'title' => __('translates.navbar.customer_engagement'),
+                        'title' => __('translates.navbar.reference'),
                         'icon' => 'fas fa-house-return',
                         'url' => route('customer-engagement.index'),
                         'permission' => 'viewAny-customerEngagement',

@@ -195,6 +195,7 @@ return [
         'client' => 'Clients',
         'referral' => 'Referrals',
         'reference' => 'Referans',
+        'intermediary' => 'İntermediary',
         'bonus' => 'Bonuses',
         'update' => 'Updates',
         'services' => 'Services',

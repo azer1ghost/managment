@@ -196,6 +196,7 @@ return [
         'client' => 'Müştərilər',
         'referral' => 'Referrallar',
         'reference' => 'Referans',
+        'intermediary' => 'Vasitəçi',
         'bonus' => 'Bonuslar',
         'update' => 'Yeniləmələr',
         'services' => 'Xidmətlər',

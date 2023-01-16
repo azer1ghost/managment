@@ -8,7 +8,7 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
-            @lang('translates.navbar.reference')
+            @lang('translates.navbar.intermediary')
         </x-bread-crumb-link>
     </x-bread-crumb>
     <form action="{{route('partners.index')}}">
