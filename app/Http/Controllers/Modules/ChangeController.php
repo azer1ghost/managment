@@ -37,8 +37,7 @@ class ChangeController extends Controller
             'data' => new Change(),
             'users' =>User::isActive()->get(['id', 'name', 'surname']),
             'departments' => Department::get(['id', 'name']),
-            'effectivity' => Change::effectivity()
-
+            'effectivity' => Change::effectivities()
         ]);
     }
 
@@ -59,7 +58,7 @@ class ChangeController extends Controller
             'data' => $change,
             'users' =>User::isActive()->get(['id', 'name', 'surname']),
             'departments' => Department::get(['id', 'name']),
-            'effectivity' => Change::effectivity()
+            'effectivity' => Change::effectivities()
         ]);
     }
 
@@ -71,7 +70,7 @@ class ChangeController extends Controller
             'data' => $change,
             'users' =>User::isActive()->get(['id', 'name', 'surname']),
             'departments' => Department::get(['id', 'name']),
-            'effectivity' => Change::effectivity()
+            'effectivity' => Change::effectivities()
         ]);
     }
 

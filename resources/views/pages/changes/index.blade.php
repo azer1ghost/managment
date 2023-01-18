@@ -65,7 +65,7 @@
                                     </a>
                                 @endforeach</td>
                             <td>{{$change->getRelationValue('responsibles')->getAttribute('fullname')}}</td>
-                            <td>{{$change->getAttribute('effectivity')}}</td>
+                            <td>@lang('translates.effectivity.'.$change->getAttribute('effectivity'))</td>
                             <td>{{$change->getAttribute('note')}}</td>
                             @can('update', App\Models\Change::class)
                                 <td>

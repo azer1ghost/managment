@@ -35,8 +35,8 @@ class Change extends Model implements Recordable, DocumentableInterface
         return $this->getAttribute('id');
     }
 
-    public static function effectivity(): array
+    public static function effectivities(): array
     {
-        return [1, 2];
+        return [1 => 1, 2];
     }
 }
