@@ -133,7 +133,12 @@ class Sidebar extends Component
                 'url' => route('employee-satisfaction.index'),
                 'permission' => 'generally',
             ],
-
+            (object)[
+                'title' => __('translates.navbar.customer-satisfaction'),
+                'icon' => 'fas fa-users-crown',
+                'url' => route('customer-satisfactions.index'),
+                'permission' => 'viewAny-satisfaction',
+            ],
             (object)[
                 'title' => __('translates.navbar.inquiry'),
                 'icon' => 'fa fa-phone',
@@ -302,6 +307,12 @@ class Sidebar extends Component
                         'url' => route('statements.index'),
                         'permission' => 'viewAny-statements',
                     ],
+                    (object)[
+                        'title' => __('translates.navbar.satisfaction'),
+                        'icon' => 'fas fa-concierge-bell',
+                        'url' => route('satisfactions.index'),
+                        'permission' => 'viewAny-satisfaction',
+                    ],
                 ]
             ],
 
@@ -373,13 +384,6 @@ class Sidebar extends Component
                 'url' => route('services.index'),
                 'permission' => 'viewAny-service',
             ],
-            (object)[
-                'title' => __('translates.navbar.satisfaction'),
-                'icon' => 'fas fa-concierge-bell',
-                'url' => route('satisfactions.index'),
-                'permission' => 'viewAny-service',
-            ],
-
             (object)[
                 'title' => __('translates.navbar.work'),
                 'icon' => 'fas fa-briefcase',

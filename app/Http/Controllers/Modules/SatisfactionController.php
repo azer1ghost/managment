@@ -15,7 +15,7 @@ class SatisfactionController extends Controller
 //    public function __construct()
 //    {
 //        $this->middleware('auth');
-//        $this->authorizeResource(Satisfaction::class, 'Satisfaction');
+//        $this->authorizeResource(Satisfaction::class, 'satisfaction');
 //    }
 
     public function index(Request $request)
@@ -80,7 +80,6 @@ class SatisfactionController extends Controller
         $parameters = [];
         foreach ($validated['parameters'] ?? [] as $parameter){
             $parameters[$parameter['id']] = [
-                'ordering' => $parameter['ordering'] ?? 0,
             ];
         }
         $satisfaction->parameters()->sync($parameters);

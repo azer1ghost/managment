@@ -222,7 +222,9 @@ return [
         'intern_relation' => 'Intern Relations',
         'foreign_relation' => 'Foreign Relations',
         'instruction' => 'Video Instruction',
-        'employee_satisfaction' => 'Employee Satisfaction'
+        'employee_satisfaction' => 'Employee Satisfaction',
+        'satisfaction' => 'Satisfaction',
+        'customer-satisfaction' => 'Customer Satisfaction'
     ],
 
     'date' => [
@@ -454,6 +456,7 @@ return [
         'residue' => 'Balance',
         'sum_paid' => 'Sum Payment',
         'executant' => 'Executant',
+        'url' => 'Url',
     ],
 
     'notify' => [

@@ -17,7 +17,6 @@ class CreateSatisfactionParameterTable extends Migration
             $table->id();
             $table->foreignId('satisfaction_id')->nullable()->index()->constrained()->onDelete('CASCADE');
             $table->foreignId('parameter_id')->nullable()->index()->constrained()->onDelete('CASCADE');
-            $table->integer('ordering')->nullable();
         });
     }
 

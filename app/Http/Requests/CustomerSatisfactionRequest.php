@@ -10,7 +10,11 @@ class CustomerSatisfactionRequest extends FormRequest
     public function rules()
     {
         return [
-            'service_id' => 'nullable|integer',
+            'satisfaction_id' => 'required|integer',
+            'parameters'      => 'nullable|array',
+            'rate'            => 'required|integer',
+            'price_rate'      => 'required|integer',
+            'note'            => 'nullable|string'
         ];
     }
 }

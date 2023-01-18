@@ -12,6 +12,7 @@ class SatisfactionRequest extends FormRequest
         return [
             'company_id' => 'nullable',
             'parameters' => 'nullable|array',
+            'url' => 'nullable|required',
         ];
     }
 }

@@ -53,6 +53,7 @@ return [
         'viewAny-referral', 'view-referral', 'manage-referral',
         'viewAll-report', 'viewAny-report', 'generateReports-report', 'showSubReports-report', 'showSubReport-report', 'generateSubReport-report', 'updateSubReport-report', 'delete-report',
         'viewAny-role', 'view-role', 'manage-role',
+        'viewAny-satisfaction', 'view-satisfaction', 'create-satisfaction', 'update-satisfaction', 'delete-satisfaction',
         'viewAny-service', 'view-service', 'create-service', 'update-service', 'delete-service',
         'viewAny-salesClient', 'view-salesClient', 'manage-salesClient', 'delete-salesClient',
         'viewAny-salesActivityType', 'view-salesActivityType', 'manage-salesActivityType',

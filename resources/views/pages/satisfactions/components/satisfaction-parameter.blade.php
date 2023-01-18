@@ -14,10 +14,6 @@
                     @endif
                 </div>
             </div>
-            <div class="form-group mb-1">
-                <input type="checkbox" id="service-parameter-ordering-{{$index}}" @if($parameter['pivot']['ordering']) checked @endif name="parameters[{{$index}}][ordering]" value="1">
-                <label class="form-check-label" for="service-parameter-ordering-{{$index}}">Show in table</label>
-            </div>
         @empty
             <div class="col-12">
                 <p class="text-muted">@lang('translates.general.no_service_parameter')</p>

@@ -142,7 +142,7 @@ Route::group([
     Route::resource('/updates', UpdateController::class);
     Route::resource('/services', ServiceController::class);
     Route::resource('/satisfactions', SatisfactionController::class);
-//    Route::resource('/satisfactions', CustomerSatisfactionController::class);
+    Route::resource('/customer-satisfactions', CustomerSatisfactionController::class);
 
     Route::put('/works/sum/verify', [WorkController::class, 'sumVerify'])->name('works.sum.verify');
     Route::put('/works/{work}/verify', [WorkController::class, 'verify'])->name('works.verify');

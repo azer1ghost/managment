@@ -27,7 +27,6 @@ class SatisfactionParameter extends Component
             'pivot' => [
                 'satisfaction_id' => null,
                 'parameter_id' => null,
-                'ordering' => null,
             ]
         ];
         $this->satisfactionParameter[] = $newArr;

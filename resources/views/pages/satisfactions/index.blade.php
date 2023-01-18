@@ -8,10 +8,10 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
-            @lang('translates.navbar.services')
+            @lang('translates.navbar.satisfactions')
         </x-bread-crumb-link>
     </x-bread-crumb>
-    <form action="{{route('services.index')}}">
+    <form action="{{route('satisfactions.index')}}">
         <div class="row d-flex justify-content-between mb-2">
             <div class="col-6">
                 <div class="input-group mb-3">
@@ -22,7 +22,7 @@
                     </div>
                 </div>
             </div>
-            @can('create', App\Models\Service::class)
+            @can('create', App\Models\Satisfaction::class)
                 <div class="col-3">
                     <a class="btn btn-outline-success float-right" href="{{route('satisfactions.create')}}">@lang('translates.buttons.create')</a>
                 </div>
@@ -32,32 +32,33 @@
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-
                         <th scope="col">@lang('translates.columns.company')</th>
+                        <th scope="col">@lang('translates.columns.url')</th>
                         <th scope="col">Status</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @forelse($satisfactions as $service)
+                    @forelse($satisfactions as $satisfaction)
                         <tr>
                             <th scope="row">{{$loop->iteration}}.</th>
-                            <td>{{$service->getRelationValue('company')->getAttribute('name')}}</td>
-                            <td>@if($service->getAttribute('is_active') == 1) <span style="color: green" >@lang('translates.users.statuses.active')</span> @else <span style="color: red">@lang('translates.users.statuses.deactivate') @endif</td>
+                            <td>{{$satisfaction->getRelationValue('company')->getAttribute('name')}}</td>
+                            <td><a class="text-black" href="customer-satisfactions/create?url={{$satisfaction->getAttribute('url')}}">{{$satisfaction->getAttribute('url')}}</a></td>
+                            <td>@if($satisfaction->getAttribute('is_active') == 1) <span style="color: green" >@lang('translates.users.statuses.active')</span> @else <span style="color: red">@lang('translates.users.statuses.deactivate') @endif</td>
                             <td>
                                 <div class="btn-sm-group">
-                                    @can('view', $service)
-                                        <a href="{{route('services.show', $service)}}" class="btn btn-sm btn-outline-primary">
+                                    @can('view', $satisfaction)
+                                        <a href="{{route('satisfactions.show', $satisfaction)}}" class="btn btn-sm btn-outline-primary">
                                             <i class="fal fa-eye"></i>
                                         </a>
                                     @endcan
-                                    @can('update', $service)
-                                        <a href="{{route('services.edit', $service)}}" class="btn btn-sm btn-outline-success">
+                                    @can('update', $satisfaction)
+                                        <a href="{{route('satisfactions.edit', $satisfaction)}}" class="btn btn-sm btn-outline-success">
                                             <i class="fal fa-pen"></i>
                                         </a>
                                     @endcan
-                                    @can('delete', $service)
-                                        <a href="{{route('services.destroy', $service)}}" delete data-name="{{$service->getAttribute('name')}}" class="btn btn-sm btn-outline-danger" >
+                                    @can('delete', $satisfaction)
+                                        <a href="{{route('satisfactions.destroy', $satisfaction)}}" delete data-name="{{$satisfaction->getAttribute('url')}}" class="btn btn-sm btn-outline-danger" >
                                             <i class="fal fa-trash"></i>
                                         </a>
                                     @endcan

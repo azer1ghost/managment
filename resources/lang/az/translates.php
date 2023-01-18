@@ -223,7 +223,9 @@ return [
         'intern_relation' => 'Daxili Əlaqələr',
         'foreign_relation' => 'Xarici Əlaqələr',
         'instruction' => 'Video Təlimat',
-        'employee_satisfaction' => 'İşçi Məmnuniyyəti'
+        'employee_satisfaction' => 'İşçi Məmnuniyyəti',
+        'satisfaction' => 'Məmnuniyyət',
+        'customer-satisfaction' => 'Müştəri Məmnuniyyəti'
     ],
 
     'date' => [
@@ -454,6 +456,7 @@ return [
         'residue' => 'Borc',
         'sum_paid' => 'Toplam Ödənilən',
         'executant' => 'İcra Edən Şəxs',
+        'url' => 'Url',
     ],
 
     'notify' => [
@@ -562,7 +565,7 @@ return [
         'no_message' => 'Oxunmamış mesaj yoxdur',
         'mark_as_read' => 'Oxudum',
         'mark_all' => 'Hamısını Oxudum',
-        'declaration' => 'Bəyannamə'
+        'declaration' => 'Bəyannamə',
     ],
 
     'clients' => [

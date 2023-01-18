@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 
 class Satisfaction extends Model
 {
-    protected $fillable = ['company_id', 'is_active'];
+    protected $fillable = ['company_id', 'is_active', 'url'];
 
     public function company(): BelongsTo
     {
@@ -18,7 +19,12 @@ class Satisfaction extends Model
 
     public function parameters(): BelongsToMany
     {
-        return $this->belongsToMany(Parameter::class, 'satisfaction_parameter', 'satisfaction_id')->withPivot('ordering');
+        return $this->belongsToMany(Parameter::class, 'satisfaction_parameter', 'satisfaction_id');
+    }
+
+    public function works(): HasMany
+    {
+        return $this->hasMany(CustomerSatisfaction::class);
     }
 
     public static function satisfactionParameters()

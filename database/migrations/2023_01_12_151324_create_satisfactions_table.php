@@ -16,6 +16,7 @@ class CreateSatisfactionsTable extends Migration
         Schema::create('satisfactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->nullable()->constrained()->restrictOnDelete();
+            $table->string('url')->nullable();
             $table->boolean('is_active')->nullable()->default(1);
             $table->timestamps();
         });
