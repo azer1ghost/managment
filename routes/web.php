@@ -35,6 +35,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\PartnerController,
     Modules\ReferralBonusController,
     Modules\ReferralController,
+    Modules\RegistrationLogController,
     Modules\ReportController,
     Modules\ResultController,
     Modules\RoleController,
@@ -153,6 +154,7 @@ Route::group([
     Route::resource('/job-instructions', JobInstructionController::class);
     Route::resource('/internal-numbers', InternalNumberController::class);
     Route::resource('/changes', ChangeController::class);
+    Route::resource('/registration-logs', RegistrationLogController::class);
     Route::get('/cooperative-numbers', [InternalNumberController::class, 'cooperative'])->name('cooperative-numbers');
     Route::resource('/internal-relations', InternalRelationController::class);
     Route::get('/foreign', [InternalRelationController::class, 'foreign'])->name('foreign');

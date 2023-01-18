@@ -50,6 +50,7 @@ return [
         'viewAny-parameter', 'view-parameter', 'manage-parameter',
         'viewAny-partner', 'view-partner', 'manage-partner',
         'viewAny-position', 'view-position', 'manage-position',
+        'viewAny-registrationLog', 'view-registrationLog', 'manage-registrationLog', 'delete-registrationLog',
         'viewAny-referral', 'view-referral', 'manage-referral',
         'viewAll-report', 'viewAny-report', 'generateReports-report', 'showSubReports-report', 'showSubReport-report', 'generateSubReport-report', 'updateSubReport-report', 'delete-report',
         'viewAny-role', 'view-role', 'manage-role',

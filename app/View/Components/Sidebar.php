@@ -124,6 +124,12 @@ class Sidebar extends Component
                         'url' => route('changes.index'),
                         'permission' => 'generally',
                     ],
+                    (object)[
+                        'title' => __('translates.navbar.registration_logs'),
+                        'icon' => 'fas fa-file-signature',
+                        'url' => route('registration-logs.index'),
+                        'permission' => 'generally',
+                    ],
                 ]
             ],
 

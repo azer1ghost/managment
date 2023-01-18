@@ -178,6 +178,7 @@ return [
         'cabinet' => 'Kabinet',
         'company' => 'Şirkətlər',
         'changes' => 'Dəyişikliklər',
+        'registration_logs' => 'Qeydiyyat Jurnalı',
         'customer_company' => 'Müştəri Şirkətlər',
         'account' => 'Hesab',
         'signature' => 'Email İmza',
