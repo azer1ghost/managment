@@ -51,7 +51,7 @@
                             <td>{{$loop->iteration}}</td>
                             <td>{{$change->getAttribute('datetime')}}</td>
                             <td>{{$change->getRelationValue('users')->getAttribute('fullname')}}</td>
-                            <td>{{$change->getRelationValue('departments')->getAttribute('name')}}</td>
+                            <td>{{$change->getRelationValue('departments')->getAttribute('name') ?? trans('translates.general.all_departments')}}</td>
                             <td>{{$change->getAttribute('description')}}</td>
                             <td>{{$change->getAttribute('reason')}}</td>
                              <td>{{$change->getAttribute('result')}}</td>

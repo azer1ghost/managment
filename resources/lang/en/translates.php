@@ -487,6 +487,11 @@ return [
         'ineffective' => 'Ineffective'
     ],
 
+    'effectivity' => [
+        1 => 'Effective',
+        2 => 'Ineffective'
+    ],
+
     'employee_satisfactions' => [
         'satisfaction_types' => 'Types of Satisfaction',
         'is_enough' => 'Is the measure taken enough?',
@@ -562,7 +567,8 @@ return [
         'no_message' => 'No message yet',
         'mark_as_read' => 'Mark as Read',
         'mark_all' => 'Mark All as Read',
-        'declaration' => 'Declaration'
+        'declaration' => 'Declaration',
+        'all_departments' => 'All Departments'
     ],
 
     'clients' => [

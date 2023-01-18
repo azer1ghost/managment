@@ -27,7 +27,7 @@
                     <div class="form-group col-6 user">
                         <label for="department_id">Aid olduğu proses/şöbə</label><br/>
                         <select class="select2 form-control" name="department_id" id="department_id">
-                            <option value="">@lang('translates.general.department_select')</option>
+                            <option value="">@lang('translates.general.all_departments')</option>
                             @foreach($departments as $department)
                                 <option @if($data->getAttribute('department_id') == $department->id) selected @endif value="{{$department->id}}">{{$department->getAttribute('name')}}</option>
                             @endforeach
@@ -68,7 +68,15 @@
                     <x-form-group  class="pr-3 col-12 col-lg-6"  >
                         <x-form-textarea  name="note" label="Note" placeholder="Note daxil edin"/>
                     </x-form-group>
-                    <x-input::number name="effectivity" :label="trans('translates.employee_satisfactions.effectivity')" :value="$data->getAttribute('effectivity')" width="6"/>
+                    <div class="form-group col-6 user">
+                        <label for="effectivity">@lang('translates.employee_satisfactions.effectivity')</label><br/>
+                        <select class="form-control" name="effectivity" id="effectivity">
+                            <option value="">@lang('translates.employee_satisfactions.effectivity') @lang('translates.placeholders.choose')</option>
+                            @foreach($effectivity as $effect)
+                                <option @if($data->getAttribute('effectivity') == $effect) selected @endif value="{{$effect}}">@lang('translates.effectivity.'.$effect)</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>

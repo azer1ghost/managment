@@ -489,6 +489,11 @@ return [
         'ineffective' => 'Karsız'
     ],
 
+    'effectivity' => [
+        1 => 'Effektiv',
+        2 => 'Effektiv Deyil'
+    ],
+
     'employee_satisfactions' => [
         'satisfaction_types' => 'Məmnuniyyət Növləri',
         'is_enough' => 'Görülən tədbir yetərlidir mi?',
@@ -564,7 +569,8 @@ return [
         'no_message' => 'Oxunmamış mesaj yoxdur',
         'mark_as_read' => 'Oxudum',
         'mark_all' => 'Hamısını Oxudum',
-        'declaration' => 'Bəyannamə'
+        'declaration' => 'Bəyannamə',
+        'all_departments' => 'Bütün Şöbələr'
     ],
 
     'clients' => [
