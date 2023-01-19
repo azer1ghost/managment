@@ -26,21 +26,21 @@
                 <div class="row">
 
                     <div class="form-group col-6 user">
-                        <label for="user_id">Dərkənar</label><br/>
-                        <select class="select2 form-control" name="receiver" id="receiver">
+                        <label for="performer">Dərkənar</label><br/>
+                        <select class="select2 form-control" name="performer" id="performer">
                             <option value="">@lang('translates.general.user_select')</option>
                             @foreach($users as $user)
-                                <option @if($data->getAttribute('user') == $user->id) selected @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
+                                <option @if($data->getAttribute('performer') == $user->id) selected @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
                             @endforeach
                         </select>
                     </div>
 
                     <div class="form-group col-6 user">
-                        <label for="responsible">İcraçı</label><br/>
-                        <select class="select2 form-control" name="performer" id="performer">
+                        <label for="receiver">İcraçı</label><br/>
+                        <select class="select2 form-control" name="receiver" id="receiver">
                             <option value="">@lang('translates.general.user_select')</option>
                             @foreach($users as $user)
-                                <option @if($data->getAttribute('user') == $user->id) selected @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
+                                <option @if($data->getAttribute('receiver') == $user->id) selected @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
                             @endforeach
                         </select>
                     </div>

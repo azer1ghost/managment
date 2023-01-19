@@ -50,8 +50,8 @@
                             <td>{{$regLog->getAttribute('sender')}}</td>
                             <td>{{$regLog->getAttribute('number')}}</td>
                             <td>{{$regLog->getAttribute('description')}}</td>
-                            <td>{{$regLog->getRelationValue('performer')->getFullnameWithPositionAttribute()}}</td>
-                            <td>{{$regLog->getRelationValue('receiver')->getFullnameWithPositionAttribute()}}</td>
+                            <td>{{$regLog->getRelationValue('performers')->getFullnameWithPositionAttribute()}}</td>
+                            <td>{{$regLog->getRelationValue('receivers')->getFullnameWithPositionAttribute()}}</td>
                             <td>{{$regLog->getAttribute('received_at')}}</td>
                              @can('update', App\Models\RegistrationLog::class)
                                  <td>

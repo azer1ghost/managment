@@ -10,11 +10,11 @@ class RegistrationLog extends Model
 {
     protected $fillable = ['performer', 'receiver', 'sender', 'number', 'description', 'arrived_at', 'received_at'];
 
-    public function performer(): BelongsTo
+    public function performers(): BelongsTo
     {
         return $this->belongsTo(User::class,'performer')->withDefault();
     }
-    public function receiver(): BelongsTo
+    public function receivers(): BelongsTo
     {
         return $this->belongsTo(User::class,'receiver')->withDefault();
     }
