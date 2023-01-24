@@ -68,7 +68,7 @@
 {{--                                    <td>{{$param['data']->getAttribute('label')}}</td>--}}
 {{--                                @endforeach--}}
                                 @foreach($somethings as $something)
-                                    <td>{{$something->name}}</td>
+                                    <td>{{$something->label}}</td>
                                 @endforeach
 
                             </tr>
