@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\DB;
 
 class CustomerSatisfaction extends Model
 {
+
+    const NAME = 1;
+    const PHONE = 2;
+
+
     protected $fillable = ['satisfaction_id', 'rate', 'price_rate', 'note'];
 
     public function satisfaction(): BelongsTo

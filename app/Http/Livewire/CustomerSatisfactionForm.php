@@ -33,22 +33,19 @@ class CustomerSatisfactionForm extends Component
 
         foreach ($this->selected as $key => $selected) {
             if($key == 'url') {
-                $this->selected['url'] = optional($this->data)->getAttribute($key) ?? request()->get('url');
+                $this->selected['url'] = optional($this->data)->getRelationValue('satisfaction')->getAttribute($key) ?? request()->get('url');
                 continue;
             }
-
-            $this->selected[$key] = request()->get($key) ?? optional($this->data)->getAttribute($key);
-
+            $this->selected[$key] = request()->get($key) ?? optional($this->data)->getRelationValue('satisfaction')->getAttribute($key);
         }
 
-        // check if user does not a department or service_id is not set from request
         abort_if(is_null($this->selected['url']), 500);
 
         $this->getParameters();
     }
 
 
-    public function getServiceProperty()
+    public function getSatisfactionProperty()
     {
         return Satisfaction::where('url',$this->selected['url'])->first();
     }

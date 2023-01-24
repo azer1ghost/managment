@@ -36,30 +36,38 @@
 
     <table class="table table-condensed-table-responsive" style="border-collapse:collapse;"  id="table">
         <thead>
-            <tr class="text-center">
-                <th scope="col">@lang('translates.navbar.company')</th>
-                @foreach(\App\Models\Satisfaction::satisfactionParameters() as $param)
-                    <th>{{$param['data']->getAttribute('label')}}</th>
-                @endforeach
-            </tr>
+        <tr class="text-center">
+            <th scope="col">@lang('translates.navbar.company')</th>
+            @foreach(\App\Models\Satisfaction::satisfactionParameters() as $param)
+                <th>{{$param['data']->getAttribute('label')}}</th>
+            @endforeach
+            <th scope="col">@lang('translates.columns.rate')</th>
+            <th scope="col">@lang('translates.columns.price_rate')</th>
+            <th scope="col">@lang('translates.fields.note')</th>
+
+        </tr>
         </thead>
         <tbody>
-            @forelse($customerSatisfactions as $customerSatisfaction)
-                <tr class="text-center">
-                    <td>{{$customerSatisfaction->getRelationValue('satisfaction')->getRelationValue('company')->getAttribute('name')}}</td>
-                    @foreach(\App\Models\Satisfaction::satisfactionParameters() as $param)
-                        <td >{{$customerSatisfaction->getParameter($param['data']->getAttribute('id'))}}</td>
-                    @endforeach
-                </tr>
-            @empty
-                <tr>
-                    <th colspan="20">
-                        <div class="row justify-content-center m-3">
-                            <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.empty')</div>
-                        </div>
-                    </th>
-                </tr>
-            @endforelse
+        @forelse($customerSatisfactions as $customerSatisfaction)
+            <tr class="text-center">
+                <td>{{$customerSatisfaction->getRelationValue('satisfaction')->getRelationValue('company')->getAttribute('name')}}</td>
+                <td>@lang('translates.customer_satisfaction.rates.'.$customerSatisfaction->getAttribute('rate'))</td>
+                <td>@lang('translates.customer_satisfaction.rates.'.$customerSatisfaction->getAttribute('price_rate'))</td>
+                <td>{{$customerSatisfaction->getAttribute('note')}}</td>
+            </tr>
+
+            @foreach(\App\Models\Satisfaction::satisfactionParameters() as $param)
+                <td >{{$customerSatisfaction->getParameter($param['data']->getAttribute('id'))}}</td>
+            @endforeach
+        @empty
+            <tr>
+                <th colspan="20">
+                    <div class="row justify-content-center m-3">
+                        <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.empty')</div>
+                    </div>
+                </th>
+            </tr>
+        @endforelse
         </tbody>
     </table>
 

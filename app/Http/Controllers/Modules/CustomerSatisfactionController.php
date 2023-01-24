@@ -2,24 +2,20 @@
 
 namespace App\Http\Controllers\Modules;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\CustomerSatisfactionRequest;
-use App\Models\CustomerSatisfaction;
-use App\Models\Satisfaction;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use App\Http\{Requests\CustomerSatisfactionRequest, Controllers\Controller};
+use App\Models\{CustomerSatisfaction, Satisfaction};
+use Illuminate\Http\{RedirectResponse, Request};
 
 class CustomerSatisfactionController extends Controller
 {
 
-    public function index(Request $request)
+    public function index()
     {
         $satisfactions = Satisfaction::query()->get();
         return view('pages.customer-satisfactions.index')
             ->with([
             'customerSatisfactions' => CustomerSatisfaction::get(),
-                'satisfactions' => $satisfactions
-
+            'satisfactions' => $satisfactions
         ]);
     }
 
@@ -32,7 +28,7 @@ class CustomerSatisfactionController extends Controller
         ]);
     }
 
-    public function store(CustomerSatisfactionRequest $request): RedirectResponse
+    public function store(CustomerSatisfactionRequest $request)
     {
         $validated = $request->validated();
 
@@ -45,9 +41,7 @@ class CustomerSatisfactionController extends Controller
 
         $customerSatisfaction->parameters()->sync($parameters);
 
-        return redirect()
-            ->route('home', $customerSatisfaction)
-            ->withNotify('success', $customerSatisfaction->getAttribute('id'));
+        return view('pages.customer-satisfactions.components.customer-satisfaction-thanks');
     }
 
     public function show(CustomerSatisfaction $customerSatisfaction)
@@ -56,6 +50,7 @@ class CustomerSatisfactionController extends Controller
             'action' => null,
             'method' => null,
             'data' => $customerSatisfaction,
+            'satisfactions' => Satisfaction::get(),
         ]);
     }
 
@@ -94,5 +89,14 @@ class CustomerSatisfactionController extends Controller
             return response('OK');
         }
         return response()->setStatusCode('204');
+    }
+
+    public function createSatisfaction()
+    {
+        return view('pages.customer-satisfactions.edit')->with([
+            'action' => route('customer-satisfactions.store'),
+            'method' => 'POST',
+            'data' => new CustomerSatisfaction()
+        ]);
     }
 }

@@ -12,11 +12,11 @@ use Illuminate\Http\Request;
 
 class SatisfactionController extends Controller
 {
-//    public function __construct()
-//    {
-//        $this->middleware('auth');
-//        $this->authorizeResource(Satisfaction::class, 'satisfaction');
-//    }
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->authorizeResource(Satisfaction::class, 'satisfaction');
+    }
 
     public function index(Request $request)
     {

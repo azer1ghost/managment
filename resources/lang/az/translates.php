@@ -57,6 +57,7 @@ return [
         'task_name' => 'Tapşırıq adı',
         'search_users' => 'İstifadəçi axtar',
         'choose_file' => 'Fayl seç',
+        'comment' => 'Şərh yazın',
     ],
 
     'fields' => [
@@ -166,6 +167,7 @@ return [
         'export' => 'İxrac et',
         'show' => 'Göstər',
         'send_sms' => 'SMS Göndər',
+        'send' => 'Göndər',
     ],
 
     'sum' => 'Toplu',
@@ -457,6 +459,8 @@ return [
         'sum_paid' => 'Toplam Ödənilən',
         'executant' => 'İcra Edən Şəxs',
         'url' => 'Url',
+        'rate' => 'Qiymətləndirmə',
+        'price_rate' => 'Xidmət Haqqı Qiymətləndirməsi',
     ],
 
     'notify' => [
@@ -632,6 +636,21 @@ return [
             'Ad günü',
             'Digər'
         ]
+    ],
+
+
+    'customer_satisfaction' => [
+        'rate' => 'Xidmət səviyyəsini qiymətləndirin',
+        'price_rate' => 'Xidmət haqqı sizi qane etti mi?',
+        'rates' => [
+            1 => 'Çox Pis',
+            2 => 'Pis',
+            3 => 'Orta',
+            4 => 'Yaxşı',
+            5 => 'Əla',
+        ],
+        'content' => 'Xidmət səviyyəmizi artırmaq üçün fikirlərinizi bilmək bizim üçün önəmlidir.',
+        'note' => 'Təklif, İrad və Şikayətləriniz',
     ],
 
     'reports' => [

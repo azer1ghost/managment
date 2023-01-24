@@ -30,9 +30,6 @@
 
 <body>
     <livewire:customer-satisfaction-form :action="$action" :method="$method" :data="$data"/>
-
-
-
 </body>
 <script src="{{ mix('assets/js/app.js') }}" ></script>
 
