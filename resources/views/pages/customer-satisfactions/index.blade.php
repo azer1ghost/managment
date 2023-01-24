@@ -57,12 +57,20 @@
                     <div class="accordian-body collapse" id="demo{{$customerSatisfaction->getAttribute('id')}}">
                         <table class="table">
                             <thead>
-                            @php($something = optional(\App\Models\Satisfaction::where('url', $customerSatisfaction->getRelationValue('url'))->first())->parameters)
-
+                            @php
+                                $somethings = optional(\App\Models\Satisfaction::where('url', $customerSatisfaction->getRelationValue('url'))->first())->parameters;
+//                            foreach ($somethings as $something){
+//                                $something->name;
+//                            }
+                            @endphp
                             <tr>
-                                @foreach(\App\Models\Satisfaction::satisfactionParameters() as $param)
-                                    <td>{{$param['data']->getAttribute('label')}}</td>
+{{--                                @foreach(\App\Models\Satisfaction::satisfactionParameters() as $param)--}}
+{{--                                    <td>{{$param['data']->getAttribute('label')}}</td>--}}
+{{--                                @endforeach--}}
+                                @foreach($somethings as $something)
+                                    <td>{{$something->name}}</td>
                                 @endforeach
+
                             </tr>
 
                             </thead>
