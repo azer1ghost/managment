@@ -184,6 +184,7 @@ return [
         'signature' => 'Email İmza',
         'inquiry' => 'Sorğular',
         'inquiry_sales' => 'Zənglər',
+        'pending_works' => 'Nəzərdə Tutulan İşlər',
         'barcode' => 'Barkodlar',
         'task' => 'Tapşırıqlar',
         'necessary' => 'Lazımi Sənədlər',

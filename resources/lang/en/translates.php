@@ -201,6 +201,7 @@ return [
         'update' => 'Updates',
         'services' => 'Services',
         'work' => 'Works',
+        'pending_works' => 'Pending Works',
         'meeting' => 'Meetings',
         'conference' => 'Conferences',
         'document' => 'Documents',

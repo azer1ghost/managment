@@ -386,6 +386,12 @@ class Sidebar extends Component
                 'url' => route('works.index'),
                 'permission' => 'viewAny-work',
             ],
+            (object)[
+                'title' => __('translates.navbar.pending_works'),
+                'icon' => 'fas fa-briefcase',
+                'url' => route('pending-works'),
+                'permission' => 'viewAny-work',
+            ],
 
             (object)[
                 'title' => __('translates.navbar.document'),
