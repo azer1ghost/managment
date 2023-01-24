@@ -34,13 +34,10 @@
         <i class="far fa-filter"></i> @lang('translates.buttons.filter_open')
     </button>
 
-    <table class="table table-condensed-table-responsive" style="border-collapse:collapse;"  id="table">
+    <table class="table table-condensed-table-responsive" style="border-collapse:collapse;" id="table">
         <thead>
         <tr class="text-center">
             <th scope="col">@lang('translates.navbar.company')</th>
-            @foreach(\App\Models\Satisfaction::satisfactionParameters() as $param)
-                <th>{{$param['data']->getAttribute('label')}}</th>
-            @endforeach
             <th scope="col">@lang('translates.columns.rate')</th>
             <th scope="col">@lang('translates.columns.price_rate')</th>
             <th scope="col">@lang('translates.fields.note')</th>
@@ -49,16 +46,38 @@
         </thead>
         <tbody>
         @forelse($customerSatisfactions as $customerSatisfaction)
-            <tr class="text-center">
+            <tr data-toggle="collapse" data-target="#demo{{$customerSatisfaction->getAttribute('id')}}" class="accordion-toggle text-center">
                 <td>{{$customerSatisfaction->getRelationValue('satisfaction')->getRelationValue('company')->getAttribute('name')}}</td>
                 <td>@lang('translates.customer_satisfaction.rates.'.$customerSatisfaction->getAttribute('rate'))</td>
                 <td>@lang('translates.customer_satisfaction.rates.'.$customerSatisfaction->getAttribute('price_rate'))</td>
                 <td>{{$customerSatisfaction->getAttribute('note')}}</td>
             </tr>
+            <tr>
+                <td colspan="99" class="hiddenRow">
+                    <div class="accordian-body collapse" id="demo{{$customerSatisfaction->getAttribute('id')}}">
+                        <table class="table">
+                            <thead>
+                            @php($something = optional(\App\Models\Satisfaction::where('url', $customerSatisfaction->getRelationValue('url'))->first())->parameters)
 
-            @foreach(\App\Models\Satisfaction::satisfactionParameters() as $param)
-                <td >{{$customerSatisfaction->getParameter($param['data']->getAttribute('id'))}}</td>
-            @endforeach
+                            <tr>
+                                @foreach(\App\Models\Satisfaction::satisfactionParameters() as $param)
+                                    <td>{{$param['data']->getAttribute('label')}}</td>
+                                @endforeach
+                            </tr>
+
+                            </thead>
+                            <tbody>
+                            <tr>
+                                @foreach(\App\Models\Satisfaction::satisfactionParameters() as $param)
+                                    <td >{{$customerSatisfaction->getParameter($param['data']->getAttribute('id'))}}</td>
+                                @endforeach
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
         @empty
             <tr>
                 <th colspan="20">
