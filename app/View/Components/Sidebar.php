@@ -86,7 +86,7 @@ class Sidebar extends Component
                         'title' => __('translates.fields.cooperative_numbers'),
                         'icon' => 'fal fa-phone-office',
                         'url' => route('cooperative-numbers'),
-                        'permission' => 'viewAny-internalNumber',
+                        'permission' => 'viewAll-client',
                     ],
                     (object)[
                         'title' => __('translates.navbar.intern_relation'),
