@@ -80,14 +80,14 @@ class Sidebar extends Component
                         'title' => __('translates.navbar.intern_number'),
                         'icon' => 'fal fa-phone-office',
                         'url' => route('internal-numbers.index'),
-                        'permission' => 'viewAny-internalNumber',
+                        'permission' => 'generally',
                     ],
-                    (object)[
-                        'title' => __('translates.fields.cooperative_numbers'),
-                        'icon' => 'fal fa-phone-office',
-                        'url' => route('cooperative-numbers'),
-                        'permission' => 'viewAll-client',
-                    ],
+//                    (object)[
+//                        'title' => __('translates.fields.cooperative_numbers'),
+//                        'icon' => 'fal fa-phone-office',
+//                        'url' => route('cooperative-numbers'),
+//                        'permission' => 'generally',
+//                    ],
                     (object)[
                         'title' => __('translates.navbar.intern_relation'),
                         'icon' => 'fad fa-chart-network',
