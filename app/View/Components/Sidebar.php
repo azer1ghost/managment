@@ -70,12 +70,12 @@ class Sidebar extends Component
                         'url' => route('structure'),
                         'permission' => 'viewAny-jobInstruction',
                     ],
-                    (object)[
-                        'title' => __('translates.navbar.job_instruction'),
-                        'icon' => 'fal fa-users-class',
-                        'url' => route('job-instructions.index'),
-                        'permission' => 'viewAny-jobInstruction',
-                    ],
+//                    (object)[
+//                        'title' => __('translates.navbar.job_instruction'),
+//                        'icon' => 'fal fa-users-class',
+//                        'url' => route('job-instructions.index'),
+//                        'permission' => 'viewAny-jobInstruction',
+//                    ],
                     (object)[
                         'title' => __('translates.navbar.intern_number'),
                         'icon' => 'fal fa-phone-office',
