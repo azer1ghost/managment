@@ -1,32 +1,34 @@
 @extends('layouts.main')
 
-@section('title', __('translates.navbar.work'))
+@section('title', __('translates.navbar.customer-satisfaction'))
 @section('style')
     <style>
-        .table td, .table th{
+        .table td, .table th {
             vertical-align: middle !important;
         }
+
         .table tr {
             cursor: pointer;
         }
+
         .hiddenRow {
             padding: 0 4px !important;
             background-color: #eeeeee;
             font-size: 13px;
         }
-        .table{
+
+        #table {
             overflow-x: scroll;
         }
     </style>
 @endsection
-
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
-            @lang('translates.navbar.work')
+            @lang('translates.navbar.customer-satisfaction')
         </x-bread-crumb-link>
     </x-bread-crumb>
 
@@ -46,7 +48,8 @@
         </thead>
         <tbody>
         @forelse($customerSatisfactions as $customerSatisfaction)
-            <tr data-toggle="collapse" data-target="#demo{{$customerSatisfaction->getAttribute('id')}}" class="accordion-toggle text-center">
+            <tr data-toggle="collapse" data-target="#demo{{$customerSatisfaction->getAttribute('id')}}"
+                class="accordion-toggle text-center">
                 <td>{{$customerSatisfaction->getRelationValue('satisfaction')->getRelationValue('company')->getAttribute('name')}}</td>
                 <td>@lang('translates.customer_satisfaction.rates.'.$customerSatisfaction->getAttribute('rate'))</td>
                 <td>@lang('translates.customer_satisfaction.rates.'.$customerSatisfaction->getAttribute('price_rate'))</td>
@@ -57,30 +60,21 @@
                     <div class="accordian-body collapse" id="demo{{$customerSatisfaction->getAttribute('id')}}">
                         <table class="table">
                             <thead>
-                            @php
-                                $somethings = optional(\App\Models\Satisfaction::where('url', $customerSatisfaction->getRelationValue('url'))->first())->parameters;
-//                            foreach ($somethings as $something){
-//                                $something->name;
-//                            }
-                            @endphp
-                            <tr>
-{{--                                @foreach(\App\Models\Satisfaction::satisfactionParameters() as $param)--}}
-{{--                                    <td>{{$param['data']->getAttribute('label')}}</td>--}}
-{{--                                @endforeach--}}
-                                @foreach($somethings as $something)
-                                    <td>{{$something->label}}</td>
-                                @endforeach
-
-                            </tr>
-
+                                @php
+                                    $parameters = optional(\App\Models\Satisfaction::where('url', $customerSatisfaction->getRelationValue('satisfaction')->getAttribute('url'))->first())->parameters;
+                                @endphp
+                                <tr>
+                                    @foreach($parameters as $parameter)
+                                        <td>{{$parameter->label}}</td>
+                                    @endforeach
+                                </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                @foreach(\App\Models\Satisfaction::satisfactionParameters() as $param)
-                                    <td >{{$customerSatisfaction->getParameter($param['data']->getAttribute('id'))}}</td>
-                                @endforeach
-                            </tr>
-
+                                <tr>
+                                    @foreach($customerSatisfaction->parameters as $param)
+                                        <td>{{$param->pivot->value}}</td>
+                                    @endforeach
+                                </tr>
                             </tbody>
                         </table>
                     </div>
