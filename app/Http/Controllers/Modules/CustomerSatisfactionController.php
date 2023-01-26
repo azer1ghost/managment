@@ -16,7 +16,6 @@ class CustomerSatisfactionController extends Controller
             'note'            => $request->get('note'),
             'rate'            => $request->get('rate'),
             'price_rate'      => $request->get('price_rate'),
-            'satisfaction_id' => $request->get('satisfaction_id'),
         ];
 
         $company_id =  $request->get('company_id');
