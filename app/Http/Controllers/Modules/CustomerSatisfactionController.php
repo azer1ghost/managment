@@ -19,6 +19,8 @@ class CustomerSatisfactionController extends Controller
             'satisfaction_id' => $request->get('satisfaction_id'),
         ];
 
+        $company_id =  $request->get('company_id');
+
         $parameterFilters = [
             'name' => [],
             'phone' => [],
@@ -47,6 +49,8 @@ class CustomerSatisfactionController extends Controller
         $companies = Company::get();
 
         $customerSatisfactions = CustomerSatisfaction::with('satisfaction')->whereBetween('created_at', [Carbon::parse($from)->startOfDay(), Carbon::parse($to)->endOfDay()])
+            ->when($company_id, fn ($query) => $query
+                ->whereHas('satisfaction',fn($q) => $q->where('company_id', 'like', "%$company_id")))
             ->where(function ($query) use ($filters) {
                 foreach ($filters as $column => $value) {
                     $query->when($value, function ($query, $value) use ($column) {
