@@ -48,16 +48,16 @@
                                value="{{$created_at}}" id="daterange" class="form-control">
                     </div>
 
-                    <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
-                        <label for="satisfaction_id">@lang('translates.columns.price_rate')</label>
-                        <select name="satisfaction_id" class="custom-select" id="satisfaction_id">
-                            <option value="">@lang('translates.filters.select')</option>
-                            @foreach($companies as $company)
-                                <option @if(request()->get('satisfaction_id') == \App\Models\Satisfaction::where('company_id',$company->id)->first()->id) selected
-                                        @endif value="{{\App\Models\Satisfaction::where('company_id',$company->id)->first()->id}}">{{$company->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
+{{--                    <div class="form-group col-12 col-md-3 mb-3 mb-md-0">--}}
+{{--                        <label for="satisfaction_id">@lang('translates.columns.price_rate')</label>--}}
+{{--                        <select name="satisfaction_id" class="custom-select" id="satisfaction_id">--}}
+{{--                            <option value="">@lang('translates.filters.select')</option>--}}
+{{--                            @foreach($companies as $company)--}}
+{{--                                <option @if(request()->get('satisfaction_id') == \App\Models\Satisfaction::where('company_id',$company->id)->first()->id) selected--}}
+{{--                                        @endif value="{{\App\Models\Satisfaction::where('company_id',$company->id)->first()->id}}">{{$company->name}}</option>--}}
+{{--                            @endforeach--}}
+{{--                        </select>--}}
+{{--                    </div>--}}
 
                     <div class="form-group col-12 col-md-3 mb-md-0">
                         <label for="clientNamePhoneFilter">@lang('translates.filters.or', ['first' => __('translates.fields.client'), 'second' => __('translates.fields.phone'), 'third' => __('translates.fields.mail')])</label>
