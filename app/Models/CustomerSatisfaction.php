@@ -2,18 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Facades\DB;
 
 class CustomerSatisfaction extends Model
 {
-
     const NAME = 1;
     const PHONE = 2;
-
 
     protected $fillable = ['satisfaction_id', 'rate', 'price_rate', 'note'];
 
@@ -29,11 +25,9 @@ class CustomerSatisfaction extends Model
 
     public function getParameter($id)
     {
-        // Get parameter model
         $parameter = $this->parameters()->where('id', $id)->first();
 
         return $parameter ?
-            // Check type of parameter -> if type is "select" return option value / else return pivot value
             $parameter->getAttribute('type') == 'select' ?
                 optional(Option::find($parameter->pivot->value))->getAttribute('text') :
                 optional($parameter->pivot)->value :

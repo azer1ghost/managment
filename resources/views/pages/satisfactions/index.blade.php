@@ -43,7 +43,7 @@
                         <tr>
                             <th scope="row">{{$loop->iteration}}.</th>
                             <td>{{$satisfaction->getRelationValue('company')->getAttribute('name')}}</td>
-                            <td><a class="text-black" href="cs?url={{$satisfaction->getAttribute('url')}}">{{$satisfaction->getAttribute('url')}}</a></td>
+                            <td><a class="text-black" href="{{url('cs?url='.$satisfaction->getAttribute('url'))}}">{{$satisfaction->getAttribute('url')}}</a></td>
                             <td>@if($satisfaction->getAttribute('is_active') == 1) <span style="color: green" >@lang('translates.users.statuses.active')</span> @else <span style="color: red">@lang('translates.users.statuses.deactivate') @endif</td>
                             <td>
                                 <div class="btn-sm-group">
