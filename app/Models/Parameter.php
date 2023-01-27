@@ -76,8 +76,17 @@ class Parameter extends Model implements Recordable
         return $this->belongsToMany(Service::class, 'service_parameter')->withPivot('show_in_table', 'show_count');
     }
 
+    public function satisfactions(): BelongsToMany
+    {
+        return $this->belongsToMany(Satisfaction::class, 'satisfaction_parameter');
+    }
+
     public function works(): BelongsToMany
     {
         return $this->belongsToMany(Work::class, 'work_parameter')->withPivot('value');
+    }
+    public function customerSatisfactions(): BelongsToMany
+    {
+        return $this->belongsToMany(CustomerSatisfaction::class, 'customer_satisfaction_parameter')->withPivot('value');
     }
 }

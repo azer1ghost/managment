@@ -55,6 +55,7 @@ return [
         'task_name' => 'Task Name',
         'search_users' => 'Search Users',
         'choose_file' => 'Choose file',
+        'comment' => 'Şərh yazın',
     ],
 
     'fields' => [
@@ -164,7 +165,7 @@ return [
         'execute' => 'Execute',
         'show' => 'Show',
         'send_sms' => 'Send Sms',
-
+        'send' => 'Göndər',
     ],
 
     'sum' => 'Collective',
@@ -226,7 +227,9 @@ return [
         'intern_relation' => 'Intern Relations',
         'foreign_relation' => 'Foreign Relations',
         'instruction' => 'Video Instruction',
-        'employee_satisfaction' => 'Employee Satisfaction'
+        'employee_satisfaction' => 'Employee Satisfaction',
+        'satisfaction' => 'Satisfaction',
+        'customer-satisfaction' => 'Customer Satisfaction'
     ],
 
     'date' => [
@@ -458,6 +461,9 @@ return [
         'residue' => 'Balance',
         'sum_paid' => 'Sum Payment',
         'executant' => 'Executant',
+        'url' => 'Url',
+        'rate' => 'Rate',
+        'price_rate' => 'Price',
     ],
 
     'notify' => [
@@ -642,6 +648,20 @@ return [
             'Birthday',
             'Other'
         ]
+    ],
+
+    'customer_satisfaction' => [
+        'rate' => 'Xidmət səviyyəsini qiymətləndirin',
+        'price_rate' => 'Xidmət haqqı sizi qane etti mi?',
+        'rates' => [
+            1 => 'Çox Pis',
+            2 => 'Pis',
+            3 => 'Orta',
+            4 => 'Yaxşı',
+            5 => 'Əla',
+        ],
+        'content' => 'Xidmət səviyyəmizi artırmaq üçün fikirlərinizi bilmək bizim üçün önəmlidir.',
+        'note' => 'Təklif, İrad və Şikayətləriniz'
     ],
 
     'reports' => [

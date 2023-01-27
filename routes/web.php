@@ -5,7 +5,6 @@ use App\Http\Controllers\{Auth\LoginController,
     Auth\PhoneVerifycationController,
     Auth\RegisterController,
     BarcodeController,
-    ClientContoller,
     Main\AccountController,
     Main\PlatformController,
     Modules\AdvertisingController,
@@ -18,6 +17,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\CompanyController,
     Modules\ConferenceController,
     Modules\CustomerEngagementController,
+    Modules\CustomerSatisfactionController,
     Modules\DailyReportController,
     Modules\DatabaseNotificationController,
     Modules\DepartmentController,
@@ -43,6 +43,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\SalesActivityTypeController,
     Modules\SalesClientController,
     Modules\SalesInquiryController,
+    Modules\SatisfactionController,
     Modules\ServiceController,
     Modules\SignatureController,
     Modules\StatementController,
@@ -100,7 +101,6 @@ Route::group([
     Route::resource('/inquiry', InquiryController::class);
     Route::get('/inquiries/export', [InquiryController::class, 'export'])->name('inquiry.export');
 
-
     Route::get('/signature/select-company', [SignatureController::class, 'selectCompany'])->name('signature-select-company');
     Route::get('/signature/{company}', [SignatureController::class, 'signature'])->name('signature');
 
@@ -140,6 +140,7 @@ Route::group([
     Route::resource('/referrals', ReferralController::class)->except('create');
     Route::resource('/updates', UpdateController::class);
     Route::resource('/services', ServiceController::class);
+    Route::resource('/satisfactions', SatisfactionController::class);
 
     Route::put('/works/sum/verify', [WorkController::class, 'sumVerify'])->name('works.sum.verify');
     Route::put('/works/{work}/verify', [WorkController::class, 'verify'])->name('works.verify');
@@ -232,3 +233,6 @@ Route::get('/document/{document}', function (\Illuminate\Http\Request $request, 
         ]);
 
 })->name('document');
+
+Route::resource('/customer-satisfactions', CustomerSatisfactionController::class);
+Route::get('/cs', [CustomerSatisfactionController::class, 'createSatisfaction'])->name('create-satisfaction');
