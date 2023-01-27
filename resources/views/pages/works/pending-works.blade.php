@@ -34,9 +34,6 @@
         <i class="far fa-filter"></i> @lang('translates.buttons.filter_open')
     </button>
 
-    <button class="btn btn-outline-danger" >
-        <a class="text-danger" href="{{route('works.index')}}">Ümumi işlər</a>
-    </button>
     <form action="{{route('pending-works')}}">
         <div class="row d-flex justify-content-between mb-2">
             <div id="filterContainer" class="mb-3" @if(request()->has('datetime')) style="display:block;" @else style="display:none;" @endif>
