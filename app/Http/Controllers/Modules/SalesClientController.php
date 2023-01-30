@@ -13,11 +13,11 @@ use App\Models\User;
 class SalesClientController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->authorizeResource(SalesClient::class, 'sales_clients');
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('auth');
+//        $this->authorizeResource(SalesClient::class, 'sales_clients');
+//    }
 
     public function search(Request $request)
     {

@@ -63,13 +63,11 @@ class WorkController extends Controller
             'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
             'datetime' => $request->get('datetime') ?? $startOfMonth . ' - ' . $endOfMonth,
             'invoiced_date' => $request->get('invoiced_date') ?? $startOfMonth . ' - ' . $endOfMonth,
-
         ];
 
         if(Work::userCanViewAll() || Work::userCanViewDepartmentWorks()){
             $filters['user_id'] = $request->get('user_id');
         }
-
 
         $dateFilters = [
             'datetime' => $request->has('check-datetime'),
