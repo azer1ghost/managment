@@ -343,32 +343,32 @@ class Sidebar extends Component
                 'permission' => 'viewAny-referral',
             ],
 
-            (object)[
-                'title' => __('translates.navbar.meeting'),
-                'icon' => 'fas fa-handshake',
-                'url' => '#',
-                'permission' => 'viewAny-meeting',
-                'children' => [
+//            (object)[
+//                'title' => __('translates.navbar.meeting'),
+//                'icon' => 'fas fa-handshake',
+//                'url' => '#',
+//                'permission' => 'viewAny-meeting',
+//                'children' => [
                     (object)[
                         'title' => __('translates.navbar.meeting'),
                         'icon' => 'fas fa-bullhorn',
                         'url' => route('meetings.index'),
                         'permission' => 'viewAny-meeting',
                     ],
-                    (object)[
-                        'title' => __('translates.navbar.announcement'),
-                        'icon' => 'fas fa-scroll',
-                        'url' => route('announcements.index'),
-                        'permission' => 'viewAny-announcement',
-                    ],
-                    (object)[
-                        'title' => __('translates.navbar.conference'),
-                        'icon' => 'fas fa-handshake',
-                        'url' => route('conferences.index'),
-                        'permission' => 'viewAny-conference',
-                    ],
-                ]
-            ],
+//                    (object)[
+//                        'title' => __('translates.navbar.announcement'),
+//                        'icon' => 'fas fa-scroll',
+//                        'url' => route('announcements.index'),
+//                        'permission' => 'viewAny-announcement',
+//                    ],
+//                    (object)[
+//                        'title' => __('translates.navbar.conference'),
+//                        'icon' => 'fas fa-handshake',
+//                        'url' => route('conferences.index'),
+//                        'permission' => 'viewAny-conference',
+//                    ],
+//                ]
+//            ],
 
 //            (object)[
 //                'title' => "Advertising",
