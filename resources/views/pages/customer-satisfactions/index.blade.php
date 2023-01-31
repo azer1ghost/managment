@@ -120,6 +120,7 @@
             <th scope="col">@lang('translates.columns.rate')</th>
             <th scope="col">@lang('translates.columns.price_rate')</th>
             <th scope="col">@lang('translates.fields.note')</th>
+            <th scope="col">@lang('translates.fields.created_at')</th>
         </tr>
         </thead>
         <tbody>
@@ -130,6 +131,7 @@
                 <td>@lang('translates.customer_satisfaction.rates.'.$customerSatisfaction->getAttribute('rate'))</td>
                 <td>@lang('translates.customer_satisfaction.rates.'.$customerSatisfaction->getAttribute('price_rate'))</td>
                 <td>{{$customerSatisfaction->getAttribute('note')}}</td>
+                <td>{{$customerSatisfaction->getAttribute('created_at')}}</td>
             </tr>
             <tr>
                 <td colspan="99" class="hiddenRow">
