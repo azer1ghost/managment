@@ -91,7 +91,7 @@
                                                     wire:model="customerSatisfactionParameters.{{$parameter->name}}">
                                                 <option value="" selected>{{$parameter->placeholder}}</option>
                                                 @foreach($parameter->getRelationValue('options') as $option)
-                                                    <option value="{{$option->id}}"
+                                                    <option value="{{$option->getTranslation('text', 'az')}}"
                                                             data-value="{{$option->getTranslation('text', 'az')}}">{{$option->text}}</option>
                                                 @endforeach
                                             </select>
