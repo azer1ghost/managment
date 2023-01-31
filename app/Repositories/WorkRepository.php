@@ -92,8 +92,9 @@ class WorkRepository implements WorkRepositoryInterface {
                     });
                 }
             })
-//            ->latest('datetime')
-            ->orderBy('status')
-        ->orderByDesc('id');
+            ->latest('id')
+            ->latest('datetime');
+//            ->orderBy('status')
+//        ->orderByDesc('id');
     }
 }
