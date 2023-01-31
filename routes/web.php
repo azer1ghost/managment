@@ -236,3 +236,7 @@ Route::get('/document/{document}', function (\Illuminate\Http\Request $request, 
 
 Route::resource('/customer-satisfactions', CustomerSatisfactionController::class);
 Route::get('/cs', [CustomerSatisfactionController::class, 'createSatisfaction'])->name('create-satisfaction');
+
+Route::get('/transit/service', [\App\Http\Controllers\Modules\TransitController::class, 'service'])->name('service');
+Route::get('/transit/transit-login', [\App\Http\Controllers\Modules\TransitController::class, 'login'])->name('transit-login');
+Route::get('/transit/payment', [\App\Http\Controllers\Modules\TransitController::class, 'payment'])->name('payment');
