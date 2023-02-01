@@ -1,7 +1,7 @@
 @extends('pages.transit.layout')
 
 @section('title', __('translates.navbar.transit'))
-2
+
 @section('content')
     <div class="col-12 p-5">
         <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
@@ -59,7 +59,8 @@
                         </div>
                     </div>
                     <div id="div"></div>
-                    <i class="add">Add</i>
+                    <a class="btn btn-group btn-primary addButton">Add</a>
+                    <a class="btn btn-group btn-danger removeButton">Remove</a>
 
                     <!-- 2 column grid layout -->
                     <div class="row mb-4">
@@ -162,10 +163,21 @@
             });
         });
         $(document).ready(function () {
-            $(".add").click(function () {
-                $(".transit").insertAfter(".div");
+            var count = 0;
+            $(".addButton").click(function () {
+                count += 1;
+                $(".transit").append("<div id = '"+ count +"'> <div class='form-outline mb-4'> <label class='form-label' for='transitCmr'>CMR</label> <div class='input-group mb-4'> <div class='input-group-prepend'> <span class='input-group-text' id='cmr'>Yüklə</span> </div> <div class='custom-file'> <input type='file' class='custom-file-input' id=cmr'aria-describedby='inputGroupFileAddon01'><label class='custom-file-label' for='cmr'>Sənədləri yüklə</label> </div> </div> </div> <div class='form-outline mb-4'> <label class='form-label' for='transitInv'>İNVOYS</label> <div class='input-group mb-4'> <div class='input-group-prepend'> <span class='input-group-text' id='invoys'>Yüklə</span> </div> <div class='custom-file'> <input type='file' class='custom-file-input' id='invoys'aria-describedby='inputGroupFileAddon01'> <label class='custom-file-label' for='invoys'>Sənədləri yüklə</label> </div> </div> </div> </div>");
             });
+            $(".removeButton").click(function () {
+                for (let i = 0; i < transit.length; i++) {
+                    text += transit[i] + "<br>";
+
+                }
+            });
+
         });
+
+
 
     </script>
 @endsection
