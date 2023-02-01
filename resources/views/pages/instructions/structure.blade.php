@@ -1766,7 +1766,9 @@
         </table>
     </div>
 </div>
-
+@can('create', \App\Models\JobInstruction::class)
+<a type="button" class="btn btn-primary" href="{{route('job-instructions.index')}}">Vəzifə Təlimatı</a>
+@endcan
 
 @endsection
 

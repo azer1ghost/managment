@@ -74,7 +74,7 @@ class Sidebar extends Component
 //                        'title' => __('translates.navbar.job_instruction'),
 //                        'icon' => 'fal fa-users-class',
 //                        'url' => route('job-instructions.index'),
-//                        'permission' => 'viewAny-jobInstruction',
+//                        'permission' => 'create-jobInstruction',
 //                    ],
                     (object)[
                         'title' => __('translates.navbar.intern_number'),

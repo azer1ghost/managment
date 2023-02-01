@@ -19,11 +19,12 @@ class JobInstructionController extends Controller
 
     public function index()
     {
-        $jobInstructions = JobInstruction::where('user_id',auth()->id())->first();
-        return view('pages.job-instructions.index')
+        $jobInstructions = JobInstruction::get();
+        return view('pages.job-instructions.job-instructions')
             ->with(['jobInstructions' => $jobInstructions
             ]);
     }
+
 
     public function create()
     {
