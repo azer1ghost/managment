@@ -29,38 +29,40 @@
                     </div>
 
                     <div class="transit">
-                        <div class="form-outline mb-4">
-                            <label class="form-label" for="transitCmr">CMR</label>
-                            <div class="input-group mb-4">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="cmr">Yüklə</span>
-                                </div>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id=cmr"
-                                           aria-describedby="inputGroupFileAddon01">
-                                    <label class="custom-file-label" for="cmr">Sənədləri yüklə</label>
+                        <div id="row">
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="transitCmr">CMR</label>
+                                <div class="input-group mb-4">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="cmr">Yüklə</span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id=cmr"
+                                               aria-describedby="inputGroupFileAddon01">
+                                        <label class="custom-file-label" for="cmr">Sənədləri yüklə</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Password input -->
-                        <div class="form-outline mb-4">
-                            <label class="form-label" for="transitInv">İNVOYS</label>
-                            <div class="input-group mb-4">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="invoys">Yüklə</span>
-                                </div>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="invoys"
-                                           aria-describedby="inputGroupFileAddon01">
-                                    <label class="custom-file-label" for="invoys">Sənədləri yüklə</label>
+                            <!-- Password input -->
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="transitInv">İNVOYS</label>
+                                <div class="input-group mb-4">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="invoys">Yüklə</span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="invoys"
+                                               aria-describedby="inputGroupFileAddon01">
+                                        <label class="custom-file-label" for="invoys">Sənədləri yüklə</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div id="div"></div>
                     <a class="btn btn-group btn-primary addButton">Add</a>
-                    <a class="btn btn-group btn-danger removeButton">Remove</a>
+{{--                    <a class="btn btn-group btn-danger removeButton">Remove</a>--}}
 
                     <!-- 2 column grid layout -->
                     <div class="row mb-4">
@@ -163,20 +165,14 @@
             });
         });
         $(document).ready(function () {
-            var count = 0;
+
             $(".addButton").click(function () {
-                count += 1;
-                $(".transit").append("<div id = '"+ count +"'> <div class='form-outline mb-4'> <label class='form-label' for='transitCmr'>CMR</label> <div class='input-group mb-4'> <div class='input-group-prepend'> <span class='input-group-text' id='cmr'>Yüklə</span> </div> <div class='custom-file'> <input type='file' class='custom-file-input' id=cmr'aria-describedby='inputGroupFileAddon01'><label class='custom-file-label' for='cmr'>Sənədləri yüklə</label> </div> </div> </div> <div class='form-outline mb-4'> <label class='form-label' for='transitInv'>İNVOYS</label> <div class='input-group mb-4'> <div class='input-group-prepend'> <span class='input-group-text' id='invoys'>Yüklə</span> </div> <div class='custom-file'> <input type='file' class='custom-file-input' id='invoys'aria-describedby='inputGroupFileAddon01'> <label class='custom-file-label' for='invoys'>Sənədləri yüklə</label> </div> </div> </div> </div>");
+                $(".transit").append("<div> <div id='row''> <button class='btn btn-danger'id='DeleteRow' type='button'> <i class='bi bi-trash'></i>Delete </button><div class='form-outline mb-4'> <label class='form-label' for='transitCmr'>CMR</label> <div class='input-group mb-4'> <div class='input-group-prepend'> <span class='input-group-text' id='cmr'>Yüklə</span> </div> <div class='custom-file'> <input type='file' class='custom-file-input' id=cmr'aria-describedby='inputGroupFileAddon01'><label class='custom-file-label' for='cmr'>Sənədləri yüklə</label> </div> </div> </div> <div class='form-outline mb-4'> <label class='form-label' for='transitInv'>İNVOYS</label> <div class='input-group mb-4'> <div class='input-group-prepend'> <span class='input-group-text' id='invoys'>Yüklə</span> </div> <div class='custom-file'> <input type='file' class='custom-file-input' id='invoys'aria-describedby='inputGroupFileAddon01'> <label class='custom-file-label' for='invoys'>Sənədləri yüklə</label> </div> </div> </div> </div>");
             });
-            $(".removeButton").click(function () {
-                for (let i = 0; i < transit.length; i++) {
-                    text += transit[i] + "<br>";
-
-                }
-            });
-
         });
-
+        $("body").on("click", "#DeleteRow", function () {
+            $(this).parents("#row").remove();
+        })
 
 
     </script>
