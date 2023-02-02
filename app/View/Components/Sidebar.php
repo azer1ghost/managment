@@ -54,7 +54,6 @@ class Sidebar extends Component
                             'class' => 'info'
                         ],
                     ],
-
                 ]
             ],
 
@@ -382,6 +381,7 @@ class Sidebar extends Component
 //                'icon' => 'fas fa-sync',
 //                'url' => route('updates.index'),
 //                'permission' => 'viewAny-update',
+
 //            ],
 
             (object)[
@@ -395,7 +395,34 @@ class Sidebar extends Component
                 'icon' => 'fas fa-briefcase',
                 'url' => route('works.index'),
                 'permission' => 'viewAny-work',
-            ],
+                ],
+
+//            (object)[
+//                'title' => __('translates.navbar.work'),
+//                'icon' => 'fas fa-briefcase',
+//                'url' => route('works.index'),
+//                'permission' => 'viewAny-work',
+//                'children' => [
+//                    (object)[
+//                        'title' => __('translates.navbar.work'),
+//                        'icon' => 'fas fa-briefcase',
+//                        'url' => route('works.index'),
+//                        'permission' => 'viewAny-works',
+//                    ],
+//                    (object)[
+//                        'title' => 'planlananan işlər',
+//                        'icon' => 'fas fa-bullhorn',
+//                        'url' => route('works.index'),
+//                        'permission' => 'viewAny-works',
+//                    ],
+//                    (object)[
+//                        'title' => 'maliyyə',
+//                        'icon' => 'fas fa-scroll',
+//                        'url' => route('works.index'),
+//                        'permission' => 'viewAny-works',
+//                    ],
+//                ]
+//            ],
 
             (object)[
                 'title' => __('translates.navbar.document'),
