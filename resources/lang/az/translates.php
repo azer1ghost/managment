@@ -598,12 +598,13 @@ return [
     ],
 
     'work_status' => [
-        1 => 'Gözləmədə',
+        1 => 'Planlanan',
+        'Gözləmədə',
         'Davam Edir',
+        'Sistemə Vuruldu',
+        'Geri Qaytarıldı',
         'Tamamlandı',
         'Qəbul edilmyib',
-        'Sistemə Vuruldu',
-        'Geri Qaytarıldı'
     ],
 
     'payment_methods' => [

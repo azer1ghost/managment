@@ -20,16 +20,13 @@ class Work extends Model implements DocumentableInterface, Recordable
 {
     use HasFactory, SoftDeletes, Documentable, \Altek\Accountant\Recordable, Eventually;
 
-    const PENDING = 1;
-    const STARTED = 2;
-    const DONE = 3;
-    const REJECTED = 4;
-    const INJECTED = 5;
-    const RETURNED = 6;
-
-    const SATISFIED = 1;
-    const UNSATISFIED = 2;
-    const UNKNOWN = 3;
+    const PLANNED = 1;
+    const PENDING = 2;
+    const STARTED = 3;
+    const INJECTED = 4;
+    const RETURNED = 5;
+    const DONE = 6;
+    const REJECTED = 7;
 
     const GB = 17;
     const CODE = 18;
@@ -126,7 +123,7 @@ class Work extends Model implements DocumentableInterface, Recordable
 
     public static function statuses(): array
     {
-        return [1 => 1, 2, 3, 4, 5, 6];
+        return [1 => 1, 2, 3, 4, 5, 6, 7];
     }
 
     public static function paymentMethods(): array

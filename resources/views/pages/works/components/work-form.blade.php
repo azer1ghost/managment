@@ -148,36 +148,40 @@
                     <x-input::text wire:ignore name="datetime"  readonly :label="__('translates.fields.date')" value="{{$data->getAttribute('datetime')->format('Y-m-d H:i')}}" width="3" class="pr-3 custom-single-daterange" />
                 @endif
                 @if(is_null(optional($data)->getAttribute('verified_at')) || auth()->user()->hasPermission('viewPrice-work'))
-                @foreach($parameters as $parameter)
-                    @if(in_array('hideOnPost', explode(' ', $parameter->attributes)) && $method == 'POST')
-                        @continue
-                    @endif
-                    @switch($parameter->type)
-                        @case('text')
-                            <div class="form-group col-12 col-md-3" wire:ignore>
-                                <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
-                                <input type="text" data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters parameters[{{$parameter->id}}]" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
-                            </div>
+
+                    @foreach($parameters as $parameter)
+                        @if(in_array('hideOnPost', explode(' ', $parameter->attributes)) && $method == 'POST')
+                            @continue
+                        @endif
+{{--                            @if(auth()->user()->hasPermission('editPrice-work') && in_array('finance', explode(' ', $parameter->attributes)))--}}
+{{--                                @continue--}}
+{{--                            @endif--}}
+                        @switch($parameter->type)
+                            @case('text')
+                                <div class="form-group col-12 col-md-3" wire:ignore>
+                                    <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
+                                    <input type="text" data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters parameters[{{$parameter->id}}]" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
+                                </div>
+                                @break
+                            @case('number')
+                                <div class="form-group col-12 col-md-3" wire:ignore>
+                                    <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
+                                    <input type="number" data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
+                                </div>
                             @break
-                        @case('number')
-                            <div class="form-group col-12 col-md-3" wire:ignore>
-                                <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
-                                <input type="number" data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
-                            </div>
-                        @break
-                        @case('select')
-                            <div class="form-group col-12 col-md-3" wire:ignore>
-                                <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
-                                <select data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters" wire:model="workParameters.{{$parameter->name}}">
-                                    <option value="" selected>{{$parameter->placeholder}}</option>
-                                    @foreach($parameter->getRelationValue('options') as $option)
-                                        <option value="{{$option->id}}" data-value="{{$option->getTranslation('text', 'az')}}">{{$option->text}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            @break
-                    @endswitch
-                @endforeach
+                            @case('select')
+                                <div class="form-group col-12 col-md-3" wire:ignore>
+                                    <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
+                                    <select data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters" wire:model="workParameters.{{$parameter->name}}">
+                                        <option value="" selected>{{$parameter->placeholder}}</option>
+                                        @foreach($parameter->getRelationValue('options') as $option)
+                                            <option value="{{$option->id}}" data-value="{{$option->getTranslation('text', 'az')}}">{{$option->text}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @break
+                        @endswitch
+                    @endforeach
                 @endif
 
                 <div class="form-group col-12 col-md-3" wire:ignore>
@@ -281,7 +285,15 @@
             $('button[type="submit"]').attr('disabled', false);
         </script>
     @endif
+    <script>
+        $(document).ready(function() {
+            // $("[data-finance=true]").on('click',function () {
+            alert($("input[data-finance='true']"))
 
+            // $("input[data-finance='true']").hide()
+        // })
+        })
+    </script>
     <script>
         @if($method !== 'POST')
             $('#work-form .copy').attr('disabled', false)

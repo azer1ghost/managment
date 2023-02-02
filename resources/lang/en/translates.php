@@ -598,13 +598,13 @@ return [
     ],
 
     'work_status' => [
-        1 => 'Pending',
+        1 => 'Planned',
+        'Pending',
         'Continue',
-        'Done',
-        'Rejected',
         'Injected to System',
         'Returned',
-
+        'Done',
+        'Rejected',
     ],
 
     'payment_methods' => [
