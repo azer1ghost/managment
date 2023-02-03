@@ -10,6 +10,7 @@ class CustomerSatisfaction extends Model
 {
     const NAME = 1;
     const PHONE = 2;
+    const FULLNAME = 7;
 
     protected $fillable = ['satisfaction_id', 'rate', 'price_rate', 'note'];
 

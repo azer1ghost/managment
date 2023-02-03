@@ -29,6 +29,7 @@ class EmployeeSatisfaction extends Model
     const COMPLAINT = 2;
     const INCONSISTENCY = 3;
 
+
     public function users():BelongsTo
     {
        return $this->belongsTo(User::class,'user_id')->withDefault();

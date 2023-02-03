@@ -4,6 +4,11 @@
 
 @section('content')
     <div class="col-12">
+        @can('create', App\Models\JobInstruction::class)
+            <div class="col-12">
+                <a class="btn btn-outline-success float-right" href="{{route('job-instructions.create')}}">@lang('translates.buttons.create')</a>
+            </div>
+        @endcan
         <table class="table table-responsive-sm table-hover">
             <thead>
             <tr>
@@ -13,7 +18,7 @@
             </thead>
             <tbody id="sortable">
             @forelse($jobInstructions as $jobInstruction)
-                    <th>{{$jobInstruction->getRelationValue('users')->getFullnameWithPositionAttribute()}}</th>
+                <th>{{$jobInstruction->getRelationValue('users')->getFullnameWithPositionAttribute()}}</th>
                     @can('update', App\Models\JobInstruction::class)
                         <td>
                             <div class="btn-sm-group">
@@ -28,9 +33,9 @@
                                 </a>
                             </div>
                         </td>
-                    @endcan
-                </tr>
-            @empty
+                            @endcan
+                        </tr>
+                        @empty
                 <tr>
                     <th colspan="20">
                         <div class="row justify-content-center m-3">
@@ -42,9 +47,4 @@
             </tbody>
         </table>
     </div>
-    @can('create', App\Models\JobInstruction::class)
-        <div class="col-12">
-            <a class="btn btn-outline-success float-right" href="{{route('job-instructions.create')}}">@lang('translates.buttons.create')</a>
-        </div>
-    @endcan
 @endsection

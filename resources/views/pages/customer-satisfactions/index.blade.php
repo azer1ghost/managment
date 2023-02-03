@@ -117,6 +117,7 @@
         <thead>
         <tr class="text-center">
             <th scope="col">@lang('translates.navbar.company')</th>
+            <th scope="col">@lang('translates.columns.full_name')</th>
             <th scope="col">@lang('translates.columns.rate')</th>
             <th scope="col">@lang('translates.columns.price_rate')</th>
             <th scope="col">@lang('translates.fields.note')</th>
@@ -128,6 +129,7 @@
             <tr data-toggle="collapse" data-target="#demo{{$customerSatisfaction->getAttribute('id')}}"
                 class="accordion-toggle text-center">
                 <td>{{$customerSatisfaction->getRelationValue('satisfaction')->getRelationValue('company')->getAttribute('name')}}</td>
+                <td>{{$customerSatisfaction->getParameter($customerSatisfaction::FULLNAME)}}</td>
                 <td>@lang('translates.customer_satisfaction.rates.'.$customerSatisfaction->getAttribute('rate'))</td>
                 <td>@lang('translates.customer_satisfaction.rates.'.$customerSatisfaction->getAttribute('price_rate'))</td>
                 <td>{{$customerSatisfaction->getAttribute('note')}}</td>
