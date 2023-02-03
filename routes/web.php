@@ -240,3 +240,4 @@ Route::get('/cs', [CustomerSatisfactionController::class, 'createSatisfaction'])
 Route::get('/transit/service', [\App\Http\Controllers\Modules\TransitController::class, 'service'])->name('service');
 Route::get('/transit/transit-login', [\App\Http\Controllers\Modules\TransitController::class, 'login'])->name('transit-login');
 Route::get('/transit/payment', [\App\Http\Controllers\Modules\TransitController::class, 'payment'])->name('payment');
+Route::resource('/transit/profile', \App\Http\Controllers\Modules\TransitController::class);
