@@ -37,7 +37,6 @@ class WorkForm extends Component
         $this->services = Service::get(['id', 'name']);
         $this->statuses = Work::statuses();
         $this->payment_methods = Work::paymentMethods();
-
         $user = auth()->user();
         $userModel = User::with('position')->find(auth()->id())->toArray();
 

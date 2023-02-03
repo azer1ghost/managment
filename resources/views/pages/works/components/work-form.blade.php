@@ -153,24 +153,22 @@
                         @if(in_array('hideOnPost', explode(' ', $parameter->attributes)) && $method == 'POST')
                             @continue
                         @endif
-{{--                            @if(auth()->user()->hasPermission('editPrice-work') && in_array('finance', explode(' ', $parameter->attributes)))--}}
-{{--                                @continue--}}
-{{--                            @endif--}}
+
                         @switch($parameter->type)
                             @case('text')
-                                <div class="form-group col-12 col-md-3" wire:ignore>
+                                <div class="form-group col-12 col-md-3" @if(auth()->user()->hasPermission('editPrice-work') && in_array('finance', explode(' ', $parameter->attributes))) style="display: none" @endif wire:ignore>
                                     <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
                                     <input type="text" data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters parameters[{{$parameter->id}}]" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
                                 </div>
                                 @break
                             @case('number')
-                                <div class="form-group col-12 col-md-3" wire:ignore>
+                                <div class="form-group col-12 col-md-3" @if(auth()->user()->hasPermission('editPrice-work') && in_array('finance', explode(' ', $parameter->attributes))) style="display: none" @endif wire:ignore>
                                     <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
                                     <input type="number" data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
                                 </div>
                             @break
                             @case('select')
-                                <div class="form-group col-12 col-md-3" wire:ignore>
+                                <div class="form-group col-12 col-md-3" @if(auth()->user()->hasPermission('editPrice-work') && in_array('finance', explode(' ', $parameter->attributes))) style="display: none" @endif  wire:ignore>
                                     <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
                                     <select data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters" wire:model="workParameters.{{$parameter->name}}">
                                         <option value="" selected>{{$parameter->placeholder}}</option>
@@ -212,6 +210,91 @@
                 @if(!is_null($data))
                     <x-input::text wire:ignore name="invoiced_date"  readonly :label="__('translates.fields.invoiced_date')" value="{{optional($data->getAttribute('invoiced_date'))->format('Y-m-d H:i')}}" width="3" class="pr-3" />
                 @endif
+                        <fieldset>
+                            <legend>Choose Documents:</legend>
+
+                            <div>
+                                <input type="checkbox" name="document_list[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
+                                <label for="transportDocument">Transport Document</label>
+                            </div>
+
+                            <div>
+                                <input type="checkbox" name="document_list[]" id="invoice" value="invoice" @if(in_array('invoice',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
+                                <label for="invoice">Invoice</label>
+                            </div>
+
+                            <div>
+                                <input type="checkbox" name="document_list[]" id="weightList" value="weightList" @if(in_array('weightList',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
+                                <label for="weightList">Weight List</label>
+                            </div>
+
+{{--                            <div>--}}
+{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
+{{--                                <label for="transportDocument">Transport Document</label>--}}
+{{--                            </div>--}}
+
+{{--                            <div>--}}
+{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
+{{--                                <label for="transportDocument">Transport Document</label>--}}
+{{--                            </div>--}}
+
+{{--                            <div>--}}
+{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
+{{--                                <label for="transportDocument">Transport Document</label>--}}
+{{--                            </div>--}}
+
+{{--                            <div>--}}
+{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
+{{--                                <label for="transportDocument">Transport Document</label>--}}
+{{--                            </div>--}}
+
+{{--                            <div>--}}
+{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
+{{--                                <label for="transportDocument">Transport Document</label>--}}
+{{--                            </div>--}}
+
+{{--                            <div>--}}
+{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
+{{--                                <label for="transportDocument">Transport Document</label>--}}
+{{--                            </div>--}}
+
+{{--                            <div>--}}
+{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
+{{--                                <label for="transportDocument">Transport Document</label>--}}
+{{--                            </div>--}}
+
+{{--                            <div>--}}
+{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
+{{--                                <label for="transportDocument">Transport Document</label>--}}
+{{--                            </div>--}}
+
+{{--                            <div>--}}
+{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
+{{--                                <label for="transportDocument">Transport Document</label>--}}
+{{--                            </div>--}}
+
+{{--                            <div>--}}
+{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
+{{--                                <label for="transportDocument">Transport Document</label>--}}
+{{--                            </div>--}}
+
+{{--                            <div>--}}
+{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
+{{--                                <label for="transportDocument">Transport Document</label>--}}
+{{--                            </div>--}}
+
+{{--                            <div>--}}
+{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
+{{--                                <label for="transportDocument">Transport Document</label>--}}
+{{--                            </div>--}}
+
+{{--                            <div>--}}
+{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
+{{--                                <label for="transportDocument">Transport Document</label>--}}
+{{--                            </div>--}}
+
+                        </fieldset>
+
                 @if(auth()->user()->hasPermission('canVerify-work') && $method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Work::DONE)
                     <div class="col-12" wire:ignore>
                         <input type="checkbox" id="data-verified" name="verified" @if(!is_null(optional($data)->getAttribute('verified_at'))) checked @endif>
@@ -234,10 +317,7 @@
 
                 <div class="form-group col-12" wire:ignore>
                     <label for="data-detail">@lang('translates.general.work_detail')</label>
-                    <textarea wire:ignore name="detail" id="data-detail"
-{{--                              class="tinyMCE"--}}
-                            class="form-control"
-                              style="height: 300px"
+                    <textarea wire:ignore name="detail" id="data-detail" class="form-control" style="height: 300px"
                     >{{optional($data)->getAttribute('detail')}}</textarea>
                 </div>
             </div>
@@ -285,15 +365,7 @@
             $('button[type="submit"]').attr('disabled', false);
         </script>
     @endif
-    <script>
-        $(document).ready(function() {
-            // $("[data-finance=true]").on('click',function () {
-            alert($("input[data-finance='true']"))
 
-            // $("input[data-finance='true']").hide()
-        // })
-        })
-    </script>
     <script>
         @if($method !== 'POST')
             $('#work-form .copy').attr('disabled', false)
@@ -348,7 +420,6 @@
                 $(`#data-status option:eq(${DONE})`).prop('disabled', true);
             }
         });
-
     </script>
     <script>
         const AsanId = $('#data-asan_imza_id');

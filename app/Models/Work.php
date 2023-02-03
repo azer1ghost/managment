@@ -52,6 +52,7 @@ class Work extends Model implements DocumentableInterface, Recordable
         'custom_client',
         'status',
         'payment_method',
+        'document_list',
         'datetime',
         'created_at',
         'verified_at',
@@ -179,5 +180,15 @@ class Work extends Model implements DocumentableInterface, Recordable
     public function scopeWorksDone($query)
     {
         return $query->where('status', self::DONE);
+    }
+
+    public function scopePlanned($query)
+    {
+        return $query->where('status', self::PLANNED);
+    }
+
+    public function scopePending($query)
+    {
+        return $query->where('status', self::PENDING);
     }
 }

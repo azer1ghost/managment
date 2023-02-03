@@ -15,8 +15,8 @@ class CreateRegistrationLogsTable extends Migration
     {
         Schema::create('registration_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('performer')->nullable()->constrained()->restrictOnDelete();
-            $table->foreignId('receiver')->nullable()->constrained()->restrictOnDelete();
+            $table->integer('performer')->nullable();
+            $table->integer('receiver')->nullable();
             $table->string('sender');
             $table->string('number')->nullable();
             $table->text('description')->nullable();

@@ -410,15 +410,21 @@ class Sidebar extends Component
                         'permission' => 'viewAny-works',
                     ],
                     (object)[
+                        'title' => 'Gözləmədə olan',
+                        'icon' => 'fas fa-bullhorn',
+                        'url' => route('pending-works'),
+                        'permission' => 'viewAny-works',
+                    ],
+                    (object)[
                         'title' => 'planlananan işlər',
                         'icon' => 'fas fa-bullhorn',
-                        'url' => route('works.index'),
+                        'url' => route('planned-works'),
                         'permission' => 'viewAny-works',
                     ],
                     (object)[
                         'title' => 'maliyyə',
                         'icon' => 'fas fa-scroll',
-                        'url' => route('works.index'),
+                        'url' => route('finance-works'),
                         'permission' => 'viewAny-works',
                     ],
                 ]

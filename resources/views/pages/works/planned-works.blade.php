@@ -102,8 +102,7 @@
                             <select name="client_id"
                                     id="clientFilter"
                                     class="custom-select2" style="width: 100% !important;"
-                                    data-url="{{route('clients.search')}}"
-                            >
+                                    data-url="{{route('clients.search')}}">
                                 @if(is_numeric($filters['client_id']))
                                     <option value="{{$filters['client_id']}}">{{\App\Models\Client::find($filters['client_id'])->getAttribute('fullname_with_voen')}}</option>
                                 @endif
@@ -206,6 +205,7 @@
             <th scope="col">Asan imza</th>
             <th scope="col">@lang('translates.navbar.service')</th>
             <th scope="col">@lang('translates.fields.clientName')</th>
+            <th scope="col">Documents</th>
             <th scope="col">Status</th>
             <th scope="col">@lang('translates.columns.created_at')</th>
         </tr>
@@ -235,6 +235,11 @@
                 <td><i class="{{$work->getRelationValue('service')->getAttribute('icon')}} pr-2" style="font-size: 20px"></i> {{$work->getRelationValue('service')->getAttribute('name')}}</td>
                 <td data-toggle="tooltip" data-placement="bottom" title="{{$work->getRelationValue('client')->getAttribute('fullname')}}" >
                     {{mb_strimwidth($work->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}
+                </td>
+                <td>
+                    <span class="badge badge-warning" style="font-size: 12px">
+                         {{trans('translates.work_status.' . $work->getAttribute('status'))}}
+                    </span>
                 </td>
                 <td>
                     <span class="badge badge-warning" style="font-size: 12px">

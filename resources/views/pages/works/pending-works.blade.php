@@ -213,16 +213,12 @@
         <tbody>
         @forelse($works as $work)
 
-            @if($work->isDone() && is_null($work->getAttribute('verified_at')))
-                @php
-                    $hasPending = true;
-                @endphp
-            @endif
-            <tr data-toggle="collapse" data-target="#demo{{$work->getAttribute('id')}}" class="accordion-toggle" @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}">
 
-                    <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
+            <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}">
 
-                    <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
+                <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
+
+                <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
 
                 <td>
                     @if(is_numeric($work->getAttribute('user_id')))
@@ -252,12 +248,8 @@
                                 </a>
                             @endcan
                         @endif
-                        <div class="dropdown">
-                            <button class="btn" type="button" id="inquiry_actions-{{$loop->iteration}}"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fal fa-ellipsis-v-alt"></i>
-                            </button>
-                            <div class="dropdown-menu custom-dropdown">
+
+                            <div class="">
                                 @can('view', $work)
                                     <a href="{{route('works.show', $work)}}" class="dropdown-item-text text-decoration-none">
                                         <i class="fal fa-eye pr-2 text-primary"></i>@lang('translates.buttons.view')
@@ -285,7 +277,6 @@
                                     </a>
                                 @endcan
                             </div>
-                        </div>
                     </div>
                 </td>
             </tr>
@@ -317,11 +308,7 @@
                             <select class="select2" id="data-department" name="department_id" required style="width: 100% !important;">
                                 <option value="">@lang('translates.general.department_select')</option>
                                 @foreach($allDepartments as $dep)
-                                    <option
-                                            value="{{$dep->id}}"
-                                            @if($dep->id == auth()->user()->getAttribute('department_id')) selected @endif>
-                                        {{$dep->name}}
-                                    </option>
+                                    <option value="{{$dep->id}}" @if($dep->id == auth()->user()->getAttribute('department_id')) selected @endif>{{$dep->name}}</option>
                                 @endforeach
                             </select>
                         </div>
