@@ -8,7 +8,7 @@
             <tbody>
             <tr>
                 <td colspan="2">
-                    <div style="background-color: #0A1549 !important;" class="node"><a href="#">Vüsal Xəlilov</a>
+                    <div style="background-color: #0A1549 !important;" class="node"><a href="{{route('getInstruction',48)}}">Vüsal Xəlilov</a>
                     </div>
                 </td>
             </tr>
@@ -60,7 +60,7 @@
                                     <tbody>
                                     <tr>
                                         <td colspan="14">
-                                            <div class="node"><a href="#">Zeynəb Mustafayeva</a>
+                                            <div class="node"><a href="{{route('getInstruction',47)}}">Zeynəb Mustafayeva</a>
                                             </div>
                                         </td>
                                     </tr>
@@ -1581,7 +1581,7 @@
                                                 <tbody>
                                                 <tr>
                                                     <td colspan="2">
-                                                        <div class="node"><a href="{{route('getInstruction', 101)}}">Təchizat Şöbəsinin Rəisi-Sabir Tahirov</a>
+                                                        <div class="node"><a href="{{route('getInstruction', 46)}}">Təchizat Şöbəsinin Rəisi-Sabir Tahirov</a>
                                                         </div>
                                                     </td>
                                                 </tr>
