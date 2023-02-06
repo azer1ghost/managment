@@ -97,24 +97,10 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </div>
 @endsection
 @section('scripts')
-    {{--            <script>--}}
-    {{--                $(function () {--}}
-    {{--                    $('#balance').hide();--}}
-    {{--                    $('#balance').change(function () {--}}
-    {{--                        if ($('#balance').val() == 'legal') {--}}
-    {{--                            $('#balance').show();--}}
-    {{--                        } else {--}}
-    {{--                            $('#default').hide();--}}
-    {{--                        }--}}
-    {{--                    });--}}
-    {{--                });--}}
-    {{--            </script>--}}
 @endsection
