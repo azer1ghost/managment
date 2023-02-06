@@ -40,7 +40,7 @@ return [
         'viewAny-employeeSatisfaction', 'view-employeeSatisfaction', 'manage-employeeSatisfaction', 'delete-employeeSatisfaction', 'measure-employeeSatisfaction',
         'viewAny-jobInstruction', 'viewAll-jobInstruction', 'viewAllDepartment-jobInstruction', 'view-jobInstruction', 'create-jobInstruction', 'update-jobInstruction','manage-jobInstruction','delete-jobInstruction',
         'viewAny-internalNumber', 'view-internalNumber', 'create-internalNumber', 'update-internalNumber','manage-internalNumber','delete-internalNumber',
-        'viewAny-internalRelation', 'view-internalRelation', 'create-internalRelation', 'update-internalRelation','manage-internalRelation','delete-internalNumber',
+        'viewAny-internalRelation', 'view-internalRelation', 'create-internalRelation', 'update-internalRelation','manage-internalRelation','delete-internalRelation',
         'viewAll-inquiry', 'viewAllDepartment-inquiry', 'viewAny-inquiry', 'view-inquiry', 'create-inquiry', 'update-inquiry', 'delete-inquiry', 'forceDelete-inquiry', 'restore-inquiry', 'editAccessToUser-inquiry',
         'viewAny-meeting', 'view-meeting', 'create-meeting', 'update-meeting', 'delete-meeting',
         'viewAny-salesInquiry', 'viewAll-salesInquiry', 'checkRejectedReason-inquiry',
