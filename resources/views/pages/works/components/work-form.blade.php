@@ -156,7 +156,7 @@
 
                         @switch($parameter->type)
                             @case('text')
-                                <div class="form-group col-12 col-md-3" @if(auth()->user()->hasPermission('editPrice-work') && in_array('finance', explode(' ', $parameter->attributes))) style="display: none" @endif wire:ignore>
+                                <div class="form-group col-12 col-md-3" wire:ignore>
                                     <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
                                     <input type="text" data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters parameters[{{$parameter->id}}]" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
                                 </div>

@@ -58,11 +58,12 @@ class Work extends Model implements DocumentableInterface, Recordable
         'verified_at',
         'paid_at',
         'vat_date',
+        'entry_date',
         'bank_charge',
         'invoiced_date'
     ];
 
-    protected $dates = ['datetime', 'verified_at', 'paid_at', 'vat_date', 'invoiced_date'];
+    protected $dates = ['datetime', 'verified_at', 'paid_at', 'vat_date', 'invoiced_date', 'entry_date'];
 
     public function getMainColumn(): string
     {
