@@ -298,6 +298,7 @@ class WorkController extends Controller
             'paid_at' => $request->get('paid_at'),
             'vat_date' => $request->get('vat_date'),
             'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
+            'entry_date' => $request->get('entry_date') ?? $startOfMonth . ' - ' . $endOfMonth,
             'datetime' => $request->get('datetime') ?? $startOfMonth . ' - ' . $endOfMonth,
             'invoiced_date' => $request->get('invoiced_date') ?? $startOfMonth . ' - ' . $endOfMonth,
         ];
@@ -309,6 +310,7 @@ class WorkController extends Controller
         $dateFilters = [
             'datetime' => $request->has('check-datetime'),
             'created_at' => $request->has('check-created_at'),
+            'entry_date' => $request->has('check-entry_date'),
 //            'paid_at_date' => $request->has('check-paid_at'),
             'vat_date' => $request->has('check-vat_paid_at'),
             'invoiced_date' => $request->has('check-invoiced_date')

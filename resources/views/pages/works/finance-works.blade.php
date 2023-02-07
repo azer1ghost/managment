@@ -34,7 +34,7 @@
         <i class="far fa-filter"></i> @lang('translates.buttons.filter_open')
     </button>
 
-    <form action="{{route('works.index')}}">
+    <form action="{{route('finance-works')}}">
         <div class="row d-flex justify-content-between mb-2">
             <div id="filterContainer" class="mb-3" @if(request()->has('datetime')) style="display:block;" @else style="display:none;" @endif>
                 <div class="col-12">
@@ -165,8 +165,8 @@
                         </div>
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="createdAtFilter">{{trans('translates.fields.created_at')}}</label>
-                            <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
-                            <input type="checkbox" name="check-created_at" id="check-created_at" @if(request()->has('check-created_at')) checked @endif> <label for="check-created_at">@lang('translates.filters.filter_by')</label>
+                            <input class="form-control custom-daterange mb-1" id="entryDateFilter" type="text" readonly name="entry_date" value="{{$filters['entry_date']}}">
+                            <input type="checkbox" name="check-entry_date" id="check-entry_date" @if(request()->has('check-entry_date')) checked @endif> <label for="check-entry_date">@lang('translates.filters.filter_by')</label>
                         </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
@@ -231,7 +231,7 @@
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <button type="submit" class="btn btn-outline-primary"><i
                                             class="fas fa-filter"></i> @lang('translates.buttons.filter')</button>
-                                <a href="{{route('works.index')}}" class="btn btn-outline-danger"><i
+                                <a href="{{route('finance-works')}}" class="btn btn-outline-danger"><i
                                             class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>
                             </div>
                         </div>
@@ -285,19 +285,22 @@
         <thead>
         <tr class="text-center">
             <th scope="col">E-Qaimə</th>
-            <th scope="col">@lang('translates.columns.department')</th>
             <th scope="col">@lang('translates.fields.user')</th>
             <th scope="col">Asan imza</th>
             <th scope="col">@lang('translates.navbar.service')</th>
             <th scope="col">@lang('translates.fields.clientName')</th>
             <th scope="col">Status</th>
-            <th scope="col">Gb Say</th>
-            <th scope="col">Kod Say</th>
-            <th scope="col">Say</th>
-            <th scope="col">@lang('translates.columns.sum_paid')</th>
-            <th scope="col">@lang('translates.columns.residue')</th>
-            <th scope="col">@lang('translates.columns.verified')</th>
+            @if(auth()->user()->hasPermission('viewPrice-work'))
+                @foreach(\App\Models\Service::serviceParameters() as $param)
+                    <th>{{$param['data']->getAttribute('label')}}</th>
+                @endforeach
+            @endif
+            <th scope="col">@lang('translates.general.payment_method')</th>
+            <th scope="col">@lang('translates.fields.created_at')</th>
+            <th scope="col">@lang('translates.fields.paid_at')</th>
+            <th scope="col">@lang('translates.fields.invoiced_date')</th>
             <th scope="col"></th>
+
         </tr>
         </thead>
         <tbody>
@@ -314,10 +317,9 @@
                     $hasPending = true;
                 @endphp
             @endif
-            <tr data-toggle="collapse" data-target="#demo{{$work->getAttribute('id')}}" class="accordion-toggle" @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}">
+            <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}">
 
                 <th @if(auth()->user()->hasPermission('editPrice-work')) class="code" @endif data-name="code" data-pk="{{ $work->getAttribute('id') }}" scope="row">{{$work->getAttribute('code')}}</th>
-                <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
                 <td>
                     @if(is_numeric($work->getAttribute('user_id')))
                         {{$work->getRelationValue('user')->getAttribute('fullname_with_position')}}
@@ -359,30 +361,27 @@
                          {{trans('translates.work_status.' . $work->getAttribute('status'))}}
                     </span>
                 </td>
-                <td>{{$work->getParameter($work::GB)}}</td>
-                <td>{{$work->getParameter($work::CODE)}}</td>
-                <td>{{$work->getParameter($work::SERVICECOUNT)}}</td>
-                @php
-                    $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID) + $work->getAttribute('bank_charge');
-                    $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) + $work->getParameter($work::ILLEGALAMOUNT) - $sum_payment) * -1;
-                @endphp
-                    <td class="font-weight-bold" data-toggle="tooltip">{{$sum_payment}}</td>
-                    <td  class="font-weight-bold" @if($residue < 0) style="color:red" @endif data-toggle="tooltip">@if($residue < 0) {{$residue}} @else 0 @endif</td>
-                <td>
-                    @php
-                        $status = '';
-                        if(is_null($work->getAttribute('verified_at')) && $work->status == \App\Models\Work::DONE){
-                            $status = "<i data-toggle='tooltip' data-placement='top' title='". trans('translates.work_status.1') ."' class='fas fa-clock text-info mr-2' style='font-size: 22px'></i>";
-                        }
-                        if(!is_null($work->getAttribute('verified_at'))){
-                            $status = "<i data-toggle='tooltip' data-placement='top' title='". trans('translates.columns.verified') ."' class='fas fa-check text-success mr-2' style='font-size: 22px'></i>";
-                        }
-                        if($work->getAttribute('status') == $work::REJECTED){
-                            $status = "<i data-toggle='tooltip' data-placement='top' title='". trans('translates.columns.rejected') ."' class='fas fa-times text-danger' style='font-size: 22px'></i>";
-                        }
-                    @endphp
-                    {!! $status !!}
-                </td>
+                @if(auth()->user()->hasPermission('viewPrice-work'))
+                    @foreach(\App\Models\Service::serviceParameters() as $param)
+                        <td @if(auth()->user()->hasPermission('editPrice-work')) class="update"  @endif data-name="{{$param['data']->getAttribute('id')}}" data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
+                        @php
+                            if($param['count']){ // check if parameter is countable
+                                $count = (int) $work->getParameter($param['data']->getAttribute('id'));
+                                if(isset($totals[$param['data']->getAttribute('id')])){
+                                    $totals[$param['data']->getAttribute('id')] += $count;
+                                }else{
+                                    $totals[$param['data']->getAttribute('id')] = $count;
+                                }
+                            }else{
+                                $totals[$param['data']->getAttribute('id')] = NULL;
+                            }
+                        @endphp
+                    @endforeach
+                @endif
+                <td title="{{$work->getAttribute('payment_method')}}" data-toggle="tooltip">{{trans('translates.payment_methods.' . $work->getAttribute('payment_method'))}}</td>
+                <td title="{{optional($work->getAttribute('created_at'))->diffForHumans()}}" data-toggle="tooltip">{{$work->getAttribute('created_at')}}</td>
+                <td title="{{$work->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
+                <td title="{{$work->getAttribute('invoiced_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
                 <td>
                     <div class="btn-sm-group d-flex align-items-center">
                         @if($work->getAttribute('creator_id') != auth()->id() && is_null($work->getAttribute('user_id')) && !auth()->user()->isDeveloper())
@@ -436,72 +435,6 @@
                     </div>
                 </td>
             </tr>
-            <tr>
-                <td colspan="99" class="hiddenRow">
-                    <div class="accordian-body collapse" id="demo{{$work->getAttribute('id')}}">
-                        <table>
-                            <thead>
-                            <tr>
-                                @if(auth()->user()->hasPermission('viewPrice-work'))
-                                    @foreach(\App\Models\Service::serviceParameters() as $param)
-                                        <th>{{$param['data']->getAttribute('label')}}</th>
-                                    @endforeach
-                                @endif
-                                <th scope="col">@lang('translates.general.payment_method')</th>
-                                <th scope="col">@lang('translates.fields.created_at')</th>
-                                <th scope="col">@lang('translates.fields.date')</th>
-                                <th scope="col">@lang('translates.fields.paid_at')</th>
-                                <th scope="col">@lang('translates.fields.invoiced_date')</th>
-                            </tr>
-
-                            </thead>
-                            <tbody>
-                            <tr>
-                                @if(auth()->user()->hasPermission('viewPrice-work'))
-                                    @foreach(\App\Models\Service::serviceParameters() as $param)
-                                        <td @if(auth()->user()->hasPermission('editPrice-work')) class="update"  @endif data-name="{{$param['data']->getAttribute('id')}}" data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
-                                        @php
-                                            if($param['count']){ // check if parameter is countable
-                                                $count = (int) $work->getParameter($param['data']->getAttribute('id'));
-                                                if(isset($totals[$param['data']->getAttribute('id')])){
-                                                    $totals[$param['data']->getAttribute('id')] += $count;
-                                                }else{
-                                                    $totals[$param['data']->getAttribute('id')] = $count;
-                                                }
-                                            }else{
-                                                $totals[$param['data']->getAttribute('id')] = NULL;
-                                            }
-                                        @endphp
-                                    @endforeach
-                                @endif
-                                <td title="{{$work->getAttribute('payment_method')}}" data-toggle="tooltip">{{trans('translates.payment_methods.' . $work->getAttribute('payment_method'))}}</td>
-                                <td title="{{optional($work->getAttribute('created_at'))->diffForHumans()}}" data-toggle="tooltip">{{$work->getAttribute('created_at')}}</td>
-                                <td title="{{$work->getAttribute('datetime')}}" data-toggle="tooltip">{{optional($work->getAttribute('datetime'))->format('Y-m-d')}}</td>
-                                <td title="{{$work->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
-                                <td title="{{$work->getAttribute('invoiced_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
-                            </tr>
-                            <tr>
-                                <th colspan="24">Sorğu nömrəsi</th>
-                            </tr>
-                            <td colspan="24" @if(auth()->user()->hasPermission('editTable-work')) class="declaration" @endif data-name="declaration_no" data-pk="{{$work->getAttribute('id')}}">{{$work->getAttribute('declaration_no')}}</td>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </td>
-            </tr>
-            @php
-                $balance[] = $residue;
-                $gb[] = $work->getParameter($work::GB);
-                $code[] =  $work->getParameter($work::CODE);
-                $serviceCount[] = $work->getParameter($work::SERVICECOUNT);
-                $sum_balance = array_sum($balance);
-                $total_payment[] = $sum_payment;
-                $sum_total_payment = array_sum($total_payment);
-                $gb_count = array_sum($gb);
-                $code_count = array_sum($code);
-                $service_count = array_sum($serviceCount);
-            @endphp
         @empty
             <tr>
                 <th colspan="20">
@@ -513,25 +446,10 @@
         @endforelse
 
         @if($works->isNotEmpty())
-            <tr style="background: #b3b7bb" id="count">
-                <td colspan="7">
-                    <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
-                </td>
-                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $gb_count}}</strong></p></td>
-                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $code_count}}</strong></p></td>
-                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $service_count}}</strong></p></td>
-                <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_total_payment}}</strong></p></td>
-                <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_balance}}</strong></p></td>
-                <td colspan="6"></td>
-            </tr>
+            <tr style="background: #b3b7bb" id="count"></tr>
         @endif
         </tbody>
     </table>
-    @if($hasPending && auth()->user()->hasPermission('canVerify-work'))
-        <div class="col-12 pl-0 py-3">
-            <a href="{{route('works.sum.verify')}}" id="sum-verify" class="btn btn-outline-primary">@lang('translates.sum') @lang('translates.buttons.verify')</a>
-        </div>
-    @endif
 
     <div class="modal fade" id="create-work">
         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -570,30 +488,6 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
                         <button type="submit" class="btn btn-primary">@lang('translates.buttons.create')</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="report-work">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <form action="{{route('works.report')}}" method="GET" target="_blank">
-                    <div class="modal-header">
-                        <h5 class="modal-title">@lang('translates.general.select_date')</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="choose-date">@lang('translates.fields.date')</label>
-                            <input class="form-control custom-daterange" id="choose-date" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
-                        <button type="submit" class="btn btn-primary">@lang('translates.buttons.show')</button>
                     </div>
                 </form>
             </div>
