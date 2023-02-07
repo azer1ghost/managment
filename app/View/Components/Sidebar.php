@@ -475,9 +475,12 @@ class Sidebar extends Component
                             @if(isset($item->children))
                                 <div class="collapse" id="ui-basic{{$loop->index}}">
                                     <ul class="nav flex-column sub-menu">
-                                    @foreach($item->children as $menu)
-                                        <li class="nav-item"> <a class="nav-link" href="{{$menu->url}}">{{$menu->title}}</a></li>
-                                    @endforeach
+                                    @can($item->children->permission ?? 'generally')
+                                        @foreach($item->children as $menu)
+                                            <li class="nav-item"> <a class="nav-link" href="{{$menu->url}}">{{$menu->title}}</a></li>
+                                        @endforeach
+                                    @endcan
+                                  
                                     </ul>
                                 </div>
                             @endif

@@ -144,6 +144,8 @@ Route::group([
 
     Route::put('/works/sum/verify', [WorkController::class, 'sumVerify'])->name('works.sum.verify');
     Route::put('/works/{work}/verify', [WorkController::class, 'verify'])->name('works.verify');
+    Route::put('/works/{work}/paid', [WorkController::class, 'paid'])->name('works.paid');
+    Route::put('/works/{work}/vatPaid', [WorkController::class, 'vatPaid'])->name('works.vatPaid');
     Route::get('/works/report', [WorkController::class, 'report'])->name('works.report');
     Route::get('/works/export', [WorkController::class, 'export'])->name('works.export');
     Route::resource('/works', WorkController::class);

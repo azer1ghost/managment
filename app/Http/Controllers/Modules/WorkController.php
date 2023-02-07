@@ -344,7 +344,7 @@ class WorkController extends Controller
 
             $works = $works->whereIn('status', [3,4,6])->paginate($limit);
 
-        return view('pages.works.pending-works',
+        return view('pages.works.finance-works',
             compact('works', 'services', 'departments','users',
             'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods')
         );
@@ -501,6 +501,22 @@ class WorkController extends Controller
     public function verify(Work $work)
     {
         if ($work->update(['verified_at' => now()])) {
+            return response('OK');
+        }
+        return response()->setStatusCode('204');
+    }
+
+    public function paid(Work $work)
+    {
+        if ($work->update(['paid_at' => now()])) {
+            return response('OK');
+        }
+        return response()->setStatusCode('204');
+    }
+
+    public function vatPaid(Work $work)
+    {
+        if ($work->update(['vat_date' => now()])) {
             return response('OK');
         }
         return response()->setStatusCode('204');
