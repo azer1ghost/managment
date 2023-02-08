@@ -281,7 +281,7 @@
             </div>
         </div>
     @endif
-    <table class="table table-condensed-table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;" id="table">
+    <table class="table table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;" id="table">
         <thead>
         <tr class="text-center">
             <th scope="col">E-Qaimə</th>
