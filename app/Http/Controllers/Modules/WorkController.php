@@ -352,10 +352,13 @@ class WorkController extends Controller
 
             $works = $works->whereIn('status', [3,4,6])->paginate($limit);
 
-        return view('pages.works.finance-works',
-            compact('works', 'services', 'departments','users',
-            'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods')
-        );
+        if (auth()->user()->hasPermission('viewPrice-work')) {
+            return view('pages.works.finance-works',
+                compact('works', 'services', 'departments','users',
+                    'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods')
+            );
+        }
+            return view('errors.403');
     }
 
     public function create()
