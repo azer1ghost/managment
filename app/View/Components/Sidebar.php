@@ -414,7 +414,7 @@ class Sidebar extends Component
                         'title' => __('translates.navbar.plannedWorks'),
                         'icon' => 'fas fa-bullhorn',
                         'url' => route('planned-works'),
-                        'permission' => 'canPlanned-work',
+                        'permission' => 'viewAny-work',
                     ],
                     (object)[
                         'title' => __('translates.navbar.financeWorks'),
