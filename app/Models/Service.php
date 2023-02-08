@@ -102,7 +102,7 @@ class Service extends Model implements Recordable
 
         return \Cache::rememberForever('serviceParametersExport', function (){
             $data = [];
-            foreach (collect(DB::table('service_parameter')->select('parameter_id', 'show_count')->where('show_count', 1)->get())->unique('parameter_id')->toArray() as $param){
+            foreach (collect(DB::table('service_parameter')->select('parameter_id', 'show_count')->where('show_count', 1)->orderBy('ordering')->get())->unique('parameter_id')->toArray() as $param){
                 $data[] = [
                     'data' => Parameter::findOrFail($param->parameter_id),
                     'count' => (bool) $param->show_count

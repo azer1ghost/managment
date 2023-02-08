@@ -25,22 +25,26 @@ class WorkObserver
 
     public function creating(Work $work)
     {
-        $work->setAttribute('status', $work::PENDING);
+        if (auth()->user()->hasPermission('canPlanned-work')) {
+            $work->setAttribute('status', $work::PLANNED);
+        }else {
+            $work->setAttribute('status', $work::PENDING);
+        }
     }
 
     public function created(Work $work)
     {
-        $work->hours()->create(['status' => $work::PENDING, 'updated_at' => now()]);
+        if (auth()->user()->hasPermission('canPlanned-work')) {
+            $work->hours()->create(['status' => $work::PLANNED, 'updated_at' => now()]);
+        }else {
+            $work->hours()->create(['status' => $work::PENDING, 'updated_at' => now()]);
+        }
     }
 
     public function updating(Work $work)
     {
         if($work->isDirty('status')){
             $work->hours()->create(['status' => $work->getAttribute('status'), 'updated_at' => now()]);
-
-            if($work->isClean('datetime') && $work->getAttribute('status') == $work::DONE){
-                $work->setAttribute('datetime', now());
-            }
         }
 
         if(!auth()->user()->hasPermission('canRedirect-work') && $work->isDirty('user_id')){

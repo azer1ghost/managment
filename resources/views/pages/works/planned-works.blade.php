@@ -34,13 +34,13 @@
         <i class="far fa-filter"></i> @lang('translates.buttons.filter_open')
     </button>
 
-    <form action="{{route('pending-works')}}">
-        <div class="row mb-2">
+    <form action="{{route('planned-works')}}">
+        <div class="row d-flex justify-content-between mb-2">
             <div id="filterContainer" class="mb-3" @if(request()->has('datetime')) style="display:block;" @else style="display:none;" @endif>
                 <div class="col-12">
                     <div class="row m-0">
                         @if(\App\Models\Work::userCanViewAll())
-                            <div class="form-group col-12 col-md-4 my-3">
+                            <div class="form-group col-12 col-md-3 my-3 pl-0">
                                 <label class="d-block" for="departmentFilter">{{__('translates.general.department_select')}}</label>
                                 <select id="departmentFilter" class="select2"
                                         name="department_id"
@@ -60,7 +60,7 @@
                         @endif
 
                         @if(\App\Models\Work::userCanViewAll() || \App\Models\Work::userCanViewDepartmentWorks())
-                            <div class="form-group col-12 col-md-4 mt-3 mb-3">
+                            <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                                 <label class="d-block" for="userFilter">{{__('translates.general.user_select')}}</label>
                                 <select id="userFilter" class="select2"
                                         name="user_id"
@@ -77,7 +77,7 @@
                             </div>
                         @endif
 
-                        <div class="form-group col-12 col-md-4 mt-3 mb-3">
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="serviceFilter">{{__('translates.general.select_service')}}</label>
                             <select id="serviceFilter" multiple
                                     class="select2 js-example-theme-multiple"
@@ -97,20 +97,19 @@
                             </select>
                         </div>
 
-                        <div class="form-group col-12 col-md-4 mt-3 mb-3">
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
                             <select name="client_id"
                                     id="clientFilter"
                                     class="custom-select2" style="width: 100% !important;"
-                                    data-url="{{route('clients.search')}}"
-                            >
+                                    data-url="{{route('clients.search')}}">
                                 @if(is_numeric($filters['client_id']))
                                     <option value="{{$filters['client_id']}}">{{\App\Models\Client::find($filters['client_id'])->getAttribute('fullname_with_voen')}}</option>
                                 @endif
                             </select>
                         </div>
 
-                        <div class="form-group col-12 col-md-4 mt-3 mb-3">
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="asanCompanyFilter">Asan Imza @lang('translates.columns.company')</label>
                             <select name="asan_imza_company_id" id="asanCompanyFilter" class="select2" data-width="fit" style="width: 100% !important;">
                                 <option value="">@lang('translates.filters.select')</option>
@@ -125,7 +124,7 @@
                             </select>
                         </div>
 
-                        <div class="form-group col-12 col-md-4 mt-3 mb-3 ">
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="asanUserFilter">Asan Imza @lang('translates.columns.user')</label>
                             <select name="asan_imza_id" id="asanUserFilter" class="custom-select2" style="width: 100% !important;" data-url="{{route('asanImza.user.search')}}">
                                 @if(is_numeric($filters['asan_imza_id']))
@@ -140,7 +139,7 @@
                             </select>
                         </div>
 
-                        <div class="form-group col-12 col-md-4 mt-3 mb-3">
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="createdAtFilter">{{trans('translates.fields.created_at')}}</label>
                             <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
                             <input type="checkbox" name="check-created_at" id="check-created_at" @if(request()->has('check-created_at')) checked @endif> <label for="check-created_at">@lang('translates.filters.filter_by')</label>
@@ -151,7 +150,7 @@
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <button type="submit" class="btn btn-outline-primary"><i
                                             class="fas fa-filter"></i> @lang('translates.buttons.filter')</button>
-                                <a href="{{route('pending-works')}}" class="btn btn-outline-danger"><i
+                                <a href="{{route('planned-works')}}" class="btn btn-outline-danger"><i
                                             class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>
                             </div>
                         </div>
@@ -169,6 +168,8 @@
                     </select>
                 </div>
             </div>
+
+
 
             @can('create', App\Models\Work::class)
                 <div class="col-sm-6 py-3">
@@ -211,12 +212,16 @@
         <tbody>
         @forelse($works as $work)
 
+            @if($work->isDone() && is_null($work->getAttribute('verified_at')))
+                @php
+                    $hasPending = true;
+                @endphp
+            @endif
+            <tr data-toggle="collapse" data-target="#demo{{$work->getAttribute('id')}}" class="accordion-toggle" @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}">
 
-            <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}">
+                    <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
 
-                <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
-
-                <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
+                    <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
 
                 <td>
                     @if(is_numeric($work->getAttribute('user_id')))
@@ -230,8 +235,9 @@
                 <td data-toggle="tooltip" data-placement="bottom" title="{{$work->getRelationValue('client')->getAttribute('fullname')}}" >
                     {{mb_strimwidth($work->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}
                 </td>
+
                 <td>
-                    <span class="badge badge-warning" style="font-size: 12px">
+                    <span class="badge badge-secondary" style="font-size: 12px">
                          {{trans('translates.work_status.' . $work->getAttribute('status'))}}
                     </span>
                 </td>
@@ -246,8 +252,12 @@
                                 </a>
                             @endcan
                         @endif
-
-                            <div class="">
+                        <div class="dropdown">
+                            <button class="btn" type="button" id="inquiry_actions-{{$loop->iteration}}"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fal fa-ellipsis-v-alt"></i>
+                            </button>
+                            <div class="dropdown-menu custom-dropdown">
                                 @can('view', $work)
                                     <a href="{{route('works.show', $work)}}" class="dropdown-item-text text-decoration-none">
                                         <i class="fal fa-eye pr-2 text-primary"></i>@lang('translates.buttons.view')
@@ -275,6 +285,7 @@
                                     </a>
                                 @endcan
                             </div>
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -306,7 +317,11 @@
                             <select class="select2" id="data-department" name="department_id" required style="width: 100% !important;">
                                 <option value="">@lang('translates.general.department_select')</option>
                                 @foreach($allDepartments as $dep)
-                                    <option value="{{$dep->id}}" @if($dep->id == auth()->user()->getAttribute('department_id')) selected @endif>{{$dep->name}}</option>
+                                    <option
+                                            value="{{$dep->id}}"
+                                            @if($dep->id == auth()->user()->getAttribute('department_id')) selected @endif>
+                                        {{$dep->name}}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>

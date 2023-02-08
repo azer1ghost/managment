@@ -63,7 +63,7 @@ return [
         'viewAny-statement', 'view-statement', 'manage-statement',
         'viewAny-update', 'view-update', 'create-update', 'update-update', 'delete-update',
         'viewAny-user', 'view-user', 'create-user', 'update-user', 'delete-user','manageStatus-user', 'manageReferral-user',
-        'viewAll-work', 'viewAny-work', 'view-work', 'create-work', 'update-work', 'delete-work', 'canVerify-work', 'canRedirect-work', 'viewAllDepartment-work', 'viewPrice-work', 'editPrice-work', 'editTable-work',
+        'viewAll-work', 'viewAny-work', 'view-work', 'create-work', 'update-work', 'delete-work', 'canVerify-work', 'canRedirect-work', 'viewAllDepartment-work', 'viewPrice-work', 'editPrice-work', 'editTable-work', 'canPlanned-work',
         'viewAny-widget',
         'inquiryStatus-widget',
         'inquiryDaily-widget',

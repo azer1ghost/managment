@@ -186,7 +186,6 @@ return [
         'signature' => 'Email İmza',
         'inquiry' => 'Sorğular',
         'inquiry_sales' => 'Zənglər',
-        'pending_works' => 'Nəzərdə Tutulan İşlər',
         'barcode' => 'Barkodlar',
         'task' => 'Tapşırıqlar',
         'necessary' => 'Lazımi Sənədlər',
@@ -204,7 +203,10 @@ return [
         'bonus' => 'Bonuslar',
         'update' => 'Yeniləmələr',
         'services' => 'Xidmətlər',
-        'work' => 'İşlər',
+        'work' => 'Ümumi İşlər',
+        'plannedWorks' => 'Planlanan İşlər',
+        'pendingWorks' => 'Gözləmədəki İşlər',
+        'financeWorks' => 'Ödənişlər',
         'meeting' => 'Görüşmələr',
         'conference' => 'İclaslar',
         'document' => 'Sənədlər',
@@ -598,12 +600,13 @@ return [
     ],
 
     'work_status' => [
-        1 => 'Gözləmədə',
+        1 => 'Planlanan',
+        'Gözləmədə',
         'Davam Edir',
+        'Sistemə Vuruldu',
+        'Geri Qaytarıldı',
         'Tamamlandı',
         'Qəbul edilmyib',
-        'Sistemə Vuruldu',
-        'Geri Qaytarıldı'
     ],
 
     'payment_methods' => [

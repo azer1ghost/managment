@@ -20,16 +20,13 @@ class Work extends Model implements DocumentableInterface, Recordable
 {
     use HasFactory, SoftDeletes, Documentable, \Altek\Accountant\Recordable, Eventually;
 
-    const PENDING = 1;
-    const STARTED = 2;
-    const DONE = 3;
-    const REJECTED = 4;
-    const INJECTED = 5;
-    const RETURNED = 6;
-
-    const SATISFIED = 1;
-    const UNSATISFIED = 2;
-    const UNKNOWN = 3;
+    const PLANNED = 1;
+    const PENDING = 2;
+    const STARTED = 3;
+    const INJECTED = 4;
+    const RETURNED = 5;
+    const DONE = 6;
+    const REJECTED = 7;
 
     const GB = 17;
     const CODE = 18;
@@ -55,16 +52,18 @@ class Work extends Model implements DocumentableInterface, Recordable
         'custom_client',
         'status',
         'payment_method',
+        'document_list',
         'datetime',
         'created_at',
         'verified_at',
         'paid_at',
         'vat_date',
+        'entry_date',
         'bank_charge',
         'invoiced_date'
     ];
 
-    protected $dates = ['datetime', 'verified_at', 'paid_at', 'vat_date', 'invoiced_date'];
+    protected $dates = ['datetime', 'verified_at', 'paid_at', 'vat_date', 'invoiced_date', 'entry_date'];
 
     public function getMainColumn(): string
     {
@@ -126,7 +125,7 @@ class Work extends Model implements DocumentableInterface, Recordable
 
     public static function statuses(): array
     {
-        return [1 => 1, 2, 3, 4, 5, 6];
+        return [1 => 1, 2, 3, 4, 5, 6, 7];
     }
 
     public static function paymentMethods(): array
@@ -182,5 +181,15 @@ class Work extends Model implements DocumentableInterface, Recordable
     public function scopeWorksDone($query)
     {
         return $query->where('status', self::DONE);
+    }
+
+    public function scopePlanned($query)
+    {
+        return $query->where('status', self::PLANNED);
+    }
+
+    public function scopePending($query)
+    {
+        return $query->where('status', self::PENDING);
     }
 }
