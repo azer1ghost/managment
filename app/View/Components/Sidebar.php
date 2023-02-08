@@ -34,7 +34,7 @@ class Sidebar extends Component
                 'children' => [
                     (object)[
                         'title' => __('translates.navbar.signature'),
-                        'icon' => 'fa fa-envelope',
+                        'icon' => 'fa fa-e nvelope',
                         'url' => route('signature-select-company'),
                         'permission' => 'signature',
                     ],
