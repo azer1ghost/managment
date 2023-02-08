@@ -420,7 +420,7 @@ class Sidebar extends Component
                         'title' => __('translates.navbar.financeWorks'),
                         'icon' => 'fas fa-scroll',
                         'url' => route('finance-works'),
-                        'permission' => 'viewAny-work',
+                        'permission' => 'viewPrice-work',
                     ],
                 ]
             ],
