@@ -416,15 +416,15 @@ class Sidebar extends Component
                         'url' => route('planned-works'),
                         'permission' => 'viewAny-work',
                     ],
-                    (object)[
-                        'title' => __('translates.navbar.financeWorks'),
-                        'icon' => 'fas fa-scroll',
-                        'url' => route('finance-works'),
-                        'permission' => 'viewPrice-work',
-                    ],
+
                 ]
             ],
-
+            (object)[
+                'title' => __('translates.navbar.financeWorks'),
+                'icon' => 'fas fa-scroll',
+                'url' => route('finance-works'),
+                'permission' => 'viewPrice-work',
+            ],
             (object)[
                 'title' => __('translates.navbar.document'),
                 'icon' => 'fas fa-file-word',
