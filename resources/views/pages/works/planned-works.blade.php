@@ -34,7 +34,7 @@
         <i class="far fa-filter"></i> @lang('translates.buttons.filter_open')
     </button>
 
-    <form action="{{route('pending-works')}}">
+    <form action="{{route('planned-works')}}">
         <div class="row d-flex justify-content-between mb-2">
             <div id="filterContainer" class="mb-3" @if(request()->has('datetime')) style="display:block;" @else style="display:none;" @endif>
                 <div class="col-12">
@@ -150,7 +150,7 @@
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <button type="submit" class="btn btn-outline-primary"><i
                                             class="fas fa-filter"></i> @lang('translates.buttons.filter')</button>
-                                <a href="{{route('pending-works')}}" class="btn btn-outline-danger"><i
+                                <a href="{{route('planned-works')}}" class="btn btn-outline-danger"><i
                                             class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>
                             </div>
                         </div>
@@ -205,7 +205,6 @@
             <th scope="col">Asan imza</th>
             <th scope="col">@lang('translates.navbar.service')</th>
             <th scope="col">@lang('translates.fields.clientName')</th>
-            <th scope="col">Documents</th>
             <th scope="col">Status</th>
             <th scope="col">@lang('translates.columns.created_at')</th>
         </tr>
@@ -236,13 +235,9 @@
                 <td data-toggle="tooltip" data-placement="bottom" title="{{$work->getRelationValue('client')->getAttribute('fullname')}}" >
                     {{mb_strimwidth($work->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}
                 </td>
+
                 <td>
-                    <span class="badge badge-warning" style="font-size: 12px">
-                         {{trans('translates.work_status.' . $work->getAttribute('status'))}}
-                    </span>
-                </td>
-                <td>
-                    <span class="badge badge-warning" style="font-size: 12px">
+                    <span class="badge badge-secondary" style="font-size: 12px">
                          {{trans('translates.work_status.' . $work->getAttribute('status'))}}
                     </span>
                 </td>

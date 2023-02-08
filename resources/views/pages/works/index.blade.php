@@ -360,22 +360,25 @@
                         @php
                             switch($work->getAttribute('status')){
                                 case(1):
-                                    $color = 'warning';
+                                    $color = 'secondary';
                                     break;
                                 case(2):
-                                    $color = 'primary';
+                                    $color = 'warning';
                                     break;
                                 case(3):
-                                    $color = 'success';
-                                    break;
-                                case(4):
-                                    $color = 'danger';
-                                    break;
-                                case(5):
                                     $color = 'info';
                                     break;
+                                case(4):
+                                    $color = 'primary';
+                                    break;
+                                case(5):
+                                    $color = 'dark';
+                                    break;
                                 case(6):
-                                    $color = 'secondary';
+                                    $color = 'success';
+                                    break;
+                                case(7):
+                                    $color = 'danger';
                                     break;
                             }
                         @endphp

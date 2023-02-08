@@ -390,12 +390,6 @@ class Sidebar extends Component
                 'url' => route('services.index'),
                 'permission' => 'viewAny-service',
             ],
-//            (object)[
-//                'title' => __('translates.navbar.work'),
-//                'icon' => 'fas fa-briefcase',
-//                'url' => route('works.index'),
-//                'permission' => 'viewAny-work',
-//                ],
 
             (object)[
                 'title' => __('translates.navbar.work'),
@@ -407,25 +401,25 @@ class Sidebar extends Component
                         'title' => __('translates.navbar.work'),
                         'icon' => 'fas fa-briefcase',
                         'url' => route('works.index'),
-                        'permission' => 'viewAny-works',
+                        'permission' => 'viewAny-work',
                     ],
                     (object)[
-                        'title' => 'Gözləmədə olan',
+                        'title' => __('translates.navbar.pendingWorks'),
                         'icon' => 'fas fa-bullhorn',
                         'url' => route('pending-works'),
-                        'permission' => 'viewAny-works',
+                        'permission' => 'viewAny-work',
                     ],
                     (object)[
-                        'title' => 'planlananan işlər',
+                        'title' => __('translates.navbar.plannedWorks'),
                         'icon' => 'fas fa-bullhorn',
                         'url' => route('planned-works'),
-                        'permission' => 'viewAny-works',
+                        'permission' => 'canPlanned-work',
                     ],
                     (object)[
-                        'title' => 'maliyyə',
+                        'title' => __('translates.navbar.financeWorks'),
                         'icon' => 'fas fa-scroll',
                         'url' => route('finance-works'),
-                        'permission' => 'viewAny-works',
+                        'permission' => 'viewAny-work',
                     ],
                 ]
             ],

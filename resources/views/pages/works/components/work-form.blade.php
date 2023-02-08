@@ -19,7 +19,7 @@
                     @if(auth()->user()->hasPermission('viewPrice-work'))
                         <div class="form-group col-12 col-md-3">
                             <label for="e-invoice">E-qaimə</label>
-                            <input value="{{optional($data)->getAttribute('code')}}" type="text" name="code" id="invoice" class="form-control" placeholder="E-qaimə nömrəsi daxil edin">
+                            <input value="{{optional($data)->getAttribute('code')}}" type="text" name="code" id="e-invoice" class="form-control" placeholder="E-qaimə nömrəsi daxil edin">
                         </div>
                     @endif
                         @php($service_id = \App\Models\Service::find($selected['service_id'])->id)
@@ -147,7 +147,6 @@
                 @if(!is_null($data) && !is_null(optional($data)->getAttribute('datetime')))
                     <x-input::text wire:ignore name="datetime"  readonly :label="__('translates.fields.date')" value="{{$data->getAttribute('datetime')->format('Y-m-d H:i')}}" width="3" class="pr-3 custom-single-daterange" />
                 @endif
-                @if(is_null(optional($data)->getAttribute('verified_at')) || auth()->user()->hasPermission('viewPrice-work'))
 
                     @foreach($parameters as $parameter)
                         @if(in_array('hideOnPost', explode(' ', $parameter->attributes)) && $method == 'POST')
@@ -156,19 +155,19 @@
 
                         @switch($parameter->type)
                             @case('text')
-                                <div class="form-group col-12 col-md-3" wire:ignore>
+                                <div class="form-group col-12 col-md-3" @if(!auth()->user()->hasPermission('editPrice-work') && in_array('finance', explode(' ', $parameter->attributes))) style="display: none" @endif   wire:ignore>
                                     <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
                                     <input type="text" data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters parameters[{{$parameter->id}}]" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
                                 </div>
                                 @break
                             @case('number')
-                                <div class="form-group col-12 col-md-3" @if(auth()->user()->hasPermission('editPrice-work') && in_array('finance', explode(' ', $parameter->attributes))) style="display: none" @endif wire:ignore>
+                                <div class="form-group col-12 col-md-3" @if(!auth()->user()->hasPermission('editPrice-work') && in_array('finance', explode(' ', $parameter->attributes))) style="display: none" @endif wire:ignore>
                                     <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
                                     <input type="number" data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
                                 </div>
                             @break
                             @case('select')
-                                <div class="form-group col-12 col-md-3" @if(auth()->user()->hasPermission('editPrice-work') && in_array('finance', explode(' ', $parameter->attributes))) style="display: none" @endif  wire:ignore>
+                                <div class="form-group col-12 col-md-3" @if(!auth()->user()->hasPermission('editPrice-work') && in_array('finance', explode(' ', $parameter->attributes))) style="display: none" @endif wire:ignore>
                                     <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
                                     <select data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters" wire:model="workParameters.{{$parameter->name}}">
                                         <option value="" selected>{{$parameter->placeholder}}</option>
@@ -180,7 +179,6 @@
                                 @break
                         @endswitch
                     @endforeach
-                @endif
 
                 <div class="form-group col-12 col-md-3" wire:ignore>
                     <label for="data-payment_method">@lang('translates.general.payment_method')</label>
@@ -210,91 +208,92 @@
                 @if(!is_null($data))
                     <x-input::text wire:ignore name="invoiced_date"  readonly :label="__('translates.fields.invoiced_date')" value="{{optional($data->getAttribute('invoiced_date'))->format('Y-m-d H:i')}}" width="3" class="pr-3" />
                 @endif
-                        <fieldset>
-                            <legend>Choose Documents:</legend>
+                @if(auth()->user()->hasPermission('canPlanned-work'))
+                    <fieldset class="col-12">
+                        <legend>Choose Documents:</legend>
 
-                            <div>
-                                <input type="checkbox" name="document_list[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
-                                <label for="transportDocument">Transport Document</label>
-                            </div>
+                        <div>
+                            <input type="checkbox" name="document_list[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
+                            <label for="transportDocument">Nəqliyyat Sənədi</label>
+                        </div>
 
-                            <div>
-                                <input type="checkbox" name="document_list[]" id="invoice" value="invoice" @if(in_array('invoice',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
-                                <label for="invoice">Invoice</label>
-                            </div>
+                        <div>
+                            <input type="checkbox" name="document_list[]" id="invoice" value="invoice" @if(in_array('invoice',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
+                            <label for="invoice">İnvoys</label>
+                        </div>
 
-                            <div>
-                                <input type="checkbox" name="document_list[]" id="weightList" value="weightList" @if(in_array('weightList',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
-                                <label for="weightList">Weight List</label>
-                            </div>
+                        <div>
+                            <input type="checkbox" name="document_list[]" id="weightList" value="weightList" @if(in_array('weightList',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
+                            <label for="weightList">Çəki Listəsi</label>
+                        </div>
 
-{{--                            <div>--}}
-{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
-{{--                                <label for="transportDocument">Transport Document</label>--}}
-{{--                            </div>--}}
+                        <div>
+                            <input type="checkbox" name="document_list[]" id="exportDeclaration" value="exportDeclaration" @if(in_array('exportDeclaration',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
+                            <label for="exportDeclaration">İxrac Bəyannaməsi</label>
+                        </div>
 
-{{--                            <div>--}}
-{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
-{{--                                <label for="transportDocument">Transport Document</label>--}}
-{{--                            </div>--}}
+                        <div>
+                            <input type="checkbox" name="document_list[]" id="pincode" value="pincode" @if(in_array('pincode',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
+                            <label for="pincode">Müqavilə Pinkodu</label>
+                        </div>
 
-{{--                            <div>--}}
-{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
-{{--                                <label for="transportDocument">Transport Document</label>--}}
-{{--                            </div>--}}
+                        <div>
+                            <input type="checkbox" name="document_list[]" id="contract" value="contract" @if(in_array('contract',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
+                            <label for="contract">Xidməti Müqavilə</label>
+                        </div>
 
-{{--                            <div>--}}
-{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
-{{--                                <label for="transportDocument">Transport Document</label>--}}
-{{--                            </div>--}}
+                        <div>
+                            <input type="checkbox" name="document_list[]" id="swift" value="swift" @if(in_array('swift',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
+                            <label for="swift">Swift</label>
+                        </div>
 
-{{--                            <div>--}}
-{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
-{{--                                <label for="transportDocument">Transport Document</label>--}}
-{{--                            </div>--}}
+                        <div>
+                            <input type="checkbox" name="document_list[]" id="travelCost" value="travelCost" @if(in_array('travelCost',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
+                            <label for="travelCost">Yol Xərci İnvoysu</label>
+                        </div>
 
-{{--                            <div>--}}
-{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
-{{--                                <label for="transportDocument">Transport Document</label>--}}
-{{--                            </div>--}}
+                        <div>
+                            <input type="checkbox" name="document_list[]" id="originCertificate" value="originCertificate" @if(in_array('originCertificate',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
+                            <label for="originCertificate">Mənşə Sertifikatı</label>
+                        </div>
 
-{{--                            <div>--}}
-{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
-{{--                                <label for="transportDocument">Transport Document</label>--}}
-{{--                            </div>--}}
+                        <div>
+                            <input type="checkbox" name="document_list[]" id="permitDocument" value="permitDocument" @if(in_array('permitDocument',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
+                            <label for="permitDocument">Xüsusui İcazə Sənədləri</label>
+                        </div>
 
-{{--                            <div>--}}
-{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
-{{--                                <label for="transportDocument">Transport Document</label>--}}
-{{--                            </div>--}}
+                        <div>
+                            <input type="checkbox" name="document_list[]" id="place" value="place" @if(in_array('place',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
+                            <label for="place">Yükləmə/Boşalma Yeri</label>
+                        </div>
 
-{{--                            <div>--}}
-{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
-{{--                                <label for="transportDocument">Transport Document</label>--}}
-{{--                            </div>--}}
+                        <div>
+                            <input type="checkbox" name="document_list[]" id="commitment" value="commitment" @if(in_array('commitment',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
+                            <label for="commitment">Etibarnamə(Əmək Müqaviləsi)</label>
+                        </div>
 
-{{--                            <div>--}}
-{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
-{{--                                <label for="transportDocument">Transport Document</label>--}}
-{{--                            </div>--}}
+                        <div>
+                            <input type="checkbox" name="document_list[]" id="reyster" value="reyster" @if(in_array('reyster',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
+                            <label for="reyster">Reysterdən Çıxarış</label>
+                        </div>
 
-{{--                            <div>--}}
-{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
-{{--                                <label for="transportDocument">Transport Document</label>--}}
-{{--                            </div>--}}
+                        <div>
+                            <input type="checkbox" name="document_list[]" id="identify" value="identify" @if(in_array('identify',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
+                            <label for="identify">Şəxsiyyət Vəsiqəsi</label>
+                        </div>
 
-{{--                            <div>--}}
-{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
-{{--                                <label for="transportDocument">Transport Document</label>--}}
-{{--                            </div>--}}
+                        <div>
+                            <input type="checkbox" name="document_list[]" id="qualification" value="qualification" @if(in_array('qualification',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
+                            <label for="qualification">İxtisas Atestatı</label>
+                        </div>
 
-{{--                            <div>--}}
-{{--                                <input type="checkbox" name="documents[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', $documentations)) checked @endif>--}}
-{{--                                <label for="transportDocument">Transport Document</label>--}}
-{{--                            </div>--}}
+                        <div>
+                            <input type="checkbox" name="document_list[]" id="advance" value="advance" @if(in_array('advance',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
+                            <label for="advance">Avans/Höp</label>
+                        </div>
 
-                        </fieldset>
-
+                    </fieldset>
+                @endif
                 @if(auth()->user()->hasPermission('canVerify-work') && $method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Work::DONE)
                     <div class="col-12" wire:ignore>
                         <input type="checkbox" id="data-verified" name="verified" @if(!is_null(optional($data)->getAttribute('verified_at'))) checked @endif>
@@ -331,9 +330,7 @@
         </div>
     </div>
     @if($action)
-            @if(is_null(optional($data)->getAttribute('verified_at')) || auth()->user()->hasPermission('viewPrice-work'))
         <x-input::submit :value="__('translates.buttons.save')"/>
-            @endif
     @endif
 </form>
 

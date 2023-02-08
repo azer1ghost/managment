@@ -61,6 +61,7 @@ class WorkController extends Controller
             'status' => $request->get('status'),
             'paid_at' => $request->get('paid_at'),
             'vat_date' => $request->get('vat_date'),
+            'entry_date' => $request->get('entry_date') ?? $startOfMonth . ' - ' . $endOfMonth,
             'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
             'datetime' => $request->get('datetime') ?? $startOfMonth . ' - ' . $endOfMonth,
             'invoiced_date' => $request->get('invoiced_date') ?? $startOfMonth . ' - ' . $endOfMonth,
@@ -74,6 +75,7 @@ class WorkController extends Controller
             'datetime' => $request->has('check-datetime'),
             'created_at' => $request->has('check-created_at'),
 //            'paid_at_date' => $request->has('check-paid_at'),
+            'entry_date' => $request->has('check-entry_date'),
             'vat_date' => $request->has('check-vat_paid_at'),
             'invoiced_date' => $request->has('check-invoiced_date')
         ];
@@ -137,6 +139,7 @@ class WorkController extends Controller
             'status' => $request->get('status'),
             'paid_at' => $request->get('paid_at'),
             'vat_date' => $request->get('vat_date'),
+            'entry_date' => $request->get('entry_date') ?? $startOfMonth . ' - ' . $endOfMonth,
             'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
             'datetime' => $request->get('datetime') ?? $startOfMonth . ' - ' . $endOfMonth,
             'invoiced_date' => $request->get('invoiced_date') ?? $startOfMonth . ' - ' . $endOfMonth,
@@ -150,6 +153,7 @@ class WorkController extends Controller
             'datetime' => $request->has('check-datetime'),
             'created_at' => $request->has('check-created_at'),
 //            'paid_at_date' => $request->has('check-paid_at'),
+            'entry_date' => $request->has('check-entry_date'),
             'vat_date' => $request->has('check-vat_paid_at'),
             'invoiced_date' => $request->has('check-invoiced_date')
         ];
@@ -217,6 +221,7 @@ class WorkController extends Controller
             'status' => $request->get('status'),
             'paid_at' => $request->get('paid_at'),
             'vat_date' => $request->get('vat_date'),
+            'entry_date' => $request->get('entry_date') ?? $startOfMonth . ' - ' . $endOfMonth,
             'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
             'datetime' => $request->get('datetime') ?? $startOfMonth . ' - ' . $endOfMonth,
             'invoiced_date' => $request->get('invoiced_date') ?? $startOfMonth . ' - ' . $endOfMonth,
@@ -231,6 +236,7 @@ class WorkController extends Controller
             'created_at' => $request->has('check-created_at'),
 //            'paid_at_date' => $request->has('check-paid_at'),
             'vat_date' => $request->has('check-vat_paid_at'),
+            'entry_date' => $request->has('check-entry_date'),
             'invoiced_date' => $request->has('check-invoiced_date')
         ];
 

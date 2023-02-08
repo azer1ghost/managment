@@ -35,12 +35,12 @@
     </button>
 
     <form action="{{route('pending-works')}}">
-        <div class="row d-flex justify-content-between mb-2">
+        <div class="row mb-2">
             <div id="filterContainer" class="mb-3" @if(request()->has('datetime')) style="display:block;" @else style="display:none;" @endif>
                 <div class="col-12">
                     <div class="row m-0">
                         @if(\App\Models\Work::userCanViewAll())
-                            <div class="form-group col-12 col-md-3 my-3 pl-0">
+                            <div class="form-group col-12 col-md-4 my-3">
                                 <label class="d-block" for="departmentFilter">{{__('translates.general.department_select')}}</label>
                                 <select id="departmentFilter" class="select2"
                                         name="department_id"
@@ -60,7 +60,7 @@
                         @endif
 
                         @if(\App\Models\Work::userCanViewAll() || \App\Models\Work::userCanViewDepartmentWorks())
-                            <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <div class="form-group col-12 col-md-4 mt-3 mb-3">
                                 <label class="d-block" for="userFilter">{{__('translates.general.user_select')}}</label>
                                 <select id="userFilter" class="select2"
                                         name="user_id"
@@ -77,7 +77,7 @@
                             </div>
                         @endif
 
-                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                        <div class="form-group col-12 col-md-4 mt-3 mb-3">
                             <label class="d-block" for="serviceFilter">{{__('translates.general.select_service')}}</label>
                             <select id="serviceFilter" multiple
                                     class="select2 js-example-theme-multiple"
@@ -97,7 +97,7 @@
                             </select>
                         </div>
 
-                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                        <div class="form-group col-12 col-md-4 mt-3 mb-3">
                             <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
                             <select name="client_id"
                                     id="clientFilter"
@@ -110,7 +110,7 @@
                             </select>
                         </div>
 
-                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                        <div class="form-group col-12 col-md-4 mt-3 mb-3">
                             <label class="d-block" for="asanCompanyFilter">Asan Imza @lang('translates.columns.company')</label>
                             <select name="asan_imza_company_id" id="asanCompanyFilter" class="select2" data-width="fit" style="width: 100% !important;">
                                 <option value="">@lang('translates.filters.select')</option>
@@ -125,7 +125,7 @@
                             </select>
                         </div>
 
-                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                        <div class="form-group col-12 col-md-4 mt-3 mb-3 ">
                             <label class="d-block" for="asanUserFilter">Asan Imza @lang('translates.columns.user')</label>
                             <select name="asan_imza_id" id="asanUserFilter" class="custom-select2" style="width: 100% !important;" data-url="{{route('asanImza.user.search')}}">
                                 @if(is_numeric($filters['asan_imza_id']))
@@ -140,7 +140,7 @@
                             </select>
                         </div>
 
-                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                        <div class="form-group col-12 col-md-4 mt-3 mb-3">
                             <label class="d-block" for="createdAtFilter">{{trans('translates.fields.created_at')}}</label>
                             <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
                             <input type="checkbox" name="check-created_at" id="check-created_at" @if(request()->has('check-created_at')) checked @endif> <label for="check-created_at">@lang('translates.filters.filter_by')</label>
@@ -169,8 +169,6 @@
                     </select>
                 </div>
             </div>
-
-
 
             @can('create', App\Models\Work::class)
                 <div class="col-sm-6 py-3">

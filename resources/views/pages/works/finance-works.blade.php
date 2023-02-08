@@ -305,9 +305,6 @@
         </thead>
         <tbody>
         @php
-            $totals = []; // array of countable service parameters. Ex: Declaration count
-            $balance = [];
-            $total_payment = [];
             $hasPending = false; // check if there's pending work
         @endphp
         @forelse($works as $work)
@@ -336,25 +333,28 @@
                     @if(is_numeric($work->getAttribute('status')))
                         @php
                             switch($work->getAttribute('status')){
-                                case(1):
-                                    $color = 'warning';
-                                    break;
-                                case(2):
-                                    $color = 'primary';
-                                    break;
-                                case(3):
-                                    $color = 'success';
-                                    break;
-                                case(4):
-                                    $color = 'danger';
-                                    break;
-                                case(5):
-                                    $color = 'info';
-                                    break;
-                                case(6):
-                                    $color = 'secondary';
-                                    break;
-                            }
+                               case(1):
+                                   $color = 'secondary';
+                                   break;
+                               case(2):
+                                   $color = 'warning';
+                                   break;
+                               case(3):
+                                   $color = 'info';
+                                   break;
+                               case(4):
+                                   $color = 'primary';
+                                   break;
+                               case(5):
+                                   $color = 'dark';
+                                   break;
+                               case(6):
+                                   $color = 'success';
+                                   break;
+                               case(7):
+                                   $color = 'danger';
+                                   break;
+                           }
                         @endphp
                     @endif
                     <span class="badge badge-{{$color}}" style="font-size: 12px">
