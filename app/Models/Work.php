@@ -52,7 +52,6 @@ class Work extends Model implements DocumentableInterface, Recordable
         'custom_client',
         'status',
         'payment_method',
-        'document_list',
         'datetime',
         'created_at',
         'verified_at',

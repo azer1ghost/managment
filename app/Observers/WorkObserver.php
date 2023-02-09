@@ -25,20 +25,12 @@ class WorkObserver
 
     public function creating(Work $work)
     {
-        if (auth()->user()->hasPermission('canPlanned-work')) {
-            $work->setAttribute('status', $work::PLANNED);
-        }else {
-            $work->setAttribute('status', $work::PENDING);
-        }
+        $work->setAttribute('status', $work::PENDING);
     }
 
     public function created(Work $work)
     {
-        if (auth()->user()->hasPermission('canPlanned-work')) {
-            $work->hours()->create(['status' => $work::PLANNED, 'updated_at' => now()]);
-        }else {
-            $work->hours()->create(['status' => $work::PENDING, 'updated_at' => now()]);
-        }
+        $work->hours()->create(['status' => $work::PENDING, 'updated_at' => now()]);
     }
 
     public function updating(Work $work)

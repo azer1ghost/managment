@@ -150,7 +150,6 @@ Route::group([
     Route::get('/works/export', [WorkController::class, 'export'])->name('works.export');
     Route::resource('/works', WorkController::class);
     Route::get('/pendingWorks', [WorkController::class, 'pendingWorks'])->name('pending-works');
-    Route::get('/plannedWorks', [WorkController::class, 'plannedWorks'])->name('planned-works');
     Route::get('/financeWorks', [WorkController::class, 'financeWorks'])->name('finance-works');
     Route::post('/test', [WorkController::class, 'editable'])->name('editable');
     Route::post('/code', [WorkController::class, 'code'])->name('work.code');

@@ -116,84 +116,6 @@ class WorkController extends Controller
         );
     }
 
-    public function plannedWorks(Request $request)
-    {
-        $user = auth()->user();
-        $limit  = $request->get('limit', 25);
-        $startOfMonth = now()->firstOfMonth()->format('Y/m/d');
-        $endOfMonth = now()->format('Y/m/d');
-
-        $departmentRequest = $request->get('department_id');
-
-        $filters = [
-            'limit' => $limit,
-            'code' => $request->get('code'),
-            'declaration_no' => $request->get('declaration_no'),
-            'department_id' => $departmentRequest,
-            'service_id' => $request->get('service_id'),
-            'asan_imza_id' => $request->get('asan_imza_id'),
-            'asan_imza_company_id' => $request->get('asan_imza_company_id'),
-            'client_id' => $request->get('client_id'),
-            'verified_at' => $request->get('verified_at'),
-            'payment_method' => $request->get('payment_method'),
-            'status' => $request->get('status'),
-            'paid_at' => $request->get('paid_at'),
-            'vat_date' => $request->get('vat_date'),
-            'entry_date' => $request->get('entry_date') ?? $startOfMonth . ' - ' . $endOfMonth,
-            'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
-            'datetime' => $request->get('datetime') ?? $startOfMonth . ' - ' . $endOfMonth,
-            'invoiced_date' => $request->get('invoiced_date') ?? $startOfMonth . ' - ' . $endOfMonth,
-        ];
-
-        if(Work::userCanViewAll() || Work::userCanViewDepartmentWorks()){
-            $filters['user_id'] = $request->get('user_id');
-        }
-
-        $dateFilters = [
-            'datetime' => $request->has('check-datetime'),
-            'created_at' => $request->has('check-created_at'),
-//            'paid_at_date' => $request->has('check-paid_at'),
-            'entry_date' => $request->has('check-entry_date'),
-            'vat_date' => $request->has('check-vat_paid_at'),
-            'invoiced_date' => $request->has('check-invoiced_date')
-        ];
-
-        $usersQuery = User::has('works')->with('position', 'role')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id']);
-        $users = Work::userCannotViewAll() && Work::userCanViewDepartmentWorks() ?
-            $usersQuery->where('department_id', $user->getAttribute('department_id'))->get() :
-            $usersQuery->get();
-
-        $departments = Department::isActive()->has('works')->get(['id', 'name']);
-        $companies = Company::query()->has('asanImzalar')->limit(10)->get();
-
-        $paymentMethods = Work::paymentMethods();
-        $statuses = Work::statuses();
-        $verifies = [1 => trans('translates.columns.unverified'), 2 => trans('translates.columns.verified')];
-        $priceVerifies = [1 => trans('translates.columns.price_unverified'), 2 => trans('translates.columns.price_verified')];
-
-        $allDepartments = Department::isActive()->orderBy('ordering')->get(['id', 'name']);
-
-        $services = Service::query()
-            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
-                $query->whereBelongsTo($user->getRelationValue('company'));
-            })->get(['id', 'name', 'detail']);
-
-        $works = $this->workRepository->allFilteredWorks($filters, $dateFilters);
-
-        $paid_at_explode = explode(' - ', $request->get('paid_at_date'));
-
-        if ($request->has('check-paid_at')){
-            $works = $works->whereBetween('paid_at', [Carbon::parse($paid_at_explode[0])->startOfDay(), Carbon::parse($paid_at_explode[1])->endOfDay()]);
-        }
-
-        $works = $works->planned()->paginate($limit);
-
-        return view('pages.works.planned-works',
-            compact('works', 'services', 'departments','users',
-            'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods')
-        );
-    }
-
     public function pendingWorks(Request $request)
     {
         $user = auth()->user();
@@ -282,11 +204,6 @@ class WorkController extends Controller
         $limit  = $request->get('limit', 25);
         $startOfMonth = now()->firstOfMonth()->format('Y/m/d');
         $endOfMonth = now()->format('Y/m/d');
-
-//        $departmentRequest = Work::userCannotViewAll() ?
-//            $user->getAttribute('department_id') :
-//                $request->get('department_id');
-
         $departmentRequest = $request->get('department_id');
 
         $filters = [
@@ -376,14 +293,13 @@ class WorkController extends Controller
 
     public function store(WorkRequest $request): RedirectResponse
     {
-
         $validated = $request->validated();
         $validated['creator_id'] = auth()->id();
 
-        if ($request->get('document_list')) {
-            $document_list = implode(",", $request->get('document_list'));
-            $validated['document_list'] = $document_list;
-        }
+//        if ($request->get('document_list')) {
+//            $document_list = implode(",", $request->get('document_list'));
+//            $validated['document_list'] = $document_list;
+//        }
 
         $work = Work::create($validated);
 
@@ -396,6 +312,8 @@ class WorkController extends Controller
         if ($request->get('status') == 2){
             event(new WorkCreated($work));
         }
+        event(new WorkCreated($work));
+
         return redirect()
             ->route('works.edit', $work)
             ->withNotify('success', $work->getAttribute('name'));
@@ -447,10 +365,10 @@ class WorkController extends Controller
 //        (new NotifyClientSms($message))->toSms($client)->send();
 
         $validated = $request->validated();
-        if ($request->get('document_list')) {
-            $document_list = implode(",", $request->get('document_list'));
-            $validated['document_list'] = $document_list;
-        }
+//        if ($request->get('document_list')) {
+//            $document_list = implode(",", $request->get('document_list'));
+//            $validated['document_list'] = $document_list;
+//        }
 
         $validated['verified_at'] = $request->has('verified') && !$request->has('rejected') ? now() : NULL;
 
@@ -501,9 +419,6 @@ class WorkController extends Controller
         }
         $work->parameters()->sync($parameters);
 
-        if ($request->get('status') == 2){
-            event(new WorkCreated($work));
-        }
         return redirect()
             ->route('works.show', $work)
             ->withNotify('success', $work->getAttribute('name'));

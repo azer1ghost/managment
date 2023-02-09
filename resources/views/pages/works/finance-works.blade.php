@@ -333,9 +333,6 @@
                     @if(is_numeric($work->getAttribute('status')))
                         @php
                             switch($work->getAttribute('status')){
-                               case(1):
-                                   $color = 'secondary';
-                                   break;
                                case(2):
                                    $color = 'warning';
                                    break;

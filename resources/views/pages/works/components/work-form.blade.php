@@ -108,10 +108,8 @@
                         <select name="asan_imza_id" id="data-asan_imza_id" data-url="{{route('asanImza.user.search')}}" class="custom-select2 form-control">
                             <option value="" selected>Asan imza select</option>
                             @foreach(\App\Models\AsanImza::get() as $asanUser)
-                                <option
-                                        value="{{ $asanUser->getAttribute('id') }}"
-                                        @if(optional($data)->getAttribute('asan_imza_id') == $asanUser->getAttribute('id')) selected @endif
-                                >
+                                <option value="{{ $asanUser->getAttribute('id') }}"
+                                        @if(optional($data)->getAttribute('asan_imza_id') == $asanUser->getAttribute('id')) selected @endif>
                                     {{ $asanUser->getRelationValue('user')->getAttribute('fullname') }}
                                     ({{ $asanUser->getRelationValue('company')->getAttribute('name') }})
                                 </option>
@@ -185,8 +183,7 @@
                     <select name="payment_method" id="data-payment_method" class="form-control">
                         <option disabled >@lang('translates.general.payment_method')</option>
                         @foreach($payment_methods as $key => $payment_method)
-                            <option
-                                    @if(optional($data)->getAttribute('payment_method') === $payment_method ) selected @endif
+                            <option @if(optional($data)->getAttribute('payment_method') === $payment_method ) selected @endif
                             value="{{$payment_method}}">
                                 @lang('translates.payment_methods.' . $key)
                             </option>
@@ -195,7 +192,7 @@
                 </div>
 
                 <div class="form-group col-12 col-md-3 bank_charge" wire:ignore>
-                    <label for="bank_charge" >Bank Xərci</label>
+                    <label for="bank_charge">Bank Xərci</label>
                     <input class="form-control" type="text" name="bank_charge" value="{{optional($data)->getAttribute('bank_charge')}}">
                 </div>
 
@@ -207,92 +204,6 @@
                 @endif
                 @if(!is_null($data))
                     <x-input::text wire:ignore name="invoiced_date"  readonly :label="__('translates.fields.invoiced_date')" value="{{optional($data->getAttribute('invoiced_date'))->format('Y-m-d H:i')}}" width="3" class="pr-3" />
-                @endif
-                @if(auth()->user()->hasPermission('canPlanned-work'))
-                    <fieldset class="col-12">
-                        <legend>Choose Documents:</legend>
-
-                        <div>
-                            <input type="checkbox" name="document_list[]" id="transportDocument" value="transportDocument" @if(in_array('transportDocument', explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
-                            <label for="transportDocument">Nəqliyyat Sənədi</label>
-                        </div>
-
-                        <div>
-                            <input type="checkbox" name="document_list[]" id="invoice" value="invoice" @if(in_array('invoice',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
-                            <label for="invoice">İnvoys</label>
-                        </div>
-
-                        <div>
-                            <input type="checkbox" name="document_list[]" id="weightList" value="weightList" @if(in_array('weightList',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
-                            <label for="weightList">Çəki Listəsi</label>
-                        </div>
-
-                        <div>
-                            <input type="checkbox" name="document_list[]" id="exportDeclaration" value="exportDeclaration" @if(in_array('exportDeclaration',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
-                            <label for="exportDeclaration">İxrac Bəyannaməsi</label>
-                        </div>
-
-                        <div>
-                            <input type="checkbox" name="document_list[]" id="pincode" value="pincode" @if(in_array('pincode',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
-                            <label for="pincode">Müqavilə Pinkodu</label>
-                        </div>
-
-                        <div>
-                            <input type="checkbox" name="document_list[]" id="contract" value="contract" @if(in_array('contract',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
-                            <label for="contract">Xidməti Müqavilə</label>
-                        </div>
-
-                        <div>
-                            <input type="checkbox" name="document_list[]" id="swift" value="swift" @if(in_array('swift',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
-                            <label for="swift">Swift</label>
-                        </div>
-
-                        <div>
-                            <input type="checkbox" name="document_list[]" id="travelCost" value="travelCost" @if(in_array('travelCost',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
-                            <label for="travelCost">Yol Xərci İnvoysu</label>
-                        </div>
-
-                        <div>
-                            <input type="checkbox" name="document_list[]" id="originCertificate" value="originCertificate" @if(in_array('originCertificate',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
-                            <label for="originCertificate">Mənşə Sertifikatı</label>
-                        </div>
-
-                        <div>
-                            <input type="checkbox" name="document_list[]" id="permitDocument" value="permitDocument" @if(in_array('permitDocument',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
-                            <label for="permitDocument">Xüsusui İcazə Sənədləri</label>
-                        </div>
-
-                        <div>
-                            <input type="checkbox" name="document_list[]" id="place" value="place" @if(in_array('place',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
-                            <label for="place">Yükləmə/Boşalma Yeri</label>
-                        </div>
-
-                        <div>
-                            <input type="checkbox" name="document_list[]" id="commitment" value="commitment" @if(in_array('commitment',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
-                            <label for="commitment">Etibarnamə(Əmək Müqaviləsi)</label>
-                        </div>
-
-                        <div>
-                            <input type="checkbox" name="document_list[]" id="reyster" value="reyster" @if(in_array('reyster',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
-                            <label for="reyster">Reysterdən Çıxarış</label>
-                        </div>
-
-                        <div>
-                            <input type="checkbox" name="document_list[]" id="identify" value="identify" @if(in_array('identify',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
-                            <label for="identify">Şəxsiyyət Vəsiqəsi</label>
-                        </div>
-
-                        <div>
-                            <input type="checkbox" name="document_list[]" id="qualification" value="qualification" @if(in_array('qualification',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
-                            <label for="qualification">İxtisas Atestatı</label>
-                        </div>
-
-                        <div>
-                            <input type="checkbox" name="document_list[]" id="advance" value="advance" @if(in_array('advance',  explode(',' ,optional($data)->getAttribute('document_list')))) checked @endif>
-                            <label for="advance">Avans/Höp</label>
-                        </div>
-
-                    </fieldset>
                 @endif
                 @if(auth()->user()->hasPermission('canVerify-work') && $method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Work::DONE)
                     <div class="col-12" wire:ignore>

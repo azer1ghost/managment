@@ -27,8 +27,6 @@ class EmployeeSatisfactionController extends Controller
             $employeeSatisfaction = $employeeSatisfaction->where('user_id', auth()->id())->orWhere('type', 3);
         }
 
-
-
         return view('pages.employee-satisfactions.index')
             ->with([
                 'employee_satisfactions' =>$employeeSatisfaction
@@ -38,10 +36,7 @@ class EmployeeSatisfactionController extends Controller
                     ->paginate($limit),
                 'types' => EmployeeSatisfaction::types(),
                 'statuses' => EmployeeSatisfaction::statuses()
-
-
             ]);
-
     }
 
     public function create()
