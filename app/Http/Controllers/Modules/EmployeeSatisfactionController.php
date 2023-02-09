@@ -24,9 +24,9 @@ class EmployeeSatisfactionController extends Controller
         $status = $request->get('status');
         $employeeSatisfaction = EmployeeSatisfaction::query()->with('users');
         if (!auth()->user()->hasPermission('measure-employeeSatisfaction')) {
-            $employeeSatisfaction = $employeeSatisfaction->where('user_id', auth()->id());
+            $employeeSatisfaction = $employeeSatisfaction->where('user_id', auth()->id())->where('type', 3);
         }
-        $employeeSatisfaction = $employeeSatisfaction->where('type', 3);
+
 
 
         return view('pages.employee-satisfactions.index')
