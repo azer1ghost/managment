@@ -27,6 +27,9 @@ class EmployeeSatisfactionController extends Controller
             $employeeSatisfaction = $employeeSatisfaction->where('user_id', auth()->id());
         }
 
+        $employeeSatisfaction = $employeeSatisfaction->where('types', 2);
+
+
         return view('pages.employee-satisfactions.index')
             ->with([
                 'employee_satisfactions' =>$employeeSatisfaction
