@@ -138,3 +138,8 @@
  <script>
     $('#work-form :input').attr('disabled', true)
 </script>
+<script>
+    $(document).click(function(){
+
+    });
+</script>
