@@ -108,7 +108,7 @@ class WorkController extends Controller
             $works = $works->whereBetween('paid_at', [Carbon::parse($paid_at_explode[0])->startOfDay(), Carbon::parse($paid_at_explode[1])->endOfDay()]);
         }
 
-            $works = $works->paginate($limit);
+            $works = $works->whereIn('status', [3,4,5,6,7])->paginate($limit);
 
         return view('pages.works.index',
             compact('works', 'services', 'departments','users',
