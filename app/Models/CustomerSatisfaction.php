@@ -12,7 +12,7 @@ class CustomerSatisfaction extends Model
     const PHONE = 2;
     const FULLNAME = 7;
 
-    protected $fillable = ['satisfaction_id', 'rate', 'price_rate', 'note'];
+    protected $fillable = ['satisfaction_id', 'rate', 'price_rate', 'note', 'detail'];
 
     public function satisfaction(): BelongsTo
     {

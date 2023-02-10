@@ -122,6 +122,7 @@
             <th scope="col">@lang('translates.columns.price_rate')</th>
             <th scope="col">@lang('translates.fields.note')</th>
             <th scope="col">@lang('translates.fields.created_at')</th>
+            <th scope="col">@lang('translates.parameters.types.operation')</th>
         </tr>
         </thead>
         <tbody>
@@ -134,6 +135,13 @@
                 <td>@lang('translates.customer_satisfaction.rates.'.$customerSatisfaction->getAttribute('price_rate'))</td>
                 <td>{{$customerSatisfaction->getAttribute('note')}}</td>
                 <td>{{$customerSatisfaction->getAttribute('created_at')}}</td>
+                <td>
+                    <div class="btn-sm-group">
+                        <button class="btn btn-sm btn-outline-primary mr-2 client-edit-btn" type="button" data-client='@json($customerSatisfaction->getRelationValue('company'))' data-toggle="modal" data-target="#inquiry-client">
+                            <i class="fas fa-comment-alt-lines"></i>
+                        </button>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td colspan="99" class="hiddenRow">
@@ -160,6 +168,31 @@
                     </div>
                 </td>
             </tr>
+
+            <div class="modal fade" id="inquiry-client">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <form action="{{route("customer-satisfactions.update", $customerSatisfaction)}}" method="POST" id="client-form">
+                            @csrf @method('PUT')
+                            <div class="modal-header">
+                                <h5 class="modal-title">@lang('translates.general.client_data')</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group mb-0">
+                                    <label for="data-detail">@lang('translates.fields.note')</label>
+                                    <textarea class="form-control" type="text" name="detail" cols="30" rows="10">{{$customerSatisfaction->getAttribute('detail')}}</textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
+                                <button type="submit" form="client-form" class="btn btn-primary submit">@lang('translates.buttons.save')</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
         @empty
             <tr>
                 <th colspan="20">
@@ -175,4 +208,6 @@
         {{$customerSatisfactions->appends(request()->input())->links()}}
     </div>
 @endsection
+
+
 

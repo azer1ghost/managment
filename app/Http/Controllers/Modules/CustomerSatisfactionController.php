@@ -14,6 +14,7 @@ class CustomerSatisfactionController extends Controller
     {
         $filters = [
             'note'            => $request->get('note'),
+            'detail'          => $request->get('detail'),
             'rate'            => $request->get('rate'),
             'price_rate'      => $request->get('price_rate'),
         ];
@@ -135,24 +136,11 @@ class CustomerSatisfactionController extends Controller
         ]);
     }
 
-    public function update(CustomerSatisfactionRequest $request, CustomerSatisfaction $customerSatisfaction): RedirectResponse
+    public function update(Request $request, CustomerSatisfaction $customerSatisfaction)
     {
-        $validated = $request->validated();
-
-        $customerSatisfaction->update($validated);
-
-
-        $parameters = [];
-        foreach ($validated['parameters'] ?? [] as $key => $parameter) {
-            $parameters[$key] = ['value' => $parameter];
-        }
-
-        $customerSatisfaction->parameters()->sync($parameters);
-
-
-        return redirect()
-            ->route('customer-satisfactions.edit', $customerSatisfaction)
-            ->withNotify('success', $customerSatisfaction->getAttribute('id'));
+        $customerSatisfaction->setAttribute('detail', $request->get('detail'));
+        $customerSatisfaction->save();
+        return back();
     }
 
     public function destroy(CustomerSatisfaction $customerSatisfaction)

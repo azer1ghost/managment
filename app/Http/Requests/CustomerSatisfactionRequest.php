@@ -14,7 +14,8 @@ class CustomerSatisfactionRequest extends FormRequest
             'parameters'      => 'nullable|array',
             'rate'            => 'required|integer',
             'price_rate'      => 'required|integer',
-            'note'            => 'nullable|string'
+            'note'            => 'nullable|string',
+            'detail'          => 'nullable|string'
         ];
     }
 }
