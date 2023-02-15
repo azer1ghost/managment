@@ -11,7 +11,7 @@
             @lang('translates.navbar.registration_logs')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
-            @if ($method !== 'POST' )
+            @if ($method !== 'POST')
                 {{optional($data)->getAttribute('sender')}}
             @else
                 @lang('translates.buttons.create')
@@ -44,26 +44,29 @@
                             @endforeach
                         </select>
                     </div>
+                    <x-form-group class="pr-3 my-2 col-12 col-lg-12">
+                        <x-form-textarea  name="description" label="Sənədin qısa məzmunu" placeholder="Sənədin məzmununu daxil edin"/>
+                    </x-form-group>
+
+                    <x-form-group class="pr-3 col-12 col-lg-6">
+                        <x-form-input  name="sender" label="Sənədi göndərən" placeholder="Göndərən şəxsi daxil edin"/>
+                    </x-form-group>
+
+                    <x-form-group class="pr-3 col-12 col-lg-6">
+                        <x-form-input  name="number" label="Sənədin nömrəsi" placeholder="Sənəd nömrəsi daxil edin"/>
+                    </x-form-group>
                     <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
                         <label for="data-will_start_at">Qəbul tarixi</label>
-                        <input type="datetime-local"  name="arrived_at"
+                        <input type="datetime-local" name="arrived_at"
                                value="{{optional($data)->getAttribute('arrived_at')}}" id="data-arrived_at" class="form-control">
                     </div>
-                    <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
-                        <label for="data-will_start_at">Alınma Tarixi</label>
-                        <input type="datetime-local"  name="received_at"
-                               value="{{optional($data)->getAttribute('received_at')}}" id="data-received_at" class="form-control">
-                    </div>
-
-                    <x-form-group  class="pr-3 col-12 col-lg-6"  >
-                        <x-form-textarea  name="description" label="Sənədin qısa məzmunu" placeholder="Dəyişikliyin təsvirini daxil edin"/>
-                    </x-form-group>
-                    <x-form-group  class="pr-3 col-12 col-lg-6"  >
-                        <x-form-input  name="sender" label="Sənədi göndərən" placeholder="Dəyişikliyin səbəbini daxil edin"/>
-                    </x-form-group>
-                    <x-form-group  class="pr-3 col-12 col-lg-6"  >
-                        <x-form-input  name="number" label="Sənədin nömrəsi" placeholder="Təsirini daxil edin"/>
-                    </x-form-group>
+                    @if ($method !== 'POST')
+                        <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
+                            <label for="data-will_start_at">Alınma Tarixi</label>
+                            <input type="datetime-local" name="received_at"
+                                   value="{{optional($data)->getAttribute('received_at')}}" id="data-received_at" class="form-control">
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

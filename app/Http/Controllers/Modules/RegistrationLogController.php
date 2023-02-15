@@ -23,8 +23,8 @@ class RegistrationLogController extends Controller
         return view('pages.registration-logs.index')
             ->with([
                 'users' => User::get(['id', 'name', 'surname']),
-                'registrationLogs' => RegistrationLog::when($search, fn ($query) => $query
-                    ->where('description', 'like', "%".$search."%"))
+                'registrationLogs' => RegistrationLog::when($search, fn($query) => $query
+                    ->where('description', 'like', "%" . $search . "%"))
                     ->paginate(25)]);
     }
 
@@ -34,7 +34,7 @@ class RegistrationLogController extends Controller
             'action' => route('registration-logs.store'),
             'method' => 'POST',
             'data' => new RegistrationLog(),
-            'users' =>User::isActive()->get(['id', 'name', 'surname']),
+            'users' => User::isActive()->get(['id', 'name', 'surname']),
         ]);
     }
 
@@ -79,6 +79,15 @@ class RegistrationLogController extends Controller
     public function destroy(RegistrationLog $registrationLog)
     {
         if ($registrationLog->delete()) {
+            return response('OK');
+        }
+        return response()->setStatusCode('204');
+    }
+
+
+    public function accepted(RegistrationLog $registrationLog)
+    {
+        if ($registrationLog->update(['received_at' => now()])) {
             return response('OK');
         }
         return response()->setStatusCode('204');

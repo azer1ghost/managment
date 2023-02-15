@@ -578,7 +578,8 @@ return [
         'mark_as_read' => 'Mark as Read',
         'mark_all' => 'Mark All as Read',
         'declaration' => 'Declaration',
-        'all_departments' => 'All Departments'
+        'all_departments' => 'All Departments',
+        'accepted' => 'Accepted',
     ],
 
     'clients' => [

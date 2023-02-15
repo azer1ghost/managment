@@ -581,7 +581,8 @@ return [
         'mark_as_read' => 'Oxudum',
         'mark_all' => 'Hamısını Oxudum',
         'declaration' => 'Bəyannamə',
-        'all_departments' => 'Bütün Şöbələr'
+        'all_departments' => 'Bütün Şöbələr',
+        'accepted' => 'Qəbul Olundu',
     ],
 
     'clients' => [

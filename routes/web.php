@@ -159,6 +159,7 @@ Route::group([
     Route::resource('/job-instructions', JobInstructionController::class);
     Route::resource('/internal-numbers', InternalNumberController::class);
     Route::resource('/changes', ChangeController::class);
+    Route::put('/registration-logs/{registrationLog}/accepted', [RegistrationLogController::class, 'accepted'])->name('registration-logs.accepted');
     Route::resource('/registration-logs', RegistrationLogController::class);
     Route::get('/cooperative-numbers', [InternalNumberController::class, 'cooperative'])->name('cooperative-numbers');
     Route::resource('/internal-relations', InternalRelationController::class);

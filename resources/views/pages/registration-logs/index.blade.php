@@ -42,28 +42,31 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @forelse($registrationLogs as $regLog)
+                    @forelse($registrationLogs as $registrationLog)
                          <tr>
 
                             <td>{{$loop->iteration}}</td>
-                            <td>{{$regLog->getAttribute('arrived_at')}}</td>
-                            <td>{{$regLog->getAttribute('sender')}}</td>
-                            <td>{{$regLog->getAttribute('number')}}</td>
-                            <td>{{$regLog->getAttribute('description')}}</td>
-                            <td>{{$regLog->getRelationValue('performers')->getFullnameWithPositionAttribute()}}</td>
-                            <td>{{$regLog->getRelationValue('receivers')->getFullnameWithPositionAttribute()}}</td>
-                            <td>{{$regLog->getAttribute('received_at')}}</td>
+                            <td>{{$registrationLog->getAttribute('arrived_at')}}</td>
+                            <td>{{$registrationLog->getAttribute('sender')}}</td>
+                            <td>{{$registrationLog->getAttribute('number')}}</td>
+                            <td>{{$registrationLog->getAttribute('description')}}</td>
+                            <td>{{$registrationLog->getRelationValue('performers')->getFullnameWithPositionAttribute()}}</td>
+                            <td>{{$registrationLog->getRelationValue('receivers')->getFullnameWithPositionAttribute()}}</td>
+                            <td>{{$registrationLog->getAttribute('received_at')}}</td>
                              @can('update', App\Models\RegistrationLog::class)
                                  <td>
                                      <div class="btn-sm-group">
-                                         <a href="{{route('registration-logs.show', $regLog)}}" class="btn btn-sm btn-outline-primary">
+                                         <a href="{{route('registration-logs.show', $registrationLog)}}" class="btn btn-sm btn-outline-primary">
                                              <i class="fal fa-eye"></i>
                                          </a>
-                                         <a href="{{route('registration-logs.edit', $regLog)}}" class="btn btn-sm btn-outline-success">
+                                         <a href="{{route('registration-logs.edit', $registrationLog)}}" class="btn btn-sm btn-outline-success">
                                              <i class="fal fa-pen"></i>
                                          </a>
-                                         <a href="{{route('registration-logs.destroy', $regLog)}}" delete data-name="{{$regLog->getAttribute('id')}}" class="btn btn-sm btn-outline-danger" >
+                                         <a href="{{route('registration-logs.destroy', $registrationLog)}}" delete data-name="{{$registrationLog->getAttribute('id')}}" class="btn btn-sm btn-outline-danger">
                                              <i class="fal fa-trash"></i>
+                                         </a>
+                                         <a href="{{route('registration-logs.accepted', $registrationLog)}}" accept data-name="{{$registrationLog->getAttribute('id')}}" class="btn btn-sm btn-outline-primary">
+                                             <i class="fal fa-check text-success"></i>
                                          </a>
                                      </div>
                                  </td>
@@ -85,4 +88,84 @@
                         {{$registrationLogs->appends(request()->input())->links()}}
                     </div>
             </div>
+@endsection
+@section('scripts')
+    <script>
+
+        confirmJs($("a[accept]"));
+
+        function confirmJs(el){
+            el.click(function(e){
+                const name = $(this).data('name') ?? 'Pending records'
+                const url = $(this).attr('href')
+                const checkedWorks = [];
+
+                $("input[name='works[]']:checked").each(function(){
+                    checkedWorks.push($(this).val());
+                });
+
+                e.preventDefault()
+
+                $.confirm({
+                    title: 'Confirm verification',
+                    content: `Are you sure to verify <b>${name}</b> ?`,
+                    autoClose: 'confirm|8000',
+                    icon: 'fa fa-question',
+                    type: 'blue',
+                    theme: 'modern',
+                    typeAnimated: true,
+                    buttons: {
+                        confirm: function () {
+                            $.ajax({
+                                url: url,
+                                type: 'PUT',
+                                data: {'registrationLogs': checkedWorks},
+                                success: function (responseObject, textStatus, xhr)
+                                {
+                                    $.confirm({
+                                        title: 'Verification successful',
+                                        icon: 'fa fa-check',
+                                        content: '<b>:name</b>'.replace(':name',  name),
+                                        type: 'blue',
+                                        typeAnimated: true,
+                                        autoClose: 'reload|3000',
+                                        theme: 'modern',
+                                        buttons: {
+                                            reload: {
+                                                text: 'Ok',
+                                                btnClass: 'btn-blue',
+                                                keys: ['enter'],
+                                                action: function(){
+                                                    window.location.reload()
+                                                }
+                                            }
+                                        }
+                                    });
+                                },
+                                error: function (err)
+                                {
+                                    console.log(err);
+                                    $.confirm({
+                                        title: 'Ops something went wrong!',
+                                        content: err?.responseJSON,
+                                        type: 'red',
+                                        typeAnimated: true,
+                                        buttons: {
+                                            close: {
+                                                text: 'Close',
+                                                btnClass: 'btn-blue',
+                                                keys: ['enter'],
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        },
+                        cancel: function () {},
+                    }
+                });
+            });
+        }
+    </script>
+
 @endsection
