@@ -73,6 +73,12 @@
         @endif
         @endbind
     </form>
+    @if($method != 'POST')
+        <div class="my-5">
+            <x-documents :documents="$data->documents" :title="trans('translates.navbar.document')" />
+            <x-document-upload :id="$data->id" model="RegistrationLog"/>
+        </div>
+    @endif
 @endsection
 @section('scripts')
     @if(is_null($action))
