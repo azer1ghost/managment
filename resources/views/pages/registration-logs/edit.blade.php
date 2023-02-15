@@ -56,13 +56,13 @@
                     </div>
 
                     <x-form-group  class="pr-3 col-12 col-lg-6"  >
-                        <x-form-textarea  name="description" label="Sənədin qısa məzmunu" placeholder="Dəyişikliyin təsvirini daxil edin"/>
+                        <x-form-textarea  name="description" label="Sənədin təsviri" placeholder="Dəyişikliyin təsvirini daxil edin"/>
                     </x-form-group>
                     <x-form-group  class="pr-3 col-12 col-lg-6"  >
-                        <x-form-input  name="sender" label="Sənədi göndərən" placeholder="Dəyişikliyin səbəbini daxil edin"/>
+                        <x-form-input  name="sender" label="Dəyişikliyin səbəbi" placeholder="Dəyişikliyin səbəbini daxil edin"/>
                     </x-form-group>
                     <x-form-group  class="pr-3 col-12 col-lg-6"  >
-                        <x-form-input  name="number" label="Sənədin nömrəsi" placeholder="Təsirini daxil edin"/>
+                        <x-form-input  name="number" label="Sənədin təsiri" placeholder="Təsirini daxil edin"/>
                     </x-form-group>
                 </div>
             </div>
