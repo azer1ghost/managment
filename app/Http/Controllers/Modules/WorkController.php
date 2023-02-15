@@ -356,7 +356,7 @@ class WorkController extends Controller
         $serviceName = str_replace($search, $replace, $serviceText);
         $clientName = str_replace($search, $replace, $clientText);
         if (!empty($client->getAttribute('phone1') && $client->getAttribute('send_sms') == 1)) {
-            if ($request->status == 3) {
+            if ($request->status == 6) {
                 $message = 'Deyerli ' . $clientName . ' sizin ' . $serviceName . ' uzre isiniz tamamlandi. ' . $work->getAttribute('created_at')->format('d/m/y') . ' https://my.mobilgroup.az/cs?url=mb-sat -linke kecid ederek xidmet keyfiyyetini deyerlendirmeyinizi xahis edirik!';
                 (new NotifyClientSms($message))->toSms($client)->send();
             }
@@ -371,6 +371,7 @@ class WorkController extends Controller
 //        }
 
         $validated['verified_at'] = $request->has('verified') && !$request->has('rejected') ? now() : NULL;
+
 
         if ($work->getAttribute('entry_date') == null && in_array($request->get('status'), [3, 4, 6]) && !$request->has('rejected')) {
             $validated['entry_date'] = now();

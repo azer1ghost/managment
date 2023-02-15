@@ -35,6 +35,7 @@
                         <th scope="col">Sənədi göndərən</th>
                         <th scope="col">Sənədin nömrəsi</th>
                         <th scope="col">Sənədin qısa məzmunu</th>
+                        <th scope="col">Sənəd</th>
                         <th scope="col">Dərkənar</th>
                         <th scope="col">İcraçı</th>
                         <th scope="col">Alınma barədə tarix</th>
@@ -50,6 +51,15 @@
                             <td>{{$registrationLog->getAttribute('sender')}}</td>
                             <td>{{$registrationLog->getAttribute('number')}}</td>
                             <td>{{$registrationLog->getAttribute('description')}}</td>
+                             <td> @php($supportedTypes = \App\Models\Document::supportedTypeIcons())
+                                 @foreach($registrationLog->documents as $document)
+                                     @php($type = $supportedTypes[$document->type])
+                                     @php($route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document))
+                                     <a href="{{$route}}" data-toggle="tooltip" title="{{$document->file}}" target="_blank" class="text-dark d-flex align-items-center mr-2" style=" word-break: break-word">
+                                         <i class="fa fa-file-{{$type['icon']}} fa-2x m-1 text-{{$type['color']}}"></i>
+                                         <span>{{substr($document->name, 0, 10) . '...'}} </span>
+                                     </a>
+                                 @endforeach</td>
                             <td>{{$registrationLog->getRelationValue('performers')->getFullnameWithPositionAttribute()}}</td>
                             <td>{{$registrationLog->getRelationValue('receivers')->getFullnameWithPositionAttribute()}}</td>
                             <td>{{$registrationLog->getAttribute('received_at')}}</td>
