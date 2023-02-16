@@ -41,7 +41,7 @@ return [
         'viewAny-jobInstruction', 'viewAll-jobInstruction', 'viewAllDepartment-jobInstruction', 'view-jobInstruction', 'create-jobInstruction', 'update-jobInstruction','manage-jobInstruction','delete-jobInstruction',
         'viewAny-internalNumber', 'view-internalNumber', 'create-internalNumber', 'update-internalNumber','manage-internalNumber','delete-internalNumber',
         'viewAny-internalRelation', 'view-internalRelation', 'create-internalRelation', 'update-internalRelation','manage-internalRelation','delete-internalRelation',
-        'viewAny-internalDocument', 'view-internalDocument', 'create-internalDocument', 'update-internalDocument','manage-internalDocument','delete-internalDocument',
+        'viewAny-internalDocument' , 'view-internalDocument', 'create-internalDocument', 'update-internalDocument','manage-internalDocument','delete-internalDocument',
         'viewAll-inquiry', 'viewAllDepartment-inquiry', 'viewAny-inquiry', 'view-inquiry', 'create-inquiry', 'update-inquiry', 'delete-inquiry', 'forceDelete-inquiry', 'restore-inquiry', 'editAccessToUser-inquiry','checkRejectedReason-inquiry',
         'viewAny-meeting', 'view-meeting', 'create-meeting', 'update-meeting', 'delete-meeting',
         'viewAny-salesInquiry', 'viewAll-salesInquiry',
