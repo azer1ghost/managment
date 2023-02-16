@@ -95,6 +95,12 @@ class Sidebar extends Component
                         'permission' => 'generally',
                     ],
                     (object)[
+                        'title' => __('translates.navbar.internal_document'),
+                        'icon' => 'fad fa-chart-network',
+                        'url' => route('internal-documents.index'),
+                        'permission' => 'generally',
+                    ],
+                    (object)[
                         'title' => __('translates.navbar.foreign_relation'),
                         'icon' => 'fad fa-chart-network',
                         'url' => route('foreign'),

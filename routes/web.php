@@ -24,6 +24,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\DocumentController,
     Modules\EmployeeSatisfactionController,
     Modules\InquiryController,
+    Modules\InternalDocumentController,
     Modules\InternalNumberController,
     Modules\InternalRelationController,
     Modules\JobInstructionController,
@@ -163,6 +164,7 @@ Route::group([
     Route::resource('/registration-logs', RegistrationLogController::class);
     Route::get('/cooperative-numbers', [InternalNumberController::class, 'cooperative'])->name('cooperative-numbers');
     Route::resource('/internal-relations', InternalRelationController::class);
+    Route::resource('/internal-documents', InternalDocumentController::class);
     Route::get('/foreign', [InternalRelationController::class, 'foreign'])->name('foreign');
     Route::post('/sortable', [InternalRelationController::class, 'sortable'])->name('internal-relation.sortable');
     Route::resource('/organizations', OrganizationController::class);
