@@ -668,6 +668,11 @@ return [
         'note' => 'Təklif, İrad və Şikayətləriniz'
     ],
 
+    'registration_logs' => [
+        'title' => 'The document sent to you',
+        'content' => 'You have unviewed document',
+    ],
+
     'reports' => [
         'check_new_chiefs' => 'Check for new chiefs'
     ],

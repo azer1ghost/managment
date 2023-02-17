@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Modules;
 
+use App\Events\RegistrationLogCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegistrationLogRequest;
 use App\Models\Change;
@@ -41,6 +42,7 @@ class RegistrationLogController extends Controller
     public function store(RegistrationLogRequest $request)
     {
         $registrationLog = RegistrationLog::create($request->validated());
+        event(new RegistrationLogCreated($registrationLog));
 
         return redirect()
             ->route('registration-logs.edit', $registrationLog)

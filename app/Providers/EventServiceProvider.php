@@ -2,11 +2,10 @@
 
 namespace App\Providers;
 
-use App\Events\StatementCreated;
+use App\Events\RegistrationLogCreated;
 use App\Events\TaskCreated;
 use App\Events\TaskListCreated;
 use App\Events\TaskStatusDone;
-use App\Events\TaskStatusUpdated;
 use App\Events\WorkCreated;
 use App\Events\WorkStatusRejected;
 use App\Listeners\SendNotification;
@@ -17,7 +16,6 @@ use App\Models\Report;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\Work;
-use App\Notifications\NotifyStatement;
 use App\Observers\DailyReportObserver;
 use App\Observers\InquiryObserver;
 use App\Observers\ReportObserver;
@@ -39,9 +37,6 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        StatementCreated::class => [
-            NotifyStatement::class,
-        ],
         WorkCreated::class => [
             SendNotification::class,
             SendPushNotification::class,
@@ -49,6 +44,11 @@ class EventServiceProvider extends ServiceProvider
         WorkStatusRejected::class => [
             SendNotification::class,
             SendPushNotification::class,
+        ],
+        RegistrationLogCreated::class => [
+            SendNotification::class,
+            SendPushNotification::class,
+//            SendEmailNotification::class,
         ],
         TaskCreated::class => [
             SendNotification::class,

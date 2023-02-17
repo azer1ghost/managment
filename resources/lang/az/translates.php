@@ -667,6 +667,11 @@ return [
         'note' => 'Təklif, İrad və Şikayətləriniz',
     ],
 
+    'registration_logs' => [
+        'title' => 'Sizə yeni bir sənəd göndərilib',
+        'content' => 'Sizin baxılmamış sənədiniz var',
+    ],
+
     'reports' => [
         'check_new_chiefs' => 'Yeni rəhbərləri yoxlayın'
     ],
