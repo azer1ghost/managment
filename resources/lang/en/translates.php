@@ -228,6 +228,7 @@ return [
         'job_instruction' => 'Job Instructions',
         'intern_relation' => 'Intern Relations',
         'internal_document' => 'Internal Document',
+        'sent_document' => 'Sent Document',
         'foreign_relation' => 'Foreign Relations',
         'instruction' => 'Video Instruction',
         'employee_satisfaction' => 'Employee Satisfaction',
