@@ -1,25 +1,33 @@
 @extends('pages.transit.layout')
 
 @section('title', __('translates.navbar.transit'))
-2
+
+<nav class="navbar bg-gradient-dark">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{route('profile.index')}}"><span class="user"></span>Account</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span>Hesabdan çıx</a></li>
+        </ul>
+    </div>
+</nav>
 @section('content')
-    <div class="col-12 p-5">
         <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
-            <li class="nav-item " role="presentation">
+            <li class="nav-item col-sm-6" role="presentation">
                 <a class="nav-link btn btn-primary m-3" id="tab-transit" data-toggle="tab" href="#pills-transit"
                    role="tab"
                    aria-controls="pills-transit" aria-selected="true">Online Tranzit</a>
             </li>
-            <li class="nav-item" role="presentation">
+            <li class="nav-item col-sm-6" role="presentation">
                 <a class="nav-link btn btn-primary m-3" id="tab-declaration" data-toggle="tab"
                    href="#pills-declaration" role="tab"
                    aria-controls="pills-declaration" aria-selected="false">Qısa İdxal Bəyannaməsi</a>
             </li>
         </ul>
+
         <!-- Pills navs -->
 
         <!-- Pills content -->
-        <div class="tab-content">
+        <div class="tab-content col-12">
             <div class="tab-pane fade show active" id="pills-transit" role="tabpanel"
                  aria-labelledby="tab-transit">
                 <form>
@@ -29,41 +37,43 @@
                     </div>
 
                     <div class="transit">
-                        <div class="form-outline mb-4">
-                            <label class="form-label" for="transitCmr">CMR</label>
-                            <div class="input-group mb-4">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="cmr">Yüklə</span>
-                                </div>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id=cmr"
-                                           aria-describedby="inputGroupFileAddon01">
-                                    <label class="custom-file-label" for="cmr">Sənədləri yüklə</label>
+                        <div id="row">
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="transitCmr">CMR</label>
+                                <div class="input-group mb-4">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="cmr">Yüklə</span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id=cmr"
+                                               aria-describedby="inputGroupFileAddon01">
+                                        <label class="custom-file-label" for="cmr">Sənədləri yüklə</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Password input -->
-                        <div class="form-outline mb-4">
-                            <label class="form-label" for="transitInv">İNVOYS</label>
-                            <div class="input-group mb-4">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="invoys">Yüklə</span>
-                                </div>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="invoys"
-                                           aria-describedby="inputGroupFileAddon01">
-                                    <label class="custom-file-label" for="invoys">Sənədləri yüklə</label>
+                            <!-- Password input -->
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="transitInv">İNVOYS</label>
+                                <div class="input-group mb-4">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="invoys">Yüklə</span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="invoys"
+                                               aria-describedby="inputGroupFileAddon01">
+                                        <label class="custom-file-label" for="invoys">Sənədləri yüklə</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div id="div"></div>
-                    <i class="add">Add</i>
+                    <a class="btn btn-group btn-primary addButton">Add</a>
 
                     <!-- 2 column grid layout -->
                     <div class="row mb-4">
-                        <div class="col-md-6 d-flex justify-content-center">
+                        <div class="col-md-6 d-flex">
                             <!-- Checkbox -->
                             <div class="form-check mb-3 mb-md-0">
                                 <input class="form-check-input" type="checkbox" value="" id="transitCheck"
@@ -84,8 +94,6 @@
                     </button>
 
                     <!-- Submit button -->
-                {{--                    <button type="submit" class="btn btn-primary btn-block mb-4"><a href="{{route('payment')}}">Ödəniş--}}
-                {{--                            edin!</a></button>--}}
 
                 <!-- declaration buttons -->
                     <div class="text-center">
@@ -117,7 +125,7 @@
                     </div>
 
                     <div class="row mb-4">
-                        <div class="col-md-6 d-flex justify-content-center">
+                        <div class="col-md-6 d-flex ">
                             <!-- Checkbox -->
                             <div class="form-check mb-3 mb-md-0">
                                 <input class="form-check-input" type="checkbox" value="" id="declarationCheck"
@@ -147,7 +155,8 @@
                 </form>
             </div>
         </div>
-    </div>
+
+{{--</div>--}}
 @endsection
 @section('scripts')
     <script>
@@ -162,10 +171,15 @@
             });
         });
         $(document).ready(function () {
-            $(".add").click(function () {
-                $(".transit").insertAfter(".div");
+
+            $(".addButton").click(function () {
+                $(".transit").append("<div> <div id='row''> <div class='form-outline mb-4'> <label class='form-label' for='transitCmr'>CMR</label> <div class='input-group mb-4'> <div class='input-group-prepend'> <span class='input-group-text' id='cmr'>Yüklə</span> </div> <div class='custom-file'> <input type='file' class='custom-file-input' id=cmr'aria-describedby='inputGroupFileAddon01'><label class='custom-file-label' for='cmr'>Sənədləri yüklə</label> </div> </div> </div> <div class='form-outline mb-4'> <label class='form-label' for='transitInv'>İNVOYS</label> <div class='input-group mb-4'> <div class='input-group-prepend'> <span class='input-group-text' id='invoys'>Yüklə</span> </div> <div class='custom-file'> <input type='file' class='custom-file-input' id='invoys'aria-describedby='inputGroupFileAddon01'> <label class='custom-file-label' for='invoys'>Sənədləri yüklə</label> </div> </div> <button class='btn btn-danger'id='DeleteRow' type='button'> <i class='bi bi-trash'></i>Delete </button></div> </div>");
             });
         });
+        $("body").on("click", "#DeleteRow", function () {
+            $(this).parents("#row").remove();
+        })
+
 
     </script>
 @endsection

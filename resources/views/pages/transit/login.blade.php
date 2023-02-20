@@ -8,7 +8,7 @@
     <div class="col-12 p-5">
         <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="tab-login" data-toggle="tab" href="#pills-login" role="tab"
+                <a class="nav-link show active" id="tab-login" data-toggle="tab" href="#pills-login" role="tab"
                    aria-controls="pills-login" aria-selected="true">Login</a>
             </li>
             <li class="nav-item" role="presentation">
@@ -21,6 +21,7 @@
         <!-- Pills content -->
         <div class="tab-content">
             <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
+
                 <form>
 
                     <!-- Email input -->
@@ -63,8 +64,9 @@
             </div>
 
             <div class="tab-pane fade show " id="pills-register" role="tabpanel" aria-labelledby="tab-register">
+
                 <form>
-                    <div class="form-group col-4">
+                    <div class="form-group col-12">
                         <select class="form-control" id="type">
                             <option selected>Müştəri növünü seçin</option>
                             <option name="legal" value="legal">Hüquqi</option>
@@ -120,7 +122,7 @@
                     <div class="form-check d-flex justify-content-center mb-4">
                         <input class="form-check-input me-2" type="checkbox" value="" id="registerCheck" checked
                                aria-describedby="registerCheckHelpText"/>
-                        <label class="form-check-label" for="registerCheck">
+                        <label class="form-check-label mr-5" for="registerCheck">
                             I have read and agree to the terms
                         </label>
                     </div>
@@ -128,6 +130,7 @@
                     <!-- Submit button -->
                     <button type="submit" class="btn btn-primary btn-block mb-3">Sign in</button>
                 </form>
+
             </div>
         </div>
     </div>

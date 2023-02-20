@@ -33,12 +33,10 @@
 
 <body>
 <div class="container">
-    <div class="justify-content-center p-5">
-        <div class="text-center col-12 p-5">
-            <img src="{{asset('assets/images/logomb.png')}}" alt="">
+        <div class="text-center py-5">
+            <img src="{{asset('assets/images/logomb.png')}}" alt="" style="max-width: 100%">
             @yield('content')
         </div>
-    </div>
 </div>
 
 
