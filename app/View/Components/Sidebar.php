@@ -451,12 +451,12 @@ class Sidebar extends Component
                 'url' => route('chats.index'),
                 'permission' => 'viewAny-task',
             ],
-            (object)[
-                'title' => 'Transit',
-                'icon' => 'fab fa-truck',
-                'url' => route('transit-login'),
-                'permission' => 'viewAny-task',
-            ],
+//            (object)[
+//                'title' => 'Transit',
+//                'icon' => 'fab fa-truck',
+//                'url' => route('transit-login'),
+//                'permission' => 'viewAny-task',
+//            ],
         ];
     }
 
