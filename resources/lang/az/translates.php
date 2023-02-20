@@ -230,6 +230,7 @@ return [
         'job_instruction' => 'Vəzifə Təlimatları',
         'intern_relation' => 'Daxili Əlaqələr',
         'internal_document' => 'Daxili Sənədlər',
+        'protocols' => 'Protokollar',
         'sent_document' => 'Göndərilən Sənədlər',
         'foreign_relation' => 'Xarici Əlaqələr',
         'instruction' => 'Video Təlimat',
