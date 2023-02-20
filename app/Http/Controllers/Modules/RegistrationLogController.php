@@ -26,6 +26,7 @@ class RegistrationLogController extends Controller
                 'users' => User::get(['id', 'name', 'surname']),
                 'registrationLogs' => RegistrationLog::when($search, fn($query) => $query
                     ->where('description', 'like', "%" . $search . "%"))
+                    ->latest()
                     ->paginate(25)]);
     }
 
