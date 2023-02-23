@@ -7,6 +7,7 @@ use App\Http\Controllers\{Auth\LoginController,
     BarcodeController,
     Main\AccountController,
     Main\PlatformController,
+    Modules\AccessRateController,
     Modules\AdvertisingController,
     Modules\AnnouncementController,
     Modules\AsanImzaController,
@@ -23,6 +24,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\DepartmentController,
     Modules\DocumentController,
     Modules\EmployeeSatisfactionController,
+    Modules\FolderController,
     Modules\InquiryController,
     Modules\InternalDocumentController,
     Modules\InternalNumberController,
@@ -169,6 +171,8 @@ Route::group([
     Route::resource('/internal-documents', InternalDocumentController::class);
     Route::resource('/sent-documents', SentDocumentController::class);
     Route::resource('/protocols', ProtocolController::class);
+    Route::resource('/folders', FolderController::class);
+    Route::resource('/access-rates', AccessRateController::class);
     Route::get('/foreign', [InternalRelationController::class, 'foreign'])->name('foreign');
     Route::post('/sortable', [InternalRelationController::class, 'sortable'])->name('internal-relation.sortable');
     Route::resource('/organizations', OrganizationController::class);

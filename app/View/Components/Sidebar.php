@@ -101,11 +101,23 @@ class Sidebar extends Component
                         'permission' => 'generally',
                     ],
                     (object)[
+                        'title' => __('translates.navbar.access_rate'),
+                        'icon' => 'fad fa-chart-network',
+                        'url' => route('access-rates.index'),
+                        'permission' => 'generally',
+                    ],
+                    (object)[
                         'title' => __('translates.navbar.sent_document'),
                         'icon' => 'fad fa-chart-network',
                         'url' => route('sent-documents.index'),
                         'permission' => 'generally',
                     ],
+//                    (object)[
+//                        'title' => __('translates.navbar.folder'),
+//                        'icon' => 'fad fa-chart-network',
+//                        'url' => route('folders.index'),
+//                        'permission' => 'generally',
+//                    ],
                     (object)[
                         'title' => __('translates.navbar.protocols'),
                         'icon' => 'fad fa-chart-network',
