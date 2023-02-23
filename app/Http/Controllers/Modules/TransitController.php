@@ -11,12 +11,16 @@ use Illuminate\Http\Request;
 class TransitController extends Controller
 {
 
-    public function index(){
+    public function index()
+    {
         return view('pages.transit.profile');
     }
-    public function show(){
+
+    public function show()
+    {
 
     }
+
     public function edit()
     {
         return view('pages.transit.edit');
@@ -26,14 +30,17 @@ class TransitController extends Controller
     {
         return view('pages.transit.index');
     }
+
     public function login()
     {
         return view('pages.transit.login');
     }
+
     public function payment()
     {
         return view('pages.transit.payment');
     }
+
     public function profile()
     {
         return view('pages.transit.profile');

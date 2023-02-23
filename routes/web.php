@@ -30,6 +30,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\JobInstructionController,
     Modules\MeetingController,
     Modules\OptionController,
+    Modules\OrderController,
     Modules\OrganizationController,
     Modules\ParameterController,
     Modules\PositionController,
@@ -51,6 +52,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\StatementController,
     Modules\TaskController,
     Modules\TaskListController,
+    Modules\TransitController,
     Modules\UpdateController,
     Modules\UserController,
     Modules\WidgetController,
@@ -59,6 +61,17 @@ use App\Http\Controllers\{Auth\LoginController,
 use App\Http\Middleware\Localization;
 use App\Services\FirebaseApi;
 use Illuminate\Support\Facades\{Auth, Route};
+
+
+Route::group([
+    'prefix' => 'transit',
+], function () {
+    Route::get('/transit-login', [TransitController::class, 'login'])->name('transit-login');
+    Route::get('/service', [TransitController::class, 'service'])->name('service');
+    Route::get('/payment', [TransitController::class, 'payment'])->name('payment');
+    Route::resource('/profile', TransitController::class);
+    Route::resource('/order', OrderController::class)->except(['index', 'create', 'show', 'edit']);
+});
 
 Route::get('firebase-messaging-sw.js', [PlatformController::class, 'firebase']);
 Route::post('/store-fcm-token', [PlatformController::class, 'storeFcmToken'])->name('store.fcm-token');
@@ -71,7 +84,7 @@ Route::get('/close-notify/{announcement}', [PlatformController::class, 'closeNot
 
 Route::redirect('/','/welcome')->name('home');
 Route::get('/welcome', [PlatformController::class, 'welcome'])->name('welcome');
-Route::get('/dashboard', [PlatformController::class, 'dashboard'])->middleware(['verified_phone', 'deactivated'])->name('dashboard');
+Route::get('/dashboard', [PlatformController::class, 'dashboard'])->middleware(['verified_phone', 'deactivated','is_transit_customer'])->name('dashboard');
 
 Route::get('/account', [AccountController::class, 'account'])->middleware(['verified_phone', 'deactivated'])->name('account');
 Route::post('/account/{user}', [AccountController::class, 'save'])->middleware(['verified_phone', 'deactivated'])->name('account.save');
@@ -79,7 +92,7 @@ Route::get('/security', [AccountController::class, 'security'])->middleware(['ve
 
 Route::group([
     'prefix' => 'module',
-    'middleware' => ['verified_phone', 'deactivated']
+    'middleware' => ['verified_phone', 'deactivated','is_transit_customer' ]
 ], function () {
     Route::get('/bonuses', [ReferralBonusController::class, 'index'])->name('bonuses');
     Route::post('/bonuses', [ReferralBonusController::class, 'refresh']);
@@ -137,7 +150,6 @@ Route::group([
     Route::resource('/sales-client', SalesClientController::class);
     Route::get('/sales-clients/export', [SalesClientController::class, 'export'])->name('sales-clients.export');
     Route::get('/protocol-download/{client}', [ClientController::class, 'download'])->name('protocol.download');
-
 
     Route::resource('/referrals', ReferralController::class)->except('create');
     Route::resource('/updates', UpdateController::class);
@@ -211,6 +223,7 @@ Auth::routes();
 // routes for registering partners
 Route::get('/partners/register', [RegisterController::class, 'showPartnersRegistrationForm'])->name('register.partners');
 Route::post('/partners/register', [RegisterController::class, 'register']);
+Route::post('/partners/transit/register', [RegisterController::class, 'transitRegister'])->name('transitRegister');
 
 PhoneVerifycationController::routes();
 
@@ -245,7 +258,6 @@ Route::get('/document/{document}', function (\Illuminate\Http\Request $request, 
 Route::resource('/customer-satisfactions', CustomerSatisfactionController::class);
 Route::get('/cs', [CustomerSatisfactionController::class, 'createSatisfaction'])->name('create-satisfaction');
 
-Route::get('/transit/service', [\App\Http\Controllers\Modules\TransitController::class, 'service'])->name('service');
-Route::get('/transit/transit-login', [\App\Http\Controllers\Modules\TransitController::class, 'login'])->name('transit-login');
-Route::get('/transit/payment', [\App\Http\Controllers\Modules\TransitController::class, 'payment'])->name('payment');
-Route::resource('/transit/profile', \App\Http\Controllers\Modules\TransitController::class);
+
+
+

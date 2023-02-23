@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'verified_phone' => \App\Http\Middleware\EnsurePhoneVerified::class,
         'deactivated' => \App\Http\Middleware\IsDeactivated::class,
+        'is_transit_customer' => \App\Http\Middleware\IsTransitCustomer::class,
     ];
 }

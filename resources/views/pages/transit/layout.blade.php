@@ -28,7 +28,6 @@
     @yield('style')
     @stack('style')
 
-
 </head>
 
 <body>
@@ -42,10 +41,6 @@
 
 <!-- Scripts -->
 <script src="{{ mix('assets/js/app.js') }}" ></script>
-
-
-
-
 
 
 @stack('scripts')

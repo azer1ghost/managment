@@ -5,8 +5,9 @@
 <nav class="navbar bg-gradient-dark">
     <div class="container-fluid">
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="{{route('profile.index')}}"><span class="user"></span>Account</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span>Hesabdan çıx</a></li>
+            @auth()
+                <li><a href="{{route('profile.index')}}"><span class="user"></span>Account</a></li>
+            @endauth
         </ul>
     </div>
 </nav>
@@ -24,15 +25,13 @@
             </li>
         </ul>
 
-        <!-- Pills navs -->
-
-        <!-- Pills content -->
         <div class="tab-content col-12">
             <div class="tab-pane fade show active" id="pills-transit" role="tabpanel"
                  aria-labelledby="tab-transit">
-                <form>
+                <form action="{{ route('order.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
                     <div class="text-center mb-3">
-                        <p>Web Transit</p>
+                        <h2>WEB TRANSIT</h2>
 
                     </div>
 
@@ -45,24 +44,23 @@
                                         <span class="input-group-text" id="cmr">Yüklə</span>
                                     </div>
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id=cmr"
+                                        <input type="file" name="cmr" class="custom-file-input" id=cmr"
                                                aria-describedby="inputGroupFileAddon01">
                                         <label class="custom-file-label" for="cmr">Sənədləri yüklə</label>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Password input -->
                             <div class="form-outline mb-4">
                                 <label class="form-label" for="transitInv">İNVOYS</label>
                                 <div class="input-group mb-4">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" id="invoys">Yüklə</span>
+                                        <span class="input-group-text" id="invoice">Yüklə</span>
                                     </div>
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="invoys"
+                                        <input type="file" name="invoice" class="custom-file-input" id="invoice"
                                                aria-describedby="inputGroupFileAddon01">
-                                        <label class="custom-file-label" for="invoys">Sənədləri yüklə</label>
+                                        <label class="custom-file-label" for="invoice">Sənədləri yüklə</label>
                                     </div>
                                 </div>
                             </div>
@@ -70,88 +68,45 @@
                     </div>
                     <div id="div"></div>
                     <a class="btn btn-group btn-primary addButton">Add</a>
-
-                    <!-- 2 column grid layout -->
                     <div class="row mb-4">
                         <div class="col-md-6 d-flex">
-                            <!-- Checkbox -->
-                            <div class="form-check mb-3 mb-md-0">
-                                <input class="form-check-input" type="checkbox" value="" id="transitCheck"
-                                       checked/>
-                                <label class="form-check-label" for="transitCheck">Şərtlərlə tanış oldum</label>
+                            <div class="form-check mb-3 ml-4 mb-md-0">
+                                <input class="form-check-input" type="checkbox" value="" id="transitCheck" checked/>
+                                <label class="form-check-label" for="transitCheck"><a href="#" class="text-black">Şərtlərlə</a> tanış oldum</label>
                             </div>
                         </div>
                     </div>
                     <div class="form-outline mb-4">
-                        <button type="button" class="btn btn-warning col-12">Kart ilə ödə</button>
+                        <button type="submit" class="btn btn-warning col-12">Ödənişə Et</button>
                     </div>
-
-                    <div class="form-outline mb-4">
-                        <button type="button" class="btn btn-warning col-12">Avans</button>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block mb-3"><a href="{{route('service')}}">Ana
-                            Səhifəyə qayıt</a>
-                    </button>
-
-                    <!-- Submit button -->
-
-                <!-- declaration buttons -->
                     <div class="text-center">
-                        <p>Hər hansısa sualınız var? <a href="#!">Əlaqə saxlayın</a></p>
+                        <p>Hər hansısa sualınız var? <a href="tel:+994513339090" class="text-black">Əlaqə saxlayın</a></p>
                     </div>
                 </form>
-                <button type="button" class="btn btn-link btn-floating mx-1">
-                    <i class="fab fa-facebook-f"></i>
-                </button>
-                <button type="button" class="btn btn-link btn-floating mx-1">
-                    <i class="fab fa-google"></i>
-                </button>
+              <div class="col-12 text-center">
+                  <a type="button" href="https://www.facebook.com/mobilbroker.az" class="btn btn-link btn-floating mx-1">
+                      <i class="fab fa-facebook-f"></i>
+                  </a>
+                  <a type="button" href="https://www.instagram.com/mobilbroker.az/" class="btn btn-link btn-floating mx-1">
+                      <i class="fab fa-instagram"></i>
+                  </a>
+                  <a type="button" href="https://www.linkedin.com/in/mobil-broker-and-logistics-2a1336203/" class="btn btn-link btn-floating mx-1">
+                      <i class="fab fa-linkedin"></i>
+                  </a>
 
-                <button type="button" class="btn btn-link btn-floating mx-1">
-                    <i class="fab fa-twitter"></i>
-                </button>
-
-                <button type="button" class="btn btn-link btn-floating mx-1">
-                    <i class="fab fa-github"></i>
-                </button>
+                  <a type="button" href="https://www.youtube.com/channel/UCpbkZXCIy4LBkXI0RuF6G8A" class="btn btn-link btn-floating mx-1">
+                      <i class="fab fa-youtube"></i>
+                  </a>
+              </div>
             </div>
-
 
             <div class="tab-pane fade show " id="pills-declaration" role="tabpanel"
                  aria-labelledby="tab-declaration">
                 <form>
                     <div class="text-center mb-3">
-                        <p>Qısa İdxal Bəyannaməsi</p>
+                        <h2>QISA İDXAL BƏYANNAMƏSİ</h2>
                     </div>
-
-                    <div class="row mb-4">
-                        <div class="col-md-6 d-flex ">
-                            <!-- Checkbox -->
-                            <div class="form-check mb-3 mb-md-0">
-                                <input class="form-check-input" type="checkbox" value="" id="declarationCheck"
-                                       checked/>
-                                <label class="form-check-label" for="declarationCheck">Şərtlərlə tanış
-                                    oldum</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-outline mb-4">
-                        <button type="button" class="btn btn-warning col-12">Kart ilə ödə</button>
-                    </div>
-
-                    <div class="form-outline mb-4">
-                        <button type="button" class="btn btn-warning col-12">Avans</button>
-                    </div>
-
-
-                    <!-- Submit button -->
-                    <button type="submit" class="btn btn-primary btn-block mb-4"><a href="{{route('payment')}}">Ödəniş
-                            edin!</a></button>
-
-                    <!-- declaration buttons -->
-                    <div class="text-center">
-                        <p>Hər hansısa sualınız var? <a href="#!">Əlaqə saxlayın</a></p>
-                    </div>
+                    <div class="alert alert-success text-center">Çox Yaxında</div>
                 </form>
             </div>
         </div>
@@ -179,7 +134,5 @@
         $("body").on("click", "#DeleteRow", function () {
             $(this).parents("#row").remove();
         })
-
-
     </script>
 @endsection

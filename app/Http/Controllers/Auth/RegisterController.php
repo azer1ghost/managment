@@ -123,4 +123,33 @@ class RegisterController extends Controller
         
         return User::create($data);
     }
+
+    protected function createTransitUser(Request $request): User
+    {
+        $data = $request->all();
+        $data['name'] = ucfirst($data['name']);
+        $data['role_id'] = 4;
+        $data['verify_code'] = rand(111111, 999999);
+        $data['password'] = Hash::make($data['password']);
+
+        return User::create($data);
+    }
+
+    public function transitRegister(Request $request)
+    {
+        $this->validator($request)->validate();
+
+        event(new Registered($user = $this->createTransitUser($request)));
+
+        $this->guard()->login($user);
+
+        if ($response = $this->registered($request, $user)) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+            ? new JsonResponse([], 201)
+            : redirect($this->redirectPath());
+    }
+
 }
