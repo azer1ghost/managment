@@ -19,7 +19,7 @@ class AccessRateController extends Controller
     public function index()
     {
         return view('pages.access-rates.index')
-            ->with([ 'accessRates' => AccessRate::get()]);
+            ->with([ 'folders' => Folder::get()]);
     }
 
     public function create()
@@ -35,10 +35,11 @@ class AccessRateController extends Controller
 
     public function store(AccessRateRequest $request)
     {
-        $accessRate = AccessRate::create($request->validated());
+        $validated = $request->validated();
         $validated['is_readonly'] = $request->has('is_readonly');
         $validated['is_change'] = $request->has('is_change');
         $validated['is_print'] = $request->has('is_print');
+        $accessRate = AccessRate::create($validated);
 
         return redirect()
             ->route('access-rates.edit', $accessRate)

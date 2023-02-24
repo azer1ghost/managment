@@ -10,4 +10,9 @@ class Folder extends Model
 {
     protected $fillable = ['name'];
 
+    public function accessRates()
+    {
+        return $this->hasMany(AccessRate::class, 'folder_id');
+    }
+
 }
