@@ -25,13 +25,13 @@
     <div class="col-12">
         @can('create', App\Models\AccessRate::class)
             <div class="col-12">
-                <a class="btn btn-outline-success float-right"
+                <a class="btn btn-outline-success float-right m-4"
                    href="{{route('access-rates.create')}}">@lang('translates.buttons.create')</a>
             </div>
         @endcan
         @can('create', App\Models\AccessRate::class)
             <div class="col-12">
-                <a class="btn btn-outline-primary float-left"
+                <a class="btn btn-outline-primary float-left m-4"
                    href="{{route('folders.index')}}">@lang('translates.navbar.folder')</a>
             </div>
         @endcan
