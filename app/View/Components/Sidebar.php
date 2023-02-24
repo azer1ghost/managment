@@ -94,36 +94,7 @@ class Sidebar extends Component
                         'url' => route('internal-relations.index'),
                         'permission' => 'generally',
                     ],
-                    (object)[
-                        'title' => __('translates.navbar.internal_document'),
-                        'icon' => 'fad fa-chart-network',
-                        'url' => route('internal-documents.index'),
-                        'permission' => 'generally',
-                    ],
-                    (object)[
-                        'title' => __('translates.navbar.access_rate'),
-                        'icon' => 'fad fa-chart-network',
-                        'url' => route('access-rates.index'),
-                        'permission' => 'generally',
-                    ],
-                    (object)[
-                        'title' => __('translates.navbar.sent_document'),
-                        'icon' => 'fad fa-chart-network',
-                        'url' => route('sent-documents.index'),
-                        'permission' => 'generally',
-                    ],
-//                    (object)[
-//                        'title' => __('translates.navbar.folder'),
-//                        'icon' => 'fad fa-chart-network',
-//                        'url' => route('folders.index'),
-//                        'permission' => 'generally',
-//                    ],
-                    (object)[
-                        'title' => __('translates.navbar.protocols'),
-                        'icon' => 'fad fa-chart-network',
-                        'url' => route('protocols.index'),
-                        'permission' => 'generally',
-                    ],
+
                     (object)[
                         'title' => __('translates.navbar.foreign_relation'),
                         'icon' => 'fad fa-chart-network',
@@ -219,6 +190,30 @@ class Sidebar extends Component
                         'icon' => 'fas fa-briefcase',
                         'url' => route('departments.index'),
                         'permission' => 'viewAny-department',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.internal_document'),
+                        'icon' => 'fad fa-chart-network',
+                        'url' => route('internal-documents.index'),
+                        'permission' => 'generally',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.access_rate'),
+                        'icon' => 'fad fa-chart-network',
+                        'url' => route('access-rates.index'),
+                        'permission' => 'generally',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.sent_document'),
+                        'icon' => 'fad fa-chart-network',
+                        'url' => route('sent-documents.index'),
+                        'permission' => 'generally',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.protocols'),
+                        'icon' => 'fad fa-chart-network',
+                        'url' => route('protocols.index'),
+                        'permission' => 'generally',
                     ],
                 ]
             ],
