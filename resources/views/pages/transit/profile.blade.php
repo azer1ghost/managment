@@ -1,6 +1,6 @@
 @extends('pages.transit.layout')
 
-@section('title', __('translates.navbar.transit'))
+@section('title', 'Online Transit | Account')
 
 
 @section('content')
@@ -20,14 +20,15 @@
             </div>
             <div class="card mt-3">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link text-black" href="{{ route('service') }}" >Ana Səhifə</a>
+                    <a class="nav-link text-black" href="{{ route('service') }}">Ana Səhifə</a>
                     <a class="nav-link text-black" id="tab-account" data-toggle="tab" href="#pills-account" role="tab"
                        aria-controls="pills-account" aria-selected="true">Hesab</a>
                     <a class="nav-link text-black" id="tab-balance" data-toggle="tab" href="#pills-balance" role="tab"
                        aria-controls="pills-balance" aria-selected="true">Balans</a>
                     <a class="nav-link text-black" id="tab-order" data-toggle="tab" href="#pills-order" role="tab"
                        aria-controls="pills-order" aria-selected="false">Sifarişlərim</a>
-                    <a class="nav-link text-black" id="tab-transactions" data-toggle="tab" href="#pills-transactions" role="tab"
+                    <a class="nav-link text-black" id="tab-transactions" data-toggle="tab" href="#pills-transactions"
+                       role="tab"
                        aria-controls="pills-transactions" aria-selected="false">Tranzaksiyalar</a>
                 </div>
             </div>
@@ -72,8 +73,6 @@
                                     {{auth()->user()->getAttribute('phone')}}
                                 </div>
                             </div>
-
-
                             <hr>
                             <div class="row">
                                 <div class="col-sm-12">
@@ -125,29 +124,28 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>ORD5454785</td>
-                                        <td>Online Transit</td>
-                                        <td>29.01.2023 15:45</td>
-                                        <td>Baxılır</td>
-                                        <td><a href="" class="btn btn-outline-primary">Nəticə</a></td>
-                                    </tr>    <tr>
-                                        <td>ORD5454785</td>
-                                        <td>Online Transit</td>
-                                        <td>29.01.2023 15:45</td>
-                                        <td>Baxılır</td>
-                                        <td><a href="" class="btn btn-outline-primary">Nəticə</a></td>
-                                    </tr>
+                                    @forelse($orders as $order)
+                                        <tr>
+                                            <td>{{$order->getAttribute('code')}}</td>
+                                            <td>{{$order->getAttribute('service')}}</td>
+                                            <td>{{$order->getAttribute('created_at')}}</td>
+                                            <td>{{trans('translates.orders.statuses.'.$order->getAttribute('status'))}}</td>
+                                            <td><a href="" class="btn btn-outline-primary">Nəticə</a></td>
+                                            @empty
+                                                <td colspan="8" class="alert alert-primary text-center">Sifarişiniz
+                                                    yoxdur
+                                                </td>
+                                        </tr>
+
+                                    @endforelse
                                     </tbody>
                                 </table>
+                                {{$orders->appends(request()->input())->links()}}
                             </div>
                             <hr>
-
                         </div>
 
-                        <div class="tab-pane fade" id="pills-transactions" role="tabpanel"
-                             aria-labelledby="tab-transactions">
-
+                        <div class="tab-pane fade" id="pills-transactions" role="tabpanel">
                             <div class="row">
                                 <table class="table table-responsive-md">
                                     <thead>
@@ -172,9 +170,9 @@
                             </div>
                             <hr>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 @endsection

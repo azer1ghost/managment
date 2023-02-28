@@ -233,7 +233,8 @@ return [
         'instruction' => 'Video Instruction',
         'employee_satisfaction' => 'Employee Satisfaction',
         'satisfaction' => 'Satisfaction',
-        'customer-satisfaction' => 'Customer Satisfaction'
+        'customer-satisfaction' => 'Customer Satisfaction',
+        'order' => 'Orders',
     ],
 
     'date' => [
@@ -468,6 +469,10 @@ return [
         'url' => 'Url',
         'rate' => 'Rate',
         'price_rate' => 'Price',
+        'amount' => 'Amount',
+        'payment' => 'Payment',
+        'code' => 'Code',
+        'result' => 'Result',
     ],
 
     'notify' => [
@@ -502,6 +507,15 @@ return [
     'effectivity' => [
         1 => 'Effective',
         2 => 'Ineffective'
+    ],
+
+    'orders' => [
+        'statuses' => [
+            1 => 'Gözləmədə',
+            2 => 'Hazırlanır',
+            3 => 'Tamamlandı',
+            4 => 'Rəddedildi',
+        ]
     ],
 
     'employee_satisfactions' => [

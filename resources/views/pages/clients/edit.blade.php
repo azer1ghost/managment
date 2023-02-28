@@ -180,7 +180,7 @@
 
         @if(!is_null($data->getAttribute('protocol')))
             <div class="card-body col-6 col p-0">
-                <a class=" py-2 d-flex align-items-center list-group-item text-black" href="{{route('protocol.download', $data)}}">
+                <a class="py-2 d-flex align-items-center list-group-item text-black" href="{{route('protocol.download', $data)}}">
                     <i style="font-size: 20px" class="fas fa-file fa-3x mr-2"></i>
                     <span>{{$data->getAttribute('document_type')}} Qiymət protokolu</span>
                 </a>

@@ -48,6 +48,7 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
         'rekvisit',
         'department_id',
         'phone_coop',
+        'balance',
         'phone',
         'country',
         'city',

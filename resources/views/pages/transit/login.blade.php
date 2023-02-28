@@ -1,12 +1,12 @@
 @extends('pages.transit.layout')
 
-@section('title', __('translates.navbar.transit'))
+@section('title', 'Online Transit | Log In')
 
 @section('content')
 
-
-    <div class="col-12 p-5">
-        <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+    <div class="col-12 p-lg-5 py-4">
+        <div class="card position-sticky top-0">
+        <ul class="nav nav-pills nav-justified m-3" id="ex1" role="tablist">
             <li class="nav-item" role="presentation">
                 <a class="nav-link show active text-black" id="tab-login" data-toggle="tab" href="#pills-login" role="tab"
                    aria-controls="pills-login" aria-selected="true">Login</a>
@@ -137,6 +137,7 @@
             </div>
         </div>
     </div>
+</div>
 
 
 @endsection

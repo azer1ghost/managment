@@ -68,9 +68,11 @@ Route::group([
 ], function () {
     Route::get('/transit-login', [TransitController::class, 'login'])->name('transit-login');
     Route::get('/service', [TransitController::class, 'service'])->name('service');
-    Route::get('/payment', [TransitController::class, 'payment'])->name('payment');
+    Route::get('/payment/{order}', [TransitController::class, 'payment'])->name('payment');
+    Route::get('/payment/{order}', [TransitController::class, 'payment'])->name('payment');
+    Route::post('/payFromBalance/', [OrderController::class, 'payFromBalance'])->name('payFromBalance');
     Route::resource('/profile', TransitController::class);
-    Route::resource('/order', OrderController::class)->except(['index', 'create', 'show', 'edit']);
+    Route::resource('/order', OrderController::class)->only(['store']);
 });
 
 Route::get('firebase-messaging-sw.js', [PlatformController::class, 'firebase']);
@@ -209,6 +211,9 @@ Route::group([
     Route::view('/statement','pages.statements.statements' )->name('statement');
     Route::post('/markAsRead', [StatementController::class, 'markAsRead'])->name('mark-as-read');
     Route::get('/jobInstruction/{id}', [JobInstructionController::class, 'getInstruction'])->name('getInstruction');
+    Route::post('/order-download',[ OrderController::class, 'download'])->name('orders.download');
+    Route::resource('/orders', OrderController::class)->except('store');
+
 
     // resultable routes
     Route::post('/results/{modelId}', [ResultController::class, 'store'])->name('results.store');

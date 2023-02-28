@@ -32,10 +32,10 @@
 
 <body>
 <div class="container">
-        <div class="text-center py-5">
-            <img src="{{asset('assets/images/logomb.png')}}" alt="" style="max-width: 100%">
-            @yield('content')
-        </div>
+    <div class="text-center py-5">
+        <img src="{{asset('assets/images/logomb.png')}}" alt="" style="max-width: 100%">
+        @yield('content')
+    </div>
 </div>
 
 

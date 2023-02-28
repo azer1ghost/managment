@@ -1,6 +1,6 @@
 @extends('pages.transit.layout')
 
-@section('title', __('translates.navbar.transit'))
+@section('title', 'Online Transit | Services')
 
 <nav class="navbar bg-gradient-dark">
     <div class="container-fluid">
@@ -12,6 +12,8 @@
     </div>
 </nav>
 @section('content')
+    <div class="col-12 p-lg-5 py-4">
+        <div class="card position-sticky top-0">
         <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
             <li class="nav-item col-sm-6" role="presentation">
                 <a class="nav-link btn btn-primary m-3" id="tab-transit" data-toggle="tab" href="#pills-transit"
@@ -44,8 +46,7 @@
                                         <span class="input-group-text" id="cmr">Yüklə</span>
                                     </div>
                                     <div class="custom-file">
-                                        <input type="file" name="cmr" class="custom-file-input" id=cmr"
-                                               aria-describedby="inputGroupFileAddon01">
+                                        <input type="file" name="cmr[]" class="custom-file-input" id=cmr" aria-describedby="inputGroupFileAddon01">
                                         <label class="custom-file-label" for="cmr">Sənədləri yüklə</label>
                                     </div>
                                 </div>
@@ -58,7 +59,7 @@
                                         <span class="input-group-text" id="invoice">Yüklə</span>
                                     </div>
                                     <div class="custom-file">
-                                        <input type="file" name="invoice" class="custom-file-input" id="invoice"
+                                        <input type="file" name="invoice[]" class="custom-file-input" id="invoice"
                                                aria-describedby="inputGroupFileAddon01">
                                         <label class="custom-file-label" for="invoice">Sənədləri yüklə</label>
                                     </div>
@@ -77,7 +78,7 @@
                         </div>
                     </div>
                     <div class="form-outline mb-4">
-                        <button type="submit" class="btn btn-warning col-12">Ödənişə Et</button>
+                        <button type="submit" class="btn btn-warning col-12">Ödəniş Et</button>
                     </div>
                     <div class="text-center">
                         <p>Hər hansısa sualınız var? <a href="tel:+994513339090" class="text-black">Əlaqə saxlayın</a></p>
@@ -111,7 +112,8 @@
             </div>
         </div>
 
-{{--</div>--}}
+</div>
+</div>
 @endsection
 @section('scripts')
     <script>
@@ -128,7 +130,7 @@
         $(document).ready(function () {
 
             $(".addButton").click(function () {
-                $(".transit").append("<div> <div id='row''> <div class='form-outline mb-4'> <label class='form-label' for='transitCmr'>CMR</label> <div class='input-group mb-4'> <div class='input-group-prepend'> <span class='input-group-text' id='cmr'>Yüklə</span> </div> <div class='custom-file'> <input type='file' class='custom-file-input' id=cmr'aria-describedby='inputGroupFileAddon01'><label class='custom-file-label' for='cmr'>Sənədləri yüklə</label> </div> </div> </div> <div class='form-outline mb-4'> <label class='form-label' for='transitInv'>İNVOYS</label> <div class='input-group mb-4'> <div class='input-group-prepend'> <span class='input-group-text' id='invoys'>Yüklə</span> </div> <div class='custom-file'> <input type='file' class='custom-file-input' id='invoys'aria-describedby='inputGroupFileAddon01'> <label class='custom-file-label' for='invoys'>Sənədləri yüklə</label> </div> </div> <button class='btn btn-danger'id='DeleteRow' type='button'> <i class='bi bi-trash'></i>Delete </button></div> </div>");
+                $(".transit").append("<div> <div id='row''> <div class='form-outline mb-4'> <label class='form-label' for='transitCmr'>CMR</label> <div class='input-group mb-4'> <div class='input-group-prepend'> <span class='input-group-text' id='cmr'>Yüklə</span> </div> <div class='custom-file'> <input type='file' name='cmr[]' class='custom-file-input' id=cmr'aria-describedby='inputGroupFileAddon01'><label class='custom-file-label' for='cmr'>Sənədləri yüklə</label> </div> </div> </div> <div class='form-outline mb-4'> <label class='form-label' for='transitInv'>İNVOYS</label> <div class='input-group mb-4'> <div class='input-group-prepend'> <span class='input-group-text' id='invoys'>Yüklə</span> </div> <div class='custom-file'> <input type='file' name='invoice[]' class='custom-file-input' id='invoys'aria-describedby='inputGroupFileAddon01'> <label class='custom-file-label' for='invoys'>Sənədləri yüklə</label> </div> </div> <button class='btn btn-danger'id='DeleteRow' type='button'> <i class='bi bi-trash'></i>Delete </button></div> </div>");
             });
         });
         $("body").on("click", "#DeleteRow", function () {

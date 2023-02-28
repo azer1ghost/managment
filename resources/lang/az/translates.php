@@ -235,7 +235,8 @@ return [
         'instruction' => 'Video Təlimat',
         'employee_satisfaction' => 'İşçi Məmnuniyyəti',
         'satisfaction' => 'Məmnuniyyət',
-        'customer-satisfaction' => 'Müştəri Məmnuniyyəti'
+        'customer-satisfaction' => 'Müştəri Məmnuniyyəti',
+        'order' => 'Sifarişlər',
     ],
 
     'date' => [
@@ -469,6 +470,10 @@ return [
         'url' => 'Url',
         'rate' => 'Qiymətləndirmə',
         'price_rate' => 'Xidmət Haqqı Qiymətləndirməsi',
+        'amount' => 'Qiymət',
+        'payment' => 'Ödəniş',
+        'code' => 'Kod',
+        'result' => 'Nəticə',
     ],
 
     'notify' => [
@@ -505,6 +510,15 @@ return [
     'effectivity' => [
         1 => 'Effektiv',
         2 => 'Effektiv Deyil'
+    ],
+
+    'orders' => [
+        'statuses' => [
+            1 => 'Gözləmədə',
+            2 => 'Hazırlanır',
+            3 => 'Tamamlandı',
+            4 => 'Rəddedildi',
+        ]
     ],
 
     'employee_satisfactions' => [

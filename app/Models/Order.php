@@ -29,4 +29,9 @@ class Order extends Model
 
         return $code;
     }
+
+    public static function statuses()
+    {
+        return [1 => 1, 2, 3, 4];
+    }
 }
