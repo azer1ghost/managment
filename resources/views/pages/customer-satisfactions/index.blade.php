@@ -137,7 +137,7 @@
                 <td>{{$customerSatisfaction->getAttribute('created_at')}}</td>
                 <td>
                     <div class="btn-sm-group">
-                        <button class="btn btn-sm btn-outline-primary mr-2 client-edit-btn" type="button" data-client='@json($customerSatisfaction->getRelationValue('company'))' data-toggle="modal" data-target="#inquiry-client">
+                        <button class="btn btn-sm btn-outline-primary mr-2 client-edit-btn" type="button"  data-toggle="modal" data-target="#inquiry-client">
                             <i class="fas fa-comment-alt-lines"></i>
                         </button>
                     </div>

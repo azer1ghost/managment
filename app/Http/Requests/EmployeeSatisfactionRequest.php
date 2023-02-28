@@ -22,6 +22,7 @@ class EmployeeSatisfactionRequest extends FormRequest
             'deadline' => 'nullable|date',
             'status' => 'nullable|integer',
             'effectivity' => 'nullable|integer',
+            'note' => 'nullable|string',
         ];
     }
 }

@@ -198,6 +198,7 @@ Route::group([
     Route::view('/structure','pages.instructions.structure' )->name('structure');
     Route::view('/necessary','pages.instructions.necessary' )->name('necessary');
     Route::resource('/statements', StatementController::class);
+    Route::put('employee-satisfaction/addNote', [EmployeeSatisfactionController::class, 'addNote'])->name('addNote');
     Route::resource('/employee-satisfaction', EmployeeSatisfactionController::class);
     Route::view('/statement','pages.statements.statements' )->name('statement');
     Route::view('/statement','pages.statements.statements' )->name('statement');

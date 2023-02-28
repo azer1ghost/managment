@@ -51,6 +51,7 @@
                     <th scope="col">#</th>
                     <th scope="col">@lang('translates.fields.user')</th>
                     <th scope="col">@lang('translates.columns.type')</th>
+                    <th scope="col">@lang('translates.fields.note')</th>
                     <th scope="col">@lang('translates.columns.status')</th>
                     <th scope="col">@lang('translates.employee_satisfactions.effectivity')</th>
                     <th scope="col">@lang('translates.fields.created_at')</th>
@@ -58,36 +59,37 @@
                 </tr>
                 </thead>
                 <tbody>
-                @forelse($employee_satisfactions as $employee_satisfaction)
+                @forelse($employeeSatisfactions as $employeeSatisfaction)
                     <tr>
                         <th scope="row">{{$loop->iteration}}</th>
-                        <td>@if($employee_satisfaction->getAttribute('type') !== $employee_satisfaction::COMPLAINT)
-                                {{$employee_satisfaction->getRelationValue('users')->getAttribute('fullname_with_position')}}
+                        <td>@if($employeeSatisfaction->getAttribute('type') !== $employeeSatisfaction::COMPLAINT)
+                                {{$employeeSatisfaction->getRelationValue('users')->getAttribute('fullname_with_position')}}
                             @else
                                 Anonim
                             @endif
                         </td>
-                        <td> @lang('translates.employee_satisfactions.types.' . $employee_satisfaction->getAttribute('type'))</td>
-                        @php($status = $employee_satisfaction->getAttribute('status') ?? 1)
+                        <td> @lang('translates.employee_satisfactions.types.' . $employeeSatisfaction->getAttribute('type'))</td>
+                        <td>{{$employeeSatisfaction->getAttribute('note')}}</td>
+                        @php($status = $employeeSatisfaction->getAttribute('status') ?? 1)
                         <td>  @lang('translates.employee_satisfactions.statuses.' . $status)</td>
                         <td>
                             <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: {{$employee_satisfaction->getAttribute('effectivity')}}%" aria-valuenow="{{$employee_satisfaction->getAttribute('effectivity')}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar" role="progressbar" style="width: {{$employeeSatisfaction->getAttribute('effectivity')}}%" aria-valuenow="{{$employeeSatisfaction->getAttribute('effectivity')}}" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </td>
-                        <td>{{$employee_satisfaction->getAttribute('created_at')}}</td>
+                        <td>{{$employeeSatisfaction->getAttribute('created_at')}}</td>
                         <td>
                             <div class="btn-sm-group">
-                                @can('view', $employee_satisfaction)
-                                    <a href="{{route('employee-satisfaction.show', $employee_satisfaction)}}" class="btn btn-sm btn-outline-primary"> <i class="fal fa-eye"></i></a>
+                                @can('view', $employeeSatisfaction)
+                                    <a href="{{route('employee-satisfaction.show', $employeeSatisfaction)}}" class="btn btn-sm btn-outline-primary"> <i class="fal fa-eye"></i></a>
                                 @endcan
 
                                 @if(auth()->user()->hasPermission('measure-employeeSatisfaction'))
-                                    <a href="{{route('employee-satisfaction.edit', $employee_satisfaction)}}" class="btn btn-sm btn-outline-success"> <i class="fal fa-pen"></i></a>
+                                    <a href="{{route('employee-satisfaction.edit', $employeeSatisfaction)}}" class="btn btn-sm btn-outline-success"> <i class="fal fa-pen"></i></a>
                                 @endif
 
-                                @can('delete', $employee_satisfaction)
-                                    <a href="{{route('employee-satisfaction.destroy', $employee_satisfaction)}}" delete data-name="{{$employee_satisfaction->getAttribute('name')}}" class="btn btn-sm btn-outline-danger"> <i class="fal fa-trash"></i> </a>
+                                @can('delete', $employeeSatisfaction)
+                                    <a href="{{route('employee-satisfaction.destroy', $employeeSatisfaction)}}" delete data-name="{{$employeeSatisfaction->getAttribute('name')}}" class="btn btn-sm btn-outline-danger"> <i class="fal fa-trash"></i> </a>
                                 @endcan
                             </div>
                         </td>
@@ -104,7 +106,7 @@
                 </tbody>
             </table>
             <div class="float-right">
-                {{$employee_satisfactions->appends(request()->input())->links()}}
+                {{$employeeSatisfactions->appends(request()->input())->links()}}
             </div>
     </form>
     <div class="modal fade" id="create-employee-satisfaction">

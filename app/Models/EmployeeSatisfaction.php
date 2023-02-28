@@ -22,7 +22,8 @@ class EmployeeSatisfaction extends Model
         'datetime',
         'deadline',
         'status',
-        'effectivity'
+        'effectivity',
+        'note',
     ];
 
     const OFFER = 1;

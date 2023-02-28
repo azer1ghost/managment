@@ -75,6 +75,7 @@
             </div>
                 <x-input::textarea name="reason" class="reason" :value="$data->getAttribute('reason')"  :label="trans('translates.employee_satisfactions.reason')" width="12" rows="4"/>
                 <x-input::textarea name="result" class="result" :value="$data->getAttribute('result')"  :label="trans('translates.employee_satisfactions.result')" width="12" rows="4"/>
+
             @endif
 
         @endif
@@ -94,6 +95,9 @@
                 </div>
                 <x-input::text name="effectivity" :label="trans('translates.employee_satisfactions.effectivity')" :value="$data->getAttribute('effectivity')" width="6"/>
             </div>
+        @endif
+        @if($data->status == 5)
+            <x-input::textarea name="note" class="note" :value="$data->getAttribute('note')"  :label="trans('translates.fields.note')" width="12" rows="4"/>
         @endif
     @if($action)
             <x-input::submit :value="trans('translates.buttons.save')"/>

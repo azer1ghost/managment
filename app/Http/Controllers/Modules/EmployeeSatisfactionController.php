@@ -29,7 +29,7 @@ class EmployeeSatisfactionController extends Controller
 
         return view('pages.employee-satisfactions.index')
             ->with([
-                'employee_satisfactions' =>$employeeSatisfaction
+                'employeeSatisfactions' => $employeeSatisfaction
                     ->when($status, fn ($q) => $q->where('status', $status))
                     ->when($type, fn ($q) => $q->where('type', $type))
                     ->latest('created_at')
@@ -93,6 +93,7 @@ class EmployeeSatisfactionController extends Controller
 
     public function update(EmployeeSatisfactionRequest $request, EmployeeSatisfaction $employeeSatisfaction): RedirectResponse
     {
+
         $validated = $request->validated();
         if ($request->status == 2) {
             $validated['datetime'] = now();
