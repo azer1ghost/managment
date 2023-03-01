@@ -131,7 +131,7 @@
                 <input type="hidden" name="cmr" value="{{$invoice}}">
             </form>
             <a class="py-2 my-2 d-flex align-items-center list-group-item text-black" onclick="event.preventDefault();
-                                    document.getElementById('download-form{{$invoice}}').submit();">
+                    document.getElementById('download-form{{$invoice}}').submit();">
                 <i style="font-size: 20px" class="fas fa-file fa-3x mr-2"></i>
 
                 {{$invoice}}
