@@ -50,40 +50,24 @@
                             <td>{{$order->getAttribute('code')}}</td>
                             <td>{{$order->getRelationValue('users')->getAttribute('name')}}</td>
                             <td>{{$order->getAttribute('service')}}</td>
-                            <td>{{$order->getAttribute('amount')}}</td>
-                            <td>@lang('translates.orders.' . $order->getAttribute('is_paid') == 1 ? 'paid' : 'unpaid')</td>
+                            <td>{{$order->getAttribute('amount')}} AZN</td>
+                            <td>@lang('translates.orders.payment.'.$order->getAttribute('is_paid'))</td>
                             <td>@lang('translates.orders.statuses.' . $order->getAttribute('status'))</td>
                             <td>
-                                <form action="{{route('orders.update', $order)}}" enctype="multipart/form-data">
-                                    @csrf @method('PUT')
-                                    <div class="row mb-3">
-                                        <div class="col-md-8 col-lg-9">
-                                            @if($order->getAttribute('result') !== null)
-                                             <a src="{{$order->getAttribute('result')}}">netice</a>
-                                            @endif
-                                            <div class="pt-2">
-                                                <label for="avatar"><i class="fas fa-upload btn btn-success btn-sm"></i></label>
-                                                <input type="file" name="result" class="d-none" id="avatar">
-                                                <button type="submit">ok</button>
-                                                @if($order->getAttribute('result') !== null)
-                                                    <a href="{{route('orders.update', $order)}}" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="fas fa-trash"></i></a>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
+                                @if($order->getAttribute('result') !== null)
+                                    <a class="text-black" href="{{route('order-result.download', $order)}}">
+                                        <i style="font-size: 35px" class="fas fa-file"></i>
+                                    </a>
+                                @endif
                             </td>
                             <td>
                                 <div class="btn-sm-group">
-                                        <a href="{{route('orders.show', $order)}}" class="btn btn-sm btn-outline-primary">
-                                            <i class="fal fa-eye"></i>
-                                        </a>
-                                        <a href="{{route('orders.edit', $order)}}" class="btn btn-sm btn-outline-success">
-                                            <i class="fal fa-pen"></i>
-                                        </a>
-                                        <a href="{{route('orders.destroy', $order)}}" delete data-name="{{$order->getAttribute('name')}}" class="btn btn-sm btn-outline-danger" >
-                                            <i class="fal fa-trash"></i>
-                                        </a>
+                                    <a href="{{route('orders.show', $order)}}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fal fa-eye"></i>
+                                    </a>
+                                    <a href="{{route('orders.edit', $order)}}" class="btn btn-sm btn-outline-success">
+                                        <i class="fal fa-pen"></i>
+                                    </a>
                                 </div>
                             </td>
                         </tr>

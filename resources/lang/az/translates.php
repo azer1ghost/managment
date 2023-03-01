@@ -518,6 +518,10 @@ return [
             2 => 'Hazırlanır',
             3 => 'Tamamlandı',
             4 => 'Rəddedildi',
+        ],
+        'payment' => [
+            0 => 'Ödənməyib',
+            1 => 'Ödənib',
         ]
     ],
 

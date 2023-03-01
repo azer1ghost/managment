@@ -51,6 +51,7 @@ class OrderController extends Controller
             'method' => null,
             'data' => $order,
             'users' => User::get(['id', 'name']),
+            'statuses' => Order::statuses(),
         ]);
     }
 
@@ -61,20 +62,25 @@ class OrderController extends Controller
             'method' => 'PUT',
             'data' => $order,
             'users' => User::get(['id', 'name']),
+            'statuses' => Order::statuses(),
         ]);
     }
 
 
-    public function update(Order $order, Request $request)
+    public function update(Order $order, OrderRequest $request)
     {
-//        if ($request->file('result')) {
-            dd($request->get('result'));
-//            $document = $request->file('result');
-//            $document->store('result');
-//            $order->setAttribute('result', $document->store('result'));
-//            $order->save();
-//        }
-//        return redirect()->back();
+        $validated = $request->validated();
+        $validated['is_paid'] = $request->has('is_paid');
+        if ($request->file('result')) {
+            $document = $request->file('result');
+            $document->store('result');
+            $validated['result'] = $document->store('result');
+        }
+
+        $order->update($validated);
+        return redirect()
+            ->route('orders.edit', $order)
+            ->withNotify('success', $order->getAttribute('code'));
     }
 
     public function payFromBalance(Request $request, Order $order)
@@ -98,7 +104,12 @@ class OrderController extends Controller
 
     public function download(Request $request)
     {
-        return Storage::download($request->get('cmr'));
+        return Storage::download($request->get('document'));
+    }
+
+    public function resultDownload(Order $order)
+    {
+        return Storage::download($order->getAttribute('result'));
     }
 
 }

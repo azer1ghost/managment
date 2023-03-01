@@ -212,6 +212,7 @@ Route::group([
     Route::post('/markAsRead', [StatementController::class, 'markAsRead'])->name('mark-as-read');
     Route::get('/jobInstruction/{id}', [JobInstructionController::class, 'getInstruction'])->name('getInstruction');
     Route::post('/order-download',[ OrderController::class, 'download'])->name('orders.download');
+    Route::get('/result-download/{order}',[ OrderController::class, 'resultDownload'])->name('order-result.download');
     Route::resource('/orders', OrderController::class)->except('store');
 
 

@@ -120,7 +120,7 @@
                                         <th>Xidmət</th>
                                         <th>Tarix</th>
                                         <th>Status</th>
-                                        <th>Operator</th>
+                                        <th>Nəticə</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -130,7 +130,13 @@
                                             <td>{{$order->getAttribute('service')}}</td>
                                             <td>{{$order->getAttribute('created_at')}}</td>
                                             <td>{{trans('translates.orders.statuses.'.$order->getAttribute('status'))}}</td>
-                                            <td><a href="" class="btn btn-outline-primary">Nəticə</a></td>
+                                            <td>
+                                                @if($order->getAttribute('result') !== null)
+                                                    <a class="text-black" href="{{route('order-result.download', $order)}}">
+                                                        <i style="font-size: 35px" class="fas fa-file"></i>
+                                                    </a>
+                                                @endif
+                                            </td>
                                             @empty
                                                 <td colspan="8" class="alert alert-primary text-center">Sifarişiniz
                                                     yoxdur
