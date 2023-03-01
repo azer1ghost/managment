@@ -39,6 +39,8 @@ return [
         'viewAny-department', 'view-department', 'manage-department',
         'viewAny-document', 'view-document', 'create-document', 'update-document', 'delete-document',
         'viewAny-folder' , 'view-folder', 'create-folder', 'update-folder','manage-folder','delete-folder',
+        'viewAny-protocol' , 'view-protocol', 'create-protocol', 'update-protocol','manage-protocol','delete-protocol',
+        'viewAny-sentDocument' , 'view-sentDocument', 'create-sentDocument', 'update-sentDocument','manage-sentDocument','delete-sentDocument',
         'viewAny-employeeSatisfaction', 'view-employeeSatisfaction', 'manage-employeeSatisfaction', 'delete-employeeSatisfaction', 'measure-employeeSatisfaction',
         'viewAny-jobInstruction', 'viewAll-jobInstruction', 'viewAllDepartment-jobInstruction', 'view-jobInstruction', 'create-jobInstruction', 'update-jobInstruction','manage-jobInstruction','delete-jobInstruction',
         'viewAny-internalNumber', 'view-internalNumber', 'create-internalNumber', 'update-internalNumber','manage-internalNumber','delete-internalNumber',
