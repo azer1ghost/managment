@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Requests\LogisticClientRequest;
 use App\Models\Document;
 use App\Http\Controllers\{Auth\LoginController,
     Auth\PhoneVerifycationController,
@@ -169,6 +170,7 @@ Route::group([
     Route::resource('/registration-logs', RegistrationLogController::class);
     Route::get('/cooperative-numbers', [InternalNumberController::class, 'cooperative'])->name('cooperative-numbers');
     Route::resource('/internal-relations', InternalRelationController::class);
+    Route::resource('/logistic-clients', LogisticClientRequest::class);
     Route::resource('/internal-documents', InternalDocumentController::class);
     Route::resource('/sent-documents', SentDocumentController::class);
     Route::resource('/protocols', ProtocolController::class);
