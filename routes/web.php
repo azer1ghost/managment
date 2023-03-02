@@ -15,6 +15,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\CertificateController,
     Modules\ChangeController,
     Modules\ClientController,
+    Modules\CommandController,
     Modules\CompanyController,
     Modules\ConferenceController,
     Modules\CustomerEngagementController,
@@ -54,6 +55,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\StatementController,
     Modules\TaskController,
     Modules\TaskListController,
+    Modules\TransitController,
     Modules\UpdateController,
     Modules\UserController,
     Modules\WidgetController,
@@ -166,6 +168,7 @@ Route::group([
     Route::resource('/changes', ChangeController::class);
     Route::put('/registration-logs/{registrationLog}/accepted', [RegistrationLogController::class, 'accepted'])->name('registration-logs.accepted');
     Route::resource('/registration-logs', RegistrationLogController::class);
+    Route::resource('/commands', CommandController::class);
     Route::get('/cooperative-numbers', [InternalNumberController::class, 'cooperative'])->name('cooperative-numbers');
     Route::resource('/internal-relations', InternalRelationController::class);
     Route::resource('/internal-documents', InternalDocumentController::class);
@@ -252,7 +255,7 @@ Route::get('/document/{document}', function (\Illuminate\Http\Request $request, 
 Route::resource('/customer-satisfactions', CustomerSatisfactionController::class);
 Route::get('/cs', [CustomerSatisfactionController::class, 'createSatisfaction'])->name('create-satisfaction');
 
-Route::get('/transit/service', [\App\Http\Controllers\Modules\TransitController::class, 'service'])->name('service');
-Route::get('/transit/transit-login', [\App\Http\Controllers\Modules\TransitController::class, 'login'])->name('transit-login');
-Route::get('/transit/payment', [\App\Http\Controllers\Modules\TransitController::class, 'payment'])->name('payment');
-Route::resource('/transit/profile', \App\Http\Controllers\Modules\TransitController::class);
+Route::get('/transit/service', [TransitController::class, 'service'])->name('service');
+Route::get('/transit/transit-login', [TransitController::class, 'login'])->name('transit-login');
+Route::get('/transit/payment', [TransitController::class, 'payment'])->name('payment');
+Route::resource('/transit/profile', TransitController::class);

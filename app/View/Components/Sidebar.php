@@ -215,6 +215,12 @@ class Sidebar extends Component
                         'url' => route('protocols.index'),
                         'permission' => 'generally',
                     ],
+                    (object)[
+                        'title' => __('translates.navbar.commands'),
+                        'icon' => 'fad fa-chart-network',
+                        'url' => route('commands.index'),
+                        'permission' => 'generally',
+                    ],
                 ]
             ],
             (object)[
