@@ -87,8 +87,8 @@
                                     id="clientFilter"
                                     class="custom-select2" style="width: 100% !important;"
                                     data-url="{{route('clients.search')}}">
-                                @if(is_numeric($filters['client_id']))
-                                    <option value="{{$filters['client_id']}}">{{\App\Models\Client::find($filters['client_id'])->getAttribute('fullname_with_voen')}}</option>
+                                @if(is_numeric($filters['logistics_client_id']))
+                                    <option value="{{$filters['logistics_client_id']}}">{{\App\Models\Client::find($filters['logistics_client_id'])->getAttribute('fullname_with_voen')}}</option>
                                 @endif
                             </select>
                         </div>
@@ -149,9 +149,9 @@
             @can('create', App\Models\Logistics::class)
                 <div class="col-sm-6 py-3">
                     <a class="btn btn-outline-success float-right" data-toggle="modal" data-target="#create-logistics">@lang('translates.buttons.create')</a>
-                        <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('logistics.export', ['filters' => json_encode($filters), 'dateFilters' => json_encode($dateFilters)])}}">
-                            @lang('translates.buttons.export')
-                        </a>
+{{--                        <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('logistics.export', ['filters' => json_encode($filters), 'dateFilters' => json_encode($dateFilters)])}}">--}}
+{{--                            @lang('translates.buttons.export')--}}
+{{--                        </a>--}}
                 </div>
             @endcan
 
@@ -193,10 +193,10 @@
                     {{mb_strimwidth($log->getRelationValue('client')->getAttribute('name'), 0, 20, '...')}}
                 </td>
                 @foreach(\App\Models\Service::serviceParameters() as $param)
-                    <td @if(auth()->user()->hasPermission('editPrice-work')) class="update"  @endif data-name="{{$param['data']->getAttribute('id')}}" data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
+                    <td>{{$log->getParameter($param['data']->getAttribute('id'))}}</td>
                     @php
                         if($param['count']){ // check if parameter is countable
-                            $count = (int) $work->getParameter($param['data']->getAttribute('id'));
+                            $count = (int) $log->getParameter($param['data']->getAttribute('id'));
                             if(isset($totals[$param['data']->getAttribute('id')])){
                                 $totals[$param['data']->getAttribute('id')] += $count;
                             }else{
@@ -286,7 +286,7 @@
         </tbody>
     </table>
 
-    <div class="modal fade" id="create-work">
+    <div class="modal fade" id="create-logistics">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <form action="{{route('logistics.create')}}" method="GET">
@@ -297,19 +297,6 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="data-department">@lang('translates.navbar.department')</label>
-                            <select class="select2" id="data-department" name="department_id" required style="width: 100% !important;">
-                                <option value="">@lang('translates.general.department_select')</option>
-                                @foreach($allDepartments as $dep)
-                                    <option
-                                            value="{{$dep->id}}"
-                                            @if($dep->id == auth()->user()->getAttribute('department_id')) selected @endif>
-                                        {{$dep->name}}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
                         <div class="form-group">
                             <label for="data-service">@lang('translates.navbar.service')</label>
                             <select class="select2" id="data-service" name="service_id" required style="width: 100% !important;">
@@ -328,38 +315,12 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="report-work">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <form action="{{route('logistics.report')}}" method="GET" target="_blank">
-                    <div class="modal-header">
-                        <h5 class="modal-title">@lang('translates.general.select_date')</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="choose-date">@lang('translates.fields.date')</label>
-                            <input class="form-control custom-daterange" id="choose-date" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
-                        <button type="submit" class="btn btn-primary">@lang('translates.buttons.show')</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 @endsection
 @section('scripts')
-    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/js/jquery-editable-poshytip.min.js"></script>
-
     <script>
         @if($logistics->isNotEmpty())
-            const count  = document.getElementById("count").cloneNode(true);
-            $("#table > tbody").prepend(count);
+        const count  = document.getElementById("count").cloneNode(true);
+        $("#table > tbody").prepend(count);
         @endif
 
         confirmJs($("a[verify]"));
@@ -502,27 +463,6 @@
             const walk = (x - startX) * 3; //scroll-fast
             slider.scrollLeft = scrollLeft - walk;
             console.log(walk);
-        });
-    </script>
-    <script type="text/javascript">
-        $.fn.editable.defaults.mode = 'inline';
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': '{{csrf_token()}}'
-            }
-        });
-
-        $('.code').editable({
-            url: "{{ route('work.code') }}",
-        });
-
-        $('.declaration').editable({
-            url: "{{ route('work.declaration') }}",
-        });
-
-        $('.update').editable({
-            url: "{{ route('editable') }}",
         });
     </script>
     <script>

@@ -14,6 +14,8 @@ class Logistics extends Model
     protected $fillable = ['reg_number', 'user_id', 'service_id', 'logistics_client_id', 'currency', 'status', 'datetime', 'paid_at'];
     protected $dates = ['datetime', 'paid_at'];
 
+    const DONE = 5;
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class)->withDefault();
