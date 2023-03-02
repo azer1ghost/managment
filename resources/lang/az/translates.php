@@ -180,6 +180,7 @@ return [
         'cabinet' => 'Kabinet',
         'company' => 'Şirkətlər',
         'changes' => 'Dəyişikliklər',
+        'commands' => 'Əmrlər',
         'registration_logs' => 'Qeydiyyat Jurnalı',
         'customer_company' => 'Müştəri Şirkətlər',
         'account' => 'Hesab',

@@ -178,6 +178,7 @@ return [
         'cabinet' => 'Cabinet',
         'company' => 'Companies',
         'changes' => 'Changes',
+        'commands' => 'Commands',
         'registration_logs' => 'Registration Logs',
         'customer_company' => 'Customer Company',
         'account' => 'Account',
