@@ -78,6 +78,7 @@
                 <table class="table table-responsive-sm table-hover">
                     <thead>
                     <tr>
+                        <th scope="col">İD</th>
                         <th scope="col"></th>
                         <th scope="col">@lang('translates.columns.full_name')</th>
                         <th scope="col">FIN</th>
@@ -93,6 +94,7 @@
                     <tbody id="sortableUser">
                     @forelse($users as $user)
                         <tr id="item-{{$user->getAttribute('id')}}">
+                            <th>{{$user->getAttribute('id')}}</th>
                             <th scope="row"><img src="{{image($user->getAttribute('avatar'))}}" alt="user" class="profile sortable" /></th>
                             <td class="sortable">{{$user->getAttribute('fullname_with_position')}}
                                 @if($user->getAttribute('id') === auth()->id()) <h5 class="d-inline"><span class="badge badge-info text-white">Me</span></h5> @endif
@@ -162,6 +164,7 @@
                                 </div>
                             </td>
                         </tr>
+                        <tr id="item-{{$user->getAttribute('id')}}">
                     @empty
                         <tr>
                             <th colspan="20">
