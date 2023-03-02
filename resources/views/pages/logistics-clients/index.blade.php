@@ -11,7 +11,7 @@
             @lang('translates.navbar.logistics_clients')
         </x-bread-crumb-link>
     </x-bread-crumb>
-    <form action="{{route('sales-client.index')}}">
+    <form action="{{route('logistic-clients.index')}}">
         <div class="row d-flex justify-content-between mb-2">
 
             <div class="col-md-4">
@@ -31,29 +31,25 @@
                     @endforeach
                 </select>
             </div>
-
-            <div class="col-8 col-md-3 mb-3 ">
-                <select name="user" class="custom-select" id="type">
-                    <option selected value="">@lang('translates.navbar.user')</option>
-                    @foreach($users as $user)
-                        <option @if(request()->get('user') == $user->getAttribute('id')) selected @endif value="{{$user->getAttribute('id')}}">{{$user->getAttribute('fullname')}}</option>
-                    @endforeach
-                </select>
-            </div>
             <div class="col-12 mb-3">
-                @can('create', App\Models\SalesClient::class)
-                    <a class="btn btn-outline-success float-right " href="{{route('sales-client.create')}}">@lang('translates.buttons.create')</a>
+                @can('create', App\Models\LogisticsClient::class)
+                    <a class="btn btn-outline-success float-right " href="{{route('logistic-clients.create')}}">@lang('translates.buttons.create')</a>
                 @endcan
-                @if(auth()->user()->hasPermission('canExport-client'))
-                    <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('sales-clients.export')}}">@lang('translates.buttons.export')</a>
-                @endif
             </div>
+{{--            <div class="col-8 col-md-3 mb-3 ">--}}
+{{--                <select name="user" class="custom-select" id="type">--}}
+{{--                    <option selected value="">@lang('translates.navbar.user')</option>--}}
+{{--                    @foreach($users as $user)--}}
+{{--                        <option @if(request()->get('user') == $user->getAttribute('id')) selected @endif value="{{$user->getAttribute('id')}}">{{$user->getAttribute('fullname')}}</option>--}}
+{{--                    @endforeach--}}
+{{--                </select>--}}
+{{--            </div>--}}
+
             <table class="table table-responsive-sm table-hover">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">@lang('translates.fields.clientName')</th>
-                    <th scope="col">@lang('translates.columns.user')</th>
                     <th scope="col">@lang('translates.fields.phone')</th>
                     <th scope="col">@lang('translates.columns.email')</th>
                     <th scope="col">VOEN</th>
@@ -65,7 +61,6 @@
                     <tr>
                         <th scope="row">{{$loop->iteration}}</th>
                         <td>{{$logisticClient->getAttribute('name')}}</td>
-                        <td>{{$logisticClient->getRelationValue('user')->getAttribute('fullname')}}</td>
                         <td>{{$logisticClient->getAttribute('phone')}}</td>
                         <td>{{$logisticClient->getAttribute('email') ? $logisticClient->getAttribute('email') : trans('translates.clients.email_empty')}} </td>
                         <td>{{$logisticClient->getAttribute('voen')}}</td>

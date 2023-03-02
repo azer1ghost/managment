@@ -7,7 +7,7 @@ use App\Traits\GetClassInfo;
 use App\Traits\HandlesPolicy;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class LogisticClientPolicy
+class LogisticsClientPolicy
 {
     use HandlesAuthorization, HandlesPolicy, GetClassInfo;
 
