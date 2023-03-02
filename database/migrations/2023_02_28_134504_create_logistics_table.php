@@ -17,9 +17,9 @@ class CreateLogisticsTable extends Migration
             $table->id();
             $table->string('reg_number')->nullable();
             $table->foreignId('user_id')->constrained()->restrictOnDelete();
-            $table->foreignId('reference_id')->constrained()->restrictOnDelete();
+            $table->integer('reference_id')->nullable();
             $table->foreignId('service_id')->constrained()->restrictOnDelete();
-            $table->foreignId('logistics_client_id')->constrained()->restrictOnDelete();
+            $table->integer('logistics_client_id')->nullable();
             $table->string('currency')->nullable();
             $table->string('status')->nullable();
             $table->timestamp('datetime')->nullable();

@@ -26,7 +26,7 @@ class Logistics extends Model
 
     public function client(): BelongsTo
     {
-        return $this->belongsTo(Client::class)->withDefault();
+        return $this->belongsTo(LogisticsClient::class,'logistics_client_id')->withDefault();
     }
 
     public function parameters(): BelongsToMany

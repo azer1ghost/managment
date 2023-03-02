@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use phpDocumentor\Reflection\Types\Self_;
 
 /**
  * @method static insert(array $array)
@@ -31,6 +32,8 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
     const DIRECTOR = 7;
     const DEVELOPER = 1;
     const CHIEF_DEVELOPER = 1;
+
+    const TRANSIT = 5;
 
     protected $fillable = [
         'name',
@@ -116,6 +119,10 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
     public function works(): HasMany
     {
         return $this->hasMany(Work::class);
+    }
+    public function logistics(): HasMany
+    {
+        return $this->hasMany(Logistics::class);
     }
 
     public function salesClients(): BelongsToMany
@@ -350,18 +357,25 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
             'DYI' => 'DYI',
         ];
     }
+
     public function getMainColumn(): string
     {
         return $this->getAttribute('name');
     }
+
     public function chats() :HasMany
     {
         return $this->hasMany(Chat::class, 'from')->orderBy('is_read');
     }
+
     public function getFullNameWithDepartmentAttribute(): string
     {
         $department = $this->getRelationValue('department')->getAttribute('name');
 
         return "{$this->getAttribute('name')} {$this->getAttribute('surname')} ({$department})";
+    }
+    public function notTransit()
+    {
+        return !$this->getRelation('role')->getAttribute('id') == self::DIRECTOR;
     }
 }
