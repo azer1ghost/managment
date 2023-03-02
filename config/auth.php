@@ -46,6 +46,7 @@ return [
         'viewAny-internalDocument' , 'view-internalDocument', 'create-internalDocument', 'update-internalDocument','manage-internalDocument','delete-internalDocument',
         'viewAll-inquiry', 'viewAllDepartment-inquiry', 'viewAny-inquiry', 'view-inquiry', 'create-inquiry', 'update-inquiry', 'delete-inquiry', 'forceDelete-inquiry', 'restore-inquiry', 'editAccessToUser-inquiry','checkRejectedReason-inquiry',
         'viewAny-logistics', 'view-logistics', 'create-logistics', 'update-logistics', 'delete-logistics',
+        'viewAny-logisticClient', 'view-logisticClient', 'create-logisticClient', 'update-logisticClient', 'delete-logisticClient',
         'viewAny-meeting', 'view-meeting', 'create-meeting', 'update-meeting', 'delete-meeting',
         'viewAny-salesInquiry', 'viewAll-salesInquiry',
         'viewAny-notification', 'view-notification', 'manage-notification',
