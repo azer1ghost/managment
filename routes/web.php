@@ -30,6 +30,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\InternalNumberController,
     Modules\InternalRelationController,
     Modules\JobInstructionController,
+    Modules\LogisticsController,
     Modules\MeetingController,
     Modules\OptionController,
     Modules\OrganizationController,
@@ -141,11 +142,11 @@ Route::group([
     Route::get('/sales-clients/export', [SalesClientController::class, 'export'])->name('sales-clients.export');
     Route::get('/protocol-download/{client}', [ClientController::class, 'download'])->name('protocol.download');
 
-
     Route::resource('/referrals', ReferralController::class)->except('create');
     Route::resource('/updates', UpdateController::class);
     Route::resource('/services', ServiceController::class);
     Route::resource('/satisfactions', SatisfactionController::class);
+    Route::resource('/logistics', LogisticsController::class);
 
     Route::put('/works/sum/verify', [WorkController::class, 'sumVerify'])->name('works.sum.verify');
     Route::put('/works/{work}/verify', [WorkController::class, 'verify'])->name('works.verify');
