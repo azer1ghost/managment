@@ -57,7 +57,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @forelse($logisticClients as $logisticClient)
+                @forelse($logisticsClients as $logisticClient)
                     <tr>
                         <th scope="row">{{$loop->iteration}}</th>
                         <td>{{$logisticClient->getAttribute('name')}}</td>
@@ -93,7 +93,7 @@
                 </tbody>
             </table>
             <div class="float-right">
-                {{$logisticClients->appends(request()->input())->links()}}
+                {{$logisticsClients->appends(request()->input())->links()}}
             </div>
         </div>
     </form>

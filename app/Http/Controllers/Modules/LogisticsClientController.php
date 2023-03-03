@@ -13,9 +13,32 @@ class LogisticsClientController extends Controller
 //    public function __construct()
 //    {
 //        $this->middleware('auth');
-//        $this->authorizeResource(LogisticsClient::class, 'logisticClient');
+//        $this->authorizeResource(LogisticsClient::class, 'logisticsClient');
 //    }
+    public function search(Request $request): object
+    {
+        $clients = LogisticsClient::where('name', 'LIKE', "%{$request->get('search')}%")
+            ->orWhere('phone', 'LIKE', "%{$request->get('search')}%")
+            ->orWhere('email', 'LIKE', "%{$request->get('search')}%")
+            ->limit(10)
+            ->get(['id', 'name', 'phone']);
 
+        $clientsArray = [];
+
+        foreach ($clients as $client) {
+            $clientsArray[] = [
+                "id"   => $client->id,
+                "text" => "{$client->name}",
+            ];
+        }
+
+        return (object) [
+            'results' => $clientsArray,
+            'pagination' => [
+                "more" => false
+            ]
+        ];
+    }
     public function index(Request $request)
     {
         $limit = $request->get('limit', 25);
@@ -25,7 +48,7 @@ class LogisticsClientController extends Controller
         return view('pages.logistics-clients.index')
             ->with([
                 'users' => User::get(['id', 'name', 'surname']),
-                'logisticClients' => LogisticsClient::query()
+                'logisticsClients' => LogisticsClient::query()
                     ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"))
                     ->when($user_id, fn ($query) => $query->where('user_id', $user_id))
                     ->latest()
@@ -46,44 +69,44 @@ class LogisticsClientController extends Controller
     public function store(LogisticsClientRequest $request)
     {
         $validated = $request->validated();
-        $logisticClient = LogisticsClient::create($validated);
+        $logisticsClient = LogisticsClient::create($validated);
 
         return redirect()
-            ->route('logistic-clients.edit', $logisticClient)
-            ->withNotify('success', $logisticClient->getAttribute('name'));
+            ->route('logistic-clients.edit', $logisticsClient)
+            ->withNotify('success', $logisticsClient->getAttribute('name'));
     }
 
-    public function show(LogisticsClient $logisticClient)
+    public function show(LogisticsClient $logisticsClient)
     {
         return view('pages.logistics-clients.edit')->with([
             'action' => null,
             'method' => null,
-            'data' => $logisticClient,
+            'data' => $logisticsClient,
         ]);
     }
 
-    public function edit(LogisticsClient $logisticClient)
+    public function edit(LogisticsClient $logisticsClient)
     {
         return view('pages.logistics-clients.edit')->with([
-            'action' => route('logistic-clients.update', $logisticClient),
+            'action' => route('logistic-clients.update', $logisticsClient),
             'method' => 'PUT',
-            'data' => $logisticClient,
+            'data' => $logisticsClient,
         ]);
     }
 
-    public function update(LogisticsClientRequest $request, LogisticsClient $logisticClient)
+    public function update(LogisticsClientRequest $request, LogisticsClient $logisticsClient)
     {
         $validated = $request->validated();
-        $logisticClient->update($validated);
+        $logisticsClient->update($validated);
 
         return redirect()
-            ->route('logistic-clients.edit', $logisticClient)
-            ->withNotify('success', $logisticClient->getAttribute('name'));
+            ->route('logistic-clients.edit', $logisticsClient)
+            ->withNotify('success', $logisticsClient->getAttribute('name'));
     }
 
-    public function destroy(LogisticsClient $logisticClient)
+    public function destroy(LogisticsClient $logisticsClient)
     {
-        if ($logisticClient->delete()) {
+        if ($logisticsClient->delete()) {
             return response('OK');
         }
         return response()->setStatusCode('204');

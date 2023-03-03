@@ -2,22 +2,7 @@
 
 @section('title', __('translates.navbar.logistics'))
 @section('style')
-    <style>
-        .table td, .table th{
-            vertical-align: middle !important;
-        }
-        .table tr {
-            cursor: pointer;
-        }
-        .hiddenRow {
-            padding: 0 4px !important;
-            background-color: #eeeeee;
-            font-size: 13px;
-        }
-        .table{
-            overflow-x: scroll;
-        }
-    </style>
+
 @endsection
 
 @section('content')
@@ -40,9 +25,9 @@
                 <div class="col-12">
                     <div class="row m-0">
                         <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">
-                            <label for="codeFilter">Qaimə nömrəsinə görə axtarış</label>
+                            <label for="codeFilter">Registration Number</label>
                             <input type="search" id="codeFilter" name="code" value="{{$filters['code']}}"
-                                   placeholder="E-qaimə" class="form-control">
+                                   placeholder="Registration Number" class="form-control">
                         </div>
 
                             <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
@@ -88,7 +73,7 @@
                                     class="custom-select2" style="width: 100% !important;"
                                     data-url="{{route('clients.search')}}">
                                 @if(is_numeric($filters['logistics_client_id']))
-                                    <option value="{{$filters['logistics_client_id']}}">{{\App\Models\Client::find($filters['logistics_client_id'])->getAttribute('fullname_with_voen')}}</option>
+                                    <option value="{{$filters['logistics_client_id']}}">{{\App\Models\Client::find($filters['logistics_client_id'])->getAttribute('name')}}</option>
                                 @endif
                             </select>
                         </div>
@@ -122,7 +107,7 @@
                             <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly name="paid_at_date" value="{{request()->get('paid_at_date')}}">
                             <input type="checkbox" name="check-paid_at" id="check-paid_at" @if(request()->has('check-paid_at')) checked @endif> <label for="check-paid_at">@lang('translates.filters.filter_by')</label>
                         </div>
-              
+
                         <div class="col-12 mt-3 mb-5 d-flex align-items-center justify-content-end">
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <button type="submit" class="btn btn-outline-primary"><i
@@ -164,9 +149,10 @@
             </div>
         </div>
     @endif
-    <table class="table table-responsive @if($logistics->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;" id="table">
+    <table class="table table-responsive-sm" id="table">
         <thead>
         <tr class="text-center">
+            <th scope="col">Registration Number</th>
             <th scope="col">@lang('translates.fields.user')</th>
             <th scope="col">@lang('translates.navbar.service')</th>
             <th scope="col">@lang('translates.fields.clientName')</th>
@@ -177,7 +163,7 @@
             <th scope="col">@lang('translates.fields.created_at')</th>
             <th scope="col">@lang('translates.fields.date')</th>
             <th scope="col">@lang('translates.fields.paid_at')</th>
-            <th scope="col"></th>
+            <th scope="col">@lang('translates.columns.actions')</th>
         </tr>
         </thead>
         <tbody>
@@ -187,6 +173,7 @@
 {{--        @endphp--}}
         @forelse($logistics as $log)
             <tr>
+                <td>{{$log->getAttribute('reg_number')}}</td>
                 <td>{{$log->getRelationValue('user')->getAttribute('fullname_with_position')}}</td>
                 <td>{{$log->getRelationValue('service')->getAttribute('name')}}</td>
                 <td data-toggle="tooltip" data-placement="bottom" title="{{$log->getRelationValue('client')->getAttribute('name')}}" >
@@ -232,7 +219,7 @@
                             }
                         @endphp
                     @endif
-                    <span class="badge badge-{{$color}}" style="font-size: 12px">
+                    <span class="badge badge-" style="font-size: 12px">
                          {{trans('translates.logistics_statuses.' . $log->getAttribute('status'))}}
                     </span>
                 </td>
@@ -245,31 +232,26 @@
 {{--                        $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) + $work->getParameter($work::ILLEGALAMOUNT) - $sum_payment) * -1;--}}
 {{--                    @endphp--}}
                 <td>
-                    <div class="btn-sm-group d-flex align-items-center">
+
 
                         <div>
                             @can('view', $log)
                                 <a href="{{route('logistics.show', $log)}}" class="text-decoration-none">
-                                    <i class="fal fa-eye pr-2 text-primary"></i>@lang('translates.buttons.view')
+                                    <i class="fal fa-eye pr-2 fa-2x text-primary"></i>
                                 </a>
                             @endcan
                                 @can('update', $log)
-                                    <a href="{{route('logistics.edit', $log)}}" class="dropdown-item-text text-decoration-none">
-                                        <i class="fal fa-pen pr-2 text-success"></i>
+                                    <a href="{{route('logistics.edit', $log)}}" class="text-decoration-none">
+                                        <i class="fal fa-pen fa-2x pr-2 text-success"></i>
                                     </a>
                                 @endcan
-                                <a href="{{route('logistics.verify', $log)}}" verify data-name="{{$log->getAttribute('code')}}" class="dropdown-item-text text-decoration-none">
-                                    <i class="fal fa-check pr-2 text-success"></i>@lang('translates.buttons.verify')
-                                </a>
+
                             @can('delete', $log)
-                                <a href="{{route('logistics.destroy', $log)}}" delete data-name="{{$log->getAttribute('code')}}" class="dropdown-item-text text-decoration-none">
-                                    <i class="fal fa-trash pr-2 text-danger"></i>@lang('translates.tasks.delete')
+                                <a href="{{route('logistics.destroy', $log)}}" delete data-name="{{$log->getAttribute('code')}}" class="text-decoration-none">
+                                    <i class="fal fa-trash pr-2 fa-2x text-danger"></i>
                                 </a>
                             @endcan
                         </div>
-                    </div>
-                </td>
-                <td>
 
                 </td>
             </tr>

@@ -13,26 +13,26 @@ class LogisticsClientPolicy
 
     public function viewAny(User $user): bool
     {
-        return $this->canManage($user, 'logisticClient', __FUNCTION__);
+        return $this->canManage($user, 'logisticsClient', __FUNCTION__);
     }
 
     public function view(User $user): bool
     {
-        return $this->canManage($user, 'logisticClient', __FUNCTION__);
+        return $this->canManage($user, 'logisticsClient', __FUNCTION__);
     }
 
     public function create(User $user): bool
     {
-        return $this->canManage($user, 'logisticClient');
+        return $this->canManage($user, 'logisticsClient');
     }
 
     public function update(User $user): bool
     {
-        return $this->canManage($user, 'logisticClient');
+        return $this->canManage($user, 'logisticsClient');
     }
 
     public function delete(User $user): bool
     {
-        return $this->canManage($user, 'logisticClient', __FUNCTION__);
+        return $this->canManage($user, 'logisticsClient', __FUNCTION__);
     }
 }

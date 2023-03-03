@@ -22,7 +22,7 @@ class LogisticsRepository implements LogisticsRepositoryInterface {
             ->with([
                 'service',
                 'user:id,name,surname,department_id,permissions',
-                'client:id,fullname,voen',
+                'client:id,name,voen',
             ])
             ->where(function($query) use ($filters, $dateRanges, $dateFilters){
                 foreach ($filters as $column => $value) {

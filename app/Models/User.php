@@ -374,8 +374,8 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
 
         return "{$this->getAttribute('name')} {$this->getAttribute('surname')} ({$department})";
     }
-    public function notTransit()
+    public function scopeIsNotTransit($query)
     {
-        return !$this->getRelation('role')->getAttribute('id') == self::DIRECTOR;
+        return $query->where('role_id', '!=', self::TRANSIT);
     }
 }

@@ -6,25 +6,18 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class LogisticsRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
         return [
-            //
+            'reg_number' => 'nullable|string',
+            'user_id' => 'integer|nullable',
+            'service_id' => 'integer|nullable',
+            'logistics_client_id' => 'integer|nullable',
+            'currency' => 'string|nullable',
+            'status' => 'integer|nullable',
+            'datetime' => 'date|nullable',
+            'paid_at' => 'date|nullable',
+            'parameters' => 'nullable|array',
         ];
     }
 }

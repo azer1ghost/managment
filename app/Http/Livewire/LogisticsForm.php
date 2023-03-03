@@ -33,7 +33,6 @@ class LogisticsForm extends Component
         $this->services = Service::get(['id', 'name']);
         $this->statuses = Logistics::statuses();
         $user = auth()->user();
-        $userModel = User::with('position')->find(auth()->id())->toArray();
 
         foreach ($this->selected as $key => $selected) {
             if($key == 'service_id') {

@@ -19,13 +19,13 @@
                     <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
                     <div class="d-flex align-items-center">
-                        <select name="client_id" id="data-client-type" data-url="{{route('logisticsClients.search')}}" class="custom-select2" style="width: 100% !important;" required>
+                        <select name="logistics_client_id" id="data-client-type" data-url="{{route('logisticsClients.search')}}" class="custom-select2" style="width: 100% !important;" required>
                             @if(is_numeric(optional($data)->getAttribute('logistics_client_id')))
                                 <option value="{{optional($data)->getAttribute('logistics_client_id')}}">{{optional($data)->getRelationValue('client')->getAttribute('name')}}</option>
                             @endif
                         </select>
                         @if(is_numeric(optional($data)->getAttribute('logistics_client_id')))
-                            @can('update', \App\Models\LogisticClient::find(optional($data)->getAttribute('logistics_client_id')))
+                            @can('update', \App\Models\LogisticsClient::find(optional($data)->getAttribute('logistics_client_id')))
                                 <a target="_blank" href="{{route('logistic-clients.edit', optional($data)->getAttribute('logistics_client_id'))}}" class="btn btn-outline-primary ml-3">
                                     <i class="fa fa-pen"></i>
                                 </a>

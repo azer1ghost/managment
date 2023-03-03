@@ -15,12 +15,12 @@ use Illuminate\Http\Request;
 
 class LogisticsController extends Controller
 {
-//    protected LogisticsRepositoryInterface $logisticsRepository;
+    protected LogisticsRepositoryInterface $logisticsRepository;
 
     public function __construct(LogisticsRepositoryInterface $logisticsRepository)
     {
-        $this->middleware('auth');
-        $this->authorizeResource(Logistics::class, 'logistics');
+//        $this->middleware('auth');
+//        $this->authorizeResource(Logistics::class, 'logistics');
         $this->logisticsRepository = $logisticsRepository;
     }
 
@@ -112,57 +112,56 @@ class LogisticsController extends Controller
             ->withNotify('success', $logistics->getAttribute('name'));
     }
 
-    public function show(Logistics $logistics)
+    public function show(Logistics $logistic)
     {
         return view('pages.logistics.edit')->with([
             'action' => null,
             'method' => null,
-            'data' => $logistics,
+            'data' => $logistic,
             'users' => User::isActive()->get(['id', 'name', 'surname']),
             'companies' => Company::get(['id','name']),
             'services' => Service::get(['id', 'name']),
         ]);
     }
 
-    public function edit(Logistics $logistics)
+    public function edit(Logistics $logistic)
     {
         return view('pages.logistics.edit')->with([
-            'action' => route('logistics.update', $logistics),
+            'action' => route('logistics.update', $logistic),
             'method' => 'PUT',
-            'data' => $logistics,
-            'users' => User::isActive()->notTransit()->get(['id', 'name', 'surname']),
+            'data' => $logistic,
+            'users' => User::isActive()->isNotTransit()->get(['id', 'name', 'surname']),
             'services' => Service::get(['id', 'name']),
         ]);
     }
 
-    public function update(LogisticsRequest $request, Logistics $logistics): RedirectResponse
+    public function update(LogisticsRequest $request, Logistics $logistic): RedirectResponse
     {
         $validated = $request->validated();
-
-        $logistics->update($validated);
+        $logistic->update($validated);
 
         $parameters = [];
         foreach ($validated['parameters'] ?? [] as $key => $parameter) {
             $parameters[$key] = ['value' => $parameter];
         }
-        $logistics->parameters()->sync($parameters);
+        $logistic->parameters()->sync($parameters);
 
         return redirect()
-            ->route('logistics.show', $logistics)
-            ->withNotify('success', $logistics->getAttribute('name'));
+            ->route('logistics.show', $logistic)
+            ->withNotify('success', $logistic->getAttribute('name'));
     }
     
-    public function paid(Logistics $logistics)
+    public function paid(Logistics $logistic)
     {
-        if ($logistics->update(['paid_at' => now()])) {
+        if ($logistic->update(['paid_at' => now()])) {
             return response('OK');
         }
         return response()->setStatusCode('204');
     }
     
-    public function destroy(Logistics $logistics)
+    public function destroy(Logistics $logistic)
     {
-        if ($logistics->delete()) {
+        if ($logistic->delete()) {
             return response('OK');
         }
         return response()->setStatusCode('204');

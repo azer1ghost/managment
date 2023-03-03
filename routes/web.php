@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Requests\LogisticsClientRequest;
 use App\Models\Document;
 use App\Http\Controllers\{Auth\LoginController,
     Auth\PhoneVerifycationController,
@@ -150,7 +149,7 @@ Route::group([
     Route::resource('/services', ServiceController::class);
     Route::resource('/satisfactions', SatisfactionController::class);
     Route::resource('/logistics', LogisticsController::class);
-    Route::any('/logisticsClients/search', [LogisticsController::class, 'search'])->name('logisticsClients.search');
+    Route::any('/logisticsClients/search', [LogisticsClientController::class, 'search'])->name('logisticsClients.search');
 
     Route::put('/works/sum/verify', [WorkController::class, 'sumVerify'])->name('works.sum.verify');
     Route::put('/works/{work}/verify', [WorkController::class, 'verify'])->name('works.verify');
