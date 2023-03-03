@@ -39,7 +39,7 @@ class LogisticsRepository implements LogisticsRepositoryInterface {
                             }
                         }
                        else{
-                            if($column == 'code'){
+                            if($column == 'reg_number'){
                                 $query->where($column, 'LIKE', "%$value%");
                             }
                             elseif($column == 'service_id'){

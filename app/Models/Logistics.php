@@ -48,7 +48,7 @@ class Logistics extends Model
 
     public static function statuses(): array
     {
-        return [1 => 1, 2, 3, 4, 5, 6, 7];
+        return [1 => 1, 2, 3, 4];
     }
 
     public static function currencies(): array

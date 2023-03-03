@@ -31,11 +31,9 @@
                                 </a>
                             @endcan
                         @endif
-                        @if(optional($data)->getAttribute('status') != \App\Models\Logistics::DONE)
                             <a target="_blank" href="{{route('logistic-clients.create')}}" class="btn btn-outline-success ml-1">
                                 <i class="fa fa-plus"></i>
                             </a>
-                        @endif
                     </div>
                 </div>
 
@@ -59,7 +57,6 @@
                     </div>
                 @endif
 
-                @if($method != 'POST')
                     <div class="form-group col-12 col-md-3" wire:ignore>
                         <label for="data-status">@lang('translates.general.status_choose')</label>
                         <select name="status" id="data-status" class="form-control">
@@ -71,7 +68,6 @@
                             @endforeach
                         </select>
                     </div>
-                @endif
 
                 @if(!is_null($data) && !is_null(optional($data)->getAttribute('datetime')))
                     <x-input::text wire:ignore name="datetime"  readonly :label="__('translates.fields.date')" value="{{$data->getAttribute('datetime')->format('Y-m-d H:i')}}" width="3" class="pr-3 custom-single-daterange" />

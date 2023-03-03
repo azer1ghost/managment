@@ -25,8 +25,8 @@
                 <div class="col-12">
                     <div class="row m-0">
                         <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">
-                            <label for="codeFilter">Registration Number</label>
-                            <input type="search" id="codeFilter" name="code" value="{{$filters['code']}}"
+                            <label for="reg_numberFilter">Registration Number</label>
+                            <input type="search" id="reg_numberFilter" name="reg_number" value="{{$filters['reg_number']}}"
                                    placeholder="Registration Number" class="form-control">
                         </div>
 
@@ -71,9 +71,9 @@
                             <select name="logistics_client_id"
                                     id="clientFilter"
                                     class="custom-select2" style="width: 100% !important;"
-                                    data-url="{{route('clients.search')}}">
+                                    data-url="{{route('logisticsClients.search')}}">
                                 @if(is_numeric($filters['logistics_client_id']))
-                                    <option value="{{$filters['logistics_client_id']}}">{{\App\Models\Client::find($filters['logistics_client_id'])->getAttribute('name')}}</option>
+                                    <option value="{{$filters['logistics_client_id']}}">{{\App\Models\LogisticsClient::find($filters['logistics_client_id'])->getAttribute('name')}}</option>
                                 @endif
                             </select>
                         </div>
@@ -195,31 +195,25 @@
                     @endphp
                 @endforeach
                 <td>
-                    @if(is_numeric($log->getAttribute('status')))
+{{--                    @if(is_numeric($log->getAttribute('status')))--}}
                         @php
                             switch($log->getAttribute('status')){
                                 case(1):
-                                    $color = 'warning';
-                                    break;
-                                case(2):
-                                    $color = 'info';
-                                    break;
-                                case(3):
-                                    $color = 'primary';
-                                    break;
-                                case(4):
-                                    $color = 'dark';
-                                    break;
-                                case(5):
                                     $color = 'success';
                                     break;
-                                case(6):
+                                case(2):
+                                    $color = 'warning';
+                                    break;
+                                case(3):
+                                    $color = 'secondary';
+                                    break;
+                                case(4):
                                     $color = 'danger';
                                     break;
                             }
                         @endphp
-                    @endif
-                    <span class="badge badge-" style="font-size: 12px">
+{{--                    @endif--}}
+                    <span class="badge badge-{{$color}}" style="font-size: 12px">
                          {{trans('translates.logistics_statuses.' . $log->getAttribute('status'))}}
                     </span>
                 </td>
@@ -247,7 +241,7 @@
                                 @endcan
 
                             @can('delete', $log)
-                                <a href="{{route('logistics.destroy', $log)}}" delete data-name="{{$log->getAttribute('code')}}" class="text-decoration-none">
+                                <a href="{{route('logistics.destroy', $log)}}" delete data-name="{{$log->getAttribute('reg_number')}}" class="text-decoration-none">
                                     <i class="fal fa-trash pr-2 fa-2x text-danger"></i>
                                 </a>
                             @endcan

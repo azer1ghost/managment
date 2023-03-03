@@ -238,7 +238,9 @@ return [
         'instruction' => 'Video Təlimat',
         'employee_satisfaction' => 'İşçi Məmnuniyyəti',
         'satisfaction' => 'Məmnuniyyət',
-        'customer-satisfaction' => 'Müştəri Məmnuniyyəti'
+        'customer-satisfaction' => 'Müştəri Məmnuniyyəti',
+        'logistics' => 'Logistika',
+        'logistics_clients' => 'Logistika Müştəriləri'
     ],
 
     'date' => [
@@ -616,6 +618,13 @@ return [
         'Geri Qaytarıldı',
         'Tamamlandı',
         'Qəbul edilmyib',
+    ],
+
+    'logistics_statuses' => [
+        1 => 'Qəbul edildi',
+        'Qəbul edilmədi',
+        'Cavab Yoxdur',
+        'Rədd Edildi',
     ],
 
     'payment_methods' => [

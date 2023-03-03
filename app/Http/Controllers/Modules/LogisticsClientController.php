@@ -76,37 +76,37 @@ class LogisticsClientController extends Controller
             ->withNotify('success', $logisticsClient->getAttribute('name'));
     }
 
-    public function show(LogisticsClient $logisticsClient)
+    public function show(LogisticsClient $logisticClient)
     {
         return view('pages.logistics-clients.edit')->with([
             'action' => null,
             'method' => null,
-            'data' => $logisticsClient,
+            'data' => $logisticClient,
         ]);
     }
 
-    public function edit(LogisticsClient $logisticsClient)
+    public function edit(LogisticsClient $logisticClient)
     {
         return view('pages.logistics-clients.edit')->with([
-            'action' => route('logistic-clients.update', $logisticsClient),
+            'action' => route('logistic-clients.update', $logisticClient),
             'method' => 'PUT',
-            'data' => $logisticsClient,
+            'data' => $logisticClient,
         ]);
     }
 
-    public function update(LogisticsClientRequest $request, LogisticsClient $logisticsClient)
+    public function update(LogisticsClientRequest $request, LogisticsClient $logisticClient)
     {
         $validated = $request->validated();
-        $logisticsClient->update($validated);
+        $logisticClient->update($validated);
 
         return redirect()
-            ->route('logistic-clients.edit', $logisticsClient)
-            ->withNotify('success', $logisticsClient->getAttribute('name'));
+            ->route('logistic-clients.edit', $logisticClient)
+            ->withNotify('success', $logisticClient->getAttribute('name'));
     }
 
-    public function destroy(LogisticsClient $logisticsClient)
+    public function destroy(LogisticsClient $logisticClient)
     {
-        if ($logisticsClient->delete()) {
+        if ($logisticClient->delete()) {
             return response('OK');
         }
         return response()->setStatusCode('204');

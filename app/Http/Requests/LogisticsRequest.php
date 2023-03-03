@@ -9,7 +9,7 @@ class LogisticsRequest extends FormRequest
     public function rules()
     {
         return [
-            'reg_number' => 'nullable|string',
+//            'reg_number' => 'nullable|string',
             'user_id' => 'integer|nullable',
             'service_id' => 'integer|nullable',
             'logistics_client_id' => 'integer|nullable',

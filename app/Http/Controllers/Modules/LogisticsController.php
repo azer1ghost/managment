@@ -41,7 +41,7 @@ class LogisticsController extends Controller
 
         $filters = [
             'limit' => $limit,
-            'code' => $request->get('code'),
+            'reg_number' => $request->get('reg_number'),
             'service_id' => $request->get('service_id'),
             'logistics_client_id' => $request->get('logistics_client_id'),
             'status' => $request->get('status'),
@@ -97,7 +97,8 @@ class LogisticsController extends Controller
     {
         $validated = $request->validated();
         $validated['user_id'] = auth()->id();
-
+        $service = Service::whereId($request->get('service_id'))->first();
+        $name =$service->getAttribute('name');
         $logistics = Logistics::create($validated);
 
         $parameters = [];
@@ -106,6 +107,12 @@ class LogisticsController extends Controller
         }
 
         $logistics->parameters()->sync($parameters);
+        $reg_number = substr($name, 0, 3) .'/'.
+            now()->format('d/m') .'/'.
+            $logistics->getAttribute('id') .'/'.
+            substr($name,-1);
+        $logistics->setAttribute('reg_number', $reg_number);
+        $logistics->save();
 
         return redirect()
             ->route('logistics.edit', $logistics)
