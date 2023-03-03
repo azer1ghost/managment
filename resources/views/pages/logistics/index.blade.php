@@ -1,10 +1,5 @@
 @extends('layouts.main')
-
 @section('title', __('translates.navbar.logistics'))
-@section('style')
-
-@endsection
-
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -123,7 +118,7 @@
             <div class="col-sm-3 pt-2 d-flex align-items-center">
                 <p class="mb-0"> @lang('translates.total_items', ['count' => $logistics->count(), 'total' => is_numeric($filters['limit']) ? $logistics->total() : $logistics->count()])</p>
                 <div class="input-group col-md-6">
-                    <select name="limit" class="custom-select" id="size">
+                    <select name="limit" aria-label="limit" class="custom-select" id="size">
                         @foreach([25, 50, 100, 250, 500] as $size)
                             <option @if($filters['limit'] == $size) selected @endif value="{{$size}}">{{$size}}</option>
                         @endforeach
@@ -195,7 +190,7 @@
                     @endphp
                 @endforeach
                 <td>
-{{--                    @if(is_numeric($log->getAttribute('status')))--}}
+                    @if(is_numeric($log->getAttribute('status')))
                         @php
                             switch($log->getAttribute('status')){
                                 case(1):
@@ -212,7 +207,7 @@
                                     break;
                             }
                         @endphp
-{{--                    @endif--}}
+                    @endif
                     <span class="badge badge-{{$color}}" style="font-size: 12px">
                          {{trans('translates.logistics_statuses.' . $log->getAttribute('status'))}}
                     </span>

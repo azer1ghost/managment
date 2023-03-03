@@ -10,11 +10,11 @@ use Illuminate\Http\Request;
 
 class LogisticsClientController extends Controller
 {
-//    public function __construct()
-//    {
-//        $this->middleware('auth');
-//        $this->authorizeResource(LogisticsClient::class, 'logisticsClient');
-//    }
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->authorizeResource(LogisticsClient::class, 'logisticsClient');
+    }
     public function search(Request $request): object
     {
         $clients = LogisticsClient::where('name', 'LIKE', "%{$request->get('search')}%")
