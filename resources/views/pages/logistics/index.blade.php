@@ -47,11 +47,11 @@
                                         name="reference_id"
                                         data-width="fit" title="{{__('translates.filters.select')}}">
                                     <option value="">@lang('translates.filters.select')</option>
-                                    @foreach($users as $user)
+                                    @foreach($references as $reference)
                                         <option
-                                            @if($user->getAttribute('id') == $filters['reference_id']) selected @endif
-                                                value="{{$user->getAttribute('id')}}">
-                                            {{$user->getAttribute('fullname_with_position')}}
+                                            @if($reference->getAttribute('id') == $filters['reference_id']) selected @endif
+                                                value="{{$reference->getAttribute('id')}}">
+                                            {{$reference->getAttribute('fullname_with_position')}}
                                         </option>
                                     @endforeach
                                 </select>

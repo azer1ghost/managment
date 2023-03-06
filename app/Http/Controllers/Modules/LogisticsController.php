@@ -59,7 +59,7 @@ class LogisticsController extends Controller
         ];
 
         $users = User::has('logistics')->with('position', 'role')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id'])->get();
-        $u = User::has('logistics')->with('position', 'role')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id'])->get();
+        $references = User::with('position', 'role')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id'])->get();
 
         $statuses = Logistics::statuses();
 
@@ -79,7 +79,7 @@ class LogisticsController extends Controller
         $logistics = $logistics->paginate($limit);
 
         return view('pages.logistics.index',
-            compact('logistics', 'services', 'users', 'filters', 'statuses',   'dateFilters')
+            compact('logistics', 'services', 'users', 'filters', 'statuses',   'dateFilters', 'references')
         );
     }
 
