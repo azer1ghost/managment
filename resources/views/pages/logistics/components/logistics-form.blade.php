@@ -129,7 +129,7 @@
                 @if($method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Logistics::ACCEPTED)
                     <div class="col-12" wire:ignore>
                         <input type="checkbox" id="data-paid-check" name="paid_check" @if(!is_null(optional($data)->getAttribute('paid_at'))) checked @endif>
-                        <label class="form-check-label" for="data-paid-check">@lang('translates.general.paid_at')</label>
+                        <label class="form-check-label" for="data-paid-check">@lang('translates.general.paid')</label>
                     </div>
                 @endif
                 @if($method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Logistics::ACCEPTED)
