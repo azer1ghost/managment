@@ -63,7 +63,10 @@ class LogisticsController extends Controller
 
         $statuses = Logistics::statuses();
 
-        $services = Service::query()->whereBelongsTo(Company::where('id',2)->first())->get(['id', 'name', 'detail']);
+        $services = Service::query()
+            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
+                $query->whereBelongsTo($user->getRelationValue('company'));
+            })->get(['id', 'name', 'detail']);
 
         $logistics = $this->logisticsRepository->allFilteredLogistics($filters, $dateFilters);
 
@@ -106,10 +109,10 @@ class LogisticsController extends Controller
         }
 
         $logistics->parameters()->sync($parameters);
-        $reg_number = substr($name, 0, 3) .'/'.
-            now()->format('d/m') .'/'.
-            $logistics->getAttribute('id') .'/'.
-            substr($name,-1);
+        $reg_number = substr($name, 0, 3) . '/' .
+            now()->format('d/m') . '/' .
+            $logistics->getAttribute('id') . '/' .
+            substr($name, -1);
         $logistics->setAttribute('reg_number', $reg_number);
         $logistics->save();
 

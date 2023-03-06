@@ -167,13 +167,13 @@
             <th scope="col">@lang('translates.fields.user')</th>
             <th scope="col">@lang('translates.navbar.service')</th>
             <th scope="col">@lang('translates.fields.clientName')</th>
-            @foreach(\App\Models\Service::serviceParameters() as $param)
-                <th>{{$param['data']->getAttribute('label')}}</th>
-            @endforeach
+{{--            @foreach(\App\Models\Service::serviceParameters() as $param)--}}
+{{--                <th>{{$param['data']->getAttribute('label')}}</th>--}}
+{{--            @endforeach--}}
             <th scope="col">Status</th>
             <th scope="col">@lang('translates.fields.created_at')</th>
             <th scope="col">@lang('translates.fields.date')</th>
-            <th scope="col">@lang('translates.fields.paid_at')</th>
+{{--            <th scope="col">@lang('translates.fields.paid_at')</th>--}}
             <th scope="col">@lang('translates.columns.actions')</th>
         </tr>
         </thead>
@@ -190,21 +190,21 @@
                 <td data-toggle="tooltip" data-placement="bottom" title="{{$log->getRelationValue('client')->getAttribute('name')}}" >
                     {{mb_strimwidth($log->getRelationValue('client')->getAttribute('name'), 0, 20, '...')}}
                 </td>
-                @foreach(\App\Models\Service::serviceParameters() as $param)
-                    <td>{{$log->getParameter($param['data']->getAttribute('id'))}}</td>
-                    @php
-                        if($param['count']){ // check if parameter is countable
-                            $count = (int) $log->getParameter($param['data']->getAttribute('id'));
-                            if(isset($totals[$param['data']->getAttribute('id')])){
-                                $totals[$param['data']->getAttribute('id')] += $count;
-                            }else{
-                                $totals[$param['data']->getAttribute('id')] = $count;
-                            }
-                        }else{
-                            $totals[$param['data']->getAttribute('id')] = NULL;
-                        }
-                    @endphp
-                @endforeach
+{{--                @foreach(\App\Models\Service::serviceParameters() as $param)--}}
+{{--                    <td>{{$log->getParameter($param['data']->getAttribute('id'))}}</td>--}}
+{{--                    @php--}}
+{{--                        if($param['count']){ // check if parameter is countable--}}
+{{--                            $count = (int) $log->getParameter($param['data']->getAttribute('id'));--}}
+{{--                            if(isset($totals[$param['data']->getAttribute('id')])){--}}
+{{--                                $totals[$param['data']->getAttribute('id')] += $count;--}}
+{{--                            }else{--}}
+{{--                                $totals[$param['data']->getAttribute('id')] = $count;--}}
+{{--                            }--}}
+{{--                        }else{--}}
+{{--                            $totals[$param['data']->getAttribute('id')] = NULL;--}}
+{{--                        }--}}
+{{--                    @endphp--}}
+{{--                @endforeach--}}
                 <td>
                     @if(is_numeric($log->getAttribute('status')))
                         @php
@@ -231,7 +231,7 @@
 
                 <td title="{{optional($log->getAttribute('created_at'))->diffForHumans()}}" data-toggle="tooltip">{{$log->getAttribute('created_at')}}</td>
                 <td title="{{$log->getAttribute('datetime')}}" data-toggle="tooltip">{{optional($log->getAttribute('datetime'))->format('Y-m-d')}}</td>
-                <td title="{{$log->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($log->getAttribute('paid_at'))->format('Y-m-d')}}</td>
+{{--                <td title="{{$log->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($log->getAttribute('paid_at'))->format('Y-m-d')}}</td>--}}
 {{--                    @php--}}
 {{--                        $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID) + $work->getAttribute('bank_charge');--}}
 {{--                        $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) + $work->getParameter($work::ILLEGALAMOUNT) - $sum_payment) * -1;--}}
