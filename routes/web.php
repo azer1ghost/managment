@@ -31,6 +31,8 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\InternalNumberController,
     Modules\InternalRelationController,
     Modules\JobInstructionController,
+    Modules\LogisticsClientController,
+    Modules\LogisticsController,
     Modules\MeetingController,
     Modules\OptionController,
     Modules\OrganizationController,
@@ -144,11 +146,12 @@ Route::group([
     Route::get('/sales-clients/export', [SalesClientController::class, 'export'])->name('sales-clients.export');
     Route::get('/protocol-download/{client}', [ClientController::class, 'download'])->name('protocol.download');
 
-
     Route::resource('/referrals', ReferralController::class)->except('create');
     Route::resource('/updates', UpdateController::class);
     Route::resource('/services', ServiceController::class);
     Route::resource('/satisfactions', SatisfactionController::class);
+    Route::resource('/logistics', LogisticsController::class);
+    Route::any('/logisticsClients/search', [LogisticsClientController::class, 'search'])->name('logisticsClients.search');
 
     Route::put('/works/sum/verify', [WorkController::class, 'sumVerify'])->name('works.sum.verify');
     Route::put('/works/{work}/verify', [WorkController::class, 'verify'])->name('works.verify');
@@ -172,6 +175,7 @@ Route::group([
     Route::resource('/commands', CommandController::class);
     Route::get('/cooperative-numbers', [InternalNumberController::class, 'cooperative'])->name('cooperative-numbers');
     Route::resource('/internal-relations', InternalRelationController::class);
+    Route::resource('/logistic-clients', LogisticsClientController::class);
     Route::resource('/internal-documents', InternalDocumentController::class);
     Route::resource('/sent-documents', SentDocumentController::class);
     Route::resource('/protocols', ProtocolController::class);

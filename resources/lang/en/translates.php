@@ -237,7 +237,9 @@ return [
         'instruction' => 'Video Instruction',
         'employee_satisfaction' => 'Employee Satisfaction',
         'satisfaction' => 'Satisfaction',
-        'customer-satisfaction' => 'Customer Satisfaction'
+        'customer-satisfaction' => 'Customer Satisfaction',
+        'logistics' => 'Logistics',
+        'logistics_clients' => 'Logistics Clients'
     ],
 
     'date' => [
@@ -589,6 +591,7 @@ return [
         'declaration' => 'Declaration',
         'all_departments' => 'All Departments',
         'accepted' => 'Accepted',
+        'paid' => 'Paid',
     ],
 
     'clients' => [
@@ -616,6 +619,13 @@ return [
         'Injected to System',
         'Returned',
         'Done',
+        'Rejected',
+    ],
+
+    'logistics_statuses' => [
+        1 => 'Accepted',
+        'Cancelled',
+        'No Answer',
         'Rejected',
     ],
 
