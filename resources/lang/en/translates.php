@@ -590,6 +590,7 @@ return [
         'declaration' => 'Declaration',
         'all_departments' => 'All Departments',
         'accepted' => 'Accepted',
+        'paid' => 'Paid',
     ],
 
     'clients' => [

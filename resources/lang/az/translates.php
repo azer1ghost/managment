@@ -593,6 +593,7 @@ return [
         'declaration' => 'Bəyannamə',
         'all_departments' => 'Bütün Şöbələr',
         'accepted' => 'Qəbul Olundu',
+        'paid' => 'Ödənilib',
     ],
 
     'clients' => [
