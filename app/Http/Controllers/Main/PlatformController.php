@@ -4,35 +4,17 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
-use App\Models\Client;
-use App\Models\Company;
 use App\Models\Document;
 use App\Models\Inquiry;
 use App\Models\SalesActivity;
-use App\Models\Service;
-use App\Models\Task;
 use App\Models\User;
 use App\Models\Widget;
-use App\Models\Work;
-use App\Notifications\ClientNotifyMail;
-use App\Notifications\ExceptionMail;
-use App\Notifications\Messages\SmsMessage;
-use App\Notifications\NotifyClientMail;
-use App\Notifications\NotifyClientSms;
 use App\Services\CacheService;
 use App\Services\ExchangeRatesApi;
-use App\Services\MailgunApi;
-use App\Services\OpenWeatherApi;
-use App\Services\SmsProviders\PoctGoyercini;
-use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rules\In;
 
 class PlatformController extends Controller
 {
@@ -179,7 +161,7 @@ class PlatformController extends Controller
         return view('auth.lang-selector');
     }
 
-    public function test()
+    public function test(User $user)
     {
         return view('pages.main.test');
     }

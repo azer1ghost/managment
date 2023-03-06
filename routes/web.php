@@ -64,6 +64,7 @@ use App\Http\Controllers\{Auth\LoginController,
 use App\Http\Middleware\Localization;
 use App\Services\FirebaseApi;
 use Illuminate\Support\Facades\{Auth, Route};
+Route::get('send-email', [App\Http\Controllers\EmailController::class, 'sendEmail']);
 
 Route::get('firebase-messaging-sw.js', [PlatformController::class, 'firebase']);
 Route::post('/store-fcm-token', [PlatformController::class, 'storeFcmToken'])->name('store.fcm-token');
