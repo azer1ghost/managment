@@ -14,7 +14,7 @@ class LogisticsForm extends Component
 {
     public ?Logistics $data;
     public ?string $method, $action;
-    public ?Collection $services;
+    public ?Collection $services,$users;
     public array $statuses;
     public array $selected = [
         'service_id' => '',
@@ -33,6 +33,7 @@ class LogisticsForm extends Component
         $this->services = Service::get(['id', 'name']);
         $this->statuses = Logistics::statuses();
         $user = auth()->user();
+        $this->users = User::isActive()->get(['id', 'name', 'surname']);
 
         foreach ($this->selected as $key => $selected) {
             if($key == 'service_id') {

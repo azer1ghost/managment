@@ -12,11 +12,9 @@ class LogisticsRequest extends FormRequest
 //            'reg_number' => 'nullable|string',
             'user_id' => 'integer|nullable',
             'service_id' => 'integer|nullable',
+            'reference_id' => 'integer|nullable',
             'logistics_client_id' => 'integer|nullable',
-            'currency' => 'string|nullable',
             'status' => 'integer|nullable',
-            'datetime' => 'date|nullable',
-            'paid_at' => 'date|nullable',
             'parameters' => 'nullable|array',
         ];
     }

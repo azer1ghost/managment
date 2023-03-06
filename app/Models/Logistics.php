@@ -11,12 +11,17 @@ class Logistics extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['reg_number', 'user_id', 'service_id', 'logistics_client_id', 'currency', 'status', 'datetime', 'paid_at'];
+    protected $fillable = ['reg_number', 'user_id', 'service_id', 'reference_id', 'logistics_client_id', 'status', 'datetime', 'paid_at'];
     protected $dates = ['datetime', 'paid_at'];
 
-    const DONE = 5;
+    const ACCEPTED = 1;
 
     public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class)->withDefault();
+    }
+
+    public function reference(): BelongsTo
     {
         return $this->belongsTo(User::class)->withDefault();
     }

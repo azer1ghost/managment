@@ -37,6 +37,22 @@
                     </div>
                 </div>
 
+                <div class="form-group col-12 col-md-6"  wire:ignore>
+                    <label class="d-block" for="reference_id">{{__('translates.navbar.reference')}}</label>
+                    <select id="reference_id" class="select2"
+                            name="reference_id"
+                            data-width="fit" title="{{__('translates.filters.select')}}">
+                        <option value="">@lang('translates.filters.select')</option>
+                        @foreach($users as $user)
+                            <option
+                                    @if($user->getAttribute('id') == optional($data)->getAttribute('reference_id')) selected @endif
+                            value="{{$user->getAttribute('id')}}">
+                                {{$user->getAttribute('full_name_with_position')}}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-service_id">@lang('translates.general.work_service')</label>
                     <input wire:ignore disabled type="text" class="form-control" id="data-service_id" value="{{\App\Models\Service::find($selected['service_id'])->name}}">
@@ -69,9 +85,6 @@
                         </select>
                     </div>
 
-                @if(!is_null($data) && !is_null(optional($data)->getAttribute('datetime')))
-                    <x-input::text wire:ignore name="datetime"  readonly :label="__('translates.fields.date')" value="{{$data->getAttribute('datetime')->format('Y-m-d H:i')}}" width="3" class="pr-3 custom-single-daterange" />
-                @endif
 
                     @foreach($parameters as $parameter)
                         @if(in_array('hideOnPost', explode(' ', $parameter->attributes)) && $method == 'POST')
@@ -105,14 +118,24 @@
                         @endswitch
                     @endforeach
 
-                @if(!is_null($data) && !is_null(optional($data)->getAttribute('paid_at')))
-                    <x-input::text wire:ignore name="paid_at"  readonly :label="__('translates.fields.paid_at')" value="{{$data->getAttribute('paid_at')->format('Y-m-d H:i')}}" width="3" class="pr-3" />
+                @if(!is_null($data) && !is_null(optional($data)->getAttribute('datetime')))
+                    <x-input::text wire:ignore name="datetime"  readonly :label="__('translates.fields.date')" value="{{$data->getAttribute('datetime')->format('Y-m-d H:i')}}" width="3" class="pr-3 custom-single-daterange" />
                 @endif
 
-                @if($method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Logistics::DONE)
+                @if(!is_null($data) && !is_null(optional($data)->getAttribute('paid_at')))
+                    <x-input::text wire:ignore name="paid_at"  readonly :label="__('translates.columns.paid')" value="{{$data->getAttribute('paid_at')->format('Y-m-d H:i')}}" width="3" class="pr-3" />
+                @endif
+
+                @if($method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Logistics::ACCEPTED)
                     <div class="col-12" wire:ignore>
                         <input type="checkbox" id="data-paid-check" name="paid_check" @if(!is_null(optional($data)->getAttribute('paid_at'))) checked @endif>
-                        <label class="form-check-label" for="data-paid-check">@lang('translates.columns.paid')</label>
+                        <label class="form-check-label" for="data-paid-check">@lang('translates.general.paid_at')</label>
+                    </div>
+                @endif
+                @if($method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Logistics::ACCEPTED)
+                    <div class="col-12" wire:ignore>
+                        <input type="checkbox" id="data-datetime-check" name="datetime-check" @if(!is_null(optional($data)->getAttribute('datetime'))) checked @endif>
+                        <label class="form-check-label" for="data-datetime-check">@lang('translates.general.done_at')</label>
                     </div>
                 @endif
 

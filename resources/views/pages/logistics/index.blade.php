@@ -42,6 +42,22 @@
                             </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                                <label class="d-block" for="reference_id">{{__('translates.general.user_select')}}</label>
+                                <select id="reference_id" class="select2"
+                                        name="reference_id"
+                                        data-width="fit" title="{{__('translates.filters.select')}}">
+                                    <option value="">@lang('translates.filters.select')</option>
+                                    @foreach($users as $user)
+                                        <option
+                                            @if($user->getAttribute('id') == $filters['reference_id']) selected @endif
+                                                value="{{$user->getAttribute('id')}}">
+                                            {{$user->getAttribute('fullname_with_position')}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="serviceFilter">{{__('translates.general.select_service')}}</label>
                             <select id="serviceFilter" multiple
                                     class="select2 js-example-theme-multiple"

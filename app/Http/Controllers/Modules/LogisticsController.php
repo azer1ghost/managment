@@ -43,6 +43,7 @@ class LogisticsController extends Controller
             'limit' => $limit,
             'reg_number' => $request->get('reg_number'),
             'service_id' => $request->get('service_id'),
+            'reference_id' => $request->get('reference_id'),
             'logistics_client_id' => $request->get('logistics_client_id'),
             'status' => $request->get('status'),
             'user_id' => $request->get('user_id'),
@@ -58,6 +59,7 @@ class LogisticsController extends Controller
         ];
 
         $users = User::has('logistics')->with('position', 'role')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id'])->get();
+        $u = User::has('logistics')->with('position', 'role')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id'])->get();
 
         $statuses = Logistics::statuses();
 
@@ -98,7 +100,7 @@ class LogisticsController extends Controller
         $validated = $request->validated();
         $validated['user_id'] = auth()->id();
         $service = Service::whereId($request->get('service_id'))->first();
-        $name =$service->getAttribute('name');
+        $name = $service->getAttribute('name');
         $logistics = Logistics::create($validated);
 
         $parameters = [];
@@ -137,7 +139,7 @@ class LogisticsController extends Controller
             'action' => route('logistics.update', $logistic),
             'method' => 'PUT',
             'data' => $logistic,
-            'users' => User::isActive()->isNotTransit()->get(['id', 'name', 'surname']),
+            'users' => User::isActive()->get(['id', 'name', 'surname']),
             'services' => Service::get(['id', 'name']),
         ]);
     }
@@ -145,6 +147,25 @@ class LogisticsController extends Controller
     public function update(LogisticsRequest $request, Logistics $logistic): RedirectResponse
     {
         $validated = $request->validated();
+        if (!$request->has('paid_check') && $request->has('paid_at')){
+            $validated['paid_at'] = null;
+        }
+        elseif ($request->has('paid_check') && !$request->has('paid_at')) {
+            $validated['paid_at'] = now();
+        }
+        elseif ($request->has('paid_at')){
+            $validated['paid_at'] = $request->get('paid_at');
+        }
+
+        if (!$request->has('datetime-check') && $request->has('datetime')){
+            $validated['datetime'] = null;
+        }
+        elseif ($request->has('datetime-check') && !$request->has('datetime')) {
+            $validated['datetime'] = now();
+        }
+        elseif ($request->has('datetime-check')){
+            $validated['datetime'] = $request->get('datetime');
+        }
         $logistic->update($validated);
 
         $parameters = [];
@@ -152,6 +173,8 @@ class LogisticsController extends Controller
             $parameters[$key] = ['value' => $parameter];
         }
         $logistic->parameters()->sync($parameters);
+
+
 
         return redirect()
             ->route('logistics.show', $logistic)
@@ -173,6 +196,4 @@ class LogisticsController extends Controller
         }
         return response()->setStatusCode('204');
     }
-
-
 }

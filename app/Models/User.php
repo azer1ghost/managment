@@ -232,7 +232,7 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
 
     public function scopeIsActive($query)
     {
-        return $query->whereNull('disabled_at');
+        return $query->where('role_id', '!=', self::TRANSIT)->whereNull('disabled_at');
     }
 
     public function chiefReport(): HasOne
@@ -373,9 +373,5 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
         $department = $this->getRelationValue('department')->getAttribute('name');
 
         return "{$this->getAttribute('name')} {$this->getAttribute('surname')} ({$department})";
-    }
-    public function scopeIsNotTransit($query)
-    {
-        return $query->where('role_id', '!=', self::TRANSIT);
     }
 }
