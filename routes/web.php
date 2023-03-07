@@ -55,6 +55,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\ServiceController,
     Modules\SignatureController,
     Modules\StatementController,
+    Modules\SupportController,
     Modules\TaskController,
     Modules\TaskListController,
     Modules\TransitController,
@@ -179,6 +180,7 @@ Route::group([
     Route::resource('/internal-documents', InternalDocumentController::class);
     Route::resource('/sent-documents', SentDocumentController::class);
     Route::resource('/protocols', ProtocolController::class);
+    Route::resource('/supports', SupportController::class);
     Route::resource('/folders', FolderController::class);
     Route::resource('/access-rates', AccessRateController::class);
     Route::get('/foreign', [InternalRelationController::class, 'foreign'])->name('foreign');

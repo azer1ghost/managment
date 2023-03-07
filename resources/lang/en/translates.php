@@ -179,6 +179,7 @@ return [
         'company' => 'Companies',
         'changes' => 'Changes',
         'commands' => 'Commands',
+        'supports' => 'Supports',
         'registration_logs' => 'Registration Logs',
         'customer_company' => 'Customer Company',
         'account' => 'Account',

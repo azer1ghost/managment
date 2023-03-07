@@ -181,6 +181,7 @@ return [
         'company' => 'Şirkətlər',
         'changes' => 'Dəyişikliklər',
         'commands' => 'Əmrlər',
+        'supports' => 'Dəstəkçilər',
         'registration_logs' => 'Qeydiyyat Jurnalı',
         'customer_company' => 'Müştəri Şirkətlər',
         'account' => 'Hesab',
