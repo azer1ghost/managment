@@ -174,8 +174,6 @@ class LogisticsController extends Controller
         }
         $logistic->parameters()->sync($parameters);
 
-
-
         return redirect()
             ->route('logistics.show', $logistic)
             ->withNotify('success', $logistic->getAttribute('name'));
