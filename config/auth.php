@@ -50,6 +50,7 @@ return [
         'viewAny-logistics', 'view-logistics', 'create-logistics', 'update-logistics', 'delete-logistics',
         'viewAny-logisticsClient', 'view-logisticsClient', 'create-logisticsClient', 'update-logisticsClient', 'delete-logisticsClient',
         'viewAny-meeting', 'view-meeting', 'create-meeting', 'update-meeting', 'delete-meeting',
+        'viewAny-support', 'view-support', 'create-support', 'update-support', 'delete-support',
         'viewAny-salesInquiry', 'viewAll-salesInquiry',
         'viewAny-notification', 'view-notification', 'manage-notification',
         'viewAny-option', 'view-option', 'manage-option',
