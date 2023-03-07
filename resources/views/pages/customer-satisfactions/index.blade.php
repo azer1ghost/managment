@@ -113,6 +113,12 @@
 
         </form>
     </div>
+
+    <div class="col-12">
+        <a class="btn btn-outline-primary float-right m-4"
+           href="{{route('satisfactions.index')}}">@lang('translates.navbar.satisfaction')</a>
+    </div>
+
     <table class="table table-condensed-table-responsive" style="border-collapse:collapse;" id="table">
         <thead>
         <tr class="text-center">
