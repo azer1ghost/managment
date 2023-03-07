@@ -196,14 +196,14 @@
                     <input class="form-control" type="text" name="bank_charge" value="{{optional($data)->getAttribute('bank_charge')}}">
                 </div>
 
-                @if(!is_null($data) && !is_null(optional($data)->getAttribute('paid_at')))
-                    <x-input::text wire:ignore name="paid_at"  readonly :label="__('translates.fields.paid_at')" value="{{$data->getAttribute('paid_at')->format('Y-m-d H:i')}}" width="3" class="pr-3" />
+                @if(!is_null($data))
+                    <x-input::text wire:ignore name="paid_at" readonly :label="__('translates.fields.paid_at')" value="{{optional($data->getAttribute('paid_at'))->format('Y-m-d H:i')}}" width="3" class="pr-3" />
                 @endif
-                @if(!is_null($data) && !is_null(optional($data)->getAttribute('vat_date')))
-                    <x-input::text wire:ignore name="vat_date"  readonly :label="__('translates.fields.vat_paid_at')" value="{{$data->getAttribute('vat_date')->format('Y-m-d H:i')}}" width="3" class="pr-3" />
+                @if(!is_null($data) )
+                    <x-input::text wire:ignore name="vat_date" readonly :label="__('translates.fields.vat_paid_at')" value="{{optional($data->getAttribute('vat_date'))->format('Y-m-d H:i')}}" width="3" class="pr-3" />
                 @endif
                 @if(!is_null($data))
-                    <x-input::text wire:ignore name="invoiced_date"  readonly :label="__('translates.fields.invoiced_date')" value="{{optional($data->getAttribute('invoiced_date'))->format('Y-m-d H:i')}}" width="3" class="pr-3" />
+                    <x-input::text wire:ignore name="invoiced_date" readonly :label="__('translates.fields.invoiced_date')" value="{{optional($data->getAttribute('invoiced_date'))->format('Y-m-d H:i')}}" width="3" class="pr-3" />
                 @endif
                 @if(auth()->user()->hasPermission('canVerify-work') && $method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Work::DONE)
                     <div class="col-12" wire:ignore>
