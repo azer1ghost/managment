@@ -30,6 +30,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\InternalDocumentController,
     Modules\InternalNumberController,
     Modules\InternalRelationController,
+    Modules\IsoDocumentController,
     Modules\JobInstructionController,
     Modules\LogisticsClientController,
     Modules\LogisticsController,
@@ -178,6 +179,7 @@ Route::group([
     Route::resource('/internal-relations', InternalRelationController::class);
     Route::resource('/logistic-clients', LogisticsClientController::class);
     Route::resource('/internal-documents', InternalDocumentController::class);
+    Route::resource('/iso-documents', IsoDocumentController::class);
     Route::resource('/sent-documents', SentDocumentController::class);
     Route::resource('/protocols', ProtocolController::class);
     Route::resource('/supports', SupportController::class);

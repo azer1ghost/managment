@@ -37,7 +37,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Qovluq Adı</th>
-                        
+
                     </tr>
                     </thead>
                     <tbody id="sortable">
