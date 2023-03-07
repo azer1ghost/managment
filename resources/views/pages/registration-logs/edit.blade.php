@@ -7,12 +7,12 @@
         <x-bread-crumb-link :link="route('dashboard')">
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
-        <x-bread-crumb-link :link="route('registration-logs.index')">
-            @lang('translates.navbar.registration_logs')
+        <x-bread-crumb-link :link="route('iso-documents.index')">
+            @lang('translates.navbar.iso_document')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
             @if ($method !== 'POST')
-                {{optional($data)->getAttribute('sender')}}
+                {{optional($data)->getAttribute('name')}}
             @else
                 @lang('translates.buttons.create')
             @endif

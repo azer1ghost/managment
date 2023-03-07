@@ -236,6 +236,7 @@ return [
         'protocols' => 'Protokollar',
         'folder' => 'Qovluqlar',
         'sent_document' => 'Göndərilən Sənədlər',
+        'iso_document' => 'Iso Sənədləri',
         'foreign_relation' => 'Xarici Əlaqələr',
         'instruction' => 'Video Təlimat',
         'employee_satisfaction' => 'İşçi Məmnuniyyəti',

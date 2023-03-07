@@ -231,6 +231,7 @@ return [
         'job_instruction' => 'Job Instructions',
         'intern_relation' => 'Intern Relations',
         'internal_document' => 'Internal Document',
+        'iso_document' => 'Iso Document',
         'protocols' => 'Protocols',
         'folder' => 'Folders',
         'sent_document' => 'Sent Document',
