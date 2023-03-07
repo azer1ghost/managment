@@ -445,7 +445,7 @@ class Sidebar extends Component
                         'title' => __('translates.navbar.client'),
                         'icon' => 'fas fa-bullhorn',
                         'url' => route('logistic-clients.index'),
-                        'permission' => 'viewAny-logisticsClient',
+                        'permission' => 'viewAny-logisticClient',
                     ]
                 ]
             ],

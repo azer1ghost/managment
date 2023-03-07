@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Modules;
 
+use App\Events\ChangeCreated;
 use App\Http\Requests\ChangeRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Change;
@@ -44,6 +45,7 @@ class ChangeController extends Controller
     public function store(ChangeRequest $request)
     {
         $change = Change::create($request->validated());
+        event(new ChangeCreated($change));
 
         return redirect()
             ->route('changes.edit', $change)

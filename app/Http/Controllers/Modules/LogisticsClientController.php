@@ -12,8 +12,8 @@ class LogisticsClientController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->authorizeResource(LogisticsClient::class, 'logisticsClient');
+//        $this->middleware('auth');
+//        $this->authorizeResource(LogisticsClient::class, 'logisticClient');
     }
     public function search(Request $request): object
     {
@@ -43,18 +43,15 @@ class LogisticsClientController extends Controller
     {
         $limit = $request->get('limit', 25);
         $search = $request->get('search');
-        $user_id = $request->get('user');
 
         return view('pages.logistics-clients.index')
             ->with([
                 'users' => User::get(['id', 'name', 'surname']),
                 'logisticsClients' => LogisticsClient::query()
                     ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"))
-                    ->when($user_id, fn ($query) => $query->where('user_id', $user_id))
                     ->latest()
                     ->paginate($limit),
             ]);
-
     }
 
     public function create()

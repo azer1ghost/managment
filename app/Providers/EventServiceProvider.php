@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\ChangeCreated;
 use App\Events\RegistrationLogCreated;
 use App\Events\TaskCreated;
 use App\Events\TaskListCreated;
@@ -48,6 +49,10 @@ class EventServiceProvider extends ServiceProvider
         RegistrationLogCreated::class => [
             SendNotification::class,
             SendPushNotification::class,
+        ],
+        ChangeCreated::class => [
+//            SendNotification::class,
+//            SendPushNotification::class,
 //            SendEmailNotification::class,
         ],
         TaskCreated::class => [

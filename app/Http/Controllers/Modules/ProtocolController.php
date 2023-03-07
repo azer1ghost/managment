@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Modules;
 
-use App\Events\RegistrationLogCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProtocolRequest;
 use App\Models\Change;
