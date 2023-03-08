@@ -21,6 +21,10 @@ class Client extends Model implements DocumentableInterface, Recordable
     const LEGAL = 0;
     const PHYSICAL  = 1;
 
+    const ACTIVE = 1;
+
+    const PASSIVE = 0;
+
     protected $fillable = [
         'fullname',
         'father',
@@ -38,6 +42,7 @@ class Client extends Model implements DocumentableInterface, Recordable
         'position',
         'type',
         'send_sms',
+        'active',
         'detail',
         'protocol',
         'document_type',

@@ -165,9 +165,13 @@
             <x-form-group  class="pr-3 col-12 col-lg-6" :label="trans('translates.fields.address2')" >
                 <x-form-input name="address2"/>
             </x-form-group>
-            <div class="custom-control custom-switch mb-3">
+            <div class="custom-control custom-switch mb-5">
                 <input type="checkbox" name="send_sms" class="custom-control-input" id="send_sms" @if($data->getAttribute('send_sms') || $method == 'POST' ) checked @endif>
                 <label class="custom-control-label" for="send_sms">@lang('translates.buttons.send_sms')</label>
+            </div>
+            <div class="custom-control custom-switch mr-5">
+                <input type="checkbox" name="active" class="custom-control-input" id="active" @if($data->getAttribute('active') || $method == 'POST' ) checked @endif>
+                <label class="custom-control-label" for="active">@lang('translates.buttons.active')</label>
             </div>
         </div>
 

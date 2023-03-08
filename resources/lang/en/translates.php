@@ -166,6 +166,8 @@ return [
         'show' => 'Show',
         'send_sms' => 'Send Sms',
         'send' => 'Göndər',
+        'active' => 'Active Contract',
+        'passive' => 'Deactive Contract',
     ],
 
     'sum' => 'Collective',
@@ -554,6 +556,7 @@ return [
         'legal' => 'Legal',
         'physical' => 'Physical',
         'typeChoose' => 'Type Not Selected',
+        'activeChoose' => 'Filter by Contract',
         'physical_client_name' => 'Name of Legal Client Employees',
         'physical_client_mail' => 'Mail of Legal Client Employees',
         'physical_client_phone' => 'Phone of Legal Client Employees',

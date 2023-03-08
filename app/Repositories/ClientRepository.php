@@ -18,6 +18,7 @@ class ClientRepository implements ClientRepositoryInterface {
             ->when($filters['free_clients'], fn ($query) => $query->doesnthave('salesUsers'))
             ->when($filters['free_company'], fn ($query) => $query->doesnthave('companies'))
             ->when(is_numeric($filters['type']), fn ($query) => $query->where('type', (int) $filters['type']))
+            ->when(is_numeric($filters['active']), fn ($query) => $query->where('active', (int) $filters['active']))
             ->when(is_numeric($filters['satisfaction']), fn ($query) => $query->where('satisfaction', (int) $filters['satisfaction']))
             ->when($filters['search'], fn ($query) => $query->where('fullname', 'like', "%{$filters['search']}%")
                                                             ->orWhere('voen', 'like' , "%{$filters['search']}%")

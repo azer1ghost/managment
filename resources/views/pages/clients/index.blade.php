@@ -30,6 +30,13 @@
                     @endforeach
                 </select>
             </div>
+            <div class="col-md-4">
+                <select name="active" class="custom-select" id="active">
+                    @foreach($actives as $key => $type)
+                        <option @if($filters['active'] === "$key") selected @endif value="{{$key}}">{{$type}}</option>
+                    @endforeach
+                </select>
+            </div>
 
             <div class="col-md-4">
                 <select aria-label="user" name="users" id="userFilter" class="form-control" >
