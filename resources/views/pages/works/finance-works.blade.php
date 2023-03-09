@@ -299,6 +299,7 @@
             <th scope="col">@lang('translates.fields.created_at')</th>
             <th scope="col">@lang('translates.fields.paid_at')</th>
             <th scope="col">@lang('translates.fields.vat_paid_at')</th>
+            <th scope="col">@lang('translates.fields.invoiced_date')</th>
             <th scope="col"></th>
 
         </tr>
@@ -378,8 +379,8 @@
                 <td title="{{$work->getAttribute('payment_method')}}" data-toggle="tooltip">{{trans('translates.payment_methods.' . $work->getAttribute('payment_method'))}}</td>
                 <td title="{{optional($work->getAttribute('created_at'))->diffForHumans()}}" data-toggle="tooltip">{{$work->getAttribute('created_at')}}</td>
                 <td title="{{$work->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
-                <td title="{{$work->getAttribute('invoiced_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
                 <td title="{{$work->getAttribute('vat_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('vat_date'))->format('Y-m-d')}}</td>
+                <td title="{{$work->getAttribute('invoiced_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
                 <td>
                     <div class="btn-sm-group d-flex align-items-center">
                         @if($work->getAttribute('creator_id') != auth()->id() && is_null($work->getAttribute('user_id')) && !auth()->user()->isDeveloper())
@@ -395,7 +396,7 @@
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fal fa-ellipsis-v-alt"></i>
                             </button>
-                            <div class="dropdown-menu custom-dropdown">
+                            <div class="dropdown-menu">
                                 @can('view', $work)
                                     <a href="{{route('works.show', $work)}}" class="dropdown-item-text text-decoration-none">
                                         <i class="fal fa-eye pr-2 text-primary"></i>@lang('translates.buttons.view')
@@ -413,14 +414,17 @@
                                     @endcan
                                 @endif
                                 @if(auth()->user()->hasPermission('canVerify-work'))
-                                    <a href="{{route('works.verify', $work)}}" verify data-name="{{$work->getAttribute('code')}}" class="dropdown-item-text text-decoration-none">
+                                    <a href="{{route('works.verify', $work)}}" verify data-name="{{$work->getAttribute('id')}}" class="dropdown-item-text text-decoration-none">
                                         <i class="fal fa-check pr-2 text-success"></i>@lang('translates.buttons.verify')
                                     </a>
-                                    <a href="{{route('works.paid', $work)}}" verify data-name="{{$work->getAttribute('code')}}" class="dropdown-item-text text-decoration-none">
+                                    <a data-toggle="modal" data-target="#paidModal-{{$work->getAttribute('id')}}" class="dropdown-item-text text-decoration-none">
                                         <i class="fal fa-money-bill pr-2 text-success"></i>@lang('translates.columns.paid')
                                     </a>
-                                    <a href="{{route('works.vatPaid', $work)}}" verify data-name="{{$work->getAttribute('code')}}" class="dropdown-item-text text-decoration-none">
-                                        <i class="fal fa-money-check pr-2 text-success"></i>@lang('translates.columns.vat_paid')
+                                    <a data-toggle="modal" data-target="#vatPaidModal-{{$work->getAttribute('id')}}" class="dropdown-item-text text-decoration-none">
+                                        <i class="fal fa-money-bill-wave pr-2 text-success"></i>@lang('translates.columns.vat_paid')
+                                    </a>
+                                    <a data-toggle="modal" data-target="#invoiceModal-{{$work->getAttribute('id')}}" class="dropdown-item-text text-decoration-none">
+                                        <i class="fal fa-money-check pr-2 text-success"></i>@lang('translates.fields.invoiced_date')
                                     </a>
                                 @endif
                                 @can('delete', $work)
@@ -433,6 +437,81 @@
                     </div>
                 </td>
             </tr>
+            <div class="modal fade" id="paidModal-{{$work->getAttribute('id')}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ route('works.paid', $work) }}" method="POST">
+                            @csrf @method('PUT')
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <input type="date" name="paid_at" value="{{now()}}" class="form-control" aria-label="paid_at">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="vatPaidModal-{{$work->getAttribute('id')}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ route('works.vatPaid', $work) }}" method="POST">
+                            @csrf @method('PUT')
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <input type="date" name="vatPaid_at" value="{{now()}}" class="form-control" aria-label="paid_at">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="invoiceModal-{{$work->getAttribute('id')}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">@lang('translates.fields.invoiced_date')</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ route('works.invoice', $work) }}" method="POST">
+                            @csrf @method('PUT')
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <input type="date" name="invoiced_date" class="form-control" aria-label="paid_at">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div> 
+                        </form>
+
+                    </div>
+                </div>
+            </div>
         @empty
             <tr>
                 <th colspan="20">
@@ -496,6 +575,8 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/js/jquery-editable-poshytip.min.js"></script>
 
     <script>
+        document.getElementById('datePicker').value = new Date().toDateInputValue();
+
         @if($works->isNotEmpty())
         const count  = document.getElementById("count").cloneNode(true);
         $("#table > tbody").prepend(count);
@@ -669,4 +750,5 @@
             theme: "classic"
         });
     </script>
+
 @endsection

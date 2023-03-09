@@ -159,6 +159,7 @@ Route::group([
     Route::put('/works/{work}/verify', [WorkController::class, 'verify'])->name('works.verify');
     Route::put('/works/{work}/paid', [WorkController::class, 'paid'])->name('works.paid');
     Route::put('/works/{work}/vatPaid', [WorkController::class, 'vatPaid'])->name('works.vatPaid');
+    Route::put('/works/{work}/invoice', [WorkController::class, 'invoice'])->name('works.invoice');
     Route::get('/works/report', [WorkController::class, 'report'])->name('works.report');
     Route::get('/works/export', [WorkController::class, 'export'])->name('works.export');
     Route::resource('/works', WorkController::class);
