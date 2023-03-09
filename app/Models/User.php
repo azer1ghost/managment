@@ -33,7 +33,7 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
     const DEVELOPER = 1;
     const CHIEF_DEVELOPER = 1;
 
-    const TRANSIT = 5;
+    const TRANSIT = 9;
 
     protected $fillable = [
         'name',
@@ -229,7 +229,7 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
 
     public function isTransitCustomer(): bool
     {
-        return $this->getAttribute('role_id') == 6;
+        return $this->getAttribute('role_id') == self::TRANSIT;
     }
 
     public function isDepartmentChief(): bool
