@@ -16,7 +16,8 @@ class SentDocumentController extends Controller
     public function index()
     {
         return view('pages.sent-documents.index')
-            ->with([ 'sentDocuments' => SentDocument::get()]);
+            ->with([ 'sentDocuments' => SentDocument::orderByDesc('sent_date')->get()
+            ]);
     }
 
 
