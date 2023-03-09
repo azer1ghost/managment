@@ -22,11 +22,9 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
             <div class="col-12">
-                @can('create', \App\Models\Command::class)
                     <div class="col-12">
                         <a class="btn btn-outline-success float-right" href="{{route('commands.create')}}">@lang('translates.buttons.create')</a>
                     </div>
-                @endcan
                 <table class="table table-responsive-sm table-hover">
                     <thead>
                     <tr>
@@ -55,7 +53,7 @@
                              </td>
                             <td>{{$command->getRelationValue('executors')->getFullnameWithPositionAttribute()}}</td>
                             <td>{{$command->getRelationValue('confirmings')->getFullnameWithPositionAttribute()}}</td>
-                             @can('update', App\Models\Command::class)
+
                                  <td>
                                      <div class="btn-sm-group">
                                          <a href="{{route('commands.show', $command)}}" class="btn btn-sm btn-outline-primary">
@@ -69,7 +67,7 @@
                                          </a>
                                      </div>
                                  </td>
-                             @endcan
+
                          </tr>
                     @empty
                         <tr>
