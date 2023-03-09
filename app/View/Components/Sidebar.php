@@ -139,24 +139,65 @@ class Sidebar extends Component
                     ],
                 ]
             ],
+            (object)[
+                'title' => __('translates.navbar.work'),
+                'icon' => 'fas fa-briefcase',
+                'url' => route('works.index'),
+                'permission' => 'viewAny-work',
+                'children' => [
+                    (object)[
+                        'title' => __('translates.navbar.work'),
+                        'icon' => 'fas fa-briefcase',
+                        'url' => route('works.index'),
+                        'permission' => 'viewAny-work',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.pendingWorks'),
+                        'icon' => 'fas fa-bullhorn',
+                        'url' => route('pending-works'),
+                        'permission' => 'viewAny-work',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.financeWorks'),
+                        'icon' => 'fas fa-scroll',
+                        'url' => route('finance-works'),
+                        'permission' => 'viewAny-work',
+                    ],
+                ]
+            ],
+            (object)[
+                'title' => __('translates.navbar.logistics'),
+                'icon' => 'fas fa-shipping-fast',
+                'url' => route('logistics.index'),
+                'permission' => 'viewAny-work',
+                'children' => [
+                    (object)[
+                        'title' => __('translates.navbar.logistics'),
+                        'icon' => 'fas fa-shipping-fast',
+                        'url' => route('logistics.index'),
+                        'permission' => 'viewAny-logistics',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.client'),
+                        'icon' => 'fas fa-bullhorn',
+                        'url' => route('logistic-clients.index'),
+                        'permission' => 'viewAny-logisticClient',
+                    ]
+                ]
+            ],
 
             (object)[
-                'title' => __('translates.navbar.employee_satisfaction'),
-                'icon' => 'fal fa-user-shield',
-                'url' => route('employee-satisfaction.index'),
-                'permission' => 'generally',
+                'title' => __('translates.navbar.client'),
+                'icon' => 'fas fa-portrait',
+                'url' => route('clients.index'),
+                'permission' => 'viewAny-client',
             ],
+
             (object)[
-                'title' => __('translates.navbar.customer-satisfaction'),
-                'icon' => 'fas fa-users-crown',
-                'url' => route('customer-satisfactions.index'),
-                'permission' => 'viewAny-satisfaction',
-            ],
-            (object)[
-                'title' => __('translates.navbar.inquiry'),
-                'icon' => 'fa fa-phone',
-                'url' => route('inquiry.index'),
-                'permission' => 'viewAny-inquiry',
+                'title' => __('translates.navbar.report'),
+                'icon' => 'fal fa-file',
+                'url' => route('reports.index'),
+                'permission' => 'viewAny-report',
             ],
 
             (object)[
@@ -167,10 +208,10 @@ class Sidebar extends Component
             ],
 
             (object)[
-                'title' => __('translates.navbar.calendar'),
-                'icon' => 'fal fa-calendar',
-                'url' => route('calendars.index'),
-                'permission' => 'viewAny-calendar',
+                'title' => __('translates.navbar.inquiry'),
+                'icon' => 'fa fa-phone',
+                'url' => route('inquiry.index'),
+                'permission' => 'viewAny-inquiry',
             ],
 
             (object)[
@@ -255,6 +296,13 @@ class Sidebar extends Component
                     ],
 
                 ]
+            ],
+
+            (object)[
+                'title' => __('translates.navbar.calendar'),
+                'icon' => 'fal fa-calendar',
+                'url' => route('calendars.index'),
+                'permission' => 'viewAny-calendar',
             ],
 
             (object)[
@@ -364,69 +412,31 @@ class Sidebar extends Component
                     ],
                 ]
             ],
-
             (object)[
-                'title' => __('translates.navbar.report'),
-                'icon' => 'fal fa-file',
-                'url' => route('reports.index'),
-                'permission' => 'viewAny-report',
+                'title' => __('translates.navbar.meeting'),
+                'icon' => 'fas fa-bullhorn',
+                'url' => route('meetings.index'),
+                'permission' => 'viewAny-meeting',
             ],
 
             (object)[
-                'title' => __('translates.navbar.client'),
-                'icon' => 'fas fa-portrait',
-                'url' => route('clients.index'),
-                'permission' => 'viewAny-client',
+                'title' => __('translates.navbar.employee_satisfaction'),
+                'icon' => 'fal fa-user-shield',
+                'url' => route('employee-satisfaction.index'),
+                'permission' => 'generally',
             ],
-
+            (object)[
+                'title' => __('translates.navbar.customer-satisfaction'),
+                'icon' => 'fas fa-users-crown',
+                'url' => route('customer-satisfactions.index'),
+                'permission' => 'viewAny-satisfaction',
+            ],
             (object)[
                 'title' => __('translates.navbar.referral'),
                 'icon' => 'fas fa-ticket-alt',
                 'url' => route('referrals.index'),
                 'permission' => 'viewAny-referral',
             ],
-
-//            (object)[
-//                'title' => __('translates.navbar.meeting'),
-//                'icon' => 'fas fa-handshake',
-//                'url' => '#',
-//                'permission' => 'viewAny-meeting',
-//                'children' => [
-                    (object)[
-                        'title' => __('translates.navbar.meeting'),
-                        'icon' => 'fas fa-bullhorn',
-                        'url' => route('meetings.index'),
-                        'permission' => 'viewAny-meeting',
-                    ],
-//                    (object)[
-//                        'title' => __('translates.navbar.announcement'),
-//                        'icon' => 'fas fa-scroll',
-//                        'url' => route('announcements.index'),
-//                        'permission' => 'viewAny-announcement',
-//                    ],
-//                    (object)[
-//                        'title' => __('translates.navbar.conference'),
-//                        'icon' => 'fas fa-handshake',
-//                        'url' => route('conferences.index'),
-//                        'permission' => 'viewAny-conference',
-//                    ],
-//                ]
-//            ],
-
-//            (object)[
-//                'title' => "Advertising",
-//                'icon' => 'fab fa-adversal',
-//                'url' => route('advertising.index'),
-//                'permission' => 'viewAny-advertising',
-//            ],
-//
-//            (object)[
-//                'title' => __('translates.navbar.update'),
-//                'icon' => 'fas fa-sync',
-//                'url' => route('updates.index'),
-//                'permission' => 'viewAny-update',
-
-//            ],
 
             (object)[
                 'title' => __('translates.navbar.services'),
@@ -435,60 +445,12 @@ class Sidebar extends Component
                 'permission' => 'viewAny-service',
             ],
 
-            (object)[
-                'title' => __('translates.navbar.logistics'),
-                'icon' => 'fas fa-shipping-fast',
-                'url' => route('logistics.index'),
-                'permission' => 'viewAny-work',
-                'children' => [
-                    (object)[
-                        'title' => __('translates.navbar.logistics'),
-                        'icon' => 'fas fa-shipping-fast',
-                        'url' => route('logistics.index'),
-                        'permission' => 'viewAny-logistics',
-                    ],
-                    (object)[
-                        'title' => __('translates.navbar.client'),
-                        'icon' => 'fas fa-bullhorn',
-                        'url' => route('logistic-clients.index'),
-                        'permission' => 'viewAny-logisticClient',
-                    ]
-                ]
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.work'),
-                'icon' => 'fas fa-briefcase',
-                'url' => route('works.index'),
-                'permission' => 'viewAny-work',
-                'children' => [
-                    (object)[
-                        'title' => __('translates.navbar.work'),
-                        'icon' => 'fas fa-briefcase',
-                        'url' => route('works.index'),
-                        'permission' => 'viewAny-work',
-                    ],
-                    (object)[
-                        'title' => __('translates.navbar.pendingWorks'),
-                        'icon' => 'fas fa-bullhorn',
-                        'url' => route('pending-works'),
-                        'permission' => 'viewAny-work',
-                    ],
-                    (object)[
-                        'title' => __('translates.navbar.financeWorks'),
-                        'icon' => 'fas fa-scroll',
-                        'url' => route('finance-works'),
-                        'permission' => 'viewAny-work',
-                    ],
-                ]
-            ],
-
-            (object)[
-                'title' => __('translates.navbar.order'),
-                'icon' => 'fas fa-money-check-edit-alt',
-                'url' => route('orders.index'),
-                'permission' => 'viewAny-work',
-            ],
+//            (object)[
+//                'title' => __('translates.navbar.order'),
+//                'icon' => 'fas fa-money-check-edit-alt',
+//                'url' => route('orders.index'),
+//                'permission' => 'viewAny-work',
+//            ],
 
             (object)[
                 'title' => __('translates.navbar.document'),
