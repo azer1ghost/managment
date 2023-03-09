@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 
 class SupportController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->authorizeResource(Support::class, 'support');
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('auth');
+//        $this->authorizeResource(Support::class, 'support');
+//    }
 
     public function index()
     {
