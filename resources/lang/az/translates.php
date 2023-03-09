@@ -166,7 +166,7 @@ return [
         'execute' => 'Icra et',
         'export' => 'İxrac et',
         'show' => 'Göstər',
-        'send_sms' => 'SMS Göndər  ',
+        'send_sms' => 'SMS Göndər',
         'send' => 'Göndər',
         'active' => 'Müqaviləsi Aktivdir.',
         'passive' => 'Müqaviləsi Deaktivdir.',
@@ -244,6 +244,7 @@ return [
         'employee_satisfaction' => 'İşçi Məmnuniyyəti',
         'satisfaction' => 'Məmnuniyyət',
         'customer-satisfaction' => 'Müştəri Məmnuniyyəti',
+        'order' => 'Sifarişlər',
         'logistics' => 'Logistika',
         'logistics_clients' => 'Logistika Müştəriləri'
     ],
@@ -480,6 +481,10 @@ return [
         'url' => 'Url',
         'rate' => 'Qiymətləndirmə',
         'price_rate' => 'Xidmət Haqqı Qiymətləndirməsi',
+        'amount' => 'Qiymət',
+        'payment' => 'Ödəniş',
+        'code' => 'Kod',
+        'result' => 'Nəticə',
     ],
 
     'notify' => [
@@ -516,6 +521,19 @@ return [
     'effectivity' => [
         1 => 'Effektiv',
         2 => 'Effektiv Deyil'
+    ],
+
+    'orders' => [
+        'statuses' => [
+            1 => 'Gözləmədə',
+            2 => 'Hazırlanır',
+            3 => 'Tamamlandı',
+            4 => 'Rəddedildi',
+        ],
+        'payment' => [
+            0 => 'Ödənməyib',
+            1 => 'Ödənib',
+        ]
     ],
 
     'employee_satisfactions' => [

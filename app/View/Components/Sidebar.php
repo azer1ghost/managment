@@ -484,6 +484,13 @@ class Sidebar extends Component
             ],
 
             (object)[
+                'title' => __('translates.navbar.order'),
+                'icon' => 'fas fa-money-check-edit-alt',
+                'url' => route('orders.index'),
+                'permission' => 'viewAny-work',
+            ],
+
+            (object)[
                 'title' => __('translates.navbar.document'),
                 'icon' => 'fas fa-file-word',
                 'url' => route('documents.index'),

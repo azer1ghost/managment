@@ -36,6 +36,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\LogisticsController,
     Modules\MeetingController,
     Modules\OptionController,
+    Modules\OrderController,
     Modules\OrganizationController,
     Modules\ParameterController,
     Modules\PositionController,
@@ -70,6 +71,19 @@ use App\Services\FirebaseApi;
 use Illuminate\Support\Facades\{Auth, Route};
 Route::get('send-email', [App\Http\Controllers\EmailController::class, 'sendEmail']);
 
+
+Route::group([
+    'prefix' => 'transit',
+], function () {
+    Route::get('/transit-login', [TransitController::class, 'login'])->name('transit-login');
+    Route::get('/service', [TransitController::class, 'service'])->name('service');
+    Route::get('/payment/{order}', [TransitController::class, 'payment'])->name('payment');
+    Route::get('/payment/{order}', [TransitController::class, 'payment'])->name('payment');
+    Route::post('/payFromBalance/', [OrderController::class, 'payFromBalance'])->name('payFromBalance');
+    Route::resource('/profile', TransitController::class);
+    Route::resource('/order', OrderController::class)->only(['store']);
+});
+
 Route::get('firebase-messaging-sw.js', [PlatformController::class, 'firebase']);
 Route::post('/store-fcm-token', [PlatformController::class, 'storeFcmToken'])->name('store.fcm-token');
 Route::post('/set-location', [PlatformController::class, 'setLocation'])->name('set-location');
@@ -81,7 +95,7 @@ Route::get('/close-notify/{announcement}', [PlatformController::class, 'closeNot
 
 Route::redirect('/','/welcome')->name('home');
 Route::get('/welcome', [PlatformController::class, 'welcome'])->name('welcome');
-Route::get('/dashboard', [PlatformController::class, 'dashboard'])->middleware(['verified_phone', 'deactivated'])->name('dashboard');
+Route::get('/dashboard', [PlatformController::class, 'dashboard'])->middleware(['verified_phone', 'deactivated','is_transit_customer'])->name('dashboard');
 
 Route::get('/account', [AccountController::class, 'account'])->middleware(['verified_phone', 'deactivated'])->name('account');
 Route::post('/account/{user}', [AccountController::class, 'save'])->middleware(['verified_phone', 'deactivated'])->name('account.save');
@@ -89,7 +103,7 @@ Route::get('/security', [AccountController::class, 'security'])->middleware(['ve
 
 Route::group([
     'prefix' => 'module',
-    'middleware' => ['verified_phone', 'deactivated']
+    'middleware' => ['verified_phone', 'deactivated','is_transit_customer' ]
 ], function () {
     Route::get('/bonuses', [ReferralBonusController::class, 'index'])->name('bonuses');
     Route::post('/bonuses', [ReferralBonusController::class, 'refresh']);
@@ -217,6 +231,10 @@ Route::group([
     Route::view('/statement','pages.statements.statements' )->name('statement');
     Route::post('/markAsRead', [StatementController::class, 'markAsRead'])->name('mark-as-read');
     Route::get('/jobInstruction/{id}', [JobInstructionController::class, 'getInstruction'])->name('getInstruction');
+    Route::post('/order-download',[ OrderController::class, 'download'])->name('orders.download');
+    Route::get('/result-download/{order}',[ OrderController::class, 'resultDownload'])->name('order-result.download');
+    Route::resource('/orders', OrderController::class)->except('store');
+
 
     // resultable routes
     Route::post('/results/{modelId}', [ResultController::class, 'store'])->name('results.store');
@@ -231,6 +249,7 @@ Auth::routes();
 // routes for registering partners
 Route::get('/partners/register', [RegisterController::class, 'showPartnersRegistrationForm'])->name('register.partners');
 Route::post('/partners/register', [RegisterController::class, 'register']);
+Route::post('/partners/transit/register', [RegisterController::class, 'transitRegister'])->name('transitRegister');
 
 PhoneVerifycationController::routes();
 
@@ -265,7 +284,6 @@ Route::get('/document/{document}', function (\Illuminate\Http\Request $request, 
 Route::resource('/customer-satisfactions', CustomerSatisfactionController::class);
 Route::get('/cs', [CustomerSatisfactionController::class, 'createSatisfaction'])->name('create-satisfaction');
 
-Route::get('/transit/service', [TransitController::class, 'service'])->name('service');
-Route::get('/transit/transit-login', [TransitController::class, 'login'])->name('transit-login');
-Route::get('/transit/payment', [TransitController::class, 'payment'])->name('payment');
-Route::resource('/transit/profile', TransitController::class);
+
+
+

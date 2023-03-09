@@ -29,9 +29,6 @@
                             {!! implode('', $errors->all('<div class="text-danger">:message</div>')) !!}
                         @endif
                         <form method="POST" class="form-row" action="{{ route('login') }}">
-                            @if(now()->format('m/d/Y') < date_create("03/07/2022")->format('m/d/Y'))
-                            <div class="alert alert-danger">Diqqət, Mobil Managementdəki dəyişikliyə görə bütün hesablardan çıxış olunub. Şifrənizi unutmusunuzsa aşağıdakı "Şifrəmi Bərpa Et" düyməsinə basın</div>
-                            @endif
                             @csrf
                             @env('local')
                                 <x-input::email required="" value="test@mobilgroup.az" name="login" :label="__('translates.register.mail')" :placeholder="__('translates.placeholders.mail')" />

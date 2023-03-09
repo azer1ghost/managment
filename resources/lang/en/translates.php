@@ -242,6 +242,7 @@ return [
         'employee_satisfaction' => 'Employee Satisfaction',
         'satisfaction' => 'Satisfaction',
         'customer-satisfaction' => 'Customer Satisfaction',
+        'order' => 'Orders',
         'logistics' => 'Logistics',
         'logistics_clients' => 'Logistics Clients'
     ],
@@ -479,6 +480,10 @@ return [
         'url' => 'Url',
         'rate' => 'Rate',
         'price_rate' => 'Price',
+        'amount' => 'Amount',
+        'payment' => 'Payment',
+        'code' => 'Code',
+        'result' => 'Result',
     ],
 
     'notify' => [
@@ -513,6 +518,19 @@ return [
     'effectivity' => [
         1 => 'Effective',
         2 => 'Ineffective'
+    ],
+
+    'orders' => [
+        'statuses' => [
+            1 => 'Gözləmədə',
+            2 => 'Hazırlanır',
+            3 => 'Tamamlandı',
+            4 => 'Rəddedildi',
+        ],
+        'payment' => [
+            0 => 'Unpaid',
+            1 => 'Paid',
+        ]
     ],
 
     'employee_satisfactions' => [

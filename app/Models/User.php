@@ -47,9 +47,11 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
         'birthday',
         'started_at',
         'position_id',
-//        'official_position_id',
+        'voen',
+        'rekvisit',
         'department_id',
         'phone_coop',
+        'balance',
         'phone',
         'country',
         'city',
@@ -223,6 +225,11 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
     public function isDisabled(): bool
     {
         return !is_null($this->getAttribute('disabled_at'));
+    }
+
+    public function isTransitCustomer(): bool
+    {
+        return $this->getAttribute('role_id') == 5;
     }
 
     public function isDepartmentChief(): bool
