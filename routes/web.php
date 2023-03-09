@@ -184,13 +184,13 @@ Route::group([
     Route::post('/declaration', [WorkController::class, 'declaration'])->name('work.declaration');
 
     Route::resource('/supports', SupportController::class);
+    Route::resource('/commands', CommandController::class);
     Route::resource('/meetings', MeetingController::class);
     Route::resource('/job-instructions', JobInstructionController::class);
     Route::resource('/internal-numbers', InternalNumberController::class);
     Route::resource('/changes', ChangeController::class);
     Route::put('/registration-logs/{registrationLog}/accepted', [RegistrationLogController::class, 'accepted'])->name('registration-logs.accepted');
     Route::resource('/registration-logs', RegistrationLogController::class);
-    Route::resource('/commands', CommandController::class);
     Route::get('/cooperative-numbers', [InternalNumberController::class, 'cooperative'])->name('cooperative-numbers');
     Route::resource('/internal-relations', InternalRelationController::class);
     Route::resource('/logistic-clients', LogisticsClientController::class);
