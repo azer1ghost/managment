@@ -380,7 +380,7 @@
                                                             <tr>
                                                                 <td colspan="10">
                                                                     <div class="node">
-                                                                        <a href="{{route('getInstruction', 122)}}">Yaqub Səfərov</a>
+                                                                        <a href="{{route('getInstruction', 122)}}">B.B işi təşkili şöbəsi rəisi - Vakant</a>
                                                                     </div>
                                                                 </td>
                                                             </tr>
