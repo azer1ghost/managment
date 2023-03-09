@@ -11,28 +11,18 @@ class CommandPolicy
 {
     use HandlesAuthorization, HandlesPolicy, GetClassInfo;
 
-    public function viewAny(User $user): bool
-    {
-        return $this->canManage($user, 'command', __FUNCTION__);
-    }
-
-    public function view(User $user): bool
-    {
-        return $this->canManage($user, 'command', __FUNCTION__);
-    }
-
     public function create(User $user): bool
     {
-        return $this->canManage($user, 'command');
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 
     public function update(User $user): bool
     {
-        return $this->canManage($user, 'command');
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 
     public function delete(User $user): bool
     {
-        return $this->canManage($user, 'command', __FUNCTION__);
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 }
