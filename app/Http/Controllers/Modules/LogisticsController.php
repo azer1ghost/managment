@@ -19,8 +19,8 @@ class LogisticsController extends Controller
 
     public function __construct(LogisticsRepositoryInterface $logisticsRepository)
     {
-//        $this->middleware('auth');
-//        $this->authorizeResource(Logistics::class, 'logistics');
+        $this->middleware('auth');
+        $this->authorizeResource(Logistics::class, 'logistics');
         $this->logisticsRepository = $logisticsRepository;
     }
 
