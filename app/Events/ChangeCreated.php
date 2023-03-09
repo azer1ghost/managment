@@ -16,10 +16,10 @@ class ChangeCreated
 
     public function __construct(Change $change)
     {
-        $this->url = route('registration-logs.index');
+        $this->url = route('changes.show', $change);
         $this->creator = $change->getRelationValue('users');
-        $this->title = trans('translates.registration_logs.title');
-        $this->body = trans('translates.registration_logs.content');
-        $this->receivers = $change->getRelationValue('departments')->users()->get()->all();
+        $this->title = trans('translates.changes.title');
+        $this->body = $change->getAttribute('description');
+        $this->receivers = User::isActive()->get()->all();
     }
 }

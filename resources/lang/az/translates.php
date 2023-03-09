@@ -372,6 +372,10 @@ return [
         ]
     ],
 
+    'changes' => [
+        'title' => 'Yeni bir dəyişiklik var'
+    ],
+
     'works' => [
         'new' => 'Sizə yeni bir iş təyin edildi',
         'content' => [

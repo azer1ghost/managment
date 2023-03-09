@@ -370,6 +370,10 @@ return [
         ],
     ],
 
+    'changes' => [
+      'title' => 'There are new changes'
+    ],
+
     'works' => [
         'new' => 'You have new work assigned',
         'content' => [

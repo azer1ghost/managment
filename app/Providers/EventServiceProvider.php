@@ -51,9 +51,8 @@ class EventServiceProvider extends ServiceProvider
             SendPushNotification::class,
         ],
         ChangeCreated::class => [
-//            SendNotification::class,
-//            SendPushNotification::class,
-//            SendEmailNotification::class,
+            SendNotification::class,
+            SendPushNotification::class,
         ],
         TaskCreated::class => [
             SendNotification::class,
