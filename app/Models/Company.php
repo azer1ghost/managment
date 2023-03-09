@@ -34,6 +34,7 @@ class Company extends Model implements Recordable
         'keywords',
         'is_inquirable',
         'intercity_phone',
+        'company_id',
     ];
 
     protected $casts = [
@@ -77,4 +78,5 @@ class Company extends Model implements Recordable
     {
         return $this->belongsToMany(Client::class, 'clients_companies_relationship');
     }
+
 }

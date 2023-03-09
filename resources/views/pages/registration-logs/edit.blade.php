@@ -7,8 +7,8 @@
         <x-bread-crumb-link :link="route('dashboard')">
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
-        <x-bread-crumb-link :link="route('iso-documents.index')">
-            @lang('translates.navbar.iso_document')
+        <x-bread-crumb-link :link="route('registration-logs.index')">
+            @lang('translates.navbar.registration_logs')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
             @if ($method !== 'POST')
@@ -55,10 +55,21 @@
                     <x-form-group class="pr-3 col-12 col-lg-6">
                         <x-form-input  name="number" label="Sənədin nömrəsi" placeholder="Sənəd nömrəsi daxil edin"/>
                     </x-form-group>
+
                     <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
                         <label for="data-will_start_at">Qəbul tarixi</label>
                         <input type="datetime-local" name="arrived_at"
                                value="{{optional($data)->getAttribute('arrived_at')}}" id="data-arrived_at" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="data-companies">@lang('translates.clients.selectCompany')</label><br/>
+                        <select id="data-companies" name="company_id"  required class="form-control" title="@lang('translates.filters.select')">
+                            <option value="">@lang('translates.clients.selectCompany')</option>
+                            @foreach($companies as $company)
+                                <option
+                                value="{{$company->getAttribute('id')}}" @if($data->getAttribute('company_id') == $company->id) selected @endif>{{$company->getAttribute('name')}}</option>
+                            @endforeach
+                        </select>
                     </div>
                     @if ($method !== 'POST')
                         <div class="form-group col-12 col-md-3 mb-3 mb-md-0">

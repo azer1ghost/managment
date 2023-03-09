@@ -27,10 +27,17 @@
                         <a class="btn btn-outline-success float-right" href="{{route('sent-documents.create')}}">@lang('translates.buttons.create')</a>
                     </div>
                 @endcan
+                    <div class="col-12">
+                        <a class="btn btn-outline-success float-left" href="#">Mobil Broker</a>
+                    </div>
+                    <div class="col-12">
+                        <a class="btn btn-outline-success float-left" href="#">Mobil Logistics</a>
+                    </div>
                 <table class="table table-responsive-sm table-hover">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">@lang('translates.columns.company')</th>
                         <th scope="col">Sənədin Qaimə Nömrəsi</th>
                         <th scope="col">Sənədin Göndərilmə Tarixi</th>
                         <th scope="col">Sənəd Göndərən Təşkilatın Adı</th>
@@ -43,6 +50,7 @@
                     @forelse($sentDocuments as $sentDocument)
                             <tr id="item-{{$sentDocument->getAttribute('id')}}">
                             <th>{{$loop->iteration}}</th>
+                            <td>{{$sentDocument->getRelationValue('companies')->getAttribute('name')}}</td>
                             <td>{{$sentDocument->getAttribute('overhead_num')}}</td>
                             <td>{{$sentDocument->getAttribute('sent_date')}}</td>
                             <td>{{$sentDocument->getAttribute('organization')}}</td>

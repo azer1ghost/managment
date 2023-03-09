@@ -11,6 +11,7 @@ class SentDocumentRequest extends FormRequest
         return [
             'overhead_num' => 'nullable|string',
             'organization' => 'nullable|string',
+            'company_id' => 'nullable|integer',
             'content' => 'nullable|string',
             'note' => 'nullable|string',
             'sent_date' => 'nullable|date',

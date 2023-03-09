@@ -14,7 +14,7 @@ class RegistrationLog extends Model implements Recordable, DocumentableInterface
 {
     use Documentable, \Altek\Accountant\Recordable,  Eventually;
 
-    protected $fillable = ['performer', 'receiver', 'sender', 'number', 'description', 'arrived_at', 'received_at'];
+    protected $fillable = ['performer', 'receiver', 'sender', 'number', 'description', 'arrived_at', 'received_at','company_id'];
 
     public function performers(): BelongsTo
     {
@@ -23,6 +23,10 @@ class RegistrationLog extends Model implements Recordable, DocumentableInterface
     public function receivers(): BelongsTo
     {
         return $this->belongsTo(User::class,'receiver')->withDefault();
+    }
+    public function companies(): BelongsTo
+    {
+        return $this->belongsTo(Company::class,'company_id')->withDefault();
     }
     public function getMainColumn(): string
     {

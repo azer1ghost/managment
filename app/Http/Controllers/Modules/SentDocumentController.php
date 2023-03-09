@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Http\{Controllers\Controller, Requests\SentDocumentRequest};
-use App\Models\{Department, SentDocument, User};
+use App\Models\{Company, Department, SentDocument, User};
 
 class SentDocumentController extends Controller
 {
@@ -16,7 +16,9 @@ class SentDocumentController extends Controller
     public function index()
     {
         return view('pages.sent-documents.index')
-            ->with([ 'sentDocuments' => SentDocument::orderByDesc('sent_date')->get()
+            ->with([
+                'companies' => Company::get(['id','name']),
+                'sentDocuments' => SentDocument::orderByDesc('sent_date')->get()
             ]);
     }
 
@@ -27,6 +29,7 @@ class SentDocumentController extends Controller
             'action' => route('sent-documents.store'),
             'method' => null,
             'data' => new SentDocument(),
+            'companies' => Company::get(['id','name']),
         ]);
     }
 
@@ -45,6 +48,7 @@ class SentDocumentController extends Controller
             'action' => null,
             'method' => null,
             'data' => $sentDocument,
+            'companies' => Company::get(['id','name']),
         ]);
     }
 
@@ -54,6 +58,7 @@ class SentDocumentController extends Controller
             'action' => route('sent-documents.update', $sentDocument),
             'method' => 'PUT',
             'data' => $sentDocument,
+            'companies' => Company::get(['id','name']),
         ]);
     }
 

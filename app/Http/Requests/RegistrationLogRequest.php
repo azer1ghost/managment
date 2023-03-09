@@ -16,6 +16,7 @@ class RegistrationLogRequest extends FormRequest
             'description' => 'nullable|string',
             'arrived_at' => 'nullable|date',
             'received_at' => 'nullable|date',
+            'company_id' => 'nullable|integer',
             ];
     }
 }

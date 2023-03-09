@@ -8,5 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SentDocument extends Model
 {
-    protected $fillable = ['overhead_num', 'organization', 'content', 'note', 'sent_date'];
+    protected $fillable = ['overhead_num', 'organization', 'content', 'note', 'sent_date','company_id'];
+    public function companies(): BelongsTo
+    {
+        return $this->belongsTo(Company::class,'company_id')->withDefault();
+    }
 }

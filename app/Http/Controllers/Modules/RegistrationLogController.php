@@ -6,6 +6,7 @@ use App\Events\RegistrationLogCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegistrationLogRequest;
 use App\Models\Change;
+use App\Models\Company;
 use App\Models\RegistrationLog;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -20,14 +21,23 @@ class RegistrationLogController extends Controller
 
     public function index(Request $request)
     {
+        $filters = [
+            'companies' => $request->get('company_id'),
+        ];
+
+
+
         $search = $request->get('search');
         return view('pages.registration-logs.index')
             ->with([
+                'filters' => $filters,
+                'companies' => Company::get(['id','name']),
                 'users' => User::get(['id', 'name', 'surname']),
                 'registrationLogs' => RegistrationLog::when($search, fn($query) => $query
                     ->where('description', 'like', "%" . $search . "%"))
                     ->latest()
                     ->paginate(25)]);
+
     }
 
     public function create()
@@ -37,6 +47,7 @@ class RegistrationLogController extends Controller
             'method' => 'POST',
             'data' => new RegistrationLog(),
             'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'companies' => Company::get(['id','name']),
         ]);
     }
 
@@ -57,6 +68,7 @@ class RegistrationLogController extends Controller
             'method' => null,
             'data' => $registrationLog,
             'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'companies' => Company::get(['id','name']),
         ]);
     }
 
@@ -67,6 +79,7 @@ class RegistrationLogController extends Controller
             'method' => 'PUT',
             'data' => $registrationLog,
             'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'companies' => Company::get(['id','name']),
         ]);
     }
 

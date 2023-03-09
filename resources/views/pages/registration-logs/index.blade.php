@@ -27,10 +27,17 @@
                         <a class="btn btn-outline-success float-right" href="{{route('registration-logs.create')}}">@lang('translates.buttons.create')</a>
                     </div>
                 @endcan
+                    <div class="col-12">
+                        <a class="btn btn-outline-success float-left" href="#">Mobil Broker</a>
+                    </div>
+                    <div class="col-12">
+                        <a class="btn btn-outline-success float-left" href="#">Mobil Logistics</a>
+                    </div>
                 <table class="table table-responsive-sm table-hover">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">@lang('translates.columns.company')</th>
                         <th scope="col">Sənədin daxilolma tarixi</th>
                         <th scope="col">Sənədi göndərən</th>
                         <th scope="col">Sənədin nömrəsi</th>
@@ -47,6 +54,7 @@
                          <tr>
 
                             <td>{{$loop->iteration}}</td>
+                             <td>{{$registrationLog->getRelationValue('companies')->getAttribute('name')}}</td>
                             <td>{{$registrationLog->getAttribute('arrived_at')}}</td>
                             <td>{{$registrationLog->getAttribute('sender')}}</td>
                             <td>{{$registrationLog->getAttribute('number')}}</td>
