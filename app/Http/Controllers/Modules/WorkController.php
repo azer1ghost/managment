@@ -433,20 +433,26 @@ class WorkController extends Controller
         return response()->setStatusCode('204');
     }
 
-    public function paid(Work $work)
+    public function paid(Work $work, Request $request)
     {
-        if ($work->update(['paid_at' => now()])) {
-            return response('OK');
-        }
-        return response()->setStatusCode('204');
+        $date = $request->get('paid_at') ?? now();
+        $work->update(['paid_at' => $date]);
+        $work->parameters()->updateExistingPivot($work::PAID, ['value' => $work->getParameter($work::AMOUNT)]);
+        return back();
     }
 
-    public function vatPaid(Work $work)
+    public function vatPaid(Work $work, Request $request)
     {
-        if ($work->update(['vat_date' => now()])) {
-            return response('OK');
-        }
-        return response()->setStatusCode('204');
+        $date = $request->get('vatPaid_at') ?? now();
+        $work->update(['vat_date' => $date]);
+        $work->parameters()->updateExistingPivot($work::VATPAYMENT, ['value' => $work->getParameter($work::VAT)]);
+        return back();
+    }
+    public function invoice(Work $work, Request $request)
+    {
+        $date = $request->get('invoiced_date') ?? now();
+        $work->update(['invoiced_date' => $date]);
+        return back();
     }
 
     public function sumVerify(Request $request)
