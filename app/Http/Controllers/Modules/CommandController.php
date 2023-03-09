@@ -25,7 +25,7 @@ class CommandController extends Controller
                 'users' => User::get(['id', 'name', 'surname']),
                 'commands' => Command::when($search, fn($query) => $query
                     ->where('description', 'like', "%" . $search . "%"))
-                    ->latest()
+                    ->orderByDesc('command_date')
                     ->paginate(25)]);
     }
 
