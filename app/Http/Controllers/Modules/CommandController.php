@@ -11,11 +11,11 @@ use App\Models\User;
 
 class CommandController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->authorizeResource(Command::class, 'command');
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('auth');
+//        $this->authorizeResource(Command::class, 'command');
+//    }
 
     public function index(Request $request)
     {
