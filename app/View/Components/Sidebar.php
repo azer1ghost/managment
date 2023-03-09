@@ -163,7 +163,7 @@ class Sidebar extends Component
                 'title' => __('translates.navbar.logistics'),
                 'icon' => 'fas fa-shipping-fast',
                 'url' => route('logistics.index'),
-                'permission' => 'viewAny-work',
+                'permission' => 'viewAny-logistics',
                 'children' => [
                     (object)[
                         'title' => __('translates.navbar.logistics'),
