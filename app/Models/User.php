@@ -229,7 +229,7 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
 
     public function isTransitCustomer(): bool
     {
-        return $this->getAttribute('role_id') == 5;
+        return $this->getAttribute('role_id') == 6;
     }
 
     public function isDepartmentChief(): bool
