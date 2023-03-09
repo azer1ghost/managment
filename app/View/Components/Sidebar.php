@@ -299,13 +299,6 @@ class Sidebar extends Component
             ],
 
             (object)[
-                'title' => __('translates.navbar.calendar'),
-                'icon' => 'fal fa-calendar',
-                'url' => route('calendars.index'),
-                'permission' => 'viewAny-calendar',
-            ],
-
-            (object)[
                 'title' => __('translates.navbar.sales'),
                 'icon' => 'fas fa-dollar-sign',
                 'url' => '#',
@@ -411,6 +404,13 @@ class Sidebar extends Component
                         'permission' => 'viewAny-satisfaction',
                     ],
                 ]
+            ],
+
+            (object)[
+                'title' => __('translates.navbar.calendar'),
+                'icon' => 'fal fa-calendar',
+                'url' => route('calendars.index'),
+                'permission' => 'viewAny-calendar',
             ],
             (object)[
                 'title' => __('translates.navbar.meeting'),
