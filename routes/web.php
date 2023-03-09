@@ -183,6 +183,7 @@ Route::group([
     Route::post('/code', [WorkController::class, 'code'])->name('work.code');
     Route::post('/declaration', [WorkController::class, 'declaration'])->name('work.declaration');
 
+    Route::resource('/supports', SupportController::class);
     Route::resource('/meetings', MeetingController::class);
     Route::resource('/job-instructions', JobInstructionController::class);
     Route::resource('/internal-numbers', InternalNumberController::class);
@@ -197,7 +198,6 @@ Route::group([
     Route::resource('/iso-documents', IsoDocumentController::class);
     Route::resource('/sent-documents', SentDocumentController::class);
     Route::resource('/protocols', ProtocolController::class);
-    Route::resource('/supports', SupportController::class);
     Route::resource('/folders', FolderController::class);
     Route::resource('/access-rates', AccessRateController::class);
     Route::get('/foreign', [InternalRelationController::class, 'foreign'])->name('foreign');
