@@ -142,14 +142,12 @@
                 </div>
             </div>
 
-            @can('create', App\Models\Logistics::class)
                 <div class="col-sm-6 py-3">
                     <a class="btn btn-outline-success float-right" data-toggle="modal" data-target="#create-logistics">@lang('translates.buttons.create')</a>
 {{--                        <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('logistics.export', ['filters' => json_encode($filters), 'dateFilters' => json_encode($dateFilters)])}}">--}}
 {{--                            @lang('translates.buttons.export')--}}
 {{--                        </a>--}}
                 </div>
-            @endcan
 
         </div>
     </form>
@@ -237,27 +235,20 @@
 {{--                        $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) + $work->getParameter($work::ILLEGALAMOUNT) - $sum_payment) * -1;--}}
 {{--                    @endphp--}}
                 <td>
+                    <div>
+                        <a href="{{route('logistics.show', $log)}}" class="text-decoration-none">
+                            <i class="fal fa-eye pr-2 fa-2x text-primary"></i>
+                        </a>
 
+                        <a href="{{route('logistics.edit', $log)}}" class="text-decoration-none">
+                            <i class="fal fa-pen fa-2x pr-2 text-success"></i>
+                        </a>
 
-                        <div>
-                            @can('view', $log)
-                                <a href="{{route('logistics.show', $log)}}" class="text-decoration-none">
-                                    <i class="fal fa-eye pr-2 fa-2x text-primary"></i>
-                                </a>
-                            @endcan
-                                @can('update', $log)
-                                    <a href="{{route('logistics.edit', $log)}}" class="text-decoration-none">
-                                        <i class="fal fa-pen fa-2x pr-2 text-success"></i>
-                                    </a>
-                                @endcan
-
-                            @can('delete', $log)
-                                <a href="{{route('logistics.destroy', $log)}}" delete data-name="{{$log->getAttribute('reg_number')}}" class="text-decoration-none">
-                                    <i class="fal fa-trash pr-2 fa-2x text-danger"></i>
-                                </a>
-                            @endcan
-                        </div>
-
+                        <a href="{{route('logistics.destroy', $log)}}" delete
+                           data-name="{{$log->getAttribute('reg_number')}}" class="text-decoration-none">
+                            <i class="fal fa-trash pr-2 fa-2x text-danger"></i>
+                        </a>
+                    </div>
                 </td>
             </tr>
 
