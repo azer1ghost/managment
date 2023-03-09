@@ -11,28 +11,18 @@ class SupportPolicy
 {
     use HandlesAuthorization, HandlesPolicy, GetClassInfo;
 
-    public function viewAny(User $user): bool
-    {
-        return $this->canManage($user, 'support', __FUNCTION__);
-    }
-
-    public function view(User $user): bool
-    {
-        return $this->canManage($user, 'support', __FUNCTION__);
-    }
-
     public function create(User $user): bool
     {
-        return $this->canManage($user, 'support');
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 
     public function update(User $user): bool
     {
-        return $this->canManage($user, 'support');
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 
     public function delete(User $user): bool
     {
-        return $this->canManage($user, 'support', __FUNCTION__);
+        return $this->canManage($user, $this->getClassShortName('s'), __FUNCTION__);
     }
 }
