@@ -53,7 +53,7 @@
                     </x-form-group>
                     <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
                         <label for="data-will_start_at">Tarixi</label>
-                        <input type="datetime-local" name="date"
+                        <input type="date" name="date"
                                value="{{optional($data)->getAttribute('date')}}" id="data-date" class="form-control">
                     </div>
                 </div>

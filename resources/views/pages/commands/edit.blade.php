@@ -53,6 +53,16 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="data-companies">@lang('translates.clients.selectCompany')</label><br/>
+                        <select id="data-companies" name="company_id"  required class="form-control" title="@lang('translates.filters.select')">
+                            <option value="">@lang('translates.clients.selectCompany')</option>
+                            @foreach($companies as $company)
+                                <option
+                                        value="{{$company->getAttribute('id')}}" @if($data->getAttribute('company_id') == $company->id) selected @endif>{{$company->getAttribute('name')}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <x-form-group class="pr-3 my-2 col-12 col-lg-12">
                         <x-form-textarea  name="content" label="Əmrin məzmunu" placeholder="Əmrin məzmununu daxil edin"/>
                     </x-form-group>
@@ -63,7 +73,7 @@
                     </x-form-group>
                     <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
                         <label for="data-will_start_at">Əmr Tarixi</label>
-                        <input type="datetime-local" name="command_date"
+                        <input type="date" name="command_date"
                                value="{{optional($data)->getAttribute('command_date')}}" id="data-command_date" class="form-control">
                     </div>
                 </div>

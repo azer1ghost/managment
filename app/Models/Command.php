@@ -15,7 +15,8 @@ class Command extends Model implements Recordable, DocumentableInterface
 {
     use Documentable, \Altek\Accountant\Recordable,  Eventually;
 
-    protected $fillable = ['executor', 'confirming', 'number', 'content', 'command_date', 'ordering'];
+    protected $fillable = ['executor', 'confirming', 'number', 'content', 'command_date','company_id', 'ordering'];
+    protected $dates = ['command_date'];
 
     public function executors(): BelongsTo
     {
@@ -24,6 +25,10 @@ class Command extends Model implements Recordable, DocumentableInterface
     public function confirmings(): BelongsTo
     {
         return $this->belongsTo(User::class,'confirming')->withDefault();
+    }
+    public function companies(): BelongsTo
+    {
+        return $this->belongsTo(Company::class,'company_id')->withDefault();
     }
     public function users(): BelongsToMany
     {

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CommandRequest;
 use App\Models\Change;
 use App\Models\Command;
+use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -22,7 +23,7 @@ class CommandController extends Controller
         $search = $request->get('search');
         $limit = $request->get('limit',25);
         $commands = Command::when($search, fn($query) => $query
-            ->where('description', 'like', "%" . $search . "%"))
+            ->where('content', 'like', "%" . $search . "%"))
             ->orderBy('ordering');
 
         if(is_numeric($limit)) {
@@ -33,7 +34,9 @@ class CommandController extends Controller
 
         return view('pages.commands.index')
             ->with(['users' => User::get(['id', 'name', 'surname']),
-                'commands' => $commands]);
+                'commands' => $commands,
+                'companies' => Company::get(['id','name']),
+            ]);
     }
 
     public function create()
@@ -43,6 +46,7 @@ class CommandController extends Controller
             'method' => 'POST',
             'data' => new Command(),
             'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'companies' => Company::get(['id','name']),
         ]);
     }
 
@@ -63,6 +67,7 @@ class CommandController extends Controller
             'method' => null,
             'data' => $command,
             'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'companies' => Company::get(['id','name']),
         ]);
     }
 
@@ -73,6 +78,7 @@ class CommandController extends Controller
             'method' => 'PUT',
             'data' => $command,
             'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'companies' => Company::get(['id','name']),
         ]);
     }
 

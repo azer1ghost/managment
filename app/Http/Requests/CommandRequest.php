@@ -15,6 +15,7 @@ class CommandRequest extends FormRequest
             'content' => 'nullable|string',
             'ordering' => 'nullable|integer',
             'command_date' => 'nullable|date',
+            'company_id' => 'nullable|integer',
             ];
     }
 }
