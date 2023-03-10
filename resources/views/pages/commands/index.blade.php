@@ -25,10 +25,17 @@
                     <div class="col-12">
                         <a class="btn btn-outline-success float-right" href="{{route('commands.create')}}">@lang('translates.buttons.create')</a>
                     </div>
+                    <div class="col-12">
+                        <a class="btn btn-outline-success float-left" href="#">Mobil Broker</a>
+                    </div>
+                    <div class="col-12">
+                        <a class="btn btn-outline-success float-left" href="#">Mobil Logistics</a>
+                    </div>
                 <table class="table table-responsive-sm table-hover">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">@lang('translates.columns.company')</th>
                         <th scope="col">Əmrin nömrəsi</th>
                         <th scope="col">Əmrin tarixi</th>
                         <th scope="col">Əmrin məzmunu</th>
@@ -43,6 +50,7 @@
                          <tr>
 
                             <td>{{$loop->iteration}}</td>
+                             <td>{{$command->getRelationValue('companies')->getAttribute('name')}}</td>
                             <td>{{$command->getAttribute('number')}}</td>
                             <td>{{$command->getAttribute('command_date')}}</td>
                             <td>{{$command->getAttribute('content')}}</td>

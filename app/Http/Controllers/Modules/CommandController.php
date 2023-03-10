@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CommandRequest;
 use App\Models\Change;
 use App\Models\Command;
+use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -22,6 +23,7 @@ class CommandController extends Controller
         $search = $request->get('search');
         return view('pages.commands.index')
             ->with([
+                'companies' => Company::get(['id','name']),
                 'users' => User::get(['id', 'name', 'surname']),
                 'commands' => Command::when($search, fn($query) => $query
                     ->where('description', 'like', "%" . $search . "%"))
@@ -36,6 +38,7 @@ class CommandController extends Controller
             'method' => 'POST',
             'data' => new Command(),
             'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'companies' => Company::get(['id','name']),
         ]);
     }
 
@@ -56,6 +59,7 @@ class CommandController extends Controller
             'method' => null,
             'data' => $command,
             'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'companies' => Company::get(['id','name']),
         ]);
     }
 
@@ -66,6 +70,7 @@ class CommandController extends Controller
             'method' => 'PUT',
             'data' => $command,
             'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'companies' => Company::get(['id','name']),
         ]);
     }
 

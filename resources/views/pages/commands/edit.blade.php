@@ -53,6 +53,16 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="data-companies">@lang('translates.clients.selectCompany')</label><br/>
+                        <select id="data-companies" name="company_id"  required class="form-control" title="@lang('translates.filters.select')">
+                            <option value="">@lang('translates.clients.selectCompany')</option>
+                            @foreach($companies as $company)
+                                <option
+                                        value="{{$company->getAttribute('id')}}" @if($data->getAttribute('company_id') == $company->id) selected @endif>{{$company->getAttribute('name')}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <x-form-group class="pr-3 my-2 col-12 col-lg-12">
                         <x-form-textarea  name="content" label="Əmrin məzmunu" placeholder="Əmrin məzmununu daxil edin"/>
                     </x-form-group>
