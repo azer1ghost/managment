@@ -20,13 +20,20 @@ class CommandController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search');
+        $limit = $request->get('limit',25);
+        $commands = Command::when($search, fn($query) => $query
+            ->where('description', 'like', "%" . $search . "%"))
+            ->orderBy('ordering');
+
+        if(is_numeric($limit)) {
+            $commands = $commands->paginate($limit);
+        }else {
+            $commands = $commands->get();
+        }
+
         return view('pages.commands.index')
-            ->with([
-                'users' => User::get(['id', 'name', 'surname']),
-                'commands' => Command::when($search, fn($query) => $query
-                    ->where('description', 'like', "%" . $search . "%"))
-                    ->orderByDesc('command_date')
-                    ->paginate(25)]);
+            ->with(['users' => User::get(['id', 'name', 'surname']),
+                'commands' => $commands]);
     }
 
     public function create()
@@ -85,5 +92,13 @@ class CommandController extends Controller
             return response('OK');
         }
         return response()->setStatusCode('204');
+    }
+    public function sortable(Request $request)
+    {
+        foreach ($request->get('item') as $key => $value) {
+            $command = Command::find($value);
+            $command->ordering = $key;
+            $command->save();
+        }
     }
 }

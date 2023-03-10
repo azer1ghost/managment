@@ -13,6 +13,7 @@ class CommandRequest extends FormRequest
             'confirming' => 'nullable|integer',
             'number' => 'nullable|string',
             'content' => 'nullable|string',
+            'ordering' => 'nullable|integer',
             'command_date' => 'nullable|date',
             ];
     }

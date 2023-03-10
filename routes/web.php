@@ -185,6 +185,7 @@ Route::group([
 
     Route::resource('/supports', SupportController::class);
     Route::resource('/commands', CommandController::class);
+    Route::post('/sortable-commands', [CommandController::class, 'sortable'])->name('commands.sortable');
     Route::resource('/meetings', MeetingController::class);
     Route::resource('/job-instructions', JobInstructionController::class);
     Route::resource('/internal-numbers', InternalNumberController::class);
