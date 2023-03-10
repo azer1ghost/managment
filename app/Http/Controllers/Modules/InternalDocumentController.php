@@ -14,12 +14,15 @@ class InternalDocumentController extends Controller
         $this->authorizeResource(InternalDocument::class, 'internal_document');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('pages.internal-documents.index')
-            ->with([ 'internalDocuments' => InternalDocument::get()]);
-    }
+        $company = $request->get('company_id', 3);
 
+        return view('pages.internal-documents.index')
+            ->with(['internalDocuments' => InternalDocument::get()]);
+//        when($company, fn($query) => $query
+//            ->where('company_id', $company))
+    }
 
     public function create()
     {

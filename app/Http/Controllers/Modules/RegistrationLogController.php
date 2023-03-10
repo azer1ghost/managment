@@ -21,23 +21,15 @@ class RegistrationLogController extends Controller
 
     public function index(Request $request)
     {
-        $filters = [
-            'companies' => $request->get('company_id'),
-        ];
-
-
-
+        $company = $request->get('company_id', 3);
         $search = $request->get('search');
         return view('pages.registration-logs.index')
             ->with([
-                'filters' => $filters,
-                'companies' => Company::get(['id','name']),
                 'users' => User::get(['id', 'name', 'surname']),
-                'registrationLogs' => RegistrationLog::when($search, fn($query) => $query
-                    ->where('description', 'like', "%" . $search . "%"))
+                'registrationLogs' => RegistrationLog::when($company, fn($query) => $query
+                    ->where('company_id', $company))
                     ->latest()
                     ->paginate(25)]);
-
     }
 
     public function create()

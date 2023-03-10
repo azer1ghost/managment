@@ -21,91 +21,94 @@
             @lang('translates.navbar.registration_logs')
         </x-bread-crumb-link>
     </x-bread-crumb>
-            <div class="col-12">
-                @can('create', \App\Models\RegistrationLog::class)
-                    <div class="col-12">
-                        <a class="btn btn-outline-success float-right" href="{{route('registration-logs.create')}}">@lang('translates.buttons.create')</a>
-                    </div>
-                @endcan
-                    <div class="col-12">
-                        <a class="btn btn-outline-success float-left" href="#">Mobil Broker</a>
-                    </div>
-                    <div class="col-12">
-                        <a class="btn btn-outline-success float-left" href="#">Mobil Logistics</a>
-                    </div>
-                <table class="table table-responsive-sm table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">@lang('translates.columns.company')</th>
-                        <th scope="col">Sənədin daxilolma tarixi</th>
-                        <th scope="col">Sənədi göndərən</th>
-                        <th scope="col">Sənədin nömrəsi</th>
-                        <th scope="col">Sənədin qısa məzmunu</th>
-                        <th scope="col">Sənəd</th>
-                        <th scope="col">Dərkənar</th>
-                        <th scope="col">İcraçı</th>
-                        <th scope="col">Alınma barədə tarix</th>
-                        <th scope="col">@lang('translates.parameters.types.operation')</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @forelse($registrationLogs as $registrationLog)
-                         <tr>
+        <div class="col-12">
+            @can('create', \App\Models\RegistrationLog::class)
+                <div class="col-12">
+                    <a class="btn btn-outline-success float-right" href="{{route('registration-logs.create')}}">@lang('translates.buttons.create')</a>
+                </div>
+            @endcan
+                <div class="col-12">
+                    <a class="btn btn-outline-success float-left" href="{{ route('registration-logs.index') }}">Mobil Broker</a>
+                </div>
+                <div class="col-12">
+                    <form action="{{ route('registration-logs.index') }}">
+                        <input type="hidden" name="company_id" value="2">
+                        <button class="btn btn-outline-success float-left" type="submit">Mobil Logistics</button>
+                    </form>
+                </div>
+            <table class="table table-responsive-sm table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">@lang('translates.columns.company')</th>
+                    <th scope="col">Sənədin daxilolma tarixi</th>
+                    <th scope="col">Sənədi göndərən</th>
+                    <th scope="col">Sənədin nömrəsi</th>
+                    <th scope="col">Sənədin qısa məzmunu</th>
+                    <th scope="col">Sənəd</th>
+                    <th scope="col">Dərkənar</th>
+                    <th scope="col">İcraçı</th>
+                    <th scope="col">Alınma barədə tarix</th>
+                    <th scope="col">@lang('translates.parameters.types.operation')</th>
+                </tr>
+                </thead>
+                <tbody>
+                @forelse($registrationLogs as $registrationLog)
+                     <tr>
 
-                            <td>{{$loop->iteration}}</td>
-                             <td>{{$registrationLog->getRelationValue('companies')->getAttribute('name')}}</td>
-                            <td>{{$registrationLog->getAttribute('arrived_at')}}</td>
-                            <td>{{$registrationLog->getAttribute('sender')}}</td>
-                            <td>{{$registrationLog->getAttribute('number')}}</td>
-                            <td>{{$registrationLog->getAttribute('description')}}</td>
-                             <td> @php($supportedTypes = \App\Models\Document::supportedTypeIcons())
-                                 @foreach($registrationLog->documents as $document)
-                                     @php($type = $supportedTypes[$document->type])
-                                     @php($route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document))
-                                     <a href="{{$route}}" data-toggle="tooltip" title="{{$document->file}}" target="_blank" class="text-dark d-flex align-items-center mr-2" style=" word-break: break-word">
-                                         <i class="fa fa-file-{{$type['icon']}} fa-2x m-1 text-{{$type['color']}}"></i>
-                                         <span>{{substr($document->name, 0, 10) . '...'}} </span>
+                        <td>{{$loop->iteration}}</td>
+                        <td>{{$registrationLog->getRelationValue('companies')->getAttribute('name')}}</td>
+                        <td>{{$registrationLog->getAttribute('arrived_at')}}</td>
+                        <td>{{$registrationLog->getAttribute('sender')}}</td>
+                        <td>{{$registrationLog->getAttribute('number')}}</td>
+                        <td>{{$registrationLog->getAttribute('description')}}</td>
+                         <td> @php($supportedTypes = \App\Models\Document::supportedTypeIcons())
+                             @foreach($registrationLog->documents as $document)
+                                 @php($type = $supportedTypes[$document->type])
+                                 @php($route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document))
+                                 <a href="{{$route}}" data-toggle="tooltip" title="{{$document->file}}" target="_blank" class="text-dark d-flex align-items-center mr-2" style=" word-break: break-word">
+                                     <i class="fa fa-file-{{$type['icon']}} fa-2x m-1 text-{{$type['color']}}"></i>
+                                     <span>{{substr($document->name, 0, 10) . '...'}} </span>
+                                 </a>
+                             @endforeach</td>
+                        <td>{{$registrationLog->getRelationValue('performers')->getFullnameWithPositionAttribute()}}</td>
+                        <td>{{$registrationLog->getRelationValue('receivers')->getFullnameWithPositionAttribute()}}</td>
+                        <td>{{$registrationLog->getAttribute('received_at')}}</td>
+                         @can('update', App\Models\RegistrationLog::class)
+                             <td>
+                                 <div class="btn-sm-group">
+                                     <a href="{{route('registration-logs.show', $registrationLog)}}" class="btn btn-sm btn-outline-primary">
+                                         <i class="fal fa-eye"></i>
                                      </a>
-                                 @endforeach</td>
-                            <td>{{$registrationLog->getRelationValue('performers')->getFullnameWithPositionAttribute()}}</td>
-                            <td>{{$registrationLog->getRelationValue('receivers')->getFullnameWithPositionAttribute()}}</td>
-                            <td>{{$registrationLog->getAttribute('received_at')}}</td>
-                             @can('update', App\Models\RegistrationLog::class)
-                                 <td>
-                                     <div class="btn-sm-group">
-                                         <a href="{{route('registration-logs.show', $registrationLog)}}" class="btn btn-sm btn-outline-primary">
-                                             <i class="fal fa-eye"></i>
-                                         </a>
-                                         <a href="{{route('registration-logs.edit', $registrationLog)}}" class="btn btn-sm btn-outline-success">
-                                             <i class="fal fa-pen"></i>
-                                         </a>
-                                         <a href="{{route('registration-logs.destroy', $registrationLog)}}" delete data-name="{{$registrationLog->getAttribute('id')}}" class="btn btn-sm btn-outline-danger">
-                                             <i class="fal fa-trash"></i>
-                                         </a>
-                                         <a href="{{route('registration-logs.accepted', $registrationLog)}}" accept data-name="{{$registrationLog->getAttribute('id')}}" class="btn btn-sm btn-outline-primary">
-                                             <i class="fal fa-check text-success"></i>
-                                         </a>
-                                     </div>
-                                 </td>
-                             @endcan
-                         </tr>
-                    @empty
-                        <tr>
-                            <th colspan="20">
-                                <div class="row justify-content-center m-3">
-                                    <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.empty')</div>
-                                </div>
-                            </th>
-                        </tr>
-                    @endforelse
+                                     <a href="{{route('registration-logs.edit', $registrationLog)}}" class="btn btn-sm btn-outline-success">
+                                         <i class="fal fa-pen"></i>
+                                     </a>
+                                     <a href="{{route('registration-logs.destroy', $registrationLog)}}" delete data-name="{{$registrationLog->getAttribute('id')}}" class="btn btn-sm btn-outline-danger">
+                                         <i class="fal fa-trash"></i>
+                                     </a>
+                                     <a href="{{route('registration-logs.accepted', $registrationLog)}}" accept data-name="{{$registrationLog->getAttribute('id')}}" class="btn btn-sm btn-outline-primary">
+                                         <i class="fal fa-check text-success"></i>
+                                     </a>
+                                 </div>
+                             </td>
+                         @endcan
+                     </tr>
+                @empty
+                    <tr>
+                        <th colspan="20">
+                            <div class="row justify-content-center m-3">
+                                <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.empty')</div>
+                            </div>
+                        </th>
+                    </tr>
+                @endforelse
 
-                    </tbody>
-                </table>
-                    <div class="float-right">
-                        {{$registrationLogs->appends(request()->input())->links()}}
-                    </div>
+                </tbody>
+            </table>
+            <div class="float-right">
+                {{$registrationLogs->appends(request()->input())->links()}}
             </div>
+        </div>
 @endsection
 @section('scripts')
     <script>

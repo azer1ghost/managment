@@ -27,11 +27,14 @@
                         <a class="btn btn-outline-success float-right" href="{{route('sent-documents.create')}}">@lang('translates.buttons.create')</a>
                     </div>
                 @endcan
-                    <div class="col-12">
-                        <a class="btn btn-outline-success float-left" href="#">Mobil Broker</a>
+                    <div class="col-12 m-3">
+                        <a class="btn btn-outline-success float-left" href="{{ route('sent-documents.index') }}">Mobil Broker</a>
                     </div>
-                    <div class="col-12">
-                        <a class="btn btn-outline-success float-left" href="#">Mobil Logistics</a>
+                    <div class="col-12 m-3">
+                        <form action="{{ route('sent-documents.index') }}">
+                            <input type="hidden" name="company_id" value="2">
+                            <button class="btn btn-outline-success float-left" type="submit">Mobil Logistics</button>
+                        </form>
                     </div>
                 <table class="table table-responsive-sm table-hover">
                     <thead>

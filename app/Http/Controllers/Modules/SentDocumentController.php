@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\{Controllers\Controller, Requests\SentDocumentRequest};
 use App\Models\{Company, Department, SentDocument, User};
+use Illuminate\Http\Request;
 
 class SentDocumentController extends Controller
 {
@@ -13,12 +14,15 @@ class SentDocumentController extends Controller
         $this->authorizeResource(SentDocument::class, 'sent_document');
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $company = $request->get('company_id', 3);
+
         return view('pages.sent-documents.index')
             ->with([
                 'companies' => Company::get(['id','name']),
-                'sentDocuments' => SentDocument::orderByDesc('sent_date')->get()
+                'sentDocuments' => SentDocument::when($company, fn($query) => $query
+                    ->where('company_id', $company))->orderByDesc('sent_date')->get()
             ]);
     }
 

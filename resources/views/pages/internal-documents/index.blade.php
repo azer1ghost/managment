@@ -27,6 +27,15 @@
                         <a class="btn btn-outline-success float-right" href="{{route('internal-documents.create')}}">@lang('translates.buttons.create')</a>
                     </div>
                 @endcan
+                <div class="col-12 m-3">
+                    <a class="btn btn-outline-success float-left" href="{{ route('internal-documents.index') }}">Mobil Broker</a>
+                </div>
+                <div class="col-12 m-3">
+                    <form action="{{ route('internal-documents.index') }}">
+                        <input type="hidden" name="company_id" value="2">
+                        <button class="btn btn-outline-success float-left" type="submit">Mobil Logistics</button>
+                    </form>
+                </div>
                 <table class="table table-responsive-sm table-hover">
                     <thead>
                     <tr>

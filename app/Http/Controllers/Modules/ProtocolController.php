@@ -19,12 +19,16 @@ class ProtocolController extends Controller
 
     public function index(Request $request)
     {
+        $company = $request->get('company_id', 3);
         $search = $request->get('search');
+
         return view('pages.protocols.index')
             ->with([
                 'users' => User::get(['id', 'name', 'surname']),
                 'protocols' => Protocol::when($search, fn($query) => $query
                     ->where('content', 'like', "%" . $search . "%"))
+//                    ->when($company, fn($query) => $query
+//                    ->where('company_id', $company))
                     ->latest()
                     ->paginate(25)]);
     }

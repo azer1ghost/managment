@@ -25,16 +25,23 @@
     <div class="col-12">
         @can('create', App\Models\AccessRate::class)
             <div class="col-12">
-                <a class="btn btn-outline-success float-right m-4"
+                <a class="btn btn-outline-success float-right mb-3"
                    href="{{route('access-rates.create')}}">@lang('translates.buttons.create')</a>
             </div>
         @endcan
         @can('create', App\Models\AccessRate::class)
             <div class="col-12">
-                <a class="btn btn-outline-primary float-left m-4"
+                <a class="btn btn-outline-primary float-left"
                    href="{{route('folders.index')}}">@lang('translates.navbar.folder')</a>
             </div>
         @endcan
+            <a class="btn btn-outline-success float-left" href="{{ route('access-rates.index') }}">Mobil Broker</a>
+
+            <form action="{{ route('access-rates.index') }}">
+                <input type="hidden" name="company_id" value="2">
+                <button class="btn btn-outline-success float-left" type="submit">Mobil Logistics</button>
+            </form>
+
             <table class="table table-responsive-sm table-hover">
                 <tr>
                     <th scope="col">Qovluq Adı</th>

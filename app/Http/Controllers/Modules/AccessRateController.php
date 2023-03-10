@@ -16,10 +16,15 @@ class AccessRateController extends Controller
 //        $this->authorizeResource(AccessRate::class, 'accessRate');
 //    }
 
-    public function index()
+    public function index(Request $request)
     {
+        $company = $request->get('company_id', 3);
+
         return view('pages.access-rates.index')
-            ->with([ 'folders' => Folder::get()]);
+            ->with([ 'folders' => Folder::get()
+                //                    when($company, fn($query) => $query
+//                    ->where('company_id', $company))
+            ]);
     }
 
     public function create()

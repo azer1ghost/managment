@@ -22,8 +22,11 @@ class CommandController extends Controller
     {
         $search = $request->get('search');
         $limit = $request->get('limit',25);
+        $company = $request->get('company_id', 3);
+
         $commands = Command::when($search, fn($query) => $query
-            ->where('content', 'like', "%" . $search . "%"))
+            ->where('content', 'like', "%" . $search . "%"))->when($company, fn($query) => $query
+            ->where('company_id', $company))
             ->orderBy('ordering');
 
         if(is_numeric($limit)) {
