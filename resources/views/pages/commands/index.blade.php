@@ -38,6 +38,7 @@
                 @endforeach
             </select>
         </div>
+    </form>
 
         <div class="col-12">
             <div class="col-12">
@@ -48,9 +49,9 @@
                 <a class="btn btn-outline-success float-left" href="{{ route('commands.index') }}">Mobil Broker</a>
             </div>
             <div class="col-12 m-3">
-                <form action="{{ route('commands.index') }}">
+                <form action="{{ route('commands.index') }}" id="logisticsFilter">
                     <input type="hidden" name="company_id" value="2">
-                    <button class="btn btn-outline-success float-left" type="submit">Mobil Logistics</button>
+                    <button class="btn btn-outline-success float-left" for="logisticsFilter" type="submit">Mobil Logistics</button>
                 </form>
             </div>
 
@@ -114,7 +115,6 @@
             @endif
 
         </div>
-    </form>
 @endsection
 @section('scripts')
     @if(auth()->user()->hasPermission('update-user') && is_null(request()->get('status')))
