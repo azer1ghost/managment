@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Protocol extends Model
 {
-    protected $fillable = ['protocol_no', 'content', 'signature', 'performer', 'date'];
+    protected $fillable = ['protocol_no', 'content', 'signature', 'performer','date'];
+    protected $dates = ['date'];
 
     public function signatures(): BelongsTo
     {
@@ -18,4 +19,5 @@ class Protocol extends Model
     {
         return $this->belongsTo(User::class,'performer')->withDefault();
     }
+
 }

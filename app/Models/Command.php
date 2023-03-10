@@ -16,6 +16,7 @@ class Command extends Model implements Recordable, DocumentableInterface
     use Documentable, \Altek\Accountant\Recordable,  Eventually;
 
     protected $fillable = ['executor', 'confirming', 'number', 'content', 'command_date','company_id'];
+    protected $dates = ['command_date'];
 
     public function executors(): BelongsTo
     {

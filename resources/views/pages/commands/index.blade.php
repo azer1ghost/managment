@@ -52,7 +52,7 @@
                             <td>{{$loop->iteration}}</td>
                              <td>{{$command->getRelationValue('companies')->getAttribute('name')}}</td>
                             <td>{{$command->getAttribute('number')}}</td>
-                            <td>{{$command->getAttribute('command_date')}}</td>
+                            <td>{{$command->getAttribute('command_date')->format('d/m/Y')}}</td>
                             <td>{{$command->getAttribute('content')}}</td>
                              <td style="word-break: break-word; ">
                              @foreach($command->users as $user)
