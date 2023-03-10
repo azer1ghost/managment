@@ -72,7 +72,7 @@
                      <tr id="item-{{$command->getAttribute('id')}}">
                          <td @if(request()->get('limit') == 'all') class="sortable" @endif>{{$command->getAttribute('ordering') + 1}}</td>
                         <td>{{$command->getAttribute('number')}}</td>
-                        <td>{{$command->getAttribute('command_date')->format('d/m/y')}}</td>
+                        <td>{{optional($command->getAttribute('command_date'))->format('d/m/y')}}</td>
                         <td>{{$command->getAttribute('content')}}</td>
                          <td style="word-break: break-word; ">
                          @foreach($command->users as $user)
