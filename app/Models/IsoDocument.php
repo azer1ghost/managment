@@ -14,9 +14,13 @@ class IsoDocument extends Model implements Recordable, DocumentableInterface
 {
     use Documentable, \Altek\Accountant\Recordable,  Eventually;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'company_id'];
     public function getMainColumn(): string
     {
         return $this->getAttribute('id');
+    }
+    public function companies(): BelongsTo
+    {
+        return $this->belongsTo(Company::class,'company_id')->withDefault();
     }
 }

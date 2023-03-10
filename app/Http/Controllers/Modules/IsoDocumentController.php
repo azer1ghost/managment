@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Modules;
 
+use App\Models\Company;
 use App\Models\IsoDocument;
 use App\Http\{Controllers\Controller, Requests\IsoDocumentRequest};
 use Illuminate\Http\Request;
@@ -17,7 +18,10 @@ class IsoDocumentController extends Controller
     public function index()
     {
         return view('pages.iso-documents.index')
-            ->with([ 'isoDocuments' => IsoDocument::get()]);
+            ->with([
+                'companies' => Company::get(['id','name']),
+                'isoDocuments' => IsoDocument::get()
+            ]);
     }
 
 
@@ -27,6 +31,7 @@ class IsoDocumentController extends Controller
             'action' => route('iso-documents.store'),
             'method' => 'POST',
             'data' => new IsoDocument(),
+            'companies' => Company::get(['id','name']),
         ]);
     }
 
@@ -45,6 +50,7 @@ class IsoDocumentController extends Controller
             'action' => null,
             'method' => null,
             'data' => $isoDocument,
+            'companies' => Company::get(['id','name']),
         ]);
     }
 
@@ -54,6 +60,7 @@ class IsoDocumentController extends Controller
             'action' => route('iso-documents.update', $isoDocument),
             'method' => 'PUT',
             'data' => $isoDocument,
+            'companies' => Company::get(['id','name']),
         ]);
     }
 

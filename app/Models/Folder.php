@@ -8,11 +8,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Folder extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'company_id'];
 
     public function accessRates()
     {
         return $this->hasMany(AccessRate::class, 'folder_id');
+    }
+    public function companies(): BelongsTo
+    {
+        return $this->belongsTo(Company::class,'company_id')->withDefault();
     }
 
 }

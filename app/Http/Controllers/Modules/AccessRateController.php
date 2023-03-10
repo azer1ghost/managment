@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Modules;
 
+use App\Models\Company;
 use App\Models\Folder;
 use App\Models\Position;
 use App\Http\{Controllers\Controller, Requests\AccessRateRequest};
@@ -21,9 +22,9 @@ class AccessRateController extends Controller
         $company = $request->get('company_id', 3);
 
         return view('pages.access-rates.index')
-            ->with([ 'folders' => Folder::get()
-                //                    when($company, fn($query) => $query
-//                    ->where('company_id', $company))
+            ->with(['folders' => Folder::get()
+                ->when($company, fn($query) => $query
+                    ->where('company_id', $company))
             ]);
     }
 
@@ -34,7 +35,8 @@ class AccessRateController extends Controller
             'method' => null,
             'data' => new AccessRate(),
             'positions' => Position::get(['id', 'name']),
-            'folders' => Folder::get(['id', 'name'])
+            'folders' => Folder::get(['id', 'name']),
+            'companies' => Company::get(['id','name']),
         ]);
     }
 

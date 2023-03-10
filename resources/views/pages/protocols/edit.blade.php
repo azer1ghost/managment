@@ -53,8 +53,18 @@
                     </x-form-group>
                     <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
                         <label for="data-will_start_at">Tarixi</label>
-                        <input type="date" name="date"
-                               value="{{optional($data)->getAttribute('date')}}" id="data-date" class="form-control">
+                        <input type="text" name="date"
+                               value="{{optional($data->getAttribute('date'))->format('Y-m-d')}}" id="data-date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="data-companies">@lang('translates.clients.selectCompany')</label><br/>
+                        <select id="data-companies" name="company_id"  required class="form-control" title="@lang('translates.filters.select')">
+                            <option value="">@lang('translates.clients.selectCompany')</option>
+                            @foreach($companies as $company)
+                                <option
+                                        value="{{$company->getAttribute('id')}}" @if($data->getAttribute('company_id') == $company->id) selected @endif>{{$company->getAttribute('name')}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
             </div>

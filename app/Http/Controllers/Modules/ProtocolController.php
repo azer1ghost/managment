@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProtocolRequest;
 use App\Models\Change;
+use App\Models\Company;
 use App\Models\Protocol;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -24,11 +25,12 @@ class ProtocolController extends Controller
 
         return view('pages.protocols.index')
             ->with([
+                'companies' => Company::get(['id','name']),
                 'users' => User::get(['id', 'name', 'surname']),
                 'protocols' => Protocol::when($search, fn($query) => $query
                     ->where('content', 'like', "%" . $search . "%"))
-//                    ->when($company, fn($query) => $query
-//                    ->where('company_id', $company))
+                    ->when($company, fn($query) => $query
+                    ->where('company_id', $company))
                     ->latest()
                     ->paginate(25)]);
     }
@@ -40,6 +42,7 @@ class ProtocolController extends Controller
             'method' => 'POST',
             'data' => new Protocol(),
             'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'companies' => Company::get(['id','name']),
         ]);
     }
 
@@ -59,6 +62,7 @@ class ProtocolController extends Controller
             'method' => null,
             'data' => $protocol,
             'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'companies' => Company::get(['id','name']),
         ]);
     }
 
@@ -69,6 +73,7 @@ class ProtocolController extends Controller
             'method' => 'PUT',
             'data' => $protocol,
             'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'companies' => Company::get(['id','name']),
         ]);
     }
 

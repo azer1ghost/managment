@@ -54,7 +54,7 @@
 
                             <td>{{$loop->iteration}}</td>
                             <td>{{$protocol->getAttribute('protocol_no')}}</td>
-                             <td>{{$protocol->getAttribute('date')->format('d/m/Y')}}</td>
+                             <td>{{optional($protocol->getAttribute('date'))->format('d/m/y')}}</td>
                              <td>{{$protocol->getAttribute('content')}}</td>
                              <td>{{$protocol->getRelationValue('performers')->getFullnameWithPositionAttribute()}}</td>
                              <td>{{$protocol->getRelationValue('signatures')->getFullnameWithPositionAttribute()}}</td>

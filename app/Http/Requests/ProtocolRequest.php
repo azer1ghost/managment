@@ -11,6 +11,7 @@ class ProtocolRequest extends FormRequest
         return [
             'performer' => 'nullable|integer',
             'signature' => 'nullable|integer',
+            'company_id' => 'nullable|integer',
             'content' => 'nullable|string',
             'protocol_no' => 'nullable|string',
             'date' => 'nullable|date',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Modules;
 
+use App\Models\Company;
 use App\Http\{Controllers\Controller, Requests\FolderRequest};
 use App\Models\Folder;
 use Illuminate\Http\Request;
@@ -17,9 +18,11 @@ class FolderController extends Controller
     public function index()
     {
         return view('pages.folders.index')
-            ->with([ 'folders' => Folder::get()]);
+            ->with([
+                'companies' => Company::get(['id','name']),
+                'folders' => Folder::get()
+            ]);
     }
-
 
     public function create()
     {
@@ -27,6 +30,7 @@ class FolderController extends Controller
             'action' => route('folders.store'),
             'method' => null,
             'data' => new Folder(),
+            'companies' => Company::get(['id','name']),
         ]);
     }
 
@@ -45,6 +49,7 @@ class FolderController extends Controller
             'action' => null,
             'method' => null,
             'data' => $folder,
+            'companies' => Company::get(['id','name']),
         ]);
     }
 
@@ -54,6 +59,7 @@ class FolderController extends Controller
             'action' => route('folders.update', $folder),
             'method' => 'PUT',
             'data' => $folder,
+            'companies' => Company::get(['id','name']),
         ]);
     }
 

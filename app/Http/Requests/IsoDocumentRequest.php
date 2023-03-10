@@ -10,6 +10,7 @@ class IsoDocumentRequest extends FormRequest
     {
         return [
             'name' => 'nullable|string',
+            'company_id' => 'nullable|integer',
             ];
     }
 }
