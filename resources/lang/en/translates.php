@@ -98,6 +98,7 @@ return [
         'address_coop' => 'Cooperative address',
         'country' => 'Country',
         'city' => 'City',
+        'sector' => 'Sector',
         'password' => 'Password',
         'password_confirm' => 'Password Confirmation',
         'role' => 'Role',

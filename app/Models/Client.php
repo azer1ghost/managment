@@ -51,6 +51,7 @@ class Client extends Model implements DocumentableInterface, Recordable
         'user_id',
         'price',
         'birthday',
+        'sector',
         'celebrate_at'
     ];
 

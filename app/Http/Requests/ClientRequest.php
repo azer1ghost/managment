@@ -31,6 +31,7 @@ class ClientRequest extends FormRequest
             'address2'        => 'nullable|string|max:255',
             'protocol'        => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls|max:4096',
             'document_type'   => 'nullable|string',
+            'sector'          => 'nullable|string',
             'voen'            => 'string|required',
             'position'        => 'nullable|string',
             'type'            => 'nullable|boolean',
