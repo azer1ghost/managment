@@ -3,17 +3,19 @@
         width: 250px;
     }
 </style>
-
+@php
+    $getSatisfaction = \App\Models\Satisfaction::where('url', $this->selected['url'])->first()
+@endphp
 <div class="container">
     <div class="card my-5">
         <div class="card-header text-center" style="background-color: greenyellow">
-            <h3 class="mt-2">{{\App\Models\Satisfaction::where('url',$this->selected['url'])->first()->getRelationValue('company')->getAttribute('name')}}</h3>
+            <h3 class="mt-2">{{$getSatisfaction->getRelationValue('company')->getAttribute('name')}}</h3>
         </div>
         <div class="card-body">
 
             <div class="col-12">
                 <div class="text-center m-4">
-                    <img src="{{asset("assets/images/".\App\Models\Satisfaction::where('url',$this->selected['url'])->first()->getRelationValue('company')->getAttribute('logo'))}}"
+                    <img src="{{asset("assets/images/".$getSatisfaction->getRelationValue('company')->getAttribute('logo'))}}"
                          alt="logo">
                 </div>
                 <form action="{{$action}}" method="POST" enctype="multipart/form-data" id="work-form">
@@ -42,7 +44,10 @@
                             </div>
                             <div class="px-lg-5 my-5">
                                 <div class="text-center my-5">
-                                    <h4>@lang('translates.customer_satisfaction.price_rate')</h4></div>
+                                    <h4>
+                                        @lang('translates.customer_satisfaction.price_rate')
+                                    </h4>
+                                </div>
                                 <input type="hidden" id="price-rate-input"
                                        value="{{optional($data)->getAttribute('price_rate')}}" name="price_rate"
                                        wire:ignore>
@@ -56,10 +61,10 @@
                                 <hr>
                             </div>
                         </div>
+
                         <div class="row px-lg-5">
                             <div class="form-group" wire:ignore>
-                                <input wire:ignore type="hidden" name="satisfaction_id" class="form-control"
-                                       value="{{\App\Models\Satisfaction::where('url', $this->selected['url'])->first()->id}}">
+                                <input wire:ignore type="hidden" name="satisfaction_id" class="form-control" value="{{$getSatisfaction->id}}">
                             </div>
                             @foreach($parameters as $parameter)
                                 @switch($parameter->type)
@@ -141,18 +146,13 @@
             })
             document.querySelector('#price-rate-input').value = occurence.getAttribute('id');
             occurence.style.color = "green"
-            if (occurence.id <= 3)
-            {
+            if (occurence.id <= 3) {
                 const input = document.getElementById('data-parameter-{{39}}');
 
                 input.setAttribute('required', '');
             }
         })
     });
-
-
-
-
 </script>
 <script>
     $('#work-form :input').attr('disabled', true)
