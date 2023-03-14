@@ -48,7 +48,7 @@ class CommandController extends Controller
             'action' => route('commands.store'),
             'method' => 'POST',
             'data' => new Command(),
-            'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'users' => User::get(['id', 'name', 'surname']),
             'companies' => Company::get(['id','name']),
         ]);
     }
@@ -69,7 +69,7 @@ class CommandController extends Controller
             'action' => null,
             'method' => null,
             'data' => $command,
-            'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'users' => User::get(['id', 'name', 'surname']),
             'companies' => Company::get(['id','name']),
         ]);
     }
@@ -80,7 +80,7 @@ class CommandController extends Controller
             'action' => route('commands.update', $command),
             'method' => 'PUT',
             'data' => $command,
-            'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'users' => User::get(['id', 'name', 'surname']),
             'companies' => Company::get(['id','name']),
         ]);
     }
