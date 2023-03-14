@@ -26,10 +26,16 @@
                 <div class="row">
                     <div class="form-group col-6 position">
                         <label for="position">@lang('translates.fields.position')</label><br/>
-                        <select class="select2 js-example-theme-multiple" multiple name="positions[]" id="position" data-width="fit">
+                        <select class="select2 js-example-theme-multiple" multiple name="positions[]" id="position"
+                                data-width="fit">
                             <option value="">@lang('translates.general.position_select')</option>
                             @foreach($positions as $position)
-                                <option @if($data->getAttribute('position') == $position->id) selected @endif value="{{$position->id}}">{{$position->getAttribute('name')}}</option>
+                                <option
+                                    @foreach($data->positions as $dataPosition)
+                                        @if($position->getAttribute('id') == $dataPosition->id) selected @endif
+                                    @endforeach
+                                    value="{{$position->id}}">{{$position->getAttribute('name')}}
+                                </option>
                             @endforeach
                         </select>
                     </div>

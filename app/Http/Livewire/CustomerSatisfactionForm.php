@@ -3,9 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\CustomerSatisfaction;
-use App\Models\Department;
 use App\Models\Satisfaction;
-use App\Models\Service;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 use Psr\Container\ContainerExceptionInterface;
@@ -43,7 +41,6 @@ class CustomerSatisfactionForm extends Component
 
         $this->getParameters();
     }
-
 
     public function getSatisfactionProperty()
     {

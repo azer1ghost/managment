@@ -36,10 +36,17 @@
                     </div>
                     <div class="form-group col-6 user">
                         <label for="user">İstifadəçi</label><br/>
-                        <select class="select2 js-example-theme-multiple" multiple name="users[]" id="user" data-width="fit">
+                        <select class="select2 js-example-theme-multiple" multiple name="users[]" id="user"
+                                data-width="fit">
                             <option value="">@lang('translates.general.user_select')</option>
                             @foreach($users as $user)
-                                <option @if($data->getAttribute('user') == $user->id) selected @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
+                                <option
+                            @foreach($data->users as $dataUser)
+                                @if($user->getAttribute('id') == $dataUser->id)
+                                    selected
+                                @endif
+                            @endforeach
+                            value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
                             @endforeach
                         </select>
                     </div>
