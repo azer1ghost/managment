@@ -29,7 +29,7 @@ class ClientController extends Controller
         $clients = Client::with('salesUsers')->where('fullname', 'LIKE', "%{$request->get('search')}%")
             ->orWhere('voen', 'LIKE', "%{$request->get('search')}%")
             ->limit(10)
-            ->get(['id', 'fullname', 'voen']);
+            ->get(['id', 'fullname', 'voen', 'active']);
 
         $clientsArray = [];
 

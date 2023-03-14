@@ -742,6 +742,10 @@ return [
     ],
     'chats' => [
         'title' => 'The message has been sent to you',
+    ],
+    'client_active' => [
+        0 => 'passive',
+        1 => 'active'
     ]
 
 ];
