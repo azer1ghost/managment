@@ -741,5 +741,9 @@ return [
     ],
     'chats' => [
         'title' => 'Sizə bir mesaj göndərildi',
+    ],
+    'client_active' => [
+        0 => 'Müqaviləsi yoxdur',
+        1 => 'Müqaviləsi var'
     ]
 ];

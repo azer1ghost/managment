@@ -36,7 +36,7 @@
                     <div class="d-flex align-items-center">
                         <select name="client_id" id="data-client-type" data-url="{{route('clients.search')}}" class="custom-select2" style="width: 100% !important;" required>
                             @if(is_numeric(optional($data)->getAttribute('client_id')))
-                                <option value="{{optional($data)->getAttribute('client_id')}}">{{optional($data)->getRelationValue('client')->getAttribute('fullname_with_voen')}}</option>
+                                <option class="@if(optional($data)->getRelationValue('client')->getAttribute('active') == 1) text-danger @endif"  value="{{optional($data)->getAttribute('client_id')}}">{{optional($data)->getRelationValue('client')->getAttribute('fullname_with_voen')}}</option>
                             @endif
                         </select>
                         @if(is_numeric(optional($data)->getAttribute('client_id')))

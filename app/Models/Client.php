@@ -127,7 +127,9 @@ class Client extends Model implements DocumentableInterface, Recordable
           foreach ($this->companies as $company){
               $companies = $company->getAttribute('name');
           }
-        return "{$this->getAttribute('fullname')} ({$this->getAttribute('voen')}) ($companies)";
+          $activity = trans('translates.client_active.'.$this->getAttribute('active'));
+
+        return "{$this->getAttribute('fullname')} ({$this->getAttribute('voen')}) ($companies) ({$activity})";
     }
     public function users():BelongsTo
     {
