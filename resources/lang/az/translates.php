@@ -743,7 +743,7 @@ return [
         'title' => 'Sizə bir mesaj göndərildi',
     ],
     'client_active' => [
-        0 => 'Müqaviləsi yoxdur',
-        1 => 'Müqaviləsi var'
+        0 => 'Qeyri-Aktiv',
+        1 => 'Aktiv'
     ]
 ];
