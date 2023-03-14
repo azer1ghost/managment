@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Folder extends Model
 {
-    protected $fillable = ['name', 'company_id'];
+    protected $fillable = ['name', 'company_id', 'composition'];
 
     public function accessRates()
     {

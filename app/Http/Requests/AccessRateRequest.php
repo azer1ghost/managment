@@ -9,9 +9,7 @@ class AccessRateRequest extends FormRequest
     public function rules()
     {
         return [
-            'position_id' => 'nullable|integer',
-            'folder_id' => 'nullable|integer',
-            'composition' => 'nullable|string',
-            ];
+            'folder_id' => 'required|integer',
+        ];
     }
 }

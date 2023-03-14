@@ -21,26 +21,32 @@
     <form action="{{$action}}" method="POST" enctype="multipart/form-data">
         @method($method) @csrf
         @bind($data)
-        <div class="row mt-4">
+        <div class="row mt-3">
             <div class="form-group col-12">
                 <div class="row">
-                    <x-form-group  class="pr-3 col-12 col-lg-6"  >
-                        <x-form-input  name="name" label="Qovluq adı" placeholder="Qovluq adı daxil edin"/>
+                    <x-form-group class="pr-3 col-12 col-lg-6">
+                        <x-form-input name="name" label="Qovluq adı" placeholder="Qovluq adı daxil edin"/>
                     </x-form-group>
+                    <x-form-group class="pr-3 col-12 col-lg-6">
+                        <x-form-input name="composition" label="Tərkibi" placeholder="Tərkibini daxil edin"/>
+                    </x-form-group>
+                    <div class="form-group col-6">
+                        <label for="data-companies">@lang('translates.clients.selectCompany')</label><br/>
+                        <select id="data-companies" name="company_id" required class="form-control"
+                                title="@lang('translates.filters.select')">
+                            <option value="">@lang('translates.clients.selectCompany')</option>
+                            @foreach($companies as $company)
+                                <option
+                                        value="{{$company->getAttribute('id')}}"
+                                        @if($data->getAttribute('company_id') == $company->id) selected @endif>{{$company->getAttribute('name')}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="form-group col-4">
-            <label for="data-companies">@lang('translates.clients.selectCompany')</label><br/>
-            <select id="data-companies" name="company_id"  required class="form-control" title="@lang('translates.filters.select')">
-                <option value="">@lang('translates.clients.selectCompany')</option>
-                @foreach($companies as $company)
-                    <option
-                            value="{{$company->getAttribute('id')}}" @if($data->getAttribute('company_id') == $company->id) selected @endif>{{$company->getAttribute('name')}}</option>
-                @endforeach
-            </select>
-        </div>
-    @if($action)
+
+        @if($action)
             <x-input::submit :value="__('translates.buttons.save')"/>
         @endif
         @endbind

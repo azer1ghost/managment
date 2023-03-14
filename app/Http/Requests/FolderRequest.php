@@ -9,8 +9,9 @@ class FolderRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'nullable|string',
-            'company_id' => 'nullable|integer',
-            ];
+            'name' => 'required|string',
+            'company_id' => 'required|integer',
+            'composition' => 'required|string',
+        ];
     }
 }

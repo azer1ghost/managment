@@ -24,12 +24,12 @@
         <div class="row mt-4">
             <div class="form-group col-12">
                 <div class="row">
-                    <div class="form-group col-6 user">
-                        <label for="position_id">@lang('translates.fields.position')</label><br/>
-                        <select class="select2 form-control" name="position_id" id="position_id">
+                    <div class="form-group col-6 position">
+                        <label for="position">@lang('translates.fields.position')</label><br/>
+                        <select class="select2 js-example-theme-multiple" multiple name="positions[]" id="position" data-width="fit">
                             <option value="">@lang('translates.general.position_select')</option>
                             @foreach($positions as $position)
-                                <option @if($data->getAttribute('position_id') == $position->id) selected @endif value="{{$position->id}}">{{$position->getAttribute('name')}}</option>
+                                <option @if($data->getAttribute('position') == $position->id) selected @endif value="{{$position->id}}">{{$position->getAttribute('name')}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -42,9 +42,6 @@
                             @endforeach
                         </select>
                     </div>
-                    <x-form-group  class="pr-3 col-12 col-lg-6"  >
-                        <x-form-input  name="composition" label="Tərkibi" placeholder="Tərkibini daxil edin"/>
-                    </x-form-group>
 
                     <div class="custom-control custom-switch m-4">
                         <input type="checkbox" name="is_readonly" class="custom-control-input" id="is_readonly" @if($data->getAttribute('is_readonly')) checked @endif>
