@@ -16,8 +16,6 @@ class CreateAccessRatesTable extends Migration
         Schema::create('access_rates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('folder_id')->nullable();
-            $table->foreignId('position_id')->nullable();
-            $table->string('composition')->nullable();
             $table->boolean('is_readonly')->nullable();
             $table->boolean('is_change')->nullable();
             $table->boolean('is_print')->nullable();

@@ -100,6 +100,7 @@ return [
         'email_private' => 'Şəxsi e-poçt',
         'country' => 'Ölkə',
         'city' => 'Şəhər',
+        'sector' => 'Sektor',
         'password' => 'Şifrə',
         'password_confirm' => 'Şifrə təsdiqi',
         'role' => 'Rol',

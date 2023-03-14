@@ -22,7 +22,9 @@ class AccessRateController extends Controller
         $company = $request->get('company_id', 3);
 
         return view('pages.access-rates.index')
-            ->with(['folders' => Folder::get()
+            ->with([
+                'positions' => Position::get(['id', 'name']),
+                'folders' => Folder::get()
                 ->when($company, fn($query) => $query
                     ->where('company_id', $company))
             ]);
@@ -47,6 +49,7 @@ class AccessRateController extends Controller
         $validated['is_change'] = $request->has('is_change');
         $validated['is_print'] = $request->has('is_print');
         $accessRate = AccessRate::create($validated);
+        $accessRate->positions()->sync($request->get('positions'));
 
         return redirect()
             ->route('access-rates.edit', $accessRate)
@@ -82,6 +85,8 @@ class AccessRateController extends Controller
         $validated['is_change'] = $request->has('is_change');
         $validated['is_print'] = $request->has('is_print');
         $accessRate->update($validated);
+        $accessRate->positions()->sync($request->get('positions'));
+
 
         return redirect()
             ->route('access-rates.edit', $accessRate)

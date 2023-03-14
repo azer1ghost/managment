@@ -64,6 +64,9 @@
                         @endforeach
                     </select>
                 </div>
+                <x-form-group  class="pr-3 col-3 col-md-3" :label="trans('translates.fields.sector')">
+                    <x-form-input name="sector" />
+                </x-form-group>
                 <x-form-group  class="pr-3 col-12 col-lg-8" :label="trans('translates.fields.name')" required>
                     <x-form-input name="fullname" />
                 </x-form-group>
@@ -79,6 +82,7 @@
                     <x-input::date  :label="__('translates.fields.created_at')" name="celebrate_at" :value="optional($data)->getAttribute('celebrate_at')" width="4" class="pr-0" />
                 @endif
                     <x-input::date  :label="__('translates.fields.birthday')" name="birthday" :value="optional($data)->getAttribute('birthday')" width="4" class="pr-0" />
+
             </div>
             <!-- Employment -->
             <p class="text-muted mb-2"> @lang('translates.fields.employment')</p>
