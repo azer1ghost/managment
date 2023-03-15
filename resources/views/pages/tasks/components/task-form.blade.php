@@ -97,7 +97,7 @@
 
     @if (!is_null($this->department) &&
         ($this->department->getAttribute('id') == auth()->user()->getRelationValue('department')->getAttribute('id') ||
-        auth()->user()->isDirector()))
+        auth()->user()->isDirector() || auth()->user()->hasPermission('redirect-task')))
          <div class="form-group col-md-3">
             <label>{{__('translates.fields.user')}}</label>
             <select class="form-control @error('user') is-invalid @enderror" id="task-user" name="user" @if (is_null($action)) onfocus="this.oldValue = this.value" onchange="taskUserHandler(this.oldValue, this.value)" @endif wire:model="selected.user">
