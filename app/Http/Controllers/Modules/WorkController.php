@@ -371,7 +371,6 @@ class WorkController extends Controller
 
         $validated['verified_at'] = $request->has('verified') && !$request->has('rejected') ? now() : NULL;
 
-
         if ($work->getAttribute('entry_date') == null && in_array($request->get('status'), [3, 4, 6]) && !$request->has('rejected')) {
             $validated['entry_date'] = now();
         }

@@ -54,15 +54,17 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-8 col-md-2 pl-0 mb-3">
-                        <div class="input-group mb-3">
-                            <select class="form-control" name="status">
-                                @foreach ($statuses as $index => $status)
-                                    <option @if (request()->get('status') == $index) selected @endif value="{{$index}}">@lang('translates.users.statuses.' . $status)</option>
-                                @endforeach
-                            </select>
+                    @if(!auth()->user()->isDirector())
+                        <div class="col-8 col-md-2 pl-0 mb-3">
+                            <div class="input-group mb-3">
+                                <select class="form-control" name="status">
+                                    @foreach ($statuses as $index => $status)
+                                        <option @if (request()->get('status') == $index) selected @endif value="{{$index}}">@lang('translates.users.statuses.' . $status)</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                     <div class="col-8 pt-2 d-flex align-items-center">
                         <p class="mb-0"> @lang('translates.total_items', ['count' => $users->count(), 'total' => $user_count])</p>
                     </div>

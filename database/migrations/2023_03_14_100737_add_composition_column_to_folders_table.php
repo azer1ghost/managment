@@ -14,7 +14,7 @@ class AddCompositionColumnToFoldersTable extends Migration
     public function up()
     {
         Schema::table('folders', function (Blueprint $table) {
-            $table->string('composition')->nullable();
+            $table->text('composition')->nullable();
         });
     }
 
