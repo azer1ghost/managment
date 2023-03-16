@@ -93,7 +93,7 @@ return [
         'address2' => 'Ünvan iki',
         'phone_private' => 'Şəxsi nömrə',
         'phone_coop' => 'Kooperativ nömrə',
-        'cooperative_numbers' => 'Kooperativ nömrələr',
+        'cooperative_numbers' => 'Korporativ nömrələr',
         'email_coop' => 'Kooperativ e-poçt',
         'address_coop' => 'Kooperativ adres',
         'email_private' => 'Şəxsi e-poçt',
