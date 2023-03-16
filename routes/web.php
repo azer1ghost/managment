@@ -42,6 +42,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\PositionController,
     Modules\PartnerController,
     Modules\ProtocolController,
+    Modules\QuestionnaireController,
     Modules\ReferralBonusController,
     Modules\ReferralController,
     Modules\RegistrationLogController,
@@ -201,6 +202,7 @@ Route::group([
     Route::resource('/protocols', ProtocolController::class);
     Route::resource('/folders', FolderController::class);
     Route::resource('/access-rates', AccessRateController::class);
+    Route::resource('/questionnaires', QuestionnaireController::class);
     Route::get('/foreign', [InternalRelationController::class, 'foreign'])->name('foreign');
     Route::post('/sortable', [InternalRelationController::class, 'sortable'])->name('internal-relation.sortable');
     Route::resource('/organizations', OrganizationController::class);
@@ -228,7 +230,6 @@ Route::group([
     Route::resource('/statements', StatementController::class);
     Route::put('employee-satisfaction/addNote', [EmployeeSatisfactionController::class, 'addNote'])->name('addNote');
     Route::resource('/employee-satisfaction', EmployeeSatisfactionController::class);
-    Route::view('/statement','pages.statements.statements' )->name('statement');
     Route::view('/statement','pages.statements.statements' )->name('statement');
     Route::post('/markAsRead', [StatementController::class, 'markAsRead'])->name('mark-as-read');
     Route::get('/jobInstruction/{id}', [JobInstructionController::class, 'getInstruction'])->name('getInstruction');

@@ -164,11 +164,13 @@ return [
         'export' => 'Export',
         'execute' => 'Execute',
         'show' => 'Show',
+        'send_email' => 'Send Email',
         'send_sms' => 'Send Sms',
         'send' => 'Göndər',
         'active' => 'Active Contract',
         'passive' => 'Deactive Contract',
     ],
+
 
     'sum' => 'Collective',
     'or' => 'or',
@@ -244,7 +246,37 @@ return [
         'customer-satisfaction' => 'Customer Satisfaction',
         'order' => 'Orders',
         'logistics' => 'Logistics',
-        'logistics_clients' => 'Logistics Clients'
+        'logistics_clients' => 'Logistics Clients',
+        'questionnaire' => 'Questionnaire'
+    ],
+    'questionnaire' => [
+
+        'customs' => [
+            1 => 'Bakı Baş Gömrük İdarəsi Filialı',
+            2 => 'Aksizli Mallar üzrə Baş Gömrük İdarəsi Filialı',
+            3 => 'Hava Nəqliyyatında Baş Gömrük İdarəsi Filialı',
+            4 => 'Sumqayıt Baş Gömrük İdarəsi Filialı',
+            5 => 'Enerji Resursları və Dəniz Nəqliyyatında Baş Gömrük İdarəsi Filialı',
+            6 => 'Qərb Ərazi Baş Gömrük İdarəsi Filialı',
+            7 => 'Şimal Ərazi Baş Gömrük İdarəsi Filialı',
+            8 => 'Cənub Ərazi Baş Gömrük İdarəsi Filialı',
+        ],
+        'sources' => [
+            1 => 'Dostum/Qohumum deyib',
+            2 => 'Satış meneceri zəng edib',
+            3 => 'Tədbirlərdə Görmüşəm',
+            4 => 'Website',
+            5 => 'Google',
+            6 => 'Instagram',
+            7 => 'Facebook',
+            8 => 'Linkedin',
+            9 => 'Youtube',
+            10 => 'E-mail',
+        ],
+        'novelty_us' => 'Bizdə nəyi görmək istəyirsiniz?',
+        'novelty_customs' => 'Gömrükdə hansı yeniliyi görmək istəyərdiniz?',
+        'what_source' => 'Bizim haqqımızda haradan məlumat əldə etmisiniz?',
+        'what_customs' => 'İşləriniz ən çox hansı gömrük idarəsində olur?',
     ],
 
     'date' => [

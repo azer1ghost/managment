@@ -104,6 +104,9 @@
                 @if(auth()->user()->hasPermission('canExport-client'))
                     <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('clients.export', ['filters' => json_encode($filters)])}}">@lang('translates.buttons.export')</a>
                 @endif
+                @can('create', \App\Models\Questionnaire::class)
+                    <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('questionnaires.index')}}">@lang('translates.navbar.questionnaire')</a>
+                @endif
             </div>
         </div>
 
