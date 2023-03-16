@@ -75,6 +75,7 @@
                     <th scope="col">@lang('translates.columns.partner')</th>
                     <th scope="col">@lang('translates.columns.executant')</th>
                     <th scope="col">@lang('translates.fields.client')</th>
+                    <th scope="col">@lang('translates.fields.created_at')</th>
                     <th scope="col">@lang('translates.general.work_earning')</th>
                     <th scope="col">@lang('translates.referrals.earnings')</th>
                     <th scope="col">@lang('translates.fields.actions')</th>
@@ -88,6 +89,7 @@
                         <td>{{$customer_engagement->getRelationValue('partner')->getAttribute('name')}}</td>
                         <td>{{$customer_engagement->getRelationValue('executants')->getFullnameWithPositionAttribute()}}</td>
                         <td>{{$customer_engagement->getRelationValue('client')->getAttribute('fullname')}}</td>
+                        <td>{{$customer_engagement->getAttribute('created_at')}}</td>
                         <td>{{$customer_engagement->getAttribute('amount')}}</td>
                         <td>{{$customer_engagement->getAttribute('amount')*0.10}}</td>
                         <td>
