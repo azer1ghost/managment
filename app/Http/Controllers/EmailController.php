@@ -10,7 +10,8 @@ class EmailController extends Controller
 {
     public function sendEmail()
     {
-        $clients = Client::whereNotNull('email1')->get();
+        $search = '@';
+        $clients = Client::whereNotNull('email1')->where('email1', 'LIKE','%'.$search.'%')->get();
         foreach ($clients as $client) {
             $receiverEmailAddress[] = $client->getAttribute('email1');
         }
