@@ -19,8 +19,6 @@ class EmailController extends Controller
         $template = 'email';
 
         $emails = [
-
-
             'sham-a@mail.ru',
             'mubariz.memmedov1990@gmail.com',
             'krzayeva@aris.az',
@@ -48,8 +46,6 @@ class EmailController extends Controller
             'hresidov@yahoo.com',
             'nargiz.hajiyeva@noytech.com',
             'qafarzade2014@gmail.com',
-
-
         ];
 
         Mail::to($emails)->send(new ClientEmail($mailAddress, $template));
