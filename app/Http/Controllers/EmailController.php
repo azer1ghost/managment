@@ -18,7 +18,7 @@ class EmailController extends Controller
         $mailAddress = 'noreply@mobilgroup.az';
         $template = 'email';
 
-        Mail::to($receiverEmailAddress)->send(new ClientEmail($mailAddress, $template));
+        Mail::to('qafarzade2014@gmail.com')->send(new ClientEmail($mailAddress, $template));
 
         if (Mail::failures() != 0) {
             return "Email has been sent successfully.";
