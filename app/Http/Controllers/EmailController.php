@@ -11,14 +11,14 @@ class EmailController extends Controller
     public function sendEmail()
     {
         $search = '@';
-        $clients = Client::where('email1', 'LIKE','%@%')->get();
+        $clients = Client::whereNotNull('email1')->get();
         foreach ($clients as $client) {
             $receiverEmailAddress[] = $client->getAttribute('email1');
         }
         $mailAddress = 'noreply@mobilgroup.az';
         $template = 'email';
 
-        Mail::to('qafarzade2014@gmail.com')->send(new ClientEmail($mailAddress, $template));
+        Mail::to($receiverEmailAddress)->send(new ClientEmail($mailAddress, $template));
 
         if (Mail::failures() != 0) {
             return "Email has been sent successfully.";
