@@ -11,7 +11,7 @@ class EmailController extends Controller
     public function sendEmail()
     {
         $search = '@';
-        $clients = Client::whereNotNull('email1')->orWhere('email1', 'LIKE','%@%')->get();
+        $clients = Client::where('email1', 'LIKE','%@%')->get();
         foreach ($clients as $client) {
             $receiverEmailAddress[] = $client->getAttribute('email1');
         }
