@@ -34,6 +34,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">@lang('translates.fields.client')</th>
+                        <th scope="col">@lang('translates.fields.created_at')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
@@ -42,6 +43,7 @@
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$questionnaire->getRelationValue('client')->getAttribute('fullname')}}</td>
+                            <td>{{$questionnaire->getAttribute('datetime')}}</td>
                             <td>
                                 <div class="btn-sm-group">
                                     @can('view', $questionnaire)

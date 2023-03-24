@@ -15,6 +15,7 @@ class QuestionnaireRequest extends FormRequest
             'send_email' => 'nullable',
             'novelty_us' => 'string|nullable',
             'novelty_customs' => 'string|nullable',
+            'datetime' => 'date|nullable',
         ];
     }
 }

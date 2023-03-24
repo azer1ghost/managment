@@ -285,6 +285,7 @@ Route::get('/document/{document}', function (\Illuminate\Http\Request $request, 
 
 Route::resource('/customer-satisfactions', CustomerSatisfactionController::class);
 Route::get('/cs', [CustomerSatisfactionController::class, 'createSatisfaction'])->name('create-satisfaction');
+Route::view('/template','email' )->name('email');
 
 
 

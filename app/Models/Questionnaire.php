@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Questionnaire extends Model
 {
-    protected $fillable = ['client_id', 'source', 'send_email', 'customs', 'novelty_us', 'novelty_customs'];
+    protected $fillable = ['client_id', 'source', 'send_email', 'customs', 'novelty_us', 'novelty_customs', 'datetime'];
 
     public function client(): BelongsTo
     {

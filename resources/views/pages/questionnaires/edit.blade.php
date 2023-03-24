@@ -36,7 +36,14 @@
                     </div>
                     <x-bread.input.textarea name="novelty_us" :value="$data->getAttribute('novelty_us')" class="mt-3" :label="trans('translates.questionnaire.novelty_us')"></x-bread.input.textarea>
                     <x-bread.input.textarea name="novelty_customs" :value="$data->getAttribute('novelty_customs')" class="mt-2" :label="trans('translates.questionnaire.novelty_customs')"></x-bread.input.textarea>
-
+                    <div class="form-group col-12 col-md-12 mb-3 mb-md-0">
+                        <label for="data-datetime">@lang('translates.fields.created_at')</label>
+                        <input type="date" placeholder="@lang('translates.fields.created_at')" name="datetime"
+                               value="{{optional($data)->getAttribute('datetime')}}" id="data-datetime" class="form-control">
+                        @error('datetime')
+                        <p class="text-danger">{{$message}}</p>
+                        @enderror
+                    </div>
                     <div class="form-check col-md-6 p-4">
                         <h3 class="mb-2">@lang('translates.questionnaire.what_customs')</h3>
                         @foreach($customses as $custom)
@@ -53,6 +60,7 @@
                                 @lang('translates.questionnaire.sources.'.$source)</label>
                         @endforeach
                     </div>
+
                     <div class="custom-control custom-switch ml-3">
                         <input type="checkbox" name="send_email" class="custom-control-input" id="send_email" @if($data->getAttribute('send_email')) checked @endif>
                         <label class="custom-control-label" for="send_email">@lang('translates.buttons.send_email')</label>
