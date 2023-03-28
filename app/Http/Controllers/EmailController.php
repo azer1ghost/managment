@@ -28,7 +28,7 @@ class EmailController extends Controller
         return "Oops! There was some error sending the email.";
     }
 
-    public function infoEmail()
+    public function sendInfo()
     {
         $mailAddress = 'noreply@mobilgroup.az';
         $template = 'email';
