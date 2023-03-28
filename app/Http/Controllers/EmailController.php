@@ -30,7 +30,7 @@ class EmailController extends Controller
 
     public function sendInfo()
     {
-        $mailAddress = 'noreply@mobilgroup.az';
+        $mailAddress = 'noreply@mobilmanagement.az';
         $template = 'email';
 
         $emails = [
