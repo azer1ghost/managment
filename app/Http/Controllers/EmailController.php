@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ClientEmail;
+use App\Mail\UsersInfo;
 use App\Models\Client;
 use Illuminate\Support\Facades\Mail;
 
@@ -18,33 +19,52 @@ class EmailController extends Controller
         $mailAddress = 'noreply@mobilgroup.az';
         $template = 'email';
 
-        $emails = [
-            'İnfo@ahik.org',
-            'hresidov@yahoo.com',
-            'nargiz.hajiyeva@noytech.com',
-            'customer1400@gmail.com',
-            'office@richsport.az',
-            'faikabdullayev@icloud.com',
-            'info@jetour.az',
-            'rekber@inbox.ru',
-            'n.karimli@mobilbroker.az',
-            'info@synergia-pharma.com',
-            'procurement02@fsca.az',
-            'info@mycar.az',
-            'axundov.76@mail.ru',
-            'office@sakur.az',
-            'info@skyzonebaku.com',
-            'info@ecobox.az',
-            'nazarevich-e@mail.ru',
-            'nadir.novruzov@gmail.com',
-            'emin_28@mail.ru',
-            'habibov.nadir81@gmail.com',
-            'konstromat@sement.az',
-            'kamilaliyev585@gmail.com',
-            'qafarzade2014@gmail.com',
-        ];
 
-        Mail::to($emails)->send(new ClientEmail($mailAddress, $template));
+        Mail::to($receiverEmailAddress)->send(new ClientEmail($mailAddress, $template));
+
+        if (Mail::failures() != 0) {
+            return "Email has been sent successfully.";
+        }
+        return "Oops! There was some error sending the email.";
+    }
+
+    public function infoEmail()
+    {
+        $mailAddress = 'noreply@mobilgroup.az';
+        $template = 'email';
+
+        $emails = [
+            'a.ismikhanov@mobilbroker.az',
+            'u.hasanova@mobilbroker.az',
+            's.allahverdiyev@mobilbroker.az',
+            'x.huseynova@mobilbroker.az',
+            'n.mirzeyev@mobilbroker.az',
+            'g.hasanova@mobilbroker.az',
+            'nazifa.m@mobilbroker.az',
+            'a.allahverdiyev@mobilbroker.az',
+            'i.talibov@mobilbroker.az',
+            'b.aliyev@mobilbroker.az',
+            's.rzayev@mobilbroker.az',
+            'g.mehdizada@mobilbroker.az',
+            's.qarayeva@mobilbroker.az',
+        ];
+//        'nigar.i@mobilbroker.az',
+//            'n.novruzov@mobilbroker.az',
+//            'n.karimli@mobilbroker.az',
+//            'p.ahmedov@mobilbroker.az',
+//            'a.rzayev@mobilbroker.az',
+//            'g.mammadova@mobilbroker.az',
+//            'f.nazarli@mobilbroker.az',
+//            'sh.babayeva@mobilbroker.az',
+//            'r.rahimov@mobilbroker.az',
+//            'r.farajli@mobilbroker.az',
+//            'm.hasanov@mobilbroker.az',
+//            'f.nazarov@mobilbroker.az',
+//            'n.azimov@mobilbroker.az',
+//            'r.seyidov@mobilgroup.az',
+//            'z.namazli@mobilgroup.az',
+//            'c.allahverdiyev@mobilbroker.az',
+        Mail::to($emails)->send(new UsersInfo($mailAddress, $template));
 
         if (Mail::failures() != 0) {
             return "Email has been sent successfully.";

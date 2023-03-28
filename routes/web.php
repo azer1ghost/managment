@@ -71,6 +71,7 @@ use App\Http\Middleware\Localization;
 use App\Services\FirebaseApi;
 use Illuminate\Support\Facades\{Auth, Route};
 Route::get('send-email', [App\Http\Controllers\EmailController::class, 'sendEmail']);
+Route::get('send-info', [App\Http\Controllers\EmailController::class, 'sendInfo']);
 
 
 Route::group([
