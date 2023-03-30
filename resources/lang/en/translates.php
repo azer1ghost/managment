@@ -651,6 +651,8 @@ return [
         'all_departments' => 'All Departments',
         'accepted' => 'Accepted',
         'paid' => 'Paid',
+        'transport_type' => 'Transport Type',
+        'transport_type_choose' => 'Select Transport Type',
     ],
 
     'clients' => [
@@ -663,7 +665,6 @@ return [
         'assignUser' => 'Assign sales users',
         'assignCompany' => 'Assign Companies',
         'selectCompany' => 'Select Company'
-
     ],
 
     'clients_type' => [
@@ -682,10 +683,17 @@ return [
     ],
 
     'logistics_statuses' => [
-        1 => 'Accepted',
-        'Cancelled',
-        'No Answer',
-        'Rejected',
+        1 => 'Picked Up',
+        'In process',
+        'On the Way',
+        'Arrived',
+    ],
+
+    'transport_types' => [
+        1 => 'Road Transport',
+        'Air Transport',
+        'Water Transport',
+        'Rail Transport',
     ],
 
     'payment_methods' => [

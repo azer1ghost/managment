@@ -109,7 +109,7 @@ class WorkController extends Controller
             $works = $works->whereBetween('paid_at', [Carbon::parse($paid_at_explode[0])->startOfDay(), Carbon::parse($paid_at_explode[1])->endOfDay()]);
         }
 
-            $works = $works->whereIn('status', [3,4,5,6,7])->paginate($limit);
+        $works = $works->whereIn('status', [3,4,5,6,7])->paginate($limit);
 
         return view('pages.works.index',
             compact('works', 'services', 'departments','users',
@@ -191,7 +191,7 @@ class WorkController extends Controller
             $works = $works->whereBetween('paid_at', [Carbon::parse($paid_at_explode[0])->startOfDay(), Carbon::parse($paid_at_explode[1])->endOfDay()]);
         }
 
-            $works = $works->pending()->paginate($limit);
+        $works = $works->pending()->paginate($limit);
 
         return view('pages.works.pending-works',
             compact('works', 'services', 'departments','users',
@@ -304,6 +304,7 @@ class WorkController extends Controller
             $parameters[$key] = ['value' => $parameter];
         }
 
+
         $work->parameters()->sync($parameters);
         if ($request->get('status') == 2){
             event(new WorkCreated($work));
@@ -353,7 +354,7 @@ class WorkController extends Controller
         $clientName = str_replace($search, $replace, $clientText);
         $message = 'Deyerli ' . $clientName . ' sizin ' . $serviceName . ' uzre isiniz tamamlandi. ' . $work->getAttribute('created_at')->format('d/m/y') . ' https://my.mobilgroup.az/cs?url=mb-sat -linke kecid ederek xidmet keyfiyyetini deyerlendirmeyinizi xahis edirik!';
 
-        if ( $request->status == 6 && $client->getAttribute('send_sms') == 1) {
+        if ( $request->status == $work::DONE && $client->getAttribute('send_sms') == 1) {
             if (!empty($client->getAttribute('phone1'))) {
                 (new NotifyClientSms($message))->toSms($client)->send();
             } if (!empty($client->getAttribute('phone2'))) {
@@ -369,6 +370,8 @@ class WorkController extends Controller
 //            $validated['document_list'] = $document_list;
 //        }
 
+        $validated['datetime'] = $request->get('status') == $work::DONE ? now() : NULL;
+        $validated['injected_at'] = $request->get('status') == $work::INJECTED ? now() : NULL;
         $validated['verified_at'] = $request->has('verified') && !$request->has('rejected') ? now() : NULL;
 
         if ($work->getAttribute('entry_date') == null && in_array($request->get('status'), [3, 4, 6]) && !$request->has('rejected')) {

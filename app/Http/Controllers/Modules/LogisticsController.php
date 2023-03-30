@@ -44,8 +44,9 @@ class LogisticsController extends Controller
             'reg_number' => $request->get('reg_number'),
             'service_id' => $request->get('service_id'),
             'reference_id' => $request->get('reference_id'),
-            'logistics_client_id' => $request->get('logistics_client_id'),
+            'client_id' => $request->get('client_id'),
             'status' => $request->get('status'),
+            'transport_type' => $request->get('transport_type'),
             'user_id' => $request->get('user_id'),
             'paid_at' => $request->get('paid_at') ?? $startOfMonth . ' - ' . $endOfMonth,
             'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
@@ -62,6 +63,7 @@ class LogisticsController extends Controller
         $references = User::with('position', 'role')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id'])->get();
 
         $statuses = Logistics::statuses();
+        $transportTypes = Logistics::transportTypes();
 
         $services = Service::query()
             ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
@@ -79,7 +81,7 @@ class LogisticsController extends Controller
         $logistics = $logistics->paginate($limit);
 
         return view('pages.logistics.index',
-            compact('logistics', 'services', 'users', 'filters', 'statuses',   'dateFilters', 'references')
+            compact('logistics', 'services', 'users', 'filters', 'statuses', 'transportTypes', 'dateFilters', 'references')
         );
     }
 

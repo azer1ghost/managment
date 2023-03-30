@@ -164,20 +164,6 @@ class Sidebar extends Component
                 'icon' => 'fas fa-shipping-fast',
                 'url' => route('logistics.index'),
                 'permission' => 'viewAny-logistics',
-                'children' => [
-                    (object)[
-                        'title' => __('translates.navbar.logistics'),
-                        'icon' => 'fas fa-shipping-fast',
-                        'url' => route('logistics.index'),
-                        'permission' => 'viewAny-logistics',
-                    ],
-                    (object)[
-                        'title' => __('translates.navbar.client'),
-                        'icon' => 'fas fa-bullhorn',
-                        'url' => route('logistic-clients.index'),
-                        'permission' => 'viewAny-logisticClient',
-                    ]
-                ]
             ],
 
             (object)[

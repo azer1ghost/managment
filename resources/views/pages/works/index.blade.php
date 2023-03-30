@@ -329,7 +329,8 @@
                     $hasPending = true;
                 @endphp
             @endif
-            <tr data-toggle="collapse" data-target="#demo{{$work->getAttribute('id')}}" class="accordion-toggle" @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}">
+
+            <tr data-toggle="collapse" data-target="#demo{{$work->getAttribute('id')}}" class="accordion-toggle" @if(now()->format('d/m/y H:i') < \Carbon\Carbon::parse($work->getAttribute('injected_at'))->format('d/m/y H:i'))  style="background: red" @endif @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}">
                 @if($work->isDone() && is_null($work->getAttribute('verified_at')) && auth()->user()->hasPermission('canVerify-work'))
                     <td><input type="checkbox" name="works[]" value="{{$work->getAttribute('id')}}"></td>
                 @elseif(auth()->user()->hasPermission('canVerify-work'))

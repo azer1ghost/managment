@@ -15,7 +15,7 @@ class LogisticsForm extends Component
     public ?Logistics $data;
     public ?string $method, $action;
     public ?Collection $services,$users;
-    public array $statuses;
+    public array $statuses, $transportTypes;
     public array $selected = [
         'service_id' => '',
         'user_id' => '',
@@ -32,6 +32,7 @@ class LogisticsForm extends Component
     {
         $this->services = Service::get(['id', 'name']);
         $this->statuses = Logistics::statuses();
+        $this->transportTypes = Logistics::transportTypes();
         $user = auth()->user();
         $this->users = User::isActive()->get(['id', 'name', 'surname']);
 

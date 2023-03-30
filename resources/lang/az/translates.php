@@ -652,6 +652,8 @@ return [
         'all_departments' => 'Bütün Şöbələr',
         'accepted' => 'Qəbul Olundu',
         'paid' => 'Ödənilib',
+        'transport_type' => 'Daşınma Növü',
+        'transport_type_choose' => 'Daşınma Növü Seçin',
     ],
 
     'clients' => [
@@ -680,10 +682,17 @@ return [
     ],
 
     'logistics_statuses' => [
-        1 => 'Qəbul edildi',
-        'Qəbul edilmədi',
-        'Cavab Yoxdur',
-        'Rədd Edildi',
+        1 => 'Yük götürülüb',
+        'Prosesdədir',
+        'Yoldadır',
+        'Çatıb',
+    ],
+
+    'transport_types' => [
+        1 => 'Quru Yolu Daşınması',
+        'Hava Yolu Daşınması',
+        'Dəniz Yolu Daşınması',
+        'Dəmir Yolu Daşınması',
     ],
 
     'payment_methods' => [

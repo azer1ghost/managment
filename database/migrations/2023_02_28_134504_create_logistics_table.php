@@ -19,7 +19,7 @@ class CreateLogisticsTable extends Migration
             $table->foreignId('user_id')->constrained()->restrictOnDelete();
             $table->integer('reference_id')->nullable();
             $table->foreignId('service_id')->constrained()->restrictOnDelete();
-            $table->integer('logistics_client_id')->nullable();
+            $table->integer('client_id')->nullable();
             $table->string('status')->nullable();
             $table->timestamp('datetime')->nullable();
             $table->timestamp('paid_at')->nullable();

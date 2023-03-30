@@ -42,7 +42,7 @@
                         </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="reference_id">{{__('translates.general.user_select')}}</label>
+                            <label class="d-block" for="reference_id">{{__('translates.navbar.reference')}}</label>
                             <select id="reference_id" class="select2"
                                     name="reference_id"
                                     data-width="fit" title="{{__('translates.filters.select')}}">
@@ -79,13 +79,26 @@
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
-                            <select name="logistics_client_id"
+                            <select name="client_id"
                                     id="clientFilter"
                                     class="custom-select2" style="width: 100% !important;"
-                                    data-url="{{route('logisticsClients.search')}}">
-                                @if(is_numeric($filters['logistics_client_id']))
-                                    <option value="{{$filters['logistics_client_id']}}">{{\App\Models\LogisticsClient::find($filters['logistics_client_id'])->getAttribute('name')}}</option>
+                                    data-url="{{route('clients.search')}}">
+                                @if(is_numeric($filters['client_id']))
+                                    <option value="{{$filters['client_id']}}">{{\App\Models\Client::find($filters['client_id'])->getAttribute('fullname')}}</option>
                                 @endif
+                            </select>
+                        </div>
+
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="transportTypeFilter">{{trans('translates.general.transport_type_choose')}}</label>
+                            <select name="transport_type" id="transportTypeFilter" class="form-control" style="width: 100% !important;">
+                                <option value="">@lang('translates.filters.select')</option>
+                                @foreach($transportTypes as $transportType)
+                                    <option value="{{$transportType}}"
+                                            @if($transportType == $filters['transport_type']) selected @endif>
+                                        @lang('translates.transport_types.' . $transportType)
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
 
@@ -164,6 +177,7 @@
             <th scope="col">Registration Number</th>
             <th scope="col">@lang('translates.fields.user')</th>
             <th scope="col">@lang('translates.navbar.service')</th>
+            <th scope="col">@lang('translates.general.transport_type')</th>
             <th scope="col">@lang('translates.fields.clientName')</th>
 {{--            @foreach(\App\Models\Service::serviceParameters() as $param)--}}
 {{--                <th>{{$param['data']->getAttribute('label')}}</th>--}}
@@ -185,8 +199,9 @@
                 <td>{{$log->getAttribute('reg_number')}}</td>
                 <td>{{$log->getRelationValue('user')->getAttribute('fullname_with_position')}}</td>
                 <td>{{$log->getRelationValue('service')->getAttribute('name')}}</td>
-                <td data-toggle="tooltip" data-placement="bottom" title="{{$log->getRelationValue('client')->getAttribute('name')}}" >
-                    {{mb_strimwidth($log->getRelationValue('client')->getAttribute('name'), 0, 20, '...')}}
+                <td>{{trans('translates.transport_types.' . $log->getAttribute('transport_type'))}}</td>
+                <td data-toggle="tooltip" data-placement="bottom" title="{{$log->getRelationValue('client')->getAttribute('fullname')}}" >
+                    {{mb_strimwidth($log->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}
                 </td>
 {{--                @foreach(\App\Models\Service::serviceParameters() as $param)--}}
 {{--                    <td>{{$log->getParameter($param['data']->getAttribute('id'))}}</td>--}}
@@ -204,25 +219,7 @@
 {{--                    @endphp--}}
 {{--                @endforeach--}}
                 <td>
-                    @if(is_numeric($log->getAttribute('status')))
-                        @php
-                            switch($log->getAttribute('status')){
-                                case(1):
-                                    $color = 'success';
-                                    break;
-                                case(2):
-                                    $color = 'warning';
-                                    break;
-                                case(3):
-                                    $color = 'secondary';
-                                    break;
-                                case(4):
-                                    $color = 'danger';
-                                    break;
-                            }
-                        @endphp
-                    @endif
-                    <span class="badge badge-{{$color}}" style="font-size: 12px">
+                    <span class="badge badge-primary" style="font-size: 12px">
                          {{trans('translates.logistics_statuses.' . $log->getAttribute('status'))}}
                     </span>
                 </td>
