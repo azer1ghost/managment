@@ -56,7 +56,7 @@ class SupportController extends Controller
         ]);
     }
 
-    public function update(FolderRequest $request, Support $support)
+    public function update(SupportRequest $request, Support $support)
     {
         $validated = $request->validated();
         $support->update($validated);
