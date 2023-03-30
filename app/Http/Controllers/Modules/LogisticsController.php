@@ -65,10 +65,7 @@ class LogisticsController extends Controller
         $statuses = Logistics::statuses();
         $transportTypes = Logistics::transportTypes();
 
-        $services = Service::query()
-            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
-                $query->whereBelongsTo($user->getRelationValue('company'));
-            })->get(['id', 'name', 'detail']);
+        $services = Service::query()->where('company_id', Company::MOBIL_LOGISTICS)->get(['id', 'name', 'detail']);
 
         $logistics = $this->logisticsRepository->allFilteredLogistics($filters, $dateFilters);
 
