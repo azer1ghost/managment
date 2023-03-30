@@ -44,10 +44,10 @@
                         <li>Reestrdən çıxarış</li>
                         <li>VÖEN</li>
                         <li>Broker xidmət müqaviləsi </li>
-                        <li>Fiziki şəxs etibarnamə - HNBGİ</li>
+                        <li>Fiziki şəxs etibarnamə - HNBGİ(ƏSLİ)</li>
                         <li>Fiziki şəxs etibarnamə - AMBGİ</li>
                         <li>Fiziki şəxs etibarnamə - BBGİ</li>
-                        <li>Hüquqi şəxs Gömrük etibarnamə - HNBGİ</li>
+                        <li>Hüquqi şəxs Gömrük etibarnamə - HNBGİ(ƏSLİ)</li>
                         <li>Hüquqi şəxs ASG etibarnamə - HNBGİ</li>
                         <li>Hüquqi şəxs Gömrük etibarnamə - BBGİ</li>
                         <li>Hüquqi şəxs Gömrük etibarnamə - AMBGİ</li>
