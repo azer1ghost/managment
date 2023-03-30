@@ -53,6 +53,7 @@
             <x-input::text  name="asan_id"   label="Asan ID"    :value="$data->getAttribute('asan_id')"    width="6"/>
             <x-input::text  name="pin1"   label="Pin 1"    :value="$data->getAttribute('pin1')"    width="6"/>
             <x-input::text  name="pin2"   label="Pin 2"    :value="$data->getAttribute('pin2')"    width="6"/>
+            <x-input::text  name="puk"   label="PUK"    :value="$data->getAttribute('puk')"    width="6"/>
         </div>
         <div class="custom-control custom-switch">
             <input type="checkbox" name="is_active" class="custom-control-input" id="is_active" @if($data->getAttribute('is_active')) checked @endif>
