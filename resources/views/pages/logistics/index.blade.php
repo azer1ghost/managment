@@ -195,7 +195,7 @@
 {{--            $total_payment = [];--}}
 {{--        @endphp--}}
         @forelse($logistics as $log)
-            <tr>
+            <tr class="text-center">
                 <td>{{$log->getAttribute('reg_number')}}</td>
                 <td>{{$log->getRelationValue('user')->getAttribute('fullname_with_position')}}</td>
                 <td>{{$log->getRelationValue('service')->getAttribute('name')}}</td>
