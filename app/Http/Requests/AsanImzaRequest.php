@@ -16,6 +16,7 @@ class AsanImzaRequest extends FormRequest
             'asan_id'=>'nullable|string',
             'pin1'=>'nullable|string',
             'pin2'=>'nullable|string',
+            'puk'=>'nullable|string',
         ];
     }
 }
