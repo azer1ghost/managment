@@ -56,9 +56,9 @@
                             <td>{{$protocol->getAttribute('protocol_no')}}</td>
                              <td>{{optional($protocol->getAttribute('date'))->format('d/m/y')}}</td>
                              <td>{{$protocol->getAttribute('content')}}</td>
-                             <td>{{$protocol->getRelationValue('performers')->getFullnameWithPositionAttribute()}}</td>
                              <td>{{$protocol->getRelationValue('signatures')->getFullnameWithPositionAttribute()}}</td>
-                             @can('update', App\Models\Protocol::class)
+                             <td>{{$protocol->getRelationValue('performers')->getFullnameWithPositionAttribute()}}</td>
+                         @can('update', App\Models\Protocol::class)
                                  <td>
                                      <div class="btn-sm-group">
                                          <a href="{{route('protocols.show', $protocol)}}" class="btn btn-sm btn-outline-primary">
