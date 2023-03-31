@@ -243,7 +243,7 @@
                 <p class="mb-0"> @lang('translates.total_items', ['count' => $works->count(), 'total' => is_numeric($filters['limit']) ? $works->total() : $works->count()])</p>
                 <div class="input-group col-md-6">
                     <select name="limit" class="custom-select" id="size">
-                        @foreach([25, 50, 100, 250, 500] as $size)
+                        @foreach([25, 50, 100, 250] as $size)
                             <option @if($filters['limit'] == $size) selected @endif value="{{$size}}">{{$size}}</option>
                         @endforeach
                     </select>
@@ -301,6 +301,7 @@
             <th scope="col">@lang('translates.navbar.service')</th>
             <th scope="col">@lang('translates.fields.clientName')</th>
             <th scope="col">Status</th>
+            <th scope="col">@lang('translates.navbar.document')</th>
             <th scope="col">Gb Say</th>
             <th scope="col">Kod Say</th>
             <th scope="col">Say</th>
@@ -385,6 +386,17 @@
                          {{trans('translates.work_status.' . $work->getAttribute('status'))}}
                     </span>
                 </td>
+                    <td>
+                        @php $supportedTypes = \App\Models\Document::supportedTypeIcons() @endphp
+                        @foreach($work->documents as $document)
+                            @php $type = $supportedTypes[$document->type] @endphp
+                            @php $route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document) @endphp
+                            <a href="{{$route}}" data-toggle="tooltip" title="{{$document->file}}" target="_blank" class="text-dark d-flex align-items-center mr-2" style=" word-break: break-word">
+                                <i class="fa fa-file-{{$type['icon']}} fa-2x m-1 text-{{$type['color']}}"></i>
+                                <span>{{substr($document->name, 0, 10) . '...'}} </span>
+                            </a>
+                        @endforeach
+                    </td>
                     <td>{{$work->getParameter($work::GB)}}</td>
                     <td>{{$work->getParameter($work::CODE)}}</td>
                     <td>{{$work->getParameter($work::SERVICECOUNT)}}</td>
@@ -536,7 +548,7 @@
 
         @if($works->isNotEmpty())
             <tr style="background: #b3b7bb" id="count">
-                <td colspan=" @if(auth()->user()->isDeveloper() || auth()->user()->hasPermission('viewPrice-work')) 9 @elseif(auth()->user()->hasPermission('viewAll-work') || auth()->user()->hasPermission('canVerify-work'))  8 @else 7 @endif">
+                <td colspan=" @if(auth()->user()->isDeveloper() || auth()->user()->hasPermission('viewPrice-work')) 10 @elseif(auth()->user()->hasPermission('viewAll-work') || auth()->user()->hasPermission('canVerify-work')) 9 @else 8 @endif">
                     <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
                 </td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $gb_count}}</strong></p></td>
