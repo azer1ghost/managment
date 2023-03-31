@@ -16,6 +16,8 @@ class Change extends Model implements Recordable, DocumentableInterface
     use Documentable, \Altek\Accountant\Recordable,  Eventually;
 
     protected $fillable = ['user_id', 'department_id', 'description', 'reason', 'result', 'responsible', 'effectivity', 'note', 'datetime'];
+    protected $dates = ['datetime'];
+
 
     public function users(): BelongsTo
     {

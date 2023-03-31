@@ -49,7 +49,7 @@
                          <tr>
 
                             <td>{{$loop->iteration}}</td>
-                            <td>{{$change->getAttribute('datetime')}}</td>
+                            <td>{{optional($change->getAttribute('datetime'))->format('d/m/y')}}</td>
                             <td>{{$change->getRelationValue('users')->getAttribute('fullname')}}</td>
                             <td>{{$change->getRelationValue('departments')->getAttribute('name') ?? trans('translates.general.all_departments')}}</td>
                             <td>{{$change->getAttribute('description')}}</td>

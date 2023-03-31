@@ -54,7 +54,7 @@
                     <div class="form-group col-6 col-md-6 ">
                         <label for="user_id">Tarix Seçin</label><br/>
                         <input type="text" aria-label="datetime" class="form-control" readonly placeholder="@lang('translates.placeholders.range')" name="datetime"
-                               value="{{$data->getAttribute('datetime')}}" >
+                               value="{{optional($data->getAttribute('datetime'))->format('Y-m-d')}}" >
                     </div>
                     <x-form-group  class="pr-3 col-12 col-lg-6"  >
                         <x-form-textarea  name="description" label="Dəyişikliyin təsviri" placeholder="Dəyişikliyin təsvirini daxil edin"/>

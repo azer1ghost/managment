@@ -30,7 +30,7 @@
                     <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
                         <label for="data-sent_date">Göndərilmə Tarixi</label>
                         <input type="datetime-local" name="sent_date"
-                               value="{{optional($data)->getAttribute('sent_date')}}" id="data-sent_date" class="form-control">
+                               value="{{optional($data->getAttribute('sent_date'))->format('Y-m-d')}}" id="data-sent_date" class="form-control">
                     </div>
                     <x-form-group  class="pr-3 col-12 col-lg-6"  >
                         <x-form-input  name="organization" label="Təşkilat adı" placeholder="Təşkilat adı daxil edin"/>
