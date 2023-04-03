@@ -34,22 +34,6 @@ class EmailController extends Controller
         $template = 'email';
 
         $emails = [
-        'nigar.i@mobilbroker.az',
-            'n.novruzov@mobilbroker.az',
-            'n.karimli@mobilbroker.az',
-            'p.ahmedov@mobilbroker.az',
-            'a.rzayev@mobilbroker.az',
-            'g.mammadova@mobilbroker.az',
-            'f.nazarli@mobilbroker.az',
-            'sh.babayeva@mobilbroker.az',
-            'r.rahimov@mobilbroker.az',
-            'r.farajli@mobilbroker.az',
-            'm.hasanov@mobilbroker.az',
-            'f.nazarov@mobilbroker.az',
-            'n.azimov@mobilbroker.az',
-            'r.seyidov@mobilgroup.az',
-            'z.namazli@mobilgroup.az',
-            'c.allahverdiyev@mobilbroker.az',
             'qafarzade2014@gmail.com'
         ];
 

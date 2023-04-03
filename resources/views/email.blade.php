@@ -1,687 +1,488 @@
-<!DOCTYPE>
+{{--<!doctype html>--}}
+{{--<html lang="en">--}}
+{{--<head>--}}
+{{--    <meta charset="UTF-8">--}}
+{{--    <meta name="viewport"--}}
+{{--          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">--}}
+{{--    <meta http-equiv="X-UA-Compatible" content="ie=edge">--}}
+{{--    <title>Document</title>--}}
+{{--</head>--}}
+{{--<style>--}}
+{{--    p, h1, h2{--}}
+{{--        color: #0a1549;--}}
+{{--    }--}}
+{{--    p {--}}
+{{--        font-size: 20px;--}}
+{{--    }--}}
+{{--    span {--}}
+{{--        background: #0a1549;--}}
+{{--        border-radius: 50px;--}}
+{{--        color: white;--}}
+{{--        font-size: 50px;--}}
+{{--        padding:12px 45px 12px 45px;--}}
+{{--        font-weight: bolder;--}}
+{{--    }--}}
+{{--    @media only screen and (min-width: 1200px) {--}}
+{{--        .ortala {--}}
+{{--            text-align: center; /* dikey olarak ortalamak için */--}}
+{{--            padding-left: 600px;--}}
+{{--            padding-right: 600px;--}}
+{{--        }--}}
+{{--        .img-text{--}}
+{{--            text-align: justify;--}}
+{{--            margin-top: 0 !important;--}}
+{{--            padding-top: 0 !important;--}}
+{{--        }--}}
+{{--        .img-text-div {--}}
+{{--            align-items: flex-start;--}}
+{{--            padding-right: 20px;--}}
+{{--        }--}}
+{{--        .img-div {--}}
+{{--            align-items: flex-end;--}}
+{{--        }--}}
+{{--        .sekil {--}}
+{{--            display: flex;--}}
+{{--        }--}}
+{{--    }--}}
+
+
+{{--</style>--}}
+{{--<body>--}}
+{{--    <div class="ortala" >--}}
+{{--        <div style="margin: 20px">--}}
+{{--            <img src="https://i.ibb.co/LxTrPG9/p7-B8-GJJj-NI7l-Rf-Zxl-U4-V.png" alt="">--}}
+{{--        </div>--}}
+
+{{--        <div style="margin: 40px">--}}
+{{--            <h1 style="background: #99cd08; padding:20px 0 20px 0; color: white">GÖMRÜK XƏBƏRLƏRİ</h1>--}}
+{{--        </div>--}}
+
+{{--        <div>--}}
+{{--            <h2 style="text-align: start; font-size: 30px;">Yaşı 10 ildən çox olan minik avtomobillərinin gətirilməsi dayandırılır!</h2>--}}
+{{--        </div>--}}
+{{--        <div>--}}
+{{--            <p style="text-align: justify"> İstismar olunan minik avtomobillərinin Azərbaycan Respublikasının gömrük--}}
+{{--                ərazisinə gətirilməsinin məhdudlaşdırılması haqqında “Azərbaycan Respublikası--}}
+{{--                Gömrük Məcəlləsinin təsdiq edilməsi haqqında” Azərbaycan Respublikası--}}
+{{--                Qanununun tətbiqi barədə” Azərbaycan Respublikası Prezidentinin 2011-ci il 15--}}
+{{--                sentyabr tarixli 499 nömrəli Fərmanının 28.5-ci bəndinə əsasən, insanların həyat--}}
+{{--                və sağlamlığının və ətraf mühitin qorunması, avtonəqliyyat vasitələrindən--}}
+{{--                atmosfer havasına atılan zərərli maddələrin miqdarının azaldılması və ekoloji--}}
+{{--                vəziyyətin yaxşılaşdırılması məqsədilə AzərbaycanRespublikasının Nazirlər--}}
+{{--                Kabineti qərara alır:</p>--}}
+{{--        </div>--}}
+{{--        <div class="sekil">--}}
+{{--            <div class="img-text-div">--}}
+{{--                <p class="img-text">1. Zavod buraxılış tarixinə görə yaşı 10 ildən--}}
+{{--                    çox olan minik avtomobillərinin (raritet minik--}}
+{{--                    avtomobilləri və gömrük ərazisinə--}}
+{{--                    müvəqqəti gətirilən minik avtomobilləri--}}
+{{--                    istisna olmaqla) Azərbaycan Respublikası--}}
+{{--                    ərazisinə gətirilməsi məhdudlaşdırılsın.--}}
+{{--                    2. Bu Qərar dərc edildiyi gündən 30 (otuz)--}}
+{{--                    gün sonra qüvvəyə minir--}}
+{{--                </p>--}}
+{{--            </div>--}}
+
+{{--            <div><img src="https://i.ibb.co/Kjn5P5y/2.png" alt="" width="250"></div>--}}
+{{--            <div><img src="https://i.ibb.co/HP75VVj/1.png" alt=""></div>--}}
+{{--        </div>--}}
+{{--        <div><h2>Avtomobillərin gətirilməsi və Gömrük Rəsmiləşdirilməsi üçün:--}}
+{{--            </h2></div>--}}
+{{--        <div style="margin-top: 70px;"><span>*9090</span></div>--}}
+{{--    </div>--}}
+{{--</body>--}}
+{{--</html>--}}
+
+        <!doctype html>
 <html>
-
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>New Assignment</title>
-    <style type="text/css">
-        /* reset */
-        article,
-        aside,
-        details,
-        figcaption,
-        figure,
-        footer,
-        header,
-        hgroup,
-        nav,
-        section,
-        summary {
-            display: block
-        }
+    <title>Simple Transactional Email</title>
+    <style>
+        /* -------------------------------------
+            GLOBAL RESETS
+        ------------------------------------- */
 
-        audio,
-        canvas,
-        video {
-            display: inline-block;
-            *display: inline;
-            *zoom: 1
-        }
+        /*All the styling goes here*/
 
-        audio:not([controls]) {
-            display: none;
-            height: 0
-        }
-
-        [hidden] {
-            display: none
-        }
-
-        html {
-            font-size: 100%;
-            -webkit-text-size-adjust: 100%;
-            -ms-text-size-adjust: 100%
-        }
-
-        html,
-        button,
-        input,
-        select,
-        textarea {
-            font-family: sans-serif
+        img {
+            border: none;
+            -ms-interpolation-mode: bicubic;
+            max-width: 100%;
         }
 
         body {
-            margin: 0
-        }
-
-        a:focus {
-            outline: thin dotted
-        }
-
-        a:active,
-        a:hover {
-            outline: 0
-        }
-
-        h1 {
-            font-size: 2em;
-            margin: 0 0.67em 0
-        }
-
-        h2 {
-            font-size: 1.5em;
-            margin: 0 0 .83em 0
-        }
-
-        h3 {
-            font-size: 1.17em;
-            margin: 1em 0
-        }
-
-        h4 {
-            font-size: 1em;
-            margin: 1.33em 0
-        }
-
-        h5 {
-            font-size: .83em;
-            margin: 1.67em 0
-        }
-
-        h6 {
-            font-size: .75em;
-            margin: 2.33em 0
-        }
-
-        abbr[title] {
-            border-bottom: 1px dotted
-        }
-
-        b,
-        strong {
-            font-weight: bold
-        }
-
-        blockquote {
-            margin: 1em 40px
-        }
-
-        dfn {
-            font-style: italic
-        }
-
-        mark {
-            background: #ff0;
-            color: #000
-        }
-
-        p,
-        pre {
-            margin: 1em 0
-        }
-
-        code,
-        kbd,
-        pre,
-        samp {
-            font-family: monospace, serif;
-            _font-family: 'courier new', monospace;
-            font-size: 1em
-        }
-
-        pre {
-            white-space: pre;
-            white-space: pre-wrap;
-            word-wrap: break-word
-        }
-
-        q {
-            quotes: none
-        }
-
-        q:before,
-        q:after {
-            content: '';
-            content: none
-        }
-
-        small {
-            font-size: 75%
-        }
-
-        sub,
-        sup {
-            font-size: 75%;
-            line-height: 0;
-            position: relative;
-            vertical-align: baseline
-        }
-
-        sup {
-            top: -0.5em
-        }
-
-        sub {
-            bottom: -0.25em
-        }
-
-        dl,
-        menu,
-        ol,
-        ul {
-            margin: 1em 0
-        }
-
-        dd {
-            margin: 0 0 0 40px
-        }
-
-        menu,
-        ol,
-        ul {
-            padding: 0 0 0 40px
-        }
-
-        nav ul,
-        nav ol {
-            list-style: none;
-            list-style-image: none
-        }
-
-        img {
-            border: 0;
-            -ms-interpolation-mode: bicubic
-        }
-
-        svg:not(:root) {
-            overflow: hidden
-        }
-
-        figure {
-            margin: 0
-        }
-
-        form {
-            margin: 0
-        }
-
-        fieldset {
-            border: 1px solid #c0c0c0;
-            margin: 0 2px;
-            padding: .35em .625em .75em
-        }
-
-        legend {
-            border: 0;
-            padding: 0;
-            white-space: normal;
-            *margin-left: -7px
-        }
-
-        button,
-        input,
-        select,
-        textarea {
-            font-size: 100%;
+            background-color: #f6f6f6;
+            font-family: sans-serif;
+            -webkit-font-smoothing: antialiased;
+            font-size: 14px;
+            line-height: 1.4;
             margin: 0;
-            vertical-align: baseline;
-            *vertical-align: middle
-        }
-
-        button,
-        input {
-            line-height: normal
-        }
-
-        button,
-        html input[type="button"],
-        input[type="reset"],
-        input[type="submit"] {
-            -webkit-appearance: button;
-            cursor: pointer;
-            *overflow: visible
-        }
-
-        button[disabled],
-        input[disabled] {
-            cursor: default
-        }
-
-        input[type="checkbox"],
-        input[type="radio"] {
-            box-sizing: border-box;
             padding: 0;
-            *height: 13px;
-            *width: 13px
-        }
-
-        input[type="search"] {
-            -webkit-appearance: textfield;
-            -moz-box-sizing: content-box;
-            -webkit-box-sizing: content-box;
-            box-sizing: content-box
-        }
-
-        input[type="search"]::-webkit-search-cancel-button,
-        input[type="search"]::-webkit-search-decoration {
-            -webkit-appearance: none
-        }
-
-        button::-moz-focus-inner,
-        input::-moz-focus-inner {
-            border: 0;
-            padding: 0
-        }
-
-        textarea {
-            overflow: auto;
-            vertical-align: top
-        }
-
-        table {
-            border-collapse: collapse;
-            border-spacing: 0
-        }
-
-        /* custom client-specific styles including styles for different online clients */
-        .ReadMsgBody {
-            width: 100%;
-        }
-
-        .ExternalClass {
-            width: 100%;
-        }
-
-        /* hotmail / outlook.com */
-        .ExternalClass,
-        .ExternalClass p,
-        .ExternalClass span,
-        .ExternalClass font,
-        .ExternalClass td,
-        .ExternalClass div {
-            line-height: 100%;
-        }
-
-        /* hotmail / outlook.com */
-        table,
-        td {
-            mso-table-lspace: 0pt;
-            mso-table-rspace: 0pt;
-        }
-
-        /* Outlook */
-        #outlook a {
-            padding: 0;
-        }
-
-        /* Outlook */
-        img {
-            -ms-interpolation-mode: bicubic;
-            display: block;
-            outline: none;
-            text-decoration: none;
-        }
-
-        /* IExplorer */
-        body,
-        table,
-        td,
-        p,
-        a,
-        li,
-        blockquote {
             -ms-text-size-adjust: 100%;
             -webkit-text-size-adjust: 100%;
-            font-weight: normal !important;
         }
 
-        .ExternalClass td[class="ecxflexibleContainerBox"] h3 {
-            padding-top: 10px !important;
-        }
 
-        /* hotmail */
-        /* email template styles */
-        h1 {
-            display: block;
-            font-size: 26px;
-            font-style: normal;
-            font-weight: normal;
-            line-height: 100%;
-        }
-
-        h2 {
-            display: block;
-            font-size: 20px;
-            font-style: normal;
-            font-weight: normal;
-            line-height: 120%;
-        }
-
-        h3 {
-            display: block;
-            font-size: 17px;
-            font-style: normal;
-            font-weight: normal;
-            line-height: 110%;
-        }
-
-        h4 {
-            display: block;
-            font-size: 18px;
-            font-style: italic;
-            font-weight: normal;
-            line-height: 100%;
-        }
-
-        .flexibleImage {
-            height: auto;
-        }
-
-        table[class=flexibleContainerCellDivider] {
-            padding-bottom: 0 !important;
-            padding-top: 0 !important;
-        }
-
-        body,
-        #bodyTbl {
-            background-color: #E1E1E1;
-        }
-
-        #emailHeader {
-            background-color: #E1E1E1;
-        }
-
-        #emailBody {
-            background-color: #FFFFFF;
-        }
-
-        #emailFooter {
-            background-color: #E1E1E1;
-        }
-
-        .textContent {
-            color: #8B8B8B;
-            font-family: Helvetica;
-            font-size: 16px;
-            line-height: 125%;
-            text-align: Left;
-        }
-
-        .textContent a {
-            color: #205478;
-            text-decoration: underline;
-        }
-
-        .emailButton {
-            background-color: #205478;
+        table {
             border-collapse: separate;
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+            width: 100%; }
+        table td {
+            font-family: sans-serif;
+            font-size: 14px;
+            vertical-align: top;
         }
 
-        .buttonContent {
-            color: #FFFFFF;
-            font-family: Helvetica;
-            font-size: 18px;
-            font-weight: bold;
-            line-height: 100%;
-            padding: 15px;
+        /* -------------------------------------
+            BODY & CONTAINER
+        ------------------------------------- */
+
+        .body {
+            background-color: #f6f6f6;
+            width: 100%;
+        }
+
+        /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
+        .container {
+            display: block;
+            margin: 0 auto !important;
+            /* makes it centered */
+            max-width: 580px;
+            padding: 10px;
+            width: 580px;
+        }
+
+        /* This should also be a block element, so that it will fill 100% of the .container */
+        .content {
+            box-sizing: border-box;
+            display: block;
+            margin: 0 auto;
+            max-width: 580px;
+            padding: 10px;
+        }
+
+        /* -------------------------------------
+            HEADER, FOOTER, MAIN
+        ------------------------------------- */
+        .main {
+            background: #ffffff;
+            border-radius: 3px;
+            width: 100%;
+        }
+
+        .wrapper {
+            box-sizing: border-box;
+            padding: 20px;
+        }
+
+        .content-block {
+            padding-bottom: 10px;
+            padding-top: 10px;
+        }
+
+        .footer {
+            clear: both;
+            margin-top: 10px;
+            text-align: center;
+            width: 100%;
+        }
+        .footer td,
+        .footer p,
+        .footer span,
+        .footer a {
+            color: #999999;
+            font-size: 12px;
             text-align: center;
         }
 
-        .buttonContent a {
-            color: #FFFFFF;
-            display: block;
-            text-decoration: none !important;
-            border: 0 !important;
+        /* -------------------------------------
+            TYPOGRAPHY
+        ------------------------------------- */
+        h1,
+        h2,
+        h3,
+        h4 {
+            color: #000000;
+            font-family: sans-serif;
+            font-weight: 400;
+            line-height: 1.4;
+            margin: 0;
+            margin-bottom: 30px;
         }
 
-        #invisibleIntroduction {
+        h1 {
+            font-size: 35px;
+            font-weight: 300;
+            text-align: center;
+            text-transform: capitalize;
+        }
+
+        p,
+        ul,
+        ol {
+            font-family: sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            margin: 0;
+            margin-bottom: 15px;
+            color: #0a1549;
+        }
+        p li,
+        ul li,
+        ol li {
+            list-style-position: inside;
+            margin-left: 5px;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: underline;
+        }
+
+        /* -------------------------------------
+            BUTTONS
+        ------------------------------------- */
+        .btn {
+            box-sizing: border-box;
+            width: 100%; }
+        .btn > tbody > tr > td {
+            padding-bottom: 15px; }
+        .btn table {
+            width: auto;
+        }
+        .btn table td {
+            background-color: #ffffff;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .btn a {
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-sizing: border-box;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 0;
+            padding: 12px 25px;
+            text-decoration: none;
+            text-transform: capitalize;
+        }
+
+
+
+        /* -------------------------------------
+            OTHER STYLES THAT MIGHT BE USEFUL
+        ------------------------------------- */
+        .last {
+            margin-bottom: 0;
+        }
+
+        .first {
+            margin-top: 0;
+        }
+
+        .align-center {
+            text-align: center;
+        }
+
+        .align-right {
+            text-align: right;
+        }
+
+        .align-left {
+            text-align: left;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        .mt0 {
+            margin-top: 0;
+        }
+
+        .mb0 {
+            margin-bottom: 0;
+        }
+
+        .preheader {
+            color: transparent;
             display: none;
-            display: none !important;
+            height: 0;
+            max-height: 0;
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            mso-hide: all;
+            visibility: hidden;
+            width: 0;
         }
 
-        /* hide the introduction text */
-        /* other framework hacks and overrides */
-        span[class=ios-color-hack] a {
-            color: #000000 !important;
-            text-decoration: none !important;
+        .powered-by a {
+            text-decoration: none;
         }
 
-        /* Remove all link colors in IOS (below are duplicates based on the color preference) */
-        span[class=ios-color-hack2] a {
-            color: #205478 !important;
-            text-decoration: none !important;
+        hr {
+            border: 0;
+            border-bottom: 1px solid #f6f6f6;
+            margin: 20px 0;
         }
 
-        span[class=ios-color-hack3] a {
-            color: #8B8B8B !important;
-            text-decoration: none !important;
-        }
-
-        /* phones and sms */
-        .a[href^="tel"],
-        a[href^="sms"] {
-            text-decoration: none !important;
-            color: #606060 !important;
-            pointer-events: none !important;
-            cursor: default !important;
-        }
-
-        .mobile_link a[href^="tel"],
-        .mobile_link a[href^="sms"] {
-            text-decoration: none !important;
-            color: #606060 !important;
-            pointer-events: auto !important;
-            cursor: default !important;
-        }
-
-        /* responsive styles */
-        @media only screen and (max-width: 480px) {
-            body {
-                width: 100% !important;
-                min-width: 100% !important;
+        /* -------------------------------------
+            RESPONSIVE AND MOBILE FRIENDLY STYLES
+        ------------------------------------- */
+        @media only screen and (max-width: 620px) {
+            table.body h1 {
+                font-size: 28px !important;
+                margin-bottom: 10px !important;
             }
-
-            table[id="emailHeader"],
-            table[id="emailBody"],
-            table[id="emailFooter"],
-            table[class="flexibleContainer"] {
-                width: 100% !important;
+            table.body p,
+            table.body ul,
+            table.body ol,
+            table.body td,
+            table.body span,
+            table.body a {
+                font-size: 16px !important;
             }
-
-            td[class="flexibleContainerBox"],
-            td[class="flexibleContainerBox"] table {
-                display: block;
-                width: 100%;
-                text-align: left;
+            table.body .wrapper,
+            table.body .article {
+                padding: 10px !important;
             }
-
-            td[class="imageContent"] img {
-                height: auto !important;
-                width: 100% !important;
-                max-width: 100% !important;
-            }
-
-            img[class="flexibleImage"] {
-                height: auto !important;
-                width: 100% !important;
-                max-width: 100% !important;
-            }
-
-            img[class="flexibleImageSmall"] {
-                height: auto !important;
-                width: auto !important;
-            }
-
-            table[class="flexibleContainerBoxNext"] {
-                padding-top: 10px !important;
-            }
-
-            table[class="emailButton"] {
-                width: 100% !important;
-            }
-
-            td[class="buttonContent"] {
+            table.body .content {
                 padding: 0 !important;
             }
-
-            td[class="buttonContent"] a {
-                padding: 15px !important;
+            table.body .container {
+                padding: 0 !important;
+                width: 100% !important;
+            }
+            table.body .main {
+                border-left-width: 0 !important;
+                border-radius: 0 !important;
+                border-right-width: 0 !important;
+            }
+            table.body .btn table {
+                width: 100% !important;
+            }
+            table.body .btn a {
+                width: 100% !important;
+            }
+            table.body .img-responsive {
+                height: auto !important;
+                max-width: 100% !important;
+                width: auto !important;
             }
         }
+
+        /* -------------------------------------
+            PRESERVE THESE STYLES IN THE HEAD
+        ------------------------------------- */
+        @media all {
+            .ExternalClass {
+                width: 100%;
+            }
+            .ExternalClass,
+            .ExternalClass p,
+            .ExternalClass span,
+            .ExternalClass font,
+            .ExternalClass td,
+            .ExternalClass div {
+                line-height: 100%;
+            }
+            .apple-link a {
+                color: inherit !important;
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                text-decoration: none !important;
+            }
+            #MessageViewBody a {
+                color: inherit;
+                text-decoration: none;
+                font-size: inherit;
+                font-family: inherit;
+                font-weight: inherit;
+                line-height: inherit;
+            }
+
+        }
+
     </style>
-
 </head>
+<body>
+<span class="preheader">This is preheader text. Some clients will show this text as a preview.</span>
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
+    <tr>
+        <td>&nbsp;</td>
+        <td class="container">
+            <div class="content">
 
-<body bgcolor="#E1E1E1" leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
-<center style="background-color:#E1E1E1;">
-    <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTbl" style="table-layout: fixed;max-width:100% !important;width: 100% !important;min-width: 100% !important;">
-        <tr>
-            <td align="center" valign="top" id="bodyCell">
+                <!-- START CENTERED WHITE CONTAINER -->
+                <table role="presentation" class="main">
 
-                <table bgcolor="#E1E1E1" border="0" cellpadding="0" cellspacing="0" width="500" id="emailHeader">
+                    <!-- START MAIN CONTENT AREA -->
                     <tr>
-                        <td align="center" valign="top">
-
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <td class="wrapper">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                 <tr>
-                                    <td align="center" valign="top">
 
-                                        <table border="0" cellpadding="10" cellspacing="0" width="500" class="flexibleContainer">
+                                    <td style="text-align: center;" >
+                                        <img style="text-align: center" src="https://i.ibb.co/LxTrPG9/p7-B8-GJJj-NI7l-Rf-Zxl-U4-V.png" alt="">
+                                        <h2 style="background: #99cd08; color: white; padding:20px 5px 20px 5px; margin: 20px; font-size: 35px; font-weight: bolder">GÖMRÜK XƏBƏRLƏRİ</h2>
+                                        <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549" >Yaşı 10 ildən çox olan minik avtomobillərinin gətirilməsi dayandırılır!</h2>
+                                        <p style="text-align: justify;">Sİstismar olunan minik avtomobillərinin Azərbaycan Respublikasının gömrük ərazisinə gətirilməsinin məhdudlaşdırılması haqqında “Azərbaycan Respublikası Gömrük Məcəlləsinin təsdiq edilməsi haqqında” Azərbaycan Respublikası Qanununun tətbiqi barədə” Azərbaycan Respublikası Prezidentinin 2011-ci il 15 sentyabr tarixli 499 nömrəli Fərmanının 28.5-ci bəndinə əsasən, insanların həyat və sağlamlığının və ətraf mühitin qorunması, avtonəqliyyat vasitələrindən atmosfer havasına atılan zərərli maddələrin miqdarının azaldılması və ekoloji vəziyyətin yaxşılaşdırılması məqsədilə AzərbaycanRespublikasının Nazirlər Kabineti qərara alır:
+
+                                            </p>
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
+                                            <tbody>
                                             <tr>
-                                                <td valign="top" width="500" class="flexibleContainerCell">
+                                                <td align="left">
+                                                    <table border="0" cellpadding="0" cellspacing="0">
+                                                        <tbody>
+                                                        <tr> <td > <img src="https://i.ibb.co/Kjn5P5y/2.png" width="400px" alt=""> </td>
+                                                        </tr><tr>
+                                                            <td > <p  style="text-align: justify; margin-top: 20px">1. Zavod buraxılış tarixinə görə yaşı 10 ildən çox olan minik avtomobillərinin (raritet minik avtomobilləri və gömrük ərazisinə müvəqqəti gətirilən minik avtomobilləri istisna olmaqla) Azərbaycan Respublikası ərazisinə gətirilməsi məhdudlaşdırılsın. 2. Bu Qərar dərc edildiyi gündən 30 (otuz) gün sonra qüvvəyə minir</p> </td>
 
-
-                                                </td>
-                                            </tr>
-                                        </table>
-
-                                    </td>
-                                </tr>
-                            </table>
-
-                        </td>
-                    </tr>
-                </table>
-
-                <table bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" width="500" id="emailBody">
-
-                    <tr>
-                        <td align="center" valign="top">
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="color:#FFFFFF;" bgcolor="4747a1">
-                                <tr>
-                                    <td align="center" valign="top">
-                                        <table border="0" cellpadding="0" cellspacing="0" width="500" class="flexibleContainer">
-                                            <tr>
-                                                <td align="center" valign="top" width="500" class="flexibleContainerCell">
-                                                    <table border="0" cellpadding="30" cellspacing="0" width="100%">
-                                                        <tr>
-                                                            <td align="center" valign="top" class="textContent">
-                                                                <h1 style="color:#FFFFFF;line-height:100%;font-family:Helvetica,Arial,sans-serif;font-size:35px;font-weight:normal;margin-bottom:5px;text-align:center;">Mobil Management</h1>
-                                                                <h2 style="text-align:center;font-weight:normal;font-family:Helvetica,Arial,sans-serif;font-size:23px;margin-bottom:10px;color:#168d2e;line-height:135%;">Məlumat Mesajı</h2>
-                                                            </td>
                                                         </tr>
+                                                        </tbody>
                                                     </table>
                                                 </td>
                                             </tr>
+                                            </tbody>
                                         </table>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center" valign="top">
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                <tr>
-                                    <td align="center" valign="top">
-                                        <table border="0" cellpadding="0" cellspacing="0" width="500" class="flexibleContainer">
-                                            <tr>
-                                                <td align="center" valign="top" width="500" class="flexibleContainerCell">
-                                                    <table border="0" cellpadding="30" cellspacing="0" width="100%">
-                                                        <tr>
-                                                            <td align="center" valign="top">
-
-                                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                                    <tr>
-                                                                        <td valign="top" class="textContent">
-                                                                            <h3 style="color:#5F5F5F;line-height:125%;font-family:Helvetica,Arial,sans-serif;font-size:20px;font-weight:bold;margin-top:0;margin-bottom:3px;text-align:left;">Bütün bəyannaməçilərin diqqətinə!
-                                                                            </h3>
-                                                                            <div style="text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;margin-top:3px;color:#5F5F5F;line-height:135%;">Son zamanlarda bəyannamələrin tərtib edilməsi zamanı yaranan səhvlərin artması səbəbi ilə rəhbərlik tərəfindən işə daha diqqətli və məsuliyyətli yanaşmağınız tələb olunur.</div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        </table>
+                                        <span style="background: #0a1549; border-radius: 40px; color: white; padding:20px 30px 20px 30px; font-size: 35px; font-weight: bolder">*9090</span>
                                     </td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
 
-                    <tr>
-                        <td align="center" valign="top">
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#F8F8F8">
-                                <tr>
-                                    <td align="center" valign="top">
-                                        <table border="0" cellpadding="0" cellspacing="0" width="500" class="flexibleContainer">
-                                            <tr>
-                                                <td align="center" valign="top" width="500" class="flexibleContainerCell">
-
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-
+                    <!-- END MAIN CONTENT AREA -->
                 </table>
+                <!-- END CENTERED WHITE CONTAINER -->
 
-                <!-- footer -->
-                <table bgcolor="#E1E1E1" border="0" cellpadding="0" cellspacing="0" width="500" id="emailFooter">
-                    <tr>
-                        <td align="center" valign="top">
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                <tr>
-                                    <td >
-                                        <table border="0" cellpadding="0" cellspacing="0" width="500" class="flexibleContainer">
-                                            <tr>
-                                                <td align="center" valign="top" width="500" class="flexibleContainerCell">
-                                                    <table border="0" cellpadding="10" cellspacing="0" width="100%">
-                                                        <tr>
-                                                            <td >
+                <!-- START FOOTER -->
+                <div class="footer">
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="content-block">
+                                <span class="apple-link">Mobil Management</span> | All rights reserved.
+                            </td>
+                        </tr>
 
-                                                                <div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#828282;text-align:center;line-height:120%;">
-                                                                    <div>Mobil Management | IT Team</div>
-                                                                </div>
+                    </table>
+                </div>
+                <!-- END FOOTER -->
 
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-                <!-- // end of footer -->
-
-            </td>
-        </tr>
-    </table>
-</center>
+            </div>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+</table>
 </body>
-
 </html>
