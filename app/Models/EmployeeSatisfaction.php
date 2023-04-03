@@ -47,7 +47,7 @@ class EmployeeSatisfaction extends Model implements Recordable
 
     public function departments()
     {
-       return $this->belongsTo(Department::class)->withDefault();
+       return $this->belongsTo(Department::class,'department_id')->withDefault();
     }
 
     public static function types()

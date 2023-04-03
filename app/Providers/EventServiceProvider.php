@@ -43,10 +43,10 @@ class EventServiceProvider extends ServiceProvider
             SendNotification::class,
             SendPushNotification::class,
         ],
-//        EmployeeSatisfactionCreated::class => [
-//            SendNotification::class,
-//            SendPushNotification::class,
-//        ],
+        EmployeeSatisfactionCreated::class => [
+            SendNotification::class,
+            SendPushNotification::class,
+        ],
         WorkStatusRejected::class => [
             SendNotification::class,
             SendPushNotification::class,

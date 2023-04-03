@@ -28,6 +28,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         $this->dateFilters = $dateFilters;
 
         $this->headings = [
+            'Sorğu nömrəsi',
             'İş Kodu',
             trans('translates.columns.created_at'),
             'Müştəri adı',
@@ -61,6 +62,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
     public function map($row): array
     {
         $maps = [
+            $row->getAttribute('declaration_no'),
             $row->getAttribute('code'),
             $row->getAttribute('created_at')->format('d-m-Y'),
             $row->getRelationValue('client')->getAttribute('fullname'),
