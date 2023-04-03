@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Modules;
 
+use App\Events\EmployeeSatisfactionCreated;
 use App\Http\Requests\EmployeeSatisfactionRequest;
 use Illuminate\Http\RedirectResponse;
 use App\Models\EmployeeSatisfaction;
@@ -41,6 +42,8 @@ class EmployeeSatisfactionController extends Controller
 
     public function create()
     {
+
+
         return view('pages.employee-satisfactions.edit')
             ->with([
                 'action' => route('employee-satisfaction.store'),
@@ -55,10 +58,12 @@ class EmployeeSatisfactionController extends Controller
     public function store(EmployeeSatisfactionRequest $request): RedirectResponse
     {
         $validated = $request->validated();
+
         $validated['user_id'] = auth()->id();
         $validated['status'] = 1;
 
         $employeeSatisfaction = EmployeeSatisfaction::create($validated);
+        event(new EmployeeSatisfactionCreated($employeeSatisfaction));
 
         return redirect()
             ->route('employee-satisfaction.index')
