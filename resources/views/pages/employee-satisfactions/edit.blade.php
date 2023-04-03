@@ -58,10 +58,12 @@
         @if(request()->get('type') == '3' || $data->getAttribute('type') == 3)
             <div class="row mt-3">
                 <x-input::text name="activity" :label="trans('translates.employee_satisfactions.activity')" :value="$data->getAttribute('activity')" width="6"/>
-                <div class="custom-control col-6">
-                    <label for="deadline">@lang('translates.columns.deadline')</label>
-                    <input type="date" name="deadline" id="deadline" class="form-control deadline" label="@lang('translates.columns.deadline')" value="{{$data->getAttribute('deadline')}}"/>
-                </div>
+                @if(auth()->user()->hasPermission('measure-employeeSatisfaction'))
+                    <div class="custom-control col-6">
+                        <label for="deadline">@lang('translates.columns.deadline')</label>
+                        <input type="date" name="deadline" id="deadline" class="form-control deadline" label="@lang('translates.columns.deadline')" value="{{$data->getAttribute('deadline')}}"/>
+                    </div>
+                @endif
             </div>
             @if ($method !== 'POST')
             <div class="custom-control custom-switch is_enough">
