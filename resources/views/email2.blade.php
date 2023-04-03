@@ -1,4 +1,100 @@
-<!doctype html>
+{{--<!doctype html>--}}
+{{--<html lang="en">--}}
+{{--<head>--}}
+{{--    <meta charset="UTF-8">--}}
+{{--    <meta name="viewport"--}}
+{{--          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">--}}
+{{--    <meta http-equiv="X-UA-Compatible" content="ie=edge">--}}
+{{--    <title>Document</title>--}}
+{{--</head>--}}
+{{--<style>--}}
+{{--    p, h1, h2{--}}
+{{--        color: #0a1549;--}}
+{{--    }--}}
+{{--    p {--}}
+{{--        font-size: 20px;--}}
+{{--    }--}}
+{{--    span {--}}
+{{--        background: #0a1549;--}}
+{{--        border-radius: 50px;--}}
+{{--        color: white;--}}
+{{--        font-size: 50px;--}}
+{{--        padding:12px 45px 12px 45px;--}}
+{{--        font-weight: bolder;--}}
+{{--    }--}}
+{{--    @media only screen and (min-width: 1200px) {--}}
+{{--        .ortala {--}}
+{{--            text-align: center; /* dikey olarak ortalamak için */--}}
+{{--            padding-left: 600px;--}}
+{{--            padding-right: 600px;--}}
+{{--        }--}}
+{{--        .img-text{--}}
+{{--            text-align: justify;--}}
+{{--            margin-top: 0 !important;--}}
+{{--            padding-top: 0 !important;--}}
+{{--        }--}}
+{{--        .img-text-div {--}}
+{{--            align-items: flex-start;--}}
+{{--            padding-right: 20px;--}}
+{{--        }--}}
+{{--        .img-div {--}}
+{{--            align-items: flex-end;--}}
+{{--        }--}}
+{{--        .sekil {--}}
+{{--            display: flex;--}}
+{{--        }--}}
+{{--    }--}}
+
+
+{{--</style>--}}
+{{--<body>--}}
+{{--    <div class="ortala" >--}}
+{{--        <div style="margin: 20px">--}}
+{{--            <img src="https://i.ibb.co/LxTrPG9/p7-B8-GJJj-NI7l-Rf-Zxl-U4-V.png" alt="">--}}
+{{--        </div>--}}
+
+{{--        <div style="margin: 40px">--}}
+{{--            <h1 style="background: #99cd08; padding:20px 0 20px 0; color: white">GÖMRÜK XƏBƏRLƏRİ</h1>--}}
+{{--        </div>--}}
+
+{{--        <div>--}}
+{{--            <h2 style="text-align: start; font-size: 30px;">Yaşı 10 ildən çox olan minik avtomobillərinin gətirilməsi dayandırılır!</h2>--}}
+{{--        </div>--}}
+{{--        <div>--}}
+{{--            <p style="text-align: justify"> İstismar olunan minik avtomobillərinin Azərbaycan Respublikasının gömrük--}}
+{{--                ərazisinə gətirilməsinin məhdudlaşdırılması haqqında “Azərbaycan Respublikası--}}
+{{--                Gömrük Məcəlləsinin təsdiq edilməsi haqqında” Azərbaycan Respublikası--}}
+{{--                Qanununun tətbiqi barədə” Azərbaycan Respublikası Prezidentinin 2011-ci il 15--}}
+{{--                sentyabr tarixli 499 nömrəli Fərmanının 28.5-ci bəndinə əsasən, insanların həyat--}}
+{{--                və sağlamlığının və ətraf mühitin qorunması, avtonəqliyyat vasitələrindən--}}
+{{--                atmosfer havasına atılan zərərli maddələrin miqdarının azaldılması və ekoloji--}}
+{{--                vəziyyətin yaxşılaşdırılması məqsədilə AzərbaycanRespublikasının Nazirlər--}}
+{{--                Kabineti qərara alır:</p>--}}
+{{--        </div>--}}
+{{--        <div class="sekil">--}}
+{{--            <div class="img-text-div">--}}
+{{--                <p class="img-text">1. Zavod buraxılış tarixinə görə yaşı 10 ildən--}}
+{{--                    çox olan minik avtomobillərinin (raritet minik--}}
+{{--                    avtomobilləri və gömrük ərazisinə--}}
+{{--                    müvəqqəti gətirilən minik avtomobilləri--}}
+{{--                    istisna olmaqla) Azərbaycan Respublikası--}}
+{{--                    ərazisinə gətirilməsi məhdudlaşdırılsın.--}}
+{{--                    2. Bu Qərar dərc edildiyi gündən 30 (otuz)--}}
+{{--                    gün sonra qüvvəyə minir--}}
+{{--                </p>--}}
+{{--            </div>--}}
+
+{{--            <div><img src="https://i.ibb.co/Kjn5P5y/2.png" alt="" width="250"></div>--}}
+{{--            <div><img src="https://i.ibb.co/HP75VVj/1.png" alt=""></div>--}}
+{{--        </div>--}}
+{{--        <div><h2>Avtomobillərin gətirilməsi və Gömrük Rəsmiləşdirilməsi üçün:--}}
+{{--            </h2></div>--}}
+{{--        <div style="margin-top: 70px;"><span>*9090</span></div>--}}
+{{--    </div>--}}
+{{--</body>--}}
+{{--</html>--}}
+
+        <!doctype html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -337,20 +433,31 @@
                                     <td style="text-align: center;" >
                                         <img style="text-align: center" src="https://i.ibb.co/LxTrPG9/p7-B8-GJJj-NI7l-Rf-Zxl-U4-V.png" alt="">
                                         <h2 style="background: #99cd08; color: white; padding:20px 5px 20px 5px; margin: 20px; font-size: 35px; font-weight: bolder">GÖMRÜK XƏBƏRLƏRİ</h2>
-                                        <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549" >Yaşı 10 ildən çox olan minik avtomobillərinin gətirilməsi dayandırılır!</h2>
-                                        <p style="text-align: justify;">İstismar olunan minik avtomobillərinin Azərbaycan Respublikasının gömrük ərazisinə gətirilməsinin məhdudlaşdırılması haqqında “Azərbaycan Respublikası Gömrük Məcəlləsinin təsdiq edilməsi haqqında” Azərbaycan Respublikası Qanununun tətbiqi barədə” Azərbaycan Respublikası Prezidentinin 2011-ci il 15 sentyabr tarixli 499 nömrəli Fərmanının 28.5-ci bəndinə əsasən, insanların həyat və sağlamlığının və ətraf mühitin qorunması, avtonəqliyyat vasitələrindən atmosfer havasına atılan zərərli maddələrin miqdarının azaldılması və ekoloji vəziyyətin yaxşılaşdırılması məqsədilə AzərbaycanRespublikasının Nazirlər Kabineti qərara alır:
-
+                                        <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549" >Ölkəmizdən tranzit keçən nəqliyyat vasitələrindən də yol vergisi alınacaq.</h2>
+                                        <p style="text-align: justify;">  Qeyd edək ki, dəyişikliyə qədər avtonəqliyyat vasitələrinin növündən,
+                                            mühərriklərinin həcmindən, Azərbaycan Respublikasının ərazisində
+                                            qaldığı müddətdən oturacaqlarının sayından, oxların sayından və
+                                            avtonəqliyyat vasitəsinin yüklə birlikdə ümumi çəkisindən, Azərbaycan
+                                            Respublikası ərazisində qət edilən məsafədən, təhlükəli yüklərin
+                                            daşınmasından asılı olaraq Azərbaycan Respublikasının ərazisinə daxil
+                                            olan və Azərbaycan Respublikasının ərazisini tərk edən xarici dövlətlərdə
+                                            qeydiyyatda avtonəqliyyat vasitələrindən, habelə Azərbaycan
+                                            Respublikasının ərazisində istehsal edilərək
+                                            daxili istehlaka yönəldilən
+                                            (topdan satılan) və Azərbaycan
+                                            Respublikasının ərazisinə idxal
+                                            olunan avtomobil benzininə,
+                                            dizel yanacağına və maye qaza
+                                            görə yol vergisi alınırdı.
                                             </p>
                                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                                             <tbody>
                                             <tr>
-                                                <td align="left">
+                                                <td align="center">
                                                     <table border="0" cellpadding="0" cellspacing="0">
                                                         <tbody>
-                                                        <tr> <td> <img src="https://i.ibb.co/Kjn5P5y/2.png" width="400px" alt=""> </td></tr>
-                                                        <tr>
-                                                            <td> <p  style="text-align: justify; margin-top: 20px">1. Zavod buraxılış tarixinə görə yaşı 10 ildən çox olan minik avtomobillərinin (raritet minik avtomobilləri və gömrük ərazisinə müvəqqəti gətirilən minik avtomobilləri istisna olmaqla) Azərbaycan Respublikası ərazisinə gətirilməsi məhdudlaşdırılsın. 2. Bu Qərar dərc edildiyi gündən 30 (otuz) gün sonra qüvvəyə minir</p> </td>
-                                                        </tr>
+                                                        <tr> <td> <img src="https://i.ibb.co/HP75VVj/1.png" width="400px" alt=""> </td></tr>
+
 
                                                         </tbody>
                                                     </table>
@@ -359,7 +466,7 @@
                                             </tr>
                                             </tbody>
                                         </table>
-                                        <h2 style="font-size: 20px; font-weight: bolder; color: #0a1549" >Yaşı 10 ildən çox olan minik avtomobillərinin gətirilməsi dayandırılır!</h2>
+                                        <h2 style="font-size: 20px; font-weight: bolder; color: #0a1549" >Yüklərinizin gətirilməsi və Gömrük Rəsmiləşdirilməsi üçün:</h2>
                                         <span style="background: #0a1549; border-radius: 40px; color: white; padding:20px 30px 20px 30px; font-size: 35px; font-weight: bolder">*9090</span>
                                     </td>
                                 </tr>
