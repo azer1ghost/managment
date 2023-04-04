@@ -181,7 +181,7 @@
 
         <div class="input-group col-6 mb-3">
             <div class="custom-file">
-                <label class="custom-file-label" id="protocol-label" for="protocol">@lang('translates.placeholders.choose_file')</label>
+                <label class="custom-file-label" id="protocol-label" for="protocol">Qiymət Protokolu</label>
                 <input type="file" value="{{$data->getAttribute('protocol')}}" name="protocol" class="custom-file-input" id="protocol">
             </div>
         </div>
