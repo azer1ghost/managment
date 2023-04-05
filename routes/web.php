@@ -49,6 +49,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\ReportController,
     Modules\ResultController,
     Modules\RoleController,
+    Modules\RoomController,
     Modules\SalesActivityController,
     Modules\SalesActivityTypeController,
     Modules\SalesClientController,
@@ -111,6 +112,7 @@ Route::group([
     Route::post('/bonuses', [ReferralBonusController::class, 'refresh']);
     Route::post('/bonuses/referral', [ReferralBonusController::class, 'refreshReferral'])->name('bonuses.referral');
     Route::post('/bonuses/generate-referral-link', [ReferralBonusController::class, 'generate'])->name('bonuses.generate-referral-link');
+    Route::resource('/rooms', RoomController::class);
 
     Route::get('/cabinet', [PlatformController::class, 'cabinet'])->name('cabinet');
     Route::get('/customer-services', [PlatformController::class, 'customerServices'])->name('customer-services');

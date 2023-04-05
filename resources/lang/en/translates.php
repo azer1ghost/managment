@@ -247,7 +247,8 @@ return [
         'order' => 'Orders',
         'logistics' => 'Logistics',
         'logistics_clients' => 'Logistics Clients',
-        'questionnaire' => 'Questionnaire'
+        'questionnaire' => 'Questionnaire',
+        'room' => 'Rooms',
     ],
     'questionnaire' => [
 
