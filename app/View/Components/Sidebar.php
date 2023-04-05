@@ -454,9 +454,9 @@ class Sidebar extends Component
             ],
 
             (object)[
-                'title' => 'room',
-                'icon' => 'fab fa-rocketchat',
-                'url' => route('rooms.index'),
+//                'title' => 'room',
+//                'icon' => 'fab fa-rocketchat',
+//                'url' => route('rooms.index'),
 //                'permission' => 'viewAny-room',
             ],
 //            (object)[
