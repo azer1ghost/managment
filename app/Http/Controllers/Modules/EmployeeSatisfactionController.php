@@ -61,7 +61,11 @@ class EmployeeSatisfactionController extends Controller
         $validated['status'] = 1;
 
         $employeeSatisfaction = EmployeeSatisfaction::create($validated);
-        event(new EmployeeSatisfactionCreated($employeeSatisfaction));
+
+        if ($request->get('type') == EmployeeSatisfaction::INCONSISTENCY)
+        {
+            event(new EmployeeSatisfactionCreated($employeeSatisfaction));
+        }
 
         return redirect()
             ->route('employee-satisfaction.index')
