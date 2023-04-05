@@ -223,7 +223,7 @@
                                                                                     <tr>
                                                                                         <td colspan="2">
                                                                                             <div class="node">
-                                                                                                <a href="#">Dizayner</a>
+                                                                                                <a href="{{route('getInstruction', 11)}}">Dizayner</a>
                                                                                             </div>
                                                                                         </td>
                                                                                     </tr>

@@ -141,10 +141,10 @@
                 <p class="text-muted mb-2">@lang('translates.fields.contact')</p>
                 <hr class="my-2">
             </div>
-            <x-form-group class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.phone')">
+            <x-form-group class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.phone2')">
                 <x-form-input name="phone1" required/>
             </x-form-group>
-            <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.phone2')" >
+            <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.phone')" >
                 <x-form-input name="phone2"/>
             </x-form-group>
 
@@ -181,7 +181,7 @@
 
         <div class="input-group col-6 mb-3">
             <div class="custom-file">
-                <label class="custom-file-label" id="protocol-label" for="protocol">@lang('translates.placeholders.choose_file')</label>
+                <label class="custom-file-label" id="protocol-label" for="protocol">Qiymət Təklifi</label>
                 <input type="file" value="{{$data->getAttribute('protocol')}}" name="protocol" class="custom-file-input" id="protocol">
             </div>
         </div>
