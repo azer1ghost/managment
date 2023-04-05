@@ -42,8 +42,6 @@ class EmployeeSatisfactionController extends Controller
 
     public function create()
     {
-
-
         return view('pages.employee-satisfactions.edit')
             ->with([
                 'action' => route('employee-satisfaction.store'),
@@ -63,7 +61,7 @@ class EmployeeSatisfactionController extends Controller
         $validated['status'] = 1;
 
         $employeeSatisfaction = EmployeeSatisfaction::create($validated);
-//        event(new EmployeeSatisfactionCreated($employeeSatisfaction));
+        event(new EmployeeSatisfactionCreated($employeeSatisfaction));
 
         return redirect()
             ->route('employee-satisfaction.index')

@@ -577,7 +577,7 @@ return [
         'reason' => 'Düzəldici fəaliyyətin uğursuzluq səbəbi',
         'result' => 'Düzəldici fəaliyyətin nəticəsi',
         'effectivity' => 'Effektivlik',
-        'incompatibility' => 'Sizə bir uyğunsuzluq var',
+        'incompatibility' => 'Uyğunsuzluq aşkarlanıb',
         'more_time' => 'Əlavə zamana ehtiyac var mı?',
         'activity' => 'Düzəldici Fəaliyyət',
         'content-1' => 'Təklif və İstəyinizin Məzmununu Yazın',

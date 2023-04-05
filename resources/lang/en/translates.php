@@ -576,7 +576,7 @@ return [
         'reason' => 'Reason for failure of corrective action',
         'result' => 'Result of corrective action',
         'effectivity' => 'Efficiency',
-        'incompatibility' => 'There is a discrepancy with you',
+        'incompatibility' => 'There is a discrepancy',
         'more_time' => 'Need more time?',
         'activity' => 'Corrective Action',
         'content-1' => 'Offer and Request',
