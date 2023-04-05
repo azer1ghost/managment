@@ -25,7 +25,7 @@ class SalesClientController extends Controller
             ->orWhere('voen', 'LIKE', "%{$request->get('search')}%")
             ->limit(10)
             ->latest()
-            ->get(['id', 'name', 'voen']);
+            ->get(['id', 'name', 'voen', 'phone', 'user_id']);
 
 //
 //        $clients = Client::where('fullname', 'LIKE', "%{$request->get('search')}%")
@@ -39,7 +39,7 @@ class SalesClientController extends Controller
         foreach ($salesclients as $client) {
             $clientsArray[] = [
                 "id" => $client->id,
-                "text" => "{$client->name_with_voen}",
+                "text" => "{$client->name_with_user}",
             ];
         }
 //

@@ -17,6 +17,7 @@
             <div class="row">
                 <div class="col-12 col-md-4">
                     <p>@lang('translates.columns.name'): {{$client->getAttribute('name')}}</p>
+                    <p>@lang('translates.columns.created_by'): {{$client->getRelationValue('user')->getAttribute('fullname')}}</p>
                 </div>
 
                 <div class="col-12 col-md-4">

@@ -36,4 +36,8 @@ class SalesClient extends Model
     {
         return "{$this->getAttribute('name')} ({$this->getAttribute('phone')})";
     }
+    public function getNameWithUserAttribute($value): ?string
+    {
+        return "{$this->getAttribute('name')} ({$this->getRelationValue('user')->getFullnameAttribute()}) ({$this->getAttribute('phone')})";
+    }
 }
