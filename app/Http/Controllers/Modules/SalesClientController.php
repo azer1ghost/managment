@@ -23,6 +23,7 @@ class SalesClientController extends Controller
     {
         $salesclients = SalesClient::where('name', 'LIKE', "%{$request->get('search')}%")
             ->orWhere('voen', 'LIKE', "%{$request->get('search')}%")
+            ->orWhere('phone', 'LIKE', "%{$request->get('search')}%")
             ->limit(10)
             ->latest()
             ->get(['id', 'name', 'voen', 'phone', 'user_id']);
