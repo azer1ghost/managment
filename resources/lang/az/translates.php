@@ -248,7 +248,8 @@ return [
         'order' => 'Sifarişlər',
         'logistics' => 'Logistika',
         'logistics_clients' => 'Logistika Müştəriləri',
-        'questionnaire' => 'Anket'
+        'questionnaire' => 'Anket',
+        'room' => 'Otaqlar',
     ],
     'questionnaire' => [
         'statuses' => [
