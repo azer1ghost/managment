@@ -19,16 +19,19 @@ class EmployeeSatisfactionCreated
         $this->url = route('employee-satisfaction.show', $employeeSatisfaction);
         $this->creator = $employeeSatisfaction->getRelationValue('users');
         $this->title = trans('translates.employee_satisfactions.incompatibility');
-//        $this->receivers[] = $employeeSatisfaction->getRelationValue('employees');
+        $this->body = $employeeSatisfaction->getAttribute('content');
 
-//        if (is_numeric($employeeSatisfaction->getAttribute('user_id'))){
-//            $this->receivers[] = $employeeSatisfaction->getRelationValue('employees');
-//            $this->body = $employeeSatisfaction->getAttribute('content');
-//        }else{
+        $directors = User::where('role_id', User::DIRECTOR)->all();
+
+        if ($employeeSatisfaction->getAttribute('department_id') == null){
+            if($employeeSatisfaction->getAttribute('user_id') !== null){
+               $this->receivers = $employeeSatisfaction->getRelationValue('employees');
+           }
+        }
+        else{
             $this->receivers = $employeeSatisfaction->getRelationValue('departments')->users()
 //                ->whereNotIn('id', [auth()->id()])
                 ->get()->all();
-            $this->body = $employeeSatisfaction->getAttribute('content');
-//        }
+        }
     }
 }
