@@ -119,10 +119,12 @@
                                     <input type="hidden" name="user_id" value="{{auth()->id()}}">
                                     <input type="hidden" name="department_id" value="{{request()->get('department_id')}}">
                                     <div class="row col-12"
-{{--                                         style="position: absolute; bottom: 15px"--}}
+                                         @if(count(\App\Models\Room::where('department_id', request()->get('department_id'))->get()) < 6)
+                                         style="position: absolute; bottom: 15px"
+                                            @endif
                                     >
                                         <div class="col-11">
-                                        <input aria-label="message" name="message" class="form-control" id="chat-input" placeholder="Type your message">
+                                        <input aria-label="message" type="text" name="message" class="form-control" id="chat-input" placeholder="Type your message">
                                         </div>
 
                                         <div class="col-1">

@@ -315,7 +315,6 @@
 
                 copyToClipboard(html(data, 'html'));
             });
-
         @endif
 
         const asanImzaSelect2 = $('select[name="asan_imza_id"]');
