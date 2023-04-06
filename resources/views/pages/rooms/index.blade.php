@@ -134,7 +134,7 @@
                             <div class="card-content">
                                 <a href="{{ route('rooms.create') }}" onclick="event.preventDefault();
                                         document.getElementById('chat-form-{{$department->getAttribute('id')}}').submit();">
-                                    <h2>{{$department->getAttribute('name[en]')}}</h2>
+                                    <h2>{{$department->getAttribute('name')}}</h2>
                                 </a>
                                 <form id="chat-form-{{$department->getAttribute('id')}}"  action="{{ route('rooms.create') }}">
                                     <input type="hidden" name="department_id" value="{{$department->getAttribute('id')}}">
