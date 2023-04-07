@@ -101,36 +101,33 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
 
-{{--    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">--}}
-{{--    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>--}}
-{{--    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>--}}
 
     <section>
         <div class="container">
             <div class="row">
 
-                    @if(auth()->user()->department->id == 24)
-                        <div class="col-md-3">
-                            <div class="card profile-card-1">
-                                <img src="https://source.unsplash.com/600x900/?color" alt="profile-sample1" class="background"/>
-                                <div class="card-content">
-                                    <a href="{{ route('rooms.create') }}" onclick="event.preventDefault();
-                                            document.getElementById('chat-form-ms').submit();">
-                                        <h2>Müştərilərlə əlaqələr şöbəsi</h2>
-                                    </a>
-                                    <form id="chat-form-ms"  action="{{ route('rooms.create') }}">
-                                        <input type="hidden" name="department_id" value="2">
-                                    </form>
-                                </div>
+                @if(auth()->user()->department->id == 24)
+                    <div class="col-md-3">
+                        <div class="card profile-card-1">
+                            <img src="https://source.unsplash.com/600x900/?nature-24" alt="profile-sample1" class="background"/>
+                            <div class="card-content">
+                                <a href="{{ route('rooms.create') }}" onclick="event.preventDefault();
+                                        document.getElementById('chat-form-ms').submit();">
+                                    <h2>Müştərilərlə əlaqələr şöbəsi</h2>
+                                </a>
+                                <form id="chat-form-ms"  action="{{ route('rooms.create') }}">
+                                    <input type="hidden" name="department_id" value="2">
+                                </form>
                             </div>
                         </div>
-                    @endif
+                    </div>
+                @endif
 
                 @foreach(\App\Models\Department::get() as $department)
                 @if(auth()->user()->department->id == $department->id || auth()->user()->isDirector() || auth()->user()->isDeveloper())
                     <div class="col-md-3">
                         <div class="card profile-card-1">
-                            <img src="https://source.unsplash.com/600x900/?{{$department->getAttribute('name')}}" alt="profile-sample1" class="background"/>
+                            <img src="https://source.unsplash.com/600x900/?nature-{{$department->getAttribute('id')}}" alt="profile-sample1" class="background"/>
                             <div class="card-content">
                                 <a href="{{ route('rooms.create') }}" onclick="event.preventDefault();
                                         document.getElementById('chat-form-{{$department->getAttribute('id')}}').submit();">
@@ -149,6 +146,4 @@
     </section>
 
 @endsection
-@section('scripts')
 
-@endsection

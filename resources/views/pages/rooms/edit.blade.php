@@ -1,79 +1,8 @@
 @extends('layouts.main')
 
-@section('title', trans('translates.navbar.commands'))
+@section('title', trans('translates.navbar.room'))
 @section('style')
-    <style>
-        /*#chat1 .form-outline .form-control~.form-notch div {*/
-        /*    pointer-events: none;*/
-        /*    border: 1px solid;*/
-        /*    border-color: #eee;*/
-        /*    box-sizing: border-box;*/
-        /*    background: transparent;*/
-        /*}*/
 
-        /*#chat1 .form-outline .form-control~.form-notch .form-notch-leading {*/
-        /*    left: 0;*/
-        /*    top: 0;*/
-        /*    height: 100%;*/
-        /*    border-right: none;*/
-        /*    border-radius: .65rem 0 0 .65rem;*/
-        /*}*/
-
-        /*#chat1 .form-outline .form-control~.form-notch .form-notch-middle {*/
-        /*    flex: 0 0 auto;*/
-        /*    max-width: calc(100% - 1rem);*/
-        /*    height: 100%;*/
-        /*    border-right: none;*/
-        /*    border-left: none;*/
-        /*}*/
-
-/
-
-        /*#chat1 .form-outline .form-control:focus~.form-notch .form-notch-leading {*/
-        /*    border-top: 0.125rem solid #39c0ed;*/
-        /*    border-bottom: 0.125rem solid #39c0ed;*/
-        /*    border-left: 0.125rem solid #39c0ed;*/
-        /*}*/
-
-        /*#chat1 .form-outline .form-control:focus~.form-notch .form-notch-leading,*/
-        /*#chat1 .form-outline .form-control.active~.form-notch .form-notch-leading {*/
-        /*    border-right: none;*/
-        /*    transition: all 0.2s linear;*/
-        /*}*/
-
-        /*#chat1 .form-outline .form-control:focus~.form-notch .form-notch-middle {*/
-        /*    border-bottom: 0.125rem solid;*/
-        /*    border-color: #39c0ed;*/
-        /*}*/
-
-        /*#chat1 .form-outline .form-control:focus~.form-notch .form-notch-middle,*/
-        /*#chat1 .form-outline .form-control.active~.form-notch .form-notch-middle {*/
-        /*    border-top: none;*/
-        /*    border-right: none;*/
-        /*    border-left: none;*/
-        /*    transition: all 0.2s linear;*/
-        /*}*/
-
-        /*#chat1 .form-outline .form-control:focus~.form-notch .form-notch-trailing {*/
-        /*    border-top: 0.125rem solid #39c0ed;*/
-        /*    border-bottom: 0.125rem solid #39c0ed;*/
-        /*    border-right: 0.125rem solid #39c0ed;*/
-        /*}*/
-
-        /*#chat1 .form-outline .form-control:focus~.form-notch .form-notch-trailing,*/
-        /*#chat1 .form-outline .form-control.active~.form-notch .form-notch-trailing {*/
-        /*    border-left: none;*/
-        /*    transition: all 0.2s linear;*/
-        /*}*/
-
-        /*#chat1 .form-outline .form-control:focus {*/
-        /*    color: #39c0ed;*/
-        /*}*/
-
-        /*#chat1 .form-outline .form-control{*/
-        /*    color: #bfbfbf;*/
-        /*}*/
-    </style>
 @endsection
 @section('content')
     @php
@@ -103,7 +32,7 @@
                         </div>
                         <div class="card-body" style="height: 700px; overflow-y: scroll" >
 
-                            @foreach(\App\Models\Room::where('department_id', request()->get('department_id'))->latest()->limit(500)->get()->reverse() as $room)
+                            @foreach($rooms as $room)
                                 <div class="d-flex flex-row @if($room->getAttribute('user_id') == auth()->id()) justify-content-end @else justify-content-start @endif  mb-5">
                                     <img class="mr-1 mt-1" src="{{image($room->getRelationValue('user')->getAttribute('avatar'))}}"
                                          alt="avatar 1" style="width: 45px; height: 100%;">
@@ -114,21 +43,23 @@
                             @endforeach
 
                             <div class="form-outline message-wrapper">
-                                <form action="{{ route('rooms.store') }}" method="POST">
+                                <form
+{{--                                        id="form" action="{{ route('room-chat') }}"--}}
+                                        action="{{ route('rooms.store') }}" method="POST"
+                                >
                                     @csrf
-                                    <input type="hidden" name="user_id" value="{{auth()->id()}}">
-                                    <input type="hidden" name="department_id" value="{{request()->get('department_id')}}">
+                                    <input type="hidden" id="user_id" name="user_id" value="{{auth()->id()}}">
+                                    <input type="hidden" id="department_id" name="department_id" value="{{request()->get('department_id')}}">
                                     <div class="row col-12"
-                                         @if(count(\App\Models\Room::where('department_id', request()->get('department_id'))->get()) < 6)
-                                         style="position: absolute; bottom: 15px"
-                                            @endif
-                                    >
+                                         @if(count($rooms) < 6)
+                                         style="position: absolute; bottom: 15px" @endif>
+
                                         <div class="col-11">
                                         <input aria-label="message" type="text" name="message" class="form-control" id="chat-input" placeholder="Type your message">
                                         </div>
 
                                         <div class="col-1">
-                                        <button class="btn btn-success" type="submit"><i class="fas fa-paper-plane"></i></button>
+                                         <button class="btn btn-success" id="send-button" type="submit" ><i class="fas fa-paper-plane"></i></button>
                                         </div>
 
                                     </div>
@@ -138,12 +69,64 @@
 
                         </div>
                     </div>
-
+{{--                    <div id="html"></div>--}}
                 </div>
             </div>
         </section>
 @endsection
 @section('scripts')
+{{--    <script src="{{asset('assets/js/pusher/pusher.js')}}" ></script>--}}
+
+{{--    <script>--}}
+
+{{--        var pusher = new Pusher('5e68408656b975a4e1e4', {--}}
+{{--            cluster: 'mt1'--}}
+{{--        });--}}
+
+{{--        var channel = pusher.subscribe('room-chat');--}}
+{{--        channel.bind('my-event', function (data) {--}}
+{{--            // data.user_id--}}
+{{--            var text = '<div>' + data.message + '</div>'--}}
+{{--        })--}}
+{{--        $.ajax({--}}
+{{--            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),--}}
+{{--            method: 'POST',--}}
+{{--            url: route,--}}
+{{--            data: datastr,--}}
+{{--            cache: false,--}}
+{{--            success: function ($data) {--}}
+{{--                $('#chat-input').val('');--}}
+{{--            },--}}
+{{--            error: function (jqXHR, status, err) {--}}
+{{--            },--}}
+{{--            complete: function () {--}}
+{{--            }--}}
+{{--        })--}}
+{{--        $('#send-button').on('click', function () {--}}
+{{--            var route = $('#form').attr('action');--}}
+
+{{--            var user_id = $('#user_id').val();--}}
+{{--            var message = $('#chat-input').val();--}}
+{{--            var department_id = $('#department_id').val();--}}
+{{--            var datastr = "department_id=" + department_id + "&user_id=" + user_id + "&message=" + message;--}}
+
+{{--            $.ajax({--}}
+{{--                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),--}}
+{{--                method: 'POST',--}}
+{{--                url: route,--}}
+{{--                data: datastr,--}}
+{{--                cache: false,--}}
+{{--                success: function ($data) {--}}
+{{--                    $('#chat-input').val('');--}}
+{{--                },--}}
+{{--                error: function (jqXHR, status, err) {--}}
+{{--                },--}}
+{{--                complete: function () {--}}
+{{--                }--}}
+{{--            })--}}
+{{--        })--}}
+
+{{--    </script>--}}
     <script>
         window.onload = function() {
             var input = document.getElementById("chat-input").focus();

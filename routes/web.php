@@ -114,6 +114,7 @@ Route::group([
     Route::post('/bonuses/generate-referral-link', [ReferralBonusController::class, 'generate'])->name('bonuses.generate-referral-link');
     Route::resource('/rooms', RoomController::class);
 
+
     Route::get('/cabinet', [PlatformController::class, 'cabinet'])->name('cabinet');
     Route::get('/customer-services', [PlatformController::class, 'customerServices'])->name('customer-services');
 
@@ -239,6 +240,8 @@ Route::group([
     Route::post('/order-download',[ OrderController::class, 'download'])->name('orders.download');
     Route::get('/result-download/{order}',[ OrderController::class, 'resultDownload'])->name('order-result.download');
     Route::resource('/orders', OrderController::class)->except('store');
+    Route::post('/chatRoom', [RoomController::class, 'chatRoom'])->name('room-chat');
+
 
 
     // resultable routes

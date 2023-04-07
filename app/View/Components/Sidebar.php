@@ -451,14 +451,22 @@ class Sidebar extends Component
                 'icon' => 'fab fa-rocketchat',
                 'url' => route('chats.index'),
                 'permission' => 'viewAny-task',
+                'children' => [
+                    (object)[
+                        'title' => trans('translates.navbar.room'),
+                        'icon' => 'fab fa-rocketchat',
+                        'url' => route('rooms.index'),
+                        'permission' => 'viewAny-task',
+                    ],  (object)[
+                        'title' => 'Chat',
+                        'icon' => 'fab fa-rocketchat',
+                        'url' => route('chats.index'),
+                        'permission' => 'viewAny-task',
+                    ],
+                ]
             ],
 
-//            (object)[
-//                'title' => 'room',
-//                'icon' => 'fab fa-rocketchat',
-//                'url' => route('rooms.index'),
-//                'permission' => 'viewAny-room',
-//            ],
+
 //            (object)[
 //                'title' => 'Transit',
 //                'icon' => 'fab fa-truck',
