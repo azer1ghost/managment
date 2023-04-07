@@ -41,7 +41,7 @@
              @endif
             <h2 data-toggle="collapse" href="#inquiry">@lang('translates.navbar.inquiry')</h2>
             <div class="collapse" id="inquiry">
-                <p class="text-center">MB-TL-M001 Giriş</p>
+                <p class="text-center">MB-TL-M007 Sorğular</p>
                 <video class="mr-5" width="100%" controls><source src="{{asset('videos/inquiry.mp4')}}" type="video/mp4"></video>
             </div>
 
