@@ -127,7 +127,7 @@
                 @if(auth()->user()->department->id == $department->id || auth()->user()->isDirector() || auth()->user()->isDeveloper())
                     <div class="col-md-3">
                         <div class="card profile-card-1">
-                            <img src="https://source.unsplash.com/600x900/?nature-{{$department->getAttribute('id')}}" alt="profile-sample1" class="background"/>
+                            <img src="https://source.unsplash.com/600x900/?nature-{{$department->getAttribute('id')}}" loading="lazy" alt="profile-sample1" class="background"/>
                             <div class="card-content">
                                 <a href="{{ route('rooms.create') }}" onclick="event.preventDefault();
                                         document.getElementById('chat-form-{{$department->getAttribute('id')}}').submit();">
