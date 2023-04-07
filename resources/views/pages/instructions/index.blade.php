@@ -58,7 +58,7 @@
             </div>
 
             @if(auth()->user()->isDirector() || auth()->user()->hasPermission('editTable-work'))
-                <h2 data-toggle="collapse" href="#declaration">Qısa idxal bəyannaməsi</h2>
+                <h2 data-toggle="collapse" href="#declaration">Bəyannamə</h2>
                 <div class="collapse" id="declaration">
                     <p class="text-center">MB-TL-B001 Qısa idxal bəyannaməsi</p>
                     <video class="mr-5" width="100%" controls><source src="{{asset('videos/declaration.mp4')}}" type="video/mp4"></video>
