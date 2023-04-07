@@ -106,7 +106,7 @@
         <div class="container">
             <div class="row">
 
-                @if(auth()->user()->department->id == 24)
+                @if(auth()->user()->department->status == 1)
                     <div class="col-md-3">
                         <div class="card profile-card-1">
                             <img src="https://source.unsplash.com/600x900/?nature-24" alt="profile-sample1" class="background"/>
