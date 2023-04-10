@@ -18,7 +18,7 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
-            @lang('translates.navbar.commands')
+            MB-P-023/04  @lang('translates.navbar.commands')
         </x-bread-crumb-link>
     </x-bread-crumb>
     <form action="{{route('commands.index')}}">

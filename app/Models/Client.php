@@ -124,10 +124,10 @@ class Client extends Model implements DocumentableInterface, Recordable
 
     public function getFullnameWithVoenAttribute($value): ?string
     {
-          foreach ($this->companies as $company){
-              $companies[] = $company->getAttribute('name');
-          }
-          $company = implode(',', $companies);
+        foreach ($this->companies as $company) {
+            $companies[] = $company->getAttribute('name');
+        }
+        $company = implode(',', $companies);
 
         return "{$this->getAttribute('fullname')} ({$this->getAttribute('voen')}) ($company)";
     }

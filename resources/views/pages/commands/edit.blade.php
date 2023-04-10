@@ -8,7 +8,7 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
         <x-bread-crumb-link :link="route('commands.index')">
-            @lang('translates.navbar.commands')
+            MB-P-023/04  @lang('translates.navbar.commands')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
             @if ($method !== 'POST')

@@ -18,7 +18,7 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
-            @lang('translates.navbar.sent_document')
+            MB-P-023/03  @lang('translates.navbar.sent_document')
         </x-bread-crumb-link>
     </x-bread-crumb>
             <div class="col-12">

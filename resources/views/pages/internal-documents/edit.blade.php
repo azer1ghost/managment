@@ -8,7 +8,7 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
         <x-bread-crumb-link :link="route('internal-documents.index')">
-            @lang('translates.navbar.internal_document')
+            MB-P-023/01  @lang('translates.navbar.internal_document')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
             @if (!is_null($data))

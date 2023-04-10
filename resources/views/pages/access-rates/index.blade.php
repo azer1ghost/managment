@@ -19,7 +19,7 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
-            @lang('translates.navbar.access_rate')
+            MB-P-023/06 @lang('translates.navbar.access_rate')
         </x-bread-crumb-link>
     </x-bread-crumb>
     <div class="col-12">
