@@ -125,11 +125,11 @@ class Client extends Model implements DocumentableInterface, Recordable
     public function getFullnameWithVoenAttribute($value): ?string
     {
           foreach ($this->companies as $company){
-              $companies = $company->getAttribute('name');
+              $companies[] = $company->getAttribute('name');
           }
-          $activity = trans('translates.client_active.'.$this->getAttribute('active'));
+          $company = implode(',', $companies);
 
-        return "{$this->getAttribute('fullname')} ({$this->getAttribute('voen')}) ($companies) ({$activity})";
+        return "{$this->getAttribute('fullname')} ({$this->getAttribute('voen')}) ($company)";
     }
     public function users():BelongsTo
     {
