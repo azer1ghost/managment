@@ -12,6 +12,7 @@ class InternalDocumentRequest extends FormRequest
             'department_id' => 'nullable',
             'document_name' => 'nullable|string',
             'document_code' => 'nullable|string',
-            ];
+            'company_id'    => 'nullable|integer',
+        ];
     }
 }

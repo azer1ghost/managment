@@ -33,6 +33,15 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="form-group col-6">
+                        <label for="data-companies">@lang('translates.clients.selectCompany')</label><br/>
+                        <select id="data-companies" name="company_id"  required class="form-control" title="@lang('translates.filters.select')">
+                            <option value="">@lang('translates.clients.selectCompany')</option>
+                            @foreach($companies as $company)
+                                <option value="{{$company->getAttribute('id')}}" @if($data->getAttribute('company_id') == $company->id) selected @endif>{{$company->getAttribute('name')}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <x-form-group  class="pr-3 col-12 col-lg-6"  >
                         <x-form-input  name="document_name" label="Sənəd adı" placeholder="Sənəd adı daxil edin"/>
                     </x-form-group>

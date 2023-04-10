@@ -8,10 +8,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class InternalDocument extends Model
 {
-    protected $fillable = ['department_id', 'document_name', 'document_code'];
+    protected $fillable = ['department_id', 'document_name', 'document_code', 'company_id'];
 
     public function departments(): BelongsTo
     {
         return $this->belongsTo(Department::class,'department_id')->withDefault();
+    }
+    public function companies(): BelongsTo
+    {
+        return $this->belongsTo(Company::class,'company_id')->withDefault();
     }
 }

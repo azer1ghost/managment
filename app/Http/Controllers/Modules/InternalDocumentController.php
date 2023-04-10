@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Http\{Controllers\Controller, Requests\InternalDocumentRequest};
-use App\Models\{Department, InternalDocument, User};
+use App\Models\{Company, Department, InternalDocument, User};
 use Illuminate\Http\Request;
 
 class InternalDocumentController extends Controller
@@ -19,9 +19,8 @@ class InternalDocumentController extends Controller
         $company = $request->get('company_id', 3);
 
         return view('pages.internal-documents.index')
-            ->with(['internalDocuments' => InternalDocument::get()]);
-//        when($company, fn($query) => $query
-//            ->where('company_id', $company))
+            ->with(['internalDocuments' => InternalDocument::when($company, fn($query) => $query
+                ->where('company_id', $company))->get()]);
     }
 
     public function create()
@@ -30,7 +29,8 @@ class InternalDocumentController extends Controller
             'action' => route('internal-documents.store'),
             'method' => null,
             'data' => new InternalDocument(),
-            'departments' => Department::get(['id', 'name'])
+            'departments' => Department::get(['id', 'name']),
+            'companies' => Company::get(['id','name']),
         ]);
     }
 
@@ -49,7 +49,8 @@ class InternalDocumentController extends Controller
             'action' => null,
             'method' => null,
             'data' => $internalDocument,
-            'departments' => Department::get(['id', 'name'])
+            'departments' => Department::get(['id', 'name']),
+            'companies' => Company::get(['id','name']),
         ]);
     }
 
@@ -59,8 +60,8 @@ class InternalDocumentController extends Controller
             'action' => route('internal-documents.update', $internalDocument),
             'method' => 'PUT',
             'data' => $internalDocument,
-            'users' => User::get(['id', 'name', 'surname']),
-            'departments' => Department::get(['id', 'name'])
+            'departments' => Department::get(['id', 'name']),
+            'companies' => Company::get(['id','name']),
         ]);
     }
 
