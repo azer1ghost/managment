@@ -226,7 +226,7 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="data-companies">Select Company</label><br/>
-                                    <select id="data-companies" name="companies[]" required class="filterSelector form-control" data-selected-text-format="count"
+                                    <select id="data-companies" name="companies[]" multiple required class="filterSelector form-control" data-selected-text-format="count"
                                             data-width="fit" title="@lang('translates.filters.select')">
                                         @foreach($companies as $company)
                                             <option value="{{$company->getAttribute('id')}}">{{$company->getAttribute('name')}}</option>

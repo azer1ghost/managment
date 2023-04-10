@@ -54,13 +54,12 @@
                 <x-form-group  class="pr-3 col-12 col-lg-4" :label="trans('translates.filters.type')">
                     <x-form-select name="type" :options="[trans('translates.general.legal'), trans('translates.general.physical')]" />
                 </x-form-group>
-                <div class="form-group">
-                    <label for="data-companies">@lang('translates.clients.selectCompany')</label><br/>
-                    <select id="data-companies" name="companies[]"  required class="form-control" title="@lang('translates.filters.select')">
-                        <option value="">@lang('translates.clients.selectCompany')</option>
-
-                    @foreach($companies as $company)
-                            <option @foreach($data->companies as $companie) @if($company->getAttribute('id') == $companie->id) selected @endif @endforeach value="{{$company->getAttribute('id')}}">{{$company->getAttribute('name')}}</option>
+                <div class="form-group col-4">
+                    <label for="data-companies">Select Company</label><br/>
+                    <select id="data-companies" name="companies[]" multiple required class="filterSelector" data-selected-text-format="count"
+                            data-width="fit" title="@lang('translates.filters.select')">
+                        @foreach($companies as $company)
+                            <option value="{{$company->getAttribute('id')}}" @foreach($data->companies as $companie) @if($company->getAttribute('id') == $companie->id) selected @endif @endforeach>{{$company->getAttribute('name')}}</option>
                         @endforeach
                     </select>
                 </div>
