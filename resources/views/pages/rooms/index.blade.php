@@ -56,7 +56,7 @@
             font-size:25px;
         }
         .profile-card-1 a {
-            color: white;
+            color: black;
         }
         .profile-card-1 h2 small {
             display: block;
@@ -124,22 +124,22 @@
                 @endif
 
                 @foreach(\App\Models\Department::get() as $department)
-                @if(auth()->user()->department->id == $department->id || auth()->user()->isDirector() || auth()->user()->isDeveloper())
-                    <div class="col-md-3">
-                        <div class="card profile-card-1">
-                            <img src="https://source.unsplash.com/600x900/?nature-{{$department->getAttribute('id')}}" loading="lazy" alt="profile-sample1" class="background"/>
-                            <div class="card-content">
-                                <a href="{{ route('rooms.create') }}" onclick="event.preventDefault();
-                                        document.getElementById('chat-form-{{$department->getAttribute('id')}}').submit();">
-                                    <h2>{{$department->getAttribute('name')}}</h2>
-                                </a>
-                                <form id="chat-form-{{$department->getAttribute('id')}}"  action="{{ route('rooms.create') }}">
-                                    <input type="hidden" name="department_id" value="{{$department->getAttribute('id')}}">
-                                </form>
+                    @if(auth()->user()->department->id == $department->id || auth()->user()->isDirector() || auth()->user()->isDeveloper())
+                        <div class="col-md-3">
+                            <div class="card profile-card-1">
+                                <img src="https://source.unsplash.com/600x900/?nature-{{$department->getAttribute('id')}}" loading="lazy" alt="profile-sample1" class="background"/>
+                                <div class="card-content">
+                                    <a href="{{ route('rooms.create') }}" onclick="event.preventDefault();
+                                            document.getElementById('chat-form-{{$department->getAttribute('id')}}').submit();">
+                                        <h2>{{$department->getAttribute('name')}}</h2>
+                                    </a>
+                                    <form id="chat-form-{{$department->getAttribute('id')}}"  action="{{ route('rooms.create') }}">
+                                        <input type="hidden" name="department_id" value="{{$department->getAttribute('id')}}">
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endif
+                    @endif
                 @endforeach
             </div>
         </div>
