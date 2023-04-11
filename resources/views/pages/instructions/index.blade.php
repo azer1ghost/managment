@@ -57,7 +57,7 @@
                 <video class="mr-5" width="100%" controls><source src="{{asset('videos/isler.mp4')}}" type="video/mp4"></video>
             </div>
 
-            @if(auth()->user()->isDirector() || auth()->user()->hasPermission('editTable-work'))
+            @if(auth()->user()->isDirector() || auth()->user()->hasPermission('update-work'))
                 <h2 data-toggle="collapse" href="#declaration">Bəyannamə</h2>
                 <div class="collapse" id="declaration">
                     <p class="text-center">MB-TL-B001 Qısa idxal bəyannaməsi</p>
