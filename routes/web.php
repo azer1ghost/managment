@@ -5,6 +5,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Auth\PhoneVerifycationController,
     Auth\RegisterController,
     BarcodeController,
+    ClientAuthController,
     Main\AccountController,
     Main\PlatformController,
     Modules\AccessRateController,
@@ -294,6 +295,16 @@ Route::get('/cs', [CustomerSatisfactionController::class, 'createSatisfaction'])
 Route::view('/template','email' )->name('email');
 Route::view('/template2','email2' )->name('email2');
 
+Route::prefix('clients')->middleware('guest:clients')->group(function () {
+    Route::get('/login', [ClientAuthController::class, 'showLoginForm'])->name('myguard.login');
+    Route::post('/login', [ClientAuthController::class, 'login'])->name('myguard.login.submit');
+    Route::get('/register', [ClientAuthController::class, 'showRegisterForm'])->name('myguard.register');
+    Route::post('/register', [ClientAuthController::class, 'register'])->name('myguard.register.submit');
+});
+Route::prefix('clients')->middleware('clients')->group(function () {
+    Route::get('/account', [ClientAuthController::class, 'account'])->name('client-account');
+    Route::post('/logout', [ClientAuthController::class, 'logout'])->name('client-logout');
+});
 
 
 

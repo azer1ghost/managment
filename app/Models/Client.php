@@ -12,9 +12,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Client extends Model implements DocumentableInterface, Recordable
+class Client  extends Authenticatable implements DocumentableInterface, Recordable
 {
     use SoftDeletes, Notifiable, HasFactory, Documentable, \Altek\Accountant\Recordable, Eventually;
 
@@ -39,6 +40,7 @@ class Client extends Model implements DocumentableInterface, Recordable
         'address1',
         'address2',
         'voen',
+        'password',
         'position',
         'type',
         'send_sms',
