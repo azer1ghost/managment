@@ -18,7 +18,7 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
-            MB-P-023/02 @lang('translates.navbar.registration_logs')
+            MB-P-023/02 Daxil Olan Sənədlərin Qeydiyyatı Jurnalı
         </x-bread-crumb-link>
     </x-bread-crumb>
         <div class="col-12">

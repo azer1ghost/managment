@@ -18,7 +18,7 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
-            @lang('translates.navbar.changes')
+            MB-P-012/01 Dəyişikliklərin Qeydiyyat Cədvəli
         </x-bread-crumb-link>
     </x-bread-crumb>
             <div class="col-12">

@@ -18,7 +18,7 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
-            MB-P-020/02 @lang('translates.navbar.foreign_relation')
+            MB-P-020/02 Xarici Əlaqələr Cədvəli
         </x-bread-crumb-link>
     </x-bread-crumb>
             <div class="col-12">

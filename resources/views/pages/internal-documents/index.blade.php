@@ -18,7 +18,7 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
-            MB-P-023/01  @lang('translates.navbar.internal_document')
+            MB-P-023/01 Daxili Sənədlərin Siyahısı
         </x-bread-crumb-link>
     </x-bread-crumb>
             <div class="col-12">
