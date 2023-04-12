@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\ClientMiddleware;
 use App\Http\Middleware\IsDeactivated;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -68,5 +69,6 @@ class Kernel extends HttpKernel
         'verified_phone' => \App\Http\Middleware\EnsurePhoneVerified::class,
         'deactivated' => \App\Http\Middleware\IsDeactivated::class,
         'is_transit_customer' => \App\Http\Middleware\IsTransitCustomer::class,
+        'clients' => \App\Http\Middleware\ClientMiddleware::class
     ];
 }
