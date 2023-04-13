@@ -73,7 +73,7 @@ class AsanImzaController extends Controller
                 'data' => new AsanImza(),
                 'companies' => Company::get(['id', 'name']),
                 'departments' => Department::get(['id', 'name']),
-                'users' => User::isActive()->get(['id', 'name', 'surname', 'position_id', 'role_id']),
+                'users' => User::get(['id', 'name', 'surname', 'position_id', 'role_id']),
             ]);
     }
 
