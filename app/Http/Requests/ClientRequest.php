@@ -33,7 +33,7 @@ class ClientRequest extends FormRequest
             'document_type'   => 'nullable|string',
             'sector'          => 'nullable|string',
             'voen'            => 'string|required',
-            'password'       =>  'required|confirmed|min:6|string',
+            'password'       =>  'nullable|string',
             'position'        => 'nullable|string',
             'type'            => 'nullable|boolean',
             'client_id'       => 'nullable|integer',
