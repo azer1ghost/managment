@@ -62,6 +62,26 @@ class DailyReport extends Model implements Recordable
 
         return $days_of_week;
     }
+    protected static function thursday()
+    {
+        $start_of_week = now()->startOfWeek();
+        $days_of_week = [];
+
+// Add Thursday to the $days_of_week array
+        $thursday = $start_of_week->copy()->addDays(2);
+        $days_of_week[] = $thursday;
+
+//// Add the rest of the days of the week
+//        for ($i = 0; $i < 5; $i++) {
+//            $days_of_week[] = $start_of_week->addDay()->copy();
+//        }
+//
+//        $sunday = $start_of_week->addDay()->copy();
+
+
+
+        return $days_of_week;
+    }
 
     public static function currentMonth()
     {

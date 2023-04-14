@@ -29,7 +29,7 @@
                             <th scope="row"><img src="{{image($report->getRelationValue('chief')->getAttribute('avatar'))}}" alt="user" class="profile" /></th>
                             <td>{{$report->getRelationValue('chief')->getAttribute('fullname_with_position')}}</td>
                             <td class="d-flex">
-                                @foreach(\App\Models\DailyReport::currentWeek() as $day)
+                                @foreach(\App\Models\DailyReport::thursday() as $day)
                                     @php
                                         $subReport = \App\Models\DailyReport::where('report_id', $report->getAttribute('id'))->whereDate('date', $day)->first();
                                         $route = is_null($subReport) ? route('reports.sub.create', $report) . "?day={$day->format('Y-m-d')}" : route('reports.sub.show', $subReport);
