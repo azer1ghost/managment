@@ -50,7 +50,7 @@
         </section>
 @endsection
 @section('scripts')
-
+<script src="{{asset('assets/js/pusher/pusher.js)}}"></script>
 <script>
     var chatMessage = document.getElementById("chat-messages");
     chatMessage.addEventListener("DOMNodeInserted", function(event) {
