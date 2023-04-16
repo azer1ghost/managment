@@ -12,7 +12,7 @@
     "devDependencies": {
         "axios": "^0.21",
         "jquery": "^3.6",
-        "laravel-mix": "^6.0.6",
+        "laravel-mix": "^6.0.49",
         "lodash": "^4.17.19",
         "popper.js": "^1.16.1",
         "postcss": "^8.1.14",
@@ -31,7 +31,10 @@
         "daterangepicker": "^3.1.0",
         "jquery-confirm": "^3.3.4",
         "jquery-ui-dist": "^1.12.1",
+        "laravel-echo": "^1.15.0",
         "moment": "^2.29.2",
+        "pusher-js": "^8.0.2",
+        "save": "^2.9.0",
         "select2": "^4.1.0-rc.0",
         "select2-bootstrap4-theme": "^1.0.0"
     }

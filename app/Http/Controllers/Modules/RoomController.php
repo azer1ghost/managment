@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Modules;
 
+use App\Events\ChatEvent;
+use App\Events\RoomEvent;
 use App\Http\Requests\RoomRequest;
+use App\Models\Chat;
 use App\Models\Company;
 use App\Models\Room;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Pusher\Pusher;
 
@@ -54,6 +58,11 @@ class RoomController extends Controller
     {
 
     }
+//   public function SendMessage(Request $request)
+//    {
+//        event(new RoomEvent($request->get('username'),$request->get('message'),$request->get('department') ));
+//        return true;
+//    }
 
     public function update(RoomRequest $request, Room $room)
     {
@@ -74,12 +83,12 @@ class RoomController extends Controller
     }
     public function chatRoom(Request $request)
     {
-        $user = auth()->id();
+        $user = auth()->user()->getAttribute('fullname');
         $message = $request->get('message');
         $department = $request->get('department_id');
 
         $data = new Room();
-        $data->user_id = $user;
+        $data->user = $user;
         $data->department_id = $department;
         $data->message = $message;
 
@@ -94,9 +103,41 @@ class RoomController extends Controller
             env('PUSHER_APP_ID'), $options
         );
 
-        $data = ['user_id' => $user, 'department_id' => $department, 'message' => $message];
+        $data = ['user' => $user, 'department_id' => $department, 'message' => $message];
         $pusher->trigger('room-chat', 'my-event', $data);
     }
 
+    public function sendMessage(Request $request)
+    {
+        $user = auth('web')->user()->getAttribute('fullname');
+        $message = $request->get('message');
+        $department = $request->get('department_id');
 
+//        event(new RoomEvent($user, $message, $department));
+        $options = [
+            'cluster' => 'mt1',
+            'useTLS' => true
+        ];
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'), $options
+        );
+
+        $data = ['user' => $user, 'department_id' => $department, 'message' => $message];
+        $pusher->trigger('room', 'RoomEvent', $data);
+
+        Room::create([
+            'user' => $user,
+            'department_id' => $request->get('department_id'),
+            'message' => $message
+        ]);
+
+        return response()->json(['status' => 'success']);
+    }
+    public function getMessage()
+    {
+        $chats = Room::get();
+        return response()->json($chats);
+    }
 }

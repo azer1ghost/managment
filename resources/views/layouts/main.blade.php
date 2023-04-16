@@ -186,12 +186,12 @@
             }
         })
 
-        var pusher = new Pusher('5e68408656b975a4e1e4', {
+        var pusherchat = new Pusher('5e68408656b975a4e1e4', {
             cluster: 'mt1'
         });
 
-        var channel = pusher.subscribe('my-channel');
-        channel.bind('my-event', function (data) {
+        var channelchat = pusherchat.subscribe('my-channel');
+        channelchat.bind('my-event', function (data) {
 
             if (my_id == data.from) {
                 $('#' + data.to).click()

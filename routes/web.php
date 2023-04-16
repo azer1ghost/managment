@@ -243,6 +243,9 @@ Route::group([
     Route::get('/result-download/{order}',[ OrderController::class, 'resultDownload'])->name('order-result.download');
     Route::resource('/orders', OrderController::class)->except('store');
     Route::post('/chatRoom', [RoomController::class, 'chatRoom'])->name('room-chat');
+    Route::post('/sendMessage', [RoomController::class, 'sendMessage'])->name('sendMessage-room');
+    Route::get('/getMessage',  [RoomController::class, 'getMessage']);
+
 
     // resultable routes
     Route::post('/results/{modelId}', [ResultController::class, 'store'])->name('results.store');
