@@ -30,7 +30,8 @@
                             <p class="mb-0 fw-bold">{{$department->getAttribute('name')}}</p>
                             <i class="fas fa-angle-right"></i>
                         </div>
-                        <div class="card-body" style="height: 700px; overflow-y: scroll" >
+                        <div class="card-body">
+                        <div style="height: 700px; overflow-y: scroll" >
 
                             @foreach($rooms as $room)
                                 <div class="d-flex flex-row @if($room->getAttribute('user_id') == auth()->id()) justify-content-end @else justify-content-start @endif  mb-5">
@@ -42,34 +43,28 @@
                                 </div>
                             @endforeach
 
-                            <div class="form-outline message-wrapper">
-                                <form
-{{--                                        id="form" action="{{ route('room-chat') }}"--}}
-                                        action="{{ route('rooms.store') }}" method="POST"
-                                >
-                                    @csrf
-                                    <input type="hidden" id="user_id" name="user_id" value="{{auth()->id()}}">
-                                    <input type="hidden" id="department_id" name="department_id" value="{{request()->get('department_id')}}">
-                                    <div class="row col-12"
-                                         @if(count($rooms) < 6)
-                                         style="position: absolute; bottom: 15px" @endif>
-
-                                        <div class="col-11">
+                        </div>
+                        <div class="form-outline">
+                            <form
+                                    {{--                                        id="form" action="{{ route('room-chat') }}"--}}
+                                    action="{{ route('rooms.store') }}" method="POST"
+                            >
+                                @csrf
+                                <input type="hidden" id="user_id" name="user_id" value="{{auth()->id()}}">
+                                <input type="hidden" id="department_id" name="department_id" value="{{request()->get('department_id')}}">
+                                <div class="row col-12">
+                                    <div class="col-11">
                                         <input aria-label="message" type="text" name="message" class="form-control" id="chat-input" placeholder="Type your message">
-                                        </div>
-
-                                        <div class="col-1">
-                                         <button class="btn btn-success" id="send-button" type="submit" ><i class="fas fa-paper-plane"></i></button>
-                                        </div>
-
                                     </div>
+                                    <div class="col-1">
+                                        <button class="btn btn-success" id="send-button" type="submit" ><i class="fas fa-paper-plane"></i></button>
+                                    </div>
+                                </div>
 
-                                </form>
-                            </div>
-
+                            </form>
+                        </div>
                         </div>
                     </div>
-{{--                    <div id="html"></div>--}}
                 </div>
             </div>
         </section>
