@@ -382,6 +382,7 @@ class WorkController extends Controller
         }
 
         $work->parameters()->sync($parameters);
+        event(new WorkCreated($work));
 
         return redirect()
             ->route('works.edit', $work)
