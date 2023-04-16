@@ -157,6 +157,12 @@ class Sidebar extends Component
                         'url' => route('finance-works'),
                         'permission' => 'viewAny-work',
                     ],
+                    (object)[
+                        'title' => __('translates.navbar.plannedWorks'),
+                        'icon' => 'fas fa-scroll',
+                        'url' => route('planned-works'),
+                        'permission' => 'viewAny-work',
+                    ],
                 ]
             ],
             (object)[

@@ -25,12 +25,12 @@ class WorkObserver
 
     public function creating(Work $work)
     {
-        $work->setAttribute('status', $work::PENDING);
+        $work->setAttribute('status', $work::PLANNED);
     }
 
     public function created(Work $work)
     {
-        $work->hours()->create(['status' => $work::PENDING, 'updated_at' => now()]);
+        $work->hours()->create(['status' => $work::PLANNED, 'updated_at' => now()]);
     }
 
     public function updating(Work $work)
