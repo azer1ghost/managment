@@ -35,7 +35,6 @@
                                 <ul class="list-group" id="chat-messages"  >
                                     <li class="list-group-item"></li>
                                 </ul>
-
                             </div>
                             <hr>
                             <div class="row mb-3">
@@ -50,72 +49,66 @@
         </section>
 @endsection
 @section('scripts')
+    <script>
+        var chatMessage = document.getElementById("chat-messages");
+        chatMessage.addEventListener("DOMNodeInserted", function (event) {
+            var element = event.target;
+            if (element.tagName === "LI") {
+                var objDiv = document.getElementById("scroll");
+                objDiv.scrollTop = objDiv.scrollHeight;
+            }
+        });
+        const chatDepartment = document.getElementById('chatDepartment').getAttribute('data-some-property');
+        const chatMessages = $('#chat-messages');
+        const chatInput = $('#chat-input');
 
+        const pusher = new Pusher('5e68408656b975a4e1e4', {
+            cluster: 'mt1'
+        });
 
-<script>
-    var chatMessage = document.getElementById("chat-messages");
-    chatMessage.addEventListener("DOMNodeInserted", function(event) {
-        var element = event.target;
-        if (element.tagName === "LI") {
-            var objDiv = document.getElementById("scroll");
-            objDiv.scrollTop = objDiv.scrollHeight;
-        }
-    });
-    const chatDepartment = document.getElementById('chatDepartment').getAttribute('data-some-property');
+        const channel = pusher.subscribe('room');
+        channel.bind('RoomEvent', function (e) {
+            const message = $('<li>').addClass('list-group-item');
+            const strong = $('<strong>').text(e.user + ' : ');
+            const text = $('<span>').text(e.message);
+            message.append(strong).append(text);
+            chatMessages.append(message);
+        })
 
-            const chatMessages = $('#chat-messages');
-            const chatInput = $('#chat-input');
+        chatInput.on('keyup', function (event) {
+            if (event.keyCode === 13) {
+                const message = chatInput.val();
+                const department_id = chatDepartment;
 
-            const pusher = new Pusher('5e68408656b975a4e1e4', {
-                cluster: 'mt1'
-            });
-
-            const channel = pusher.subscribe('room');
-            channel.bind('RoomEvent', function (e) {
-                const message = $('<li>').addClass('list-group-item');
-                const strong = $('<strong>').text(e.user + ' : ');
-                const text = $('<span>').text(e.message);
-                message.append(strong).append(text);
-                chatMessages.append(message);
-            })
-
-
-            chatInput.on('keyup', function(event) {
-                if (event.keyCode === 13) {
-                    const message = chatInput.val();
-                    const department_id = chatDepartment;
-
-                    axios.post('/module/sendMessage', {
-                        message,
-                        department_id,
-                    }).then(function (response) {
-                        console.log(response)
-                    }).catch(function (error) {
-                        console.log(error)
-                    });
-                    chatInput.val('')
-                    scrollToBottomFunc()
-                }
-            });
-
-
-            axios.get('/module/getMessage')
-                .then(response => {
-                    const chats = response.data;
-                    const filteredChats = chats.filter(chat => chat.department_id == chatDepartment);
-                    filteredChats.forEach(chat => {
-                        const message = $('<li>').addClass('list-group-item');
-                        const strong = $('<strong>').text(chat.user + ' : ');
-                        const text = $('<span>').text(chat.message);
-
-                        message.append(strong).append(text);
-                        chatMessages.append(message);
-                    });
-                })
-                .catch(error => {
-                    console.log(error);
+                axios.post('/module/sendMessage', {
+                    message,
+                    department_id,
+                }).then(function (response) {
+                    console.log(response)
+                }).catch(function (error) {
+                    console.log(error)
                 });
+                chatInput.val('')
+                scrollToBottomFunc()
+            }
+        });
 
-</script>
+        axios.get('/module/getMessage')
+            .then(response => {
+                const chats = response.data;
+                const filteredChats = chats.filter(chat => chat.department_id == chatDepartment);
+                filteredChats.forEach(chat => {
+                    const message = $('<li>').addClass('list-group-item');
+                    const strong = $('<strong>').text(chat.user + ' : ');
+                    const text = $('<span>').text(chat.message);
+                    message.append(strong).append(text);
+                    chatMessages.append(message);
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+
+    </script>
 
 @endsection

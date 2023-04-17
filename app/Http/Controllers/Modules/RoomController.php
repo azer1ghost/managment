@@ -2,26 +2,16 @@
 
 namespace App\Http\Controllers\Modules;
 
-use App\Events\ChatEvent;
 use App\Events\RoomEvent;
 use App\Http\Requests\RoomRequest;
-use App\Models\Chat;
 use App\Models\Company;
 use App\Models\Room;
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Pusher\Pusher;
 
 class RoomController extends Controller
-{
-    public function __construct()
-    {
-//        $this->middleware('auth');
-//        $this->authorizeResource(Room::class, 'room');
-    }
-
-    public function index()
+{    public function index()
     {
         return view('pages.rooms.index')
             ->with([
@@ -34,7 +24,6 @@ class RoomController extends Controller
     {
         return view('pages.rooms.edit')->with([
             'rooms' => Room::where('department_id', request()->get('department_id'))->latest()->limit(500)->get()->reverse(),
-
         ]);
     }
 
@@ -58,11 +47,6 @@ class RoomController extends Controller
     {
 
     }
-//   public function SendMessage(Request $request)
-//    {
-//        event(new RoomEvent($request->get('username'),$request->get('message'),$request->get('department') ));
-//        return true;
-//    }
 
     public function update(RoomRequest $request, Room $room)
     {

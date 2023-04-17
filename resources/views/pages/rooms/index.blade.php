@@ -48,18 +48,18 @@
         }
 
         .profile-card-1 h2 {
-            margin: 0 0 5px;
+            margin: 80px 5px;
             font-weight: 600;
             font-size:25px;
         }
         .profile-card-1 a {
             color: black;
         }
-        .profile-card-1 h2 small {
-            display: block;
-            font-size: 15px;
-            margin-top:10px;
-        }
+        /*.profile-card-1 h2 small {*/
+        /*    display: block;*/
+        /*    font-size: 15px;*/
+        /*    margin-top:10px;*/
+        /*}*/
         .profile-card-1 i {
             display: inline-block;
             font-size: 16px;
@@ -98,7 +98,6 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
 
-
     <section>
         <div class="container">
             <div class="row">
@@ -106,7 +105,7 @@
                 @if(auth()->user()->department->status == 1)
                     <div class="col-md-3">
                         <div class="card profile-card-1">
-                            <img src="https://source.unsplash.com/600x900/?nature-24" alt="profile-sample1" class="background"/>
+                            <img src="{{asset('assets/images/room.png')}}" alt="profile-sample1" class=""/>
                             <div class="card-content">
                                 <a href="{{ route('rooms.create') }}" onclick="event.preventDefault();
                                         document.getElementById('chat-form-ms').submit();">
@@ -124,13 +123,14 @@
                     @if(auth()->user()->department->id == $department->id || auth()->user()->isDirector() || auth()->user()->isDeveloper())
                         <div class="col-md-3">
                             <div class="card profile-card-1">
-                                <img src="https://source.unsplash.com/600x900/?nature-{{$department->getAttribute('id')}}" loading="lazy" alt="profile-sample1" class="background"/>
+                                <img src="{{asset('assets/images/room.png')}}" loading="lazy" alt="profile-sample1" class="img-fluid" onclick="event.preventDefault();
+                                            document.getElementById('chat-form-{{$department->getAttribute('id')}}').submit();"/>
                                 <div class="card-content">
                                     <a href="{{ route('rooms.create') }}" onclick="event.preventDefault();
                                             document.getElementById('chat-form-{{$department->getAttribute('id')}}').submit();">
                                         <h2>{{$department->getAttribute('name')}}</h2>
                                     </a>
-                                    <form id="chat-form-{{$department->getAttribute('id')}}"  action="{{ route('rooms.create') }}">
+                                    <form id="chat-form-{{$department->getAttribute('id')}}" action="{{ route('rooms.create') }}">
                                         <input type="hidden" name="department_id" value="{{$department->getAttribute('id')}}">
                                     </form>
                                 </div>

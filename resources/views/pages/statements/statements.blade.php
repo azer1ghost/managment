@@ -3,7 +3,12 @@
 @section('title', trans('translates.navbar.announcement'))
 @section('style')
     <style>
-
+        p,h4,a {
+            color: black;
+        }
+        a {
+            font-weight: bold;
+        }
         .alerts .alert {
             position: relative;
             border: none !important;
@@ -58,7 +63,7 @@
         @endphp
         @foreach($unReadNotifications as $notification)
 
-        <div @if($notification->unread()) style="background-color: #58d2a2" @endif class="row alert alert-info animated bounceInRight">
+        <div @if($notification->unread()) style="background-color: #ace5ce" @endif class="row alert alert-info animated bounceInRight">
             <div class="col-1 icon pull-left">
                 <i class="{{$notification->data['attribute']}} fa-2x"></i>
             </div>
