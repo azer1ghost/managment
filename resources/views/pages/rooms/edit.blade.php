@@ -27,7 +27,7 @@
                         <div class="card-header d-flex justify-content-between align-items-center p-3 bg-info text-white border-bottom-0"
                                 style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
                             <i class="fas fa-angle-left"></i>
-                            <p class="mb-0 fw-bold" data-some-property="{{$department->getAttribute('id')}}" id="chatDepartment">{{$department->getAttribute('name')}}</p>
+                            <p class="mb-0 fw-bold" data-some-property="{{$department->getAttribute('id')}}" data-user-property="{{auth()->user()->getAttribute('fullname')}}" id="chatDepartment">{{$department->getAttribute('name')}}</p>
                             <i class="fas fa-angle-right"></i>
                         </div>
                         <div class="card-body">
@@ -50,6 +50,7 @@
 @endsection
 @section('scripts')
     <script>
+        // scrolun down
         var chatMessage = document.getElementById("chat-messages");
         chatMessage.addEventListener("DOMNodeInserted", function (event) {
             var element = event.target;
@@ -58,9 +59,17 @@
                 objDiv.scrollTop = objDiv.scrollHeight;
             }
         });
+
+        //message get from pusher
         const chatDepartment = document.getElementById('chatDepartment').getAttribute('data-some-property');
+        const authUser = document.getElementById('chatDepartment').getAttribute('data-user-property');
         const chatMessages = $('#chat-messages');
         const chatInput = $('#chat-input');
+
+        function playSound(url) {
+            const audio = new Audio(url)
+            audio.play()
+        }
 
         const pusher = new Pusher('5e68408656b975a4e1e4', {
             cluster: 'mt1'
@@ -71,10 +80,14 @@
             const message = $('<li>').addClass('list-group-item');
             const strong = $('<strong>').text(e.user + ' : ');
             const text = $('<span>').text(e.message);
+            if (e.user !== authUser) {
+                playSound('{{asset('assets/audio/notify/message.wav')}}')
+            }
             message.append(strong).append(text);
             chatMessages.append(message);
         })
 
+        //message send
         chatInput.on('keyup', function (event) {
             if (event.keyCode === 13) {
                 const message = chatInput.val();
@@ -89,10 +102,11 @@
                     console.log(error)
                 });
                 chatInput.val('')
-                scrollToBottomFunc()
+                playSound('{{asset('assets/audio/notify/send.wav')}}')
             }
         });
 
+        // message get from database
         axios.get('/module/getMessage')
             .then(response => {
                 const chats = response.data;
