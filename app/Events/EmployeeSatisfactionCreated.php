@@ -19,7 +19,7 @@ class EmployeeSatisfactionCreated
         $this->url = route('employee-satisfaction.show', $employeeSatisfaction);
         $this->creator = $employeeSatisfaction->getRelationValue('users');
         $this->title = trans('translates.employee_satisfactions.incompatibility');
-        $this->body = $employeeSatisfaction->getAttribute('content');
+        $this->body = strip_tags($employeeSatisfaction->getAttribute('content'));
         $directors = User::where('role_id', User::DIRECTOR)->orWhere('department_id', 25)->get()->all();
         $department = $employeeSatisfaction->getRelationValue('departments')->users()
             ->whereNotIn('id', [auth()->id()])
