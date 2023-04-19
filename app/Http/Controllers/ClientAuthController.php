@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Work;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -82,6 +83,9 @@ class ClientAuthController extends Controller
 
     public function account()
     {
-        return view('pages.clients.auth.account')->with(['client' => auth('clients')->user()]);
+        return view('pages.clients.auth.account')->with([
+            'client' => auth('clients',)->user(),
+            'works' => Work::where('client_id', auth('clients')->id())->paginate(25)
+        ]);
     }
 }

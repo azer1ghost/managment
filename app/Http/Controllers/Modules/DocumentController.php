@@ -13,11 +13,11 @@ use Illuminate\Http\Request;
 
 class DocumentController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth')->except('viewer', 'temporaryViewerUrl');
-        $this->authorizeResource(Document::class, 'document');
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('auth')->except('viewer', 'temporaryViewerUrl');
+//        $this->authorizeResource(Document::class, 'document');
+//    }
 
     /**
      * @throws Exception
@@ -39,8 +39,6 @@ class DocumentController extends Controller
         return view('pages.documents.index')->with([
             'documents' => $documents->orderByDesc('id')->paginate($limit),
             'users' => User::get(['id', 'name', 'surname'])
-
-
         ]);
     }
 
@@ -57,9 +55,9 @@ class DocumentController extends Controller
     {
         $modelName = $request->get('model');
         $model =  ("App\\Models\\" . $modelName)::find($modelId);
-
+        $authID = is_null(auth()->id()) ? null : auth()->id();
         $file = $request->file('file');
-        $fileName = auth()->id() . '-' . config('default.prefix') .  time() . '.' . $file->getClientOriginalExtension();
+        $fileName = $authID. '-' . config('default.prefix') .  time() . '.' . $file->getClientOriginalExtension();
 
         $firebaseStoragePath = "Documents/$modelName/";
 
@@ -67,7 +65,7 @@ class DocumentController extends Controller
             'name' => $file->getClientOriginalName(),
             'file' => $fileName,
             'type' => $file->getClientMimeType(),
-            'user_id'  => auth()->id(),
+            'user_id'  => $authID,
             'size'  => $file->getSize()
         ]);
 

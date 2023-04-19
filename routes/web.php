@@ -246,7 +246,6 @@ Route::group([
     Route::post('/sendMessage', [RoomController::class, 'sendMessage'])->name('sendMessage-room');
     Route::get('/getMessage',  [RoomController::class, 'getMessage']);
 
-
     // resultable routes
     Route::post('/results/{modelId}', [ResultController::class, 'store'])->name('results.store');
     Route::put('/results/{result}',   [ResultController::class, 'update'])->name('results.update');
@@ -306,6 +305,8 @@ Route::prefix('clients')->middleware('guest:clients')->group(function () {
 Route::prefix('clients')->middleware('clients')->group(function () {
     Route::get('/account', [ClientAuthController::class, 'account'])->name('client-account');
     Route::post('/logout', [ClientAuthController::class, 'logout'])->name('client-logout');
+    Route::resource('/doc', DocumentController::class)->except('store');
+    Route::post('/doc/{modelId}', [DocumentController::class, 'store'])->name('documents.store');
 });
 
 
