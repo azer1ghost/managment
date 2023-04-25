@@ -688,6 +688,7 @@ return [
         'Prosesdədir',
         'Yoldadır',
         'Çatıb',
+        'Yük Dayandırılıb'
     ],
 
     'transport_types' => [

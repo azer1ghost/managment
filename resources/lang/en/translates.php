@@ -689,6 +689,7 @@ return [
         'In process',
         'On the Way',
         'Arrived',
+        'Stopped',
     ],
 
     'transport_types' => [
