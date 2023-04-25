@@ -30,6 +30,7 @@ class UserWorkMonthlyWidget extends Component
             ->where('disabled_at', '=', null)
             ->whereDate('datetime', '>=', now()->startOfMonth())
             ->groupBy('users.name')
+            ->orderByDesc('total_value')
             ->get();
     }
 
