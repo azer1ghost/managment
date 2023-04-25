@@ -64,23 +64,20 @@ class DailyReport extends Model implements Recordable
     }
     protected static function thursday()
     {
-        $start_of_week = now()->startOfWeek();
-        $days_of_week = [];
+        $startOfMonth = now()->startOfMonth(); // Bu ayın ilk gününü alır
+        $endOfMonth = now()->endOfMonth(); // Bu ayın son gününü alır
 
-// Add Thursday to the $days_of_week array
-        $thursday = $start_of_week->copy()->addDays(2);
-        $days_of_week[] = $thursday;
+        $wednesdays = [];
 
-//// Add the rest of the days of the week
-//        for ($i = 0; $i < 5; $i++) {
-//            $days_of_week[] = $start_of_week->addDay()->copy();
-//        }
-//
-//        $sunday = $start_of_week->addDay()->copy();
+// Bu ayın tüm günlerini kontrol eder
+        for ($date = $startOfMonth; $date->lte($endOfMonth); $date->addDay()) {
+            // Eğer gün çarşamba ise diziye ekler
+            if ($date->isWednesday()) {
+                $wednesdays[] = $date->copy();
+            }
+        }
 
-
-
-        return $days_of_week;
+        return $wednesdays;
     }
 
     public static function currentMonth()
