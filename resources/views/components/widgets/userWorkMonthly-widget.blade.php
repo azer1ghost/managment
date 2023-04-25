@@ -14,8 +14,8 @@
                             <table class="table table-borderless report-table">
                                 @foreach($works as $work)
                                     <tr>
-                                        <td class="text-muted">{{$work->name . ' ' .$work->surname}}</td>
-                                        <td class="w-100 px-0">
+                                        <td class="text-dark bold">{{$work->name . ' ' .$work->surname}}</td>
+                                        <td class="w-75 px-0">
                                             <div class="progress progress-md mx-4">
                                                 <div class="progress-bar"
                                                      style="width: {{$work->total_value / 3000 * 100}}%;
