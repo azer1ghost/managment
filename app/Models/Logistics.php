@@ -18,6 +18,7 @@ class Logistics extends Model
     const INPROCESS = 2;
     const ONTHEWAY = 3;
     const ARRIVED = 4;
+    const STOPPED = 5;
     const ROAD = 1;
     const AIR = 2;
     const WATER = 3;
@@ -60,7 +61,7 @@ class Logistics extends Model
 
     public static function statuses(): array
     {
-        return [1 => 1, 2, 3, 4];
+        return [1 => 1, 2, 3, 4, 5];
     }
 
     public static function transportTypes(): array
