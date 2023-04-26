@@ -18,7 +18,7 @@
                                         <td class="w-75 px-0">
                                             <div class="progress progress-md mx-4">
                                                 <div class="progress-bar"
-                                                     style="width: {{$work->total_value / 1000 * 100}}%;
+                                                     style="width: {{$work->total_value / 725 * 100}}%;
                                                      background-color: {{rand_color()}}!important;"
                                                      role="progressbar">
                                                 </div>
