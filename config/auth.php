@@ -85,6 +85,7 @@ return [
         'bonusTotal-widget',
         'client-widget',
         'workMonthly-widget',
+        'userWorkMonthly-widget',
         'salesClientMonthly-widget',
         'workPersonal-widget',
         'service-widget',
