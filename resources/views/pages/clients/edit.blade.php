@@ -81,7 +81,26 @@
                     <x-input::date  :label="__('translates.fields.created_at')" name="celebrate_at" :value="optional($data)->getAttribute('celebrate_at')" width="4" class="pr-0" />
                 @endif
                     <x-input::date  :label="__('translates.fields.birthday')" name="birthday" :value="optional($data)->getAttribute('birthday')" width="4" class="pr-0" />
-
+                <div class="form-group col-6 user">
+                    <label for="reference">Vasitəçi</label><br/>
+                    <select class="select2 form-control" name="reference" id="reference">
+                        <option value="">Birbaşa</option>
+                        @foreach($users as $user)
+                            <option @if($data->getAttribute('reference') == $user->id) selected @else  @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
+                        @endforeach
+                    </select>
+                </div>
+{{--                <div class="form-group col-12 col-md-3" wire:ignore>--}}
+{{--                    <label for="data-channel">@lang('translates.general.status_choose')</label>--}}
+{{--                    <select name="channel" id="data-channel" class="form-control">--}}
+{{--                        <option disabled >@lang('translates.general.status_choose')</option>--}}
+{{--                        @foreach($channels->path as $key => $channel)--}}
+{{--                            <option @if(optional($data)->getAttribute('channels') == $channel-> ) selected @endif value="{{$channel}}">--}}
+{{--                                @lang('translates.client_channels.' . $key)--}}
+{{--                            </option>--}}
+{{--                        @endforeach--}}
+{{--                    </select>--}}
+{{--                </div>--}}
             </div>
             <!-- Employment -->
             <p class="text-muted mb-2"> @lang('translates.fields.employment')</p>

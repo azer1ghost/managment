@@ -57,6 +57,7 @@ class ClientController extends Controller
 
     public function index(Request $request)
     {
+        $statuses = Client::channels();
 
         if($request->has('created_at')){
             $createdTime = $request->get('created_at');
@@ -76,7 +77,8 @@ class ClientController extends Controller
             'created_at' => $createdTime,
             'company' => $request->get('company'),
             'free_company' => $request->has('free_company'),
-            'users' => $request->get('users')
+            'users' => $request->get('users'),
+            'reference' => User::get(['id', 'name', 'surname']),
         ];
         $clients = $this->clientRepository->allFilteredClients($filters)->latest();
         if(is_numeric($filters['limit'])) {
@@ -103,7 +105,9 @@ class ClientController extends Controller
                 'salesClients' => User::isActive()->has('salesClients')->get(['id', 'name', 'surname']),
                 'companies' => Company::get(['id','name']),
                 'satisfactions' => Client::satisfactions(),
-                'users' => User::isActive()->get(['id', 'name', 'surname'])
+                'channels' => Client::channels(),
+                'users' => User::isActive()->get(['id', 'name', 'surname']),
+                'reference' => User::get(['id', 'name', 'surname']),
             ]);
     }
 
@@ -115,7 +119,10 @@ class ClientController extends Controller
                 'method' => 'POST',
                 'data' => new Client(),
                 'satisfactions' => Client::satisfactions(),
-                'companies' => Company::get(['id','name'])
+                'channels' => Client::channels(),
+                'companies' => Company::get(['id','name']),
+                'users' => User::isActive()->get(),
+                'reference' => User::get(['id', 'name', 'surname']),
             ]);
     }
 
@@ -157,7 +164,11 @@ class ClientController extends Controller
                 'method' => null,
                 'data' => $client,
                 'satisfactions' => Client::satisfactions(),
-                'companies' => Company::get(['id','name'])
+                'channels' => Client::channels(),
+                'companies' => Company::get(['id','name']),
+                'users' => User::get(['id', 'name', 'surname']),
+                'reference' => User::get(['id', 'name', 'surname']),
+
             ]);
     }
 
@@ -169,7 +180,10 @@ class ClientController extends Controller
                 'method' => "PUT",
                 'data' => $client,
                 'satisfactions' => Client::satisfactions(),
-                'companies' => Company::get(['id','name'])
+                'channels' => Client::channels(),
+                'companies' => Company::get(['id','name']),
+                'users' => User::get(['id', 'name', 'surname']),
+                'reference' => User::get(['id', 'name', 'surname']),
             ]);
     }
 

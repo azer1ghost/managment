@@ -39,8 +39,10 @@ class ClientRequest extends FormRequest
             'client_id'       => 'nullable|integer',
             'detail'          => 'nullable|string',
             'satisfaction'    => 'nullable|integer',
+            'channel'         => 'nullable|string',
             'birthday'        => 'nullable|date',
-            'celebrate_at'    => 'nullable|date'
+            'celebrate_at'    => 'nullable|date',
+            'reference'       => 'nullable|integer',
         ];
     }
 }

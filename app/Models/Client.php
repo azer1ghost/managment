@@ -19,6 +19,13 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
 {
     use SoftDeletes, Notifiable, HasFactory, Documentable, \Altek\Accountant\Recordable, Eventually;
 
+    const FRIEND = 1;
+    const MANAGER = 2;
+    const WEB = 3;
+    const INSTAGRAM = 4;
+    const FACEBOOK = 5;
+    const LINKEDIN = 6;
+    const YOUTUBE = 7;
     const LEGAL = 0;
     const PHYSICAL  = 1;
 
@@ -50,11 +57,13 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
         'document_type',
         'client_id',
         'satisfaction',
+        'channel',
         'user_id',
         'price',
         'birthday',
         'sector',
-        'celebrate_at'
+        'celebrate_at',
+        'reference'
     ];
 
     public function clients(): HasMany
@@ -108,6 +117,10 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
     {
         return [1 => 1, 2, 3];
     }
+    public static function channels(): array
+    {
+        return [1 => 1, 2, 3, 4, 5, 6, 7];
+    }
 
     public function setPhone2Attribute($value): ?string
     {
@@ -136,6 +149,10 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
     public function users():BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id')->withDefault();
+    }
+    public function references():BelongsTo
+    {
+        return $this->belongsTo(User::class, 'reference')->withDefault();
     }
 
 }

@@ -682,6 +682,15 @@ return [
         'Tamamlandı',
         'Qəbul edilmyib',
     ],
+    'client_channels' => [
+        1 => 'Dost/tanış',
+        'Satış meneceri zəng edib',
+        'Web sayt',
+        'Instagram',
+        'Facebook',
+        'LinkedIn',
+        'YouTube',
+    ],
 
     'logistics_statuses' => [
         1 => 'Yük götürülüb',

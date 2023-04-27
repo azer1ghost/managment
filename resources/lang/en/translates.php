@@ -683,6 +683,15 @@ return [
         'Done',
         'Rejected',
     ],
+    'client_channels' => [
+        1 => 'Friend/acquaintance',
+        'The sales manager called',
+        'Web site',
+        'Instagram',
+        'Facebook',
+        'LinkedIn',
+        'YouTube',
+    ],
 
     'logistics_statuses' => [
         1 => 'Picked Up',
