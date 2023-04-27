@@ -19,13 +19,6 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
 {
     use SoftDeletes, Notifiable, HasFactory, Documentable, \Altek\Accountant\Recordable, Eventually;
 
-    const FRIEND = 1;
-    const MANAGER = 2;
-    const WEB = 3;
-    const INSTAGRAM = 4;
-    const FACEBOOK = 5;
-    const LINKEDIN = 6;
-    const YOUTUBE = 7;
     const LEGAL = 0;
     const PHYSICAL  = 1;
 
@@ -117,7 +110,7 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
     {
         return [1 => 1, 2, 3];
     }
-    public static function channels(): array
+    public static function channel(): array
     {
         return [1 => 1, 2, 3, 4, 5, 6, 7];
     }

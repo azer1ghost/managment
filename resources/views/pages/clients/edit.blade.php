@@ -90,17 +90,17 @@
                         @endforeach
                     </select>
                 </div>
-{{--                <div class="form-group col-12 col-md-3" wire:ignore>--}}
-{{--                    <label for="data-channel">@lang('translates.general.status_choose')</label>--}}
-{{--                    <select name="channel" id="data-channel" class="form-control">--}}
-{{--                        <option disabled >@lang('translates.general.status_choose')</option>--}}
-{{--                        @foreach($channels->path as $key => $channel)--}}
-{{--                            <option @if(optional($data)->getAttribute('channels') == $channel-> ) selected @endif value="{{$channel}}">--}}
-{{--                                @lang('translates.client_channels.' . $key)--}}
-{{--                            </option>--}}
-{{--                        @endforeach--}}
-{{--                    </select>--}}
-{{--                </div>--}}
+                <div class="form-group col-12 col-md-3" wire:ignore>
+                    <label for="data-channel">@lang('translates.general.status_choose')</label>
+                    <select name="channel" id="data-channel" class="form-control">
+                        <option disabled >@lang('translates.general.status_choose')</option>
+                        @foreach($channels as $key => $channel)
+                            <option @if(optional($data)->getAttribute('channels') == $channel ) selected @endif value="{{$channel}}">
+                                @lang('translates.client_channels.' . $key)
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
             <!-- Employment -->
             <p class="text-muted mb-2"> @lang('translates.fields.employment')</p>

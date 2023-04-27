@@ -14,7 +14,7 @@ class AddChannelColumnToClientsTable extends Migration
     public function up()
     {
         Schema::table('clients', function (Blueprint $table) {
-            $table->string('channel');
+            $table->string('channel')->nullable();
         });
     }
 

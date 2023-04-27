@@ -57,7 +57,6 @@ class ClientController extends Controller
 
     public function index(Request $request)
     {
-        $statuses = Client::channels();
 
         if($request->has('created_at')){
             $createdTime = $request->get('created_at');
@@ -105,7 +104,6 @@ class ClientController extends Controller
                 'salesClients' => User::isActive()->has('salesClients')->get(['id', 'name', 'surname']),
                 'companies' => Company::get(['id','name']),
                 'satisfactions' => Client::satisfactions(),
-                'channels' => Client::channels(),
                 'users' => User::isActive()->get(['id', 'name', 'surname']),
                 'reference' => User::get(['id', 'name', 'surname']),
             ]);
@@ -119,7 +117,7 @@ class ClientController extends Controller
                 'method' => 'POST',
                 'data' => new Client(),
                 'satisfactions' => Client::satisfactions(),
-                'channels' => Client::channels(),
+                'channels' => Client::channel(),
                 'companies' => Company::get(['id','name']),
                 'users' => User::isActive()->get(),
                 'reference' => User::get(['id', 'name', 'surname']),
@@ -164,7 +162,7 @@ class ClientController extends Controller
                 'method' => null,
                 'data' => $client,
                 'satisfactions' => Client::satisfactions(),
-                'channels' => Client::channels(),
+                'channels' => Client::channel(),
                 'companies' => Company::get(['id','name']),
                 'users' => User::get(['id', 'name', 'surname']),
                 'reference' => User::get(['id', 'name', 'surname']),
@@ -180,7 +178,7 @@ class ClientController extends Controller
                 'method' => "PUT",
                 'data' => $client,
                 'satisfactions' => Client::satisfactions(),
-                'channels' => Client::channels(),
+                'channels' => Client::channel(),
                 'companies' => Company::get(['id','name']),
                 'users' => User::get(['id', 'name', 'surname']),
                 'reference' => User::get(['id', 'name', 'surname']),
