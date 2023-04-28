@@ -59,6 +59,7 @@
                 31. MÜVƏQQƏTİ İDXAL ÜÇÜN LAZIM OLAN SƏNƏDLƏR
             </div>
             <div class="card-body">
+                <h5 class="card-title"></h5>
                 <ol>
                     <li class="card-text">1.CMR
                     </li>
