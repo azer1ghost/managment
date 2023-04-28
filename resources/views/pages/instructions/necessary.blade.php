@@ -56,10 +56,9 @@
         </div>
         <div class="card text-center col-3 mr-3">
             <div class="card-header">
-                Featured
+                31. MÜVƏQQƏTİ İDXAL ÜÇÜN LAZIM OLAN SƏNƏDLƏR
             </div>
             <div class="card-body">
-                <h5 class="card-title">31. MÜVƏQQƏTİ İDXAL ÜÇÜN LAZIM OLAN SƏNƏDLƏR</h5>
                 <ol>
                     <li class="card-text">1.CMR
                     </li>
