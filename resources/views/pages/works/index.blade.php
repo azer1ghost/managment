@@ -243,7 +243,7 @@
                 <p class="mb-0"> @lang('translates.total_items', ['count' => $works->count(), 'total' => is_numeric($filters['limit']) ? $works->total() : $works->count()])</p>
                 <div class="input-group col-md-6">
                     <select name="limit" class="custom-select" id="size">
-                        @foreach([25, 50, 100, 250] as $size)
+                        @foreach([25, 50, 100, 250, 500] as $size)
                             <option @if($filters['limit'] == $size) selected @endif value="{{$size}}">{{$size}}</option>
                         @endforeach
                     </select>
