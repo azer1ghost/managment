@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ClientRequest;
 use App\Models\Client;
 use App\Models\Work;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -73,6 +74,14 @@ class ClientAuthController extends Controller
         auth()->login($user);
 
         return redirect('/clients/account');
+    }
+    public function update(ClientRequest $request, Client $client)
+    {
+        $validated = $request->validated();
+        $validated['send_sms'] = $request->has('send_sms');
+//dd($validated);
+        $client->update($validated);
+        return back()->withNotify('info', $client->getAttribute('fullname'));
     }
 
     public function logout()

@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="{{asset('assets/css/app.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/fonts/fontawesome.pro.min.css') }}">
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-center">

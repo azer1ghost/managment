@@ -24,17 +24,20 @@
                             <div class="col-md-12">
                                 <div class="tab-content" id="pills-tabContent">
                                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-
                                         <p><strong>Username:</strong> {{ $client->fullname }}</p>
                                         <p><strong>Voen:</strong> {{ $client->voen }}</p>
                                         <p><strong>@lang('translates.columns.phone'):</strong> {{ $client->phone1 }}</p>
-                                        <p><strong>@lang('translates.columns.phone'):</strong> {{ $client->phone1 }}</p>
+                                        <p><strong>@lang('translates.columns.phone'):</strong> {{ $client->phone2 }}</p>
                                         <p><strong>Email:</strong> {{ $client->email1 }}</p>
                                         <p><strong>Email:</strong> {{ $client->email2 }}</p>
                                         <p><strong>Joined:</strong> {{ $client->created_at->format('F j, Y') }}</p>
-                                        <a href="{{ route('client-logout') }}" onclick="event.preventDefault();
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                            <i class="fas fa-tools text-white"></i>
+                                            Edit Profile
+                                        </button>
+                                        <a href="{{ route('client-logout') }}" class="text-white btn btn-danger" onclick="event.preventDefault();
                                             document.getElementById('client-logout-form').submit();">
-                                            <i class="fas fa-house-leave text-primary"></i>
+                                            <i class="fas fa-house-leave text-white"></i>
                                             Logout
                                         </a>
                                         <form id="client-logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -70,10 +73,9 @@
                                                             </a>
                                                         @endforeach
                                                     </td>
-                                            @empty
+                                                @empty
                                                     <td colspan="8" class="alert alert-primary text-center">Sizin işiniz yoxdur</td>
                                                 </tr>
-
                                             @endforelse
                                             </tbody>
                                         </table>
@@ -111,6 +113,59 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Profil Edit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{route('client-account.update', $client)}}" method="POST">
+                    @csrf @method('PUT')
+
+                    <div class="modal-body">
+                        <input type="hidden" name="voen" class="form-control" value="{{$client->getAttribute('voen')}}">
+
+                        <div class="form-group">
+                            <label for="fullname">@lang('translates.columns.full_name')</label>
+                            <input type="text" name="fullname" class="form-control" value="{{$client->getAttribute('fullname')}}" id="fullname" placeholder="@lang('translates.placeholders.fullname')">
+                        </div>
+                        <div class="form-group">
+                            <label for="email1">@lang('translates.columns.email')</label>
+                            <input type="text" name="email1" class="form-control" value="{{$client->getAttribute('email1')}}" id="email1" placeholder="@lang('translates.placeholders.mail')">
+                            <small class="form-text text-muted">direktor emaili üçün nəzərdə tutulub</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="email2">@lang('translates.columns.email')</label>
+                            <input type="text" name="email2" class="form-control" value="{{$client->getAttribute('email2')}}" id="email2" placeholder="@lang('translates.placeholders.mail')">
+                            <small class="form-text text-muted">nümayəndə emaili üçün nəzərdə tutulub</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone1">@lang('translates.columns.phone')</label>
+                            <input type="text" name="phone1" class="form-control" value="{{$client->getAttribute('phone1')}}" id="phone1" placeholder="@lang('translates.placeholders.phone')">
+                            <small class="form-text text-muted">direktor nömrəsi üçün nəzərdə tutulub</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone2">@lang('translates.columns.phone')</label>
+                            <input type="text" name="phone2" class="form-control" value="{{$client->getAttribute('phone2')}}" id="phone2" placeholder="@lang('translates.placeholders.phone')">
+                            <small class="form-text text-muted">direktor nömrəsi üçün nəzərdə tutulub</small>
+                        </div>
+                        <div class="custom-control custom-switch mb-5">
+                            <input type="checkbox" name="send_sms" class="custom-control-input" id="send_sms" @if($client->getAttribute('send_sms')) checked @endif>
+                            <label class="custom-control-label" for="send_sms">@lang('translates.buttons.send_sms')</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>

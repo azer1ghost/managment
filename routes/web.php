@@ -304,6 +304,7 @@ Route::prefix('clients')->middleware('guest:clients')->group(function () {
 });
 Route::prefix('clients')->middleware('clients')->group(function () {
     Route::get('/account', [ClientAuthController::class, 'account'])->name('client-account');
+    Route::put('/update/{client}', [ClientAuthController::class, 'update'])->name('client-account.update');
     Route::post('/logout', [ClientAuthController::class, 'logout'])->name('client-logout');
     Route::post('/doc/{modelId}', [DocumentController::class, 'store'])->name('doc.store');
 });
