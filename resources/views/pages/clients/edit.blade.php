@@ -95,7 +95,7 @@
                     <select name="channel" id="data-channel" class="form-control">
                         <option disabled >@lang('translates.general.status_choose')</option>
                         @foreach($channels as $key => $channel)
-                            <option @if(optional($data)->getAttribute('channels') == $channel ) selected @endif value="{{$channel}}">
+                            <option @if(optional($data)->getAttribute('channel') == $channel ) selected @endif value="{{$channel}}">
                                 @lang('translates.client_channels.' . $key)
                             </option>
                         @endforeach
