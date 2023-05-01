@@ -31,9 +31,6 @@
                                 </a>
                             @endcan
                         @endif
-                            <a target="_blank" href="{{route('clients.create')}}" class="btn btn-outline-success ml-1">
-                                <i class="fa fa-plus"></i>
-                            </a>
                     </div>
                 </div>
 
