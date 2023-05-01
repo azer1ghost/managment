@@ -253,15 +253,15 @@
 @endif
 
 @push('scripts')
-    <script>
-            $('#data-status').on('change', function() {
-                var selectedValue = $(this).val();
+{{--    <script>--}}
+{{--            $('#data-status').on('change', function() {--}}
+{{--                var selectedValue = $(this).val();--}}
 
-                if (selectedValue == 4) {
-                    $('#data-detail').val('System\nselected');
-                }
-            });
-    </script>
+{{--                if (selectedValue == 4) {--}}
+{{--                    $('#data-detail').val('System\nselected');--}}
+{{--                }--}}
+{{--            });--}}
+{{--    </script>--}}
     @php($isShow = is_null($action))
     @php($hasNotPermission = !auth()->user()->can('update', $data))
     @php($isDone = optional($data)->getAttribute('status') == \App\Models\Work::DONE)
