@@ -27,6 +27,7 @@ class ClientRequest extends FormRequest
             'email2'          => 'nullable|email:rfc,dns',
             'phone1'          => 'nullable|string|max:255',
             'phone2'          => 'nullable|string|max:255',
+            'phone3'          => 'nullable|string|max:255',
             'address1'        => 'nullable|string|max:255',
             'address2'        => 'nullable|string|max:255',
             'protocol'        => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls|max:4096',

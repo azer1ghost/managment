@@ -88,6 +88,7 @@ return [
         'phone_coop' => 'Cooperative phone',
         'cooperative_numbers' => 'Cooperative numbers',
         'phone2' => 'Director Phone',
+        'phone3' => 'Accountant Phone',
         'email1' => 'Email one',
         'email2' => 'Email two',
         'address1' => 'Address one',

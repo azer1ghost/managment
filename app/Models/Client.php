@@ -34,6 +34,7 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
         'serial',
         'fin',
         'phone2',
+        'phone3',
         'phone1',
         'email2',
         'email1',
