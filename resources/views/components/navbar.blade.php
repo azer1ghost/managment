@@ -25,7 +25,7 @@
                 <a class="nav-link count-indicator dropdown-toggle" id="notificationsDropdown" href="#" data-toggle="dropdown">
                     <i class="fas fa-comment-dots"></i>
                     @php $messages = \App\Models\Chat::where('to', auth()->id())->where('is_read',0)->get() @endphp
-                    @php $rooms = \App\Models\Room::where('user', '!=', auth()->user()->getAttribute('fullname'))->latest()->take(5)->get() @endphp
+                    @php $rooms = \App\Models\Room::where('user', '!=', auth()->user()->getAttribute('fullname'))->where('department_id', auth()->user()->department->id)->latest()->take(5)->get() @endphp
                     @if(count($messages) > 0)  <span class="count" style="color: red"></span> @endif
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list p-2" style="min-width: 400px;max-width: 100%;overflow-wrap: break-word !important;height: 400px;overflow-x: hidden">
@@ -47,7 +47,7 @@
 
                     <div>
                         @foreach($rooms as $room)
-                            <a class="text-black" href="{{route('chats.index')}}">
+                            <a class="text-black" href="{{route('rooms.index')}}">
                                 <h4 class="preview-subject font-weight-normal">{{$room->user}}</h4>
                                 <p class="mb-1">Sizin Otağa Bir Mesaj Var: @if (strlen($room->message) > 200) {!!substr($room->message, 0, 200) . '...'!!}@else
                                     {{$room->message}} @endif
