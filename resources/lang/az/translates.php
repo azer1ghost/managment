@@ -87,6 +87,7 @@ return [
         'contactMethod' => 'Əlaqə üsulu',
         'phone' => 'Nömrə',
         'phone2' => 'Direktor nömrəsi',
+        'phone3' => 'Mühasib nömrəsi',
         'email1' => 'E-poçt bir',
         'email2' => 'E-poçt iki',
         'address1' => 'Ünvan bir',
