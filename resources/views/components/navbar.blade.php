@@ -49,7 +49,7 @@
                         @foreach($rooms as $room)
                             <a class="text-black" href="{{route('rooms.index')}}">
                                 <h4 class="preview-subject font-weight-normal">{{$room->user}}</h4>
-                                <p class="mb-1">Sizin Otağa Bir Mesaj Var: @if (strlen($room->message) > 200) {!!substr($room->message, 0, 200) . '...'!!}@else
+                                <p class="mb-1">Sizin Departamentə Bir Mesaj Var: @if (strlen($room->message) > 200) {!!substr($room->message, 0, 200) . '...'!!}@else
                                     {{$room->message}} @endif
                                 </p>
                             </a>

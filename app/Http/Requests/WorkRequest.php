@@ -28,7 +28,8 @@ class WorkRequest extends FormRequest
             'paid_check' => 'nullable',
             'vat_paid' => 'nullable',
             'bank_charge' => 'nullable',
-            'invoiced_date' => 'nullable'
+            'invoiced_date' => 'nullable',
+            'returned_at' => 'nullable',
         ];
     }
 }

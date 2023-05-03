@@ -253,15 +253,15 @@
 @endif
 
 @push('scripts')
-{{--    <script>--}}
-{{--            $('#data-status').on('change', function() {--}}
-{{--                var selectedValue = $(this).val();--}}
-
-{{--                if (selectedValue == 4) {--}}
-{{--                    $('#data-detail').val('System\nselected');--}}
-{{--                }--}}
-{{--            });--}}
-{{--    </script>--}}
+    <script>
+            $('#data-status').on('change', function() {
+                let selectedValue = $(this).val();
+                let noteValue =  $('#data-detail').val()
+                if (selectedValue == 5) {
+                    $('#data-detail').val(noteValue + '\n \n' + 'Əsas Səbəb:\n \nFaktiki Səbəb:\n \nGeri Qayıtma Səbəbi:\n \nİnspektorun adı:\n  \nƏlaqə nömrəsi: ');
+                }
+            });
+    </script>
     @php($isShow = is_null($action))
     @php($hasNotPermission = !auth()->user()->can('update', $data))
     @php($isDone = optional($data)->getAttribute('status') == \App\Models\Work::DONE)

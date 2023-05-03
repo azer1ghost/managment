@@ -78,7 +78,7 @@ class WorkController extends Controller
 //            'paid_at_date' => $request->has('check-paid_at'),
             'entry_date' => $request->has('check-entry_date'),
             'vat_date' => $request->has('check-vat_paid_at'),
-            'invoiced_date' => $request->has('check-invoiced_date')
+            'invoiced_date' => $request->has('check-invoiced_date'),
         ];
 
         $usersQuery = User::has('works')->with('position', 'role')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id']);
@@ -107,6 +107,10 @@ class WorkController extends Controller
 
         if ($request->has('check-paid_at')){
             $works = $works->whereBetween('paid_at', [Carbon::parse($paid_at_explode[0])->startOfDay(), Carbon::parse($paid_at_explode[1])->endOfDay()]);
+        }
+
+        if ($request->has('check-returned_at')){
+            $works = $works->whereNotNull('returned_at');
         }
 
         $works = $works->whereIn('status', [3,4,5,6,7])->paginate($limit);
@@ -445,6 +449,9 @@ class WorkController extends Controller
         $validated['injected_at'] = $request->get('status') == $work::INJECTED ? now() : NULL;
         $validated['verified_at'] = $request->has('verified') && !$request->has('rejected') ? now() : NULL;
 
+        if ($work->getAttribute('returned_at') == null && ($request->get('status') == 5) && !$request->has('rejected')) {
+            $validated['returned_at'] = now();
+        }
         if ($work->getAttribute('entry_date') == null && in_array($request->get('status'), [3, 4, 6]) && !$request->has('rejected')) {
             $validated['entry_date'] = now();
         }

@@ -227,6 +227,12 @@
                                 @endforeach
                             </select>
                         </div>
+
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <input type="checkbox" name="check-returned_at" id="check-returned_at" @if(request()->has('check-returned_at')) checked @endif> <label for="check-returned_at">returned_at</label>
+                        </div>
+
+
                         <div class="col-12 mt-3 mb-5 d-flex align-items-center justify-content-end">
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <button type="submit" class="btn btn-outline-primary"><i
