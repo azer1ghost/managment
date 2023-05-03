@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class RegistrationLog extends Model implements Recordable, DocumentableInterface
 
 {
-    use Documentable, \Altek\Accountant\Recordable,  Eventually;
+    use Documentable, \Altek\Accountant\Recordable, Eventually;
 
     protected $fillable = ['performer', 'receiver', 'sender', 'number', 'description', 'arrived_at', 'received_at','company_id'];
 

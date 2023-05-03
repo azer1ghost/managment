@@ -226,10 +226,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                        </div>
-
-                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <input type="checkbox" name="check-returned_at" id="check-returned_at" @if(request()->has('check-returned_at')) checked @endif> <label for="check-returned_at">returned_at</label>
+                            <input type="checkbox" name="check-returned_at" id="check-returned_at" @if(request()->has('check-returned_at')) checked @endif> <label for="check-returned_at">Geri Qayıtmış İşləri Filterlə</label>
                         </div>
 
 
