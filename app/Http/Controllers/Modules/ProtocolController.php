@@ -55,7 +55,7 @@ class ProtocolController extends Controller
             ->withNotify('success', $protocol->getAttribute('sender'));
     }
 
-    public function show(Change $protocol)
+    public function show(Protocol $protocol)
     {
         return view('pages.protocols.edit')->with([
             'action' => null,
