@@ -36,7 +36,7 @@ class ClientRequest extends FormRequest
             'voen'            => 'string|required',
             'password'       =>  'nullable|string',
             'position'        => 'nullable|string',
-            'type'            => 'nullable|boolean',
+            'type'            => 'nullable|integer',
             'client_id'       => 'nullable|integer',
             'detail'          => 'nullable|string',
             'satisfaction'    => 'nullable|integer',

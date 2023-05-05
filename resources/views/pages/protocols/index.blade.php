@@ -43,6 +43,7 @@
                         <th scope="col">Protokolun nömrəsi</th>
                         <th scope="col">Tarixi</th>
                         <th scope="col">Protokolun məzmunu</th>
+                        <th scope="col">Protokol</th>
                         <th scope="col">Kim İmzalamışdır</th>
                         <th scope="col">İcraçı</th>
                         <th scope="col">@lang('translates.parameters.types.operation')</th>
@@ -56,6 +57,15 @@
                             <td>{{$protocol->getAttribute('protocol_no')}}</td>
                              <td>{{optional($protocol->getAttribute('date'))->format('d/m/y')}}</td>
                              <td>{{$protocol->getAttribute('content')}}</td>
+                             <td> @php($supportedTypes = \App\Models\Document::supportedTypeIcons())
+                                 @foreach($protocol->documents as $document)
+                                     @php($type = $supportedTypes[$document->type])
+                                     @php($route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document))
+                                     <a href="{{$route}}" data-toggle="tooltip" title="{{$document->file}}" target="_blank" class="text-dark d-flex align-items-center mr-2" style=" word-break: break-word">
+                                         <i class="fa fa-file-{{$type['icon']}} fa-2x m-1 text-{{$type['color']}}"></i>
+                                         <span>{{substr($document->name, 0, 10) . '...'}} </span>
+                                     </a>
+                                 @endforeach</td>
                              <td>{{$protocol->getRelationValue('signatures')->getFullnameWithPositionAttribute()}}</td>
                              <td>{{$protocol->getRelationValue('performers')->getFullnameWithPositionAttribute()}}</td>
                          @can('update', App\Models\Protocol::class)

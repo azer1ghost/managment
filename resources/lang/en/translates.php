@@ -611,7 +611,9 @@ return [
         'get_signature' => 'Get My Signature',
         'signature_for' => 'Signature for',
         'legal' => 'Legal',
+        'foreignlegal' => 'Foreign Legal',
         'physical' => 'Physical',
+        'foreignphysical' => 'Foreign Physical',
         'typeChoose' => 'Type Not Selected',
         'activeChoose' => 'Filter by Contract',
         'physical_client_name' => 'Name of Legal Client Employees',
@@ -673,6 +675,8 @@ return [
     'clients_type' => [
         'Legal',
         'Physical',
+        'Foreign Physical',
+        'Foreign Legal',
     ],
 
     'work_status' => [
