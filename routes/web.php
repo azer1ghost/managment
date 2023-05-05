@@ -36,6 +36,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\LogisticsClientController,
     Modules\LogisticsController,
     Modules\MeetingController,
+    Modules\NoteController,
     Modules\OptionController,
     Modules\OrderController,
     Modules\OrganizationController,
@@ -245,6 +246,11 @@ Route::group([
     Route::post('/chatRoom', [RoomController::class, 'chatRoom'])->name('room-chat');
     Route::post('/sendMessage', [RoomController::class, 'sendMessage'])->name('sendMessage-room');
     Route::get('/getMessage',  [RoomController::class, 'getMessage']);
+//    Route::resource('/notes', NoteController::class);
+    Route::get('/notes', [NoteController::class, 'index'])->name('note-index');
+    Route::post('/sendNote', [NoteController::class, 'sendNote'])->name('sendNote-note');
+
+
 
     // resultable routes
     Route::post('/results/{modelId}', [ResultController::class, 'store'])->name('results.store');
