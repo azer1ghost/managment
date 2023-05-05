@@ -52,7 +52,7 @@
                     </div>
                 @endif
                 <x-form-group  class="pr-3 col-12 col-lg-4" :label="trans('translates.filters.type')">
-                    <x-form-select name="type" :options="[trans('translates.general.legal'), trans('translates.general.physical')]" />
+                    <x-form-select name="type" :options="[trans('translates.general.legal'), trans('translates.general.physical'), trans('translates.general.foreignphysical'), trans('translates.general.foreignlegal')]" />
                 </x-form-group>
                 <div class="form-group col-4">
                     <label for="data-companies">Select Company</label><br/>
@@ -69,7 +69,7 @@
                 <x-form-group  class="pr-3 col-12 col-lg-8" :label="trans('translates.fields.name')" required>
                     <x-form-input name="fullname" />
                 </x-form-group>
-                @if (request()->get('type') == $data::PHYSICAL || $data->getAttribute('type') == $data::PHYSICAL)
+                @if ((request()->get('type') == $data::PHYSICAL || $data->getAttribute('type') == $data::PHYSICAL) || (request()->get('type') == $data::FOREIGNPHYSICAL || $data->getAttribute('type') == $data::FOREIGNPHYSICAL))
                     <x-form-group  class="pr-3 col-12 col-lg-4" :label="trans('translates.fields.father')">
                         <x-form-input name="father" />
                     </x-form-group>
@@ -77,7 +77,7 @@
                 <x-form-group  class="pr-3 col-12 col-lg-8" :label="trans('translates.fields.detail')">
                     <x-form-textarea name="detail" style="height: 300px" />
                 </x-form-group>
-                @if (request()->get('type') == $data::LEGAL && optional($data)->getAttribute('type') == $data::LEGAL)
+                @if ((request()->get('type') == $data::LEGAL && optional($data)->getAttribute('type') == $data::LEGAL) || (request()->get('type') == $data::FOREIGNLEGAL && optional($data)->getAttribute('type') == $data::FOREIGNLEGAL))
                     <x-input::date  :label="__('translates.fields.created_at')" name="celebrate_at" :value="optional($data)->getAttribute('celebrate_at')" width="4" class="pr-0" />
                 @endif
                     <x-input::date  :label="__('translates.fields.birthday')" name="birthday" :value="optional($data)->getAttribute('birthday')" width="4" class="pr-0" />

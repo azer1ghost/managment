@@ -612,7 +612,9 @@ return [
         'get_signature' => 'İmzamı Al',
         'signature_for' => 'İmza',
         'legal' => 'Hüquqi',
+        'foreignlegal' => 'Xarici Hüquqi',
         'physical' => 'Fiziki',
+        'foreignphysical' => 'Xarici Fiziki',
         'typeChoose' => 'Müştəri Növü Seçilməyib',
         'activeChoose' => 'Müqaviləyə görə filterləmə',
         'earning' => 'Məbləğ',
@@ -672,6 +674,8 @@ return [
     'clients_type' => [
         'Hüquqi',
         'Fiziki',
+        'Xarici Fiziki',
+        'Xarici Hüquqi',
     ],
 
     'work_status' => [

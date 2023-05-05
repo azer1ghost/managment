@@ -92,7 +92,9 @@ class ClientController extends Controller
                 'types' => [
                     (string) 'none' => trans('translates.general.typeChoose'),
                     (string) Client::LEGAL => trans('translates.general.legal'),
-                    (string) Client::PHYSICAL => trans('translates.general.physical')
+                    (string) Client::PHYSICAL => trans('translates.general.physical'),
+                    (string) Client::FOREIGNPHYSICAL => trans('translates.general.physical'),
+                    (string) Client::FOREIGNLEGAL => trans('translates.general.physical'),
                 ],
                 'actives' => [
                     (string) 'none' => trans('translates.general.activeChoose'),

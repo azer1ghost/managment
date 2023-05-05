@@ -22,6 +22,10 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
     const LEGAL = 0;
     const PHYSICAL  = 1;
 
+    const FOREIGNPHYSICAL  = 2;
+
+    const FOREIGNLEGAL  = 3;
+
     const ACTIVE = 1;
 
     const PASSIVE = 0;
@@ -73,6 +77,14 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
     public function scopePhysical($query)
     {
         return $query->whereType(self::PHYSICAL);
+    }
+    public function scopeForeignPhysical($query)
+    {
+        return $query->whereType(self::FOREIGNPHYSICAL);
+    }
+    public function scopeForeignLegal($query)
+    {
+        return $query->whereType(self::FOREIGNLEGAL);
     }
 
     public function getMainColumn(): string
