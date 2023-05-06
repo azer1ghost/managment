@@ -7,6 +7,18 @@
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
             <i class="fas fa-bars"></i>
         </button>
+        <ul class="navbar-nav mr-lg-2">
+            <li class="nav-item nav-search d-none d-lg-block">
+                <div class="input-group">
+                    <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
+                            <a class="input-group-text" href="{{ route('note-index') }}">
+                              <i class="fas fa-sticky-note m-2"></i>
+                                Notlarım və To-Do Listim
+                            </a>
+                    </div>
+                </div>
+            </li>
+        </ul>
 {{--        <ul class="navbar-nav mr-lg-2">--}}
 {{--            <li class="nav-item nav-search d-none d-lg-block">--}}
 {{--                <div class="input-group">--}}
