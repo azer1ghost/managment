@@ -249,6 +249,13 @@ Route::group([
 //    Route::resource('/notes', NoteController::class);
     Route::get('/notes', [NoteController::class, 'index'])->name('note-index');
     Route::post('/sendNote', [NoteController::class, 'sendNote'])->name('sendNote-note');
+    Route::get('/getNotes',  [NoteController::class, 'getNote']);
+    Route::post('/updateNote',  [NoteController::class, 'updateNote']);
+    Route::post('/deleteNote',  [NoteController::class, 'deleteNote']);
+    Route::post('/sendToDo', [\App\Http\Controllers\Modules\ToDoController::class, 'sendToDo'])->name('sendToDo');
+    Route::get('/getToDos',  [\App\Http\Controllers\Modules\ToDoController::class, 'getToDo']);
+    Route::post('/updateToDo',  [\App\Http\Controllers\Modules\ToDoController::class, 'updateToDo']);
+    Route::post('/deleteToDo',  [\App\Http\Controllers\Modules\ToDoController::class, 'deleteToDo']);
 
 
 

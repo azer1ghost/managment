@@ -209,12 +209,9 @@
 @section('content')
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
     <div class="row">
-        <div class="col-8" style="border-right: black solid 2px; s">
+        <div class="col-8" style="border-right: black solid 2px; overflow-y: scroll; max-height: 100vh">
 
             <div id="app">
-                @foreach($notes as $note)
-                    <textarea class="note" placeholder="Empty Sticky Note">{{$note->content}}</textarea>
-                @endforeach
                 <button class="add-note" type="button">+</button>
             </div>
 
@@ -228,83 +225,17 @@
 
                 <ul class="todoLists"></ul>
 
-                <div class="pending-tasks">
-                    <span>You have <span class="pending-num"> no </span> tasks pending.</span>
-                    <button class="clear-button">Clear All</button>
-                </div>
+
             </div>
         </div>
     </div>
-
-
 @endsection
-
 
 @section('scripts')
     <script>
-        //Getting all required elements
-        const inputField = document.querySelector(".input-field textarea"),
-            todoLists = document.querySelector(".todoLists"),
-            pendingNum = document.querySelector(".pending-num"),
-            clearButton = document.querySelector(".clear-button");
-
-        //we will call this function while adding, deleting and checking-unchecking the task
-        function allTasks() {
-            let tasks = document.querySelectorAll(".pending");
-
-            //if tasks' length is 0 then pending num text content will be no, if not then pending num value will be task's length
-            pendingNum.textContent = tasks.length === 0 ? "no" : tasks.length;
-
-            let allLists = document.querySelectorAll(".list");
-            if (allLists.length > 0) {
-                todoLists.style.marginTop = "20px";
-                clearButton.style.pointerEvents = "auto";
-                return;
-            }
-            todoLists.style.marginTop = "0px";
-            clearButton.style.pointerEvents = "none";
-        }
-
-        //add task while we put value in text area and press enter
-        inputField.addEventListener("keyup", (e) => {
-            let inputVal = inputField.value.trim(); //trim fuction removes space of front and back of the inputed value
-
-            //if enter button is clicked and inputed value length is greated than 0.
-            if (e.key === "Enter" && inputVal.length > 0) {
-                let liTag = ` <li class="list pending" onclick="handleStatus(this)">
-          <input type="checkbox" />
-          <span class="task">${inputVal}</span>
-          <i class="uil uil-trash" onclick="deleteTask(this)"></i>
-        </li>`;
-
-                todoLists.insertAdjacentHTML("beforeend", liTag); //inserting li tag inside the todolist div
-                inputField.value = ""; //removing value from input field
-                allTasks();
-            }
-        });
-
-        function handleStatus(e) {
-            const checkbox = e.querySelector("input"); //getting checkbox
-            checkbox.checked = checkbox.checked ? false : true;
-            e.classList.toggle("pending");
-            allTasks();
-        }
-
-        function deleteTask(e) {
-            e.parentElement.remove(); //getting parent element and remove it
-            allTasks();
-        }
-
-        clearButton.addEventListener("click", () => {
-            todoLists.innerHTML = "";
-            allTasks();
-        });
-
-    </script>
-
-    <script>
         const notesContainer = document.getElementById("app");
         const addNoteButton = notesContainer.querySelector(".add-note");
+        const user_id = {{auth()->id()}};
 
         getNotes().forEach((note) => {
             const noteElement = createNoteElement(note.id, note.content);
@@ -314,7 +245,7 @@
         addNoteButton.addEventListener("click", () => addNote());
 
         function getNotes() {
-            return JSON.parse(localStorage.getItem("stickynotes-notes") || "[]");
+            return JSON.parse("[]");
         }
 
         function saveNotes(notes) {
@@ -333,7 +264,6 @@
                     type: "POST",
                     url: "/module/sendNote",
                     data: {
-                        // id: targetNote.id,
                         content: element.value
                     },
                     success: function (response) {
@@ -388,6 +318,178 @@
         }
 
 
+        axios.get('/module/getNotes')
+            .then(response => {
+                const notes = response.data;
+                const filteredNotes = notes.filter(note => note.user_id == user_id);
+                const noteContainer = document.getElementById('app');
+                const addButton = noteContainer.querySelector('.add-note');
+                filteredNotes.forEach(note => {
+                    const noteDiv = document.createElement('textarea');
+                    noteDiv.classList.add('note');
+                    noteDiv.textContent = note.content;
+                    noteDiv.addEventListener('click', event => {
+                        noteDiv.addEventListener("change", () => {
+                            console.log(note.id)
+                            $.ajax({
+                                type: "POST",
+                                url: "/module/updateNote",
+                                data: {
+                                    content: noteDiv.value,
+                                    id: note.id
+                                },
+                                success: function (response) {
+                                    console.log("Note updated successfully!");
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error("Failed to update note: " + error);
+                                }
+                            });
+                        });
+                    });
+
+                    noteDiv.addEventListener('dblclick', event => {
+                        $.ajax({
+                            type: "POST",
+                            url: "/module/deleteNote",
+                            data: {
+                                content: noteDiv.value,
+                                id: note.id
+                            },
+                            success: function (response) {
+                                console.log("Note deleted successfully!");
+                                $(noteDiv).hide();
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("Failed to update note: " + error);
+                            }
+
+                        });
+                    });
+                    noteContainer.insertBefore(noteDiv, addButton);
+
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
 
     </script>
+
+    <script>
+        //Getting all required elements
+        const inputField = document.querySelector(".input-field textarea"),
+            todoLists = document.querySelector(".todoLists"),
+            pendingNum = document.querySelector(".pending-num");
+
+        //we will call this function while adding, deleting and checking-unchecking the task
+        function allTasks() {
+            let tasks = document.querySelectorAll(".pending");
+
+            //if tasks' length is 0 then pending num text content will be no, if not then pending num value will be task's length
+            pendingNum.textContent = tasks.length === 0 ? "no" : tasks.length;
+
+            let allLists = document.querySelectorAll(".list");
+            if (allLists.length > 0) {
+                todoLists.style.marginTop = "20px";
+                return;
+            }
+            todoLists.style.marginTop = "0px";
+        }
+
+        //add task while we put value in text area and press enter
+        inputField.addEventListener("keyup", (e) => {
+            let inputVal = inputField.value.trim(); //trim fuction removes space of front and back of the inputed value
+
+            //if enter button is clicked and inputed value length is greated than 0.
+            if (e.key === "Enter" && inputVal.length > 0) {
+                let liTag = ` <li class="list pending" onclick="handleStatus(this)">
+          <input type="checkbox" />
+          <span class="task">${inputVal}</span>
+          <i class="uil uil-trash" onclick="deleteTask(this)"></i>
+            </li>`;
+                $.ajax({
+                    type: "POST",
+                    url: "/module/sendToDo",
+                    data: {
+                        content: inputField.value,
+                    },
+                    success: function (response) {
+                        console.log("Note deleted successfully!");
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Failed to update note: " + error);
+                    }
+
+                });
+                todoLists.insertAdjacentHTML("beforeend", liTag); //inserting li tag inside the todolist div
+                inputField.value = ""; //removing value from input field
+                allTasks();
+            }
+        });
+
+        function handleStatus(e) {
+            const checkbox = e.querySelector("input"); //getting checkbox
+            checkbox.checked = checkbox.checked ? 0 : 1;
+            e.classList.toggle("pending");
+            console.log( checkbox.checked)
+            let todoId = e.querySelector("span").getAttribute("data-id")
+                    $.ajax({
+                        type: "POST",
+                        url: "/module/updateToDo",
+                        data: {
+                            id: todoId,
+                            is_checked:  checkbox.checked
+                        },
+                        success: function (response) {
+                            console.log("Note updated successfully!");
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Failed to update note: " + error);
+                        }
+                    });
+            allTasks();
+        }
+
+        function deleteTask(e) {
+            e.parentElement.remove(); //getting parent element and remove it
+            console.log(e.parentElement)
+            let todoId = e.parentElement.querySelector("span").getAttribute("data-id")
+
+            $.ajax({
+                type: "POST",
+                url: "/module/deleteToDo",
+                data: {
+                    id: todoId,
+                },
+                success: function (response) {
+                    console.log("Note updated successfully!");
+                },
+                error: function (xhr, status, error) {
+                    console.error("Failed to update note: " + error);
+                }
+            });
+            allTasks();
+        }
+
+        axios.get('/module/getToDos')
+            .then(response => {
+                const todos = response.data;
+                const filteredTodo = todos.filter(todo => todo.user_id == user_id);
+                console.log(filteredTodo)
+                filteredTodo.forEach(todo => {
+                    let getli = ` <li class="list pending" onclick="handleStatus(this)">
+
+                      <input type="checkbox" ${todo.is_checked == 1 ? 'checked' : "" } />
+                      <span class="task" data-id="${todo.id}">${todo.content}</span>
+                      <i class="uil uil-trash" onclick="deleteTask(this)"></i>
+                        </li>`;
+                    todoLists.insertAdjacentHTML("beforeend", getli);
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    </script>
+
 @endsection
