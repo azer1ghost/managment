@@ -219,12 +219,11 @@
         <div class="col-4">
             <div class="container">
                 <div class="input-field">
-                    <textarea placeholder="Enter your new todo"></textarea>
+                    <textarea placeholder="Edəcəklərinizi qeyd edin"></textarea>
                     <i class="uil uil-notes note-icon"></i>
                 </div>
 
                 <ul class="todoLists"></ul>
-
 
             </div>
         </div>
@@ -257,7 +256,7 @@
 
             element.classList.add("note");
             element.value = content;
-            element.placeholder = "Empty Sticky Note";
+            element.placeholder = "Notun içi Boşdur";
 
             element.addEventListener("change", () => {
                 $.ajax({
