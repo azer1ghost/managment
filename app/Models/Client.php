@@ -102,7 +102,7 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
         return !self::userCanViewAll();
     }
 
-    public function salesUsers(): BelongsToMany
+    public function coordinators(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'sales_clients_relationship');
     }
@@ -160,5 +160,7 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
     {
         return $this->belongsTo(User::class, 'reference')->withDefault();
     }
+
+
 
 }

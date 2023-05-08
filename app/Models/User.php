@@ -35,6 +35,7 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
 
     const TRANSIT = 9;
 
+
     protected $fillable = [
         'name',
         'surname',
@@ -127,7 +128,7 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
         return $this->hasMany(Logistics::class);
     }
 
-    public function salesClients(): BelongsToMany
+    public function coordinators(): BelongsToMany
     {
         return $this->belongsToMany(Client::class, 'sales_clients_relationship');
     }
@@ -210,6 +211,10 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
     public function isSales(): bool
     {
         return $this->getAttribute('department_id') === 7;
+    }
+    public function isCoordinator(): bool
+    {
+        return $this->getAttribute('department_id') === 22;
     }
 
     public function isNotDeveloper(): bool
