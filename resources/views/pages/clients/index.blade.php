@@ -70,6 +70,25 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <select id="data-sales-coordinator" name="coordinator"  class="form-control" data-selected-text-format="count"
+                                data-width="fit" title="@lang('translates.clients.selectCoordinator')">
+                            <option value=""> @lang('translates.filters.coordinator') </option>
+                            @foreach($coordinators as $coordinator)
+                                <option
+                                        @if($filters['coordinator'] == $coordinator->getAttribute('id')) selected @endif
+                                value="{{$coordinator->getAttribute('id')}}">
+                                    {{$coordinator->getAttribute('name')}}
+                                </option>
+                            @endforeach
+                        </select>
+                        <div class="form-group ml-2">
+                            <input name="free_coordinator" @if($filters['free_coordinator']) checked @endif type="checkbox" id="exampleCheck2">
+                            <label class="form-check-label" for="exampleCheck2">@lang('translates.filters.free_coordinator')</label>
+                        </div>
+                    </div>
+                </div>
             @endif
 
             <div class="form-group col-12 col-md-3">
@@ -139,7 +158,7 @@
                 <tbody>
                     @forelse($clients as $client)
                         <tr @if(\App\Models\Client::userCanViewAll())
-                                title="@foreach($client->salesUsers as $user) {{$user->getAttribute('fullname')}} @if(!$loop->last),@endif @endforeach"
+                                title="@foreach($client->coordinators as $user) {{$user->getAttribute('fullname')}} @if(!$loop->last),@endif @endforeach"
                                 data-toggle="tooltip"
                             @endif>
                             @if(auth()->user()->hasPermission('canAssignUsers-client'))
@@ -250,6 +269,40 @@
                 </div>
             </div>
         </div>
+
+        <button type="button" class="btn btn-outline-primary" id="sum-assign-coordinators" data-toggle="modal" data-target="#sum-assign-modal-coordinators">
+            @lang('translates.clients.assignCoordinator')
+        </button>
+        <div class="modal fade" id="sum-assign-modal-coordinators" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{route('clients.sum.assign-coordinators')}}" method="POST" id="sum-assign-form-coordinators">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Assign Coordinator</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="data-coordinators">Select Coordinators</label><br/>
+                                    <select id="data-coordinators" name="users[]" multiple required class="filterSelector form-control" data-selected-text-format="count"
+                                            data-width="fit" title="@lang('translates.filters.select')">
+                                        @foreach($coordinators as $coordinator)
+                                            <option value="{{$coordinator->getAttribute('id')}}">{{$coordinator->getAttribute('name')}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
+                            <button type="submit" class="btn btn-primary">@lang('translates.buttons.save')</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     @endif
 @endsection
 @section('scripts')
@@ -308,6 +361,74 @@
                 type: "POST",
                 url: '{{route('clients.sum.assign-companies')}}',
                 data: $('#sum-assign-form-companies').serialize() + "&" + params.toString(),
+                success: function() {
+                    $.confirm({
+                        title: 'Successful',
+                        icon: 'fa fa-check',
+                        type: 'blue',
+                        typeAnimated: true,
+                        autoClose: 'reload|3000',
+                        theme: 'modern',
+                        buttons: {
+                            reload: {
+                                text: 'Ok',
+                                btnClass: 'btn-blue',
+                                keys: ['enter'],
+                                action: function(){
+                                    window.location.reload()
+                                }
+                            }
+                        }
+                    });
+                },
+                error: function (err) {
+                    $.confirm({
+                        title: 'Ops something went wrong!',
+                        content: err?.responseJSON,
+                        type: 'red',
+                        typeAnimated: true,
+                        buttons: {
+                            close: {
+                                text: 'Close',
+                                btnClass: 'btn-blue',
+                                keys: ['enter'],
+                            }
+                        }
+                    });
+                }
+            });
+        });
+        function checkUnverifiedWorks(){
+            let hasOneChecked = false;
+            clientsCheckbox.map(function () {
+                if ($(this).is(':checked')) {
+                    hasOneChecked = true;
+                }
+            });
+            if (hasOneChecked) {
+                $('#sum-assign-coordinators').attr('disabled', false);
+            } else {
+
+                $('#sum-assign-coordinators').attr('disabled', true);
+            }
+        }
+        $('#sum-assign-form-coordinators').submit(function (e){
+            e.preventDefault();
+            const checkedClients = [];
+            $("input[name='clients[]']:checked").each(function(){
+                checkedClients.push($(this).val());
+            });
+
+            const params = new URLSearchParams({
+                clients: checkedClients,
+            });
+
+            $('#sum-assign-modal-coordinators').modal('hide');
+
+            $.ajax({
+                type: "POST",
+                url: '{{route('clients.sum.assign-coordinators')}}',
+                data: $('#sum-assign-form-coordinators').serialize() + "&" + params.toString(),
                 success: function() {
                     $.confirm({
                         title: 'Successful',

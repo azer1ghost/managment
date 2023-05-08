@@ -18,6 +18,7 @@ return [
         'code' => 'Kod üzrə filtrləyin',
         'subject' => 'Mövzuya görə filtrləyin',
         'company' => 'Şirkətə görə filtrləyin',
+        'coordinator' => 'Koordinatora görə filtrləyin',
         'client_name' => 'Müştəri adına görə filtrləyin',
         'phone' => 'Telefon adına görə filtrləyin',
         'written_by' => 'Müəllif adına görə filtrləyin',
@@ -30,6 +31,7 @@ return [
         'filter_by' => 'Filterlə',
         'free_clients' => 'Boş müştərilər',
         'free_company' => 'Boş Şirkət',
+        'free_coordinator' => 'Boş Koordinator',
         'sales_activities_type' => 'Satış Fəaliyyətinə Görə Filterləyin',
         'type' => 'Növü',
     ],
@@ -668,7 +670,8 @@ return [
         'voen_empty' => 'VOEN yoxdur',
         'add_representative' => 'Nümayəndə əlavə et',
         'selectUser' => 'Satış İstifadəçisi Seç',
-        'selectCompany' => 'Şirkət Seçin'
+        'selectCompany' => 'Şirkət Seçin',
+        'selectCoordinator' => 'Koordinator Seçin',
     ],
 
     'clients_type' => [

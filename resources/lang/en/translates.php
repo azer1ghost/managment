@@ -669,7 +669,9 @@ return [
         'selectUser' => 'Select Sales Users',
         'assignUser' => 'Assign sales users',
         'assignCompany' => 'Assign Companies',
-        'selectCompany' => 'Select Company'
+        'assignCoordinator' => 'Assign Coordinators',
+        'selectCompany' => 'Select Company',
+        'selectCoordinator' => 'Select Coordinator'
     ],
 
     'clients_type' => [

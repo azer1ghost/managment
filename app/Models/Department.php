@@ -18,6 +18,7 @@ class Department extends Model implements Recordable
     use HasTranslations, HasFactory, SoftDeletes, GetClassInfo, \Altek\Accountant\Recordable, Eventually;
 
     const SALES  = 7;
+    const COORDINATOR  = 22;
     const CALL_CENTER = 2;
 
     protected $fillable = ['name', 'status', 'short_name', 'permissions', 'ordering'];

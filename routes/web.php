@@ -161,6 +161,7 @@ Route::group([
 
     Route::post('/clients/sum/assign-sales', [ClientController::class, 'sumAssignSales'])->name('clients.sum.assign-sales');
     Route::post('/clients/sum/assign-companies', [ClientController::class, 'sumAssignCompanies'])->name('clients.sum.assign-companies');
+    Route::post('/clients/sum/assign-coordinators', [ClientController::class, 'sumAssignCoordinators'])->name('clients.sum.assign-coordinators');
     Route::get('/clients/export', [ClientController::class, 'export'])->name('clients.export');
     Route::any('/clients/search', [ClientController::class, 'search'])->name('clients.search');
     Route::resource('/clients', ClientController::class);

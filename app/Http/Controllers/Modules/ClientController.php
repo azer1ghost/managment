@@ -26,7 +26,7 @@ class ClientController extends Controller
 
     public function search(Request $request): object
     {
-        $clients = Client::with('salesUsers')->where('fullname', 'LIKE', "%{$request->get('search')}%")
+        $clients = Client::with('coordinators')->where('fullname', 'LIKE', "%{$request->get('search')}%")
             ->orWhere('voen', 'LIKE', "%{$request->get('search')}%")
             ->limit(10)
             ->get(['id', 'fullname', 'voen', 'active']);
@@ -70,12 +70,13 @@ class ClientController extends Controller
             'type' => $request->get('type'),
             'active' => $request->get('active'),
             'limit' => $request->get('limit',25),
-            'salesClient' => $request->get('salesClient'),
+            'coordinator' => $request->get('coordinator'),
             'free_clients' => $request->has('free_clients'),
             'check-created_at' => $request->has('check-created_at'),
             'created_at' => $createdTime,
             'company' => $request->get('company'),
             'free_company' => $request->has('free_company'),
+            'free_coordinator' => $request->has('free_coordinator'),
             'users' => $request->get('users'),
             'reference' => User::get(['id', 'name', 'surname']),
         ];
@@ -102,8 +103,7 @@ class ClientController extends Controller
                     (string) Client::PASSIVE => trans('translates.buttons.passive')
                 ],
                 'clients' => $clients,
-                'salesUsers' => User::isActive()->where('department_id', Department::SALES)->get(['id', 'name', 'surname']),
-                'salesClients' => User::isActive()->has('salesClients')->get(['id', 'name', 'surname']),
+                'coordinators' => User::isActive()->where('department_id', Department::COORDINATOR)->get(['id', 'name', 'surname']),
                 'companies' => Company::get(['id','name']),
                 'satisfactions' => Client::satisfactions(),
                 'users' => User::isActive()->get(['id', 'name', 'surname']),
@@ -208,11 +208,11 @@ class ClientController extends Controller
         return back()->withNotify('info', $client->getAttribute('name'));
     }
 
-    public function sumAssignSales(Request $request)
+    public function sumAssignCoordinators(Request $request)
     {
         $err = 0;
         foreach (explode(',', $request->get('clients')) as $client) {
-            if(!Client::find($client)->salesUsers()->sync($request->get('users'))){
+            if(!Client::find($client)->coordinators()->sync($request->get('users'))){
                 $err = 400;
             }
         }
