@@ -446,7 +446,11 @@ class WorkController extends Controller
 //        }
 
         $validated['datetime'] = $request->get('status') == $work::DONE ? now() : NULL;
-        $validated['injected_at'] = $request->get('status') == $work::INJECTED ? now() : NULL;
+        if ($work->getAttribute('injected_at') == null && $request->get('status') == $work::INJECTED) {
+            $validated['injected_at'] = now();
+        }
+//        $validated['injected_at'] = $request->get('status') == $work::INJECTED ? now() : NULL;
+
         $validated['verified_at'] = $request->has('verified') && !$request->has('rejected') ? now() : NULL;
 
         if ($work->getAttribute('returned_at') == null && ($request->get('status') == 5) && !$request->has('rejected')) {
