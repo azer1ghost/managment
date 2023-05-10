@@ -276,7 +276,7 @@
 
             element.addEventListener("dblclick", () => {
                 const doDelete = confirm(
-                    "Are you sure you wish to delete this sticky note?"
+                    "Bu notu silməyə əminsiniz?"
                 );
 
                 if (doDelete) {
@@ -348,22 +348,29 @@
                     });
 
                     noteDiv.addEventListener('dblclick', event => {
-                        $.ajax({
-                            type: "POST",
-                            url: "/module/deleteNote",
-                            data: {
-                                content: noteDiv.value,
-                                id: note.id
-                            },
-                            success: function (response) {
-                                console.log("Note deleted successfully!");
-                                $(noteDiv).hide();
-                            },
-                            error: function (xhr, status, error) {
-                                console.error("Failed to update note: " + error);
-                            }
+                        const doDelete = confirm(
+                            "Bu notu silməyə əminsiniz?"
+                        );
 
-                        });
+                        if (doDelete) {
+                            $.ajax({
+                                type: "POST",
+                                url: "/module/deleteNote",
+                                data: {
+                                    content: noteDiv.value,
+                                    id: note.id
+                                },
+                                success: function (response) {
+                                    console.log("Note deleted successfully!");
+                                    $(noteDiv).hide();
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error("Failed to update note: " + error);
+                                }
+
+                            });
+                        }
+
                     });
                     noteContainer.insertBefore(noteDiv, addButton);
 
