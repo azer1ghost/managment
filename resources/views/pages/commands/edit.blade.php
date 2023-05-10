@@ -42,7 +42,7 @@
                             @foreach($users as $user)
                                 <option
                             @foreach($data->users as $dataUser)
-                                @if(20 ==  $user->id)
+                                @if(20 ==  $dataUser->id)
                                     selected
                                 @endif
                             @endforeach
