@@ -42,7 +42,7 @@
                             @foreach($users as $user)
                                 <option
                             @foreach($data->users as $dataUser)
-                                @if(20 ==  $dataUser->id)
+                                @if($user->getAttribute('id') == $dataUser->id)
                                     selected
                                 @endif
                             @endforeach
@@ -56,7 +56,7 @@
                         <select class="select2 form-control" name="confirming" id="confirming">
                             <option value="">@lang('translates.general.user_select')</option>
                             @foreach($users as $user)
-                                <option @if($data->getAttribute('confirming') == $user->id) selected @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
+                                <option @if(20 == $user->id) selected @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
                             @endforeach
                         </select>
                     </div>
