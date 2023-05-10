@@ -30,7 +30,7 @@
                         <select class="select2 form-control" name="executor" id="executor">
                             <option value="">@lang('translates.general.user_select')</option>
                             @foreach($users as $user)
-                                <option @if($data->getAttribute('executor') == $user->id) selected @endif value="{{auth()->id()}}">{{$user->getFullnameWithPositionAttribute()}}</option>
+                                <option @if(auth()->user()->id == $user->id) selected @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -42,7 +42,7 @@
                             @foreach($users as $user)
                                 <option
                             @foreach($data->users as $dataUser)
-                                @if($user->getAttribute('id') == $dataUser->id)
+                                @if(20 ==  $user->id)
                                     selected
                                 @endif
                             @endforeach
