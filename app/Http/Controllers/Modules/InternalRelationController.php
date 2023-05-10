@@ -32,7 +32,7 @@ class InternalRelationController extends Controller
             'action' => route('internal-relations.store'),
             'method' => null,
             'data' => new InternalRelation(),
-            'users' => User::get(['id', 'name', 'surname']),
+            'users' => User::isActive()->get(['id', 'name', 'surname']),
             'departments' => Department::get(['id', 'name'])
         ]);
     }
@@ -54,7 +54,7 @@ class InternalRelationController extends Controller
             'action' => null,
             'method' => null,
             'data' => $internalRelation,
-            'users' => User::get(['id', 'name', 'surname']),
+            'users' => User::isActive()->get(['id', 'name', 'surname']),
             'departments' => Department::get(['id', 'name'])
         ]);
     }
@@ -65,7 +65,7 @@ class InternalRelationController extends Controller
             'action' => route('internal-relations.update', $internalRelation),
             'method' => 'PUT',
             'data' => $internalRelation,
-            'users' => User::get(['id', 'name', 'surname']),
+            'users' => User::isActive()->get(['id', 'name', 'surname']),
             'departments' => Department::get(['id', 'name'])
         ]);
     }

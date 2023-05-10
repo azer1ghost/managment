@@ -31,7 +31,7 @@ class ProtocolController extends Controller
                     ->where('content', 'like', "%" . $search . "%"))
                     ->when($company, fn($query) => $query
                     ->where('company_id', $company))
-                    ->latest()
+                    ->orderByDESC('date')
                     ->paginate(25)]);
     }
 
