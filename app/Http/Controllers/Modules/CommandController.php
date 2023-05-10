@@ -27,7 +27,7 @@ class CommandController extends Controller
         $commands = Command::when($search, fn($query) => $query
             ->where('content', 'like', "%" . $search . "%"))->when($company, fn($query) => $query
             ->where('company_id', $company))
-            ->orderBy('ordering');
+            ->orderByDesc('ordering');
 
         if(is_numeric($limit)) {
             $commands = $commands->paginate($limit);
