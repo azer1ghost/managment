@@ -3,10 +3,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\NoteRequest;
-use App\Models\Department;
 use App\Models\Note;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class NoteController extends Controller

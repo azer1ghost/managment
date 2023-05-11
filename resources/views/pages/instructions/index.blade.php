@@ -68,8 +68,8 @@
                 <h2 data-toggle="collapse" href="#presentations">Presentations</h2>
                 <div class="collapse justify-content-center" id="presentations">
                     <br>
-                    <a href="{{asset('assets/images/presentations/Mobil Group - RUS (2) - edit.pdf')}}" class="text-primary m-3"><i class="far fa-file-pdf fa-3x">Mobil Group Az</i></a>
-                    <a href="{{asset('assets/images/presentations/Mobil Group - RUS (2) - edit.pdf')}}" class="text-primary m-3"><i class="far fa-file-pdf fa-3x">Mobil Group En</i></a>
+                    <a href="{{asset('assets/images/presentations/Mobil Group - AZE (2) - edit.pdf')}}" class="text-primary m-3"><i class="far fa-file-pdf fa-3x">Mobil Group Az</i></a>
+                    <a href="{{asset('assets/images/presentations/Mobil Group - ENG (2) - edit.pdf')}}" class="text-primary m-3"><i class="far fa-file-pdf fa-3x">Mobil Group En</i></a>
                     <a href="{{asset('assets/images/presentations/Mobil Group - RUS (2) - edit.pdf')}}" class="text-primary m-3"><i class="far fa-file-pdf fa-3x">Mobil Group Ru</i></a>
                     <br>
                     <a href="{{asset('assets/images/presentations/M.Broker - AZE - edit (2).pdf')}}" class="text-primary m-3"><i class="far fa-file-pdf fa-3x">Mobil Broker Az</i></a>
