@@ -61,7 +61,6 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
         'birthday',
         'sector',
         'celebrate_at',
-        'reference'
     ];
 
     public function clients(): HasMany
@@ -160,6 +159,11 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
     {
         return $this->belongsTo(User::class, 'reference')->withDefault();
     }
+    public function engagement():HasMany
+    {
+        return $this->hasMany(CustomerEngagement::class, 'client_id');
+    }
+
 
 
 
