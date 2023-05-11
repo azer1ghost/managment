@@ -157,6 +157,7 @@
                     </thead>
                 <tbody>
                     @forelse($clients as $client)
+{{--                        @dd()--}}
                         <tr @if(\App\Models\Client::userCanViewAll())
                                 title="@foreach($client->coordinators as $user) {{$user->getAttribute('fullname')}} @if(!$loop->last),@endif @endforeach"
                                 data-toggle="tooltip"
@@ -168,7 +169,7 @@
                             <td>@lang("translates.clients_type." . $client->getAttribute('type'))</td>
                                 <td>@foreach($client->companies as $company) {{$company->getAttribute('name')}} @if(!$loop->last),@endif @endforeach</td>
                                 <td>{{$client->getRelationValue('users')->getAttribute('id') ? $client->getRelationValue('users')->getAttribute('fullname_with_position') : 'Toğrul Surxayzadə-(Hüquqşünas)'}}</td>
-                                <td>{{$client->getRelationValue('references')->getAttribute('id') ? $client->getRelationValue('references')->getAttribute('fullname_with_position') : 'Birbaşa'}}</td>
+                                <td>{{\App\Models\CustomerEngagement::where('client_id', $client->id)->first() ? \App\Models\CustomerEngagement::where('client_id', $client->id)->first()->getRelationValue('user')->getAttribute('fullname_with_position') : 'Birbaşa'}}</td>
                                 <td>
                                     <span class="" style="">
                                          {{trans('translates.client_channels.' . $client->getAttribute('channel'))}}

@@ -8,7 +8,9 @@ use App\Http\Requests\ClientRequest;
 use App\Interfaces\ClientRepositoryInterface;
 use App\Models\Client;
 use App\Models\Company;
+use App\Models\CustomerEngagement;
 use App\Models\Department;
+use App\Models\Referral;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -107,7 +109,6 @@ class ClientController extends Controller
                 'companies' => Company::get(['id','name']),
                 'satisfactions' => Client::satisfactions(),
                 'users' => User::isActive()->get(['id', 'name', 'surname']),
-                'reference' => User::get(['id', 'name', 'surname']),
             ]);
     }
 
@@ -122,11 +123,11 @@ class ClientController extends Controller
                 'channels' => Client::channels(),
                 'companies' => Company::get(['id','name']),
                 'users' => User::isActive()->get(),
-                'reference' => User::get(['id', 'name', 'surname']),
+                'engagement' => new CustomerEngagement()
             ]);
     }
 
-    public function store(ClientRequest $request)
+    public function store(ClientRequest $request )
     {
         $validated = $request->validated();
         $validated['user_id'] = auth()->id();
@@ -141,6 +142,14 @@ class ClientController extends Controller
         }
         $client = Client::create($validated);
         $client->companies()->sync($request->get('companies'));
+
+        if ($request->get('user_id') !== null){
+            $customerEngagement = new CustomerEngagement;
+            $customerEngagement->client_id = $client->id;
+            $customerEngagement->user_id = $request->get('user_id');
+            $customerEngagement->save();
+        }
+
 
         if(auth()->user()->hasPermission('viewAny-client')){
             if(is_numeric($client->getAttribute('client_id'))){
@@ -158,6 +167,8 @@ class ClientController extends Controller
 
     public function show(Client $client)
     {
+        $engagement = CustomerEngagement::where('client_id', $client->id)->first();
+
         return view('pages.clients.edit')
             ->with([
                 'action' => null,
@@ -167,7 +178,7 @@ class ClientController extends Controller
                 'channels' => Client::channels(),
                 'companies' => Company::get(['id','name']),
                 'users' => User::get(['id', 'name', 'surname']),
-                'reference' => User::get(['id', 'name', 'surname']),
+                'engagement' => $engagement
 
             ]);
     }
@@ -183,7 +194,7 @@ class ClientController extends Controller
                 'channels' => Client::channels(),
                 'companies' => Company::get(['id','name']),
                 'users' => User::get(['id', 'name', 'surname']),
-                'reference' => User::get(['id', 'name', 'surname']),
+                'engagement' => CustomerEngagement::where('client_id', $client->id)->first()
             ]);
     }
 
@@ -204,6 +215,17 @@ class ClientController extends Controller
             }
         }
         $client->update($validated);
+        $customerEngagement = CustomerEngagement::where('client_id', $client->id)->first();
+        if ($customerEngagement == null){
+            $customerEngagement = new CustomerEngagement;
+            $customerEngagement->client_id = $client->id;
+            $customerEngagement->user_id = $request->get('user_id');
+            $customerEngagement->save();
+        }
+        else{
+            $customerEngagement->setAttribute('user_id', $request->user_id);
+            $customerEngagement->save();
+        }
         $client->companies()->sync($request->get('companies'));
         return back()->withNotify('info', $client->getAttribute('name'));
     }

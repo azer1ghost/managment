@@ -82,11 +82,13 @@
                 @endif
                     <x-input::date  :label="__('translates.fields.birthday')" name="birthday" :value="optional($data)->getAttribute('birthday')" width="4" class="pr-0" />
                 <div class="form-group col-6 user">
-                    <label for="reference">Vasitəçi</label><br/>
-                    <select class="select2 form-control" name="reference" id="reference">
+                    <label for="user_id">Vasitəçi</label><br/>
+                    <select class="select2 form-control" name="user_id" id="user_id">
                         <option value="">Birbaşa</option>
                         @foreach($users as $user)
-                            <option @if($data->getAttribute('reference') == $user->id) selected @else  @endif value="{{$user->id}}">{{$user->getFullnameWithPositionAttribute()}}</option>
+
+                                <option @if($engagement !== null) @if($engagement->getAttribute('user_id') == $user->id) selected @endif @endif value="{{$user->id}}">{{$user->getFullNameWithPositionAttribute()}} </option>
+
                         @endforeach
                     </select>
                 </div>

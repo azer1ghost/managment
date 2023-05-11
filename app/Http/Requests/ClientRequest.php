@@ -34,7 +34,7 @@ class ClientRequest extends FormRequest
             'document_type'   => 'nullable|string',
             'sector'          => 'nullable|string',
             'voen'            => 'string|required',
-            'password'       =>  'nullable|string',
+            'password'        => 'nullable|string',
             'position'        => 'nullable|string',
             'type'            => 'nullable|integer',
             'client_id'       => 'nullable|integer',
@@ -43,7 +43,7 @@ class ClientRequest extends FormRequest
             'channel'         => 'nullable|string',
             'birthday'        => 'nullable|date',
             'celebrate_at'    => 'nullable|date',
-            'reference'       => 'nullable|integer',
+            'user_id'         => 'nullable|integer'
         ];
     }
 }
