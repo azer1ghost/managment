@@ -262,12 +262,7 @@
                 <div class="col-sm-6 py-3">
                     <a class="btn btn-outline-success float-right" data-toggle="modal" data-target="#create-work">@lang('translates.buttons.create')</a>
                     @if(auth()->user()->hasPermission('canRedirect-work'))
-                        <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('works.export', [
-                            'filters' => json_encode($filters),
-                            'dateFilters' => json_encode($dateFilters)
-                            ])}}">
-                            @lang('translates.buttons.export')
-                        </a>
+                    <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('works.export', ['filters' => json_encode($filters),'dateFilters' => json_encode($dateFilters)])}}">@lang('translates.buttons.export')</a>
                     @endif
                 </div>
             @endcan
@@ -300,6 +295,7 @@
             <th scope="col">@lang('translates.fields.paid_at')</th>
             <th scope="col">@lang('translates.fields.vat_paid_at')</th>
             <th scope="col">@lang('translates.fields.invoiced_date')</th>
+            <th scope="col">@lang('translates.general.payment_method')</th>
             <th scope="col"></th>
 
         </tr>
@@ -381,6 +377,13 @@
                 <td title="{{$work->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
                 <td title="{{$work->getAttribute('vat_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('vat_date'))->format('Y-m-d')}}</td>
                 <td title="{{$work->getAttribute('invoiced_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
+                <td width="120">
+                    <select id="payment_method" data-id="{{$work->getAttribute('id')}}" name="payment_method" class="form-control payment_method">
+                        @foreach($paymentMethods as $paymentMethod)
+                            <option value="{{$paymentMethod}}" @if($work->getAttribute('payment_method') == $paymentMethod ) selected @endif>@lang('translates.payment_methods.' . $paymentMethod)</option>
+                        @endforeach
+                    </select>
+                </td>
                 <td>
                     <div class="btn-sm-group d-flex align-items-center">
                         @if($work->getAttribute('creator_id') != auth()->id() && is_null($work->getAttribute('user_id')) && !auth()->user()->isDeveloper())
@@ -748,6 +751,26 @@
     <script>
         $(".js-example-theme-multiple").select2({
             theme: "classic"
+        });
+    </script>
+
+    <script>
+
+        $('.payment_method').change(function() {
+            const paymentId = $(this).data('id')
+            const value = $(this).val()
+            console.log(value)
+            $.ajax({
+            type: 'POST',
+            url: '/module/works/paymentMethod',
+            data: {
+                id: paymentId,
+                payment_method: value
+            },
+            dataType: 'json',
+            encode: true
+        })
+
         });
     </script>
 

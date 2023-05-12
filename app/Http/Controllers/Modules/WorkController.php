@@ -635,6 +635,16 @@ class WorkController extends Controller
         }
     }
 
+    public function paymentMethod(Request $request)
+    {
+        if ($request->ajax()) {
+            $work = Work::find($request->id);
+
+            $work->update(['payment_method' => $request->payment_method]);
+            return response()->json(['success' => true]);
+        }
+    }
+
     public function declaration(Request $request)
     {
         if ($request->ajax()) {
