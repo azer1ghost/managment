@@ -377,7 +377,7 @@
                 <td title="{{$work->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
                 <td title="{{$work->getAttribute('vat_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('vat_date'))->format('Y-m-d')}}</td>
                 <td title="{{$work->getAttribute('invoiced_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
-                <td width="120">
+                <td width="170">
                     <select id="payment_method" data-id="{{$work->getAttribute('id')}}" name="payment_method" class="form-control payment_method">
                         @foreach($paymentMethods as $paymentMethod)
                             <option value="{{$paymentMethod}}" @if($work->getAttribute('payment_method') == $paymentMethod ) selected @endif>@lang('translates.payment_methods.' . $paymentMethod)</option>
