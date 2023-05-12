@@ -5,7 +5,7 @@
     <style>
         .table td, .table th{
             vertical-align: middle !important;
-            min-width: 100px;
+            min-width: 120px;
         }
         .table tr {
             cursor: pointer;
@@ -291,11 +291,11 @@
                     <th>{{$param['data']->getAttribute('label')}}</th>
                 @endforeach
             @endif
+            <th scope="col">@lang('translates.general.payment_method')</th>
             <th scope="col">@lang('translates.fields.created_at')</th>
             <th scope="col">@lang('translates.fields.paid_at')</th>
             <th scope="col">@lang('translates.fields.vat_paid_at')</th>
             <th scope="col">@lang('translates.fields.invoiced_date')</th>
-            <th scope="col">@lang('translates.general.payment_method')</th>
             <th scope="col"></th>
 
         </tr>
@@ -372,17 +372,18 @@
                         @endphp
                     @endforeach
                 @endif
-                <td title="{{optional($work->getAttribute('created_at'))->diffForHumans()}}" data-toggle="tooltip">{{$work->getAttribute('created_at')}}</td>
-                <td title="{{$work->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
-                <td title="{{$work->getAttribute('vat_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('vat_date'))->format('Y-m-d')}}</td>
-                <td title="{{$work->getAttribute('invoiced_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
-                <td width="170">
+                <td>
                     <select id="payment_method" data-id="{{$work->getAttribute('id')}}" name="payment_method" class="form-control payment_method">
                         @foreach($paymentMethods as $paymentMethod)
                             <option value="{{$paymentMethod}}" @if($work->getAttribute('payment_method') == $paymentMethod ) selected @endif>@lang('translates.payment_methods.' . $paymentMethod)</option>
                         @endforeach
                     </select>
                 </td>
+                <td title="{{optional($work->getAttribute('created_at'))->diffForHumans()}}" data-toggle="tooltip">{{$work->getAttribute('created_at')}}</td>
+                <td title="{{$work->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
+                <td title="{{$work->getAttribute('vat_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('vat_date'))->format('Y-m-d')}}</td>
+                <td title="{{$work->getAttribute('invoiced_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
+
                 <td>
                     <div class="btn-sm-group d-flex align-items-center">
                         @if($work->getAttribute('creator_id') != auth()->id() && is_null($work->getAttribute('user_id')) && !auth()->user()->isDeveloper())
