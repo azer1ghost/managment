@@ -5,6 +5,7 @@
     <style>
         .table td, .table th{
             vertical-align: middle !important;
+            min-width: 100px;
         }
         .table tr {
             cursor: pointer;
