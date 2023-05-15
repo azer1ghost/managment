@@ -234,7 +234,7 @@ Route::group([
     Route::get('/message/{id}', [ChatController::class, 'message'])->name('message');
     Route::post('/message', [ChatController::class, 'sendMessage']);
     Route::view('/instruction','pages.instructions.index' )->name('instruction');
-    Route::view('/instruction','pages.instructions.presentations' )->name('presentations');
+    Route::view('/presentations','pages.instructions.presentations' )->name('presentations');
     Route::view('/structure','pages.instructions.structure' )->name('structure');
     Route::view('/necessary','pages.instructions.necessary' )->name('necessary');
     Route::resource('/statements', StatementController::class);
