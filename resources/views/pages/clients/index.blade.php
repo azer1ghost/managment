@@ -143,16 +143,16 @@
                         <th scope="col">@lang('translates.navbar.reference')</th>
                         <th scope="col">Kanal</th>
                         <th scope="col">@lang('translates.columns.full_name')</th>
-                            @if(auth()->user()->hasPermission('viewAll-client'))
-                                <th scope="col">@lang('translates.fields.detail')</th>
-                                <th scope="col">@lang('translates.columns.email')</th>
-                                <th scope="col">@lang('translates.columns.phone')</th>
-                            @endif
-                            <th scope="col">VOEN/GOOEN</th>
-                            <th scope="col">@lang('translates.navbar.document')</th>
-                            @if(auth()->user()->hasPermission('viewAll-client'))
-                                <th scope="col">@lang('translates.columns.actions')</th>
-                            @endif
+                        @if(auth()->user()->hasPermission('viewAll-client'))
+                            <th scope="col">@lang('translates.fields.detail')</th>
+                            <th scope="col">@lang('translates.columns.email')</th>
+                            <th scope="col">@lang('translates.columns.phone')</th>
+                        @endif
+                        <th scope="col">VOEN/GOOEN</th>
+                        <th scope="col">@lang('translates.navbar.document')</th>
+                        @if(auth()->user()->hasPermission('viewAll-client'))
+                            <th scope="col">@lang('translates.columns.actions')</th>
+                        @endif
                     </tr>
                     </thead>
                 <tbody>
@@ -182,14 +182,13 @@
                                         <td>{{$client->getAttribute('phone1') ? $client->getAttribute('phone1') : trans('translates.clients.phone_empty')}} </td>
                                    @endif
                                 <td>{{$client->getAttribute('voen') ? $client->getAttribute('voen') : trans('translates.clients.voen_empty')}} </td>
-                                <td>
+                                <td style="min-width: 150px">
                                         @php($supportedTypes = \App\Models\Document::supportedTypeIcons())
                                         @foreach($client->documents as $document)
                                             @php($type = $supportedTypes[$document->type])
                                             @php($route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document))
-                                            <a href="{{$route}}" data-toggle="tooltip" title="{{$document->file}}" target="_blank" class="text-dark d-flex align-items-center mr-2" style=" word-break: break-word">
-                                                <i class="fa fa-file-{{$type['icon']}} fa-2x m-1 text-{{$type['color']}}"></i>
-                                                <span>{{substr($document->name, 0, 10) . '...'}} </span>
+                                            <a href="{{$route}}" data-toggle="tooltip" title="{{$document->name}}" target="_blank" class="text-dark" style=" word-break: break-word">
+                                                <i class="fa fa-file-{{$type['icon']}} fa-2x  text-{{$type['color']}}"></i>
                                             </a>
                                         @endforeach
                                     </td>
