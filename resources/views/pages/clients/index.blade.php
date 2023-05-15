@@ -140,10 +140,11 @@
                         <th scope="col">@lang('translates.columns.type')</th>
                         <th scope="col">@lang('translates.columns.company')</th>
                         <th scope="col">@lang('translates.columns.creator')</th>
-                        <th scope="col">@lang('translates.navbar.reference')</th>
-                        <th scope="col">Kanal</th>
+
                         <th scope="col">@lang('translates.columns.full_name')</th>
                         @if(auth()->user()->hasPermission('viewAll-client'))
+                                <th scope="col">@lang('translates.navbar.reference')</th>
+                                <th scope="col">Kanal</th>
                             <th scope="col">@lang('translates.fields.detail')</th>
                             <th scope="col">@lang('translates.columns.email')</th>
                             <th scope="col">@lang('translates.columns.phone')</th>
@@ -169,14 +170,15 @@
                             <td>@lang("translates.clients_type." . $client->getAttribute('type'))</td>
                                 <td>@foreach($client->companies as $company) {{$company->getAttribute('name')}} @if(!$loop->last),@endif @endforeach</td>
                                 <td>{{$client->getRelationValue('users')->getAttribute('id') ? $client->getRelationValue('users')->getAttribute('fullname_with_position') : 'Toğrul Surxayzadə-(Hüquqşünas)'}}</td>
-                                <td>{{\App\Models\CustomerEngagement::where('client_id', $client->id)->first() ? \App\Models\CustomerEngagement::where('client_id', $client->id)->first()->getRelationValue('user')->getAttribute('fullname_with_position') : 'Birbaşa'}}</td>
-                                <td>
+
+                                <td><label for="data-checkbox-{{$client->getAttribute('id')}}">{{$client->getAttribute('fullname')}}</label></td>
+                                    @if(auth()->user()->hasPermission('viewAll-client'))
+                                    <td>{{\App\Models\CustomerEngagement::where('client_id', $client->id)->first() ? \App\Models\CustomerEngagement::where('client_id', $client->id)->first()->getRelationValue('user')->getAttribute('fullname_with_position') : 'Birbaşa'}}</td>
+                                    <td>
                                     <span class="" style="">
                                          {{trans('translates.client_channels.' . $client->getAttribute('channel'))}}
                                     </span>
-                                </td>
-                                <td><label for="data-checkbox-{{$client->getAttribute('id')}}">{{$client->getAttribute('fullname')}}</label></td>
-                                    @if(auth()->user()->hasPermission('viewAll-client'))
+                                    </td>
                                         <td>{{$client->getAttribute('detail') ? $client->getAttribute('detail') : trans('translates.clients.detail_empty') }} </td>
                                         <td>{{$client->getAttribute('email1') ? $client->getAttribute('email1') : trans('translates.clients.email_empty')}} </td>
                                         <td>{{$client->getAttribute('phone1') ? $client->getAttribute('phone1') : trans('translates.clients.phone_empty')}} </td>
