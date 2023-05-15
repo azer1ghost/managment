@@ -96,6 +96,12 @@ class Sidebar extends Component
                         'permission' => 'generally',
                     ],
                     (object)[
+                        'title' => __('translates.navbar.presentation'),
+                        'icon' => 'far fa-chalkboard-teacher',
+                        'url' => route('presentations'),
+                        'permission' => 'viewAny-task',
+                    ],
+                    (object)[
                         'title' => __('translates.navbar.instruction'),
                         'icon' => 'far fa-chalkboard-teacher',
                         'url' => route('instruction'),

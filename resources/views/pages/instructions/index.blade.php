@@ -64,23 +64,6 @@
                     <video class="mr-5" width="100%" controls><source src="{{asset('videos/declaration.mp4')}}" type="video/mp4"></video>
                 </div>
             @endif
-
-                <h2 data-toggle="collapse" href="#presentations">Presentations</h2>
-                <div class="collapse justify-content-center" id="presentations">
-                    <br>
-                    <a href="{{asset('assets/images/presentations/Mobil Group - AZE (2) - edit.pdf')}}" class="text-primary m-3"><i class="far fa-file-pdf fa-3x">Mobil Group Az</i></a>
-                    <a href="{{asset('assets/images/presentations/Mobil Group - ENG (2) - edit.pdf')}}" class="text-primary m-3"><i class="far fa-file-pdf fa-3x">Mobil Group En</i></a>
-                    <a href="{{asset('assets/images/presentations/Mobil Group - RUS (2) - edit.pdf')}}" class="text-primary m-3"><i class="far fa-file-pdf fa-3x">Mobil Group Ru</i></a>
-                    <br>
-                    <a href="{{asset('assets/images/presentations/M.Broker - AZE - edit (2).pdf')}}" class="text-primary m-3"><i class="far fa-file-pdf fa-3x">Mobil Broker Az</i></a>
-                    <a href="{{asset('assets/images/presentations/Mobil Broker - ENG (2).pdf')}}" class="m-3"><i class="far fa-file-pdf fa-3x text-primary">Mobil Broker En</i></a>
-                    <a href="{{asset('assets/images/presentations/Mobil Broker - RUS (2) - edit.pdf')}}" class="text-primary m-3"><i class="far fa-file-pdf fa-3x">Mobil Broker Rus</i></a>
-                    <br>
-                    <a href="{{asset('assets/images/presentations/Mobil Logistics - AZE (2).pdf')}}" class="text-primary m-3"><i class="far fa-file-pdf fa-3x">Mobil Logistics Az</i></a>
-                    <a href="{{asset('assets/images/presentations/Mobil Logistics - ENG (2) - edit.pdf')}}" class="text-primary m-3"><i class="far fa-file-pdf fa-3x">Mobil Logistics En</i></a>
-                    <a href="{{asset('assets/images/presentations/Mobil Logistics - RUS (2) - edit.pdf')}}" class="text-primary m-3"><i class="far fa-file-pdf fa-3x">Mobil Logistics Ru</i></a>
-
-                </div>
         </div>
     </div>
 

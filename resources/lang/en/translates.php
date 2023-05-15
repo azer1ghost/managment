@@ -250,6 +250,8 @@ return [
         'logistics_clients' => 'Logistics Clients',
         'questionnaire' => 'Questionnaire',
         'room' => 'Rooms',
+        'presentation' => 'Presentations'
+
     ],
     'questionnaire' => [
 

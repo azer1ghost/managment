@@ -253,6 +253,7 @@ return [
         'logistics_clients' => 'Logistika Müştəriləri',
         'questionnaire' => 'Anket',
         'room' => 'Otaqlar',
+        'presentation' => 'Prezentasiya'
     ],
     'questionnaire' => [
         'statuses' => [
