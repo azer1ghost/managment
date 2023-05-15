@@ -80,8 +80,8 @@
                     </x-form-group>
                     <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
                         <label for="data-will_start_at">Əmr Tarixi</label>
-                        <input type="date" name="command_date"
-                               value="{{optional($data)->getAttribute('command_date')}}" id="data-command_date" class="form-control">
+                        <input type="datetime-local" name="command_date"
+                               value="{{$data->getAttribute('command_date')}}" id="data-command_date" class="form-control">
                     </div>
                 </div>
             </div>

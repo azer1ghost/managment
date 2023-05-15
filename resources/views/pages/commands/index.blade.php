@@ -84,6 +84,9 @@
                         <td>{{$command->getRelationValue('confirmings')->getFullnameWithPositionAttribute()}}</td>
                          <td>
                              <div class="btn-sm-group">
+                                 <a href="{{route('commands.create', ['id' => $command])}}" class="btn btn-sm btn-outline-primary">
+                                     <i class="fal fa-copy"></i>
+                                 </a>
                                  <a href="{{route('commands.show', $command)}}" class="btn btn-sm btn-outline-primary">
                                      <i class="fal fa-eye"></i>
                                  </a>

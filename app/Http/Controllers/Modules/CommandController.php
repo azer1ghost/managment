@@ -42,12 +42,19 @@ class CommandController extends Controller
             ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        if ($request->get('id')) {
+
+            $data = Command::whereId($request->get('id'))->first();
+        }
+        else {
+            $data = new Command();
+        }
         return view('pages.commands.edit')->with([
             'action' => route('commands.store'),
             'method' => 'POST',
-            'data' => new Command(),
+            'data' => $data,
             'users' => User::get(['id', 'name', 'surname']),
             'companies' => Company::get(['id','name']),
         ]);
