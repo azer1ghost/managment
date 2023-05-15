@@ -86,9 +86,7 @@
                     <select class="select2 form-control" name="user_id" id="user_id">
                         <option value="">Birbaşa</option>
                         @foreach($users as $user)
-
                                 <option @if($engagement !== null) @if($engagement->getAttribute('user_id') == $user->id) selected @endif @endif value="{{$user->id}}">{{$user->getFullNameWithPositionAttribute()}} </option>
-
                         @endforeach
                     </select>
                 </div>
