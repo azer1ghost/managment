@@ -128,7 +128,7 @@
             $(this).hide();
             $(this).next().removeClass('d-none');
 
-            let form = $(this).parent().parent().find('form');
+            const form = $(this).parent().parent().find('form');
 
             form.find('label').attr('contenteditable', true).focus()
 
