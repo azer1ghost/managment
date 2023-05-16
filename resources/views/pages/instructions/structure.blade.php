@@ -380,7 +380,7 @@
                                                             <tr>
                                                                 <td colspan="10">
                                                                     <div class="node">
-                                                                        <a href="{{route('getInstruction', 122)}}">B.B işi təşkili şöbəsi rəisi - Vakant</a>
+                                                                        <a href="{{route('getInstruction', 122)}}">B.B işi təşkili şöbəsi rəisi - Əhmədbəy İsmixanov</a>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -763,6 +763,9 @@
                                                                                         <td colspan="4">
                                                                                             <div class="node">
                                                                                                 <a href="{{route('getInstruction', 110)}}">Namiq Novruzov</a>
+                                                                                            </div>
+                                                                                            <div class="node">
+                                                                                                <a href="{{route('getInstruction', 110)}}">Sərxan Allahverdiyev</a>
                                                                                             </div>
                                                                                         </td>
                                                                                     </tr>

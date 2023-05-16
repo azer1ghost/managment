@@ -1,7 +1,24 @@
 @extends('layouts.main')
 
 @section('title', __('translates.navbar.client'))
-
+@section('style')
+    <style>
+        .table td, .table th{
+            vertical-align: middle !important;
+        }
+        .table tr {
+            cursor: pointer;
+        }
+        .hiddenRow {
+            padding: 0 4px !important;
+            background-color: #eeeeee;
+            font-size: 13px;
+        }
+        .table{
+            overflow-x: scroll;
+        }
+    </style>
+@endsection
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -143,8 +160,6 @@
 
                         <th scope="col">@lang('translates.columns.full_name')</th>
                         @if(auth()->user()->hasPermission('viewAll-client'))
-                                <th scope="col">@lang('translates.navbar.reference')</th>
-                                <th scope="col">Kanal</th>
                             <th scope="col">@lang('translates.fields.detail')</th>
                             <th scope="col">@lang('translates.columns.email')</th>
                             <th scope="col">@lang('translates.columns.phone')</th>
@@ -159,7 +174,7 @@
                 <tbody>
                     @forelse($clients as $client)
 {{--                        @dd()--}}
-                        <tr @if(\App\Models\Client::userCanViewAll())
+                        <tr data-toggle="collapse" data-target="#client-demo{{$client->getAttribute('id')}}" class="accordion-toggle" @if(\App\Models\Client::userCanViewAll())
                                 title="@foreach($client->coordinators as $user) {{$user->getAttribute('fullname')}} @if(!$loop->last),@endif @endforeach"
                                 data-toggle="tooltip"
                             @endif>
@@ -173,12 +188,6 @@
 
                                 <td><label for="data-checkbox-{{$client->getAttribute('id')}}">{{$client->getAttribute('fullname')}}</label></td>
                                     @if(auth()->user()->hasPermission('viewAll-client'))
-                                    <td>{{\App\Models\CustomerEngagement::where('client_id', $client->id)->first() ? \App\Models\CustomerEngagement::where('client_id', $client->id)->first()->getRelationValue('user')->getAttribute('fullname_with_position') : 'Birbaşa'}}</td>
-                                    <td>
-                                    <span class="" style="">
-                                         {{trans('translates.client_channels.' . $client->getAttribute('channel'))}}
-                                    </span>
-                                    </td>
                                         <td>{{$client->getAttribute('detail') ? $client->getAttribute('detail') : trans('translates.clients.detail_empty') }} </td>
                                         <td>{{$client->getAttribute('email1') ? $client->getAttribute('email1') : trans('translates.clients.email_empty')}} </td>
                                         <td>{{$client->getAttribute('phone1') ? $client->getAttribute('phone1') : trans('translates.clients.phone_empty')}} </td>
@@ -215,6 +224,26 @@
                                     </div>
                                 </td>
                             @endif
+                        </tr>
+                        <tr>
+                            <td colspan="99" class="hiddenRow">
+                                <div class="accordian-body collapse" id="client-demo{{$client->getAttribute('id')}}">
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Kanal</th>
+                                            <th scope="col">@lang('translates.navbar.reference')</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td title="{{$client->getAttribute('channel')}}" data-toggle="tooltip">{{trans('translates.client_channels.' . $client->getAttribute('channel'))}}</td>
+                                            <td title="{{\App\Models\CustomerEngagement::where('client_id', $client->id)->first() ? \App\Models\CustomerEngagement::where('client_id', $client->id)->first()->getRelationValue('user')->getAttribute('fullname_with_position') : 'Birbaşa'}}" data-toggle="tooltip">{{\App\Models\CustomerEngagement::where('client_id', $client->id)->first() ? \App\Models\CustomerEngagement::where('client_id', $client->id)->first()->getRelationValue('user')->getAttribute('fullname_with_position') : 'Birbaşa'}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
                         </tr>
                         @empty
                         <tr>
