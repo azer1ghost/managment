@@ -128,18 +128,18 @@
             $(this).hide();
             $(this).next().removeClass('d-none');
 
-            const form = $(this).parent().parent().find('form');
+            const list_form = $(this).parent().parent().find('form');
 
-            form.find('label').attr('contenteditable', true).focus()
+            list_form.find('label').attr('contenteditable', true).focus()
 
             const range = document.createRange()
             const sel = window.getSelection()
-            range.setStart(form.find('label')[0], 1)
+            range.setStart(list_form.find('label')[0], 1)
             range.collapse(true)
             sel.removeAllRanges()
             sel.addRange(range)
 
-            form.find('input[type="checkbox"]').attr('disabled', true)
+            list_form.find('input[type="checkbox"]').attr('disabled', true)
         });
 
         $(".submit").click(function () {
