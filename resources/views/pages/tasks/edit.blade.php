@@ -128,18 +128,18 @@
             $(this).hide();
             $(this).next().removeClass('d-none');
 
-            const list_form = $(this).parent().parent().find('form');
+            const form = $(this).parent().parent().find('form');
 
-            list_form.find('label').attr('contenteditable', true).focus()
+            form.find('label').attr('contenteditable', true).focus()
 
             const range = document.createRange()
             const sel = window.getSelection()
-            range.setStart(list_form.find('label')[0], 1)
+            range.setStart(form.find('label')[0], 1)
             range.collapse(true)
             sel.removeAllRanges()
             sel.addRange(range)
 
-            list_form.find('input[type="checkbox"]').attr('disabled', true)
+            form.find('input[type="checkbox"]').attr('disabled', true)
         });
 
         $(".submit").click(function () {
@@ -154,6 +154,8 @@
 
         $('.todo-list-custom').change(function (){
             let checked;
+            const form = $(this).closest('form'); // form elementine ulaşmak için closest kullanılır
+
             if ($(this).is(':checked')) {
                 checked = 1;
                 $(this).next().addClass('completed');
@@ -162,9 +164,9 @@
                 $(this).next().removeClass('completed');
             }
             $.ajax({
-                url: $(this).form().attr('action'),
+                url: form.attr('action'),
                 method: 'PUT',
-                data: $(this).form().serialize() + "&is_checked=" + checked,
+                data: form.serialize() + "&is_checked=" + checked,
                 success: function (){},
                 error: function (){}
             });
