@@ -154,7 +154,7 @@
 
         $('.todo-list-custom').change(function (){
             let checked;
-            const form = $(this).closest('form'); // form elementine ulaşmak için closest kullanılır
+            const form = $(this).closest('form');
 
             if ($(this).is(':checked')) {
                 checked = 1;
