@@ -68,6 +68,7 @@ return [
         'viewAny-service', 'view-service', 'create-service', 'update-service', 'delete-service',
         'viewAny-salesClient', 'view-salesClient', 'manage-salesClient', 'delete-salesClient',
         'viewAny-support', 'view-support', 'create-support', 'update-support', 'delete-support',
+        'viewAny-supplier', 'view-supplier', 'create-supplier', 'update-supplier', 'delete-supplier',
         'viewAny-salesActivityType', 'view-salesActivityType', 'manage-salesActivityType',
         'viewAll-task', 'viewAllDepartment-task', 'viewAny-task', 'view-task', 'create-task', 'update-task', 'delete-task', 'forceDelete-task', 'restore-task', 'redirect-task',
         'viewAny-salesActivity', 'view-salesActivity', 'manage-salesActivity',

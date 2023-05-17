@@ -253,8 +253,10 @@ return [
         'logistics_clients' => 'Logistika Müştəriləri',
         'questionnaire' => 'Anket',
         'room' => 'Otaqlar',
-        'presentation' => 'Prezentasiya'
+        'presentation' => 'Prezentasiya',
+        'supplier' => 'Tədarüqçülər',
     ],
+
     'questionnaire' => [
         'statuses' => [
             1 => 'Bakı Baş Gömrük İdarəsi Filialı',

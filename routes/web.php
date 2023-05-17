@@ -61,6 +61,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\ServiceController,
     Modules\SignatureController,
     Modules\StatementController,
+    Modules\SupplierController,
     Modules\SupportController,
     Modules\TaskController,
     Modules\TaskListController,
@@ -140,6 +141,7 @@ Route::group([
     Route::resource('/sales-activities-types', SalesActivityTypeController::class);
     Route::resource('/sales-activities', SalesActivityController::class);
     Route::resource('/announcements', AnnouncementController::class);
+    Route::resource('/suppliers', SupplierController::class);
     Route::resource('/certificates', CertificateController::class);
     Route::resource('/companies', CompanyController::class);
     Route::resource('/asan-imza', AsanImzaController::class);

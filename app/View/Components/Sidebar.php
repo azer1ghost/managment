@@ -342,6 +342,13 @@ class Sidebar extends Component
             ],
 
             (object)[
+                'title' => __('translates.navbar.supplier'),
+                'icon' => 'fa fa-hands-helping',
+                'url' => route('suppliers.index'),
+                'permission' => 'viewAny-supplier',
+            ],
+
+            (object)[
                 'title' => 'Dev Tools',
                 'icon' => 'fas fa-laptop-code',
                 'url' => '#',

@@ -250,11 +250,11 @@ return [
         'logistics_clients' => 'Logistics Clients',
         'questionnaire' => 'Questionnaire',
         'room' => 'Rooms',
-        'presentation' => 'Presentations'
-
+        'presentation' => 'Presentations',
+        'supplier' => 'Supplier',
     ],
-    'questionnaire' => [
 
+    'questionnaire' => [
         'customs' => [
             1 => 'Bakı Baş Gömrük İdarəsi Filialı',
             2 => 'Aksizli Mallar üzrə Baş Gömrük İdarəsi Filialı',
