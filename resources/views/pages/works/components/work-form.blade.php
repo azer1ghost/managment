@@ -67,8 +67,16 @@
 
                 <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-service_id">@lang('translates.general.work_service')</label>
-                    <input wire:ignore disabled type="text" class="form-control" id="data-service_id" value="{{\App\Models\Service::find($selected['service_id'])->name}}">
-                    <input type="hidden" @if($this->subServices->isEmpty()) name="service_id"  @endif wire:model="selected.service_id">
+                    <select @if($this->subServices->isEmpty()) name="service_id" @endif id="data-service_id" class="form-control">
+                        @foreach($this->services as $service)
+                            <option @if(\App\Models\Service::find($selected['service_id'])->id === $service->id ) selected @endif
+                            value="{{ $service->getAttribute('id') }}">
+                                {{ $service->getAttribute('name') }}
+                            </option>
+                        @endforeach
+                    </select>
+{{--                    <input wire:ignore disabled type="text" class="form-control" id="data-service_id" value="{{\App\Models\Service::find($selected['service_id'])->name}}">--}}
+{{--                    <input type="hidden" @if($this->subServices->isEmpty()) name="service_id"  @endif wire:model="selected.service_id">--}}
                 </div>
 
                 @if(!$this->subServices->isEmpty())
