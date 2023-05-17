@@ -101,8 +101,8 @@
                             @endforeach
                         </select>
                         <div class="form-group ml-2">
-                            <input name="free_coordinator" @if($filters['free_coordinator']) checked @endif type="checkbox" id="exampleCheck2">
-                            <label class="form-check-label" for="exampleCheck2">@lang('translates.filters.free_coordinator')</label>
+                            <input name="free_coordinator" @if($filters['free_coordinator']) checked @endif type="checkbox" id="coordinator-check">
+                            <label class="form-check-label" for="coordinator-check">@lang('translates.filters.free_coordinator')</label>
                         </div>
                     </div>
                 </div>
