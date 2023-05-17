@@ -13,7 +13,7 @@
     </x-bread-crumb>
 
     <div class="row col-12">
-        <div class="card text-center col-3 mr-3">
+        <div class="card text-center col-md-3 mr-3">
             <div class="card-header">
                 40. SƏRBƏST DÖVRİYYƏ ÜÇÜN LAZIM OLAN SƏNƏDLƏR
             </div>
@@ -54,7 +54,7 @@
 
             </div>
         </div>
-        <div class="card text-center col-3 mr-3">
+        <div class="card text-center col-md-3 mr-3">
             <div class="card-header">
                 31. MÜVƏQQƏTİ İDXAL ÜÇÜN LAZIM OLAN SƏNƏDLƏR
             </div>
@@ -85,105 +85,6 @@
                     </li>
                 </ol>
 
-            </div>
-        </div>
-        <div class="card text-center col-3 mr-3">
-            <div class="card-header">
-                Featured
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">Qısa İdxal Bəyannaməsi</h5>
-                <ol>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                </ol>
-
-            </div>
-        </div>
-        <div class="card text-center col-3 mr-3">
-            <div class="card-header">
-                Featured
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">Qısa İdxal Bəyannaməsi</h5>
-                <ol>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                    <li class="card-text">With supporting text below as a natural lead-in to additional
-                        content.
-                    </li>
-                </ol>
             </div>
         </div>
     </div>
