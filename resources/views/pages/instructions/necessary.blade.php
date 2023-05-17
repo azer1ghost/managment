@@ -13,7 +13,7 @@
     </x-bread-crumb>
 
     <div class="row col-12">
-        <div class="card text-center col-3 mr-3">
+        <div class="card text-center col-md-3 mr-3">
             <div class="card-header">
                 40. SƏRBƏST DÖVRİYYƏ ÜÇÜN LAZIM OLAN SƏNƏDLƏR
             </div>
@@ -54,7 +54,7 @@
 
             </div>
         </div>
-        <div class="card text-center col-3 mr-3">
+        <div class="card text-center col-md-3 mr-3">
             <div class="card-header">
                 31. MÜVƏQQƏTİ İDXAL ÜÇÜN LAZIM OLAN SƏNƏDLƏR
             </div>
@@ -87,7 +87,7 @@
 
             </div>
         </div>
-        <div class="card text-center col-3 mr-3">
+        <div class="card text-center col-md-3 mr-3">
             <div class="card-header">
                 Featured
             </div>
@@ -137,7 +137,7 @@
 
             </div>
         </div>
-        <div class="card text-center col-3 mr-3">
+        <div class="card text-center col-md-3 mr-3">
             <div class="card-header">
                 Featured
             </div>
