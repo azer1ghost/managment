@@ -397,9 +397,8 @@
                         @foreach($work->documents as $document)
                             @php $type = $supportedTypes[$document->type] @endphp
                             @php $route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document) @endphp
-                            <a href="{{$route}}" data-toggle="tooltip" title="{{$document->file}}" target="_blank" class="text-dark d-flex align-items-center mr-2" style=" word-break: break-word">
-                                <i class="fa fa-file-{{$type['icon']}} fa-2x m-1 text-{{$type['color']}}"></i>
-                                <span>{{substr($document->name, 0, 10) . '...'}} </span>
+                            <a href="{{$route}}" data-toggle="tooltip" title="{{$document->name}}" target="_blank" class="text-dark" style="word-break: break-word">
+                                <i class="fa fa-file-{{$type['icon']}} fa-2x text-{{$type['color']}}"></i>
                             </a>
                         @endforeach
                     </td>
