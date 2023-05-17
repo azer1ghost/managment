@@ -392,7 +392,7 @@
                          {{trans('translates.work_status.' . $work->getAttribute('status'))}}
                     </span>
                 </td>
-                    <td>
+                    <td style="min-width: 130px">
                         @php $supportedTypes = \App\Models\Document::supportedTypeIcons() @endphp
                         @foreach($work->documents as $document)
                             @php $type = $supportedTypes[$document->type] @endphp
