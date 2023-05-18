@@ -60,7 +60,7 @@ class WorkForm extends Component
         }
 
         if($user->hasPermission('canRedirect-work')) {
-            $this->users = $this->department->users()->isActive()->orderBy('name')->with('position')->get(['id', 'name', 'surname', 'position_id', 'role_id'])->toArray();
+            $this->users = $this->users()->isActive()->orderBy('name')->with('position')->get(['id', 'name', 'surname', 'position_id', 'role_id'])->toArray();
         }else {
             if ($this->method == 'POST') {
                 $this->users = [$userModel];
