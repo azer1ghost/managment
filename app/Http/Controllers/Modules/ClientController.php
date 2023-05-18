@@ -214,10 +214,17 @@ class ClientController extends Controller
             }
         }
         $client->update($validated);
-        $customerEngagement = CustomerEngagement::where('client_id', $client->id)->first();
-        if ($customerEngagement !== null){
-            $customerEngagement->setAttribute('user_id', $request->reference_id);
-            $customerEngagement->save();
+        if ($request->get('reference_id')) {
+            $customerEngagement = CustomerEngagement::where('client_id', $client->id)->first();
+            if ($customerEngagement !== null) {
+                $customerEngagement->setAttribute('user_id', $request->get('reference_id'));
+                $customerEngagement->save();
+            } elseif ($customerEngagement == null) {
+                $customerEngagement = new CustomerEngagement;
+                $customerEngagement->client_id = $client->id;
+                $customerEngagement->user_id = $request->get('reference_id');
+                $customerEngagement->save();
+            }
         }
         $client->companies()->sync($request->get('companies'));
         return back()->withNotify('info', $client->getAttribute('name'));
