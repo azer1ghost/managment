@@ -14,7 +14,7 @@ class AddPhone3ColumnToClientsTable extends Migration
     public function up()
     {
         Schema::table('clients', function (Blueprint $table) {
-            $table->integer('phone3')->nullable();
+            $table->string('phone3')->nullable();
         });
     }
 

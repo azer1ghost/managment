@@ -131,8 +131,16 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
     {
         return $this->attributes['phone2'] = phone_cleaner($value);
     }
+public function setPhone3Attribute($value): ?string
+    {
+        return $this->attributes['phone3'] = phone_cleaner($value);
+    }
 
     public function getPhone1Attribute($value): ?string
+    {
+        return phone_formatter($value, true);
+    }
+  public function getPhone3Attribute($value): ?string
     {
         return phone_formatter($value, true);
     }
