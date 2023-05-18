@@ -146,7 +146,7 @@ class ClientController extends Controller
         if ($request->get('user_id') !== null){
             $customerEngagement = new CustomerEngagement;
             $customerEngagement->client_id = $client->id;
-            $customerEngagement->user_id = $request->get('user_id');
+            $customerEngagement->user_id = $request->get('reference_id');
             $customerEngagement->save();
         }
 
@@ -179,7 +179,6 @@ class ClientController extends Controller
                 'companies' => Company::get(['id','name']),
                 'users' => User::get(['id', 'name', 'surname']),
                 'engagement' => $engagement
-
             ]);
     }
 
@@ -217,7 +216,7 @@ class ClientController extends Controller
         $client->update($validated);
         $customerEngagement = CustomerEngagement::where('client_id', $client->id)->first();
         if ($customerEngagement !== null){
-            $customerEngagement->setAttribute('user_id', $request->user_id);
+            $customerEngagement->setAttribute('user_id', $request->reference_id);
             $customerEngagement->save();
         }
         $client->companies()->sync($request->get('companies'));

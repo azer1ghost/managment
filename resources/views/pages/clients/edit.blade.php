@@ -83,7 +83,7 @@
                     <x-input::date  :label="__('translates.fields.birthday')" name="birthday" :value="optional($data)->getAttribute('birthday')" width="4" class="pr-0" />
                 <div class="form-group col-6 user">
                     <label for="user_id">Vasitəçi</label><br/>
-                    <select class="select2 form-control" name="user_id" id="user_id">
+                    <select class="select2 form-control" name="reference_id" id="user_id">
                         <option value="">Birbaşa</option>
                         @foreach($users as $user)
                                 <option @if($engagement !== null) @if($engagement->getAttribute('user_id') == $user->id) selected @endif @endif value="{{$user->id}}">{{$user->getFullNameWithPositionAttribute()}} </option>
