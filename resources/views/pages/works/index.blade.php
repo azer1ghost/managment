@@ -363,35 +363,38 @@
                 <td data-toggle="tooltip" data-placement="bottom" title="{{$work->getRelationValue('client')->getAttribute('fullname')}}" >
                     {{mb_strimwidth($work->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}
                 </td>
-{{--                <td>--}}
-{{--                    @if(is_numeric($work->getAttribute('status')))--}}
-{{--                        @php--}}
-{{--                            switch($work->getAttribute('status')){--}}
-{{--                                case(2):--}}
-{{--                                    $color = 'warning';--}}
-{{--                                    break;--}}
-{{--                                case(3):--}}
-{{--                                    $color = 'info';--}}
-{{--                                    break;--}}
-{{--                                case(4):--}}
-{{--                                    $color = 'primary';--}}
-{{--                                    break;--}}
-{{--                                case(5):--}}
-{{--                                    $color = 'dark';--}}
-{{--                                    break;--}}
-{{--                                case(6):--}}
-{{--                                    $color = 'success';--}}
-{{--                                    break;--}}
-{{--                                case(7):--}}
-{{--                                    $color = 'danger';--}}
-{{--                                    break;--}}
-{{--                            }--}}
-{{--                        @endphp--}}
-{{--                    @endif--}}
-{{--                    <span class="badge badge-{{$color}}" style="font-size: 12px">--}}
-{{--                         {{trans('translates.work_status.' . $work->getAttribute('status'))}}--}}
-{{--                    </span>--}}
-{{--                </td>--}}
+                <td>
+                    @if(is_numeric($work->getAttribute('status')))
+                        @php
+                            switch($work->getAttribute('status')){
+                                case(1):
+                                    $color = 'muted';
+                                    break;
+                                case(2):
+                                    $color = 'warning';
+                                    break;
+                                case(3):
+                                    $color = 'info';
+                                    break;
+                                case(4):
+                                    $color = 'primary';
+                                    break;
+                                case(5):
+                                    $color = 'dark';
+                                    break;
+                                case(6):
+                                    $color = 'success';
+                                    break;
+                                case(7):
+                                    $color = 'danger';
+                                    break;
+                            }
+                        @endphp
+                    @endif
+                    <span class="badge badge-{{$color}}" style="font-size: 12px">
+                         {{trans('translates.work_status.' . $work->getAttribute('status'))}}
+                    </span>
+                </td>
                     <td style="min-width: 130px">
                         @php $supportedTypes = \App\Models\Document::supportedTypeIcons() @endphp
                         @foreach($work->documents as $document)
