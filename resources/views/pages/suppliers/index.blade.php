@@ -64,15 +64,19 @@
                             <td>{{$supplier->getAttribute('voen')}}</td>
                             <td>{{$supplier->getAttribute('phone')}}</td>
                             <td>{{$supplier->getAttribute('email')}}</td>
+                            @php
+                                if($supplier->getAttribute('is_service') == 1){
+                                      $total = 5;
+                                 }
+                                else{
+                                    $total = 10;
+                                  }
+                            @endphp
 
-                            @if($supplier->getAttribute('is_service') == 1)
-                                {{$total = 5}}
-                            @else
-                                {{$total = 10}}
-                            @endif
 
                             @foreach(\App\Models\Evaluation::where('supplier_id', $supplier->id)->get() as $evaluation)
-                                {{($math = $evaluation->getAttribute('quality') +
+
+                                <td>{{($math = $evaluation->getAttribute('quality') +
                                   $evaluation->getAttribute('delivery') +
                                   $evaluation->getAttribute('distributor') +
                                   $evaluation->getAttribute('availability') +
@@ -82,9 +86,8 @@
                                   $evaluation->getAttribute('price') +
                                   $evaluation->getAttribute('payment') +
                                   $evaluation->getAttribute('returning') +
-                                  $evaluation->getAttribute('replacement'))}}
-                                <td>{{$math / $total}}</td>
-                                <td>{{$math / $total}} %</td
+                                  $evaluation->getAttribute('replacement'))/$total}}</td>
+                                <td>{{$math}} %</td
                             @endforeach
 
                             <td>{{$supplier->getAttribute('note')}}</td>
