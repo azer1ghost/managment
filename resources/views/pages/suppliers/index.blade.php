@@ -50,9 +50,9 @@
                         <th scope="col">VOEN</th>
                         <th scope="col">@lang('translates.columns.phone')</th>
                         <th scope="col">@lang('translates.columns.email')</th>
+                        <th scope="col">@lang('translates.fields.note')</th>
                         <th scope="col">Ümumi Qiymət Ortalama(ortalama qiymət)</th>
                         <th scope="col">Qiymətləndirmənin nəticəsi</th>
-                        <th scope="col">@lang('translates.fields.note')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
@@ -64,33 +64,29 @@
                             <td>{{$supplier->getAttribute('voen')}}</td>
                             <td>{{$supplier->getAttribute('phone')}}</td>
                             <td>{{$supplier->getAttribute('email')}}</td>
+                            <td>{{$supplier->getAttribute('note')}}</td>
                             @php
                                 if($supplier->getAttribute('is_service') == 1){
-                                      $total = 5;
+                                    $total = 5;
                                  }
                                 else{
                                     $total = 10;
                                   }
                             @endphp
-
-
                             @foreach(\App\Models\Evaluation::where('supplier_id', $supplier->id)->get() as $evaluation)
-
                                 <td>{{($math = $evaluation->getAttribute('quality') +
-                                  $evaluation->getAttribute('delivery') +
-                                  $evaluation->getAttribute('distributor') +
-                                  $evaluation->getAttribute('availability') +
-                                  $evaluation->getAttribute('delivery') +
-                                  $evaluation->getAttribute('certificate') +
-                                  $evaluation->getAttribute('support') +
-                                  $evaluation->getAttribute('price') +
-                                  $evaluation->getAttribute('payment') +
-                                  $evaluation->getAttribute('returning') +
-                                  $evaluation->getAttribute('replacement'))/$total}}</td>
+                                $evaluation->getAttribute('delivery') +
+                                $evaluation->getAttribute('distributor') +
+                                $evaluation->getAttribute('availability') +
+                                $evaluation->getAttribute('delivery') +
+                                $evaluation->getAttribute('certificate') +
+                                $evaluation->getAttribute('support') +
+                                $evaluation->getAttribute('price') +
+                                $evaluation->getAttribute('payment') +
+                                $evaluation->getAttribute('returning') +
+                                $evaluation->getAttribute('replacement')/$total)}}</td>
                                 <td>{{$math}} %</td
                             @endforeach
-
-                            <td>{{$supplier->getAttribute('note')}}</td>
                             <td>
                                 <div class="btn-sm-group">
                                     @can('view', $supplier)
@@ -114,6 +110,7 @@
                                     @endcan
                                 </div>
                             </td>
+
                         </tr>
                     @empty
                         <tr>
