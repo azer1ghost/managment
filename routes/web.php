@@ -142,6 +142,7 @@ Route::group([
     Route::resource('/sales-activities', SalesActivityController::class);
     Route::resource('/announcements', AnnouncementController::class);
     Route::resource('/suppliers', SupplierController::class);
+    Route::resource('/evaluations', \App\Http\Controllers\Modules\EvaluationController::class);
     Route::resource('/certificates', CertificateController::class);
     Route::resource('/companies', CompanyController::class);
     Route::resource('/asan-imza', AsanImzaController::class);
@@ -160,7 +161,6 @@ Route::group([
     Route::resource('/notifications', DatabaseNotificationController::class);
     Route::resource('/barcode', BarcodeController::class);
     Route::post('/tasks/redirect/{task}', [TaskController::class, 'redirect'])->name('task.redirect');
-
     Route::post('/clients/sum/assign-sales', [ClientController::class, 'sumAssignSales'])->name('clients.sum.assign-sales');
     Route::post('/clients/sum/assign-companies', [ClientController::class, 'sumAssignCompanies'])->name('clients.sum.assign-companies');
     Route::post('/clients/sum/assign-coordinators', [ClientController::class, 'sumAssignCoordinators'])->name('clients.sum.assign-coordinators');

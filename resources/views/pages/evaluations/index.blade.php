@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', trans('translates.navbar.supplier'))
+@section('title', trans('translates.navbar.evaluation'))
 
 @section('content')
     <x-bread-crumb>
@@ -8,10 +8,10 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
-            @lang('translates.navbar.supplier')
+            @lang('translates.navbar.evaluation')
         </x-bread-crumb-link>
     </x-bread-crumb>
-    <form action="{{route('suppliers.index')}}">
+    <form action="{{route('evaluations.index')}}">
         <div class="row d-flex justify-content-between mb-2">
 
             <div class="col-md-6">
@@ -19,7 +19,7 @@
                     <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="@lang('translates.fields.enter', ['field' => trans('translates.fields.name')])" aria-label="Recipient's clientname" aria-describedby="basic-addon2">
                     <div class="input-group-append">
                         <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
-                        <a class="btn btn-outline-danger d-flex align-items-center" href="{{route('suppliers.index')}}"><i class="fal fa-times"></i></a>
+                        <a class="btn btn-outline-danger d-flex align-items-center" href="{{route('evaluations.index')}}"><i class="fal fa-times"></i></a>
                     </div>
                 </div>
             </div>
@@ -31,9 +31,9 @@
                     @endforeach
                 </select>
             </div>
-            @can('create', App\Models\Supplier::class)
+            @can('create', App\Models\Evaluation::class)
                 <div class="col-2">
-                    <a class="btn btn-outline-success float-right" href="{{route('suppliers.create')}}">@lang('translates.buttons.create')</a>
+                    <a class="btn btn-outline-success float-right" href="{{route('evaluations.create')}}">@lang('translates.buttons.create')</a>
                 </div>
             @endcan
             <div class="col-12">
@@ -41,36 +41,46 @@
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">@lang('translates.columns.name')</th>
-                        <th scope="col">VOEN</th>
-                        <th scope="col">@lang('translates.columns.phone')</th>
-                        <th scope="col">@lang('translates.columns.email')</th>
-                        <th scope="col">@lang('translates.columns.actions')</th>
+                        <th scope="col">@lang('translates.columns.quality')</th>
+                        <th scope="col">@lang('translates.columns.delivery')</th>
+                        <th scope="col">@lang('translates.columns.distributor')</th>
+                        <th scope="col">@lang('translates.columns.availability')</th>
+                        <th scope="col">@lang('translates.columns.certificate')</th>
+                        <th scope="col">@lang('translates.columns.support')</th>
+                        <th scope="col">Qiymət</th>
+                        <th scope="col">Ödəmə şərtləri</th>
+                        <th scope="col">@lang('translates.columns.returning')</th>
+                        <th scope="col">@lang('translates.columns.replacement')</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @forelse($suppliers as $supplier)
+                    @forelse($evaluations as $evaluation)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
-                            <td>{{$supplier->getAttribute('name')}}</td>
-                            <td>{{$supplier->getAttribute('voen')}}</td>
-                            <td>{{$supplier->getAttribute('phone')}}</td>
-                            <td>{{$supplier->getAttribute('email')}}</td>
-                            <td>{{$supplier->getAttribute('note')}}</td>
+                            <td>{{$evaluation->getAttribute('quality')}}</td>
+                            <td>{{$evaluation->getAttribute('delivery')}}</td>
+                            <td>{{$evaluation->getAttribute('distributor')}}</td>
+                            <td>{{$evaluation->getAttribute('availability')}}</td>
+                            <td>{{$evaluation->getAttribute('certificate')}}</td>
+                            <td>{{$evaluation->getAttribute('support')}}</td>
+                            <td>{{$evaluation->getAttribute('price')}}</td>
+                            <td>{{$evaluation->getAttribute('payment')}}</td>
+                            <td>{{$evaluation->getAttribute('returning')}}</td>
+                            <td>{{$evaluation->getAttribute('replacement')}}</td>
                             <td>
                                 <div class="btn-sm-group">
-                                    @can('view', $supplier)
-                                        <a href="{{route('suppliers.show', $supplier)}}" class="btn btn-sm btn-outline-primary">
+                                    @can('view', $evaluation)
+                                        <a href="{{route('evaluations.show', $evaluation)}}" class="btn btn-sm btn-outline-primary">
                                             <i class="fal fa-eye"></i>
                                         </a>
                                     @endcan
-                                    @can('update', $supplier)
-                                        <a href="{{route('suppliers.edit', $supplier)}}" class="btn btn-sm btn-outline-success">
+                                    @can('update', $evaluation)
+                                        <a href="{{route('evaluations.edit', $evaluation)}}" class="btn btn-sm btn-outline-success">
                                             <i class="fal fa-pen"></i>
                                         </a>
                                     @endcan
-                                    @can('delete', $supplier)
-                                        <a href="{{route('suppliers.destroy', $supplier)}}" delete data-name="{{$supplier->getAttribute('name')}}" class="btn btn-sm btn-outline-danger" >
+                                    @can('delete', $evaluation)
+                                        <a href="{{route('evaluations.destroy', $evaluation)}}" delete data-name="{{$evaluation->getAttribute('name')}}" class="btn btn-sm btn-outline-danger" >
                                             <i class="fal fa-trash"></i>
                                         </a>
                                     @endcan
@@ -91,12 +101,11 @@
             </div>
             <div class="col-6">
                 <div class="float-right">
-                    {{$suppliers->appends(request()->input())->links()}}
+                    {{$evaluations->appends(request()->input())->links()}}
                 </div>
             </div>
         </div>
     </form>
-
 @endsection
 @section('scripts')
     <script>

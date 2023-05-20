@@ -167,6 +167,7 @@ return [
         'show' => 'Show',
         'send_email' => 'Send Email',
         'send_sms' => 'Send Sms',
+        'is_service' => 'Service Evaluation',
         'send' => 'Göndər',
         'active' => 'Active Contract',
         'passive' => 'Deactive Contract',
@@ -524,6 +525,15 @@ return [
         'payment' => 'Payment',
         'code' => 'Code',
         'result' => 'Result',
+        'quality' => 'Məhsulun keyfiyyəti',
+        'delivery' => 'Vaxtlı-vaxtında malların çatdırılması',
+        'distributor' => 'Official distributor status',
+        'availability' => 'Shuttle service availability',
+        'certificate' => 'Having a certificate of conformity to the material and equipment',
+        'support' => 'Nəticə',
+        'price' => 'Nəticə',
+        'returning' => 'The possibility of returning the remaining goods',
+        'replacement' => 'Replacement of damaged goods, possibility of return delivery',
     ],
 
     'notify' => [
