@@ -49,7 +49,7 @@
                     </div>
 
                     <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
-                        <label for="company_id">@lang('translates.columns.price_rate')</label>
+                        <label for="company_id">Şirkət Seçin</label>
                         <select name="company_id" class="custom-select" id="company_id">
                             <option value="">@lang('translates.filters.select')</option>
                             @foreach($companies as $company)

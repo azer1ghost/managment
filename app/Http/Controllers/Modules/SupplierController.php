@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SupplierRequest;
+use App\Models\Evaluation;
 use App\Models\Supplier;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -33,12 +34,15 @@ class SupplierController extends Controller
             'action' => route('suppliers.store'),
             'method' => 'POST',
             'data' => new Supplier(),
+
         ]);
     }
 
     public function store(SupplierRequest $request): RedirectResponse
     {
-        $supplier = Supplier::create($request->validated());
+        $validated = $request->validated();
+        $validated['is_service'] = $request->has('is_service');
+        $supplier = Supplier::create($validated);
 
         return redirect()
             ->route('suppliers.edit', $supplier)
@@ -51,6 +55,7 @@ class SupplierController extends Controller
             'action' => route('suppliers.store', $supplier),
             'method' => null,
             'data' => $supplier,
+            'evaluations' => Evaluation::where('supplier_id', $supplier->id)->get()
         ]);
     }
 
@@ -60,12 +65,15 @@ class SupplierController extends Controller
             'action' => route('suppliers.update', $supplier),
             'method' => 'PUT',
             'data' => $supplier,
+            'evaluations' => Evaluation::where('supplier_id', $supplier->id)->get()
         ]);
     }
 
     public function update(SupplierRequest $request, Supplier $supplier): RedirectResponse
     {
-        $supplier->update($request->validated());
+        $validated = $request->validated();
+        $validated['is_service'] = $request->has('is_service');
+        $supplier->update($validated);
 
         return redirect()
             ->route('suppliers.edit', $supplier)

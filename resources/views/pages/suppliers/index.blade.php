@@ -16,10 +16,13 @@
 
             <div class="col-md-6">
                 <div class="input-group mb-3">
-                    <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="@lang('translates.fields.enter', ['field' => trans('translates.fields.name')])" aria-label="Recipient's clientname" aria-describedby="basic-addon2">
+                    <input type="search" name="search" value="{{request()->get('search')}}" class="form-control"
+                           placeholder="@lang('translates.fields.enter', ['field' => trans('translates.fields.name')])"
+                           aria-label="Recipient's clientname" aria-describedby="basic-addon2">
                     <div class="input-group-append">
                         <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
-                        <a class="btn btn-outline-danger d-flex align-items-center" href="{{route('suppliers.index')}}"><i class="fal fa-times"></i></a>
+                        <a class="btn btn-outline-danger d-flex align-items-center" href="{{route('suppliers.index')}}"><i
+                                    class="fal fa-times"></i></a>
                     </div>
                 </div>
             </div>
@@ -27,13 +30,15 @@
             <div class="col-8 col-md-3  mb-3">
                 <select name="limit" class="custom-select">
                     @foreach([25, 50, 100] as $size)
-                        <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
+                        <option @if(request()->get('limit') == $size) selected
+                                @endif value="{{$size}}">{{$size}}</option>
                     @endforeach
                 </select>
             </div>
             @can('create', App\Models\Supplier::class)
                 <div class="col-2">
-                    <a class="btn btn-outline-success float-right" href="{{route('suppliers.create')}}">@lang('translates.buttons.create')</a>
+                    <a class="btn btn-outline-success float-right"
+                       href="{{route('suppliers.create')}}">@lang('translates.buttons.create')</a>
                 </div>
             @endcan
             <div class="col-12">
@@ -45,6 +50,9 @@
                         <th scope="col">VOEN</th>
                         <th scope="col">@lang('translates.columns.phone')</th>
                         <th scope="col">@lang('translates.columns.email')</th>
+                        <th scope="col">@lang('translates.fields.note')</th>
+                        <th scope="col">Ümumi Qiymət Ortalama(ortalama qiymət)</th>
+                        <th scope="col">Qiymətləndirmənin nəticəsi</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
@@ -57,31 +65,59 @@
                             <td>{{$supplier->getAttribute('phone')}}</td>
                             <td>{{$supplier->getAttribute('email')}}</td>
                             <td>{{$supplier->getAttribute('note')}}</td>
+                            @php
+                                if($supplier->getAttribute('is_service') == 1){
+                                    $total = 5;
+                                 }
+                                else{
+                                    $total = 10;
+                                  }
+                            @endphp
+                            @foreach(\App\Models\Evaluation::where('supplier_id', $supplier->id)->get() as $evaluation)
+                                <td>{{($math = $evaluation->getAttribute('quality') +
+                                $evaluation->getAttribute('delivery') +
+                                $evaluation->getAttribute('distributor') +
+                                $evaluation->getAttribute('availability') +
+                                $evaluation->getAttribute('delivery') +
+                                $evaluation->getAttribute('certificate') +
+                                $evaluation->getAttribute('support') +
+                                $evaluation->getAttribute('price') +
+                                $evaluation->getAttribute('payment') +
+                                $evaluation->getAttribute('returning') +
+                                $evaluation->getAttribute('replacement')/$total)}}</td>
+                                <td>{{$math}} %</td
+                            @endforeach
                             <td>
                                 <div class="btn-sm-group">
                                     @can('view', $supplier)
-                                        <a href="{{route('suppliers.show', $supplier)}}" class="btn btn-sm btn-outline-primary">
+                                        <a href="{{route('suppliers.show', $supplier)}}"
+                                           class="btn btn-sm btn-outline-primary">
                                             <i class="fal fa-eye"></i>
                                         </a>
                                     @endcan
                                     @can('update', $supplier)
-                                        <a href="{{route('suppliers.edit', $supplier)}}" class="btn btn-sm btn-outline-success">
+                                        <a href="{{route('suppliers.edit', $supplier)}}"
+                                           class="btn btn-sm btn-outline-success">
                                             <i class="fal fa-pen"></i>
                                         </a>
                                     @endcan
                                     @can('delete', $supplier)
-                                        <a href="{{route('suppliers.destroy', $supplier)}}" delete data-name="{{$supplier->getAttribute('name')}}" class="btn btn-sm btn-outline-danger" >
+                                        <a href="{{route('suppliers.destroy', $supplier)}}" delete
+                                           data-name="{{$supplier->getAttribute('name')}}"
+                                           class="btn btn-sm btn-outline-danger">
                                             <i class="fal fa-trash"></i>
                                         </a>
                                     @endcan
                                 </div>
                             </td>
+
                         </tr>
                     @empty
                         <tr>
                             <th colspan="7">
                                 <div class="row justify-content-center m-3">
-                                    <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.empty')</div>
+                                    <div class="col-7 alert alert-danger text-center"
+                                         role="alert">@lang('translates.general.empty')</div>
                                 </div>
                             </th>
                         </tr>
@@ -96,6 +132,7 @@
             </div>
         </div>
     </form>
+
 @endsection
 @section('scripts')
     <script>

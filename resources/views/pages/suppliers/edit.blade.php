@@ -28,6 +28,10 @@
                     <x-input::text name="phone" :label="trans('translates.columns.phone')" :value="$data->getAttribute('phone')" width="6" class="pr-2" />
                     <x-input::text name="email" :label="trans('translates.columns.email')" :value="$data->getAttribute('email')" width="6" class="pr-2" />
                     <x-input::textarea name="note" :label="trans('translates.placeholders.note')" :value="$data->getAttribute('note')" width="6" class="pr-2" />
+                    <div class="custom-control custom-switch mb-5">
+                        <input type="checkbox" name="is_service" class="custom-control-input" id="is_service" @if($data->getAttribute('is_service') || $method == 'POST' ) checked @endif>
+                        <label class="custom-control-label" for="is_service">@lang('translates.buttons.is_service')</label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -36,11 +40,29 @@
         @endif
     </form>
     @if($method != 'POST')
+                <input type="hidden" name="supplier_id" value="1">
+            @if($data->getAttribute('is_service') == 1)
+                <x-input::number name="quality" :label="trans('translates.columns.quality')" :value="$data->getAttribute('quality')" width="6" class="pr-3"/>
+                <x-input::number name="delivery" :label="trans('translates.columns.delivery')" :value="$data->getAttribute('delivery')" width="6" class="pr-3"/>
+                <x-input::number name="distributor" :label="trans('translates.columns.distributor')" :value="$data->getAttribute('distributor')" width="6" class="pr-3"/>
+                <x-input::number name="availability" :label="trans('translates.columns.availability')" :value="$data->getAttribute('availability')" width="6" class="pr-3"/>
+                <x-input::number name="certificate" :label="trans('translates.columns.certificate')" :value="$data->getAttribute('certificate')" width="6" class="pr-3"/>
+            @endif
+                <x-input::number name="support" :label="trans('translates.columns.support')" :value="$data->getAttribute('support')" width="6" class="pr-3"/>
+                <x-input::number name="price" :label="trans('translates.columns.price')" :value="$data->getAttribute('price')" width="6" class="pr-3"/>
+                <x-input::number name="payment" :label="trans('translates.columns.payment')" :value="$data->getAttribute('payment')" width="6" class="pr-3"/>
+                <x-input::number name="returning" :label="trans('translates.columns.returning')" :value="$data->getAttribute('returning')" width="6" class="pr-3"/>
+                <x-input::number name="replacement" :label="trans('translates.columns.replacement')" :value="$data->getAttribute('replacement')" width="6" class="pr-3"/>
+    @endif
+
+
+    @if($method != 'POST')
         <div class="my-5">
             <x-documents :documents="$data->documents" :title="trans('translates.navbar.document')" />
             <x-document-upload :id="$data->id" model="Supplier"/>
         </div>
     @endif
+
 @endsection
 @section('scripts')
 

@@ -170,6 +170,7 @@ return [
         'export' => 'İxrac et',
         'show' => 'Göstər',
         'send_sms' => 'SMS Göndər',
+        'is_service' => 'Xidmət Qiymətləndirməsi',
         'send_email' => 'Email Göndər',
         'send' => 'Göndər',
         'active' => 'Müqaviləsi Aktivdir.',
@@ -255,6 +256,7 @@ return [
         'room' => 'Otaqlar',
         'presentation' => 'Prezentasiya',
         'supplier' => 'Tədarüqçülər',
+        'evaluation' => 'Qiymətləndirmə',
     ],
 
     'questionnaire' => [
@@ -526,6 +528,16 @@ return [
         'payment' => 'Ödəniş',
         'code' => 'Kod',
         'result' => 'Nəticə',
+
+        'quality' => 'Məhsulun keyfiyyəti',
+        'delivery' => 'Vaxtlı-vaxtında malların çatdırılması',
+        'distributor' => 'Rəsmi distribyutor statusu',
+        'availability' => 'Servis xidmətinin mövcudluğu',
+        'certificate' => 'Materiala, avadanlığa uyğunluq sertifikatının olması',
+        'support' => 'Texniki informasiya dəstəyi',
+        'price' => 'Nəticə',
+        'returning' => 'Artıq qalan mal-materialın geri təhvil vermə imkanı',
+        'replacement' => 'Zədələnmiş mal-materialın əvəzlənməsi, geri təhvil vermə imkanı',
     ],
 
     'notify' => [
