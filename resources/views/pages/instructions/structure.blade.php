@@ -24,32 +24,32 @@
                     </table>
                 </td>
             </tr>
-            <tr class="lines v">
-                <td class="line left half"></td>
-                <td class="line right half"></td>
-            </tr>
+{{--            <tr class="lines v">--}}
+{{--                <td class="line left half"></td>--}}
+{{--                <td class="line right half"></td>--}}
+{{--            </tr>--}}
             <tr>
                 <td colspan="2">
                     <table cellpadding="0" cellspacing="0" border="0">
                         <tbody>
-                        <tr>
-                            <td colspan="2">
-                                <div class="node"><a href="#">Fərhad İbrahimli</a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="lines">
-                            <td colspan="2">
-                                <table cellpadding="0" cellspacing="0" border="0">
-                                    <tbody>
-                                    <tr class="lines x">
-                                        <td class="line left half"></td>
-                                        <td class="line right half"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
+{{--                        <tr>--}}
+{{--                            <td colspan="2">--}}
+{{--                                <div class="node"><a href="#">Fərhad İbrahimli</a>--}}
+{{--                                </div>--}}
+{{--                            </td>--}}
+{{--                        </tr>--}}
+{{--                        <tr class="lines">--}}
+{{--                            <td colspan="2">--}}
+{{--                                <table cellpadding="0" cellspacing="0" border="0">--}}
+{{--                                    <tbody>--}}
+{{--                                    <tr class="lines x">--}}
+{{--                                        <td class="line left half"></td>--}}
+{{--                                        <td class="line right half"></td>--}}
+{{--                                    </tr>--}}
+{{--                                    </tbody>--}}
+{{--                                </table>--}}
+{{--                            </td>--}}
+{{--                        </tr>--}}
                         <tr class="lines v">
                             <td class="line left half"></td>
                             <td class="line right half"></td>
