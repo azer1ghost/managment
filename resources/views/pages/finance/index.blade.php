@@ -707,6 +707,7 @@
             document.getElementById('total4').innerHTML = (sum * edv).toFixed(2);
             document.getElementById('total5').innerHTML = (sum * edv).toFixed(2);
             document.getElementById('total6').innerHTML = (sum * edv).toFixed(2)
+            document.getElementById('total7').innerHTML = (sum * edv).toFixed(2)
         }
 
         function addRow() {
