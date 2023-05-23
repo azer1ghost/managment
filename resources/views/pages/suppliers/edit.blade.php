@@ -35,25 +35,26 @@
                 </div>
             </div>
         </div>
+        @if($method != 'POST')
+            @if($data->getAttribute('is_service') == 1)
+                <x-input::number name="quality" oninput="calculateNonEmptyCount()" :label="trans('translates.columns.quality')" :value="$data->getAttribute('quality')" width="6" class="pr-3"/>
+                <x-input::number name="delivery" oninput="calculateNonEmptyCount()" :label="trans('translates.columns.delivery')" :value="$data->getAttribute('delivery')" width="6" class="pr-3"/>
+                <x-input::number name="distributor" oninput="calculateNonEmptyCount()"  :label="trans('translates.columns.distributor')" :value="$data->getAttribute('distributor')" width="6" class="pr-3"/>
+                <x-input::number name="availability" oninput="calculateNonEmptyCount()" :label="trans('translates.columns.availability')" :value="$data->getAttribute('availability')" width="6" class="pr-3"/>
+                <x-input::number name="certificate" oninput="calculateNonEmptyCount()" :label="trans('translates.columns.certificate')" :value="$data->getAttribute('certificate')" width="6" class="pr-3"/>
+            @endif
+            <x-input::number name="support" oninput="calculateNonEmptyCount()" :label="trans('translates.columns.support')" :value="$data->getAttribute('support')" width="6" class="pr-3"/>
+            <x-input::number name="price" oninput="calculateNonEmptyCount()" :label="trans('translates.columns.price')" :value="$data->getAttribute('price')" width="6" class="pr-3"/>
+            <x-input::number name="payment" oninput="calculateNonEmptyCount()" :label="trans('translates.columns.payment')" :value="$data->getAttribute('payment')" width="6" class="pr-3"/>
+            <x-input::number name="returning" oninput="calculateNonEmptyCount()" :label="trans('translates.columns.returning')" :value="$data->getAttribute('returning')" width="6" class="pr-3"/>
+            <x-input::number name="replacement" oninput="calculateNonEmptyCount()" :label="trans('translates.columns.replacement')" :value="$data->getAttribute('replacement')" width="6" class="pr-3"/>
+        @endif
+        <p id="result"></p>
         @if($action)
             <x-input::submit :value="trans('translates.buttons.save')"/>
         @endif
     </form>
-    @if($method != 'POST')
-                <input type="hidden" name="supplier_id" value="1">
-            @if($data->getAttribute('is_service') == 1)
-                <x-input::number name="quality" :label="trans('translates.columns.quality')" :value="$data->getAttribute('quality')" width="6" class="pr-3"/>
-                <x-input::number name="delivery" :label="trans('translates.columns.delivery')" :value="$data->getAttribute('delivery')" width="6" class="pr-3"/>
-                <x-input::number name="distributor" :label="trans('translates.columns.distributor')" :value="$data->getAttribute('distributor')" width="6" class="pr-3"/>
-                <x-input::number name="availability" :label="trans('translates.columns.availability')" :value="$data->getAttribute('availability')" width="6" class="pr-3"/>
-                <x-input::number name="certificate" :label="trans('translates.columns.certificate')" :value="$data->getAttribute('certificate')" width="6" class="pr-3"/>
-            @endif
-                <x-input::number name="support" :label="trans('translates.columns.support')" :value="$data->getAttribute('support')" width="6" class="pr-3"/>
-                <x-input::number name="price" :label="trans('translates.columns.price')" :value="$data->getAttribute('price')" width="6" class="pr-3"/>
-                <x-input::number name="payment" :label="trans('translates.columns.payment')" :value="$data->getAttribute('payment')" width="6" class="pr-3"/>
-                <x-input::number name="returning" :label="trans('translates.columns.returning')" :value="$data->getAttribute('returning')" width="6" class="pr-3"/>
-                <x-input::number name="replacement" :label="trans('translates.columns.replacement')" :value="$data->getAttribute('replacement')" width="6" class="pr-3"/>
-    @endif
+
 
 
     @if($method != 'POST')
@@ -71,4 +72,18 @@
             $('input').attr('readonly', true)
         </script>
     @endif
+    <script>
+        function calculateNonEmptyCount() {
+            let inputs = document.querySelectorAll('input[type="number"]');
+            let count = 0;
+
+            for (let i = 0; i < inputs.length; i++) {
+                if (inputs[i].value.trim() !== '') {
+                    count++;
+                }
+            }
+
+            document.getElementById("result").innerText = "Boş Olmayan Input Sayısı: " + count;
+        }
+    </script>
 @endsection

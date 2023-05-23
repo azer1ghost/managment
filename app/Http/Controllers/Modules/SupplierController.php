@@ -21,7 +21,7 @@ class SupplierController extends Controller
         $limit = $request->get('limit', 25);
         $search = $request->get('search');
 
-        return view('pages.suppliers.index')->with([
+        return view('pages.suppliers.index' )->with([
             'suppliers' => Supplier::query()
                 ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"))
                 ->paginate($limit)
@@ -34,7 +34,6 @@ class SupplierController extends Controller
             'action' => route('suppliers.store'),
             'method' => 'POST',
             'data' => new Supplier(),
-
         ]);
     }
 
@@ -55,7 +54,6 @@ class SupplierController extends Controller
             'action' => route('suppliers.store', $supplier),
             'method' => null,
             'data' => $supplier,
-            'evaluations' => Evaluation::where('supplier_id', $supplier->id)->get()
         ]);
     }
 
@@ -65,7 +63,6 @@ class SupplierController extends Controller
             'action' => route('suppliers.update', $supplier),
             'method' => 'PUT',
             'data' => $supplier,
-            'evaluations' => Evaluation::where('supplier_id', $supplier->id)->get()
         ]);
     }
 
@@ -87,4 +84,7 @@ class SupplierController extends Controller
         }
         return response()->setStatusCode('204');
     }
+
+
+
 }
