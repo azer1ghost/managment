@@ -490,7 +490,7 @@
                 var swift = "AIIBAZ2XXXX"
                 var who = "Xəlilova Lamiyyə İbrahim qızı"
                 var whoFooter = "L.İ.Xəlilova"
-                document.getElementById('temsilci').innerHTML ="something";
+                document.getElementById('temsilci').innerHTML ="Ekspeditor";
                 document.getElementById('vatColumn').style.display ="none";
                 document.getElementById('vatColumn2').style.display ="none";
                 document.getElementById('vatColumn3').style.display ="none";
