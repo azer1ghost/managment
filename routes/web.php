@@ -235,6 +235,7 @@ Route::group([
     Route::get('/chats', [ChatController::class, 'index'])->name('chats.index');
     Route::get('/message/{id}', [ChatController::class, 'message'])->name('message');
     Route::post('/message', [ChatController::class, 'sendMessage']);
+    Route::view('/account-invoice','pages.finance.index' )->name('accountInvoice');
     Route::view('/instruction','pages.instructions.index' )->name('instruction');
     Route::view('/presentations','pages.instructions.presentations' )->name('presentations');
     Route::view('/structure','pages.instructions.structure' )->name('structure');
