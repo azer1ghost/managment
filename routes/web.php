@@ -26,6 +26,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\DepartmentController,
     Modules\DocumentController,
     Modules\EmployeeSatisfactionController,
+    Modules\FinanceClientController,
     Modules\FolderController,
     Modules\InquiryController,
     Modules\InternalDocumentController,
@@ -235,7 +236,9 @@ Route::group([
     Route::get('/chats', [ChatController::class, 'index'])->name('chats.index');
     Route::get('/message/{id}', [ChatController::class, 'message'])->name('message');
     Route::post('/message', [ChatController::class, 'sendMessage']);
-    Route::view('/account-invoice','pages.finance.index' )->name('accountInvoice');
+    Route::get('/account-invoice',[FinanceClientController::class, 'index'] )->name('accountInvoice');
+    Route::get('/getClients',[FinanceClientController::class, 'getClients'] )->name('getClients');
+    Route::post('/createFinanceClient',[FinanceClientController::class, 'createFinanceClient'] )->name('createFinanceClient');
     Route::view('/instruction','pages.instructions.index' )->name('instruction');
     Route::view('/presentations','pages.instructions.presentations' )->name('presentations');
     Route::view('/structure','pages.instructions.structure' )->name('structure');
