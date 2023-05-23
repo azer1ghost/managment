@@ -12,7 +12,7 @@ class Supplier extends Model implements Recordable, DocumentableInterface
 {
     use Documentable, \Altek\Accountant\Recordable, Eventually;
 
-    protected $fillable = ['name', 'voen', 'phone', 'email', 'note', 'is_service'];
+    protected $fillable = ['name', 'voen', 'phone', 'email', 'note', 'is_service', 'supplier_id', 'quality', 'delivery', 'distributor', 'availability', 'certificate', 'support', 'price', 'payment', 'returning', 'replacement'];
 
     public function getMainColumn(): string
     {
@@ -27,9 +27,5 @@ class Supplier extends Model implements Recordable, DocumentableInterface
     public function getPhoneAttribute($value): ?string
     {
         return phone_formatter($value, true);
-    }
-    public function salesSupplies(): HasMany
-    {
-        return $this->hasMany(SalesActivitiesSupply::class, 'sales_activity_id');
     }
 }

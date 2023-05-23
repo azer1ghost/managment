@@ -58,6 +58,13 @@
                     </thead>
                     <tbody>
                     @forelse($suppliers as $supplier)
+                        @php
+                        if ($supplier->getAttribute('is_service') == 0){
+                            $total = 5;
+                        }
+                        else
+                            $total = 10;
+                        @endphp
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$supplier->getAttribute('name')}}</td>
@@ -65,28 +72,24 @@
                             <td>{{$supplier->getAttribute('phone')}}</td>
                             <td>{{$supplier->getAttribute('email')}}</td>
                             <td>{{$supplier->getAttribute('note')}}</td>
-                            @php
-                                if($supplier->getAttribute('is_service') == 1){
-                                    $total = 5;
-                                 }
-                                else{
-                                    $total = 10;
-                                  }
-                            @endphp
-                            @foreach(\App\Models\Evaluation::where('supplier_id', $supplier->id)->get() as $evaluation)
-                                <td>{{($math = $evaluation->getAttribute('quality') +
-                                $evaluation->getAttribute('delivery') +
-                                $evaluation->getAttribute('distributor') +
-                                $evaluation->getAttribute('availability') +
-                                $evaluation->getAttribute('delivery') +
-                                $evaluation->getAttribute('certificate') +
-                                $evaluation->getAttribute('support') +
-                                $evaluation->getAttribute('price') +
-                                $evaluation->getAttribute('payment') +
-                                $evaluation->getAttribute('returning') +
-                                $evaluation->getAttribute('replacement')/$total)}}</td>
-                                <td>{{$math}} %</td
-                            @endforeach
+                            <td>
+
+                                {{ $math =
+                                    ($supplier->getAttribute('quality') +
+                                    $supplier->getAttribute('delivery') +
+                                    $supplier->getAttribute('distributor') +
+                                    $supplier->getAttribute('availability') +
+                                    $supplier->getAttribute('certificate') +
+                                    $supplier->getAttribute('support') +
+                                    $supplier->getAttribute('price') +
+                                    $supplier->getAttribute('payment') +
+                                    $supplier->getAttribute('returning') +
+                                    $supplier->getAttribute('replacement')) / $total
+                                }}
+                            </td>
+                            <td>
+                                {{$math}}%
+                            </td>
                             <td>
                                 <div class="btn-sm-group">
                                     @can('view', $supplier)
@@ -140,4 +143,5 @@
             this.form.submit();
         });
     </script>
+
 @endsection
