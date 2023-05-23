@@ -24,11 +24,12 @@ class ClientRepository implements ClientRepositoryInterface
             ->when(is_numeric($filters['satisfaction']), fn($query) => $query->where('satisfaction', (int)$filters['satisfaction']))
             ->when($filters['coordinator'], fn($query) => $query->whereHas('coordinators', fn($q) => $q->where('id', $filters['coordinator'])))
             ->when($filters['company'], fn($query) => $query->whereHas('companies', fn($q) => $q->where('id', $filters['company'])))
+            ->when($filters['users'], fn($query) => $query->where('user_id', $filters['users']))
             ->when($filters['search'], fn($query) => $query->where('fullname', 'like', "%{$filters['search']}%")
                 ->orWhere('voen', 'like', "%{$filters['search']}%")
                 ->orWhere('email1', 'like', "%{$filters['search']}%")
                 ->orWhere('phone1', 'like', "%{$filters['search']}%")
-                ->orWhere('phone2', 'like', "%{$filters['search']}%"))
-            ->when($filters['users'], fn($query) => $query->where('user_id', $filters['users']));
+                ->orWhere('phone2', 'like', "%{$filters['search']}%"));
+
     }
 }
