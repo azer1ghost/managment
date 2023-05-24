@@ -56,7 +56,7 @@
 
                             <td>{{$loop->iteration}}</td>
                             <td>{{$protocol->getAttribute('protocol_no')}}</td>
-                             <td>{{optional($protocol->getAttribute('date'))->format('d/m/y')}}</td>
+                             <td>{{optional($protocol->getAttribute('date'))->format('Y-m-d')}}</td>
                              <td>{{$protocol->getAttribute('content')}}</td>
                              <td> @php($supportedTypes = \App\Models\Document::supportedTypeIcons())
                                  @foreach($protocol->documents as $document)
