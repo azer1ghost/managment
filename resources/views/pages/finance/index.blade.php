@@ -4,9 +4,18 @@
 
 @section('style')
     <style>
+        p, h1, h2, h3, h4, h5, h6, span, td, th {
+            font-weight: bolder;
+        }
         .tabelBorder {
-            border-width:2px !important;
+            border: solid black 2px !important;
             border-color:black !important;
+        }
+        @media print {
+            .tabelBorder {
+                border: solid black 2px !important;
+
+            }
         }
     </style>
 @endsection
@@ -121,7 +130,7 @@
                 <br>
                 <br>
 
-                <table class="table table-bordered tabelBorder">
+                <table class="table table-borderless tabelBorder">
                     <thead>
                     <tr>
                         <th class="tabelBorder">Əmtəənin Adı</th>
@@ -154,7 +163,7 @@
                         <td><input type="text" class="form-control" id="input4"></td>
                         <td id="print-area"><button onclick="addRow()" class="btn btn-primary">+</button></td>
                     </tr>
-                    <tr class="tabelBorder">
+                    <tr>
                         <td></td>
                         <td></td>
                         <td></td>
