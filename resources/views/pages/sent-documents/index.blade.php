@@ -36,7 +36,7 @@
                             <button class="btn btn-outline-success float-left" type="submit">Mobil Logistics</button>
                         </form>
                     </div>
-                <table class="table table-responsive-sm table-hover">
+                <table id="sent-documents" class="table is-striped">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -87,4 +87,12 @@
                     </tbody>
                 </table>
             </div>
+@endsection
+@section('scripts')
+
+    <script>
+        $(document).ready(function () {
+            $('#sent-documents').DataTable();
+        });
+    </script>
 @endsection

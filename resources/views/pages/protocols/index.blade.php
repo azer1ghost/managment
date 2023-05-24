@@ -2,6 +2,7 @@
 
 @section('title', __('translates.navbar.protocols'))
 @section('style')
+
     <style>
         table {
             table-layout:fixed;
@@ -36,7 +37,7 @@
                             <button class="btn btn-outline-success float-left" type="submit">Mobil Logistics</button>
                         </form>
                     </div>
-                <table class="table table-responsive-sm table-hover">
+                <table id="example" class="table is-striped">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -96,8 +97,17 @@
 
                     </tbody>
                 </table>
+
                     <div class="float-right">
                         {{$protocols->appends(request()->input())->links()}}
                     </div>
             </div>
+@endsection
+@section('scripts')
+
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
 @endsection
