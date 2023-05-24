@@ -530,7 +530,7 @@
                 var kod = "507547"
                 var bvoen = "9900001901"
                 var swift = "BRESAZ22"
-                var who = "Xəlilova Lamiyyə İbrahim qızı"
+                var who = "Xəlilova Lamiyə Fərhad qızı"
                 var whoFooter = "L.İ.Xəlilova"
                 document.getElementById('vatColumn').style.display ="none";
                 document.getElementById('vatColumn2').style.display ="none";
@@ -572,7 +572,7 @@
                 var kod = "201412"
                 var bvoen = "9900003611"
                 var swift = "AIIBAZ2XXXX"
-                var who = "Xəlilova Lamiyyə İbrahim qızı"
+                var who = "Xəlilova Lamiyə Fərhad qızı"
                 var whoFooter = "L.İ.Xəlilova"
                 document.getElementById('temsilci').innerHTML ="Ekspeditor";
                 document.getElementById('vatColumn').style.display ="none";
