@@ -23,6 +23,9 @@
                 <option value="asazaRespublika">Asaza Bank Respublika</option>
                 <option value="logisticsKapital">Mobil Logistics Kapital</option>
             </select>
+            <select id="clientSelect" class="form-control col-3 m-2">
+
+            </select>
             <hr>
             <h3>Müştəri Məlumatları</h3>
 
@@ -44,6 +47,8 @@
                    oninput="clientSwift()">
             <input class="form-control col-3 m-2" id="clientWhoInput" placeholder="Müştəri Vəzifəsi : Adı"
                    oninput="clientWho()">
+
+            <button class="btn btn-success col-1 m-2" onclick="createClient()">+</button>
 
             <hr>
 
@@ -373,6 +378,85 @@
 
 @section('scripts')
     <script>
+        axios.get('/module/getClients')
+            .then(response => {
+                const clients = response.data;
+                const selectElement = document.getElementById('clientSelect');
+                const clientNameInput = document.getElementById('clientNameInput');
+                const clientVoenInput = document.getElementById('clientVoenInput');
+                const clienthhInput = document.getElementById('clienthhInput');
+                const clientmhInput = document.getElementById('clientmhInput');
+                const clientCodeInput = document.getElementById('clientCodeInput');
+                const clientBankInput = document.getElementById('clientBankInput');
+                const clientBvoenInput = document.getElementById('clientBvoenInput');
+                const clientSwiftInput = document.getElementById('clientSwiftInput');
+                const clientWhoInput = document.getElementById('clientWhoInput');
+
+                clients.forEach(client => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = client.id;
+                    optionElement.textContent = client.name;
+                    selectElement.appendChild(optionElement);
+                });
+
+                selectElement.addEventListener('change', function() {
+                    const selectedClientId = this.value;
+                    const selectedClient = clients.find(client => client.id.toString() === selectedClientId);
+
+                    if (selectedClient) {
+                        clientNameInput.value = selectedClient.name;
+                        clientVoenInput.value = selectedClient.voen;
+                        clienthhInput.value = selectedClient.hn;
+                        clientmhInput.value = selectedClient.mh;
+                        clientCodeInput.value = selectedClient.code;
+                        clientBankInput.value = selectedClient.bank;
+                        clientBvoenInput.value = selectedClient.bvoen;
+                        clientSwiftInput.value = selectedClient.swift;
+                        clientWhoInput.value = selectedClient.orderer;
+                        clientName();
+                        clientVoen();
+                        clienthh();
+                        clientmh();
+                        clientCode();
+                        clientBank();
+                        clientBvoen();
+                        clientSwift();
+                        clientWho();
+                    }
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+
+        function createClient() {
+
+            $.ajax({
+                url: '/module/createFinanceClient',
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    name: clientNameInput.value,
+                    voen: clientVoenInput.value,
+                    hh: clienthhInput.value,
+                    mh: clientmhInput.value,
+                    code: clientCodeInput.value,
+                    bank: clientBankInput.value,
+                    bvoen: clientBvoenInput.value,
+                    swift: clientSwiftInput.value,
+                    orderer: clientWhoInput.value
+                },
+                success: function(response) {
+                    console.log('Müşteri yaratıldı:', response);
+                    // ...
+                },
+                error: function(error) {
+                    console.log('Müşteri yaratılırken hata oluştu:', error);
+                }
+            });
+        }
         document.getElementById('loginput').style.display = "none";
 
         function changeCompany() {
@@ -918,7 +1002,7 @@
             window.print();
             document.body.innerHTML = originalContent;
         }
-        function printCard3(container) {
+        function printCard3() {
             document.getElementById('print-area').style.display = 'none';
 
 
