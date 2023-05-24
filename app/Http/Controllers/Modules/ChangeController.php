@@ -27,7 +27,7 @@ class ChangeController extends Controller
                 'responsible' => User::get(['id', 'name', 'surname']),
                 'changes' => Change::when($search, fn ($query) => $query
                     ->where('description', 'like', "%".$search."%"))
-                    ->orderByDesc('datetime')
+                    ->orderBy('datetime')
                     ->paginate(25)]);
     }
 
