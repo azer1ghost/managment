@@ -55,7 +55,7 @@
                 </form>
             </div>
 
-            <table class="table table-responsive-sm table-hover">
+            <table class="table table-responsive-sm table-hover" id="command" >
                 <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -142,6 +142,11 @@
     <script>
         $('select').change(function(){
             this.form.submit();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#command').DataTable();
         });
     </script>
 @endsection
