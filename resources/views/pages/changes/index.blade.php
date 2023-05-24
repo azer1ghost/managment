@@ -27,7 +27,7 @@
                         <a class="btn btn-outline-success float-right" href="{{route('changes.create')}}">@lang('translates.buttons.create')</a>
                     </div>
                 @endcan
-                <table class="table table-responsive-sm table-hover">
+                <table class="table table-responsive-sm table-hover" id="changes">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -49,7 +49,7 @@
                          <tr>
 
                             <td>{{$loop->iteration}}</td>
-                            <td>{{optional($change->getAttribute('datetime'))->format('d/m/y')}}</td>
+                            <td>{{optional($change->getAttribute('datetime'))->format('Y-m-d')}}</td>
                             <td>{{$change->getRelationValue('users')->getAttribute('fullname')}}</td>
                             <td>{{$change->getRelationValue('departments')->getAttribute('name') ?? trans('translates.general.all_departments')}}</td>
                             <td>{{$change->getAttribute('description')}}</td>
@@ -98,4 +98,9 @@
                         {{$changes->appends(request()->input())->links()}}
                     </div>
             </div>
+    <script>
+        $(document).ready(function () {
+            $('#changes').DataTable();
+        });
+    </script>
 @endsection

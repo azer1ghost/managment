@@ -55,7 +55,7 @@
                 </form>
             </div>
 
-            <table class="table table-responsive-sm table-hover" id="command" >
+            <table class="table table-responsive-sm table-hover" id="command">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -73,7 +73,7 @@
                      <tr id="item-{{$command->getAttribute('id')}}">
                          <td @if(request()->get('limit') == 'all') class="sortable" @endif>{{$command->getAttribute('ordering') + 1}}</td>
                         <td>{{$command->getAttribute('number')}}</td>
-                        <td>{{optional($command->getAttribute('command_date'))->format('d/m/y')}}</td>
+                        <td>{{optional($command->getAttribute('command_date'))->format('Y-m-d')}}</td>
                         <td>{{$command->getAttribute('content')}}</td>
                          <td style="word-break: break-word; ">
                          @foreach($command->users as $user)
