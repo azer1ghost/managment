@@ -36,7 +36,7 @@
                         <button class="btn btn-outline-success float-left" type="submit">Mobil Logistics</button>
                     </form>
                 </div>
-            <table class="table table-responsive-sm table-hover">
+            <table id="regLog" class="table table-responsive-sm table-hover">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -187,6 +187,11 @@
                 });
             });
         }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#regLog').DataTable();
+        });
     </script>
 
 @endsection
