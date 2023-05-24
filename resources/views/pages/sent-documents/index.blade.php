@@ -55,7 +55,7 @@
                             <th>{{$loop->iteration}}</th>
                             <td>{{$sentDocument->getRelationValue('companies')->getAttribute('name')}}</td>
                             <td>{{$sentDocument->getAttribute('overhead_num')}}</td>
-                            <td>{{optional($sentDocument->getAttribute('sent_date'))->format('d/m/y')}}</td>
+                            <td>{{optional($sentDocument->getAttribute('sent_date'))->format('Y-m-d')}}</td>
                             <td>{{$sentDocument->getAttribute('organization')}}</td>
                             <td>{{$sentDocument->getAttribute('content')}}</td>
                             <td>{{$sentDocument->getAttribute('note')}}</td>
