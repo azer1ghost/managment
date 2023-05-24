@@ -212,7 +212,7 @@
                 <h6 class="mb-2 text-center"><span class="companyName"></span> və <span class="clientName"></span> arasında bağlanan <span class="contractDate"></span> tarixli</h6>
                 <h6 class="mb-2 text-center">&numero; <span class="contractNo"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Müqaviləyə əlavə</h6>
                 <br>
-                <table class="table table-bordered tabelBorder">
+                <table class="table table-borderless tabelBorder">
                     <thead>
                     <tr>
                         <th class="tabelBorder">Sıra &numero;</th>
@@ -315,7 +315,7 @@
                 <h6 class=" mb-2 text-center"><span class="companyName"></span> və <span class="clientName"></span> arasında bağlanan &numero; <span class="contractDate"></span>  tarixli</h6>
                 <h6 class=" mb-2 text-center">müqaviləyə əsasən göstərilən xidmətlərin Təhvil-Təslim aktı &numero; <span class="invoiceNo"></span></h6>
                 <br>
-                <table class="table table-bordered tabelBorder">
+                <table class="table table-borderless tabelBorder">
                     <thead>
                     <tr>
                         <th class="tabelBorder">Sıra &numero;</th>
