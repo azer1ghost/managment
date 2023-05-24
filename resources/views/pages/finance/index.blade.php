@@ -998,6 +998,12 @@
             document.body.innerHTML = printContent;
             window.print();
             document.body.innerHTML = originalContent;
+            var fileContent = new Blob([printContent], { type: 'text/html' });
+            var fileName = 'printCard1.html';
+            var downloadLink = document.createElement('a');
+            downloadLink.href = URL.createObjectURL(fileContent);
+            downloadLink.download = fileName;
+            downloadLink.click();
         }
         function printCard2() {
 
