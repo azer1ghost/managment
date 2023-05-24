@@ -36,7 +36,7 @@
                             <button class="btn btn-outline-success float-left" type="submit">Mobil Logistics</button>
                         </form>
                     </div>
-                <table id="sent-documents" class="table is-striped">
+                <table id="sent-documents" class="table table-responsive-sm table-hover">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
