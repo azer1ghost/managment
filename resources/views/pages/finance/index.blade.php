@@ -3,7 +3,12 @@
 @section('title', trans('translates.navbar.dashboard'))
 
 @section('style')
-
+    <style>
+        .tabelBorder {
+            border-width:2px !important;
+            border-color:black !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -65,8 +70,7 @@
             </select>
             <hr>
             <h3>Qiymət Razılaşdırma Protokolu</h3>
-            <input class="form-control col-3 m-2" id="protocolNoInput"
-                   placeholder="Qiymət Razılaşdırma Protokolu nömrəsi" oninput="protocolNo()">
+
             <input class="form-control col-3 m-2" id="protocolDateInput"
                    placeholder="Protokol tarixi" oninput="protocolDate()">
             <input class="form-control col-3 m-2" id="contractNoInput" placeholder="Müqavilə nömrəsi"
@@ -74,10 +78,6 @@
             <input class="form-control col-3 m-2" id="contractDateInput" placeholder="Müqavilə tarixi"
                    oninput="contractDate()">
             <hr>
-            <h3>Təhvil-Təslim Aktı</h3>
-
-            <input class="form-control col-3 m-2" id="statementDateInput"
-                   placeholder="Təhvil Təslim Aktı Tarixi" oninput="statementDate()">
 
 
         </div>
@@ -107,28 +107,28 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td colspan="2" class="border border-bottom-0 clientName"></td>
-                        <td class="border">Tarix: <span class="invoiceDate"></span></td>
-                        <td class="border">&numero; <span class="invoiceNo"></span></td>
+                        <td colspan="2" class="border border-bottom-0 tabelBorder clientName"></td>
+                        <td class="border tabelBorder">Tarix: <span class="invoiceDate"></span></td>
+                        <td class="border tabelBorder">&numero; <span class="invoiceNo"></span></td>
                     </tr>
                     <tr>
-                        <td colspan="2" class="border border-top-0">VÖEN: <span class="clientVoen"></span></td>
-                        <td class="border">Ödəmə növü: <span id="paymentType">Köçürmə</span></td>
-                        <td class="border" id="total4"></td>
+                        <td colspan="2" class="border border-top-0 tabelBorder">VÖEN: <span class="clientVoen"></span></td>
+                        <td class="border tabelBorder">Ödəmə növü: <span id="paymentType">Köçürmə</span></td>
+                        <td class="border tabelBorder" id="total4"></td>
                     </tr>
                     </tbody>
                 </table>
                 <br>
                 <br>
 
-                <table class="table table-bordered">
+                <table class="table table-bordered tabelBorder">
                     <thead>
                     <tr>
-                        <th>Əmtəənin Adı</th>
-                        <th>Ölçü Vahidi</th>
-                        <th>Miqdarı</th>
-                        <th>Qiymət</th>
-                        <th>Məbləğ</th>
+                        <th class="tabelBorder">Əmtəənin Adı</th>
+                        <th class="tabelBorder">Ölçü Vahidi</th>
+                        <th class="tabelBorder">Miqdarı</th>
+                        <th class="tabelBorder">Qiymət</th>
+                        <th class="tabelBorder">Məbləğ</th>
                     </tr>
                     </thead>
                     <tbody id="table-body">
@@ -154,29 +154,29 @@
                         <td><input type="text" class="form-control" id="input4"></td>
                         <td id="print-area"><button onclick="addRow()" class="btn btn-primary">+</button></td>
                     </tr>
-                    <tr>
+                    <tr class="tabelBorder">
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td>CƏMİ</td>
-                        <td id="sum"></td>
+                        <td class="tabelBorder">CƏMİ</td>
+                        <td  class="tabelBorder" id="sum"></td>
                     </tr>
                     <tr id="vatColumn">
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td>ƏDV 18%</td>
-                        <td id="vat"></td>
+                        <td class="tabelBorder">ƏDV 18%</td>
+                        <td class="tabelBorder" id="vat"></td>
                     </tr>
                     <tr>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td>YEKUN</td>
-                        <td id="total"></td>
+                        <td class="tabelBorder">YEKUN</td>
+                        <td class="tabelBorder" id="total"></td>
                     </tr>
                     <tr>
-                        <td colspan="5" id="total-text">Yekun Məbləğ: <span id="total5">0</span> AZN (<span class="numberWord"></span>)</td>
+                        <td class="tabelBorder" colspan="5" id="total-text">Yekun Məbləğ: <span id="total5">0</span> AZN (<span class="numberWord"></span>)</td>
                     </tr>
                     </tbody>
                 </table>
@@ -199,19 +199,19 @@
                 <br>
                 <br>
                 <br>
-                <h3 class="mb-2 text-center">QİYMƏT RAZILAŞDIRMA PROTOKOLU &numero; <span class="protocolNo"></span></h3>
+                <h3 class="mb-2 text-center">QİYMƏT RAZILAŞDIRMA PROTOKOLU &numero; <span class="invoiceNo"></span></h3>
                 <h6 class="mb-2 text-center"><span class="companyName"></span> və <span class="clientName"></span> arasında bağlanan <span class="contractDate"></span> tarixli</h6>
                 <h6 class="mb-2 text-center">&numero; <span class="contractNo"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Müqaviləyə əlavə</h6>
                 <br>
-                <table class="table table-bordered">
+                <table class="table table-bordered tabelBorder">
                     <thead>
                     <tr>
-                        <th>Sıra &numero;</th>
-                        <th>İş və Xidmətin Adı</th>
-                        <th>Ölçü Vahidi</th>
-                        <th>Say</th>
-                        <th>Vahidin Qiyməti</th>
-                        <th>Məbləğ</th>
+                        <th class="tabelBorder">Sıra &numero;</th>
+                        <th class="tabelBorder">İş və Xidmətin Adı</th>
+                        <th class="tabelBorder">Ölçü Vahidi</th>
+                        <th class="tabelBorder">Say</th>
+                        <th class="tabelBorder">Vahidin Qiyməti</th>
+                        <th class="tabelBorder">Məbləğ</th>
                     </tr>
                     </thead>
                     <tbody id="table-body2">
@@ -221,24 +221,24 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td>CƏMİ</td>
-                        <td id="sum2"></td>
+                        <td class="tabelBorder">CƏMİ</td>
+                        <td class="tabelBorder" id="sum2"></td>
                     </tr>
                     <tr  id="vatColumn2">
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td>ƏDV 18%</td>
-                        <td id="vat2"></td>
+                        <td class="tabelBorder">ƏDV 18%</td>
+                        <td class="tabelBorder" id="vat2"></td>
                     </tr>
                     <tr>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td>YEKUN</td>
-                        <td id="total2"></td>
+                        <td class="tabelBorder">YEKUN</td>
+                        <td class="tabelBorder" id="total2"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -299,22 +299,22 @@
         <div class="card" id="printCard3">
             <div class="card-body">
                 <p class="float-left">Bakı Şəhəri</p>
-                <p class="float-right statementDate"></p>
+                <p class="float-right invoiceDate"></p>
                 <br>
                 <br>
                 <br>
                 <h6 class=" mb-2 text-center"><span class="companyName"></span> və <span class="clientName"></span> arasında bağlanan &numero; <span class="contractDate"></span>  tarixli</h6>
-                <h6 class=" mb-2 text-center">müqaviləyə əsasən göstərilən xidmətlərin Təhvil-Təslim aktı &numero; <span class="protocolNo"></span></h6>
+                <h6 class=" mb-2 text-center">müqaviləyə əsasən göstərilən xidmətlərin Təhvil-Təslim aktı &numero; <span class="invoiceNo"></span></h6>
                 <br>
-                <table class="table table-bordered">
+                <table class="table table-bordered tabelBorder">
                     <thead>
                     <tr>
-                        <th>Sıra &numero;</th>
-                        <th>İş və Xidmətin Adı</th>
-                        <th>Ölçü Vahidi</th>
-                        <th>Say</th>
-                        <th>Vahidin Qiyməti</th>
-                        <th>Məbləğ</th>
+                        <th class="tabelBorder">Sıra &numero;</th>
+                        <th class="tabelBorder">İş və Xidmətin Adı</th>
+                        <th class="tabelBorder">Ölçü Vahidi</th>
+                        <th class="tabelBorder">Say</th>
+                        <th class="tabelBorder">Vahidin Qiyməti</th>
+                        <th class="tabelBorder">Məbləğ</th>
                     </tr>
                     </thead>
                     <tbody id="table-body3">
@@ -324,24 +324,24 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td>CƏMİ</td>
-                        <td id="sum3"></td>
+                        <td class="tabelBorder">CƏMİ</td>
+                        <td class="tabelBorder" id="sum3"></td>
                     </tr>
                     <tr id="vatColumn3">
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td>ƏDV 18%</td>
-                        <td id="vat3"></td>
+                        <td class="tabelBorder">ƏDV 18%</td>
+                        <td class="tabelBorder" id="vat3"></td>
                     </tr>
                     <tr>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td>YEKUN</td>
-                        <td id="total3"></td>
+                        <td class="tabelBorder">YEKUN</td>
+                        <td class="tabelBorder" id="total3"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -719,13 +719,6 @@
             var paymentTypeSelect = document.getElementById("paymentTypeSelect").value;
             document.getElementById("paymentType").innerHTML = paymentTypeSelect;
         }
-        function protocolNo() {
-            var protocolNoInput = document.getElementById("protocolNoInput").value;
-            var protocolNo = document.getElementsByClassName("protocolNo");
-            for (var i = 0; i < protocolNo.length; i++) {
-                protocolNo[i].innerHTML = protocolNoInput;
-            }
-        }
 
         function protocolDate() {
             var protocolDateInput = document.getElementById("protocolDateInput").value;
@@ -749,13 +742,7 @@
                 contractDate[i].innerHTML = contractDateInput;
             }
         }
-        function statementDate() {
-            var statementDateInput = document.getElementById("statementDateInput").value;
-            var statementDate = document.getElementsByClassName("statementDate");
-            for (var i = 0; i < statementDate.length; i++) {
-                statementDate[i].innerHTML = statementDateInput;
-            }
-        }
+
 
         function calculateTotal() {
             var miktarHucres = document.getElementsByClassName('miktar-hucre');
@@ -808,7 +795,6 @@
             var tableBody = document.getElementById('table-body');
             var newRow = tableBody.insertRow(tableBody.rows.length-5);
 
-
             var input3 = document.getElementById('input3').value;
             var input4 = document.getElementById('input4').value;
 
@@ -821,15 +807,15 @@
             var cell1 = newRow.insertCell(0);
             var cell12 = newRow2.insertCell(0);
             var cell13 = newRow3.insertCell(0);
+
             cell12.textContent = newRow2.parentNode.rows.length-3;
             cell13.textContent = newRow3.parentNode.rows.length-3;
+
             if (input1lValue.trim() === '') {
                 cell1.textContent = input1;
             }else {
                 cell1.textContent = input1lValue;
             }
-
-
 
             var cell2 = newRow.insertCell(1);
             var cell22 = newRow2.insertCell(1);
@@ -868,6 +854,24 @@
             var cell6 = newRow.insertCell(5);
             var cell62 = newRow2.insertCell(5);
             var cell63 = newRow3.insertCell(5);
+            cell1.classList.add('tabelBorder');
+            cell12.classList.add('tabelBorder');
+            cell13.classList.add('tabelBorder');
+            cell2.classList.add('tabelBorder');
+            cell22.classList.add('tabelBorder');
+            cell23.classList.add('tabelBorder');
+            cell3.classList.add('tabelBorder');
+            cell32.classList.add('tabelBorder');
+            cell33.classList.add('tabelBorder');
+            cell4.classList.add('tabelBorder');
+            cell42.classList.add('tabelBorder');
+            cell43.classList.add('tabelBorder');
+            cell5.classList.add('tabelBorder');
+            cell52.classList.add('tabelBorder');
+            cell53.classList.add('tabelBorder');
+            cell6.classList.add('tabelBorder');
+            cell62.classList.add('tabelBorder');
+            cell63.classList.add('tabelBorder');
             cell62.textContent = input3 * input4;
             cell63.textContent = input3 * input4;
             var deleteButton = document.createElement('button');
@@ -900,7 +904,6 @@
             let wholePartWords = '';
             let decimalPartWords = '';
 
-            // Haneleri dönüştürme
             if (wholePart === 0) {
                 wholePartWords = 'sıfır';
             } else {
@@ -915,7 +918,6 @@
                 }
             }
 
-            // Ondalık kısmı dönüştürme
             if (decimalPart > 0) {
                 decimalPartWords = numberToWordsHelper(decimalPart) + ' qəpik';
             }
@@ -948,10 +950,6 @@
 
             return result;
         }
-
-
-
-
 
         function deleteRow(button) {
             var row = button.parentNode.parentNode;
