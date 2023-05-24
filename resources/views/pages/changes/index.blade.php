@@ -98,6 +98,9 @@
                         {{$changes->appends(request()->input())->links()}}
                     </div>
             </div>
+
+@endsection
+@section('scripts')
     <script>
         $(document).ready(function () {
             $('#changes').DataTable();
