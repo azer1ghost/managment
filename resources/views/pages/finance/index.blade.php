@@ -473,7 +473,7 @@
                 var bvoen = "9900003611"
                 var swift = "AIIBAZ2XXXX"
                 var who = "Vüsal Xəlilov İbrahim oğlu"
-                var whoFooter = "V.İ.Xəlolov"
+                var whoFooter = "V.İ.Xəlilov"
             }else if (company == 'mbrokerRespublika'){
                 var companyName = "\"Mobil Broker\" MMC"
                 var voen = "1804705371"
@@ -484,7 +484,7 @@
                 var bvoen = "9900001901"
                 var swift = "BRESAZ22"
                 var who = "Vüsal Xəlilov İbrahim oğlu"
-                var whoFooter = "V.İ.Xəlolov"
+                var whoFooter = "V.İ.Xəlilov"
             }else if (company == 'garantKapital'){
                 var companyName = "\"Garant Broker\" MMC"
                 var voen = "1803974481"
