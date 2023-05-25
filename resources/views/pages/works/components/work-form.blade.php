@@ -27,7 +27,7 @@
                         <div class="form-group col-12 col-md-3">
                             <label for="declaration_no">Sorğu nömrəsi</label>
                             <input value="{{optional($data)->getAttribute('declaration_no')}}" type="text" name="declaration_no" id="declaration_no" class="form-control" placeholder="Sorğu nömrəsi daxil edin"
-                                   @if(!auth()->user()->hasPermission('canRedirect-work') && optional($data)->getAttribute('status') > 1) required @endif
+                                   @if(!auth()->user()->hasPermission('canRedirect-work') && optional($data)->getAttribute('status') > 2) required @endif
                             >
                         </div>
                     @endif
