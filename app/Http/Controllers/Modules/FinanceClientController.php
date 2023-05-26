@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Models\FinanceClient;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 
 class FinanceClientController extends Controller
@@ -37,13 +38,49 @@ class FinanceClientController extends Controller
         ];
 
         FinanceClient::create($data);
-        return response()->json(['message' => 'Müşteri yaratıldı'], 200);
+        return response()->json(['message' => 'Client Created'], 200);
+    }
 
+    public function createFinanceInvoice(Request $request)
+    {
+
+        $company = $request->get('company');
+        $client = $request->get('client');
+        $invoiceNo = $request->get('invoiceNo');
+        $invoiceDate = $request->get('invoiceDate');
+        $paymentType = $request->get('paymentType');
+        $protocolDate = $request->get('protocolDate');
+        $contractNo = $request->get('contractNo');
+        $contractDate = $request->get('contractDate');
+        $services = json_encode($request->get('services'));
+
+        $data = [
+            'company' => $company,
+            'client' => $client,
+            'invoiceNo' => $invoiceNo,
+            'invoiceDate' => $invoiceDate,
+            'paymentType' => $paymentType,
+            'protocolDate' => $protocolDate,
+            'contractNo' => $contractNo,
+            'contractDate' => $contractDate,
+            'services' => $services,
+        ];
+
+        Invoice::create($data);
+        return response()->json(['message' => $company], 200);
     }
 
     public function getClients()
     {
         $clients = FinanceClient::get();
         return response()->json($clients);
+    }
+    public function invoices()
+    {
+        return view('pages.finance.invoices')->with(['invoices' => Invoice::get()]);
+    }
+    public function financeInvoice(Invoice $invoice)
+    {
+        return view('pages.finance.invoice')->with(['data' => $invoice]);
     }
 }
