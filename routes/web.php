@@ -238,6 +238,9 @@ Route::group([
     Route::get('/account-invoice',[FinanceClientController::class, 'index'] )->name('accountInvoice');
     Route::get('/getClients',[FinanceClientController::class, 'getClients'] )->name('getClients');
     Route::post('/createFinanceClient',[FinanceClientController::class, 'createFinanceClient'] )->name('createFinanceClient');
+    Route::post('/createFinanceInvoice',[FinanceClientController::class, 'createFinanceInvoice'] )->name('createFinanceInvoice');
+    Route::get('/financeInvoice/{invoice}',[FinanceClientController::class, 'financeInvoice'] )->name('financeInvoice');
+    Route::get('/invoices',[FinanceClientController::class, 'invoices'] )->name('invoices');
     Route::view('/instruction','pages.instructions.index' )->name('instruction');
     Route::view('/presentations','pages.instructions.presentations' )->name('presentations');
     Route::view('/structure','pages.instructions.structure' )->name('structure');
@@ -254,7 +257,6 @@ Route::group([
     Route::post('/chatRoom', [RoomController::class, 'chatRoom'])->name('room-chat');
     Route::post('/sendMessage', [RoomController::class, 'sendMessage'])->name('sendMessage-room');
     Route::get('/getMessage',  [RoomController::class, 'getMessage']);
-//    Route::resource('/notes', NoteController::class);
     Route::get('/notes', [NoteController::class, 'index'])->name('note-index');
     Route::post('/sendNote', [NoteController::class, 'sendNote'])->name('sendNote-note');
     Route::get('/getNotes',  [NoteController::class, 'getNote']);
@@ -264,9 +266,6 @@ Route::group([
     Route::get('/getToDos',  [\App\Http\Controllers\Modules\ToDoController::class, 'getToDo']);
     Route::post('/updateToDo',  [\App\Http\Controllers\Modules\ToDoController::class, 'updateToDo']);
     Route::post('/deleteToDo',  [\App\Http\Controllers\Modules\ToDoController::class, 'deleteToDo']);
-
-
-
     // resultable routes
     Route::post('/results/{modelId}', [ResultController::class, 'store'])->name('results.store');
     Route::put('/results/{result}',   [ResultController::class, 'update'])->name('results.update');

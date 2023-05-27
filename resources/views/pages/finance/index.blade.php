@@ -23,7 +23,7 @@
 @section('content')
     <div class="text-center container">
         <div class="card">
-
+            <a href="{{ route('invoices') }}" class="btn btn-dark float-right">Şablonlar</a>
             <h3>Rekvizitlər</h3>
             <select class="form-control col-3 m-2" id="companies" onchange="changeCompany()">
                 <option value="">Şirkət Seçin</option>
@@ -95,6 +95,7 @@
     <div class="container">
         <br>
         <button onclick="printCard1()" class="btn btn-primary float-right">Print</button>
+        <button class="btn btn-success col-1 m-2" onclick="createInvoice()">+</button>
         <div class="card" id="printCard1">
             <div class="card-body">
                 <h2 class="text-center companyName" id="companyName"></h2>
@@ -384,9 +385,33 @@
         </div>
     </div>
 @endsection
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 
 @section('scripts')
     <script>
+        var urlParams = new URLSearchParams(window.location.search);
+        var company = urlParams.get('company');
+        var client = urlParams.get('client');
+        var invoiceNoUrl = urlParams.get('invoiceNoUrl');
+        var invoiceDateUrl = urlParams.get('invoiceDateUrl');
+        var methodUrl = urlParams.get('methodUrl');
+        var contractNoUrl = urlParams.get('contractNoUrl');
+        var protocolUrl = urlParams.get('protocolUrl');
+        var contractDateUrl = urlParams.get('contractDateUrl');
+        var savedRows = [];
+
+        window.onload = function() {
+
+
+            if (company) {
+                var companiesSelect = document.getElementById('companies');
+                companiesSelect.value = company;
+            }
+
+
+            changeCompany();
+
+        };
         axios.get('/module/getClients')
             .then(response => {
                 const clients = response.data;
@@ -407,33 +432,54 @@
                     optionElement.textContent = client.name;
                     selectElement.appendChild(optionElement);
                 });
+                // var urlParams = new URLSearchParams(window.location.search);
+                const selectedClientId = client; // Örnek bir clientId
 
-                selectElement.addEventListener('change', function() {
-                    const selectedClientId = this.value;
-                    const selectedClient = clients.find(client => client.id.toString() === selectedClientId);
+                for (let i = 0; i < selectElement.options.length; i++) {
+                    const option = selectElement.options[i];
 
-                    if (selectedClient) {
-                        clientNameInput.value = selectedClient.name;
-                        clientVoenInput.value = selectedClient.voen;
-                        clienthhInput.value = selectedClient.hn;
-                        clientmhInput.value = selectedClient.mh;
-                        clientCodeInput.value = selectedClient.code;
-                        clientBankInput.value = selectedClient.bank;
-                        clientBvoenInput.value = selectedClient.bvoen;
-                        clientSwiftInput.value = selectedClient.swift;
-                        clientWhoInput.value = selectedClient.orderer;
-                        clientName();
-                        clientVoen();
-                        clienthh();
-                        clientmh();
-                        clientCode();
-                        clientBank();
-                        clientBvoen();
-                        clientSwift();
-                        clientWho();
+                    if (option.value === selectedClientId) {
+                        option.selected = true;
+                        selectInitialClient()
+
+                        break;
                     }
-                });
+                }
+
+                    function selectInitialClient() {
+                        const selectedClientId = selectElement.value;
+                        const selectedClient = clients.find(client => client.id.toString() === selectedClientId);
+
+                        if (selectedClient) {
+                            clientNameInput.value = selectedClient.name;
+                            clientVoenInput.value = selectedClient.voen;
+                            clienthhInput.value = selectedClient.hn;
+                            clientmhInput.value = selectedClient.mh;
+                            clientCodeInput.value = selectedClient.code;
+                            clientBankInput.value = selectedClient.bank;
+                            clientBvoenInput.value = selectedClient.bvoen;
+                            clientSwiftInput.value = selectedClient.swift;
+                            clientWhoInput.value = selectedClient.orderer;
+                            clientName();
+                            clientVoen();
+                            clienthh();
+                            clientmh();
+                            clientCode();
+                            clientBank();
+                            clientBvoen();
+                            clientSwift();
+                            clientWho();
+                        }
+                    }
+                    selectElement.addEventListener('change', function() {
+                        selectInitialClient();
+                    });
+
+                    window.onload = function() {
+                        selectInitialClient();
+                    };
             })
+
             .catch(error => {
                 console.log(error);
             });
@@ -890,7 +936,13 @@
                 deleteRow(this);
             };
             cell6.appendChild(deleteButton);
+            var newRowData = {
+                input1: input1lValue.trim() === '' ? input1 : input1lValue,
+                input3: input3,
+                input4: input4
+            };
 
+            savedRows.push(newRowData);
             document.getElementById('input1').value = '';
             document.getElementById('input3').value = '';
             document.getElementById('input4').value = '';
@@ -985,6 +1037,35 @@
 
             calculateTotal();
         }
+
+        function createInvoice() {
+
+            // console.log(document.getElementById('paymentTypeSelect').value)
+            $.ajax({
+                url: '/module/createFinanceInvoice',
+                type: 'POST',
+                data: {
+                    company: document.getElementById('companies').value,
+                    client: document.getElementById('clientSelect').value,
+                    invoiceNo: document.getElementById('invoiceNoInput').value,
+                    invoiceDate: document.getElementById("protocolDateInput").value,
+                    paymentType: document.getElementById('paymentTypeSelect').value,
+                    protocolDate: document.getElementById('protocolDateInput').value,
+                    contractNo: document.getElementById('contractNoInput').value,
+                    contractDate: document.getElementById('contractDateInput').value,
+                    services: savedRows
+                },
+                success: function(response) {
+                    console.log('Invoice yaratıldı:', response);
+                    // ...
+                },
+                error: function(error) {
+                    console.log('Invoice yaratılırken hata oluştu:', error);
+                }
+            });
+
+        }
+
         function printCard1() {
             document.getElementById('print-area').style.display = 'none';
             document.getElementById('form-area').style.display = 'none';
@@ -995,14 +1076,13 @@
 
             var printContent = document.getElementById('printCard1').innerHTML;
             var originalContent = document.body.innerHTML;
+
             document.body.innerHTML = printContent;
             window.print();
             document.body.innerHTML = originalContent;
         }
         function printCard2() {
-
             document.getElementById('print-area').style.display = 'none';
-
             var printContent = document.getElementById('printCard2').innerHTML;
             var originalContent = document.body.innerHTML;
             document.body.innerHTML = printContent;
@@ -1011,8 +1091,6 @@
         }
         function printCard3() {
             document.getElementById('print-area').style.display = 'none';
-
-
             var printContent = document.getElementById('printCard3').innerHTML;
             var originalContent = document.body.innerHTML;
             document.body.innerHTML = printContent;
