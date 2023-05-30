@@ -524,7 +524,7 @@ class WorkController extends Controller
     public function verifyFinance(Work $work)
     {
         if ($work->update(['verified_at' => now()])) {
-            return response('OK');
+            return back();
         }
         return response()->setStatusCode('204');
     }
