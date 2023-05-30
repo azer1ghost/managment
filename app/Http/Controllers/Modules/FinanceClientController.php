@@ -83,4 +83,12 @@ class FinanceClientController extends Controller
     {
         return view('pages.finance.invoice')->with(['data' => $invoice]);
     }
+
+    public function deleteInvoice(Invoice $invoice)
+    {
+        if ($invoice->delete()) {
+            return back();
+        }
+        return response()->setStatusCode('204');
+    }
 }

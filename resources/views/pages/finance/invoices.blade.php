@@ -21,7 +21,10 @@
                 <tr>
                     <td>{{$invoice->getAttribute('invoiceNo')}}</td>
                     <td>{{$invoice->getRelationValue('financeClients')->getAttribute('name')}}</td>
-                    <td><a class="btn btn-success" href="{{ route('financeInvoice', $invoice->getAttribute('id')) }}">Bax</a></td>
+                    <td>
+                        <a class="btn btn-success" href="{{ route('financeInvoice', $invoice->getAttribute('id')) }}">Bax</a>
+                        <a class="btn btn-danger" href="{{ route('deleteInvoice', $invoice->getAttribute('id')) }}">Sil</a>
+                    </td>
                 </tr>
             @endforeach
 
