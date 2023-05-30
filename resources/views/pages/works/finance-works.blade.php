@@ -417,7 +417,7 @@
                                     @endcan
                                 @endif
                                 @if(auth()->user()->hasPermission('canVerify-work'))
-                                    <a href="{{route('works.verify', $work)}}" verify data-name="{{$work->getAttribute('id')}}" class="dropdown-item-text text-decoration-none">
+                                    <a href="{{route('works.verifyFinance', $work)}}" verify data-name="{{$work->getAttribute('id')}}" class="dropdown-item-text text-decoration-none">
                                         <i class="fal fa-check pr-2 text-success"></i>@lang('translates.buttons.verify')
                                     </a>
                                     <a data-toggle="modal" data-target="#paidModal-{{$work->getAttribute('id')}}" class="dropdown-item-text text-decoration-none">

@@ -520,6 +520,15 @@ class WorkController extends Controller
         return response()->setStatusCode('204');
     }
 
+
+    public function verifyFinance(Work $work)
+    {
+        if ($work->update(['verified_at' => now()])) {
+            return back();
+        }
+        return response()->setStatusCode('204');
+    }
+
     public function paid(Work $work, Request $request)
     {
         $date = $request->get('paid_at') ?? now();
