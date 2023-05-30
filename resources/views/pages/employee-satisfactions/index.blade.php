@@ -13,7 +13,14 @@
     </x-bread-crumb>
     <form action="{{route('employee-satisfaction.index')}}">
         <div class="row d-flex justify-content-between">
-            <div class="form-group col-md-3">
+
+            <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
+                <label for="daterange">@lang('translates.filters.date')</label>
+                <input type="text" readonly placeholder="@lang('translates.placeholders.range')" name="created_at"
+                       value="{{$created_at}}" id="daterange" class="form-control">
+            </div>
+
+            <div class="form-group col-md-3 mb-3 mb-md-0">
                 <label for="type">@lang('translates.employee_satisfactions.satisfaction_types')</label>
                 <select class="form-control" id="type" name="type" style="width: 100% !important;">
                     <option value="">@lang('translates.filters.select')</option>
@@ -22,7 +29,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-3 mb-3 mb-md-0">
                 <label for="status">@lang('translates.columns.status')</label>
                 <select class="form-control" id="status" name="status" style="width: 100% !important;">
                     <option value="">@lang('translates.filters.select')</option>
@@ -30,6 +37,9 @@
                         <option value="{{$status}}" @if(request()->get('status') == $status) selected @endif>@lang('translates.employee_satisfactions.statuses.' . $status)</option>
                     @endforeach
                 </select>
+            </div>
+            <div class="col-2">
+                <button class="btn btn-outline-primary" type="submit">@lang('translates.buttons.filter')</button>
             </div>
             <div class="form-group col-md-3">
                 <label for="limit">@lang('translates.fields.count')</label>

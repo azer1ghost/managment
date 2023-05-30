@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Events\EmployeeSatisfactionCreated;
 use App\Http\Requests\EmployeeSatisfactionRequest;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use App\Models\EmployeeSatisfaction;
 use App\Http\Controllers\Controller;
@@ -23,20 +24,29 @@ class EmployeeSatisfactionController extends Controller
         $limit = $request->get('limit', 25);
         $type = $request->get('type');
         $status = $request->get('status');
+
         $employeeSatisfaction = EmployeeSatisfaction::query()->with('users');
         if (!auth()->user()->hasPermission('measure-employeeSatisfaction')) {
             $employeeSatisfaction = $employeeSatisfaction->where('user_id', auth()->id())->orWhere('type', 3);
         }
+        if($request->has('created_at')){
+            $created_at = $request->get('created_at');
+        }else{
+            $created_at = now()->firstOfYear()->format('Y/m/d') . ' - ' . now()->endOfYear()->format('Y/m/d');
+        }
+        [$from, $to] = explode(' - ', $created_at);
 
         return view('pages.employee-satisfactions.index')
             ->with([
                 'employeeSatisfactions' => $employeeSatisfaction
+                    ->when($request->has('created_at'), fn($query) => $query->whereBetween('created_at', [Carbon::parse($from)->startOfDay(), Carbon::parse($to)->endOfDay()]))
                     ->when($status, fn ($q) => $q->where('status', $status))
                     ->when($type, fn ($q) => $q->where('type', $type))
                     ->latest('created_at')
                     ->paginate($limit),
+                'created_at' => $created_at,
                 'types' => EmployeeSatisfaction::types(),
-                'statuses' => EmployeeSatisfaction::statuses()
+                'statuses' => EmployeeSatisfaction::statuses(),
             ]);
     }
 
