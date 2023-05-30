@@ -181,6 +181,7 @@ Route::group([
 
     Route::put('/works/sum/verify', [WorkController::class, 'sumVerify'])->name('works.sum.verify');
     Route::put('/works/{work}/verify', [WorkController::class, 'verify'])->name('works.verify');
+    Route::get('/worksFinance/{work}/verify', [WorkController::class, 'verifyFinance'])->name('works.verifyFinance');
     Route::put('/works/{work}/paid', [WorkController::class, 'paid'])->name('works.paid');
     Route::put('/works/{work}/vatPaid', [WorkController::class, 'vatPaid'])->name('works.vatPaid');
     Route::put('/works/{work}/invoice', [WorkController::class, 'invoice'])->name('works.invoice');
@@ -240,7 +241,7 @@ Route::group([
     Route::post('/createFinanceClient',[FinanceClientController::class, 'createFinanceClient'] )->name('createFinanceClient');
     Route::post('/createFinanceInvoice',[FinanceClientController::class, 'createFinanceInvoice'] )->name('createFinanceInvoice');
     Route::get('/financeInvoice/{invoice}',[FinanceClientController::class, 'financeInvoice'] )->name('financeInvoice');
-    Route::get('/deleteInvoice/{invoice}',[FinanceClientController::class, 'deleteInvoice'] )->name('deleteInvoice');
+//    Route::get('/deleteInvoice/{invoice}',[FinanceClientController::class, 'deleteInvoice'] )->name('deleteInvoice');
     Route::get('/invoices',[FinanceClientController::class, 'invoices'] )->name('invoices');
     Route::view('/instruction','pages.instructions.index' )->name('instruction');
     Route::view('/presentations','pages.instructions.presentations' )->name('presentations');
