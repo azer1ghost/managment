@@ -202,6 +202,8 @@
                         <td class="tabelBorder count" contenteditable="true" data-row="{{$loop->iteration}}">{{$service->input3}}</td>
                         <td class="tabelBorder amount" contenteditable="true" data-row="{{$loop->iteration}}">{{$service->input4}}</td>
                         <td class="tabelBorder overal">{{$service->input3 * $service->input4}}</td>
+                        <td class="tabelBorder"><a  onclick="deleteOldRow({{$loop->iteration}})" class="btn btn-danger">Sil</a></td>
+
                     </tr>
                     @endforeach
                     <tr id="form-area">
@@ -590,107 +592,132 @@
 
         calculateTotal();
     }
-        function calculateTotal() {
-            var miktarHucres = $('.miktar-hucre');
-            var sum1 = 0;
+    function deleteOldRow(iteration) {
+        var row = $('[data-row="' + iteration + '"]').closest('tr');
 
-            miktarHucres.each(function() {
-                var miktarHucre = $(this);
-                var value = parseFloat(miktarHucre.text());
-                if (!isNaN(value)) {
-                    sum1 += value;
-                }
-            });
+        var tableBody = $('#table-body');
+        var tableBody2 = $('#table-body2');
+        var tableBody3 = $('#table-body3');
 
-            var sumCell = $('#sum');
-            var vatCell = $('#vat');
-            var totalCell = $('#total');
+        var rowIndex = row.index();
 
-            var edvCompany = $('#companies').val();
-            var edv = (edvCompany !== 'mbrokerRespublika' && edvCompany !== 'mtechnologiesRespublika' && edvCompany !== 'garantRespublika' && edvCompany !== 'garantKapital' && edvCompany !== 'mbrokerKapital') ? 1 : 1.18;
+        tableBody[0].deleteRow(rowIndex);
+        tableBody2[0].deleteRow(rowIndex);
+        tableBody3[0].deleteRow(rowIndex);
 
-            var overallElements = $(".overal");
-            var sum2 = 0;
+        var rows2 = tableBody2[0].rows;
+        var rows3 = tableBody3[0].rows;
 
-            overallElements.each(function() {
-                var count = parseInt($(this).closest("tr").find(".count").text());
-                var amount = parseFloat($(this).closest("tr").find(".amount").text());
-                var overallValue = count * amount;
-                $(this).text(overallValue.toFixed(2));
-                sum2 += overallValue;
-            });
+        for (var i = rowIndex; i < rows2.length; i++) {
+            var row2 = rows2[i];
+            var row3 = rows3[i];
 
-            var getCompany = $("#getCompany").html();
-
-            var sumElement = $(".sum");
-            var vatElement = $(".vat");
-            var totalElement = $(".total");
-
-             var sum = sum1 +sum2
-            sumCell.text(sum.toFixed(2));
-            vatCell.text((sum * 0.18).toFixed(2));
-            totalCell.text((sum * edv).toFixed(2));
-            $('#sum2').html(sum.toFixed(2));
-            $('#vat2').html((sum * 0.18).toFixed(2));
-            $('#total2').html((sum * edv).toFixed(2));
-            $('#sum3').html((sum * edv).toFixed(2));
-            $('#vat3').html((sum * 0.18).toFixed(2));
-            $('#total3').html((sum * edv).toFixed(2));
-            $('#total4').html((sum * edv).toFixed(2));
-            $('#total5').html((sum * edv).toFixed(2));
-            $('#total6').html((sum * edv).toFixed(2));
-            $('#total7').html((sum * edv).toFixed(2));
-
-            if (getCompany !== '\"Mobil Broker\" MMC' && getCompany !== '\"Garant Broker\" MMC' && getCompany !== '\"Mobil Technologies\" MMC') {
-                $("#vatColumn, #vatColumn2, #vatColumn3").hide();
-                var rate = 1;
-            } else {
-                vatElement.text((sum * 0.18).toFixed(2));
-                var rate = 1.18;
-            }
-
-            sumElement.text(sum.toFixed(2));
-            totalElement.text((sum * rate).toFixed(2));
-
-            var numberWord = $('.numberWord');
-            numberWord.html(convertToWords($('#total').html()).toUpperCase());
-
+            row2.cells[0].textContent = i + 1;
+            row3.cells[0].textContent = i + 1;
         }
 
-
-        $(".count, .amount").on("input", function() {
-            calculateTotal();
-        });
-
         calculateTotal();
+    }
+    function calculateTotal() {
+        var miktarHucres = $('.miktar-hucre');
+        var sum1 = 0;
 
-        $('#table-body .count, #table-body .amount').on('input', function() {
-            var row = $(this).data('row');
-            var count = parseFloat($('#table-body td.count[data-row="' + row + '"]').text()) || 0;
-            var amount = parseFloat($('#table-body td.amount[data-row="' + row + '"]').text()) || 0;
-            var overall = count * amount;
+        miktarHucres.each(function() {
+            var miktarHucre = $(this);
+            var value = parseFloat(miktarHucre.text());
+            if (!isNaN(value)) {
+                sum1 += value;
+            }
+        });
 
-            var countCell = "#countCell-" + row
-            var amountCell = "#amountCell-" + row
-            var overallCell = "#overalCell-" + row
-            var count2Cell = "#countCell2-" + row
-            var amount2Cell = "#amountCell2-" + row
-            var overall2Cell = "#overalCell2-" + row
-            $(countCell).text(count)
-            $(amountCell).text(amount)
-            $(overallCell).text(overall)
-            $(count2Cell).text(count)
-            $(amount2Cell).text(amount)
-            $(overall2Cell).text(overall)
+        var sumCell = $('#sum');
+        var vatCell = $('#vat');
+        var totalCell = $('#total');
+
+        var edvCompany = $('#companies').val();
+        var edv = (edvCompany !== 'mbrokerRespublika' && edvCompany !== 'mtechnologiesRespublika' && edvCompany !== 'garantRespublika' && edvCompany !== 'garantKapital' && edvCompany !== 'mbrokerKapital') ? 1 : 1.18;
+
+        var overallElements = $(".overal");
+        var sum2 = 0;
+
+        overallElements.each(function() {
+            var count = parseInt($(this).closest("tr").find(".count").text());
+            var amount = parseFloat($(this).closest("tr").find(".amount").text());
+            var overallValue = count * amount;
+            $(this).text(overallValue.toFixed(2));
+            sum2 += overallValue;
         });
-         $('#invoiceNo').on('input', function() {
-            var invoiceNo = $(this).text();
-            $('.invoiceNo').text(invoiceNo)
-        });
-         $('#invoiceDate').on('input', function() {
-            var invoiceDate = $(this).text();
-            $('.invoiceDate').text(invoiceDate)
-        });
+
+        var getCompany = $("#getCompany").html();
+
+        var sumElement = $(".sum");
+        var vatElement = $(".vat");
+        var totalElement = $(".total");
+
+         var sum = sum1 +sum2
+        sumCell.text(sum.toFixed(2));
+        vatCell.text((sum * 0.18).toFixed(2));
+        totalCell.text((sum * edv).toFixed(2));
+        $('#sum2').html(sum.toFixed(2));
+        $('#vat2').html((sum * 0.18).toFixed(2));
+        $('#total2').html((sum * edv).toFixed(2));
+        $('#sum3').html((sum * edv).toFixed(2));
+        $('#vat3').html((sum * 0.18).toFixed(2));
+        $('#total3').html((sum * edv).toFixed(2));
+        $('#total4').html((sum * edv).toFixed(2));
+        $('#total5').html((sum * edv).toFixed(2));
+        $('#total6').html((sum * edv).toFixed(2));
+        $('#total7').html((sum * edv).toFixed(2));
+
+        if (getCompany !== '\"Mobil Broker\" MMC' && getCompany !== '\"Garant Broker\" MMC' && getCompany !== '\"Mobil Technologies\" MMC') {
+            $("#vatColumn, #vatColumn2, #vatColumn3").hide();
+            var rate = 1;
+        } else {
+            vatElement.text((sum * 0.18).toFixed(2));
+            var rate = 1.18;
+        }
+
+        sumElement.text(sum.toFixed(2));
+        totalElement.text((sum * rate).toFixed(2));
+
+        var numberWord = $('.numberWord');
+        numberWord.html(convertToWords($('#total').html()).toUpperCase());
+
+    }
+
+    $(".count, .amount").on("input", function() {
+        calculateTotal();
+    });
+
+    calculateTotal();
+
+    $('#table-body .count, #table-body .amount').on('input', function() {
+        var row = $(this).data('row');
+        var count = parseFloat($('#table-body td.count[data-row="' + row + '"]').text()) || 0;
+        var amount = parseFloat($('#table-body td.amount[data-row="' + row + '"]').text()) || 0;
+        var overall = count * amount;
+
+        var countCell = "#countCell-" + row
+        var amountCell = "#amountCell-" + row
+        var overallCell = "#overalCell-" + row
+        var count2Cell = "#countCell2-" + row
+        var amount2Cell = "#amountCell2-" + row
+        var overall2Cell = "#overalCell2-" + row
+        $(countCell).text(count)
+        $(amountCell).text(amount)
+        $(overallCell).text(overall)
+        $(count2Cell).text(count)
+        $(amount2Cell).text(amount)
+        $(overall2Cell).text(overall)
+    });
+     $('#invoiceNo').on('input', function() {
+        var invoiceNo = $(this).text();
+        $('.invoiceNo').text(invoiceNo)
+    });
+     $('#invoiceDate').on('input', function() {
+        var invoiceDate = $(this).text();
+        $('.invoiceDate').text(invoiceDate)
+    });
 
     function convertToWords(number) {
         const units = ['', 'bir', 'iki', 'üç', 'dörd', 'beş', 'altı', 'yeddi', 'səkkiz', 'doqquz'];
