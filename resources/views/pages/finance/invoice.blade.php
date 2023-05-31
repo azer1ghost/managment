@@ -148,9 +148,10 @@
     <div class="container">
         <br>
         <button onclick="printCard1()" class="btn btn-primary float-right">Print</button>
+        <button onclick="createInvoice()" class="btn btn-success float-right">+</button>
         <div class="card" id="printCard1">
             <div class="card-body">
-                <h2 class="text-center companyName" id="companyName">{{$companyName}}</h2>
+                <h2 class="text-center companyName" data-company="{{$company}}" id="companyName">{{$companyName}}</h2>
                 <h3 class="text-center">HESAB FAKTURA &numero; <span id="invoiceNo" contenteditable="true">{{$data->getAttribute('invoiceNo')}}</span></h3>
                 <h6 class=" mb-2"><span class="companyName">{{$companyName}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VOEN: <span class="voen">{{$voen}}</span></h6>
                 <h6 class=" mb-2">H/H: <span class="hh">{{$hh}}</span></h6>
@@ -350,7 +351,7 @@
                     <br>
                     <p class="clientName">{{$data->getRelationValue('financeClients')->getAttribute('name')}}</p>
                     <p>VÖEN: <span class="clientVoen">{{$data->getRelationValue('financeClients')->getAttribute('voen')}}</span></p>
-                    <p>H/H: <span class="clienthh">{{$data->getRelationValue('financeClients')->getAttribute('hh')}}</span></p>
+                    <p>H/H: <span class="clienthh">{{$data->getRelationValue('financeClients')->getAttribute('hn')}}</span></p>
                     <p>M/H <span class="clientmh">{{$data->getRelationValue('financeClients')->getAttribute('mh')}}</span></p>
                     <p>KOD: <span class="clientCode">{{$data->getRelationValue('financeClients')->getAttribute('code')}}</span></p>
                     <p>BANK: <span class="clientBank">{{$data->getRelationValue('financeClients')->getAttribute('bank')}}</span></p>
@@ -447,7 +448,7 @@
 
                 </div>
                 <div class="float-right text-center">
-                    <h6>Təhvil aldı:</h6>
+                    <h6 data-id="{{$data->getRelationValue('financeClients')->getAttribute('id')}}" id="clientId">Təhvil aldı:</h6>
                     <br>
                     <br>
                     <p class="clientName">{{$data->getRelationValue('financeClients')->getAttribute('name')}}</p>
@@ -749,6 +750,32 @@
         return result;
     }
 
+    function createInvoice() {
+        var services = savedRows.concat({!! $data->getAttribute('services') !!});
+        console.log(services)
+        $.ajax({
+            url: '/module/createFinanceInvoice',
+            type: 'POST',
+            data: {
+                company: $('#companyName').attr('data-company'),
+                client: $('#clientId').attr('data-id'),
+                invoiceNo: $('#invoiceNo').text(),
+                invoiceDate: $('#invoiceDate').text(),
+                paymentType: $('#paymentType').text(),
+                protocolDate: $('#protocolDate').text(),
+                contractNo: $('.contractNo').text(),
+                contractDate: $('.contractDate').text(),
+                services: services
+            },
+            success: function(response) {
+                console.log('Invoice yaratıldı:', response);
+                $('#invoiceCreate').hide()
+            },
+            error: function(error) {
+                console.log('Invoice yaratılırken hata oluştu:', error);
+            }
+        });
+    }
 
     function printCard1() {
         $('#print-area').hide();

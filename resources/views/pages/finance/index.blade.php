@@ -63,7 +63,7 @@
             <input class="form-control col-3 m-2" id="clientWhoInput" placeholder="Müştəri Vəzifəsi : Adı"
                    oninput="clientWho()">
 
-            <button class="btn btn-success col-1 m-2" onclick="createClient()">+</button>
+            <button class="btn btn-success col-1 m-2" id="createClient" onclick="createClient()">+</button>
 
             <hr>
 
@@ -96,7 +96,7 @@
     <div class="container">
         <br>
         <button onclick="printCard1()" class="btn btn-primary float-right">Print</button>
-        <button class="btn btn-success col-1 m-2" onclick="createInvoice()">+</button>
+        <button class="btn btn-success col-1 m-2" id="invoiceCreate" onclick="createInvoice()">+</button>
         <div class="card" id="printCard1">
             <div class="card-body">
                 <h2 class="text-center companyName" id="companyName"></h2>
@@ -498,7 +498,7 @@
                 },
                 success: function(response) {
                     console.log('Müşteri yaratıldı:', response);
-                    // ...
+                    $('#createClient').hide()
                 },
                 error: function(error) {
                     console.log('Müşteri yaratılırken hata oluştu:', error);
@@ -987,7 +987,7 @@
                 },
                 success: function(response) {
                     console.log('Invoice yaratıldı:', response);
-                    // ...
+                    $('#invoiceCreate').hide()
                 },
                 error: function(error) {
                     console.log('Invoice yaratılırken hata oluştu:', error);
