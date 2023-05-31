@@ -38,7 +38,7 @@
                 <option value="mtechnologiesRespublika">Mobil Technologies Bank Respublika</option>
                 <option value="logisticsKapital">Mobil Logistics Kapital</option>
             </select>
-            <select id="clientSelect" onchange="changeClient()" class="form-control col-3 m-2">
+            <select id="clientSelect" onchange="changeClient()" class="form-control col-3 m-2 select2">
 
             </select>
             <hr>
