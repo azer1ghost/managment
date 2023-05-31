@@ -117,6 +117,18 @@
          $who = "Fərhad İbrahimli Əli oğlu";
          $whoFooter = "F.Ə.İbrahimli";
 
+     }else if ($company == 'mtechnologiesRespublika') {
+         $companyName = "\"Mobil Technologies\" MMC";
+         $voen = "1804325861";
+         $hh = "AZ20BRES00380394401131856201";
+         $mh = "AZ80NABZ01350100000000014944";
+         $bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
+         $kod = "507547";
+         $bvoen = "9900001901";
+         $swift = "BRESAZ22";
+         $who = "Sabir Tahirov Zakir oğlu";
+         $whoFooter = "S.Z.Tahirov";
+
      } else if ($company == 'logisticsKapital') {
          $companyName = "\"Mobil Logistics\" MMC";
          $voen = "1804811521";
@@ -594,7 +606,7 @@
             var totalCell = $('#total');
 
             var edvCompany = $('#companies').val();
-            var edv = (edvCompany !== 'mbrokerRespublika' && edvCompany !== 'garantRespublika' && edvCompany !== 'garantKapital' && edvCompany !== 'mbrokerKapital') ? 1 : 1.18;
+            var edv = (edvCompany !== 'mbrokerRespublika' && edvCompany !== 'mtechnologiesRespublika' && edvCompany !== 'garantRespublika' && edvCompany !== 'garantKapital' && edvCompany !== 'mbrokerKapital') ? 1 : 1.18;
 
             var overallElements = $(".overal");
             var sum2 = 0;
@@ -628,7 +640,7 @@
             $('#total6').html((sum * edv).toFixed(2));
             $('#total7').html((sum * edv).toFixed(2));
 
-            if (getCompany !== '\"Mobil Broker\" MMC' && getCompany !== '\"Garant Broker\" MMC') {
+            if (getCompany !== '\"Mobil Broker\" MMC' && getCompany !== '\"Garant Broker\" MMC' && getCompany !== '\"Mobil Technologies\" MMC') {
                 $("#vatColumn, #vatColumn2, #vatColumn3").hide();
                 var rate = 1;
             } else {
