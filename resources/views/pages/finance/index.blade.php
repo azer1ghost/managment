@@ -38,7 +38,7 @@
                 <option value="mtechnologiesRespublika">Mobil Technologies Bank Respublika</option>
                 <option value="logisticsKapital">Mobil Logistics Kapital</option>
             </select>
-            <select id="clientSelect" class="form-control col-3 m-2">
+            <select id="clientSelect" onchange="changeClient()" class="form-control col-3 m-2">
 
             </select>
             <hr>
@@ -63,7 +63,7 @@
             <input class="form-control col-3 m-2" id="clientWhoInput" placeholder="Müştəri Vəzifəsi : Adı"
                    oninput="clientWho()">
 
-            <button class="btn btn-success col-1 m-2" id="createClient" onclick="createClient()">+</button>
+            <button class="btn btn-success col-3 m-2" id="createClient" onclick="createClient()">Müştəri Məlumatlarını Yadda Saxla</button>
 
             <hr>
 
@@ -96,7 +96,7 @@
     <div class="container">
         <br>
         <button onclick="printCard1()" class="btn btn-primary float-right">Print</button>
-        <button class="btn btn-success col-1 m-2" id="invoiceCreate" onclick="createInvoice()">+</button>
+        <button class="btn btn-success col-3 m-2" id="invoiceCreate" onclick="createInvoice()">Sənədləri Yadda Saxla</button>
         <div class="card" id="printCard1">
             <div class="card-body">
                 <h2 class="text-center companyName" id="companyName"></h2>
