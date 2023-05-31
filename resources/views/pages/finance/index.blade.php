@@ -385,81 +385,74 @@
         </div>
     </div>
 @endsection
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 
 @section('scripts')
     <script>
-        var urlParams = new URLSearchParams(window.location.search);
-        var company = urlParams.get('company');
-        var client = urlParams.get('client');
-        var invoiceNoUrl = urlParams.get('invoiceNoUrl');
-        var invoiceDateUrl = urlParams.get('invoiceDateUrl');
-        var methodUrl = urlParams.get('methodUrl');
-        var contractNoUrl = urlParams.get('contractNoUrl');
-        var protocolUrl = urlParams.get('protocolUrl');
-        var contractDateUrl = urlParams.get('contractDateUrl');
-        var savedRows = [];
-
-        window.onload = function() {
-
+        $(document).ready(function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var company = urlParams.get('company');
+            var client = urlParams.get('client');
+            var invoiceNoUrl = urlParams.get('invoiceNoUrl');
+            var invoiceDateUrl = urlParams.get('invoiceDateUrl');
+            var methodUrl = urlParams.get('methodUrl');
+            var contractNoUrl = urlParams.get('contractNoUrl');
+            var protocolUrl = urlParams.get('protocolUrl');
+            var contractDateUrl = urlParams.get('contractDateUrl');
+            var savedRows = [];
 
             if (company) {
-                var companiesSelect = document.getElementById('companies');
-                companiesSelect.value = company;
+                $('#companies').val(company);
             }
-
 
             changeCompany();
 
-        };
-        axios.get('/module/getClients')
-            .then(response => {
-                const clients = response.data;
-                const selectElement = document.getElementById('clientSelect');
-                const clientNameInput = document.getElementById('clientNameInput');
-                const clientVoenInput = document.getElementById('clientVoenInput');
-                const clienthhInput = document.getElementById('clienthhInput');
-                const clientmhInput = document.getElementById('clientmhInput');
-                const clientCodeInput = document.getElementById('clientCodeInput');
-                const clientBankInput = document.getElementById('clientBankInput');
-                const clientBvoenInput = document.getElementById('clientBvoenInput');
-                const clientSwiftInput = document.getElementById('clientSwiftInput');
-                const clientWhoInput = document.getElementById('clientWhoInput');
+            $.ajax({
+                url: '/module/getClients',
+                method: 'GET',
+                success: function(response) {
+                    const clients = response;
+                    const selectElement = $('#clientSelect');
+                    const clientNameInput = $('#clientNameInput');
+                    const clientVoenInput = $('#clientVoenInput');
+                    const clienthhInput = $('#clienthhInput');
+                    const clientmhInput = $('#clientmhInput');
+                    const clientCodeInput = $('#clientCodeInput');
+                    const clientBankInput = $('#clientBankInput');
+                    const clientBvoenInput = $('#clientBvoenInput');
+                    const clientSwiftInput = $('#clientSwiftInput');
+                    const clientWhoInput = $('#clientWhoInput');
 
-                clients.forEach(client => {
-                    const optionElement = document.createElement('option');
-                    optionElement.value = client.id;
-                    optionElement.textContent = client.name;
-                    selectElement.appendChild(optionElement);
-                });
-                // var urlParams = new URLSearchParams(window.location.search);
-                const selectedClientId = client; // Örnek bir clientId
+                    clients.forEach(function(client) {
+                        const optionElement = $('<option>').val(client.id).text(client.name);
+                        selectElement.append(optionElement);
+                    });
 
-                for (let i = 0; i < selectElement.options.length; i++) {
-                    const option = selectElement.options[i];
+                    const selectedClientId = client;
 
-                    if (option.value === selectedClientId) {
-                        option.selected = true;
-                        selectInitialClient()
-
-                        break;
-                    }
-                }
+                    selectElement.find('option').each(function() {
+                        if ($(this).val() === selectedClientId) {
+                            $(this).prop('selected', true);
+                            selectInitialClient();
+                            return false;
+                        }
+                    });
 
                     function selectInitialClient() {
-                        const selectedClientId = selectElement.value;
-                        const selectedClient = clients.find(client => client.id.toString() === selectedClientId);
+                        const selectedClientId = selectElement.val();
+                        const selectedClient = clients.find(function(client) {
+                            return client.id.toString() === selectedClientId;
+                        });
 
                         if (selectedClient) {
-                            clientNameInput.value = selectedClient.name;
-                            clientVoenInput.value = selectedClient.voen;
-                            clienthhInput.value = selectedClient.hn;
-                            clientmhInput.value = selectedClient.mh;
-                            clientCodeInput.value = selectedClient.code;
-                            clientBankInput.value = selectedClient.bank;
-                            clientBvoenInput.value = selectedClient.bvoen;
-                            clientSwiftInput.value = selectedClient.swift;
-                            clientWhoInput.value = selectedClient.orderer;
+                            clientNameInput.val(selectedClient.name);
+                            clientVoenInput.val(selectedClient.voen);
+                            clienthhInput.val(selectedClient.hn);
+                            clientmhInput.val(selectedClient.mh);
+                            clientCodeInput.val(selectedClient.code);
+                            clientBankInput.val(selectedClient.bank);
+                            clientBvoenInput.val(selectedClient.bvoen);
+                            clientSwiftInput.val(selectedClient.swift);
+                            clientWhoInput.val(selectedClient.orderer);
                             clientName();
                             clientVoen();
                             clienthh();
@@ -471,21 +464,20 @@
                             clientWho();
                         }
                     }
-                    selectElement.addEventListener('change', function() {
+
+                    selectElement.on('change', function() {
                         selectInitialClient();
                     });
 
-                    window.onload = function() {
-                        selectInitialClient();
-                    };
-            })
-
-            .catch(error => {
-                console.log(error);
+                    selectInitialClient();
+                },
+                error: function(error) {
+                    console.log(error);
+                }
             });
 
+        });
         function createClient() {
-
             $.ajax({
                 url: '/module/createFinanceClient',
                 type: 'POST',
@@ -493,15 +485,15 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 data: {
-                    name: clientNameInput.value,
-                    voen: clientVoenInput.value,
-                    hh: clienthhInput.value,
-                    mh: clientmhInput.value,
-                    code: clientCodeInput.value,
-                    bank: clientBankInput.value,
-                    bvoen: clientBvoenInput.value,
-                    swift: clientSwiftInput.value,
-                    orderer: clientWhoInput.value
+                    name: $('#clientNameInput').val(),
+                    voen: $('#clientVoenInput').val(),
+                    hh: $('#clienthhInput').val(),
+                    mh: $('#clientmhInput').val(),
+                    code: $('#clientCodeInput').val(),
+                    bank: $('#clientBankInput').val(),
+                    bvoen: $('#clientBvoenInput').val(),
+                    swift: $('#clientSwiftInput').val(),
+                    orderer: $('#clientWhoInput').val()
                 },
                 success: function(response) {
                     console.log('Müşteri yaratıldı:', response);
@@ -512,363 +504,285 @@
                 }
             });
         }
-        document.getElementById('loginput').style.display = "none";
+
+        $(document).ready(function() {
+            $('#loginput').css('display', 'none');
+        });
 
         function changeCompany() {
-
-            var company = document.getElementById('companies').value;
+            var company = $('#companies').val();
 
             if (company == 'mbrokerKapital') {
-                var companyName = "\"Mobil Broker\" MMC"
-                var voen = "1804705371"
-                var hh = "AZ78AIIB400500D9447193478229"
-                var mh = "AZ37NABZ01350100000000001944"
-                var bank = "KAPITAL BANK ASC KOB mərkəz filialı"
-                var kod = "201412"
-                var bvoen = "9900003611"
-                var swift = "AIIBAZ2XXXX"
-                var who = "Vüsal Xəlilov İbrahim oğlu"
-                var whoFooter = "V.İ.Xəlilov"
-            }else if (company == 'mbrokerRespublika'){
-                var companyName = "\"Mobil Broker\" MMC"
-                var voen = "1804705371"
-                var hh = "AZ17BRES00380394401114863601"
-                var mh = "AZ80NABZ01350100000000014944"
-                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı"
-                var kod = "507547"
-                var bvoen = "9900001901"
-                var swift = "BRESAZ22"
-                var who = "Vüsal Xəlilov İbrahim oğlu"
-                var whoFooter = "V.İ.Xəlilov"
-            }else if (company == 'garantKapital'){
-                var companyName = "\"Garant Broker\" MMC"
-                var voen = "1803974481"
-                var hh = "AZ56AIIB400500D9447227965229"
-                var mh = "AZ37NABZ01350100000000001944"
-                var bank = "KAPITAL BANK ASC KOB mərkəz filialı"
-                var kod = "201412"
-                var bvoen = "9900003611"
-                var swift = "AIIBAZ2XXXX"
-                var who = "Alişan Cəlilov Maqsud oğlu"
-                var whoFooter = "A.M.Cəlilov"
-            }else if (company == 'garantRespublika'){
-                var companyName = "\"Garant Broker\" MMC"
-                var voen = "1803974481"
-                var hh = "AZ95BRES00380394401114875001"
-                var mh = "AZ80NABZ01350100000000014944"
-                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı"
-                var kod = "201412"
-                var bvoen = "9900001901"
-                var swift = "BRESAZ22"
-                var who = "Alişan Cəlilov Maqsud oğlu"
-                var whoFooter = "A.M.Cəlilov"
-            }else if (company == 'rigelKapital'){
-                var companyName = "Rigel Group"
-                var voen = "1805978211"
-                var hh = "AZ61AIIB400500E9445911817229"
-                var mh = "AZ37NABZ01350100000000001944"
-                var bank = "KAPITAL BANK ASC KOB mərkəz filialı"
-                var kod = "201412"
-                var bvoen = "9900003611"
-                var swift = "AIIBAZ2XXXX"
-                var who = "Xəlilova Lamiyə Fərhad qızı"
-                var whoFooter = "L.İ.Xəlilova"
-                document.getElementById('vatColumn').style.display ="none";
-                document.getElementById('vatColumn2').style.display ="none";
-                document.getElementById('vatColumn3').style.display ="none";
-            }else if (company == 'rigelRespublika'){
-                var companyName = "Rigel Group"
-                var voen = "1805978211"
-                var hh = "AZ43BRES00380394401162048201"
-                var mh = "AZ80NABZ01350100000000014944"
-                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı"
-                var kod = "507547"
-                var bvoen = "9900001901"
-                var swift = "BRESAZ22"
-                var who = "Xəlilova Lamiyə Fərhad qızı"
-                var whoFooter = "L.İ.Xəlilova"
-                document.getElementById('vatColumn').style.display ="none";
-                document.getElementById('vatColumn2').style.display ="none";
-                document.getElementById('vatColumn3').style.display ="none";
-            }else if (company == 'mindRespublika'){
-                var companyName = "\"Mind Services\" MMC"
-                var voen = "1506046601"
-                var hh = "AZ88BRES00380394401162079401"
-                var mh = "AZ80NABZ01350100000000014944"
-                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı"
-                var kod = "507547"
-                var bvoen = "9900001901"
-                var swift = "BRESAZ22"
-                var who = "Əliyev Fuad Rasim oğlu"
-                var whoFooter = "F.R.Əliyev"
-                document.getElementById('vatColumn').style.display ="none";
-                document.getElementById('vatColumn2').style.display ="none";
-                document.getElementById('vatColumn3').style.display ="none";
-            }else if (company == 'asazaRespublika'){
-                var companyName = "\"ASAZA FLKS\" MMC"
-                var voen = "1805091391"
-                var hh = "AZ80BRES00380394401196199101"
-                var mh = "AZ80NABZ01350100000000014944"
-                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı"
-                var kod = "507547"
-                var bvoen = "9900001901"
-                var swift = "BRESAZ22"
-                var who = "Fərhad İbrahimli Əli oğlu"
-                var whoFooter = "F.Ə.İbrahimli"
-                document.getElementById('vatColumn').style.display ="none";
-                document.getElementById('vatColumn2').style.display ="none";
-                document.getElementById('vatColumn3').style.display ="none";
-            }else if (company == 'logisticsKapital'){
-                var companyName = "\"Mobil Logistics\" MMC"
-                var voen = "1804811521"
-                var hh = "AZ85AIIB400500D9447161910229"
-                var mh = "AZ37NABZ01350100000000001944"
-                var bank = "KAPITAL BANK ASC KOB mərkəz filialı"
-                var kod = "201412"
-                var bvoen = "9900003611"
-                var swift = "AIIBAZ2XXXX"
-                var who = "Xəlilova Lamiyə Fərhad qızı"
-                var whoFooter = "L.İ.Xəlilova"
-                document.getElementById('temsilci').innerHTML ="Ekspeditor";
-                document.getElementById('vatColumn').style.display ="none";
-                document.getElementById('vatColumn2').style.display ="none";
-                document.getElementById('vatColumn3').style.display ="none";
+                var companyName = "\"Mobil Broker\" MMC";
+                var voen = "1804705371";
+                var hh = "AZ78AIIB400500D9447193478229";
+                var mh = "AZ37NABZ01350100000000001944";
+                var bank = "KAPITAL BANK ASC KOB mərkəz filialı";
+                var kod = "201412";
+                var bvoen = "9900003611";
+                var swift = "AIIBAZ2XXXX";
+                var who = "Vüsal Xəlilov İbrahim oğlu";
+                var whoFooter = "V.İ.Xəlilov";
+            } else if (company == 'mbrokerRespublika') {
+                var companyName = "\"Mobil Broker\" MMC";
+                var voen = "1804705371";
+                var hh = "AZ17BRES00380394401114863601";
+                var mh = "AZ80NABZ01350100000000014944";
+                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
+                var kod = "507547";
+                var bvoen = "9900001901";
+                var swift = "BRESAZ22";
+                var who = "Vüsal Xəlilov İbrahim oğlu";
+                var whoFooter = "V.İ.Xəlilov";
+            } else if (company == 'garantKapital') {
+                var companyName = "\"Garant Broker\" MMC";
+                var voen = "1803974481";
+                var hh = "AZ56AIIB400500D9447227965229";
+                var mh = "AZ37NABZ01350100000000001944";
+                var bank = "KAPITAL BANK ASC KOB mərkəz filialı";
+                var kod = "201412";
+                var bvoen = "9900003611";
+                var swift = "AIIBAZ2XXXX";
+                var who = "Alişan Cəlilov Maqsud oğlu";
+                var whoFooter = "A.M.Cəlilov";
+            } else if (company == 'garantRespublika') {
+                var companyName = "\"Garant Broker\" MMC";
+                var voen = "1803974481";
+                var hh = "AZ95BRES00380394401114875001";
+                var mh = "AZ80NABZ01350100000000014944";
+                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
+                var kod = "201412";
+                var bvoen = "9900001901";
+                var swift = "BRESAZ22";
+                var who = "Alişan Cəlilov Maqsud oğlu";
+                var whoFooter = "A.M.Cəlilov";
+            } else if (company == 'rigelKapital') {
+                var companyName = "Rigel Group";
+                var voen = "1805978211";
+                var hh = "AZ61AIIB400500E9445911817229";
+                var mh = "AZ37NABZ01350100000000001944";
+                var bank = "KAPITAL BANK ASC KOB mərkəz filialı";
+                var kod = "201412";
+                var bvoen = "9900003611";
+                var swift = "AIIBAZ2XXXX";
+                var who = "Xəlilova Lamiyə Fərhad qızı";
+                var whoFooter = "L.İ.Xəlilova";
+                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
+            } else if (company == 'rigelRespublika') {
+                var companyName = "Rigel Group";
+                var voen = "1805978211";
+                var hh = "AZ43BRES00380394401162048201";
+                var mh = "AZ80NABZ01350100000000014944";
+                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
+                var kod = "507547";
+                var bvoen = "9900001901";
+                var swift = "BRESAZ22";
+                var who = "Xəlilova Lamiyə Fərhad qızı";
+                var whoFooter = "L.İ.Xəlilova";
+                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
+            } else if (company == 'mindRespublika') {
+                var companyName = "\"Mind Services\" MMC";
+                var voen = "1506046601";
+                var hh = "AZ88BRES00380394401162079401";
+                var mh = "AZ80NABZ01350100000000014944";
+                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
+                var kod = "507547";
+                var bvoen = "9900001901";
+                var swift = "BRESAZ22";
+                var who = "Əliyev Fuad Rasim oğlu";
+                var whoFooter = "F.R.Əliyev";
+                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
+            } else if (company == 'asazaRespublika') {
+                var companyName = "\"ASAZA FLKS\" MMC";
+                var voen = "1805091391";
+                var hh = "AZ80BRES00380394401196199101";
+                var mh = "AZ80NABZ01350100000000014944";
+                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
+                var kod = "507547";
+                var bvoen = "9900001901";
+                var swift = "BRESAZ22";
+                var who = "Fərhad İbrahimli Əli oğlu";
+                var whoFooter = "F.Ə.İbrahimli";
+                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
+            } else if (company == 'logisticsKapital') {
+                var companyName = "\"Mobil Logistics\" MMC";
+                var voen = "1804811521";
+                var hh = "AZ85AIIB400500D9447161910229";
+                var mh = "AZ37NABZ01350100000000001944";
+                var bank = "KAPITAL BANK ASC KOB mərkəz filialı";
+                var kod = "201412";
+                var bvoen = "9900003611";
+                var swift = "AIIBAZ2XXXX";
+                var who = "Xəlilova Lamiyə Fərhad qızı";
+                var whoFooter = "L.İ.Xəlilova";
+                $('#temsilci').html("Ekspeditor");
+                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
             }
 
-            var companyNameAdd = document.getElementsByClassName("companyName");
-            var voenAdd = document.getElementsByClassName("voen");
-            var hhAdd = document.getElementsByClassName("hh");
-            var mhAdd = document.getElementsByClassName("mh");
-            var bankAdd = document.getElementsByClassName("bank");
-            var kodAdd = document.getElementsByClassName("kod");
-            var bvoenAdd = document.getElementsByClassName("bvoen");
-            var swiftAdd = document.getElementsByClassName("swift");
+            $('.companyName').text(companyName);
+            $('.voen').text(voen);
+            $('.hh').text(hh);
+            $('.mh').text(mh);
+            $('.bank').text(bank);
+            $('.kod').text(kod);
+            $('.bvoen').text(bvoen);
+            $('.swift').text(swift);
 
-            document.getElementById("who").textContent = who;
-            document.getElementById("who-footer").textContent = whoFooter;
-            for (var i = 0; i < companyNameAdd.length; i++) {
-                companyNameAdd[i].textContent = companyName
-            }
-            for (var i = 0; i < voenAdd.length; i++) {
-                voenAdd[i].textContent = voen
-            }
-            for (var i = 0; i < hhAdd.length; i++) {
-                hhAdd[i].textContent = hh
-            }
-            for (var i = 0; i < mhAdd.length; i++) {
-                mhAdd[i].textContent = mh
-            }
-            for (var i = 0; i < kodAdd.length; i++) {
-                kodAdd[i].textContent = kod
-            }
-            for (var i = 0; i < bankAdd.length; i++) {
-                bankAdd[i].textContent = bank
-            }
-            for (var i = 0; i < bvoenAdd.length; i++) {
-                bvoenAdd[i].textContent = bvoen
-            }
-            for (var i = 0; i < swiftAdd.length; i++) {
-                swiftAdd[i].textContent = swift
-            }
-            if (company == 'logisticsKapital'){
-                document.getElementById('loginput').style.display ="block";
-                document.getElementById('brokerinput').style.display ="none";
-            }else {
-                document.getElementById('loginput').style.display = "none";
-                document.getElementById('brokerinput').style.display = "block";
+            $('#who').text(who);
+            $('#who-footer').text(whoFooter);
+
+            if (company == 'logisticsKapital') {
+                $('#loginput').show();
+                $('#brokerinput').hide();
+            } else {
+                $('#loginput').hide();
+                $('#brokerinput').show();
             }
         }
 
         function clientName() {
-            var clientNameInput = document.getElementById("clientNameInput").value;
-            var clientName = document.getElementsByClassName("clientName");
-            for (var i = 0; i < clientName.length; i++) {
-                clientName[i].innerHTML = clientNameInput;
-            }
+            var clientNameInput = $("#clientNameInput").val();
+            $(".clientName").html(clientNameInput);
         }
 
         function clientVoen() {
-            var clientVoenInput = document.getElementById("clientVoenInput").value;
-            var clientVoen = document.getElementsByClassName("clientVoen");
-            for (var i = 0; i < clientVoen.length; i++) {
-                clientVoen[i].innerHTML = clientVoenInput;
-            }
+            var clientVoenInput = $("#clientVoenInput").val();
+            $(".clientVoen").html(clientVoenInput);
         }
 
         function clienthh() {
-            var clienthhInput = document.getElementById("clienthhInput").value;
-            var clienthh = document.getElementsByClassName("clienthh");
-            for (var i = 0; i < clienthh.length; i++) {
-                clienthh[i].innerHTML = clienthhInput;
-            }
+            var clienthhInput = $("#clienthhInput").val();
+            $(".clienthh").html(clienthhInput);
         }
 
         function clientmh() {
-            var clientmhInput = document.getElementById("clientmhInput").value;
-            var clientmh = document.getElementsByClassName("clientmh");
-            for (var i = 0; i < clientmh.length; i++) {
-                clientmh[i].innerHTML = clientmhInput;
-            }
+            var clientmhInput = $("#clientmhInput").val();
+            $(".clientmh").html(clientmhInput);
         }
 
         function clientCode() {
-            var clientCodeInput = document.getElementById("clientCodeInput").value;
-            var clientCode = document.getElementsByClassName("clientCode");
-            for (var i = 0; i < clientCode.length; i++) {
-                clientCode[i].innerHTML = clientCodeInput;
-            }
+            var clientCodeInput = $("#clientCodeInput").val();
+            $(".clientCode").html(clientCodeInput);
         }
 
         function clientBank() {
-            var clientBankInput = document.getElementById("clientBankInput").value;
-            var clientBank = document.getElementsByClassName("clientBank");
-            for (var i = 0; i < clientBank.length; i++) {
-                clientBank[i].innerHTML = clientBankInput;
-            }
+            var clientBankInput = $("#clientBankInput").val();
+            $(".clientBank").html(clientBankInput);
         }
 
         function clientBvoen() {
-            var clientBvoenInput = document.getElementById("clientBvoenInput").value;
-            var clientBvoen = document.getElementsByClassName("clientBvoen");
-            for (var i = 0; i < clientBvoen.length; i++) {
-                clientBvoen[i].innerHTML = clientBvoenInput;
-            }
+            var clientBvoenInput = $("#clientBvoenInput").val();
+            $(".clientBvoen").html(clientBvoenInput);
         }
 
         function clientSwift() {
-            var clientSwiftInput = document.getElementById("clientSwiftInput").value;
-            var clientSwift = document.getElementsByClassName("clientSwift");
-            for (var i = 0; i < clientSwift.length; i++) {
-                clientSwift[i].innerHTML = clientSwiftInput;
-            }
+            var clientSwiftInput = $("#clientSwiftInput").val();
+            $(".clientSwift").html(clientSwiftInput);
         }
+
         function clientWho() {
-            var clientWhoInput = document.getElementById("clientWhoInput").value;
-            var clientWho = document.getElementsByClassName("clientWho");
-            for (var i = 0; i < clientWho.length; i++) {
-                clientWho[i].innerHTML = clientWhoInput;
-            }
+            var clientWhoInput = $("#clientWhoInput").val();
+            $(".clientWho").html(clientWhoInput);
         }
-        function clientWho() {
-            var clientWhoInput = document.getElementById("clientWhoInput").value;
-            var clientWho = document.getElementsByClassName("clientWho");
-            for (var i = 0; i < clientWho.length; i++) {
-                clientWho[i].innerHTML = clientWhoInput;
-            }
-        }
+
         function invoiceNo() {
-            var invoiceNoInput = document.getElementById("invoiceNoInput").value;
-            var invoiceNo = document.getElementsByClassName("invoiceNo");
-            for (var i = 0; i < invoiceNo.length; i++) {
-                invoiceNo[i].innerHTML = invoiceNoInput;
-            }
+            var invoiceNoInput = $("#invoiceNoInput").val();
+            $(".invoiceNo").html(invoiceNoInput);
         }
+
         function invoiceDate() {
-            var invoiceDateInput = document.getElementById("invoiceDateInput").value;
-            var invoiceDate = document.getElementsByClassName("invoiceDate");
-            for (var i = 0; i < invoiceDate.length; i++) {
-                invoiceDate[i].innerHTML = invoiceDateInput;
-            }
+            var invoiceDateInput = $("#invoiceDateInput").val();
+            $(".invoiceDate").html(invoiceDateInput);
         }
+
         function paymentType() {
-            var paymentTypeSelect = document.getElementById("paymentTypeSelect").value;
-            document.getElementById("paymentType").innerHTML = paymentTypeSelect;
+            var paymentTypeSelect = $("#paymentTypeSelect").val();
+            $("#paymentType").html(paymentTypeSelect);
         }
 
         function protocolDate() {
-            var protocolDateInput = document.getElementById("protocolDateInput").value;
-            var protocolDate = document.getElementsByClassName("protocolDate");
-            for (var i = 0; i < protocolDate.length; i++) {
-                protocolDate[i].innerHTML = protocolDateInput;
-            }
+            var protocolDateInput = $("#protocolDateInput").val();
+            $(".protocolDate").html(protocolDateInput);
         }
 
         function contractNo() {
-            var contractNoInput = document.getElementById("contractNoInput").value;
-            var contractNo = document.getElementsByClassName("contractNo");
-            for (var i = 0; i < contractNo.length; i++) {
-                contractNo[i].innerHTML = contractNoInput;
-            }
-        }
-        function contractDate() {
-            var contractDateInput = document.getElementById("contractDateInput").value;
-            var contractDate = document.getElementsByClassName("contractDate");
-            for (var i = 0; i < contractDate.length; i++) {
-                contractDate[i].innerHTML = contractDateInput;
-            }
+            var contractNoInput = $("#contractNoInput").val();
+            $(".contractNo").html(contractNoInput);
         }
 
+        function contractDate() {
+            var contractDateInput = $("#contractDateInput").val();
+            $(".contractDate").html(contractDateInput);
+        }
 
         function calculateTotal() {
-            var miktarHucres = document.getElementsByClassName('miktar-hucre');
+            var miktarHucres = $('.miktar-hucre');
             var sum = 0;
 
-            for (var i = 0; i < miktarHucres.length; i++) {
-                var miktarHucre = miktarHucres[i];
-                var value = parseFloat(miktarHucre.textContent);
+            miktarHucres.each(function() {
+                var miktarHucre = $(this);
+                var value = parseFloat(miktarHucre.text());
                 if (!isNaN(value)) {
                     sum += value;
                 }
-            }
+            });
 
-            var sumCell = document.getElementById('sum');
-            var vatCell = document.getElementById('vat');
-            var totalCell = document.getElementById('total');
+            var sumCell = $('#sum');
+            var vatCell = $('#vat');
+            var totalCell = $('#total');
 
-            var edvCompany = document.getElementById('companies').value
-            if (edvCompany !== 'mbrokerRespublika' &&  edvCompany !== 'garantRespublika' && edvCompany !== 'garantKapital' &&  edvCompany !== 'mbrokerKapital'){
-                var edv = 1
-            }else {
-                var edv = 1.18
-            }
-            sumCell.textContent = sum.toFixed(2);
-            vatCell.textContent = (sum * 0.18).toFixed(2);
-            totalCell.textContent = (sum * edv).toFixed(2);
-            document.getElementById('sum2').innerHTML = sum.toFixed(2);
-            document.getElementById('vat2').innerHTML = (sum * 0.18).toFixed(2);
-            document.getElementById('total2').innerHTML = (sum * edv).toFixed(2);
-            document.getElementById('sum3').innerHTML = (sum * edv).toFixed(2);
-            document.getElementById('vat3').innerHTML = (sum * 0.18).toFixed(2);
-            document.getElementById('total3').innerHTML = (sum * edv).toFixed(2);
-            document.getElementById('total4').innerHTML = (sum * edv).toFixed(2);
-            document.getElementById('total5').innerHTML = (sum * edv).toFixed(2);
-            document.getElementById('total6').innerHTML = (sum * edv).toFixed(2)
-            document.getElementById('total7').innerHTML = (sum * edv).toFixed(2)
+            var edvCompany = $('#companies').val();
+            var edv = (edvCompany !== 'mbrokerRespublika' && edvCompany !== 'garantRespublika' && edvCompany !== 'garantKapital' && edvCompany !== 'mbrokerKapital') ? 1 : 1.18;
+
+            sumCell.text(sum.toFixed(2));
+            vatCell.text((sum * 0.18).toFixed(2));
+            totalCell.text((sum * edv).toFixed(2));
+            $('#sum2').html(sum.toFixed(2));
+            $('#vat2').html((sum * 0.18).toFixed(2));
+            $('#total2').html((sum * edv).toFixed(2));
+            $('#sum3').html((sum * edv).toFixed(2));
+            $('#vat3').html((sum * 0.18).toFixed(2));
+            $('#total3').html((sum * edv).toFixed(2));
+            $('#total4').html((sum * edv).toFixed(2));
+            $('#total5').html((sum * edv).toFixed(2));
+            $('#total6').html((sum * edv).toFixed(2));
+            $('#total7').html((sum * edv).toFixed(2));
         }
-
+        var savedRows = [];
         function addRow() {
-            var input1lValue = document.getElementById('input1l').value;
-            if (input1lValue.trim() === '') {
-                var selectElement = document.getElementById('input1');
-                var selectedOption = selectElement.options[selectElement.selectedIndex];
-                var input1 = selectedOption.innerHTML;
-                document.getElementById('input1l').innerHTML = "";
-            }else {
-                var input1lValue = document.getElementById('input1l').value;
+            var input1lValue = $('#input1l').val().trim();
+            var input1;
+            if (input1lValue === '') {
+                var selectElement = $('#input1');
+                var selectedOption = selectElement.find('option:selected');
+                input1 = selectedOption.text();
+                $('#input1l').html("");
+            } else {
+                input1lValue = $('#input1l').val();
             }
 
-            var tableBody = document.getElementById('table-body');
-            var newRow = tableBody.insertRow(tableBody.rows.length-5);
+            var tableBody = $('#table-body');
+            var newRow = tableBody[0].insertRow(tableBody[0].rows.length - 5);
 
-            var input3 = document.getElementById('input3').value;
-            var input4 = document.getElementById('input4').value;
+            var input3 = $('#input3').val();
+            var input4 = $('#input4').val();
 
-            var tableBody2 = document.getElementById('table-body2');
-            var newRow2 = tableBody2.insertRow(tableBody2.rows.length-3);
+            var tableBody2 = $('#table-body2');
+            var newRow2 = tableBody2[0].insertRow(tableBody2[0].rows.length - 3);
 
-            var tableBody3 = document.getElementById('table-body3');
-            var newRow3 = tableBody3.insertRow(tableBody3.rows.length-3);
+            var tableBody3 = $('#table-body3');
+            var newRow3 = tableBody3[0].insertRow(tableBody3[0].rows.length - 3);
 
             var cell1 = newRow.insertCell(0);
             var cell12 = newRow2.insertCell(0);
             var cell13 = newRow3.insertCell(0);
 
-            cell12.textContent = newRow2.parentNode.rows.length-3;
-            cell13.textContent = newRow3.parentNode.rows.length-3;
+            cell12.textContent = newRow2.parentNode.rows.length - 3;
+            cell13.textContent = newRow3.parentNode.rows.length - 3;
 
-            if (input1lValue.trim() === '') {
+            if (input1lValue === '') {
                 cell1.textContent = input1;
-            }else {
+            } else {
                 cell1.textContent = input1lValue;
             }
 
@@ -876,10 +790,10 @@
             var cell22 = newRow2.insertCell(1);
             var cell23 = newRow3.insertCell(1);
             cell2.textContent = "Ədəd";
-            if (input1lValue.trim() === '') {
+            if (input1lValue === '') {
                 cell22.textContent = input1;
                 cell23.textContent = input1;
-            }else {
+            } else {
                 cell22.textContent = input1lValue;
                 cell23.textContent = input1lValue;
             }
@@ -888,7 +802,7 @@
             var cell32 = newRow2.insertCell(2);
             var cell33 = newRow3.insertCell(2);
             cell3.textContent = input3;
-            cell32.textContent ="Ədəd";
+            cell32.textContent = "Ədəd";
             cell33.textContent = "Ədəd";
 
             var cell4 = newRow.insertCell(3);
@@ -929,30 +843,32 @@
             cell63.classList.add('tabelBorder');
             cell62.textContent = input3 * input4;
             cell63.textContent = input3 * input4;
-            var deleteButton = document.createElement('button');
-            deleteButton.textContent = 'Sil';
-            deleteButton.className = 'btn btn-danger';
-            deleteButton.onclick = function() {
-                deleteRow(this);
-            };
-            cell6.appendChild(deleteButton);
+            var deleteButton = $('<button>', {
+                text: 'Sil',
+                class: 'btn btn-danger',
+                click: function() {
+                    deleteRow(this);
+                }
+            });
+            $(cell6).append(deleteButton);
             var newRowData = {
-                input1: input1lValue.trim() === '' ? input1 : input1lValue,
+                input1: input1lValue === '' ? input1 : input1lValue,
                 input3: input3,
                 input4: input4
             };
 
             savedRows.push(newRowData);
-            document.getElementById('input1').value = '';
-            document.getElementById('input3').value = '';
-            document.getElementById('input4').value = '';
+            $('#input1').val('');
+            $('#input3').val('');
+            $('#input4').val('');
             calculateTotal();
 
-            var numberWord = document.getElementsByClassName('numberWord');
-            for (var i = 0; i < numberWord.length; i++) {
-                numberWord[i].innerHTML = convertToWords(document.getElementById('total').innerHTML).toUpperCase()
-            }
+            var numberWord = $('.numberWord');
+            numberWord.each(function() {
+                $(this).html(convertToWords($('#total').html()).toUpperCase());
+            });
         }
+
 
         function convertToWords(number) {
             const units = ['', 'bir', 'iki', 'üç', 'dörd', 'beş', 'altı', 'yeddi', 'səkkiz', 'doqquz'];
@@ -1013,19 +929,19 @@
         }
 
         function deleteRow(button) {
-            var row = button.parentNode.parentNode;
-            var rowIndex = row.rowIndex;
+            var row = $(button).closest('tr');
+            var rowIndex = row.index() + 1;
 
-            var tableBody = document.getElementById('table-body');
-            var tableBody2 = document.getElementById('table-body2');
-            var tableBody3 = document.getElementById('table-body3');
+            var tableBody = $('#table-body');
+            var tableBody2 = $('#table-body2');
+            var tableBody3 = $('#table-body3');
 
-            tableBody.deleteRow(rowIndex - 1);
-            tableBody2.deleteRow(rowIndex - 1);
-            tableBody3.deleteRow(rowIndex - 1);
+            tableBody[0].deleteRow(rowIndex - 1);
+            tableBody2[0].deleteRow(rowIndex - 1);
+            tableBody3[0].deleteRow(rowIndex - 1);
 
-            var rows2 = tableBody2.rows;
-            var rows3 = tableBody3.rows;
+            var rows2 = tableBody2[0].rows;
+            var rows3 = tableBody3[0].rows;
 
             for (var i = rowIndex - 1; i < rows2.length; i++) {
                 var row2 = rows2[i];
@@ -1039,20 +955,18 @@
         }
 
         function createInvoice() {
-
-            // console.log(document.getElementById('paymentTypeSelect').value)
             $.ajax({
                 url: '/module/createFinanceInvoice',
                 type: 'POST',
                 data: {
-                    company: document.getElementById('companies').value,
-                    client: document.getElementById('clientSelect').value,
-                    invoiceNo: document.getElementById('invoiceNoInput').value,
-                    invoiceDate: document.getElementById("protocolDateInput").value,
-                    paymentType: document.getElementById('paymentTypeSelect').value,
-                    protocolDate: document.getElementById('protocolDateInput').value,
-                    contractNo: document.getElementById('contractNoInput').value,
-                    contractDate: document.getElementById('contractDateInput').value,
+                    company: $('#companies').val(),
+                    client: $('#clientSelect').val(),
+                    invoiceNo: $('#invoiceNoInput').val(),
+                    invoiceDate: $("#invoiceDateInput").val(),
+                    paymentType: $('#paymentTypeSelect').val(),
+                    protocolDate: $('#protocolDateInput').val(),
+                    contractNo: $('#contractNoInput').val(),
+                    contractDate: $('#contractDateInput').val(),
                     services: savedRows
                 },
                 success: function(response) {
@@ -1063,39 +977,44 @@
                     console.log('Invoice yaratılırken hata oluştu:', error);
                 }
             });
-
         }
+
 
         function printCard1() {
-            document.getElementById('print-area').style.display = 'none';
-            document.getElementById('form-area').style.display = 'none';
-            var btns = document.getElementsByClassName('btn-danger');
-            for (var i = 0; i < btns.length; i++) {
-                var parentElement = btns[i].parentNode;
-                parentElement.style.display = 'none';}
+            $('#print-area').hide();
+            $('#form-area').hide();
+            $('.btn-danger').each(function() {
+                $(this).parent().hide();
+            });
 
-            var printContent = document.getElementById('printCard1').innerHTML;
-            var originalContent = document.body.innerHTML;
+            var printContent = $('#printCard1').html();
+            var originalContent = $('body').html();
 
-            document.body.innerHTML = printContent;
+            $('body').html(printContent);
             window.print();
-            document.body.innerHTML = originalContent;
+            $('body').html(originalContent);
         }
+
         function printCard2() {
-            document.getElementById('print-area').style.display = 'none';
-            var printContent = document.getElementById('printCard2').innerHTML;
-            var originalContent = document.body.innerHTML;
-            document.body.innerHTML = printContent;
+            $('#print-area').hide();
+
+            var printContent = $('#printCard2').html();
+            var originalContent = $('body').html();
+
+            $('body').html(printContent);
             window.print();
-            document.body.innerHTML = originalContent;
+            $('body').html(originalContent);
         }
+
         function printCard3() {
-            document.getElementById('print-area').style.display = 'none';
-            var printContent = document.getElementById('printCard3').innerHTML;
-            var originalContent = document.body.innerHTML;
-            document.body.innerHTML = printContent;
+            $('#print-area').hide();
+
+            var printContent = $('#printCard3').html();
+            var originalContent = $('body').html();
+
+            $('body').html(printContent);
             window.print();
-            document.body.innerHTML = originalContent;
+            $('body').html(originalContent);
         }
     </script>
 @endsection

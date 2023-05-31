@@ -131,13 +131,15 @@
          $representer = "Ekspeditor";
          }
     @endphp
+
+
     <div class="container">
         <br>
         <button onclick="printCard1()" class="btn btn-primary float-right">Print</button>
         <div class="card" id="printCard1">
             <div class="card-body">
                 <h2 class="text-center companyName" id="companyName">{{$companyName}}</h2>
-                <h3 class="text-center">HESAB FAKTURA &numero; <span class="invoiceNo">{{$data->getAttribute('invoiceNo')}}</span></h3>
+                <h3 class="text-center">HESAB FAKTURA &numero; <span id="invoiceNo" contenteditable="true">{{$data->getAttribute('invoiceNo')}}</span></h3>
                 <h6 class=" mb-2"><span class="companyName">{{$companyName}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VOEN: <span class="voen">{{$voen}}</span></h6>
                 <h6 class=" mb-2">H/H: <span class="hh">{{$hh}}</span></h6>
                 <h6 class=" mb-2">M/H <span class="mh">{{$mh}}</span></h6>
@@ -156,12 +158,12 @@
                     <tbody>
                     <tr>
                         <td colspan="2" class="border border-bottom-0 tabelBorder clientName">{{$data->getRelationValue('financeClients')->getAttribute('name')}}</td>
-                        <td class="border tabelBorder">Tarix: {{$data->getAttribute('invoiceDate')}}<span class="invoiceDate"></span></td>
+                        <td class="border tabelBorder">Tarix: <span id="invoiceDate" contenteditable="true">{{$data->getAttribute('invoiceDate')}}</span></td>
                         <td class="border tabelBorder">&numero; <span class="invoiceNo">{{$data->getAttribute('invoiceNo')}}</span></td>
                     </tr>
                     <tr>
                         <td colspan="2" class="border border-top-0 tabelBorder">VÖEN: <span class="clientVoen">{{$data->getRelationValue('financeClients')->getAttribute('voen')}}</span></td>
-                        <td class="border tabelBorder">Ödəmə növü: <span id="paymentType">{{$data->getAttribute('paymentType')}}</span></td>
+                        <td class="border tabelBorder">Ödəmə növü: <span id="paymentType" contenteditable="true">{{$data->getAttribute('paymentType')}}</span></td>
                         <td class="border tabelBorder total"></td>
                     </tr>
                     </tbody>
@@ -184,11 +186,30 @@
                     <tr>
                         <td class="tabelBorder">{{$service->input1}}</td>
                         <td class="tabelBorder">Ədəd</td>
-                        <td class="tabelBorder count">{{$service->input3}}</td>
-                        <td class="tabelBorder amount">{{$service->input4}}</td>
+                        <td class="tabelBorder count" contenteditable="true" data-row="{{$loop->iteration}}">{{$service->input3}}</td>
+                        <td class="tabelBorder amount" contenteditable="true" data-row="{{$loop->iteration}}">{{$service->input4}}</td>
                         <td class="tabelBorder overal">{{$service->input3 * $service->input4}}</td>
                     </tr>
                     @endforeach
+                    <tr id="form-area">
+                        <td>
+                            <select id="input1" class="form-control">
+                                <option>Elektron GB-nin tərtib olunması xidməti</option>
+                                <option>Elektron Qısa İdxal GB-nin tərtib olunması xidməti</option>
+                                <option>CMR-in tərtib olunması xidməti</option>
+                                <option>Gömrük kodunun müəyyən edilməsi</option>
+                                <option>Gömrük rəsmiləşdirilməsi üçün lazım olan sənədlərin hazırlanması</option>
+                                <option>Təmsil etdiyi şəxsin tapşırığı əsasında yüklərin və nəqliyyat vasitələrinin tam gömrük rəsmiləşdirilməsi</option>
+                                <option>Gömrük rüsumlarının əvvəlcədən hesablanması</option>
+                                <option>Təmsilçilik xidməti</option>
+                                <option>Qismən Təmsilçilik xidməti</option>
+                            </select>
+                        </td>
+                        <td>Ədəd</td>
+                        <td><input type="text" class="form-control" id="input3"></td>
+                        <td><input type="text" class="form-control" id="input4"></td>
+                        <td id="print-area"><button onclick="addRow()" class="btn btn-primary">+</button></td>
+                    </tr>
                     <tr>
                         <td></td>
                         <td></td>
@@ -230,7 +251,7 @@
         <div class="card" id="printCard2">
             <div class="card-body">
                 <p class="float-left">Bakı Şəhəri</p>
-                <p class="float-right protocolDate">{{$data->getAttribute('protocolDate')}}</p>
+                <p class="float-right" id="protocolDate" contenteditable="true">{{$data->getAttribute('protocolDate')}}</p>
                 <br>
                 <br>
                 <br>
@@ -255,9 +276,9 @@
                             <td class="tabelBorder">{{$loop->iteration}}</td>
                             <td class="tabelBorder">{{$service->input1}}</td>
                             <td class="tabelBorder">Ədəd</td>
-                            <td class="tabelBorder">{{$service->input3}}</td>
-                            <td class="tabelBorder">{{$service->input4}}</td>
-                            <td class="tabelBorder">{{$service->input3 * $service->input4}}</td>
+                            <td class="tabelBorder" id="countCell2-{{$loop->iteration}}">{{$service->input3}}</td>
+                            <td class="tabelBorder" id="amountCell2-{{$loop->iteration}}">{{$service->input4}}</td>
+                            <td class="tabelBorder" id="overalCell2-{{$loop->iteration}}">{{$service->input3 * $service->input4}}</td>
                         </tr>
                     @endforeach
                     <tr>
@@ -367,9 +388,9 @@
                             <td class="tabelBorder">{{$loop->iteration}}</td>
                             <td class="tabelBorder">{{$service->input1}}</td>
                             <td class="tabelBorder">Ədəd</td>
-                            <td class="tabelBorder">{{$service->input3}}</td>
-                            <td class="tabelBorder">{{$service->input4}}</td>
-                            <td class="tabelBorder">{{$service->input3 * $service->input4}}</td>
+                            <td class="tabelBorder" id="countCell-{{$loop->iteration}}">{{$service->input3}}</td>
+                            <td class="tabelBorder" id="amountCell-{{$loop->iteration}}">{{$service->input4}}</td>
+                            <td class="tabelBorder" id="overalCell-{{$loop->iteration}}">{{$service->input3 * $service->input4}}</td>
                         </tr>
                     @endforeach
                     <tr>
@@ -428,129 +449,327 @@
         </div>
     </div>
 @endsection
+@section('scripts')
+
 <script>
+    var savedRows = [];
+    function addRow() {
+        var selectElement = $('#input1');
+        var selectedOption = selectElement.find('option:selected');
+        var input1 = selectedOption.text();
+        $('#input1l').html("");
 
-    window.onload = function() {
+        var tableBody = $('#table-body');
+        var newRow = tableBody[0].insertRow(tableBody[0].rows.length - 5);
 
-        var overallElements = document.getElementsByClassName("overal");
+        var input3 = $('#input3').val();
+        var input4 = $('#input4').val();
 
-        var sum = 0; // Toplamı tutacak değişken
+        var tableBody2 = $('#table-body2');
+        var newRow2 = tableBody2[0].insertRow(tableBody2[0].rows.length - 3);
 
-        for (var i = 0; i < overallElements.length; i++) {
-            var overallValue = parseInt(overallElements[i].innerText);
-            sum += overallValue;
-        }
-        const getCompany = document.getElementById("getCompany").innerHTML
-        var sumElement = document.getElementsByClassName("sum");
-        var vatElement = document.getElementsByClassName("vat");
-        var totalElement = document.getElementsByClassName("total");
+        var tableBody3 = $('#table-body3');
+        var newRow3 = tableBody3[0].insertRow(tableBody3[0].rows.length - 3);
 
-        if (getCompany !== '\"Mobil Broker\" MMC' &&  getCompany !== '\"Garant Broker\" MMC'){
-            document.getElementById("vatColumn").style.display = "none";
-            document.getElementById("vatColumn2").style.display = "none";
-            document.getElementById("vatColumn3").style.display = "none";
-            var rate = 1
-        }else {
-            for (var i = 0; i < vatElement.length; i++) {
-                vatElement[i].innerText = (sum * 0.18).toFixed(2);
+        var cell1 = newRow.insertCell(0);
+        var cell12 = newRow2.insertCell(0);
+        var cell13 = newRow3.insertCell(0);
+
+        cell12.textContent = newRow2.parentNode.rows.length - 3;
+        cell13.textContent = newRow3.parentNode.rows.length - 3;
+        cell1.textContent = input1;
+        var cell2 = newRow.insertCell(1);
+        var cell22 = newRow2.insertCell(1);
+        var cell23 = newRow3.insertCell(1);
+        cell2.textContent = "Ədəd";
+        cell22.textContent = input1;
+        cell23.textContent = input1;
+        var cell3 = newRow.insertCell(2);
+        var cell32 = newRow2.insertCell(2);
+        var cell33 = newRow3.insertCell(2);
+        cell3.textContent = input3;
+        cell32.textContent = "Ədəd";
+        cell33.textContent = "Ədəd";
+        var cell4 = newRow.insertCell(3);
+        var cell42 = newRow2.insertCell(3);
+        var cell43 = newRow3.insertCell(3);
+        cell4.textContent = input4;
+        cell42.textContent = input3;
+        cell43.textContent = input3;
+        var cell5 = newRow.insertCell(4);
+        var cell52 = newRow2.insertCell(4);
+        var cell53 = newRow3.insertCell(4);
+        cell5.textContent = input3 * input4;
+        cell52.textContent = input4;
+        cell53.textContent = input4;
+        cell5.classList.add('miktar-hucre');
+        var cell6 = newRow.insertCell(5);
+        var cell62 = newRow2.insertCell(5);
+        var cell63 = newRow3.insertCell(5);
+        cell1.classList.add('tabelBorder');
+        cell12.classList.add('tabelBorder');
+        cell13.classList.add('tabelBorder');
+        cell2.classList.add('tabelBorder');
+        cell22.classList.add('tabelBorder');
+        cell23.classList.add('tabelBorder');
+        cell3.classList.add('tabelBorder');
+        cell32.classList.add('tabelBorder');
+        cell33.classList.add('tabelBorder');
+        cell4.classList.add('tabelBorder');
+        cell42.classList.add('tabelBorder');
+        cell43.classList.add('tabelBorder');
+        cell5.classList.add('tabelBorder');
+        cell52.classList.add('tabelBorder');
+        cell53.classList.add('tabelBorder');
+        cell6.classList.add('tabelBorder');
+        cell62.classList.add('tabelBorder');
+        cell63.classList.add('tabelBorder');
+        cell62.textContent = input3 * input4;
+        cell63.textContent = input3 * input4;
+        var deleteButton = $('<button>', {
+            text: 'Sil',
+            class: 'btn btn-danger',
+            click: function() {
+                deleteRow(this);
             }
-            var rate = 1.18
+        });
+        $(cell6).append(deleteButton);
+        var newRowData = {
+            input1: input1,
+            input3: input3,
+            input4: input4
+        };
 
+        savedRows.push(newRowData);
+        $('#input1').val('');
+        $('#input3').val('');
+        $('#input4').val('');
+        calculateTotal();
+
+        var numberWord = $('.numberWord');
+        numberWord.each(function() {
+            $(this).html(convertToWords($('#total').html()).toUpperCase());
+        });
+    }
+
+    function deleteRow(button) {
+        var row = $(button).closest('tr');
+        var rowIndex = row.index() + 1;
+
+        var tableBody = $('#table-body');
+        var tableBody2 = $('#table-body2');
+        var tableBody3 = $('#table-body3');
+
+        tableBody[0].deleteRow(rowIndex - 1);
+        tableBody2[0].deleteRow(rowIndex - 1);
+        tableBody3[0].deleteRow(rowIndex - 1);
+
+        var rows2 = tableBody2[0].rows;
+        var rows3 = tableBody3[0].rows;
+
+        for (var i = rowIndex - 1; i < rows2.length; i++) {
+            var row2 = rows2[i];
+            var row3 = rows3[i];
+
+            row2.cells[0].textContent = i + 1;
+            row3.cells[0].textContent = i + 1;
         }
 
-        for (var i = 0; i < sumElement.length; i++) {
-            sumElement[i].innerText = sum.toFixed(2);
-        }
+        calculateTotal();
+    }
+        function calculateTotal() {
+            var miktarHucres = $('.miktar-hucre');
+            var sum1 = 0;
 
-        for (var i = 0; i < totalElement.length; i++) {
-            totalElement[i].innerText = (sum * rate).toFixed(2);
-        }
-
-        var numberWord = document.getElementsByClassName('numberWord');
-        for (var i = 0; i < numberWord.length; i++) {
-            numberWord[i].innerHTML = convertToWords(document.getElementById('total').innerHTML).toUpperCase()
-        }
-
-    };
-
-        function convertToWords(number) {
-            const units = ['', 'bir', 'iki', 'üç', 'dörd', 'beş', 'altı', 'yeddi', 'səkkiz', 'doqquz'];
-            const tens = ['', 'on', 'iyirmi', 'otuz', 'qırx', 'əlli', 'altmış', 'yetmiş', 'səksən', 'doxsan'];
-            const bigs = ['', 'min', 'milyon', 'milyard', 'trilyon', 'katrilyon'];
-
-            let wholePart = Math.floor(number);
-            let decimalPart = Math.round((number - wholePart) * 100);
-
-            let wholePartWords = '';
-            let decimalPartWords = '';
-
-            if (wholePart === 0) {
-                wholePartWords = 'sıfır';
-            } else {
-                let chunkCount = 0;
-                while (wholePart > 0) {
-                    if (wholePart % 1000 !== 0) {
-                        let chunk = numberToWordsHelper(wholePart % 1000) + ' ' + bigs[chunkCount];
-                        wholePartWords = chunk + ' ' + wholePartWords;
-                    }
-                    wholePart = Math.floor(wholePart / 1000);
-                    chunkCount++;
+            miktarHucres.each(function() {
+                var miktarHucre = $(this);
+                var value = parseFloat(miktarHucre.text());
+                if (!isNaN(value)) {
+                    sum1 += value;
                 }
+            });
+
+            var sumCell = $('#sum');
+            var vatCell = $('#vat');
+            var totalCell = $('#total');
+
+            var edvCompany = $('#companies').val();
+            var edv = (edvCompany !== 'mbrokerRespublika' && edvCompany !== 'garantRespublika' && edvCompany !== 'garantKapital' && edvCompany !== 'mbrokerKapital') ? 1 : 1.18;
+
+            var overallElements = $(".overal");
+            var sum2 = 0;
+
+            overallElements.each(function() {
+                var count = parseInt($(this).closest("tr").find(".count").text());
+                var amount = parseFloat($(this).closest("tr").find(".amount").text());
+                var overallValue = count * amount;
+                $(this).text(overallValue.toFixed(2));
+                sum2 += overallValue;
+            });
+
+            var getCompany = $("#getCompany").html();
+
+            var sumElement = $(".sum");
+            var vatElement = $(".vat");
+            var totalElement = $(".total");
+
+             var sum = sum1 +sum2
+            sumCell.text(sum.toFixed(2));
+            vatCell.text((sum * 0.18).toFixed(2));
+            totalCell.text((sum * edv).toFixed(2));
+            $('#sum2').html(sum.toFixed(2));
+            $('#vat2').html((sum * 0.18).toFixed(2));
+            $('#total2').html((sum * edv).toFixed(2));
+            $('#sum3').html((sum * edv).toFixed(2));
+            $('#vat3').html((sum * 0.18).toFixed(2));
+            $('#total3').html((sum * edv).toFixed(2));
+            $('#total4').html((sum * edv).toFixed(2));
+            $('#total5').html((sum * edv).toFixed(2));
+            $('#total6').html((sum * edv).toFixed(2));
+            $('#total7').html((sum * edv).toFixed(2));
+
+            if (getCompany !== '\"Mobil Broker\" MMC' && getCompany !== '\"Garant Broker\" MMC') {
+                $("#vatColumn, #vatColumn2, #vatColumn3").hide();
+                var rate = 1;
+            } else {
+                vatElement.text((sum * 0.18).toFixed(2));
+                var rate = 1.18;
             }
 
-            if (decimalPart > 0) {
-                decimalPartWords = numberToWordsHelper(decimalPart) + ' qəpik';
+            sumElement.text(sum.toFixed(2));
+            totalElement.text((sum * rate).toFixed(2));
+
+            var numberWord = $('.numberWord');
+            numberWord.html(convertToWords($('#total').html()).toUpperCase());
+
+        }
+
+
+        $(".count, .amount").on("input", function() {
+            calculateTotal();
+        });
+
+        calculateTotal();
+
+        $('#table-body .count, #table-body .amount').on('input', function() {
+            var row = $(this).data('row');
+            var count = parseFloat($('#table-body td.count[data-row="' + row + '"]').text()) || 0;
+            var amount = parseFloat($('#table-body td.amount[data-row="' + row + '"]').text()) || 0;
+            var overall = count * amount;
+
+            var countCell = "#countCell-" + row
+            var amountCell = "#amountCell-" + row
+            var overallCell = "#overalCell-" + row
+            var count2Cell = "#countCell2-" + row
+            var amount2Cell = "#amountCell2-" + row
+            var overall2Cell = "#overalCell2-" + row
+            $(countCell).text(count)
+            $(amountCell).text(amount)
+            $(overallCell).text(overall)
+            $(count2Cell).text(count)
+            $(amount2Cell).text(amount)
+            $(overall2Cell).text(overall)
+        });
+         $('#invoiceNo').on('input', function() {
+            var invoiceNo = $(this).text();
+            $('.invoiceNo').text(invoiceNo)
+        });
+         $('#invoiceDate').on('input', function() {
+            var invoiceDate = $(this).text();
+            $('.invoiceDate').text(invoiceDate)
+        });
+
+    function convertToWords(number) {
+        const units = ['', 'bir', 'iki', 'üç', 'dörd', 'beş', 'altı', 'yeddi', 'səkkiz', 'doqquz'];
+        const tens = ['', 'on', 'iyirmi', 'otuz', 'qırx', 'əlli', 'altmış', 'yetmiş', 'səksən', 'doxsan'];
+        const bigs = ['', 'min', 'milyon', 'milyard', 'trilyon', 'katrilyon'];
+
+        let wholePart = Math.floor(number);
+        let decimalPart = Math.round((number - wholePart) * 100);
+
+        let wholePartWords = '';
+        let decimalPartWords = '';
+
+        if (wholePart === 0) {
+            wholePartWords = 'sıfır';
+        } else {
+            let chunkCount = 0;
+            while (wholePart > 0) {
+                if (wholePart % 1000 !== 0) {
+                    let chunk = numberToWordsHelper(wholePart % 1000) + ' ' + bigs[chunkCount];
+                    wholePartWords = chunk + ' ' + wholePartWords;
+                }
+                wholePart = Math.floor(wholePart / 1000);
+                chunkCount++;
             }
-
-            return wholePartWords.trim() + ' manat ' + decimalPartWords;
         }
 
-        function numberToWordsHelper(number) {
-            const units = ['', 'bir', 'iki', 'üç', 'dörd', 'beş', 'altı', 'yeddi', 'səkkiz', 'doqquz'];
-            const tens = ['', 'on', 'iyirmi', 'otuz', 'qırx', 'əlli', 'altmış', 'yetmiş', 'səksən', 'doxsan'];
-            const hundreds = ['', 'yüz', 'iki yüz', 'üç yüz', 'dörd yüz', 'beş yüz', 'altı yüz', 'yeddi yüz', 'səkkiz yüz', 'doqquz yüz'];
-
-            let result = '';
-
-            let hundredsDigit = Math.floor(number / 100);
-            let tensDigit = Math.floor((number % 100) / 10);
-            let unitsDigit = number % 10;
-
-            if (hundredsDigit > 0) {
-                result += hundreds[hundredsDigit] + ' ';
-            }
-
-            if (tensDigit > 0) {
-                result += tens[tensDigit] + ' ';
-            }
-
-            if (unitsDigit > 0) {
-                result += units[unitsDigit] + ' ';
-            }
-
-            return result;
+        if (decimalPart > 0) {
+            decimalPartWords = numberToWordsHelper(decimalPart) + ' qəpik';
         }
 
-        function printCard1() {
-            var printContent = document.getElementById('printCard1').innerHTML;
-            var originalContent = document.body.innerHTML;
+        return wholePartWords.trim() + ' manat ' + decimalPartWords;
+    }
 
-            document.body.innerHTML = printContent;
-            window.print();
-            document.body.innerHTML = originalContent;
+    function numberToWordsHelper(number) {
+        const units = ['', 'bir', 'iki', 'üç', 'dörd', 'beş', 'altı', 'yeddi', 'səkkiz', 'doqquz'];
+        const tens = ['', 'on', 'iyirmi', 'otuz', 'qırx', 'əlli', 'altmış', 'yetmiş', 'səksən', 'doxsan'];
+        const hundreds = ['', 'yüz', 'iki yüz', 'üç yüz', 'dörd yüz', 'beş yüz', 'altı yüz', 'yeddi yüz', 'səkkiz yüz', 'doqquz yüz'];
+
+        let result = '';
+
+        let hundredsDigit = Math.floor(number / 100);
+        let tensDigit = Math.floor((number % 100) / 10);
+        let unitsDigit = number % 10;
+
+        if (hundredsDigit > 0) {
+            result += hundreds[hundredsDigit] + ' ';
         }
-        function printCard2() {
-            var printContent = document.getElementById('printCard2').innerHTML;
-            var originalContent = document.body.innerHTML;
-            document.body.innerHTML = printContent;
-            window.print();
-            document.body.innerHTML = originalContent;
+
+        if (tensDigit > 0) {
+            result += tens[tensDigit] + ' ';
         }
-        function printCard3() {
-            var printContent = document.getElementById('printCard3').innerHTML;
-            var originalContent = document.body.innerHTML;
-            document.body.innerHTML = printContent;
-            window.print();
-            document.body.innerHTML = originalContent;
+
+        if (unitsDigit > 0) {
+            result += units[unitsDigit] + ' ';
         }
-    </script>
+
+        return result;
+    }
+
+
+    function printCard1() {
+        $('#print-area').hide();
+        $('#form-area').hide();
+        $('.btn-danger').each(function() {
+            $(this).parent().hide();
+        });
+
+        var printContent = $('#printCard1').html();
+        var originalContent = $('body').html();
+
+        $('body').html(printContent);
+        window.print();
+        $('body').html(originalContent);
+    }
+
+    function printCard2() {
+        var printContent = $('#printCard2').html();
+        var originalContent = $('body').html();
+
+        $('body').html(printContent);
+        window.print();
+        $('body').html(originalContent);
+    }
+
+    function printCard3() {
+        var printContent = $('#printCard3').html();
+        var originalContent = $('body').html();
+
+        $('body').html(printContent);
+        window.print();
+        $('body').html(originalContent);
+    }
+</script>
+
+@endsection
