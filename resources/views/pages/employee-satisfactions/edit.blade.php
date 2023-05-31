@@ -128,55 +128,55 @@
             // $(".deadline").prop("readonly", true)
         </script>
     @endif
-    @if ($method !== 'POST')
-            <script>
-                // $('#is_enough').attr('checked',true)
-                $('.more_time').hide()
-                $('.reason').hide()
-                $('.result').hide()
+{{--    @if ($method !== 'POST')--}}
+{{--            <script>--}}
+{{--                // $('#is_enough').attr('checked',true)--}}
+{{--                $('.more_time').hide()--}}
+{{--                $('.reason').hide()--}}
+{{--                $('.result').hide()--}}
 
 
-                $('#is_enough').change(function()
-                {
-                    if ($(this).prop('checked')) {
-                        $('.more_time').hide()
-                        $('.result').show()
-                        $(".reason").hide()
-                    }
-                    else
-                        $('.result').hide(),
-                        $('.more_time').show()
-                })
+{{--                $('#is_enough').change(function()--}}
+{{--                {--}}
+{{--                    if ($(this).prop('checked')) {--}}
+{{--                        $('.more_time').hide()--}}
+{{--                        $('.result').show()--}}
+{{--                        $(".reason").hide()--}}
+{{--                    }--}}
+{{--                    else--}}
+{{--                        $('.result').hide(),--}}
+{{--                        $('.more_time').show()--}}
+{{--                })--}}
 
-                $('#more_time').change(function()
-                {
-                    if ($(this).prop('checked')) {
-                        $('.is_enough').hide()
-                        // $(".deadline").prop("readonly", false);
-                            $(".reason").hide()
-                    }
-                    else
-                        $('.result').hide(),
-                        $('.is_enough').show(),
-                        $(".reason").show()
-                        // $(".deadline").prop("readonly", true)
-                })
-            </script>
-        @endif
-    @if(!is_null($data->getAttribute('reason')))
-        <script>
-            $('.reason').show()
-            $('.more_time').hide()
-            $('.is_enough').hide()
-        </script>
-    @endif
-        @if(!is_null($data->getAttribute('result')))
-        <script>
-            $('.result').show()
-            $('.more_time').hide()
-            $('.is_enough').hide()
-        </script>
-    @endif
+{{--                $('#more_time').change(function()--}}
+{{--                {--}}
+{{--                    if ($(this).prop('checked')) {--}}
+{{--                        $('.is_enough').hide()--}}
+{{--                        // $(".deadline").prop("readonly", false);--}}
+{{--                            $(".reason").hide()--}}
+{{--                    }--}}
+{{--                    else--}}
+{{--                        $('.result').hide(),--}}
+{{--                        $('.is_enough').show(),--}}
+{{--                        $(".reason").show()--}}
+{{--                        // $(".deadline").prop("readonly", true)--}}
+{{--                })--}}
+{{--            </script>--}}
+{{--        @endif--}}
+{{--    @if(!is_null($data->getAttribute('reason')))--}}
+{{--        <script>--}}
+{{--            $('.reason').show()--}}
+{{--            $('.more_time').hide()--}}
+{{--            $('.is_enough').hide()--}}
+{{--        </script>--}}
+{{--    @endif--}}
+{{--        @if(!is_null($data->getAttribute('result')))--}}
+{{--        <script>--}}
+{{--            $('.result').show()--}}
+{{--            $('.more_time').hide()--}}
+{{--            $('.is_enough').hide()--}}
+{{--        </script>--}}
+{{--    @endif--}}
 
 
 @endsection
