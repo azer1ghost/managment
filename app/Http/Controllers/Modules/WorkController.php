@@ -386,6 +386,7 @@ class WorkController extends Controller
         }
 
         $work->parameters()->sync($parameters);
+        $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work)]);
         event(new WorkCreated($work));
 
         return redirect()
@@ -422,6 +423,7 @@ class WorkController extends Controller
     public function update(WorkRequest $request, Work $work): RedirectResponse
     {
         $client = Client::where('id', $request->client_id)->first();
+
 
         $serviceText = trim($work->getRelationValue('service')->getAttribute('name'));
         $clientText = trim($client->getAttribute('fullname'));
@@ -519,7 +521,6 @@ class WorkController extends Controller
         }
         return response()->setStatusCode('204');
     }
-
 
     public function verifyFinance(Work $work)
     {

@@ -216,7 +216,25 @@
             </div>
         @endif
 
-        @if($action)
+{{--            <label>{{ $service->getAttribute('name') }}</label>--}}
+{{--            <input type="text" name="services[{{ $service->getAttribute('id') }}]" value="{{ $serviceAmounts[$service->getAttribute('id')] ?? '' }}">--}}
+        @if($method !== 'POST')
+
+            <div>
+                @foreach ($services as $service)
+                    <label>{{ $service->getAttribute('name') }}</label>
+                    <input type="hidden" name="services[{{ $service->getAttribute('id') }}][client_id]" value="{{ $data->id }}">
+                    <input type="hidden" name="services[{{ $service->getAttribute('id') }}][service_id]" value="{{ $service->getAttribute('id') }}">
+                    <input type="text" name="services[{{ $service->getAttribute('id') }}][amount]" value="{{ $service->pivot->amount ?? '' }}">
+                    <br>
+                @endforeach
+            </div>
+        @endif
+
+
+
+
+    @if($action)
             <x-input::submit/>
         @endif
         @endbind
@@ -272,7 +290,6 @@
                         </th>
                     </tr>
             @endforelse
-
             </tbody>
         </table>
         @if($method == 'PUT')

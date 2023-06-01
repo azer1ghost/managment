@@ -39,6 +39,12 @@ class Service extends Model implements Recordable
         return $this->hasMany(Work::class);
     }
 
+    public function clients(): BelongsToMany
+    {
+        return $this->belongsToMany(Client::class, 'client_service')
+            ->withPivot('amount');
+    }
+
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class)->withDefault();
@@ -53,6 +59,7 @@ class Service extends Model implements Recordable
     {
         return $this->belongsTo(__CLASS__, 'service_id')->withDefault();
     }
+
 
     public function services(): HasMany
     {
@@ -112,4 +119,5 @@ class Service extends Model implements Recordable
             return $data;
         });
     }
+
 }
