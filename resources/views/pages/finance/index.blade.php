@@ -650,9 +650,6 @@
             if (company == 'logisticsKapital') {
                 $('#loginput').show();
                 $('#brokerinput').hide();
-            }else if (company == 'mtechnologiesRespublika') {
-                $('#loginput').show();
-                $('#brokerinput').hide();
             } else {
                 $('#loginput').hide();
                 $('#brokerinput').show();
