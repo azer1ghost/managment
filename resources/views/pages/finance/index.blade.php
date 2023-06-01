@@ -23,24 +23,28 @@
 @section('content')
     <div class="text-center container">
         <div class="card">
-            <a href="{{ route('invoices') }}" class="btn btn-dark float-right">Şablonlar</a>
+            <a href="{{ route('invoices') }}" class="btn btn-dark float-right m-2">Şablonlar</a>
             <h3>Rekvizitlər</h3>
-            <select class="form-control col-3 m-2" id="companies" onchange="changeCompany()">
-                <option value="">Şirkət Seçin</option>
-                <option value="mbrokerKapital">Mobil Broker Kapital</option>
-                <option value="mbrokerRespublika">Mobil Broker Bank Respublika</option>
-                <option value="garantKapital">Garant Broker Kapital</option>
-                <option value="garantRespublika">Garant Broker Bank Respublika</option>
-                <option value="rigelRespublika">Rigel Bank Respublika</option>
-                <option value="rigelKapital">Rigel Kapital</option>
-                <option value="mindRespublika">Mind Bank Respublika</option>
-                <option value="asazaRespublika">Asaza Bank Respublika</option>
-                <option value="mtechnologiesRespublika">Mobil Technologies Bank Respublika</option>
-                <option value="logisticsKapital">Mobil Logistics Kapital</option>
-            </select>
-            <select id="clientSelect" onchange="changeClient()" class="form-control col-3 m-2 select2">
+            <div class="row col-12 justify-content-center">
 
-            </select>
+                <select class="form-control col-4 mb-2 mr-2" id="companies" onchange="changeCompany()">
+                    <option value="">Şirkət Seçin</option>
+                    <option value="mbrokerKapital">Mobil Broker Kapital</option>
+                    <option value="mbrokerRespublika">Mobil Broker Bank Respublika</option>
+                    <option value="garantKapital">Garant Broker Kapital</option>
+                    <option value="garantRespublika">Garant Broker Bank Respublika</option>
+                    <option value="rigelRespublika">Rigel Bank Respublika</option>
+                    <option value="rigelKapital">Rigel Kapital</option>
+                    <option value="mindRespublika">Mind Bank Respublika</option>
+                    <option value="asazaRespublika">Asaza Bank Respublika</option>
+                    <option value="mtechnologiesRespublika">Mobil Technologies Bank Respublika</option>
+                    <option value="logisticsKapital">Mobil Logistics Kapital</option>
+                </select>
+                <select id="clientSelect" onchange="changeClient()" class=" col-4 mt-4 p-3 select2">
+                    <option value="">Müştəri seç</option>
+                </select>
+            </div>
+
             <hr>
             <h3>Müştəri Məlumatları</h3>
 
@@ -966,6 +970,7 @@
                 row2.cells[0].textContent = i + 1;
                 row3.cells[0].textContent = i + 1;
             }
+            savedRows.splice(rowIndex - 1, 1);
 
             calculateTotal();
         }
