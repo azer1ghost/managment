@@ -40,57 +40,61 @@
                     <option value="mtechnologiesRespublika">Mobil Technologies Bank Respublika</option>
                     <option value="logisticsKapital">Mobil Logistics Kapital</option>
                 </select>
-                <select id="clientSelect" onchange="changeClient()" class=" col-4 mt-4 p-3 select2">
+                <select id="clientSelect" onchange="changeClient()" class=" col-4 mt-4 select2">
                     <option value="">Müştəri seç</option>
                 </select>
             </div>
 
             <hr>
             <h3>Müştəri Məlumatları</h3>
-
-            <input class="form-control col-3 m-2" id="clientNameInput" placeholder="Müştəri Adı"
-                   onchange="clientName()">
-            <input class="form-control col-3 m-2" id="clientVoenInput" placeholder="Müştəri Voen"
-                   oninput="clientVoen()">
-            <input class="form-control col-3 m-2" id="clienthhInput" placeholder="Müştəri H/N"
-                   oninput="clienthh()">
-            <input class="form-control col-3 m-2" id="clientmhInput" placeholder="Müştəri M/H"
-                   oninput="clientmh()">
-            <input class="form-control col-3 m-2" id="clientCodeInput" placeholder="Müştəri Bank Kod"
-                   oninput="clientCode()">
-            <input class="form-control col-3 m-2" id="clientBankInput" placeholder="Müştəri Bank Adı"
-                   oninput="clientBank()">
-            <input class="form-control col-3 m-2" id="clientBvoenInput" placeholder="Müştəri Bank VÖEN"
-                   oninput="clientBvoen()">
-            <input class="form-control col-3 m-2" id="clientSwiftInput" placeholder="Müştəri Bank S.W.I.F.T"
-                   oninput="clientSwift()">
-            <input class="form-control col-3 m-2" id="clientWhoInput" placeholder="Müştəri Vəzifəsi : Adı"
-                   oninput="clientWho()">
-
-            <button class="btn btn-success col-3 m-2" id="createClient" onclick="createClient()">Müştəri Məlumatlarını Yadda Saxla</button>
+            <div class="row col-12 justify-content-center">
+                <input class="form-control col-3 m-2" id="clientNameInput" placeholder="Müştəri Adı"
+                       onchange="clientName()">
+                <input class="form-control col-3 m-2" id="clientVoenInput" placeholder="Müştəri Voen"
+                       oninput="clientVoen()">
+                <input class="form-control col-3 m-2" id="clienthhInput" placeholder="Müştəri H/N"
+                       oninput="clienthh()">
+                <input class="form-control col-3 m-2" id="clientmhInput" placeholder="Müştəri M/H"
+                       oninput="clientmh()">
+                <input class="form-control col-3 m-2" id="clientCodeInput" placeholder="Müştəri Bank Kod"
+                       oninput="clientCode()">
+                <input class="form-control col-3 m-2" id="clientBankInput" placeholder="Müştəri Bank Adı"
+                       oninput="clientBank()">
+                <input class="form-control col-3 m-2" id="clientBvoenInput" placeholder="Müştəri Bank VÖEN"
+                       oninput="clientBvoen()">
+                <input class="form-control col-3 m-2" id="clientSwiftInput" placeholder="Müştəri Bank S.W.I.F.T"
+                       oninput="clientSwift()">
+                <input class="form-control col-3 m-2" id="clientWhoInput" placeholder="Müştəri Vəzifəsi : Adı"
+                       oninput="clientWho()">
+                <button class="btn btn-success col-3 m-2" id="createClient" onclick="createClient()">Müştəri Məlumatlarını Yadda Saxla</button>
+            </div>
 
             <hr>
 
-            <h3>Hesab Faktura</h3>
-            <input class="form-control col-3 m-2" id="invoiceNoInput" placeholder="Hesab faktura nömrəsi"
-                   oninput="invoiceNo()">
-            <input class="form-control col-3 m-2" id="invoiceDateInput" placeholder="Hesab faktura tarixi"
-                   oninput="invoiceDate()">
+            <h3 class="m-2">Hesab Faktura</h3>
+                <div class="row col-12 justify-content-center">
+                <input class="form-control col-3 m-2" id="invoiceNoInput" placeholder="Hesab faktura nömrəsi"
+                       oninput="invoiceNo()">
+                <input class="form-control col-3 m-2" id="invoiceDateInput" placeholder="Hesab faktura tarixi"
+                       oninput="invoiceDate()">
 
-            <select class="form-control col-3 m-2" id="paymentTypeSelect" onchange="paymentType()">
-                <option value="">Ödəmə növü</option>
-                <option value="Köçürmə">Köçürmə</option>
-                <option value="nağd">Nağd</option>
-            </select>
+                <select class="form-control col-3 m-2" id="paymentTypeSelect" onchange="paymentType()">
+                    <option value="">Ödəmə növü</option>
+                    <option value="Köçürmə">Köçürmə</option>
+                    <option value="nağd">Nağd</option>
+                </select>
+
+            </div>
             <hr>
-            <h3>Qiymət Razılaşdırma Protokolu</h3>
-
-            <input class="form-control col-3 m-2" id="protocolDateInput"
-                   placeholder="Protokol tarixi" oninput="protocolDate()">
-            <input class="form-control col-3 m-2" id="contractNoInput" placeholder="Müqavilə nömrəsi"
-                   oninput="contractNo()">
-            <input class="form-control col-3 m-2" id="contractDateInput" placeholder="Müqavilə tarixi"
-                   oninput="contractDate()">
+            <h3 class="m-2">Qiymət Razılaşdırma Protokolu</h3>
+            <div class="row col-12 justify-content-center">
+                <input class="form-control col-3 m-2" id="protocolDateInput"
+                       placeholder="Protokol tarixi" oninput="protocolDate()">
+                <input class="form-control col-3 m-2" id="contractNoInput" placeholder="Müqavilə nömrəsi"
+                       oninput="contractNo()">
+                <input class="form-control col-3 m-2" id="contractDateInput" placeholder="Müqavilə tarixi"
+                       oninput="contractDate()">
+            </div>
             <hr>
 
 
