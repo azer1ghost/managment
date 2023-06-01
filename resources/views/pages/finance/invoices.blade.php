@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="container">
-        <table class="table">
+        <table class="table text-center" id="invoices">
             <thead>
             <tr>
                 <th>Hesab Faktura No</th>
@@ -22,8 +22,8 @@
                     <td>{{$invoice->getAttribute('invoiceNo')}}</td>
                     <td>{{$invoice->getRelationValue('financeClients')->getAttribute('name')}}</td>
                     <td>
-                        <a class="btn btn-success" href="{{ route('financeInvoice', $invoice->getAttribute('id')) }}">Bax</a>
-                        <a class="btn btn-danger" href="{{ route('deleteInvoice', $invoice->getAttribute('id')) }}">Sil</a>
+                        <a class="btn btn-success p-2" href="{{ route('financeInvoice', $invoice->getAttribute('id')) }}">Bax</a>
+                        <a class="btn btn-danger p-2" href="{{ route('deleteInvoice', $invoice->getAttribute('id')) }}">Sil</a>
                     </td>
                 </tr>
             @endforeach
@@ -32,4 +32,9 @@
         </table>
     </div>
 
+@endsection
+@section('scripts')
+    <script>
+        $('#invoices').DataTable();
+    </script>
 @endsection

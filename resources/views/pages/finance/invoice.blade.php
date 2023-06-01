@@ -218,6 +218,9 @@
                                 <option>Gömrük rüsumlarının əvvəlcədən hesablanması</option>
                                 <option>Təmsilçilik xidməti</option>
                                 <option>Qismən Təmsilçilik xidməti</option>
+                                <option>Printerlərə texniki baxışın göstərilməsi</option>
+                                <option>Serverlərə texniki baxışın göstərilməsi</option>
+                                <option>Kompüterlərə texniki baxışın göstərilməsi</option>
                             </select>
                         </td>
                         <td>Ədəd</td>
