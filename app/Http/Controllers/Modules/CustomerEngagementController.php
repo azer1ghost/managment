@@ -130,7 +130,11 @@ class CustomerEngagementController extends Controller
 
         foreach ($customerEngagements as $customerEngagement) {
             $client = $customerEngagement->getAttribute('client_id');
-            $works = Work::query()->where('client_id', $client)->whereMonth('paid_at', now()->subMonth())->get();
+            $works = Work::query()
+                ->where('client_id', $client)
+                ->whereYear('paid_at', now()->subMonth()->format('Y'))
+                ->whereMonth('paid_at', now()->subMonth()->format('m'))
+                ->get();
             if (isNull($works)){
                 $sum_total_payment = 0;
             }
