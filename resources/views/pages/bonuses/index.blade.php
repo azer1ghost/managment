@@ -279,13 +279,17 @@
     <section class="col-12">
         <h1 style="text-align: center">@lang('translates.navbar.customer_engagement') Bonus</h1>
         <h2 style="text-align:center">{{now()->subMonth()->englishMonth}}</h2>
+        <form action="{{ route('calculate-amounts') }}" method="POST">
+            @csrf
+            @foreach($clientBonuses as $bonus)
+                <input type="hidden" name="customer_engagements[]" value="{{ $bonus->id }}">
+            @endforeach
+            <button type="submit" class="btn btn-outline-secondary">Bonusları Hesabla</button>
+        </form>
         @foreach($clientBonuses as $bonus)
             <details>
                 <summary>
                     <div>
-                    <span style="background-color: #f2dcbb;">
-                       <a href="{{route('getAmount', $bonus)}}" class="btn btn-sm">Yoxla</a>
-                    </span>
                         <h3>
                             <strong>{{$bonus->getRelationValue('client')->getAttribute('fullname')}}</strong>
                         </h3>
@@ -298,13 +302,7 @@
                 <h4 class="float-right m-2"><b> @lang('translates.columns.total'): {{array_sum($sumBonus)}} AZN</b></h4>
             @endif
     </section>
-    <form action="{{ route('calculate-amounts') }}" method="POST">
-        @csrf
-        @foreach($clientBonuses as $bonus)
-            <input type="hidden" name="customer_engagements[]" value="{{ $bonus->id }}">
-        @endforeach
-        <button type="submit" class="btn btn-outline-secondary">Bonusları Hesabla</button>
-    </form>
+
 @endsection
 @section('scripts')
     <script>
