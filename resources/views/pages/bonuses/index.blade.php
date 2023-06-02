@@ -278,7 +278,7 @@
     </div>
     <section class="col-12">
         <h1 style="text-align: center">@lang('translates.navbar.customer_engagement') Bonus</h1>
-        <h2 style="text-align:center">{{now()->englishMonth}}</h2>
+        <h2 style="text-align:center">{{now()->subMonth()->englishMonth}}</h2>
         @foreach($clientBonuses as $bonus)
             <details>
                 <summary>
@@ -298,6 +298,13 @@
                 <h4 class="float-right m-2"><b> @lang('translates.columns.total'): {{array_sum($sumBonus)}} AZN</b></h4>
             @endif
     </section>
+    <form action="{{ route('calculate-amounts') }}" method="POST">
+        @csrf
+        @foreach($clientBonuses as $bonus)
+            <input type="hidden" name="customer_engagements[]" value="{{ $bonus->id }}">
+        @endforeach
+        <button type="submit" class="btn btn-outline-secondary">Bonusları Hesabla</button>
+    </form>
 @endsection
 @section('scripts')
     <script>
