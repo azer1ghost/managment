@@ -231,6 +231,7 @@ Route::group([
     Route::resource('/reports', ReportController::class)->only('index', 'destroy');
     Route::resource('/customer-engagement', CustomerEngagementController::class);
     Route::get('/customer-engagement/getAmount/{customerEngagement}',[ CustomerEngagementController::class,'getAmount'])->name('getAmount');
+    Route::post('/calculate-amounts',[ CustomerEngagementController::class,'calculateAmounts'])->name('calculate-amounts');
     Route::resource('/documents', DocumentController::class)->except('store');
     Route::post('/documents/{modelId}', [DocumentController::class, 'store'])->name('documents.store');
     Route::get('/chats', [ChatController::class, 'index'])->name('chats.index');

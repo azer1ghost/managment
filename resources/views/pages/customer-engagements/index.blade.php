@@ -94,6 +94,7 @@
                         <td>{{$customer_engagement->getAttribute('amount')*0.10}}</td>
                         <td>
                             <div class="btn-sm-group">
+
                                 @can('view', $customer_engagement)
                                     <a href="{{route('customer-engagement.show', $customer_engagement)}}" class="btn btn-sm btn-outline-primary"> <i class="fal fa-eye"></i></a>
                                 @endcan
@@ -121,12 +122,20 @@
                         </th>
                     </tr>
                 @endforelse
+
                 </tbody>
             </table>
             <div class="float-right">
                 {{$customer_engagements->appends(request()->input())->links()}}
             </div>
         </div>
+    </form>
+    <form action="{{ route('calculate-amounts') }}" method="POST">
+        @csrf
+        @foreach($customer_engagements as $customer_engagement)
+            <input type="hidden" name="customer_engagements[]" value="{{ $customer_engagement->id }}">
+        @endforeach
+        <button type="submit" class="btn btn-sm btn-outline-secondary">Calculate Amounts</button>
     </form>
 @endsection
 @section('scripts')

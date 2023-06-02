@@ -124,4 +124,28 @@ class CustomerEngagementController extends Controller
 
         return redirect()->back();
     }
+    public function calculateAmounts(Request $request)
+    {
+        $customerEngagements = CustomerEngagement::whereIn('id', $request->customer_engagements)->get();
+
+        foreach ($customerEngagements as $customerEngagement) {
+            $client = $customerEngagement->getAttribute('client_id');
+            $works = Work::query()->where('client_id', $client)->whereMonth('paid_at', now()->subMonth())->get();
+            if (isNull($works)){
+                $sum_total_payment = 0;
+            }
+            foreach ($works as $work){
+                /**
+                 * @var Work $work
+                 */
+                $sum_total_payment = $works->sum(function ($work) {
+                    return $work->getParameter($work::PAID) + $work->getParameter($work::ILLEGALPAID);
+                });
+            }
+            $customerEngagement->setAttribute('amount',$sum_total_payment)->save();
+
+        }
+
+        return redirect()->back();
+    }
 }
