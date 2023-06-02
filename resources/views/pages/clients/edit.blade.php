@@ -9,8 +9,49 @@
             border-color: blue;
             width: 50px
         }
+
         .customInput:focus {
             border-color: green
+        }
+    </style>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
         }
     </style>
 @endsection
@@ -31,7 +72,8 @@
             @endif
         </x-bread-crumb-link>
     </x-bread-crumb>
-    <form class="col-md-12 form-row px-0" action="{{$action}}" method="POST" enctype="multipart/form-data" id="client-form">
+    <form class="col-md-12 form-row px-0" action="{{$action}}" method="POST" enctype="multipart/form-data"
+          id="client-form">
         <!-- Main -->
         @csrf @method($method)
         @bind($data)
@@ -41,61 +83,70 @@
             <p class="text-muted mb-2">@lang('translates.register.progress.personal')</p>
             <hr class="my-2">
             <div class="row pr-2 pl-0">
-                <input type="hidden" name="client_id" value="{{$data->getAttribute('client_id') ?? request()->get('client_id')}}">
+                <input type="hidden" name="client_id"
+                       value="{{$data->getAttribute('client_id') ?? request()->get('client_id')}}">
                 @if(request()->has('client_id'))
                     <input type="hidden" name="type" value="{{request()->get('type')}}">
                 @endif
                 @if($data->client()->exists())
                     <div class="form-group col-12 col-md-4 pr-1">
                         <label for="data-client">@lang('translates.fields.client')</label>
-                        <input type="text" class="form-control" id="data-client" value="{{$data->getRelationValue('client')->fullname}}" disabled>
+                        <input type="text" class="form-control" id="data-client"
+                               value="{{$data->getRelationValue('client')->fullname}}" disabled>
                     </div>
                 @endif
-                <x-form-group  class="pr-3 col-12 col-lg-4" :label="trans('translates.filters.type')">
-                    <x-form-select name="type" :options="[trans('translates.general.legal'), trans('translates.general.physical'), trans('translates.general.foreignphysical'), trans('translates.general.foreignlegal')]" />
+                <x-form-group class="pr-3 col-12 col-lg-4" :label="trans('translates.filters.type')">
+                    <x-form-select name="type"
+                                   :options="[trans('translates.general.legal'), trans('translates.general.physical'), trans('translates.general.foreignphysical'), trans('translates.general.foreignlegal')]"/>
                 </x-form-group>
                 <div class="form-group col-4">
                     <label for="data-companies">Select Company</label><br/>
-                    <select id="data-companies" name="companies[]" multiple required class="filterSelector" data-selected-text-format="count"
+                    <select id="data-companies" name="companies[]" multiple required class="filterSelector"
+                            data-selected-text-format="count"
                             data-width="fit" title="@lang('translates.filters.select')">
                         @foreach($companies as $company)
-                            <option value="{{$company->getAttribute('id')}}" @foreach($data->companies as $companie) @if($company->getAttribute('id') == $companie->id) selected @endif @endforeach>{{$company->getAttribute('name')}}</option>
+                            <option value="{{$company->getAttribute('id')}}"
+                                    @foreach($data->companies as $companie) @if($company->getAttribute('id') == $companie->id) selected @endif @endforeach>{{$company->getAttribute('name')}}</option>
                         @endforeach
                     </select>
                 </div>
-                <x-form-group  class="pr-3 col-3 col-md-3" :label="trans('translates.fields.sector')">
-                    <x-form-input name="sector" />
+                <x-form-group class="pr-3 col-3 col-md-3" :label="trans('translates.fields.sector')">
+                    <x-form-input name="sector"/>
                 </x-form-group>
-                <x-form-group  class="pr-3 col-12 col-lg-8" :label="trans('translates.fields.name')" required>
-                    <x-form-input name="fullname" />
+                <x-form-group class="pr-3 col-12 col-lg-8" :label="trans('translates.fields.name')" required>
+                    <x-form-input name="fullname"/>
                 </x-form-group>
                 @if ((request()->get('type') == $data::PHYSICAL || $data->getAttribute('type') == $data::PHYSICAL) || (request()->get('type') == $data::FOREIGNPHYSICAL || $data->getAttribute('type') == $data::FOREIGNPHYSICAL))
-                    <x-form-group  class="pr-3 col-12 col-lg-4" :label="trans('translates.fields.father')">
-                        <x-form-input name="father" />
+                    <x-form-group class="pr-3 col-12 col-lg-4" :label="trans('translates.fields.father')">
+                        <x-form-input name="father"/>
                     </x-form-group>
                 @endif
-                <x-form-group  class="pr-3 col-12 col-lg-8" :label="trans('translates.fields.detail')">
-                    <x-form-textarea name="detail" style="height: 300px" />
+                <x-form-group class="pr-3 col-12 col-lg-8" :label="trans('translates.fields.detail')">
+                    <x-form-textarea name="detail" style="height: 300px"/>
                 </x-form-group>
                 @if ((request()->get('type') == $data::LEGAL && optional($data)->getAttribute('type') == $data::LEGAL) || (request()->get('type') == $data::FOREIGNLEGAL && optional($data)->getAttribute('type') == $data::FOREIGNLEGAL))
-                    <x-input::date  :label="__('translates.fields.created_at')" name="celebrate_at" :value="optional($data)->getAttribute('celebrate_at')" width="4" class="pr-0" />
+                    <x-input::date :label="__('translates.fields.created_at')" name="celebrate_at"
+                                   :value="optional($data)->getAttribute('celebrate_at')" width="4" class="pr-0"/>
                 @endif
-                    <x-input::date  :label="__('translates.fields.birthday')" name="birthday" :value="optional($data)->getAttribute('birthday')" width="4" class="pr-0" />
+                <x-input::date :label="__('translates.fields.birthday')" name="birthday"
+                               :value="optional($data)->getAttribute('birthday')" width="4" class="pr-0"/>
                 <div class="form-group col-6 user">
                     <label for="user_id">Vasitəçi</label><br/>
                     <select class="select2 form-control" name="reference_id" id="user_id">
                         <option value="">Birbaşa</option>
                         @foreach($users as $user)
-                                <option @if($engagement !== null) @if($engagement->getAttribute('user_id') == $user->id) selected @endif @endif value="{{$user->id}}">{{$user->getFullNameWithPositionAttribute()}} </option>
+                            <option @if($engagement !== null) @if($engagement->getAttribute('user_id') == $user->id) selected
+                                    @endif @endif value="{{$user->id}}">{{$user->getFullNameWithPositionAttribute()}} </option>
                         @endforeach
                     </select>
                 </div>
                 <div class="form-group col-12 col-md-3" wire:ignore>
                     <label for="data-channel">Kanal @lang('translates.placeholders.choose')</label>
                     <select name="channel" id="data-channel" class="form-control">
-                        <option disabled >Kanal @lang('translates.placeholders.choose')</option>
+                        <option disabled>Kanal @lang('translates.placeholders.choose')</option>
                         @foreach($channels as $key => $channel)
-                            <option @if(optional($data)->getAttribute('channel') == $channel ) selected @endif value="{{$channel}}">
+                            <option @if(optional($data)->getAttribute('channel') == $channel ) selected
+                                    @endif value="{{$channel}}">
                                 @lang('translates.client_channels.' . $key)
                             </option>
                         @endforeach
@@ -107,24 +158,24 @@
             <hr class="my-2">
             <div class="row">
                 @if(request()->has('client_id') || is_numeric($data->client_id))
-                    <x-form-group  class="pr-3 col-12 col-lg-4" :label="trans('translates.fields.position')">
-                        <x-form-input name="position" />
+                    <x-form-group class="pr-3 col-12 col-lg-4" :label="trans('translates.fields.position')">
+                        <x-form-input name="position"/>
                     </x-form-group>
                 @endif
                 @if(is_null($data->client_id) && !request()->has('client_id'))
                     <div class="form-group col-12 col-md-4 pr-1">
                         <label for="data-voen">VOEN</label>
                         <input type="text"
-                                class="form-control @error('voen') is-invalid @enderror"
-                                name="voen"
-                                id="data-voen"
-                                maxlength="11"
-                                placeholder="VOEN/GOOEN"
+                               class="form-control @error('voen') is-invalid @enderror"
+                               name="voen"
+                               id="data-voen"
+                               maxlength="11"
+                               placeholder="VOEN/GOOEN"
                                value="{{optional($data)->getAttribute('voen') ?? old('voen')}}"
                                @if(request()->get('type') == $data::LEGAL && optional($data)->getAttribute('type') == $data::LEGAL) required @endif
                         >
                         @error('voen')
-                            <span class="invalid-feedback" role="alert">
+                        <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
@@ -140,17 +191,18 @@
                     <p class="text-muted mb-2">@lang('translates.fields.passport')</p>
                     <hr class="my-2">
                 </div>
-                <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.serial')">
-                    <x-form-select name="serial_pattern" :options="['AA' => 'AA','AZE' => 'AZE']" />
+                <x-form-group class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.serial')">
+                    <x-form-select name="serial_pattern" :options="['AA' => 'AA','AZE' => 'AZE']"/>
                 </x-form-group>
-                <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.position')" >
+                <x-form-group class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.position')">
                     <x-form-input name="serial" :placeholder="__('translates.placeholders.serial_pattern')"/>
                 </x-form-group>
-                <x-form-group  class="pr-3 col-12 col-lg-3"  >
+                <x-form-group class="pr-3 col-12 col-lg-3">
                     <x-form-input name="fin" :placeholder="__('translates.placeholders.fin')" label="fin"/>
                 </x-form-group>
-                <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.gender')">
-                    <x-form-select name="gender" :options="[__('translates.gender.male'),__('translates.gender.female')]" />
+                <x-form-group class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.gender')">
+                    <x-form-select name="gender"
+                                   :options="[__('translates.gender.male'),__('translates.gender.female')]"/>
                 </x-form-group>
             @endif
             <!-- Contact -->
@@ -162,19 +214,21 @@
             <x-form-group class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.phone2')">
                 <x-form-input name="phone1" required/>
             </x-form-group>
-            <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.phone')" >
+            <x-form-group class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.phone')">
                 <x-form-input name="phone2"/>
             </x-form-group>
-            <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.phone3')" >
+            <x-form-group class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.phone3')">
                 <x-form-input name="phone3"/>
             </x-form-group>
 
             <div class="form-group col-md-3">
                 <label for="email1">@lang('translates.fields.email1')</label>
-                <input type="text" id="email1" class="form-control" name="email1" value="{{optional($data)->getAttribute('email1')}}" @if(!auth()->user()->hasPermission('satisfactionMeasure-client')) required @endif>
+                <input type="text" id="email1" class="form-control" name="email1"
+                       value="{{optional($data)->getAttribute('email1')}}"
+                       @if(!auth()->user()->hasPermission('satisfactionMeasure-client')) required @endif>
             </div>
 
-            <x-form-group  class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.email2')" >
+            <x-form-group class="pr-3 col-12 col-lg-3" :label="trans('translates.fields.email2')">
                 <x-form-input type="email" name="email2"/>
             </x-form-group>
 
@@ -184,18 +238,20 @@
                 <p class="text-muted mb-2">@lang('translates.fields.address')</p>
                 <hr class="my-2">
             </div>
-            <x-form-group  class="pr-3 col-12 col-lg-6" :label="trans('translates.fields.address1')" >
+            <x-form-group class="pr-3 col-12 col-lg-6" :label="trans('translates.fields.address1')">
                 <x-form-input name="address1"/>
             </x-form-group>
-            <x-form-group  class="pr-3 col-12 col-lg-6" :label="trans('translates.fields.address2')" >
+            <x-form-group class="pr-3 col-12 col-lg-6" :label="trans('translates.fields.address2')">
                 <x-form-input name="address2"/>
             </x-form-group>
             <div class="custom-control custom-switch mb-5">
-                <input type="checkbox" name="send_sms" class="custom-control-input" id="send_sms" @if($data->getAttribute('send_sms') || $method == 'POST' ) checked @endif>
+                <input type="checkbox" name="send_sms" class="custom-control-input" id="send_sms"
+                       @if($data->getAttribute('send_sms') || $method == 'POST' ) checked @endif>
                 <label class="custom-control-label" for="send_sms">@lang('translates.buttons.send_sms')</label>
             </div>
             <div class="custom-control custom-switch mr-5">
-                <input type="checkbox" name="active" class="custom-control-input" id="active" @if($data->getAttribute('active') || $method == 'POST' ) checked @endif>
+                <input type="checkbox" name="active" class="custom-control-input" id="active"
+                       @if($data->getAttribute('active') || $method == 'POST' ) checked @endif>
                 <label class="custom-control-label" for="active">@lang('translates.buttons.active')</label>
             </div>
         </div>
@@ -203,38 +259,48 @@
         <div class="input-group col-6 mb-3">
             <div class="custom-file">
                 <label class="custom-file-label" id="protocol-label" for="protocol">Qiymət Təklifi</label>
-                <input type="file" value="{{$data->getAttribute('protocol')}}" name="protocol" class="custom-file-input" id="protocol">
+                <input type="file" value="{{$data->getAttribute('protocol')}}" name="protocol" class="custom-file-input"
+                       id="protocol">
             </div>
         </div>
 
         @if(!is_null($data->getAttribute('protocol')))
             <div class="card-body col-6 col p-0">
-                <a class="py-2 d-flex align-items-center list-group-item text-black" href="{{route('protocol.download', $data)}}">
+                <a class="py-2 d-flex align-items-center list-group-item text-black"
+                   href="{{route('protocol.download', $data)}}">
                     <i style="font-size: 20px" class="fas fa-file fa-3x mr-2"></i>
                     <span>{{$data->getAttribute('document_type')}} Qiymət protokolu</span>
                 </a>
             </div>
         @endif
 
-{{--            <label>{{ $service->getAttribute('name') }}</label>--}}
-{{--            <input type="text" name="services[{{ $service->getAttribute('id') }}]" value="{{ $serviceAmounts[$service->getAttribute('id')] ?? '' }}">--}}
-        @if($method !== 'POST')
+        {{--            <label>{{ $service->getAttribute('name') }}</label>--}}
+        {{--            <input type="text" name="services[{{ $service->getAttribute('id') }}]" value="{{ $serviceAmounts[$service->getAttribute('id')] ?? '' }}">--}}
+        <div class="col-6 m-5">
+            <table>
+                <tr>
+                    <th>Xidmətlər</th>
+                    <th>Qiymət</th>
+                </tr>
+                @if($method !== 'POST')
+                    @foreach ($services as $service)
+                        <tr>
+                            <input type="hidden" name="services[{{ $service->getAttribute('id') }}][client_id]"
+                                   value="{{ $data->id }}">
+                            <input type="hidden" name="services[{{ $service->getAttribute('id') }}][service_id]"
+                                   value="{{ $service->getAttribute('id') }}">
+                            <td><label>{{ $service->getAttribute('name') }}</label></td>
+                            <td><input type="text" name="services[{{ $service->getAttribute('id') }}][amount]"
+                                       value="{{ $service->pivot->amount ?? '' }}"></td>
+                        </tr>
+                    @endforeach
+                @endif
 
-            <div>
-                @foreach ($services as $service)
-                    <label>{{ $service->getAttribute('name') }}</label>
-                    <input type="hidden" name="services[{{ $service->getAttribute('id') }}][client_id]" value="{{ $data->id }}">
-                    <input type="hidden" name="services[{{ $service->getAttribute('id') }}][service_id]" value="{{ $service->getAttribute('id') }}">
-                    <input type="text" name="services[{{ $service->getAttribute('id') }}][amount]" value="{{ $service->pivot->amount ?? '' }}">
-                    <br>
-                @endforeach
-            </div>
-        @endif
+            </table>
+        </div>
 
 
-
-
-    @if($action)
+        @if($action)
             <x-input::submit/>
         @endif
         @endbind
@@ -242,7 +308,7 @@
 
     @if($method != 'POST')
         <div class="my-5">
-            <x-documents :documents="$data->documents" :title="trans('translates.files.contract')" />
+            <x-documents :documents="$data->documents" :title="trans('translates.files.contract')"/>
             <x-document-upload :id="$data->id" model="Client"/>
         </div>
     @endif
@@ -274,50 +340,54 @@
                                 <a href="{{route('clients.edit', $client)}}" class="btn btn-sm btn-outline-success">
                                     <i class="fal fa-pen"></i>
                                 </a>
-                                <a href="{{route('clients.destroy', $client)}}" delete data-name="{{$client->getAttribute('fullname')}}" class="btn btn-sm btn-outline-danger">
+                                <a href="{{route('clients.destroy', $client)}}" delete
+                                   data-name="{{$client->getAttribute('fullname')}}"
+                                   class="btn btn-sm btn-outline-danger">
                                     <i class="fal fa-trash"></i>
                                 </a>
                             </div>
                         @endif
                     </td>
                 </tr>
-                @empty
-                    <tr>
-                        <th colspan="5">
-                            <div class="row justify-content-center m-3">
-                                <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.empty')</div>
-                            </div>
-                        </th>
-                    </tr>
+            @empty
+                <tr>
+                    <th colspan="5">
+                        <div class="row justify-content-center m-3">
+                            <div class="col-7 alert alert-danger text-center"
+                                 role="alert">@lang('translates.general.empty')</div>
+                        </div>
+                    </th>
+                </tr>
             @endforelse
             </tbody>
         </table>
         @if($method == 'PUT')
-            <a href="{{route('clients.create', ['type' => $data::PHYSICAL, 'client_id' => $data->getAttribute('id')])}}" class="btn btn-outline-primary col-md-12 p-2">@lang('translates.clients.add_representative')</a>
+            <a href="{{route('clients.create', ['type' => $data::PHYSICAL, 'client_id' => $data->getAttribute('id')])}}"
+               class="btn btn-outline-primary col-md-12 p-2">@lang('translates.clients.add_representative')</a>
         @endif
 
     @endif
 @endsection
 @section('scripts')
     <script>
-        $('#protocol').change(function(e) {
+        $('#protocol').change(function (e) {
             let fileName = (e.target.files.length > 0) ? e.target.files[0].name : '@lang('translates.placeholders.choose_file')';
             $('#protocol-label').text(fileName);
         });
         @if(is_null($action))
-            $('#client-form :input').attr('disabled', true)
+        $('#client-form :input').attr('disabled', true)
         @endif
 
         @if(!auth()->user()->hasPermission('canUploadContract-client'))
-            $('#document-form :input').attr('disabled', true)
+        $('#document-form :input').attr('disabled', true)
         @endif
 
         @if($method == 'PUT' || request()->has('client_id'))
-            $('#data-type').attr('disabled', true);
+        $('#data-type').attr('disabled', true);
         @else
-            $('#data-type').change(function (){
-                window.location.href = '{{route('clients.create')}}' + '?type=' + $(this).val();
-            });
+        $('#data-type').change(function () {
+            window.location.href = '{{route('clients.create')}}' + '?type=' + $(this).val();
+        });
         @endif
     </script>
 @endsection

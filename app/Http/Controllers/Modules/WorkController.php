@@ -11,7 +11,7 @@ use App\Interfaces\WorkRepositoryInterface;
 use App\Notifications\NotifyClientDirectorSms;
 use App\Notifications\NotifyClientSms;
 use Carbon\Carbon;
-use App\Models\{Company, Department, Service, User, Work, Client};
+use App\Models\{AsanImza, Company, Department, Service, User, Work, Client};
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use function PHPUnit\Framework\isNull;
@@ -386,7 +386,8 @@ class WorkController extends Controller
         }
 
         $work->parameters()->sync($parameters);
-        $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work)]);
+        $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::GB)]);
+        $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::GB)) * 0.18]);
         event(new WorkCreated($work));
 
         return redirect()
@@ -423,6 +424,10 @@ class WorkController extends Controller
     public function update(WorkRequest $request, Work $work): RedirectResponse
     {
         $client = Client::where('id', $request->client_id)->first();
+        $firstAsan = 0;
+            if (is_null($work->getAttribute('asan_imza_id'))) {
+                $firstAsan = 1;
+            }
 
 
         $serviceText = trim($work->getRelationValue('service')->getAttribute('name'));
@@ -508,6 +513,19 @@ class WorkController extends Controller
             $parameters[$key] = ['value' => $parameter];
         }
         $work->parameters()->sync($parameters);
+
+        if($firstAsan == 1  ){
+            $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::GB)]);
+            if (in_array($request->get('asan_imza_id'), [17])){
+                $work->parameters()->updateExistingPivot($work::VAT, ['value' => 0]);
+            }
+            elseif (in_array($request->get('asan_imza_id'), [1,2,3,4,5,6,7,8,9,10,18])){
+                $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::GB)) * 0.18]);
+            }
+
+        }
+
+
 
         return redirect()
             ->route('works.show', $work)
