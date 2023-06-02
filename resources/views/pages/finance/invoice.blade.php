@@ -569,7 +569,7 @@
             $(this).html(convertToWords($('#total').html()).toUpperCase());
         });
     }
-
+    savedRows = savedRows.concat({!! $data->getAttribute('services') !!})
     function deleteRow(button) {
         var row = $(button).closest('tr');
         var rowIndex = row.index() + 1;
@@ -592,6 +592,7 @@
             row2.cells[0].textContent = i + 1;
             row3.cells[0].textContent = i + 1;
         }
+        savedRows.splice(rowIndex - 1, 1);
 
         calculateTotal();
     }
@@ -618,7 +619,7 @@
             row2.cells[0].textContent = i + 1;
             row3.cells[0].textContent = i + 1;
         }
-
+        savedRows.splice(rowIndex - 1, 1);
         calculateTotal();
     }
     function calculateTotal() {
@@ -781,30 +782,30 @@
     }
 
     function createInvoice() {
-        var services = savedRows.concat({!! $data->getAttribute('services') !!});
+        var services = savedRows;
         console.log(services)
-        $.ajax({
-            url: '/module/createFinanceInvoice',
-            type: 'POST',
-            data: {
-                company: $('#companyName').attr('data-company'),
-                client: $('#clientId').attr('data-id'),
-                invoiceNo: $('#invoiceNo').text(),
-                invoiceDate: $('#invoiceDate').text(),
-                paymentType: $('#paymentType').text(),
-                protocolDate: $('#protocolDate').text(),
-                contractNo: $('.contractNo').text(),
-                contractDate: $('.contractDate').text(),
-                services: services
-            },
-            success: function(response) {
-                console.log('Invoice yaratıldı:', response);
-                $('#invoiceCreate').hide()
-            },
-            error: function(error) {
-                console.log('Invoice yaratılırken hata oluştu:', error);
-            }
-        });
+        // $.ajax({
+        //     url: '/module/createFinanceInvoice',
+        //     type: 'POST',
+        //     data: {
+        //         company: $('#companyName').attr('data-company'),
+        //         client: $('#clientId').attr('data-id'),
+        //         invoiceNo: $('#invoiceNo').text(),
+        //         invoiceDate: $('#invoiceDate').text(),
+        //         paymentType: $('#paymentType').text(),
+        //         protocolDate: $('#protocolDate').text(),
+        //         contractNo: $('.contractNo').text(),
+        //         contractDate: $('.contractDate').text(),
+        //         services: services
+        //     },
+        //     success: function(response) {
+        //         console.log('Invoice yaratıldı:', response);
+        //         $('#invoiceCreate').hide()
+        //     },
+        //     error: function(error) {
+        //         console.log('Invoice yaratılırken hata oluştu:', error);
+        //     }
+        // });
     }
 
     function printCard1() {
