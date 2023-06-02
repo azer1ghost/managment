@@ -57,7 +57,7 @@
             </div>
             <div class="col-4 col-md-4 mr-md-auto mb-3">
                 <select name="limit" class="custom-select">
-                    @foreach([25, 50, 100] as $size)
+                    @foreach([25, 50, 100, 250] as $size)
                         <option @if(request()->get('limit') == $size) selected @endif value="{{$size}}">{{$size}}</option>
                     @endforeach
                 </select>
@@ -99,10 +99,6 @@
                                     <a href="{{route('customer-engagement.show', $customer_engagement)}}" class="btn btn-sm btn-outline-primary"> <i class="fal fa-eye"></i></a>
                                 @endcan
 
-                                @can('view', $customer_engagement)
-                                    <a href="{{route('getAmount', $customer_engagement)}}" class="btn btn-sm btn-outline-secondary"> <i class="fal fa-money-bill"></i></a>
-                                @endcan
-
                                 @can('update', $customer_engagement)
                                     <a href="{{route('customer-engagement.edit', $customer_engagement)}}" class="btn btn-sm btn-outline-success"> <i class="fal fa-pen"></i></a>
                                 @endcan
@@ -124,6 +120,14 @@
                 @endforelse
 
                 </tbody>
+                <tfoot>
+                <tr>
+                    <th colspan="7"></th>
+                    <th>Toplam Bonus:</th>
+                    <th>{{ $customer_engagements->sum('amount') * 0.10 }}</th>
+                    <th></th>
+                </tr>
+                </tfoot>
             </table>
             <div class="float-right">
                 {{$customer_engagements->appends(request()->input())->links()}}
