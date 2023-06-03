@@ -172,6 +172,18 @@ public function setPhone3Attribute($value): ?string
         return $this->hasMany(CustomerEngagement::class, 'client_id');
     }
 
+//    public function service(): BelongsTo
+//    {
+//        return $this->belongsTo(Service::class)->withDefault();
+//    }
+    public function services(): BelongsToMany
+    {
+        return $this->belongsToMany(Service::class, 'client_service')
+            ->withPivot('amount');
+    }
+
+
+
 
 
 

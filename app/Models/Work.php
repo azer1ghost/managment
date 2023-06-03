@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Altek\Accountant\Contracts\Recordable;
+use Illuminate\Support\Facades\DB;
 use Altek\Eventually\Eventually;
 use App\Interfaces\DocumentableInterface;
 use App\Traits\Documentable;
@@ -31,9 +32,9 @@ class Work extends Model implements DocumentableInterface, Recordable
     const GB = 17;
     const CODE = 18;
     const SERVICECOUNT = 20;
-    const AMOUNT = 33;
+    const AMOUNT = 32;
     const ILLEGALAMOUNT = 38;
-    const VAT = 34;
+    const VAT = 33;
     const PAID = 35;
     const ILLEGALPAID = 37;
     const VATPAYMENT = 36;
@@ -192,5 +193,18 @@ class Work extends Model implements DocumentableInterface, Recordable
     public function scopePending($query)
     {
         return $query->where('status', self::PENDING);
+    }
+    public function getClientServiceAmount($work)
+    {
+        $clientService = DB::table('client_service')
+            ->where('client_id', $work->client_id)
+            ->where('service_id', $work->service_id)
+            ->first();
+
+        if ($clientService) {
+            return $clientService->amount;
+        }
+
+        return null;
     }
 }

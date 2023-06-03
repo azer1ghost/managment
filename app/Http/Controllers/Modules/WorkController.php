@@ -11,7 +11,7 @@ use App\Interfaces\WorkRepositoryInterface;
 use App\Notifications\NotifyClientDirectorSms;
 use App\Notifications\NotifyClientSms;
 use Carbon\Carbon;
-use App\Models\{Company, Department, Service, User, Work, Client};
+use App\Models\{AsanImza, Company, Department, Service, User, Work, Client};
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use function PHPUnit\Framework\isNull;
@@ -386,6 +386,15 @@ class WorkController extends Controller
         }
 
         $work->parameters()->sync($parameters);
+        if (in_array($request->get('service_id'), [5,6,31,31,33,34,35,36,37,38,7,8,9,3,4,10,11,12,49,41])){
+            $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)]);
+            $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)) * 0.18]);
+        }
+        else{
+            $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::GB)]);
+            $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::GB)) * 0.18]);
+        }
+
         event(new WorkCreated($work));
 
         return redirect()
@@ -422,6 +431,11 @@ class WorkController extends Controller
     public function update(WorkRequest $request, Work $work): RedirectResponse
     {
         $client = Client::where('id', $request->client_id)->first();
+        $firstAsan = 0;
+            if (is_null($work->getAttribute('asan_imza_id'))) {
+                $firstAsan = 1;
+            }
+
 
         $serviceText = trim($work->getRelationValue('service')->getAttribute('name'));
         $clientText = trim($client->getAttribute('fullname'));
@@ -507,6 +521,27 @@ class WorkController extends Controller
         }
         $work->parameters()->sync($parameters);
 
+        if($firstAsan == 1) {
+
+            if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41])) {
+                $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)]);
+            } else {
+                $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::GB)]);
+            }
+
+            if (in_array($request->get('asan_imza_id'), [29, 34, 36, 40, 30, 32, 33, 41, 43, 39])) {
+                $work->parameters()->updateExistingPivot($work::VAT, ['value' => 0]);
+            } else {
+                if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41])) {
+                    $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)) * 0.18]);
+                } else {
+                    $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::GB)) * 0.18]);
+                }
+            }
+        }
+
+
+
         return redirect()
             ->route('works.show', $work)
             ->withNotify('success', $work->getAttribute('name'));
@@ -519,7 +554,6 @@ class WorkController extends Controller
         }
         return response()->setStatusCode('204');
     }
-
 
     public function verifyFinance(Work $work)
     {

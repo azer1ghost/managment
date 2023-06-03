@@ -11,6 +11,7 @@ use App\Models\Company;
 use App\Models\CustomerEngagement;
 use App\Models\Department;
 use App\Models\Referral;
+use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -88,6 +89,7 @@ class ClientController extends Controller
         }else {
             $clients = $clients->get();
         }
+        $services = Service::get(['id', 'name', 'detail']);
 
         return view('pages.clients.index')
             ->with([
@@ -106,9 +108,10 @@ class ClientController extends Controller
                 ],
                 'clients' => $clients,
                 'coordinators' => User::isActive()->where('department_id', Department::COORDINATOR)->get(['id', 'name', 'surname']),
-                'companies' => Company::get(['id','name']),
+                'companies' => Company::get(['id','name', 'logo']),
                 'satisfactions' => Client::satisfactions(),
                 'users' => User::isActive()->get(['id', 'name', 'surname']),
+                'services' => $services
             ]);
     }
 
@@ -127,7 +130,7 @@ class ClientController extends Controller
             ]);
     }
 
-    public function store(ClientRequest $request )
+    public function store(ClientRequest $request)
     {
         $validated = $request->validated();
         $validated['user_id'] = auth()->id();
@@ -167,6 +170,16 @@ class ClientController extends Controller
 
     public function show(Client $client)
     {
+
+        if ($client->services()->where('client_id', $client->id)->first())
+        {
+            $services = $client->getRelationValue('services');
+        }
+        else
+        {
+            $services = Service::get(['id', 'name']);
+        }
+
         $engagement = CustomerEngagement::where('client_id', $client->id)->first();
 
         return view('pages.clients.edit')
@@ -176,14 +189,28 @@ class ClientController extends Controller
                 'data' => $client,
                 'satisfactions' => Client::satisfactions(),
                 'channels' => Client::channels(),
-                'companies' => Company::get(['id','name']),
+                'companies' => Company::get(['id','name','logo']),
                 'users' => User::get(['id', 'name', 'surname']),
-                'engagement' => $engagement
+                'engagement' => $engagement,
+                'services' => $services,
             ]);
     }
 
     public function edit(Client $client)
     {
+
+        if ($client->services()->where('client_id', $client->id)->first())
+        {
+            $services = $client->getRelationValue('services');
+        }
+        else
+        {
+            $services = Service::get(['id', 'name']);
+        }
+
+
+
+
         return view('pages.clients.edit')
             ->with([
                 'action' => route('clients.update', $client),
@@ -191,14 +218,38 @@ class ClientController extends Controller
                 'data' => $client,
                 'satisfactions' => Client::satisfactions(),
                 'channels' => Client::channels(),
-                'companies' => Company::get(['id','name']),
+                'companies' => Company::get(['id','name', 'logo']),
                 'users' => User::get(['id', 'name', 'surname']),
-                'engagement' => CustomerEngagement::where('client_id', $client->id)->first()
+                'engagement' => CustomerEngagement::where('client_id', $client->id)->first(),
+                'services' => $services,
             ]);
     }
 
     public function update(ClientRequest $request, Client $client)
     {
+
+        $services = $request->get('services');
+
+        foreach ($services as $service_id => $data) {
+            // Service modelini kullanarak pivot tablosuna veri eklemek
+            $client = Client::find($data['client_id']);
+
+            // İlgili ilişkiyi kontrol edin
+            $pivotData = $client->services()
+                ->where('client_service.service_id', $service_id)
+                ->first();
+
+            if ($pivotData) {
+                // İlgili pivot girişi varsa, güncelleyin
+                $client->services()->updateExistingPivot($service_id, ['amount' => $data['amount']]);
+            } else {
+                // İlgili pivot girişi yoksa, yeni giriş ekleyin
+                $client->services()->attach($service_id, ['amount' => $data['amount']]);
+            }
+        }
+
+
+
         $validated = $request->validated();
         $validated['send_sms'] = $request->has('send_sms');
         $validated['active'] = $request->has('active');
