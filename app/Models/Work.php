@@ -194,7 +194,7 @@ class Work extends Model implements DocumentableInterface, Recordable
     {
         return $query->where('status', self::PENDING);
     }
-    public function getClientServiceAmount($work)
+    public static function getClientServiceAmount($work)
     {
         $clientService = DB::table('client_service')
             ->where('client_id', $work->client_id)
