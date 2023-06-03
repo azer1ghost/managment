@@ -386,8 +386,15 @@ class WorkController extends Controller
         }
 
         $work->parameters()->sync($parameters);
-        $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::GB)]);
-        $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::GB)) * 0.18]);
+        if (in_array($request->get('service_id'), [5,6,31,31,33,34,35,36,37,38,7,8,9,3,4,10,11,12,49,41])){
+            $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)]);
+            $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)) * 0.18]);
+        }
+        else{
+            $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::GB)]);
+            $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::GB)) * 0.18]);
+        }
+
         event(new WorkCreated($work));
 
         return redirect()
@@ -514,15 +521,23 @@ class WorkController extends Controller
         }
         $work->parameters()->sync($parameters);
 
-        if($firstAsan == 1  ){
-            $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::GB)]);
-            if (in_array($request->get('asan_imza_id'), [17])){
-                $work->parameters()->updateExistingPivot($work::VAT, ['value' => 0]);
-            }
-            elseif (in_array($request->get('asan_imza_id'), [1,2,3,4,5,6,7,8,9,10,18])){
-                $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::GB)) * 0.18]);
+        if($firstAsan == 1) {
+
+            if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41])) {
+                $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)]);
+            } else {
+                $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::GB)]);
             }
 
+            if (in_array($request->get('asan_imza_id'), [29, 34, 36, 40, 30, 32, 33, 41, 43, 39])) {
+                $work->parameters()->updateExistingPivot($work::VAT, ['value' => 0]);
+            } else {
+                if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41])) {
+                    $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)) * 0.18]);
+                } else {
+                    $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::GB)) * 0.18]);
+                }
+            }
         }
 
 
