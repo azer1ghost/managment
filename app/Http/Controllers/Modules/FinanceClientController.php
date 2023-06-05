@@ -52,6 +52,7 @@ class FinanceClientController extends Controller
         $protocolDate = $request->get('protocolDate');
         $contractNo = $request->get('contractNo');
         $contractDate = $request->get('contractDate');
+        $invoiceNumbers = $request->get('invoiceNumbers');
         $services = json_encode($request->get('services'));
 
         $data = [
@@ -63,6 +64,7 @@ class FinanceClientController extends Controller
             'protocolDate' => $protocolDate,
             'contractNo' => $contractNo,
             'contractDate' => $contractDate,
+            'invoiceNumbers' => $invoiceNumbers,
             'services' => $services,
         ];
 

@@ -75,7 +75,7 @@
                 <div class="row col-12 justify-content-center">
                 <input class="form-control col-3 m-2" id="invoiceNoInput" placeholder="Hesab faktura nömrəsi"
                        oninput="invoiceNo()">
-                <input class="form-control col-3 m-2" id="invoiceDateInput" placeholder="Hesab faktura tarixi"
+                <input class="form-control col-3 m-2" id="invoiceDateInput" value="{{now()->format('d.m.Y')}}" placeholder="Hesab faktura tarixi"
                        oninput="invoiceDate()">
 
                 <select class="form-control col-3 m-2" id="paymentTypeSelect" onchange="paymentType()">
@@ -83,16 +83,16 @@
                     <option value="Köçürmə">Köçürmə</option>
                     <option value="nağd">Nağd</option>
                 </select>
-
+                <input class="form-control col-3 m-2" id="invoiceNumbersInput" placeholder="Invoice nömrələri"  oninput="invoiceNumbers()">
             </div>
             <hr>
             <h3 class="m-2">Qiymət Razılaşdırma Protokolu</h3>
             <div class="row col-12 justify-content-center">
-                <input class="form-control col-3 m-2" id="protocolDateInput"
+                <input class="form-control col-3 m-2" value="{{\Illuminate\Support\Carbon::now()->subDay()->format('d.m.Y')}}" id="protocolDateInput"
                        placeholder="Protokol tarixi" oninput="protocolDate()">
                 <input class="form-control col-3 m-2" id="contractNoInput" placeholder="Müqavilə nömrəsi"
                        oninput="contractNo()">
-                <input class="form-control col-3 m-2" id="contractDateInput" placeholder="Müqavilə tarixi"
+                <input class="form-control col-3 m-2" id="contractDateInput" value="" placeholder="Müqavilə tarixi"
                        oninput="contractDate()">
             </div>
             <hr>
@@ -167,7 +167,6 @@
                                 <option>Printerlərə texniki baxışın göstərilməsi</option>
                                 <option>Serverlərə texniki baxışın göstərilməsi</option>
                                 <option>Kompüterlərə texniki baxışın göstərilməsi</option>
-
                             </select>
 
                         </td>
@@ -203,6 +202,7 @@
                     </tbody>
                 </table>
                 <br>
+                <p class="invoiceNumbers"></p>
                 <br>
 
                 <p class="float-left"><span class="companyName"></span>-nin direktoru</p>
@@ -401,6 +401,9 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
+            invoiceDate()
+            protocolDate()
+
             var urlParams = new URLSearchParams(window.location.search);
             var company = urlParams.get('company');
             var client = urlParams.get('client');
@@ -667,6 +670,10 @@
         function clientName() {
             var clientNameInput = $("#clientNameInput").val();
             $(".clientName").html(clientNameInput);
+        }
+        function invoiceNumbers() {
+            var invoiceNumbersInput = $("#invoiceNumbersInput").val();
+            $(".invoiceNumbers").html(invoiceNumbersInput);
         }
 
         function clientVoen() {
@@ -992,6 +999,7 @@
                     protocolDate: $('#protocolDateInput').val(),
                     contractNo: $('#contractNoInput').val(),
                     contractDate: $('#contractDateInput').val(),
+                    invoiceNumbers: $('#invoiceNumbersInput').val(),
                     services: savedRows
                 },
                 success: function(response) {

@@ -255,6 +255,7 @@
                     </tbody>
                 </table>
                 <br>
+                <p class="invoiceNumbers" contenteditable="true">{{$data->getAttribute('invoiceNumbers')}}</p>
                 <br>
 
                 <p class="float-left">{{$companyName}}<span class="companyName"></span>-nin direktoru</p>
