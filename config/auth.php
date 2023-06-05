@@ -40,6 +40,7 @@ return [
         'viewAny-conference', 'view-conference', 'manage-conference',
         'viewAny-department', 'view-department', 'manage-department',
         'viewAny-document', 'view-document', 'create-document', 'update-document', 'delete-document',
+        'viewAny-financeClient', 'view-financeClient', 'create-financeClient', 'update-financeClient', 'delete-financeClient',
         'viewAny-folder' , 'view-folder', 'create-folder', 'update-folder','manage-folder','delete-folder',
         'viewAny-protocol' , 'view-protocol', 'create-protocol', 'update-protocol','manage-protocol','delete-protocol',
         'viewAny-sentDocument' , 'view-sentDocument', 'create-sentDocument', 'update-sentDocument','manage-sentDocument','delete-sentDocument',

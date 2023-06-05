@@ -239,10 +239,14 @@ Route::group([
     Route::post('/message', [ChatController::class, 'sendMessage']);
     Route::get('/account-invoice',[FinanceClientController::class, 'index'] )->name('accountInvoice');
     Route::get('/getClients',[FinanceClientController::class, 'getClients'] )->name('getClients');
+    Route::get('/financeClients',[FinanceClientController::class, 'clients'] )->name('financeClients');
     Route::post('/createFinanceClient',[FinanceClientController::class, 'createFinanceClient'] )->name('createFinanceClient');
     Route::post('/createFinanceInvoice',[FinanceClientController::class, 'createFinanceInvoice'] )->name('createFinanceInvoice');
     Route::get('/financeInvoice/{invoice}',[FinanceClientController::class, 'financeInvoice'] )->name('financeInvoice');
     Route::get('/deleteInvoice/{invoice}',[FinanceClientController::class, 'deleteInvoice'] )->name('deleteInvoice');
+    Route::get('/editFinanceClient/{client}',[FinanceClientController::class, 'editFinanceClient'] )->name('editFinanceClient');
+    Route::put('/updateFinanceClient/{client}',[FinanceClientController::class, 'updateFinanceClient'] )->name('updateFinanceClient');
+    Route::get('/deleteFinanceClient/{client}',[FinanceClientController::class, 'deleteFinanceClient'] )->name('deleteFinanceClient');
     Route::get('/invoices',[FinanceClientController::class, 'invoices'] )->name('invoices');
     Route::view('/instruction','pages.instructions.index' )->name('instruction');
     Route::view('/presentations','pages.instructions.presentations' )->name('presentations');

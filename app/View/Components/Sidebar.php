@@ -176,7 +176,7 @@ class Sidebar extends Component
                 'title' => 'Hesab Faktura',
                 'icon' => 'far fa-file-invoice',
                 'url' => route('accountInvoice'),
-                'permission' => 'viewAny-work',
+                'permission' => 'viewAny-financeClient',
             ],
             (object)[
                 'title' => __('translates.navbar.logistics'),

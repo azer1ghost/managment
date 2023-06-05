@@ -23,7 +23,8 @@
 @section('content')
     <div class="text-center container">
         <div class="card">
-            <a href="{{ route('invoices') }}" class="btn btn-dark float-right m-2">Şablonlar</a>
+            <div class="row col-12 justify-content-center"><a href="{{ route('invoices') }}" class="btn btn-dark col-5 m-2">Şablonlar</a>
+                <a href="{{ route('financeClients') }}" class="btn btn-google col-5 m-2">Müştərilər</a></div>
             <h3>Rekvizitlər</h3>
             <div class="row col-12 justify-content-center">
 
