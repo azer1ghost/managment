@@ -20,7 +20,7 @@ class FinanceClientController extends Controller
         $data = $request->only([
             'name',
             'voen',
-            'hh',
+            'hn',
             'mh',
             'bank',
             'bvoen',
