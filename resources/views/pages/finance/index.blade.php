@@ -503,7 +503,7 @@
                 data: {
                     name: $('#clientNameInput').val(),
                     voen: $('#clientVoenInput').val(),
-                    hh: $('#clienthhInput').val(),
+                    hn: $('#clienthhInput').val(),
                     mh: $('#clientmhInput').val(),
                     code: $('#clientCodeInput').val(),
                     bank: $('#clientBankInput').val(),
