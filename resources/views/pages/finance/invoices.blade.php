@@ -12,8 +12,9 @@
             <thead>
             <tr>
                 <th>Hesab Faktura No</th>
-                <th>Müştəri</th>
-                <th>@lang('')</th>
+                <th>@lang('translates.fields.clientName')</th>
+                <th>@lang('translates.columns.created_at')</th>
+                <th>@lang('translates.columns.actions')</th>
             </tr>
             </thead>
             <tbody>
@@ -21,6 +22,7 @@
                 <tr>
                     <td>{{$invoice->getAttribute('invoiceNo')}}</td>
                     <td>{{$invoice->getRelationValue('financeClients')->getAttribute('name')}}</td>
+                    <td>{{$invoice->getAttribute('created_at')}}</td>
                     <td>
                         <a class="btn btn-success p-2" href="{{ route('financeInvoice', $invoice->getAttribute('id')) }}">Bax</a>
                         <a class="btn btn-danger p-2" href="{{ route('deleteInvoice', $invoice->getAttribute('id')) }}">Sil</a>
