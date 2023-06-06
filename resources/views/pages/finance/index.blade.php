@@ -84,7 +84,7 @@
                     <option value="Köçürmə">Köçürmə</option>
                     <option value="nağd">Nağd</option>
                 </select>
-                <input class="form-control col-3 m-2" id="invoiceNumbersInput" placeholder="Invoice nömrələri"  oninput="invoiceNumbers()">
+                <input class="form-control col-3 m-2" id="invoiceNumbersInput" placeholder="Sorğu nömrələri"  oninput="invoiceNumbers()">
             </div>
             <hr>
             <h3 class="m-2">Qiymət Razılaşdırma Protokolu</h3>
