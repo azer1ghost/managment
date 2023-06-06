@@ -113,7 +113,7 @@ class WorkController extends Controller
             $works = $works->whereNotNull('returned_at');
         }
 
-        $works = $works->whereIn('status', [3,4,5,6,7])->paginate($limit);
+        $works = $works->whereNotIn('status', [1,2])->paginate($limit);
 
         return view('pages.works.index',
             compact('works', 'services', 'departments','users',
