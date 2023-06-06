@@ -18,6 +18,8 @@ class WorkRepository implements WorkRepositoryInterface {
             'invoiced_date' => explode(' - ', $filters['invoiced_date']),
             'vat_date' => explode(' - ', $filters['vat_date']),
         ];
+        $status = $filters['status'];
+        $statuses = $filters['statuses'] ?? [];
 
         return Work::query()
             ->with([
@@ -26,7 +28,13 @@ class WorkRepository implements WorkRepositoryInterface {
                 'user:id,name,surname,department_id,permissions',
                 'client:id,fullname,voen',
                 'asanImza:id,user_id,company_id'
-            ])->whereNotIn('status', $filters['statuses'])
+            ])
+            ->when(!empty($status), function ($query) use ($status) {
+                $query->where('status', $status);
+            })
+            ->when(!empty($statuses), function ($query) use ($statuses) {
+                $query->whereNotIn('status', $statuses);
+            })
             ->when(Work::userCannotViewAll(), function ($query) use ($user){
                 if($user->hasPermission('viewAllDepartment-work')){
                     $query->where('department_id', $user->getAttribute('department_id'));
