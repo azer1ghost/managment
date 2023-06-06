@@ -26,7 +26,7 @@ class WorkRepository implements WorkRepositoryInterface {
                 'user:id,name,surname,department_id,permissions',
                 'client:id,fullname,voen',
                 'asanImza:id,user_id,company_id'
-            ])
+            ])->whereNotIn('status', $filters['statuses'])
             ->when(Work::userCannotViewAll(), function ($query) use ($user){
                 if($user->hasPermission('viewAllDepartment-work')){
                     $query->where('department_id', $user->getAttribute('department_id'));
@@ -92,7 +92,7 @@ class WorkRepository implements WorkRepositoryInterface {
                         }
                     });
                 }
-            })->whereNotIn('status', $filters['statuses'])
+            })
             ->latest('id')
             ->latest('datetime');
 //            ->orderBy('status')
