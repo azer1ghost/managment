@@ -15,6 +15,11 @@
             background-color: #eeeeee;
             font-size: 13px;
         }
+        thead {
+            position: sticky;
+            top: 0;
+            background-color: #f1f1f1;
+        }
         .table{
             overflow-x: scroll;
         }
