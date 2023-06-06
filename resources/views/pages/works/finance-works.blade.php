@@ -23,7 +23,7 @@
         th {
             position: sticky;
             top: 0;
-            background-color: #d9cdc4;
+            background-color: #eeeeee;
         }
         .table{
             overflow-x: scroll;
