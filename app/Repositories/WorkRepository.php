@@ -92,7 +92,7 @@ class WorkRepository implements WorkRepositoryInterface {
                         }
                     });
                 }
-            })
+            })->whereNotIn('status', $filters['statuses'])
             ->latest('id')
             ->latest('datetime');
 //            ->orderBy('status')
