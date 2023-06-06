@@ -101,7 +101,7 @@ class WorkController extends Controller
                 $query->whereBelongsTo($user->getRelationValue('company'));
             })->get(['id', 'name', 'detail']);
 
-        $works = $this->workRepository->allFilteredWorks($filters, $dateFilters);
+        $works = $this->workRepository->allFilteredWorks($filters, $dateFilters)->whereNotIn('status', [1,2]);
 
         $paid_at_explode = explode(' - ', $request->get('paid_at_date'));
 
@@ -113,7 +113,7 @@ class WorkController extends Controller
             $works = $works->whereNotNull('returned_at');
         }
 
-        $works = $works->whereNotIn('status', [1,2])->paginate($limit);
+        $works = $works->paginate($limit);
 
         return view('pages.works.index',
             compact('works', 'services', 'departments','users',
