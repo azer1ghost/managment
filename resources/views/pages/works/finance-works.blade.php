@@ -15,7 +15,12 @@
             background-color: #eeeeee;
             font-size: 13px;
         }
-        thead {
+
+        .scrollable-container {
+            height: 100vh;
+            overflow-y: scroll;
+        }
+        th {
             position: sticky;
             top: 0;
             background-color: #f1f1f1;
@@ -24,8 +29,19 @@
             overflow-x: scroll;
         }
     </style>
-@endsection
 
+@endsection
+<script>
+    // window.addEventListener('DOMContentLoaded', () => {
+    //     const table = document.querySelector('table');
+    //     const thead = table.querySelector('thead');
+    //
+    //     table.addEventListener('scroll', () => {
+    //         const translate = `translate(0, ${table.scrollTop}px)`;
+    //         thead.style.transform = translate;
+    //     });
+    // });
+</script>
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -282,7 +298,7 @@
             </div>
         </div>
     @endif
-    <table class="table table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;" id="table">
+    <table class="table table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif scrollable-container" style="border-collapse:collapse;" id="table">
         <thead>
         <tr class="text-center">
             <th scope="col">E-Qaimə</th>
@@ -318,7 +334,7 @@
             @endif
             <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}">
 
-                <th @if(auth()->user()->hasPermission('editPrice-work')) class="code" @endif data-name="code" data-pk="{{ $work->getAttribute('id') }}" scope="row">{{$work->getAttribute('code')}}</th>
+                <td @if(auth()->user()->hasPermission('editPrice-work')) class="code" @endif data-name="code" data-pk="{{ $work->getAttribute('id') }}" scope="row">{{$work->getAttribute('code')}}</td>
                 <td>
                     @if(is_numeric($work->getAttribute('user_id')))
                         {{$work->getRelationValue('user')->getAttribute('fullname_with_position')}}
@@ -514,7 +530,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Save changes</button>
-                            </div> 
+                            </div>
                         </form>
 
                     </div>
