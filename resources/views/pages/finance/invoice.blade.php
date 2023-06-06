@@ -801,28 +801,28 @@
     function createInvoice() {
         var services = savedRows;
         console.log(services)
-        // $.ajax({
-        //     url: '/module/createFinanceInvoice',
-        //     type: 'POST',
-        //     data: {
-        //         company: $('#companyName').attr('data-company'),
-        //         client: $('#clientId').attr('data-id'),
-        //         invoiceNo: $('#invoiceNo').text(),
-        //         invoiceDate: $('#invoiceDate').text(),
-        //         paymentType: $('#paymentType').text(),
-        //         protocolDate: $('#protocolDate').text(),
-        //         contractNo: $('#contractNo').text(),
-        //         contractDate: $('#contractDate').text(),
-        //         services: services
-        //     },
-        //     success: function(response) {
-        //         console.log('Invoice yaratıldı:', response);
-        //         $('#invoiceCreate').hide()
-        //     },
-        //     error: function(error) {
-        //         console.log('Invoice yaratılırken hata oluştu:', error);
-        //     }
-        // });
+        $.ajax({
+            url: '/module/createFinanceInvoice',
+            type: 'POST',
+            data: {
+                company: $('#companyName').attr('data-company'),
+                client: $('#clientId').attr('data-id'),
+                invoiceNo: $('#invoiceNo').text(),
+                invoiceDate: $('#invoiceDate').text(),
+                paymentType: $('#paymentType').text(),
+                protocolDate: $('#protocolDate').text(),
+                contractNo: $('#contractNo').text(),
+                contractDate: $('#contractDate').text(),
+                services: services
+            },
+            success: function(response) {
+                console.log('Invoice yaratıldı:', response);
+                $('#invoiceCreate').hide()
+            },
+            error: function(error) {
+                console.log('Invoice yaratılırken hata oluştu:', error);
+            }
+        });
     }
 
     function printCard1() {
