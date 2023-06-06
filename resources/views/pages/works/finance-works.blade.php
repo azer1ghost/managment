@@ -3,7 +3,7 @@
 @section('title', __('translates.navbar.work'))
 @section('style')
     <style>
-        .table td, .table th{
+        .paymentMethod{
             vertical-align: middle !important;
             min-width: 120px;
         }
@@ -23,7 +23,7 @@
         th {
             position: sticky;
             top: 0;
-            background-color: #ace5ce;
+            background-color: #ffffff;
         }
         .table{
             overflow-x: scroll;
@@ -31,17 +31,7 @@
     </style>
 
 @endsection
-<script>
-    // window.addEventListener('DOMContentLoaded', () => {
-    //     const table = document.querySelector('table');
-    //     const thead = table.querySelector('thead');
-    //
-    //     table.addEventListener('scroll', () => {
-    //         const translate = `translate(0, ${table.scrollTop}px)`;
-    //         thead.style.transform = translate;
-    //     });
-    // });
-</script>
+
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -312,7 +302,7 @@
                     <th>{{$param['data']->getAttribute('label')}}</th>
                 @endforeach
             @endif
-            <th scope="col">@lang('translates.general.payment_method')</th>
+            <th scope="col" class="paymentMethod">@lang('translates.general.payment_method')</th>
             <th scope="col">@lang('translates.fields.created_at')</th>
             <th scope="col">@lang('translates.fields.paid_at')</th>
             <th scope="col">@lang('translates.fields.vat_paid_at')</th>
@@ -393,7 +383,7 @@
                         @endphp
                     @endforeach
                 @endif
-                <td>
+                <td class="paymentMethod">
                     <select id="payment_method" data-id="{{$work->getAttribute('id')}}" name="payment_method" class="form-control payment_method">
                         @foreach($paymentMethods as $paymentMethod)
                             <option value="{{$paymentMethod}}" @if($work->getAttribute('payment_method') == $paymentMethod ) selected @endif>@lang('translates.payment_methods.' . $paymentMethod)</option>
