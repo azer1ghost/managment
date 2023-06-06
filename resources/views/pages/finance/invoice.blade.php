@@ -199,8 +199,8 @@
                     <tr>
                         <td class="tabelBorder">{{$service->input1}}</td>
                         <td class="tabelBorder">Ədəd</td>
-                        <td class="tabelBorder count" contenteditable="true" data-row="{{$loop->iteration}}">{{$service->input3}}</td>
-                        <td class="tabelBorder amount" contenteditable="true" data-row="{{$loop->iteration}}">{{$service->input4}}</td>
+                        <td class="tabelBorder count count-{{$loop->iteration}}" contenteditable="true" data-row="{{$loop->iteration}}">{{$service->input3}}</td>
+                        <td class="tabelBorder amount amount-{{$loop->iteration}}" contenteditable="true" data-row="{{$loop->iteration}}">{{$service->input4}}</td>
                         <td class="tabelBorder overal">{{$service->input3 * $service->input4}}</td>
                         <td class="tabelBorder"><a  onclick="deleteOldRow({{$loop->iteration}})" class="btn btn-danger">Sil</a></td>
 
@@ -276,7 +276,7 @@
                 <br>
                 <h3 class="mb-2 text-center">QİYMƏT RAZILAŞDIRMA PROTOKOLU &numero; <span class="invoiceNo">{{$data->getAttribute('invoiceNo')}}</span></h3>
                 <h6 class="mb-2 text-center"><span class="companyName">{{$companyName}}</span> və <span class="clientName">{{$data->getRelationValue('financeClients')->getAttribute('name')}}</span> arasında bağlanan <span class="contractDate">{{$data->getAttribute('contractDate')}}</span> tarixli</h6>
-                <h6 class="mb-2 text-center">&numero; <span class="contractNo">{{$data->getAttribute('contractNo')}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Müqaviləyə əlavə</h6>
+                <h6 class="mb-2 text-center">&numero; <span class="contractNo" id="contractNo">{{$data->getAttribute('contractNo')}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Müqaviləyə əlavə</h6>
                 <br>
                 <table class="table table-borderless tabelBorder">
                     <thead>
@@ -387,7 +387,7 @@
                 <br>
                 <br>
                 <br>
-                <h6 class=" mb-2 text-center"><span class="companyName">{{$companyName}}</span> və <span class="clientName">{{$data->getRelationValue('financeClients')->getAttribute('name')}}</span> arasında bağlanan &numero; <span class="contractDate">{{$data->getAttribute('contractDate')}}</span>  tarixli</h6>
+                <h6 class=" mb-2 text-center"><span class="companyName">{{$companyName}}</span> və <span class="clientName">{{$data->getRelationValue('financeClients')->getAttribute('name')}}</span> arasında bağlanan &numero; <span class="contractDate" id="contractDate">{{$data->getAttribute('contractDate')}}</span>  tarixli</h6>
                 <h6 class=" mb-2 text-center">müqaviləyə əsasən göstərilən xidmətlərin Təhvil-Təslim aktı &numero; <span class="invoiceNo">{{$data->getAttribute('invoiceNo')}}</span></h6>
                 <br>
                 <table class="table table-borderless tabelBorder">
@@ -571,6 +571,21 @@
         });
     }
     savedRows = savedRows.concat({!! $data->getAttribute('services') !!})
+
+        $('.count').on('input', function() {
+
+            var iteration = $(this).data('row');
+            var newValue = $(this).text();
+            savedRows[iteration-1].input3 = newValue
+        });
+
+        $('.amount').on('input', function() {
+            var iteration = $(this).data('row');
+            var newAmount = $(this).text();
+            savedRows[iteration-1].input4 = newAmount
+        });
+
+
     function deleteRow(button) {
         var row = $(button).closest('tr');
         var rowIndex = row.index() + 1;
@@ -620,7 +635,8 @@
             row2.cells[0].textContent = i + 1;
             row3.cells[0].textContent = i + 1;
         }
-        savedRows.splice(rowIndex - 1, 1);
+
+        savedRows.splice(rowIndex, 1); // Değişiklik burada
         calculateTotal();
     }
     function calculateTotal() {
@@ -785,28 +801,28 @@
     function createInvoice() {
         var services = savedRows;
         console.log(services)
-        $.ajax({
-            url: '/module/createFinanceInvoice',
-            type: 'POST',
-            data: {
-                company: $('#companyName').attr('data-company'),
-                client: $('#clientId').attr('data-id'),
-                invoiceNo: $('#invoiceNo').text(),
-                invoiceDate: $('#invoiceDate').text(),
-                paymentType: $('#paymentType').text(),
-                protocolDate: $('#protocolDate').text(),
-                contractNo: $('.contractNo').text(),
-                contractDate: $('.contractDate').text(),
-                services: services
-            },
-            success: function(response) {
-                console.log('Invoice yaratıldı:', response);
-                $('#invoiceCreate').hide()
-            },
-            error: function(error) {
-                console.log('Invoice yaratılırken hata oluştu:', error);
-            }
-        });
+        // $.ajax({
+        //     url: '/module/createFinanceInvoice',
+        //     type: 'POST',
+        //     data: {
+        //         company: $('#companyName').attr('data-company'),
+        //         client: $('#clientId').attr('data-id'),
+        //         invoiceNo: $('#invoiceNo').text(),
+        //         invoiceDate: $('#invoiceDate').text(),
+        //         paymentType: $('#paymentType').text(),
+        //         protocolDate: $('#protocolDate').text(),
+        //         contractNo: $('#contractNo').text(),
+        //         contractDate: $('#contractDate').text(),
+        //         services: services
+        //     },
+        //     success: function(response) {
+        //         console.log('Invoice yaratıldı:', response);
+        //         $('#invoiceCreate').hide()
+        //     },
+        //     error: function(error) {
+        //         console.log('Invoice yaratılırken hata oluştu:', error);
+        //     }
+        // });
     }
 
     function printCard1() {
