@@ -93,9 +93,9 @@
                     </select>
                 </div>
                 <div class="col-4 p-0 pr-3 pb-3 mt-4">
-                    @can('create', App\Models\Creditor::class)
+{{--                    @can('create', App\Models\Creditor::class)--}}
                         <a class="btn btn-outline-success float-right " href="{{route('creditors.create')}}">@lang('translates.buttons.create')</a>
-                    @endcan
+{{--                    @endcan--}}
 {{--                    @if(auth()->user()->hasPermission('canExport-client'))--}}
 {{--                        <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('clients.export', ['filters' => json_encode($filters)])}}">@lang('translates.buttons.export')</a>--}}
 {{--                    @endif--}}
