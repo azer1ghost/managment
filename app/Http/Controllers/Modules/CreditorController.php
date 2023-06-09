@@ -16,8 +16,8 @@ class CreditorController extends Controller
 
     public function __construct(CreditorRepositoryInterface $creditorRepository)
     {
-        $this->middleware('auth');
-        $this->authorizeResource(Creditor::class, 'creditor');
+//        $this->middleware('auth');
+//        $this->authorizeResource(Creditor::class, 'creditor');
         $this->creditorRepository = $creditorRepository;
     }
 
