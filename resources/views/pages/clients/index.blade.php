@@ -70,7 +70,7 @@
             @if(\App\Models\Client::userCanViewAll())
                 <div class="col-md-4">
                     <div class="form-group">
-                        <select id="data-sales-company" name="company"  class="form-control" data-selected-text-format="count"
+                        <select id="data-sales-company" name="company_id"  class="form-control" data-selected-text-format="count"
                                 data-width="fit" title="@lang('translates.clients.selectCompany')">
                             <option value=""> @lang('translates.filters.company') </option>
                             @foreach($companies as $company)

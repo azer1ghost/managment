@@ -18,6 +18,7 @@ return [
         'code' => 'Filter by Code',
         'subject' => 'Filter by Subject',
         'company' => 'Filter by Company',
+        'supplier' => 'Filter by Supplier',
         'client_name' => 'Filter by Client name',
         'phone' => 'Filter by Phone',
         'email' => 'Filter by Email',

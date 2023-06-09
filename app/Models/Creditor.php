@@ -29,6 +29,6 @@ class Creditor extends Model
     }
     public static function statuses(): array
     {
-        return [1,2];
+        return [1 => 1,2];
     }
 }

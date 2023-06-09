@@ -18,6 +18,7 @@ return [
         'code' => 'Kod üzrə filtrləyin',
         'subject' => 'Mövzuya görə filtrləyin',
         'company' => 'Şirkətə görə filtrləyin',
+        'supplier' => 'Tədarükçüyə görə filtrləyin',
         'coordinator' => 'Koordinatora görə filtrləyin',
         'client_name' => 'Müştəri adına görə filtrləyin',
         'phone' => 'Telefon adına görə filtrləyin',
@@ -255,7 +256,7 @@ return [
         'questionnaire' => 'Anket',
         'room' => 'Otaqlar',
         'presentation' => 'Prezentasiya',
-        'supplier' => 'Tədarüqçülər',
+        'supplier' => 'Tədarükçülər',
         'evaluation' => 'Qiymətləndirmə',
         'creditor' => 'Kreditorlar',
     ],
@@ -540,7 +541,7 @@ return [
         'replacement' => 'Zədələnmiş mal-materialın əvəzlənməsi, geri təhvil vermə imkanı',
         'vat' => 'ƏDV',
         'last_paid' => 'Son Ödəmə Tarixi',
-        'supplier' => 'Tədarüqçü',
+        'supplier' => 'Tədarükçü',
     ],
 
     'notify' => [

@@ -26,7 +26,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-8 col-md-3  mb-3">
                 <select name="limit" class="custom-select">
                     @foreach([25, 50, 100] as $size)
