@@ -253,6 +253,7 @@ return [
         'room' => 'Rooms',
         'presentation' => 'Presentations',
         'supplier' => 'Supplier',
+        'creditor' => 'Creditors',
     ],
 
     'questionnaire' => [
@@ -534,6 +535,9 @@ return [
         'price' => 'Nəticə',
         'returning' => 'The possibility of returning the remaining goods',
         'replacement' => 'Replacement of damaged goods, possibility of return delivery',
+        'vat' => 'VAT',
+        'last_paid' => 'Last Paid Date',
+        'supplier' => 'Supplier',
     ],
 
     'notify' => [
@@ -580,6 +584,13 @@ return [
         'payment' => [
             0 => 'Unpaid',
             1 => 'Paid',
+        ]
+    ],
+
+    'creditors' => [
+        'statuses' => [
+            1 => 'Unpaid',
+            2 => 'Paid',
         ]
     ],
 

@@ -257,6 +257,7 @@ return [
         'presentation' => 'Prezentasiya',
         'supplier' => 'Tədarüqçülər',
         'evaluation' => 'Qiymətləndirmə',
+        'creditor' => 'Kreditorlar',
     ],
 
     'questionnaire' => [
@@ -528,7 +529,6 @@ return [
         'payment' => 'Ödəniş',
         'code' => 'Kod',
         'result' => 'Nəticə',
-
         'quality' => 'Məhsulun keyfiyyəti',
         'delivery' => 'Vaxtlı-vaxtında malların çatdırılması',
         'distributor' => 'Rəsmi distribyutor statusu',
@@ -538,6 +538,9 @@ return [
         'price' => 'Nəticə',
         'returning' => 'Artıq qalan mal-materialın geri təhvil vermə imkanı',
         'replacement' => 'Zədələnmiş mal-materialın əvəzlənməsi, geri təhvil vermə imkanı',
+        'vat' => 'ƏDV',
+        'last_paid' => 'Son Ödəmə Tarixi',
+        'supplier' => 'Tədarüqçü',
     ],
 
     'notify' => [
@@ -589,6 +592,12 @@ return [
         ]
     ],
 
+    'creditors' => [
+        'statuses' => [
+            1 => 'Ödənilməyib',
+            2 => 'Ödənilib',
+        ]
+    ],
     'employee_satisfactions' => [
         'satisfaction_types' => 'Məmnuniyyət Növləri',
         'is_enough' => 'Görülən tədbir yetərlidir mi?',

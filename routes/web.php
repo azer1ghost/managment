@@ -19,6 +19,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\CommandController,
     Modules\CompanyController,
     Modules\ConferenceController,
+    Modules\CreditorController,
     Modules\CustomerEngagementController,
     Modules\CustomerSatisfactionController,
     Modules\DailyReportController,
@@ -166,6 +167,7 @@ Route::group([
     Route::post('/clients/sum/assign-coordinators', [ClientController::class, 'sumAssignCoordinators'])->name('clients.sum.assign-coordinators');
     Route::get('/clients/export', [ClientController::class, 'export'])->name('clients.export');
     Route::any('/clients/search', [ClientController::class, 'search'])->name('clients.search');
+    Route::any('/supplier/search', [SupplierController::class, 'search'])->name('suppliers.search');
     Route::resource('/clients', ClientController::class);
     Route::any('/sales-client/search', [SalesClientController::class, 'search'])->name('sales-client.search');
     Route::resource('/sales-client', SalesClientController::class);
@@ -217,6 +219,9 @@ Route::group([
     Route::resource('/questionnaires', QuestionnaireController::class);
     Route::get('/foreign', [InternalRelationController::class, 'foreign'])->name('foreign');
     Route::post('/sortable', [InternalRelationController::class, 'sortable'])->name('internal-relation.sortable');
+    Route::resource('/creditors', CreditorController::class);
+    Route::post('/creditors/updateAmount', [CreditorController::class, 'updateAmount']);
+    Route::post('/creditors/updateVat', [CreditorController::class, 'updateVat']);
     Route::resource('/organizations', OrganizationController::class);
     Route::resource('/conferences', ConferenceController::class);
     Route::resource('/advertising', AdvertisingController::class);

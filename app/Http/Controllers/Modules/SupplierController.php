@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SupplierRequest;
+use App\Models\Client;
 use App\Models\Evaluation;
 use App\Models\Supplier;
 use Illuminate\Http\RedirectResponse;
@@ -16,6 +17,31 @@ class SupplierController extends Controller
         $this->middleware('auth');
         $this->authorizeResource(Supplier::class, 'supplier');
     }
+
+    public function search(Request $request): object
+    {
+        $suppliers = Supplier::where('name', 'LIKE', "%{$request->get('search')}%")
+            ->orWhere('voen', 'LIKE', "%{$request->get('search')}%")
+            ->limit(10)
+            ->get(['id', 'name', 'voen']);
+
+        $suppliersArray = [];
+
+        foreach ($suppliers as $supplier) {
+            $suppliersArray[] = [
+                "id" => $supplier->id,
+                "text" => "{$supplier->name}",
+            ];
+        }
+
+        return (object)[
+            'results' => $suppliersArray,
+            'pagination' => [
+                "more" => false
+            ]
+        ];
+    }
+
     public function index(Request $request)
     {
         $limit = $request->get('limit', 25);

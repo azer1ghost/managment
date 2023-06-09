@@ -179,6 +179,13 @@ class Sidebar extends Component
                 'permission' => 'viewAny-financeClient',
             ],
             (object)[
+                'title' => 'Kreditorlar',
+                'icon' => 'fas fa-money-check-edit-alt',
+                'url' => route('creditors.index'),
+                'permission' => 'viewAny-financeClient',
+
+            ],
+            (object)[
                 'title' => __('translates.navbar.logistics'),
                 'icon' => 'fas fa-shipping-fast',
                 'url' => route('logistics.index'),
