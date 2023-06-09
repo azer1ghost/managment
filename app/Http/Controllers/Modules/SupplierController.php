@@ -14,8 +14,8 @@ class SupplierController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->authorizeResource(Supplier::class, 'supplier');
+//        $this->middleware('auth');
+//        $this->authorizeResource(Supplier::class, 'supplier');
     }
 
     public function search(Request $request): object
