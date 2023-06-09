@@ -23,13 +23,14 @@ class CreditorController extends Controller
 
     public function index(Request $request)
     {
+        $limit = $request->get('limit', 25);
         $filters = [
             'search' => $request->get('search'),
             'company' => $request->get('company_id'),
             'status' => $request->get('status'),
             'supplier' => $request->get('supplier_id'),
         ];
-        $creditors = $this->creditorRepository->allFilteredCreditors($filters)->orderBy('status')->paginate(10);
+        $creditors = $this->creditorRepository->allFilteredCreditors($filters)->orderBy('status')->paginate($limit);
         return view('pages.creditors.index')->with([
             'companies' => Company::get(['id','name', 'logo']),
             'suppliers' => Supplier::get(['id','name']),
