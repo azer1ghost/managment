@@ -144,12 +144,12 @@
                                             <i class="fal fa-eye"></i>
                                         </a>
                                     @endcan
-                                    @can('update', $creditor)
+{{--                                    @can('update', $creditor)--}}
                                         <a href="{{route('creditors.edit', $creditor)}}"
                                            class="btn btn-sm btn-outline-success">
                                             <i class="fal fa-pen"></i>
                                         </a>
-                                    @endcan
+{{--                                    @endcan--}}
                                     @can('delete', $creditor)
                                         <a href="{{route('creditors.destroy', $creditor)}}" delete
                                            data-name="{{$creditor->getAttribute('name')}}"
