@@ -146,7 +146,7 @@ class ClientController extends Controller
         $client = Client::create($validated);
         $client->companies()->sync($request->get('companies'));
 
-        if ($request->get('user_id') !== null){
+        if ($request->get('reference_id') !== null){
             $customerEngagement = new CustomerEngagement;
             $customerEngagement->client_id = $client->id;
             $customerEngagement->user_id = $request->get('reference_id');
