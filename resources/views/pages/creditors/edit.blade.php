@@ -25,12 +25,13 @@
                 <div class="row">
                     <div class="form-group col-6">
                         <label>@lang('translates.columns.supplier')</label>
-                        <select name="supplier_id" data-url="{{route('suppliers.search')}}" class="custom-select2" style="width: 100% !important;" required>
+                        <select name="supplier_id" data-url="{{route('suppliers.search')}}" class="custom-select2" style="width: 100% !important;">
                             @if(is_numeric(optional($data)->getAttribute('supplier_id')))
                                 <option value="{{optional($data)->getAttribute('supplier_id')}}">{{optional($data)->getRelationValue('supplier')->getAttribute('name')}}</option>
                             @endif
                         </select>
                     </div>
+                    <x-input::text name="creditor" :value="$data->getAttribute('creditor')" :label="trans('translates.columns.supplier')" width="6" class="pr-3 creditor" />
                     <x-input::select name="company_id" :value="$data->getAttribute('company_id')" :label="trans('translates.columns.company')"  width="6" class="pr-3" :options="$companies"/>
                     <x-input::text name="amount" :label="trans('translates.columns.amount')" :value="$data->getAttribute('amount')" width="6" class="pr-2 amount" />
                     <x-input::text name="vat" :label="trans('translates.columns.vat')" :value="$data->getAttribute('vat')" width="6" class="pr-2 vat" />
@@ -68,5 +69,25 @@
             var vat = amount * vatRate;
             $('.vat input').val(vat.toFixed(2));
         });
+
+        // Supplier select değiştiğinde
+        $('select[name="supplier_id"]').change(function() {
+            var selectedSupplierId = $(this).val();
+
+            if (selectedSupplierId > 0) {
+                // Creditor inputunu gizle
+                $('.creditor').hide();
+            } else {
+                // Creditor inputunu göster
+                $('.creditor').show();
+            }
+        });
+
+        // Sayfa yüklendiğinde supplier select'in değerine göre creditor inputunu ayarla
+        // var selectedSupplierId = $('select[name="supplier_id"]').val();
+        // if (selectedSupplierId !== '') {
+        //     $('.creditor').hide();
+        // }
     </script>
+
 @endsection

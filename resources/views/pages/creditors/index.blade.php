@@ -107,7 +107,7 @@
                         <th scope="col">#</th>
                         <th scope="col">@lang('translates.columns.supplier')</th>
                         <th scope="col">@lang('translates.columns.company')</th>
-                        <th scope="col">@lang('translates.columns.amount')</th>
+                        <th scope="col">@lang('translates.general.earning')</th>
                         <th scope="col">@lang('translates.columns.vat')</th>
                         <th scope="col">@lang('translates.columns.last_paid')</th>
                         <th scope="col">@lang('translates.columns.status')</th>
@@ -119,7 +119,7 @@
                     @forelse($creditors as $creditor)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
-                            <td>{{$creditor->getRelationValue('supplier')->getAttribute('name')}}</td>
+                            <td>{{$creditor->getAttribute('supplier_id') >! 0 ? $creditor->getRelationValue('supplier')->getAttribute('name') : $creditor->getAttribute('creditor')}}</td>
                             <td>{{$creditor->getRelationValue('company')->getAttribute('name')}}</td>
                             <td class="amount" data-id="{{$creditor->getAttribute('id')}}" contenteditable="true"
                                 onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46">{{$creditor->getAttribute('amount')}}</td>
@@ -173,9 +173,9 @@
                     @endforelse
                     <tr>
                         <td colspan="3"></td>
-                        <td><strong>Total Amount: {{ $creditors->sum('amount') }}</strong></td>
-                        <td><strong>Total VAT: {{ $creditors->sum('vat') }}</strong></td>
-                        <td><strong>Total: {{ $creditors->sum('amount') + $creditors->sum('vat') }}</strong></td>
+                        <td><strong>@lang('translates.general.earning'): {{ $creditors->sum('amount') }}</strong></td>
+                        <td><strong>@lang('translates.columns.vat'): {{ $creditors->sum('vat') }}</strong></td>
+                        <td><strong>@lang('translates.columns.total'): {{ $creditors->sum('amount') + $creditors->sum('vat') }}</strong></td>
                         <td colspan="4"></td>
                     </tr>
                     </tbody>

@@ -11,6 +11,7 @@ class Creditor extends Model
     protected $fillable = [
         'supplier_id',
         'company_id',
+        'creditor',
         'amount',
         'vat',
         'status',
