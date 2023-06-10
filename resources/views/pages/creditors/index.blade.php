@@ -119,6 +119,7 @@
                     @forelse($creditors as $creditor)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
+                            <td>{{$creditor->getAttribute('supplier_id') }}</td>
                             <td>{{$creditor->getAttribute('supplier_id') > 0 ? $creditor->getRelationValue('supplier')->getAttribute('name') : $creditor->getAttribute('creditor')}}</td>
                             <td>{{$creditor->getRelationValue('company')->getAttribute('name')}}</td>
                             <td class="amount" data-id="{{$creditor->getAttribute('id')}}" contenteditable="true"
