@@ -119,7 +119,7 @@
                     @forelse($creditors as $creditor)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
-                            <td>{{$creditor->getAttribute('supplier_id') >! 0 ? $creditor->getRelationValue('supplier')->getAttribute('name') : $creditor->getAttribute('creditor')}}</td>
+                            <td>{{$creditor->getAttribute('supplier_id') > 0 ? $creditor->getRelationValue('supplier')->getAttribute('name') : $creditor->getAttribute('creditor')}}</td>
                             <td>{{$creditor->getRelationValue('company')->getAttribute('name')}}</td>
                             <td class="amount" data-id="{{$creditor->getAttribute('id')}}" contenteditable="true"
                                 onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46">{{$creditor->getAttribute('amount')}}</td>
