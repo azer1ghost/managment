@@ -22,7 +22,7 @@ class SentDocumentController extends Controller
             ->with([
                 'companies' => Company::get(['id','name']),
                 'sentDocuments' => SentDocument::when($company, fn($query) => $query
-                    ->where('company_id', $company))->orderBy('sent_date')->get()
+                    ->where('company_id', $company))->orderByDesc('sent_date')->get()
             ]);
     }
 

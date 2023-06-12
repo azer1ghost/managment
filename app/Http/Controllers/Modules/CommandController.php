@@ -27,7 +27,7 @@ class CommandController extends Controller
         $commands = Command::when($search, fn($query) => $query
             ->where('content', 'like', "%" . $search . "%"))->when($company, fn($query) => $query
             ->where('company_id', $company))
-            ->orderBy('command_date');
+            ->orderByDesc('command_date');
 
         if(is_numeric($limit)) {
             $commands = $commands->paginate($limit);
@@ -38,7 +38,7 @@ class CommandController extends Controller
         return view('pages.commands.index')
             ->with(['users' => User::get(['id', 'name', 'surname']),
                 'commands' => $commands,
-                'companies' => Company::get(['id','name']),
+                'companies' => Company::get(['id','name'])
             ]);
     }
 
