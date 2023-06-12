@@ -70,7 +70,7 @@ class CommandController extends Controller
             ->withNotify('success', $command->getAttribute('executor'));
     }
 
-    public function show(Change $command)
+    public function show(Command $command)
     {
         return view('pages.commands.edit')->with([
             'action' => null,
