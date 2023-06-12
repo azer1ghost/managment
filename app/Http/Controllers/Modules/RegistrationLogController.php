@@ -28,7 +28,7 @@ class RegistrationLogController extends Controller
                 'users' => User::get(['id', 'name', 'surname']),
                 'registrationLogs' => RegistrationLog::when($company, fn($query) => $query
                     ->where('company_id', $company))
-                    ->orderBy('arrived_at')
+                    ->orderByDesc('arrived_at')
                     ->paginate(25)]);
     }
 
