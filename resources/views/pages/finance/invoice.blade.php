@@ -380,6 +380,7 @@
     <div class="container">
         <br>
         <button onclick="printCard3()" class="btn btn-primary float-right">Print</button>
+
         <div class="card" id="printCard3">
             <div class="card-body">
                 <p class="float-left">Bakı Şəhəri</p>
@@ -569,6 +570,17 @@
         numberWord.each(function() {
             $(this).html(convertToWords($('#total').html()).toUpperCase());
         });
+
+        setEditableContent(newRow);
+        setEditableContent(newRow2);
+        setEditableContent(newRow3);
+    }
+    function setEditableContent(row) {
+        var cells = row.cells;
+        for (var i = 0; i < cells.length; i++) {
+            var cell = cells[i];
+            cell.setAttribute('contenteditable', 'true');
+        }
     }
     savedRows = savedRows.concat({!! $data->getAttribute('services') !!})
 
@@ -857,6 +869,7 @@
         window.print();
         $('body').html(originalContent);
     }
+
 </script>
 
 @endsection

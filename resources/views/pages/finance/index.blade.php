@@ -899,8 +899,19 @@
             numberWord.each(function() {
                 $(this).html(convertToWords($('#total').html()).toUpperCase());
             });
+
+            setEditableContent(newRow);
+            setEditableContent(newRow2);
+            setEditableContent(newRow3);
         }
 
+        function setEditableContent(row) {
+            var cells = row.cells;
+            for (var i = 0; i < cells.length; i++) {
+                var cell = cells[i];
+                cell.setAttribute('contenteditable', 'true');
+            }
+        }
 
         function convertToWords(number) {
             const units = ['', 'bir', 'iki', 'üç', 'dörd', 'beş', 'altı', 'yeddi', 'səkkiz', 'doqquz'];
