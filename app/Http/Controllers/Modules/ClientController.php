@@ -77,7 +77,7 @@ class ClientController extends Controller
             'free_clients' => $request->has('free_clients'),
             'check-created_at' => $request->has('check-created_at'),
             'created_at' => $createdTime,
-            'company' => $request->get('company'),
+            'company' => $request->get('company_id'),
             'free_company' => $request->has('free_company'),
             'free_coordinator' => $request->has('free_coordinator'),
             'users' => $request->get('users'),
