@@ -104,6 +104,7 @@
     </div>
     <div class="container">
         <br>
+        <button onclick="printCards()" class="btn btn-primary float-right">Print Cards</button>
         <button onclick="printCard1()" class="btn btn-primary float-right">Print</button>
         <button class="btn btn-success col-3 m-2" id="invoiceCreate" onclick="createInvoice()">Sənədləri Yadda Saxla</button>
         <div class="card" id="printCard1">
@@ -326,7 +327,7 @@
                 <br>
                 <br>
                 <br>
-                <h6 class=" mb-2 text-center"><span class="companyName"></span> və <span class="clientName"></span> arasında bağlanan &numero; <span class="contractDate"></span>  tarixli</h6>
+                <h6 class=" mb-2 text-center"><span class="companyName"></span> və <span class="clientName"></span> arasında bağlanan &numero; <span class="contractNo"></span> </h6>
                 <h6 class=" mb-2 text-center">müqaviləyə əsasən göstərilən xidmətlərin Təhvil-Təslim aktı &numero; <span class="invoiceNo"></span></h6>
                 <br>
                 <table class="table table-borderless tabelBorder">
@@ -1057,6 +1058,25 @@
             var originalContent = $('body').html();
 
             $('body').html(printContent);
+            window.print();
+            $('body').html(originalContent);
+        }
+    </script>
+    <script>
+        function printCards() {
+            $('#print-area').hide();
+            $('#form-area').hide();
+            $('.btn-danger').each(function() {
+                $(this).parent().hide();
+            });
+
+            var printContent1 = $('#printCard1').html();
+            var printContent2 = $('#printCard2').html();
+            var printContent3 = $('#printCard3').html();
+            var originalContent = $('body').html();
+
+            var combinedContent = printContent1 + '<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>' + printContent2 + '<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>' + printContent3;
+            $('body').html(combinedContent);
             window.print();
             $('body').html(originalContent);
         }
