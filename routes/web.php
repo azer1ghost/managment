@@ -26,6 +26,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\DatabaseNotificationController,
     Modules\DepartmentController,
     Modules\DocumentController,
+    Modules\EmployeeRegistrationController,
     Modules\EmployeeSatisfactionController,
     Modules\FinanceClientController,
     Modules\FolderController,
@@ -146,6 +147,10 @@ Route::group([
     Route::resource('/suppliers', SupplierController::class);
     Route::resource('/certificates', CertificateController::class);
     Route::resource('/companies', CompanyController::class);
+    Route::resource('/employee-registrations', EmployeeRegistrationController::class);
+    Route::post('/employee-registrations', [EmployeeRegistrationController::class, 'store'])->name('employee-registrations.store');
+    Route::get('employee-registrations/get-status', [EmployeeRegistrationController::class, 'getStatus'])
+        ->name('employee-registrations.getStatus');
     Route::resource('/asan-imza', AsanImzaController::class);
     Route::resource('/widgets', WidgetController::class);
     Route::resource('/calendars', CalendarController::class)->except('show', 'create', 'edit');
