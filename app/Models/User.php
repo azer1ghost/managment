@@ -25,7 +25,8 @@ use phpDocumentor\Reflection\Types\Self_;
  * @property mixed name
  * @property mixed surname
  */
-class User extends Authenticatable implements MustVerifyPhone, Recordable
+class
+User extends Authenticatable implements MustVerifyPhone, Recordable
 {
     use HasFactory, Notifiable, SoftDeletes, Documentable, GetClassInfo, \App\Traits\Auth\MustVerifyPhone, \Altek\Accountant\Recordable, Eventually;
 
@@ -378,6 +379,10 @@ class User extends Authenticatable implements MustVerifyPhone, Recordable
     public function chats() :HasMany
     {
         return $this->hasMany(Chat::class, 'from')->orderBy('is_read');
+    }
+    public function employeeRegistrations()
+    {
+        return $this->hasMany(EmployeeRegistration::class);
     }
 
     public function getFullNameWithDepartmentAttribute(): string
