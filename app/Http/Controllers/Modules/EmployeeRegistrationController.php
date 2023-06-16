@@ -18,7 +18,7 @@ class EmployeeRegistrationController extends Controller
             $dates[] = date('d', strtotime("-{$i} days"));
         }
         $registrations = EmployeeRegistration::get();
-        $users = User::isActive()->get(['id', 'name']);
+        $users = User::isActive()->get(['id', 'fullname']);
 
         return view('pages.employee-registrations.index')->with([
             'registrations' => $registrations,

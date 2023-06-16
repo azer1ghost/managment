@@ -62,7 +62,7 @@
             <tbody>
             @foreach($users as $user)
                 <tr>
-                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->fullname }}</td>
                     @php
                         $currentDate = now()->startOfMonth();
                     @endphp
