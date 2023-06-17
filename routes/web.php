@@ -12,6 +12,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\AdvertisingController,
     Modules\AnnouncementController,
     Modules\AsanImzaController,
+    Modules\BankController,
     Modules\CalendarController,
     Modules\CertificateController,
     Modules\ChangeController,
@@ -225,6 +226,9 @@ Route::group([
     Route::get('/foreign', [InternalRelationController::class, 'foreign'])->name('foreign');
     Route::post('/sortable', [InternalRelationController::class, 'sortable'])->name('internal-relation.sortable');
     Route::resource('/creditors', CreditorController::class);
+    Route::resource('/banks', BankController::class);
+    Route::post('/banks/updateBankAmount', [BankController::class, 'updateBankAmount']);
+
     Route::post('/creditors/updateAmount', [CreditorController::class, 'updateAmount']);
     Route::post('/creditors/updateVat', [CreditorController::class, 'updateVat']);
     Route::resource('/organizations', OrganizationController::class);

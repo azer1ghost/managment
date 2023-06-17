@@ -259,6 +259,8 @@ return [
         'supplier' => 'Tədarükçülər',
         'evaluation' => 'Qiymətləndirmə',
         'creditor' => 'Kreditorlar',
+        'finance' => 'Maliyyə',
+        'accounts' => 'Hesablar',
     ],
 
     'questionnaire' => [

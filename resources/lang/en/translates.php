@@ -255,6 +255,8 @@ return [
         'presentation' => 'Presentations',
         'supplier' => 'Supplier',
         'creditor' => 'Creditors',
+        'finance' => 'Finance',
+        'accounts' => 'Accounts',
     ],
 
     'questionnaire' => [

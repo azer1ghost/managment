@@ -173,18 +173,33 @@ class Sidebar extends Component
             ],
 
             (object)[
-                'title' => 'Hesab Faktura',
-                'icon' => 'far fa-file-invoice',
-                'url' => route('accountInvoice'),
-                'permission' => 'viewAny-financeClient',
-            ],
-            (object)[
-                'title' => 'Kreditorlar',
-                'icon' => 'fas fa-money-check-edit-alt',
+                'title' => __('translates.navbar.finance'),
+                'icon' => 'fas fa-briefcase',
                 'url' => route('creditors.index'),
                 'permission' => 'viewAny-financeClient',
-
+                'children' => [
+                    (object)[
+                        'title' => 'Hesab Faktura',
+                        'icon' => 'far fa-file-invoice',
+                        'url' => route('accountInvoice'),
+                        'permission' => 'viewAny-financeClient',
+                    ],
+                    (object)[
+                        'title' => trans('translates.navbar.creditor'),
+                        'icon' => 'fas fa-money-check-edit-alt',
+                        'url' => route('creditors.index'),
+                        'permission' => 'viewAny-creditor',
+                    ],
+                    (object)[
+                        'title' => trans('translates.navbar.accounts'),
+                        'icon' => 'fas fa-money-check',
+                        'url' => route('banks.index'),
+                        'permission' => 'viewAny-creditor',
+                    ],
+                ]
             ],
+
+
             (object)[
                 'title' => __('translates.navbar.logistics'),
                 'icon' => 'fas fa-shipping-fast',

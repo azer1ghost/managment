@@ -32,13 +32,13 @@ class WorkController extends Controller
         $filters = json_decode($request->get('filters'), true);
         $dateFilters = json_decode($request->get('dateFilters'), true);
 
-        return  (new WorksExport($this->workRepository, $filters, $dateFilters))->download('works.xlsx');
+        return (new WorksExport($this->workRepository, $filters, $dateFilters))->download('works.xlsx');
     }
 
     public function index(Request $request)
     {
         $user = auth()->user();
-        $limit  = $request->get('limit', 25);
+        $limit = $request->get('limit', 25);
         $startOfMonth = now()->firstOfMonth()->format('Y/m/d');
         $endOfMonth = now()->format('Y/m/d');
 
@@ -66,10 +66,10 @@ class WorkController extends Controller
             'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
             'datetime' => $request->get('datetime') ?? $startOfMonth . ' - ' . $endOfMonth,
             'invoiced_date' => $request->get('invoiced_date') ?? $startOfMonth . ' - ' . $endOfMonth,
-            'statuses' => [1,2],
+            'statuses' => [1, 2],
         ];
 
-        if(Work::userCanViewAll() || Work::userCanViewDepartmentWorks()){
+        if (Work::userCanViewAll() || Work::userCanViewDepartmentWorks()) {
             $filters['user_id'] = $request->get('user_id');
         }
 
@@ -98,34 +98,34 @@ class WorkController extends Controller
         $allDepartments = Department::isActive()->orderBy('ordering')->get(['id', 'name']);
 
         $services = Service::query()
-            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
+            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user) {
                 $query->whereBelongsTo($user->getRelationValue('company'));
             })->get(['id', 'name', 'detail']);
 
-        $works = $this->workRepository->allFilteredWorks($filters, $dateFilters)->whereNotIn('status', [1,2]);
+        $works = $this->workRepository->allFilteredWorks($filters, $dateFilters)->whereNotIn('status', [1, 2]);
 
         $paid_at_explode = explode(' - ', $request->get('paid_at_date'));
 
-        if ($request->has('check-paid_at')){
+        if ($request->has('check-paid_at')) {
             $works = $works->whereBetween('paid_at', [Carbon::parse($paid_at_explode[0])->startOfDay(), Carbon::parse($paid_at_explode[1])->endOfDay()]);
         }
 
-        if ($request->has('check-returned_at')){
+        if ($request->has('check-returned_at')) {
             $works = $works->whereNotNull('returned_at');
         }
 
         $works = $works->paginate($limit);
 
         return view('pages.works.index',
-            compact('works', 'services', 'departments','users',
-            'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods')
+            compact('works', 'services', 'departments', 'users',
+                'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods')
         );
     }
 
     public function pendingWorks(Request $request)
     {
         $user = auth()->user();
-        $limit  = $request->get('limit', 25);
+        $limit = $request->get('limit', 25);
         $startOfMonth = now()->firstOfMonth()->format('Y/m/d');
         $endOfMonth = now()->format('Y/m/d');
 
@@ -153,10 +153,10 @@ class WorkController extends Controller
             'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
             'datetime' => $request->get('datetime') ?? $startOfMonth . ' - ' . $endOfMonth,
             'invoiced_date' => $request->get('invoiced_date') ?? $startOfMonth . ' - ' . $endOfMonth,
-            'statuses' => [1,3,4,5,6,7],
+            'statuses' => [1, 3, 4, 5, 6, 7],
         ];
 
-        if(Work::userCanViewAll() || Work::userCanViewDepartmentWorks()){
+        if (Work::userCanViewAll() || Work::userCanViewDepartmentWorks()) {
             $filters['user_id'] = $request->get('user_id');
         }
 
@@ -185,7 +185,7 @@ class WorkController extends Controller
         $allDepartments = Department::isActive()->orderBy('ordering')->get(['id', 'name']);
 
         $services = Service::query()
-            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
+            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user) {
                 $query->whereBelongsTo($user->getRelationValue('company'));
             })->get(['id', 'name', 'detail']);
 
@@ -193,22 +193,22 @@ class WorkController extends Controller
 
         $paid_at_explode = explode(' - ', $request->get('paid_at_date'));
 
-        if ($request->has('check-paid_at')){
+        if ($request->has('check-paid_at')) {
             $works = $works->whereBetween('paid_at', [Carbon::parse($paid_at_explode[0])->startOfDay(), Carbon::parse($paid_at_explode[1])->endOfDay()]);
         }
 
         $works = $works->pending()->paginate($limit);
 
         return view('pages.works.pending-works',
-            compact('works', 'services', 'departments','users',
-            'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods')
+            compact('works', 'services', 'departments', 'users',
+                'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods')
         );
     }
 
     public function financeWorks(Request $request)
     {
         $user = auth()->user();
-        $limit  = $request->get('limit', 25);
+        $limit = $request->get('limit', 25);
         $startOfMonth = now()->firstOfMonth()->format('Y/m/d');
         $endOfMonth = now()->format('Y/m/d');
         $departmentRequest = $request->get('department_id');
@@ -231,10 +231,10 @@ class WorkController extends Controller
             'entry_date' => $request->get('entry_date') ?? $startOfMonth . ' - ' . $endOfMonth,
             'datetime' => $request->get('datetime') ?? $startOfMonth . ' - ' . $endOfMonth,
             'invoiced_date' => $request->get('invoiced_date') ?? $startOfMonth . ' - ' . $endOfMonth,
-            'statuses' => [1,2,3,5,7],
+            'statuses' => [1, 2, 3, 5, 7],
         ];
 
-        if(Work::userCanViewAll() || Work::userCanViewDepartmentWorks()){
+        if (Work::userCanViewAll() || Work::userCanViewDepartmentWorks()) {
             $filters['user_id'] = $request->get('user_id');
         }
 
@@ -263,7 +263,7 @@ class WorkController extends Controller
         $allDepartments = Department::isActive()->orderBy('ordering')->get(['id', 'name']);
 
         $services = Service::query()
-            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
+            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user) {
                 $query->whereBelongsTo($user->getRelationValue('company'));
             })->get(['id', 'name', 'detail']);
 
@@ -271,24 +271,25 @@ class WorkController extends Controller
 
         $paid_at_explode = explode(' - ', $request->get('paid_at_date'));
 
-        if ($request->has('check-paid_at')){
+        if ($request->has('check-paid_at')) {
             $works = $works->whereBetween('paid_at', [Carbon::parse($paid_at_explode[0])->startOfDay(), Carbon::parse($paid_at_explode[1])->endOfDay()]);
         }
 
-            $works = $works->whereIn('status', [4,6])->paginate($limit);
+        $works = $works->whereIn('status', [4, 6])->paginate($limit);
 
         if (auth()->user()->hasPermission('viewPrice-work')) {
             return view('pages.works.finance-works',
-                compact('works', 'services', 'departments','users',
+                compact('works', 'services', 'departments', 'users',
                     'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods')
             );
         }
-            return view('errors.403');
+        return view('errors.403');
     }
+
     public function plannedWorks(Request $request)
     {
         $user = auth()->user();
-        $limit  = $request->get('limit', 25);
+        $limit = $request->get('limit', 25);
         $startOfMonth = now()->firstOfMonth()->format('Y/m/d');
         $endOfMonth = now()->format('Y/m/d');
 
@@ -312,10 +313,10 @@ class WorkController extends Controller
             'entry_date' => $request->get('entry_date') ?? $startOfMonth . ' - ' . $endOfMonth,
             'datetime' => $request->get('datetime') ?? $startOfMonth . ' - ' . $endOfMonth,
             'invoiced_date' => $request->get('invoiced_date') ?? $startOfMonth . ' - ' . $endOfMonth,
-            'statuses' => [2,3,4,5,6,7],
+            'statuses' => [2, 3, 4, 5, 6, 7],
         ];
 
-        if(Work::userCanViewAll() || Work::userCanViewDepartmentWorks()){
+        if (Work::userCanViewAll() || Work::userCanViewDepartmentWorks()) {
             $filters['user_id'] = $request->get('user_id');
         }
 
@@ -344,7 +345,7 @@ class WorkController extends Controller
         $allDepartments = Department::isActive()->orderBy('ordering')->get(['id', 'name']);
 
         $services = Service::query()
-            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user){
+            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user) {
                 $query->whereBelongsTo($user->getRelationValue('company'));
             })->get(['id', 'name', 'detail']);
 
@@ -352,14 +353,14 @@ class WorkController extends Controller
 
         $paid_at_explode = explode(' - ', $request->get('paid_at_date'));
 
-        if ($request->has('check-paid_at')){
+        if ($request->has('check-paid_at')) {
             $works = $works->whereBetween('paid_at', [Carbon::parse($paid_at_explode[0])->startOfDay(), Carbon::parse($paid_at_explode[1])->endOfDay()]);
         }
 
         $works = $works->planned()->paginate($limit);
 
         return view('pages.works.planned-works',
-            compact('works', 'services', 'departments','users',
+            compact('works', 'services', 'departments', 'users',
                 'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods')
         );
     }
@@ -390,11 +391,10 @@ class WorkController extends Controller
         }
 
         $work->parameters()->sync($parameters);
-        if (in_array($request->get('service_id'), [5,6,31,31,33,34,35,36,37,38,7,8,9,3,4,10,11,12,49,41])){
+        if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41])) {
             $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)]);
             $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)) * 0.18]);
-        }
-        else{
+        } else {
             $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::GB)]);
             $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::GB)) * 0.18]);
         }
@@ -413,8 +413,8 @@ class WorkController extends Controller
             'method' => null,
             'data' => $work,
             'users' => User::isActive()->get(['id', 'name', 'surname']),
-            'companies' => Company::get(['id','name']),
-            'departments' => Department::get(['id','name']),
+            'companies' => Company::get(['id', 'name']),
+            'departments' => Department::get(['id', 'name']),
             'services' => Service::get(['id', 'name']),
         ]);
     }
@@ -426,8 +426,8 @@ class WorkController extends Controller
             'method' => 'PUT',
             'data' => $work,
             'users' => User::get(['id', 'name', 'surname']),
-            'companies' => Company::get(['id','name']),
-            'departments' => Department::get(['id','name']),
+            'companies' => Company::get(['id', 'name']),
+            'departments' => Department::get(['id', 'name']),
             'services' => Service::get(['id', 'name']),
         ]);
     }
@@ -436,10 +436,9 @@ class WorkController extends Controller
     {
         $client = Client::where('id', $request->client_id)->first();
         $firstAsan = 0;
-            if (is_null($work->getAttribute('asan_imza_id'))) {
-                $firstAsan = 1;
-            }
-
+        if (is_null($work->getAttribute('asan_imza_id'))) {
+            $firstAsan = 1;
+        }
 
         $serviceText = trim($work->getRelationValue('service')->getAttribute('name'));
         $clientText = trim($client->getAttribute('fullname'));
@@ -449,25 +448,20 @@ class WorkController extends Controller
         $clientName = str_replace($search, $replace, $clientText);
         $message = 'Deyerli ' . $clientName . ' sizin ' . $serviceName . ' uzre isiniz tamamlandi. ' . $work->getAttribute('created_at')->format('d/m/y') . ' https://my.mobilgroup.az/cs?url=mb-sat -linke kecid ederek xidmet keyfiyyetini deyerlendirmeyinizi xahis edirik!';
 
-        if ( $request->status == $work::DONE && $client->getAttribute('send_sms') == 1) {
+        if ($request->status == $work::DONE && $client->getAttribute('send_sms') == 1) {
             if (!empty($client->getAttribute('phone1'))) {
                 (new NotifyClientSms($message))->toSms($client)->send();
-            } if (!empty($client->getAttribute('phone2'))) {
+            }
+            if (!empty($client->getAttribute('phone2'))) {
                 (new NotifyClientDirectorSms($message))->toSms($client)->send();
             }
         }
 
         $validated = $request->validated();
-//        if ($request->get('document_list')) {
-//            $document_list = implode(",", $request->get('document_list'));
-//            $validated['document_list'] = $document_list;
-//        }
-
         $validated['datetime'] = $request->get('status') == $work::DONE ? now() : NULL;
         if ($work->getAttribute('injected_at') == null && $request->get('status') == $work::INJECTED) {
             $validated['injected_at'] = now();
         }
-//        $validated['injected_at'] = $request->get('status') == $work::INJECTED ? now() : NULL;
 
         $validated['verified_at'] = $request->has('verified') && !$request->has('rejected') ? now() : NULL;
 
@@ -477,33 +471,29 @@ class WorkController extends Controller
         if ($work->getAttribute('entry_date') == null && in_array($request->get('status'), [3, 4, 6]) && !$request->has('rejected')) {
             $validated['entry_date'] = now();
         }
-        if (!$request->has('paid_check') && $request->has('rejected') && $request->has('paid_at')){
+        if (!$request->has('paid_check') && $request->has('rejected') && $request->has('paid_at')) {
             $validated['paid_at'] = null;
-        }
-        elseif ($request->has('paid_check') && !$request->has('rejected') && !$request->has('paid_at')) {
+        } elseif ($request->has('paid_check') && !$request->has('rejected') && !$request->has('paid_at')) {
             $validated['paid_at'] = now();
-        }
-        elseif ($request->has('paid_at')){
+        } elseif ($request->has('paid_at')) {
             $validated['paid_at'] = $request->get('paid_at');
         }
 
-        if (!$request->has('vat_paid_check') && $request->has('rejected') && $request->has('vat_date')){
+        if (!$request->has('vat_paid_check') && $request->has('rejected') && $request->has('vat_date')) {
             $validated['vat_date'] = null;
-        }
-        elseif ($request->has('vat_paid_check') && !$request->has('rejected') && !$request->has('vat_date')) {
+        } elseif ($request->has('vat_paid_check') && !$request->has('rejected') && !$request->has('vat_date')) {
             $validated['vat_date'] = now();
-        }
-        elseif ($request->has('vat_date')){
+        } elseif ($request->has('vat_date')) {
             $validated['vat_date'] = $request->get('vat_date');
         }
 
 
-        if($work->getAttribute('status') == $work::REJECTED && !$request->has('rejected')){
+        if ($work->getAttribute('status') == $work::REJECTED && !$request->has('rejected')) {
             $status = $validated['status'] ?? Work::PENDING;
-        }else{
-            if ($request->has('rejected')){
+        } else {
+            if ($request->has('rejected')) {
                 $status = Work::REJECTED;
-            }else{
+            } else {
                 $status = $validated['status'] ?? $work->getAttribute('status');
             }
         }
@@ -511,11 +501,11 @@ class WorkController extends Controller
         $validated['status'] = $status;
         $work->update($validated);
 
-        if($request->has('rejected') && is_numeric($work->getAttribute('user_id'))){
+        if ($request->has('rejected') && is_numeric($work->getAttribute('user_id'))) {
             event(new WorkStatusRejected($work));
         }
 
-        if ($request->get('status') == $work::PENDING){
+        if ($request->get('status') == $work::PENDING) {
             event(new WorkCreated($work));
         }
 
@@ -524,28 +514,26 @@ class WorkController extends Controller
             $parameters[$key] = ['value' => $parameter];
         }
         $work->parameters()->sync($parameters);
-if (Work::getClientServiceAmount($work) > 0) {
-        if($firstAsan == 1) {
+        if (Work::getClientServiceAmount($work) > 0) {
+            if ($firstAsan == 1) {
 
-            if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41])) {
-                $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)]);
-            } else {
-                $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::GB)]);
-            }
-
-            if (in_array($request->get('asan_imza_id'), [29, 34, 36, 40, 30, 32, 33, 41, 43, 39])) {
-                $work->parameters()->updateExistingPivot($work::VAT, ['value' => 0]);
-            } else {
                 if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41])) {
-                    $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)) * 0.18]);
+                    $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)]);
+                } else {
+                    $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::GB)]);
                 }
-                else {
-                    $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::GB)) * 0.18]);
+
+                if (in_array($request->get('asan_imza_id'), [29, 34, 36, 40, 30, 32, 33, 41, 43, 39])) {
+                    $work->parameters()->updateExistingPivot($work::VAT, ['value' => 0]);
+                } else {
+                    if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41])) {
+                        $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)) * 0.18]);
+                    } else {
+                        $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::GB)) * 0.18]);
+                    }
                 }
             }
         }
-}
-
 
         return redirect()
             ->route('works.show', $work)
@@ -583,6 +571,7 @@ if (Work::getClientServiceAmount($work) > 0) {
         $work->parameters()->updateExistingPivot($work::VATPAYMENT, ['value' => $work->getParameter($work::VAT)]);
         return back();
     }
+
     public function invoice(Work $work, Request $request)
     {
         $date = $request->get('invoiced_date') ?? now();
@@ -594,7 +583,7 @@ if (Work::getClientServiceAmount($work) > 0) {
     {
         $err = 0;
         foreach ($request->get('works') ?? [] as $work) {
-            if(!Work::find($work)->update(['verified_at' => now()])){
+            if (!Work::find($work)->update(['verified_at' => now()])) {
                 $err = 400;
             }
         }
@@ -628,13 +617,13 @@ if (Work::getClientServiceAmount($work) > 0) {
                 );
         })
             ->withCount([
-                'works' => function ($q) use ($created_at){
-                $q ->whereBetween('created_at',
-                    [
-                        Carbon::parse($created_at[0])->startOfDay(),
-                        Carbon::parse($created_at[1])->endOfDay()
-                    ]
-                )->where('user_id', auth()->id());
+                'works' => function ($q) use ($created_at) {
+                    $q->whereBetween('created_at',
+                        [
+                            Carbon::parse($created_at[0])->startOfDay(),
+                            Carbon::parse($created_at[1])->endOfDay()
+                        ]
+                    )->where('user_id', auth()->id());
                 },
                 'works as works_rejected' => function ($q) use ($created_at) {
                     $q->whereBetween('created_at',
@@ -645,7 +634,7 @@ if (Work::getClientServiceAmount($work) > 0) {
                     )->where('user_id', auth()->id())
                         ->isRejected();
                 },
-                'works as works_verified' => function ($q) use ($created_at){
+                'works as works_verified' => function ($q) use ($created_at) {
                     $q->whereBetween('created_at',
                         [
                             Carbon::parse($created_at[0])->startOfDay(),

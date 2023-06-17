@@ -153,7 +153,6 @@ class ClientController extends Controller
             $customerEngagement->save();
         }
 
-
         if(auth()->user()->hasPermission('viewAny-client')){
             if(is_numeric($client->getAttribute('client_id'))){
                 return redirect()
@@ -208,9 +207,6 @@ class ClientController extends Controller
             $services = Service::get(['id', 'name']);
         }
 
-
-
-
         return view('pages.clients.edit')
             ->with([
                 'action' => route('clients.update', $client),
@@ -231,24 +227,18 @@ class ClientController extends Controller
         $services = $request->get('services');
 
         foreach ($services as $service_id => $data) {
-            // Service modelini kullanarak pivot tablosuna veri eklemek
             $client = Client::find($data['client_id']);
 
-            // İlgili ilişkiyi kontrol edin
             $pivotData = $client->services()
                 ->where('client_service.service_id', $service_id)
                 ->first();
 
             if ($pivotData) {
-                // İlgili pivot girişi varsa, güncelleyin
                 $client->services()->updateExistingPivot($service_id, ['amount' => $data['amount']]);
             } else {
-                // İlgili pivot girişi yoksa, yeni giriş ekleyin
                 $client->services()->attach($service_id, ['amount' => $data['amount']]);
             }
         }
-
-
 
         $validated = $request->validated();
         $validated['send_sms'] = $request->has('send_sms');
