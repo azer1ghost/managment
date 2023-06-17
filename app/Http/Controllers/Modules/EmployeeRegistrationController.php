@@ -17,10 +17,20 @@ class EmployeeRegistrationController extends Controller
         for ($i = 30; $i >= 0; $i--) {
             $dates[] = date('d', strtotime("-{$i} days"));
         }
-        $registrations = EmployeeRegistration::get();
-        $users = User::isActive()->get(['id', 'name', 'surname']);
+
+
+        $users = User::isActive()->with(['employeeRegistrations' => function ($query) {
+            $query->select('id', 'user_id', 'date', 'status');
+        }])->get(['id', 'name', 'surname']);
+
+        foreach ($users as $user) {
+            // ...
+            $registrations = $user->employeeRegistrations;
+            // ...
+        }
 
         return view('pages.employee-registrations.index')->with([
+
             'registrations' => $registrations,
             'users' => $users,
             'statusList' => $statusList,
@@ -62,11 +72,11 @@ class EmployeeRegistrationController extends Controller
         $date = $request->input('date');
 
         // İlgili kullanıcının belirtilen tarihteki durumunu al
-        $status = EmployeeRegistration::where('user_id', $userId)
-            ->where('date', $date)
-            ->value('status');
+        $statuses = EmployeeRegistration::whereIn('user_id', $userId)
+            ->whereIn('date', $date)
+            ->pluck('status', 'user_id', 'date');
 
-        return response()->json(['data' => [$userId => [$date => $status]]], 200);
+        return response()->json(['data' => [$userId => [$date => $statuses]]], 200);
     }
 
     public function destroy(EmployeeRegistration $employeeRegistration)
