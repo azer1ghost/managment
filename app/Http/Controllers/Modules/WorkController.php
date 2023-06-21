@@ -501,7 +501,7 @@ class WorkController extends Controller
         }
 
         $validated['status'] = $status;
-        if (($work->getAttribute('returned_at') ||  $request->get('returned_at') !== null) && $request->get('parameters')[$work::GB] !== $work->getParameter($work::GB))
+        if (($work->getAttribute('returned_at') || $request->get('returned_at') !== null) && $request->get('parameters')[$work::GB] !== $work->getParameter($work::GB))
         {
             event(new WorkChanged($work));
         }
