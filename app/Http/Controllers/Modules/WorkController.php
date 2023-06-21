@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Modules;
 
+use App\Events\WorkChanged;
 use App\Events\WorkCreated;
 use App\Events\WorkStatusRejected;
 use App\Exports\WorksExport;
@@ -434,6 +435,7 @@ class WorkController extends Controller
 
     public function update(WorkRequest $request, Work $work): RedirectResponse
     {
+//        dd(User::wherePermissions('viewAny-financeClient')->get())
         $client = Client::where('id', $request->client_id)->first();
         $firstAsan = 0;
         if (is_null($work->getAttribute('asan_imza_id'))) {
@@ -499,6 +501,11 @@ class WorkController extends Controller
         }
 
         $validated['status'] = $status;
+        if (($work->getAttribute('returned_at') ||  $request->get('returned_at') !== null) && $request->get('parameters')[$work::GB] !== $work->getParameter($work::GB))
+        {
+            event(new WorkChanged($work));
+        }
+
         $work->update($validated);
 
         if ($request->has('rejected') && is_numeric($work->getAttribute('user_id'))) {

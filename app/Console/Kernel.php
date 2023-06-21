@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Jobs\InquiryAlarm;
+use App\Jobs\InvoiceSms;
 use App\Jobs\ProcessStatistics;
 use App\Jobs\ProcessWeather;
 use App\Jobs\StatisticsResolver;
@@ -29,6 +30,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('model:prune')->daily();
+
+//        $schedule->job(InvoiceSms::class)->dailyAt('10:00')->environments(['staging', 'production']);
+//        $schedule->job(InvoiceSms::class)->dailyAt('10:00')->environments(['testing', 'local']);
 
         $schedule->job(InquiryAlarm::class)->everyMinute()->environments(['staging', 'production']);
         $schedule->job(InquiryAlarm::class)->everyMinute()->environments(['testing', 'local']);
