@@ -40,10 +40,10 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        WorkCreated::class => [
-            SendNotification::class,
-            SendPushNotification::class,
-        ],
+//        WorkCreated::class => [
+//            SendNotification::class,
+//            SendPushNotification::class,
+//        ],
         WorkChanged::class => [
             SendNotification::class,
             SendPushNotification::class,
