@@ -734,22 +734,20 @@ class WorkController extends Controller
             ->with('parameters')
             ->get();
 
-        $totalIllegalAmount = 0;
-        $totalAmount = 0;
-        $totalVat = 0;
+        $totalIllegalAmount = $works->sum(function ($work) {
+            return $work->getParameter(Work::ILLEGALAMOUNT) ?? 0;
+        });
 
-        foreach ($works as $work) {
-            $amount = $work->getParameter(Work::AMOUNT);
-            $totalAmount += $amount ? $amount : 0;
+        $totalAmount = $works->sum(function ($work) {
+            return $work->getParameter(Work::AMOUNT) ?? 0;
+        });
 
-            $illegalAmount = $work->getParameter(Work::ILLEGALAMOUNT);
-            $totalIllegalAmount += $illegalAmount ? $illegalAmount : 0;
+        $totalVat = $works->sum(function ($work) {
+            return $work->getParameter(Work::VAT) ?? 0;
+        });
+        $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
 
-            $vat = $work->getParameter(Work::VAT);
-            $totalVat += $vat ? $vat : 0;
 
-        }
-
-        return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat'));
+        return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat', 'totalAll'));
     }
 }

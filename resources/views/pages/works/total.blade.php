@@ -67,6 +67,10 @@
             <h1>Ayın Başından ƏDV Məbləğ</h1>
             <h2>{{ $totalVat }}</h2>
         </div>
+        <div>
+            <h1>Ümumi məbləğ</h1>
+            <h2>{{ $totalAll }}</h2>
+        </div>
     </div>
 
 @endsection
