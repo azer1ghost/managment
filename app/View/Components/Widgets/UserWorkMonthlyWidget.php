@@ -27,6 +27,7 @@ class UserWorkMonthlyWidget extends Component
             ->join('work_parameter', 'works.id', '=', 'work_parameter.work_id')
             ->where('work_parameter.parameter_id', '=', Work::GB)
             ->where('disabled_at', '=', null)
+            ->where('works.deleted_at', '=', null)
             ->whereDate('entry_date', '>=', now()->startOfMonth())
             ->groupBy('users.name', 'users.surname')
             ->orderByDesc('total_value')
