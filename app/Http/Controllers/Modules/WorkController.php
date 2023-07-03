@@ -741,6 +741,13 @@ class WorkController extends Controller
             $totalIllegalAmount += $illegalAmount ? $illegalAmount : 0;
         }
 
+        $totalAmount = 0;
+
+        foreach ($works as $work) {
+            $amount = $work->getParameter(Work::AMOUNT);
+            $totalAmount += $amount ? $amount : 0;
+        }
+
         return view('pages.works.total', compact('totalIllegalAmount'));
     }
 }
