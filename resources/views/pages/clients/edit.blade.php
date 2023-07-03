@@ -273,7 +273,6 @@
                 </a>
             </div>
         @endif
-
         {{--            <label>{{ $service->getAttribute('name') }}</label>--}}
         {{--            <input type="text" name="services[{{ $service->getAttribute('id') }}]" value="{{ $serviceAmounts[$service->getAttribute('id')] ?? '' }}">--}}
         <div class="col-6 m-5">
@@ -282,6 +281,12 @@
                     <th>Xidmətlər</th>
                     <th>Qiymət</th>
                 </tr>
+                <td><label>Əsas Vərəq</label></td>
+                <td><input type="text" class="form-control" name="main_paper"
+                           value="{{$data->getAttribute('main_paper')}}"></td>
+                <td><label>QIB Əsas Vərəq</label></td>
+                <td><input type="text" class="form-control" name="qibmain_paper"
+                           value="{{$data->getAttribute('qibmain_paper')}}"></td>
                 @if($method !== 'POST')
                     @foreach ($services as $service)
                         <tr>

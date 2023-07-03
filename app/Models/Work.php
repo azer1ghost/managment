@@ -38,6 +38,7 @@ class Work extends Model implements DocumentableInterface, Recordable
     const PAID = 35;
     const ILLEGALPAID = 37;
     const VATPAYMENT = 36;
+    const MAINPAGE = 48;
 
     protected $fillable = [
         'code',
