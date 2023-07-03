@@ -63,6 +63,7 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
         'sector',
         'celebrate_at',
         'main_paper',
+        'qibmain_paper',
     ];
 
     public function clients(): HasMany
