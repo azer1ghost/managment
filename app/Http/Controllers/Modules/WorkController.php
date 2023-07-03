@@ -725,4 +725,22 @@ class WorkController extends Controller
             return response()->json(['success' => true]);
         }
     }
+    public function showTotal()
+    {
+        $startDate = Carbon::now()->startOfMonth();
+        $endDate = Carbon::now()->endOfMonth();
+
+        $works = Work::whereBetween('datetime', [$startDate, $endDate])
+            ->where('status', Work::PLANNED)
+            ->get();
+
+        $totalIllegalAmount = 0;
+
+        foreach ($works as $work) {
+            $illegalAmount = $work->getParameter('ILLEGALAMOUNT');
+            $totalIllegalAmount += $illegalAmount ? $illegalAmount : 0;
+        }
+
+        return view('pages.works.total', compact('totalIllegalAmount'));
+    }
 }
