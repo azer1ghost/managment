@@ -31,8 +31,8 @@
     </x-bread-crumb>
 
 
-    <h1>Toplam ILLEGALAMOUNT Değeri</h1>
-    <p>Ayın başındaki işlerin ILLEGALAMOUNT toplamı: {{ $totalIllegalAmount }}</p>
+    <h1>Ayın Əvvəlindən qeyri-rəsmi məbləğ</h1>
+    <h2>{{ $totalIllegalAmount }}</h2>
 
 @endsection
 @section('scripts')
