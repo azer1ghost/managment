@@ -36,7 +36,7 @@
     <h1>Ayın Əvvəlindən rəsmi məbləğ</h1>
     <h2>{{ $totalAmount }}</h2>
     <h1>Ayın Əvvəlindən ədv məbləğ</h1>
-    <h2>{{ $totaVat }}</h2>
+    <h2>{{ $totalVat }}</h2>
 
 @endsection
 @section('scripts')
