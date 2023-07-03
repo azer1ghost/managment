@@ -61,7 +61,7 @@
                     <th scope="col">#</th>
                     <th scope="col">@lang('translates.fields.user')</th>
                     <th scope="col">@lang('translates.columns.type')</th>
-                    <th scope="col">@lang('translates.fields.note')</th>
+                    <th scope="col">@lang('translates.columns.result')</th>
                     <th scope="col">@lang('translates.columns.status')</th>
                     <th scope="col">@lang('translates.employee_satisfactions.effectivity')</th>
                     <th scope="col">@lang('translates.fields.created_at')</th>
