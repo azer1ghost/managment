@@ -35,6 +35,8 @@
     <h2>{{ $totalIllegalAmount }}</h2>
     <h1>Ayın Əvvəlindən rəsmi məbləğ</h1>
     <h2>{{ $totalAmount }}</h2>
+    <h1>Ayın Əvvəlindən ədv məbləğ</h1>
+    <h2>{{ $totaVat }}</h2>
 
 @endsection
 @section('scripts')

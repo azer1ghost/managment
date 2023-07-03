@@ -736,6 +736,7 @@ class WorkController extends Controller
 
         $totalIllegalAmount = 0;
         $totalAmount = 0;
+        $totalVat = 0;
 
         foreach ($works as $work) {
             $amount = $work->getParameter(Work::AMOUNT);
@@ -744,8 +745,11 @@ class WorkController extends Controller
             $illegalAmount = $work->getParameter(Work::ILLEGALAMOUNT);
             $totalIllegalAmount += $illegalAmount ? $illegalAmount : 0;
 
+            $vat = $work->getParameter(Work::VAT);
+            $totalVat += $vat ? $vat : 0;
+
         }
 
-        return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount'));
+        return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat'));
     }
 }
