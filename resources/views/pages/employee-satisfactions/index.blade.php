@@ -62,6 +62,7 @@
                     <th scope="col">@lang('translates.fields.user')</th>
                     <th scope="col">@lang('translates.columns.type')</th>
                     <th scope="col">@lang('translates.columns.result')</th>
+                    <th scope="col">@lang('translates.employee_satisfactions.result')</th>
                     <th scope="col">@lang('translates.columns.status')</th>
                     <th scope="col">@lang('translates.employee_satisfactions.effectivity')</th>
                     <th scope="col">@lang('translates.fields.created_at')</th>
@@ -80,6 +81,7 @@
                         </td>
                         <td> @lang('translates.employee_satisfactions.types.' . $employeeSatisfaction->getAttribute('type'))</td>
                         <td>{{$employeeSatisfaction->getAttribute('note')}}</td>
+                        <td>{{$employeeSatisfaction->getAttribute('result')}}</td>
                         @php($status = $employeeSatisfaction->getAttribute('status') ?? 1)
                         <td>  @lang('translates.employee_satisfactions.statuses.' . $status)</td>
                         <td>
