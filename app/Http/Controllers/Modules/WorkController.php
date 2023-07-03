@@ -731,13 +731,13 @@ class WorkController extends Controller
         $endDate = Carbon::now()->endOfMonth();
 
         $works = Work::whereBetween('datetime', [$startDate, $endDate])
-            ->where('status', Work::PLANNED)
+            ->with('parameters')
             ->get();
 
         $totalIllegalAmount = 0;
 
         foreach ($works as $work) {
-            $illegalAmount = $work->getParameter('ILLEGALAMOUNT');
+            $illegalAmount = $work->getParameter(Work::ILLEGALAMOUNT);
             $totalIllegalAmount += $illegalAmount ? $illegalAmount : 0;
         }
 
