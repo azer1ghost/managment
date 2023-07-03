@@ -198,6 +198,7 @@ return [
         'inquiry_sales' => 'Zənglər',
         'barcode' => 'Barkodlar',
         'task' => 'Tapşırıqlar',
+        'total' => 'Toplam',
         'necessary' => 'Lazımi Sənədlər',
         'parameter' => 'Parametrlər',
         'option' => 'Seçimlər',
