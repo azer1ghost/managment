@@ -30,6 +30,7 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
 
     const PASSIVE = 0;
 
+
     protected $fillable = [
         'fullname',
         'father',
@@ -61,6 +62,7 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
         'birthday',
         'sector',
         'celebrate_at',
+        'main_paper',
     ];
 
     public function clients(): HasMany

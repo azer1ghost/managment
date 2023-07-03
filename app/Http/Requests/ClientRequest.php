@@ -43,6 +43,7 @@ class ClientRequest extends FormRequest
             'channel'         => 'nullable|string',
             'birthday'        => 'nullable|date',
             'celebrate_at'    => 'nullable|date',
+            'main_paper'      => 'nullable|string',
             'user_id'         => 'nullable|integer'
         ];
     }
