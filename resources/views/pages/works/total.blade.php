@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', __('translates.navbar.work'))
+@section('title', __('translates.navbar.total'))
 
 @section('style')
     <style>
@@ -50,7 +50,7 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
-            @lang('translates.navbar.work')
+            @lang('translates.navbar.total')
         </x-bread-crumb-link>
     </x-bread-crumb>
 
@@ -69,7 +69,6 @@
         </div>
     </div>
 
-    <!-- Diğer içerikler -->
 @endsection
 
 @section('scripts')
