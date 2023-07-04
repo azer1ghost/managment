@@ -13,15 +13,7 @@
             cursor: pointer;
         }
 
-        .hiddenRow {
-            padding: 0 4px !important;
-            background-color: #eeeeee;
-            font-size: 13px;
-        }
 
-        .table {
-            overflow-x: scroll;
-        }
 
         /* Stil değişiklikleri */
         .work-stats {
