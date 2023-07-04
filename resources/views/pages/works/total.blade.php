@@ -69,7 +69,7 @@
         </div>
         <div>
             <h1>Ümumi məbləğ</h1>
-{{--            <h2>{{ $totalAll }}</h2>--}}
+            <h2>{{ $totalAll }}</h2>
         </div>
     </div>
     <div id="chartContainer" style="height: 370px; width: 100%;"></div>
