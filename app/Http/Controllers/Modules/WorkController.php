@@ -727,6 +727,9 @@ class WorkController extends Controller
     }
     public function showTotal()
     {
+        $dataPoints = [];
+        $dataPaidPoints = [];
+
         $startMonth = Carbon::now()->startOfMonth();
         $endMonth = Carbon::now()->endOfMonth();
 
@@ -756,8 +759,6 @@ class WorkController extends Controller
             return $work->created_at->format('Y-m');
         });
 
-        $dataPoints = [];
-        $dataPaidPoints = [];
         $currentMonth = Carbon::now()->format('Y-m');
         $startDate = Carbon::now()->startOfYear();
         $endDate = Carbon::now()->endOfMonth();
