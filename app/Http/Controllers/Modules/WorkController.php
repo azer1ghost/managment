@@ -753,7 +753,14 @@ class WorkController extends Controller
         });
 
         $dataPoints = [];
-        foreach ($monthlyData as $month => $monthlyWorks) {
+        $currentMonth = Carbon::now()->format('Y-m');
+        $startDate = Carbon::now()->startOfYear();
+        $endDate = Carbon::now()->endOfMonth();
+
+        while ($startDate->format('Y-m') < $currentMonth) {
+            $month = $startDate->format('Y-m');
+            $monthlyWorks = $monthlyData->has($month) ? $monthlyData[$month] : collect();
+
             $totalMonth = $monthlyWorks->sum(function ($work) {
                     return $work->getParameter(Work::ILLEGALAMOUNT) ?? 0;
                 }) + $monthlyWorks->sum(function ($work) {
@@ -766,6 +773,8 @@ class WorkController extends Controller
                 "label" => $month,
                 "y" => $totalMonth
             ];
+
+            $startDate->addMonth();
         }
 
         return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat', 'totalAll', 'dataPoints', 'monthlyData'));
