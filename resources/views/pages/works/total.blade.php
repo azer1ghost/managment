@@ -64,7 +64,10 @@
             <h2>{{ $totalAll }}</h2>
         </div>
     </div>
-    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+    <div class="col-6">
+        <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+    </div>
+
 @endsection
 
 @section('scripts')
