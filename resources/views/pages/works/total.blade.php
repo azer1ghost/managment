@@ -77,7 +77,7 @@
                 animationEnabled: true,
                 theme: "light2",
                 title: {
-                    text: "Aylık Satış Cetveli"
+                    text: "Aylıq Satış Cədvəli"
                 },
                 axisX: {
                     interval: 1,
@@ -91,14 +91,20 @@
                 toolTip: {
                     shared: true
                 },
-                data: [{
-                    type: "column",
-                    name: "Total Amount",
-                    showInLegend: false,
-                    xValueFormatString: "MMM",
-                    yValueFormatString: "₼#,##0",
-                    dataPoints: dataPoints
-                }]
+                legend: {
+                    cursor: "pointer",
+                    itemclick: toggleDataSeries
+                },
+                data: [
+                    {
+                        type: "column",
+                        name: "Total Amount",
+                        showInLegend: true,
+                        xValueFormatString: "MMM YYYY",
+                        yValueFormatString: "₼#,##0",
+                        dataPoints: dataPoints
+                    }
+                ]
             });
             chart.render();
 
@@ -112,7 +118,15 @@
                 var suffix = suffixes[order];
                 return CanvasJS.formatNumber(e.value / Math.pow(1000, order)) + suffix;
             }
-        }
 
+            function toggleDataSeries(e) {
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+                e.chart.render();
+            }
+        }
     </script>
 @endsection
