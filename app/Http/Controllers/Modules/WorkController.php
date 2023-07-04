@@ -750,6 +750,7 @@ class WorkController extends Controller
         $monthlyData = $works->groupBy(function ($work) {
             return $work->datetime->format('Y-m');
         });
+        $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
 
         $dataPoints = [];
         foreach ($monthlyData as $month => $monthlyWorks) {
@@ -760,7 +761,7 @@ class WorkController extends Controller
                 "y" => $totalAll
             ];
         }
-        return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat', 'dataPoints', 'monthlyData'));
+        return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat', 'dataPoints', 'monthlyData', 'totalAll'));
 
     }
 }
