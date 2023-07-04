@@ -95,16 +95,16 @@
                     cursor: "pointer",
                     itemclick: toggleDataSeries
                 },
-                data: [
-                    {
+                data: dataPoints.map(function(monthData) {
+                    return {
                         type: "column",
-                        name: "Total Amount",
+                        name: monthData.label,
                         showInLegend: true,
                         xValueFormatString: "MMM YYYY",
                         yValueFormatString: "₼#,##0",
-                        dataPoints: dataPoints
-                    }
-                ]
+                        dataPoints: monthData.dataPoints
+                    };
+                })
             });
             chart.render();
 
