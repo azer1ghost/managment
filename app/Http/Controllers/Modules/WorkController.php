@@ -748,7 +748,11 @@ class WorkController extends Controller
 
         $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
 
-        $monthlyData = $works->groupBy(function ($work) {
+        $allWorks = Work::whereYear('datetime', Carbon::now()->year)
+            ->with('parameters')
+            ->get();
+
+        $monthlyData = $allWorks->groupBy(function ($work) {
             return $work->datetime->format('Y-m');
         });
 
