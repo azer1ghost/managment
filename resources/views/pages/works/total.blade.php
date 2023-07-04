@@ -85,7 +85,7 @@
                     valueFormatString: "MMM"
                 },
                 axisY: {
-                    prefix: "$",
+                    prefix: "₼",
                     labelFormatter: addSymbols
                 },
                 toolTip: {
