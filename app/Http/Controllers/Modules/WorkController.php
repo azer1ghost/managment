@@ -757,6 +757,7 @@ class WorkController extends Controller
         });
 
         $dataPoints = [];
+        $dataPaidPoints = [];
         $currentMonth = Carbon::now()->format('Y-m');
         $startDate = Carbon::now()->startOfYear();
         $endDate = Carbon::now()->endOfMonth();
