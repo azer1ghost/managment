@@ -757,12 +757,12 @@ class WorkController extends Controller
             $month = $startDate->format('Y-m');
             $monthlyWorks = $monthlyData->get($month, collect());
 
-            $totalMonth = $monthlyWorks->sum('parameters.'.Work::ILLEGALAMOUNT)
-                + $monthlyWorks->sum('parameters.'.Work::AMOUNT)
-                + $monthlyWorks->sum('parameters.'.Work::VAT);
-            $totalPaidMonth = $monthlyWorks->sum('parameters.'.Work::ILLEGALPAID)
-                + $monthlyWorks->sum('parameters.'.Work::PAID)
-                + $monthlyWorks->sum('parameters.'.Work::VATPAYMENT);
+            $totalMonth = $monthlyWorks->sum('parameters', Work::ILLEGALAMOUNT)
+                + $monthlyWorks->sum('parameters', Work::AMOUNT)
+                + $monthlyWorks->sum('parameters', Work::VAT);
+            $totalPaidMonth = $monthlyWorks->sum('parameters', Work::ILLEGALPAID)
+                + $monthlyWorks->sum('parameters', Work::PAID)
+                + $monthlyWorks->sum('parameters', Work::VATPAYMENT);
 
             $dataPoints[] = [
                 "label" => $month,
