@@ -101,7 +101,7 @@
                         name: "Total Amount",
                         showInLegend: true,
                         xValueFormatString: "MMM YYYY",
-                        yValueFormatString: "$#,##0",
+                        yValueFormatString: "₼#,##0",
                         dataPoints: dataPoints
                     }
                 ]
