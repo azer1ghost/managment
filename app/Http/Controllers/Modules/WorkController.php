@@ -753,7 +753,7 @@ class WorkController extends Controller
             ->get();
 
         $monthlyData = $allWorks->groupBy(function ($work) {
-            return $work->datetime->format('Y-m');
+            return $work->created_at->format('Y-m');
         });
 
         $dataPoints = [];
