@@ -772,15 +772,26 @@ class WorkController extends Controller
                 }) + $monthlyWorks->sum(function ($work) {
                     return $work->getParameter(Work::VAT) ?? 0;
                 });
+            $totalPaidMonth = $monthlyWorks->sum(function ($work) {
+                    return $work->getParameter(Work::ILLEGALPAID) ?? 0;
+                }) + $monthlyWorks->sum(function ($work) {
+                    return $work->getParameter(Work::PAID) ?? 0;
+                }) + $monthlyWorks->sum(function ($work) {
+                    return $work->getParameter(Work::VATPAYMENT) ?? 0;
+                });
 
             $dataPoints[] = [
                 "label" => $month,
                 "y" => $totalMonth
             ];
+            $dataPaidPoints[] = [
+                "label" => $month,
+                "y" => $totalPaidMonth
+            ];
 
             $startDate->addMonth();
         }
 
-        return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat', 'totalAll', 'dataPoints', 'monthlyData'));
+        return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat', 'totalAll', 'dataPoints', 'monthlyData', 'dataPaidPoints'));
     }
 }

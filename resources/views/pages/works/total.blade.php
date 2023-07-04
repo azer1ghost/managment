@@ -64,8 +64,11 @@
             <h2>{{ $totalAll }}</h2>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-6 col-md-6">
         <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+    </div>
+    <div class="col-6 col-md-6">
+        <div id="chartContainer2" style="height: 370px; width: 100%;"></div>
     </div>
 
 @endsection
@@ -75,6 +78,7 @@
     <script>
         window.onload = function () {
             var dataPoints = @json($dataPoints);
+            var dataPaidPoints = @json($dataPaidPoints);
 
             var chart = new CanvasJS.Chart("chartContainer", {
                 animationEnabled: true,
@@ -110,6 +114,41 @@
                 ]
             });
             chart.render();
+
+            var paidChart = new CanvasJS.Chart("chartContainer2", {
+                animationEnabled: true,
+                theme: "light2",
+                title: {
+                    text: "Aylıq Ödənilmə Cədvəli"
+                },
+                axisX: {
+                    interval: 1,
+                    intervalType: "month",
+                    valueFormatString: "MMM"
+                },
+                axisY: {
+                    prefix: "₼",
+                    labelFormatter: addSymbols
+                },
+                toolTip: {
+                    shared: true
+                },
+                legend: {
+                    cursor: "pointer",
+                    itemclick: toggleDataSeries
+                },
+                data: [
+                    {
+                        type: "column",
+                        name: "Total Amount",
+                        showInLegend: true,
+                        xValueFormatString: "MMM YYYY",
+                        yValueFormatString: "₼#,##0",
+                        dataPoints: dataPaidPoints
+                    }
+                ]
+            });
+            paidChart.render();
 
             function addSymbols(e) {
                 var suffixes = ["", "K", "M", "B"];
