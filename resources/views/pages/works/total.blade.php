@@ -95,14 +95,7 @@
                     cursor: "pointer",
                     itemclick: toggleDataSeries
                 },
-                data: [{
-                    type: "column",
-                    name: "Total Amount",
-                    showInLegend: true,
-                    xValueFormatString: "MMM YYYY",
-                    yValueFormatString: "₼#,##0",
-                    dataPoints: dataPoints
-                }]
+                data: dataPoints
             });
             chart.render();
 
