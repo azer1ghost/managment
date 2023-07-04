@@ -730,7 +730,7 @@ class WorkController extends Controller
         $startMonth = Carbon::now()->startOfMonth();
         $endMonth = Carbon::now()->endOfMonth();
 
-        $works = Work::whereBetween('datetime', [$startMonth, $endMonth])
+        $works = Work::whereBetween('created_at', [$startMonth, $endMonth])
             ->with('parameters')
             ->get();
 
@@ -748,7 +748,7 @@ class WorkController extends Controller
 
         $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
 
-        $allWorks = Work::whereYear('datetime', Carbon::now()->year)
+        $allWorks = Work::whereYear('created_at', Carbon::now()->year)
             ->with('parameters')
             ->get();
 

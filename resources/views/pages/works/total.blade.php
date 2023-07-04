@@ -48,15 +48,15 @@
 
     <div class="work-stats">
         <div>
-            <h1>Ayın Başından Qeyri-Rəsmi Məbləğ</h1>
+            <h1>Ayın əvvəlindən Qeyri-Rəsmi Məbləğ</h1>
             <h2>{{ $totalIllegalAmount }}</h2>
         </div>
         <div>
-            <h1>Ayın Başından Rəsmi Məbləğ</h1>
+            <h1>Ayın əvvəlindən Rəsmi Məbləğ</h1>
             <h2>{{ $totalAmount }}</h2>
         </div>
         <div>
-            <h1>Ayın Başından ƏDV Məbləğ</h1>
+            <h1>Ayın əvvəlindən ƏDV Məbləğ</h1>
             <h2>{{ $totalVat }}</h2>
         </div>
         <div>
