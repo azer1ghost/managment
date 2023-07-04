@@ -753,22 +753,18 @@ class WorkController extends Controller
         });
 
         $dataPoints = [];
-
         foreach ($monthlyData as $month => $monthlyWorks) {
-            $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
+            $totalMonth = $monthlyWorks->sum(function ($work) {
+                    return $work->getParameter(Work::ILLEGALAMOUNT) ?? 0;
+                }) + $monthlyWorks->sum(function ($work) {
+                    return $work->getParameter(Work::AMOUNT) ?? 0;
+                }) + $monthlyWorks->sum(function ($work) {
+                    return $work->getParameter(Work::VAT) ?? 0;
+                });
 
             $dataPoints[] = [
-                "type" => "column",
-                "name" => $month,
-                "showInLegend" => true,
-                "xValueFormatString" => "MMM YYYY",
-                "yValueFormatString" => "₼#,##0",
-                "dataPoints" => $monthlyWorks->map(function ($work) {
-                    return [
-                        "label" => $work->datetime->format('M Y'),
-                        "y" => $totalAll ?? 0
-                    ];
-                })
+                "label" => $month,
+                "y" => $totalMonth
             ];
         }
 
