@@ -757,7 +757,7 @@ class WorkController extends Controller
         $startDate = Carbon::now()->startOfYear();
         $endDate = Carbon::now()->endOfMonth();
 
-        while ($startDate->format('Y-m') < $currentMonth) {
+        while ($startDate->format('Y-m') <= $currentMonth) {
             $month = $startDate->format('Y-m');
             $monthlyWorks = $monthlyData->has($month) ? $monthlyData[$month] : collect();
 
