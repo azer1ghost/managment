@@ -727,41 +727,47 @@ class WorkController extends Controller
     }
     public function showTotal()
     {
-        $startDate = Carbon::now()->startOfMonth();
-        $endDate = Carbon::now()->endOfMonth();
+        $startMonth = Carbon::now()->startOfMonth();
+        $endMonth = Carbon::now()->endOfMonth();
 
-        $works = Work::whereBetween('datetime', [$startDate, $endDate])
+        $works = Work::whereBetween('datetime', [$startMonth, $endMonth])
             ->with('parameters')
             ->get();
 
-
-
         $totalIllegalAmount = $works->sum(function ($work) {
-                return $work->getParameter(Work::ILLEGALAMOUNT) ?? 0;
-            });
+            return $work->getParameter(Work::ILLEGALAMOUNT) ?? 0;
+        });
 
-        $totalAmount = $works->sum(function ($work)  {
-                return $work->getParameter(Work::AMOUNT) ?? 0;
-            });
+        $totalAmount = $works->sum(function ($work) {
+            return $work->getParameter(Work::AMOUNT) ?? 0;
+        });
 
         $totalVat = $works->sum(function ($work) {
-                return $work->getParameter(Work::VAT) ?? 0;
-            });
+            return $work->getParameter(Work::VAT) ?? 0;
+        });
+
+        $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
+
         $monthlyData = $works->groupBy(function ($work) {
             return $work->datetime->format('Y-m');
         });
-        $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
 
         $dataPoints = [];
         foreach ($monthlyData as $month => $monthlyWorks) {
-            $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
+            $totalMonth = $monthlyWorks->sum(function ($work) {
+                    return $work->getParameter(Work::ILLEGALAMOUNT) ?? 0;
+                }) + $monthlyWorks->sum(function ($work) {
+                    return $work->getParameter(Work::AMOUNT) ?? 0;
+                }) + $monthlyWorks->sum(function ($work) {
+                    return $work->getParameter(Work::VAT) ?? 0;
+                });
 
             $dataPoints[] = [
                 "label" => $month,
-                "y" => $totalAll
+                "y" => $totalMonth
             ];
         }
-        return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat', 'dataPoints', 'monthlyData', 'totalAll'));
 
+        return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat', 'totalAll', 'dataPoints', 'monthlyData'));
     }
 }

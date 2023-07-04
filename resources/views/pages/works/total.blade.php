@@ -77,7 +77,7 @@
                 animationEnabled: true,
                 theme: "light2",
                 title: {
-                    text: "Monthly Sales Data"
+                    text: "Aylıq Satış Cədvəli"
                 },
                 axisX: {
                     interval: 1,
