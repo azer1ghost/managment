@@ -734,20 +734,33 @@ class WorkController extends Controller
             ->with('parameters')
             ->get();
 
-        $totalIllegalAmount = $works->sum(function ($work) {
-            return $work->getParameter(Work::ILLEGALAMOUNT) ?? 0;
-        });
 
-        $totalAmount = $works->sum(function ($work) {
-            return $work->getParameter(Work::AMOUNT) ?? 0;
-        });
+
+        $totalIllegalAmount = $works->sum(function ($work) {
+                return $work->getParameter(Work::ILLEGALAMOUNT) ?? 0;
+            });
+
+        $totalAmount = $works->sum(function ($work)  {
+                return $work->getParameter(Work::AMOUNT) ?? 0;
+            });
 
         $totalVat = $works->sum(function ($work) {
-            return $work->getParameter(Work::VAT) ?? 0;
+                return $work->getParameter(Work::VAT) ?? 0;
+            });
+        $monthlyData = $works->groupBy(function ($work) {
+            return $work->datetime->format('Y-m');
         });
-        $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
 
+        $dataPoints = [];
+        foreach ($monthlyData as $month => $monthlyWorks) {
+            $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
 
-        return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat', 'totalAll'));
+            $dataPoints[] = [
+                "label" => $month,
+                "y" => $totalAll
+            ];
+        }
+        return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat', 'dataPoints', 'monthlyData'));
+
     }
 }
