@@ -200,6 +200,7 @@ Route::group([
     Route::get('/plannedWorks', [WorkController::class, 'plannedWorks'])->name('planned-works');
     Route::get('/pendingWorks', [WorkController::class, 'pendingWorks'])->name('pending-works');
     Route::get('/financeWorks', [WorkController::class, 'financeWorks'])->name('finance-works');
+    Route::get('/total', [WorkController::class, 'showTotal'])->name('total');
     Route::post('/test', [WorkController::class, 'editable'])->name('editable');
     Route::post('/code', [WorkController::class, 'code'])->name('work.code');
     Route::post('/declaration', [WorkController::class, 'declaration'])->name('work.declaration');

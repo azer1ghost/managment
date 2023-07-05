@@ -195,6 +195,7 @@ return [
         'inquiry_sales' => 'Inquiry Sales',
         'barcode' => 'Barcodes',
         'task' => 'Tasks',
+        'total' => 'Totals',
         'parameter' => 'Parameters',
         'necessary' => 'Necessary documents',
         'option' => 'Options',
