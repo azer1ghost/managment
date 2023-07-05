@@ -196,12 +196,12 @@ class Sidebar extends Component
                         'url' => route('banks.index'),
                         'permission' => 'viewAny-creditor',
                     ],
-                    (object)[
-                        'title' => trans('translates.navbar.total'),
-                        'icon' => 'fas fa-money-check',
-                        'url' => route('total'),
-                        'permission' => 'viewAny-creditor',
-                    ],
+//                    (object)[
+//                        'title' => trans('translates.navbar.total'),
+//                        'icon' => 'fas fa-money-check',
+//                        'url' => route('total'),
+//                        'permission' => 'viewAny-creditor',
+//                    ],
                 ]
             ],
 

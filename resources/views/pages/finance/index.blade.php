@@ -116,7 +116,6 @@
                 <h6 class=" mb-2">M/H <span class="mh"></span></h6>
                 <h6 class=" mb-2">BANK: <span class="bank"></span> KOD: <span class="kod"></span></h6>
                 <h6 class=" mb-2">BANK VOEN: <span class="bbank"></span> &nbsp;&nbsp;  S.W.I.F.T: <span class="swift"></span></h6>
-
                 <h1 class="text-center companyName"></h1>
                 <table class="table table-borderless">
                     <thead>
@@ -275,12 +274,15 @@
                     <br>
                     <p class="companyName"></p>
                     <p>VÖEN: <span class="voen"></span></p>
+                    <div class="rekvizit">
+
                     <p>H/H: <span class="hh"></span></p>
                     <p>M/H <span class="mh"></span></p>
                     <p>KOD: <span class="kod"></span></p>
                     <p>BANK: <span class="bank"></span></p>
                     <p>BANK VOEN: <span class="bvoen"></span></p>
                     <p>S.W.I.F.T: <span class="swift"></span></p>
+                    </div>
                     <br>
                     <p>Director: <span id="who"></span></p>
                     <br>
@@ -297,12 +299,15 @@
                     <br>
                     <p class="clientName"></p>
                     <p>VÖEN: <span class="clientVoen"></span></p>
+                    <div class="rekvizit">
+
                     <p>H/H: <span class="clienthh"></span></p>
                     <p>M/H <span class="clientmh"></span></p>
                     <p>KOD: <span class="clientCode"></span></p>
                     <p>BANK: <span class="clientBank"></span></p>
                     <p>BANK VOEN: <span class="clientBvoen"></span></p>
                     <p>S.W.I.F.T: <span class="clientSwift"></span></p>
+                    </div>
                     <br>
                     <p class="clientWho"></p>
                     <br>
@@ -731,6 +736,9 @@
         function paymentType() {
             var paymentTypeSelect = $("#paymentTypeSelect").val();
             $("#paymentType").html(paymentTypeSelect);
+            if (paymentTypeSelect == 'nağd' ) {
+                $('.rekvizit').hide()
+            }
         }
 
         function protocolDate() {
