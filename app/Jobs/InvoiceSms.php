@@ -19,10 +19,7 @@ class InvoiceSms implements ShouldQueue
 
     public string $message;
 
-    public function __construct()
-    {
-        $this->message = 'Pulu ödə';
-    }
+
 
     public function handle(): void
     {
@@ -32,9 +29,15 @@ class InvoiceSms implements ShouldQueue
             ->whereNull('paid_at')
             ->whereDate('invoiced_date', '>=', Carbon::now()->subDays(5)->toDateString())
             ->get();
+
+        $search = array('Ç', 'ç', 'Ğ', 'ğ', 'ı', 'İ', 'Ö', 'ö', 'Ş', 'ş', 'Ü', 'ü', 'Ə', 'ə');
+        $replace = array('C', 'c', 'G', 'g', 'i', 'I', 'O', 'o', 'S', 's', 'U', 'u', 'E', 'e');
+
         foreach ($works as $work) {
             $client = Client::where('id', $work->client_id)->first();
-            $message = $work->code; // Kodu mesaj olarak kullanın
+            $clientText = trim($client->getAttribute('fullname'));
+            $clientName = str_replace($search, $replace, $clientText);
+            $message = 'Deyerli ' . $clientName. '.' .   $work->getAttribute('code') . '№-li elektron qaimenize esasen odenis etmeyiniz xahis olunur';
             (new NotifyClientAccountantSms($message))->toSms($client)->send();
         }
 
