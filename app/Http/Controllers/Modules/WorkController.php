@@ -752,22 +752,8 @@ class WorkController extends Controller
 
         $dataPoints[] = [
             "label" => $startMonth->format('Y-m-d'),
-            "y" => [$totalAll, $totalIllegalAmount, $totalAmount, $totalVat]
+            "y" => $totalAll
         ];
-
-        $allWorks = Work::whereYear('created_at', Carbon::now()->year)
-            ->with('parameters')
-            ->get();
-
-        $monthlyData = $allWorks->groupBy(function ($work) {
-            return $work->created_at->format('Y-m');
-        });
-
-        $currentMonth = Carbon::now()->format('Y-m');
-        $startDate = Carbon::now()->startOfYear();
-        $endDate = Carbon::now()->endOfMonth();
-
-        $startDate->addMonth();
 
         return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat', 'totalAll', 'dataPoints', 'monthlyData'));
     }

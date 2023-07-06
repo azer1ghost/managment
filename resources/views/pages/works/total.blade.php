@@ -76,7 +76,7 @@
 @section('scripts')
     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     <script>
-        window.onload = function () {
+        window.addEventListener('DOMContentLoaded', (event) => {
             var dataPoints = {!! json_encode($dataPoints) !!};
 
             var chart = new CanvasJS.Chart("chartContainer", {
@@ -91,37 +91,16 @@
                     valueFormatString: "MMM"
                 },
                 axisY: {
-                    prefix: "₼",
-                    labelFormatter: addSymbols
-                },
-                toolTip: {
-                    shared: true
-                },
-                legend: {
-                    cursor: "pointer",
-                    itemclick: toggleDataSeries
+                    prefix: "₼"
                 },
                 data: [
                     {
                         type: "column",
-                        name: "Total Amount",
-                        showInLegend: true,
-                        xValueFormatString: "MMM YYYY",
-                        yValueFormatString: "₼#,##0",
-                        dataPoints: dataPoints[0].y
+                        dataPoints: dataPoints
                     }
                 ]
             });
             chart.render();
-
-            function addSymbols(e) {
-                var suffixes = ["", "K", "M", "B"];
-                var order = Math.max(Math.floor(Math.log(Math.abs(e.value)) / Math.log(1000)), 0);
-
-                if (order > suffixes.length - 1)
-                    order = suffixes.length - 1;
-
-                var suffix = suffixes[order];
-                return CanvasJS.formatNumber(e.value / Math.pow(1000, order)) + suffix;
-            }    </script>
+        });
+    </script>
 @endsection
