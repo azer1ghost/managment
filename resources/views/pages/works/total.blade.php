@@ -93,13 +93,61 @@
                 axisY: {
                     prefix: "₼"
                 },
+                toolTip: {
+                    shared: true
+                },
                 data: [
                     {
                         type: "column",
-                        dataPoints: dataPoints
+                        showInLegend: true,
+                        legendText: "Illegal Amount",
+                        name: "Illegal Amount",
+                        dataPoints: [
+                            {
+                                label: dataPoints[0].label,
+                                y: dataPoints[0].y["Illegal Amount"]
+                            }
+                        ]
+                    },
+                    {
+                        type: "column",
+                        showInLegend: true,
+                        legendText: "Amount",
+                        name: "Amount",
+                        dataPoints: [
+                            {
+                                label: dataPoints[0].label,
+                                y: dataPoints[0].y["Amount"]
+                            }
+                        ]
+                    },
+                    {
+                        type: "column",
+                        showInLegend: true,
+                        legendText: "VAT",
+                        name: "VAT",
+                        dataPoints: [
+                            {
+                                label: dataPoints[0].label,
+                                y: dataPoints[0].y["VAT"]
+                            }
+                        ]
+                    },
+                    {
+                        type: "column",
+                        showInLegend: true,
+                        legendText: "All",
+                        name: "All",
+                        dataPoints: [
+                            {
+                                label: dataPoints[0].label,
+                                y: dataPoints[0].y["Total All"]
+                            }
+                        ]
                     }
                 ]
             });
+
             chart.render();
         });
     </script>

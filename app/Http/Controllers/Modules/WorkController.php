@@ -747,14 +747,17 @@ class WorkController extends Controller
         $totalVat = $works->sum(function ($work) {
             return $work->getParameter(Work::VAT) ?? 0;
         });
-
         $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
 
         $dataPoints[] = [
             "label" => $startMonth->format('Y-m-d'),
-            "y" => $totalAll
+            "y" => [
+                'Total All' => $totalAll,
+                "Illegal Amount" => $totalIllegalAmount,
+                "Amount" => $totalAmount,
+                "VAT" => $totalVat
+            ]
         ];
-
         return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat', 'totalAll', 'dataPoints', ));
     }
 }
