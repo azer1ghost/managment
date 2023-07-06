@@ -44,7 +44,8 @@
                     </li>
                     <li class="card-text">12.YÜKLƏMƏ BOŞALTMA YERİ
                     </li>
-                    <li class="card-text">13.ƏGƏR YENİ MÜŞTƏRİDİRSƏ BANK REKVİZİTLƏRİ, ÇİXARIŞ, ANBAR ÜNVANİNİN DƏQİQLEŞDİRİLMƏSİ İLƏ BAĞLİ ANBAR KODU SƏNƏDİ
+                    <li class="card-text">13.ƏGƏR YENİ MÜŞTƏRİDİRSƏ BANK REKVİZİTLƏRİ, ÇİXARIŞ, ANBAR ÜNVANİNİN
+                        DƏQİQLEŞDİRİLMƏSİ İLƏ BAĞLİ ANBAR KODU SƏNƏDİ
                     </li>
                     <li class="card-text">14.YÜKÜ ÇİXARAN ŞƏXS ÜÇÜN ETİBARNAMƏ
                     </li>
@@ -77,7 +78,8 @@
                     </li>
                     <li class="card-text">8.YÜKLƏMƏ BOŞALTMA YERİ
                     </li>
-                    <li class="card-text">9.ƏGƏR YENİ MÜŞTƏRİDİRSƏ BANK REKVİZİTLƏRİ, REYSTERDƏN ÇİXARIŞ, ANBAR ÜNVANİNİN DƏQİQLEŞDİRİLMƏSİ İLƏ BAĞLİ ANBAR KODU SƏNƏDİ
+                    <li class="card-text">9.ƏGƏR YENİ MÜŞTƏRİDİRSƏ BANK REKVİZİTLƏRİ, REYSTERDƏN ÇİXARIŞ, ANBAR
+                        ÜNVANİNİN DƏQİQLEŞDİRİLMƏSİ İLƏ BAĞLİ ANBAR KODU SƏNƏDİ
                     </li>
                     <li class="card-text">10.YÜKÜ ÇİXARAN ŞƏXS ÜÇÜN ETİBARNAMƏ
                     </li>
@@ -86,6 +88,30 @@
                 </ol>
 
             </div>
+            <div class="card text-center col-md-3 mr-3">
+                <div class="card-header">
+                    Qısa idxal üçün lazım olan sənədlər
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title"></h5>
+                    <ol>
+                        <li class="card-text">1.CMR
+                        </li>
+                        <li class="card-text">2.İNVOİCE
+                        </li>
+                        <li class="card-text">3.PACKİNG LİST
+                        </li>
+                        <li class="card-text">4.MƏNŞƏ SERTİFİKATİ
+                        </li>
+                        <li class="card-text">5.EXPORT
+                        </li>
+                        <li class="card-text">6.SƏRHƏD KEÇİD MƏNTƏQƏSİ
+                        </li>
+                        <li class="card-text">7.TƏYİNAT YERİ
+                        </li>
+                    </ol>
+
+                </div>
+            </div>
         </div>
-    </div>
 @endsection
