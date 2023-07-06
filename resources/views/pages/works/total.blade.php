@@ -108,7 +108,7 @@
                     showInLegend: true,
                     xValueFormatString: "MMM YYYY",
                     yValueFormatString: "₼#,##0",
-                    dataPoints: dataPoints[0].y
+                    dataPoints: dataPoints[0]
                 }]
             });
 
