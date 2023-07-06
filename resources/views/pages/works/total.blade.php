@@ -77,7 +77,7 @@
     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     <script>
         window.onload = function () {
-            var dataPoints = @json($dataPoints);
+            var dataPoints = <?php echo json_encode($dataPoints); ?>;
             {{--var dataPaidPoints = @json($dataPaidPoints);--}}
 
             var chart = new CanvasJS.Chart("chartContainer", {
