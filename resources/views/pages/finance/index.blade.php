@@ -164,6 +164,7 @@
                                 <option>Təmsil etdiyi şəxsin tapşırığı əsasında yüklərin və nəqliyyat vasitələrinin tam gömrük rəsmiləşdirilməsi</option>
                                 <option>Gömrük rüsumlarının əvvəlcədən hesablanması</option>
                                 <option>Təmsilçilik xidməti</option>
+                                <option>Təmsilçilik (Sertifikatın alınması)</option>
                                 <option>Qismən Təmsilçilik xidməti</option>
                                 <option>Printerlərə texniki baxışın göstərilməsi</option>
                                 <option>Serverlərə texniki baxışın göstərilməsi</option>
