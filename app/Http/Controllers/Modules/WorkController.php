@@ -732,32 +732,69 @@ class WorkController extends Controller
         $startMonth = Carbon::now()->startOfMonth();
         $endMonth = Carbon::now()->endOfMonth();
 
-        $works = Work::whereBetween('created_at', [$startMonth, $endMonth])
+// Son 3 ay için verileri al
+        for ($i = 3; $i >= 1; $i--) {
+            $previousMonth = Carbon::now()->subMonths($i);
+            $previousStartMonth = $previousMonth->startOfMonth();
+            $previousEndMonth = $previousMonth->endOfMonth();
+
+            $previousWorks = Work::whereBetween('created_at', [$previousStartMonth, $previousEndMonth])
+                ->with('parameters')
+                ->get();
+
+            $previousTotalIllegalAmount = $previousWorks->sum(function ($work) {
+                return $work->getParameter(Work::ILLEGALAMOUNT) ?? 0;
+            });
+
+            $previousTotalAmount = $previousWorks->sum(function ($work) {
+                return $work->getParameter(Work::AMOUNT) ?? 0;
+            });
+
+            $previousTotalVat = $previousWorks->sum(function ($work) {
+                return $work->getParameter(Work::VAT) ?? 0;
+            });
+
+            $previousTotalAll = $previousTotalIllegalAmount + $previousTotalAmount + $previousTotalVat;
+
+            $dataPoints[] = [
+                "label" => $previousStartMonth->format('Y-m-d'),
+                "y" => [
+                    'Total All' => $previousTotalAll,
+                    "Illegal Amount" => $previousTotalIllegalAmount,
+                    "Amount" => $previousTotalAmount,
+                    "VAT" => $previousTotalVat
+                ]
+            ];
+        }
+
+// Bulunduğumuz ay için verileri al
+        $currentWorks = Work::whereBetween('created_at', [$startMonth, $endMonth])
             ->with('parameters')
             ->get();
 
-        $totalIllegalAmount = $works->sum(function ($work) {
+        $currentTotalIllegalAmount = $currentWorks->sum(function ($work) {
             return $work->getParameter(Work::ILLEGALAMOUNT) ?? 0;
         });
 
-        $totalAmount = $works->sum(function ($work) {
+        $currentTotalAmount = $currentWorks->sum(function ($work) {
             return $work->getParameter(Work::AMOUNT) ?? 0;
         });
 
-        $totalVat = $works->sum(function ($work) {
+        $currentTotalVat = $currentWorks->sum(function ($work) {
             return $work->getParameter(Work::VAT) ?? 0;
         });
-        $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
+
+        $currentTotalAll = $currentTotalIllegalAmount + $currentTotalAmount + $currentTotalVat;
 
         $dataPoints[] = [
             "label" => $startMonth->format('Y-m-d'),
             "y" => [
-                'Total All' => $totalAll,
-                "Illegal Amount" => $totalIllegalAmount,
-                "Amount" => $totalAmount,
-                "VAT" => $totalVat
+                'Total All' => $currentTotalAll,
+                "Illegal Amount" => $currentTotalIllegalAmount,
+                "Amount" => $currentTotalAmount,
+                "VAT" => $currentTotalVat
             ]
         ];
-        return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat', 'totalAll', 'dataPoints', ));
+        return view('pages.works.total', compact( 'dataPoints' ));
     }
 }
