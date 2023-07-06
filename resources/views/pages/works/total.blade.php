@@ -100,8 +100,8 @@
                     {
                         type: "column",
                         showInLegend: true,
-                        legendText: "Illegal Amount",
-                        name: "Illegal Amount",
+                        legendText: "Qeyri Rəsmi Məbləğ",
+                        name: "Qeyri Rəsmi Məbləğ",
                         dataPoints: [
                             {
                                 label: dataPoints[0].label,
@@ -112,8 +112,8 @@
                     {
                         type: "column",
                         showInLegend: true,
-                        legendText: "Amount",
-                        name: "Amount",
+                        legendText: "Rəsmi Məbləğ",
+                        name: "Rəsmi Məbləğ",
                         dataPoints: [
                             {
                                 label: dataPoints[0].label,
@@ -124,8 +124,8 @@
                     {
                         type: "column",
                         showInLegend: true,
-                        legendText: "VAT",
-                        name: "VAT",
+                        legendText: "ƏDV",
+                        name: "ƏDV",
                         dataPoints: [
                             {
                                 label: dataPoints[0].label,
@@ -136,8 +136,8 @@
                     {
                         type: "column",
                         showInLegend: true,
-                        legendText: "All",
-                        name: "All",
+                        legendText: "Toplam",
+                        name: "Toplam",
                         dataPoints: [
                             {
                                 label: dataPoints[0].label,
