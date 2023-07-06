@@ -77,14 +77,13 @@
     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     <script>
         window.onload = function () {
-            var dataPoints = <?php echo json_encode($dataPoints); ?>;
-            {{--var dataPaidPoints = @json($dataPaidPoints);--}}
+            var dataPoints = {!! json_encode($dataPoints) !!};
 
             var chart = new CanvasJS.Chart("chartContainer", {
                 animationEnabled: true,
                 theme: "light2",
                 title: {
-                    text: "Aylıq Satış Cədvəli"
+                    text: "Aylık Satış Cetveli"
                 },
                 axisX: {
                     interval: 1,
@@ -102,52 +101,18 @@
                     cursor: "pointer",
                     itemclick: toggleDataSeries
                 },
-                data: [{
-                    type: "column",
-                    name: "Total Amount",
-                    showInLegend: true,
-                    xValueFormatString: "MMM YYYY",
-                    yValueFormatString: "₼#,##0",
-                    dataPoints: dataPoints[0]
-                }]
+                data: [
+                    {
+                        type: "column",
+                        name: "Total Amount",
+                        showInLegend: true,
+                        xValueFormatString: "MMM YYYY",
+                        yValueFormatString: "₼#,##0",
+                        dataPoints: dataPoints[0].y
+                    }
+                ]
             });
-
             chart.render();
-
-            // var paidChart = new CanvasJS.Chart("chartContainer2", {
-            //     animationEnabled: true,
-            //     theme: "light2",
-            //     title: {
-            //         text: "Aylıq Ödənilmə Cədvəli"
-            //     },
-            //     axisX: {
-            //         interval: 1,
-            //         intervalType: "month",
-            //         valueFormatString: "MMM"
-            //     },
-            //     axisY: {
-            //         prefix: "₼",
-            //         labelFormatter: addSymbols
-            //     },
-            //     toolTip: {
-            //         shared: true
-            //     },
-            //     legend: {
-            //         cursor: "pointer",
-            //         itemclick: toggleDataSeries
-            //     },
-            //     data: [
-            //         {
-            //             type: "column",
-            //             name: "Total Amount",
-            //             showInLegend: true,
-            //             xValueFormatString: "MMM YYYY",
-            //             yValueFormatString: "₼#,##0",
-            //             dataPoints: dataPaidPoints
-            //         }
-            //     ]
-            // });
-            // paidChart.render();
 
             function addSymbols(e) {
                 var suffixes = ["", "K", "M", "B"];
@@ -158,16 +123,5 @@
 
                 var suffix = suffixes[order];
                 return CanvasJS.formatNumber(e.value / Math.pow(1000, order)) + suffix;
-            }
-
-            function toggleDataSeries(e) {
-                if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-                    e.dataSeries.visible = false;
-                } else {
-                    e.dataSeries.visible = true;
-                }
-                e.chart.render();
-            }
-        }
-    </script>
+            }    </script>
 @endsection

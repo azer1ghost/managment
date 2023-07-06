@@ -728,7 +728,6 @@ class WorkController extends Controller
     public function showTotal()
     {
         $dataPoints = [];
-//        $dataPaidPoints = [];
 
         $startMonth = Carbon::now()->startOfMonth();
         $endMonth = Carbon::now()->endOfMonth();
@@ -752,9 +751,9 @@ class WorkController extends Controller
         $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
 
         $dataPoints[] = [
-                "label" => $startMonth,
-                "y" => [$totalAll, $totalIllegalAmount, $totalAmount, $totalVat]
-            ];
+            "label" => $startMonth->format('Y-m-d'),
+            "y" => [$totalAll, $totalIllegalAmount, $totalAmount, $totalVat]
+        ];
 
         $allWorks = Work::whereYear('created_at', Carbon::now()->year)
             ->with('parameters')
@@ -768,36 +767,7 @@ class WorkController extends Controller
         $startDate = Carbon::now()->startOfYear();
         $endDate = Carbon::now()->endOfMonth();
 
-//        while ($startDate->format('Y-m') <= $currentMonth) {
-//            $month = $startDate->format('Y-m');
-//            $monthlyWorks = $monthlyData->has($month) ? $monthlyData[$month] : collect();
-
-//            $totalMonth = $monthlyWorks->sum(function ($work) {
-//                    return $work->getParameter(Work::ILLEGALAMOUNT) ?? 0;
-//                }) + $monthlyWorks->sum(function ($work) {
-//                    return $work->getParameter(Work::AMOUNT) ?? 0;
-//                }) + $monthlyWorks->sum(function ($work) {
-//                    return $work->getParameter(Work::VAT) ?? 0;
-//                });
-//            $totalPaidMonth = $monthlyWorks->sum(function ($work) {
-//                    return $work->getParameter(Work::ILLEGALPAID) ?? 0;
-//                }) + $monthlyWorks->sum(function ($work) {
-//                    return $work->getParameter(Work::PAID) ?? 0;
-//                }) + $monthlyWorks->sum(function ($work) {
-//                    return $work->getParameter(Work::VATPAYMENT) ?? 0;
-//                });
-
-//            $dataPoints[] = [
-//                "label" => $month,
-//                "y" => $totalMonth
-//            ];
-//            $dataPaidPoints[] = [
-//                "label" => $month,
-//                "y" => $totalPaidMonth
-//            ];
-
-            $startDate->addMonth();
-//        }
+        $startDate->addMonth();
 
         return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat', 'totalAll', 'dataPoints', 'monthlyData'));
     }
