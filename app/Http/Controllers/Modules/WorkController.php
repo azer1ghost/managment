@@ -752,7 +752,7 @@ class WorkController extends Controller
         $dataPoints[] = [
             "label" => $startMonth->format('Y-m-d'),
             "y" => [
-                'Total ALl' => $totalAll,
+                'Total All' => $totalAll,
                 "Illegal Amount" => $totalIllegalAmount,
                 "Amount" => $totalAmount,
                 "VAT" => $totalVat
