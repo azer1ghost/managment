@@ -83,7 +83,7 @@
                 animationEnabled: true,
                 theme: "light2",
                 title: {
-                    text: "Aylık Satış Cetveli"
+                    text: "Aylıq Satış Cədvəli"
                 },
                 axisX: {
                     interval: 1,
