@@ -86,32 +86,31 @@
                     <li class="card-text">11.MALLARIN MÜVƏQQƏTİ İDXAL GÖMRÜK REJİMİ ALTINDA YERLƏŞDİRİLMƏSİNƏ DAİR ƏRİZƏ
                     </li>
                 </ol>
-
-            </div>
-            <div class="card text-center col-md-3 mr-3">
-                <div class="card-header">
-                    Qısa idxal üçün lazım olan sənədlər
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title"></h5>
-                    <ol>
-                        <li class="card-text">1.CMR
-                        </li>
-                        <li class="card-text">2.İNVOİCE
-                        </li>
-                        <li class="card-text">3.PACKİNG LİST
-                        </li>
-                        <li class="card-text">4.MƏNŞƏ SERTİFİKATİ
-                        </li>
-                        <li class="card-text">5.EXPORT
-                        </li>
-                        <li class="card-text">6.SƏRHƏD KEÇİD MƏNTƏQƏSİ
-                        </li>
-                        <li class="card-text">7.TƏYİNAT YERİ
-                        </li>
-                    </ol>
-
-                </div>
             </div>
         </div>
+        <div class="card text-center col-md-3 mr-3">
+            <div class="card-header">
+                Qısa idxal üçün lazım olan sənədlər
+            </div>
+            <div class="card-body">
+                <h5 class="card-title"></h5>
+                <ol>
+                    <li class="card-text">1.CMR
+                    </li>
+                    <li class="card-text">2.İNVOİCE
+                    </li>
+                    <li class="card-text">3.PACKİNG LİST
+                    </li>
+                    <li class="card-text">4.MƏNŞƏ SERTİFİKATİ
+                    </li>
+                    <li class="card-text">5.EXPORT
+                    </li>
+                    <li class="card-text">6.SƏRHƏD KEÇİD MƏNTƏQƏSİ
+                    </li>
+                    <li class="card-text">7.TƏYİNAT YERİ
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
 @endsection
