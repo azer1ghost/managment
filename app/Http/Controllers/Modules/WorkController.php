@@ -751,6 +751,11 @@ class WorkController extends Controller
 
         $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
 
+        $dataPoints[] = [
+                "label" => $startMonth,
+                "y" => $totalAll, $totalIllegalAmount, $totalAmount, $totalVat
+            ];
+
         $allWorks = Work::whereYear('created_at', Carbon::now()->year)
             ->with('parameters')
             ->get();
