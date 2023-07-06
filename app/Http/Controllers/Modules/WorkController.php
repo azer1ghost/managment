@@ -755,6 +755,6 @@ class WorkController extends Controller
             "y" => $totalAll
         ];
 
-        return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat', 'totalAll', 'dataPoints', 'monthlyData'));
+        return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat', 'totalAll', 'dataPoints', ));
     }
 }
