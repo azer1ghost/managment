@@ -102,17 +102,16 @@
                     cursor: "pointer",
                     itemclick: toggleDataSeries
                 },
-                data: [
-                    {
-                        type: "column",
-                        name: "Total Amount",
-                        showInLegend: true,
-                        xValueFormatString: "MMM YYYY",
-                        yValueFormatString: "₼#,##0",
-                        dataPoints: dataPoints
-                    }
-                ]
+                data: [{
+                    type: "column",
+                    name: "Total Amount",
+                    showInLegend: true,
+                    xValueFormatString: "MMM YYYY",
+                    yValueFormatString: "₼#,##0",
+                    dataPoints: dataPoints[0].y
+                }]
             });
+
             chart.render();
 
             // var paidChart = new CanvasJS.Chart("chartContainer2", {
@@ -162,7 +161,7 @@
             }
 
             function toggleDataSeries(e) {
-                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
                     e.dataSeries.visible = false;
                 } else {
                     e.dataSeries.visible = true;
