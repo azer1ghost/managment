@@ -401,16 +401,16 @@ class WorkController extends Controller
                 $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))]);
                 $work->parameters()->updateExistingPivot($work::VAT, ['value' => ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))) * 0.18]);
             }else
-                $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::GB) + $work->getRelationValue('client')->getAttribute('main_paper')]);
-                $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::GB) + $work->getRelationValue('client')->getAttribute('main_paper')) * 0.18]);
+                $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::GB)]);
+                $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::GB)) * 0.18]);
         }
         else if(in_array($request->get('service_id'), [2])) {
             if ($work->getRelationValue('client')->getAttribute('qibmain_paper') > 0) {
                 $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))]);
                 $work->parameters()->updateExistingPivot($work::VAT, ['value' => ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))) * 0.18]);
             } else
-                $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::GB) + $work->getRelationValue('client')->getAttribute('qibmain_paper')]);
-                $work->parameters()->updateExistingPivot($work::VAT, ['value' => ((Work::getClientServiceAmount($work) * $work->getParameter($work::GB) + $work->getRelationValue('client')->getAttribute('qibmain_paper'))) * 0.18]);
+                $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::GB)]);
+                $work->parameters()->updateExistingPivot($work::VAT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::GB) * 0.18]);
         }
 
         event(new WorkCreated($work));
