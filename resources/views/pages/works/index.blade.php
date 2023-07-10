@@ -304,6 +304,7 @@
             <th scope="col">@lang('translates.navbar.service')</th>
             <th scope="col">@lang('translates.fields.clientName')</th>
             <th scope="col">Status</th>
+            <th scope="col">Təyinat Orqanı</th>
             <th scope="col">@lang('translates.navbar.document')</th>
             <th scope="col">Gb Say</th>
             <th scope="col">Kod Say</th>
@@ -395,6 +396,7 @@
                          {{trans('translates.work_status.' . $work->getAttribute('status'))}}
                     </span>
                 </td>
+                    <td>{{trans('translates.work_destination.' . $work->getAttribute('destination'))}}</td>
                     <td style="min-width: 130px">
                         @php $supportedTypes = \App\Models\Document::supportedTypeIcons() @endphp
                         @foreach($work->documents as $document)

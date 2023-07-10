@@ -61,6 +61,7 @@ class WorkController extends Controller
             'verified_at' => $request->get('verified_at'),
             'payment_method' => $request->get('payment_method'),
             'status' => $request->get('status'),
+            'destination' => $request->get('destination'),
             'paid_at' => $request->get('paid_at'),
             'vat_date' => $request->get('vat_date'),
             'entry_date' => $request->get('entry_date') ?? $startOfMonth . ' - ' . $endOfMonth,
@@ -93,6 +94,8 @@ class WorkController extends Controller
 
         $paymentMethods = Work::paymentMethods();
         $statuses = Work::statuses();
+        $destinations = Work::destinations();
+
         $verifies = [1 => trans('translates.columns.unverified'), 2 => trans('translates.columns.verified')];
         $priceVerifies = [1 => trans('translates.columns.price_unverified'), 2 => trans('translates.columns.price_verified')];
 
@@ -119,7 +122,7 @@ class WorkController extends Controller
 
         return view('pages.works.index',
             compact('works', 'services', 'departments', 'users',
-                'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods')
+                'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods', 'destinations')
         );
     }
 
@@ -148,6 +151,7 @@ class WorkController extends Controller
             'verified_at' => $request->get('verified_at'),
             'payment_method' => $request->get('payment_method'),
             'status' => $request->get('status'),
+            'destination' => $request->get('destination'),
             'paid_at' => $request->get('paid_at'),
             'vat_date' => $request->get('vat_date'),
             'entry_date' => $request->get('entry_date') ?? $startOfMonth . ' - ' . $endOfMonth,
@@ -180,6 +184,7 @@ class WorkController extends Controller
 
         $paymentMethods = Work::paymentMethods();
         $statuses = Work::statuses();
+        $destinations = Work::destinations();
         $verifies = [1 => trans('translates.columns.unverified'), 2 => trans('translates.columns.verified')];
         $priceVerifies = [1 => trans('translates.columns.price_unverified'), 2 => trans('translates.columns.price_verified')];
 
@@ -202,7 +207,7 @@ class WorkController extends Controller
 
         return view('pages.works.pending-works',
             compact('works', 'services', 'departments', 'users',
-                'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods')
+                'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods', 'destinations')
         );
     }
 
@@ -226,6 +231,7 @@ class WorkController extends Controller
             'verified_at' => $request->get('verified_at'),
             'payment_method' => $request->get('payment_method'),
             'status' => $request->get('status'),
+            'destination' => $request->get('destination'),
             'paid_at' => $request->get('paid_at'),
             'vat_date' => $request->get('vat_date'),
             'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
@@ -258,6 +264,7 @@ class WorkController extends Controller
 
         $paymentMethods = Work::paymentMethods();
         $statuses = Work::statuses();
+        $destinations = Work::destinations();
         $verifies = [1 => trans('translates.columns.unverified'), 2 => trans('translates.columns.verified')];
         $priceVerifies = [1 => trans('translates.columns.price_unverified'), 2 => trans('translates.columns.price_verified')];
 
@@ -281,7 +288,7 @@ class WorkController extends Controller
         if (auth()->user()->hasPermission('viewPrice-work')) {
             return view('pages.works.finance-works',
                 compact('works', 'services', 'departments', 'users',
-                    'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods')
+                    'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods', 'destinations')
             );
         }
         return view('errors.403');
@@ -308,6 +315,7 @@ class WorkController extends Controller
             'verified_at' => $request->get('verified_at'),
             'payment_method' => $request->get('payment_method'),
             'status' => $request->get('status'),
+            'destination' => $request->get('destination'),
             'paid_at' => $request->get('paid_at'),
             'vat_date' => $request->get('vat_date'),
             'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
@@ -340,6 +348,7 @@ class WorkController extends Controller
 
         $paymentMethods = Work::paymentMethods();
         $statuses = Work::statuses();
+        $destinations = Work::destinations();
         $verifies = [1 => trans('translates.columns.unverified'), 2 => trans('translates.columns.verified')];
         $priceVerifies = [1 => trans('translates.columns.price_unverified'), 2 => trans('translates.columns.price_verified')];
 
@@ -362,7 +371,7 @@ class WorkController extends Controller
 
         return view('pages.works.planned-works',
             compact('works', 'services', 'departments', 'users',
-                'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods')
+                'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods', 'destinations')
         );
     }
 
@@ -374,6 +383,7 @@ class WorkController extends Controller
             'data' => null,
             'users' => User::isActive()->get(['id', 'name', 'surname']),
             'companies' => Company::get(['id', 'name']),
+            'destinations' => Work::destinations(),
             'departments' => Department::isActive()->get(['id', 'name']),
             'services' => Service::get(['id', 'name']),
         ]);
@@ -428,6 +438,7 @@ class WorkController extends Controller
             'data' => $work,
             'users' => User::isActive()->get(['id', 'name', 'surname']),
             'companies' => Company::get(['id', 'name']),
+            'destinations' => Work::destinations(),
             'departments' => Department::get(['id', 'name']),
             'services' => Service::get(['id', 'name']),
         ]);
@@ -441,6 +452,7 @@ class WorkController extends Controller
             'data' => $work,
             'users' => User::get(['id', 'name', 'surname']),
             'companies' => Company::get(['id', 'name']),
+            'destinations' => Work::destinations(),
             'departments' => Department::get(['id', 'name']),
             'services' => Service::get(['id', 'name']),
         ]);

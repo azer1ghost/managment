@@ -21,6 +21,7 @@ class WorkRequest extends FormRequest
             'custom_client' => 'nullable|string',
             'parameters' => 'nullable|array',
             'status' => 'nullable|integer',
+            'destination' => 'nullable|integer',
             'payment_method' => 'nullable|integer',
             'datetime' => 'nullable|date',
             'verified' => 'nullable',

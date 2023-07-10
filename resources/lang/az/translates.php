@@ -667,6 +667,7 @@ return [
         'started_at' => 'Başlama vaxtı',
         'hard_level_choose' => 'Çətinlik dərəcəsi Seçin',
         'status_choose' => 'Status Seçin',
+        'destination_choose' => 'Təyinat orqanı seçimi',
         'hard_level' => 'Çətinlik dərəcəsi',
         'select_date' => 'Tarix Seç',
         'physical_client_name' => 'Hüquqi Müştərinin İşcilerinin Adı',
@@ -718,6 +719,21 @@ return [
         'Tamamlandı',
         'Qəbul edilmyib',
     ],
+
+    'work_destination' => [
+        1 => '14000 Aksizli mallar üzrə BGİ',
+        '00100 Bakı BGİ',
+        '00800 HNBGİ',
+        '00118 Xocahəsən g/p',
+        '00700 Sumqayıt Gİ',
+        '13000 Dəniz nəqliyyatı və Enerji resursları Baş Gömrük İdarəsi',
+        '00500 Balakən G/İ',
+        '03400 “Şirvan” gömrük postu',
+        '01200 Biləsuvar G/İ',
+        '00900 Gəncə G/İ',
+        '01400 Xaçmaz Gömrük İdarəsi',
+    ],
+
     'client_channels' => [
         1 => 'Dost/tanış',
         'Satış meneceri zəng edib',
