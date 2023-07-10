@@ -720,7 +720,7 @@ return [
         'Qəbul edilmyib',
     ],
 
-    'work_destination' => [
+    'work_destination' => [ 'Seçilməyib',
         1 => '14000 Aksizli mallar üzrə BGİ',
         '00100 Bakı BGİ',
         '00800 HNBGİ',
