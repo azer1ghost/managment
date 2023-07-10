@@ -561,6 +561,7 @@
                 <td colspan=" @if(auth()->user()->isDeveloper() || auth()->user()->hasPermission('viewPrice-work')) 10 @elseif(auth()->user()->hasPermission('viewAll-work') || auth()->user()->hasPermission('canVerify-work')) 9 @else 8 @endif">
                     <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
                 </td>
+                <td></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $gb_count}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $code_count}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $service_count}}</strong></p></td>
