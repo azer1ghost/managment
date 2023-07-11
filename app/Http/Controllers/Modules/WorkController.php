@@ -12,7 +12,7 @@ use App\Interfaces\WorkRepositoryInterface;
 use App\Notifications\NotifyClientDirectorSms;
 use App\Notifications\NotifyClientSms;
 use Carbon\Carbon;
-use App\Models\{AsanImza, Company, Department, Service, User, Work, Client};
+use App\Models\{AsanImza, Command, Company, Department, Service, User, Work, Client};
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use function PHPUnit\Framework\isNull;
@@ -366,12 +366,19 @@ class WorkController extends Controller
         );
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        if ($request->get('id')) {
+
+            $data = Work::whereId($request->get('id'))->first();
+        }
+        else {
+            $data = null;
+        }
         return view('pages.works.edit')->with([
             'action' => route('works.store'),
             'method' => 'POST',
-            'data' => null,
+            'data' => $data,
             'users' => User::isActive()->get(['id', 'name', 'surname']),
             'companies' => Company::get(['id', 'name']),
             'departments' => Department::isActive()->get(['id', 'name']),

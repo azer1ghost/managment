@@ -433,6 +433,11 @@
                 </td>
                 <td>
                     <div class="btn-sm-group d-flex align-items-center">
+                        @can('create', \App\Models\Work::class)
+                            <a href="{{route('works.create', ['id' => $work])}}" class="btn btn-sm btn-outline-primary">
+                                <i class="fal fa-copy"></i>
+                            </a>
+                        @endcan
                         @if($work->getAttribute('creator_id') != auth()->id() && is_null($work->getAttribute('user_id')) && !auth()->user()->isDeveloper())
                             @can('update', $work)
                                 <a title="@lang('translates.buttons.execute')" data-toggle="tooltip" href="{{route('works.edit', $work)}}"
