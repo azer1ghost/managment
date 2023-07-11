@@ -53,6 +53,7 @@ class Work extends Model implements DocumentableInterface, Recordable
         'custom_asan',
         'custom_client',
         'status',
+        'destination',
         'payment_method',
         'datetime',
         'created_at',
@@ -129,6 +130,11 @@ class Work extends Model implements DocumentableInterface, Recordable
     public static function statuses(): array
     {
         return [1 => 1, 2, 3, 4, 5, 6, 7];
+    }
+
+    public static function destinations(): array
+    {
+        return [1 => 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     }
 
     public static function paymentMethods(): array

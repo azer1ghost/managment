@@ -148,7 +148,22 @@
                             @endforeach
                         </select>
                     </div>
+                            <div class="form-group col-12 col-md-3" wire:ignore>
+                                <label for="data-destination">@lang('translates.general.destination_choose')</label>
+                                <select name="destination" id="data-status" class="form-control">
+                                    <option>@lang('translates.placeholders.choose')</option>
+                                    @foreach($destinations as $key => $destination)
+                                        <option
+                                                @if(optional($data)->getAttribute('destination') == $destination) selected @endif
+                                        value="{{$destination}}"
+                                        >
+                                            @lang('translates.work_destination.' . $destination)
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                 @endif
+
 
                 @if(!is_null($data) && !is_null(optional($data)->getAttribute('datetime')))
                     <x-input::text wire:ignore name="datetime"  readonly :label="__('translates.fields.date')" value="{{$data->getAttribute('datetime')->format('Y-m-d H:i')}}" width="3" class="pr-3 custom-single-daterange" />

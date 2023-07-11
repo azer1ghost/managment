@@ -61,6 +61,7 @@ class WorkController extends Controller
             'verified_at' => $request->get('verified_at'),
             'payment_method' => $request->get('payment_method'),
             'status' => $request->get('status'),
+            'destination' => $request->get('destination'),
             'paid_at' => $request->get('paid_at'),
             'vat_date' => $request->get('vat_date'),
             'entry_date' => $request->get('entry_date') ?? $startOfMonth . ' - ' . $endOfMonth,
@@ -93,6 +94,8 @@ class WorkController extends Controller
 
         $paymentMethods = Work::paymentMethods();
         $statuses = Work::statuses();
+        $destinations = Work::destinations();
+
         $verifies = [1 => trans('translates.columns.unverified'), 2 => trans('translates.columns.verified')];
         $priceVerifies = [1 => trans('translates.columns.price_unverified'), 2 => trans('translates.columns.price_verified')];
 
@@ -119,7 +122,7 @@ class WorkController extends Controller
 
         return view('pages.works.index',
             compact('works', 'services', 'departments', 'users',
-                'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods')
+                'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods', 'destinations')
         );
     }
 
@@ -148,6 +151,7 @@ class WorkController extends Controller
             'verified_at' => $request->get('verified_at'),
             'payment_method' => $request->get('payment_method'),
             'status' => $request->get('status'),
+            'destination' => $request->get('destination'),
             'paid_at' => $request->get('paid_at'),
             'vat_date' => $request->get('vat_date'),
             'entry_date' => $request->get('entry_date') ?? $startOfMonth . ' - ' . $endOfMonth,
@@ -180,6 +184,7 @@ class WorkController extends Controller
 
         $paymentMethods = Work::paymentMethods();
         $statuses = Work::statuses();
+        $destinations = Work::destinations();
         $verifies = [1 => trans('translates.columns.unverified'), 2 => trans('translates.columns.verified')];
         $priceVerifies = [1 => trans('translates.columns.price_unverified'), 2 => trans('translates.columns.price_verified')];
 
@@ -202,7 +207,7 @@ class WorkController extends Controller
 
         return view('pages.works.pending-works',
             compact('works', 'services', 'departments', 'users',
-                'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods')
+                'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods', 'destinations')
         );
     }
 
@@ -226,6 +231,7 @@ class WorkController extends Controller
             'verified_at' => $request->get('verified_at'),
             'payment_method' => $request->get('payment_method'),
             'status' => $request->get('status'),
+            'destination' => $request->get('destination'),
             'paid_at' => $request->get('paid_at'),
             'vat_date' => $request->get('vat_date'),
             'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
@@ -258,6 +264,7 @@ class WorkController extends Controller
 
         $paymentMethods = Work::paymentMethods();
         $statuses = Work::statuses();
+        $destinations = Work::destinations();
         $verifies = [1 => trans('translates.columns.unverified'), 2 => trans('translates.columns.verified')];
         $priceVerifies = [1 => trans('translates.columns.price_unverified'), 2 => trans('translates.columns.price_verified')];
 
@@ -281,7 +288,7 @@ class WorkController extends Controller
         if (auth()->user()->hasPermission('viewPrice-work')) {
             return view('pages.works.finance-works',
                 compact('works', 'services', 'departments', 'users',
-                    'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods')
+                    'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods', 'destinations')
             );
         }
         return view('errors.403');
@@ -308,6 +315,7 @@ class WorkController extends Controller
             'verified_at' => $request->get('verified_at'),
             'payment_method' => $request->get('payment_method'),
             'status' => $request->get('status'),
+            'destination' => $request->get('destination'),
             'paid_at' => $request->get('paid_at'),
             'vat_date' => $request->get('vat_date'),
             'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
@@ -340,6 +348,7 @@ class WorkController extends Controller
 
         $paymentMethods = Work::paymentMethods();
         $statuses = Work::statuses();
+        $destinations = Work::destinations();
         $verifies = [1 => trans('translates.columns.unverified'), 2 => trans('translates.columns.verified')];
         $priceVerifies = [1 => trans('translates.columns.price_unverified'), 2 => trans('translates.columns.price_verified')];
 
@@ -362,7 +371,7 @@ class WorkController extends Controller
 
         return view('pages.works.planned-works',
             compact('works', 'services', 'departments', 'users',
-                'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods')
+                'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods', 'destinations')
         );
     }
 
@@ -381,6 +390,7 @@ class WorkController extends Controller
             'data' => $data,
             'users' => User::isActive()->get(['id', 'name', 'surname']),
             'companies' => Company::get(['id', 'name']),
+            'destinations' => Work::destinations(),
             'departments' => Department::isActive()->get(['id', 'name']),
             'services' => Service::get(['id', 'name']),
         ]);
@@ -408,16 +418,16 @@ class WorkController extends Controller
                 $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))]);
                 $work->parameters()->updateExistingPivot($work::VAT, ['value' => ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))) * 0.18]);
             }else
-                $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::GB)]);
-                $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::GB)) * 0.18]);
+                $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))]);
+                $work->parameters()->updateExistingPivot($work::VAT, ['value' => ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))) * 0.18]);
         }
         else if(in_array($request->get('service_id'), [2])) {
             if ($work->getRelationValue('client')->getAttribute('qibmain_paper') > 0) {
                 $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))]);
                 $work->parameters()->updateExistingPivot($work::VAT, ['value' => ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))) * 0.18]);
             } else
-                $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::GB)]);
-                $work->parameters()->updateExistingPivot($work::VAT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::GB) * 0.18]);
+                $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))]);
+                $work->parameters()->updateExistingPivot($work::VAT, ['value' => ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))) * 0.18]);
         }
 
         event(new WorkCreated($work));
@@ -435,6 +445,7 @@ class WorkController extends Controller
             'data' => $work,
             'users' => User::isActive()->get(['id', 'name', 'surname']),
             'companies' => Company::get(['id', 'name']),
+            'destinations' => Work::destinations(),
             'departments' => Department::get(['id', 'name']),
             'services' => Service::get(['id', 'name']),
         ]);
@@ -448,6 +459,7 @@ class WorkController extends Controller
             'data' => $work,
             'users' => User::get(['id', 'name', 'surname']),
             'companies' => Company::get(['id', 'name']),
+            'destinations' => Work::destinations(),
             'departments' => Department::get(['id', 'name']),
             'services' => Service::get(['id', 'name']),
         ]);
@@ -549,9 +561,12 @@ class WorkController extends Controller
                 }
                 else if(in_array($request->get('service_id'), [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48])) {
                     if ($work->getRelationValue('client')->getAttribute('main_paper') > 0) {
-                        if (in_array($request->get('asan_imza_id'), [29, 34, 36, 40, 30, 32, 33, 41, 43, 39])){
+                        if (in_array($request->get('asan_imza_id'), [29, 34, 36, 40, 30, 32, 33, 41, 43, 39, 46, 47, 49, 50, 48])){
                             $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))) * 1.18]);
-                        }else{
+                        }else if(in_array($request->get('asan_imza_id'), [22])){
+                            $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => 0]);
+                        }
+                        else{
                             $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))]);
                         }
                     }else
@@ -559,7 +574,12 @@ class WorkController extends Controller
                 }
                 else if(in_array($request->get('service_id'), [2])) {
                     if ($work->getRelationValue('client')->getAttribute('qibmain_paper') > 0) {
-                        if (in_array($request->get('asan_imza_id'), [29, 34, 36, 40, 30, 32, 33, 41, 43, 39])){
+                        if (in_array($request->get('asan_imza_id'), [29, 34, 36, 40, 30, 32, 33, 41, 43, 39, 46, 47, 49, 50, 48])){
+                            $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))) * 1.18]);
+                        } else if(in_array($request->get('asan_imza_id'), [22])){
+                            $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => 0]);
+                        }
+                        else{
                             $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))]);
                         }
                     } else
@@ -567,7 +587,7 @@ class WorkController extends Controller
                 }
 
 
-                if (in_array($request->get('asan_imza_id'), [29, 34, 36, 40, 30, 32, 33, 41, 43, 39])) {
+                if (in_array($request->get('asan_imza_id'), [29, 34, 36, 40, 30, 32, 33, 41, 43, 39, 46, 47, 49, 50, 48, 22])) {
                     $work->parameters()->updateExistingPivot($work::VAT, ['value' => 0]);
                 } else {
                     if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41])) {
