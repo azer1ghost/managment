@@ -81,6 +81,30 @@
          $who = "Xəlilova Lamiyə Fərhad qızı";
          $whoFooter = "L.İ.Xəlilova";
 
+     } else if ($company == 'tgroupKapital') {
+         $companyName = "Tedora Group";
+         $voen = "1008142601";
+         $hh = "AZ61AIIB400500F9443614259229";
+         $mh = "AZ37NABZ01350100000000001944";
+         $bank = "KAPITAL BANK ASC KOB mərkəz filialı";
+         $kod = "201412";
+         $bvoen = "9900003611";
+         $swift = "AIIBAZ2XXXX";
+         $who = "Toğrul Surxayzadə Məhərrəm oğlu";
+         $whoFooter = "T.M.Surxayzadə";
+
+     } else if ($company == 'dgroupKapital') {
+         $companyName = "Declare Group";
+         $voen = "1406438851";
+         $hh = "AZ61AIIB400500F9443405268229";
+         $mh = "AZ37NABZ01350100000000001944";
+         $bank = "KAPITAL BANK ASC KOB mərkəz filialı";
+         $kod = "201412";
+         $bvoen = "9900003611";
+         $swift = "AIIBAZ2XXXX";
+         $who = "Mahir Həsənquliyev Tahir oğlu";
+         $whoFooter = "M.T.Həsənquliyev";
+
      } else if ($company == 'rigelRespublika') {
          $companyName = "Rigel Group";
          $voen = "1805978211";

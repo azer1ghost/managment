@@ -38,6 +38,8 @@
                     <option value="rigelKapital">Rigel Kapital</option>
                     <option value="mindRespublika">Mind Bank Respublika</option>
                     <option value="asazaRespublika">Asaza Bank Respublika</option>
+                    <option value="tgroupKapital">Tedora Group Kapital</option>
+                    <option value="dgroupKapital">Declare Group Kapital</option>
                     <option value="mtechnologiesRespublika">Mobil Technologies Bank Respublika</option>
                     <option value="logisticsKapital">Mobil Logistics Kapital</option>
                 </select>
@@ -591,7 +593,31 @@
                 var who = "Xəlilova Lamiyə Fərhad qızı";
                 var whoFooter = "L.İ.Xəlilova";
                 $('#vatColumn, #vatColumn2, #vatColumn3').hide();
-            } else if (company == 'rigelRespublika') {
+            } else if (company == 'tgroupKapital') {
+                var companyName = "\"TEDORA GROUP\" MMC";
+                var voen = "1008142601";
+                var hh = "AZ61AIIB400500F9443614259229";
+                var mh = "AZ37NABZ01350100000000001944";
+                var bank = "Kapital Bank ASC KOB mərkəzi filialı";
+                var kod = "201412";
+                var bvoen = "9900003611";
+                var swift = "AIIBAZ2XXXX";
+                var who = "Toğrul Surxayzadə Məhərrəm oğlu";
+                var whoFooter = "T.M.Surxayzadə";
+                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
+            }else if (company == 'dgroupKapital') {
+                var companyName = "\"DECLARE GROUP\" MMC";
+                var voen = "1406438851";
+                var hh = "AZ61AIIB400500F9443405268229";
+                var mh = "AZ37NABZ01350100000000001944";
+                var bank = "Kapital Bank ASC KOB mərkəzi filialı";
+                var kod = "201412";
+                var bvoen = "9900003611";
+                var swift = "AIIBAZ2XXXX";
+                var who = "Mahir Həsənquliyev Tahir oğlu";
+                var whoFooter = "M.T.Həsənquliyev";
+                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
+            }else if (company == 'rigelRespublika') {
                 var companyName = "Rigel Group";
                 var voen = "1805978211";
                 var hh = "AZ43BRES00380394401162048201";
@@ -627,7 +653,7 @@
                 var who = "Fərhad İbrahimli Əli oğlu";
                 var whoFooter = "F.Ə.İbrahimli";
                 $('#vatColumn, #vatColumn2, #vatColumn3').hide();
-            }  else if (company == 'mtechnologiesRespublika') {
+            } else if (company == 'mtechnologiesRespublika') {
                 var companyName = "\"Mobil Technologies\" MMC";
                 var voen = "1804325861";
                 var hh = "AZ20BRES00380394401131856201";
