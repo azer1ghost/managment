@@ -410,6 +410,11 @@
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fal fa-ellipsis-v-alt"></i>
                             </button>
+                            @can('create', \App\Models\Work::class)
+                                <a href="{{route('works.create', ['id' => $work])}}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fal fa-copy"></i>
+                                </a>
+                            @endcan
                             <div class="dropdown-menu">
                                 @can('view', $work)
                                     <a href="{{route('works.show', $work)}}" class="dropdown-item-text text-decoration-none">
