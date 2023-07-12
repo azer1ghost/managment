@@ -134,7 +134,7 @@ class Work extends Model implements DocumentableInterface, Recordable
 
     public static function destinations(): array
     {
-        return [1 => 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+        return [1 => 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     }
 
     public static function paymentMethods(): array

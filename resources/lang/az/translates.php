@@ -732,6 +732,7 @@ return [
         '01200 Biləsuvar G/İ',
         '00900 Gəncə G/İ',
         '01400 Xaçmaz Gömrük İdarəsi',
+        '17001 Xudafərin Gömrük Postu',
     ],
 
     'client_channels' => [
