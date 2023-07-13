@@ -209,7 +209,7 @@
                 <p class="invoiceNumbers"></p>
                 <br>
 
-                <p class="float-left"><span class="companyName"></span>-nin direktoru</p>
+                <p class="float-left"><span class="companyName"></span>-nin M.İ.E direktoru</p>
                 <p class="float-right" id="who-footer"></p>
             </div>
 
@@ -546,8 +546,8 @@
                 var kod = "201412";
                 var bvoen = "9900003611";
                 var swift = "AIIBAZ2XXXX";
-                var who = "Vüsal Xəlilov İbrahim oğlu";
-                var whoFooter = "V.İ.Xəlilov";
+                var who = "Lamiyə Xəlilova Fərhad qızı";
+                var whoFooter = "L.F.Xəlilova";
             } else if (company == 'mbrokerRespublika') {
                 var companyName = "\"Mobil Broker\" MMC";
                 var voen = "1804705371";
@@ -557,8 +557,8 @@
                 var kod = "507547";
                 var bvoen = "9900001901";
                 var swift = "BRESAZ22";
-                var who = "Vüsal Xəlilov İbrahim oğlu";
-                var whoFooter = "V.İ.Xəlilov";
+                var who = "Lamiyə Xəlilova Fərhad qızı";
+                var whoFooter = "L.F.Xəlilova";
             } else if (company == 'garantKapital') {
                 var companyName = "\"Garant Broker\" MMC";
                 var voen = "1803974481";
