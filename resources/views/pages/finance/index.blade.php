@@ -209,7 +209,7 @@
                 <p class="invoiceNumbers"></p>
                 <br>
 
-                <p class="float-left"><span class="companyName"></span>-nin M.İ.E direktoru</p>
+                <p class="float-left"><span class="companyName"></span>-nin direktoru</p>
                 <p class="float-right" id="who-footer"></p>
             </div>
 
