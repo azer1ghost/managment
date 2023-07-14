@@ -10,7 +10,7 @@ class CustomerSatisfaction extends Model
 {
     const NAME = 1;
     const PHONE = 2;
-    const FULLNAME = 34;
+    const FULLNAME = 49;
     const REQNUM = 39;
 
 
