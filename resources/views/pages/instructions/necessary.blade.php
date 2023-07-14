@@ -20,36 +20,36 @@
             <div class="card-body">
                 <h5 class="card-title"></h5>
                 <ol>
-                    <li class="card-text">1.CMR
+                    <li class="card-text">CMR
                     </li>
-                    <li class="card-text">2.İNVOİCE
+                    <li class="card-text">İNVOİCE
                     </li>
-                    <li class="card-text">3.PACKİNG LİST
+                    <li class="card-text">PACKİNG LİST
                     </li>
-                    <li class="card-text">4.MƏNSƏ SERTİFİKATİ
+                    <li class="card-text">MƏNSƏ SERTİFİKATİ
                     </li>
-                    <li class="card-text">5.EXPORT
+                    <li class="card-text">EXPORT
                     </li>
-                    <li class="card-text">6.PROFORMA İNVOİCE
+                    <li class="card-text">PROFORMA İNVOİCE
                     </li>
-                    <li class="card-text">7.YOL PULU (ÇATDIRILMA ŞƏRTİNI UYĞUN OLARAQ)
+                    <li class="card-text">YOL PULU (ÇATDIRILMA ŞƏRTİNI UYĞUN OLARAQ)
                     </li>
-                    <li class="card-text">8.XARİCİ MUQAVİLƏ VƏ PİN KOD
+                    <li class="card-text">XARİCİ MUQAVİLƏ VƏ PİN KOD
                     </li>
-                    <li class="card-text">9.MÜQAVİLƏYƏ ƏLAVƏ VARSA ONU VƏ PİN KODU
+                    <li class="card-text">MÜQAVİLƏYƏ ƏLAVƏ VARSA ONU VƏ PİN KODU
                     </li>
-                    <li class="card-text">10.TƏMSİLÇİLİK MÜQAVİLƏSİ
+                    <li class="card-text">TƏMSİLÇİLİK MÜQAVİLƏSİ
                     </li>
-                    <li class="card-text">11.ÖDƏNİŞ OLUNUBSA SWİFT
+                    <li class="card-text">ÖDƏNİŞ OLUNUBSA SWİFT
                     </li>
-                    <li class="card-text">12.YÜKLƏMƏ BOŞALTMA YERİ
+                    <li class="card-text">YÜKLƏMƏ BOŞALTMA YERİ
                     </li>
-                    <li class="card-text">13.ƏGƏR YENİ MÜŞTƏRİDİRSƏ BANK REKVİZİTLƏRİ, ÇİXARIŞ, ANBAR ÜNVANİNİN
+                    <li class="card-text">ƏGƏR YENİ MÜŞTƏRİDİRSƏ BANK REKVİZİTLƏRİ, ÇİXARIŞ, ANBAR ÜNVANİNİN
                         DƏQİQLEŞDİRİLMƏSİ İLƏ BAĞLİ ANBAR KODU SƏNƏDİ
                     </li>
-                    <li class="card-text">14.YÜKÜ ÇİXARAN ŞƏXS ÜÇÜN ETİBARNAMƏ
+                    <li class="card-text">YÜKÜ ÇİXARAN ŞƏXS ÜÇÜN ETİBARNAMƏ
                     </li>
-                    <li class="card-text">15.YÜKDEN ASLI OLARAQ DİGƏR SƏNƏDLƏR (AQTA SƏNƏDİ, GİGİYENİK SERTİFİKAT)
+                    <li class="card-text">YÜKDEN ASLI OLARAQ DİGƏR SƏNƏDLƏR (AQTA SƏNƏDİ, GİGİYENİK SERTİFİKAT)
                     </li>
                 </ol>
 
@@ -62,28 +62,28 @@
             <div class="card-body">
                 <h5 class="card-title"></h5>
                 <ol>
-                    <li class="card-text">1.CMR
+                    <li class="card-text">CMR
                     </li>
-                    <li class="card-text">2.İNVOİCE
+                    <li class="card-text">İNVOİCE
                     </li>
-                    <li class="card-text">3.PROFORMA İNVOİCE
+                    <li class="card-text">PROFORMA İNVOİCE
                     </li>
-                    <li class="card-text">4.XARİCİ MUQAVİLƏ VƏ PİN KOD
+                    <li class="card-text">XARİCİ MUQAVİLƏ VƏ PİN KOD
                     </li>
-                    <li class="card-text">5. YOL PULU (ÇATDIRILMA ŞƏRTİNI UYĞUN OLARAQ)
+                    <li class="card-text">YOL PULU (ÇATDIRILMA ŞƏRTİNI UYĞUN OLARAQ)
                     </li>
-                    <li class="card-text">6.MÜQAVİLƏYƏ ƏLAVƏ VARSA ONU VƏ PİN KODU
+                    <li class="card-text">MÜQAVİLƏYƏ ƏLAVƏ VARSA ONU VƏ PİN KODU
                     </li>
-                    <li class="card-text">7.TƏMSİLÇİLİK MÜQAVİLƏSİ
+                    <li class="card-text">TƏMSİLÇİLİK MÜQAVİLƏSİ
                     </li>
-                    <li class="card-text">8.YÜKLƏMƏ BOŞALTMA YERİ
+                    <li class="card-text">YÜKLƏMƏ BOŞALTMA YERİ
                     </li>
-                    <li class="card-text">9.ƏGƏR YENİ MÜŞTƏRİDİRSƏ BANK REKVİZİTLƏRİ, REYSTERDƏN ÇİXARIŞ, ANBAR
+                    <li class="card-text">ƏGƏR YENİ MÜŞTƏRİDİRSƏ BANK REKVİZİTLƏRİ, REYSTERDƏN ÇİXARIŞ, ANBAR
                         ÜNVANİNİN DƏQİQLEŞDİRİLMƏSİ İLƏ BAĞLİ ANBAR KODU SƏNƏDİ
                     </li>
-                    <li class="card-text">10.YÜKÜ ÇİXARAN ŞƏXS ÜÇÜN ETİBARNAMƏ
+                    <li class="card-text">YÜKÜ ÇİXARAN ŞƏXS ÜÇÜN ETİBARNAMƏ
                     </li>
-                    <li class="card-text">11.MALLARIN MÜVƏQQƏTİ İDXAL GÖMRÜK REJİMİ ALTINDA YERLƏŞDİRİLMƏSİNƏ DAİR ƏRİZƏ
+                    <li class="card-text">MALLARIN MÜVƏQQƏTİ İDXAL GÖMRÜK REJİMİ ALTINDA YERLƏŞDİRİLMƏSİNƏ DAİR ƏRİZƏ
                     </li>
                 </ol>
             </div>
@@ -95,19 +95,23 @@
             <div class="card-body">
                 <h5 class="card-title"></h5>
                 <ol>
-                    <li class="card-text">1.CMR
+                    <li class="card-text">CMR
                     </li>
-                    <li class="card-text">2.İNVOİCE
+                    <li class="card-text">İNVOİCE
                     </li>
-                    <li class="card-text">3.PACKİNG LİST
+                    <li class="card-text">PACKİNG LİST
                     </li>
-                    <li class="card-text">4.MƏNŞƏ SERTİFİKATİ
+                    <li class="card-text">MƏNŞƏ SERTİFİKATİ
                     </li>
-                    <li class="card-text">5.EXPORT
+                    <li class="card-text">EXPORT
                     </li>
-                    <li class="card-text">6.SƏRHƏD KEÇİD MƏNTƏQƏSİ
+                    <li class="card-text">SƏRHƏD KEÇİD MƏNTƏQƏSİ
                     </li>
-                    <li class="card-text">7.TƏYİNAT YERİ
+                    <li class="card-text">TƏYİNAT YERİ
+                    </li>
+                    <li class="card-text">MAŞININ TEXPASPORTU
+                    </li>
+                    <li class="card-text">SÜRÜCÜNÜN XARİCİ PASPORTU
                     </li>
                 </ol>
             </div>
