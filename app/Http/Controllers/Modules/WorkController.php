@@ -593,14 +593,20 @@ class WorkController extends Controller
                     $work->parameters()->updateExistingPivot($work::VAT, ['value' => 0]);
                 } else {
                     if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41])) {
-                        $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)) * 0.18]);
+                        $value = (Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)) * 0.18;
+                        $roundedValue = round($value, 2);
+                        $work->parameters()->updateExistingPivot($work::VAT, ['value' => $roundedValue]);
                     } else if (in_array($request->get('service_id'), [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48])){
                         if ($work->getRelationValue('client')->getAttribute('main_paper') > 0){
-                            $work->parameters()->updateExistingPivot($work::VAT, ['value' =>  ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))) * 0.18]);
+                            $value = ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))) * 0.18;
+                            $roundedValue = round($value, 2);
+                            $work->parameters()->updateExistingPivot($work::VAT, ['value' => $roundedValue]);
                         }
                     } else if (in_array($request->get('service_id'), [2])){
                         if ($work->getRelationValue('client')->getAttribute('qibmain_paper') > 0) {
-                            $work->parameters()->updateExistingPivot($work::VAT, ['value' =>  ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))) * 0.18]);
+                            $value = ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))) * 0.18;
+                            $roundedValue = round($value, 2);
+                            $work->parameters()->updateExistingPivot($work::VAT, ['value' => $roundedValue]);
                         }
                     }
                 }
