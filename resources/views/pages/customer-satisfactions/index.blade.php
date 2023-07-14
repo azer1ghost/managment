@@ -123,7 +123,7 @@
         <thead>
         <tr class="text-center">
             <th scope="col">@lang('translates.navbar.company')</th>
-            <th scope="col">@lang('translates.columns.full_name')</th>
+            <th scope="col">Hüquqi və ya Fiziki şəxs adınız</th>
             <th scope="col">@lang('translates.columns.rate')</th>
             <th scope="col">@lang('translates.columns.price_rate')</th>
             <th scope="col">@lang('translates.fields.note')</th>
