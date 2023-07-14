@@ -92,7 +92,7 @@
                         <td>{{$customer_engagement->getAttribute('created_at')}}</td>
                         <td>{{$customer_engagement->getAttribute('amount')}}</td>
                         <td>
-                            @if(in_array($customer_engagement->getRelationValue('user')->getAttribute('id'), [20, 86, 22, 154]) && $customer_engagement->getRelationValue('client')->created_at > '2023-06-01 00:00:00')
+                            @if(in_array($customer_engagement->getRelationValue('user')->getAttribute('id'), [20, 86, 22, 154, 41]) && $customer_engagement->getRelationValue('client')->created_at > '2023-06-01 00:00:00')
                                 {{$customer_engagement->getAttribute('amount')*0.15}}
                             @else
                                 {{$customer_engagement->getAttribute('amount')*0.10}}
