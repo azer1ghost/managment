@@ -293,13 +293,24 @@
                         <h3>
                             <strong>{{$bonus->getRelationValue('client')->getAttribute('fullname')}}</strong>
                         </h3>
-                        <span>{{$sumBonus[] = $bonus->getAttribute('amount')*0.10}} AZN</span>
+                        <span class="bonus">
+                            @if(in_array($bonus->getRelationValue('user')->getAttribute('id'), [20, 86, 22, 154, 41]) && $bonus->getRelationValue('client')->created_at > '2023-06-01 00:00:00')
+                                {{$bonus->getAttribute('amount')*0.15}}
+                            @elseif(in_array($bonus->getRelationValue('user')->getAttribute('id'), [51]))
+                                {{$bonus->getAttribute('amount')*0.15}}
+                            @elseif(in_array($bonus->getRelationValue('user')->getAttribute('id'), [141]))
+                                {{$bonus->getAttribute('amount')*0.20}}
+                            @elseif(in_array($bonus->getRelationValue('user')->getAttribute('id'), [156]))
+                                {{$bonus->getAttribute('amount')*0.30}}
+                            @else
+                                {{$bonus->getAttribute('amount')*0.10}}
+                            @endif AZN</span>
                     </div>
                 </summary>
             </details>
         @endforeach
             @if(isset($sumBonus))
-                <h4 class="float-right m-2"><b> @lang('translates.columns.total'): {{array_sum($sumBonus)}} AZN</b></h4>
+                <h4 class="float-right m-2"><b> @lang('translates.columns.total'): <span id="totalBonus"></span></b></h4>
             @endif
     </section>
 
@@ -312,6 +323,20 @@
             link.addClass('is-valid');
             link.parent().addClass('is-valid');
             $(this).children('span').text('@lang('translates.buttons.copied')');
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            var total = 0;
+
+            $('.bonus').each(function() {
+                var deger = parseFloat($(this).text());
+                if (!isNaN(deger)) {
+                    total += deger;
+                }
+            });
+
+            $('#totalBonus').text(total + ' AZN');
         });
     </script>
 @endsection

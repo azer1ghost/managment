@@ -91,7 +91,7 @@
                         <td>{{$customer_engagement->getRelationValue('client')->getAttribute('fullname')}}</td>
                         <td>{{$customer_engagement->getAttribute('created_at')}}</td>
                         <td>{{$customer_engagement->getAttribute('amount')}}</td>
-                        <td>
+                        <td class="bonus">
                             @if(in_array($customer_engagement->getRelationValue('user')->getAttribute('id'), [20, 86, 22, 154, 41]) && $customer_engagement->getRelationValue('client')->created_at > '2023-06-01 00:00:00')
                                 {{$customer_engagement->getAttribute('amount')*0.15}}
                             @elseif(in_array($customer_engagement->getRelationValue('user')->getAttribute('id'), [51]))
@@ -136,19 +136,9 @@
                 <tfoot>
                 <tr>
                     <th colspan="7"></th>
-                    <th>Toplam Bonus:</th>
-                    <th>
-                        @if(in_array($customer_engagement->getRelationValue('user')->getAttribute('id'), [20, 86, 22, 154, 41]) && $customer_engagement->getRelationValue('client')->created_at > '2023-06-01 00:00:00')
-                            {{ $customer_engagements->sum('amount') * 0.15 }}
-                        @elseif(in_array($customer_engagement->getRelationValue('user')->getAttribute('id'), [51]))
-                            {{ $customer_engagements->sum('amount') * 0.15 }}
-                        @elseif(in_array($customer_engagement->getRelationValue('user')->getAttribute('id'), [141]))
-                            {{ $customer_engagements->sum('amount') * 0.20 }}
-                        @elseif(in_array($customer_engagement->getRelationValue('user')->getAttribute('id'), [156]))
-                            {{ $customer_engagements->sum('amount') * 0.30 }}
-                        @else
-                            {{ $customer_engagements->sum('amount') * 0.10 }}
-                        @endif
+                    <th> Toplam Bonus:</th>
+                    <th  id="totalBonus">
+
                     </th>
                     <th></th>
                 </tr>
@@ -171,6 +161,20 @@
     <script>
         $('select').change(function () {
             this.form.submit();
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            var total = 0;
+
+            $('.bonus').each(function() {
+                var deger = parseFloat($(this).text());
+                if (!isNaN(deger)) {
+                    total += deger;
+                }
+            });
+
+            $('#totalBonus').text(total + ' AZN');
         });
     </script>
 @endsection
