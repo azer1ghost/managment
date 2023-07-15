@@ -305,7 +305,7 @@
                             @else
                                 {{$bonus->getAttribute('amount')*0.10}}
                             @endif
-                        </span> AZN
+                        </span> &nbsp; AZN
                     </div>
                 </summary>
             </details>
