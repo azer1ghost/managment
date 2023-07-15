@@ -310,9 +310,7 @@
                 </summary>
             </details>
         @endforeach
-            @if(isset($sumBonus))
-                <h4 class="float-right m-2"><b> @lang('translates.columns.total'): <span id="totalBonus"></span></b></h4>
-            @endif
+            <h4 class="float-right m-2"><b> @lang('translates.columns.total'): <span id="totalBonus"></span></b></h4>
     </section>
 
 @endsection
