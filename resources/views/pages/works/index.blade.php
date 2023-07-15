@@ -165,8 +165,13 @@
                         </div>
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="createdAtFilter">{{trans('translates.fields.created_at')}}</label>
-                            <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="entry_date" value="{{$filters['entry_date']}}">
-                            <input type="checkbox" name="check-entry_date" id="check-entry_date" @if(request()->has('check-entry_date')) checked @endif> <label for="check-entry_date">@lang('translates.filters.filter_by')</label>
+                            <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
+                            <input type="checkbox" name="check-created_at" id="check-created_at" @if(request()->has('check-created_at')) checked @endif> <label for="check-created_at">@lang('translates.filters.filter_by')</label>
+                        </div>
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="createdAtFilter">{{trans('translates.fields.entry_date')}}</label>
+                            <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="injected_at" value="{{$filters['injected_at']}}">
+                            <input type="checkbox" name="check-injected_at" id="check-injected_at" @if(request()->has('check-injected_at')) checked @endif> <label for="check-injected_at">@lang('translates.filters.filter_by')</label>
                         </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
@@ -480,6 +485,11 @@
                                         <i class="fal fa-trash pr-2 text-danger"></i>@lang('translates.tasks.delete')
                                     </a>
                                 @endcan
+                                @if(auth()->user()->isDeveloper())
+                                        <a data-toggle="modal" data-target="#changeCreate-{{$work->getAttribute('id')}}" class="dropdown-item-text text-decoration-none">
+                                            <i class="fal fa-money-check pr-2 text-success"></i>Change Create Date
+                                        </a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -648,6 +658,31 @@
                         <button type="submit" class="btn btn-primary">@lang('translates.buttons.show')</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="changeCreate-{{$work->getAttribute('id')}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">@lang('translates.fields.created_at')</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('works.changeCreate', $work) }}" method="POST">
+                    @csrf @method('PUT')
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="date" name="invoiced_date" class="form-control" aria-label="paid_at">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>
