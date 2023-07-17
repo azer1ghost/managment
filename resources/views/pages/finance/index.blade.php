@@ -171,6 +171,8 @@
                                 <option>Printerlərə texniki baxışın göstərilməsi</option>
                                 <option>Serverlərə texniki baxışın göstərilməsi</option>
                                 <option>Kompüterlərə texniki baxışın göstərilməsi</option>
+                                <option>İnvoysun Hazırlanması</option>
+                                <option>Məktubların hazırlanması</option>
                             </select>
 
                         </td>
