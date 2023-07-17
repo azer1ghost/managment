@@ -34,8 +34,8 @@
          $kod = "201412";
          $bvoen = "9900003611";
          $swift = "AIIBAZ2XXXX";
-         $who = "Lamiyə Xəlilova Fərhad qızı";
-         $whoFooter = "L.F.Xəlilova";
+         $who = "Vüsal Xəlilov İbrahim oğlu";
+         $whoFooter = "V.İ.Xəlilov";
      } else if ($company == 'mbrokerRespublika') {
          $companyName = "\"Mobil Broker\" MMC";
          $voen = "1804705371";
@@ -45,8 +45,8 @@
          $kod = "507547";
          $bvoen = "9900001901";
          $swift = "BRESAZ22";
-         $who = "Lamiyə Xəlilova Fərhad qızı";
-         $whoFooter = "L.F.Xəlilova";
+         $who = "Vüsal Xəlilov İbrahim oğlu";
+         $whoFooter = "V.İ.Xəlilov";
      } else if ($company == 'garantKapital') {
          $companyName = "\"Garant Broker\" MMC";
          $voen = "1803974481";
