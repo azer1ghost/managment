@@ -732,6 +732,7 @@ return [
         '00900 Gəncə G/İ',
         '01400 Xaçmaz Gömrük İdarəsi',
         '17001 Xudafərin Gömrük Postu',
+        '00905 Yevlax Gömrük Postu',
     ],
     'client_channels' => [
         1 => 'Friend/acquaintance',
