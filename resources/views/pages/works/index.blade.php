@@ -574,7 +574,7 @@
                             @csrf @method('PUT')
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <input type="date" name="invoiced_date" class="form-control" aria-label="paid_at">
+                                    <input type="date" name="created_at" class="form-control" aria-label="paid_at">
                                 </div>
                             </div>
                             <div class="modal-footer">
