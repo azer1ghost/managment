@@ -112,7 +112,7 @@
 
                 @if($this->service->getAttribute('has_asan_imza') && $method != 'POST')
                     <div class="form-group col-12 col-md-6" wire:key="asan-imza" wire:ignore>
-                        <label for="data-asan_imza_id">Asan imza</label>
+                        <label for="data-asan_imza_id">Asan imza və Təmsilçilik şirkət</label>
                         <select name="asan_imza_id" id="data-asan_imza_id" data-url="{{route('asanImza.user.search')}}" class="custom-select2 form-control">
                             <option value="" selected>Asan imza select</option>
                             @foreach(\App\Models\AsanImza::get() as $asanUser)

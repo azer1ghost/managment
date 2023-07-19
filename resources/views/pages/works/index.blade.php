@@ -305,7 +305,7 @@
             <th scope="col">@lang('translates.columns.department')</th>
 {{--            @endif--}}
             <th scope="col">@lang('translates.fields.user')</th>
-            <th scope="col">Asan imza</th>
+            <th scope="col">Asan imza və Təmsilçilik Şirkət</th>
             <th scope="col">@lang('translates.navbar.service')</th>
             <th scope="col">@lang('translates.fields.clientName')</th>
             <th scope="col">Status</th>
