@@ -81,11 +81,21 @@
             <h1>Ödənmiş Ümumi məbləğ</h1>
             <h2>{{ $totalPaidAll }}</h2>
         </div>
+{{--        <div>--}}
+{{--            <h1>Ödənmiş Ümumi məbləğ</h1>--}}
+{{--            <h2>{{ $totalAMBGIIllegalAmount }}</h2>--}}
+{{--        </div>--}}
+    </div>
+
+    <div class="work-stats">
         <div>
-            <h1>Ödənmiş Ümumi məbləğ</h1>
-            <h2>{{ $totalAMBGIIllegalAmount }}</h2>
+            <h1>Aksizli Mallar</h1>
+            <h2><span>Qeyri-rəsmi məbləğ</span>{{ $AMBGIPaidIllegal }}</h2>
+            <h2><span>ƏDV məbləğ</span>{{ $AMBGIPaidVat }}</h2>
+            <h2><span>Rəsmi məbləğ</span>{{ $AMBGIPaidAmount }}</h2>
         </div>
     </div>
+
     <div class="col-6 col-md-6">
         <div id="chartContainer" style="height: 370px; width: 100%;"></div>
     </div>

@@ -828,7 +828,11 @@ class WorkController extends Controller
 
         $totalPaidAll = $totalPaidAmount + $totalPaidVat + $totalPaidIllegal;
 
-        $totalAMBGIIllegalAmount = $works->where('department_id', 11)->sum->getParameter(Work::ILLEGALAMOUNT);
+        $AMBGIPaidIllegal = $works->where('department_id', 11)->sum->getParameter(Work::ILLEGALPAID);
+        $AMBGIPaidVat = $works->where('department_id', 11)->sum->getParameter(Work::VATPAYMENT);
+        $AMBGIPaidAmount = $works->where('department_id', 11)->sum->getParameter(Work::PAID);
+
+        $totalAMBGI = $AMBGIPaidIllegal + $AMBGIPaidVat + $AMBGIPaidAmount;
 
         $dataPoints[] = [
             "label" => $startMonth->format('Y-m-d'),
@@ -839,6 +843,10 @@ class WorkController extends Controller
                 "VAT" => $totalVat
             ]
         ];
-        return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat', 'totalAll', 'dataPoints', 'totalPaidAmount', 'totalPaidVat', 'totalPaidIllegal', 'totalPaidAll', 'totalAMBGIIllegalAmount'));
+        return view('pages.works.total',
+            compact('totalIllegalAmount', 'totalAmount',
+                'totalVat', 'totalAll', 'dataPoints',
+                'totalPaidAmount', 'totalPaidVat', 'totalPaidIllegal',
+                'totalPaidAll', 'AMBGIPaidIllegal', 'AMBGIPaidVat', 'AMBGIPaidAmount', 'totalAMBGI'));
     }
 }
