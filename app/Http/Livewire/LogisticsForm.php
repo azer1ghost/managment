@@ -34,7 +34,7 @@ class LogisticsForm extends Component
         $this->statuses = Logistics::statuses();
         $this->transportTypes = Logistics::transportTypes();
         $user = auth()->user();
-        $this->users = User::isActive()->get(['id', 'name', 'surname']);
+        $this->users = User::get(['id', 'name', 'surname']);
 
         foreach ($this->selected as $key => $selected) {
             if($key == 'service_id') {
