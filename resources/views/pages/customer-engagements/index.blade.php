@@ -94,7 +94,7 @@
                         <td class="bonus">
                             @if(in_array($customer_engagement->getRelationValue('user')->getAttribute('id'), [20, 86, 22, 154, 41]) && $customer_engagement->getRelationValue('client')->created_at > '2023-06-01 00:00:00')
                                 {{$customer_engagement->getAttribute('amount')*0.15}}
-                            @elseif(in_array($customer_engagement->getRelationValue('user')->getAttribute('id'), [51]))
+                            @elseif(in_array($customer_engagement->getRelationValue('user')->getAttribute('id'), [51]) || in_array($customer_engagement->getRelationValue('partner')->getAttribute('id'), [57]))
                                 {{$customer_engagement->getAttribute('amount')*0.15}}
                             @elseif(in_array($customer_engagement->getRelationValue('user')->getAttribute('id'), [141]))
                                 {{$customer_engagement->getAttribute('amount')*0.20}}
