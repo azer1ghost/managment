@@ -816,6 +816,18 @@ class WorkController extends Controller
         });
         $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
 
+        $totalPaidAmount = $works->sum(function ($work) {
+            return $work->getParameter(Work::PAID) ?? 0;
+        });
+        $totalPaidVat = $works->sum(function ($work) {
+            return $work->getParameter(Work::VATPAYMENT) ?? 0;
+        });
+        $totalPaidIllegal = $works->sum(function ($work) {
+            return $work->getParameter(Work::ILLEGALPAID) ?? 0;
+        });
+
+        $totalPaidAll = $totalPaidAmount + $totalPaidVat + $totalPaidIllegal;
+
         $dataPoints[] = [
             "label" => $startMonth->format('Y-m-d'),
             "y" => [
@@ -825,6 +837,6 @@ class WorkController extends Controller
                 "VAT" => $totalVat
             ]
         ];
-        return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat', 'totalAll', 'dataPoints'));
+        return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat', 'totalAll', 'dataPoints', 'totalPaidAmount', 'totalPaidVat', 'totalPaidIllegal', 'totalPaidAll'));
     }
 }

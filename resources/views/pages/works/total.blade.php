@@ -64,6 +64,24 @@
             <h2>{{ $totalAll }}</h2>
         </div>
     </div>
+    <div class="work-stats">
+        <div>
+            <h1>Ayın əvvəlindən Qeyri-Rəsmi Məbləğ</h1>
+            <h2>{{ $totalPaidIllegal }}</h2>
+        </div>
+        <div>
+            <h1>Ayın əvvəlindən Rəsmi Məbləğ</h1>
+            <h2>{{ $totalPaidAmount }}</h2>
+        </div>
+        <div>
+            <h1>Ayın əvvəlindən ƏDV Məbləğ</h1>
+            <h2>{{ $totalPaidVat }}</h2>
+        </div>
+        <div>
+            <h1>Ümumi məbləğ</h1>
+            <h2>{{ $totalPaidAll }}</h2>
+        </div>
+    </div>
     <div class="col-6 col-md-6">
         <div id="chartContainer" style="height: 370px; width: 100%;"></div>
     </div>
