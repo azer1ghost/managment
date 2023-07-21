@@ -832,7 +832,17 @@ class WorkController extends Controller
         $AMBGIPaidVat = $works->where('department_id', 11)->sum->getParameter(Work::VATPAYMENT);
         $AMBGIPaidAmount = $works->where('department_id', 11)->sum->getParameter(Work::PAID);
 
+        $BBGIPaidIllegal = $works->where('department_id', 12)->sum->getParameter(Work::ILLEGALPAID);
+        $BBGIPaidVat = $works->where('department_id', 12)->sum->getParameter(Work::VATPAYMENT);
+        $BBGIPaidAmount = $works->where('department_id', 12)->sum->getParameter(Work::PAID);
+
+        $HNBGIPaidIllegal = $works->where('department_id', 13)->sum->getParameter(Work::ILLEGALPAID);
+        $HNBGIPaidVat = $works->where('department_id', 13)->sum->getParameter(Work::VATPAYMENT);
+        $HNBGIPaidAmount = $works->where('department_id', 13)->sum->getParameter(Work::PAID);
+
         $totalAMBGI = $AMBGIPaidIllegal + $AMBGIPaidVat + $AMBGIPaidAmount;
+        $totalBBGI = $BBGIPaidIllegal + $BBGIPaidVat + $BBGIPaidAmount;
+        $totalHNBGI = $HNBGIPaidIllegal + $HNBGIPaidVat + $HNBGIPaidAmount;
 
         $dataPoints[] = [
             "label" => $startMonth->format('Y-m-d'),
@@ -847,6 +857,6 @@ class WorkController extends Controller
             compact('totalIllegalAmount', 'totalAmount',
                 'totalVat', 'totalAll', 'dataPoints',
                 'totalPaidAmount', 'totalPaidVat', 'totalPaidIllegal',
-                'totalPaidAll', 'AMBGIPaidIllegal', 'AMBGIPaidVat', 'AMBGIPaidAmount', 'totalAMBGI'));
+                'totalPaidAll', 'AMBGIPaidIllegal', 'AMBGIPaidVat', 'AMBGIPaidAmount', 'totalAMBGI','BBGIPaidIllegal', 'BBGIPaidVat', 'BBGIPaidAmount', 'totalBBGI','HNBGIPaidIllegal', 'HNBGIPaidVat', 'HNBGIPaidAmount', 'totalHNBGI', ));
     }
 }

@@ -91,9 +91,28 @@
     <div class="work-stats">
         <div>
             <h1>Aksizli Mallar</h1>
+            <h2><span>Rəsmi məbləğ</span>:{{ $AMBGIPaidAmount }}</h2>
             <h2><span>Qeyri-rəsmi məbləğ</span>:{{ $AMBGIPaidIllegal }}</h2>
             <h2><span>ƏDV məbləğ</span>:{{ $AMBGIPaidVat }}</h2>
-            <h2><span>Rəsmi məbləğ</span>:{{ $AMBGIPaidAmount }}</h2>
+            <h2><span>Toplam məbləğ</span>:{{ $totalAMBGI }}</h2>
+        </div>
+    </div>
+    <div class="work-stats">
+        <div>
+            <h1>Aksizli Mallar</h1>
+            <h2><span>Rəsmi məbləğ</span>:{{ $BBGIPaidAmount }}</h2>
+            <h2><span>Qeyri-rəsmi məbləğ</span>:{{ $BBGIPaidIllegal }}</h2>
+            <h2><span>ƏDV məbləğ</span>:{{ $BBGIPaidVat }}</h2>
+            <h2><span>Toplam məbləğ</span>:{{ $totalBBGI }}</h2>
+        </div>
+    </div>
+    <div class="work-stats">
+        <div>
+            <h1>Aksizli Mallar</h1>
+            <h2><span>Rəsmi məbləğ</span>:{{ $HNBGIPaidAmount }}</h2>
+            <h2><span>Qeyri-rəsmi məbləğ</span>:{{ $HNBGIPaidIllegal }}</h2>
+            <h2><span>ƏDV məbləğ</span>:{{ $HNBGIPaidVat }}</h2>
+            <h2><span>Toplam məbləğ</span>:{{ $totalHNBGI }}</h2>
         </div>
     </div>
 
