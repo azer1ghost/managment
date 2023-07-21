@@ -828,6 +828,8 @@ class WorkController extends Controller
 
         $totalPaidAll = $totalPaidAmount + $totalPaidVat + $totalPaidIllegal;
 
+        $totalAMBGIIllegalAmount = $works->where('department_id', 11)->sum->getParameter(Work::ILLEGALAMOUNT);
+
         $dataPoints[] = [
             "label" => $startMonth->format('Y-m-d'),
             "y" => [
@@ -837,6 +839,6 @@ class WorkController extends Controller
                 "VAT" => $totalVat
             ]
         ];
-        return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat', 'totalAll', 'dataPoints', 'totalPaidAmount', 'totalPaidVat', 'totalPaidIllegal', 'totalPaidAll'));
+        return view('pages.works.total', compact('totalIllegalAmount', 'totalAmount', 'totalVat', 'totalAll', 'dataPoints', 'totalPaidAmount', 'totalPaidVat', 'totalPaidIllegal', 'totalPaidAll', 'totalAMBGIIllegalAmount'));
     }
 }

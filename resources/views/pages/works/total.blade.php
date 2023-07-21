@@ -81,6 +81,10 @@
             <h1>Ödənmiş Ümumi məbləğ</h1>
             <h2>{{ $totalPaidAll }}</h2>
         </div>
+        <div>
+            <h1>Ödənmiş Ümumi məbləğ</h1>
+            <h2>{{ $totalAMBGIIllegalAmount }}</h2>
+        </div>
     </div>
     <div class="col-6 col-md-6">
         <div id="chartContainer" style="height: 370px; width: 100%;"></div>
