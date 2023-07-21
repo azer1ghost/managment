@@ -65,6 +65,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\ServiceController,
     Modules\SignatureController,
     Modules\StatementController,
+    Modules\SummitController,
     Modules\SupplierController,
     Modules\SupportController,
     Modules\TaskController,
@@ -208,6 +209,8 @@ Route::group([
 
     Route::resource('/supports', SupportController::class);
     Route::resource('/commands', CommandController::class);
+    Route::resource('/summits', SummitController::class);
+    Route::post('/sortable-summits', [SummitController::class, 'sortable'])->name('summits.sortable');
     Route::post('/sortable-commands', [CommandController::class, 'sortable'])->name('commands.sortable');
     Route::resource('/meetings', MeetingController::class);
     Route::resource('/job-instructions', JobInstructionController::class);
