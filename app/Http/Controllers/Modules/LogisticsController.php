@@ -59,7 +59,7 @@ class LogisticsController extends Controller
             'paid_at_date' => $request->has('check-paid_at'),
         ];
 
-        $users = User::has('logistics')->with('position', 'role')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id'])->get();
+        $users = User::has('logistics')->with('position', 'role')->select(['id', 'name', 'surname', 'position_id', 'role_id'])->get();
         $references = User::with('position', 'role')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id'])->get();
 
         $statuses = Logistics::statuses();
@@ -88,7 +88,7 @@ class LogisticsController extends Controller
             'action' => route('logistics.store'),
             'method' => 'POST',
             'data' => null,
-            'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'users' => User::get(['id', 'name', 'surname']),
             'companies' => Company::get(['id', 'name']),
             'services' => Service::get(['id', 'name']),
         ]);
@@ -126,7 +126,7 @@ class LogisticsController extends Controller
             'action' => null,
             'method' => null,
             'data' => $logistic,
-            'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'users' => User::get(['id', 'name', 'surname']),
             'companies' => Company::get(['id','name']),
             'services' => Service::get(['id', 'name']),
         ]);
@@ -138,7 +138,7 @@ class LogisticsController extends Controller
             'action' => route('logistics.update', $logistic),
             'method' => 'PUT',
             'data' => $logistic,
-            'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'users' => User::get(['id', 'name', 'surname']),
             'services' => Service::get(['id', 'name']),
         ]);
     }
