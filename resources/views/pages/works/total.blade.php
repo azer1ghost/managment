@@ -91,9 +91,9 @@
     <div class="work-stats">
         <div>
             <h1>Aksizli Mallar</h1>
-            <h2><span>Qeyri-rəsmi məbləğ</span>{{ $AMBGIPaidIllegal }}</h2>
-            <h2><span>ƏDV məbləğ</span>{{ $AMBGIPaidVat }}</h2>
-            <h2><span>Rəsmi məbləğ</span>{{ $AMBGIPaidAmount }}</h2>
+            <h2><span>Qeyri-rəsmi məbləğ</span>:{{ $AMBGIPaidIllegal }}</h2>
+            <h2><span>ƏDV məbləğ</span>:{{ $AMBGIPaidVat }}</h2>
+            <h2><span>Rəsmi məbləğ</span>:{{ $AMBGIPaidAmount }}</h2>
         </div>
     </div>
 
