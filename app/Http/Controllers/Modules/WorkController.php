@@ -388,8 +388,7 @@ class WorkController extends Controller
         if ($request->get('id')) {
 
             $data = Work::whereId($request->get('id'))->first();
-        }
-        else {
+        } else {
             $data = null;
         }
         return view('pages.works.edit')->with([
@@ -417,23 +416,21 @@ class WorkController extends Controller
         }
 
         $work->parameters()->sync($parameters);
-        if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41])) {
+        if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41, 54, 53])) {
             $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)]);
             $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)) * 0.18]);
-        }
-        else if(in_array($request->get('service_id'), [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48])) {
+        } else if (in_array($request->get('service_id'), [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48])) {
             if ($work->getRelationValue('client')->getAttribute('main_paper') > 0) {
                 $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))]);
                 $value = ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))) * 0.18;
                 $roundedValue = round($value, 2);
                 $work->parameters()->updateExistingPivot($work::VAT, ['value' => $roundedValue]);
-            }else
+            } else
                 $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))]);
-                $value = ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))) * 0.18;
-                $roundedValue = round($value, 2);
-                $work->parameters()->updateExistingPivot($work::VAT, ['value' => $roundedValue]);
-        }
-        else if(in_array($request->get('service_id'), [2])) {
+            $value = ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))) * 0.18;
+            $roundedValue = round($value, 2);
+            $work->parameters()->updateExistingPivot($work::VAT, ['value' => $roundedValue]);
+        } else if (in_array($request->get('service_id'), [2])) {
             if ($work->getRelationValue('client')->getAttribute('qibmain_paper') > 0) {
                 $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))]);
                 $value = ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))) * 0.18;
@@ -441,9 +438,9 @@ class WorkController extends Controller
                 $work->parameters()->updateExistingPivot($work::VAT, ['value' => $roundedValue]);
             } else
                 $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))]);
-                $value = ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))) * 0.18;
-                $roundedValue = round($value, 2);
-                $work->parameters()->updateExistingPivot($work::VAT, ['value' => $roundedValue]);
+            $value = ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))) * 0.18;
+            $roundedValue = round($value, 2);
+            $work->parameters()->updateExistingPivot($work::VAT, ['value' => $roundedValue]);
         }
 
         event(new WorkCreated($work));
@@ -549,8 +546,7 @@ class WorkController extends Controller
         }
 
         $validated['status'] = $status;
-        if (($work->getAttribute('returned_at') || $request->get('returned_at') !== null) && $request->get('parameters')[$work::GB] !== $work->getParameter($work::GB))
-        {
+        if (($work->getAttribute('returned_at') || $request->get('returned_at') !== null) && $request->get('parameters')[$work::GB] !== $work->getParameter($work::GB)) {
             event(new WorkChanged($work));
         }
 
@@ -564,6 +560,7 @@ class WorkController extends Controller
             event(new WorkCreated($work));
         }
 
+
         $parameters = [];
         foreach ($validated['parameters'] ?? [] as $key => $parameter) {
             $parameters[$key] = ['value' => $parameter];
@@ -572,32 +569,22 @@ class WorkController extends Controller
         if (Work::getClientServiceAmount($work) > 0) {
             if ($firstAsan == 1) {
 
-                if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41])) {
+                if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41, 54, 53])) {
                     $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)]);
-                }
-                else if(in_array($request->get('service_id'), [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48])) {
+                } else if (in_array($request->get('service_id'), [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48])) {
                     if ($work->getRelationValue('client')->getAttribute('main_paper') > 0) {
-//                        if (in_array($request->get('asan_imza_id'), [29, 34, 36, 40, 30, 32, 33, 41, 43, 39, 46, 47, 49, 50, 48])){
-//                            $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))) * 1.18]);
-//                        }
-                         if(in_array($request->get('asan_imza_id'), [22])){
+                        if (in_array($request->get('asan_imza_id'), [22])) {
                             $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => 0]);
-                        }
-                        else{
+                        } else {
                             $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))]);
                         }
-                    }else
-                    $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::GB) + $work->getRelationValue('client')->getAttribute('main_paper')]);
-                }
-                else if(in_array($request->get('service_id'), [2])) {
+                    } else
+                        $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::GB) + $work->getRelationValue('client')->getAttribute('main_paper')]);
+                } else if (in_array($request->get('service_id'), [2])) {
                     if ($work->getRelationValue('client')->getAttribute('qibmain_paper') > 0) {
-//                        if (in_array($request->get('asan_imza_id'), [29, 34, 36, 40, 30, 32, 33, 41, 43, 39, 46, 47, 49, 50, 48])){
-//                            $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))) * 1.18]);
-//                        }
-                        if(in_array($request->get('asan_imza_id'), [22])){
+                        if (in_array($request->get('asan_imza_id'), [22])) {
                             $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => 0]);
-                        }
-                        else{
+                        } else {
                             $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))]);
                         }
                     } else
@@ -605,20 +592,20 @@ class WorkController extends Controller
                 }
 
 
-                if (in_array($request->get('asan_imza_id'), [29, 34, 36, 40, 30, 32, 33, 41, 43, 39, 46, 47, 49, 50, 48, 22])) {
+                if (in_array($request->get('asan_imza_id'), [29, 34, 36, 40, 30, 32, 33, 41, 43, 39, 46, 47, 49, 50, 48, 22, 53, 54, 55, 56, 57])) {
                     $work->parameters()->updateExistingPivot($work::VAT, ['value' => 0]);
                 } else {
                     if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41])) {
                         $value = (Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)) * 0.18;
                         $roundedValue = round($value, 2);
                         $work->parameters()->updateExistingPivot($work::VAT, ['value' => $roundedValue]);
-                    } else if (in_array($request->get('service_id'), [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48])){
-                        if ($work->getRelationValue('client')->getAttribute('main_paper') > 0){
+                    } else if (in_array($request->get('service_id'), [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48])) {
+                        if ($work->getRelationValue('client')->getAttribute('main_paper') > 0) {
                             $value = ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))) * 0.18;
                             $roundedValue = round($value, 2);
                             $work->parameters()->updateExistingPivot($work::VAT, ['value' => $roundedValue]);
                         }
-                    } else if (in_array($request->get('service_id'), [2])){
+                    } else if (in_array($request->get('service_id'), [2])) {
                         if ($work->getRelationValue('client')->getAttribute('qibmain_paper') > 0) {
                             $value = ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))) * 0.18;
                             $roundedValue = round($value, 2);
@@ -672,6 +659,7 @@ class WorkController extends Controller
         $work->update(['invoiced_date' => $date]);
         return back();
     }
+
     public function changeCreate(Work $work, Request $request)
     {
         $date = $request->get('created_at') ?? now();
@@ -792,6 +780,7 @@ class WorkController extends Controller
             return response()->json(['success' => true]);
         }
     }
+
     public function showTotal()
     {
         $dataPoints = [];
@@ -857,6 +846,6 @@ class WorkController extends Controller
             compact('totalIllegalAmount', 'totalAmount',
                 'totalVat', 'totalAll', 'dataPoints',
                 'totalPaidAmount', 'totalPaidVat', 'totalPaidIllegal',
-                'totalPaidAll', 'AMBGIPaidIllegal', 'AMBGIPaidVat', 'AMBGIPaidAmount', 'totalAMBGI','BBGIPaidIllegal', 'BBGIPaidVat', 'BBGIPaidAmount', 'totalBBGI','HNBGIPaidIllegal', 'HNBGIPaidVat', 'HNBGIPaidAmount', 'totalHNBGI', ));
+                'totalPaidAll', 'AMBGIPaidIllegal', 'AMBGIPaidVat', 'AMBGIPaidAmount', 'totalAMBGI', 'BBGIPaidIllegal', 'BBGIPaidVat', 'BBGIPaidAmount', 'totalBBGI', 'HNBGIPaidIllegal', 'HNBGIPaidVat', 'HNBGIPaidAmount', 'totalHNBGI',));
     }
 }
