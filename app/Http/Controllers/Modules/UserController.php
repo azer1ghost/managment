@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\Department;
 use App\Models\Position;
 use App\Models\Role;
+use App\Models\Work;
 use App\Traits\Permission;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
@@ -15,6 +16,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -127,6 +129,24 @@ class UserController extends Controller
 
     public function show(User $user)
     {
+        $totalgb = 0;
+        $totalqib = 0;
+
+        $works = Work::where('user_id', $user->id)
+            ->whereDate('created_at', '>=', now()->startOfMonth())
+            ->get();
+
+        $gb = $works->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48]);
+        $qib = $works->where('service_id', 2);
+
+        foreach ($gb as $work) {
+            $totalgb += $work->getParameter(Work::GB);
+        }
+
+        foreach ($qib as $work) {
+            $totalqib += $work->getParameter(Work::GB);
+        }
+
         return view('pages.users.edit')
             ->with([
                 'action' => null,
@@ -137,12 +157,32 @@ class UserController extends Controller
                 'positions' => $user->getRelationValue('department')->positions()->pluck('name', 'id')->toArray(),
                 'directorPositions' => Position::whereHas('role', fn ($q) => $q->where('key', 'director'))->pluck('name', 'id')->toArray(),
                 'data' => $user,
+                'gb' => $totalgb,
+                'qib' => $totalqib,
                 'serial_pattern' => User::serialPattern(),
             ]);
     }
 
     public function edit(User $user)
     {
+        $totalgb = 0;
+        $totalqib = 0;
+
+        $works = Work::where('user_id', $user->id)
+            ->whereDate('created_at', '>=', now()->startOfMonth())
+            ->get();
+
+        $gb = $works->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48]);
+        $qib = $works->where('service_id', 2);
+
+        foreach ($gb as $work) {
+            $totalgb += $work->getParameter(Work::GB);
+        }
+
+        foreach ($qib as $work) {
+            $totalqib += $work->getParameter(Work::GB);
+        }
+
         return view('pages.users.edit')
             ->with([
                 'action' => route('users.update', $user),
@@ -153,6 +193,8 @@ class UserController extends Controller
                 'positions' => $user->getRelationValue('department')->positions()->pluck('name', 'id')->toArray(),
                 'directorPositions' => Position::whereHas('role', fn ($q) => $q->where('key', 'director'))->pluck('name', 'id')->toArray(),
                 'data' => $user,
+                'gb' => $totalgb,
+                'qib' => $totalqib,
                 'serial_pattern' => User::serialPattern(),
             ]);
     }

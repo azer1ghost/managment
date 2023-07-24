@@ -72,6 +72,7 @@ User extends Authenticatable implements MustVerifyPhone, Recordable
         'gross',
         'bonus',
         'coefficient',
+        'qib_coefficient',
     ];
 
     protected $hidden = [

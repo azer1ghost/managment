@@ -84,35 +84,50 @@
                     </x-form-group>
                 @endif
                 <x-input::date  :label="__('translates.fields.work_started_at')"  name="started_at" :value="optional($data)->getAttribute('started_at')" width="4" class="pr-0" />
-{{--                    <div class="row">--}}
-{{--                    <x-form-group  class="pr-3 col-6 col-lg-6">--}}
-{{--                        <x-form-input name="coefficient"   :label="__('translates.fields.coefficient')" />--}}
-{{--                    </x-form-group>--}}
-{{--                    <x-form-group  class="pr-3 col-6 col-lg-6">--}}
-{{--                        <x-form-input name="gross"   :label="__('translates.fields.gross')" />--}}
-{{--                    </x-form-group>--}}
-{{--                    <x-form-group  class="pr-3 col-6 col-lg-6">--}}
-{{--                        <x-form-input name="bonus"   :label="__('translates.fields.bonus')" />--}}
-{{--                    </x-form-group>--}}
-{{--                    </div>--}}
+
             </div>
         </div>
         <div class="form-row mx-0 col-md-12">
             <!-- Passport -->
             <div class="col-md-12 px-0">
                 <br>
+                <p class="text-muted mb-2">@lang('translates.navbar.finance')</p>
+                <hr class="my-2">
+            </div>
+
+                <x-form-group  class="pr-3 col-6 col-lg-6">
+                    <x-form-input name="coefficient" :label="__('translates.fields.coefficient')" />
+                </x-form-group>
+                <x-form-group  class="pr-3 col-6 col-lg-6">
+                    <x-form-input name="qib_coefficient" :label="__('translates.fields.qib_coefficient')" />
+                </x-form-group>
+                <x-form-group  class="pr-3 col-6 col-lg-6">
+                    <x-form-input name="gross"   :label="__('translates.fields.gross')" />
+                </x-form-group>
+                <x-form-group  class="pr-3 col-6 col-lg-6">
+                    <x-form-input name="bonus"   :label="__('translates.fields.bonus')" />
+                </x-form-group>
+            @if($method != 'POST')
+                 <div>
+                    <p> GB Sayı: {{$gb}}</p>
+                    <p> QIB Sayı: {{$qib}}</p>
+                </div>
+            @endif
+            <div class="col-md-12 px-0">
+                <br>
                 <p class="text-muted mb-2">@lang('translates.fields.passport')</p>
                 <hr class="my-2">
             </div>
-            <x-form-group :label="__('translates.fields.serial')"  class="col-3 col-lg-1">
-                <x-form-select name="serial_pattern" :options="$serial_pattern"  />
-            </x-form-group>
-            <x-form-group :label="__('translates.fields.serial')"  class="pr-3 col-12 col-lg-3">
-                <x-form-input name="serial"   label="" />
-            </x-form-group>
-            <x-form-group  class="pr-3 col-12 col-lg-3">
-                <x-form-input name="fin"   label="FIN" />
-            </x-form-group>
+                <x-form-group :label="__('translates.fields.serial')"  class="col-3 col-lg-1">
+                    <x-form-select name="serial_pattern" :options="$serial_pattern"  />
+                </x-form-group>
+                <x-form-group :label="__('translates.fields.serial')"  class="pr-3 col-12 col-lg-3">
+                    <x-form-input name="serial"   label="" />
+                </x-form-group>
+                <x-form-group  class="pr-3 col-12 col-lg-3">
+                    <x-form-input name="fin"   label="FIN" />
+                </x-form-group>
+
             <div class="form-group col-12 col-md-2">
                 <label for="data-gender">{{__('translates.fields.gender')}}</label>
                 <select class="form-control @error('gender') is-invalid @enderror" name="gender" id="data-gender" style="padding: .375rem 0.75rem !important;">
@@ -127,7 +142,7 @@
                 </span>
                 @enderror
             </div>
-            <x-input::date    name="birthday" :value="optional($data)->getAttribute('birthday')" width="4" class="pr-0" />
+            <x-input::date name="birthday" :value="optional($data)->getAttribute('birthday')" width="3" class="pr-0" />
             <!-- Contact -->
             <div class="col-md-12 px-0">
                 <br>

@@ -53,6 +53,7 @@ class UserRequest extends FormRequest
             'gross' => 'nullable|string',
             'bonus' => 'nullable|string',
             'coefficient' => 'nullable|string',
+            'qib_coefficient' => 'nullable|string',
         ];
     }
 
