@@ -188,6 +188,7 @@ return [
         'changes' => 'Changes',
         'commands' => 'Commands',
         'supports' => 'Supports',
+        'summits' => 'Summits',
         'registration_logs' => 'Registration Logs',
         'customer_company' => 'Customer Company',
         'account' => 'Account',
@@ -750,6 +751,11 @@ return [
         'On the Way',
         'Arrived',
         'Stopped',
+    ],
+    'summit_status' => [
+        1 => 'Planned',
+        'Pending',
+        'Continue',
     ],
 
     'transport_types' => [

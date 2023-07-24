@@ -22,11 +22,13 @@ class SummitController extends Controller
 
     public function index(Request $request)
     {
+        $statuses = Summit::statuses();
         $search = $request->get('search');
 
         return view('pages.summits.index')
             ->with([
                 'users' => User::get(['id', 'name', 'surname']),
+                'statuses' => $statuses,
                 'summits' => Summit::when($search, fn ($query) => $query
                     ->where('club', 'like', "%".$search."%"))
                     ->orderBy('date')
@@ -42,6 +44,7 @@ class SummitController extends Controller
             'method' => 'POST',
             'data' => new Summit(),
             'users' => User::get(['id', 'name', 'surname']),
+            'statuses' => Summit::statuses()
         ]);
     }
 
@@ -62,6 +65,7 @@ class SummitController extends Controller
             'method' => null,
             'data' => $summit,
             'users' => User::get(['id', 'name', 'surname']),
+            'statuses' => Summit::statuses()
         ]);
     }
 
@@ -72,6 +76,7 @@ class SummitController extends Controller
             'method' => 'PUT',
             'data' => $summit,
             'users' => User::get(['id', 'name', 'surname']),
+            'statuses' => Summit::statuses()
         ]);
     }
 

@@ -137,6 +137,12 @@ class Sidebar extends Component
                         'url' => route('supports.index'),
                         'permission' => 'generally',
                     ],
+                    (object)[
+                        'title' => __('translates.navbar.summits'),
+                        'icon' => 'fas fa-file-signature',
+                        'url' => route('summits.index'),
+                        'permission' => 'generally',
+                    ],
                 ]
             ],
             (object)[

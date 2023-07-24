@@ -191,6 +191,7 @@ return [
         'changes' => 'Dəyişikliklər',
         'commands' => 'Əmrlər',
         'supports' => 'Dəstəkçilər',
+        'summits' => 'Görüşlər',
         'registration_logs' => 'Qeydiyyat Jurnalı',
         'customer_company' => 'Müştəri Şirkətlər',
         'account' => 'Hesab',
@@ -753,6 +754,11 @@ return [
         'Yoldadır',
         'Çatıb',
         'Yük Dayandırılıb'
+    ],
+    'summit_status' => [
+        1 => 'sdsdsd',
+        'dshdhsd',
+        'sdhsdb',
     ],
 
     'transport_types' => [
