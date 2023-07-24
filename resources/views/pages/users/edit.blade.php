@@ -117,7 +117,7 @@
                     <p> QIB Sayı: {{$qib}}</p>
                     <p>
                         Toplam Sonuç:
-                        {{ $bonus + $gross + ($gb * $coefficient) + ($qib * $qib_coefficient) }}
+                        {{ $data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient) }}
                     </p>
                 </div>
             @endif
