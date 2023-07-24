@@ -160,6 +160,7 @@ Route::group([
     Route::resource('/options', OptionController::class);
     Route::resource('/users', UserController::class);
     Route::post('/sortable-user', [UserController::class, 'sortable'])->name('user.sortable');
+    Route::post('/update-monthly-values', [UserController::class, 'updateMonthlyValues'])->name('updateMonthlyValues');
     Route::resource('/roles', RoleController::class);
     Route::resource('/departments', DepartmentController::class);
     Route::resource('/positions', PositionController::class);

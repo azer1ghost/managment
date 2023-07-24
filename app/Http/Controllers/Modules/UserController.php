@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
@@ -75,7 +76,7 @@ class UserController extends Controller
                 'departments' => Department::get(['id', 'name']),
                 'types' => User::types(),
                 'statuses' => User::status(),
-                'user_count' => $userCount
+                'user_count' => $userCount,
             ]);
     }
 
@@ -92,7 +93,6 @@ class UserController extends Controller
                 'positions' => Position::all()->pluck('name', 'id')->toArray(),
                 'directorPositions' => Position::whereHas('role', fn ($q) => $q->where('key', 'director'))->pluck('name', 'id')->toArray(),
                 'serial_pattern' => User::serialPattern(),
-
             ]);
     }
 

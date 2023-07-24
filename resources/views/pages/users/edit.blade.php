@@ -84,6 +84,17 @@
                     </x-form-group>
                 @endif
                 <x-input::date  :label="__('translates.fields.work_started_at')"  name="started_at" :value="optional($data)->getAttribute('started_at')" width="4" class="pr-0" />
+{{--                    <div class="row">--}}
+{{--                    <x-form-group  class="pr-3 col-6 col-lg-6">--}}
+{{--                        <x-form-input name="coefficient"   :label="__('translates.fields.coefficient')" />--}}
+{{--                    </x-form-group>--}}
+{{--                    <x-form-group  class="pr-3 col-6 col-lg-6">--}}
+{{--                        <x-form-input name="gross"   :label="__('translates.fields.gross')" />--}}
+{{--                    </x-form-group>--}}
+{{--                    <x-form-group  class="pr-3 col-6 col-lg-6">--}}
+{{--                        <x-form-input name="bonus"   :label="__('translates.fields.bonus')" />--}}
+{{--                    </x-form-group>--}}
+{{--                    </div>--}}
             </div>
         </div>
         <div class="form-row mx-0 col-md-12">

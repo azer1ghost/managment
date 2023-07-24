@@ -69,6 +69,9 @@ User extends Authenticatable implements MustVerifyPhone, Recordable
         'disabled_at',
         'is_partner',
         'order',
+        'gross',
+        'bonus',
+        'coefficient',
     ];
 
     protected $hidden = [
@@ -123,6 +126,10 @@ User extends Authenticatable implements MustVerifyPhone, Recordable
     public function works(): HasMany
     {
         return $this->hasMany(Work::class);
+    }
+    public function parameters()
+    {
+        return $this->belongsToMany(Parameter::class, 'work_parameter')->withPivot('value');
     }
     public function logistics(): HasMany
     {

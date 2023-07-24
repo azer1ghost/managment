@@ -49,7 +49,10 @@ class UserRequest extends FormRequest
             'defaults.*.parameter_id'  => 'required|integer',
             'defaults.*.value'     => 'required|integer',
             'perms' => 'nullable|array',
-            'all_perms' => 'nullable|string'
+            'all_perms' => 'nullable|string',
+            'gross' => 'nullable|string',
+            'bonus' => 'nullable|string',
+            'coefficient' => 'nullable|string',
         ];
     }
 

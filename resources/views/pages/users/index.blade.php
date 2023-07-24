@@ -82,6 +82,7 @@
                         <th scope="col">@lang('translates.columns.department')</th>
                         <th scope="col">@lang('translates.fields.work_started_at')</th>
                         <th scope="col">@lang('translates.columns.role')</th>
+{{--                        <th scope="col">Əmək haqqı</th>--}}
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
@@ -101,6 +102,7 @@
                             <td>{{$user->getRelationValue('department')->getAttribute('name')}}</td>
                             <td>{{$user->getAttribute('started_at')}}</td>
                             <td>{{$user->getRelationValue('role')->getAttribute('name')}}</td>
+{{--                            <td>{{ $user->bonus + $user->gross + ($totalGBValues * $user->coefficient) }}</td>--}}
                             <td>
                                 <div class="btn-sm-group">
                                     <div class="dropdown">
