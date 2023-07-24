@@ -76,7 +76,7 @@
                         @endforeach
                     </td>
                     <td>{{$summit->getAttribute('dresscode')}}</td>
-                    <td>{{$summit->getAttribute('status')}}</td>
+                    <td>{{trans('translates.summit_status.' . $summit->getAttribute('status'))}}</td>
                     <td>
                         <div class="btn-sm-group">
                             <a href="{{route('summits.show', $summit)}}" class="btn btn-sm btn-outline-primary">
