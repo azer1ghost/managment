@@ -120,9 +120,9 @@
                         {{ $data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient) }}
 
                         @if( $data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient)  <= 200)
-                           Net maaş: {{($data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient)) * 0.03 }}
+                           Net maaş: {{$data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient) - ($data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient)) * 0.03 }}
                         @elseif($data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient)  > 200)
-                           Net maaş:{{6 + ($data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient)) * 0.1 }}
+                           Net maaş:{{6 + ($data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient)) - ( $data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient)) * 0.1 }}
                         @endif
 
                     </p>
