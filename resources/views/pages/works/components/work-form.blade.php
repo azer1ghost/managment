@@ -151,7 +151,7 @@
                             <div class="form-group col-12 col-md-3" wire:ignore>
                                 <label for="data-destination">@lang('translates.general.destination_choose')</label>
                                 <select name="destination" id="data-status" class="form-control">
-                                    <option>@lang('translates.placeholders.choose')</option>
+                                    <option disabled>@lang('translates.placeholders.choose')</option>
                                     @foreach($destinations as $key => $destination)
                                         <option
                                                 @if(optional($data)->getAttribute('destination') == $destination) selected @endif
