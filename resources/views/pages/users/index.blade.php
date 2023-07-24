@@ -102,7 +102,7 @@
                             <td>{{$user->getRelationValue('department')->getAttribute('name')}}</td>
                             <td>{{$user->getAttribute('started_at')}}</td>
                             <td>{{$user->getRelationValue('role')->getAttribute('name')}}</td>
-{{--                            <td>{{ $user->bonus + $user->gross + ($totalGBValues * $user->coefficient) }}</td>--}}
+{{--                            <td>{{$user->bonus + $user->gross + ($gb * $user->coefficient) + ($qib * $user->qib_coefficient) }}</td>--}}
                             <td>
                                 <div class="btn-sm-group">
                                     <div class="dropdown">

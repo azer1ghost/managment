@@ -45,45 +45,49 @@
             <p class="text-muted mb-2">@lang('translates.fields.personal')</p>
             <hr class="my-2">
             <div class="row mr-0">
-                <x-form-group  class="pr-3 col-12 col-lg-6">
+                <x-form-group class="pr-3 col-12 col-lg-6">
                     <x-form-input name="name"/>
                 </x-form-group>
-                <x-form-group  class="pr-3 col-12 col-lg-6">
+                <x-form-group class="pr-3 col-12 col-lg-6">
                     <x-form-input name="surname"/>
                 </x-form-group>
-                <x-form-group  class="pr-3 col-12 col-lg-6">
-                    <x-form-input name="father"  :label="__('translates.fields.father')"/>
+                <x-form-group class="pr-3 col-12 col-lg-6">
+                    <x-form-input name="father" :label="__('translates.fields.father')"/>
                 </x-form-group>
             </div>
             <!-- Employment -->
             <p class="text-muted mb-2">@lang('translates.fields.employment')</p>
             <hr class="my-2">
             <div class="row mr-0">
-                <x-form-group  class="pr-3 col-12 col-lg-6">
-                    <x-form-select name="department_id" :options="$departments" :label="__('translates.fields.department')" />
+                <x-form-group class="pr-3 col-12 col-lg-6">
+                    <x-form-select name="department_id" :options="$departments"
+                                   :label="__('translates.fields.department')"/>
                 </x-form-group>
 
                 @if (auth()->user()->isDirector())
-                    <x-form-group  class="pr-3 col-12 col-lg-6">
-                        <x-form-select  name="position_id" :options="$directorPositions" :label="__('translates.fields.department')" />
+                    <x-form-group class="pr-3 col-12 col-lg-6">
+                        <x-form-select name="position_id" :options="$directorPositions"
+                                       :label="__('translates.fields.department')"/>
                     </x-form-group>
                 @else
-                    <x-form-group  class="pr-3 col-12 col-lg-6">
-                        <x-form-select  name="position_id" :options="$positions" :label="__('translates.fields.position')" />
+                    <x-form-group class="pr-3 col-12 col-lg-6">
+                        <x-form-select name="position_id" :options="$positions"
+                                       :label="__('translates.fields.position')"/>
                     </x-form-group>
-{{--                    <x-form-group  class="pr-3 col-12 col-lg-6">--}}
-{{--                        <x-form-select  name="official_position_id" :options="$positions" :label="__('translates.fields.position')" />--}}
-{{--                    </x-form-group>--}}
+                    {{--                    <x-form-group  class="pr-3 col-12 col-lg-6">--}}
+                    {{--                        <x-form-select  name="official_position_id" :options="$positions" :label="__('translates.fields.position')" />--}}
+                    {{--                    </x-form-group>--}}
                 @endif
-                <x-form-group  class="pr-3 col-12 col-lg-6">
-                    <x-form-select  name="company_id" :options="$companies" :label="__('translates.fields.company')" />
+                <x-form-group class="pr-3 col-12 col-lg-6">
+                    <x-form-select name="company_id" :options="$companies" :label="__('translates.fields.company')"/>
                 </x-form-group>
                 @if (auth()->user()->isDeveloper() && !is_null($data))
-                    <x-form-group  class="pr-3 col-12 col-lg-6">
-                        <x-form-input name="verify_code"  readonly label="Verify Code" />
+                    <x-form-group class="pr-3 col-12 col-lg-6">
+                        <x-form-input name="verify_code" readonly label="Verify Code"/>
                     </x-form-group>
                 @endif
-                <x-input::date  :label="__('translates.fields.work_started_at')"  name="started_at" :value="optional($data)->getAttribute('started_at')" width="4" class="pr-0" />
+                <x-input::date :label="__('translates.fields.work_started_at')" name="started_at"
+                               :value="optional($data)->getAttribute('started_at')" width="4" class="pr-0"/>
 
             </div>
         </div>
@@ -95,22 +99,26 @@
                 <hr class="my-2">
             </div>
 
-                <x-form-group  class="pr-3 col-6 col-lg-6">
-                    <x-form-input name="coefficient" :label="__('translates.fields.coefficient')" />
-                </x-form-group>
-                <x-form-group  class="pr-3 col-6 col-lg-6">
-                    <x-form-input name="qib_coefficient" :label="__('translates.fields.qib_coefficient')" />
-                </x-form-group>
-                <x-form-group  class="pr-3 col-6 col-lg-6">
-                    <x-form-input name="gross"   :label="__('translates.fields.gross')" />
-                </x-form-group>
-                <x-form-group  class="pr-3 col-6 col-lg-6">
-                    <x-form-input name="bonus"   :label="__('translates.fields.bonus')" />
-                </x-form-group>
+            <x-form-group class="pr-3 col-6 col-lg-6">
+                <x-form-input name="coefficient" :label="__('translates.fields.coefficient')"/>
+            </x-form-group>
+            <x-form-group class="pr-3 col-6 col-lg-6">
+                <x-form-input name="qib_coefficient" :label="__('translates.fields.qib_coefficient')"/>
+            </x-form-group>
+            <x-form-group class="pr-3 col-6 col-lg-6">
+                <x-form-input name="gross" :label="__('translates.fields.gross')"/>
+            </x-form-group>
+            <x-form-group class="pr-3 col-6 col-lg-6">
+                <x-form-input name="bonus" :label="__('translates.fields.bonus')"/>
+            </x-form-group>
             @if($method != 'POST')
-                 <div>
+                <div>
                     <p> GB Sayı: {{$gb}}</p>
                     <p> QIB Sayı: {{$qib}}</p>
+                    <p>
+                        Toplam Sonuç:
+                        {{ $bonus + $gross + ($gb * $coefficient) + ($qib * $qib_coefficient) }}
+                    </p>
                 </div>
             @endif
             <div class="col-md-12 px-0">
@@ -118,22 +126,25 @@
                 <p class="text-muted mb-2">@lang('translates.fields.passport')</p>
                 <hr class="my-2">
             </div>
-                <x-form-group :label="__('translates.fields.serial')"  class="col-3 col-lg-1">
-                    <x-form-select name="serial_pattern" :options="$serial_pattern"  />
-                </x-form-group>
-                <x-form-group :label="__('translates.fields.serial')"  class="pr-3 col-12 col-lg-3">
-                    <x-form-input name="serial"   label="" />
-                </x-form-group>
-                <x-form-group  class="pr-3 col-12 col-lg-3">
-                    <x-form-input name="fin"   label="FIN" />
-                </x-form-group>
+            <x-form-group :label="__('translates.fields.serial')" class="col-3 col-lg-1">
+                <x-form-select name="serial_pattern" :options="$serial_pattern"/>
+            </x-form-group>
+            <x-form-group :label="__('translates.fields.serial')" class="pr-3 col-12 col-lg-3">
+                <x-form-input name="serial" label=""/>
+            </x-form-group>
+            <x-form-group class="pr-3 col-12 col-lg-3">
+                <x-form-input name="fin" label="FIN"/>
+            </x-form-group>
 
             <div class="form-group col-12 col-md-2">
                 <label for="data-gender">{{__('translates.fields.gender')}}</label>
-                <select class="form-control @error('gender') is-invalid @enderror" name="gender" id="data-gender" style="padding: .375rem 0.75rem !important;">
-                    <option disabled selected value="null">{{__('translates.fields.gender')}} {{__('translates.placeholders.choose')}}</option>
+                <select class="form-control @error('gender') is-invalid @enderror" name="gender" id="data-gender"
+                        style="padding: .375rem 0.75rem !important;">
+                    <option disabled selected
+                            value="null">{{__('translates.fields.gender')}} {{__('translates.placeholders.choose')}}</option>
                     @foreach([__('translates.gender.male'), __('translates.gender.female')] as $key => $option)
-                        <option @if ($key === optional($data)->getAttribute('gender')) selected @endif value="{{$key}}">{{$option}}</option>
+                        <option @if ($key === optional($data)->getAttribute('gender')) selected
+                                @endif value="{{$key}}">{{$option}}</option>
                     @endforeach
                 </select>
                 @error('gender')
@@ -142,24 +153,26 @@
                 </span>
                 @enderror
             </div>
-            <x-input::date name="birthday" :value="optional($data)->getAttribute('birthday')" width="3" class="pr-0" />
+            <x-input::date name="birthday" :value="optional($data)->getAttribute('birthday')" width="3" class="pr-0"/>
             <!-- Contact -->
             <div class="col-md-12 px-0">
                 <br>
                 <p class="text-muted mb-2">@lang('translates.fields.contact')</p>
                 <hr class="my-2">
             </div>
-            <x-form-group  class="pr-3 col-12 col-lg-6">
-                <x-form-input name="phone_coop"   :label="__('translates.fields.phone_coop')" />
+            <x-form-group class="pr-3 col-12 col-lg-6">
+                <x-form-input name="phone_coop" :label="__('translates.fields.phone_coop')"/>
             </x-form-group>
-            <x-form-group  class="pr-3 col-12 col-lg-6">
-                <x-form-input name="phone"   :label="__('translates.fields.phone_private')" />
+            <x-form-group class="pr-3 col-12 col-lg-6">
+                <x-form-input name="phone" :label="__('translates.fields.phone_private')"/>
             </x-form-group>
-            <x-form-group  class="pr-3 col-12 col-lg-6">
-                <x-form-input type="email" name="email_coop" :label="__('translates.fields.email_coop')" placeholder="Cooperative Email" />
+            <x-form-group class="pr-3 col-12 col-lg-6">
+                <x-form-input type="email" name="email_coop" :label="__('translates.fields.email_coop')"
+                              placeholder="Cooperative Email"/>
             </x-form-group>
-            <x-form-group  class="pr-3 col-12 col-lg-6">
-                <x-form-input type="email" name="email" :label="__('translates.fields.email_private')" placeholder="Personal Email"  required=""/>
+            <x-form-group class="pr-3 col-12 col-lg-6">
+                <x-form-input type="email" name="email" :label="__('translates.fields.email_private')"
+                              placeholder="Personal Email" required=""/>
             </x-form-group>
             <!-- Address -->
             <div class="col-md-12 px-0">
@@ -167,36 +180,40 @@
                 <p class="text-muted mb-2">@lang('translates.columns.adress')</p>
                 <hr class="my-2">
             </div>
-            <x-form-group  class="pr-3 col-12 col-lg-6">
-                <x-form-select name="country" :options="['Azerbaijan' => 'Azerbaijan', 'Turkey' => 'Turkey']" :label="__('translates.fields.country')" />
+            <x-form-group class="pr-3 col-12 col-lg-6">
+                <x-form-select name="country" :options="['Azerbaijan' => 'Azerbaijan', 'Turkey' => 'Turkey']"
+                               :label="__('translates.fields.country')"/>
             </x-form-group>
-            <x-form-group  class="pr-3 col-12 col-lg-6">
-                <x-form-select name="city" :options="['Baku' => 'Baku', 'Sumgayit' => 'Sumgayit']" :label="__('translates.fields.city')" />
+            <x-form-group class="pr-3 col-12 col-lg-6">
+                <x-form-select name="city" :options="['Baku' => 'Baku', 'Sumgayit' => 'Sumgayit']"
+                               :label="__('translates.fields.city')"/>
             </x-form-group>
-            <x-form-group  class="pr-3 col-12 col-lg-6">
-                <x-form-input  name="address" :label="__('translates.fields.address')"/>
+            <x-form-group class="pr-3 col-12 col-lg-6">
+                <x-form-input name="address" :label="__('translates.fields.address')"/>
             </x-form-group>
             @if(auth()->user()->isDeveloper())
-                <x-form-group  class="pr-3 col-12 col-lg-6">
-                    <x-form-input type="password" :bind="false"  name="password" :label="__('translates.fields.password')"  autocomplete="off"/>
+                <x-form-group class="pr-3 col-12 col-lg-6">
+                    <x-form-input type="password" :bind="false" name="password"
+                                  :label="__('translates.fields.password')" autocomplete="off"/>
                 </x-form-group>
-                <x-form-group  class="pr-3 col-12 col-lg-6">
-                    <x-form-input type="password"  name="password_confirmation" :label="__('translates.fields.password_confirm')" autocomplete="off"/>
+                <x-form-group class="pr-3 col-12 col-lg-6">
+                    <x-form-input type="password" name="password_confirmation"
+                                  :label="__('translates.fields.password_confirm')" autocomplete="off"/>
                 </x-form-group>
             @endif
             @if(!is_null($data))
-                <x-form-group  class="pr-3 col-12 col-lg-6">
-                    <x-form-select name="role_id" :options="$roles" :label="__('translates.fields.role')" />
+                <x-form-group class="pr-3 col-12 col-lg-6">
+                    <x-form-select name="role_id" :options="$roles" :label="__('translates.fields.role')"/>
                 </x-form-group>
                 <x-form-group :label="__('translates.fields.default_lang')" class="pr-3 col-12 col-lg-6">
-                    <x-form-select name="default_lang" :options="config('app.locales')" />
+                    <x-form-select name="default_lang" :options="config('app.locales')"/>
                 </x-form-group>
             @endif
-            <x-form-group  class="pr-3 col-12 col-lg-6">
-                <x-form-input type="number" name="order" label="Order" />
+            <x-form-group class="pr-3 col-12 col-lg-6">
+                <x-form-input type="number" name="order" label="Order"/>
             </x-form-group>
-        @if(auth()->user()->isDeveloper())
-                <x-permissions :model="$data" :action="$action" />
+            @if(auth()->user()->isDeveloper())
+                <x-permissions :model="$data" :action="$action"/>
                 <div class="col-md-12 px-0">
                     <br>
                     <p class="text-muted mb-2">USER DEFAULTS</p>
@@ -213,7 +230,7 @@
     </form>
     @if($method != 'POST')
         <div class="my-5">
-            <x-documents :documents="$data->documents" :title="trans('translates.files.personal_work')" />
+            <x-documents :documents="$data->documents" :title="trans('translates.files.personal_work')"/>
             <x-document-upload :id="$data->id" model="User"/>
         </div>
     @endif
