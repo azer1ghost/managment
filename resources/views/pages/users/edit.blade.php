@@ -125,7 +125,7 @@
                         @if($gross  <= 200)
                            Net maaş: {{$gross - ($gross * 0.03) - ($gross * 0.005) - ($gross * 0.02)}}
                         @else
-                           Net maaş:{{6 + $gross - ($gross * 0.1) - ($gross * 0.005) - ($gross * 0.02)}}
+                           Net maaş:{{6 + $gross - (($gross -200)  * 0.1) - ($gross * 0.005) - ($gross * 0.02)}}
                         @endif
                     </p>
                 </div>
