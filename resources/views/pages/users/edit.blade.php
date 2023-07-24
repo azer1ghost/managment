@@ -116,22 +116,16 @@
                     <p> GB Sayı: {{$gb}}</p>
                     <p> QIB Sayı: {{$qib}}</p>
                     <p>
+                        @php
+                        $gross = $data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient)
+                         @endphp
                         Toplam Sonuç:
-                        {{ $data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient) }}
+                        {{ $gross }}
 
-                        @if( $data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient)  <= 200)
-                           Net maaş: {{$data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient) -
-                                    (($data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient)) * 0.03) -
-                                    (($data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient)) * 0.005) -
-                                    ($data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient)) * 0.02
-                                    }}
-                        @elseif($data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient)  > 200)
-                           Net maaş:
-                            {{6 + $data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient) -
-                                (($data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient)) * 0.1) -
-                                (($data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient)) * 0.005) -
-                                (($data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient)) * 0.02)
-                                }}
+                        @if($gross  <= 200)
+                           Net maaş: {{$gross - ($gross * 0.03) - ($gross * 0.005) - ($gross * 0.02)}}
+                        @else
+                           Net maaş:{{6 + $gross - ($gross * 0.1) - ($gross * 0.005) - ($gross * 0.02)}}
                         @endif
                     </p>
                 </div>
