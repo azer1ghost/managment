@@ -575,6 +575,10 @@ class WorkController extends Controller
                     if ($work->getRelationValue('client')->getAttribute('main_paper') > 0) {
                         if (in_array($request->get('asan_imza_id'), [22])) {
                             $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => 0]);
+                            if ($request->get('department_id') === 12 )
+                                $work->parameters()->updateExistingPivot($work::ILLEGALAMOUNT, ['value' => $work->getParameter($work::GB) * 20]);
+                            elseif($request->get('department_id') === 13 )
+                                $work->parameters()->updateExistingPivot($work::ILLEGALAMOUNT, ['value' => $work->getParameter($work::GB) * 15]);
                         } else {
                             $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))]);
                         }
