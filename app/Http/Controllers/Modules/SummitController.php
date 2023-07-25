@@ -14,11 +14,11 @@ use App\Models\User;
 
 class SummitController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->authorizeResource(Summit::class, 'summit');
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('auth');
+//        $this->authorizeResource(Summit::class, 'summit');
+//    }
 
     public function index(Request $request)
     {
