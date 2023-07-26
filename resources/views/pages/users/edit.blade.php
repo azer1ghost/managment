@@ -115,9 +115,10 @@
                 <div>
                     <p> GB Sayı: {{$gb}}</p>
                     <p> QIB Sayı: {{$qib}}</p>
+                    <p> Təmsilçilik Sayı: {{$representation}}</p>
                     <p>
                         @php
-                        $gross = $data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient)
+                        $gross = $data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient) + ($representation * 0.2)
                          @endphp
                         Toplam Sonuç:
                         {{ $gross }}

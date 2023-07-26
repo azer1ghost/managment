@@ -138,6 +138,7 @@ class UserController extends Controller
 
         $gb = $works->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48]);
         $qib = $works->where('service_id', 2);
+        $representation = $works->where('service_id', 5);
 
         foreach ($gb as $work) {
             $totalgb += $work->getParameter(Work::GB);
@@ -145,6 +146,9 @@ class UserController extends Controller
 
         foreach ($qib as $work) {
             $totalqib += $work->getParameter(Work::GB);
+        }
+        foreach ($representation as $work) {
+            $totalrepresentation += $work->getParameter(Work::SERVICECOUNT);
         }
 
         return view('pages.users.edit')
@@ -159,6 +163,7 @@ class UserController extends Controller
                 'data' => $user,
                 'gb' => $totalgb,
                 'qib' => $totalqib,
+                'representation' => $totalrepresentation,
                 'serial_pattern' => User::serialPattern(),
             ]);
     }
@@ -174,6 +179,7 @@ class UserController extends Controller
 
         $gb = $works->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48]);
         $qib = $works->where('service_id', 2);
+        $representation = $works->where('service_id', 5);
 
         foreach ($gb as $work) {
             $totalgb += $work->getParameter(Work::GB);
@@ -181,6 +187,9 @@ class UserController extends Controller
 
         foreach ($qib as $work) {
             $totalqib += $work->getParameter(Work::GB);
+        }
+        foreach ($representation as $work) {
+            $totalrepresentation += $work->getParameter(Work::SERVICECOUNT);
         }
 
         return view('pages.users.edit')
@@ -195,6 +204,7 @@ class UserController extends Controller
                 'data' => $user,
                 'gb' => $totalgb,
                 'qib' => $totalqib,
+                'representation' => $totalrepresentation,
                 'serial_pattern' => User::serialPattern(),
             ]);
     }
