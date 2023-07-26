@@ -115,10 +115,11 @@
                 <div>
                     <p> GB Sayı: {{$gb}}</p>
                     <p> QIB Sayı: {{$qib}}</p>
-                    <p> Təmsilçilik Sayı: {{$representation}}</p>
+                    <p> Təmsilçilik Aylıq Məbləği: {{$representation}}</p>
+                    <p> CMR,TIRCARNET,INVOYS Aylıq Məbləği: {{$cmr}}</p>
                     <p>
                         @php
-                        $gross = $data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient) + ($representation * 0.2)
+                        $gross = $data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient) + ($representation * 0.2) + ($cmr * 0.1)
                          @endphp
                         Toplam Sonuç:
                         {{ $gross }}
