@@ -125,7 +125,7 @@
                         Toplam Sonuç:
                         {{ $gross }}
 
-                        @if(in_array($request->getAttribute('user_id'), [41, 75, 51]))
+                        @if(in_array($data->getAttribute('id'), [41, 75, 51]))
                            {{$data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient) + ($representation * 0.2) + ($cmr * 0.1) + ($branchgb * 0.4) + ($branchqib * 0.2)}}
                         @endif
 

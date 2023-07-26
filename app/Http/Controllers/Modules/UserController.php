@@ -190,13 +190,10 @@ class UserController extends Controller
 
 
         $userIds = [41, 75, 51];
-        $departmentId = $userIds->getRelationValue('department')->getAttribute('id');
+        $userDepartments = User::whereIn('id', $userIds)->pluck('department_id');
 
-        $totalWorks = Work::whereHas('user', function ($query) use ($departmentId, $userIds) {
-            $query->where('department_id', $departmentId)
-                ->whereIn('id', $userIds)
-                ->get();
-        });
+        $totalWorks = Work::whereIn('department_id', $userDepartments)->get();
+
         $branchGb = $totalWorks->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48]);
         $branchQib = $totalWorks->where('service_id', 2);
 
