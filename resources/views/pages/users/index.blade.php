@@ -103,13 +103,16 @@
                           $works = \App\Models\Work::where('user_id', $user->id)
                               ->whereDate('created_at', '>=', now()->startOfMonth())
                               ->get();
+                         $branchWorks = \App\Models\Work::where('department_id' ,$user->department_id)
+                                    ->whereDate('created_at', '>=', now()->startOfMonth())
+                                    ->get();
 
                           $gb = $works->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48]);
                           $qib = $works->where('service_id', 2);
                           $representation = $works->where('service_id', 5);
                           $cmr = $works->whereIn('service_id', [3,4,7]);
-                          $branchGb = $works->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48])->where('department_id' ,$user->department_id);
-                          $branchQib = $works->where('service_id', 2)->where('department_id' ,$user->department_id);
+                          $branchGb = $works->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48]);
+                          $branchQib = $works->where('service_id', 2);
 
                           foreach ($gb as $work) {
                               $totalgb += $work->getParameter(\App\Models\Work::GB);
