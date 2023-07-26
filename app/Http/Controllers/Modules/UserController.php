@@ -181,37 +181,19 @@ class UserController extends Controller
         $totalqib = 0;
         $totalrepresentation = 0;
         $totalcmr = 0;
-//        $totalbranchgb = 0;
-//        $totalbranchqib = 0;
+        $totalbranchgb = 0;
+        $totalbranchqib = 0;
 
         $works = Work::where('user_id', $user->id)
             ->whereDate('created_at', '>=', now()->startOfMonth())
             ->get();
 
-
-//        $currentUserIds = [41, 75, 51];
-//        $totalWorksByUser = [];
-//
-//        foreach ($currentUserIds as $currentUserId) {
-//            $user = User::find($currentUserId);
-//            if ($user) {
-//                $userDepartment = $user->department_id;
-//                $totalWorks = Work::where('department_id', $userDepartment)
-//                    ->whereDate('created_at', '>=', now()->startOfMonth())
-//                    ->get();
-//
-//                $totalWorksByUser[$currentUserId] = $totalWorks->count();
-//            }
-//        }
-
-//        $branchGb = $totalWorks->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48]);
-//        $branchQib = $totalWorks->where('service_id', 2);
-
-
         $gb = $works->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48]);
         $qib = $works->where('service_id', 2);
         $representation = $works->where('service_id', 5);
         $cmr = $works->whereIn('service_id', [3,4,7]);
+        $branchGb = $works->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48])->where('department_id' ,$user->department_id);
+        $branchQib = $works->where('service_id', 2)->where('department_id' ,$user->department_id);
 
         foreach ($gb as $work) {
             $totalgb += $work->getParameter(Work::GB);
@@ -220,12 +202,12 @@ class UserController extends Controller
         foreach ($qib as $work) {
             $totalqib += $work->getParameter(Work::GB);
         }
-//        foreach ($branchGb as $work) {
-//            $totalbranchgb += $work->getParameter(Work::GB);
-//        }
-//        foreach ($branchQib as $work) {
-//            $totalbranchqib += $work->getParameter(Work::GB);
-//        }
+        foreach ($branchGb as $work) {
+            $totalbranchgb += $work->getParameter(Work::GB);
+        }
+        foreach ($branchQib as $work) {
+            $totalbranchqib += $work->getParameter(Work::GB);
+        }
         foreach ($representation as $work) {
             $totalrepresentation += $work->getParameter(Work::AMOUNT) + $work->getParameter(Work::ILLEGALAMOUNT);
         }
@@ -246,8 +228,8 @@ class UserController extends Controller
                 'gb' => $totalgb,
                 'qib' => $totalqib,
                 'cmr' => $totalcmr,
-//                'branchgb' => $totalbranchgb,
-//                'branchqib' => $totalbranchqib,
+                'branchgb' => $totalbranchgb,
+                'branchqib' => $totalbranchqib,
                 'representation' => $totalrepresentation,
                 'serial_pattern' => User::serialPattern(),
             ]);

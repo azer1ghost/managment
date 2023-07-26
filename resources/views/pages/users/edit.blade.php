@@ -120,14 +120,16 @@
 
                     <p>
                         @php
-                        $gross = $data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient) + ($representation * 0.2) + ($cmr * 0.1)
-                         @endphp
-                        Toplam Sonuç:
-                        {{ $gross }}
+                            if(in_array($data->getAttribute('id'), [41, 75, 51])) {
+                            $gross = $data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient) + ($representation * 0.2) + ($cmr * 0.1) + ($branchgb * 0.4) + ($branchqib * 0.2);
+                            }else {
+                            $gross = $data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient) + ($representation * 0.2) + ($cmr * 0.1);
+                            }
+                        @endphp
 
-{{--                        @if(in_array($data->getAttribute('id'), [41, 75, 51]))--}}
-{{--                           {{$data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient) + ($representation * 0.2) + ($cmr * 0.1) + ($branchgb * 0.4) + ($branchqib * 0.2)}}--}}
-{{--                        @endif--}}
+
+                        Toplam Sonuç:
+                            {{ $gross }}
 
                         @if($gross  <= 200)
                            Net maaş: {{$gross - ($gross * 0.03) - ($gross * 0.005) - ($gross * 0.02)}}

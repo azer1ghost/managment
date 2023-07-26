@@ -72,7 +72,7 @@
                 <table class="table table-responsive-sm table-hover">
                     <thead>
                     <tr>
-                        <th scope="col">İD</th>
+                        <th scope="col">ID</th>
                         <th scope="col"></th>
                         <th scope="col">@lang('translates.columns.full_name')</th>
                         <th scope="col">FIN</th>
@@ -82,12 +82,66 @@
                         <th scope="col">@lang('translates.columns.department')</th>
                         <th scope="col">@lang('translates.fields.work_started_at')</th>
                         <th scope="col">@lang('translates.columns.role')</th>
-{{--                        <th scope="col">Əmək haqqı</th>--}}
+                        <th scope="col">Gross</th>
+                        <th scope="col">Net</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
                     <tbody id="sortableUser">
+
                     @forelse($users as $user)
+                        @php
+                            $gross = 0;
+                            $net = 0;
+                            $totalgb = 0;
+                          $totalqib = 0;
+                          $totalrepresentation = 0;
+                          $totalcmr = 0;
+                          $totalbranchgb = 0;
+                          $totalbranchqib = 0;
+
+                          $works = \App\Models\Work::where('user_id', $user->id)
+                              ->whereDate('created_at', '>=', now()->startOfMonth())
+                              ->get();
+
+                          $gb = $works->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48]);
+                          $qib = $works->where('service_id', 2);
+                          $representation = $works->where('service_id', 5);
+                          $cmr = $works->whereIn('service_id', [3,4,7]);
+                          $branchGb = $works->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48])->where('department_id' ,$user->department_id);
+                          $branchQib = $works->where('service_id', 2)->where('department_id' ,$user->department_id);
+
+                          foreach ($gb as $work) {
+                              $totalgb += $work->getParameter(\App\Models\Work::GB);
+                          }
+
+                          foreach ($qib as $work) {
+                              $totalqib += $work->getParameter(\App\Models\Work::GB);
+                          }
+                          foreach ($representation as $work) {
+                              $totalrepresentation += $work->getParameter(\App\Models\Work::AMOUNT) + $work->getParameter(\App\Models\Work::ILLEGALAMOUNT);
+                          }
+                          foreach ($cmr as $work) {
+                              $totalcmr += $work->getParameter(\App\Models\Work::AMOUNT) + $work->getParameter(\App\Models\Work::ILLEGALAMOUNT);
+                          }
+                          foreach ($branchGb as $work) {
+                              $totalbranchgb += $work->getParameter(\App\Models\Work::GB);
+                          }
+                          foreach ($branchQib as $work) {
+                              $totalbranchqib += $work->getParameter(\App\Models\Work::GB);
+                          }
+                        if(in_array($user->getAttribute('id'), [41, 75, 51])) {
+                            $gross = $user->bonus + $user->gross + ($totalgb * $user->coefficient) + ($totalqib * $user->qib_coefficient) + ($totalrepresentation * 0.2) + ($totalcmr * 0.1) + ($totalbranchgb * 0.4) + ($totalbranchqib * 0.2);
+                            }else {
+                            $gross = $user->bonus + $user->gross + ($totalgb * $user->coefficient) + ($totalqib * $user->qib_coefficient) + ($totalrepresentation * 0.2) + ($totalcmr * 0.1);
+                            }
+                             if($gross  <= 200){
+                                $net = $gross - ($gross * 0.03) - ($gross * 0.005) - ($gross * 0.02);
+                               }
+                            else{
+                               $net = $gross - (6 + (($gross -200)  * 0.1)) - ($gross * 0.005) - ($gross * 0.02);
+                            }
+                        @endphp
                         <tr id="item-{{$user->getAttribute('id')}}">
                             <th>{{$user->getAttribute('id')}}</th>
                             <th scope="row"><img src="{{image($user->getAttribute('avatar'))}}" alt="user" class="profile sortable" /></th>
@@ -102,7 +156,12 @@
                             <td>{{$user->getRelationValue('department')->getAttribute('name')}}</td>
                             <td>{{$user->getAttribute('started_at')}}</td>
                             <td>{{$user->getRelationValue('role')->getAttribute('name')}}</td>
-{{--                            <td>{{$user->bonus + $user->gross + ($user->gb * $user->coefficient) + ($user->qib * $user->qib_coefficient) }}</td>--}}
+                            <td>{{$gross}}</td>
+                            <td>{{$net}}</td>
+                            @if($user->id )
+
+                            @endif
+                            <td>{{$user->bonus + $user->gross + ($user->gb * $user->coefficient) + ($user->qib * $user->qib_coefficient) }}</td>
                             <td>
                                 <div class="btn-sm-group">
                                     <div class="dropdown">
