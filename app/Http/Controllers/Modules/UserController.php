@@ -153,7 +153,7 @@ class UserController extends Controller
         foreach ($representation as $work) {
             $totalrepresentation += $work->getParameter(Work::AMOUNT) + $work->getParameter(Work::ILLEGALAMOUNT);
         }
-        foreach ($representation as $work) {
+        foreach ($cmr as $work) {
             $totalcmr += $work->getParameter(Work::AMOUNT) + $work->getParameter(Work::ILLEGALAMOUNT);
         }
 
@@ -201,7 +201,7 @@ class UserController extends Controller
         foreach ($representation as $work) {
             $totalrepresentation += $work->getParameter(Work::AMOUNT) + $work->getParameter(Work::ILLEGALAMOUNT);
         }
-        foreach ($representation as $work) {
+        foreach ($cmr as $work) {
             $totalcmr += $work->getParameter(Work::AMOUNT) + $work->getParameter(Work::ILLEGALAMOUNT);
         }
 
