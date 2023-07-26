@@ -192,15 +192,15 @@ class UserController extends Controller
         $userIds = [41, 75, 51];
         $totalWorksByUser = [];
 
-        foreach ($userIds as $userId) {
-            $user = User::find($userId);
+        foreach ($userIds as $currentUserId) {
+            $user = User::find($currentUserId);
             if ($user) {
                 $userDepartment = $user->department_id;
                 $totalWorks = Work::where('department_id', $userDepartment)
                     ->whereDate('created_at', '>=', now()->startOfMonth())
                     ->get();
 
-                $totalWorksByUser[$userId] = $totalWorks->count();
+                $totalWorksByUser[$currentUserId] = $totalWorks->count();
             }
         }
 
