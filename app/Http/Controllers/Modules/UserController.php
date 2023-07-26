@@ -191,7 +191,7 @@ class UserController extends Controller
             $totalqib += $work->getParameter(Work::GB);
         }
         foreach ($representation as $work) {
-            $totalrepresentation += $work->getParameter(Work::AMOUNT + Work::ILLEGALAMOUNT);
+            $totalrepresentation += $work->getParameter((Work::AMOUNT + Work::ILLEGALAMOUNT));
         }
 
         return view('pages.users.edit')
