@@ -189,10 +189,10 @@ class UserController extends Controller
             ->get();
 
 
-        $userIds = [41, 75, 51];
+        $currentUserIds = [41, 75, 51];
         $totalWorksByUser = [];
 
-        foreach ($userIds as $currentUserId) {
+        foreach ($currentUserIds as $currentUserId) {
             $user = User::find($currentUserId);
             if ($user) {
                 $userDepartment = $user->department_id;
