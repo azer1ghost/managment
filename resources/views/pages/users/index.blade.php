@@ -158,10 +158,6 @@
                             <td>{{$user->getRelationValue('role')->getAttribute('name')}}</td>
                             <td>{{$gross}}</td>
                             <td>{{$net}}</td>
-                            @if($user->id )
-
-                            @endif
-                            <td>{{$user->bonus + $user->gross + ($user->gb * $user->coefficient) + ($user->qib * $user->qib_coefficient) }}</td>
                             <td>
                                 <div class="btn-sm-group">
                                     <div class="dropdown">
