@@ -211,8 +211,8 @@ class UserController extends Controller
         $qib = $works->where('service_id', 2);
         $representation = $works->where('service_id', 5);
         $cmr = $works->whereIn('service_id', [3,4,7]);
-        $branchGb = $works->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48]);
-        $branchQib = $works->where('service_id', 2);
+        $branchGb = $branchWorks->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48]);
+        $branchQib = $branchWorks->where('service_id', 2);
 
         foreach ($gb as $work) {
             $totalgb += $work->getParameter(Work::GB);
