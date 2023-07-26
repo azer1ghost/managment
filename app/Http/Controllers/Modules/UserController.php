@@ -172,6 +172,7 @@ class UserController extends Controller
     {
         $totalgb = 0;
         $totalqib = 0;
+        $totalrepresentation = 0;
 
         $works = Work::where('user_id', $user->id)
             ->whereDate('created_at', '>=', now()->startOfMonth())
