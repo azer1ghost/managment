@@ -117,12 +117,17 @@
                     <p> QIB Sayı: {{$qib}}</p>
                     <p> Təmsilçilik Aylıq Məbləği: {{$representation}}</p>
                     <p> CMR,TIRCARNET,INVOYS Aylıq Məbləği: {{$cmr}}</p>
+
                     <p>
                         @php
                         $gross = $data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient) + ($representation * 0.2) + ($cmr * 0.1)
                          @endphp
                         Toplam Sonuç:
                         {{ $gross }}
+
+                        @if(in_array($request->getAttribute('user_id'), [41, 75, 51]))
+                           {{$data->bonus + $data->gross + ($gb * $data->coefficient) + ($qib * $data->qib_coefficient) + ($representation * 0.2) + ($cmr * 0.1) + ($branchgb * 0.4) + ($branchqib * 0.2)}}
+                        @endif
 
                         @if($gross  <= 200)
                            Net maaş: {{$gross - ($gross * 0.03) - ($gross * 0.005) - ($gross * 0.02)}}
