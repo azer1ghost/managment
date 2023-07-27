@@ -485,7 +485,7 @@
                                         <i class="fal fa-trash pr-2 text-danger"></i>@lang('translates.tasks.delete')
                                     </a>
                                 @endcan
-                                @if(auth()->user()->isDeveloper() || auth()->user()->hasPermission('editPrice-work') )
+                                @if(auth()->user()->isDeveloper() || auth()->user()->hasPermission('editPrice-work') || auth()->user()->hasPermission('canRedirect-work') )
                                         <a data-toggle="modal" data-target="#changeCreate-{{$work->getAttribute('id')}}" class="dropdown-item-text text-decoration-none">
                                             <i class="fal fa-money-check pr-2 text-success"></i>Change Create Date
                                         </a>
