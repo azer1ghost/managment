@@ -180,6 +180,11 @@
                             <input class="form-control custom-daterange mb-1" id="entryDateFilter" type="text" readonly name="entry_date" value="{{$filters['entry_date']}}">
                             <input type="checkbox" name="check-entry_date" id="check-entry_date" @if(request()->has('check-entry_date')) checked @endif> <label for="check-entry_date">@lang('translates.filters.filter_by')</label>
                         </div>
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="createdAtFilter">{{trans('translates.fields.entry_date')}}</label>
+                            <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="injected_at" value="{{$filters['injected_at']}}">
+                            <input type="checkbox" name="check-injected_at" id="check-injected_at" @if(request()->has('check-injected_at')) checked @endif> <label for="check-injected_at">@lang('translates.filters.filter_by')</label>
+                        </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="datetimeFilter">{{trans('translates.fields.date')}}</label>
@@ -304,6 +309,7 @@
             @endif
             <th scope="col" class="paymentMethod">@lang('translates.general.payment_method')</th>
             <th scope="col">@lang('translates.fields.created_at')</th>
+            <th scope="col">Sistemə vuruldu</th>
             <th scope="col">@lang('translates.fields.paid_at')</th>
             <th scope="col">@lang('translates.fields.vat_paid_at')</th>
             <th scope="col">@lang('translates.fields.invoiced_date')</th>
@@ -391,6 +397,7 @@
                     </select>
                 </td>
                 <td title="{{optional($work->getAttribute('created_at'))->diffForHumans()}}" data-toggle="tooltip">{{$work->getAttribute('created_at')}}</td>
+                <td title="{{optional($work->getAttribute('injected_at'))->diffForHumans()}}" data-toggle="tooltip">{{$work->getAttribute('injected_at')}}</td>
                 <td title="{{$work->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
                 <td title="{{$work->getAttribute('vat_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('vat_date'))->format('Y-m-d')}}</td>
                 <td title="{{$work->getAttribute('invoiced_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
