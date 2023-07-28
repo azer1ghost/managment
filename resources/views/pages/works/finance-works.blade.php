@@ -458,6 +458,11 @@
                                         <i class="fal fa-trash pr-2 text-danger"></i>@lang('translates.tasks.delete')
                                     </a>
                                 @endcan
+                                @if(auth()->user()->isDeveloper() || auth()->user()->hasPermission('editPrice-work') || auth()->user()->hasPermission('canRedirect-work') )
+                                    <a data-toggle="modal" data-target="#changeCreate-{{$work->getAttribute('id')}}" class="dropdown-item-text text-decoration-none">
+                                        <i class="fal fa-money-check pr-2 text-success"></i>Change Create Date
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -538,6 +543,31 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="changeCreate-{{$work->getAttribute('id')}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">@lang('translates.fields.created_at')</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ route('works.changeCreate', $work) }}" method="POST">
+                            @csrf @method('PUT')
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <input type="date" name="created_at" class="form-control" aria-label="paid_at">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
         @empty
             <tr>
                 <th colspan="20">
@@ -547,6 +577,7 @@
                 </th>
             </tr>
         @endforelse
+
 
         @if($works->isNotEmpty())
             <tr style="background: #b3b7bb" id="count"></tr>
