@@ -491,18 +491,18 @@ class WorkController extends Controller
         $clientText = trim($client->getAttribute('fullname'));
         $search = array('Ç', 'ç', 'Ğ', 'ğ', 'ı', 'İ', 'Ö', 'ö', 'Ş', 'ş', 'Ü', 'ü', 'Ə', 'ə');
         $replace = array('C', 'c', 'G', 'g', 'i', 'I', 'O', 'o', 'S', 's', 'U', 'u', 'E', 'e');
-//        $serviceName = str_replace($search, $replace, $serviceText);
-//        $clientName = str_replace($search, $replace, $clientText);
-//        $message = 'Deyerli ' . $clientName . ' sizin ' . $serviceName . ' uzre isiniz tamamlandi. ' . $work->getAttribute('created_at')->format('d/m/y') . ' https://my.mobilgroup.az/cs?url=mb-sat -linke kecid ederek xidmet keyfiyyetini deyerlendirmeyinizi xahis edirik!';
+        $serviceName = str_replace($search, $replace, $serviceText);
+        $clientName = str_replace($search, $replace, $clientText);
+        $message = 'Deyerli ' . $clientName . ' sizin ' . $serviceName . ' uzre isiniz tamamlandi. ' . $work->getAttribute('created_at')->format('d/m/y') . ' https://my.mobilgroup.az/cs?url=mb-sat -linke kecid ederek xidmet keyfiyyetini deyerlendirmeyinizi xahis edirik!';
 
-//        if ($request->status == $work::DONE && $client->getAttribute('send_sms') == 1) {
-//            if (!empty($client->getAttribute('phone1'))) {
-//                (new NotifyClientSms($message))->toSms($client)->send();
-//            }
-//            if (!empty($client->getAttribute('phone2'))) {
-//                (new NotifyClientDirectorSms($message))->toSms($client)->send();
-//            }
-//        }
+        if ($request->status == $work::DONE && $client->getAttribute('send_sms') == 1) {
+            if (!empty($client->getAttribute('phone1'))) {
+                (new NotifyClientSms($message))->toSms($client)->send();
+            }
+            if (!empty($client->getAttribute('phone2'))) {
+                (new NotifyClientDirectorSms($message))->toSms($client)->send();
+            }
+        }
 
         $validated = $request->validated();
         $validated['datetime'] = $request->get('status') == $work::DONE ? now() : NULL;
