@@ -85,9 +85,9 @@
 
 
 
-    <div class="col-6 col-md-6">
-        <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-    </div>
+{{--    <div class="col-6 col-md-6">--}}
+{{--        <div id="chartContainer" style="height: 370px; width: 100%;"></div>--}}
+{{--    </div>--}}
     <div class="work-stats">
         <div>
             <h1>Aksizli Mallar</h1>
@@ -119,81 +119,81 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
-    <script>
-        window.addEventListener('DOMContentLoaded', (event) => {
-            var dataPoints = {!! json_encode($dataPoints) !!};
+{{--    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>--}}
+{{--    <script>--}}
+{{--        window.addEventListener('DOMContentLoaded', (event) => {--}}
+{{--            var dataPoints = {!! json_encode($dataPoints) !!};--}}
 
-            var chart = new CanvasJS.Chart("chartContainer", {
-                animationEnabled: true,
-                theme: "light2",
-                title: {
-                    text: "Aylıq Satış Cədvəli"
-                },
-                axisX: {
-                    interval: 1,
-                    intervalType: "month",
-                    valueFormatString: "MMM"
-                },
-                axisY: {
-                    prefix: "₼"
-                },
-                toolTip: {
-                    shared: true
-                },
-                data: [
-                    {
-                        type: "column",
-                        showInLegend: true,
-                        legendText: "Qeyri Rəsmi Məbləğ",
-                        name: "Qeyri Rəsmi Məbləğ",
-                        dataPoints: [
-                            {
-                                label: dataPoints[0].label,
-                                y: dataPoints[0].y["Illegal Amount"]
-                            }
-                        ]
-                    },
-                    {
-                        type: "column",
-                        showInLegend: true,
-                        legendText: "Rəsmi Məbləğ",
-                        name: "Rəsmi Məbləğ",
-                        dataPoints: [
-                            {
-                                label: dataPoints[0].label,
-                                y: dataPoints[0].y["Amount"]
-                            }
-                        ]
-                    },
-                    {
-                        type: "column",
-                        showInLegend: true,
-                        legendText: "ƏDV",
-                        name: "ƏDV",
-                        dataPoints: [
-                            {
-                                label: dataPoints[0].label,
-                                y: dataPoints[0].y["VAT"]
-                            }
-                        ]
-                    },
-                    {
-                        type: "column",
-                        showInLegend: true,
-                        legendText: "Toplam",
-                        name: "Toplam",
-                        dataPoints: [
-                            {
-                                label: dataPoints[0].label,
-                                y: dataPoints[0].y["Total All"]
-                            }
-                        ]
-                    }
-                ]
-            });
+{{--            var chart = new CanvasJS.Chart("chartContainer", {--}}
+{{--                animationEnabled: true,--}}
+{{--                theme: "light2",--}}
+{{--                title: {--}}
+{{--                    text: "Aylıq Satış Cədvəli"--}}
+{{--                },--}}
+{{--                axisX: {--}}
+{{--                    interval: 1,--}}
+{{--                    intervalType: "month",--}}
+{{--                    valueFormatString: "MMM"--}}
+{{--                },--}}
+{{--                axisY: {--}}
+{{--                    prefix: "₼"--}}
+{{--                },--}}
+{{--                toolTip: {--}}
+{{--                    shared: true--}}
+{{--                },--}}
+{{--                data: [--}}
+{{--                    {--}}
+{{--                        type: "column",--}}
+{{--                        showInLegend: true,--}}
+{{--                        legendText: "Qeyri Rəsmi Məbləğ",--}}
+{{--                        name: "Qeyri Rəsmi Məbləğ",--}}
+{{--                        dataPoints: [--}}
+{{--                            {--}}
+{{--                                label: dataPoints[0].label,--}}
+{{--                                y: dataPoints[0].y["Illegal Amount"]--}}
+{{--                            }--}}
+{{--                        ]--}}
+{{--                    },--}}
+{{--                    {--}}
+{{--                        type: "column",--}}
+{{--                        showInLegend: true,--}}
+{{--                        legendText: "Rəsmi Məbləğ",--}}
+{{--                        name: "Rəsmi Məbləğ",--}}
+{{--                        dataPoints: [--}}
+{{--                            {--}}
+{{--                                label: dataPoints[0].label,--}}
+{{--                                y: dataPoints[0].y["Amount"]--}}
+{{--                            }--}}
+{{--                        ]--}}
+{{--                    },--}}
+{{--                    {--}}
+{{--                        type: "column",--}}
+{{--                        showInLegend: true,--}}
+{{--                        legendText: "ƏDV",--}}
+{{--                        name: "ƏDV",--}}
+{{--                        dataPoints: [--}}
+{{--                            {--}}
+{{--                                label: dataPoints[0].label,--}}
+{{--                                y: dataPoints[0].y["VAT"]--}}
+{{--                            }--}}
+{{--                        ]--}}
+{{--                    },--}}
+{{--                    {--}}
+{{--                        type: "column",--}}
+{{--                        showInLegend: true,--}}
+{{--                        legendText: "Toplam",--}}
+{{--                        name: "Toplam",--}}
+{{--                        dataPoints: [--}}
+{{--                            {--}}
+{{--                                label: dataPoints[0].label,--}}
+{{--                                y: dataPoints[0].y["Total All"]--}}
+{{--                            }--}}
+{{--                        ]--}}
+{{--                    }--}}
+{{--                ]--}}
+{{--            });--}}
 
-            chart.render();
-        });
-    </script>
+{{--            chart.render();--}}
+{{--        });--}}
+{{--    </script>--}}
 @endsection
