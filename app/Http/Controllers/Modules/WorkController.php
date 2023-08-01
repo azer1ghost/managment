@@ -793,9 +793,11 @@ class WorkController extends Controller
     {
         $dataPoints = [];
 
-        $startMonth = Carbon::now()->startOfMonth();
-        $endMonth = Carbon::now()->endOfMonth();
+//        $startMonth = Carbon::now()->startOfMonth();
+//        $endMonth = Carbon::now()->endOfMonth();
 
+        $startMonth = Carbon::parse('2023-07-01 00:00:00')->startOfMonth();
+        $endMonth = Carbon::parse('2023-07-31 24:00:00')->endOfMonth();
         $works = Work::whereBetween('created_at', [$startMonth, $endMonth])
             ->with('parameters')
             ->get();
