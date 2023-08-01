@@ -20,7 +20,7 @@ class InternalDocumentController extends Controller
 
         return view('pages.internal-documents.index')
             ->with(['internalDocuments' => InternalDocument::when($company, fn($query) => $query
-                ->where('company_id', $company))->OrderBy('ordering')->get()]);
+                ->where('company_id', $company))->OrderByDesc('ordering')->get()]);
     }
 
     public function create()
