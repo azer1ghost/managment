@@ -14,7 +14,7 @@ class AddOrderingColumnToInternalDocumentsTable extends Migration
     public function up()
     {
         Schema::table('internal_documents', function (Blueprint $table) {
-            $table->integer('ordering')->after('content')->nullable();
+            $table->integer('ordering')->nullable();
         });
     }
 
