@@ -82,5 +82,13 @@ class InternalDocumentController extends Controller
         }
         return response()->setStatusCode('204');
     }
+    public function sortable(Request $request)
+    {
+        foreach ($request->get('item') as $key => $value) {
+            $internalDocument = InternalDocument::find($value);
+            $internalDocument->order = $key;
+            $internalDocument->save();
+        }
+    }
 
 }
