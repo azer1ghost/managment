@@ -184,6 +184,7 @@
                             <label class="d-block" for="datetimeFilter">{{trans('translates.fields.paid_at')}}</label>
                             <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly name="paid_at_date" value="{{request()->get('paid_at_date')}}">
                             <input type="checkbox" name="check-paid_at" id="check-paid_at" @if(request()->has('check-paid_at')) checked @endif> <label for="check-paid_at">@lang('translates.filters.filter_by')</label>
+                            <input type="checkbox" name="check-paid_at-null" id="check-paid_at-null" @if(request()->has('check-paid_at-null')) checked @endif> <label for="check-paid_at-null">Ödəniş tarixi boş olanlar</label>
                         </div>
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="datetimeFilter">{{trans('translates.fields.invoiced_date')}}</label>

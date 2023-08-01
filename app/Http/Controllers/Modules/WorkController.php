@@ -115,6 +115,9 @@ class WorkController extends Controller
         if ($request->has('check-paid_at')) {
             $works = $works->whereBetween('paid_at', [Carbon::parse($paid_at_explode[0])->startOfDay(), Carbon::parse($paid_at_explode[1])->endOfDay()]);
         }
+        if ($request->has('check-paid_at-null')) {
+            $works = $works->whereNull('paid_at');
+        }
 
         if ($request->has('check-returned_at')) {
             $works = $works->whereNotNull('returned_at');
@@ -206,6 +209,9 @@ class WorkController extends Controller
         if ($request->has('check-paid_at')) {
             $works = $works->whereBetween('paid_at', [Carbon::parse($paid_at_explode[0])->startOfDay(), Carbon::parse($paid_at_explode[1])->endOfDay()]);
         }
+        if ($request->has('check-paid_at-null')) {
+            $works = $works->whereNull('paid_at');
+        }
 
         $works = $works->pending()->paginate($limit);
 
@@ -287,6 +293,9 @@ class WorkController extends Controller
 
         if ($request->has('check-paid_at')) {
             $works = $works->whereBetween('paid_at', [Carbon::parse($paid_at_explode[0])->startOfDay(), Carbon::parse($paid_at_explode[1])->endOfDay()]);
+        }
+        if ($request->has('check-paid_at-null')) {
+            $works = $works->whereNull('paid_at');
         }
 
         $works = $works->whereIn('status', [4, 6])->paginate($limit);
