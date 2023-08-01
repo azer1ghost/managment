@@ -48,6 +48,9 @@
                     <x-form-group  class="pr-3 col-12 col-lg-6"  >
                         <x-form-input  name="document_code" label="Kod" placeholder="Kod daxil edin"/>
                     </x-form-group>
+                    <x-form-group  class="pr-3 col-12 col-lg-6">
+                        <x-form-input  name="ordering" label="Sıra" placeholder="Hansı sırada olacağını yazın"/>
+                    </x-form-group>
 
                 </div>
             </div>
