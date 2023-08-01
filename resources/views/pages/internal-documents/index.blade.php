@@ -83,7 +83,6 @@
             </div>
 @endsection
 @section('scripts')
-    @if(auth()->user()->hasPermission('update-user') && is_null(request()->get('status')))
         <script>
             $(function () {
                 $('#sortable').sortable({
@@ -101,5 +100,4 @@
                 $('#sortable').disableSelection();
             });
         </script>
-    @endif
 @endsection

@@ -160,7 +160,6 @@ Route::group([
     Route::resource('/options', OptionController::class);
     Route::resource('/users', UserController::class);
     Route::post('/sortable-user', [UserController::class, 'sortable'])->name('user.sortable');
-    Route::post('/sortable', [InternalDocumentController::class, 'sortable'])->name('internal-document.sortable');
     Route::post('/update-monthly-values', [UserController::class, 'updateMonthlyValues'])->name('updateMonthlyValues');
     Route::resource('/roles', RoleController::class);
     Route::resource('/departments', DepartmentController::class);
@@ -232,6 +231,7 @@ Route::group([
     Route::resource('/questionnaires', QuestionnaireController::class);
     Route::get('/foreign', [InternalRelationController::class, 'foreign'])->name('foreign');
     Route::post('/sortable', [InternalRelationController::class, 'sortable'])->name('internal-relation.sortable');
+    Route::post('/sortable', [InternalDocumentController::class, 'sortable'])->name('internal-document.sortable');
     Route::resource('/creditors', CreditorController::class);
     Route::resource('/banks', BankController::class);
     Route::post('/banks/updateBankAmount', [BankController::class, 'updateBankAmount']);
