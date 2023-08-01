@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class InternalDocument extends Model
 {
-    protected $fillable = ['department_id', 'document_name', 'document_code', 'company_id'];
+    protected $fillable = ['department_id', 'document_name', 'document_code', 'company_id', 'ordering'];
 
     public function departments(): BelongsTo
     {

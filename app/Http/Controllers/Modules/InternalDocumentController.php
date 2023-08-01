@@ -86,7 +86,7 @@ class InternalDocumentController extends Controller
     {
         foreach ($request->get('item') as $key => $value) {
             $internalDocument = InternalDocument::find($value);
-            $internalDocument->order = $key;
+            $internalDocument->ordering = $key;
             $internalDocument->save();
         }
     }
