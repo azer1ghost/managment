@@ -9,11 +9,11 @@ use App\Models\Position;
 use App\Models\Role;
 use App\Models\Work;
 use App\Traits\Permission;
+use Carbon\Carbon as Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
@@ -200,12 +200,20 @@ class UserController extends Controller
         $totalbranchgb = 0;
         $totalbranchqib = 0;
 
-        $works = Work::where('user_id', $user->id)
-            ->whereDate('created_at', '>=', now()->startOfMonth())
+//        $works = Work::where('user_id', $user->id)
+//            ->whereDate('created_at', '>=', now()->startOfMonth())
+//            ->get();
+        $startOfJuly = Carbon::parse('2023-07-01 00:00:00'); // 2023-07-01 00:00:00
+        $endOfJuly = Carbon::parse('2023-07-31 23:59:59'); // 2023-07-31 23:59:59
+        $works = Work::whereBetween('created_at', [$startOfJuly, $endOfJuly])
+            ->where('user_id', $user->id)
             ->get();
         $branchWorks = Work::where('department_id' ,$user->department_id)
-            ->whereDate('created_at', '>=', now()->startOfMonth())
+            ->whereBetween('created_at', [$startOfJuly, $endOfJuly])
             ->get();
+//        $branchWorks = Work::where('department_id' ,$user->department_id)
+//            ->whereDate('created_at', '>=', now()->startOfMonth())
+//            ->get();
 
         $gb = $works->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48]);
         $qib = $works->where('service_id', 2);
