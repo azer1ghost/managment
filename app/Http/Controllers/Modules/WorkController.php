@@ -796,9 +796,9 @@ class WorkController extends Controller
 //        $startMonth = Carbon::now()->startOfMonth();
 //        $endMonth = Carbon::now()->endOfMonth();
 
-        $startMonth = Carbon::parse('2023-07-01 00:00:00')->startOfMonth();
-        $endMonth = Carbon::parse('2023-07-31 24:00:00')->endOfMonth();
-        $works = Work::whereBetween('created_at', [$startMonth, $endMonth])
+        $startOfJuly = Carbon::parse('2023-07-01 00:00:00'); // 2023-07-01 00:00:00
+        $endOfJuly = Carbon::parse('2023-07-31 23:59:59'); // 2023-07-31 23:59:59
+        $works = Work::whereBetween('created_at', [$startOfJuly, $endOfJuly])
             ->with('parameters')
             ->get();
 
