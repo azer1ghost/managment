@@ -369,7 +369,7 @@
                     <p>BANK VOEN: <span class="bvoen">{{$bvoen}}</span></p>
                     <p>S.W.I.F.T: <span class="swift">{{$swift}}</span></p>
                     <br>
-                    <p>Director: <span id="who">{{$who}}</span></p>
+                    <p>Direktor: <span id="who">{{$who}}</span></p>
                     <br>
                     <br>
                     <p>İmza, möhür</p>
