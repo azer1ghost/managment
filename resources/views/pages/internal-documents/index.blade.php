@@ -50,7 +50,7 @@
                     @forelse($internalDocuments as $internalDocument)
                             <tr id="item-{{$internalDocument->getAttribute('id')}}">
                             <th>{{$loop->iteration}}</th>
-                            <th>{{$internalDocument->getRelationValue('departments')->getAttribute('name')}}</th>
+                            <th class="sortable">{{$internalDocument->getRelationValue('departments')->getAttribute('name')}}</th>
                             <td>{{$internalDocument->getAttribute('document_code')}}</td>
                             <td>{{$internalDocument->getAttribute('document_name')}}</td>
                             @can('update', App\Models\InternalDocument::class)
@@ -81,4 +81,23 @@
                     </tbody>
                 </table>
             </div>
+@endsection
+@section('scripts')
+        <script>
+            $(function () {
+                $('#sortable').sortable({
+                    axis: 'y',
+                    handle: ".sortable",
+                    update: function () {
+                        var data = $(this).sortable('serialize');
+                        $.ajax({
+                            type: "POST",
+                            data: data,
+                            url: "{{route('internal-document.sortable')}}",
+                        });
+                    }
+                });
+                $('#sortable').disableSelection();
+            });
+        </script>
 @endsection

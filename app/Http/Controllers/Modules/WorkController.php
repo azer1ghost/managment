@@ -115,6 +115,9 @@ class WorkController extends Controller
         if ($request->has('check-paid_at')) {
             $works = $works->whereBetween('paid_at', [Carbon::parse($paid_at_explode[0])->startOfDay(), Carbon::parse($paid_at_explode[1])->endOfDay()]);
         }
+        if ($request->has('check-paid_at-null')) {
+            $works = $works->whereNull('paid_at');
+        }
 
         if ($request->has('check-returned_at')) {
             $works = $works->whereNotNull('returned_at');
@@ -206,6 +209,9 @@ class WorkController extends Controller
         if ($request->has('check-paid_at')) {
             $works = $works->whereBetween('paid_at', [Carbon::parse($paid_at_explode[0])->startOfDay(), Carbon::parse($paid_at_explode[1])->endOfDay()]);
         }
+        if ($request->has('check-paid_at-null')) {
+            $works = $works->whereNull('paid_at');
+        }
 
         $works = $works->pending()->paginate($limit);
 
@@ -287,6 +293,9 @@ class WorkController extends Controller
 
         if ($request->has('check-paid_at')) {
             $works = $works->whereBetween('paid_at', [Carbon::parse($paid_at_explode[0])->startOfDay(), Carbon::parse($paid_at_explode[1])->endOfDay()]);
+        }
+        if ($request->has('check-paid_at-null')) {
+            $works = $works->whereNull('paid_at');
         }
 
         $works = $works->whereIn('status', [4, 6])->paginate($limit);
@@ -800,37 +809,56 @@ class WorkController extends Controller
     {
         $dataPoints = [];
 
-        $startMonth = Carbon::now()->startOfMonth();
-        $endMonth = Carbon::now()->endOfMonth();
+//        $startMonth = Carbon::now()->startOfMonth();
+//        $endMonth = Carbon::now()->endOfMonth();
 
-        $works = Work::whereBetween('created_at', [$startMonth, $endMonth])
+        $startOfJuly = Carbon::parse('2023-07-01 00:00:00'); // 2023-07-01 00:00:00
+        $endOfJuly = Carbon::parse('2023-07-31 23:59:59'); // 2023-07-31 23:59:59
+        $works = Work::whereBetween('created_at', [$startOfJuly, $endOfJuly])
             ->with('parameters')
             ->get();
 
-        $totalIllegalAmount = $works->sum(function ($work) {
-            return $work->getParameter(Work::ILLEGALAMOUNT) ?? 0;
-        });
+        $totalIllegalAmount = 0;
+        $totalAmount = 0;
+        $totalVat = 0;
+        $totalPaidAmount = 0;
+        $totalPaidVat = 0;
+        $totalPaidIllegal = 0;
 
-        $totalAmount = $works->sum(function ($work) {
-            return $work->getParameter(Work::AMOUNT) ?? 0;
-        });
+        foreach ($works as $work){
+            $totalIllegalAmount += $work->getParameter(Work::ILLEGALAMOUNT) ?? 0;
+            $totalAmount += $work->getParameter(Work::AMOUNT) ?? 0;
+            $totalVat += $work->getParameter(Work::VAT) ?? 0;
+            $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
+            $totalPaidAmount += $work->getParameter(Work::PAID) ?? 0;
+            $totalPaidVat += $work->getParameter(Work::VATPAYMENT) ?? 0;
+            $totalPaidIllegal += $work->getParameter(Work::ILLEGALPAID) ?? 0;
+            $totalPaidAll = $totalPaidAmount + $totalPaidVat + $totalPaidIllegal;
+        }
+//        $totalIllegalAmount = $works->sum(function ($work) {
+//            return $work->getParameter(Work::ILLEGALAMOUNT) ?? 0;
+//        });
 
-        $totalVat = $works->sum(function ($work) {
-            return $work->getParameter(Work::VAT) ?? 0;
-        });
-        $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
+//        $totalAmount = $works->sum(function ($work) {
+//            return $work->getParameter(Work::AMOUNT) ?? 0;
+//        });
 
-        $totalPaidAmount = $works->sum(function ($work) {
-            return $work->getParameter(Work::PAID) ?? 0;
-        });
-        $totalPaidVat = $works->sum(function ($work) {
-            return $work->getParameter(Work::VATPAYMENT) ?? 0;
-        });
-        $totalPaidIllegal = $works->sum(function ($work) {
-            return $work->getParameter(Work::ILLEGALPAID) ?? 0;
-        });
+//        $totalVat = $works->sum(function ($work) {
+//            return $work->getParameter(Work::VAT) ?? 0;
+//        });
+//        $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
 
-        $totalPaidAll = $totalPaidAmount + $totalPaidVat + $totalPaidIllegal;
+//        $totalPaidAmount = $works->sum(function ($work) {
+//            return $work->getParameter(Work::PAID) ?? 0;
+//        });
+//        $totalPaidVat = $works->sum(function ($work) {
+//            return $work->getParameter(Work::VATPAYMENT) ?? 0;
+//        });
+//        $totalPaidIllegal = $works->sum(function ($work) {
+//            return $work->getParameter(Work::ILLEGALPAID) ?? 0;
+//        });
+
+//        $totalPaidAll = $totalPaidAmount + $totalPaidVat + $totalPaidIllegal;
 
         $AMBGIPaidIllegal = $works->where('department_id', 11)->sum->getParameter(Work::ILLEGALPAID);
         $AMBGIPaidVat = $works->where('department_id', 11)->sum->getParameter(Work::VATPAYMENT);
@@ -848,15 +876,6 @@ class WorkController extends Controller
         $totalBBGI = $BBGIPaidIllegal + $BBGIPaidVat + $BBGIPaidAmount;
         $totalHNBGI = $HNBGIPaidIllegal + $HNBGIPaidVat + $HNBGIPaidAmount;
 
-        $dataPoints[] = [
-            "label" => $startMonth->format('Y-m-d'),
-            "y" => [
-                'Total All' => $totalAll,
-                "Illegal Amount" => $totalIllegalAmount,
-                "Amount" => $totalAmount,
-                "VAT" => $totalVat
-            ]
-        ];
         return view('pages.works.total',
             compact('totalIllegalAmount', 'totalAmount',
                 'totalVat', 'totalAll', 'dataPoints',

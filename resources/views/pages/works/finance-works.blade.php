@@ -180,6 +180,11 @@
                             <input class="form-control custom-daterange mb-1" id="entryDateFilter" type="text" readonly name="entry_date" value="{{$filters['entry_date']}}">
                             <input type="checkbox" name="check-entry_date" id="check-entry_date" @if(request()->has('check-entry_date')) checked @endif> <label for="check-entry_date">@lang('translates.filters.filter_by')</label>
                         </div>
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="createdAtFilter">{{trans('translates.fields.entry_date')}}</label>
+                            <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="injected_at" value="{{$filters['injected_at']}}">
+                            <input type="checkbox" name="check-injected_at" id="check-injected_at" @if(request()->has('check-injected_at')) checked @endif> <label for="check-injected_at">@lang('translates.filters.filter_by')</label>
+                        </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="datetimeFilter">{{trans('translates.fields.date')}}</label>
@@ -191,6 +196,7 @@
                             <label class="d-block" for="datetimeFilter">{{trans('translates.fields.paid_at')}}</label>
                             <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly name="paid_at_date" value="{{request()->get('paid_at_date')}}">
                             <input type="checkbox" name="check-paid_at" id="check-paid_at" @if(request()->has('check-paid_at')) checked @endif> <label for="check-paid_at">@lang('translates.filters.filter_by')</label>
+                            <input type="checkbox" name="check-paid_at-null" id="check-paid_at-null" @if(request()->has('check-paid_at-null')) checked @endif> <label for="check-paid_at-null">Ödəniş tarixi boş olanlar</label>
                         </div>
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="datetimeFilter">{{trans('translates.fields.invoiced_date')}}</label>
@@ -304,6 +310,7 @@
             @endif
             <th scope="col" class="paymentMethod">@lang('translates.general.payment_method')</th>
             <th scope="col">@lang('translates.fields.created_at')</th>
+            <th scope="col">Sistemə vuruldu</th>
             <th scope="col">@lang('translates.fields.paid_at')</th>
             <th scope="col">@lang('translates.fields.vat_paid_at')</th>
             <th scope="col">@lang('translates.fields.invoiced_date')</th>
@@ -391,6 +398,7 @@
                     </select>
                 </td>
                 <td title="{{optional($work->getAttribute('created_at'))->diffForHumans()}}" data-toggle="tooltip">{{$work->getAttribute('created_at')}}</td>
+                <td title="{{optional($work->getAttribute('injected_at'))->diffForHumans()}}" data-toggle="tooltip">{{$work->getAttribute('injected_at')}}</td>
                 <td title="{{$work->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
                 <td title="{{$work->getAttribute('vat_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('vat_date'))->format('Y-m-d')}}</td>
                 <td title="{{$work->getAttribute('invoiced_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
@@ -451,6 +459,11 @@
                                         <i class="fal fa-trash pr-2 text-danger"></i>@lang('translates.tasks.delete')
                                     </a>
                                 @endcan
+                                @if(auth()->user()->isDeveloper() || auth()->user()->hasPermission('editPrice-work') || auth()->user()->hasPermission('canRedirect-work') )
+                                    <a data-toggle="modal" data-target="#changeCreate-{{$work->getAttribute('id')}}" class="dropdown-item-text text-decoration-none">
+                                        <i class="fal fa-money-check pr-2 text-success"></i>Change Create Date
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -531,6 +544,31 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="changeCreate-{{$work->getAttribute('id')}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">@lang('translates.fields.created_at')</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ route('works.changeCreate', $work) }}" method="POST">
+                            @csrf @method('PUT')
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <input type="date" name="created_at" class="form-control" aria-label="paid_at">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
         @empty
             <tr>
                 <th colspan="20">
@@ -540,6 +578,7 @@
                 </th>
             </tr>
         @endforelse
+
 
         @if($works->isNotEmpty())
             <tr style="background: #b3b7bb" id="count"></tr>

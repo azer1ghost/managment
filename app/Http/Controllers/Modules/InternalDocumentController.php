@@ -20,7 +20,7 @@ class InternalDocumentController extends Controller
 
         return view('pages.internal-documents.index')
             ->with(['internalDocuments' => InternalDocument::when($company, fn($query) => $query
-                ->where('company_id', $company))->get()]);
+                ->where('company_id', $company))->OrderBy('ordering')->get()]);
     }
 
     public function create()
@@ -81,6 +81,14 @@ class InternalDocumentController extends Controller
             return response('OK');
         }
         return response()->setStatusCode('204');
+    }
+    public function sortable(Request $request)
+    {
+        foreach ($request->get('item') as $key => $value) {
+            $internalDocument = InternalDocument::find($value);
+            $internalDocument->ordering = $key;
+            $internalDocument->save();
+        }
     }
 
 }

@@ -740,6 +740,7 @@ return [
         '01400 Xaçmaz Gömrük İdarəsi',
         '17001 Xudafərin Gömrük Postu',
         '00905 Yevlax Gömrük Postu',
+        '18000 Naxçıvan BGİ',
     ],
 
     'client_channels' => [
