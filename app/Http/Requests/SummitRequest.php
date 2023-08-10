@@ -9,7 +9,7 @@ class SummitRequest extends FormRequest
     public function rules()
     {
         return [
-            'club'         => 'nullable|string',
+            'club_name'    => 'nullable|integer',
             'event'        => 'nullable|string',
             'format'       => 'nullable|string',
             'place'        => 'nullable|string',

@@ -65,7 +65,7 @@
             @forelse($summits as $summit)
                 <tr id="item-{{$summit->getAttribute('id')}}">
                     <td @if(request()->get('limit') == 'all') class="sortable" @endif>{{$summit->getAttribute('ordering') + 1}}</td>
-                    <td>{{$summit->getAttribute('club')}}</td>
+                    <td>{{trans('translates.summit_clubs.' . $summit->getAttribute('club_name'))}}</td>
                     <td>{{$summit->getAttribute('event')}}</td>
                     <td>{{$summit->getAttribute('format')}}</td>
                     <td>{{optional($summit->getAttribute('date'))->format('Y-m-d')}}</td>

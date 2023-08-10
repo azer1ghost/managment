@@ -673,6 +673,7 @@ return [
         'started_at' => 'Başlama vaxtı',
         'hard_level_choose' => 'Çətinlik dərəcəsi Seçin',
         'status_choose' => 'Status Seçin',
+        'club_choose' => 'Klub Seçin',
         'destination_choose' => 'Təyinat orqanı seçimi',
         'hard_level' => 'Çətinlik dərəcəsi',
         'select_date' => 'Tarix Seç',
@@ -764,6 +765,18 @@ return [
         1 => 'sdsdsd',
         'dshdhsd',
         'sdhsdb',
+    ],
+    'summit_clubs' => [
+        1 => 'Caspian Energy Club',
+        'Marsol Group',
+        'TUİB ',
+        'Networking Azerbaijan',
+        'Founder Club',
+        'AHK Azerbaijan',
+        'KOBSKA',
+        'ASK',
+        'MÜSİAD',
+        'İşgüzar',
     ],
 
     'transport_types' => [

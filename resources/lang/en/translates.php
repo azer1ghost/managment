@@ -665,6 +665,7 @@ return [
         'rate' => 'Rate(in AZN)',
         'hard_level_choose' => 'Hard Level Choose',
         'status_choose' => 'Status Choose',
+        'club_choose' => 'Club Choose',
         'destination_choose' => 'Destination Choose',
         'hard_level' => 'Hard Level',
         'work_earning' => 'Amount',
@@ -761,6 +762,18 @@ return [
         1 => 'Planned',
         'Pending',
         'Continue',
+    ],
+    'summit_clubs' => [
+        1 => 'Caspian Energy Club',
+        'Marsol Group',
+        'TUİB ',
+        'Networking Azerbaijan',
+        'Founder Club',
+        'AHK Azerbaijan',
+        'KOBSKA',
+        'ASK',
+        'MÜSİAD',
+        'İşgüzar',
     ],
 
     'transport_types' => [

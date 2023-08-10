@@ -15,7 +15,7 @@ class Summit extends Model implements Recordable, DocumentableInterface
 {
     use Documentable, \Altek\Accountant\Recordable,  Eventually;
 
-    protected $fillable = ['club', 'event', 'dresscode', 'status', 'format', 'place', 'date'];
+    protected $fillable = ['club', 'event', 'dresscode', 'status', 'format', 'place', 'date', 'club_name'];
     protected $dates = ['date'];
 
     public function users(): BelongsToMany
@@ -29,5 +29,9 @@ class Summit extends Model implements Recordable, DocumentableInterface
     public static function statuses(): array
     {
         return [1 => 1, 2, 3];
+    }
+    public static function clubNames(): array
+    {
+        return [1 => 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     }
 }
