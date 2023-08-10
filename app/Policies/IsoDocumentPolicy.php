@@ -23,12 +23,12 @@ class IsoDocumentPolicy
 
     public function create(User $user): bool
     {
-        return $this->canManage($user, 'isoDocument', __FUNCTION__);
+        return $this->canManage($user, 'isoDocument');
     }
 
     public function update(User $user): bool
     {
-        return $this->canManage($user, 'isoDocument', __FUNCTION__);
+        return $this->canManage($user, 'isoDocument');
     }
 
     public function delete(User $user): bool
