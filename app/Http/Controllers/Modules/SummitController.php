@@ -24,6 +24,7 @@ class SummitController extends Controller
     {
         $statuses = Summit::statuses();
         $clubNames = Summit::clubNames();
+        $formats = Summit::formats();
         $search = $request->get('search');
 
         return view('pages.summits.index')
@@ -31,6 +32,7 @@ class SummitController extends Controller
                 'users' => User::isActive()->get(['id', 'name', 'surname']),
                 'statuses' => $statuses,
                 'clubNames' => $clubNames,
+                'formats' => $formats,
                 'summits' => Summit::when($search, fn ($query) => $query
                     ->where('club', 'like', "%".$search."%"))
                     ->orderBy('date')
@@ -47,7 +49,8 @@ class SummitController extends Controller
             'data' => new Summit(),
             'users' => User::isActive()->get(['id', 'name', 'surname']),
             'statuses' => Summit::statuses(),
-            'clubNames' => Summit::clubNames()
+            'clubNames' => Summit::clubNames(),
+            'formats' => Summit::formats(),
         ]);
     }
 
@@ -70,6 +73,7 @@ class SummitController extends Controller
             'users' => User::isActive()->get(['id', 'name', 'surname']),
             'statuses' => Summit::statuses(),
             'clubNames' => Summit::clubNames(),
+            'formats' => Summit::formats(),
         ]);
     }
 
@@ -82,6 +86,7 @@ class SummitController extends Controller
             'users' => User::isActive()->get(['id', 'name', 'surname']),
             'statuses' => Summit::statuses(),
             'clubNames' => Summit::clubNames(),
+            'formats' => Summit::formats(),
         ]);
     }
 

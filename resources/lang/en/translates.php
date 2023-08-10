@@ -665,6 +665,7 @@ return [
         'rate' => 'Rate(in AZN)',
         'hard_level_choose' => 'Hard Level Choose',
         'status_choose' => 'Status Choose',
+        'format_choose' => 'Format Choose',
         'club_choose' => 'Club Choose',
         'destination_choose' => 'Destination Choose',
         'hard_level' => 'Hard Level',
@@ -759,9 +760,9 @@ return [
         'Stopped',
     ],
     'summit_status' => [
-        1 => 'Planned',
-        'Pending',
-        'Continue',
+        1 => 'İştirak Edildi',
+        'Təxirə Salındı',
+        'Gözləmədə',
     ],
     'summit_clubs' => [
         1 => 'Caspian Energy Club',
@@ -774,6 +775,10 @@ return [
         'ASK',
         'MÜSİAD',
         'İşgüzar',
+    ],
+    'summit_formats' => [
+        1 => 'Canlı',
+        'Online',
     ],
 
     'transport_types' => [

@@ -59,15 +59,6 @@
                     <x-form-group class="pr-3 col-12 col-lg-3">
                         <x-form-input  name="place" label="Yer" placeholder="Yer Adını daxil edin"/>
                     </x-form-group>
-                    <x-form-group class="pr-3 col-12 col-lg-3">
-                        <x-form-input  name="format" label="Format" placeholder="Klub Adını daxil edin"/>
-                    </x-form-group>
-                    <x-form-group class="pr-3 col-12 col-lg-3">
-                        <x-form-input  name="event" label="Tədbir Adı" placeholder="Tədbir Adını daxil edin"/>
-                    </x-form-group>
-                    <x-form-group class="pr-3 col-12 col-lg-3">
-                        <x-form-input  name="dresscode" label="Dress Code" placeholder="Dress Code daxil edin"/>
-                    </x-form-group>
                     <div class="form-group col-12 col-md-3" wire:ignore>
                         <label for="data-status">@lang('translates.general.status_choose')</label>
                         <select name="status" id="data-status" class="form-control">
@@ -78,6 +69,26 @@
                                         @endif value="{{$status}}"
                                 >
                                     @lang('translates.summit_status.' . $key)
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <x-form-group class="pr-3 col-12 col-lg-3">
+                        <x-form-input  name="event" label="Tədbir Adı" placeholder="Tədbir Adını daxil edin"/>
+                    </x-form-group>
+                    <x-form-group class="pr-3 col-12 col-lg-3">
+                        <x-form-input  name="dresscode" label="Dress Code" placeholder="Dress Code daxil edin"/>
+                    </x-form-group>
+                    <div class="form-group col-12 col-md-3" wire:ignore>
+                        <label for="data-status">@lang('translates.general.format_choose')</label>
+                        <select name="format" id="data-status" class="form-control">
+                            <option disabled >@lang('translates.general.format_choose')</option>
+                            @foreach($formats as $key => $format)
+                                <option
+                                        @if(optional($data)->getAttribute('format') === $format ) selected
+                                        @endif value="{{$format}}"
+                                >
+                                    @lang('translates.summit_formats.' . $key)
                                 </option>
                             @endforeach
                         </select>

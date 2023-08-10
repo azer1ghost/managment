@@ -11,7 +11,7 @@ class SummitRequest extends FormRequest
         return [
             'club_name'    => 'nullable|integer',
             'event'        => 'nullable|string',
-            'format'       => 'nullable|string',
+            'format'       => 'nullable|integer',
             'place'        => 'nullable|string',
             'dresscode'    => 'nullable|string',
             'status'       => 'nullable|integer',

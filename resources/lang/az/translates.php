@@ -673,6 +673,7 @@ return [
         'started_at' => 'Başlama vaxtı',
         'hard_level_choose' => 'Çətinlik dərəcəsi Seçin',
         'status_choose' => 'Status Seçin',
+        'format_choose' => 'Format Seçin',
         'club_choose' => 'Klub Seçin',
         'destination_choose' => 'Təyinat orqanı seçimi',
         'hard_level' => 'Çətinlik dərəcəsi',
@@ -762,9 +763,9 @@ return [
         'Yük Dayandırılıb'
     ],
     'summit_status' => [
-        1 => 'sdsdsd',
-        'dshdhsd',
-        'sdhsdb',
+        1 => 'İştirak Edildi',
+        'Təxirə Salındı',
+        'Gözləmədə',
     ],
     'summit_clubs' => [
         1 => 'Caspian Energy Club',
@@ -777,6 +778,10 @@ return [
         'ASK',
         'MÜSİAD',
         'İşgüzar',
+    ],
+    'summit_formats' => [
+        1 => 'Canlı',
+        'Online',
     ],
 
     'transport_types' => [

@@ -76,7 +76,26 @@
                         @endforeach
                     </td>
                     <td>{{$summit->getAttribute('dresscode')}}</td>
-                    <td>{{trans('translates.summit_status.' . $summit->getAttribute('status'))}}</td>
+                    <td>
+                        @if(is_numeric($summit->getAttribute('status')))
+                            @php
+                                switch($summit->getAttribute('status')){
+                                    case(1):
+                                        $color = 'success';
+                                        break;
+                                    case(2):
+                                        $color = 'danger';
+                                        break;
+                                    case(3):
+                                        $color = 'warning';
+                                        break;
+                                }
+                            @endphp
+                        @endif
+                        <span class="badge badge-{{$color}}" style="font-size: 12px">
+                         {{trans('translates.summit_status.' . $summit->getAttribute('status'))}}
+                    </span>
+                    </td>
                     <td>
                         <div class="btn-sm-group">
                             <a href="{{route('summits.show', $summit)}}" class="btn btn-sm btn-outline-primary">
