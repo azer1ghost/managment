@@ -9,11 +9,11 @@ use Illuminate\Http\Request;
 
 class IsoDocumentController extends Controller
 {
-//    public function __construct()
-//    {
-//        $this->middleware('auth');
-//        $this->authorizeResource(IsoDocument::class, 'isoDocument');
-//    }
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->authorizeResource(IsoDocument::class, 'isoDocument');
+    }
 
     public function index()
     {
