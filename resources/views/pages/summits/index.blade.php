@@ -67,7 +67,7 @@
                     <td @if(request()->get('limit') == 'all') class="sortable" @endif>{{$summit->getAttribute('ordering') + 1}}</td>
                     <td>{{trans('translates.summit_clubs.' . $summit->getAttribute('club_name'))}}</td>
                     <td>{{$summit->getAttribute('event')}}</td>
-                    <td>{{$summit->getAttribute('format')}}</td>
+                    <td> {{trans('translates.summit_formats.' . $summit->getAttribute('format'))}}</td>
                     <td>{{optional($summit->getAttribute('date'))->format('Y-m-d')}}</td>
                     <td>{{$summit->getAttribute('place')}}</td>
                     <td style="word-break: break-word; ">
