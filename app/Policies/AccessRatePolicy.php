@@ -23,12 +23,12 @@ class AccessRatePolicy
 
     public function create(User $user): bool
     {
-        return $this->canManage($user, 'accessRate');
+        return $this->canManage($user, 'accessRate', __FUNCTION__);
     }
 
     public function update(User $user): bool
     {
-        return $this->canManage($user, 'accessRate');
+        return $this->canManage($user, 'accessRate', __FUNCTION__);
     }
 
     public function delete(User $user): bool
