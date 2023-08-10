@@ -126,6 +126,12 @@ class Sidebar extends Component
                         'permission' => 'generally',
                     ],
                     (object)[
+                        'title' => __('translates.navbar.iso_document'),
+                        'icon' => 'fad fa-chart-network',
+                        'url' => route('iso-documents.index'),
+                        'permission' => 'generally',
+                    ],
+                    (object)[
                         'title' => __('translates.navbar.registration_logs'),
                         'icon' => 'fas fa-file-signature',
                         'url' => route('registration-logs.index'),
@@ -289,12 +295,7 @@ class Sidebar extends Component
                         'url' => route('sent-documents.index'),
                         'permission' => 'generally',
                     ],
-                    (object)[
-                        'title' => __('translates.navbar.iso_document'),
-                        'icon' => 'fad fa-chart-network',
-                        'url' => route('iso-documents.index'),
-                        'permission' => 'generally',
-                    ],
+
                     (object)[
                         'title' => __('translates.navbar.protocols'),
                         'icon' => 'fad fa-chart-network',
