@@ -289,7 +289,7 @@
                     <p>S.W.I.F.T: <span class="swift"></span></p>
                     </div>
                     <br>
-                    <p>Director: <span id="who"></span></p>
+                    <p>Direktor: <span id="who"></span></p>
                     <br>
                     <br>
                     <p>İmza, möhür</p>

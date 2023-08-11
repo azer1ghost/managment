@@ -23,12 +23,16 @@ class SummitController extends Controller
     public function index(Request $request)
     {
         $statuses = Summit::statuses();
+        $clubNames = Summit::clubNames();
+        $formats = Summit::formats();
         $search = $request->get('search');
 
         return view('pages.summits.index')
             ->with([
-                'users' => User::get(['id', 'name', 'surname']),
+                'users' => User::isActive()->get(['id', 'name', 'surname']),
                 'statuses' => $statuses,
+                'clubNames' => $clubNames,
+                'formats' => $formats,
                 'summits' => Summit::when($search, fn ($query) => $query
                     ->where('club', 'like', "%".$search."%"))
                     ->orderBy('date')
@@ -43,8 +47,10 @@ class SummitController extends Controller
             'action' => route('summits.store'),
             'method' => 'POST',
             'data' => new Summit(),
-            'users' => User::get(['id', 'name', 'surname']),
-            'statuses' => Summit::statuses()
+            'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'statuses' => Summit::statuses(),
+            'clubNames' => Summit::clubNames(),
+            'formats' => Summit::formats(),
         ]);
     }
 
@@ -64,8 +70,10 @@ class SummitController extends Controller
             'action' => null,
             'method' => null,
             'data' => $summit,
-            'users' => User::get(['id', 'name', 'surname']),
-            'statuses' => Summit::statuses()
+            'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'statuses' => Summit::statuses(),
+            'clubNames' => Summit::clubNames(),
+            'formats' => Summit::formats(),
         ]);
     }
 
@@ -75,8 +83,10 @@ class SummitController extends Controller
             'action' => route('summits.update', $summit),
             'method' => 'PUT',
             'data' => $summit,
-            'users' => User::get(['id', 'name', 'surname']),
-            'statuses' => Summit::statuses()
+            'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'statuses' => Summit::statuses(),
+            'clubNames' => Summit::clubNames(),
+            'formats' => Summit::formats(),
         ]);
     }
 

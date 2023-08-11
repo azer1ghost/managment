@@ -22,11 +22,11 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
             <div class="col-12">
-                @can('create', App\Models\IsoDocument::class)
+{{--                @can('create', App\Models\IsoDocument::class)--}}
                     <div class="col-12">
                         <a class="btn btn-outline-success float-right" href="{{route('iso-documents.create')}}">@lang('translates.buttons.create')</a>
                     </div>
-                @endcan
+{{--                @endcan--}}
                 <table class="table table-responsive-sm table-hover">
                     <thead>
                     <tr>
@@ -49,7 +49,7 @@
                                             <span>{{substr($document->name, 0, 10) . '...'}} </span>
                                         </a>
                                     @endforeach</td>
-                            @can('update', App\Models\IsoDocument::class)
+{{--                            @can('update', App\Models\IsoDocument::class)--}}
                                 <td>
                                     <div class="btn-sm-group">
                                             <a href="{{route('iso-documents.show', $isoDocument)}}" class="btn btn-sm btn-outline-primary">
@@ -63,7 +63,7 @@
                                             </a>
                                     </div>
                                 </td>
-                            @endcan
+{{--                            @endcan--}}
                         </tr>
                     @empty
                         <tr>

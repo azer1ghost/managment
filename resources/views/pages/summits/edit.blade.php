@@ -42,20 +42,22 @@
                         </select>
                     </div>
 
-                    <x-form-group class="pr-3 col-12 col-lg-3">
-                        <x-form-input  name="club" label="Klub Adı" placeholder="Klub Adını daxil edin"/>
-                    </x-form-group>
+                    <div class="form-group col-12 col-md-3" wire:ignore>
+                        <label for="data-status">@lang('translates.general.club_choose')</label>
+                        <select name="club_name" id="data-status" class="form-control">
+                            <option >@lang('translates.general.club_choose')</option>
+                            @foreach($clubNames as $key => $clubName)
+                                <option
+                                        @if(optional($data)->getAttribute('status') === $clubName ) selected
+                                        @endif value="{{$clubName}}"
+                                >
+                                    @lang('translates.summit_clubs.' . $key)
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                     <x-form-group class="pr-3 col-12 col-lg-3">
                         <x-form-input  name="place" label="Yer" placeholder="Yer Adını daxil edin"/>
-                    </x-form-group>
-                    <x-form-group class="pr-3 col-12 col-lg-3">
-                        <x-form-input  name="format" label="Format" placeholder="Klub Adını daxil edin"/>
-                    </x-form-group>
-                    <x-form-group class="pr-3 col-12 col-lg-3">
-                        <x-form-input  name="event" label="Tədbir Adı" placeholder="Tədbir Adını daxil edin"/>
-                    </x-form-group>
-                    <x-form-group class="pr-3 col-12 col-lg-3">
-                        <x-form-input  name="dresscode" label="Dress Code" placeholder="Dress Code daxil edin"/>
                     </x-form-group>
                     <div class="form-group col-12 col-md-3" wire:ignore>
                         <label for="data-status">@lang('translates.general.status_choose')</label>
@@ -71,6 +73,27 @@
                             @endforeach
                         </select>
                     </div>
+                    <x-form-group class="pr-3 col-12 col-lg-3">
+                        <x-form-input  name="event" label="Tədbir Adı" placeholder="Tədbir Adını daxil edin"/>
+                    </x-form-group>
+                    <x-form-group class="pr-3 col-12 col-lg-3">
+                        <x-form-input  name="dresscode" label="Dress Code" placeholder="Dress Code daxil edin"/>
+                    </x-form-group>
+                    <div class="form-group col-12 col-md-3" wire:ignore>
+                        <label for="data-status">@lang('translates.general.format_choose')</label>
+                        <select name="format" id="data-status" class="form-control">
+                            <option disabled >@lang('translates.general.format_choose')</option>
+                            @foreach($formats as $key => $format)
+                                <option
+                                        @if(optional($data)->getAttribute('format') === $format ) selected
+                                        @endif value="{{$format}}"
+                                >
+                                    @lang('translates.summit_formats.' . $key)
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
                         <label for="data-date">Tarixi</label>
                         <input type="datetime-local" name="date"

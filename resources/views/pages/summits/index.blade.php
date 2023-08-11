@@ -65,9 +65,9 @@
             @forelse($summits as $summit)
                 <tr id="item-{{$summit->getAttribute('id')}}">
                     <td @if(request()->get('limit') == 'all') class="sortable" @endif>{{$summit->getAttribute('ordering') + 1}}</td>
-                    <td>{{$summit->getAttribute('club')}}</td>
+                    <td>{{trans('translates.summit_clubs.' . $summit->getAttribute('club_name'))}}</td>
                     <td>{{$summit->getAttribute('event')}}</td>
-                    <td>{{$summit->getAttribute('format')}}</td>
+                    <td> {{trans('translates.summit_formats.' . $summit->getAttribute('format'))}}</td>
                     <td>{{optional($summit->getAttribute('date'))->format('Y-m-d')}}</td>
                     <td>{{$summit->getAttribute('place')}}</td>
                     <td style="word-break: break-word; ">
@@ -76,7 +76,26 @@
                         @endforeach
                     </td>
                     <td>{{$summit->getAttribute('dresscode')}}</td>
-                    <td>{{trans('translates.summit_status.' . $summit->getAttribute('status'))}}</td>
+                    <td>
+                        @if(is_numeric($summit->getAttribute('status')))
+                            @php
+                                switch($summit->getAttribute('status')){
+                                    case(1):
+                                        $color = 'success';
+                                        break;
+                                    case(2):
+                                        $color = 'danger';
+                                        break;
+                                    case(3):
+                                        $color = 'warning';
+                                        break;
+                                }
+                            @endphp
+                        @endif
+                        <span class="badge badge-{{$color}}" style="font-size: 12px">
+                         {{trans('translates.summit_status.' . $summit->getAttribute('status'))}}
+                    </span>
+                    </td>
                     <td>
                         <div class="btn-sm-group">
                             <a href="{{route('summits.show', $summit)}}" class="btn btn-sm btn-outline-primary">

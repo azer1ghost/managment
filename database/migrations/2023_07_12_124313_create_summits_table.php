@@ -10,9 +10,7 @@ class CreateSummitsTable extends Migration
     {
         Schema::create('summits', function (Blueprint $table) {
             $table->id();
-            $table->string('club')->nullable();
             $table->string('event')->nullable();
-            $table->string('format')->nullable();
             $table->string('place')->nullable();
             $table->string('dresscode')->nullable();
             $table->integer('status')->nullable();
