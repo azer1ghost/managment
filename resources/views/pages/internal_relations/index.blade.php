@@ -39,7 +39,7 @@
                         <th scope="col">Əlaqə Zamanı</th>
                     </tr>
                     </thead>
-                    <tbody id="">
+                    <tbody id="sortable">
                     @forelse($internalRelations as $internalRelation)
                             <tr id="item-{{$internalRelation->getAttribute('id')}}">
                             <th class="sortable">{{$internalRelation->getRelationValue('departments')->getAttribute('name')}}</th>
