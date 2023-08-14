@@ -844,21 +844,22 @@ class WorkController extends Controller
         $AMBGITEDORACash = $works->where('department_id', 11)->whereIn('asan_imza_id', [48, 57])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
         $AMBGIDECLARECash = $works->where('department_id', 11)->whereIn('asan_imza_id', [47, 49, 50, 56])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
 
-        $AMBGIPaidIllegal = $works->where('department_id', 11)->sum->getParameter(Work::ILLEGALPAID);
-        $AMBGIPaidVat = $works->where('department_id', 11)->sum->getParameter(Work::VATPAYMENT);
-        $AMBGIPaidAmount = $works->where('department_id', 11)->sum->getParameter(Work::PAID);
+        $AMBGIPaidIllegal = round($works->where('department_id', 11)->sum->getParameter(Work::ILLEGALPAID), 2);
+        $AMBGIPaidVat = round($works->where('department_id', 11)->sum->getParameter(Work::VATPAYMENT), 2);
+        $AMBGIPaidAmount = round($works->where('department_id', 11)->sum->getParameter(Work::PAID), 2);
 
-        $BBGIPaidIllegal = $works->where('department_id', 12)->sum->getParameter(Work::ILLEGALPAID);
-        $BBGIPaidVat = $works->where('department_id', 12)->sum->getParameter(Work::VATPAYMENT);
-        $BBGIPaidAmount = $works->where('department_id', 12)->sum->getParameter(Work::PAID);
+        $BBGIPaidIllegal = round($works->where('department_id', 12)->sum->getParameter(Work::ILLEGALPAID), 2);
+        $BBGIPaidVat = round($works->where('department_id', 12)->sum->getParameter(Work::VATPAYMENT), 2);
+        $BBGIPaidAmount = round($works->where('department_id', 12)->sum->getParameter(Work::PAID), 2);
 
-        $HNBGIPaidIllegal = $works->where('department_id', 13)->sum->getParameter(Work::ILLEGALPAID);
-        $HNBGIPaidVat = $works->where('department_id', 13)->sum->getParameter(Work::VATPAYMENT);
-        $HNBGIPaidAmount = $works->where('department_id', 13)->sum->getParameter(Work::PAID);
+        $HNBGIPaidIllegal = round($works->where('department_id', 13)->sum->getParameter(Work::ILLEGALPAID), 2);
+        $HNBGIPaidVat = round($works->where('department_id', 13)->sum->getParameter(Work::VATPAYMENT), 2);
+        $HNBGIPaidAmount = round($works->where('department_id', 13)->sum->getParameter(Work::PAID), 2);
 
-        $totalAMBGI = $AMBGIPaidIllegal + $AMBGIPaidVat + $AMBGIPaidAmount;
-        $totalBBGI = $BBGIPaidIllegal + $BBGIPaidVat + $BBGIPaidAmount;
-        $totalHNBGI = $HNBGIPaidIllegal + $HNBGIPaidVat + $HNBGIPaidAmount;
+        $totalAMBGI = round($AMBGIPaidIllegal + $AMBGIPaidVat + $AMBGIPaidAmount, 2);
+        $totalBBGI = round($BBGIPaidIllegal + $BBGIPaidVat + $BBGIPaidAmount, 2);
+        $totalHNBGI = round($HNBGIPaidIllegal + $HNBGIPaidVat + $HNBGIPaidAmount, 2);
+
 
         return view('pages.works.total',
             compact(
