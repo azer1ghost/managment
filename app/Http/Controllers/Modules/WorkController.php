@@ -858,7 +858,7 @@ class WorkController extends Controller
 //            return $work->getParameter(Work::ILLEGALPAID) ?? 0;
 //        });
 
-        $totalPaidAll = $totalPaidAmount + $totalPaidVat + $totalPaidIllegal;
+//        $totalPaidAll = $totalPaidAmount + $totalPaidVat + $totalPaidIllegal;
 
         $AMBGIASAZACash = $works->where('department_id', 11)->whereIn('asan_imza_id', [39, 55])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
         $AMBGIMOBILCash = $works->where('department_id', 11)->whereIn('asan_imza_id', [3, 51, 44, 38, 35, 31, 28, 26, 19, 5, 4])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
