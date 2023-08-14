@@ -863,7 +863,7 @@ class WorkController extends Controller
         $AMBGIMOBILCash = $AMBGI->whereIn('asan_imza_id', [3, 51, 44, 38, 35, 31, 28, 26, 19, 5, 4])
             ->where('payment_method', 1)
             ->sum(function($item) {
-                return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::ILLEGALPAID);
+                return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
             });
         $AMBGIGARANTCash = $AMBGI->whereIn('asan_imza_id', [8, 9, 10, 25, 27, 45, 52])->where('payment_method', 1)->sum->getParameter(Work::PAID. '+ '.Work::ILLEGALPAID. '+' .Work::VATPAYMENT);
         $AMBGIRIGELCash = $AMBGI->whereIn('asan_imza_id', [30, 32, 41, 43, 54])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
