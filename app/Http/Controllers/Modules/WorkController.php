@@ -835,30 +835,30 @@ class WorkController extends Controller
             $totalPaidIllegal += $work->getParameter(Work::ILLEGALPAID) ?? 0;
             $totalPaidAll = $totalPaidAmount + $totalPaidVat + $totalPaidIllegal;
         }
-//        $totalIllegalAmount = $works->sum(function ($work) {
-//            return $work->getParameter(Work::ILLEGALAMOUNT) ?? 0;
-//        });
+        $totalIllegalAmount = $works->sum(function ($work) {
+            return $work->getParameter(Work::ILLEGALAMOUNT) ?? 0;
+        });
 
-//        $totalAmount = $works->sum(function ($work) {
-//            return $work->getParameter(Work::AMOUNT) ?? 0;
-//        });
+        $totalAmount = $works->sum(function ($work) {
+            return $work->getParameter(Work::AMOUNT) ?? 0;
+        });
 
-//        $totalVat = $works->sum(function ($work) {
-//            return $work->getParameter(Work::VAT) ?? 0;
-//        });
-//        $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
+        $totalVat = $works->sum(function ($work) {
+            return $work->getParameter(Work::VAT) ?? 0;
+        });
+        $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
 
-//        $totalPaidAmount = $works->sum(function ($work) {
-//            return $work->getParameter(Work::PAID) ?? 0;
-//        });
-//        $totalPaidVat = $works->sum(function ($work) {
-//            return $work->getParameter(Work::VATPAYMENT) ?? 0;
-//        });
-//        $totalPaidIllegal = $works->sum(function ($work) {
-//            return $work->getParameter(Work::ILLEGALPAID) ?? 0;
-//        });
+        $totalPaidAmount = $works->sum(function ($work) {
+            return $work->getParameter(Work::PAID) ?? 0;
+        });
+        $totalPaidVat = $works->sum(function ($work) {
+            return $work->getParameter(Work::VATPAYMENT) ?? 0;
+        });
+        $totalPaidIllegal = $works->sum(function ($work) {
+            return $work->getParameter(Work::ILLEGALPAID) ?? 0;
+        });
 
-//        $totalPaidAll = $totalPaidAmount + $totalPaidVat + $totalPaidIllegal;
+        $totalPaidAll = $totalPaidAmount + $totalPaidVat + $totalPaidIllegal;
 
         $AMBGIASAZACash = $works->where('department_id', 11)->whereIn('asan_imza_id', [39, 55])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
         $AMBGIMOBILCash = $works->where('department_id', 11)->whereIn('asan_imza_id', [3, 51, 44, 38, 35, 31, 28, 26, 19, 5, 4])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
@@ -887,9 +887,9 @@ class WorkController extends Controller
         return view('pages.works.total',
             compact(
               'totalIllegalAmount', 'totalAmount',
-//                'totalVat', 'totalAll', 'dataPoints',
-//                'totalPaidAmount', 'totalPaidVat', 'totalPaidIllegal',
-//                'totalPaidAll', 'AMBGIPaidIllegal', 'AMBGIPaidVat', 'AMBGIPaidAmount', 'totalAMBGI', 'BBGIPaidIllegal', 'BBGIPaidVat', 'BBGIPaidAmount', 'totalBBGI', 'HNBGIPaidIllegal', 'HNBGIPaidVat', 'HNBGIPaidAmount', 'totalHNBGI',
+                'totalVat', 'totalAll', 'dataPoints',
+                'totalPaidAmount', 'totalPaidVat', 'totalPaidIllegal',
+                'totalPaidAll', 'AMBGIPaidIllegal', 'AMBGIPaidVat', 'AMBGIPaidAmount', 'totalAMBGI', 'BBGIPaidIllegal', 'BBGIPaidVat', 'BBGIPaidAmount', 'totalBBGI', 'HNBGIPaidIllegal', 'HNBGIPaidVat', 'HNBGIPaidAmount', 'totalHNBGI',
             'AMBGIASAZACash',
             'AMBGIMOBILCash',
             'AMBGIGARANTCash',
