@@ -839,15 +839,6 @@ class WorkController extends Controller
             $totalPaidIllegal += round($work->getParameter(Work::ILLEGALPAID), 2) ?? 0;
             $totalPaidAll = round($totalPaidAmount + $totalPaidVat + $totalPaidIllegal, 2);
         }
-
-        $AMBGIASAZACash = $AMBGI->whereIn('asan_imza_id', [39, 55])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
-        $AMBGIMOBILCash = $AMBGI->whereIn('asan_imza_id', [3, 51, 44, 38, 35, 31, 28, 26, 19, 5, 4])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
-        $AMBGIGARANTCash = $AMBGI->whereIn('asan_imza_id', [8, 9, 10, 25, 27, 45, 52])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
-        $AMBGIRIGELCash = $AMBGI->whereIn('asan_imza_id', [30, 32, 41, 43, 54])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
-        $AMBGIMINDCash = $AMBGI->whereIn('asan_imza_id', [29, 34, 36, 40, 46, 53])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
-        $AMBGITEDORACash = $AMBGI->whereIn('asan_imza_id', [48, 57])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
-        $AMBGIDECLARECash = $AMBGI->whereIn('asan_imza_id', [47, 49, 50, 56])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
-
         $AMBGIPaidIllegal = round($AMBGI->sum->getParameter(Work::ILLEGALPAID), 2);
         $AMBGIPaidVat = round($AMBGI->sum->getParameter(Work::VATPAYMENT), 2);
         $AMBGIPaidAmount = round($AMBGI->sum->getParameter(Work::PAID), 2);
@@ -863,6 +854,16 @@ class WorkController extends Controller
         $totalAMBGI = round($AMBGIPaidIllegal + $AMBGIPaidVat + $AMBGIPaidAmount, 2);
         $totalBBGI = round($BBGIPaidIllegal + $BBGIPaidVat + $BBGIPaidAmount, 2);
         $totalHNBGI = round($HNBGIPaidIllegal + $HNBGIPaidVat + $HNBGIPaidAmount, 2);
+
+        $AMBGIASAZACash = $AMBGI->whereIn('asan_imza_id', [39, 55])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
+        $AMBGIMOBILCash = $AMBGI->whereIn('asan_imza_id', [3, 51, 44, 38, 35, 31, 28, 26, 19, 5, 4])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
+        $AMBGIGARANTCash = $AMBGI->whereIn('asan_imza_id', [8, 9, 10, 25, 27, 45, 52])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
+        $AMBGIRIGELCash = $AMBGI->whereIn('asan_imza_id', [30, 32, 41, 43, 54])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
+        $AMBGIMINDCash = $AMBGI->whereIn('asan_imza_id', [29, 34, 36, 40, 46, 53])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
+        $AMBGITEDORACash = $AMBGI->whereIn('asan_imza_id', [48, 57])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
+        $AMBGIDECLARECash = $AMBGI->whereIn('asan_imza_id', [47, 49, 50, 56])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
+
+
 
 
         return view('pages.works.total',
