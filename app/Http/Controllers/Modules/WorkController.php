@@ -857,8 +857,14 @@ class WorkController extends Controller
         $totalBBGI = round($BBGIPaidIllegal + $BBGIPaidVat + $BBGIPaidAmount, 2);
         $totalHNBGI = round($HNBGIPaidIllegal + $HNBGIPaidVat + $HNBGIPaidAmount, 2);
 
+
+
         $AMBGIASAZACash = $AMBGI->whereIn('asan_imza_id', [39, 55])->where('payment_method', 1)->sum->getParameter(Work::PAID. '+ '.Work::ILLEGALPAID. '+' .Work::VATPAYMENT);
-        $AMBGIMOBILCash = $AMBGI->whereIn('asan_imza_id', [3, 51, 44, 38, 35, 31, 28, 26, 19, 5, 4])->where('payment_method', 1)->sum->getParameter(Work::PAID. '+ '.Work::ILLEGALPAID. '+' .Work::VATPAYMENT);
+        $AMBGIMOBILCash = $AMBGI->whereIn('asan_imza_id', [3, 51, 44, 38, 35, 31, 28, 26, 19, 5, 4])
+            ->where('payment_method', 1)
+            ->sum(function($item) {
+                return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::ILLEGALPAID);
+            });
         $AMBGIGARANTCash = $AMBGI->whereIn('asan_imza_id', [8, 9, 10, 25, 27, 45, 52])->where('payment_method', 1)->sum->getParameter(Work::PAID. '+ '.Work::ILLEGALPAID. '+' .Work::VATPAYMENT);
         $AMBGIRIGELCash = $AMBGI->whereIn('asan_imza_id', [30, 32, 41, 43, 54])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
         $AMBGIMINDCash = $AMBGI->whereIn('asan_imza_id', [29, 34, 36, 40, 46, 53])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
