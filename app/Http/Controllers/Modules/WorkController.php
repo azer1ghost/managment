@@ -860,6 +860,14 @@ class WorkController extends Controller
 
 //        $totalPaidAll = $totalPaidAmount + $totalPaidVat + $totalPaidIllegal;
 
+        $AMBGIASAZACash = $works->where('department_id', 11)->whereIn('asan_imza', [39, 55])->where('payment_method', 1)->sum->getParameter(Work::ILLEGALPAID);
+        $AMBGIMOBILCash = $works->where('department_id', 11)->whereIn('asan_imza', [3, 51, 44, 38, 35, 31, 28, 26, 19, 5, 4])->where('payment_method', 1)->sum->getParameter(Work::ILLEGALPAID);
+        $AMBGIGARANTCash = $works->where('department_id', 11)->whereIn('asan_imza', [8, 9, 10, 25, 27, 45, 52])->where('payment_method', 1)->sum->getParameter(Work::ILLEGALPAID);
+        $AMBGIRIGELCash = $works->where('department_id', 11)->whereIn('asan_imza', [30, 32, 41, 43, 54])->where('payment_method', 1)->sum->getParameter(Work::ILLEGALPAID);
+        $AMBGIMINDCash = $works->where('department_id', 11)->whereIn('asan_imza', [29, 34, 36, 40, 46, 53])->where('payment_method', 1)->sum->getParameter(Work::ILLEGALPAID);
+        $AMBGITEDORACash = $works->where('department_id', 11)->whereIn('asan_imza', [48, 57])->where('payment_method', 1)->sum->getParameter(Work::ILLEGALPAID);
+        $AMBGIDECLARECash = $works->where('department_id', 11)->whereIn('asan_imza', [47, 49, 50, 56])->where('payment_method', 1)->sum->getParameter(Work::ILLEGALPAID);
+
         $AMBGIPaidIllegal = $works->where('department_id', 11)->sum->getParameter(Work::ILLEGALPAID);
         $AMBGIPaidVat = $works->where('department_id', 11)->sum->getParameter(Work::VATPAYMENT);
         $AMBGIPaidAmount = $works->where('department_id', 11)->sum->getParameter(Work::PAID);
@@ -877,9 +885,18 @@ class WorkController extends Controller
         $totalHNBGI = $HNBGIPaidIllegal + $HNBGIPaidVat + $HNBGIPaidAmount;
 
         return view('pages.works.total',
-            compact('totalIllegalAmount', 'totalAmount',
-                'totalVat', 'totalAll', 'dataPoints',
-                'totalPaidAmount', 'totalPaidVat', 'totalPaidIllegal',
-                'totalPaidAll', 'AMBGIPaidIllegal', 'AMBGIPaidVat', 'AMBGIPaidAmount', 'totalAMBGI', 'BBGIPaidIllegal', 'BBGIPaidVat', 'BBGIPaidAmount', 'totalBBGI', 'HNBGIPaidIllegal', 'HNBGIPaidVat', 'HNBGIPaidAmount', 'totalHNBGI',));
+            compact(
+              'totalIllegalAmount', 'totalAmount',
+//                'totalVat', 'totalAll', 'dataPoints',
+//                'totalPaidAmount', 'totalPaidVat', 'totalPaidIllegal',
+//                'totalPaidAll', 'AMBGIPaidIllegal', 'AMBGIPaidVat', 'AMBGIPaidAmount', 'totalAMBGI', 'BBGIPaidIllegal', 'BBGIPaidVat', 'BBGIPaidAmount', 'totalBBGI', 'HNBGIPaidIllegal', 'HNBGIPaidVat', 'HNBGIPaidAmount', 'totalHNBGI',
+            'AMBGIASAZACash',
+            'AMBGIMOBILCash',
+            'AMBGIGARANTCash',
+            'AMBGIRIGELCash',
+            'AMBGIMINDCash',
+            'AMBGITEDORACash',
+            'AMBGIDECLARECash',
+            ));
     }
 }
