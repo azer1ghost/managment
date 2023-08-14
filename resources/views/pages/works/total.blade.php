@@ -88,7 +88,7 @@
 {{--    <div class="col-6 col-md-6">--}}
 {{--        <div id="chartContainer" style="height: 370px; width: 100%;"></div>--}}
 {{--    </div>--}}
-{{--    <div class="work-stats">--}}
+    <div class="work-stats">
         <div>
             <h1>Aksizli Mallar</h1>
             <h2><span>Rəsmi məbləğ</span>:{{ $AMBGIPaidAmount }}</h2>
