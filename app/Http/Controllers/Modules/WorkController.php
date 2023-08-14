@@ -826,14 +826,14 @@ class WorkController extends Controller
         $totalPaidIllegal = 0;
 
         foreach ($works as $work){
-            $totalIllegalAmount += $work->getParameter(Work::ILLEGALAMOUNT) ?? 0;
-            $totalAmount += $work->getParameter(Work::AMOUNT) ?? 0;
-            $totalVat += $work->getParameter(Work::VAT) ?? 0;
-            $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
-            $totalPaidAmount += $work->getParameter(Work::PAID) ?? 0;
-            $totalPaidVat += $work->getParameter(Work::VATPAYMENT) ?? 0;
-            $totalPaidIllegal += $work->getParameter(Work::ILLEGALPAID) ?? 0;
-            $totalPaidAll = $totalPaidAmount + $totalPaidVat + $totalPaidIllegal;
+            $totalIllegalAmount += round($work->getParameter(Work::ILLEGALAMOUNT), 2) ?? 0;
+            $totalAmount += round($work->getParameter(Work::AMOUNT), 2) ?? 0;
+            $totalVat += round($work->getParameter(Work::VAT), 2) ?? 0;
+            $totalAll = round($totalIllegalAmount + $totalAmount + $totalVat, 2);
+            $totalPaidAmount += round($work->getParameter(Work::PAID), 2) ?? 0;
+            $totalPaidVat += round($work->getParameter(Work::VATPAYMENT), 2) ?? 0;
+            $totalPaidIllegal += round($work->getParameter(Work::ILLEGALPAID), 2) ?? 0;
+            $totalPaidAll = round($totalPaidAmount + $totalPaidVat + $totalPaidIllegal, 2);
         }
 
         $AMBGIASAZACash = $works->where('department_id', 11)->whereIn('asan_imza_id', [39, 55])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
