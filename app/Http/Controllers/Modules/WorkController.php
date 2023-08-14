@@ -860,13 +860,13 @@ class WorkController extends Controller
 
 //        $totalPaidAll = $totalPaidAmount + $totalPaidVat + $totalPaidIllegal;
 
-        $AMBGIASAZACash = $works->where('department_id', 11)->whereIn('asan_imza', [39, 55])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
-        $AMBGIMOBILCash = $works->where('department_id', 11)->whereIn('asan_imza', [3, 51, 44, 38, 35, 31, 28, 26, 19, 5, 4])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
-        $AMBGIGARANTCash = $works->where('department_id', 11)->whereIn('asan_imza', [8, 9, 10, 25, 27, 45, 52])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
-        $AMBGIRIGELCash = $works->where('department_id', 11)->whereIn('asan_imza', [30, 32, 41, 43, 54])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
-        $AMBGIMINDCash = $works->where('department_id', 11)->whereIn('asan_imza', [29, 34, 36, 40, 46, 53])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
-        $AMBGITEDORACash = $works->where('department_id', 11)->whereIn('asan_imza', [48, 57])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
-        $AMBGIDECLARECash = $works->where('department_id', 11)->whereIn('asan_imza', [47, 49, 50, 56])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
+        $AMBGIASAZACash = $works->where('department_id', 11)->whereIn('asan_imza_id', [39, 55])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
+        $AMBGIMOBILCash = $works->where('department_id', 11)->whereIn('asan_imza_id', [3, 51, 44, 38, 35, 31, 28, 26, 19, 5, 4])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
+        $AMBGIGARANTCash = $works->where('department_id', 11)->whereIn('asan_imza_id', [8, 9, 10, 25, 27, 45, 52])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
+        $AMBGIRIGELCash = $works->where('department_id', 11)->whereIn('asan_imza_id', [30, 32, 41, 43, 54])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
+        $AMBGIMINDCash = $works->where('department_id', 11)->whereIn('asan_imza_id', [29, 34, 36, 40, 46, 53])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
+        $AMBGITEDORACash = $works->where('department_id', 11)->whereIn('asan_imza_id', [48, 57])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
+        $AMBGIDECLARECash = $works->where('department_id', 11)->whereIn('asan_imza_id', [47, 49, 50, 56])->where('payment_method', 1)->sum->getParameter(Work::AMOUNT);
 
         $AMBGIPaidIllegal = $works->where('department_id', 11)->sum->getParameter(Work::ILLEGALPAID);
         $AMBGIPaidVat = $works->where('department_id', 11)->sum->getParameter(Work::VATPAYMENT);
