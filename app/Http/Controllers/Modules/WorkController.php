@@ -835,28 +835,28 @@ class WorkController extends Controller
             $totalPaidIllegal += $work->getParameter(Work::ILLEGALPAID) ?? 0;
             $totalPaidAll = $totalPaidAmount + $totalPaidVat + $totalPaidIllegal;
         }
-        $totalIllegalAmount = $works->sum(function ($work) {
-            return $work->getParameter(Work::ILLEGALAMOUNT) ?? 0;
-        });
-
-        $totalAmount = $works->sum(function ($work) {
-            return $work->getParameter(Work::AMOUNT) ?? 0;
-        });
-
-        $totalVat = $works->sum(function ($work) {
-            return $work->getParameter(Work::VAT) ?? 0;
-        });
-        $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
-
-        $totalPaidAmount = $works->sum(function ($work) {
-            return $work->getParameter(Work::PAID) ?? 0;
-        });
-        $totalPaidVat = $works->sum(function ($work) {
-            return $work->getParameter(Work::VATPAYMENT) ?? 0;
-        });
-        $totalPaidIllegal = $works->sum(function ($work) {
-            return $work->getParameter(Work::ILLEGALPAID) ?? 0;
-        });
+//        $totalIllegalAmount = $works->sum(function ($work) {
+//            return $work->getParameter(Work::ILLEGALAMOUNT) ?? 0;
+//        });
+//
+//        $totalAmount = $works->sum(function ($work) {
+//            return $work->getParameter(Work::AMOUNT) ?? 0;
+//        });
+//
+//        $totalVat = $works->sum(function ($work) {
+//            return $work->getParameter(Work::VAT) ?? 0;
+//        });
+//        $totalAll = $totalIllegalAmount + $totalAmount + $totalVat;
+//
+//        $totalPaidAmount = $works->sum(function ($work) {
+//            return $work->getParameter(Work::PAID) ?? 0;
+//        });
+//        $totalPaidVat = $works->sum(function ($work) {
+//            return $work->getParameter(Work::VATPAYMENT) ?? 0;
+//        });
+//        $totalPaidIllegal = $works->sum(function ($work) {
+//            return $work->getParameter(Work::ILLEGALPAID) ?? 0;
+//        });
 
         $totalPaidAll = $totalPaidAmount + $totalPaidVat + $totalPaidIllegal;
 
