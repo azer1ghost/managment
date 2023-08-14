@@ -168,8 +168,8 @@
             <th scope="col">0</th>
             <th scope="col">0</th>
             <th scope="col">0</th>
-            <th scope="col">{{ $totalVat }}</th>
-            <th scope="col">{{ $totalAll }}</th>
+            <th scope="col">{{ round($totalVat, 2) }}</th>
+            <th scope="col">{{ round($totalAll, 2) }}</th>
         </tr>
         </thead>
         <tbody>
