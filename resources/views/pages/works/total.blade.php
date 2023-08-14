@@ -138,8 +138,8 @@
             <th scope="col">Mərkəzi Kassa</th>
             <th scope="col">Cəmi</th>
             <th scope="col">Kart</th>
-            <th scope="col">Handle</th>
-            <th scope="col">Handle</th>
+            <th scope="col">Mərkəzi Kassa</th>
+            <th scope="col">Cəmi</th>
             <th scope="col"></th>
             <th scope="col"></th>
         </tr>
@@ -168,8 +168,8 @@
             <th scope="col">0</th>
             <th scope="col">0</th>
             <th scope="col">0</th>
-            <th scope="col">0</th>
-            <th scope="col">0</th>
+            <th scope="col">{{ $totalVat }}</th>
+            <th scope="col">{{ $totalAll }}</th>
         </tr>
         </thead>
         <tbody>
