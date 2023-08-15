@@ -210,7 +210,6 @@
                             <input type="checkbox" name="check-vat_paid_at" id="check-vat_paid_at" @if(request()->has('check-vat_paid_at')) checked @endif> <label for="check-vat_paid_at">@lang('translates.filters.filter_by')</label>
                         </div>
 
-
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="verifiedFilter">@lang('translates.columns.verified')</label>
                             <select name="verified_at" id="verifiedFilter" class="form-control" style="width: 100% !important;">
@@ -320,6 +319,9 @@
         </thead>
         <tbody>
         @php
+            $totals = []; // array of countable service parameters. Ex: Declaration count
+            $balance = [];
+            $total_payment = [];
             $hasPending = false; // check if there's pending work
         @endphp
         @forelse($works as $work)
@@ -369,6 +371,10 @@
                            }
                         @endphp
                     @endif
+                    @php
+                        $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID) + $work->getAttribute('bank_charge');
+                        $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) + $work->getParameter($work::ILLEGALAMOUNT) - $sum_payment) * -1;
+                    @endphp
                     <span class="badge badge-{{$color}}" style="font-size: 12px">
                          {{trans('translates.work_status.' . $work->getAttribute('status'))}}
                     </span>
@@ -469,6 +475,36 @@
                     </div>
                 </td>
             </tr>
+            @php
+                $gb[] = $work->getParameter($work::GB);
+                $code[] =  $work->getParameter($work::CODE);
+                $serviceCount[] = $work->getParameter($work::SERVICECOUNT);
+                $amount[] = $work->getParameter($work::AMOUNT);
+                $vat[] = $work->getParameter($work::VAT);
+                $payment[] = $work->getParameter($work::PAID);
+                $vatPayment[] = $work->getParameter($work::VATPAYMENT);
+                $illegalAmount[] = $work->getParameter($work::ILLEGALAMOUNT);
+                $illegalPayment[] = $work->getParameter($work::ILLEGALPAID);
+                $mainPage[] = $work->getParameter($work::MAINPAGE);
+                $qibPayment[] = $work->getParameter($work::QIBPAYMENT);
+                $total_payment[] = $sum_payment;
+                $balance[] = $residue;
+
+                $sum_balance = array_sum($balance);
+                $sum_total_payment = array_sum($total_payment);
+                $gb_count = array_sum($gb);
+                $code_count = array_sum($code);
+                $service_count = array_sum($serviceCount);
+                $total_amount = array_sum($amount);
+                $total_vat = array_sum($vat);
+                $total_amount_payment = array_sum($payment);
+                $total_vat_payment = array_sum($vatPayment);
+                $total_illegal_amount = array_sum($illegalAmount);
+                $total_illegal_payment = array_sum($illegalPayment);
+                $total_mainpage = array_sum($mainPage);
+                $total_qibpayment = array_sum($qibPayment);
+
+            @endphp
             <div class="modal fade" id="paidModal-{{$work->getAttribute('id')}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
@@ -578,10 +614,25 @@
                 </th>
             </tr>
         @endforelse
-
-
         @if($works->isNotEmpty())
-            <tr style="background: #b3b7bb" id="count"></tr>
+            <tr style="background: #b3b7bb" id="count">
+                <td colspan="6">
+                    <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
+                </td>
+                <td></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $gb_count}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $code_count}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_amount}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_vat}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_amount_payment}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_vat_payment}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_illegal_payment}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_illegal_amount}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $service_count}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_mainpage}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{$total_qibpayment}}</strong></p></td>
+                <td colspan="6"></td>
+            </tr>
         @endif
         </tbody>
     </table>
@@ -633,12 +684,12 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/js/jquery-editable-poshytip.min.js"></script>
 
     <script>
-        document.getElementById('datePicker').value = new Date().toDateInputValue();
 
         @if($works->isNotEmpty())
         const count  = document.getElementById("count").cloneNode(true);
         $("#table > tbody").prepend(count);
         @endif
+    document.getElementById('datePicker').value = new Date().toDateInputValue();
 
         confirmJs($("a[verify]"));
         confirmJs($("#sum-verify"));
