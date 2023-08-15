@@ -164,8 +164,8 @@
             <th scope="col">0</th>
             <th scope="col">0</th>
             <th scope="col">0</th>
-            <th scope="col">{{ round($totalVat, 2) }}</th>
-            <th scope="col">{{ round($totalAll, 2) }}</th>
+            <th scope="col">{{ round($totalPaidVat, 2) }}</th>
+            <th scope="col">{{ round($totalPaidAll, 2) }}</th>
         </tr>
         </thead>
         <tbody>
