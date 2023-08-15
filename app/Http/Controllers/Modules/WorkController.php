@@ -860,6 +860,13 @@ class WorkController extends Controller
                     return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
                 });
         }
+        function calculateBankTotal($works, $asanImzaIds) {
+            return $works->whereIn('asan_imza_id', $asanImzaIds)
+                ->where('payment_method', 2)
+                ->sum(function($item) {
+                    return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
+                });
+        }
         $CompanyCategories = [
             'ASAZA' => [39, 55],
             'GARANT' => [8, 9, 10, 25, 27, 45, 52],
@@ -871,8 +878,10 @@ class WorkController extends Controller
         ];
 
         $AMBGICashTotals = [];
+        $AMBGIBankTotals = [];
         foreach ($CompanyCategories as $category => $asanImzaIds) {
             $AMBGICashTotals[$category] = calculateCashTotal($AMBGI, $asanImzaIds);
+            $AMBGIBankTotals[$category] = calculateBankTotal($AMBGI, $asanImzaIds);
         }
 
         $BBGICashTotals = [];
@@ -917,6 +926,7 @@ class WorkController extends Controller
                         'HNBGIPaidAmount',
                         'totalHNBGI',
                         'AMBGICashTotals',
+                        'AMBGIBankTotals',
                         'BBGICashTotals',
                         'HNBGICashTotals',
                         'RigelTotal',

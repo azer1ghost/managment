@@ -187,7 +187,7 @@
             <td>0</td>
             <td>{{$AsazaTotal}}</td>
             <td>0</td>
-            <td>0</td>
+            <td>{{ $AMBGIBankTotals['ASAZA'] }}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
