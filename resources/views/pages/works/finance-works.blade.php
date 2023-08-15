@@ -616,7 +616,7 @@
         @endforelse
         @if($works->isNotEmpty())
             <tr style="background: #b3b7bb" id="count">
-                <td colspan="6">
+                <td colspan="5">
                     <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
                 </td>
                 <td></td>
