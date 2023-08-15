@@ -805,129 +805,188 @@ class WorkController extends Controller
         }
     }
 
+//    public function showTotal()
+//    {
+//        $startOfMonth = Carbon::parse('2023-08-01 00:00:00');
+//        $endOfMonth = Carbon::parse('2023-08-31 23:59:59');
+//        $works = Work::whereBetween('created_at', [$startOfMonth, $endOfMonth])
+//            ->with('parameters')
+//            ->get();
+//
+//        $totalIllegalAmount = 0;
+//        $totalAmount = 0;
+//        $totalVat = 0;
+//        $totalPaidAmount = 0;
+//        $totalPaidVat = 0;
+//        $totalPaidIllegal = 0;
+//        $totalAll = 0;
+//        $totalPaidAll = 0;
+//
+//        $AMBGI = $works->where('department_id', 11);
+//        $BBGI = $works->where('department_id', 12);
+//        $HNBGI = $works->where('department_id', 13);
+//
+//        foreach ($works as $work){
+//            $totalIllegalAmount += round($work->getParameter(Work::ILLEGALAMOUNT), 2) ?? 0;
+//            $totalAmount += round($work->getParameter(Work::AMOUNT), 2) ?? 0;
+//            $totalVat += round($work->getParameter(Work::VAT), 2) ?? 0;
+//            $totalAll = round($totalIllegalAmount + $totalAmount + $totalVat, 2);
+//            $totalPaidAmount += round($work->getParameter(Work::PAID), 2) ?? 0;
+//            $totalPaidVat += round($work->getParameter(Work::VATPAYMENT), 2) ?? 0;
+//            $totalPaidIllegal += round($work->getParameter(Work::ILLEGALPAID), 2) ?? 0;
+//            $totalPaidAll = round($totalPaidAmount + $totalPaidVat + $totalPaidIllegal, 2);
+//        }
+//        $AMBGIPaidIllegal = round($AMBGI->sum->getParameter(Work::ILLEGALPAID), 2);
+//        $AMBGIPaidVat = round($AMBGI->sum->getParameter(Work::VATPAYMENT), 2);
+//        $AMBGIPaidAmount = round($AMBGI->sum->getParameter(Work::PAID), 2);
+//
+//        $BBGIPaidIllegal = round($BBGI->sum->getParameter(Work::ILLEGALPAID), 2);
+//        $BBGIPaidVat = round($BBGI->sum->getParameter(Work::VATPAYMENT), 2);
+//        $BBGIPaidAmount = round($BBGI->sum->getParameter(Work::PAID), 2);
+//
+//        $HNBGIPaidIllegal = round($HNBGI->sum->getParameter(Work::ILLEGALPAID), 2);
+//        $HNBGIPaidVat = round($HNBGI->sum->getParameter(Work::VATPAYMENT), 2);
+//        $HNBGIPaidAmount = round($HNBGI->sum->getParameter(Work::PAID), 2);
+//
+//        $totalAMBGI = round($AMBGIPaidIllegal + $AMBGIPaidVat + $AMBGIPaidAmount, 2);
+//        $totalBBGI = round($BBGIPaidIllegal + $BBGIPaidVat + $BBGIPaidAmount, 2);
+//        $totalHNBGI = round($HNBGIPaidIllegal + $HNBGIPaidVat + $HNBGIPaidAmount, 2);
+//
+//
+//
+//        $AMBGIASAZACash = $AMBGI->whereIn('asan_imza_id', [39, 55])
+//            ->where('payment_method', 1)
+//            ->sum(function($item) {
+//            return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
+//        });
+//        $AMBGIGARANTCash = $AMBGI->whereIn('asan_imza_id', [8, 9, 10, 25, 27, 45, 52])
+//            ->where('payment_method', 1)
+//            ->sum(function($item) {
+//            return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
+//        });
+//        $AMBGIRIGELCash = $AMBGI->whereIn('asan_imza_id', [30, 32, 41, 43, 54])
+//            ->where('payment_method', 1)
+//            ->sum(function($item) {
+//            return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
+//        });
+//        $AMBGIMINDCash = $AMBGI->whereIn('asan_imza_id', [29, 34, 36, 40, 46, 53])
+//            ->where('payment_method', 1)
+//            ->sum(function($item) {
+//            return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
+//        });
+//        $AMBGITEDORACash = $AMBGI->whereIn('asan_imza_id', [48, 57])
+//            ->where('payment_method', 1)
+//            ->sum(function($item) {
+//            return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
+//        });
+//        $AMBGIDECLARECash = $AMBGI->whereIn('asan_imza_id', [47, 49, 50, 56])
+//            ->where('payment_method', 1)
+//            ->sum(function($item) {
+//            return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
+//        });
+//        $AMBGIMOBILCash = $AMBGI->whereIn('asan_imza_id', [3, 51, 44, 38, 35, 31, 28, 26, 19, 5, 4])
+//            ->where('payment_method', 1)
+//            ->sum(function($item) {
+//                return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
+//        });
+//
+//
+//
+//
+//        return view('pages.works.total',
+//            compact(
+//             'totalIllegalAmount',
+//             'totalAmount',
+//                        'totalVat',
+//                        'totalAll',
+//                        'totalPaidAmount',
+//                        'totalPaidVat',
+//                        'totalPaidIllegal',
+//                        'totalPaidAll',
+//                        'AMBGIPaidIllegal',
+//                        'AMBGIPaidVat',
+//                        'AMBGIPaidAmount',
+//                        'totalAMBGI',
+//                        'BBGIPaidIllegal',
+//                        'BBGIPaidVat',
+//                        'BBGIPaidAmount',
+//                        'totalBBGI',
+//                        'HNBGIPaidIllegal',
+//                        'HNBGIPaidVat',
+//                        'HNBGIPaidAmount',
+//                        'totalHNBGI',
+//                        'AMBGIASAZACash',
+//                        'AMBGIMOBILCash',
+//                        'AMBGIGARANTCash',
+//                        'AMBGIRIGELCash',
+//                        'AMBGIMINDCash',
+//                        'AMBGITEDORACash',
+//                        'AMBGIDECLARECash',
+//            ));
+//    }
     public function showTotal()
     {
-        $dataPoints = [];
+        $startOfMonth = Carbon::parse('2023-08-01 00:00:00');
+        $endOfMonth = Carbon::parse('2023-08-31 23:59:59');
 
-//        $startMonth = Carbon::now()->startOfMonth();
-//        $endMonth = Carbon::now()->endOfMonth();
-
-        $startOfMonth = Carbon::parse('2023-08-01 00:00:00'); // 2023-07-01 00:00:00
-        $endOfMonth = Carbon::parse('2023-08-31 23:59:59'); // 2023-07-31 23:59:59
         $works = Work::whereBetween('created_at', [$startOfMonth, $endOfMonth])
             ->with('parameters')
             ->get();
 
-        $totalIllegalAmount = 0;
-        $totalAmount = 0;
-        $totalVat = 0;
-        $totalPaidAmount = 0;
-        $totalPaidVat = 0;
-        $totalPaidIllegal = 0;
-        $totalAll = 0;
-        $totalPaidAll = 0;
+        $totals = [
+            'totalIllegalAmount' => 0,
+            'totalAmount' => 0,
+            'totalVat' => 0,
+            'totalPaidAmount' => 0,
+            'totalPaidVat' => 0,
+            'totalPaidIllegal' => 0,
+            'totalAll' => 0,
+            'totalPaidAll' => 0,
+        ];
 
-        $AMBGI = $works->where('department_id', 11);
-        $BBGI = $works->where('department_id', 12);
-        $HNBGI = $works->where('department_id', 13);
+        $departments = [11 => 'AMBGI', 12 => 'BBGI', 13 => 'HNBGI'];
 
-        foreach ($works as $work){
-            $totalIllegalAmount += round($work->getParameter(Work::ILLEGALAMOUNT), 2) ?? 0;
-            $totalAmount += round($work->getParameter(Work::AMOUNT), 2) ?? 0;
-            $totalVat += round($work->getParameter(Work::VAT), 2) ?? 0;
-            $totalAll = round($totalIllegalAmount + $totalAmount + $totalVat, 2);
-            $totalPaidAmount += round($work->getParameter(Work::PAID), 2) ?? 0;
-            $totalPaidVat += round($work->getParameter(Work::VATPAYMENT), 2) ?? 0;
-            $totalPaidIllegal += round($work->getParameter(Work::ILLEGALPAID), 2) ?? 0;
-            $totalPaidAll = round($totalPaidAmount + $totalPaidVat + $totalPaidIllegal, 2);
+        foreach ($works as $work) {
+            foreach ($totals as $key => $value) {
+                $totals[$key] += round($work->getParameter(Work::$parameterMap[$key]), 2) ?? 0;
+            }
         }
-        $AMBGIPaidIllegal = round($AMBGI->sum->getParameter(Work::ILLEGALPAID), 2);
-        $AMBGIPaidVat = round($AMBGI->sum->getParameter(Work::VATPAYMENT), 2);
-        $AMBGIPaidAmount = round($AMBGI->sum->getParameter(Work::PAID), 2);
 
-        $BBGIPaidIllegal = round($BBGI->sum->getParameter(Work::ILLEGALPAID), 2);
-        $BBGIPaidVat = round($BBGI->sum->getParameter(Work::VATPAYMENT), 2);
-        $BBGIPaidAmount = round($BBGI->sum->getParameter(Work::PAID), 2);
+        $departmentTotals = [];
 
-        $HNBGIPaidIllegal = round($HNBGI->sum->getParameter(Work::ILLEGALPAID), 2);
-        $HNBGIPaidVat = round($HNBGI->sum->getParameter(Work::VATPAYMENT), 2);
-        $HNBGIPaidAmount = round($HNBGI->sum->getParameter(Work::PAID), 2);
+        foreach ($departments as $departmentId => $departmentName) {
+            $departmentWorks = $works->where('department_id', $departmentId);
+            $departmentTotals[$departmentName] = $departmentWorks->sum(function ($work) {
+                return $work->getParameter(Work::ILLEGALPAID) +
+                    $work->getParameter(Work::VATPAYMENT) +
+                    $work->getParameter(Work::PAID);
+            });
+        }
 
-        $totalAMBGI = round($AMBGIPaidIllegal + $AMBGIPaidVat + $AMBGIPaidAmount, 2);
-        $totalBBGI = round($BBGIPaidIllegal + $BBGIPaidVat + $BBGIPaidAmount, 2);
-        $totalHNBGI = round($HNBGIPaidIllegal + $HNBGIPaidVat + $HNBGIPaidAmount, 2);
+        $asanImzaIds = [
+            'ASAZACash'   => [39, 55],
+            'GARANTCash'  => [8, 9, 10, 25, 27, 45, 52],
+            'RIGELCash'   => [30, 32, 41, 43, 54],
+            'MINDCash'    => [29, 34, 36, 40, 46, 53],
+            'TEDORACash'  => [48, 57],
+            'DECLARECash' => [47, 49, 50, 56],
+            'MOBILCash'   => [3, 51, 44, 38, 35, 31, 28, 26, 19, 5, 4],
+        ];
 
+        $asanImzaTotals = [];
 
+        foreach ($departments as $departmentName) {
+            foreach ($asanImzaIds as $key => $ids) {
+                $asanImzaTotals[$departmentName][$key] = $departmentWorks->whereIn('asan_imza_id', $ids)
+                    ->where('payment_method', 1)
+                    ->sum(function ($work) {
+                        return $work->getParameter(Work::ILLEGALPAID) +
+                            $work->getParameter(Work::VATPAYMENT) +
+                            $work->getParameter(Work::PAID);
+                    });
+            }
+        }
 
-        $AMBGIASAZACash = $AMBGI->whereIn('asan_imza_id', [39, 55])
-            ->where('payment_method', 1)
-            ->sum(function($item) {
-            return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
-        });
-        $AMBGIGARANTCash = $AMBGI->whereIn('asan_imza_id', [8, 9, 10, 25, 27, 45, 52])
-            ->where('payment_method', 1)
-            ->sum(function($item) {
-            return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
-        });
-        $AMBGIRIGELCash = $AMBGI->whereIn('asan_imza_id', [30, 32, 41, 43, 54])
-            ->where('payment_method', 1)
-            ->sum(function($item) {
-            return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
-        });
-        $AMBGIMINDCash = $AMBGI->whereIn('asan_imza_id', [29, 34, 36, 40, 46, 53])
-            ->where('payment_method', 1)
-            ->sum(function($item) {
-            return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
-        });
-        $AMBGITEDORACash = $AMBGI->whereIn('asan_imza_id', [48, 57])
-            ->where('payment_method', 1)
-            ->sum(function($item) {
-            return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
-        });
-        $AMBGIDECLARECash = $AMBGI->whereIn('asan_imza_id', [47, 49, 50, 56])
-            ->where('payment_method', 1)
-            ->sum(function($item) {
-            return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
-        });
-        $AMBGIMOBILCash = $AMBGI->whereIn('asan_imza_id', [3, 51, 44, 38, 35, 31, 28, 26, 19, 5, 4])
-            ->where('payment_method', 1)
-            ->sum(function($item) {
-                return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
-        });
-
-
-
-
-        return view('pages.works.total',
-            compact(
-             'totalIllegalAmount',
-             'totalAmount',
-                        'totalVat',
-                        'totalAll',
-                        'dataPoints',
-                        'totalPaidAmount',
-                        'totalPaidVat',
-                        'totalPaidIllegal',
-                        'totalPaidAll',
-                        'AMBGIPaidIllegal',
-                        'AMBGIPaidVat',
-                        'AMBGIPaidAmount',
-                        'totalAMBGI',
-                        'BBGIPaidIllegal',
-                        'BBGIPaidVat',
-                        'BBGIPaidAmount',
-                        'totalBBGI',
-                        'HNBGIPaidIllegal',
-                        'HNBGIPaidVat',
-                        'HNBGIPaidAmount',
-                        'totalHNBGI',
-                        'AMBGIASAZACash',
-                        'AMBGIMOBILCash',
-                        'AMBGIGARANTCash',
-                        'AMBGIRIGELCash',
-                        'AMBGIMINDCash',
-                        'AMBGITEDORACash',
-                        'AMBGIDECLARECash',
-            ));
+        return view('pages.works.total', compact('totals', 'departmentTotals', 'asanImzaTotals'));
     }
 }
