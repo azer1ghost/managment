@@ -121,7 +121,7 @@
             <th scope="col"></th>
             <th scope="col" class="text-center">Tarix</th>
             <th scope="col" colspan="5" class="text-center">NAĞD</th>
-            <th scope="col" colspan="3" class="text-center">BANK</th>
+            <th scope="col" colspan="6" class="text-center">BANK</th>
             <th scope="col">ƏDV</th>
             <th scope="col">CƏMİ</th>
         </tr>
@@ -134,6 +134,9 @@
             <th scope="col">Mərkəzi Kassa</th>
             <th scope="col">Cəmi</th>
             <th scope="col">Kart</th>
+            <th scope="col">AMBGI</th>
+            <th scope="col">BBGI</th>
+            <th scope="col">HNBGI</th>
             <th scope="col">Mərkəzi Kassa</th>
             <th scope="col">Cəmi</th>
             <th scope="col"></th>
@@ -142,6 +145,9 @@
         <tr>
             <th scope="col">1</th>
             <th scope="col">İlkin Vəsait</th>
+            <th scope="col">0</th>
+            <th scope="col">0</th>
+            <th scope="col">0</th>
             <th scope="col">0</th>
             <th scope="col">0</th>
             <th scope="col">0</th>
@@ -164,6 +170,9 @@
             <th scope="col">0</th>
             <th scope="col">0</th>
             <th scope="col">0</th>
+            <th scope="col">0</th>
+            <th scope="col">0</th>
+            <th scope="col">0</th>
             <th scope="col">{{ round($totalPaidVat, 2) }}</th>
             <th scope="col">{{ round($totalPaidAll, 2) }}</th>
         </tr>
@@ -177,6 +186,9 @@
             <td>{{ $HNBGICashTotals['ASAZA'] }}</td>
             <td>0</td>
             <td>{{$AsazaTotal}}</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -196,6 +208,9 @@
             <td>0</td>
             <td>0</td>
             <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
         </tr>
         <tr>
             <th scope="row">3</th>
@@ -205,6 +220,9 @@
             <td>{{ $HNBGICashTotals['GARANT'] }}</td>
             <td>0</td>
             <td>{{$GarantTotal}}</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -224,6 +242,9 @@
             <td>0</td>
             <td>0</td>
             <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
         </tr>
         <tr>
             <th scope="row">3</th>
@@ -233,6 +254,9 @@
             <td>{{ $HNBGICashTotals['RIGEL'] }}</td>
             <td>0</td>
             <td>{{$RigelTotal}}</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -252,6 +276,9 @@
             <td>0</td>
             <td>0</td>
             <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
         </tr>
         <tr>
             <th scope="row">3</th>
@@ -261,6 +288,9 @@
             <td>{{ $HNBGICashTotals['MOBIL'] }}</td>
             <td>0</td>
             <td>{{$MobilTotal}}</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
