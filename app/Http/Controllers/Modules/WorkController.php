@@ -817,9 +817,15 @@ class WorkController extends Controller
             'created_at' => $request->has('check-created_at'),
         ];
 
+        if (!empty($filters)) {
+            $works = $this->workRepository->allFilteredWorks($filters, $dateFilters)
+                ->with('parameters')
+                ->get();
+        } else {
             $works = Work::whereBetween('created_at', [$startOfMonth, $endOfMonth])
                 ->with('parameters')
                 ->get();
+        }
 
         $totalIllegalAmount = 0;
         $totalAmount = 0;
