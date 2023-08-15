@@ -172,7 +172,7 @@
             <th scope="col">0</th>
             <th scope="col">0</th>
             <th scope="col">0</th>
-            <th scope="col">0</th>
+            <th scope="col">{{$RigelBankTotal + $DeclareBankTotal + $GarantBankTotal + $MobilBankTotal + $TedoraBankTotal + $MindBankTotal + $AsazaBankTotal}}</th>
             <th scope="col">{{ round($totalPaidVat, 2) }}</th>
             <th scope="col">{{ round($totalPaidAll, 2) }}</th>
         </tr>
@@ -193,7 +193,7 @@
             <td>0</td>
             <td>{{$AsazaBankTotal}}</td>
             <td>0</td>
-            <td>0</td>
+            <td>{{$AsazaBankTotal + $AsazaTotal}}</td>
         </tr>
         <tr>
             <th scope="row">2</th>
@@ -210,7 +210,7 @@
             <td>0</td>
             <td>{{$DeclareBankTotal}}</td>
             <td>0</td>
-            <td>0</td>
+            <td>{{$DeclareBankTotal + $DeclareTotal}}</td>
         </tr>
         <tr>
             <th scope="row">3</th>
@@ -227,7 +227,7 @@
             <td>0</td>
             <td>{{$GarantBankTotal}}</td>
             <td>0</td>
-            <td>0</td>
+            <td>{{$GarantBankTotal + $GarantTotal}}</td>
         </tr>
         <tr>
             <th scope="row">3</th>
@@ -244,7 +244,7 @@
             <td>0</td>
             <td>{{$MindBankTotal}}</td>
             <td>0</td>
-            <td>0</td>
+            <td>{{$MindBankTotal + $MindTotal}}</td>
         </tr>
         <tr>
             <th scope="row">3</th>
@@ -261,7 +261,7 @@
             <td>0</td>
             <td>{{$RigelBankTotal}}</td>
             <td>0</td>
-            <td>0</td>
+            <td>{{$RigelBankTotal + $RigelTotal}}</td>
         </tr>
         <tr>
             <th scope="row">3</th>
@@ -278,7 +278,7 @@
             <td>0</td>
             <td>{{$TedoraBankTotal}}</td>
             <td>0</td>
-            <td>0</td>
+            <td>{{$TedoraBankTotal + $TedoraTotal}}</td>
         </tr>
         <tr>
             <th scope="row">3</th>
@@ -295,7 +295,7 @@
             <td>0</td>
             <td>{{$MobilBankTotal}}</td>
             <td>0</td>
-            <td>0</td>
+            <td>{{$MobilBankTotal + $MobilTotal}}</td>
         </tr>
         </tbody>
     </table>
