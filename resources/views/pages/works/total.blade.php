@@ -172,7 +172,7 @@
         <tr>
             <th scope="row">1</th>
             <td>Asaza FLKS</td>
-            <td>{{$AMBGIASAZACash}}</td>
+            <td>{{ $AMBGICashTotals['ASAZA'] }}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -200,7 +200,7 @@
         <tr>
             <th scope="row">3</th>
             <td>Garant Broker</td>
-            <td>{{$AMBGIGARANTCash}}</td>
+            <td>{{ $AMBGICashTotals['GARANT'] }}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -228,7 +228,7 @@
         <tr>
             <th scope="row">3</th>
             <td>Rigel Group</td>
-            <td>{{$AMBGIRIGELCash}}</td>
+            <td>{{ $AMBGICashTotals['RIGEL'] }}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>

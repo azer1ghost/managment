@@ -854,42 +854,29 @@ class WorkController extends Controller
 
 
 
-        $AMBGIASAZACash = $AMBGI->whereIn('asan_imza_id', [39, 55])
-            ->where('payment_method', 1)
-            ->sum(function($item) {
-            return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
-        });
-        $AMBGIGARANTCash = $AMBGI->whereIn('asan_imza_id', [8, 9, 10, 25, 27, 45, 52])
-            ->where('payment_method', 1)
-            ->sum(function($item) {
-            return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
-        });
-        $AMBGIRIGELCash = $AMBGI->whereIn('asan_imza_id', [30, 32, 41, 43, 54])
-            ->where('payment_method', 1)
-            ->sum(function($item) {
-            return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
-        });
-        $AMBGIMINDCash = $AMBGI->whereIn('asan_imza_id', [29, 34, 36, 40, 46, 53])
-            ->where('payment_method', 1)
-            ->sum(function($item) {
-            return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
-        });
-        $AMBGITEDORACash = $AMBGI->whereIn('asan_imza_id', [48, 57])
-            ->where('payment_method', 1)
-            ->sum(function($item) {
-            return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
-        });
-        $AMBGIDECLARECash = $AMBGI->whereIn('asan_imza_id', [47, 49, 50, 56])
-            ->where('payment_method', 1)
-            ->sum(function($item) {
-            return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
-        });
-        $AMBGIMOBILCash = $AMBGI->whereIn('asan_imza_id', [3, 51, 44, 38, 35, 31, 28, 26, 19, 5, 4])
-            ->where('payment_method', 1)
-            ->sum(function($item) {
-                return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
-        });
 
+
+        $AMBGICategories = [
+            'ASAZA' => [39, 55],
+            'GARANT' => [8, 9, 10, 25, 27, 45, 52],
+            'RIGEL' => [30, 32, 41, 43, 54],
+            'MIND' => [29, 34, 36, 40, 46, 53],
+            'TEDORA' => [48, 57],
+            'DECLARE' => [47, 49, 50, 56],
+            'MOBIL' => [3, 51, 44, 38, 35, 31, 28, 26, 19, 5, 4],
+        ];
+
+        $AMBGICashTotals = [];
+        foreach ($AMBGICategories as $category => $asanImzaIds) {
+            $AMBGICashTotals[$category] = calculateCashTotal($AMBGI, $asanImzaIds);
+        }
+        function calculateCashTotal($works, $asanImzaIds) {
+            return $works->whereIn('asan_imza_id', $asanImzaIds)
+                ->where('payment_method', 1)
+                ->sum(function($item) {
+                    return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
+                });
+        }
 
 
 
@@ -915,13 +902,14 @@ class WorkController extends Controller
                         'HNBGIPaidVat',
                         'HNBGIPaidAmount',
                         'totalHNBGI',
-                        'AMBGIASAZACash',
-                        'AMBGIMOBILCash',
-                        'AMBGIGARANTCash',
-                        'AMBGIRIGELCash',
-                        'AMBGIMINDCash',
-                        'AMBGITEDORACash',
-                        'AMBGIDECLARECash',
+//                        'AMBGIASAZACash',
+//                        'AMBGIMOBILCash',
+//                        'AMBGIGARANTCash',
+//                        'AMBGIRIGELCash',
+//                        'AMBGIMINDCash',
+//                        'AMBGITEDORACash',
+//                        'AMBGIDECLARECash',
+                        'AMBGICashTotals',
             ));
     }
 }
