@@ -810,9 +810,14 @@ class WorkController extends Controller
         $startOfMonth = now()->firstOfMonth()->format('Y-m-d');
         $endOfMonth = now()->format('Y-m-d');
 
-        $filters = [
-            'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
-        ];
+        $created_at_range = $request->get('created_at');
+        $filters = [];
+
+        if ($created_at_range) {
+            $filters['created_at'] = $created_at_range;
+        } else {
+            $filters['created_at'] = $startOfMonth . ' - ' . $endOfMonth;
+        }
 
         $works = Work::where(function($query) use ($filters) {
             $created_at_range = $filters['created_at'];
