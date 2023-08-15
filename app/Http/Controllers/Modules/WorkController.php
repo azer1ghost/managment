@@ -817,7 +817,7 @@ class WorkController extends Controller
             'created_at' => $request->has('check-created_at'),
         ];
 
-            $works = Work::whereBetween('created_at', [$startOfMonth, $endOfMonth])
+            $works = Work::whereBetween('created_at', [$filters])
                 ->with('parameters')
                 ->get();
 
