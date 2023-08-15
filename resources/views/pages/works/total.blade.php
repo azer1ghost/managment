@@ -174,7 +174,7 @@
             <td>Asaza FLKS</td>
             <td>{{ $AMBGICashTotals['ASAZA'] }}</td>
             <td>{{ $BBGICashTotals['ASAZA'] }}</td>
-            <td>0</td>
+            <td>{{ $HNBGICashTotals['ASAZA'] }}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -188,7 +188,7 @@
             <td>Declare Group</td>
             <td>{{ $AMBGICashTotals['DECLARE'] }}</td>
             <td>{{ $BBGICashTotals['DECLARE'] }}</td>
-            <td>0</td>
+            <td>{{ $HNBGICashTotals['DECLARE'] }}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -202,7 +202,7 @@
             <td>Garant Broker</td>
             <td>{{ $AMBGICashTotals['GARANT'] }}</td>
             <td>{{ $BBGICashTotals['GARANT'] }}</td>
-            <td>0</td>
+            <td>{{ $HNBGICashTotals['GARANT'] }}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -216,7 +216,7 @@
             <td>Mind Services</td>
             <td>{{ $AMBGICashTotals['MIND'] }}</td>
             <td>{{ $BBGICashTotals['MIND'] }}</td>
-            <td>0</td>
+            <td>{{ $HNBGICashTotals['MIND'] }}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -230,7 +230,7 @@
             <td>Rigel Group</td>
             <td>{{ $AMBGICashTotals['RIGEL'] }}</td>
             <td>{{ $BBGICashTotals['RIGEL'] }}</td>
-            <td>0</td>
+            <td>{{ $HNBGICashTotals['RIGEL'] }}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -244,7 +244,7 @@
             <td>Tedora Group</td>
             <td>{{ $AMBGICashTotals['TEDORA'] }}</td>
             <td>{{ $BBGICashTotals['TEDORA'] }}</td>
-            <td>0</td>
+            <td>{{ $HNBGICashTotals['TEDORA'] }}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -258,7 +258,7 @@
             <td>Mobil Broker</td>
             <td>{{ $AMBGICashTotals['MOBIL'] }}</td>
             <td>{{ $BBGICashTotals['MOBIL'] }}</td>
-            <td>0</td>
+            <td>{{ $HNBGICashTotals['MOBIL'] }}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
