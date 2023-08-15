@@ -911,7 +911,7 @@ class WorkController extends Controller
         $MobilTotal = $AMBGICashTotals['MOBIL'] + $BBGICashTotals['MOBIL'] + $HNBGICashTotals['MOBIL'];
         $TedoraTotal = $AMBGICashTotals['TEDORA'] + $BBGICashTotals['TEDORA'] + $HNBGICashTotals['TEDORA'];
         $MindTotal = $AMBGICashTotals['MIND'] + $BBGICashTotals['MIND'] + $HNBGICashTotals['MIND'];
-
+        $AsazaTotal = $AMBGICashTotals['ASAZA'] + $BBGICashTotals['ASAZA'] + $HNBGICashTotals['ASAZA'];
 
 
         return view('pages.works.total',
@@ -945,6 +945,7 @@ class WorkController extends Controller
                         'MobilTotal',
                         'TedoraTotal',
                         'MindTotal',
+                        'AsazaTotal',
             ));
     }
 }

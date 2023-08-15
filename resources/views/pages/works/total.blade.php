@@ -176,9 +176,6 @@
             <td>{{ $BBGICashTotals['ASAZA'] }}</td>
             <td>{{ $HNBGICashTotals['ASAZA'] }}</td>
             <td>0</td>
-            @php
-                $AsazaTotal = $AMBGICashTotals['ASAZA'] + $BBGICashTotals['ASAZA'] + $HNBGICashTotals['ASAZA'];
-            @endphp
             <td>{{$AsazaTotal}}</td>
             <td>0</td>
             <td>0</td>
