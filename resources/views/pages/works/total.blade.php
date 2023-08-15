@@ -176,6 +176,9 @@
             <td>{{ $BBGICashTotals['ASAZA'] }}</td>
             <td>{{ $HNBGICashTotals['ASAZA'] }}</td>
             <td>0</td>
+            @php
+                $AsazaTotal = $AMBGICashTotals['ASAZA'] + $BBGICashTotals['ASAZA'] + $HNBGICashTotals['ASAZA'];
+            @endphp
             <td>{{$AsazaTotal}}</td>
             <td>0</td>
             <td>0</td>
@@ -267,15 +270,6 @@
             <td>0</td>
             <td>0</td>
         </tr>
-        @php
-            $RigelTotal = $AMBGICashTotals['RIGEL'] + $BBGICashTotals['RIGEL'] + $HNBGICashTotals['RIGEL'];
-            $DeclareTotal = $AMBGICashTotals['DECLARE'] + $BBGICashTotals['DECLARE'] + $HNBGICashTotals['DECLARE'];
-            $GarantTotal = $AMBGICashTotals['GARANT'] + $BBGICashTotals['GARANT'] + $HNBGICashTotals['GARANT'];
-            $MobilTotal = $AMBGICashTotals['MOBIL'] + $BBGICashTotals['MOBIL'] + $HNBGICashTotals['MOBIL'];
-            $TedoraTotal = $AMBGICashTotals['TEDORA'] + $BBGICashTotals['TEDORA'] + $HNBGICashTotals['TEDORA'];
-            $MindTotal = $AMBGICashTotals['MIND'] + $BBGICashTotals['MIND'] + $HNBGICashTotals['MIND'];
-            $AsazaTotal = $AMBGICashTotals['ASAZA'] + $BBGICashTotals['ASAZA'] + $HNBGICashTotals['ASAZA'];
-        @endphp
         </tbody>
     </table>
 

@@ -905,7 +905,12 @@ class WorkController extends Controller
         foreach ($HNBGICategories as $category => $asanImzaIds) {
             $HNBGICashTotals[$category] = calculateCashTotal($HNBGI, $asanImzaIds);
         }
-
+        $RigelTotal = $AMBGICashTotals['RIGEL'] + $BBGICashTotals['RIGEL'] + $HNBGICashTotals['RIGEL'];
+        $DeclareTotal = $AMBGICashTotals['DECLARE'] + $BBGICashTotals['DECLARE'] + $HNBGICashTotals['DECLARE'];
+        $GarantTotal = $AMBGICashTotals['GARANT'] + $BBGICashTotals['GARANT'] + $HNBGICashTotals['GARANT'];
+        $MobilTotal = $AMBGICashTotals['MOBIL'] + $BBGICashTotals['MOBIL'] + $HNBGICashTotals['MOBIL'];
+        $TedoraTotal = $AMBGICashTotals['TEDORA'] + $BBGICashTotals['TEDORA'] + $HNBGICashTotals['TEDORA'];
+        $MindTotal = $AMBGICashTotals['MIND'] + $BBGICashTotals['MIND'] + $HNBGICashTotals['MIND'];
 
 
 
@@ -934,6 +939,12 @@ class WorkController extends Controller
                         'AMBGICashTotals',
                         'BBGICashTotals',
                         'HNBGICashTotals',
+                        'RigelTotal',
+                        'DeclareTotal',
+                        'GarantTotal',
+                        'MobilTotal',
+                        'TedoraTotal',
+                        'MindTotal',
             ));
     }
 }
