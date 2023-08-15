@@ -160,7 +160,7 @@
             <th scope="col"></th>
             <th scope="col">0</th>
             <th scope="col">0</th>
-            <th scope="col">0</th>
+            <th scope="col">{{$RigelTotal + $DeclareTotal + $GarantTotal + $MobilTotal + $TedoraTotal + $MindTotal + $AsazaTotal}}</th>
             <th scope="col">0</th>
             <th scope="col">0</th>
             <th scope="col">0</th>
