@@ -186,7 +186,7 @@
         <tr>
             <th scope="row">2</th>
             <td>Declare Group</td>
-            <td>{{$AMBGIDECLARECash}}</td>
+{{--            <td>{{$AMBGIDECLARECash}}</td>--}}
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -214,7 +214,7 @@
         <tr>
             <th scope="row">3</th>
             <td>Mind Services</td>
-            <td>{{$AMBGIMINDCash}}</td>
+{{--            <td>{{$AMBGIMINDCash}}</td>--}}
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -242,7 +242,7 @@
         <tr>
             <th scope="row">3</th>
             <td>Tedora Group</td>
-            <td>{{$AMBGITEDORACash}}</td>
+{{--            <td>{{$AMBGITEDORACash}}</td>--}}
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -256,7 +256,7 @@
         <tr>
             <th scope="row">3</th>
             <td>Mobil Broker</td>
-            <td>{{$AMBGIMOBILCash}}</td>
+{{--            <td>{{$AMBGIMOBILCash}}</td>--}}
             <td>0</td>
             <td>0</td>
             <td>0</td>
