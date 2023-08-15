@@ -115,7 +115,7 @@
     <table class="table table-striped table-dark">
         <thead>
         <tr>
-            <th scope="col" colspan="12" class="text-center">Kassa Hesabatı</th>
+            <th scope="col" colspan="15" class="text-center">Kassa Hesabatı</th>
         </tr>
         <tr>
             <th scope="col"></th>
