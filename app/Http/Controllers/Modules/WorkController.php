@@ -807,19 +807,22 @@ class WorkController extends Controller
 
     public function showTotal(Request $request)
     {
-        $startOfMonth = now()->firstOfMonth()->format('Y/m/d');
-        $endOfMonth = now()->format('Y/m/d');
+        $startOfMonth = now()->firstOfMonth()->format('Y-m-d');
+        $endOfMonth = now()->format('Y-m-d');
 
         $filters = [
-           'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
-        ];
-        $dateFilters = [
-            'created_at' => $request->has('check-created_at'),
+            'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
         ];
 
-            $works = Work::whereBetween('created_at', [$filters])
-                ->with('parameters')
-                ->get();
+        $works = Work::where(function($query) use ($filters) {
+            $created_at_range = $filters['created_at'];
+            $dates = explode(' - ', $created_at_range);
+            if (count($dates) === 2) {
+                $query->whereBetween('created_at', [$dates[0], $dates[1]]);
+            }
+        })
+            ->with('parameters')
+            ->get();
 
 
         $totalIllegalAmount = 0;
@@ -979,7 +982,7 @@ class WorkController extends Controller
                         'totalBBGICash',
                         'totalHNBGICash',
                         'filters',
-                        'dateFilters',
+//                        'dateFilters',
             ));
     }
 }
