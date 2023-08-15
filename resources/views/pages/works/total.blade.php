@@ -176,7 +176,7 @@
             <td>{{ $BBGICashTotals['ASAZA'] }}</td>
             <td>{{ $HNBGICashTotals['ASAZA'] }}</td>
             <td>0</td>
-            <td>{{ $AMBGICashTotals['ASAZA'] + $BBGICashTotals['ASAZA'] + $HNBGICashTotals['ASAZA']}}</td>
+            <td>{{$AsazaTotal}}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -190,7 +190,7 @@
             <td>{{ $BBGICashTotals['DECLARE'] }}</td>
             <td>{{ $HNBGICashTotals['DECLARE'] }}</td>
             <td>0</td>
-            <td>{{ $AMBGICashTotals['DECLARE'] + $BBGICashTotals['DECLARE'] + $HNBGICashTotals['DECLARE']}}</td>
+            <td>{{$DeclareTotal}}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -204,7 +204,7 @@
             <td>{{ $BBGICashTotals['GARANT'] }}</td>
             <td>{{ $HNBGICashTotals['GARANT'] }}</td>
             <td>0</td>
-            <td>{{ $AMBGICashTotals['GARANT'] + $BBGICashTotals['GARANT'] + $HNBGICashTotals['GARANT']}}</td>
+            <td>{{$GarantTotal}}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -218,7 +218,7 @@
             <td>{{ $BBGICashTotals['MIND'] }}</td>
             <td>{{ $HNBGICashTotals['MIND'] }}</td>
             <td>0</td>
-            <td>{{ $AMBGICashTotals['MIND'] + $BBGICashTotals['MIND'] + $HNBGICashTotals['MIND']}}</td>
+            <td>{{$MindTotal}}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -232,7 +232,7 @@
             <td>{{ $BBGICashTotals['RIGEL'] }}</td>
             <td>{{ $HNBGICashTotals['RIGEL'] }}</td>
             <td>0</td>
-            <td>{{ $AMBGICashTotals['RIGEL'] + $BBGICashTotals['RIGEL'] + $HNBGICashTotals['RIGEL']}}</td>
+            <td>{{$RigelTotal}}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -246,7 +246,7 @@
             <td>{{ $BBGICashTotals['TEDORA'] }}</td>
             <td>{{ $HNBGICashTotals['TEDORA'] }}</td>
             <td>0</td>
-            <td>{{ $AMBGICashTotals['TEDORA'] + $BBGICashTotals['TEDORA'] + $HNBGICashTotals['TEDORA']}}</td>
+            <td>{{$TedoraTotal}}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -260,13 +260,22 @@
             <td>{{ $BBGICashTotals['MOBIL'] }}</td>
             <td>{{ $HNBGICashTotals['MOBIL'] }}</td>
             <td>0</td>
-            <td>{{ $AMBGICashTotals['MOBIL'] + $BBGICashTotals['MOBIL'] + $HNBGICashTotals['MOBIL'] }}</td>
+            <td>{{$MobilTotal}}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
         </tr>
+        @php
+            $RigelTotal = $AMBGICashTotals['RIGEL'] + $BBGICashTotals['RIGEL'] + $HNBGICashTotals['RIGEL'];
+            $DeclareTotal = $AMBGICashTotals['DECLARE'] + $BBGICashTotals['DECLARE'] + $HNBGICashTotals['DECLARE'];
+            $GarantTotal = $AMBGICashTotals['GARANT'] + $BBGICashTotals['GARANT'] + $HNBGICashTotals['GARANT'];
+            $MobilTotal = $AMBGICashTotals['MOBIL'] + $BBGICashTotals['MOBIL'] + $HNBGICashTotals['MOBIL'];
+            $TedoraTotal = $AMBGICashTotals['TEDORA'] + $BBGICashTotals['TEDORA'] + $HNBGICashTotals['TEDORA'];
+            $MindTotal = $AMBGICashTotals['MIND'] + $BBGICashTotals['MIND'] + $HNBGICashTotals['MIND'];
+            $AsazaTotal = $AMBGICashTotals['ASAZA'] + $BBGICashTotals['ASAZA'] + $HNBGICashTotals['ASAZA'];
+        @endphp
         </tbody>
     </table>
 
