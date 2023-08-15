@@ -853,7 +853,13 @@ class WorkController extends Controller
         $totalHNBGI = round($HNBGIPaidIllegal + $HNBGIPaidVat + $HNBGIPaidAmount, 2);
 
 
-
+        function calculateCashTotal($works, $asanImzaIds) {
+            return $works->whereIn('asan_imza_id', $asanImzaIds)
+                ->where('payment_method', 1)
+                ->sum(function($item) {
+                    return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
+                });
+        }
 
 
         $AMBGICategories = [
@@ -870,13 +876,7 @@ class WorkController extends Controller
         foreach ($AMBGICategories as $category => $asanImzaIds) {
             $AMBGICashTotals[$category] = calculateCashTotal($AMBGI, $asanImzaIds);
         }
-        function calculateCashTotal($works, $asanImzaIds) {
-            return $works->whereIn('asan_imza_id', $asanImzaIds)
-                ->where('payment_method', 1)
-                ->sum(function($item) {
-                    return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
-                });
-        }
+
 
 
 
