@@ -204,7 +204,7 @@
             <td>0</td>
             <td>{{$DeclareTotal}}</td>
             <td>0</td>
-            <td>0</td>
+            <td>{{ $AMBGIBankTotals['DECLARE'] }}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -221,7 +221,7 @@
             <td>0</td>
             <td>{{$GarantTotal}}</td>
             <td>0</td>
-            <td>0</td>
+            <td>{{ $AMBGIBankTotals['GARANT'] }}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -238,7 +238,7 @@
             <td>0</td>
             <td>{{$MindTotal}}</td>
             <td>0</td>
-            <td>0</td>
+            <td>{{ $AMBGIBankTotals['MIND'] }}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -255,7 +255,7 @@
             <td>0</td>
             <td>{{$RigelTotal}}</td>
             <td>0</td>
-            <td>0</td>
+            <td>{{ $AMBGIBankTotals['RIGEL'] }}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -272,7 +272,7 @@
             <td>0</td>
             <td>{{$TedoraTotal}}</td>
             <td>0</td>
-            <td>0</td>
+            <td>{{ $AMBGIBankTotals['TEDORA'] }}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -289,7 +289,7 @@
             <td>0</td>
             <td>{{$MobilTotal}}</td>
             <td>0</td>
-            <td>0</td>
+            <td>{{ $AMBGIBankTotals['MOBIL'] }}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>

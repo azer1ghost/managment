@@ -885,13 +885,16 @@ class WorkController extends Controller
         }
 
         $BBGICashTotals = [];
+        $BBGIBankTotals = [];
         foreach ($CompanyCategories as $category => $asanImzaIds) {
             $BBGICashTotals[$category] = calculateCashTotal($BBGI, $asanImzaIds);
+            $BBGIBankTotals[$category] = calculateBankTotal($BBGI, $asanImzaIds);
         }
 
-        $HNBGICashTotals = [];
+        $HNBGIBankTotals = [];
         foreach ($CompanyCategories as $category => $asanImzaIds) {
             $HNBGICashTotals[$category] = calculateCashTotal($HNBGI, $asanImzaIds);
+            $HNBGIBankTotals[$category] = calculateBankTotal($HNBGI, $asanImzaIds);
         }
 
         $RigelTotal = $AMBGICashTotals['RIGEL'] + $BBGICashTotals['RIGEL'] + $HNBGICashTotals['RIGEL'];
@@ -928,7 +931,9 @@ class WorkController extends Controller
                         'AMBGICashTotals',
                         'AMBGIBankTotals',
                         'BBGICashTotals',
+                        'BBGIBankTotals',
                         'HNBGICashTotals',
+                        'HNBGIBankTotals',
                         'RigelTotal',
                         'DeclareTotal',
                         'GarantTotal',
