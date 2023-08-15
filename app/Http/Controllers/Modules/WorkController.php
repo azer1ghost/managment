@@ -817,16 +817,9 @@ class WorkController extends Controller
             'created_at' => $request->has('check-created_at'),
         ];
 
-        if (!empty($selectedDate)) {
-            $startOfDay = Carbon::parse($selectedDate)->startOfDay();
-            $endOfDay = Carbon::parse($selectedDate)->endOfDay();
-
-            $works = Work::whereBetween('created_at', [$startOfDay, $endOfDay])
+            $works = Work::whereBetween('created_at', [$startOfMonth, $endOfMonth])
                 ->with('parameters')
                 ->get();
-        } else {
-            $works = Work::with('parameters')->get();
-        }
 
         $totalIllegalAmount = 0;
         $totalAmount = 0;
