@@ -860,9 +860,7 @@ class WorkController extends Controller
                     return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
                 });
         }
-
-
-        $AMBGICategories = [
+        $CompanyCategories = [
             'ASAZA' => [39, 55],
             'GARANT' => [8, 9, 10, 25, 27, 45, 52],
             'RIGEL' => [30, 32, 41, 43, 54],
@@ -873,38 +871,20 @@ class WorkController extends Controller
         ];
 
         $AMBGICashTotals = [];
-        foreach ($AMBGICategories as $category => $asanImzaIds) {
+        foreach ($CompanyCategories as $category => $asanImzaIds) {
             $AMBGICashTotals[$category] = calculateCashTotal($AMBGI, $asanImzaIds);
         }
 
-        $BBGICategories = [
-            'ASAZA' => [39, 55],
-            'GARANT' => [8, 9, 10, 25, 27, 45, 52],
-            'RIGEL' => [30, 32, 41, 43, 54],
-            'MIND' => [29, 34, 36, 40, 46, 53],
-            'TEDORA' => [48, 57],
-            'DECLARE' => [47, 49, 50, 56],
-            'MOBIL' => [3, 51, 44, 38, 35, 31, 28, 26, 19, 5, 4],
-        ];
-
         $BBGICashTotals = [];
-        foreach ($BBGICategories as $category => $asanImzaIds) {
+        foreach ($CompanyCategories as $category => $asanImzaIds) {
             $BBGICashTotals[$category] = calculateCashTotal($BBGI, $asanImzaIds);
         }
-        $HNBGICategories = [
-            'ASAZA' => [39, 55],
-            'GARANT' => [8, 9, 10, 25, 27, 45, 52],
-            'RIGEL' => [30, 32, 41, 43, 54],
-            'MIND' => [29, 34, 36, 40, 46, 53],
-            'TEDORA' => [48, 57],
-            'DECLARE' => [47, 49, 50, 56],
-            'MOBIL' => [3, 51, 44, 38, 35, 31, 28, 26, 19, 5, 4],
-        ];
 
         $HNBGICashTotals = [];
-        foreach ($HNBGICategories as $category => $asanImzaIds) {
+        foreach ($CompanyCategories as $category => $asanImzaIds) {
             $HNBGICashTotals[$category] = calculateCashTotal($HNBGI, $asanImzaIds);
         }
+
         $RigelTotal = $AMBGICashTotals['RIGEL'] + $BBGICashTotals['RIGEL'] + $HNBGICashTotals['RIGEL'];
         $DeclareTotal = $AMBGICashTotals['DECLARE'] + $BBGICashTotals['DECLARE'] + $HNBGICashTotals['DECLARE'];
         $GarantTotal = $AMBGICashTotals['GARANT'] + $BBGICashTotals['GARANT'] + $HNBGICashTotals['GARANT'];
