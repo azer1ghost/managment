@@ -905,6 +905,14 @@ class WorkController extends Controller
         $MindTotal = $AMBGICashTotals['MIND'] + $BBGICashTotals['MIND'] + $HNBGICashTotals['MIND'];
         $AsazaTotal = $AMBGICashTotals['ASAZA'] + $BBGICashTotals['ASAZA'] + $HNBGICashTotals['ASAZA'];
 
+        $RigelBankTotal = $AMBGIBankTotals['RIGEL'] + $BBGIBankTotals['RIGEL'] + $HNBGIBankTotals['RIGEL'];
+        $DeclareBankTotal = $AMBGIBankTotals['DECLARE'] + $BBGIBankTotals['DECLARE'] + $HNBGIBankTotals['DECLARE'];
+        $GarantBankTotal = $AMBGIBankTotals['GARANT'] + $BBGIBankTotals['GARANT'] + $HNBGIBankTotals['GARANT'];
+        $MobilBankTotal = $AMBGIBankTotals['MOBIL'] + $BBGIBankTotals['MOBIL'] + $HNBGIBankTotals['MOBIL'];
+        $TedoraBankTotal = $AMBGIBankTotals['TEDORA'] + $BBGIBankTotals['TEDORA'] + $HNBGIBankTotals['TEDORA'];
+        $MindBankTotal = $AMBGIBankTotals['MIND'] + $BBGIBankTotals['MIND'] + $HNBGIBankTotals['MIND'];
+        $AsazaBankTotal = $AMBGIBankTotals['ASAZA'] + $BBGIBankTotals['ASAZA'] + $HNBGIBankTotals['ASAZA'];
+
 
         return view('pages.works.total',
             compact(
@@ -941,6 +949,13 @@ class WorkController extends Controller
                         'TedoraTotal',
                         'MindTotal',
                         'AsazaTotal',
+                        'RigelBankTotal',
+                        'DeclareBankTotal',
+                        'GarantBankTotal',
+                        'MobilBankTotal',
+                        'TedoraBankTotal',
+                        'MindBankTotal',
+                        'AsazaBankTotal',
             ));
     }
 }

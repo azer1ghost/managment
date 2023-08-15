@@ -191,7 +191,7 @@
             <td>{{ $BBGIBankTotals['ASAZA'] }}</td>
             <td>{{ $HNBGIBankTotals['ASAZA'] }}</td>
             <td>0</td>
-            <td>0</td>
+            <td>{{$AsazaBankTotal}}</td>
             <td>0</td>
             <td>0</td>
         </tr>
@@ -208,7 +208,7 @@
             <td>{{ $BBGIBankTotals['DECLARE'] }}</td>
             <td>{{ $HNBGIBankTotals['DECLARE'] }}</td>
             <td>0</td>
-            <td>0</td>
+            <td>{{$DeclareBankTotal}}</td>
             <td>0</td>
             <td>0</td>
         </tr>
@@ -225,7 +225,7 @@
             <td>{{ $BBGIBankTotals['GARANT'] }}</td>
             <td>{{ $HNBGIBankTotals['GARANT'] }}</td>
             <td>0</td>
-            <td>0</td>
+            <td>{{$GarantBankTotal}}</td>
             <td>0</td>
             <td>0</td>
         </tr>
@@ -242,7 +242,7 @@
             <td>{{ $BBGIBankTotals['MIND'] }}</td>
             <td>{{ $HNBGIBankTotals['MIND'] }}</td>
             <td>0</td>
-            <td>0</td>
+            <td>{{$MindBankTotal}}</td>
             <td>0</td>
             <td>0</td>
         </tr>
@@ -259,7 +259,7 @@
             <td>{{ $BBGIBankTotals['RIGEL'] }}</td>
             <td>{{ $HNBGIBankTotals['RIGEL'] }}</td>
             <td>0</td>
-            <td>0</td>
+            <td>{{$RigelBankTotal}}</td>
             <td>0</td>
             <td>0</td>
         </tr>
@@ -276,7 +276,7 @@
             <td>{{ $BBGIBankTotals['TEDORA'] }}</td>
             <td>{{ $HNBGIBankTotals['TEDORA'] }}</td>
             <td>0</td>
-            <td>0</td>
+            <td>{{$TedoraBankTotal}}</td>
             <td>0</td>
             <td>0</td>
         </tr>
@@ -293,7 +293,7 @@
             <td>{{ $BBGIBankTotals['MOBIL'] }}</td>
             <td>{{ $HNBGIBankTotals['MOBIL'] }}</td>
             <td>0</td>
-            <td>0</td>
+            <td>{{$MobilBankTotal}}</td>
             <td>0</td>
             <td>0</td>
         </tr>
