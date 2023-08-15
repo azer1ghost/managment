@@ -805,13 +805,28 @@ class WorkController extends Controller
         }
     }
 
-    public function showTotal()
+    public function showTotal(Request $request)
     {
-        $startOfMonth = Carbon::parse('2023-08-01 00:00:00');
-        $endOfMonth = Carbon::parse('2023-08-31 23:59:59');
-        $works = Work::whereBetween('created_at', [$startOfMonth, $endOfMonth])
-            ->with('parameters')
-            ->get();
+        $startOfMonth = now()->firstOfMonth()->format('Y/m/d');
+        $endOfMonth = now()->format('Y/m/d');
+
+        $filters = [
+           'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
+        ];
+        $dateFilters = [
+            'created_at' => $request->has('check-created_at'),
+        ];
+
+        if (!empty($selectedDate)) {
+            $startOfDay = Carbon::parse($selectedDate)->startOfDay();
+            $endOfDay = Carbon::parse($selectedDate)->endOfDay();
+
+            $works = Work::whereBetween('created_at', [$startOfDay, $endOfDay])
+                ->with('parameters')
+                ->get();
+        } else {
+            $works = Work::with('parameters')->get();
+        }
 
         $totalIllegalAmount = 0;
         $totalAmount = 0;
@@ -969,6 +984,8 @@ class WorkController extends Controller
                         'totalAMBGICash',
                         'totalBBGICash',
                         'totalHNBGICash',
+                        'filters',
+                        'dateFilters',
             ));
     }
 }

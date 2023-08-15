@@ -46,6 +46,14 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
 <div>
+    <form action="{{ route('total') }}" method="get">
+        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+            <label class="d-block" for="createdAtFilter">{{trans('translates.fields.created_at')}}</label>
+            <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
+            <input type="checkbox" name="check-created_at" id="check-created_at" @if(request()->has('check-created_at')) checked @endif> <label for="check-created_at">@lang('translates.filters.filter_by')</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Filtrele</button>
+    </form>
     <div class="work-stats">
         <div>
             <h1>Ayın əvvəlindən Qeyri-Rəsmi Məbləğ</h1>
