@@ -181,7 +181,7 @@
             <th scope="col">@lang('translates.fields.clientName')</th>
             @if(auth()->user()->hasPermission('viewPrice-work'))
                 @php
-                    $desiredParamIds = [33, 34, 35, 36]; // Getirmek istediğiniz parametrelerin ID'leri
+                    $desiredParamIds = [33, 34, 35, 36];
                     $serviceParameters = \App\Models\Parameter::whereIn('id', $desiredParamIds)->get();
                 @endphp
 
@@ -211,6 +211,7 @@
                     {{mb_strimwidth($log->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}
                 </td>
                 @foreach(\App\Models\Service::serviceParameters() as $param)
+                    @if(in_array($param['data']->getAttribute('id'), [33, 34, 35, 36]))
                     <td>{{$log->getParameter($param['data']->getAttribute('id'))}}</td>
                     @php
                         if($param['count']){ // check if parameter is countable
@@ -224,6 +225,7 @@
                             $totals[$param['data']->getAttribute('id')] = NULL;
                         }
                     @endphp
+                    @endif
                 @endforeach
                 <td>
                     <span class="badge badge-primary" style="font-size: 12px">
