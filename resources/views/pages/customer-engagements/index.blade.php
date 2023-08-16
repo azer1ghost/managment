@@ -174,7 +174,8 @@
                 }
             });
 
-            $('#totalBonus').text(total + ' AZN');
+            total = Math.round(total * 100) / 100;
+            $('#totalBonus').text(total.toFixed(2) + ' AZN');
         });
     </script>
 @endsection
