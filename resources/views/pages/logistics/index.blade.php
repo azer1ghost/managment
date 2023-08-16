@@ -180,8 +180,13 @@
             <th scope="col">@lang('translates.general.transport_type')</th>
             <th scope="col">@lang('translates.fields.clientName')</th>
             @if(auth()->user()->hasPermission('viewPrice-work'))
-                @foreach(\App\Models\Service::serviceParameters() as $param)
-                    <th>{{$param['data']->getAttribute('label')}}</th>
+                @php
+                    $desiredParamIds = [33, 34, 35, 36]; // Getirmek istediğiniz parametrelerin ID'leri
+                    $serviceParameters = \App\Models\Parameter::whereIn('id', $desiredParamIds)->get();
+                @endphp
+
+                @foreach($serviceParameters as $param)
+                    <th>{{$param->getAttribute('label')}}</th>
                 @endforeach
             @endif
             <th scope="col">Status</th>
