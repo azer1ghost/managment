@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerEngagementRequest;
 use App\Models\CustomerEngagement;
+use App\Models\Logistics;
 use App\Models\Partner;
 use App\Models\User;
 use App\Models\Work;
@@ -135,17 +136,23 @@ class CustomerEngagementController extends Controller
                 ->whereYear('paid_at', now()->subMonth()->format('Y'))
                 ->whereMonth('paid_at', now()->subMonth()->format('m'))
                 ->get();
-            if (isNull($works)){
+
+            $logistics = Logistics::query()
+                ->where('client_id', $client)
+                ->whereYear('paid_at', now()->subMonth()->format('Y'))
+                ->whereMonth('paid_at', now()->subMonth()->format('m'))
+                ->get();
+
                 $sum_total_payment = 0;
+
+            foreach ($works as $work) {
+                $sum_total_payment += $work->getParameter($work::PAID) + $work->getParameter($work::ILLEGALPAID);
             }
-            foreach ($works as $work){
-                /**
-                 * @var Work $work
-                 */
-                $sum_total_payment = $works->sum(function ($work) {
-                    return $work->getParameter($work::PAID) + $work->getParameter($work::ILLEGALPAID);
-                });
+
+            foreach ($logistics as $logistic) {
+                $sum_total_payment += $logistic->getParameter(Logistics::SALESPAID) - $logistic->getParameter(Logistics::PURCHASEPAID);
             }
+
             $customerEngagement->setAttribute('amount',$sum_total_payment)->save();
 
         }
