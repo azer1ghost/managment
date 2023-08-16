@@ -475,7 +475,7 @@
         });
 
         $('.update').editable({
-            url: "{{ route('editable') }}",
+            url: "{{ route('logistics-editable') }}",
         });
     </script>
     @endsection
