@@ -213,9 +213,11 @@
                     {{mb_strimwidth($log->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}
                 </td>
                 @if(auth()->user()->hasPermission('update-logistics'))
+
                 @foreach(\App\Models\Service::serviceParameters() as $param)
                     @if(in_array($param['data']->getAttribute('id'), [51, 52, 53, 54]))
-                    <td class="update">{{$log->getParameter($param['data']->getAttribute('id'))}}</td>
+                    <td class="update" data-name="{{$param['data']->getAttribute('id')}}" data-pk="{{ $log->getAttribute('id') }}">{{$log->getParameter($param['data']->getAttribute('id'))}}</td>
+
                     @php
                         if($param['count']){ // check if parameter is countable
                             $count = (int) $log->getParameter($param['data']->getAttribute('id'));
@@ -228,6 +230,7 @@
                             $totals[$param['data']->getAttribute('id')] = NULL;
                         }
                     @endphp
+
                     @endif
                 @endforeach
                     <td>{{$log->getParameter(\App\Models\Logistics::SALES) - $log->getParameter(\App\Models\Logistics::PURCHASE)}}</td>
