@@ -188,6 +188,8 @@
                     <th>{{$param->getAttribute('label')}}</th>
                 @endforeach
             @endif
+            <th scope="col">Profit</th>
+            <th scope="col">Gəlir</th>
             <th scope="col">Status</th>
             <th scope="col">@lang('translates.fields.created_at')</th>
             <th scope="col">@lang('translates.fields.date')</th>
@@ -227,7 +229,10 @@
                     @endphp
                     @endif
                 @endforeach
+                    <td>{{$log->getParameter(\App\Models\Logistics::SALES) - $log->getParameter(\App\Models\Logistics::PURCHASE)}}</td>
+                    <td>{{$log->getParameter(\App\Models\Logistics::SALESPAID) - $log->getParameter(\App\Models\Logistics::PURCHASEPAID)}}</td>
                 @endif
+
                 <td>
                     <span class="badge badge-primary" style="font-size: 12px">
                          {{trans('translates.logistics_statuses.' . $log->getAttribute('status'))}}

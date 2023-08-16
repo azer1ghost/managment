@@ -24,6 +24,11 @@ class Logistics extends Model
     const WATER = 3;
     const RAIL = 4;
 
+    const PURCHASE = 51;
+    const SALES = 52;
+    const PURCHASEPAID = 53;
+    const SALESPAID = 54;
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class)->withDefault();
