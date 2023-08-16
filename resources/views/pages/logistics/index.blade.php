@@ -216,20 +216,20 @@
 
                 @foreach(\App\Models\Service::serviceParameters() as $param)
                     @if(in_array($param['data']->getAttribute('id'), [51, 52, 53, 54]))
-                    <td class="update" data-name="{{$param['data']->getAttribute('id')}}" data-pk="{{ $log->getAttribute('id') }}">{{$log->getParameter($param['data']->getAttribute('id'))}}</td>
+                        <td class="update" data-name="{{$param['data']->getAttribute('id')}}" data-pk="{{ $log->getAttribute('id') }}">{{$log->getParameter($param['data']->getAttribute('id'))}}</td>
 
-                    @php
-                        if($param['count']){ // check if parameter is countable
-                            $count = (int) $log->getParameter($param['data']->getAttribute('id'));
-                            if(isset($totals[$param['data']->getAttribute('id')])){
-                                $totals[$param['data']->getAttribute('id')] += $count;
+                        @php
+                            if($param['count']){ // check if parameter is countable
+                                $count = (int) $log->getParameter($param['data']->getAttribute('id'));
+                                if(isset($totals[$param['data']->getAttribute('id')])){
+                                    $totals[$param['data']->getAttribute('id')] += $count;
+                                }else{
+                                    $totals[$param['data']->getAttribute('id')] = $count;
+                                }
                             }else{
-                                $totals[$param['data']->getAttribute('id')] = $count;
+                                $totals[$param['data']->getAttribute('id')] = NULL;
                             }
-                        }else{
-                            $totals[$param['data']->getAttribute('id')] = NULL;
-                        }
-                    @endphp
+                        @endphp
 
                     @endif
                 @endforeach
@@ -313,10 +313,10 @@
 @section('scripts')
     <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/js/jquery-editable-poshytip.min.js"></script>
     <script>
-        @if($logistics->isNotEmpty())
-        const count  = document.getElementById("count").cloneNode(true);
-        $("#table > tbody").prepend(count);
-        @endif
+{{--        @if($logistics->isNotEmpty())--}}
+{{--        const count  = document.getElementById("count").cloneNode(true);--}}
+{{--        $("#table > tbody").prepend(count);--}}
+{{--        @endif--}}
 
         confirmJs($("a[verify]"));
         confirmJs($("#sum-verify"));
