@@ -181,8 +181,7 @@
             <th scope="col">@lang('translates.fields.clientName')</th>
             @if(auth()->user()->hasPermission('viewPrice-work'))
                 @php
-                    $desiredParamIds = [33, 34, 35, 36];
-                    $serviceParameters = \App\Models\Parameter::whereIn('id', $desiredParamIds)->get();
+                    $serviceParameters = \App\Models\Parameter::whereIn('id', [51, 52, 53, 54])->get();
                 @endphp
 
                 @foreach($serviceParameters as $param)
@@ -212,7 +211,7 @@
                 </td>
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                 @foreach(\App\Models\Service::serviceParameters() as $param)
-                    @if(in_array($param['data']->getAttribute('id'), [33, 34, 35, 36]))
+                    @if(in_array($param['data']->getAttribute('id'), [51, 52, 53, 54]))
                     <td>{{$log->getParameter($param['data']->getAttribute('id'))}}</td>
                     @php
                         if($param['count']){ // check if parameter is countable
