@@ -187,7 +187,7 @@ Route::group([
     Route::resource('/services', ServiceController::class);
     Route::resource('/satisfactions', SatisfactionController::class);
     Route::resource('/logistics', LogisticsController::class);
-    Route::post('/logisticsEditable', [WorkController::class, 'editable'])->name('logistics-editable');
+    Route::post('/logisticsEditable', [LogisticsController::class, 'editable'])->name('logistics-editable');
     Route::any('/logisticsClients/search', [LogisticsClientController::class, 'search'])->name('logisticsClients.search');
 
     Route::put('/works/sum/verify', [WorkController::class, 'sumVerify'])->name('works.sum.verify');
