@@ -187,9 +187,10 @@
                 @foreach($serviceParameters as $param)
                     <th>{{$param->getAttribute('label')}}</th>
                 @endforeach
+                <th scope="col">Profit</th>
+                <th scope="col">Gəlir</th>
             @endif
-            <th scope="col">Profit</th>
-            <th scope="col">Gəlir</th>
+
             <th scope="col">Status</th>
             <th scope="col">@lang('translates.fields.created_at')</th>
             <th scope="col">@lang('translates.fields.date')</th>
