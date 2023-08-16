@@ -179,9 +179,11 @@
             <th scope="col">@lang('translates.navbar.service')</th>
             <th scope="col">@lang('translates.general.transport_type')</th>
             <th scope="col">@lang('translates.fields.clientName')</th>
-{{--            @foreach(\App\Models\Service::serviceParameters() as $param)--}}
-{{--                <th>{{$param['data']->getAttribute('label')}}</th>--}}
-{{--            @endforeach--}}
+            @if(auth()->user()->hasPermission('viewPrice-work'))
+                @foreach(\App\Models\Service::serviceParameters() as $param)
+                    <th>{{$param['data']->getAttribute('label')}}</th>
+                @endforeach
+            @endif
             <th scope="col">Status</th>
             <th scope="col">@lang('translates.fields.created_at')</th>
             <th scope="col">@lang('translates.fields.date')</th>
@@ -190,10 +192,10 @@
         </tr>
         </thead>
         <tbody>
-{{--        @php--}}
-{{--            $totals = []; // array of countable service parameters. Ex: Declaration count--}}
-{{--            $total_payment = [];--}}
-{{--        @endphp--}}
+        @php
+            $totals = []; // array of countable service parameters. Ex: Declaration count
+            $total_payment = [];
+        @endphp
         @forelse($logistics as $log)
             <tr class="text-center">
 {{--                <td>{{$log->getAttribute('reg_number')}}</td>--}}
@@ -203,21 +205,21 @@
                 <td data-toggle="tooltip" data-placement="bottom" title="{{$log->getRelationValue('client')->getAttribute('fullname')}}" >
                     {{mb_strimwidth($log->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}
                 </td>
-{{--                @foreach(\App\Models\Service::serviceParameters() as $param)--}}
-{{--                    <td>{{$log->getParameter($param['data']->getAttribute('id'))}}</td>--}}
-{{--                    @php--}}
-{{--                        if($param['count']){ // check if parameter is countable--}}
-{{--                            $count = (int) $log->getParameter($param['data']->getAttribute('id'));--}}
-{{--                            if(isset($totals[$param['data']->getAttribute('id')])){--}}
-{{--                                $totals[$param['data']->getAttribute('id')] += $count;--}}
-{{--                            }else{--}}
-{{--                                $totals[$param['data']->getAttribute('id')] = $count;--}}
-{{--                            }--}}
-{{--                        }else{--}}
-{{--                            $totals[$param['data']->getAttribute('id')] = NULL;--}}
-{{--                        }--}}
-{{--                    @endphp--}}
-{{--                @endforeach--}}
+                @foreach(\App\Models\Service::serviceParameters() as $param)
+                    <td>{{$log->getParameter($param['data']->getAttribute('id'))}}</td>
+                    @php
+                        if($param['count']){ // check if parameter is countable
+                            $count = (int) $log->getParameter($param['data']->getAttribute('id'));
+                            if(isset($totals[$param['data']->getAttribute('id')])){
+                                $totals[$param['data']->getAttribute('id')] += $count;
+                            }else{
+                                $totals[$param['data']->getAttribute('id')] = $count;
+                            }
+                        }else{
+                            $totals[$param['data']->getAttribute('id')] = NULL;
+                        }
+                    @endphp
+                @endforeach
                 <td>
                     <span class="badge badge-primary" style="font-size: 12px">
                          {{trans('translates.logistics_statuses.' . $log->getAttribute('status'))}}
