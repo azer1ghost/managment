@@ -461,4 +461,17 @@
             theme: "classic"
         });
     </script>
+    <script type="text/javascript">
+        $.fn.editable.defaults.mode = 'inline';
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': '{{csrf_token()}}'
+            }
+        });
+
+        $('.update').editable({
+            url: "{{ route('editable') }}",
+        });
+    </script>
     @endsection

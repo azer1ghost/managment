@@ -193,4 +193,12 @@ class LogisticsController extends Controller
         }
         return response()->setStatusCode('204');
     }
+    public function editable(Request $request)
+    {
+        if ($request->ajax()) {
+            $work = Logistics::find($request->pk);
+            $work->parameters()->updateExistingPivot($request->name, ['value' => $request->value]);
+            return response()->json(['success' => true]);
+        }
+    }
 }
