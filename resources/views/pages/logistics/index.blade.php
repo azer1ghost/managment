@@ -267,7 +267,17 @@
                     </div>
                 </td>
             </tr>
+            @php
+                $purchase[] = $log->getParameter($log::PURCHASE);
+                $sale[] =  $log->getParameter($log::SALES);
+                $paidPurchase[] = $log->getParameter($log::PURCHASEPAID);
+                $paidSale[] = $log->getParameter($log::SALESPAID);
 
+                $total_purchase = array_sum($purchase);
+                $total_sale = array_sum($sale);
+                $total_paid_purchase = array_sum($paidPurchase);
+                $total_paid_sale = array_sum($paidSale);
+            @endphp
         @empty
             <tr>
                 <th colspan="20">
@@ -277,6 +287,22 @@
                 </th>
             </tr>
         @endforelse
+        @if($logistics->isNotEmpty())
+            <tr style="background: #b3b7bb" id="count">
+                <td colspan="3">
+                    <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
+                </td>
+                <td></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_purchase}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_sale}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_paid_purchase}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_paid_sale}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_sale - $total_purchase}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_paid_sale - $total_paid_purchase}}</strong></p></td>
+
+                <td colspan="6"></td>
+            </tr>
+        @endif
         </tbody>
     </table>
 
@@ -313,10 +339,10 @@
 @section('scripts')
     <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/js/jquery-editable-poshytip.min.js"></script>
     <script>
-{{--        @if($logistics->isNotEmpty())--}}
-{{--        const count  = document.getElementById("count").cloneNode(true);--}}
-{{--        $("#table > tbody").prepend(count);--}}
-{{--        @endif--}}
+        @if($logistics->isNotEmpty())
+        const count  = document.getElementById("count").cloneNode(true);
+         $("#table > tbody").prepend(count);
+        @endif
 
         confirmJs($("a[verify]"));
         confirmJs($("#sum-verify"));
