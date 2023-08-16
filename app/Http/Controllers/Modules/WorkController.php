@@ -865,9 +865,25 @@ class WorkController extends Controller
         $HNBGIPaidVat = round($HNBGI->sum->getParameter(Work::VATPAYMENT), 2);
         $HNBGIPaidAmount = round($HNBGI->sum->getParameter(Work::PAID), 2);
 
+        $AMBGIIllegal = round($AMBGI->sum->getParameter(Work::ILLEGALAMOUNT), 2);
+        $AMBGIVat = round($AMBGI->sum->getParameter(Work::VAT), 2);
+        $AMBGIAmount = round($AMBGI->sum->getParameter(Work::AMOUNT), 2);
+
+        $BBGIIllegal = round($BBGI->sum->getParameter(Work::ILLEGALAMOUNT), 2);
+        $BBGIVat = round($BBGI->sum->getParameter(Work::VAT), 2);
+        $BBGIAmount = round($BBGI->sum->getParameter(Work::AMOUNT), 2);
+
+        $HNBGIIllegal = round($HNBGI->sum->getParameter(Work::ILLEGALAMOUNT), 2);
+        $HNBGIVat = round($HNBGI->sum->getParameter(Work::VAT), 2);
+        $HNBGIAmount = round($HNBGI->sum->getParameter(Work::AMOUNT), 2);
+
         $totalAMBGI = round($AMBGIPaidIllegal + $AMBGIPaidVat + $AMBGIPaidAmount, 2);
         $totalBBGI = round($BBGIPaidIllegal + $BBGIPaidVat + $BBGIPaidAmount, 2);
         $totalHNBGI = round($HNBGIPaidIllegal + $HNBGIPaidVat + $HNBGIPaidAmount, 2);
+
+        $totalSalesAMBGI = round($AMBGIIllegal + $AMBGIVat + $AMBGIAmount, 2);
+        $totalSalesBBGI = round($BBGIIllegal + $BBGIVat + $BBGIAmount, 2);
+        $totalSalesHNBGI = round($HNBGIIllegal + $HNBGIVat + $HNBGIAmount, 2);
 
 
         function calculateCashTotal($works, $asanImzaIds) {
@@ -963,6 +979,18 @@ class WorkController extends Controller
                         'HNBGIPaidVat',
                         'HNBGIPaidAmount',
                         'totalHNBGI',
+                        'AMBGIIllegal',
+                        'AMBGIVat',
+                        'AMBGIAmount',
+                        'totalSalesAMBGI',
+                        'BBGIIllegal',
+                        'BBGIVat',
+                        'BBGIAmount',
+                        'totalSalesBBGI',
+                        'HNBGIIllegal',
+                        'HNBGIVat',
+                        'HNBGIAmount',
+                        'totalSalesHNBGI',
                         'AMBGICashTotals',
                         'AMBGIBankTotals',
                         'BBGICashTotals',

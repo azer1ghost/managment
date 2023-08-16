@@ -94,16 +94,31 @@
 
     <div class="work-stats">
         <div>
-            <h1>Aksizli Mallar</h1>
+            <h1>Aksizli Mallar Satış</h1>
+            <h2><span>Rəsmi məbləğ</span>:{{ $AMBGIAmount }}</h2>
+            <h2><span>Qeyri-rəsmi məbləğ</span>:{{ $AMBGIIllegal }}</h2>
+            <h2><span>ƏDV məbləğ</span>:{{ $AMBGIVat }}</h2>
+            <h2><span>Toplam məbləğ</span>:{{ $totalSalesAMBGI }}</h2>
+        </div>
+        <div class="col-md-8">
+            <h1>Aksizli Mallar Ödənənlər</h1>
             <h2><span>Rəsmi məbləğ</span>:{{ $AMBGIPaidAmount }}</h2>
             <h2><span>Qeyri-rəsmi məbləğ</span>:{{ $AMBGIPaidIllegal }}</h2>
             <h2><span>ƏDV məbləğ</span>:{{ $AMBGIPaidVat }}</h2>
             <h2><span>Toplam məbləğ</span>:{{ $totalAMBGI }}</h2>
         </div>
+
     </div>
     <div class="work-stats">
-        <div>
-            <h1>Bakı Baş Gömrük</h1>
+        <div >
+            <h1>Bakı Baş Gömrük Satış</h1>
+            <h2><span>Rəsmi məbləğ</span>:{{ $BBGIAmount }}</h2>
+            <h2><span>Qeyri-rəsmi məbləğ</span>:{{ $BBGIIllegal }}</h2>
+            <h2><span>ƏDV məbləğ</span>:{{ $BBGIVat }}</h2>
+            <h2><span>Toplam məbləğ</span>:{{ $totalSalesBBGI }}</h2>
+        </div>
+        <div class="col-md-8">
+            <h1>Bakı Baş Gömrük Ödənənlər</h1>
             <h2><span>Rəsmi məbləğ</span>:{{ $BBGIPaidAmount }}</h2>
             <h2><span>Qeyri-rəsmi məbləğ</span>:{{ $BBGIPaidIllegal }}</h2>
             <h2><span>ƏDV məbləğ</span>:{{ $BBGIPaidVat }}</h2>
@@ -111,8 +126,15 @@
         </div>
     </div>
     <div class="work-stats">
-        <div>
-            <h1>Hava Nəqliyyatı Baş Gömrük</h1>
+        <div >
+            <h1>Hava Nəqliyyatı Baş Gömrük Satış</h1>
+            <h2><span>Rəsmi məbləğ</span>:{{ $HNBGIAmount }}</h2>
+            <h2><span>Qeyri-rəsmi məbləğ</span>:{{ $HNBGIIllegal }}</h2>
+            <h2><span>ƏDV məbləğ</span>:{{ $HNBGIVat }}</h2>
+            <h2><span>Toplam məbləğ</span>:{{ $totalSalesHNBGI }}</h2>
+        </div>
+        <div class="col-md-8">
+            <h1>Hava Nəqliyyatı Baş Gömrük Ödənənlər</h1>
             <h2><span>Rəsmi məbləğ</span>:{{ $HNBGIPaidAmount }}</h2>
             <h2><span>Qeyri-rəsmi məbləğ</span>:{{ $HNBGIPaidIllegal }}</h2>
             <h2><span>ƏDV məbləğ</span>:{{ $HNBGIPaidVat }}</h2>
