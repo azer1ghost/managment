@@ -210,6 +210,7 @@
                 <td data-toggle="tooltip" data-placement="bottom" title="{{$log->getRelationValue('client')->getAttribute('fullname')}}" >
                     {{mb_strimwidth($log->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}
                 </td>
+                @if(auth()->user()->hasPermission('viewPrice-work'))
                 @foreach(\App\Models\Service::serviceParameters() as $param)
                     @if(in_array($param['data']->getAttribute('id'), [33, 34, 35, 36]))
                     <td>{{$log->getParameter($param['data']->getAttribute('id'))}}</td>
@@ -227,6 +228,7 @@
                     @endphp
                     @endif
                 @endforeach
+                @endif
                 <td>
                     <span class="badge badge-primary" style="font-size: 12px">
                          {{trans('translates.logistics_statuses.' . $log->getAttribute('status'))}}
