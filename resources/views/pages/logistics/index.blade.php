@@ -215,7 +215,7 @@
                 @if(auth()->user()->hasPermission('update-logistics'))
                 @foreach(\App\Models\Service::serviceParameters() as $param)
                     @if(in_array($param['data']->getAttribute('id'), [51, 52, 53, 54]))
-                    <td>{{$log->getParameter($param['data']->getAttribute('id'))}}</td>
+                    <td class="update">{{$log->getParameter($param['data']->getAttribute('id'))}}</td>
                     @php
                         if($param['count']){ // check if parameter is countable
                             $count = (int) $log->getParameter($param['data']->getAttribute('id'));
