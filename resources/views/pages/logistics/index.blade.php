@@ -267,7 +267,8 @@
                     </div>
                 </td>
             </tr>
-            @php
+            @if(auth()->user()->hasPermission('update-logistics'))
+                @php
                 $purchase[] = $log->getParameter($log::PURCHASE);
                 $sale[] =  $log->getParameter($log::SALES);
                 $paidPurchase[] = $log->getParameter($log::PURCHASEPAID);
@@ -277,7 +278,8 @@
                 $total_sale = array_sum($sale);
                 $total_paid_purchase = array_sum($paidPurchase);
                 $total_paid_sale = array_sum($paidSale);
-            @endphp
+            @endphp @endif
+
         @empty
             <tr>
                 <th colspan="20">
