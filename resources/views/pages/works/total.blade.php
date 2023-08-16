@@ -260,7 +260,7 @@
             <td>{{$GarantBankTotal + $GarantTotal}}</td>
         </tr>
         <tr>
-            <th scope="row">3</th>
+            <th scope="row">4</th>
             <td>Mind Services</td>
             <td>{{ $AMBGICashTotals['MIND'] }}</td>
             <td>{{ $BBGICashTotals['MIND'] }}</td>
@@ -277,7 +277,7 @@
             <td>{{$MindBankTotal + $MindTotal}}</td>
         </tr>
         <tr>
-            <th scope="row">3</th>
+            <th scope="row">5</th>
             <td>Rigel Group</td>
             <td>{{ $AMBGICashTotals['RIGEL'] }}</td>
             <td>{{ $BBGICashTotals['RIGEL'] }}</td>
@@ -294,7 +294,7 @@
             <td>{{$RigelBankTotal + $RigelTotal}}</td>
         </tr>
         <tr>
-            <th scope="row">3</th>
+            <th scope="row">6</th>
             <td>Tedora Group</td>
             <td>{{ $AMBGICashTotals['TEDORA'] }}</td>
             <td>{{ $BBGICashTotals['TEDORA'] }}</td>
@@ -311,7 +311,7 @@
             <td>{{$TedoraBankTotal + $TedoraTotal}}</td>
         </tr>
         <tr>
-            <th scope="row">3</th>
+            <th scope="row">7</th>
             <td>Mobil Broker</td>
             <td>{{ $AMBGICashTotals['MOBIL'] }}</td>
             <td>{{ $BBGICashTotals['MOBIL'] }}</td>
@@ -326,6 +326,23 @@
             <td>{{$MobilBankTotal}}</td>
             <td>0</td>
             <td>{{$MobilBankTotal + $MobilTotal}}</td>
+        </tr>
+        <tr>
+            <th scope="row">8</th>
+            <td>Mobil Logistics</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{{$logSales}}</td>
+            <td>{{$logPurchase}}</td>
+            <td>0</td>
         </tr>
         </tbody>
     </table>

@@ -12,7 +12,7 @@ use App\Interfaces\WorkRepositoryInterface;
 use App\Notifications\NotifyClientDirectorSms;
 use App\Notifications\NotifyClientSms;
 use Carbon\Carbon;
-use App\Models\{AsanImza, Command, Company, Department, Service, User, Work, Client};
+use App\Models\{AsanImza, Command, Company, Department, Logistics, Service, User, Work, Client};
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use function PHPUnit\Framework\isNull;
@@ -829,7 +829,18 @@ class WorkController extends Controller
             ->with('parameters')
             ->get();
 
+        $logistics = Logistics::where(function($query) use ($filters) {
+            $created_at_range = $filters['created_at'];
+            $dates = explode(' - ', $created_at_range);
+            if (count($dates) === 2) {
+                $query->whereBetween('created_at', [$dates[0], $dates[1]]);
+            }
+        })
+            ->with('parameters')
+            ->get();
 
+        $logSales = 0;
+        $logPurchase = 0;
         $totalIllegalAmount = 0;
         $totalAmount = 0;
         $totalVat = 0;
@@ -843,6 +854,10 @@ class WorkController extends Controller
         $BBGI = $works->where('department_id', 12);
         $HNBGI = $works->where('department_id', 13);
 
+        foreach ($logistics as $log){
+            $logSales += round($log->getParameter(Logistics::SALESPAID), 2) ?? 0;
+            $logPurchase += round($log->getParameter(Logistics::PURCHASEPAID), 2) ?? 0;
+        }
         foreach ($works as $work){
             $totalIllegalAmount += round($work->getParameter(Work::ILLEGALAMOUNT), 2) ?? 0;
             $totalAmount += round($work->getParameter(Work::AMOUNT), 2) ?? 0;
@@ -1015,6 +1030,8 @@ class WorkController extends Controller
                         'totalBBGICash',
                         'totalHNBGICash',
                         'filters',
+                        'logSales',
+                        'logPurchase',
 //                        'dateFilters',
             ));
     }
