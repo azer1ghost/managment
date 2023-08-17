@@ -239,7 +239,7 @@
             <th scope="col">Status</th>
             <th scope="col">@lang('translates.fields.created_at')</th>
             <th scope="col">@lang('translates.fields.date')</th>
-            {{--            <th scope="col">@lang('translates.fields.paid_at')</th>--}}
+                        <th scope="col">@lang('translates.fields.paid_at')</th>
             <th scope="col">@lang('translates.columns.actions')</th>
         </tr>
         </thead>
@@ -294,7 +294,7 @@
                     data-toggle="tooltip">{{$log->getAttribute('created_at')}}</td>
                 <td title="{{$log->getAttribute('datetime')}}"
                     data-toggle="tooltip">{{optional($log->getAttribute('datetime'))->format('Y-m-d')}}</td>
-                {{--                <td title="{{$log->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($log->getAttribute('paid_at'))->format('Y-m-d')}}</td>--}}
+                                <td title="{{$log->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($log->getAttribute('paid_at'))->format('Y-m-d')}}</td>
                 {{--                    @php--}}
                 {{--                        $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID) + $work->getAttribute('bank_charge');--}}
                 {{--                        $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) + $work->getParameter($work::ILLEGALAMOUNT) - $sum_payment) * -1;--}}
@@ -343,7 +343,7 @@
         @if(auth()->user()->hasPermission('update-logistics'))
             @if($logistics->isNotEmpty())
                 <tr style="background: #b3b7bb" id="count">
-                    <td colspan="3">
+                    <td colspan="4">
                         <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
                     </td>
                     <td></td>
