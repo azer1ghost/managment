@@ -444,34 +444,39 @@
                     @php
                         $desiredOrder = [17, 33, 34, 35, 36, 38, 37, 20, 48];
                         $serviceParameters = \App\Models\Service::serviceParameters();
-                    @endphp
 
-                    @foreach($desiredOrder as $paramId)
-                        @php
+                        $sortedParameters = collect([]);
+                        foreach ($desiredOrder as $paramId) {
                             $param = $serviceParameters->first(function ($item) use ($paramId) {
                                 return $item['data']->getAttribute('id') === $paramId;
                             });
+                            if ($param) {
+                                $sortedParameters->push($param);
+                            }
+                        }
+                    @endphp
+
+                    @foreach($sortedParameters as $param)
+                        @php
+                            $paramId = $param['data']->getAttribute('id');
                         @endphp
+                        <td @if(auth()->user()->hasPermission('editPrice-work')) class="update" @endif
+                        data-name="{{$paramId}}" data-pk="{{ $work->getAttribute('id') }}">
+                            {{$work->getParameter($paramId)}}
+                        </td>
 
-                        @if($param)
-                            <td @if(auth()->user()->hasPermission('editPrice-work')) class="update" @endif
-                            data-name="{{$paramId}}" data-pk="{{ $work->getAttribute('id') }}">
-                                {{$work->getParameter($paramId)}}
-                            </td>
-
-                            @php
-                                if($param['count']){ // check if parameter is countable
-                                    $count = (int) $work->getParameter($paramId);
-                                    if(isset($totals[$paramId])){
-                                        $totals[$paramId] += $count;
-                                    }else{
-                                        $totals[$paramId] = $count;
-                                    }
+                        @php
+                            if($param['count']){ // check if parameter is countable
+                                $count = (int) $work->getParameter($paramId);
+                                if(isset($totals[$paramId])){
+                                    $totals[$paramId] += $count;
                                 }else{
-                                    $totals[$paramId] = NULL;
+                                    $totals[$paramId] = $count;
                                 }
-                            @endphp
-                        @endif
+                            }else{
+                                $totals[$paramId] = NULL;
+                            }
+                        @endphp
                     @endforeach
                 @endif
                 <td class="paymentMethod">
