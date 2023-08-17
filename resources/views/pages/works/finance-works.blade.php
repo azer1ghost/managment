@@ -444,7 +444,7 @@
                     @php
                         $desiredIds = [17, 33, 34, 35, 36, 38, 37, 20, 48];
                         $serviceParameters = \App\Models\Service::serviceParameters()
-                            ->where('id', $desiredIds)
+                            ->whereIn('id', [17, 33, 34, 35, 36, 38, 37, 20, 48])
                             ->orderByRaw("FIELD(id, " . implode(',', $desiredIds) . ")")
                             ->get();
                     @endphp
