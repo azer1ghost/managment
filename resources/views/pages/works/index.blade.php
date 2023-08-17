@@ -519,6 +519,7 @@
                             <tr>
                                 @if(auth()->user()->hasPermission('viewPrice-work'))
                                     @foreach(\App\Models\Service::serviceParameters() as $param)
+                                        @if(in_array($param['data']->getAttribute('id'), [17, 33, 34, 35, 36, 38, 37, 20, 48, 50]))
                                         <td @if(auth()->user()->hasPermission('editPrice-work')) class="update"  @endif data-name="{{$param['data']->getAttribute('id')}}" data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
                                             @php
                                                 if($param['count']){ // check if parameter is countable
@@ -532,6 +533,7 @@
                                                     $totals[$param['data']->getAttribute('id')] = NULL;
                                                 }
                                             @endphp
+                                        @endif
                                     @endforeach
                                 @endif
                                 <td title="{{$work->getAttribute('payment_method')}}" data-toggle="tooltip">{{trans('translates.payment_methods.' . $work->getAttribute('payment_method'))}}</td>
