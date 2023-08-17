@@ -44,11 +44,11 @@
                  @else style="display:none;" @endif>
                 <div class="col-12">
                     <div class="row m-0">
-                        {{--                        <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">--}}
-                        {{--                            <label for="reg_numberFilter">Registration Number</label>--}}
-                        {{--                            <input type="search" id="reg_numberFilter" name="reg_number" value="{{$filters['reg_number']}}"--}}
-                        {{--                                   placeholder="Registration Number" class="form-control">--}}
-                        {{--                        </div>--}}
+                                                <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">
+                                                    <label for="reg_numberFilter">Registration Number</label>
+                                                    <input type="search" id="reg_numberFilter" name="reg_number" value="{{$filters['reg_number']}}"
+                                                           placeholder="Registration Number" class="form-control">
+                                                </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="userFilter">{{__('translates.general.user_select')}}</label>
@@ -219,7 +219,7 @@
            style="border-collapse:collapse;" id="table">
         <thead>
         <tr class="text-center">
-            {{--            <th scope="col">Registration Number</th>--}}
+                        <th scope="col">Registration Number</th>
             <th scope="col">@lang('translates.fields.user')</th>
             <th scope="col">@lang('translates.navbar.service')</th>
             <th scope="col">@lang('translates.general.transport_type')</th>
@@ -250,7 +250,7 @@
         @endphp
         @forelse($logistics as $log)
             <tr class="text-center">
-                {{--                <td>{{$log->getAttribute('reg_number')}}</td>--}}
+                                <td>{{$log->getAttribute('reg_number')}}</td>
                 <td>{{$log->getRelationValue('user')->getAttribute('fullname_with_position')}}</td>
                 <td>{{$log->getRelationValue('service')->getAttribute('name')}}</td>
                 <td>{{trans('translates.transport_types.' . $log->getAttribute('transport_type'))}}</td>

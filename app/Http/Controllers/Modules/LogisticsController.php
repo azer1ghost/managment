@@ -108,11 +108,11 @@ class LogisticsController extends Controller
         }
 
         $logistics->parameters()->sync($parameters);
-//        $reg_number = substr($name, 0, 3) . '/' .
-//            now()->format('d/m') . '/' .
-//            $logistics->getAttribute('id') . '/' .
-//            substr($name, -1);
-//        $logistics->setAttribute('reg_number', $reg_number);
+        $reg_number = substr($name, 0, 3) . '/' .
+            now()->format('d/m') . '/' .
+            $logistics->getAttribute('id') . '/' .
+            substr($name, -1);
+        $logistics->setAttribute('reg_number', $reg_number);
         $logistics->save();
 
         return redirect()
