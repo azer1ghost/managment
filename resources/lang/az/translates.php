@@ -648,6 +648,7 @@ return [
         'get_signature' => 'İmzamı Al',
         'signature_for' => 'İmza',
         'legal' => 'Hüquqi',
+        'number' => 'Nömrə',
         'foreignlegal' => 'Xarici Hüquqi Şəxs',
         'physical' => 'Fiziki',
         'foreignphysical' => 'Xarici Vətəndaş',

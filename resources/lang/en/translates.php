@@ -644,6 +644,7 @@ return [
         'get_signature' => 'Get My Signature',
         'signature_for' => 'Signature for',
         'legal' => 'Legal',
+        'number' => 'Number',
         'foreignlegal' => 'Foreign Legal',
         'physical' => 'Physical',
         'foreignphysical' => 'Foreign Physical',

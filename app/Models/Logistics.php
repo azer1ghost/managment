@@ -11,7 +11,7 @@ class Logistics extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['reg_number', 'user_id', 'service_id', 'reference_id', 'client_id', 'transport_type', 'status', 'datetime', 'paid_at'];
+    protected $fillable = ['reg_number', 'user_id', 'service_id', 'reference_id', 'client_id', 'transport_type', 'status', 'datetime', 'paid_at', 'number'];
     protected $dates = ['datetime', 'paid_at'];
 
     const PICKEDUP = 1;

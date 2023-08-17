@@ -10,6 +10,7 @@ class LogisticsRequest extends FormRequest
     {
         return [
             'user_id' => 'integer|nullable',
+            'number' => 'integer|nullable',
             'service_id' => 'integer|nullable',
             'reference_id' => 'integer|nullable',
             'client_id' => 'integer|nullable',
