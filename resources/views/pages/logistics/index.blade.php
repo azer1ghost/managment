@@ -1,5 +1,29 @@
 @extends('layouts.main')
 @section('title', __('translates.navbar.logistics'))
+@section('style')
+    <style>
+
+        .table tr {
+            cursor: pointer;
+        }
+
+        .scrollable-container {
+            height: 100vh;
+            overflow-y: scroll;
+        }
+
+        th {
+            position: sticky;
+            top: 0;
+            background-color: #eeeeee;
+        }
+
+        .table {
+            overflow-x: scroll;
+        }
+    </style>
+
+@endsection
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -191,7 +215,8 @@
             </div>
         </div>
     @endif
-    <table class="table table-responsive-sm" id="table">
+    <table class="table table-responsive @if(auth()->user()->hasPermission('update-logistics')) table-responsive-md @else table-responsive-sm @endif scrollable-container"
+           style="border-collapse:collapse;" id="table">
         <thead>
         <tr class="text-center">
             {{--            <th scope="col">Registration Number</th>--}}
