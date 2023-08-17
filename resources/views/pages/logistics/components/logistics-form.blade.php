@@ -20,7 +20,7 @@
 {{--                    <input type="number" id="data-number" name="number">--}}
 {{--                    <label class="form-number" for="data-number">@lang('translates.general.number')</label>--}}
 {{--                </div>--}}
-                <x-input::number wire:ignore name="number"  :label="__('translates.fields.number')" value="{{$data->getAttribute('number')}}" width="3" class="pr-3 " />
+                <x-input::number wire:ignore name="number"  :label="__('translates.fields.number')" value="{{optional($data->getAttribute('number'))}}" width="3" class="pr-3 " />
                     <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
                     <div class="d-flex align-items-center">
