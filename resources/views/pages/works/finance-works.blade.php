@@ -3,13 +3,15 @@
 @section('title', __('translates.navbar.work'))
 @section('style')
     <style>
-        .paymentMethod{
+        .paymentMethod {
             vertical-align: middle !important;
             min-width: 120px;
         }
+
         .table tr {
             cursor: pointer;
         }
+
         .hiddenRow {
             padding: 0 4px !important;
             background-color: #eeeeee;
@@ -20,12 +22,14 @@
             height: 100vh;
             overflow-y: scroll;
         }
+
         th {
             position: sticky;
             top: 0;
             background-color: #eeeeee;
         }
-        .table{
+
+        .table {
             overflow-x: scroll;
         }
     </style>
@@ -48,7 +52,8 @@
 
     <form action="{{route('finance-works')}}">
         <div class="row d-flex justify-content-between mb-2">
-            <div id="filterContainer" class="mb-3" @if(request()->has('datetime')) style="display:block;" @else style="display:none;" @endif>
+            <div id="filterContainer" class="mb-3" @if(request()->has('datetime')) style="display:block;"
+                 @else style="display:none;" @endif>
                 <div class="col-12">
                     <div class="row m-0">
                         <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">
@@ -58,13 +63,15 @@
                         </div>
                         <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">
                             <label for="codeFilter">Sorğu nömrəsinə görə axtarış</label>
-                            <input type="search" id="codeFilter" name="declaration_no" value="{{$filters['declaration_no']}}"
+                            <input type="search" id="codeFilter" name="declaration_no"
+                                   value="{{$filters['declaration_no']}}"
                                    placeholder="Sorğu nömrəsi" class="form-control">
                         </div>
 
                         @if(\App\Models\Work::userCanViewAll())
                             <div class="form-group col-12 col-md-3 my-3 pl-0">
-                                <label class="d-block" for="departmentFilter">{{__('translates.general.department_select')}}</label>
+                                <label class="d-block"
+                                       for="departmentFilter">{{__('translates.general.department_select')}}</label>
                                 <select id="departmentFilter" class="select2"
                                         name="department_id"
                                         data-width="fit" title="{{__('translates.filters.select')}}"
@@ -72,8 +79,9 @@
                                     <option value="">@lang('translates.filters.select')</option>
                                     @foreach($departments as $department)
                                         <option
-                                                @if($department->getAttribute('id') == $filters['department_id']) selected @endif
-                                        value="{{$department->getAttribute('id')}}"
+                                                @if($department->getAttribute('id') == $filters['department_id']) selected
+                                                @endif
+                                                value="{{$department->getAttribute('id')}}"
                                         >
                                             {{ucfirst($department->getAttribute('name'))}}
                                         </option>
@@ -101,7 +109,8 @@
                         @endif
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="serviceFilter">{{__('translates.general.select_service')}}</label>
+                            <label class="d-block"
+                                   for="serviceFilter">{{__('translates.general.select_service')}}</label>
                             <select id="serviceFilter" multiple
                                     class="select2 js-example-theme-multiple"
                                     name="service_id[]"
@@ -111,7 +120,8 @@
                                 @foreach($services as $service)
                                     <option
                                             @if($filters['service_id'])
-                                                @if(in_array($service->getAttribute('id'), $filters['service_id'])) selected @endif
+                                                @if(in_array($service->getAttribute('id'), $filters['service_id'])) selected
+                                            @endif
                                             @endif
                                             value="{{$service->getAttribute('id')}}">
                                         {{$service->getAttribute('name')}}
@@ -121,7 +131,8 @@
                         </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
+                            <label class="d-block"
+                                   for="clientFilter">{{trans('translates.general.select_client')}}</label>
                             <select name="client_id"
                                     id="clientFilter"
                                     class="custom-select2" style="width: 100% !important;"
@@ -134,13 +145,16 @@
                         </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="asanCompanyFilter">Asan Imza @lang('translates.columns.company')</label>
-                            <select name="asan_imza_company_id" id="asanCompanyFilter" class="select2" data-width="fit" style="width: 100% !important;">
+                            <label class="d-block" for="asanCompanyFilter">Asan
+                                Imza @lang('translates.columns.company')</label>
+                            <select name="asan_imza_company_id" id="asanCompanyFilter" class="select2" data-width="fit"
+                                    style="width: 100% !important;">
                                 <option value="">@lang('translates.filters.select')</option>
                                 @foreach($companies as $company)
                                     <option
-                                            @if($company->getAttribute('id') == $filters['asan_imza_company_id']) selected @endif
-                                    value="{{$company->getAttribute('id')}}"
+                                            @if($company->getAttribute('id') == $filters['asan_imza_company_id']) selected
+                                            @endif
+                                            value="{{$company->getAttribute('id')}}"
                                     >
                                         {{$company->getAttribute('name')}}
                                     </option>
@@ -149,8 +163,10 @@
                         </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="asanUserFilter">Asan Imza @lang('translates.columns.user')</label>
-                            <select name="asan_imza_id" id="asanUserFilter" class="custom-select2" style="width: 100% !important;" data-url="{{route('asanImza.user.search')}}">
+                            <label class="d-block" for="asanUserFilter">Asan
+                                Imza @lang('translates.columns.user')</label>
+                            <select name="asan_imza_id" id="asanUserFilter" class="custom-select2"
+                                    style="width: 100% !important;" data-url="{{route('asanImza.user.search')}}">
                                 @if(is_numeric($filters['asan_imza_id']))
                                     @php
                                         $asanUser = \App\Models\AsanImza::find($filters['asan_imza_id']);
@@ -164,8 +180,10 @@
                         </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="statusFilter">{{trans('translates.general.status_choose')}}</label>
-                            <select name="status" id="statusFilter" class="form-control" style="width: 100% !important;">
+                            <label class="d-block"
+                                   for="statusFilter">{{trans('translates.general.status_choose')}}</label>
+                            <select name="status" id="statusFilter" class="form-control"
+                                    style="width: 100% !important;">
                                 <option value="">@lang('translates.filters.select')</option>
                                 @foreach($statuses as $status)
                                     <option value="{{$status}}"
@@ -176,54 +194,81 @@
                             </select>
                         </div>
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="createdAtFilter">{{trans('translates.fields.created_at')}}</label>
-                            <input class="form-control custom-daterange mb-1" id="entryDateFilter" type="text" readonly name="entry_date" value="{{$filters['entry_date']}}">
-                            <input type="checkbox" name="check-entry_date" id="check-entry_date" @if(request()->has('check-entry_date')) checked @endif> <label for="check-entry_date">@lang('translates.filters.filter_by')</label>
+                            <label class="d-block"
+                                   for="createdAtFilter">{{trans('translates.fields.created_at')}}</label>
+                            <input class="form-control custom-daterange mb-1" id="entryDateFilter" type="text" readonly
+                                   name="entry_date" value="{{$filters['entry_date']}}">
+                            <input type="checkbox" name="check-entry_date" id="check-entry_date"
+                                   @if(request()->has('check-entry_date')) checked @endif> <label
+                                    for="check-entry_date">@lang('translates.filters.filter_by')</label>
                         </div>
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="createdAtFilter">{{trans('translates.fields.entry_date')}}</label>
-                            <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="injected_at" value="{{$filters['injected_at']}}">
-                            <input type="checkbox" name="check-injected_at" id="check-injected_at" @if(request()->has('check-injected_at')) checked @endif> <label for="check-injected_at">@lang('translates.filters.filter_by')</label>
+                            <label class="d-block"
+                                   for="createdAtFilter">{{trans('translates.fields.entry_date')}}</label>
+                            <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly
+                                   name="injected_at" value="{{$filters['injected_at']}}">
+                            <input type="checkbox" name="check-injected_at" id="check-injected_at"
+                                   @if(request()->has('check-injected_at')) checked @endif> <label
+                                    for="check-injected_at">@lang('translates.filters.filter_by')</label>
                         </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="datetimeFilter">{{trans('translates.fields.date')}}</label>
-                            <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly name="datetime" value="{{$filters['datetime']}}">
-                            <input type="checkbox" name="check-datetime" id="check-datetime" @if(request()->has('check-datetime')) checked @endif> <label for="check-datetime">@lang('translates.filters.filter_by')</label>
+                            <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly
+                                   name="datetime" value="{{$filters['datetime']}}">
+                            <input type="checkbox" name="check-datetime" id="check-datetime"
+                                   @if(request()->has('check-datetime')) checked @endif> <label
+                                    for="check-datetime">@lang('translates.filters.filter_by')</label>
                         </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="datetimeFilter">{{trans('translates.fields.paid_at')}}</label>
-                            <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly name="paid_at_date" value="{{request()->get('paid_at_date')}}">
-                            <input type="checkbox" name="check-paid_at" id="check-paid_at" @if(request()->has('check-paid_at')) checked @endif> <label for="check-paid_at">@lang('translates.filters.filter_by')</label>
-                            <input type="checkbox" name="check-paid_at-null" id="check-paid_at-null" @if(request()->has('check-paid_at-null')) checked @endif> <label for="check-paid_at-null">Ödəniş tarixi boş olanlar</label>
+                            <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly
+                                   name="paid_at_date" value="{{request()->get('paid_at_date')}}">
+                            <input type="checkbox" name="check-paid_at" id="check-paid_at"
+                                   @if(request()->has('check-paid_at')) checked @endif> <label
+                                    for="check-paid_at">@lang('translates.filters.filter_by')</label>
+                            <input type="checkbox" name="check-paid_at-null" id="check-paid_at-null"
+                                   @if(request()->has('check-paid_at-null')) checked @endif> <label
+                                    for="check-paid_at-null">Ödəniş tarixi boş olanlar</label>
                         </div>
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="datetimeFilter">{{trans('translates.fields.invoiced_date')}}</label>
-                            <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly name="invoiced_date" value="{{$filters['invoiced_date']}}">
-                            <input type="checkbox" name="check-invoiced_date" id="check-invoiced_date" @if(request()->has('check-invoiced_date')) checked @endif> <label for="check-invoiced_date">@lang('translates.filters.filter_by')</label>
+                            <label class="d-block"
+                                   for="datetimeFilter">{{trans('translates.fields.invoiced_date')}}</label>
+                            <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly
+                                   name="invoiced_date" value="{{$filters['invoiced_date']}}">
+                            <input type="checkbox" name="check-invoiced_date" id="check-invoiced_date"
+                                   @if(request()->has('check-invoiced_date')) checked @endif> <label
+                                    for="check-invoiced_date">@lang('translates.filters.filter_by')</label>
                         </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="datetimeFilter">{{trans('translates.fields.vat_paid_at')}}</label>
-                            <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly name="vat_date" value="{{$filters['vat_date']}}">
-                            <input type="checkbox" name="check-vat_paid_at" id="check-vat_paid_at" @if(request()->has('check-vat_paid_at')) checked @endif> <label for="check-vat_paid_at">@lang('translates.filters.filter_by')</label>
+                            <label class="d-block"
+                                   for="datetimeFilter">{{trans('translates.fields.vat_paid_at')}}</label>
+                            <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly
+                                   name="vat_date" value="{{$filters['vat_date']}}">
+                            <input type="checkbox" name="check-vat_paid_at" id="check-vat_paid_at"
+                                   @if(request()->has('check-vat_paid_at')) checked @endif> <label
+                                    for="check-vat_paid_at">@lang('translates.filters.filter_by')</label>
                         </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="verifiedFilter">@lang('translates.columns.verified')</label>
-                            <select name="verified_at" id="verifiedFilter" class="form-control" style="width: 100% !important;">
+                            <select name="verified_at" id="verifiedFilter" class="form-control"
+                                    style="width: 100% !important;">
                                 <option value="">@lang('translates.filters.select')</option>
                                 @foreach($verifies as $key => $verify)
                                     <option
-                                            value="{{$key}}" @if($key == $filters['verified_at']) selected @endif>{{$verify}}
+                                            value="{{$key}}"
+                                            @if($key == $filters['verified_at']) selected @endif>{{$verify}}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="paidVerifiedFilter">@lang('translates.columns.paid')</label>
-                            <select name="paid_at" id="paidVerifiedFilter" class="form-control" style="width: 100% !important;">
+                            <select name="paid_at" id="paidVerifiedFilter" class="form-control"
+                                    style="width: 100% !important;">
                                 <option value="">@lang('translates.filters.select')</option>
                                 @foreach($priceVerifies as $key => $paid)
                                     <option
@@ -233,8 +278,10 @@
                             </select>
                         </div>
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="paymentMethodFilter">@lang('translates.general.payment_method')</label>
-                            <select name="payment_method" id="paymentMethodFilter" class="form-control" style="width: 100% !important;">
+                            <label class="d-block"
+                                   for="paymentMethodFilter">@lang('translates.general.payment_method')</label>
+                            <select name="payment_method" id="paymentMethodFilter" class="form-control"
+                                    style="width: 100% !important;">
                                 <option value="">@lang('translates.filters.select')</option>
                                 @foreach($paymentMethods as $paymentMethod)
                                     <option value="{{$paymentMethod}}"
@@ -270,16 +317,19 @@
             <div class="col-sm-3 pt-2 d-flex align-items-center">
                 <div class="input-group">
                     <div class="d-flex align-items-center">
-                        <a class="btn btn-outline-success  mr-2" data-toggle="modal" data-target="#report-work" >@lang('translates.navbar.report')</a>
+                        <a class="btn btn-outline-success  mr-2" data-toggle="modal"
+                           data-target="#report-work">@lang('translates.navbar.report')</a>
                     </div>
                 </div>
             </div>
 
             @can('create', App\Models\Work::class)
                 <div class="col-sm-6 py-3">
-                    <a class="btn btn-outline-success float-right" data-toggle="modal" data-target="#create-work">@lang('translates.buttons.create')</a>
+                    <a class="btn btn-outline-success float-right" data-toggle="modal"
+                       data-target="#create-work">@lang('translates.buttons.create')</a>
                     @if(auth()->user()->hasPermission('canRedirect-work'))
-                    <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('works.export', ['filters' => json_encode($filters),'dateFilters' => json_encode($dateFilters)])}}">@lang('translates.buttons.export')</a>
+                        <a class="btn btn-outline-primary float-right mr-sm-2"
+                           href="{{route('works.export', ['filters' => json_encode($filters),'dateFilters' => json_encode($dateFilters)])}}">@lang('translates.buttons.export')</a>
                     @endif
                 </div>
             @endcan
@@ -293,7 +343,8 @@
             </div>
         </div>
     @endif
-    <table class="table table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif scrollable-container" style="border-collapse:collapse;" id="table">
+    <table class="table table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif scrollable-container"
+           style="border-collapse:collapse;" id="table">
         <thead>
         <tr class="text-center">
             <th scope="col">E-Qaimə</th>
@@ -303,6 +354,9 @@
             <th scope="col">@lang('translates.fields.clientName')</th>
             <th scope="col">Status</th>
             @if(auth()->user()->hasPermission('viewPrice-work'))
+                @php
+                    $serviceParameters = \App\Models\Parameter::whereIn('id', [17, 20, 33, 34, 35, 36, 37, 38, 48, 50])->get();
+                @endphp
                 @foreach(\App\Models\Service::serviceParameters() as $param)
                     <th>{{$param['data']->getAttribute('label')}}</th>
                 @endforeach
@@ -331,9 +385,11 @@
                     $hasPending = true;
                 @endphp
             @endif
-            <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}">
+            <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f"
+                @endif title="{{$work->getAttribute('code')}}">
 
-                <td @if(auth()->user()->hasPermission('editPrice-work')) class="code" @endif data-name="code" data-pk="{{ $work->getAttribute('id') }}" scope="row">{{$work->getAttribute('code')}}</td>
+                <td @if(auth()->user()->hasPermission('editPrice-work')) class="code" @endif data-name="code"
+                    data-pk="{{ $work->getAttribute('id') }}" scope="row">{{$work->getAttribute('code')}}</td>
                 <td>
                     @if(is_numeric($work->getAttribute('user_id')))
                         {{$work->getRelationValue('user')->getAttribute('fullname_with_position')}}
@@ -342,8 +398,10 @@
                     @endif
                 </td>
                 <td>{{$work->asanImza()->exists() ? $work->getRelationValue('asanImza')->getAttribute('user_with_company') : trans('translates.filters.select')}}</td>
-                <td><i class="{{$work->getRelationValue('service')->getAttribute('icon')}} pr-2" style="font-size: 20px"></i> {{$work->getRelationValue('service')->getAttribute('name')}}</td>
-                <td data-toggle="tooltip" data-placement="bottom" title="{{$work->getRelationValue('client')->getAttribute('fullname')}}" >
+                <td><i class="{{$work->getRelationValue('service')->getAttribute('icon')}} pr-2"
+                       style="font-size: 20px"></i> {{$work->getRelationValue('service')->getAttribute('name')}}</td>
+                <td data-toggle="tooltip" data-placement="bottom"
+                    title="{{$work->getRelationValue('client')->getAttribute('fullname')}}">
                     {{mb_strimwidth($work->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}
                 </td>
                 <td>
@@ -381,39 +439,51 @@
                 </td>
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     @foreach(\App\Models\Service::serviceParameters() as $param)
-                        <td @if(auth()->user()->hasPermission('editPrice-work')) class="update"  @endif data-name="{{$param['data']->getAttribute('id')}}" data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
-                        @php
-                            if($param['count']){ // check if parameter is countable
-                                $count = (int) $work->getParameter($param['data']->getAttribute('id'));
-                                if(isset($totals[$param['data']->getAttribute('id')])){
-                                    $totals[$param['data']->getAttribute('id')] += $count;
+                        @if(in_array($param['data']->getAttribute('id'), [17, 20, 33, 34, 35, 36, 37, 38, 48, 50]))
+                            <td @if(auth()->user()->hasPermission('editPrice-work')) class="update"
+                                @endif data-name="{{$param['data']->getAttribute('id')}}"
+                                data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
+                            @php
+                                if($param['count']){ // check if parameter is countable
+                                    $count = (int) $work->getParameter($param['data']->getAttribute('id'));
+                                    if(isset($totals[$param['data']->getAttribute('id')])){
+                                        $totals[$param['data']->getAttribute('id')] += $count;
+                                    }else{
+                                        $totals[$param['data']->getAttribute('id')] = $count;
+                                    }
                                 }else{
-                                    $totals[$param['data']->getAttribute('id')] = $count;
+                                    $totals[$param['data']->getAttribute('id')] = NULL;
                                 }
-                            }else{
-                                $totals[$param['data']->getAttribute('id')] = NULL;
-                            }
-                        @endphp
+                            @endphp
+                        @endif
                     @endforeach
                 @endif
                 <td class="paymentMethod">
-                    <select id="payment_method" data-id="{{$work->getAttribute('id')}}" name="payment_method" class="form-control payment_method">
+                    <select id="payment_method" data-id="{{$work->getAttribute('id')}}" name="payment_method"
+                            class="form-control payment_method">
                         @foreach($paymentMethods as $paymentMethod)
-                            <option value="{{$paymentMethod}}" @if($work->getAttribute('payment_method') == $paymentMethod ) selected @endif>@lang('translates.payment_methods.' . $paymentMethod)</option>
+                            <option value="{{$paymentMethod}}"
+                                    @if($work->getAttribute('payment_method') == $paymentMethod ) selected @endif>@lang('translates.payment_methods.' . $paymentMethod)</option>
                         @endforeach
                     </select>
                 </td>
-                <td title="{{optional($work->getAttribute('created_at'))->diffForHumans()}}" data-toggle="tooltip">{{$work->getAttribute('created_at')}}</td>
-                <td title="{{optional($work->getAttribute('injected_at'))->diffForHumans()}}" data-toggle="tooltip">{{$work->getAttribute('injected_at')}}</td>
-                <td title="{{$work->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
-                <td title="{{$work->getAttribute('vat_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('vat_date'))->format('Y-m-d')}}</td>
-                <td title="{{$work->getAttribute('invoiced_date')}}" data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
+                <td title="{{optional($work->getAttribute('created_at'))->diffForHumans()}}"
+                    data-toggle="tooltip">{{$work->getAttribute('created_at')}}</td>
+                <td title="{{optional($work->getAttribute('injected_at'))->diffForHumans()}}"
+                    data-toggle="tooltip">{{$work->getAttribute('injected_at')}}</td>
+                <td title="{{$work->getAttribute('paid_at')}}"
+                    data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
+                <td title="{{$work->getAttribute('vat_date')}}"
+                    data-toggle="tooltip">{{optional($work->getAttribute('vat_date'))->format('Y-m-d')}}</td>
+                <td title="{{$work->getAttribute('invoiced_date')}}"
+                    data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
 
                 <td>
                     <div class="btn-sm-group d-flex align-items-center">
                         @if($work->getAttribute('creator_id') != auth()->id() && is_null($work->getAttribute('user_id')) && !auth()->user()->isDeveloper())
                             @can('update', $work)
-                                <a title="@lang('translates.buttons.execute')" data-toggle="tooltip" href="{{route('works.edit', $work)}}"
+                                <a title="@lang('translates.buttons.execute')" data-toggle="tooltip"
+                                   href="{{route('works.edit', $work)}}"
                                    class="btn btn-sm btn-outline-success">
                                     <i class="fal fa-arrow-right"></i>
                                 </a>
@@ -425,19 +495,22 @@
                                 <i class="fal fa-ellipsis-v-alt"></i>
                             </button>
                             @can('create', \App\Models\Work::class)
-                                <a href="{{route('works.create', ['id' => $work])}}" class="btn btn-sm btn-outline-primary">
+                                <a href="{{route('works.create', ['id' => $work])}}"
+                                   class="btn btn-sm btn-outline-primary">
                                     <i class="fal fa-copy"></i>
                                 </a>
                             @endcan
                             <div class="dropdown-menu">
                                 @can('view', $work)
-                                    <a href="{{route('works.show', $work)}}" class="dropdown-item-text text-decoration-none">
+                                    <a href="{{route('works.show', $work)}}"
+                                       class="dropdown-item-text text-decoration-none">
                                         <i class="fal fa-eye pr-2 text-primary"></i>@lang('translates.buttons.view')
                                     </a>
                                 @endcan
                                 @if(auth()->user()->hasPermission('update-work') || $work->getAttribute('creator_id') == auth()->id() || $work->getAttribute('user_id') == auth()->id() || auth()->user()->isDeveloper() )
                                     @can('update', $work)
-                                        <a href="{{route('works.edit', $work)}}" class="dropdown-item-text text-decoration-none">
+                                        <a href="{{route('works.edit', $work)}}"
+                                           class="dropdown-item-text text-decoration-none">
                                             @if($work->getAttribute('creator_id') == auth()->id() || auth()->user()->isDeveloper() || auth()->user()->hasPermission('update-work'))
                                                 <i class="fal fa-pen pr-2 text-success"></i>@lang('translates.tasks.edit')
                                             @elseif($work->getAttribute('user_id') == auth()->id())
@@ -447,26 +520,34 @@
                                     @endcan
                                 @endif
                                 @if(auth()->user()->hasPermission('canVerify-work'))
-                                    <a href="{{route('works.verifyFinance', $work)}}" verify data-name="{{$work->getAttribute('id')}}" class="dropdown-item-text text-decoration-none">
+                                    <a href="{{route('works.verifyFinance', $work)}}" verify
+                                       data-name="{{$work->getAttribute('id')}}"
+                                       class="dropdown-item-text text-decoration-none">
                                         <i class="fal fa-check pr-2 text-success"></i>@lang('translates.buttons.verify')
                                     </a>
-                                    <a data-toggle="modal" data-target="#paidModal-{{$work->getAttribute('id')}}" class="dropdown-item-text text-decoration-none">
+                                    <a data-toggle="modal" data-target="#paidModal-{{$work->getAttribute('id')}}"
+                                       class="dropdown-item-text text-decoration-none">
                                         <i class="fal fa-money-bill pr-2 text-success"></i>@lang('translates.columns.paid')
                                     </a>
-                                    <a data-toggle="modal" data-target="#vatPaidModal-{{$work->getAttribute('id')}}" class="dropdown-item-text text-decoration-none">
+                                    <a data-toggle="modal" data-target="#vatPaidModal-{{$work->getAttribute('id')}}"
+                                       class="dropdown-item-text text-decoration-none">
                                         <i class="fal fa-money-bill-wave pr-2 text-success"></i>@lang('translates.columns.vat_paid')
                                     </a>
-                                    <a data-toggle="modal" data-target="#invoiceModal-{{$work->getAttribute('id')}}" class="dropdown-item-text text-decoration-none">
+                                    <a data-toggle="modal" data-target="#invoiceModal-{{$work->getAttribute('id')}}"
+                                       class="dropdown-item-text text-decoration-none">
                                         <i class="fal fa-money-check pr-2 text-success"></i>@lang('translates.fields.invoiced_date')
                                     </a>
                                 @endif
                                 @can('delete', $work)
-                                    <a href="{{route('works.destroy', $work)}}" delete data-name="{{$work->getAttribute('code')}}" class="dropdown-item-text text-decoration-none">
+                                    <a href="{{route('works.destroy', $work)}}" delete
+                                       data-name="{{$work->getAttribute('code')}}"
+                                       class="dropdown-item-text text-decoration-none">
                                         <i class="fal fa-trash pr-2 text-danger"></i>@lang('translates.tasks.delete')
                                     </a>
                                 @endcan
                                 @if(auth()->user()->isDeveloper() || auth()->user()->hasPermission('editPrice-work') || auth()->user()->hasPermission('canRedirect-work') )
-                                    <a data-toggle="modal" data-target="#changeCreate-{{$work->getAttribute('id')}}" class="dropdown-item-text text-decoration-none">
+                                    <a data-toggle="modal" data-target="#changeCreate-{{$work->getAttribute('id')}}"
+                                       class="dropdown-item-text text-decoration-none">
                                         <i class="fal fa-money-check pr-2 text-success"></i>Change Create Date
                                     </a>
                                 @endif
@@ -505,7 +586,8 @@
                 $total_qibpayment = array_sum($qibPayment);
 
             @endphp
-            <div class="modal fade" id="paidModal-{{$work->getAttribute('id')}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal fade" id="paidModal-{{$work->getAttribute('id')}}" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -518,7 +600,8 @@
                             @csrf @method('PUT')
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <input type="date" name="paid_at" value="{{now()}}" class="form-control" aria-label="paid_at">
+                                    <input type="date" name="paid_at" value="{{now()}}" class="form-control"
+                                           aria-label="paid_at">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -530,7 +613,8 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="vatPaidModal-{{$work->getAttribute('id')}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal fade" id="vatPaidModal-{{$work->getAttribute('id')}}" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -543,7 +627,8 @@
                             @csrf @method('PUT')
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <input type="date" name="vatPaid_at" value="{{now()}}" class="form-control" aria-label="paid_at">
+                                    <input type="date" name="vatPaid_at" value="{{now()}}" class="form-control"
+                                           aria-label="paid_at">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -555,11 +640,13 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="invoiceModal-{{$work->getAttribute('id')}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal fade" id="invoiceModal-{{$work->getAttribute('id')}}" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">@lang('translates.fields.invoiced_date')</h5>
+                            <h5 class="modal-title"
+                                id="exampleModalLongTitle">@lang('translates.fields.invoiced_date')</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -580,11 +667,13 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="changeCreate-{{$work->getAttribute('id')}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal fade" id="changeCreate-{{$work->getAttribute('id')}}" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">@lang('translates.fields.created_at')</h5>
+                            <h5 class="modal-title"
+                                id="exampleModalLongTitle">@lang('translates.fields.created_at')</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -609,7 +698,8 @@
             <tr>
                 <th colspan="20">
                     <div class="row justify-content-center m-3">
-                        <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.empty')</div>
+                        <div class="col-7 alert alert-danger text-center"
+                             role="alert">@lang('translates.general.empty')</div>
                     </div>
                 </th>
             </tr>
@@ -650,7 +740,8 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="data-department">@lang('translates.navbar.department')</label>
-                            <select class="select2" id="data-department" name="department_id" required style="width: 100% !important;">
+                            <select class="select2" id="data-department" name="department_id" required
+                                    style="width: 100% !important;">
                                 <option value="">@lang('translates.general.department_select')</option>
                                 @foreach($allDepartments as $dep)
                                     <option
@@ -663,7 +754,8 @@
                         </div>
                         <div class="form-group">
                             <label for="data-service">@lang('translates.navbar.service')</label>
-                            <select class="select2" id="data-service" name="service_id" required style="width: 100% !important;">
+                            <select class="select2" id="data-service" name="service_id" required
+                                    style="width: 100% !important;">
                                 <option value="">@lang('translates.general.select_service')</option>
                                 @foreach($services as $service)
                                     <option value="{{$service->id}}">{{$service->name}} ({{$service->detail}})</option>
@@ -672,7 +764,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
+                        <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">@lang('translates.buttons.close')</button>
                         <button type="submit" class="btn btn-primary">@lang('translates.buttons.create')</button>
                     </div>
                 </form>
@@ -686,10 +779,10 @@
     <script>
 
         @if($works->isNotEmpty())
-        const count  = document.getElementById("count").cloneNode(true);
+        const count = document.getElementById("count").cloneNode(true);
         $("#table > tbody").prepend(count);
         @endif
-    document.getElementById('datePicker').value = new Date().toDateInputValue();
+        document.getElementById('datePicker').value = new Date().toDateInputValue();
 
         confirmJs($("a[verify]"));
         confirmJs($("#sum-verify"));
@@ -717,7 +810,7 @@
 
         checkUnverifiedWorks();
 
-        function checkUnverifiedWorks(){
+        function checkUnverifiedWorks() {
             let hasOneChecked = false;
             worksCheckbox.map(function () {
                 if ($(this).is(':checked')) {
@@ -731,13 +824,13 @@
             }
         }
 
-        function confirmJs(el){
-            el.click(function(e){
+        function confirmJs(el) {
+            el.click(function (e) {
                 const name = $(this).data('name') ?? 'Pending records'
                 const url = $(this).attr('href')
                 const checkedWorks = [];
 
-                $("input[name='works[]']:checked").each(function(){
+                $("input[name='works[]']:checked").each(function () {
                     checkedWorks.push($(this).val());
                 });
 
@@ -757,12 +850,11 @@
                                 url: url,
                                 type: 'PUT',
                                 data: {'works': checkedWorks},
-                                success: function (responseObject, textStatus, xhr)
-                                {
+                                success: function (responseObject, textStatus, xhr) {
                                     $.confirm({
                                         title: 'Verification successful',
                                         icon: 'fa fa-check',
-                                        content: '<b>:name</b>'.replace(':name',  name),
+                                        content: '<b>:name</b>'.replace(':name', name),
                                         type: 'blue',
                                         typeAnimated: true,
                                         autoClose: 'reload|3000',
@@ -772,15 +864,14 @@
                                                 text: 'Ok',
                                                 btnClass: 'btn-blue',
                                                 keys: ['enter'],
-                                                action: function(){
+                                                action: function () {
                                                     window.location.reload()
                                                 }
                                             }
                                         }
                                     });
                                 },
-                                error: function (err)
-                                {
+                                error: function (err) {
                                     console.log(err);
                                     $.confirm({
                                         title: 'Ops something went wrong!',
@@ -798,7 +889,8 @@
                                 }
                             });
                         },
-                        cancel: function () {},
+                        cancel: function () {
+                        },
                     }
                 });
             });
@@ -825,7 +917,7 @@
             slider.classList.remove('active');
         });
         slider.addEventListener('mousemove', (e) => {
-            if(!isDown) return;
+            if (!isDown) return;
             e.preventDefault();
             const x = e.pageX - slider.offsetLeft;
             const walk = (x - startX) * 3; //scroll-fast

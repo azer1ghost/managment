@@ -195,6 +195,7 @@ class LogisticsController extends Controller
     }
     public function editable(Request $request)
     {
+
         if ($request->ajax()) {
             $work = Logistics::find($request->pk);
             $work->parameters()->updateExistingPivot($request->name, ['value' => $request->value]);

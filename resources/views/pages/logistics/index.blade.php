@@ -16,14 +16,15 @@
 
     <form action="{{route('logistics.index')}}">
         <div class="row d-flex justify-content-between mb-2">
-            <div id="filterContainer" class="mb-3" @if(request()->has('datetime')) style="display:block;" @else style="display:none;" @endif>
+            <div id="filterContainer" class="mb-3" @if(request()->has('datetime')) style="display:block;"
+                 @else style="display:none;" @endif>
                 <div class="col-12">
                     <div class="row m-0">
-{{--                        <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">--}}
-{{--                            <label for="reg_numberFilter">Registration Number</label>--}}
-{{--                            <input type="search" id="reg_numberFilter" name="reg_number" value="{{$filters['reg_number']}}"--}}
-{{--                                   placeholder="Registration Number" class="form-control">--}}
-{{--                        </div>--}}
+                        {{--                        <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">--}}
+                        {{--                            <label for="reg_numberFilter">Registration Number</label>--}}
+                        {{--                            <input type="search" id="reg_numberFilter" name="reg_number" value="{{$filters['reg_number']}}"--}}
+                        {{--                                   placeholder="Registration Number" class="form-control">--}}
+                        {{--                        </div>--}}
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="userFilter">{{__('translates.general.user_select')}}</label>
@@ -33,8 +34,8 @@
                                 <option value="">@lang('translates.filters.select')</option>
                                 @foreach($users as $user)
                                     <option
-                                        @if($user->getAttribute('id') == $filters['user_id']) selected @endif
-                                            value="{{$user->getAttribute('id')}}">
+                                            @if($user->getAttribute('id') == $filters['user_id']) selected @endif
+                                    value="{{$user->getAttribute('id')}}">
                                         {{$user->getAttribute('fullname_with_position')}}
                                     </option>
                                 @endforeach
@@ -49,7 +50,8 @@
                                 <option value="">@lang('translates.filters.select')</option>
                                 @foreach($references as $reference)
                                     <option
-                                        @if($reference->getAttribute('id') == $filters['reference_id']) selected @endif
+                                            @if($reference->getAttribute('id') == $filters['reference_id']) selected
+                                            @endif
                                             value="{{$reference->getAttribute('id')}}">
                                         {{$reference->getAttribute('fullname_with_position')}}
                                     </option>
@@ -58,7 +60,8 @@
                         </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="serviceFilter">{{__('translates.general.select_service')}}</label>
+                            <label class="d-block"
+                                   for="serviceFilter">{{__('translates.general.select_service')}}</label>
                             <select id="serviceFilter" multiple
                                     class="select2 js-example-theme-multiple"
                                     name="service_id[]"
@@ -68,9 +71,10 @@
                                 @foreach($services as $service)
                                     <option
                                             @if($filters['service_id'])
-                                            @if(in_array($service->getAttribute('id'), $filters['service_id'])) selected @endif
-                                    @endif
-                                    value="{{$service->getAttribute('id')}}">
+                                                @if(in_array($service->getAttribute('id'), $filters['service_id'])) selected
+                                            @endif
+                                            @endif
+                                            value="{{$service->getAttribute('id')}}">
                                         {{$service->getAttribute('name')}}
                                     </option>
                                 @endforeach
@@ -78,7 +82,8 @@
                         </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
+                            <label class="d-block"
+                                   for="clientFilter">{{trans('translates.general.select_client')}}</label>
                             <select name="client_id"
                                     id="clientFilter"
                                     class="custom-select2" style="width: 100% !important;"
@@ -90,8 +95,10 @@
                         </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="transportTypeFilter">{{trans('translates.general.transport_type_choose')}}</label>
-                            <select name="transport_type" id="transportTypeFilter" class="form-control" style="width: 100% !important;">
+                            <label class="d-block"
+                                   for="transportTypeFilter">{{trans('translates.general.transport_type_choose')}}</label>
+                            <select name="transport_type" id="transportTypeFilter" class="form-control"
+                                    style="width: 100% !important;">
                                 <option value="">@lang('translates.filters.select')</option>
                                 @foreach($transportTypes as $transportType)
                                     <option value="{{$transportType}}"
@@ -103,8 +110,10 @@
                         </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="statusFilter">{{trans('translates.general.status_choose')}}</label>
-                            <select name="status" id="statusFilter" class="form-control" style="width: 100% !important;">
+                            <label class="d-block"
+                                   for="statusFilter">{{trans('translates.general.status_choose')}}</label>
+                            <select name="status" id="statusFilter" class="form-control"
+                                    style="width: 100% !important;">
                                 <option value="">@lang('translates.filters.select')</option>
                                 @foreach($statuses as $status)
                                     <option value="{{$status}}"
@@ -115,21 +124,31 @@
                             </select>
                         </div>
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="createdAtFilter">{{trans('translates.fields.created_at')}}</label>
-                            <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
-                            <input type="checkbox" name="check-created_at" id="check-created_at" @if(request()->has('check-created_at')) checked @endif> <label for="check-created_at">@lang('translates.filters.filter_by')</label>
+                            <label class="d-block"
+                                   for="createdAtFilter">{{trans('translates.fields.created_at')}}</label>
+                            <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly
+                                   name="created_at" value="{{$filters['created_at']}}">
+                            <input type="checkbox" name="check-created_at" id="check-created_at"
+                                   @if(request()->has('check-created_at')) checked @endif> <label
+                                    for="check-created_at">@lang('translates.filters.filter_by')</label>
                         </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="datetimeFilter">{{trans('translates.fields.date')}}</label>
-                            <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly name="datetime" value="{{$filters['datetime']}}">
-                            <input type="checkbox" name="check-datetime" id="check-datetime" @if(request()->has('check-datetime')) checked @endif> <label for="check-datetime">@lang('translates.filters.filter_by')</label>
+                            <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly
+                                   name="datetime" value="{{$filters['datetime']}}">
+                            <input type="checkbox" name="check-datetime" id="check-datetime"
+                                   @if(request()->has('check-datetime')) checked @endif> <label
+                                    for="check-datetime">@lang('translates.filters.filter_by')</label>
                         </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="datetimeFilter">{{trans('translates.fields.paid_at')}}</label>
-                            <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly name="paid_at_date" value="{{request()->get('paid_at_date')}}">
-                            <input type="checkbox" name="check-paid_at" id="check-paid_at" @if(request()->has('check-paid_at')) checked @endif> <label for="check-paid_at">@lang('translates.filters.filter_by')</label>
+                            <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly
+                                   name="paid_at_date" value="{{request()->get('paid_at_date')}}">
+                            <input type="checkbox" name="check-paid_at" id="check-paid_at"
+                                   @if(request()->has('check-paid_at')) checked @endif> <label
+                                    for="check-paid_at">@lang('translates.filters.filter_by')</label>
                         </div>
 
                         <div class="col-12 mt-3 mb-5 d-flex align-items-center justify-content-end">
@@ -155,12 +174,13 @@
                 </div>
             </div>
 
-                <div class="col-sm-6 py-3">
-                    <a class="btn btn-outline-success float-right" data-toggle="modal" data-target="#create-logistics">@lang('translates.buttons.create')</a>
-{{--                        <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('logistics.export', ['filters' => json_encode($filters), 'dateFilters' => json_encode($dateFilters)])}}">--}}
-{{--                            @lang('translates.buttons.export')--}}
-{{--                        </a>--}}
-                </div>
+            <div class="col-sm-6 py-3">
+                <a class="btn btn-outline-success float-right" data-toggle="modal"
+                   data-target="#create-logistics">@lang('translates.buttons.create')</a>
+                {{--                        <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('logistics.export', ['filters' => json_encode($filters), 'dateFilters' => json_encode($dateFilters)])}}">--}}
+                {{--                            @lang('translates.buttons.export')--}}
+                {{--                        </a>--}}
+            </div>
 
         </div>
     </form>
@@ -174,7 +194,7 @@
     <table class="table table-responsive-sm" id="table">
         <thead>
         <tr class="text-center">
-{{--            <th scope="col">Registration Number</th>--}}
+            {{--            <th scope="col">Registration Number</th>--}}
             <th scope="col">@lang('translates.fields.user')</th>
             <th scope="col">@lang('translates.navbar.service')</th>
             <th scope="col">@lang('translates.general.transport_type')</th>
@@ -194,7 +214,7 @@
             <th scope="col">Status</th>
             <th scope="col">@lang('translates.fields.created_at')</th>
             <th scope="col">@lang('translates.fields.date')</th>
-{{--            <th scope="col">@lang('translates.fields.paid_at')</th>--}}
+            {{--            <th scope="col">@lang('translates.fields.paid_at')</th>--}}
             <th scope="col">@lang('translates.columns.actions')</th>
         </tr>
         </thead>
@@ -205,34 +225,36 @@
         @endphp
         @forelse($logistics as $log)
             <tr class="text-center">
-{{--                <td>{{$log->getAttribute('reg_number')}}</td>--}}
+                {{--                <td>{{$log->getAttribute('reg_number')}}</td>--}}
                 <td>{{$log->getRelationValue('user')->getAttribute('fullname_with_position')}}</td>
                 <td>{{$log->getRelationValue('service')->getAttribute('name')}}</td>
                 <td>{{trans('translates.transport_types.' . $log->getAttribute('transport_type'))}}</td>
-                <td data-toggle="tooltip" data-placement="bottom" title="{{$log->getRelationValue('client')->getAttribute('fullname')}}" >
+                <td data-toggle="tooltip" data-placement="bottom"
+                    title="{{$log->getRelationValue('client')->getAttribute('fullname')}}">
                     {{mb_strimwidth($log->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}
                 </td>
                 @if(auth()->user()->hasPermission('update-logistics'))
 
-                @foreach(\App\Models\Service::serviceParameters() as $param)
-                    @if(in_array($param['data']->getAttribute('id'), [51, 52, 53, 54]))
-                        <td class="update" data-name="{{$param['data']->getAttribute('id')}}" data-pk="{{ $log->getAttribute('id') }}">{{$log->getParameter($param['data']->getAttribute('id'))}}</td>
+                    @foreach(\App\Models\Service::serviceParameters() as $param)
+                        @if(in_array($param['data']->getAttribute('id'), [51, 52, 53, 54]))
+                            <td class="update" data-name="{{$param['data']->getAttribute('id')}}"
+                                data-pk="{{ $log->getAttribute('id') }}">{{$log->getParameter($param['data']->getAttribute('id'))}}</td>
 
-                        @php
-                            if($param['count']){ // check if parameter is countable
-                                $count = (int) $log->getParameter($param['data']->getAttribute('id'));
-                                if(isset($totals[$param['data']->getAttribute('id')])){
-                                    $totals[$param['data']->getAttribute('id')] += $count;
+                            @php
+                                if($param['count']){ // check if parameter is countable
+                                    $count = (int) $log->getParameter($param['data']->getAttribute('id'));
+                                    if(isset($totals[$param['data']->getAttribute('id')])){
+                                        $totals[$param['data']->getAttribute('id')] += $count;
+                                    }else{
+                                        $totals[$param['data']->getAttribute('id')] = $count;
+                                    }
                                 }else{
-                                    $totals[$param['data']->getAttribute('id')] = $count;
+                                    $totals[$param['data']->getAttribute('id')] = NULL;
                                 }
-                            }else{
-                                $totals[$param['data']->getAttribute('id')] = NULL;
-                            }
-                        @endphp
+                            @endphp
 
-                    @endif
-                @endforeach
+                        @endif
+                    @endforeach
                     <td>{{$log->getParameter(\App\Models\Logistics::SALES) - $log->getParameter(\App\Models\Logistics::PURCHASE)}}</td>
                     <td>{{$log->getParameter(\App\Models\Logistics::SALESPAID) - $log->getParameter(\App\Models\Logistics::PURCHASEPAID)}}</td>
                 @endif
@@ -243,13 +265,15 @@
                     </span>
                 </td>
 
-                <td title="{{optional($log->getAttribute('created_at'))->diffForHumans()}}" data-toggle="tooltip">{{$log->getAttribute('created_at')}}</td>
-                <td title="{{$log->getAttribute('datetime')}}" data-toggle="tooltip">{{optional($log->getAttribute('datetime'))->format('Y-m-d')}}</td>
-{{--                <td title="{{$log->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($log->getAttribute('paid_at'))->format('Y-m-d')}}</td>--}}
-{{--                    @php--}}
-{{--                        $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID) + $work->getAttribute('bank_charge');--}}
-{{--                        $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) + $work->getParameter($work::ILLEGALAMOUNT) - $sum_payment) * -1;--}}
-{{--                    @endphp--}}
+                <td title="{{optional($log->getAttribute('created_at'))->diffForHumans()}}"
+                    data-toggle="tooltip">{{$log->getAttribute('created_at')}}</td>
+                <td title="{{$log->getAttribute('datetime')}}"
+                    data-toggle="tooltip">{{optional($log->getAttribute('datetime'))->format('Y-m-d')}}</td>
+                {{--                <td title="{{$log->getAttribute('paid_at')}}" data-toggle="tooltip">{{optional($log->getAttribute('paid_at'))->format('Y-m-d')}}</td>--}}
+                {{--                    @php--}}
+                {{--                        $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID) + $work->getAttribute('bank_charge');--}}
+                {{--                        $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) + $work->getParameter($work::ILLEGALAMOUNT) - $sum_payment) * -1;--}}
+                {{--                    @endphp--}}
                 <td>
                     <div>
                         <a href="{{route('logistics.show', $log)}}" class="text-decoration-none">
@@ -269,22 +293,24 @@
             </tr>
             @if(auth()->user()->hasPermission('update-logistics'))
                 @php
-                $purchase[] = $log->getParameter($log::PURCHASE);
-                $sale[] =  $log->getParameter($log::SALES);
-                $paidPurchase[] = $log->getParameter($log::PURCHASEPAID);
-                $paidSale[] = $log->getParameter($log::SALESPAID);
+                    $purchase[] = $log->getParameter($log::PURCHASE);
+                    $sale[] =  $log->getParameter($log::SALES);
+                    $paidPurchase[] = $log->getParameter($log::PURCHASEPAID);
+                    $paidSale[] = $log->getParameter($log::SALESPAID);
 
-                $total_purchase = array_sum($purchase);
-                $total_sale = array_sum($sale);
-                $total_paid_purchase = array_sum($paidPurchase);
-                $total_paid_sale = array_sum($paidSale);
-            @endphp @endif
+                    $total_purchase = array_sum($purchase);
+                    $total_sale = array_sum($sale);
+                    $total_paid_purchase = array_sum($paidPurchase);
+                    $total_paid_sale = array_sum($paidSale);
+                @endphp
+            @endif
 
         @empty
             <tr>
                 <th colspan="20">
                     <div class="row justify-content-center m-3">
-                        <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.empty')</div>
+                        <div class="col-7 alert alert-danger text-center"
+                             role="alert">@lang('translates.general.empty')</div>
                     </div>
                 </th>
             </tr>
@@ -300,7 +326,8 @@
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_paid_purchase}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_paid_sale}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_sale - $total_purchase}}</strong></p></td>
-                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_paid_sale - $total_paid_purchase}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0">
+                        <strong>{{ $total_paid_sale - $total_paid_purchase}}</strong></p></td>
 
                 <td colspan="6"></td>
             </tr>
@@ -321,7 +348,8 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="data-service">@lang('translates.navbar.service')</label>
-                            <select class="select2" id="data-service" name="service_id" required style="width: 100% !important;">
+                            <select class="select2" id="data-service" name="service_id" required
+                                    style="width: 100% !important;">
                                 <option value="">@lang('translates.general.select_service')</option>
                                 @foreach($services as $service)
                                     <option value="{{$service->id}}">{{$service->name}} ({{$service->detail}})</option>
@@ -330,7 +358,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
+                        <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">@lang('translates.buttons.close')</button>
                         <button type="submit" class="btn btn-primary">@lang('translates.buttons.create')</button>
                     </div>
                 </form>
@@ -342,8 +371,8 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/js/jquery-editable-poshytip.min.js"></script>
     <script>
         @if($logistics->isNotEmpty())
-        const count  = document.getElementById("count").cloneNode(true);
-         $("#table > tbody").prepend(count);
+        const count = document.getElementById("count").cloneNode(true);
+        $("#table > tbody").prepend(count);
         @endif
 
         confirmJs($("a[verify]"));
@@ -372,7 +401,7 @@
 
         checkUnverifiedLogistics();
 
-        function checkUnverifiedLogistics(){
+        function checkUnverifiedLogistics() {
             let hasOneChecked = false;
             logisticsCheckbox.map(function () {
                 if ($(this).is(':checked')) {
@@ -386,13 +415,13 @@
             }
         }
 
-        function confirmJs(el){
-            el.click(function(e){
+        function confirmJs(el) {
+            el.click(function (e) {
                 const name = $(this).data('name') ?? 'Pending records'
                 const url = $(this).attr('href')
                 const checkedLogistics = [];
 
-                $("input[name='logistics[]']:checked").each(function(){
+                $("input[name='logistics[]']:checked").each(function () {
                     checkedLogistics.push($(this).val());
                 });
 
@@ -412,12 +441,11 @@
                                 url: url,
                                 type: 'PUT',
                                 data: {'logistics': checkedLogistics},
-                                success: function (responseObject, textStatus, xhr)
-                                {
+                                success: function (responseObject, textStatus, xhr) {
                                     $.confirm({
                                         title: 'Verification successful',
                                         icon: 'fa fa-check',
-                                        content: '<b>:name</b>'.replace(':name',  name),
+                                        content: '<b>:name</b>'.replace(':name', name),
                                         type: 'blue',
                                         typeAnimated: true,
                                         autoClose: 'reload|3000',
@@ -427,15 +455,14 @@
                                                 text: 'Ok',
                                                 btnClass: 'btn-blue',
                                                 keys: ['enter'],
-                                                action: function(){
+                                                action: function () {
                                                     window.location.reload()
                                                 }
                                             }
                                         }
                                     });
                                 },
-                                error: function (err)
-                                {
+                                error: function (err) {
                                     console.log(err);
                                     $.confirm({
                                         title: 'Ops something went wrong!',
@@ -453,7 +480,8 @@
                                 }
                             });
                         },
-                        cancel: function () {},
+                        cancel: function () {
+                        },
                     }
                 });
             });
@@ -480,7 +508,7 @@
             slider.classList.remove('active');
         });
         slider.addEventListener('mousemove', (e) => {
-            if(!isDown) return;
+            if (!isDown) return;
             e.preventDefault();
             const x = e.pageX - slider.offsetLeft;
             const walk = (x - startX) * 3; //scroll-fast
@@ -506,4 +534,4 @@
             url: "{{ route('logistics-editable') }}",
         });
     </script>
-    @endsection
+@endsection
