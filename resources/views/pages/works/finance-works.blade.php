@@ -442,40 +442,23 @@
                 </td>
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     @php
-                        $desiredOrder = [17, 33, 34, 35, 36, 38, 37, 20, 48];
-                        $serviceParameters = \App\Models\Service::serviceParameters();
-
-                        $sortedParameters = collect([]);
-                        foreach ($desiredOrder as $paramId) {
-                            $param = $serviceParameters->first(function ($item) use ($paramId) {
-                                return $item['data']->getAttribute('id') === $paramId;
-                            });
-                            if ($param) {
-                                $sortedParameters->push($param);
-                            }
-                        }
+                        $desiredIds = [17, 33, 34, 35, 36, 38, 37, 20, 48];
+                        $serviceParameters = \App\Models\Service::serviceParameters()
+                            ->where('id', $desiredIds)
+                            ->orderByRaw("FIELD(id, " . implode(',', $desiredIds) . ")")
+                            ->get();
                     @endphp
 
-                    @foreach($sortedParameters as $param)
+                    @foreach($serviceParameters as $param)
+                        <td @if(auth()->user()->hasPermission('editPrice-work')) class="update" @endif
+                        data-name="{{ $param['data']->getAttribute('id') }}"
+                            data-pk="{{ $work->getAttribute('id') }}">
+                            {{ $work->getParameter($param['data']->getAttribute('id')) }}
+                        </td>
                         @php
                             $paramId = $param['data']->getAttribute('id');
-                        @endphp
-                        <td @if(auth()->user()->hasPermission('editPrice-work')) class="update" @endif
-                        data-name="{{$paramId}}" data-pk="{{ $work->getAttribute('id') }}">
-                            {{$work->getParameter($paramId)}}
-                        </td>
-
-                        @php
-                            if($param['count']){ // check if parameter is countable
-                                $count = (int) $work->getParameter($paramId);
-                                if(isset($totals[$paramId])){
-                                    $totals[$paramId] += $count;
-                                }else{
-                                    $totals[$paramId] = $count;
-                                }
-                            }else{
-                                $totals[$paramId] = NULL;
-                            }
+                            $count = $param['count'] ? (int) $work->getParameter($paramId) : NULL;
+                            $totals[$paramId] = isset($totals[$paramId]) ? $totals[$paramId] + $count : $count;
                         @endphp
                     @endforeach
                 @endif
