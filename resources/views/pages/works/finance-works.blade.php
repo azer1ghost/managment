@@ -442,20 +442,27 @@
                 </td>
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     @foreach(\App\Models\Service::serviceParameters() as $param)
-                        @if(in_array($param['data']->getAttribute('id'), [17, 33, 34, 35, 36, 38, 37, 20, 48]))
-                            <td @if(auth()->user()->hasPermission('editPrice-work')) class="update"
-                                @endif data-name="{{$param['data']->getAttribute('id')}}"
-                                data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
+                        @php
+                            $desiredOrder = [17, 33, 34, 35, 36, 38, 37, 20, 48];
+                                $paramId = $param['data']->getAttribute('id');
+                        @endphp
+
+                        @if(in_array($paramId, $desiredOrder))
+                            <td @if(auth()->user()->hasPermission('editPrice-work')) class="update" @endif
+                            data-name="{{$paramId}}" data-pk="{{ $work->getAttribute('id') }}">
+                                {{$work->getParameter($paramId)}}
+                            </td>
+
                             @php
                                 if($param['count']){ // check if parameter is countable
-                                    $count = (int) $work->getParameter($param['data']->getAttribute('id'));
-                                    if(isset($totals[$param['data']->getAttribute('id')])){
-                                        $totals[$param['data']->getAttribute('id')] += $count;
+                                    $count = (int) $work->getParameter($paramId);
+                                    if(isset($totals[$paramId])){
+                                        $totals[$paramId] += $count;
                                     }else{
-                                        $totals[$param['data']->getAttribute('id')] = $count;
+                                        $totals[$paramId] = $count;
                                     }
                                 }else{
-                                    $totals[$param['data']->getAttribute('id')] = NULL;
+                                    $totals[$paramId] = NULL;
                                 }
                             @endphp
                         @endif
