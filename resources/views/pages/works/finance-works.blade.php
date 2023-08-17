@@ -355,7 +355,7 @@
             <th scope="col">Status</th>
             @if(auth()->user()->hasPermission('viewPrice-work'))
                 @php
-                        $desiredOrder = [17, 33, 34, 35, 36, 38, 37, 20, 48];
+                        $desiredOrder = [17, 33, 34, 35, 36, 37, 38, 20, 48];
                         $serviceParameters = \App\Models\Parameter::whereIn('id', $desiredOrder)
                                          ->orderByRaw("FIELD(id, " . implode(',', $desiredOrder) . ")")
                                          ->get();
@@ -441,24 +441,24 @@
                     </span>
                 </td>
                 @if(auth()->user()->hasPermission('viewPrice-work'))
-                    @php
-                        $desiredOrder = [17, 33, 34, 35, 36, 38, 37, 20, 48];
-                        $serviceParameters = \App\Models\Service::whereIn('id', $desiredOrder)->serviceParameters()
-                                         ->orderByRaw("FIELD(id, " . implode(',', $desiredOrder) . ")")
-                                         ->get();
-                    @endphp
-
-                    @foreach($serviceParameters as $param)
-                        <td @if(auth()->user()->hasPermission('editPrice-work')) class="update" @endif
-                        data-name="{{ $param['data']->getAttribute('id') }}"
-                            data-pk="{{ $work->getAttribute('id') }}">
-                            {{ $work->getParameter($param['data']->getAttribute('id')) }}
-                        </td>
-                        @php
-                            $paramId = $param['data']->getAttribute('id');
-                            $count = $param['count'] ? (int) $work->getParameter($paramId) : NULL;
-                            $totals[$paramId] = isset($totals[$paramId]) ? $totals[$paramId] + $count : $count;
-                        @endphp
+                    @foreach(\App\Models\Service::serviceParameters() as $param)
+                        @if(in_array($param['data']->getAttribute('id'), [17, 33, 34, 35, 36, 38, 37, 20, 48]))
+                            <td @if(auth()->user()->hasPermission('editPrice-work')) class="update"
+                                @endif data-name="{{$param['data']->getAttribute('id')}}"
+                                data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
+                            @php
+                                if($param['count']){ // check if parameter is countable
+                                    $count = (int) $work->getParameter($param['data']->getAttribute('id'));
+                                    if(isset($totals[$param['data']->getAttribute('id')])){
+                                        $totals[$param['data']->getAttribute('id')] += $count;
+                                    }else{
+                                        $totals[$param['data']->getAttribute('id')] = $count;
+                                    }
+                                }else{
+                                    $totals[$param['data']->getAttribute('id')] = NULL;
+                                }
+                            @endphp
+                        @endif
                     @endforeach
                 @endif
                 <td class="paymentMethod">
