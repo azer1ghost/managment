@@ -443,7 +443,7 @@
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     @php
                         $desiredOrder = [17, 33, 34, 35, 36, 38, 37, 20, 48];
-                        $serviceParameters = \App\Models\Service::serviceParameters()->whereIn('id', $desiredOrder)
+                        $serviceParameters = \App\Models\Service::whereIn('id', $desiredOrder)->serviceParameters()
                                          ->orderByRaw("FIELD(id, " . implode(',', $desiredOrder) . ")")
                                          ->get();
                     @endphp
