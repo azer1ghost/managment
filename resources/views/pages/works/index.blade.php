@@ -503,8 +503,14 @@
                             <thead>
                             <tr>
                                 @if(auth()->user()->hasPermission('viewPrice-work'))
-                                    @foreach(\App\Models\Service::serviceParameters() as $param)
-                                        <th>{{$param['data']->getAttribute('label')}}</th>
+                                    @php
+                                        $desiredOrder = [17, 33, 34, 35, 36, 37, 38, 20, 48, 50];
+                                        $serviceParameters = \App\Models\Parameter::whereIn('id', $desiredOrder)
+                                                         ->orderByRaw("FIELD(id, " . implode(',', $desiredOrder) . ")")
+                                                         ->get();
+                                    @endphp
+                                    @foreach($serviceParameters as $param)
+                                        <th>{{$param->getAttribute('label')}}</th>
                                     @endforeach
                                 @endif
                                     <th scope="col">@lang('translates.general.payment_method')</th>
