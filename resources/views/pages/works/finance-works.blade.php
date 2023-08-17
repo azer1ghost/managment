@@ -355,7 +355,10 @@
             <th scope="col">Status</th>
             @if(auth()->user()->hasPermission('viewPrice-work'))
                 @php
-                    $serviceParameters = \App\Models\Parameter::whereIn('id', [17, 33, 34, 35, 36, 38, 37, 20, 48])->get();
+                        $desiredOrder = [17, 33, 34, 35, 36, 38, 37, 20, 48];
+                        $serviceParameters = \App\Models\Parameter::whereIn('id', $desiredOrder)
+                                         ->orderByRaw("FIELD(id, " . implode(',', $desiredOrder) . ")")
+                                         ->get();
                 @endphp
                 @foreach($serviceParameters as $param)
                     <th>{{$param->getAttribute('label')}}</th>
