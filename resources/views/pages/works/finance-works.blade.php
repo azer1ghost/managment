@@ -442,10 +442,9 @@
                 </td>
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     @php
-                        $desiredOrder = [17, 33, 34, 35, 36, 38, 37, 20, 48];
                         $serviceParameters = \App\Models\Service::serviceParameters()
-                            ->whereIn('id', $desiredOrder)
-                            ->orderByRaw("FIELD(id, " . implode(',', $desiredOrder) . ")")
+                            ->whereIn('id', [17, 33, 34, 35, 36, 38, 37, 20, 48])
+                            ->orderByRaw("FIELD(id, " . implode(',', [17, 33, 34, 35, 36, 38, 37, 20, 48]) . ")")
                             ->get();
                     @endphp
 
