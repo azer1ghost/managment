@@ -14,7 +14,7 @@ class AddNumberColumnToLogisticsTable extends Migration
     public function up()
     {
         Schema::table('logistics', function (Blueprint $table) {
-            $table->integer('number1')->nullable();
+            $table->integer('number')->nullable();
         });
     }
 
