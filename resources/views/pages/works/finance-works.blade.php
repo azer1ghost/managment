@@ -442,11 +442,10 @@
                 </td>
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     @php
-                        $desiredIds = [17, 33, 34, 35, 36, 38, 37, 20, 48];
-                        $serviceParameters = \App\Models\Service::serviceParameters()
-                            ->whereIn('id', [17, 33, 34, 35, 36, 38, 37, 20, 48])
-                            ->orderByRaw("FIELD(id, " . implode(',', $desiredIds) . ")")
-                            ->get();
+                        $desiredOrder = [17, 33, 34, 35, 36, 38, 37, 20, 48];
+                        $serviceParameters = \App\Models\Service::serviceParameters()->whereIn('id', $desiredOrder)
+                                         ->orderByRaw("FIELD(id, " . implode(',', $desiredOrder) . ")")
+                                         ->get();
                     @endphp
 
                     @foreach($serviceParameters as $param)
