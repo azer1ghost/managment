@@ -444,12 +444,9 @@
                     @php
                         $desiredOrder = [17, 33, 34, 35, 36, 38, 37, 20, 48];
                         $serviceParameters = \App\Models\Service::serviceParameters()
-                            ->filter(function($param) use ($desiredOrder) {
-                                return in_array($param['data']->getAttribute('id'), $desiredOrder);
-                            })
-                            ->sortBy(function($param) use ($desiredOrder) {
-                                return array_search($param['data']->getAttribute('id'), $desiredOrder);
-                            });
+                            ->whereIn('id', $desiredOrder)
+                            ->orderByRaw("FIELD(id, " . implode(',', $desiredOrder) . ")")
+                            ->get();
                     @endphp
 
                     @foreach($serviceParameters as $param)
