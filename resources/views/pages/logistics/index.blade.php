@@ -315,23 +315,26 @@
                 </th>
             </tr>
         @endforelse
-        @if($logistics->isNotEmpty())
-            <tr style="background: #b3b7bb" id="count">
-                <td colspan="3">
-                    <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
-                </td>
-                <td></td>
-                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_purchase}}</strong></p></td>
-                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_sale}}</strong></p></td>
-                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_paid_purchase}}</strong></p></td>
-                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_paid_sale}}</strong></p></td>
-                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_sale - $total_purchase}}</strong></p></td>
-                <td><p style="font-size: 16px" class="mb-0">
-                        <strong>{{ $total_paid_sale - $total_paid_purchase}}</strong></p></td>
+        @if(auth()->user()->hasPermission('update-logistics'))
+            @if($logistics->isNotEmpty())
+                <tr style="background: #b3b7bb" id="count">
+                    <td colspan="3">
+                        <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
+                    </td>
+                    <td></td>
+                    <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_purchase}}</strong></p></td>
+                    <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_sale}}</strong></p></td>
+                    <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_paid_purchase}}</strong></p></td>
+                    <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_paid_sale}}</strong></p></td>
+                    <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_sale - $total_purchase}}</strong></p></td>
+                    <td><p style="font-size: 16px" class="mb-0">
+                            <strong>{{ $total_paid_sale - $total_paid_purchase}}</strong></p></td>
 
-                <td colspan="6"></td>
-            </tr>
+                    <td colspan="6"></td>
+                </tr>
+            @endif
         @endif
+
         </tbody>
     </table>
 
