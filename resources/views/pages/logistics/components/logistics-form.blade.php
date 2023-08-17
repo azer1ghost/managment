@@ -130,7 +130,7 @@
                     <x-input::text wire:ignore name="datetime"  readonly :label="__('translates.fields.date')" value="{{$data->getAttribute('datetime')->format('Y-m-d H:i')}}" width="3" class="pr-3 custom-single-daterange" />
                 @endif
 
-                @if(!is_null(optional($data)->getAttribute('paid_at')))
+                @if(!is_null($data) && !is_null(optional($data)->getAttribute('paid_at')))
                     <x-input::text wire:ignore name="paid_at"  readonly :label="__('translates.columns.paid')" value="{{$data->getAttribute('paid_at')->format('Y-m-d H:i')}}" width="3" class="pr-3" />
                 @endif
 
