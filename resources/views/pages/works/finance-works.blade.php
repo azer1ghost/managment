@@ -357,8 +357,8 @@
                 @php
                     $serviceParameters = \App\Models\Parameter::whereIn('id', [17, 20, 33, 34, 35, 36, 37, 38, 48, 50])->get();
                 @endphp
-                @foreach(\App\Models\Service::serviceParameters() as $param)
-                    <th>{{$param['data']->getAttribute('label')}}</th>
+                @foreach($serviceParameters as $param)
+                    <th>{{$param->getAttribute('label')}}</th>
                 @endforeach
             @endif
             <th scope="col" class="paymentMethod">@lang('translates.general.payment_method')</th>
