@@ -355,7 +355,7 @@
             <th scope="col">Status</th>
             @if(auth()->user()->hasPermission('viewPrice-work'))
                 @php
-                        $desiredOrder = [17, 33, 34, 35, 36, 37, 38, 20, 48];
+                        $desiredOrder = [17, 33, 34, 35, 36, 37, 38, 20, 48, 50];
                         $serviceParameters = \App\Models\Parameter::whereIn('id', $desiredOrder)
                                          ->orderByRaw("FIELD(id, " . implode(',', $desiredOrder) . ")")
                                          ->get();
@@ -442,7 +442,7 @@
                 </td>
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     @foreach(\App\Models\Service::serviceParameters() as $param)
-                        @if(in_array($param['data']->getAttribute('id'), [17, 33, 34, 35, 36, 38, 37, 20, 48]))
+                        @if(in_array($param['data']->getAttribute('id'), [17, 33, 34, 35, 36, 38, 37, 20, 48, 50]))
                             <td @if(auth()->user()->hasPermission('editPrice-work')) class="update"
                                 @endif data-name="{{$param['data']->getAttribute('id')}}"
                                 data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
