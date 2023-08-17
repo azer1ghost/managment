@@ -561,7 +561,6 @@
             </tr>
             @php
                 $gb[] = $work->getParameter($work::GB);
-                $code[] =  $work->getParameter($work::CODE);
                 $serviceCount[] = $work->getParameter($work::SERVICECOUNT);
                 $amount[] = $work->getParameter($work::AMOUNT);
                 $vat[] = $work->getParameter($work::VAT);
@@ -577,7 +576,6 @@
                 $sum_balance = array_sum($balance);
                 $sum_total_payment = array_sum($total_payment);
                 $gb_count = array_sum($gb);
-                $code_count = array_sum($code);
                 $service_count = array_sum($serviceCount);
                 $total_amount = array_sum($amount);
                 $total_vat = array_sum($vat);
@@ -714,7 +712,6 @@
                 </td>
                 <td></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $gb_count}}</strong></p></td>
-                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $code_count}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_amount}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_vat}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_amount_payment}}</strong></p></td>
