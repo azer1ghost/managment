@@ -17,8 +17,8 @@
         <div class="form-group col-12">
             <div class="row m-0">
                 <div class="form-group col-12 col-md-6" wire:ignore>
-                    <input type="number" id="data-number" name="number" value="{{optional($data)->getAttribute('number')}}">
                     <label class="form-number" for="data-number">@lang('translates.general.number')</label>
+                    <input type="number" class="form-control" id="data-number" name="number" value="{{optional($data)->getAttribute('number')}}">
                 </div>
                     <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
