@@ -810,30 +810,30 @@ class WorkController extends Controller
         $startOfMonth = now()->firstOfMonth()->format('Y-m-d');
         $endOfMonth = now()->format('Y-m-d');
 
-        $created_at_range = $request->get('created_at');
+        $created_at_range = $request->get('paid_at');
         $filters = [];
 
         if ($created_at_range) {
-            $filters['created_at'] = $created_at_range;
+            $filters['paid_at'] = $created_at_range;
         } else {
-            $filters['created_at'] = $startOfMonth . ' - ' . $endOfMonth;
+            $filters['paid_at'] = $startOfMonth . ' - ' . $endOfMonth;
         }
 
         $works = Work::where(function($query) use ($filters) {
-            $created_at_range = $filters['created_at'];
+            $created_at_range = $filters['paid_at'];
             $dates = explode(' - ', $created_at_range);
             if (count($dates) === 2) {
-                $query->whereBetween('created_at', [$dates[0], $dates[1]]);
+                $query->whereBetween('paid_at', [$dates[0], $dates[1]]);
             }
         })
             ->with('parameters')
             ->get();
 
         $logistics = Logistics::where(function($query) use ($filters) {
-            $created_at_range = $filters['created_at'];
+            $created_at_range = $filters['paid_at'];
             $dates = explode(' - ', $created_at_range);
             if (count($dates) === 2) {
-                $query->whereBetween('created_at', [$dates[0], $dates[1]]);
+                $query->whereBetween('paid_at', [$dates[0], $dates[1]]);
             }
         })
             ->with('parameters')
