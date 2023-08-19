@@ -810,20 +810,38 @@ class WorkController extends Controller
         $startOfMonth = now()->firstOfMonth()->format('Y-m-d');
         $endOfMonth = now()->format('Y-m-d');
 
-        $created_at_range = $request->get('paid_at');
+        $paid_at_range = $request->get('paid_at');
         $filters = [];
 
-        if ($created_at_range) {
-            $filters['paid_at'] = $created_at_range;
+        if ($paid_at_range) {
+            $filters['paid_at'] = $paid_at_range;
         } else {
             $filters['paid_at'] = $startOfMonth . ' - ' . $endOfMonth;
         }
+        $created_at_range = $request->get('created_at');
+        $filters = [];
+
+        if ($created_at_range) {
+            $filters['created_at'] = $created_at_range;
+        } else {
+            $filters['created_at'] = $startOfMonth . ' - ' . $endOfMonth;
+        }
 
         $works = Work::where(function($query) use ($filters) {
-            $created_at_range = $filters['paid_at'];
-            $dates = explode(' - ', $created_at_range);
+            $paid_at_range = $filters['paid_at'];
+            $dates = explode(' - ', $paid_at_range);
             if (count($dates) === 2) {
                 $query->whereBetween('paid_at', [$dates[0], $dates[1]]);
+            }
+        })
+            ->with('parameters')
+            ->get();
+
+        $createdWorks = Work::where(function($query) use ($filters) {
+            $created_at_range = $filters['created_at'];
+            $dates = explode(' - ', $created_at_range);
+            if (count($dates) === 2) {
+                $query->whereBetween('created_at', [$dates[0], $dates[1]]);
             }
         })
             ->with('parameters')
@@ -859,14 +877,17 @@ class WorkController extends Controller
             $logPurchase += round($log->getParameter(Logistics::PURCHASEPAID), 2) ?? 0;
         }
         foreach ($works as $work){
-            $totalIllegalAmount += round($work->getParameter(Work::ILLEGALAMOUNT), 2) ?? 0;
-            $totalAmount += round($work->getParameter(Work::AMOUNT), 2) ?? 0;
-            $totalVat += round($work->getParameter(Work::VAT), 2) ?? 0;
-            $totalAll = round($totalIllegalAmount + $totalAmount + $totalVat, 2);
             $totalPaidAmount += round($work->getParameter(Work::PAID), 2) ?? 0;
             $totalPaidVat += round($work->getParameter(Work::VATPAYMENT), 2) ?? 0;
             $totalPaidIllegal += round($work->getParameter(Work::ILLEGALPAID), 2) ?? 0;
             $totalPaidAll = round($totalPaidAmount + $totalPaidVat + $totalPaidIllegal, 2);
+        }
+
+        foreach ($createdWorks as $createdWork){
+            $totalIllegalAmount += round($createdWork->getParameter(Work::ILLEGALAMOUNT), 2) ?? 0;
+            $totalAmount += round($createdWork->getParameter(Work::AMOUNT), 2) ?? 0;
+            $totalVat += round($createdWork->getParameter(Work::VAT), 2) ?? 0;
+            $totalAll = round($totalIllegalAmount + $totalAmount + $totalVat, 2);
         }
         $AMBGIPaidIllegal = round($AMBGI->sum->getParameter(Work::ILLEGALPAID), 2);
         $AMBGIPaidVat = round($AMBGI->sum->getParameter(Work::VATPAYMENT), 2);

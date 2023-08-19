@@ -52,26 +52,31 @@
             <input class="form-control custom-daterange mb-1" id="paidAtFilter" type="text" readonly name="paid_at" value="{{$filters['paid_at']}}">
             <input type="checkbox" name="check-paid_at" id="check-paid_at" @if(request()->has('check-paid_at')) checked @endif> <label for="check-paid_at">@lang('translates.filters.filter_by')</label>
         </div>
+        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+            <label class="d-block" for="createdAtFilter">{{trans('translates.fields.created_at')}}</label>
+            <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
+            <input type="checkbox" name="check-created_at" id="check-created_at" @if(request()->has('check-created_at')) checked @endif> <label for="check-created_at">@lang('translates.filters.filter_by')</label>
+        </div>
         <button type="submit" class="btn btn-primary">Filtrele</button>
     </form>
-{{--    <div class="work-stats">--}}
-{{--        <div>--}}
-{{--            <h1>Ayın əvvəlindən Qeyri-Rəsmi Məbləğ</h1>--}}
-{{--            <h2>{{ $totalIllegalAmount }}</h2>--}}
-{{--        </div>--}}
-{{--        <div>--}}
-{{--            <h1>Ayın əvvəlindən Rəsmi Məbləğ</h1>--}}
-{{--            <h2>{{ $totalAmount }}</h2>--}}
-{{--        </div>--}}
-{{--        <div>--}}
-{{--            <h1>Ayın əvvəlindən ƏDV Məbləğ</h1>--}}
-{{--            <h2>{{ $totalVat }}</h2>--}}
-{{--        </div>--}}
-{{--        <div>--}}
-{{--            <h1>Ümumi məbləğ</h1>--}}
-{{--            <h2>{{ $totalAll }}</h2>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+    <div class="work-stats">
+        <div>
+            <h1>Ayın əvvəlindən Qeyri-Rəsmi Məbləğ</h1>
+            <h2>{{ $totalIllegalAmount }}</h2>
+        </div>
+        <div>
+            <h1>Ayın əvvəlindən Rəsmi Məbləğ</h1>
+            <h2>{{ $totalAmount }}</h2>
+        </div>
+        <div>
+            <h1>Ayın əvvəlindən ƏDV Məbləğ</h1>
+            <h2>{{ $totalVat }}</h2>
+        </div>
+        <div>
+            <h1>Ümumi məbləğ</h1>
+            <h2>{{ $totalAll }}</h2>
+        </div>
+    </div>
     <div class="work-stats">
         <div>
             <h1>Ödənmiş Qeyri-Rəsmi Məbləğ</h1>
