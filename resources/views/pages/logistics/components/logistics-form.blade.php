@@ -16,11 +16,10 @@
     <div class=" row my-5">
         <div class="form-group col-12">
             <div class="row m-0">
-{{--                <div class="form-group col-12 col-md-6" wire:ignore>--}}
-{{--                    <input type="number" id="data-number" name="number">--}}
-{{--                    <label class="form-number" for="data-number">@lang('translates.general.number')</label>--}}
-{{--                </div>--}}
-{{--                <x-input::number wire:ignore name="number"  :label="__('translates.fields.number')" value="@if($data->getAttribute('number')) {{$data->getAttribute('number')}} @else  @endif" width="3" class="pr-3 " />--}}
+                <div class="form-group col-12 col-md-6" wire:ignore>
+                    <label class="form-number" for="data-number">@lang('translates.general.number')</label>
+                    <input type="number" class="form-control" id="data-number" name="number" value="{{optional($data)->getAttribute('number')}}">
+                </div>
                     <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
                     <div class="d-flex align-items-center">

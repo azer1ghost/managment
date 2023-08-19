@@ -14,6 +14,8 @@ class CreateSummitsTable extends Migration
             $table->string('place')->nullable();
             $table->string('dresscode')->nullable();
             $table->integer('status')->nullable();
+            $table->integer('format')->nullable();
+            $table -> integer('club_name')->nullable();
             $table->dateTime('date')->nullable();
             $table->timestamps();
         });
