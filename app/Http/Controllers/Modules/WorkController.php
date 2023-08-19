@@ -811,15 +811,26 @@ class WorkController extends Controller
         $endOfMonth = now()->format('Y-m-d');
 
         $paid_at_range = $request->get('paid_at');
+        $created_at_range = $request->get('created_at');
         $filters = [];
+
+        if ($request->has('paid_at')) {
+            $paid_at_range = $request->input('paid_at');
+        } else {
+            $paid_at_range = now()->firstOfMonth()->format('Y-m-d') . ' - ' . now()->format('Y-m-d');
+        }
+
+        if ($request->has('created_at')) {
+            $created_at_range = $request->input('created_at');
+        } else {
+            $created_at_range = now()->firstOfMonth()->format('Y-m-d') . ' - ' . now()->format('Y-m-d');
+        }
 
         if ($paid_at_range) {
             $filters['paid_at'] = $paid_at_range;
         } else {
             $filters['paid_at'] = $startOfMonth . ' - ' . $endOfMonth;
         }
-        $created_at_range = $request->get('created_at');
-        $filters = [];
 
         if ($created_at_range) {
             $filters['created_at'] = $created_at_range;
