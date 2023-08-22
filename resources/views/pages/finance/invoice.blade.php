@@ -128,6 +128,17 @@
          $swift = "BRESAZ22";
          $who = "Əliyev Fuad Rasim oğlu";
          $whoFooter = "F.R.Əliyev";
+    } else if ($company == 'mindKapital') {
+         $companyName = "\"Mind Services\" MMC";
+         $voen = "1506046601";
+         $hh = "AZ28AIIB400500E9444984575229";
+         $mh = "AZ37NABZ01350100000000001944";
+         $bank = "Kapital Bank ASC KOB mərkəzi filialı";
+         $kod = "201412";
+         $bvoen = "9900003611";
+         $swift = "AIIBAZ2XXXX";
+         $who = "Əliyev Fuad Rasim oğlu";
+         $whoFooter = "F.R.Əliyev";
 
      } else if ($company == 'asazaRespublika') {
          $companyName = "\"ASAZA FLKS\" MMC";

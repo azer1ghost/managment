@@ -37,6 +37,7 @@
                     <option value="rigelRespublika">Rigel Bank Respublika</option>
                     <option value="rigelKapital">Rigel Kapital</option>
                     <option value="mindRespublika">Mind Bank Respublika</option>
+                    <option value="mindKapital">Mind Bank Kapital</option>
                     <option value="asazaRespublika">Asaza Bank Respublika</option>
                     <option value="tgroupKapital">Tedora Group Kapital</option>
                     <option value="dgroupKapital">Declare Group Kapital</option>
@@ -117,7 +118,7 @@
                 <h6 class=" mb-2">H/H: <span class="hh"></span></h6>
                 <h6 class=" mb-2">M/H <span class="mh"></span></h6>
                 <h6 class=" mb-2">BANK: <span class="bank"></span> KOD: <span class="kod"></span></h6>
-                <h6 class=" mb-2">BANK VOEN: <span class="bbank"></span> &nbsp;&nbsp;  S.W.I.F.T: <span class="swift"></span></h6>
+                <h6 class=" mb-2">BANK VOEN: <span class="bvoen"></span> &nbsp;&nbsp;  S.W.I.F.T: <span class="swift"></span></h6>
                 <h1 class="text-center companyName"></h1>
                 <table class="table table-borderless">
                     <thead>
@@ -641,6 +642,18 @@
                 var kod = "507547";
                 var bvoen = "9900001901";
                 var swift = "BRESAZ22";
+                var who = "Əliyev Fuad Rasim oğlu";
+                var whoFooter = "F.R.Əliyev";
+                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
+            }  else if (company == 'mindKapital') {
+                var companyName = "\"Mind Services\" MMC";
+                var voen = "1506046601";
+                var hh = "AZ28AIIB400500E9444984575229";
+                var mh = "AZ37NABZ01350100000000001944";
+                var bank = "Kapital Bank ASC KOB mərkəzi filialı";
+                var kod = "201412";
+                var bvoen = "9900003611";
+                var swift = "AIIBAZ2XXXX";
                 var who = "Əliyev Fuad Rasim oğlu";
                 var whoFooter = "F.R.Əliyev";
                 $('#vatColumn, #vatColumn2, #vatColumn3').hide();
