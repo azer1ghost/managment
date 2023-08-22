@@ -37,7 +37,7 @@
                     <option value="rigelRespublika">Rigel Bank Respublika</option>
                     <option value="rigelKapital">Rigel Kapital</option>
                     <option value="mindRespublika">Mind Bank Respublika</option>
-                    <option value="mindKapital">Mind Bank Kapital</option>
+                    <option value="mindKapital">Mind Kapital</option>
                     <option value="asazaRespublika">Asaza Bank Respublika</option>
                     <option value="tgroupKapital">Tedora Group Kapital</option>
                     <option value="dgroupKapital">Declare Group Kapital</option>
