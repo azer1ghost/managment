@@ -34,6 +34,7 @@
                             <option value="USD" @if($data->getAttribute('currency') == 'USD') selected @endif>USD</option>
                         </select>
                     </div>
+                    <x-input::text name="ordering" :label="trans('translates.columns.order')" :value="$data->getAttribute('ordering')" width="6" class="pr-2 amount" />
                 </div>
             </div>
         </div>

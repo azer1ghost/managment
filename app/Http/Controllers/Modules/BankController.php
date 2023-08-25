@@ -25,7 +25,7 @@ class BankController extends Controller
         ];
         $accounts = Account::query()
             ->when($filters['search'], fn($query) => $query->where('name', 'like', "%{$filters['search']}%"))
-            ->when($filters['company'], fn($query) => $query->where('company_id', $filters['company']))->get();
+            ->when($filters['company'], fn($query) => $query->where('company_id', $filters['company']))->OrderBy('ordering')->get();
         return view('pages.accounts.index')->with([
             'companies' => Company::get(['id','name']),
             'filters' => $filters,
@@ -101,6 +101,14 @@ class BankController extends Controller
         Account::whereId($request->get('id'))->update(['amount' => $request->get('amount')]);
 
         return response()->json(['message' => 'ok'], 200);
+    }
+    public function sortable(Request $request)
+    {
+        foreach ($request->get('item') as $key => $value) {
+            $account = Account::find($value);
+            $account->ordering = $key;
+            $account->save();
+        }
     }
 
 }

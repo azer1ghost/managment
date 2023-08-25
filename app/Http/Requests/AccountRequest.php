@@ -11,6 +11,7 @@ class AccountRequest extends FormRequest
     {
         return [
             'company_id' => 'nullable|integer',
+            'ordering'   => 'nullable|integer',
             'customCompany' => 'nullable|string',
             'name' => 'required|string',
             'amount' => 'nullable|string',

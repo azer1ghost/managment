@@ -236,6 +236,7 @@ Route::group([
     Route::resource('/creditors', CreditorController::class);
     Route::resource('/banks', BankController::class);
     Route::post('/banks/updateBankAmount', [BankController::class, 'updateBankAmount']);
+    Route::post('/sortable', [BankController::class, 'sortable'])->name('bank.sortable');
 
     Route::post('/creditors/updateAmount', [CreditorController::class, 'updateAmount']);
     Route::post('/creditors/updateVat', [CreditorController::class, 'updateVat']);

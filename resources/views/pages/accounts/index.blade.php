@@ -66,17 +66,19 @@
                     <tr>
                         <th scope="col">@lang('translates.navbar.account')</th>
                         <th scope="col">@lang('translates.columns.company')</th>
+                        <th scope="col">Valyuta</th>
                         <th scope="col">@lang('translates.general.earning')</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="sortable">
                     @forelse($accounts as $account)
                         <tr>
                             <td>{{$account->getAttribute('name')}}</td>
                             <td>{{$account->getAttribute('company_id') > 0 ? $account->getRelationValue('company')->getAttribute('name') : $account->getAttribute('customCompany')}}</td>
+                            <td>{{$account->getAttribute('currency')}}</td>
                             <td class="amount" data-id="{{$account->getAttribute('id')}}" contenteditable="true"
                                 onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46">{{$account->getAttribute('amount')}}</td>
-                            @if(auth()->user()->isDeveloper())
+                        @if(auth()->user()->isDeveloper())
                                 <td>
                                     <div class="btn-sm-group">
                                         <a href="{{route('banks.show', $account)}}"
@@ -145,6 +147,23 @@
             });
         });
 
+    </script>
+    <script>
+        $(function () {
+            $('#sortable').sortable({
+                axis: 'y',
+                handle: ".sortable",
+                update: function () {
+                    var data = $(this).sortable('serialize');
+                    $.ajax({
+                        type: "POST",
+                        data: data,
+                        url: "{{route('bank.sortable')}}",
+                    });
+                }
+            });
+            $('#sortable').disableSelection();
+        });
     </script>
 
 @endsection

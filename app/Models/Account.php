@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Account extends Model
 {
-    protected $fillable = ['company_id', 'customCompany', 'name', 'amount', 'currency'];
+    protected $fillable = ['company_id', 'customCompany', 'name', 'amount', 'currency', 'ordering'];
 
     public function company(): BelongsTo
     {
