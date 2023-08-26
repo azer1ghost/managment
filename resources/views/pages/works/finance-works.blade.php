@@ -718,10 +718,10 @@
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_vat_payment}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_illegal_payment}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_illegal_amount}}</strong></p></td>
-                <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_illegal_amount + $total_amount}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $service_count}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_mainpage}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{$total_qibpayment}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0">Faktiki məbləğ:<strong>{{ $total_illegal_amount + $total_amount}}</strong></p></td>
                 <td colspan="7"></td>
             </tr>
         @endif
