@@ -102,13 +102,13 @@ class BankController extends Controller
 
         return response()->json(['message' => 'ok'], 200);
     }
-    public function sortable(Request $request)
-    {
-        foreach ($request->get('item') as $key => $value) {
-            $account = Account::find($value);
-            $account->ordering = $key;
-            $account->save();
-        }
-    }
+//    public function sortable(Request $request)
+//    {
+//        foreach ($request->get('item') as $key => $value) {
+//            $account = Account::find($value);
+//            $account->ordering = $key;
+//            $account->save();
+//        }
+//    }
 
 }

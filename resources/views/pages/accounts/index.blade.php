@@ -148,22 +148,22 @@
         });
 
     </script>
-    <script>
-        $(function () {
-            $('#sortable').sortable({
-                axis: 'y',
-                handle: ".sortable",
-                update: function () {
-                    var data = $(this).sortable('serialize');
-                    $.ajax({
-                        type: "POST",
-                        data: data,
-                        url: "{{route('bank.sortable')}}",
-                    });
-                }
-            });
-            $('#sortable').disableSelection();
-        });
-    </script>
+{{--    <script>--}}
+{{--        $(function () {--}}
+{{--            $('#sortable').sortable({--}}
+{{--                axis: 'y',--}}
+{{--                handle: ".sortable",--}}
+{{--                update: function () {--}}
+{{--                    var data = $(this).sortable('serialize');--}}
+{{--                    $.ajax({--}}
+{{--                        type: "POST",--}}
+{{--                        data: data,--}}
+{{--                        url: "{{route('bank.sortable')}}",--}}
+{{--                    });--}}
+{{--                }--}}
+{{--            });--}}
+{{--            $('#sortable').disableSelection();--}}
+{{--        });--}}
+{{--    </script>--}}
 
 @endsection
