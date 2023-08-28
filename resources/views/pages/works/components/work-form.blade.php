@@ -32,7 +32,7 @@
                                    id="declaration_no"
                                    class="form-control"
                                    placeholder="Sorğu nömrəsi daxil edin"
-                                   @if(!auth()->user()->hasPermission('canRedirect-work') && optional($data)->getAttribute('status') > 2) minlength="10" maxlength="15" required @endif
+                                   @if(!auth()->user()->hasPermission('canRedirect-work') && optional($data)->getAttribute('status') > 2) minlength="14" maxlength="15" required @endif
                             >
                         </div>
                     @endif
