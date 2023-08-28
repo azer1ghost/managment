@@ -355,7 +355,7 @@
             <th scope="col">Status</th>
             @if(auth()->user()->hasPermission('viewPrice-work'))
                 @php
-                        $desiredOrder = [17, 33, 34, 35, 36, 37, 38, 20, 48, 50];
+                        $desiredOrder = [17, 33, 34, 35, 36, 37, 38, 20, 48, 50, 55];
                         $serviceParameters = \App\Models\Parameter::whereIn('id', $desiredOrder)
                                          ->orderByRaw("FIELD(id, " . implode(',', $desiredOrder) . ")")
                                          ->get();
@@ -442,7 +442,7 @@
                 </td>
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     @foreach(\App\Models\Service::serviceParameters() as $param)
-                        @if(in_array($param['data']->getAttribute('id'), [17, 33, 34, 35, 36, 38, 37, 20, 48, 50]))
+                        @if(in_array($param['data']->getAttribute('id'), [17, 33, 34, 35, 36, 38, 37, 20, 48, 50, 55]))
                             <td @if(auth()->user()->hasPermission('editPrice-work')) class="update"
                                 @endif data-name="{{$param['data']->getAttribute('id')}}"
                                 data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
@@ -570,6 +570,7 @@
                 $illegalPayment[] = $work->getParameter($work::ILLEGALPAID);
                 $mainPage[] = $work->getParameter($work::MAINPAGE);
                 $qibPayment[] = $work->getParameter($work::QIBPAYMENT);
+                $qibAmount[] = $work->getParameter($work::QIBAMOUNT);
                 $total_payment[] = $sum_payment;
                 $balance[] = $residue;
 
@@ -585,6 +586,7 @@
                 $total_illegal_payment = array_sum($illegalPayment);
                 $total_mainpage = array_sum($mainPage);
                 $total_qibpayment = array_sum($qibPayment);
+                $total_qibamount = array_sum($qibAmount);
 
             @endphp
             <div class="modal fade" id="paidModal-{{$work->getAttribute('id')}}" tabindex="-1" role="dialog"
@@ -721,6 +723,7 @@
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $service_count}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_mainpage}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{$total_qibpayment}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{$total_qibamount}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0">Faktiki məbləğ:<strong>{{ $total_illegal_amount + $total_amount}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0">Borc:<strong>{{ ($total_illegal_amount + $total_amount + $total_vat) - ($total_amount_payment + $total_vat_payment + $total_illegal_payment)}}</strong></p></td>
                 <td colspan="7"></td>
