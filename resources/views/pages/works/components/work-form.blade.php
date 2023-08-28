@@ -220,13 +220,13 @@
                 </div>
 
                 @if(!is_null($data))
-                    <x-input::text wire:ignore name="paid_at" readonly :label="__('translates.fields.paid_at')" value="{{optional($data->getAttribute('paid_at'))->format('Y-m-d H:i')}}" width="3" class="pr-3" />
+                    <x-input::text wire:ignore id="date" name="paid_at" readonly :label="__('translates.fields.paid_at')" value="{{optional($data->getAttribute('paid_at'))->format('Y-m-d H:i')}}" width="3" class="pr-3" />
                 @endif
                 @if(!is_null($data) )
-                    <x-input::text wire:ignore name="vat_date" readonly :label="__('translates.fields.vat_paid_at')" value="{{optional($data->getAttribute('vat_date'))->format('Y-m-d H:i')}}" width="3" class="pr-3" />
+                    <x-input::text wire:ignore id="date" name="vat_date" readonly :label="__('translates.fields.vat_paid_at')" value="{{optional($data->getAttribute('vat_date'))->format('Y-m-d H:i')}}" width="3" class="pr-3" />
                 @endif
                 @if(!is_null($data))
-                    <x-input::text wire:ignore name="invoiced_date" readonly :label="__('translates.fields.invoiced_date')" value="{{optional($data->getAttribute('invoiced_date'))->format('Y-m-d H:i')}}" width="3" class="pr-3" />
+                    <x-input::text wire:ignore id="date" name="invoiced_date" readonly :label="__('translates.fields.invoiced_date')" value="{{optional($data->getAttribute('invoiced_date'))->format('Y-m-d H:i')}}" width="3" class="pr-3" />
                 @endif
                 @if(auth()->user()->hasPermission('canVerify-work') && $method != 'POST' && optional($data)->getAttribute('status') == \App\Models\Work::DONE)
                     <div class="col-12" wire:ignore>
@@ -389,6 +389,15 @@
         clientId.change(function () {
             if ($(this).val() === '1865') $('.custom_client').show();
             else $('.custom_client').hide();
+        });
+    </script>
+    <script>
+        const dateInput = document.querySelector('#date');
+
+        flatpickr(dateInput, {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            defaultDate: null,
         });
     </script>
 @endpush
