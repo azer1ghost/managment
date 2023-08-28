@@ -725,7 +725,7 @@
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{$total_qibpayment}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{$total_qibamount}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0">Faktiki məbləğ:<strong>{{ $total_illegal_amount + $total_amount}}</strong></p></td>
-                <td><p style="font-size: 16px" class="mb-0">Borc:<strong>{{ ($total_illegal_amount + $total_amount + $total_vat) - ($total_amount_payment + $total_vat_payment + $total_illegal_payment)}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0">Borc:<strong style="color: red">{{ (($total_illegal_amount + $total_amount + $total_vat) - ($total_amount_payment + $total_vat_payment + $total_illegal_payment)) * -1}}</strong></p></td>
                 <td colspan="7"></td>
             </tr>
         @endif
