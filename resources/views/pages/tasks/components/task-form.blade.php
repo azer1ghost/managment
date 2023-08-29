@@ -114,7 +114,7 @@
          </div>
     @endif
 
-    <x-input::textarea name="note" :value="optional($task)->getAttribute('note')"  :label="__('translates.fields.note')"   width="12" class="" rows="4"/>
+    <x-input::textarea name="note" :value="optional($task)->getAttribute('note')"  :label="__('translates.fields.note')"  height="" width="12" class="" rows="20"/>
 
     @if($action)
         <div class="col-12">
