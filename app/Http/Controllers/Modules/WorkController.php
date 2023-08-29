@@ -534,7 +534,7 @@ class WorkController extends Controller
         if ($work->getAttribute('entry_date') == null && in_array($request->get('status'), [3, 4, 6]) && !$request->has('rejected')) {
             $validated['entry_date'] = now();
         }
-        if (!$request->has('paid_check') && $request->has('rejected') && $request->has('paid_at')) {
+        if ((!$request->has('paid_check') && $request->has('rejected') && $request->has('paid_at')) || (!$request->has('paid_check') && $request->has('paid_at'))) {
             $validated['paid_at'] = null;
         } elseif ($request->has('paid_check') && !$request->has('rejected') && !$request->has('paid_at')) {
             $validated['paid_at'] = now();
@@ -542,7 +542,7 @@ class WorkController extends Controller
             $validated['paid_at'] = $request->get('paid_at');
         }
 
-        if (!$request->has('vat_paid_check') && $request->has('rejected') && $request->has('vat_date')) {
+        if ((!$request->has('vat_paid_check') && $request->has('rejected') && $request->has('vat_date')) || (!$request->has('vat_paid_check') && $request->has('vat_date'))) {
             $validated['vat_date'] = null;
         } elseif ($request->has('vat_paid_check') && !$request->has('rejected') && !$request->has('vat_date')) {
             $validated['vat_date'] = now();
