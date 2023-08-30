@@ -909,9 +909,8 @@ class WorkController extends Controller
             $totalPaidAmount += round($work->getParameter(Work::PAID), 2) ?? 0;
             $totalPaidVat += round($work->getParameter(Work::VATPAYMENT), 2) ?? 0;
             $totalPaidIllegal += round($work->getParameter(Work::ILLEGALPAID), 2) ?? 0;
+            $totalPaidAll = round($totalPaidAmount + $totalPaidVat + $totalPaidIllegal, 2);
         }
-        $totalPaidAll = round($totalPaidAmount + $totalPaidVat + $totalPaidIllegal + $logPurchase, 2);
-
         foreach ($createdWorks as $createdWork){
             $totalIllegalAmount += round($createdWork->getParameter(Work::ILLEGALAMOUNT), 2) ?? 0;
             $totalAmount += round($createdWork->getParameter(Work::AMOUNT), 2) ?? 0;

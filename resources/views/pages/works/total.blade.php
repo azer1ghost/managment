@@ -95,7 +95,10 @@
             <h2>{{ $totalPaidAll }}</h2>
         </div>
     </div>
-
+<div>
+    <h1>Logistika Ödənmiş Ümumi məbləğ</h1>
+    <h2>{{ $logPurchase }}</h2>
+</div>
 
     <div class="work-stats">
         <div>
