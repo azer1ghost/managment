@@ -13,6 +13,7 @@ use App\Notifications\NotifyClientDirectorSms;
 use App\Notifications\NotifyClientSms;
 use Carbon\Carbon;
 use App\Models\{AsanImza, Command, Company, Department, Logistics, Service, User, Work, Client};
+use DB;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use function PHPUnit\Framework\isNull;
@@ -306,10 +307,14 @@ class WorkController extends Controller
 
             $works
                 ->withSum(['parameters as first_sum' => function ($subQuery) use ($first) {
-                    $subQuery->whereIn('parameter_id', $first);
+                    $subQuery
+                        ->select(DB::raw('COALESCE(SUM(work_parameter.value), 0)  AS first_sum'))
+                        ->whereIn('parameter_id', $first);
                 }], 'work_parameter.value')
                 ->withSum(['parameters as second_sum' => function ($subQuery) use ($second) {
-                    $subQuery->whereIn('parameter_id', $second);
+                    $subQuery
+                        ->select(DB::raw('COALESCE(SUM(work_parameter.value), 0) AS second_sum'))
+                        ->whereIn('parameter_id', $second);
                 }], 'work_parameter.value')
                 ->havingRaw('first_sum > second_sum')
                 ->orderBy('first_sum', 'asc');
