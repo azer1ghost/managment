@@ -304,7 +304,7 @@ class WorkController extends Controller
             $first = [33, 38, 34];
             $second = [35, 37, 36];
 
-            $defaultValue = 0; // Set your default value for the first_sum
+            $defaultValue = 0; // Set your default value for the sums
 
             $works
                 ->withSum(['parameters as first_sum' => function ($subQuery) use ($first) {
