@@ -939,9 +939,10 @@ class WorkController extends Controller
         }
         foreach ($works as $work){
             $totalPaidAmount += round($work->getParameter(Work::PAID), 2) ?? 0;
-            $totalPaidVat += round($work->getParameter(Work::VATPAYMENT), 2) ?? 0;
             $totalPaidIllegal += round($work->getParameter(Work::ILLEGALPAID), 2) ?? 0;
-            $totalPaidAll = round($totalPaidAmount + $totalPaidVat + $totalPaidIllegal, 2);
+        }
+        foreach ($vatWorks as $vatWork){
+            $totalPaidVat += round($vatWork->getParameter(Work::VATPAYMENT), 2) ?? 0;
         }
         foreach ($createdWorks as $createdWork){
             $totalIllegalAmount += round($createdWork->getParameter(Work::ILLEGALAMOUNT), 2) ?? 0;
@@ -949,6 +950,7 @@ class WorkController extends Controller
             $totalVat += round($createdWork->getParameter(Work::VAT), 2) ?? 0;
             $totalAll = round($totalIllegalAmount + $totalAmount + $totalVat, 2);
         }
+        $totalPaidAll = round($totalPaidAmount + $totalPaidVat + $totalPaidIllegal, 2);
         $AMBGIPaidIllegal = round($AMBGIPaid->sum->getParameter(Work::ILLEGALPAID), 2);
         $AMBGIPaidVat = round($AMBGIVatPaid->sum->getParameter(Work::VATPAYMENT), 2);
         $AMBGIPaidAmount = round($AMBGIPaid->sum->getParameter(Work::PAID), 2);
