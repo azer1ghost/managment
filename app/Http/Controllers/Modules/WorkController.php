@@ -313,10 +313,10 @@ class WorkController extends Controller
                 })
                 ->withSum(['parameters as first_sum' => function ($subQuery) use ($first) {
                     $subQuery->whereIn('parameter_id', $first);
-                }], 'value')
+                }], 'work_parameter.value')
                 ->withSum(['parameters as second_sum' => function ($subQuery) use ($second) {
                     $subQuery->whereIn('parameter_id', $second);
-                }], 'value')
+                }], 'work_parameter.value')
                 ->having('first_sum', '>', 'second_sum')
                 ->orderBy('first_sum', 'asc');
         }
