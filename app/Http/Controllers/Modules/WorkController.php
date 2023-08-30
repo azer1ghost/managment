@@ -306,12 +306,12 @@ class WorkController extends Controller
             $works
                 ->withSum(['parameters as first_sum' => function ($subQuery) use ($first) {
                     $subQuery
-                        ->select(DB::raw('COALESCE(SUM(work_parameter.value), 0)  AS first_sum'))
+                        ->select(DB::raw('COALESCE(SUM(work_parameter.value), 0)'))
                         ->whereIn('parameter_id', $first);
                 }], 'work_parameter.value')
                 ->withSum(['parameters as second_sum' => function ($subQuery) use ($second) {
                     $subQuery
-                        ->select(DB::raw('COALESCE(SUM(work_parameter.value), 0) AS second_sum'))
+                        ->select(DB::raw('COALESCE(SUM(work_parameter.value), 0)'))
                         ->whereIn('parameter_id', $second);
                 }], 'work_parameter.value')
                 ->havingRaw('first_sum > second_sum')
