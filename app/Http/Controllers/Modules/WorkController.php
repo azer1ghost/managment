@@ -978,21 +978,22 @@ class WorkController extends Controller
         $AMBGICashTotals = [];
         $AMBGIBankTotals = [];
         foreach ($CompanyCategories as $category => $asanImzaIds) {
-            $AMBGICashTotals[$category] = calculateCashTotal($AMBGI, $asanImzaIds);
-            $AMBGIBankTotals[$category] = calculateBankTotal($AMBGI, $asanImzaIds);
+            $AMBGICashTotals[$category] = calculateCashTotal($AMBGIPaid, $asanImzaIds);
+            $AMBGIBankTotals[$category] = calculateBankTotal($AMBGIPaid, $asanImzaIds);
         }
 
         $BBGICashTotals = [];
         $BBGIBankTotals = [];
         foreach ($CompanyCategories as $category => $asanImzaIds) {
-            $BBGICashTotals[$category] = calculateCashTotal($BBGI, $asanImzaIds);
-            $BBGIBankTotals[$category] = calculateBankTotal($BBGI, $asanImzaIds);
+            $BBGICashTotals[$category] = calculateCashTotal($BBGIPaid, $asanImzaIds);
+            $BBGIBankTotals[$category] = calculateBankTotal($BBGIPaid, $asanImzaIds);
         }
 
         $HNBGIBankTotals = [];
+        $HNBGICashTotals = [];
         foreach ($CompanyCategories as $category => $asanImzaIds) {
-            $HNBGICashTotals[$category] = calculateCashTotal($HNBGI, $asanImzaIds);
-            $HNBGIBankTotals[$category] = calculateBankTotal($HNBGI, $asanImzaIds);
+            $HNBGICashTotals[$category] = calculateCashTotal($HNBGIPaid, $asanImzaIds);
+            $HNBGIBankTotals[$category] = calculateBankTotal($HNBGIPaid, $asanImzaIds);
         }
 
         $RigelTotal = $AMBGICashTotals['RIGEL'] + $BBGICashTotals['RIGEL'] + $HNBGICashTotals['RIGEL'];
