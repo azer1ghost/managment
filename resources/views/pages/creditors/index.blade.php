@@ -121,10 +121,10 @@
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$creditor->getAttribute('supplier_id') > 0 ? $creditor->getRelationValue('supplier')->getAttribute('name') : $creditor->getAttribute('creditor')}}</td>
                             <td>{{$creditor->getRelationValue('company')->getAttribute('name')}}</td>
-                            <td class="amount" data-id="{{$creditor->getAttribute('id')}}" contenteditable="true"
-                            {{--  onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"--}}>{{$creditor->getAttribute('amount')}}</td>
-                            <td class="vat" data-id="{{$creditor->getAttribute('id')}}" contenteditable="true"
-                            {{-- onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" --}}>{{$creditor->getAttribute('vat')}}</td>
+                            <td  data-id="{{$creditor->getAttribute('id')}}"
+                            {{-- class="amount" contenteditable="true"  onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"--}}>{{$creditor->getAttribute('amount')}}</td>
+                            <td  data-id="{{$creditor->getAttribute('id')}}"
+                            {{-- class="vat" contenteditable="true" onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" --}}>{{$creditor->getAttribute('vat')}}</td>
                         <td>{{$creditor->getAttribute('last_date')}}</td>
                         <td>
                             <span class="badge {{$creditor->getAttribute('status') == 1 ? 'badge-danger' : 'badge-success'}}"> {{trans('translates.creditors.statuses.'.$creditor->getAttribute('status'))}}</span>
