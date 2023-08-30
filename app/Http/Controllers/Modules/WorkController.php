@@ -300,22 +300,21 @@ class WorkController extends Controller
         }
 
         if ($request->has('filterByCheckbox')) {
-            $first = [33, 38, 34];
-            $second = [35, 37, 36];
+            $totalAmountParamIds = [33, 38, 34];
+            $paidAmountParamIds = [35, 37, 36];
 
             $works
-                ->withSum(['parameters as first_sum' => function ($subQuery) use ($first) {
+                ->withSum(['parameters as total_sum' => function ($subQuery) use ($totalAmountParamIds) {
                     $subQuery
                         ->select(DB::raw('COALESCE(SUM(work_parameter.value), 0)'))
-                        ->whereIn('parameter_id', $first);
+                        ->whereIn('parameter_id', $totalAmountParamIds);
                 }], 'work_parameter.value')
-                ->withSum(['parameters as second_sum' => function ($subQuery) use ($second) {
+                ->withSum(['parameters as paid_sum' => function ($subQuery) use ($paidAmountParamIds) {
                     $subQuery
                         ->select(DB::raw('COALESCE(SUM(work_parameter.value), 0)'))
-                        ->whereIn('parameter_id', $second);
+                        ->whereIn('parameter_id', $paidAmountParamIds);
                 }], 'work_parameter.value')
-                ->havingRaw('first_sum > second_sum')
-                ->orderBy('first_sum', 'asc');
+                ->havingRaw('total_sum > paid_sum');
         }
 
         $works = $works->whereIn('status', [4, 6])->paginate($limit);
