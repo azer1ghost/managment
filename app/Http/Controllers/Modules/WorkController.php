@@ -281,7 +281,7 @@ class WorkController extends Controller
         $priceVerifies = [1 => trans('translates.columns.price_unverified'), 2 => trans('translates.columns.price_verified')];
 
         $allDepartments = Department::isActive()->orderBy('ordering')->get(['id', 'name']);
-        $filterByCheckbox = $request->has('filterByCheckbox');
+
 
         $services = Service::query()
             ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user) {
@@ -299,17 +299,16 @@ class WorkController extends Controller
             $works = $works->whereNull('paid_at');
 
         }
+        $filterByCheckbox = $request->has('filterByCheckbox');
         if ($filterByCheckbox) {
             $works = $works->where(function($query) {
                 $query->whereHas('parameters', function ($subQuery) {
-                    $subQuery->whereIn('parameter_id', [33, 38, 34])
-                        ->sum('value');
-                }, '>', 0);
+                    $subQuery->whereIn('parameter_id', [33, 38, 34])->sum('value') > 0;
+                });
 
                 $query->orWhereHas('parameters', function ($subQuery) {
-                    $subQuery->whereIn('parameter_id', [35, 37, 36])
-                        ->sum('value');
-                }, '<', 0);
+                    $subQuery->whereIn('parameter_id', [35, 37, 36])->sum('value') < 0;
+                });
             });
         }
 
