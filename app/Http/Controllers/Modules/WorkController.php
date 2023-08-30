@@ -308,7 +308,7 @@ class WorkController extends Controller
                 $secondSum = $subQuery->whereIn('parameter_id', [35, 37, 39])->sum('value');
 
                 return $firstSum > $secondSum;
-            });
+            }, '>=', 1);
         }
 
         $works = $works->whereIn('status', [4, 6])->paginate($limit);
