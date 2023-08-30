@@ -305,12 +305,6 @@ class WorkController extends Controller
             $second = [35, 37, 39];
 
             $works
-                ->whereHas('parameters', function ($subQuery) use ($first) {
-                    $subQuery->whereIn('parameter_id', $first);
-                })
-                ->whereHas('parameters', function ($subQuery) use ($second) {
-                    $subQuery->whereIn('parameter_id', $second);
-                })
                 ->withSum(['parameters as first_sum' => function ($subQuery) use ($first) {
                     $subQuery->whereIn('parameter_id', $first);
                 }], 'work_parameter.value')
