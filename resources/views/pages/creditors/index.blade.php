@@ -191,44 +191,44 @@
 
 @endsection
 @section('scripts')
-    <script>
-        $('.amount').on('blur', function () {
-            var id = $(this).data('id');
-            var amount = $(this).text();
-            $.ajax({
-                url: '/module/creditors/updateAmount',
-                type: 'POST',
-                data: {
-                    id: id,
-                    amount: amount,
-                },
-                success: function (response) {
-                    console.log('amount changed:', response);
-                },
-                error: function (error) {
-                    console.log('there is a problem:', error);
-                }
-            });
-        });
+{{--    <script>--}}
+{{--        $('.amount').on('blur', function () {--}}
+{{--            var id = $(this).data('id');--}}
+{{--            var amount = $(this).text();--}}
+{{--            $.ajax({--}}
+{{--                url: '/module/creditors/updateAmount',--}}
+{{--                type: 'POST',--}}
+{{--                data: {--}}
+{{--                    id: id,--}}
+{{--                    amount: amount,--}}
+{{--                },--}}
+{{--                success: function (response) {--}}
+{{--                    console.log('amount changed:', response);--}}
+{{--                },--}}
+{{--                error: function (error) {--}}
+{{--                    console.log('there is a problem:', error);--}}
+{{--                }--}}
+{{--            });--}}
+{{--        });--}}
 
-        $('.vat').on('blur', function () {
-            var id = $(this).data('id');
-            var vat = $(this).text();
-            $.ajax({
-                url: '/module/creditors/updateVat',
-                type: 'POST',
-                data: {
-                    id: id,
-                    vat: vat,
-                },
-                success: function (response) {
-                    console.log('amount changed:', response);
-                },
-                error: function (error) {
-                    console.log('there is a problem:', error);
-                }
-            });
-        });
-    </script>
+{{--        $('.vat').on('blur', function () {--}}
+{{--            var id = $(this).data('id');--}}
+{{--            var vat = $(this).text();--}}
+{{--            $.ajax({--}}
+{{--                url: '/module/creditors/updateVat',--}}
+{{--                type: 'POST',--}}
+{{--                data: {--}}
+{{--                    id: id,--}}
+{{--                    vat: vat,--}}
+{{--                },--}}
+{{--                success: function (response) {--}}
+{{--                    console.log('amount changed:', response);--}}
+{{--                },--}}
+{{--                error: function (error) {--}}
+{{--                    console.log('there is a problem:', error);--}}
+{{--                }--}}
+{{--            });--}}
+{{--        });--}}
+{{--    </script>--}}
 
 @endsection
