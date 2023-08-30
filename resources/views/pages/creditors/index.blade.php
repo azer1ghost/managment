@@ -122,28 +122,28 @@
                             <td>{{$creditor->getAttribute('supplier_id') > 0 ? $creditor->getRelationValue('supplier')->getAttribute('name') : $creditor->getAttribute('creditor')}}</td>
                             <td>{{$creditor->getRelationValue('company')->getAttribute('name')}}</td>
                             <td class="amount" data-id="{{$creditor->getAttribute('id')}}" contenteditable="true"
-                                onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46">{{$creditor->getAttribute('amount')}}</td>
+                            {{--  onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"--}}>{{$creditor->getAttribute('amount')}}</td>
                             <td class="vat" data-id="{{$creditor->getAttribute('id')}}" contenteditable="true"
-                                onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46">{{$creditor->getAttribute('vat')}}</td>
-                            <td>{{$creditor->getAttribute('last_date')}}</td>
-                            <td>
-                                <span class="badge {{$creditor->getAttribute('status') == 1 ? 'badge-danger' : 'badge-success'}}"> {{trans('translates.creditors.statuses.'.$creditor->getAttribute('status'))}}</span>
-                            </td>
-                            <td>{{$creditor->getAttribute('note')}}</td>
-                            <td>
-                                <div class="btn-sm-group">
-                                    @can('view', $creditor)
-                                        <a href="{{route('creditors.create', ['id' => $creditor])}}"
-                                           class="btn btn-sm btn-outline-primary">
-                                            <i class="fal fa-copy"></i>
-                                        </a>
-                                    @endcan
-                                    @can('view', $creditor)
-                                        <a href="{{route('creditors.show', $creditor)}}"
-                                           class="btn btn-sm btn-outline-primary">
-                                            <i class="fal fa-eye"></i>
-                                        </a>
-                                    @endcan
+                            {{-- onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" --}}>{{$creditor->getAttribute('vat')}}</td>
+                        <td>{{$creditor->getAttribute('last_date')}}</td>
+                        <td>
+                            <span class="badge {{$creditor->getAttribute('status') == 1 ? 'badge-danger' : 'badge-success'}}"> {{trans('translates.creditors.statuses.'.$creditor->getAttribute('status'))}}</span>
+                        </td>
+                        <td>{{$creditor->getAttribute('note')}}</td>
+                        <td>
+                            <div class="btn-sm-group">
+                                @can('view', $creditor)
+                                    <a href="{{route('creditors.create', ['id' => $creditor])}}"
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="fal fa-copy"></i>
+                                    </a>
+                                @endcan
+                                @can('view', $creditor)
+                                    <a href="{{route('creditors.show', $creditor)}}"
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="fal fa-eye"></i>
+                                    </a>
+                                @endcan
 {{--                                    @can('update', $creditor)--}}
                                         <a href="{{route('creditors.edit', $creditor)}}"
                                            class="btn btn-sm btn-outline-success">
