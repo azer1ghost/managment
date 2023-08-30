@@ -23,48 +23,69 @@
     </style>
     <div class="row mb-2">
         <div class="col-12 justify-content-center">
-            <h2 data-toggle="collapse" href="#task">Tapşırıqlar</h2>
-            <div class="col-12 collapse" id="task">
-                <p class="text-center">MB-TL-M002 Tapşırıqlar</p>
+
+            <h2 data-toggle="collapse" href="#management">Mobil Management</h2>
+            <div class="col-12 collapse" id="management">
+                <h3 class="text-center">MB-TL-M001  Mobil Managementə giriş</h3>
+                <video class="mr-5" width="100%" controls><source src="{{asset('videos/MB-TL-M001 Mobil Managementə giriş.mp4')}}" type="video/mp4"></video>
+                <h3 class="text-center">MB-TL-M002  Tapşırıqlar bölməsinin funksiyasına dair təlimat</h3>
                 <video class="mr-5" width="100%" controls><source src="{{asset('videos/task.mp4')}}" type="video/mp4"></video>
+                <h3 class="text-center">MB-TL-M004  Təqvim bölməsinin funksiyasına dair təlimat</h3>
+                <video class="mr-5" width="100%" controls><source src="{{asset('videos/task.mp4')}}" type="video/mp4"></video>
+                <h3 class="text-center">MB-TL-M006  Əməkdaşların bonusları </h3>
+                <video class="mr-5" width="100%" controls><source src="{{asset('videos/MB-TL-M006 Əməkdaşların bonusları.mp4')}}" type="video/mp4"></video>
             </div>
+
             @if(auth()->user()->isDirector() || auth()->user()->hasPermission('update-user'))
                 <h2 data-toggle="collapse" href="#hr">HR</h2>
                 <div class="collapse" id="hr">
-                    <p class="text-center">MB-TL-M001 Giriş</p>
+                    <h3 class="text-center">MB-TL-H001  İşdən azad olma təlimatı</h3>
                     <video class="mr-5" width="100%" controls><source src="{{asset('videos/hr.mp4')}}" type="video/mp4"></video>
-                    <p class="text-center">MB-TL-H001 İşdən azad</p>
+                    <h3 class="text-center">MB-TL-H002  Əmək haqqı və vəzifə dəyişikliyi təlimatı</h3>
                     <video class="mr-5" width="100%" controls><source src="{{asset('videos/xitam.mp4')}}" type="video/mp4"></video>
-                    <p class="text-center">MB-TL-H002 Əmək haqqı və vəzifə dəyişikliyi</p>
+                    <h3 class="text-center">MB-TL-M003  HR bölməsinin funksiyasına dair təlimat</h3>
+                    <video class="mr-5" width="100%" controls><source src="{{asset('videos/salary.mp4')}}" type="video/mp4"></video>
+                    <h3 class="text-center">MB-TL-M008  İşçi məmnuniyyətinə dair təlimat</h3>
+                    <video class="mr-5" width="100%" controls><source src="{{asset('videos/salary.mp4')}}" type="video/mp4"></video>
+                    <h3 class="text-center">MB-TL-M010  Dəyişikliklərin qeydiyyatı təlimatı</h3>
+                    <video class="mr-5" width="100%" controls><source src="{{asset('videos/salary.mp4')}}" type="video/mp4"></video>
+                    <h3 class="text-center">MB-TL-M011  Sənədlərin idarə olunması təlimatı</h3>
                     <video class="mr-5" width="100%" controls><source src="{{asset('videos/salary.mp4')}}" type="video/mp4"></video>
                 </div>
-             @endif
-            <h2 data-toggle="collapse" href="#inquiry">@lang('translates.navbar.inquiry')</h2>
-            <div class="collapse" id="inquiry">
-                <p class="text-center">MB-TL-M007 Sorğular</p>
-                <video class="mr-5" width="100%" controls><source src="{{asset('videos/inquiry.mp4')}}" type="video/mp4"></video>
-            </div>
-
-            <h2 data-toggle="collapse" href="#calendar">Təqvim</h2>
-            <div class="collapse" id="calendar">
-                <p class="text-center">MB-TL-M004 Təqvim</p>
-                <video class="mr-5" width="100%" controls><source src="{{asset('videos/teqvim.mp4')}}" type="video/mp4"></video>
-            </div>
+            @endif
 
             <h2 data-toggle="collapse" href="#work">İşlər</h2>
             <div class="collapse" id="work">
-                <p class="text-center">MB-TL-M005 İşlər</p>
+                <h3 class="text-center">MB-TL-M005  İşlər bölməsinin funksiyalarına dair təlimat</h3>
                 <video class="mr-5" width="100%" controls><source src="{{asset('videos/isler.mp4')}}" type="video/mp4"></video>
             </div>
+
+            <h2 data-toggle="collapse" href="#inquiry">@lang('translates.navbar.sales')</h2>
+            <div class="collapse" id="inquiry">
+                <h3 class="text-center">MB-TL-M007  Satış bölməsinin fuksiyalarına dair təlim</h3>
+                <video class="mr-5" width="100%" controls><source src="{{asset('videos/inquiry.mp4')}}" type="video/mp4"></video>
+                <h3 class="text-center">MB-TL-M009  Müştəri məmnuniyyətinə dair təlimat</h3>
+                <video class="mr-5" width="100%" controls><source src="{{asset('videos/inquiry.mp4')}}" type="video/mp4"></video>
+            </div>
+
 
             @if(auth()->user()->isDirector() || auth()->user()->hasPermission('update-work'))
                 <h2 data-toggle="collapse" href="#declaration">Bəyannamə</h2>
                 <div class="collapse" id="declaration">
-                    <p class="text-center">MB-TL-B001 Qısa idxal bəyannaməsi</p>
+                    <h3 class="text-center">MB-TL-B001  BBGİ üzrə qısa idxal bəyannaməsi yazılması təlimatı</h3>
                     <video class="mr-5" width="100%" controls><source src="{{asset('videos/declaration.mp4')}}" type="video/mp4"></video>
+                </div>
+                <div class="collapse" id="declaration">
+                    <h3 class="text-center">MB-TL-B002  BBGİ üzrə sərbəst dövriyyə üçün buraxılış yazılması təlimatı</h3>
+                    <video class="mr-5" width="100%" controls><source src="{{asset('videos/declaration.mp4')}}" type="video/mp4"></video>
+                </div>
+                <div class="collapse" id="declaration">
+                    <h3 class="text-center">MB-TL-B003  HNBGİ üzrə sərbəst dövriyyə üçün buraxılış yazılması təlimatı</h3>
+                    <video class="mr-5" width="100%" controls><source src="{{asset('videos/MB_TL_B003_HNBGİ_üzrə_sərbəst_dövriyyə_üçün_buraxılış_yazılması.mp4')}}" type="video/mp4"></video>
                 </div>
             @endif
         </div>
     </div>
+
 
 @endsection
