@@ -305,15 +305,20 @@ class WorkController extends Controller
             $second = implode(',', [35, 37, 39]);
 
             $works
-                ->withSum(['parameters AS first_sum' => function ($subQuery) use ($first) {
-                        $subQuery->whereIn('parameter_id', $first);
-                    }
-                ], 'value')
-                ->withSum(['parameters AS second_sum' => function ($subQuery) use ($second) {
-                        $subQuery->whereIn('parameter_id', $second);
-                    }
-                ], 'value')
-                ->having('first_sum', '>', 'second_sum');
+                ->whereHas('parameters', function ($subQuery) use ($first) {
+                    $subQuery->whereIn('parameter_id', $first);
+                })
+                ->whereHas('parameters', function ($subQuery) use ($second) {
+                    $subQuery->whereIn('parameter_id', $second);
+                })
+                ->withSum(['parameters as first_sum' => function ($subQuery) use ($first) {
+                    $subQuery->whereIn('parameter_id', $first);
+                }])
+                ->withSum(['parameters as second_sum' => function ($subQuery) use ($second) {
+                    $subQuery->whereIn('parameter_id', $second);
+                }])
+                ->having('first_sum', '>', 'second_sum')
+                ->orderBy('first_sum', 'asc');
         }
 
         $works = $works->whereIn('status', [4, 6])->paginate($limit);
