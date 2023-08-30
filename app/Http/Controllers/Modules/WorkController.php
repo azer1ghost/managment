@@ -304,6 +304,9 @@ class WorkController extends Controller
             $first = [33, 38, 34];
             $second = [35, 37, 36];
 
+            $defaultFirstValue = 0; // Set your default value for the first_sum
+            $defaultSecondValue = 0; // Set your default value for the second_sum
+
             $works
                 ->withSum(['parameters as first_sum' => function ($subQuery) use ($first) {
                     $subQuery->whereIn('parameter_id', $first);
@@ -311,7 +314,9 @@ class WorkController extends Controller
                 ->withSum(['parameters as second_sum' => function ($subQuery) use ($second) {
                     $subQuery->whereIn('parameter_id', $second);
                 }], 'work_parameter.value')
-                ->selectRaw('*, IFNULL(first_sum, 0) AS first_sum, IFNULL(second_sum, 0) AS second_sum')
+                ->select('*')
+                ->selectRaw('COALESCE(first_sum, ?) AS first_sum', [$defaultSecondValue])
+                ->selectRaw('COALESCE(second_sum, ?) AS second_sum', [$defaultSecondValue])
                 ->havingRaw('first_sum > second_sum')
                 ->orderBy('first_sum', 'asc');
         }
