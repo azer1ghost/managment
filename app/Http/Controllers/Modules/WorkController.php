@@ -301,8 +301,8 @@ class WorkController extends Controller
         }
 
         if ($request->has('filterByCheckbox')) {
-            $first = implode(',', [33, 38, 34]);
-            $second = implode(',', [35, 37, 39]);
+            $first = [33, 38, 34];
+            $second = [35, 37, 39];
 
             $works
                 ->whereHas('parameters', function ($subQuery) use ($first) {
