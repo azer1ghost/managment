@@ -251,6 +251,10 @@
                                    @if(request()->has('check-vat_paid_at')) checked @endif> <label
                                     for="check-vat_paid_at">@lang('translates.filters.filter_by')</label>
                         </div>
+                        <div class="form-group col-12 mt-3 mb-3 pl-0">
+                            <input type="checkbox" name="filterByCheckbox" id="filterByCheckbox">
+                            <label for="filterByCheckbox">Borclular</label>
+                        </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="verifiedFilter">@lang('translates.columns.verified')</label>
