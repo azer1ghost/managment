@@ -302,11 +302,9 @@ class WorkController extends Controller
 
         if ($request->has('filterByCheckbox')) {
             $works = $works->where(function($query) {
-                $query->whereHas('parameters', function ($subQuery) {
+                $query->whereHas('work_parameter', function ($subQuery) {
                     $subQuery->whereIn('parameter_id', [33, 38, 34])->sum('value') > $subQuery->whereIn('parameter_id', [35, 37, 36])->sum('value');
                 });
-
-
             });
         }
 
