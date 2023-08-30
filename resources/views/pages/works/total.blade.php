@@ -57,6 +57,11 @@
             <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
             <input type="checkbox" name="check-created_at" id="check-created_at" @if(request()->has('check-created_at')) checked @endif> <label for="check-created_at">@lang('translates.filters.filter_by')</label>
         </div>
+        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+            <label class="d-block" for="vatDateFilter">{{trans('translates.fields.vat_date')}}</label>
+            <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="vat_date" value="{{$filters['vat_date']}}">
+            <input type="checkbox" name="check-vat_date" id="check-vat_date" @if(request()->has('check-created_at')) checked @endif> <label for="check-vat_date">@lang('translates.filters.filter_by')</label>
+        </div>
         <button type="submit" class="btn btn-primary">Filtrele</button>
     </form>
     <div class="work-stats">

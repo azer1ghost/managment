@@ -831,11 +831,17 @@ class WorkController extends Controller
         $endOfMonth = now()->format('Y-m-d');
 
         $paid_at_range = $request->get('paid_at');
+        $vat_date_range = $request->get('vat_date');
         $created_at_range = $request->get('created_at');
         $filters = [];
 
         if ($request->has('paid_at')) {
             $paid_at_range = $request->input('paid_at');
+        } else {
+            $paid_at_range = now()->firstOfMonth()->format('Y-m-d') . ' - ' . now()->format('Y-m-d');
+        }
+        if ($request->has('vat_date')) {
+            $paid_at_range = $request->input('vat_date');
         } else {
             $paid_at_range = now()->firstOfMonth()->format('Y-m-d') . ' - ' . now()->format('Y-m-d');
         }
@@ -850,6 +856,12 @@ class WorkController extends Controller
             $filters['paid_at'] = $paid_at_range;
         } else {
             $filters['paid_at'] = $startOfMonth . ' - ' . $endOfMonth;
+        }
+
+        if ($vat_date_range) {
+            $filters['vat_date'] = $vat_date_range;
+        } else {
+            $filters['vat_date'] = $startOfMonth . ' - ' . $endOfMonth;
         }
 
         if ($created_at_range) {
