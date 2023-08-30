@@ -841,9 +841,9 @@ class WorkController extends Controller
             $paid_at_range = now()->firstOfMonth()->format('Y-m-d') . ' - ' . now()->format('Y-m-d');
         }
         if ($request->has('vat_date')) {
-            $paid_at_range = $request->input('vat_date');
+            $vat_date_range = $request->input('vat_date');
         } else {
-            $paid_at_range = now()->firstOfMonth()->format('Y-m-d') . ' - ' . now()->format('Y-m-d');
+            $vat_date_range = now()->firstOfMonth()->format('Y-m-d') . ' - ' . now()->format('Y-m-d');
         }
 
         if ($request->has('created_at')) {
