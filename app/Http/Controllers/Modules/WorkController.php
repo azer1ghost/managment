@@ -295,20 +295,25 @@ class WorkController extends Controller
         if ($request->has('check-paid_at')) {
             $works = $works->whereBetween('paid_at', [Carbon::parse($paid_at_explode[0])->startOfDay(), Carbon::parse($paid_at_explode[1])->endOfDay()]);
         }
+
         if ($request->has('check-paid_at-null')) {
             $works = $works->whereNull('paid_at');
-
         }
 
         if ($request->has('filterByCheckbox')) {
-            $works = $works->with('parameters')->whereHas('parameters', function ($subQuery) {
+            $first = implode(',', [33, 38, 34]);
+            $second = implode(',', [35, 37, 39]);
 
-                $firstSum = $subQuery->whereIn('parameter_id', [33, 38, 34])->sum('value');
-
-                $secondSum = $subQuery->whereIn('parameter_id', [35, 37, 39])->sum('value');
-
-                return $firstSum > $secondSum;
-            }, '>=', 1);
+            $works
+                ->withSum(['parameters AS first_sum' => function ($subQuery) use ($first) {
+                        $subQuery->whereIn('parameter_id', $first);
+                    }
+                ], 'value')
+                ->withSum(['parameters AS second_sum' => function ($subQuery) use ($second) {
+                        $subQuery->whereIn('parameter_id', $second);
+                    }
+                ], 'value')
+                ->having('first_sum', '>', 'second_sum');
         }
 
         $works = $works->whereIn('status', [4, 6])->paginate($limit);
@@ -319,6 +324,7 @@ class WorkController extends Controller
                     'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods', 'destinations')
             );
         }
+
         return view('errors.403');
     }
 
