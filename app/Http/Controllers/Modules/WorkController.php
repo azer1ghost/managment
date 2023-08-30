@@ -311,7 +311,7 @@ class WorkController extends Controller
                 ->withSum(['parameters as second_sum' => function ($subQuery) use ($second) {
                     $subQuery->whereIn('parameter_id', $second);
                 }], 'work_parameter.value')
-                ->selectRaw('*, COALESCE(first_sum, 0) AS first_sum, COALESCE(second_sum, 0) AS second_sum')
+                ->selectRaw('*, IFNULL(first_sum, 0) AS first_sum, IFNULL(second_sum, 0) AS second_sum')
                 ->havingRaw('first_sum > second_sum')
                 ->orderBy('first_sum', 'asc');
         }
