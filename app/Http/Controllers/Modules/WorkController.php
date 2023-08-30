@@ -302,7 +302,7 @@ class WorkController extends Controller
 
         if ($request->has('filterByCheckbox')) {
             $first = [33, 38, 34];
-            $second = [35, 37, 39];
+            $second = [35, 37, 36];
 
             $works
                 ->withSum(['parameters as first_sum' => function ($subQuery) use ($first) {
