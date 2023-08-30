@@ -301,11 +301,13 @@ class WorkController extends Controller
         }
 
         if ($request->has('filterByCheckbox')) {
-            $works = $works->with('parameters')->whereHas('parameter_id', function ($subQuery) {
-                $firstSum = $subQuery->whereIn('parameter_id', [33, 38, 34])->sum('value');
-                $secondSum = $subQuery->whereIn('parameter_id', [35, 37, 36])->sum('value');
+            $works = $works->with('parameters')->whereHas('parameters', function ($subQuery) {
 
-                return $subQuery->where($firstSum, '>', $secondSum);
+                $firstSum = $subQuery->whereIn('parameter_id', [33, 38, 34])->sum('value');
+
+                $secondSum = $subQuery->whereIn('parameter_id', [35, 37, 39])->sum('value');
+
+                return $firstSum > $secondSum;
             });
         }
 
