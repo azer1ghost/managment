@@ -12,8 +12,6 @@ use App\Models\{Company, Department, Logistics, Service, User, Work, Client};
 
 use Carbon\Carbon;
 
-use DB;
-
 use Illuminate\Http\{RedirectResponse, Request};
 
 class WorkController extends Controller
@@ -306,12 +304,12 @@ class WorkController extends Controller
             $works
                 ->withSum(['parameters as total_sum' => function ($subQuery) use ($totalAmountParamIds) {
                     $subQuery
-                        ->select(DB::raw('COALESCE(SUM(work_parameter.value), 0)'))
+                        ->selectRaw('COALESCE(SUM(work_parameter.value), 0)')
                         ->whereIn('parameter_id', $totalAmountParamIds);
                 }], 'work_parameter.value')
                 ->withSum(['parameters as paid_sum' => function ($subQuery) use ($paidAmountParamIds) {
                     $subQuery
-                        ->select(DB::raw('COALESCE(SUM(work_parameter.value), 0)'))
+                        ->selectRaw('COALESCE(SUM(work_parameter.value), 0)')
                         ->whereIn('parameter_id', $paidAmountParamIds);
                 }], 'work_parameter.value')
                 ->havingRaw('total_sum > paid_sum');
