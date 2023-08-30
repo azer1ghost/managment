@@ -893,9 +893,13 @@ class WorkController extends Controller
         $totalAll = 0;
         $totalPaidAll = 0;
 
-        $AMBGI = $works->where('department_id', 11);
-        $BBGI = $works->where('department_id', 12);
-        $HNBGI = $works->where('department_id', 13);
+        $AMBGIPaid = $works->where('department_id', 11);
+        $BBGIPaid = $works->where('department_id', 12);
+        $HNBGIPaid = $works->where('department_id', 13);
+
+        $AMBGI = $createdWorks->where('department_id', 11);
+        $BBGI = $createdWorks->where('department_id', 12);
+        $HNBGI = $createdWorks->where('department_id', 13);
 
         foreach ($logistics as $log){
             $logSales += round($log->getParameter(Logistics::SALESPAID), 2) ?? 0;
@@ -914,17 +918,17 @@ class WorkController extends Controller
             $totalVat += round($createdWork->getParameter(Work::VAT), 2) ?? 0;
             $totalAll = round($totalIllegalAmount + $totalAmount + $totalVat, 2);
         }
-        $AMBGIPaidIllegal = round($AMBGI->sum->getParameter(Work::ILLEGALPAID), 2);
-        $AMBGIPaidVat = round($AMBGI->sum->getParameter(Work::VATPAYMENT), 2);
-        $AMBGIPaidAmount = round($AMBGI->sum->getParameter(Work::PAID), 2);
+        $AMBGIPaidIllegal = round($AMBGIPaid->sum->getParameter(Work::ILLEGALPAID), 2);
+        $AMBGIPaidVat = round($AMBGIPaid->sum->getParameter(Work::VATPAYMENT), 2);
+        $AMBGIPaidAmount = round($AMBGIPaid->sum->getParameter(Work::PAID), 2);
 
-        $BBGIPaidIllegal = round($BBGI->sum->getParameter(Work::ILLEGALPAID), 2);
-        $BBGIPaidVat = round($BBGI->sum->getParameter(Work::VATPAYMENT), 2);
-        $BBGIPaidAmount = round($BBGI->sum->getParameter(Work::PAID), 2);
+        $BBGIPaidIllegal = round($BBGIPaid->sum->getParameter(Work::ILLEGALPAID), 2);
+        $BBGIPaidVat = round($BBGIPaid->sum->getParameter(Work::VATPAYMENT), 2);
+        $BBGIPaidAmount = round($BBGIPaid->sum->getParameter(Work::PAID), 2);
 
-        $HNBGIPaidIllegal = round($HNBGI->sum->getParameter(Work::ILLEGALPAID), 2);
-        $HNBGIPaidVat = round($HNBGI->sum->getParameter(Work::VATPAYMENT), 2);
-        $HNBGIPaidAmount = round($HNBGI->sum->getParameter(Work::PAID), 2);
+        $HNBGIPaidIllegal = round($HNBGIPaid->sum->getParameter(Work::ILLEGALPAID), 2);
+        $HNBGIPaidVat = round($HNBGIPaid->sum->getParameter(Work::VATPAYMENT), 2);
+        $HNBGIPaidAmount = round($HNBGIPaid->sum->getParameter(Work::PAID), 2);
 
         $AMBGIIllegal = round($AMBGI->sum->getParameter(Work::ILLEGALAMOUNT), 2);
         $AMBGIVat = round($AMBGI->sum->getParameter(Work::VAT), 2);
