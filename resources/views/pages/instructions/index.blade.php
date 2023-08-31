@@ -31,9 +31,9 @@
                 <h3 class="text-center">MB-TL-M002  Tapşırıqlar bölməsinin funksiyasına dair təlimat</h3>
                 <video class="mr-5" width="100%" controls><source src="{{asset('videos/task.mp4')}}" type="video/mp4"></video>
                 <h3 class="text-center">MB-TL-M004  Təqvim bölməsinin funksiyasına dair təlimat</h3>
-                <video class="mr-5" width="100%" controls><source src="{{asset('videos/task.mp4')}}" type="video/mp4"></video>
+                <video class="mr-5" width="100%" controls><source src="{{asset('videos/teqvim.mp4')}}" type="video/mp4"></video>
                 <h3 class="text-center">MB-TL-M006  Əməkdaşların bonusları </h3>
-                <video class="mr-5" width="100%" controls><source src="{{asset('videos/MB-TL-M006 Əməkdaşların bonusları.mp4')}}" type="video/mp4"></video>
+                <video class="mr-5" width="100%" controls><source src="{{asset('videos/bonuses.mp4')}}" type="video/mp4"></video>
             </div>
 
             @if(auth()->user()->isDirector() || auth()->user()->hasPermission('update-user'))
@@ -42,11 +42,11 @@
                     <h3 class="text-center">MB-TL-H001  İşdən azad olma təlimatı</h3>
                     <video class="mr-5" width="100%" controls><source src="{{asset('videos/hr.mp4')}}" type="video/mp4"></video>
                     <h3 class="text-center">MB-TL-H002  Əmək haqqı və vəzifə dəyişikliyi təlimatı</h3>
-                    <video class="mr-5" width="100%" controls><source src="{{asset('videos/xitam.mp4')}}" type="video/mp4"></video>
-                    <h3 class="text-center">MB-TL-M003  HR bölməsinin funksiyasına dair təlimat</h3>
                     <video class="mr-5" width="100%" controls><source src="{{asset('videos/salary.mp4')}}" type="video/mp4"></video>
+                    <h3 class="text-center">MB-TL-M003  HR bölməsinin funksiyasına dair təlimat</h3>
+                    <video class="mr-5" width="100%" controls><source src="{{asset('videos/hr.mp4')}}" type="video/mp4"></video>
                     <h3 class="text-center">MB-TL-M008  İşçi məmnuniyyətinə dair təlimat</h3>
-                    <video class="mr-5" width="100%" controls><source src="{{asset('videos/IMG_6135.mp4')}}" type="video/mp4"></video>
+                    <video class="mr-5" width="100%" controls><source src="{{asset('videos/IMG_6134.mp4')}}" type="video/mp4"></video>
                     <h3 class="text-center">MB-TL-M010  Dəyişikliklərin qeydiyyatı təlimatı</h3>
                     <video class="mr-5" width="100%" controls><source src="{{asset('videos/salary.mp4')}}" type="video/mp4"></video>
                     <h3 class="text-center">MB-TL-M011  Sənədlərin idarə olunması təlimatı</h3>
@@ -63,7 +63,7 @@
             <h2 data-toggle="collapse" href="#inquiry">@lang('translates.navbar.sales')</h2>
             <div class="collapse" id="inquiry">
                 <h3 class="text-center">MB-TL-M007  Satış bölməsinin fuksiyalarına dair təlim</h3>
-                <video class="mr-5" width="100%" controls><source src="{{asset('videos/inquiry.mp4')}}" type="video/mp4"></video>
+                <video class="mr-5" width="100%" controls><source src="{{asset('videos/sales.mp4')}}" type="video/mp4"></video>
                 <h3 class="text-center">MB-TL-M009  Müştəri məmnuniyyətinə dair təlimat</h3>
                 <video class="mr-5" width="100%" controls><source src="{{asset('videos/IMG_6136.mp4')}}" type="video/mp4"></video>
             </div>
