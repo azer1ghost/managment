@@ -380,7 +380,7 @@
                                                             <tr>
                                                                 <td colspan="10">
                                                                     <div class="node">
-                                                                        <a href="{{route('getInstruction', 122)}}">B.B işi təşkili şöbəsi rəisi - Əhmədbəy İsmixanov</a>
+                                                                        <a href="{{route('getInstruction', 122)}}">B.B işi təşkili şöbəsi rəisi - Vakant</a>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -550,7 +550,7 @@
                                                                                                                         <tr>
                                                                                                                             <td colspan="2">
                                                                                                                                 <div class="node">
-                                                                                                                                    <a href="{{route('getInstruction', 76)}}">Bəyannaməçi-4 nəfər</a>
+                                                                                                                                    <a href="{{route('getInstruction', 76)}}">Bəyannaməçi-4</a>
                                                                                                                                 </div>
                                                                                                                             </td>
                                                                                                                         </tr>
@@ -860,7 +860,7 @@
                                                                                                                         <tr>
                                                                                                                             <td colspan="2">
                                                                                                                                 <div class="node">
-                                                                                                                                    <a href="{{route('getInstruction', 126)}}">Bəyannaməçi-3 nəfər</a>
+                                                                                                                                    <a href="{{route('getInstruction', 126)}}">Bəyannaməçi-3</a>
                                                                                                                                 </div>
                                                                                                                             </td>
                                                                                                                         </tr>
@@ -1167,7 +1167,7 @@
                                                                                                                         <tr>
                                                                                                                             <td colspan="2">
                                                                                                                                 <div class="node">
-                                                                                                                                    <a href="{{route('getInstruction', 93)}}">Bəyannaməçi-2 nəfər</a>
+                                                                                                                                    <a href="{{route('getInstruction', 93)}}">Bəyannaməçi-2</a>
                                                                                                                                 </div>
                                                                                                                             </td>
                                                                                                                         </tr>
@@ -1423,7 +1423,7 @@
                                                                         <tbody>
                                                                         <tr>
                                                                             <td colspan="2">
-                                                                                <div class="node"><a href="{{route('getInstruction', 39)}}">Mühasib-3 nəfər</a>
+                                                                                <div class="node"><a href="{{route('getInstruction', 39)}}">Mühasib-3</a>
                                                                                 </div>
                                                                             </td>
                                                                         </tr>
@@ -1551,7 +1551,7 @@
                                                                         <tbody>
                                                                         <tr>
                                                                             <td colspan="2">
-                                                                                <div class="node"><a href="{{route('getInstruction', 130)}}">Satış Mütəxəssisi-2 nəfər</a>
+                                                                                <div class="node"><a href="{{route('getInstruction', 130)}}">Satış Mütəxəssisi-2</a>
                                                                                 </div>
                                                                             </td>
                                                                         </tr>
