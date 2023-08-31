@@ -27,7 +27,7 @@
             <h2 data-toggle="collapse" href="#management">Mobil Management</h2>
             <div class="col-12 collapse" id="management">
                 <h3 class="text-center">MB-TL-M001  Mobil Managementə giriş</h3>
-                <video class="mr-5" width="100%" controls><source src="{{asset('videos/MB-TL-M001 Mobil Managementə giriş.mp4')}}" type="video/mp4"></video>
+                <video class="mr-5" width="100%" controls><source src="{{asset('videos/MB-TL-M001.mp4')}}" type="video/mp4"></video>
                 <h3 class="text-center">MB-TL-M002  Tapşırıqlar bölməsinin funksiyasına dair təlimat</h3>
                 <video class="mr-5" width="100%" controls><source src="{{asset('videos/task.mp4')}}" type="video/mp4"></video>
                 <h3 class="text-center">MB-TL-M004  Təqvim bölməsinin funksiyasına dair təlimat</h3>
@@ -46,11 +46,11 @@
                     <h3 class="text-center">MB-TL-M003  HR bölməsinin funksiyasına dair təlimat</h3>
                     <video class="mr-5" width="100%" controls><source src="{{asset('videos/salary.mp4')}}" type="video/mp4"></video>
                     <h3 class="text-center">MB-TL-M008  İşçi məmnuniyyətinə dair təlimat</h3>
-                    <video class="mr-5" width="100%" controls><source src="{{asset('videos/salary.mp4')}}" type="video/mp4"></video>
+                    <video class="mr-5" width="100%" controls><source src="{{asset('videos/IMG_6135.mp4')}}" type="video/mp4"></video>
                     <h3 class="text-center">MB-TL-M010  Dəyişikliklərin qeydiyyatı təlimatı</h3>
                     <video class="mr-5" width="100%" controls><source src="{{asset('videos/salary.mp4')}}" type="video/mp4"></video>
                     <h3 class="text-center">MB-TL-M011  Sənədlərin idarə olunması təlimatı</h3>
-                    <video class="mr-5" width="100%" controls><source src="{{asset('videos/salary.mp4')}}" type="video/mp4"></video>
+                    <video class="mr-5" width="100%" controls><source src="{{asset('videos/MB-TL-M011.mp4')}}" type="video/mp4"></video>
                 </div>
             @endif
 
@@ -65,7 +65,7 @@
                 <h3 class="text-center">MB-TL-M007  Satış bölməsinin fuksiyalarına dair təlim</h3>
                 <video class="mr-5" width="100%" controls><source src="{{asset('videos/inquiry.mp4')}}" type="video/mp4"></video>
                 <h3 class="text-center">MB-TL-M009  Müştəri məmnuniyyətinə dair təlimat</h3>
-                <video class="mr-5" width="100%" controls><source src="{{asset('videos/inquiry.mp4')}}" type="video/mp4"></video>
+                <video class="mr-5" width="100%" controls><source src="{{asset('videos/IMG_6136.mp4')}}" type="video/mp4"></video>
             </div>
 
 
@@ -77,7 +77,7 @@
                 </div>
                 <div class="collapse" id="declaration">
                     <h3 class="text-center">MB-TL-B002  BBGİ üzrə sərbəst dövriyyə üçün buraxılış yazılması təlimatı</h3>
-                    <video class="mr-5" width="100%" controls><source src="{{asset('videos/declaration.mp4')}}" type="video/mp4"></video>
+                    <video class="mr-5" width="100%" controls><source src="{{asset('videos/idxal.mp4')}}" type="video/mp4"></video>
                 </div>
                 <div class="collapse" id="declaration">
                     <h3 class="text-center">MB-TL-B003  HNBGİ üzrə sərbəst dövriyyə üçün buraxılış yazılması təlimatı</h3>

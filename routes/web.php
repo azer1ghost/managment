@@ -231,7 +231,7 @@ Route::group([
     Route::resource('/access-rates', AccessRateController::class);
     Route::resource('/questionnaires', QuestionnaireController::class);
     Route::get('/foreign', [InternalRelationController::class, 'foreign'])->name('foreign');
-    Route::post('/sortable', [InternalRelationController::class, 'sortable'])->name('internal-relation.sortable');
+    Route::post('/sortable-relation', [InternalRelationController::class, 'sortable'])->name('internal-relation.sortable');
     Route::post('/sortable-internal', [InternalDocumentController::class, 'sortable'])->name('internal-document.sortable');
     Route::resource('/creditors', CreditorController::class);
     Route::resource('/banks', BankController::class);
