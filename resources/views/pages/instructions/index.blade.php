@@ -46,7 +46,7 @@
                     <h3 class="text-center">MB-TL-M003  HR bölməsinin funksiyasına dair təlimat</h3>
                     <video class="mr-5" width="100%" controls><source src="{{asset('videos/hr.mp4')}}" type="video/mp4"></video>
                     <h3 class="text-center">MB-TL-M008  İşçi məmnuniyyətinə dair təlimat</h3>
-                    <video class="mr-5" width="100%" controls><source src="{{asset('videos/IMG_6134.mp4')}}" type="video/mp4"></video>
+                    <video class="mr-5" width="100%" controls><source src="{{asset('videos/IMG_6135.mp4')}}" type="video/mp4"></video>
                     <h3 class="text-center">MB-TL-M010  Dəyişikliklərin qeydiyyatı təlimatı</h3>
                     <video class="mr-5" width="100%" controls><source src="{{asset('videos/salary.mp4')}}" type="video/mp4"></video>
                     <h3 class="text-center">MB-TL-M011  Sənədlərin idarə olunması təlimatı</h3>
