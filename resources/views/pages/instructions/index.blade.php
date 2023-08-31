@@ -20,6 +20,7 @@
             color: whitesmoke;
             cursor: pointer;
         }
+
     </style>
     <div class="row mb-2">
         <div class="col-12 justify-content-center">
