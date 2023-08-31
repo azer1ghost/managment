@@ -550,7 +550,7 @@
                                                                                                                         <tr>
                                                                                                                             <td colspan="2">
                                                                                                                                 <div class="node">
-                                                                                                                                    <a href="{{route('getInstruction', 76)}}">Bəyannaməçi-4</a>
+                                                                                                                                    <a href="{{route('getInstruction', 76)}}">Bəyannaməçi</a>
                                                                                                                                 </div>
                                                                                                                             </td>
                                                                                                                         </tr>
@@ -860,7 +860,7 @@
                                                                                                                         <tr>
                                                                                                                             <td colspan="2">
                                                                                                                                 <div class="node">
-                                                                                                                                    <a href="{{route('getInstruction', 126)}}">Bəyannaməçi-3</a>
+                                                                                                                                    <a href="{{route('getInstruction', 126)}}">Bəyannaməçi</a>
                                                                                                                                 </div>
                                                                                                                             </td>
                                                                                                                         </tr>
@@ -1167,7 +1167,7 @@
                                                                                                                         <tr>
                                                                                                                             <td colspan="2">
                                                                                                                                 <div class="node">
-                                                                                                                                    <a href="{{route('getInstruction', 93)}}">Bəyannaməçi-2</a>
+                                                                                                                                    <a href="{{route('getInstruction', 93)}}">Bəyannaməçi</a>
                                                                                                                                 </div>
                                                                                                                             </td>
                                                                                                                         </tr>
