@@ -830,9 +830,6 @@ class WorkController extends Controller
         $startOfMonth = now()->firstOfMonth()->format('Y-m-d');
         $endOfMonth = now()->format('Y-m-d');
 
-        $paid_at_range = $request->get('paid_at');
-        $vat_date_range = $request->get('vat_date');
-        $created_at_range = $request->get('created_at');
         $filters = [];
 
         if ($request->has('paid_at')) {
