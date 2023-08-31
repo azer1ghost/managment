@@ -878,8 +878,8 @@ class WorkController extends Controller
             ->get();
 
         $vatWorks = Work::where(function($query) use ($filters) {
-            $paid_at_range = $filters['vat_date'];
-            $dates = explode(' - ', $paid_at_range);
+            $vat_date_range = $filters['vat_date'];
+            $dates = explode(' - ', $vat_date_range);
             if (count($dates) === 2) {
                 $query->whereBetween('vat_date', [$dates[0], $dates[1]]);
             }
