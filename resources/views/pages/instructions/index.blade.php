@@ -34,7 +34,7 @@
                 <h3 class="text-center">MB-TL-M004  Təqvim bölməsinin funksiyasına dair təlimat</h3>
                 <video class="mr-5" width="100%" controls><source src="{{asset('videos/teqvim.mp4')}}" type="video/mp4"></video>
                 <h3 class="text-center">MB-TL-M006  Əməkdaşların bonusları </h3>
-                <video class="mr-5" width="100%" controls><source src="{{asset('videos/bonuses.mp4')}}" type="video/mp4"></video>
+                <video class="mr-5" width="100%" controls><source src="{{asset('videos/MB-TL-M006.mp4')}}" type="video/mp4"></video>
             </div>
 
             @if(auth()->user()->isDirector() || auth()->user()->hasPermission('update-user'))
