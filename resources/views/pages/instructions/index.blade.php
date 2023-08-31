@@ -82,7 +82,7 @@
                 </div>
                 <div class="collapse" id="declaration">
                     <h3 class="text-center">MB-TL-B003  HNBGİ üzrə sərbəst dövriyyə üçün buraxılış yazılması təlimatı</h3>
-                    <video class="mr-5" width="100%" controls><source src="{{asset('videos/MB_TL_B003_HNBGİ_üzrə_sərbəst_dövriyyə_üçün_buraxılış_yazılması.mp4')}}" type="video/mp4"></video>
+                    <video class="mr-5" width="100%" controls><source src="{{asset('videos/MB_TL_B003.mp4')}}" type="video/mp4"></video>
                 </div>
             @endif
         </div>
