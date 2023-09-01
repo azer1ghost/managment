@@ -581,7 +581,7 @@
                                                                                                                                     <tr>
                                                                                                                                         <td colspan="2">
                                                                                                                                             <div class="node">
-                                                                                                                                                <a href="{{route('getInstruction', 54)}}">Kiçik Bəyannaməçi</a>
+                                                                                                                                                <a href="{{route('getInstruction', 160)}}">Kiçik Bəyannaməçi</a>
                                                                                                                                             </div>
                                                                                                                                         </td>
                                                                                                                                     </tr>
@@ -891,7 +891,7 @@
                                                                                                                                     <tr>
                                                                                                                                         <td colspan="2">
                                                                                                                                             <div class="node">
-                                                                                                                                                <a href="{{route('getInstruction', 54)}}">Kiçik Bəyannaməçi-Vakant</a>
+                                                                                                                                                <a href="{{route('getInstruction', 160)}}">Kiçik Bəyannaməçi-Vakant</a>
                                                                                                                                             </div>
                                                                                                                                         </td>
                                                                                                                                     </tr>
