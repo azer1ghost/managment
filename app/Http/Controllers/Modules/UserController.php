@@ -136,12 +136,20 @@ class UserController extends Controller
         $totalbranchgb = 0;
         $totalbranchqib = 0;
 
+        $startOfMonth = now()->setMonth(8)->startOfMonth();
+        $endOfMonth = now()->setMonth(8)->endOfMonth();
+
+//        $startOfMonth = now()->startOfMonth();
+//        $endOfMonth = now()->endOfMonth();
+
         $works = Work::where('user_id', $user->id)
-            ->whereDate('created_at', '>=', now()->startOfMonth())
+            ->whereDate('created_at', '>=', $startOfMonth)
+            ->whereDate('created_at', '<=', $endOfMonth)
             ->get();
 
-        $branchWorks = Work::where('department_id' ,$user->department_id)
-            ->whereDate('created_at', '>=', now()->startOfMonth())
+        $branchWorks = Work::where('department_id', $user->department_id)
+            ->whereDate('created_at', '>=', $startOfMonth)
+            ->whereDate('created_at', '<=', $endOfMonth)
             ->get();
 
         $gb = $works->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48]);
