@@ -1,9 +1,185 @@
 @extends('layouts.main')
 
 @section('title', trans('translates.navbar.dashboard'))
+@php
+    $company = $data->getAttribute('company');
+    $representer = "Gömrük Təmsilçisi";
+
+ if ($company == 'mbrokerKapital') {
+     $companyName = "\"Mobil Broker\" MMC";
+     $voen = "1804705371";
+     $hh = "AZ78AIIB400500D9447193478229";
+     $mh = "AZ37NABZ01350100000000001944";
+     $bank = "KAPITAL BANK ASC KOB mərkəz filialı";
+     $kod = "201412";
+     $bvoen = "9900003611";
+     $swift = "AIIBAZ2XXXX";
+     $who = "Vüsal Xəlilov İbrahim oğlu";
+     $whoFooter = "V.İ.Xəlilov";
+     $stamp = asset('assets/images/finance/mbroker.jpeg');
+
+ } else if ($company == 'mbrokerRespublika') {
+     $companyName = "\"Mobil Broker\" MMC";
+     $voen = "1804705371";
+     $hh = "AZ17BRES00380394401114863601";
+     $mh = "AZ80NABZ01350100000000014944";
+     $bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
+     $kod = "507547";
+     $bvoen = "9900001901";
+     $swift = "BRESAZ22";
+     $who = "Vüsal Xəlilov İbrahim oğlu";
+     $whoFooter = "V.İ.Xəlilov";
+     $stamp = asset('assets/images/finance/mbroker.jpeg');
+
+ } else if ($company == 'garantKapital') {
+     $companyName = "\"Garant Broker\" MMC";
+     $voen = "1803974481";
+     $hh = "AZ56AIIB400500D9447227965229";
+     $mh = "AZ37NABZ01350100000000001944";
+     $bank = "KAPITAL BANK ASC KOB mərkəz filialı";
+     $kod = "201412";
+     $bvoen = "9900003611";
+     $swift = "AIIBAZ2XXXX";
+     $who = "Alişan Cəlilov Maqsud oğlu";
+     $whoFooter = "A.M.Cəlilov";
+     $stamp = asset('assets/images/finance/gbroker.jpeg');
+
+ } else if ($company == 'garantRespublika') {
+     $companyName = "\"Garant Broker\" MMC";
+     $voen = "1803974481";
+     $hh = "AZ95BRES00380394401114875001";
+     $mh = "AZ80NABZ01350100000000014944";
+     $bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
+     $kod = "201412";
+     $bvoen = "9900001901";
+     $swift = "BRESAZ22";
+     $who = "Alişan Cəlilov Maqsud oğlu";
+     $whoFooter = "A.M.Cəlilov";
+     $stamp = asset('assets/images/finance/gbroker.jpeg');
+
+ } else if ($company == 'rigelKapital') {
+     $companyName = "Rigel Group";
+     $voen = "1805978211";
+     $hh = "AZ61AIIB400500E9445911817229";
+     $mh = "AZ37NABZ01350100000000001944";
+     $bank = "KAPITAL BANK ASC KOB mərkəz filialı";
+     $kod = "201412";
+     $bvoen = "9900003611";
+     $swift = "AIIBAZ2XXXX";
+     $who = "Xəlilova Lamiyə Fərhad qızı";
+     $whoFooter = "L.İ.Xəlilova";
+     $stamp = asset('assets/images/finance/rigel.jpeg');
+
+ } else if ($company == 'tgroupKapital') {
+     $companyName = "Tedora Group";
+     $voen = "1008142601";
+     $hh = "AZ61AIIB400500F9443614259229";
+     $mh = "AZ37NABZ01350100000000001944";
+     $bank = "KAPITAL BANK ASC KOB mərkəz filialı";
+     $kod = "201412";
+     $bvoen = "9900003611";
+     $swift = "AIIBAZ2XXXX";
+     $who = "Toğrul Surxayzadə Məhərrəm oğlu";
+     $whoFooter = "T.M.Surxayzadə";
+     $stamp = asset('assets/images/finance/tedora.jpeg');
+
+ } else if ($company == 'dgroupKapital') {
+     $companyName = "Declare Group";
+     $voen = "1406438851";
+     $hh = "AZ61AIIB400500F9443405268229";
+     $mh = "AZ37NABZ01350100000000001944";
+     $bank = "KAPITAL BANK ASC KOB mərkəz filialı";
+     $kod = "201412";
+     $bvoen = "9900003611";
+     $swift = "AIIBAZ2XXXX";
+     $who = "Mahir Həsənquliyev Tahir oğlu";
+     $whoFooter = "M.T.Həsənquliyev";
+     $stamp = asset('assets/images/finance/declare.jpeg');
+
+ } else if ($company == 'rigelRespublika') {
+     $companyName = "Rigel Group";
+     $voen = "1805978211";
+     $hh = "AZ43BRES00380394401162048201";
+     $mh = "AZ80NABZ01350100000000014944";
+     $bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
+     $kod = "507547";
+     $bvoen = "9900001901";
+     $swift = "BRESAZ22";
+     $who = "Xəlilova Lamiyə Fərhad qızı";
+     $whoFooter = "L.İ.Xəlilova";
+     $stamp = asset('assets/images/finance/rigel.jpeg');
+
+ } else if ($company == 'mindRespublika') {
+     $companyName = "\"Mind Services\" MMC";
+     $voen = "1506046601";
+     $hh = "AZ88BRES00380394401162079401";
+     $mh = "AZ80NABZ01350100000000014944";
+     $bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
+     $kod = "507547";
+     $bvoen = "9900001901";
+     $swift = "BRESAZ22";
+     $who = "Əliyev Fuad Rasim oğlu";
+     $whoFooter = "F.R.Əliyev";
+     $stamp = asset('assets/images/finance/mind.jpeg');
+
+} else if ($company == 'mindKapital') {
+     $companyName = "\"Mind Services\" MMC";
+     $voen = "1506046601";
+     $hh = "AZ28AIIB400500E9444984575229";
+     $mh = "AZ37NABZ01350100000000001944";
+     $bank = "Kapital Bank ASC KOB mərkəzi filialı";
+     $kod = "201412";
+     $bvoen = "9900003611";
+     $swift = "AIIBAZ2XXXX";
+     $who = "Əliyev Fuad Rasim oğlu";
+     $whoFooter = "F.R.Əliyev";
+     $stamp = asset('assets/images/finance/mind.jpeg');
+
+ } else if ($company == 'asazaRespublika') {
+     $companyName = "\"ASAZA FLKS\" MMC";
+     $voen = "1805091391";
+     $hh = "AZ80BRES00380394401196199101";
+     $mh = "AZ80NABZ01350100000000014944";
+     $bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
+     $kod = "507547";
+     $bvoen = "9900001901";
+     $swift = "BRESAZ22";
+     $who = "Fərhad İbrahimli Əli oğlu";
+     $whoFooter = "F.Ə.İbrahimli";
+     $stamp = asset('assets/images/finance/asaza.jpeg');
+
+ }else if ($company == 'mtechnologiesRespublika') {
+     $companyName = "\"Mobil Technologies\" MMC";
+     $voen = "1804325861";
+     $hh = "AZ20BRES00380394401131856201";
+     $mh = "AZ80NABZ01350100000000014944";
+     $bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
+     $kod = "507547";
+     $bvoen = "9900001901";
+     $swift = "BRESAZ22";
+     $who = "Sabir Tahirov Zakir oğlu";
+     $whoFooter = "S.Z.Tahirov";
+     $stamp = asset('assets/images/finance/mtech.jpeg');
+
+ } else if ($company == 'logisticsKapital') {
+     $companyName = "\"Mobil Logistics\" MMC";
+     $voen = "1804811521";
+     $hh = "AZ85AIIB400500D9447161910229";
+     $mh = "AZ37NABZ01350100000000001944";
+     $bank = "KAPITAL BANK ASC KOB mərkəz filialı";
+     $kod = "201412";
+     $bvoen = "9900003611";
+     $swift = "AIIBAZ2XXXX";
+     $who = "Xəlilova Lamiyə Fərhad qızı";
+     $whoFooter = "L.İ.Xəlilova";
+     $representer = "Ekspeditor";
+     $stamp = asset('assets/images/finance/logistics.jpeg');
+     }
+@endphp
 
 @section('style')
     <style>
+
         p, h1, h2, h3, h4, h5, h6, span, td, th {
             font-weight: bolder;
         }
@@ -17,169 +193,50 @@
 
             }
         }
+
+        body {
+            background: white; !important;
+        }
+        .imza {
+            background-image: url('{{$stamp}}');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+        .button-label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ccc;
+            color: #000;
+            cursor: pointer;
+            border-radius: 5px;
+            user-select: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .button-label:hover {
+            background-color: #aaa;
+        }
+
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        input[type="checkbox"]:checked + label {
+            background-color: #00aaff;
+            color: #fff;
+        }
     </style>
 @endsection
 
 @section('content')
-@php
-        $company = $data->getAttribute('company');
-        $representer = "Gömrük Təmsilçisi";
+    <div class="text-center">
+    <input type="checkbox" id="imzala">
+    <label for="imzala" class="button-label imzala-label">İmzala</label>
 
-     if ($company == 'mbrokerKapital') {
-         $companyName = "\"Mobil Broker\" MMC";
-         $voen = "1804705371";
-         $hh = "AZ78AIIB400500D9447193478229";
-         $mh = "AZ37NABZ01350100000000001944";
-         $bank = "KAPITAL BANK ASC KOB mərkəz filialı";
-         $kod = "201412";
-         $bvoen = "9900003611";
-         $swift = "AIIBAZ2XXXX";
-         $who = "Vüsal Xəlilov İbrahim oğlu";
-         $whoFooter = "V.İ.Xəlilov";
-     } else if ($company == 'mbrokerRespublika') {
-         $companyName = "\"Mobil Broker\" MMC";
-         $voen = "1804705371";
-         $hh = "AZ17BRES00380394401114863601";
-         $mh = "AZ80NABZ01350100000000014944";
-         $bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
-         $kod = "507547";
-         $bvoen = "9900001901";
-         $swift = "BRESAZ22";
-         $who = "Vüsal Xəlilov İbrahim oğlu";
-         $whoFooter = "V.İ.Xəlilov";
-     } else if ($company == 'garantKapital') {
-         $companyName = "\"Garant Broker\" MMC";
-         $voen = "1803974481";
-         $hh = "AZ56AIIB400500D9447227965229";
-         $mh = "AZ37NABZ01350100000000001944";
-         $bank = "KAPITAL BANK ASC KOB mərkəz filialı";
-         $kod = "201412";
-         $bvoen = "9900003611";
-         $swift = "AIIBAZ2XXXX";
-         $who = "Alişan Cəlilov Maqsud oğlu";
-         $whoFooter = "A.M.Cəlilov";
-     } else if ($company == 'garantRespublika') {
-         $companyName = "\"Garant Broker\" MMC";
-         $voen = "1803974481";
-         $hh = "AZ95BRES00380394401114875001";
-         $mh = "AZ80NABZ01350100000000014944";
-         $bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
-         $kod = "201412";
-         $bvoen = "9900001901";
-         $swift = "BRESAZ22";
-         $who = "Alişan Cəlilov Maqsud oğlu";
-         $whoFooter = "A.M.Cəlilov";
-     } else if ($company == 'rigelKapital') {
-         $companyName = "Rigel Group";
-         $voen = "1805978211";
-         $hh = "AZ61AIIB400500E9445911817229";
-         $mh = "AZ37NABZ01350100000000001944";
-         $bank = "KAPITAL BANK ASC KOB mərkəz filialı";
-         $kod = "201412";
-         $bvoen = "9900003611";
-         $swift = "AIIBAZ2XXXX";
-         $who = "Xəlilova Lamiyə Fərhad qızı";
-         $whoFooter = "L.İ.Xəlilova";
-
-     } else if ($company == 'tgroupKapital') {
-         $companyName = "Tedora Group";
-         $voen = "1008142601";
-         $hh = "AZ61AIIB400500F9443614259229";
-         $mh = "AZ37NABZ01350100000000001944";
-         $bank = "KAPITAL BANK ASC KOB mərkəz filialı";
-         $kod = "201412";
-         $bvoen = "9900003611";
-         $swift = "AIIBAZ2XXXX";
-         $who = "Toğrul Surxayzadə Məhərrəm oğlu";
-         $whoFooter = "T.M.Surxayzadə";
-
-     } else if ($company == 'dgroupKapital') {
-         $companyName = "Declare Group";
-         $voen = "1406438851";
-         $hh = "AZ61AIIB400500F9443405268229";
-         $mh = "AZ37NABZ01350100000000001944";
-         $bank = "KAPITAL BANK ASC KOB mərkəz filialı";
-         $kod = "201412";
-         $bvoen = "9900003611";
-         $swift = "AIIBAZ2XXXX";
-         $who = "Mahir Həsənquliyev Tahir oğlu";
-         $whoFooter = "M.T.Həsənquliyev";
-
-     } else if ($company == 'rigelRespublika') {
-         $companyName = "Rigel Group";
-         $voen = "1805978211";
-         $hh = "AZ43BRES00380394401162048201";
-         $mh = "AZ80NABZ01350100000000014944";
-         $bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
-         $kod = "507547";
-         $bvoen = "9900001901";
-         $swift = "BRESAZ22";
-         $who = "Xəlilova Lamiyə Fərhad qızı";
-         $whoFooter = "L.İ.Xəlilova";
-
-     } else if ($company == 'mindRespublika') {
-         $companyName = "\"Mind Services\" MMC";
-         $voen = "1506046601";
-         $hh = "AZ88BRES00380394401162079401";
-         $mh = "AZ80NABZ01350100000000014944";
-         $bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
-         $kod = "507547";
-         $bvoen = "9900001901";
-         $swift = "BRESAZ22";
-         $who = "Əliyev Fuad Rasim oğlu";
-         $whoFooter = "F.R.Əliyev";
-    } else if ($company == 'mindKapital') {
-         $companyName = "\"Mind Services\" MMC";
-         $voen = "1506046601";
-         $hh = "AZ28AIIB400500E9444984575229";
-         $mh = "AZ37NABZ01350100000000001944";
-         $bank = "Kapital Bank ASC KOB mərkəzi filialı";
-         $kod = "201412";
-         $bvoen = "9900003611";
-         $swift = "AIIBAZ2XXXX";
-         $who = "Əliyev Fuad Rasim oğlu";
-         $whoFooter = "F.R.Əliyev";
-
-     } else if ($company == 'asazaRespublika') {
-         $companyName = "\"ASAZA FLKS\" MMC";
-         $voen = "1805091391";
-         $hh = "AZ80BRES00380394401196199101";
-         $mh = "AZ80NABZ01350100000000014944";
-         $bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
-         $kod = "507547";
-         $bvoen = "9900001901";
-         $swift = "BRESAZ22";
-         $who = "Fərhad İbrahimli Əli oğlu";
-         $whoFooter = "F.Ə.İbrahimli";
-
-     }else if ($company == 'mtechnologiesRespublika') {
-         $companyName = "\"Mobil Technologies\" MMC";
-         $voen = "1804325861";
-         $hh = "AZ20BRES00380394401131856201";
-         $mh = "AZ80NABZ01350100000000014944";
-         $bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
-         $kod = "507547";
-         $bvoen = "9900001901";
-         $swift = "BRESAZ22";
-         $who = "Sabir Tahirov Zakir oğlu";
-         $whoFooter = "S.Z.Tahirov";
-
-     } else if ($company == 'logisticsKapital') {
-         $companyName = "\"Mobil Logistics\" MMC";
-         $voen = "1804811521";
-         $hh = "AZ85AIIB400500D9447161910229";
-         $mh = "AZ37NABZ01350100000000001944";
-         $bank = "KAPITAL BANK ASC KOB mərkəz filialı";
-         $kod = "201412";
-         $bvoen = "9900003611";
-         $swift = "AIIBAZ2XXXX";
-         $who = "Xəlilova Lamiyə Fərhad qızı";
-         $whoFooter = "L.İ.Xəlilova";
-         $representer = "Ekspeditor";
-         }
-    @endphp
-
-
+    <input type="checkbox" id="copy">
+    <label for="copy" class="button-label copy-label">Nüsxə</label>
+    </div>
     <div class="container">
         <br>
         <button onclick="printCard1()" class="btn btn-primary float-right">Print</button>
@@ -294,7 +351,9 @@
                     </tbody>
                 </table>
                 <br>
-                <p class="invoiceNumbers" contenteditable="true">{{$data->getAttribute('invoiceNumbers')}}</p>
+                <div class="imzalar" style="width: 350px; height: 350px">
+                    <p class="invoiceNumbers" contenteditable="true">{{$data->getAttribute('invoiceNumbers')}}</p>
+                </div>
                 <br>
 
                 <p class="float-left">{{$companyName}}<span class="companyName"></span>-nin direktoru</p>
@@ -308,15 +367,18 @@
         <button onclick="printCard2()" class="btn btn-primary float-right">Print</button>
         <div class="card" id="printCard2">
             <div class="card-body">
-                <p class="float-left">Bakı Şəhəri</p>
-                <p class="float-right" id="protocolDate" contenteditable="true">{{$data->getAttribute('protocolDate')}}</p>
-                <br>
-                <br>
-                <br>
-                <h3 class="mb-2 text-center">QİYMƏT RAZILAŞDIRMA PROTOKOLU &numero; <span class="invoiceNo">{{$data->getAttribute('invoiceNo')}}</span></h3>
-                <h6 class="mb-2 text-center"><span class="companyName">{{$companyName}}</span> və <span class="clientName">{{$data->getRelationValue('financeClients')->getAttribute('name')}}</span> arasında bağlanan <span class="contractDate">{{$data->getAttribute('contractDate')}}</span> tarixli</h6>
-                <h6 class="mb-2 text-center">&numero; <span class="contractNo" id="contractNo">{{$data->getAttribute('contractNo')}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Müqaviləyə əlavə</h6>
-                <br>
+                <img src="{{asset('assets/images/finance/nusxe.jpeg')}}" class="copies" width="400" alt="">
+                 <p class="float-left">Bakı Şəhəri</p>
+          
+                 <p class="float-right" id="protocolDate" contenteditable="true">{{$data->getAttribute('protocolDate')}}</p>
+                 <br>
+                 <br>
+                 <br>
+                 <h3 class="mb-2 text-center">QİYMƏT RAZILAŞDIRMA PROTOKOLU &numero; <span class="invoiceNo">{{$data->getAttribute('invoiceNo')}}</span></h3>
+                 <h6 class="mb-2 text-center"><span class="companyName">{{$companyName}}</span> və <span class="clientName">{{$data->getRelationValue('financeClients')->getAttribute('name')}}</span> arasında bağlanan <span class="contractDate">{{$data->getAttribute('contractDate')}}</span> tarixli</h6>
+                 <h6 class="mb-2 text-center">&numero; <span class="contractNo" id="contractNo">{{$data->getAttribute('contractNo')}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Müqaviləyə əlavə</h6>
+                 <br>
+
                 <table class="table table-borderless tabelBorder">
                     <thead>
                     <tr>
@@ -381,17 +443,18 @@
                     <p>BANK VOEN: <span class="bvoen">{{$bvoen}}</span></p>
                     <p>S.W.I.F.T: <span class="swift">{{$swift}}</span></p>
                     <br>
-                    <p>Direktor: <span id="who">{{$who}}</span></p>
-                    <br>
-                    <br>
-                    <p>İmza, möhür</p>
-                    <br>
-                    <br>
-                    <br>
-                    <p class="border-bottom">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-
+                    <div class="imzalar" style="width: 350px; height: 350px">
+                        <p>Direktor: <span id="who">{{$who}}</span></p>
+                        <p>İmza, möhür</p>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <p class="border-bottom">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                    </div>
                 </div>
-                <div class="float-right text-center">
+                <div class="float-right text-center" style="width: 300px; height: 300px">
                     <h6>Sifarişçi</h6>
                     <br>
                     <p class="clientName">{{$data->getRelationValue('financeClients')->getAttribute('name')}}</p>
@@ -422,6 +485,8 @@
 
         <div class="card" id="printCard3">
             <div class="card-body">
+                <img src="{{asset('assets/images/finance/nusxe.jpeg')}}" class="copies" width="400" alt="">
+
                 <p class="float-left">Bakı Şəhəri</p>
                 <p class="float-right invoiceDate">{{$data->getAttribute('invoiceDate')}}</p>
                 <br>
@@ -482,26 +547,23 @@
                 <br>
                 <p>Yekun Məbləğ: <span class="total">0</span> AZN (<span class="numberWord"></span>)</p>
                 <br><br>
-                <div class="float-left text-center">
+                <div class="float-left text-center imzalar" style="width: 350px; height: 350px">
                     <h6>Təhvil Verdi:</h6>
+                    <p class="text-center companyName" style="font-size: 21px">{{$companyName}}</p>
+
                     <br>
-                    <br>
-                    <p class="text-center companyName">{{$companyName}}</p>
                     <br>
                     <br>
                     <br>
                     <p class="border-bottom">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-
                 </div>
-                <div class="float-right text-center">
+                <div class="float-right text-center" style="width: 400px">
                     <h6 data-id="{{$data->getRelationValue('financeClients')->getAttribute('id')}}" id="clientId">Təhvil aldı:</h6>
-                    <br>
                     <br>
                     <p class="clientName">{{$data->getRelationValue('financeClients')->getAttribute('name')}}</p>
                     <br><br><br>
 
                     <p class="border-bottom">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-
                 </div>
             </div>
 
@@ -511,6 +573,26 @@
 @section('scripts')
 
 <script>
+    var $checkbox = $('#imzala');
+    var $element = $('.imzalar');
+    var $copy = $('#copy');
+    var $copies = $('.copies');
+    $copies.hide()
+    $checkbox.change(function() {
+        if ($checkbox.is(':checked')) {
+            $element.addClass('imza');
+        } else {
+            $element.removeClass('imza');
+        }
+    });
+    $copy.change(function() {
+        if ($copy.is(':checked')) {
+            $copies.show();
+        } else {
+            $copies.hide();
+        }
+    });
+
     var savedRows = [];
     function addRow() {
         var selectElement = $('#input1');
