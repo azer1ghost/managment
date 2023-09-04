@@ -174,6 +174,19 @@
      $whoFooter = "L.İ.Xəlilova";
      $representer = "Ekspeditor";
      $stamp = asset('assets/images/finance/logistics.jpeg');
+     }else if ($company == 'logisticsRespublika') {
+     $companyName = "\"Mobil Logistics\" MMC";
+     $voen = "1804811521";
+     $hh = "AZ77BRES00380394401116001301";
+     $mh = "AZ80NABZ01350100000000014944";
+     $bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
+     $kod = "507547";
+     $bvoen = "9900001901";
+     $swift = "BRESAZ22";
+     $who = "Xəlilova Lamiyə Fərhad qızı";
+     $whoFooter = "L.İ.Xəlilova";
+     $representer = "Ekspeditor";
+     $stamp = asset('assets/images/finance/logistics.jpeg');
      }
 @endphp
 

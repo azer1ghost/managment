@@ -43,6 +43,7 @@
                     <option value="dgroupKapital">Declare Group Kapital</option>
                     <option value="mtechnologiesRespublika">Mobil Technologies Bank Respublika</option>
                     <option value="logisticsKapital">Mobil Logistics Kapital</option>
+                    <option value="logisticsRespublika">Mobil Logistics Respublika</option>
                 </select>
                 <select id="clientSelect" onchange="changeClient()" class=" col-4 mt-4 select2">
                     <option value="">Müştəri seç</option>
@@ -694,6 +695,19 @@
                 var whoFooter = "L.İ.Xəlilova";
                 $('#temsilci').html("Ekspeditor");
                 $('#vatColumn, #vatColumn2, #vatColumn3').hide();
+            }else if (company == 'logisticsRespublika') {
+                var companyName = "\"Mobil Logistics\" MMC";
+                var voen = "1804811521";
+                var hh = "AZ77BRES00380394401116001301";
+                var mh = "AZ80NABZ01350100000000014944";
+                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
+                var kod = "507547";
+                var bvoen = "9900001901";
+                var swift = "BRESAZ22";
+                var who = "Xəlilova Lamiyə Fərhad qızı";
+                var whoFooter = "L.İ.Xəlilova";
+                $('#temsilci').html("Ekspeditor");
+                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
             }
 
             $('.companyName').text(companyName);
@@ -709,6 +723,12 @@
             $('#who-footer').text(whoFooter);
 
             if (company == 'logisticsKapital') {
+                $('#loginput').show();
+                $('#brokerinput').hide();
+            } else {
+                $('#loginput').hide();
+                $('#brokerinput').show();
+            }if (company == 'logisticsRespublika') {
                 $('#loginput').show();
                 $('#brokerinput').hide();
             } else {
