@@ -230,13 +230,16 @@
 @endsection
 
 @section('content')
-    <div class="text-center">
-    <input type="checkbox" id="imzala">
-    <label for="imzala" class="button-label imzala-label">İmzala</label>
+    @if(auth()->user()->isDeveloper() || auth()->user()->isDirector() || in_array(auth()->user()->id, [103, 17]))
+        <div class="text-center">
+        <input type="checkbox" id="imzala">
+        <label for="imzala" class="button-label imzala-label">İmzala</label>
 
-    <input type="checkbox" id="copy">
-    <label for="copy" class="button-label copy-label">Nüsxə</label>
+        <input type="checkbox" id="copy">
+        <label for="copy" class="button-label copy-label">Nüsxə</label>
     </div>
+    @endif
+
     <div class="container">
         <br>
         <button onclick="printCard1()" class="btn btn-primary float-right">Print</button>
