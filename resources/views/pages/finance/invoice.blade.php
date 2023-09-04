@@ -230,7 +230,7 @@
 @endsection
 
 @section('content')
-    @if(auth()->user()->isDeveloper() || auth()->user()->isDirector() || in_array(auth()->user()->id, [103, 17]))
+    @if(auth()->user()->isDeveloper() || auth()->user()->isDirector() || in_array(auth()->user()->id, [103, 17, 120]))
         <div class="text-center">
         <input type="checkbox" id="imzala">
         <label for="imzala" class="button-label imzala-label">İmzala</label>
