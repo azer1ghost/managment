@@ -30,7 +30,7 @@ class CreditorController extends Controller
             'status' => $request->get('status'),
             'supplier' => $request->get('supplier_id'),
         ];
-        $creditors = $this->creditorRepository->allFilteredCreditors($filters)->orderBy('status')->paginate($limit);
+        $creditors = $this->creditorRepository->allFilteredCreditors($filters)->orderByDesc('status')->paginate($limit);
         return view('pages.creditors.index')->with([
             'companies' => Company::get(['id','name', 'logo']),
             'suppliers' => Supplier::get(['id','name']),
