@@ -50,7 +50,7 @@
      $hh = "AZ95BRES00380394401114875001";
      $mh = "AZ80NABZ01350100000000014944";
      $bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
-     $kod = "201412";
+     $kod = "507547";
      $bvoen = "9900001901";
      $swift = "BRESAZ22";
      $who = "Alişan Cəlilov Maqsud oğlu";

@@ -581,7 +581,7 @@
                 var hh = "AZ95BRES00380394401114875001";
                 var mh = "AZ80NABZ01350100000000014944";
                 var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
-                var kod = "201412";
+                var kod = "507547";
                 var bvoen = "9900001901";
                 var swift = "BRESAZ22";
                 var who = "Alişan Cəlilov Maqsud oğlu";
