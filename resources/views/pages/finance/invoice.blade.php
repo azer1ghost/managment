@@ -320,6 +320,7 @@
                                 <option>Elektron GB-nin tərtib olunması xidməti</option>
                                 <option>Elektron Qısa İdxal GB-nin tərtib olunması xidməti</option>
                                 <option>CMR-in tərtib olunması xidməti</option>
+                                <option>TIRCARNET-in tərtib olunması xidməti</option>
                                 <option>Gömrük kodunun müəyyən edilməsi</option>
                                 <option>Gömrük rəsmiləşdirilməsi üçün lazım olan sənədlərin hazırlanması</option>
                                 <option>Təmsil etdiyi şəxsin tapşırığı əsasında yüklərin və nəqliyyat vasitələrinin tam gömrük rəsmiləşdirilməsi</option>
