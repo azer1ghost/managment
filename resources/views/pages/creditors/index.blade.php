@@ -2,6 +2,36 @@
 
 @section('title', trans('translates.navbar.creditor'))
 
+@section('style')
+    <style>
+
+        #button1,#button2{
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1em;
+            color: white;
+            border-radius: 15px;
+            padding: 1%;
+        }
+        #button1{
+            background: red;
+        }
+
+        #button2{
+            background: green;
+        }
+
+        body{
+            text-align: center;
+        }
+
+        img{
+            width: 25px;
+            height: auto;
+        }
+    </style>
+
+@endsection
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -117,7 +147,7 @@
                     </thead>
                     <tbody>
                     @forelse($creditors as $creditor)
-                        <tr>
+                        <tr class="clickable" data-rowid="{{$loop->index + 1}}">
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$creditor->getAttribute('supplier_id') > 0 ? $creditor->getRelationValue('supplier')->getAttribute('name') : $creditor->getAttribute('creditor')}}</td>
                             <td>{{$creditor->getRelationValue('company')->getAttribute('name')}}</td>
@@ -130,7 +160,7 @@
                             <span class="badge {{$creditor->getAttribute('status') == 1 ? 'badge-danger' : 'badge-success'}}"> {{trans('translates.creditors.statuses.'.$creditor->getAttribute('status'))}}</span>
                         </td>
                         <td>{{$creditor->getAttribute('note')}}</td>
-                        <td>
+                            <td>
                             <div class="btn-sm-group">
                                 @can('view', $creditor)
                                     <a href="{{route('creditors.create', ['id' => $creditor])}}"
@@ -157,16 +187,20 @@
                                             <i class="fal fa-trash"></i>
                                         </a>
                                     @endcan
-                                </div>
-                            </td>
 
+                            </div>
+                        </td>
+                            <td>
+                                <button type="button" class="colorButton btn btn-danger">Boya</button>
+                                <a href="#" class="clearColorLink btn btn-primary"  role="button" >Kırmızıyı Kaldır</a>
+                            </td>
                         </tr>
                     @empty
                         <tr>
                             <th colspan="7">
                                 <div class="row justify-content-center m-3">
                                     <div class="col-7 alert alert-danger text-center"
-                                         role="alert">@lang('translates.general.empty')</div>
+                                    role="alert">@lang('translates.general.empty')</div>
                                 </div>
                             </th>
                         </tr>
@@ -230,5 +264,34 @@
 {{--            });--}}
 {{--        });--}}
 {{--    </script>--}}
+<script>
+    var buttons = document.getElementsByClassName("colorButton");
+    var clearLinks = document.getElementsByClassName("clearColorLink");
 
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener("click", function() {
+            var rowId = this.closest("tr").getAttribute("data-rowid");
+            var row = document.querySelector("[data-rowid='" + rowId + "']");
+            row.style.backgroundColor = "red";
+
+            // Tarayıcı yerel depolama kullanarak satırın durumunu kaydet
+            localStorage.setItem("row-" + rowId, "red");
+        });
+
+        // Sayfa yüklendiğinde veya taşındığında kaydedilen renkleri geri yükle
+        var rowId = buttons[i].closest("tr").getAttribute("data-rowid");
+        var savedColor = localStorage.getItem("row-" + rowId);
+        if (savedColor === "red") {
+            buttons[i].closest("tr").style.backgroundColor = "red";
+        }
+
+        clearLinks[i].addEventListener("click", function(e) {
+            e.preventDefault();
+            var rowId = this.closest("tr").getAttribute("data-rowid");
+            var row = document.querySelector("[data-rowid='" + rowId + "']");
+            row.style.backgroundColor = "";
+            localStorage.removeItem("row-" + rowId);
+        });
+    }
+</script>
 @endsection
