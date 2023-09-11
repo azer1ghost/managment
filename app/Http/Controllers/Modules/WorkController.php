@@ -483,7 +483,17 @@ class WorkController extends Controller
                 $query->whereBelongsTo($user->getRelationValue('company'));
             })->get(['id', 'name', 'detail']);
 
-        $works = $this->workRepository->allFilteredWorks($filters, $dateFilters)->whereNotIn('status', [6])->whereNull('verified_at');
+        $works = $this->workRepository->allFilteredWorks($filters, $dateFilters)
+            ->where(function ($query) {
+                $query->where(function ($innerQuery) {
+                    $innerQuery->where('status', '<>', 6)
+                        ->orWhere(function ($innerInnerQuery) {
+                            $innerInnerQuery->where('status', 6)
+                                ->whereNull('verified_at');
+                        });
+                })
+                    ->orWhere('status', '<>', 6);
+            });
 
         $paid_at_explode = explode(' - ', $request->get('paid_at_date'));
 
