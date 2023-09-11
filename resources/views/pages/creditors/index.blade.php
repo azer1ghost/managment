@@ -192,7 +192,7 @@
                         </td>
                             <td>
                                 <button type="button" class="colorButton btn btn-danger">Boya</button>
-                                <a href="#" class="clearColorLink btn btn-primary"  role="button" >Kırmızıyı Kaldır</a>
+                                <a href="#" class="clearColorLink btn btn-primary"  role="button" >Boyanı sil</a>
                             </td>
                         </tr>
                     @empty
