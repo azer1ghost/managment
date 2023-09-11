@@ -219,6 +219,7 @@ return [
         'services' => 'Services',
         'work' => 'Works',
         'plannedWorks' => 'Planned Works',
+        'incompletedWorks' => 'Incompleted Works',
         'pendingWorks' => 'Pending Works',
         'financeWorks' => 'Finance',
         'meeting' => 'Meetings',
