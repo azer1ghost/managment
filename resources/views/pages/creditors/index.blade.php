@@ -4,23 +4,6 @@
 
 @section('style')
     <style>
-
-        #button1,#button2{
-            text-align: center;
-            margin-top: 20px;
-            font-size: 1em;
-            color: white;
-            border-radius: 15px;
-            padding: 1%;
-        }
-        #button1{
-            background: red;
-        }
-
-        #button2{
-            background: green;
-        }
-
         body{
             text-align: center;
         }
@@ -28,9 +11,6 @@
         img{
             width: 25px;
             height: auto;
-        }
-        .painted {
-            background-color: red;
         }
     </style>
 
@@ -236,64 +216,37 @@
 
     <script>
 
-
-//        function addColor (){
-//            let creditors = $(this).data('creditors')
-//            alert(creditors)
-//        }
-
-// $('.colorButton').on('click', function (e) {
-//     let creditors = $(this).data('creditors')
-//     let column = $(this).parent().parent()
-//     $.ajax({
-//         url: '/module/creditors/updateColor',
-//         type: 'POST',
-//         data: {
-//             id: creditors.id,
-//             painted: 1
-//         },
-//         success: function (response) {
-//             column.css('background-color', 'red')
-//             console.log(column)
-//             console.log('Painted:', response);
-//         },
-//         error: function (error) {
-//             console.log('there is a problem:', error);
-//         }
-//     })
-// })
-
-$('.colorButton').on('click', function (e) {
-    let creditors = $(this).data('creditors');
-    let column = $(this).parent().parent();
-    let button = $(this)
-    let paintValue = ''
-    let buttonName = ''
-    if (column.css('background-color') === 'rgb(255, 0, 0)') {
-        paintValue = 0
-        buttonName = 'Boya'
-        column.css('background-color', 'rgb(245,247,255)');
-    }
-    else { column.css('background-color', 'red');
-        paintValue = 1
-        buttonName = 'Boyanı sil'
-    }
-        $.ajax({
-            url: '/module/creditors/updateColor',
-            type: 'POST',
-            data: {
-                id: creditors.id,
-                painted: paintValue
-            },
-            success: function (response) {
-                button.html(buttonName)
-                console.log('Painted:', response);
-            },
-            error: function (error) {
-                console.log('Bir sorun var:', error);
+        $('.colorButton').on('click', function (e) {
+            let creditors = $(this).data('creditors');
+            let column = $(this).parent().parent();
+            let button = $(this)
+            let paintValue = ''
+            let buttonName = ''
+            if (column.css('background-color') === 'rgb(255, 0, 0)') {
+                paintValue = 0
+                buttonName = 'Boya'
+                column.css('background-color', 'rgb(245,247,255)');
+            } else {
+                column.css('background-color', 'red');
+                paintValue = 1
+                buttonName = 'Boyanı sil'
             }
+            $.ajax({
+                url: '/module/creditors/updateColor',
+                type: 'POST',
+                data: {
+                    id: creditors.id,
+                    painted: paintValue
+                },
+                success: function (response) {
+                    button.html(buttonName)
+                    console.log('Painted:', response);
+                },
+                error: function (error) {
+                    console.log('Bir sorun var:', error);
+                }
+            });
         });
-});
 
         // $('.amount').on('blur', function () {
         //     var id = $(this).data('id');
@@ -314,54 +267,23 @@ $('.colorButton').on('click', function (e) {
         //     });
         // });
 
-{{--        $('.vat').on('blur', function () {--}}
-{{--            var id = $(this).data('id');--}}
-{{--            var vat = $(this).text();--}}
-{{--            $.ajax({--}}
-{{--                url: '/module/creditors/updateVat',--}}
-{{--                type: 'POST',--}}
-{{--                data: {--}}
-{{--                    id: id,--}}
-{{--                    vat: vat,--}}
-{{--                },--}}
-{{--                success: function (response) {--}}
-{{--                    console.log('amount changed:', response);--}}
-{{--                },--}}
-{{--                error: function (error) {--}}
-{{--                    console.log('there is a problem:', error);--}}
-{{--                }--}}
-{{--            });--}}
-{{--        });--}}
+        {{--        $('.vat').on('blur', function () {--}}
+        {{--            var id = $(this).data('id');--}}
+        {{--            var vat = $(this).text();--}}
+        {{--            $.ajax({--}}
+        {{--                url: '/module/creditors/updateVat',--}}
+        {{--                type: 'POST',--}}
+        {{--                data: {--}}
+        {{--                    id: id,--}}
+        {{--                    vat: vat,--}}
+        {{--                },--}}
+        {{--                success: function (response) {--}}
+        {{--                    console.log('amount changed:', response);--}}
+        {{--                },--}}
+        {{--                error: function (error) {--}}
+        {{--                    console.log('there is a problem:', error);--}}
+        {{--                }--}}
+        {{--            });--}}
+        {{--        });--}}
     </script>
-<script>
-
-    // var buttons = document.getElementsByClassName("colorButton");
-    // var clearLinks = document.getElementsByClassName("clearColorLink");
-    //
-    // for (var i = 0; i < buttons.length; i++) {
-    //     buttons[i].addEventListener("click", function() {
-    //         var rowId = this.closest("tr").getAttribute("data-rowid");
-    //         var row = document.querySelector("[data-rowid='" + rowId + "']");
-    //         row.style.backgroundColor = "red";
-    //
-    //         // Tarayıcı yerel depolama kullanarak satırın durumunu kaydet
-    //         localStorage.setItem("row-" + rowId, "red");
-    //     });
-    //
-    //     // Sayfa yüklendiğinde veya taşındığında kaydedilen renkleri geri yükle
-    //     var rowId = buttons[i].closest("tr").getAttribute("data-rowid");
-    //     var savedColor = localStorage.getItem("row-" + rowId);
-    //     if (savedColor === "red") {
-    //         buttons[i].closest("tr").style.backgroundColor = "red";
-    //     }
-    //
-    //     clearLinks[i].addEventListener("click", function(e) {
-    //         e.preventDefault();
-    //         var rowId = this.closest("tr").getAttribute("data-rowid");
-    //         var row = document.querySelector("[data-rowid='" + rowId + "']");
-    //         row.style.backgroundColor = "";
-    //         localStorage.removeItem("row-" + rowId);
-    //     });
-    // }
-</script>
 @endsection
