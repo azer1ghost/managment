@@ -981,6 +981,7 @@ class WorkController extends Controller
             ->with('parameters')
             ->get();
 
+
         $vatWorks = Work::where(function($query) use ($filters) {
             $vat_date_range = $filters['vat_date'];
             $dates = explode(' - ', $vat_date_range);
