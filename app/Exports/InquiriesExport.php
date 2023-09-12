@@ -24,11 +24,10 @@ class InquiriesExport implements FromCollection, WithHeadings, WithMapping
         return [
             '#',
             'Client',
-            'SalesClient',
             'Phone',
-            'SalesPhone',
             'Company',
             'Channel',
+            'Status',
             'Date',
         ];
     }
@@ -38,11 +37,10 @@ class InquiriesExport implements FromCollection, WithHeadings, WithMapping
         return [
             $row->id,
             optional($row->getParameter('fullname'))->getAttribute('value'),
-            optional($row->getRelationValue('client'))->getAttribute('name'),
             optional($row->getParameter('phone'))->getAttribute('value'),
-            optional($row->getRelationValue('client'))->getAttribute('phone'),
             $row->getRelationValue('company')->getAttribute('name'),
             optional($row->getParameter('contact_method'))->value,
+            optional($row->getParameter('status'))->value,
             $row->getAttribute('created_at'),
         ];
     }
