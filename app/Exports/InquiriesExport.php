@@ -27,6 +27,7 @@ class InquiriesExport implements FromCollection, WithHeadings, WithMapping
             'Phone',
             'Company',
             'Channel',
+            'Source',
             'Status',
             'Date',
         ];
@@ -40,6 +41,7 @@ class InquiriesExport implements FromCollection, WithHeadings, WithMapping
             optional($row->getParameter('phone'))->getAttribute('value'),
             $row->getRelationValue('company')->getAttribute('name'),
             optional($row->getParameter('contact_method'))->getAttribute('text'),
+            optional($row->getParameter('source'))->getAttribute('text'),
             optional($row->getParameter('status'))->getAttribute('text'),
             $row->getAttribute('created_at'),
         ];
