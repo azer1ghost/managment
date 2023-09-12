@@ -126,4 +126,10 @@ class CreditorController extends Controller
 
         return response()->json(['message' => 'ok'], 200);
     }
+    public function updateColor(Request $request)
+    {
+        Creditor::whereId($request->get('id'))->update(['painted' => $request->get('painted')]);
+
+        return response()->json(['message' => 'ok'], 200);
+    }
 }

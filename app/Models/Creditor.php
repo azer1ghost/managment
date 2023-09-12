@@ -16,6 +16,7 @@ class Creditor extends Model
         'vat',
         'status',
         'note',
+        'painted',
         'paid_at',
         'last_date',
     ];
