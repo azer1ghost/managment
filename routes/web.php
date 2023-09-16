@@ -240,6 +240,7 @@ Route::group([
     Route::post('/sortable', [BankController::class, 'sortable'])->name('bank.sortable');
 
     Route::post('/creditors/updateAmount', [CreditorController::class, 'updateAmount']);
+    Route::post('/creditors/updateColor', [CreditorController::class, 'updateColor']);
     Route::post('/creditors/updateVat', [CreditorController::class, 'updateVat']);
     Route::resource('/organizations', OrganizationController::class);
     Route::resource('/conferences', ConferenceController::class);

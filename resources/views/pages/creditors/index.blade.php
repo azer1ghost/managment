@@ -4,23 +4,6 @@
 
 @section('style')
     <style>
-
-        #button1,#button2{
-            text-align: center;
-            margin-top: 20px;
-            font-size: 1em;
-            color: white;
-            border-radius: 15px;
-            padding: 1%;
-        }
-        #button1{
-            background: red;
-        }
-
-        #button2{
-            background: green;
-        }
-
         body{
             text-align: center;
         }
@@ -147,7 +130,7 @@
                     </thead>
                     <tbody>
                     @forelse($creditors as $creditor)
-                        <tr class="clickable" data-rowid="{{$loop->index + 1}}">
+                        <tr class="clickable" data-rowid="{{$loop->index + 1}}" @if($creditor->getAttribute('painted') == 1) style="background-color: red" @endif>
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$creditor->getAttribute('supplier_id') > 0 ? $creditor->getRelationValue('supplier')->getAttribute('name') : $creditor->getAttribute('creditor')}}</td>
                             <td>{{$creditor->getRelationValue('company')->getAttribute('name')}}</td>
@@ -155,44 +138,49 @@
                             {{-- class="amount" contenteditable="true"  onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"--}}>{{$creditor->getAttribute('amount')}}</td>
                             <td  data-id="{{$creditor->getAttribute('id')}}"
                             {{-- class="vat" contenteditable="true" onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" --}}>{{$creditor->getAttribute('vat')}}</td>
-                        <td>{{$creditor->getAttribute('last_date')}}</td>
-                        <td>
-                            <span class="badge {{$creditor->getAttribute('status') == 1 ? 'badge-danger' : 'badge-success'}}"> {{trans('translates.creditors.statuses.'.$creditor->getAttribute('status'))}}</span>
-                        </td>
-                        <td>{{$creditor->getAttribute('note')}}</td>
+                            <td>{{$creditor->getAttribute('last_date')}}</td>
                             <td>
-                            <div class="btn-sm-group">
-                                @can('view', $creditor)
-                                    <a href="{{route('creditors.create', ['id' => $creditor])}}"
-                                       class="btn btn-sm btn-outline-primary">
-                                        <i class="fal fa-copy"></i>
-                                    </a>
-                                @endcan
-                                @can('view', $creditor)
-                                    <a href="{{route('creditors.show', $creditor)}}"
-                                       class="btn btn-sm btn-outline-primary">
-                                        <i class="fal fa-eye"></i>
-                                    </a>
-                                @endcan
-{{--                                    @can('update', $creditor)--}}
-                                        <a href="{{route('creditors.edit', $creditor)}}"
-                                           class="btn btn-sm btn-outline-success">
-                                            <i class="fal fa-pen"></i>
-                                        </a>
-{{--                                    @endcan--}}
-                                    @can('delete', $creditor)
-                                        <a href="{{route('creditors.destroy', $creditor)}}" delete
-                                           data-name="{{$creditor->getAttribute('name')}}"
-                                           class="btn btn-sm btn-outline-danger">
-                                            <i class="fal fa-trash"></i>
+                                <span class="badge {{$creditor->getAttribute('status') == 1 ? 'badge-danger' : 'badge-success'}}"> {{trans('translates.creditors.statuses.'.$creditor->getAttribute('status'))}}</span>
+                            </td>
+                            <td>{{$creditor->getAttribute('note')}}</td>
+                                <td>
+                                <div class="btn-sm-group">
+                                    @can('view', $creditor)
+                                        <a href="{{route('creditors.create', ['id' => $creditor])}}"
+                                           class="btn btn-sm btn-outline-primary">
+                                            <i class="fal fa-copy"></i>
                                         </a>
                                     @endcan
+                                    @can('view', $creditor)
+                                        <a href="{{route('creditors.show', $creditor)}}"
+                                           class="btn btn-sm btn-outline-primary">
+                                            <i class="fal fa-eye"></i>
+                                        </a>
+                                    @endcan
+    {{--                                    @can('update', $creditor)--}}
+                                            <a href="{{route('creditors.edit', $creditor)}}"
+                                               class="btn btn-sm btn-outline-success">
+                                                <i class="fal fa-pen"></i>
+                                            </a>
+    {{--                                    @endcan--}}
+                                        @can('delete', $creditor)
+                                            <a href="{{route('creditors.destroy', $creditor)}}" delete
+                                               data-name="{{$creditor->getAttribute('name')}}"
+                                               class="btn btn-sm btn-outline-danger">
+                                                <i class="fal fa-trash"></i>
+                                            </a>
+                                        @endcan
 
-                            </div>
-                        </td>
+                                </div>
+                            </td>
                             <td>
-                                <button type="button" class="colorButton btn btn-danger">Boya</button>
-                                <a href="#" class="clearColorLink btn btn-primary"  role="button" >Boyanı sil</a>
+                                <button type="button" class="colorButton btn btn-primary" data-creditors='@json($creditor)'>
+                                    @if($creditor->getAttribute('painted') == 1)
+                                        Boyanı sil
+                                    @else
+                                        Boya
+                                    @endif
+                                </button>
                             </td>
                         </tr>
                     @empty
@@ -225,73 +213,77 @@
 
 @endsection
 @section('scripts')
-{{--    <script>--}}
-{{--        $('.amount').on('blur', function () {--}}
-{{--            var id = $(this).data('id');--}}
-{{--            var amount = $(this).text();--}}
-{{--            $.ajax({--}}
-{{--                url: '/module/creditors/updateAmount',--}}
-{{--                type: 'POST',--}}
-{{--                data: {--}}
-{{--                    id: id,--}}
-{{--                    amount: amount,--}}
-{{--                },--}}
-{{--                success: function (response) {--}}
-{{--                    console.log('amount changed:', response);--}}
-{{--                },--}}
-{{--                error: function (error) {--}}
-{{--                    console.log('there is a problem:', error);--}}
-{{--                }--}}
-{{--            });--}}
-{{--        });--}}
 
-{{--        $('.vat').on('blur', function () {--}}
-{{--            var id = $(this).data('id');--}}
-{{--            var vat = $(this).text();--}}
-{{--            $.ajax({--}}
-{{--                url: '/module/creditors/updateVat',--}}
-{{--                type: 'POST',--}}
-{{--                data: {--}}
-{{--                    id: id,--}}
-{{--                    vat: vat,--}}
-{{--                },--}}
-{{--                success: function (response) {--}}
-{{--                    console.log('amount changed:', response);--}}
-{{--                },--}}
-{{--                error: function (error) {--}}
-{{--                    console.log('there is a problem:', error);--}}
-{{--                }--}}
-{{--            });--}}
-{{--        });--}}
-{{--    </script>--}}
-<script>
-    var buttons = document.getElementsByClassName("colorButton");
-    var clearLinks = document.getElementsByClassName("clearColorLink");
+    <script>
 
-    for (var i = 0; i < buttons.length; i++) {
-        buttons[i].addEventListener("click", function() {
-            var rowId = this.closest("tr").getAttribute("data-rowid");
-            var row = document.querySelector("[data-rowid='" + rowId + "']");
-            row.style.backgroundColor = "red";
-
-            // Tarayıcı yerel depolama kullanarak satırın durumunu kaydet
-            localStorage.setItem("row-" + rowId, "red");
+        $('.colorButton').on('click', function (e) {
+            let creditors = $(this).data('creditors');
+            let column = $(this).parent().parent();
+            let button = $(this)
+            let paintValue = ''
+            let buttonName = ''
+            if (column.css('background-color') === 'rgb(255, 0, 0)') {
+                paintValue = 0
+                buttonName = 'Boya'
+                column.css('background-color', 'rgb(245,247,255)');
+            } else {
+                column.css('background-color', 'red');
+                paintValue = 1
+                buttonName = 'Boyanı sil'
+            }
+            $.ajax({
+                url: '/module/creditors/updateColor',
+                type: 'POST',
+                data: {
+                    id: creditors.id,
+                    painted: paintValue
+                },
+                success: function (response) {
+                    button.html(buttonName)
+                    console.log('Painted:', response);
+                },
+                error: function (error) {
+                    console.log('Bir sorun var:', error);
+                }
+            });
         });
 
-        // Sayfa yüklendiğinde veya taşındığında kaydedilen renkleri geri yükle
-        var rowId = buttons[i].closest("tr").getAttribute("data-rowid");
-        var savedColor = localStorage.getItem("row-" + rowId);
-        if (savedColor === "red") {
-            buttons[i].closest("tr").style.backgroundColor = "red";
-        }
+        // $('.amount').on('blur', function () {
+        //     var id = $(this).data('id');
+        //     var amount = $(this).text();
+        //     $.ajax({
+        //         url: '/module/creditors/updateAmount',
+        //         type: 'POST',
+        //         data: {
+        //             id: id,
+        //             amount: amount,
+        //         },
+        //         success: function (response) {
+        //             console.log('amount changed:', response);
+        //         },
+        //         error: function (error) {
+        //             console.log('there is a problem:', error);
+        //         }
+        //     });
+        // });
 
-        clearLinks[i].addEventListener("click", function(e) {
-            e.preventDefault();
-            var rowId = this.closest("tr").getAttribute("data-rowid");
-            var row = document.querySelector("[data-rowid='" + rowId + "']");
-            row.style.backgroundColor = "";
-            localStorage.removeItem("row-" + rowId);
-        });
-    }
-</script>
+        {{--        $('.vat').on('blur', function () {--}}
+        {{--            var id = $(this).data('id');--}}
+        {{--            var vat = $(this).text();--}}
+        {{--            $.ajax({--}}
+        {{--                url: '/module/creditors/updateVat',--}}
+        {{--                type: 'POST',--}}
+        {{--                data: {--}}
+        {{--                    id: id,--}}
+        {{--                    vat: vat,--}}
+        {{--                },--}}
+        {{--                success: function (response) {--}}
+        {{--                    console.log('amount changed:', response);--}}
+        {{--                },--}}
+        {{--                error: function (error) {--}}
+        {{--                    console.log('there is a problem:', error);--}}
+        {{--                }--}}
+        {{--            });--}}
+        {{--        });--}}
+    </script>
 @endsection
