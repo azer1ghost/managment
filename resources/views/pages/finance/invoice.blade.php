@@ -323,6 +323,7 @@
                                 <option>TIRCARNET-in tərtib olunması xidməti</option>
                                 <option>Gömrük kodunun müəyyən edilməsi</option>
                                 <option>Gömrük rəsmiləşdirilməsi üçün lazım olan sənədlərin hazırlanması</option>
+                                <option>Gömrük rəsmiləşdirilməsi üçün lazım olan sənədlərin çeşidlənməsi</option>
                                 <option>Təmsil etdiyi şəxsin tapşırığı əsasında yüklərin və nəqliyyat vasitələrinin tam gömrük rəsmiləşdirilməsi</option>
                                 <option>Gömrük rüsumlarının əvvəlcədən hesablanması</option>
                                 <option>Təmsilçilik xidməti</option>
