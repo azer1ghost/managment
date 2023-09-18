@@ -577,11 +577,14 @@
                     <br>
                     <p class="border-bottom">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
                 </div>
-                <div class="float-right text-center" style="width: 400px">
+                <div class="float-right text-center" style="width: 350px; height: 350px">
                     <h6 data-id="{{$data->getRelationValue('financeClients')->getAttribute('id')}}" id="clientId">Təhvil aldı:</h6>
                     <br>
                     <p class="text-center clientName" style="font-size: 21px">{{$data->getRelationValue('financeClients')->getAttribute('name')}}</p>
-                    <br><br><br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
 
                     <p class="border-bottom">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
                 </div>
