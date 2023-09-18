@@ -726,13 +726,7 @@
             $('#who').text(who);
             $('#who-footer').text(whoFooter);
 
-            if (company == 'logisticsKapital') {
-                $('#loginput').show();
-                $('#brokerinput').hide();
-            } else {
-                $('#loginput').hide();
-                $('#brokerinput').show();
-            }if (company == 'logisticsRespublika') {
+            }if (company == 'logisticsRespublika' || company == 'logisticsKapital') {
                 $('#loginput').show();
                 $('#brokerinput').hide();
             } else {
