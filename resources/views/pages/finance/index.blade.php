@@ -43,7 +43,7 @@
                     <option value="dgroupKapital">Declare Group Kapital</option>
                     <option value="mtechnologiesRespublika">Mobil Technologies Bank Respublika</option>
                     <option value="logisticsKapital">Mobil Logistics Kapital</option>
-                    <option value="logisticsRespublika">Mobil Logistics Respublika</option>
+                    <option value="logisticsRespublika">Mobil Logistics Bank Respublika</option>
                 </select>
                 <select id="clientSelect" onchange="changeClient()" class=" col-4 mt-4 select2">
                     <option value="">Müştəri seç</option>
@@ -726,7 +726,7 @@
             $('#who').text(who);
             $('#who-footer').text(whoFooter);
 
-            }if (company == 'logisticsRespublika' || company == 'logisticsKapital') {
+            if (company == 'logisticsKapital' || company == 'logisticsRespublika') {
                 $('#loginput').show();
                 $('#brokerinput').hide();
             } else {
