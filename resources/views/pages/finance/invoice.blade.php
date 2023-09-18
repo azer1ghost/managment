@@ -569,7 +569,7 @@
                 <br><br>
                 <div class="float-left text-center imzalar" style="width: 350px; height: 350px">
                     <h6>Təhvil Verdi:</h6>
-                    <p class="text-center companyName" style="font-size: 21px">{{$companyName}}</p>
+                    <p class="text-center companyName p-3" style="font-size: 21px">{{$companyName}}</p>
 
                     <br>
                     <br>
@@ -580,7 +580,7 @@
                 <div class="float-right text-center" style="width: 350px; height: 350px">
                     <h6 data-id="{{$data->getRelationValue('financeClients')->getAttribute('id')}}" id="clientId">Təhvil aldı:</h6>
                     <br>
-                    <p class="text-center clientName" style="font-size: 21px">{{$data->getRelationValue('financeClients')->getAttribute('name')}}</p>
+                    <p class="text-center clientName" style="font-size: 18px">{{$data->getRelationValue('financeClients')->getAttribute('name')}}</p>
                     <br>
                     <br>
                     <br>
