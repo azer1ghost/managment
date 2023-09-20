@@ -234,11 +234,12 @@ Route::group([
     Route::get('/foreign', [InternalRelationController::class, 'foreign'])->name('foreign');
     Route::post('/sortable-relation', [InternalRelationController::class, 'sortable'])->name('internal-relation.sortable');
     Route::post('/sortable-internal', [InternalDocumentController::class, 'sortable'])->name('internal-document.sortable');
-    Route::resource('/creditors', CreditorController::class);
     Route::resource('/banks', BankController::class);
     Route::post('/banks/updateBankAmount', [BankController::class, 'updateBankAmount']);
     Route::post('/sortable', [BankController::class, 'sortable'])->name('bank.sortable');
 
+    Route::post('/creditors/payment', [CreditorController::class, 'payment'])->name('creditor.payment');
+    Route::resource('/creditors', CreditorController::class);
     Route::post('/creditors/updateAmount', [CreditorController::class, 'updateAmount']);
     Route::post('/creditors/updateColor', [CreditorController::class, 'updateColor']);
     Route::post('/creditors/updateVat', [CreditorController::class, 'updateVat']);

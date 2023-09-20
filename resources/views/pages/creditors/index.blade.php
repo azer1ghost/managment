@@ -24,9 +24,9 @@
             @lang('translates.navbar.creditor')
         </x-bread-crumb-link>
     </x-bread-crumb>
-    <form action="{{route('creditors.index')}}">
-        <div class="row d-flex justify-content-between mb-2">
 
+        <div class="row d-flex justify-content-between mb-2">
+            <form action="{{route('creditors.index')}}" class="row col-12">
                 <div class="col-md-3">
                     <div class="input-group mb-3">
 
@@ -105,14 +105,16 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-4 p-0 pr-3 pb-3 mt-4">
-{{--                    @can('create', App\Models\Creditor::class)--}}
-                        <a class="btn btn-outline-success float-right " href="{{route('creditors.create')}}">@lang('translates.buttons.create')</a>
-{{--                    @endcan--}}
-{{--                    @if(auth()->user()->hasPermission('canExport-client'))--}}
-{{--                        <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('clients.export', ['filters' => json_encode($filters)])}}">@lang('translates.buttons.export')</a>--}}
-{{--                    @endif--}}
+                <div class="col-12 p-0 pr-3 pb-3 mt-4">
+                    {{--                    @can('create', App\Models\Creditor::class)--}}
+                    <a class="btn btn-outline-success float-right " href="{{route('creditors.create')}}">@lang('translates.buttons.create')</a>
+                    {{--                    @endcan--}}
+                    {{--                    @if(auth()->user()->hasPermission('canExport-client'))--}}
+                    {{--                        <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('clients.export', ['filters' => json_encode($filters)])}}">@lang('translates.buttons.export')</a>--}}
+                    {{--                    @endif--}}
                 </div>
+            </form>
+
             <div class="col-12">
                 <table class="table table-responsive-sm table-hover">
                     <thead>
@@ -122,6 +124,8 @@
                         <th scope="col">@lang('translates.columns.company')</th>
                         <th scope="col">@lang('translates.general.earning')</th>
                         <th scope="col">@lang('translates.columns.vat')</th>
+                        <th scope="col">@lang('translates.columns.paid')</th>
+                        <th scope="col">@lang('translates.columns.vat_paid')</th>
                         <th scope="col">@lang('translates.columns.last_paid')</th>
                         <th scope="col">@lang('translates.columns.status')</th>
                         <th scope="col">@lang('translates.fields.note')</th>
@@ -135,12 +139,16 @@
                             <td>{{$creditor->getAttribute('supplier_id') > 0 ? $creditor->getRelationValue('supplier')->getAttribute('name') : $creditor->getAttribute('creditor')}}</td>
                             <td>{{$creditor->getRelationValue('company')->getAttribute('name')}}</td>
                             <td  data-id="{{$creditor->getAttribute('id')}}"
-                            {{-- class="amount" contenteditable="true"  onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"--}}>{{$creditor->getAttribute('amount')}}</td>
+                            {{-- class="amount" contenteditable="true"  onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"--}}
+                            >{{$creditor->getAttribute('amount')}}</td>
                             <td  data-id="{{$creditor->getAttribute('id')}}"
-                            {{-- class="vat" contenteditable="true" onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" --}}>{{$creditor->getAttribute('vat')}}</td>
+                            {{-- class="vat" contenteditable="true" onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" --}}
+                            >{{$creditor->getAttribute('vat')}}</td>
+                            <td>{{$creditor->getAttribute('paid')}}</td>
+                            <td>{{$creditor->getAttribute('vat_paid')}}</td>
                             <td>{{$creditor->getAttribute('last_date')}}</td>
                             <td>
-                                <span class="badge {{$creditor->getAttribute('status') == 1 ? 'badge-danger' : 'badge-success'}}"> {{trans('translates.creditors.statuses.'.$creditor->getAttribute('status'))}}</span>
+                                <span class="badge {{$creditor->getAttribute('status') == 1 ? 'badge-danger' : ($creditor->getAttribute('status') == 2 ? 'badge-success' : 'badge-warning')}}"> {{trans('translates.creditors.statuses.'.$creditor->getAttribute('status'))}}</span>
                             </td>
                             <td>{{$creditor->getAttribute('note')}}</td>
                                 <td>
@@ -181,8 +189,43 @@
                                         Boya
                                     @endif
                                 </button>
+                            </td><td>
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#staticBackdrop-{{$creditor->getAttribute('id')}}">
+                                  @lang('translates.columns.payment')
+                                </button>
                             </td>
                         </tr>
+                        <div class="modal fade" id="staticBackdrop-{{$creditor->getAttribute('id')}}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">@lang("translates.columns.payment")</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form action="{{ route('creditor.payment') }}" method="POST">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <input type="hidden" name="id" value="{{$creditor->getAttribute('id')}}">
+                                            <div class="form-group">
+                                                <label for="paid">@lang('translates.columns.paid')</label>
+                                                <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" class="form-control" name="paid" id="paid">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="vat_paid">@lang('translates.columns.vat_paid')</label>
+                                                <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" class="form-control" name="vat_paid" id="vat_paid">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
+                                            <button type="submit" class="btn btn-primary">@lang('translates.buttons.send')</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
                     @empty
                         <tr>
                             <th colspan="7">
@@ -197,6 +240,8 @@
                         <td colspan="3"></td>
                         <td><strong>@lang('translates.general.earning'): {{ $creditors->sum('amount') }}</strong></td>
                         <td><strong>@lang('translates.columns.vat'): {{ $creditors->sum('vat') }}</strong></td>
+                        <td><strong>@lang('translates.columns.paid'): {{ $creditors->sum('paid') }}</strong></td>
+                        <td><strong>@lang('translates.columns.vat_paid'): {{ $creditors->sum('vat_paid') }}</strong></td>
                         <td><strong>@lang('translates.columns.total'): {{ $creditors->sum('amount') + $creditors->sum('vat') }}</strong></td>
                         <td colspan="4"></td>
                     </tr>
@@ -209,14 +254,17 @@
                 </div>
             </div>
         </div>
-    </form>
 
 @endsection
 @section('scripts')
 
     <script>
 
+        function getCreditors() {
+            let creditors = $(this).data('creditors');
+        }
         $('.colorButton').on('click', function (e) {
+            getCreditors()
             let creditors = $(this).data('creditors');
             let column = $(this).parent().parent();
             let button = $(this)
@@ -243,7 +291,7 @@
                     console.log('Painted:', response);
                 },
                 error: function (error) {
-                    console.log('Bir sorun var:', error);
+                    console.log('There is a problem:', error);
                 }
             });
         });

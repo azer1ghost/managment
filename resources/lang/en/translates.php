@@ -602,6 +602,7 @@ return [
         'statuses' => [
             1 => 'Unpaid',
             2 => 'Paid',
+            3 => 'Partly Paid',
         ]
     ],
 

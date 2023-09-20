@@ -607,6 +607,7 @@ return [
         'statuses' => [
             1 => 'Ödənilməyib',
             2 => 'Ödənilib',
+            3 => 'Qismən Ödənilib',
         ]
     ],
     'employee_satisfactions' => [

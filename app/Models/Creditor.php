@@ -14,6 +14,8 @@ class Creditor extends Model
         'creditor',
         'amount',
         'vat',
+        'paid',
+        'vat_paid',
         'status',
         'note',
         'painted',
@@ -31,6 +33,6 @@ class Creditor extends Model
     }
     public static function statuses(): array
     {
-        return [1 => 1,2];
+        return [1 => 1, 2, 3];
     }
 }
