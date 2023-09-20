@@ -44,6 +44,7 @@
                         </select>
                     </div>
                     <x-input::date name="last_date" :label="trans('translates.columns.last_paid')" :value="$data->getAttribute('last_date')" width="6" class="pr-2" />
+                    <x-input::date name="overhead_at" :label="trans('translates.columns.overhead_at')" :value="$data->getAttribute('overhead_at')" width="6" class="pr-2" />
                     <x-input::textarea name="note" :label="trans('translates.fields.note')" :value="$data->getAttribute('note')" width="6" class="pr-2" />
                 </div>
             </div>

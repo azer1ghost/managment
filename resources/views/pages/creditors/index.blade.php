@@ -127,6 +127,7 @@
                         <th scope="col">@lang('translates.columns.paid')</th>
                         <th scope="col">@lang('translates.columns.vat_paid')</th>
                         <th scope="col">@lang('translates.columns.last_paid')</th>
+                        <th scope="col">Qaimə ödəniş tarixi</th>
                         <th scope="col">@lang('translates.columns.status')</th>
                         <th scope="col">@lang('translates.fields.note')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
@@ -147,6 +148,7 @@
                             <td>{{$creditor->getAttribute('paid')}}</td>
                             <td>{{$creditor->getAttribute('vat_paid')}}</td>
                             <td>{{$creditor->getAttribute('last_date')}}</td>
+                            <td>{{$creditor->getAttribute('overhead_at')}}</td>
                             <td>
                                 <span class="badge {{$creditor->getAttribute('status') == 1 ? 'badge-danger' : ($creditor->getAttribute('status') == 2 ? 'badge-success' : 'badge-warning')}}"> {{trans('translates.creditors.statuses.'.$creditor->getAttribute('status'))}}</span>
                             </td>

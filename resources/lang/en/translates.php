@@ -548,6 +548,7 @@ return [
         'replacement' => 'Replacement of damaged goods, possibility of return delivery',
         'vat' => 'VAT',
         'last_paid' => 'Last Paid Date',
+        'overhead_at' => 'Overhead Date',
         'supplier' => 'Supplier',
     ],
 

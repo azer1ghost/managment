@@ -551,6 +551,7 @@ return [
         'replacement' => 'Zədələnmiş mal-materialın əvəzlənməsi, geri təhvil vermə imkanı',
         'vat' => 'ƏDV',
         'last_paid' => 'Son Ödəmə Tarixi',
+        'overhead_at' => 'Qaimə Tarixi',
         'supplier' => 'Tədarükçü',
     ],
 

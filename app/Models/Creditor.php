@@ -21,6 +21,7 @@ class Creditor extends Model
         'painted',
         'paid_at',
         'last_date',
+        'overhead_at',
     ];
 
     public function supplier(): BelongsTo

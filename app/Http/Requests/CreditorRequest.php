@@ -18,6 +18,7 @@ class CreditorRequest extends FormRequest
             'status' => 'nullable|string',
             'note' => 'nullable|string',
             'paid_at' => 'nullable|date',
+            'overhead_at' => 'nullable|date',
             'last_date' => 'nullable|date',
         ];
     }
