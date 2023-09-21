@@ -2,12 +2,20 @@
 
 namespace App\Models;
 
+use Altek\Accountant\Contracts\Recordable;
+use Altek\Eventually\Eventually;
+use App\Interfaces\DocumentableInterface;
+use App\Traits\Documentable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Creditor extends Model
+class Creditor extends Model implements DocumentableInterface
+
 {
+    use HasFactory, Documentable, Eventually;
+
     protected $fillable = [
         'supplier_id',
         'company_id',
@@ -35,5 +43,9 @@ class Creditor extends Model
     public static function statuses(): array
     {
         return [1 => 1, 2, 3];
+    }
+    public function getMainColumn(): string
+    {
+        return $this->getRelationValue('creditor')->getAttribute('name');
     }
 }

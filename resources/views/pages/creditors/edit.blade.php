@@ -54,6 +54,12 @@
             <x-input::submit :value="trans('translates.buttons.save')"/>
         @endif
     </form>
+    @if(!is_null($data))
+        <div class="col-12">
+            <x-documents :documents="$data->documents"/>
+            <x-document-upload :id="$data->id" model="Creditor"/>
+        </div>
+    @endif
 @endsection
 @section('scripts')
 

@@ -127,7 +127,7 @@
                         <th scope="col">@lang('translates.columns.paid')</th>
                         <th scope="col">@lang('translates.columns.vat_paid')</th>
                         <th scope="col">@lang('translates.columns.last_paid')</th>
-                        <th scope="col">Qaimə ödəniş tarixi</th>
+                        <th scope="col">Qaimə yaranma tarixi</th>
                         <th scope="col">@lang('translates.columns.status')</th>
                         <th scope="col">@lang('translates.fields.note')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
