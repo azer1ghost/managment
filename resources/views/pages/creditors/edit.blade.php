@@ -57,7 +57,9 @@
     @if(!is_null($data))
         <div class="col-12">
             <x-documents :documents="$data->documents"/>
-            <x-document-upload :id="$data->id" model="Creditor"/>
+            @if(!is_null($data->id))
+                <x-document-upload :id="$data->id" model="Creditor"/>
+            @endif
         </div>
     @endif
 @endsection
