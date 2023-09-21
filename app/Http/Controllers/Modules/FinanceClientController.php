@@ -103,4 +103,11 @@ class FinanceClientController extends Controller
         }
         return response()->setStatusCode('204');
     }
+
+    public function signInvoice(Request $request)
+    {
+        Invoice::whereId($request->get('id'))->update(['is_signed' => $request->get('sign')]);
+
+        return response()->setStatusCode('200');
+    }
 }

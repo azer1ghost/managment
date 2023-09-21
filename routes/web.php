@@ -274,6 +274,8 @@ Route::group([
     Route::put('/updateFinanceClient/{client}',[FinanceClientController::class, 'updateFinanceClient'] )->name('updateFinanceClient');
     Route::get('/deleteFinanceClient/{client}',[FinanceClientController::class, 'deleteFinanceClient'] )->name('deleteFinanceClient');
     Route::get('/invoices',[FinanceClientController::class, 'invoices'] )->name('invoices');
+    Route::post('/signInvoice',[FinanceClientController::class, 'signInvoice'] )->name('signInvoice');
+
     Route::view('/instruction','pages.instructions.index' )->name('instruction');
     Route::view('/presentations','pages.instructions.presentations' )->name('presentations');
     Route::view('/structure','pages.instructions.structure' )->name('structure');

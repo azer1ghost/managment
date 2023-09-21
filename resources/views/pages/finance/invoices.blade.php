@@ -14,6 +14,7 @@
                 <th>Hesab Faktura No</th>
                 <th>@lang('translates.fields.clientName')</th>
                 <th>@lang('translates.columns.created_at')</th>
+                <th>@lang('translates.columns.status')</th>
                 <th>@lang('translates.columns.actions')</th>
             </tr>
             </thead>
@@ -22,6 +23,7 @@
                     <tr>
                         <td>{{$invoice->getAttribute('invoiceNo')}}</td>
                         <td>{{$invoice->getRelationValue('financeClients')->getAttribute('name')}}</td>
+                        <td>{{$invoice->getAttribute('is_signed') == 1 ? 'İmzalanıb' : 'İmzalanmayıb'}} </td>
                         <td>{{$invoice->getAttribute('created_at')}}</td>
                         <td>
                             <a class="btn btn-success p-2" href="{{ route('financeInvoice', $invoice->getAttribute('id')) }}">Bax</a>

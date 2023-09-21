@@ -245,7 +245,7 @@
 @section('content')
     @if(auth()->user()->isDeveloper() || auth()->user()->isDirector() || in_array(auth()->user()->id, [103, 17, 120]))
         <div class="text-center">
-        <input type="checkbox" id="imzala">
+        <input type="checkbox" id="imzala" @if($data->getAttribute('is_signed') == 1) checked @endif>
         <label for="imzala" class="button-label imzala-label">İmzala</label>
 
         <input type="checkbox" id="copy">
@@ -596,23 +596,54 @@
 @section('scripts')
 
 <script>
-    var $checkbox = $('#imzala');
-    var $element = $('.imzalar');
-    var $copy = $('#copy');
-    var $copies = $('.copies');
-    $copies.hide()
-    $checkbox.change(function() {
-        if ($checkbox.is(':checked')) {
-            $element.addClass('imza');
+    var checkbox = $('#imzala');
+    var element = $('.imzalar');
+    var copy = $('#copy');
+    var copies = $('.copies');
+    copies.hide()
+    var datam = ''
+    function sign () {
+        $.ajax({
+            url: '/module/signInvoice',
+            type: 'POST',
+            data: datam,
+            success: function(response) {
+                console.log('Invoice Imzalandı:', response);
+            },
+            error: function(error) {
+                console.log('Invoice imzalanarkən xəta baş verdi:', error);
+                console.log(datam)
+            }
+        });
+    }
+    $(document).ready(function () {
+        if (checkbox.is(':checked')) {
+            element.addClass('imza');
+        }
+    })
+    checkbox.change(function() {
+        if (checkbox.is(':checked')) {
+            element.addClass('imza');
+            datam = {
+                id: {{$data->id}},
+                sign: 1
+            }
+            sign()
+
         } else {
-            $element.removeClass('imza');
+            element.removeClass('imza');
+             datam = {
+                id: {{$data->id}},
+                sign: 0
+            }
+            sign()
         }
     });
-    $copy.change(function() {
-        if ($copy.is(':checked')) {
-            $copies.show();
+    copy.change(function() {
+        if (copy.is(':checked')) {
+            copies.show();
         } else {
-            $copies.hide();
+            copies.hide();
         }
     });
 
