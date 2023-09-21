@@ -2,10 +2,6 @@
 
 @section('title', trans('translates.navbar.dashboard'))
 
-@section('style')
-
-@endsection
-
 @section('content')
     <div class="container">
         <table class="table text-center" id="invoices">
