@@ -549,6 +549,7 @@ return [
         'vat' => 'VAT',
         'last_paid' => 'Last Paid Date',
         'overhead_at' => 'Overhead Date',
+        'overhead' => 'Overhead',
         'supplier' => 'Supplier',
     ],
 

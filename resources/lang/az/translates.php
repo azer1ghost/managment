@@ -552,6 +552,7 @@ return [
         'vat' => 'ƏDV',
         'last_paid' => 'Son Ödəmə Tarixi',
         'overhead_at' => 'Qaimə Tarixi',
+        'overhead' => 'Qaimə',
         'supplier' => 'Tədarükçü',
     ],
 

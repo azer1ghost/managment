@@ -12,6 +12,7 @@ class CreditorRequest extends FormRequest
         return [
             'supplier_id' => 'nullable|integer',
             'company_id' => 'nullable|integer',
+            'overhead' => 'nullable|string',
             'creditor' => 'nullable|string',
             'amount' => 'nullable|string',
             'vat' => 'nullable|string',

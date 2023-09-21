@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class üAddInjectedAtColumnToWorksTable extends Migration
+class AddOverheadColumnToCreditorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class üAddInjectedAtColumnToWorksTable extends Migration
      */
     public function up()
     {
-        Schema::table('works', function (Blueprint $table) {
-            $table->datetime('injected_at')->nullable()->after('entry_date');
+        Schema::table('creditors', function (Blueprint $table) {
+            $table->string('overhead')->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ class üAddInjectedAtColumnToWorksTable extends Migration
      */
     public function down()
     {
-        Schema::table('works', function (Blueprint $table) {
+        Schema::table('creditors', function (Blueprint $table) {
             //
         });
     }
