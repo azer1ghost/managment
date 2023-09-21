@@ -29,6 +29,7 @@ class Creditor extends Model implements DocumentableInterface
         'paid_at',
         'last_date',
         'overhead_at',
+        'overhead',
     ];
 
     public function supplier(): BelongsTo

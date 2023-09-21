@@ -35,6 +35,7 @@
                     <x-input::select name="company_id" :value="$data->getAttribute('company_id')" :label="trans('translates.columns.company')"  width="6" class="pr-3" :options="$companies"/>
                     <x-input::text name="amount" :label="trans('translates.columns.amount')" :value="$data->getAttribute('amount')" width="6" class="pr-2 amount" />
                     <x-input::text name="vat" :label="trans('translates.columns.vat')" :value="$data->getAttribute('vat')" width="6" class="pr-2 vat" />
+                    <x-input::text name="overhead" :value="$data->getAttribute('overhead')" :label="trans('translates.columns.overhead')" width="6" class="pr-3 creditor" />
                     <div class="form-group col-6">
                         <label>@lang('translates.columns.status')</label>
                         <select name="status" class="form-control">
@@ -57,7 +58,9 @@
     @if(!is_null($data))
         <div class="col-12">
             <x-documents :documents="$data->documents"/>
-            <x-document-upload :id="$data->id" model="Creditor"/>
+            @if(!is_null($data->id))
+                <x-document-upload :id="$data->id" model="Creditor"/>
+            @endif
         </div>
     @endif
 @endsection
