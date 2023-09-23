@@ -1102,7 +1102,7 @@ class WorkController extends Controller
         }
         $CompanyCategories = [
             'ASAZA' => [39, 55],
-            'GARANT' => [8, 9, 10, 25, 27, 45, 52, 59],
+            'GARANT' => [8, 9, 10, 25, 27, 45, 52, 59, 16],
             'RIGEL' => [30, 32, 41, 43, 54],
             'MIND' => [29, 34, 36, 40, 46, 53, 60],
             'TEDORA' => [48, 57],
