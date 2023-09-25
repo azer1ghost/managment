@@ -30,6 +30,18 @@
      $who = "Vüsal Xəlilov İbrahim oğlu";
      $whoFooter = "V.İ.Xəlilov";
      $stamp = asset('assets/images/finance/mbroker.jpeg');
+  }else if ($company == 'mbrokerRespublika') {
+     $companyName = "\"Mobil Group\" MMC";
+     $voen = "1405261701";
+     $hh = "AZ31BRES00380394401115941601";
+     $mh = "AZ80NABZ01350100000000014944";
+     $bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
+     $kod = "507547";
+     $bvoen = "9900001901";
+     $swift = "BRESAZ22";
+     $who = "Vüsal Xəlilov İbrahim oğlu";
+     $whoFooter = "V.İ.Xəlilov";
+     $stamp = asset('assets/images/finance/mgroup.jpeg');
 
  } else if ($company == 'garantKapital') {
      $companyName = "\"Garant Broker\" MMC";
