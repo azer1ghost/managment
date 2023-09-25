@@ -30,7 +30,7 @@
      $who = "Vüsal Xəlilov İbrahim oğlu";
      $whoFooter = "V.İ.Xəlilov";
      $stamp = asset('assets/images/finance/mbroker.jpeg');
-  }else if ($company == 'mbrokerRespublika') {
+  }else if ($company == 'mgroupRespublika') {
      $companyName = "\"Mobil Group\" MMC";
      $voen = "1405261701";
      $hh = "AZ31BRES00380394401115941601";
