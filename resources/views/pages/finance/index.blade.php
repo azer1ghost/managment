@@ -32,6 +32,7 @@
                     <option value="">Şirkət Seçin</option>
                     <option value="mbrokerKapital">Mobil Broker Kapital</option>
                     <option value="mbrokerRespublika">Mobil Broker Bank Respublika</option>
+                    <option value="mgroupRespublika">Mobil Group Bank Respublika</option>
                     <option value="garantKapital">Garant Broker Kapital</option>
                     <option value="garantRespublika">Garant Broker Bank Respublika</option>
                     <option value="rigelRespublika">Rigel Bank Respublika</option>
@@ -561,6 +562,17 @@
                 var companyName = "\"Mobil Broker\" MMC";
                 var voen = "1804705371";
                 var hh = "AZ17BRES00380394401114863601";
+                var mh = "AZ80NABZ01350100000000014944";
+                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
+                var kod = "507547";
+                var bvoen = "9900001901";
+                var swift = "BRESAZ22";
+                var who = "Vüsal Xəlilov İbrahim oğlu";
+                var whoFooter = "V.İ.Xəlilov";
+            } else if (company == 'mgroupRespublika') {
+                var companyName = "\"Mobil Group\" MMC";
+                var voen = "1405261701";
+                var hh = "AZ31BRES00380394401115941601";
                 var mh = "AZ80NABZ01350100000000014944";
                 var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
                 var kod = "507547";
