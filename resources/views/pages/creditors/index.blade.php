@@ -138,7 +138,7 @@
                     @forelse($creditors as $creditor)
                         <tr class="clickable" data-rowid="{{$loop->index + 1}}" @if($creditor->getAttribute('painted') == 1) style="background-color: red" @endif>
                             <th scope="row">{{$loop->iteration}}</th>
-                            <td>{{$creditor->getAttribute('supplier_id') > 0 ? $creditor->getRelationValue('supplier')->getAttribute('name') : $creditor->getAttribute('creditor')}}</td>
+                            <td>{{$creditor->getSupplierName()}}</td>
                             <td>{{$creditor->getRelationValue('company')->getAttribute('name')}}</td>
                             <td  data-id="{{$creditor->getAttribute('id')}}"
                             {{-- class="amount" contenteditable="true"  onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"--}}

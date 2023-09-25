@@ -8,6 +8,7 @@ use App\Interfaces\CreditorRepositoryInterface;
 use App\Models\Company;
 use App\Models\Creditor;
 use App\Models\Supplier;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class CreditorController extends Controller
@@ -32,8 +33,8 @@ class CreditorController extends Controller
         ];
         $creditors = $this->creditorRepository->allFilteredCreditors($filters)->orderBy('status')->paginate($limit);
         return view('pages.creditors.index')->with([
-            'companies' => Company::get(['id','name', 'logo']),
-            'suppliers' => Supplier::get(['id','name']),
+            'companies' => Company::get(['id', 'name', 'logo']),
+            'suppliers' => Supplier::get(['id', 'name']),
             'statuses' => Creditor::statuses(),
             'filters' => $filters,
             'creditors' => $creditors,
@@ -126,12 +127,14 @@ class CreditorController extends Controller
 
         return response()->json(['message' => 'ok'], 200);
     }
+
     public function updateColor(Request $request)
     {
         Creditor::whereId($request->get('id'))->update(['painted' => $request->get('painted')]);
 
         return response()->json(['message' => 'ok'], 200);
     }
+
     public function payment(Request $request)
     {
         $creditor = Creditor::whereId($request->get('id'))->first();
@@ -143,8 +146,8 @@ class CreditorController extends Controller
         } else {
             $creditor->update(['status' => 1]);
         }
-
-
+        $note = '"' . $creditor->getSupplierName() . '" üçün ' . $request->get('paid') + $request->get('vat_paid') . ' AZN ödəniş edildi';
+        Transaction::addTransaction(auth()->id(), 0, $request->get('paid') + $request->get('vat_paid'), $creditor->company_id, '', null, 'Creditor', 0, '', $note);
         return back();
     }
 }

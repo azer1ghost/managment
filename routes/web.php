@@ -70,6 +70,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\SupportController,
     Modules\TaskController,
     Modules\TaskListController,
+    Modules\TransactionController,
     Modules\TransitController,
     Modules\UpdateController,
     Modules\UserController,
@@ -281,6 +282,7 @@ Route::group([
     Route::view('/structure','pages.instructions.structure' )->name('structure');
     Route::view('/necessary','pages.instructions.necessary' )->name('necessary');
     Route::resource('/statements', StatementController::class);
+    Route::resource('/transactions', TransactionController::class);
     Route::put('employee-satisfaction/addNote', [EmployeeSatisfactionController::class, 'addNote'])->name('addNote');
     Route::resource('/employee-satisfaction', EmployeeSatisfactionController::class);
     Route::view('/statement','pages.statements.statements' )->name('statement');

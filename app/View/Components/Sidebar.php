@@ -220,6 +220,12 @@ class Sidebar extends Component
                         'url' => route('total'),
                         'permission' => 'viewAny-creditor',
                     ],
+                    (object)[
+                        'title' => trans('translates.navbar.transaction'),
+                        'icon' => 'fas fa-money-check',
+                        'url' => route('transactions.index'),
+                        'permission' => 'viewAny-transaction',
+                    ],
                 ]
             ],
 

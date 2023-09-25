@@ -36,16 +36,28 @@ class Creditor extends Model implements DocumentableInterface
     {
         return $this->belongsTo(Supplier::class)->withDefault();
     }
+
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class)->withDefault();
     }
+
     public static function statuses(): array
     {
         return [1 => 1, 2, 3];
     }
+
     public function getMainColumn(): string
     {
         return $this->getRelationValue('creditor')->getAttribute('name');
+    }
+
+    public function getSupplierName()
+    {
+        if (is_null($this->getAttribute('supplier_id'))) {
+            return $this->getAttribute('creditor');
+        } else {
+            return $this->getRelationValue('supplier')->getAttribute('name');
+        }
     }
 }

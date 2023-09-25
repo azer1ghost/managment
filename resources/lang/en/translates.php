@@ -265,6 +265,7 @@ return [
         'creditor' => 'Creditors',
         'finance' => 'Finance',
         'accounts' => 'Accounts',
+        'transaction' => 'Transaction',
     ],
 
     'questionnaire' => [
@@ -431,6 +432,17 @@ return [
         ],
         'statuses' => [
             'rejected' => 'The work you performed was not approved'
+        ]
+    ],
+
+    'transactions' => [
+        'types' => [
+            0 => 'Expense',
+            1 => 'Income'
+        ],
+        'statuses' => [
+            0 => 'Successful Payment',
+            1 => 'Returned',
         ]
     ],
 

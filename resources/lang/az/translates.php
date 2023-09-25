@@ -269,6 +269,7 @@ return [
         'creditor' => 'Kreditorlar',
         'finance' => 'Maliyyə',
         'accounts' => 'Hesablar',
+        'transaction' => 'Tranzaksiyalar',
     ],
 
     'questionnaire' => [
@@ -435,6 +436,17 @@ return [
         ],
         'statuses' => [
             'rejected' => 'Sizin gördüyünüz iş təstiqlənmədi'
+        ]
+    ],
+
+    'transactions' => [
+        'types' => [
+            0 => 'Məxaric',
+            1 => 'Mədaxil'
+        ],
+        'statuses' => [
+            0 => 'Uğurlu Ödəniş',
+            1 => 'Geri Qaytarıldı',
         ]
     ],
 
