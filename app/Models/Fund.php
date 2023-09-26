@@ -19,11 +19,11 @@ class Fund extends Model implements Recordable, DocumentableInterface
 
     public function users(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class)->withDefault();
     }
     public function companies(): BelongsTo
     {
-        return $this->belongsTo(Company::class, 'company_id');
+        return $this->belongsTo(Company::class, )->withDefault();
     }
     public function getMainColumn(): string
     {
