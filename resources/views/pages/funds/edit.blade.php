@@ -35,7 +35,7 @@
                         </select>
                     </div>
                     <div class="form-group col-6">
-                        <label for="user_id">@lang('translates.fields.user')</label><br/>
+                        <label for="user_id">@lang('translates.fields.director')</label><br/>
                         <select class="form-control" name="user_id" id="user_id" data-width="fit">
                             <option value="">@lang('translates.filters.select')</option>
                             @foreach($users as $user)
