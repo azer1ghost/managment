@@ -9,6 +9,7 @@
         }
         td, th {
             text-align: center;
+            margin: 50px;
         }
     </style>
 @endsection
