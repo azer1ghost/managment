@@ -49,7 +49,7 @@ class FundController extends Controller
     public function store(FundRequest $request)
     {
         $fund = Fund::create($request->validated());
-//        $fund->sync($request->get('main_activity'));
+
 
         return redirect()
             ->route('funds.edit', $fund)
@@ -81,7 +81,6 @@ class FundController extends Controller
     public function update(FundRequest $request, Fund $fund)
     {
         $fund->update($request->validated());
-        $fund->users()->sync($request->get('users'));
 
         return redirect()
             ->route('funds.edit', $fund)
