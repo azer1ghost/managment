@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', __('translates.navbar.funds'))
+@section('title', __('translates.navbar.fund'))
 @section('style')
     <style>
         table {

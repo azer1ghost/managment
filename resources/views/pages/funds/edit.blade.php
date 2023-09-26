@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', trans('translates.navbar.summits'))
+@section('title', trans('translates.navbar.fund'))
 
 @section('content')
     <x-bread-crumb>
@@ -39,7 +39,7 @@
                         <select class="form-control" name="user_id" id="user_id" data-width="fit">
                             <option value="">@lang('translates.filters.select')</option>
                             @foreach($users as $user)
-                                <option @if($data->getAttribute('user_id') == $user->id) selected @endif value="{{$user->id}}">{{$user->name}}</option>
+                                <option @if($data->getAttribute('user_id') == $user->id) selected @endif value="{{$user->id}}">{{$user->fullname}}</option>
                             @endforeach
                         </select>
                     </div>
