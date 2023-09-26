@@ -23,7 +23,7 @@ class Fund extends Model implements Recordable, DocumentableInterface
     }
     public function companies(): BelongsTo
     {
-        return $this->belongsTo(Company::class, )->withDefault();
+        return $this->belongsTo(Company::class )->withDefault();
     }
     public function getMainColumn(): string
     {
