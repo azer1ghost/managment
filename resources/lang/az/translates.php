@@ -270,6 +270,7 @@ return [
         'finance' => 'Maliyyə',
         'accounts' => 'Hesablar',
         'transaction' => 'Tranzaksiyalar',
+        'fund' => 'Bank və Kodlar',
     ],
 
     'questionnaire' => [

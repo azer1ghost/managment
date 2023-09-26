@@ -31,6 +31,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\EmployeeSatisfactionController,
     Modules\FinanceClientController,
     Modules\FolderController,
+    Modules\FundController,
     Modules\InquiryController,
     Modules\InternalDocumentController,
     Modules\InternalNumberController,
@@ -214,6 +215,7 @@ Route::group([
     Route::resource('/supports', SupportController::class);
     Route::resource('/commands', CommandController::class);
     Route::resource('/summits', SummitController::class);
+    Route::resource('/funds', FundController::class);
     Route::post('/sortable-summits', [SummitController::class, 'sortable'])->name('summits.sortable');
     Route::post('/sortable-commands', [CommandController::class, 'sortable'])->name('commands.sortable');
     Route::resource('/meetings', MeetingController::class);

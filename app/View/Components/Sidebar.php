@@ -225,6 +225,11 @@ class Sidebar extends Component
                         'icon' => 'fas fa-money-check',
                         'url' => route('transactions.index'),
                         'permission' => 'viewAny-transaction',
+                    ],(object)[
+                        'title' => trans('translates.navbar.fund'),
+                        'icon' => 'fas fa-money-check',
+                        'url' => route('funds.index'),
+                        'permission' => 'viewAny-creditor',
                     ],
                 ]
             ],
