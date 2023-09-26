@@ -27,6 +27,7 @@ return [
         'viewAny-accessRate' , 'view-accessRate', 'create-accessRate', 'update-accessRate','manage-accessRate','delete-accessRate',
         'viewAny-advertising', 'view-advertising', 'manage-advertising', 'update-advertising', 'delete-advertising',
         'viewAny-asanImza', 'view-asanImza', 'manage-asanImza', 'delete-asanImza',
+        'viewAny-fund', 'view-fund', 'manage-fund', 'delete-fund',
         'viewAll-announcement', 'viewAny-announcement', 'view-announcement', 'create-announcement', 'update-announcement', 'delete-announcement',
         'viewAll-barcode', 'viewAllDepartment-barcode', 'viewAny-barcode', 'view-barcode', 'create-barcode', 'update-barcode', 'delete-barcode',
         'viewAny-calendar', 'create-calendar', 'update-calendar','delete-calendar',
