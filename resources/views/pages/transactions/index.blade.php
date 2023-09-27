@@ -96,7 +96,7 @@
                     @endforelse
                     <div class="row">
                         <div class="col-12">
-                            <p class="font-weight-bold">Toplam Amount: {{$totalAmount}}</p>
+                            <p class="font-weight-bold">Toplam Ödənilən: {{$totalAmount}}</p>
                         </div>
                     </div>
                     </tbody>
