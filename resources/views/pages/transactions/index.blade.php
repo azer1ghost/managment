@@ -42,6 +42,9 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @php
+                        $totalAmount = 0;
+                    @endphp
                     @forelse($transactions as $transaction)
                         <tr>
                             @php
@@ -79,6 +82,9 @@
                                 </div>
                             </td>
                         </tr>
+                        @php
+                            $totalAmount += $transaction->getAttribute('amount');
+                        @endphp
                     @empty
                         <tr>
                             <th colspan="20">
@@ -88,6 +94,11 @@
                             </th>
                         </tr>
                     @endforelse
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="font-weight-bold">Toplam Amount: {{$totalAmount}}</p>
+                        </div>
+                    </div>
                     </tbody>
                 </table>
             </div>
