@@ -73,7 +73,7 @@ class FundController extends Controller
             'action' => route('funds.update', $fund),
             'method' => 'PUT',
             'data' => $fund,
-            'users' => User::isActive()->get(['id', 'name', 'surname']),
+            'users' => User::get(['id', 'name', 'surname']),
             'companies' => Company::get(['id', 'name']),
         ]);
     }
