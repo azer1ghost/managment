@@ -241,12 +241,12 @@ Route::group([
     Route::post('/banks/updateBankAmount', [BankController::class, 'updateBankAmount']);
     Route::post('/sortable', [BankController::class, 'sortable'])->name('bank.sortable');
 
+    Route::get('/creditors/export', [CreditorController::class, 'export'])->name('creditors.export');
     Route::post('/creditors/payment', [CreditorController::class, 'payment'])->name('creditor.payment');
     Route::resource('/creditors', CreditorController::class);
     Route::post('/creditors/updateAmount', [CreditorController::class, 'updateAmount']);
     Route::post('/creditors/updateColor', [CreditorController::class, 'updateColor']);
     Route::post('/creditors/updateVat', [CreditorController::class, 'updateVat']);
-    Route::get('/creditors/export', [CreditorController::class, 'export'])->name('creditors.export');
     Route::resource('/organizations', OrganizationController::class);
     Route::resource('/conferences', ConferenceController::class);
     Route::resource('/advertising', AdvertisingController::class);
