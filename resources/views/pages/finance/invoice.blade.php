@@ -327,7 +327,8 @@
                     </tr>
                     @endforeach
                     <tr id="form-area">
-                        <td>
+                        <td id="loginput"><input type="text" class="form-control" id="input1l"></td>
+                        <td id="brokerinput">
                             <select id="input1" class="form-control">
                                 <option>Elektron GB-nin tərtib olunması xidməti</option>
                                 <option>Elektron Qısa İdxal GB-nin tərtib olunması xidməti</option>
@@ -1057,6 +1058,21 @@
         $('body').html(originalContent);
     }
 
+</script>
+<script>
+    // Sayfa yüklendiğinde çalışacak kod
+    $(document).ready(function () {
+        // Sayfa yüklendiğinde hangi şirket seçiliyse ona göre alanları gösterin veya gizleyin
+        var company = "logisticsKapital"; // Burada "company" değişkenini istediğiniz şekilde ayarlayın
+
+        if (company == 'logisticsKapital' || company == 'logisticsRespublika') {
+            $('#loginput').show();
+            $('#brokerinput').hide();
+        } else {
+            $('#loginput').hide();
+            $('#brokerinput').show();
+        }
+    });
 </script>
 
 @endsection
