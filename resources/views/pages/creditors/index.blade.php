@@ -107,6 +107,7 @@
                 </div>
                 <div class="col-12 p-0 pr-3 pb-3 mt-4">
                     {{--                    @can('create', App\Models\Creditor::class)--}}
+                    <a class="btn btn-outline-primary" href="{{route('creditors.export')}}">@lang('translates.buttons.export')</a>
                     <a class="btn btn-outline-success float-right " href="{{route('creditors.create')}}">@lang('translates.buttons.create')</a>
                     {{--                    @endcan--}}
                     {{--                    @if(auth()->user()->hasPermission('canExport-client'))--}}

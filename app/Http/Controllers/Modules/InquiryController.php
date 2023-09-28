@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Exports\InquiriesExport;
-use App\Exports\SalesClientsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InquiryRequest;
 use App\Models\Company;

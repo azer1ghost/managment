@@ -246,6 +246,7 @@ Route::group([
     Route::post('/creditors/updateAmount', [CreditorController::class, 'updateAmount']);
     Route::post('/creditors/updateColor', [CreditorController::class, 'updateColor']);
     Route::post('/creditors/updateVat', [CreditorController::class, 'updateVat']);
+    Route::get('/creditors/export', [CreditorController::class, 'export'])->name('creditors.export');
     Route::resource('/organizations', OrganizationController::class);
     Route::resource('/conferences', ConferenceController::class);
     Route::resource('/advertising', AdvertisingController::class);

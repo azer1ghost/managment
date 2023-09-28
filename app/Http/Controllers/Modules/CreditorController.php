@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Modules;
 
+use App\Exports\CreditorsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreditorRequest;
 use App\Interfaces\CreditorRepositoryInterface;
@@ -149,5 +150,9 @@ class CreditorController extends Controller
         $note = '"' . $creditor->getSupplierName() . '" üçün ' . $request->get('paid') + $request->get('vat_paid') . ' AZN ödəniş edildi';
         Transaction::addTransaction(auth()->id(), 0, $request->get('paid') + $request->get('vat_paid'), $creditor->company_id, '', null, 'Creditor', 0, '', $note);
         return back();
+    }
+    public function export()
+    {
+        return \Excel::download(new CreditorsExport(), 'creditors.xlsx');
     }
 }
