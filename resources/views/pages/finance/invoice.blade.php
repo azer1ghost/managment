@@ -327,8 +327,7 @@
                     </tr>
                     @endforeach
                     <tr id="form-area">
-                        <td id="loginput"><input type="text" class="form-control" id="input1l"></td>
-                        <td id="brokerinput">
+                        <td>
                             <select id="input1" class="form-control">
                                 <option>Elektron GB-nin tərtib olunması xidməti</option>
                                 <option>Elektron Qısa İdxal GB-nin tərtib olunması xidməti</option>
@@ -904,13 +903,6 @@
         var numberWord = $('.numberWord');
         numberWord.html(convertToWords($('#total').html()).toUpperCase());
 
-        if (getCompany == '\"Mobil Logistics\" MMC') {
-            $('#loginput').show();
-            $('#brokerinput').hide();
-        } else {
-            $('#loginput').hide();
-            $('#brokerinput').show();
-        }
     }
 
     $(".count, .amount").on("input", function() {
@@ -1066,20 +1058,5 @@
     }
 
 </script>
-{{--<script>--}}
-{{--    // Sayfa yüklendiğinde çalışacak kod--}}
-{{--    $(document).ready(function () {--}}
-
-{{--        var company = "logisticsKapital";--}}
-
-{{--        if (company == 'logisticsKapital' || company == 'logisticsRespublika') {--}}
-{{--            $('#loginput').show();--}}
-{{--            $('#brokerinput').hide();--}}
-{{--        } else {--}}
-{{--            $('#loginput').hide();--}}
-{{--            $('#brokerinput').show();--}}
-{{--        }--}}
-{{--    });--}}
-{{--</script>--}}
 
 @endsection
