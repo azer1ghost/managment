@@ -904,6 +904,13 @@
         var numberWord = $('.numberWord');
         numberWord.html(convertToWords($('#total').html()).toUpperCase());
 
+        if (getCompany == '\"Mobil Logistics\" MMC') {
+            $('#loginput').show();
+            $('#brokerinput').hide();
+        } else {
+            $('#loginput').hide();
+            $('#brokerinput').show();
+        }
     }
 
     $(".count, .amount").on("input", function() {
@@ -1059,20 +1066,20 @@
     }
 
 </script>
-<script>
-    // Sayfa yüklendiğinde çalışacak kod
-    $(document).ready(function () {
-        // Sayfa yüklendiğinde hangi şirket seçiliyse ona göre alanları gösterin veya gizleyin
-        var company = "logisticsKapital"; // Burada "company" değişkenini istediğiniz şekilde ayarlayın
+{{--<script>--}}
+{{--    // Sayfa yüklendiğinde çalışacak kod--}}
+{{--    $(document).ready(function () {--}}
 
-        if (company == 'logisticsKapital' || company == 'logisticsRespublika') {
-            $('#loginput').show();
-            $('#brokerinput').hide();
-        } else {
-            $('#loginput').hide();
-            $('#brokerinput').show();
-        }
-    });
-</script>
+{{--        var company = "logisticsKapital";--}}
+
+{{--        if (company == 'logisticsKapital' || company == 'logisticsRespublika') {--}}
+{{--            $('#loginput').show();--}}
+{{--            $('#brokerinput').hide();--}}
+{{--        } else {--}}
+{{--            $('#loginput').hide();--}}
+{{--            $('#brokerinput').show();--}}
+{{--        }--}}
+{{--    });--}}
+{{--</script>--}}
 
 @endsection
