@@ -74,7 +74,7 @@
 {{--                                            <i class="fal fa-pen"></i>--}}
 {{--                                        </a>--}}
 {{--                                    @endcan--}}
-                                    @can('delete', $transaction)
+                                    @can(auth()->user()->isDeveloper())
                                         <a href="{{route('transactions.destroy', $transaction)}}" delete data-name="{{$transaction->getAttribute('name')}}" class="btn btn-sm btn-outline-danger" >
                                             <i class="fal fa-trash"></i>
                                         </a>
