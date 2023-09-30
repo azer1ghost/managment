@@ -33,17 +33,17 @@ class CreditorsExport implements  WithHeadings, FromCollection
     {
         return [
             $row->id,
-            optional($row->getParameter('supplier_id'))->getAttribute('name') ?? '',
-            optional(optional($row->getRelationValue('company_id'))->getAttribute('name')) ?? '',
-            optional($row->getParameter('amount'))->getAttribute('value') ?? 0,
-            optional($row->getParameter('paid'))->getAttribute('value') ?? 0,
-            optional($row->getParameter('vat'))->getAttribute('value') ?? 0,
-            optional($row->getParameter('vat_paid'))->getAttribute('value') ?? 0,
-            optional($row->getParameter('status'))->getAttribute('name') ?? '',
-            optional($row->getParameter('overhead'))->getAttribute('value') ?? 0,
-            optional($row->getParameter('overhead_at'))->getAttribute('value') ?? '',
-            optional($row->getParameter('note'))->getAttribute('text') ?? '',
-            $row->getAttribute('created_at'),
+            optional($row)->getSupplierName() ?? '',
+            $row->getRelationValue('company')->getAttribute('name'),
+            optional($row)->getAttribute('amount') ?? 0,
+            optional($row)->getAttribute('vat') ?? 0,
+            optional($row)->getAttribute('paid') ?? 0,
+            optional($row)->getAttribute('vat_paid') ?? 0,
+            trans('translates.creditors.statuses.'.$row->getAttribute('status')),
+            optional($row->getAttribute('overhead')),
+            optional($row->getAttribute('overhead_at')),
+            $row->getAttribute('overhead_at'),
+            $row->getAttribute('note'),
         ];
     }
 }
