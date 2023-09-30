@@ -33,7 +33,7 @@ class CreditorsExport implements  WithHeadings, FromCollection
     {
         return [
             $row->id,
-            optional($row)->getSupplierName() ?? '',
+            $row->getSupplierName(),
             $row->getRelationValue('company')->getAttribute('name'),
             optional($row)->getAttribute('amount') ?? 0,
             optional($row)->getAttribute('vat') ?? 0,
