@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Exports\CreditorsExport;
+use App\Exports\WorksExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreditorRequest;
 use App\Interfaces\CreditorRepositoryInterface;
@@ -11,7 +12,6 @@ use App\Models\Creditor;
 use App\Models\Supplier;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Excel;
 
 class CreditorController extends Controller
 {
@@ -22,6 +22,12 @@ class CreditorController extends Controller
         $this->middleware('auth');
         $this->authorizeResource(Creditor::class, 'creditor');
         $this->creditorRepository = $creditorRepository;
+    }
+    public function export(Request $request)
+    {
+        $filters = json_decode($request->get('filters'), true);
+
+        return (new CreditorsExport($this->creditorRepository, $filters))->download('creditors.xlsx');
     }
 
     public function index(Request $request)
@@ -152,8 +158,5 @@ class CreditorController extends Controller
         Transaction::addTransaction(auth()->id(), 0, $request->get('paid') + $request->get('vat_paid'), $creditor->company_id, '', null, 'Creditor', 0, '', $note);
         return back();
     }
-    public function export()
-    {
-        return \Excel::download(new CreditorsExport(), 'creditors.xlsx');
-    }
+
 }

@@ -2,12 +2,27 @@
 
 namespace App\Exports;
 
-use App\Models\Creditor;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use App\Interfaces\CreditorRepositoryInterface;
+use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
 
-class CreditorsExport implements  WithHeadings, FromCollection
+class CreditorsExport implements  FromQuery, WithMapping, WithHeadings, ShouldAutoSize
 {
+    use Exportable;
+
+    protected array $filters = [];
+
+    protected CreditorRepositoryInterface $creditorRepository;
+
+    public function __construct(CreditorRepositoryInterface $creditorRepository, array $filters = [] )
+    {
+        $this->filters = $filters;
+        $this->creditorRepository = $creditorRepository;
+    }
+
     public function headings(): array
     {
         return [
@@ -16,8 +31,8 @@ class CreditorsExport implements  WithHeadings, FromCollection
             'Şirkət',
             'Məbləğ',
             'Ədv',
-            'Əsas Məbləğ Ödəniş tarixi',
-            'Ədv ödəniş tarixi',
+            'Əsas Məbləğ Ödəniş',
+            'Ədv Ödəniş',
             'Status',
             'Qaime',
             'Qaime Tarixi',
@@ -25,26 +40,26 @@ class CreditorsExport implements  WithHeadings, FromCollection
         ];
     }
 
-    public function collection()
-    {
-        return Creditor::get(['id', 'supplier_id', 'company_id', 'amount', 'paid', 'vat', 'vat_paid', 'status', 'overhead', 'overhead_at', 'note']);
-    }
+
     public function map($row): array
     {
         return [
             $row->id,
             $row->getSupplierName(),
             $row->getRelationValue('company')->getAttribute('name'),
-            optional($row)->getAttribute('amount') ?? 0,
-            optional($row)->getAttribute('vat') ?? 0,
-            optional($row)->getAttribute('paid') ?? 0,
-            optional($row)->getAttribute('vat_paid') ?? 0,
+            $row->getAttribute('amount'),
+            $row->getAttribute('vat'),
+            $row->getAttribute('paid'),
+            $row->getAttribute('vat_paid'),
             trans('translates.creditors.statuses.'.$row->getAttribute('status')),
-            optional($row->getAttribute('overhead')),
-            optional($row->getAttribute('overhead_at')),
+            $row->getAttribute('overhead'),
             $row->getAttribute('overhead_at'),
             $row->getAttribute('note'),
         ];
+    }
+    public function query()
+    {
+        return $this->creditorRepository->allFilteredCreditors($this->filters);
     }
 }
 
