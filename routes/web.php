@@ -160,8 +160,8 @@ Route::group([
     Route::resource('/calendars', CalendarController::class)->except('show', 'create', 'edit');
     Route::resource('/parameters', ParameterController::class);
     Route::resource('/options', OptionController::class);
-    Route::resource('/users', UserController::class);
     Route::post('/sortable-user', [UserController::class, 'sortable'])->name('user.sortable');
+    Route::resource('/users', UserController::class);
     Route::post('/update-monthly-values', [UserController::class, 'updateMonthlyValues'])->name('updateMonthlyValues');
     Route::resource('/roles', RoleController::class);
     Route::resource('/departments', DepartmentController::class);
