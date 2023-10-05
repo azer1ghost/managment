@@ -27,9 +27,9 @@ class TransactionController extends Controller
         ];
         $transactions = Transaction::paginate($limit);
         return view('pages.transactions.index')->with([
-            'companies' => Company::orderByDesc('id')->get(['id', 'name', 'logo']),
+            'companies' => Company::get(['id', 'name', 'logo']),
             'filters' => $filters,
-            'transactions' => $transactions,
+            'transactions' => $transactions->orderByDesc('id'),
         ]);
     }
 
