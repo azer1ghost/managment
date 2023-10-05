@@ -89,62 +89,62 @@
                     </thead>
                     <tbody id="sortableUser">
 
-                    @forelse($users as $user)
-                        @php
-                            $gross = 0;
-                            $net = 0;
-                            $totalgb = 0;
-                          $totalqib = 0;
-                          $totalrepresentation = 0;
-                          $totalcmr = 0;
-                          $totalbranchgb = 0;
-                          $totalbranchqib = 0;
+{{--                    @forelse($users as $user)--}}
+{{--                        @php--}}
+{{--                            $gross = 0;--}}
+{{--                            $net = 0;--}}
+{{--                            $totalgb = 0;--}}
+{{--                          $totalqib = 0;--}}
+{{--                          $totalrepresentation = 0;--}}
+{{--                          $totalcmr = 0;--}}
+{{--                          $totalbranchgb = 0;--}}
+{{--                          $totalbranchqib = 0;--}}
 
-                          $works = \App\Models\Work::where('user_id', $user->id)
-                              ->whereDate('created_at', '>=', now()->startOfMonth())
-                              ->get();
-                         $branchWorks = \App\Models\Work::where('department_id' ,$user->department_id)
-                                    ->whereDate('created_at', '>=', now()->startOfMonth())
-                                    ->get();
+{{--                          $works = \App\Models\Work::where('user_id', $user->id)--}}
+{{--                              ->whereDate('created_at', '>=', now()->startOfMonth())--}}
+{{--                              ->get();--}}
+{{--                         $branchWorks = \App\Models\Work::where('department_id' ,$user->department_id)--}}
+{{--                                    ->whereDate('created_at', '>=', now()->startOfMonth())--}}
+{{--                                    ->get();--}}
 
-                          $gb = $works->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48]);
-                          $qib = $works->where('service_id', 2);
-                          $representation = $works->where('service_id', 5);
-                          $cmr = $works->whereIn('service_id', [3,4,7]);
-                          $branchGb = $branchWorks->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48]);
-                          $branchQib = $branchWorks->where('service_id', 2);
+{{--                          $gb = $works->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48]);--}}
+{{--                          $qib = $works->where('service_id', 2);--}}
+{{--                          $representation = $works->where('service_id', 5);--}}
+{{--                          $cmr = $works->whereIn('service_id', [3,4,7]);--}}
+{{--                          $branchGb = $branchWorks->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48]);--}}
+{{--                          $branchQib = $branchWorks->where('service_id', 2);--}}
 
-                          foreach ($gb as $work) {
-                              $totalgb += $work->getParameter(\App\Models\Work::GB);
-                          }
+{{--                          foreach ($gb as $work) {--}}
+{{--                              $totalgb += $work->getParameter(\App\Models\Work::GB);--}}
+{{--                          }--}}
 
-                          foreach ($qib as $work) {
-                              $totalqib += $work->getParameter(\App\Models\Work::GB);
-                          }
-                          foreach ($representation as $work) {
-                              $totalrepresentation += $work->getParameter(\App\Models\Work::AMOUNT) + $work->getParameter(\App\Models\Work::ILLEGALAMOUNT);
-                          }
-                          foreach ($cmr as $work) {
-                              $totalcmr += $work->getParameter(\App\Models\Work::AMOUNT) + $work->getParameter(\App\Models\Work::ILLEGALAMOUNT);
-                          }
-                          foreach ($branchGb as $work) {
-                              $totalbranchgb += $work->getParameter(\App\Models\Work::GB);
-                          }
-                          foreach ($branchQib as $work) {
-                              $totalbranchqib += $work->getParameter(\App\Models\Work::GB);
-                          }
-                        if(in_array($user->getAttribute('id'), [41, 75, 51])) {
-                            $gross = $user->bonus + $user->gross + ($totalgb * $user->coefficient) + ($totalqib * $user->qib_coefficient) + ($totalrepresentation * 0.2) + ($totalcmr * 0.1) + ($totalbranchgb * 0.4) + ($totalbranchqib * 0.2);
-                            }else {
-                            $gross = $user->bonus + $user->gross + ($totalgb * $user->coefficient) + ($totalqib * $user->qib_coefficient) + ($totalrepresentation * 0.2) + ($totalcmr * 0.1);
-                            }
-                             if($gross  <= 200){
-                                $net = $gross - ($gross * 0.03) - ($gross * 0.005) - ($gross * 0.02);
-                               }
-                            else{
-                               $net = $gross - (6 + (($gross -200)  * 0.1)) - ($gross * 0.005) - ($gross * 0.02);
-                            }
-                        @endphp
+{{--                          foreach ($qib as $work) {--}}
+{{--                              $totalqib += $work->getParameter(\App\Models\Work::GB);--}}
+{{--                          }--}}
+{{--                          foreach ($representation as $work) {--}}
+{{--                              $totalrepresentation += $work->getParameter(\App\Models\Work::AMOUNT) + $work->getParameter(\App\Models\Work::ILLEGALAMOUNT);--}}
+{{--                          }--}}
+{{--                          foreach ($cmr as $work) {--}}
+{{--                              $totalcmr += $work->getParameter(\App\Models\Work::AMOUNT) + $work->getParameter(\App\Models\Work::ILLEGALAMOUNT);--}}
+{{--                          }--}}
+{{--                          foreach ($branchGb as $work) {--}}
+{{--                              $totalbranchgb += $work->getParameter(\App\Models\Work::GB);--}}
+{{--                          }--}}
+{{--                          foreach ($branchQib as $work) {--}}
+{{--                              $totalbranchqib += $work->getParameter(\App\Models\Work::GB);--}}
+{{--                          }--}}
+{{--                        if(in_array($user->getAttribute('id'), [41, 75, 51])) {--}}
+{{--                            $gross = $user->bonus + $user->gross + ($totalgb * $user->coefficient) + ($totalqib * $user->qib_coefficient) + ($totalrepresentation * 0.2) + ($totalcmr * 0.1) + ($totalbranchgb * 0.4) + ($totalbranchqib * 0.2);--}}
+{{--                            }else {--}}
+{{--                            $gross = $user->bonus + $user->gross + ($totalgb * $user->coefficient) + ($totalqib * $user->qib_coefficient) + ($totalrepresentation * 0.2) + ($totalcmr * 0.1);--}}
+{{--                            }--}}
+{{--                             if($gross  <= 200){--}}
+{{--                                $net = $gross - ($gross * 0.03) - ($gross * 0.005) - ($gross * 0.02);--}}
+{{--                               }--}}
+{{--                            else{--}}
+{{--                               $net = $gross - (6 + (($gross -200)  * 0.1)) - ($gross * 0.005) - ($gross * 0.02);--}}
+{{--                            }--}}
+{{--                        @endphp--}}
                         <tr id="item-{{$user->getAttribute('id')}}">
                             <th>{{$user->getAttribute('id')}}</th>
                             <th scope="row"><img src="{{image($user->getAttribute('avatar'))}}" alt="user" class="profile sortable" /></th>
@@ -159,8 +159,8 @@
                             <td>{{$user->getRelationValue('department')->getAttribute('name')}}</td>
                             <td>{{$user->getAttribute('started_at')}}</td>
                             <td>{{$user->getRelationValue('role')->getAttribute('name')}}</td>
-                            <td>{{$gross}}</td>
-                            <td>{{$net}}</td>
+{{--                            <td>{{$gross}}</td>--}}
+{{--                            <td>{{$net}}</td>--}}
                             <td>
                                 <div class="btn-sm-group">
                                     <div class="dropdown">
