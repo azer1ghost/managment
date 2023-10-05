@@ -25,11 +25,11 @@ class TransactionController extends Controller
             'status' => $request->get('status'),
             'supplier' => $request->get('supplier_id'),
         ];
-        $transactions = Transaction::paginate($limit);
+        $transactions = Transaction::orderByDesc('id')->paginate($limit);
         return view('pages.transactions.index')->with([
             'companies' => Company::get(['id', 'name', 'logo']),
             'filters' => $filters,
-            'transactions' => $transactions->orderByDesc('id'),
+            'transactions' => $transactions,
         ]);
     }
 
