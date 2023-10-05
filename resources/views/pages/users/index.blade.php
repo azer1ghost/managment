@@ -89,7 +89,7 @@
                     </thead>
                     <tbody id="sortableUser">
 
-{{--                    @forelse($users as $user)--}}
+                    @forelse($users as $user)
 {{--                        @php--}}
 {{--                            $gross = 0;--}}
 {{--                            $net = 0;--}}
