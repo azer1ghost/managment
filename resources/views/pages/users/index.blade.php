@@ -82,8 +82,8 @@
                         <th scope="col">@lang('translates.columns.department')</th>
                         <th scope="col">@lang('translates.fields.work_started_at')</th>
                         <th scope="col">@lang('translates.columns.role')</th>
-                        <th scope="col">Gross</th>
-                        <th scope="col">Net</th>
+{{--                        <th scope="col">Gross</th>--}}
+{{--                        <th scope="col">Net</th>--}}
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
                     </thead>
