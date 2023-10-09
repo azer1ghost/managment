@@ -8,7 +8,12 @@
                             <div class="col-md-12 col-xl-2 d-flex flex-column justify-content-start">
                                 <div class="ml-xl-4 mt-3">
                                     <p class="card-title">Xidmətlər</p>
-                                    <h1 class="text-primary">{{\App\Models\Work::count()}}</h1>
+                                    @if(in_array(auth()->user()->company_id , [1,2,3,4,6,10,11,12,14,15,16]) )
+                                        <h1 class="text-primary">{{\App\Models\Work::count()}}</h1>
+                                    @else
+                                        <h1 class="text-primary">#</h1>
+                                    @endif
+
                                     <h3 class="font-weight-500 mb-xl-4 text-primary">{{$widget->details}}</h3>
                                     <p class="mb-2 mb-xl-0">Daha ətraflı məlumat üçün <a href="{{ route('works.index') }}" class="text-primary">işlər</a> bölməsindən xidmətlər haqqında məlumat ala bilərsiniz</p>
                                 </div>
@@ -19,15 +24,27 @@
                                         <div class="table-responsive mb-3 mb-md-0 mt-3">
                                             <table class="table table-borderless report-table">
                                                 @foreach($services as $service)
+                                                    @if(in_array(auth()->user()->company_id , [1,2,3,4,6,10,11,12,14,15,16]) )
                                                     <tr>
                                                         <td class="text-muted w-50">{{$service->getAttribute('name')}}</td>
                                                         <td class="w-100 px-0">
-                                                            <div class="progress progress-md mx-4">
-                                                                <div class="progress-bar" role="progressbar" style="width: {{$service->getAttribute('works_count') / \App\Models\Work::count() * 100}}%;background-color: {{rand_color()}}!important;"></div>
-                                                            </div>
+                                                                <div class="progress progress-md mx-4">
+                                                                    <div class="progress-bar" role="progressbar" style="width: {{$service->getAttribute('works_count') / \App\Models\Work::count() * 100}}%;background-color: {{rand_color()}}!important;"></div>
+                                                                </div>
                                                         </td>
                                                         <td><h5 class="font-weight-bold mb-0">{{$service->getAttribute('works_count')}}</h5></td>
                                                     </tr>
+                                                    @else
+                                                        <tr>
+                                                            <td class="text-muted w-50">TEST</td>
+                                                            <td class="w-100 px-0">
+                                                                <div class="progress progress-md mx-4">
+                                                                    <div class="progress-bar" role="progressbar" style="width: 0;background-color: {{rand_color()}}!important;"></div>
+                                                                </div>
+                                                            </td>
+                                                            <td><h5 class="font-weight-bold mb-0">#</h5></td>
+                                                        </tr>
+                                                    @endif
                                                 @endforeach
                                             </table>
                                         </div>
