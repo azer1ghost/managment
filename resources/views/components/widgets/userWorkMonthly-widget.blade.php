@@ -12,6 +12,7 @@
                     <div class="col-md-12 border-right" style="overflow-y: scroll; height: 300px">
                         <div class="table-responsive mb-3 mb-md-0 mt-3">
                             <table class="table table-borderless report-table">
+                                @if(in_array(auth()->user()->company_id , [1,2,3,4,6,10,11,12,14,15,16]) )
                                 @foreach($works as $work)
                                     <tr>
                                         <td class="text-dark bold">{{$work->name . ' ' .$work->surname}}</td>
@@ -27,6 +28,23 @@
                                         <td><h5 class="font-weight-bold mb-0">{{$work->total_value}}</h5></td>
                                     </tr>
                                 @endforeach
+                                @else
+                                    @foreach($works as $work)
+                                        <tr>
+                                            <td class="text-dark bold">TEST</td>
+                                            <td class="w-75 px-0">
+                                                <div class="progress progress-md mx-4">
+                                                    <div class="progress-bar"
+                                                         style="width: {{15 / 725 * 100}}%;
+                                                     background-color: {{rand_color()}}!important;"
+                                                         role="progressbar">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td><h5 class="font-weight-bold mb-0">{{$work->total_value}}</h5></td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             </table>
                         </div>
                     </div>
