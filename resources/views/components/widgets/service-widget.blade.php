@@ -72,24 +72,28 @@
 <script>
     window.onload = function () {
 
+        var companyId = {{$authUser->company_id}};
+        var chartData = @json($works);
+
+        for (var i = 0; i < chartData.length; i++) {
+            if (companyId === 17) {
+                chartData[i].y = "#";
+            }
+        }
+
         var chart = new CanvasJS.Chart("{{$widget->key}}", {
             animationEnabled: true,
             title: {
                 {{--text: '@lang('translates.navbar.services')',--}}
                 horizontalAlign: "left"
             },
-
             data: [{
                 type: "doughnut",
                 startAngle: 20,
-
-                // showInLegend: "true",
-                // legendText: "{label}",
-
                 indexLabelFontSize: 12,
                 indexLabel: "{label} - #percent%",
                 toolTipContent: "<b>{label}:</b> {y} (#percent%)",
-                dataPoints: @json($works)
+                dataPoints: chartData
             }]
         });
         chart.render();
