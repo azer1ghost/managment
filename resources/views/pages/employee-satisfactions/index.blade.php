@@ -62,7 +62,9 @@
                     <th scope="col">@lang('translates.fields.user')</th>
                     <th scope="col">@lang('translates.columns.type')</th>
                     <th scope="col">@lang('translates.fields.note')</th>
-                    <th scope="col">Məzmun</th>
+                    @if(in_array(auth()->user()->id, [123, 15, 17, 78, 26]))
+                        <th scope="col">Məzmun</th>
+                    @endif
                     <th scope="col">@lang('translates.employee_satisfactions.result')</th>
                     <th scope="col">@lang('translates.columns.status')</th>
                     <th scope="col">@lang('translates.employee_satisfactions.effectivity')</th>
@@ -82,11 +84,13 @@
                         </td>
                         <td> @lang('translates.employee_satisfactions.types.' . $employeeSatisfaction->getAttribute('type'))</td>
                         <td>{{$employeeSatisfaction->getAttribute('note')}}</td>
+                        @if(in_array(auth()->user()->id, [123, 15, 17, 78, 26]))
                             <?php
                             $content = $employeeSatisfaction->getAttribute('content');
                             $cleanedContent = strip_tags($content);
                             ?>
                         <td>{{ $cleanedContent }}</td>
+                        @endif
                         <td>{{$employeeSatisfaction->getAttribute('result')}}</td>
                         @php($status = $employeeSatisfaction->getAttribute('status') ?? 1)
                         <td>  @lang('translates.employee_satisfactions.statuses.' . $status)</td>
