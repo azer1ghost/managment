@@ -70,6 +70,9 @@
 </div>
 
 <script>
+    @php
+        $authUser = auth()->user();
+    @endphp
     window.onload = function () {
 
         var companyId = {{$authUser->company_id}};
