@@ -136,8 +136,8 @@ class UserController extends Controller
         $totalbranchgb = 0;
         $totalbranchqib = 0;
 
-        $startOfMonth = now()->setMonth(8)->startOfMonth();
-        $endOfMonth = now()->setMonth(8)->endOfMonth();
+        $startOfMonth = now()->setMonth(10)->startOfMonth();
+        $endOfMonth = now()->setMonth(10)->endOfMonth();
 
 //        $startOfMonth = now()->startOfMonth();
 //        $endOfMonth = now()->endOfMonth();
