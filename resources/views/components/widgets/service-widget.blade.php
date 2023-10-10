@@ -80,7 +80,7 @@
 
         for (var i = 0; i < chartData.length; i++) {
             if (companyId === 17) {
-                chartData[i].y = "#";
+                chartData[i].y = "15";
             }
         }
 
