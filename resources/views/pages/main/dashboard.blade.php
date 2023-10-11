@@ -70,17 +70,59 @@
 
         <div class="col-md-6 grid-margin transparent">
             <div class="row">
-                @foreach($statistics as $stat)
-                    <div class="col-md-6 {{$stat['class'] ?? ''}} mb-4 stretch-card transparent">
-                        <div class="card card-{{$stat['color'] ?? ''}}">
-                            <div class="card-body">
-                                <p class="mb-4">{{$stat['title'] ?? ''}}</p>
-                                <p class="fs-30 mb-2">{{$stat['data']['total'] ?? 0}}</p>
-                                <p>{{$stat['data']['percentage'] ?? 0}}% ( {{$stat['data']['text'] ?? ''}} )</p>
+                @if(in_array(auth()->user()->company_id , [1,2,3,4,6,10,11,12,14,15,16]) )
+                    @foreach($statistics as $stat)
+                        <div class="col-md-6 {{$stat['class'] ?? ''}} mb-4 stretch-card transparent">
+                            <div class="card card-{{$stat['color'] ?? ''}}">
+                                <div class="card-body">
+                                    <p class="mb-4">{{$stat['title'] ?? ''}}</p>
+                                    <p class="fs-30 mb-2">{{$stat['data']['total'] ?? 0}}</p>
+                                    <p>{{$stat['data']['percentage'] ?? 0}}% ( {{$stat['data']['text'] ?? ''}} )</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                @else
+
+                        <div class="col-md-6 dark-blue mb-4 stretch-card transparent">
+                            <div class="card card-dark-blue">
+                                <div class="card-body">
+                                    <p class="mb-4">TEST</p>
+                                    <p class="fs-30 mb-2">15</p>
+                                    <p>15% ( TEST )</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 dark-blue mb-4 stretch-card transparent">
+                            <div class="card card-dark-blue">
+                                <div class="card-body">
+                                    <p class="mb-4">TEST</p>
+                                    <p class="fs-30 mb-2">20</p>
+                                    <p>20% ( TEST )</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 dark-blue mb-4 stretch-card transparent">
+                            <div class="card card-dark-blue">
+                                <div class="card-body">
+                                    <p class="mb-4">TEST</p>
+                                    <p class="fs-30 mb-2">20</p>
+                                    <p>20% ( TEST )</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 dark-blue mb-4 stretch-card transparent">
+                            <div class="card card-dark-blue">
+                                <div class="card-body">
+                                    <p class="mb-4">TEST</p>
+                                    <p class="fs-30 mb-2">500</p>
+                                    <p>500% ( TEST )</p>
+                                </div>
+                            </div>
+                        </div>
+
+                @endif
+
             </div>
             @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES)
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
