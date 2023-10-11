@@ -20,6 +20,7 @@ class Department extends Model implements Recordable
     const SALES  = 7;
     const COORDINATOR  = 22;
     const CALL_CENTER = 2;
+    const TEST = 28;
 
     protected $fillable = ['name', 'status', 'short_name', 'permissions', 'ordering'];
 

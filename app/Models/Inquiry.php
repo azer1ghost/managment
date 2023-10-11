@@ -80,6 +80,10 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
     {
         return $query->whereDepartmentId(Department::SALES);
     }
+    public function scopeIsTest($query)
+    {
+        return $query->whereDepartmentId(Department::TEST);
+    }
 
     public function scopeMonthly($query)
     {
