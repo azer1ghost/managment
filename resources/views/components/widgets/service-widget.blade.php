@@ -35,6 +35,7 @@
                                                         <td><h5 class="font-weight-bold mb-0">{{$service->getAttribute('works_count')}}</h5></td>
                                                     </tr>
                                                     @else
+
                                                         <tr>
                                                             <td class="text-muted w-50">TEST</td>
                                                             <td class="w-100 px-0">
