@@ -83,7 +83,6 @@
                         </div>
                     @endforeach
                 @else
-
                         <div class="col-md-6 dark-blue mb-4 stretch-card transparent">
                             <div class="card card-dark-blue">
                                 <div class="card-body">
