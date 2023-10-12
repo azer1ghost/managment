@@ -43,7 +43,7 @@ class InquiriesExport implements FromCollection, WithHeadings, WithMapping
             optional($row->getParameter('fullname'))->getAttribute('value'),
             optional($row->getParameter('phone'))->getAttribute('value'),
             optional($row->getParameter('email'))->getAttribute('value'),
-            optional($row->getParameter('subject'))->getAttribute('value'),
+            optional($row->getParameter('subject'))->getAttribute('text'),
             $row->getRelationValue('company')->getAttribute('name'),
             optional($row->getParameter('contact_method'))->getAttribute('text'),
             optional($row->getParameter('source'))->getAttribute('text'),
