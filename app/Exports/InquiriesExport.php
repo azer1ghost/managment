@@ -31,6 +31,7 @@ class InquiriesExport implements FromCollection, WithHeadings, WithMapping
             'Channel',
             'Source',
             'Status',
+            'Note',
             'Date',
         ];
     }
