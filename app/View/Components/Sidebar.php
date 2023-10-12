@@ -57,12 +57,11 @@ class Sidebar extends Component
 
                 ]
             ],
-
             (object)[
                 'title' => __('translates.navbar.structure'),
                 'icon' => 'fad fa-chart-network',
                 'url' => '#',
-                'permission' => 'generally',
+                'permission' => 'structure',
                 'children' => [
                     (object)[
                         'title' => __('translates.navbar.structure'),

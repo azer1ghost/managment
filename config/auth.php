@@ -20,6 +20,7 @@ return [
 
     'permissions' => [
         'generally',
+        'structure',
         'signature',
         'department-chief',
         'viewAny-log',
