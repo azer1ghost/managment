@@ -480,7 +480,7 @@ class Sidebar extends Component
                 'title' => __('translates.navbar.employee_satisfaction'),
                 'icon' => 'fal fa-user-shield',
                 'url' => route('employee-satisfaction.index'),
-                'permission' => 'generally',
+                'permission' => 'viewAny-internalNumber',
             ],
             (object)[
                 'title' => __('translates.navbar.customer-satisfaction'),
