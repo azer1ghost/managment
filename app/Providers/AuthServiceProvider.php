@@ -40,5 +40,6 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('generally', fn() => true);
         Gate::define('signature', fn() => true);
+        Gate::define('structure', fn() => true);
     }
 }
