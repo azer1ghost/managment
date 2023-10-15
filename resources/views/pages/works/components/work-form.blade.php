@@ -273,12 +273,12 @@
     @endif
 </form>
 
-{{--@if(!is_null($data))--}}
-{{--    <div class="col-12">--}}
-{{--        <x-documents :documents="$data->documents"/>--}}
-{{--        <x-document-upload :id="$data->id" model="Work"/>--}}
-{{--    </div>--}}
-{{--@endif--}}
+@if(!is_null($data))
+    <div class="col-12">
+        <x-documents :documents="$data->documents"/>
+        <x-document-upload :id="$data->id" model="Work"/>
+    </div>
+@endif
 
 @push('scripts')
     <script>
