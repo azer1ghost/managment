@@ -395,6 +395,9 @@
                                 case(7):
                                     $color = 'danger';
                                     break;
+                                case(8):
+                                    $color = 'secondary';
+                                    break;
                             }
                         @endphp
                     @endif
