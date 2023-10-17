@@ -71,7 +71,7 @@ class Work extends Model implements DocumentableInterface, Recordable
 
     protected $dates = ['datetime', 'verified_at', 'paid_at', 'vat_date', 'invoiced_date', 'entry_date', 'injected_at', 'returned_at'];
 
-    public function getMainColumn(): string
+    public function getMainColumn(): ?string
     {
         return $this->getRelationValue('department')->getAttribute('name');
     }
