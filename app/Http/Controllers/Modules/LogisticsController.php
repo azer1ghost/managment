@@ -75,6 +75,10 @@ class LogisticsController extends Controller
             $logistics = $logistics->whereBetween('paid_at', [Carbon::parse($paid_at_explode[0])->startOfDay(), Carbon::parse($paid_at_explode[1])->endOfDay()]);
         }
 
+        if (auth()->id() == 172) {
+            $logistics->where('user_id', auth()->id());
+        }
+
         $logistics = $logistics->paginate($limit);
 
         return view('pages.logistics.index',

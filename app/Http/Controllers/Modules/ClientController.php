@@ -86,6 +86,10 @@ class ClientController extends Controller
             'reference' => User::get(['id', 'name', 'surname']),
         ];
         $clients = $this->clientRepository->allFilteredClients($filters)->latest();
+        if (auth()->id() == 172) {
+            $clients->where('user_id', auth()->id());
+        }
+
         if(is_numeric($filters['limit'])) {
             $clients = $clients->paginate($filters['limit']);
         }else {

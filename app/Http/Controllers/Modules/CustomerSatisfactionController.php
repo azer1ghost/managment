@@ -81,6 +81,11 @@ class CustomerSatisfactionController extends Controller
             })
             ->latest('id');
 
+
+        if (auth()->id() == 172) {
+            $customerSatisfactions->where('id', 67);
+        }
+
             $customerSatisfactions = $customerSatisfactions->paginate($limit);
 
         return view('pages.customer-satisfactions.index')
