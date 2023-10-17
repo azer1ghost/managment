@@ -743,6 +743,7 @@ return [
         'Returned',
         'Done',
         'Rejected',
+        'in the laboratory',
     ],
     'work_destination' => [
         1 => '14000 Aksizli mallar üzrə BGİ',

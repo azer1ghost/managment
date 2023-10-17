@@ -743,7 +743,8 @@ return [
         'Sistemə Vuruldu',
         'Geri Qaytarıldı',
         'Tamamlandı',
-        'Qəbul edilmyib',
+        'Qəbul edilməyib',
+        'Laboratoriyada',
     ],
 
     'work_destination' => [
