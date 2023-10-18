@@ -317,7 +317,7 @@
                     <tbody id="table-body">
                     @foreach(json_decode($data->getAttribute('services')) as $service)
                     <tr>
-                        <td class="tabelBorder">{{$service->input1}}</td>
+                        <td class="tabelBorder"  contenteditable="true" >{{$service->input1}}</td>
                         <td class="tabelBorder">Ədəd</td>
                         <td class="tabelBorder count count-{{$loop->iteration}}" contenteditable="true" data-row="{{$loop->iteration}}">{{$service->input3}}</td>
                         <td class="tabelBorder amount amount-{{$loop->iteration}}" contenteditable="true" data-row="{{$loop->iteration}}">{{$service->input4}}</td>
@@ -327,7 +327,8 @@
                     </tr>
                     @endforeach
                     <tr id="form-area">
-                        <td>
+                        <td id="loginput"><input type="text" class="form-control" id="input1l"></td>
+                        <td id="brokerinput">
                             <select id="input1" class="form-control">
                                 <option>Elektron GB-nin tərtib olunması xidməti</option>
                                 <option>Elektron Qısa İdxal GB-nin tərtib olunması xidməti</option>
@@ -607,7 +608,24 @@
     </div>
 @endsection
 @section('scripts')
+{{--    <script>--}}
+{{--        $(document).ready(function() {--}}
+{{--            $('#loginput').css('display', 'none');--}}
+{{--        });--}}
+{{--    </script>--}}
 
+    @if($company == 'logisticsKapital' || $company == 'logisticsRespublika')
+        <script>
+            // alert('asd')
+            $('#loginput').show();
+            $('#brokerinput').hide();
+        </script>
+    @else
+        <script>
+            $('#loginput').hide();
+            $('#brokerinput').show();
+        </script>
+    @endif
 <script>
     var checkbox = $('#imzala');
     var element = $('.imzalar');
@@ -662,11 +680,21 @@
 
     var savedRows = [];
     function addRow() {
-        var selectElement = $('#input1');
-        var selectedOption = selectElement.find('option:selected');
-        var input1 = selectedOption.text();
-        $('#input1l').html("");
+        // var selectElement = $('#input1');
+        // var selectedOption = selectElement.find('option:selected');
+        // var input1 = selectedOption.text();
+        // $('#input1l').html("");
 
+        var input1lValue = $('#input1l').val().trim();
+        var input1;
+        if (input1lValue === '') {
+            var selectElement = $('#input1');
+            var selectedOption = selectElement.find('option:selected');
+            input1 = selectedOption.text();
+            $('#input1l').html("");
+        } else {
+            input1lValue = $('#input1l').val();
+        }
         var tableBody = $('#table-body');
         var newRow = tableBody[0].insertRow(tableBody[0].rows.length - 5);
 
@@ -685,13 +713,22 @@
 
         cell12.textContent = newRow2.parentNode.rows.length - 3;
         cell13.textContent = newRow3.parentNode.rows.length - 3;
-        cell1.textContent = input1;
+        if (input1lValue === '') {
+            cell1.textContent = input1;
+        } else {
+            cell1.textContent = input1lValue;
+        }
         var cell2 = newRow.insertCell(1);
         var cell22 = newRow2.insertCell(1);
         var cell23 = newRow3.insertCell(1);
         cell2.textContent = "Ədəd";
-        cell22.textContent = input1;
-        cell23.textContent = input1;
+        if (input1lValue === '') {
+            cell22.textContent = input1;
+            cell23.textContent = input1;
+        } else {
+            cell22.textContent = input1lValue;
+            cell23.textContent = input1lValue;
+        }
         var cell3 = newRow.insertCell(2);
         var cell32 = newRow2.insertCell(2);
         var cell33 = newRow3.insertCell(2);
@@ -743,7 +780,7 @@
         });
         $(cell6).append(deleteButton);
         var newRowData = {
-            input1: input1,
+            input1: input1lValue === '' ? input1 : input1lValue,
             input3: input3,
             input4: input4
         };
@@ -784,7 +821,6 @@
             var newAmount = $(this).text();
             savedRows[iteration-1].input4 = newAmount
         });
-
 
     function deleteRow(button) {
         var row = $(button).closest('tr');
