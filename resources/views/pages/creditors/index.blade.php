@@ -128,6 +128,7 @@
                         <th scope="col">@lang('translates.columns.paid')</th>
                         <th scope="col">@lang('translates.columns.vat_paid')</th>
                         <th scope="col">Qalıq</th>
+                        <th scope="col">Qalıq edv</th>
                         <th scope="col">@lang('translates.columns.last_paid')</th>
                         <th scope="col">Qaimə</th>
                         <th scope="col">Qaimə yaranma tarixi</th>
