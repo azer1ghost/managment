@@ -127,6 +127,7 @@
                         <th scope="col">@lang('translates.columns.vat')</th>
                         <th scope="col">@lang('translates.columns.paid')</th>
                         <th scope="col">@lang('translates.columns.vat_paid')</th>
+                        <th scope="col">Qalıq</th>
                         <th scope="col">@lang('translates.columns.last_paid')</th>
                         <th scope="col">Qaimə</th>
                         <th scope="col">Qaimə yaranma tarixi</th>
@@ -149,6 +150,8 @@
                             >{{$creditor->getAttribute('vat')}}</td>
                             <td>{{$creditor->getAttribute('paid')}}</td>
                             <td>{{$creditor->getAttribute('vat_paid')}}</td>
+                            <td>{{$creditor->getAttribute('amount') - $creditor->getAttribute('paid')}}</td>
+                            <td>{{$creditor->getAttribute('vat') - $creditor->getAttribute('vat_paid')}}</td>
                             <td>{{$creditor->getAttribute('last_date')}}</td>
                             <td>{{$creditor->getAttribute('overhead')}}</td>
                             <td>{{$creditor->getAttribute('overhead_at')}}</td>
