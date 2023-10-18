@@ -406,16 +406,16 @@
                     </span>
                 </td>
                     <td>{{trans('translates.work_destination.' . $work->getAttribute('destination'))}}</td>
-{{--                    <td style="min-width: 130px">--}}
-{{--                        @php $supportedTypes = \App\Models\Document::supportedTypeIcons() @endphp--}}
-{{--                        @foreach($work->documents as $document)--}}
-{{--                            @php $type = $supportedTypes[$document->type] @endphp--}}
-{{--                            @php $route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document) @endphp--}}
-{{--                            <a href="{{$route}}" data-toggle="tooltip" title="{{$document->name}}" target="_blank" class="text-dark" style="word-break: break-word">--}}
-{{--                                <i class="fa fa-file-{{$type['icon']}} fa-2x text-{{$type['color']}}"></i>--}}
-{{--                            </a>--}}
-{{--                        @endforeach--}}
-{{--                    </td>--}}
+                    <td style="min-width: 130px">
+                        @php $supportedTypes = \App\Models\Document::supportedTypeIcons() @endphp
+                        @foreach($work->documents as $document)
+                            @php $type = $supportedTypes[$document->type] @endphp
+                            @php $route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document) @endphp
+                            <a href="{{$route}}" data-toggle="tooltip" title="{{$document->name}}" target="_blank" class="text-dark" style="word-break: break-word">
+                                <i class="fa fa-file-{{$type['icon']}} fa-2x text-{{$type['color']}}"></i>
+                            </a>
+                        @endforeach
+                    </td>
                     <td>{{$work->getParameter($work::GB)}}</td>
                     <td>{{$work->getParameter($work::CODE)}}</td>
                     <td>{{$work->getParameter($work::SERVICECOUNT)}}</td>
