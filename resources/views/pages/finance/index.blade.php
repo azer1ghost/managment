@@ -182,7 +182,6 @@
                                 <option>Təmsil etdiyi şəxsin etibarnaməsi əsasında yüklərin gömrük anbarından çıxarılması</option>
                                 <option>Gömrük rəsmiləşdirilməsinin həyata keçirilməsi zamanı gömrük məmuru ilə əlaqə yaradılması xidməti</option>
                             </select>
-
                         </td>
                         <td>Ədəd</td>
                         <td><input type="text" class="form-control" id="input3"></td>
