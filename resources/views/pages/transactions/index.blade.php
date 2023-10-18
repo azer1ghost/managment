@@ -74,11 +74,11 @@
 {{--                                            <i class="fal fa-pen"></i>--}}
 {{--                                        </a>--}}
 {{--                                    @endcan--}}
-                                    @can(auth()->user()->isDeveloper())
+                                    @if(auth()->user()->isDeveloper())
                                         <a href="{{route('transactions.destroy', $transaction)}}" delete data-name="{{$transaction->getAttribute('name')}}" class="btn btn-sm btn-outline-danger" >
                                             <i class="fal fa-trash"></i>
                                         </a>
-                                    @endcan
+                                    @endif
                                 </div>
                             </td>
                         </tr>
