@@ -169,7 +169,7 @@
                                 <option>Gömrük rəsmiləşdirilməsi üçün lazım olan sənədlərin hazırlanması</option>
                                 <option>Gömrük rəsmiləşdirilməsi üçün lazım olan sənədlərin çeşidlənməsi</option>
                                 <option>Təmsil etdiyi şəxsin tapşırığı əsasında yüklərin və nəqliyyat vasitələrinin tam gömrük rəsmiləşdirilməsi</option>
-                                <option>Təmsil etdiyi şəxsin tapşırığı əsasında nəqliyyat vasitələrinin tam gömrük rəsmiləşdirilməsi(Tranzit qeydiyyat nişanının alınması)</option>
+                                <option>Təmsil etdiyi şəxsin tapşırığı əsasında nəqliyyat vasitəsinin tam gömrük rəsmiləşdirilməsi(Tranzit qeydiyyat nişanının alınması)</option>
                                 <option>Gömrük rüsumlarının əvvəlcədən hesablanması</option>
                                 <option>Təmsilçilik xidməti</option>
                                 <option>Təmsilçilik (Sertifikatın alınması)</option>
