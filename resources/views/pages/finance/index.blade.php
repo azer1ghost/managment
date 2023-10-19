@@ -181,7 +181,9 @@
                                 <option>İnvoysun Hazırlanması</option>
                                 <option>Məktubların hazırlanması</option>
                                 <option>Təmsil etdiyi şəxsin etibarnaməsi əsasında yüklərin gömrük anbarından çıxarılması</option>
+                                <option>Təmsil etdiyi şəxsin tapşırığı əsasında nəqliyyat vasitəsinin çıxarılması</option>
                                 <option>Gömrük rəsmiləşdirilməsinin həyata keçirilməsi zamanı gömrük məmuru ilə əlaqə yaradılması xidməti</option>
+                                <option>Gömrük rəsmiləşdirilməsi üçün lazım olan sənədlərin yoxlanılması</option>
                             </select>
                         </td>
                         <td>Ədəd</td>
