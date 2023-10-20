@@ -85,7 +85,7 @@
  } else if ($company == 'tgroupKapital') {
      $companyName = "Tedora Group";
      $voen = "1008142601";
-     $hh = "AZ61AIIB400500F9443614259229";
+     $hh = "AZ06AIIB400500F9443614259229";
      $mh = "AZ37NABZ01350100000000001944";
      $bank = "KAPITAL BANK ASC KOB mərkəz filialı";
      $kod = "201412";

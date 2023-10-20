@@ -619,7 +619,7 @@
             } else if (company == 'tgroupKapital') {
                 var companyName = "\"TEDORA GROUP\" MMC";
                 var voen = "1008142601";
-                var hh = "AZ61AIIB400500F9443614259229";
+                var hh = "AZ06AIIB400500F9443614259229";
                 var mh = "AZ37NABZ01350100000000001944";
                 var bank = "Kapital Bank ASC KOB mərkəzi filialı";
                 var kod = "201412";
