@@ -37,9 +37,13 @@
                     <x-input::text name="vat" :label="trans('translates.columns.vat')" :value="$data->getAttribute('vat')" width="6" class="pr-2 vat" />
                     <x-input::text name="overhead" :value="$data->getAttribute('overhead')" :label="trans('translates.columns.overhead')" width="6" class="pr-3 creditor" />
                     <div class="form-group col-6">
+                        <div class="custom-control custom-switch mb-5">
+                            <input type="checkbox" name="doc" class="custom-control-input" id="doc" @if($data->getAttribute('doc')) checked @endif>
+                            <label class="custom-control-label" for="doc">Sənəd var</label>
+                        </div>
                         <label>@lang('translates.columns.status')</label>
                         <select name="status" class="form-control">
-                            @foreach($statuses as $status)
+                        @foreach($statuses as $status)
                                 <option value="{{$status}}" @if($data->getAttribute('status') == $status) selected @endif>{{trans('translates.creditors.statuses.'.$status)}}</option>
                             @endforeach
                         </select>
@@ -47,7 +51,6 @@
                     <x-input::date name="last_date" :label="trans('translates.columns.last_paid')" :value="$data->getAttribute('last_date')" width="6" class="pr-2" />
                     <x-input::date name="overhead_at" :label="trans('translates.columns.overhead_at')" :value="$data->getAttribute('overhead_at')" width="6" class="pr-2" />
                     <x-input::textarea name="note" :label="trans('translates.fields.note')" :value="$data->getAttribute('note')" width="6" class="pr-2" />
-                </div>
             </div>
         </div>
 

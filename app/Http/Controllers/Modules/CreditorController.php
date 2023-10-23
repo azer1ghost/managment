@@ -70,6 +70,8 @@ class CreditorController extends Controller
     public function store(CreditorRequest $request)
     {
         $creditor = Creditor::create($request->validated());
+        $validated['doc'] = $request->has('doc');
+        $validated = $request->validated();
 
         return redirect()
             ->route('creditors.edit', $creditor)
@@ -107,6 +109,7 @@ class CreditorController extends Controller
         if ($request->get('status') == 2 && $creditor->getAttribute('paid_at') == null) {
             $validated['paid_at'] = now();
         }
+        $validated['doc'] = $request->has('doc');
         $creditor->update($validated);
 
         return redirect()

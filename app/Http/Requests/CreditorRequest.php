@@ -15,6 +15,7 @@ class CreditorRequest extends FormRequest
             'overhead' => 'nullable|string',
             'creditor' => 'nullable|string',
             'amount' => 'nullable|string',
+//            'doc' => 'nullable|integer',
             'vat' => 'nullable|string',
             'status' => 'nullable|string',
             'note' => 'nullable|string',
