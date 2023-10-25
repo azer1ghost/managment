@@ -133,6 +133,7 @@
                         <th scope="col">Qaimə</th>
                         <th scope="col">Qaimə yaranma tarixi</th>
                         <th scope="col">@lang('translates.columns.status')</th>
+                        <th scope="col">@lang('translates.navbar.document')</th>
                         <th scope="col">@lang('translates.fields.note')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
@@ -158,6 +159,9 @@
                             <td>{{$creditor->getAttribute('overhead_at')}}</td>
                             <td>
                                 <span class="badge {{$creditor->getAttribute('status') == 1 ? 'badge-danger' : ($creditor->getAttribute('status') == 2 ? 'badge-success' : 'badge-warning')}}"> {{trans('translates.creditors.statuses.'.$creditor->getAttribute('status'))}}</span>
+                            </td>
+                            <td>
+                                <span class="badge {{$creditor->getAttribute('doc') == 0 ? 'badge-danger' : ($creditor->getAttribute('doc') == 1 ? 'badge-success' : 'badge-warning')}}"><i class="fas @if($creditor->getAttribute('doc') == 1) fa-check @else fa-times @endif"></i></span>
                             </td>
                             <td>{{$creditor->getAttribute('note')}}</td>
                                 <td>
