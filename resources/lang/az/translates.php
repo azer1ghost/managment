@@ -762,6 +762,7 @@ return [
         '17001 Xudafərin Gömrük Postu',
         '00905 Yevlax Gömrük Postu',
         '18000 Naxçıvan BGİ',
+        '00123 Bakı KOB g/p',
     ],
 
     'client_channels' => [
