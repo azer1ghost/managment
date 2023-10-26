@@ -1,0 +1,85 @@
+<?php
+
+namespace App\Http\Controllers\Modules;
+
+use App\Models\Folder;
+use App\Models\Position;
+use App\Http\{Controllers\Controller, Requests\ReturnWorkRequest};
+use App\Models\ReturnWork;
+use Illuminate\Http\Request;
+
+class ReturnWorkController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->authorizeResource(ReturnWork::class, 'returnWork');
+    }
+
+    public function index(Request $request)
+    {
+        $search = $request->get('search');
+
+        return view('pages.return-works.index')
+            ->with([
+                'returnWorks' => ReturnWork::when($search, fn ($query) => $query
+                    ->where('name', 'like', "%".$search."%"))
+                    ->paginate(25)
+            ]);
+    }
+
+    public function create()
+    {
+        return view('pages.return-works.edit')->with([
+            'action' => route('return-works.store'),
+            'method' => null,
+            'data' => new ReturnWork(),
+        ]);
+    }
+
+    public function store(ReturnWorkRequest $request)
+    {
+        $returnWork = ReturnWork::create($request->validated());
+
+        return redirect()
+            ->route('return-works.index')
+            ->withNotify('success', $returnWork->getAttribute('name'));
+    }
+
+    public function show(ReturnWork $returnWork)
+    {
+        return view('pages.return-works.edit')->with([
+            'action' => null,
+            'method' => null,
+            'data' => $returnWork,
+        ]);
+    }
+
+    public function edit(ReturnWork $returnWork)
+    {
+        return view('pages.return-works.edit')->with([
+            'action' => route('return-works.update', $returnWork),
+            'method' => 'PUT',
+            'data' => $returnWork,
+        ]);
+    }
+
+    public function update(ReturnWorkRequest $request, ReturnWork $returnWork)
+    {
+        $returnWork->sync($request->get('name'));
+
+
+        return redirect()
+            ->route('return-works.edit', $returnWork)
+            ->withNotify('success', $returnWork->getAttribute('name'));
+    }
+
+    public function destroy(ReturnWork $returnWork)
+    {
+        if ($returnWork->delete()) {
+            return response('OK');
+        }
+        return response()->setStatusCode('204');
+    }
+
+}

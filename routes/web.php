@@ -55,6 +55,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\RegistrationLogController,
     Modules\ReportController,
     Modules\ResultController,
+    Modules\ReturnWorkController,
     Modules\RoleController,
     Modules\RoomController,
     Modules\SalesActivityController,
@@ -284,6 +285,7 @@ Route::group([
     Route::view('/presentations','pages.instructions.presentations' )->name('presentations');
     Route::view('/structure','pages.instructions.structure' )->name('structure');
     Route::view('/necessary','pages.instructions.necessary' )->name('necessary');
+    Route::resource('/return-works', ReturnWorkController::class );
     Route::resource('/statements', StatementController::class);
     Route::resource('/transactions', TransactionController::class);
     Route::put('employee-satisfaction/addNote', [EmployeeSatisfactionController::class, 'addNote'])->name('addNote');
