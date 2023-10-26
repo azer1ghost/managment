@@ -20,36 +20,36 @@
             <div class="card-body">
                 <h5 class="card-title"></h5>
                 <ol>
-                    <li class="card-text">CMR
+                    <li class="card-text">CMR - Nəqliyyat Sənədi.
                     </li>
-                    <li class="card-text">İNVOİCE
+                    <li class="card-text">İNVOİCE - Hesab Faktura
                     </li>
-                    <li class="card-text">PACKİNG LİST
+                    <li class="card-text">PACKİNG LİST - Çəki Listi sənədi.
                     </li>
-                    <li class="card-text">MƏNSƏ SERTİFİKATİ
+                    <li class="card-text">MƏNŞƏ SERTİFİKATİ
                     </li>
-                    <li class="card-text">EXPORT
+                    <li class="card-text">EXPORT Bəyənnaməsi- İxrac Bəyənnaməsi
                     </li>
                     <li class="card-text">PROFORMA İNVOİCE
                     </li>
                     <li class="card-text">YOL PULU (ÇATDIRILMA ŞƏRTİNI UYĞUN OLARAQ)
                     </li>
-                    <li class="card-text">XARİCİ MUQAVİLƏ VƏ PİN KOD
+                    <li class="card-text">XARİCİ MÜQAVİLƏ VƏ PİN KOD(Gömrük Kodu və yaxud Customs Code)
                     </li>
-                    <li class="card-text">MÜQAVİLƏYƏ ƏLAVƏ VARSA ONU VƏ PİN KODU
+                    <li class="card-text">MÜQAVİLƏYƏ ƏLAVƏ VARSA ONU VƏ PİN KODU(Gömrük kodu və yaxud Customs Code)
                     </li>
-                    <li class="card-text">TƏMSİLÇİLİK MÜQAVİLƏSİ
+                    <li class="card-text">TƏMSİLÇİLİK MÜQAVİLƏSİ - Bizimlə Müştəri arasındakı müqavilə.
                     </li>
-                    <li class="card-text">ÖDƏNİŞ OLUNUBSA SWİFT
+                    <li class="card-text">ÖDƏNİŞ OLUNUBSA SWİFT( Ödəniş tapşırığı)
                     </li>
-                    <li class="card-text">YÜKLƏMƏ BOŞALTMA YERİ
+                    <li class="card-text">YÜKÜN BOŞALTMA YERİ, ÜNVANI
                     </li>
                     <li class="card-text">ƏGƏR YENİ MÜŞTƏRİDİRSƏ BANK REKVİZİTLƏRİ, ÇİXARIŞ, ANBAR ÜNVANİNİN
                         DƏQİQLEŞDİRİLMƏSİ İLƏ BAĞLİ ANBAR KODU SƏNƏDİ
                     </li>
-                    <li class="card-text">YÜKÜ ÇİXARAN ŞƏXS ÜÇÜN ETİBARNAMƏ
+                    <li class="card-text">YÜKÜ ÇIXARAN ŞƏXS ÜÇÜN ETİBARNAMƏ və Şəxsiyyət Vəsiqəsi
                     </li>
-                    <li class="card-text">YÜKDEN ASLI OLARAQ DİGƏR SƏNƏDLƏR (AQTA SƏNƏDİ, GİGİYENİK SERTİFİKAT)
+                    <li class="card-text">YÜKDƏN ASLI OLARAQ DİGƏR  İCAZƏ SƏNƏDLƏRİ (AQTA SƏNƏDİ, GİGİYENİK SERTİFİKAT VƏ S)
                     </li>
                 </ol>
 
