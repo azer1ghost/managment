@@ -268,10 +268,63 @@
 
         </div>
     </div>
+            <!-- Modal -->
+
     @if($action)
         <x-input::submit :value="__('translates.buttons.save')"/>
     @endif
 </form>
+{{--<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
+{{--    <div class="modal-dialog">--}}
+{{--        <div class="modal-content">--}}
+{{--            <div class="modal-header">--}}
+{{--                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>--}}
+{{--                <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
+{{--                    <span aria-hidden="true">&times;</span>--}}
+{{--                </button>--}}
+{{--            </div>--}}
+{{--            <form action="" method="POST">--}}
+{{--                @csrf--}}
+{{--                <div class="modal-body">--}}
+{{--                    <div class="form-group">--}}
+{{--                        <input type="hidden" class="form-control" id="work_id" name="work_id" value="{{$data->getAttribute('id')}}">--}}
+{{--                    </div>--}}
+
+{{--                    <div class="form-group">--}}
+{{--                        <label for="return_reason">Qayıtma Səbəbi</label>--}}
+{{--                        <input type="text" class="form-control" id="return_reason" name="return_reason" placeholder="Qayıtma Səbəbini daxil edin">--}}
+{{--                    </div>--}}
+
+{{--                    <div class="form-group">--}}
+{{--                        <label for="main_reason">Əsas Səbəb</label>--}}
+{{--                        <input type="text" class="form-control" id="main_reason" name="main_reason" placeholder="Əsas Səbəbi daxil edin">--}}
+{{--                    </div>--}}
+
+{{--                    <div class="form-group">--}}
+{{--                        <label for="name">İnspektorun Adı</label>--}}
+{{--                        <input type="text" class="form-control" id="name" name="name" placeholder="İnspektorun Adını daxil edin">--}}
+{{--                    </div>--}}
+
+{{--                    <div class="form-group">--}}
+{{--                        <label for="phone">Əlaqə nömrəsi</label>--}}
+{{--                        <input type="text" class="form-control" id="phone" name="phone" placeholder="Əlaqə Nömrəsini daxil edin">--}}
+{{--                    </div>--}}
+
+{{--                    <div class="form-group">--}}
+{{--                        <label for="note">Not</label>--}}
+{{--                        <textarea class="form-control" id="note" name="note" placeholder="Əlavə notunuz varsa daxil edin"></textarea>--}}
+{{--                    </div>--}}
+
+{{--            </div>--}}
+{{--            <div class="modal-footer">--}}
+{{--                <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>--}}
+{{--                <button class="btn btn-primary" id="submit-form">Yadda Saxla</button>--}}
+{{--            </div>--}}
+{{--            </form>--}}
+
+{{--        </div>--}}
+{{--    </div>--}}
+{{--</div>--}}
 
 @if(!is_null($data))
     <div class="col-12">
@@ -281,12 +334,35 @@
 @endif
 
 @push('scripts')
+{{--    <script>--}}
+{{--            $('#submit-form').click(function() {--}}
+{{--                // Form verilerini AJAX ile gönderme--}}
+{{--                e.preventDefault(); // Sayfanın yeniden yüklenmesini engeller--}}
+
+{{--                $.ajax({--}}
+{{--                    url: {{ route('AjaxStore') }},--}}
+{{--                    method: 'POST',--}}
+{{--                    data: $('#return-work-form').serialize(),--}}
+{{--                    success: function(response) {--}}
+{{--                        // İşleminiz başarılı olduğunda burada bir şeyler yapabilirsiniz.--}}
+{{--                        // Örneğin, bir mesaj gösterebilir veya sayfayı yenileyebilirsiniz.--}}
+{{--                        alert(response.message);--}}
+
+{{--                    },--}}
+{{--                    error: function(error) {--}}
+{{--                        // Hata durumunda burada işlemler yapabilirsiniz.--}}
+{{--                    }--}}
+{{--                });--}}
+{{--            });--}}
+{{--    </script>--}}
     <script>
             $('#data-status').on('change', function() {
                 let selectedValue = $(this).val();
                 let noteValue =  $('#data-detail').val()
                 if (selectedValue == 5) {
                     $('#data-detail').val(noteValue + '\n \n' + 'Əsas Səbəb:\n \nGeri Qayıtma Səbəbi:\n \nİnspektorun adı:\n  \nƏlaqə nömrəsi: ');
+                    // $('#exampleModal').modal('show');
+
                 }
             });
     </script>

@@ -262,6 +262,8 @@
             <div class="col-sm-3 pt-2 d-flex align-items-center">
                 <div class="input-group">
                     <div class="d-flex align-items-center">
+                        <a href="{{ route('returned-works') }}" class="btn btn-outline-dark ">Geri Qayıtmış işlər</a>
+
                         <a class="btn btn-outline-success  mr-2" data-toggle="modal" data-target="#report-work" >@lang('translates.navbar.report')</a>
                     </div>
                 </div>

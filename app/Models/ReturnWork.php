@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ReturnWork extends Model
 {
-    protected $fillable = ['return_reason', 'main_reason', 'name', 'phone'];
-    
+    protected $table = 'returns_works';
+    protected $fillable = ['work_id', 'return_reason', 'main_reason', 'name', 'phone', 'note'];
+
+    public function work(): BelongsTo
+    {
+        return $this->belongsTo(Work::class)->withDefault();
+    }
 }

@@ -10,11 +10,11 @@ use Illuminate\Http\Request;
 
 class ReturnWorkController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->authorizeResource(ReturnWork::class, 'returnWork');
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('auth');
+//        $this->authorizeResource(ReturnWork::class, 'returnWork');
+//    }
 
     public function index(Request $request)
     {
@@ -37,14 +37,36 @@ class ReturnWorkController extends Controller
         ]);
     }
 
-    public function store(ReturnWorkRequest $request)
+    public function store(Request $request)
     {
-        $returnWork = ReturnWork::create($request->validated());
+//        $returnWork = ReturnWork::create($request->validated());
+//
+//        return redirect()->back()
+//            ->withNotify('success', $returnWork->getAttribute('name'));
+        // Form verilerini doğrulama kuralları eklemek isteyebilirsiniz.
+        $validatedData = $request->validate([
+            'return_reason' => 'required',
+            'main_reason' => 'required',
+            'name' => 'required',
+            'phone' => 'required',
+        ]);
 
-        return redirect()
-            ->route('return-works.index')
-            ->withNotify('success', $returnWork->getAttribute('name'));
+        // Form verilerini kullanarak yeni bir ReturnWork kaydı oluşturun
+        $returnWork = new ReturnWork;
+        $returnWork->work_id = $request->input('work_id');
+        $returnWork->return_reason = $request->input('return_reason');
+        $returnWork->main_reason = $request->input('main_reason');
+        $returnWork->name = $request->input('name');
+        $returnWork->phone = $request->input('phone');
+        $returnWork->note = $request->input('note');
+
+        // ReturnWork modelini veritabanına kaydedin
+        $returnWork->save();
+
+        // Başarılı bir işlem sonucu döndürün (örneğin, başarı mesajı)
+//        return response()->json(['message' => 'Başarıyla kaydedildi'], 200);
     }
+
 
     public function show(ReturnWork $returnWork)
     {
@@ -80,6 +102,30 @@ class ReturnWorkController extends Controller
             return response('OK');
         }
         return response()->setStatusCode('204');
+    }
+ public function AjaxStore(Request $request)
+    {
+        $validatedData = $request->validate([
+            'return_reason' => 'required',
+            'main_reason' => 'required',
+            'name' => 'required',
+            'phone' => 'required',
+        ]);
+
+        // Form verilerini kullanarak yeni bir ReturnWork kaydı oluşturun
+        $returnWork = new ReturnWork;
+        $returnWork->work_id = $request->input('work_id');
+        $returnWork->return_reason = $request->input('return_reason');
+        $returnWork->main_reason = $request->input('main_reason');
+        $returnWork->name = $request->input('name');
+        $returnWork->phone = $request->input('phone');
+        $returnWork->note = $request->input('note');
+
+        // ReturnWork modelini veritabanına kaydedin
+        $returnWork->save();
+
+        // Başarılı bir işlem sonucu döndürün (örneğin, başarı mesajı)
+//        return response()->json(['message' => 'Başarıyla kaydedildi'], 200);
     }
 
 }

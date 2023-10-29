@@ -207,6 +207,7 @@ Route::group([
     Route::get('/plannedWorks', [WorkController::class, 'plannedWorks'])->name('planned-works');
     Route::get('/pendingWorks', [WorkController::class, 'pendingWorks'])->name('pending-works');
     Route::get('/financeWorks', [WorkController::class, 'financeWorks'])->name('finance-works');
+    Route::get('/returnedWorks', [WorkController::class, 'returnedWorks'])->name('returned-works');
     Route::get('/incompleteWorks', [WorkController::class, 'incompleteWorks'])->name('incomplete-works');
     Route::get('/total', [WorkController::class, 'showTotal'])->name('total');
     Route::post('/test', [WorkController::class, 'editable'])->name('editable');
@@ -285,6 +286,7 @@ Route::group([
     Route::view('/presentations','pages.instructions.presentations' )->name('presentations');
     Route::view('/structure','pages.instructions.structure' )->name('structure');
     Route::view('/necessary','pages.instructions.necessary' )->name('necessary');
+    Route::post('/return-works/AjaxStore', [ReturnWorkController::class, 'AjaxStore' ])->name('AjaxStore');
     Route::resource('/return-works', ReturnWorkController::class );
     Route::resource('/statements', StatementController::class);
     Route::resource('/transactions', TransactionController::class);
