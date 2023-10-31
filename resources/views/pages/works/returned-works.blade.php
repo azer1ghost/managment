@@ -194,7 +194,7 @@
             </div>
         </div>
     @endif
-    <table class="table table-condensed-table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;"  id="table">
+    <table  class="table table-condensed-table-responsive accordian-body collapse @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;"  id="table">
         <thead>
         <tr class="text-center">
 
