@@ -29,6 +29,8 @@ class Logistics extends Model
     const PURCHASEPAID = 53;
     const SALESPAID = 54;
 
+    const SALESPAIDUSD = 56;
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class)->withDefault();
