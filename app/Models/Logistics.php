@@ -30,6 +30,10 @@ class Logistics extends Model
     const SALESPAID = 54;
 
     const SALESPAIDUSD = 56;
+    const AWB = 57;
+    const BILL = 58;
+    const INVOICE = 59;
+    const VENDOR = 60;
 
     public function user(): BelongsTo
     {
