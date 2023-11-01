@@ -96,7 +96,7 @@
      $stamp = asset('assets/images/finance/tedora.jpeg');
 
  } else if ($company == 'dgroupKapital') {
-     $companyName = \"Declare Group\" MMC";
+     $companyName = "\"Declare Group\" MMC";
      $voen = "1406438851";
      $hh = "AZ61AIIB400500F9443405268229";
      $mh = "AZ37NABZ01350100000000001944";
