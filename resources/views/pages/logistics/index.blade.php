@@ -353,6 +353,10 @@
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_paid_purchase}}</strong></p></td>
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_paid_sale}}</strong></p></td>
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_usd_sale}}</strong></p></td>
+                    <td><p style="font-size: 16px" class="mb-0"><strong></strong></p></td>
+                    <td><p style="font-size: 16px" class="mb-0"><strong></strong></p></td>
+                    <td><p style="font-size: 16px" class="mb-0"><strong></strong></p></td>
+                    <td><p style="font-size: 16px" class="mb-0"><strong></strong></p></td>
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_sale - $total_purchase}}</strong></p></td>
                     <td><p style="font-size: 16px" class="mb-0">
                         <strong>{{ $total_paid_sale - $total_paid_purchase}}</strong></p></td>
