@@ -70,7 +70,7 @@
      $stamp = asset('assets/images/finance/gbroker.jpeg');
 
  } else if ($company == 'rigelKapital') {
-     $companyName = "Rigel Group";
+     $companyName = "\"Rigel Group\" MMC";
      $voen = "1805978211";
      $hh = "AZ61AIIB400500E9445911817229";
      $mh = "AZ37NABZ01350100000000001944";
@@ -83,7 +83,7 @@
      $stamp = asset('assets/images/finance/rigel.jpeg');
 
  } else if ($company == 'tgroupKapital') {
-     $companyName = "Tedora Group";
+     $companyName = "\"Tedora Group\" MMC";
      $voen = "1008142601";
      $hh = "AZ06AIIB400500F9443614259229";
      $mh = "AZ37NABZ01350100000000001944";
@@ -96,7 +96,7 @@
      $stamp = asset('assets/images/finance/tedora.jpeg');
 
  } else if ($company == 'dgroupKapital') {
-     $companyName = "Declare Group";
+     $companyName = "\"Declare Group\" MMC";
      $voen = "1406438851";
      $hh = "AZ61AIIB400500F9443405268229";
      $mh = "AZ37NABZ01350100000000001944";
@@ -109,7 +109,7 @@
      $stamp = asset('assets/images/finance/declare.jpeg');
 
  } else if ($company == 'rigelRespublika') {
-     $companyName = "Rigel Group";
+     $companyName = "\"Rigel Group\" MMC";
      $voen = "1805978211";
      $hh = "AZ43BRES00380394401162048201";
      $mh = "AZ80NABZ01350100000000014944";

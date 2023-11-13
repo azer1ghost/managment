@@ -208,8 +208,8 @@ Route::group([
     Route::resource('/works', WorkController::class);
     Route::get('/plannedWorks', [WorkController::class, 'plannedWorks'])->name('planned-works');
     Route::get('/pendingWorks', [WorkController::class, 'pendingWorks'])->name('pending-works');
-    Route::get('/financeWorks', [WorkController::class, 'financeWorks'])->name('finance-works');
     Route::get('/returnedWorks', [WorkController::class, 'returnedWorks'])->name('returned-works');
+    Route::get('/financeWorks', [WorkController::class, 'financeWorks'])->name('finance-works');
     Route::get('/incompleteWorks', [WorkController::class, 'incompleteWorks'])->name('incomplete-works');
     Route::get('/total', [WorkController::class, 'showTotal'])->name('total');
     Route::post('/test', [WorkController::class, 'editable'])->name('editable');

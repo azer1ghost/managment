@@ -34,7 +34,7 @@
         <i class="far fa-filter"></i> @lang('translates.buttons.filter_open')
     </button>
 
-    <form action="{{route('pending-works')}}">
+    <form action="{{route('returned-works')}}">
         <div class="row mb-2">
             <div id="filterContainer" class="mb-3" @if(request()->has('datetime')) style="display:block;" @else style="display:none;" @endif>
                 <div class="col-12">
@@ -151,7 +151,7 @@
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <button type="submit" class="btn btn-outline-primary"><i
                                             class="fas fa-filter"></i> @lang('translates.buttons.filter')</button>
-                                <a href="{{route('pending-works')}}" class="btn btn-outline-danger"><i
+                                <a href="{{route('returned-works')}}" class="btn btn-outline-danger"><i
                                             class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>
                             </div>
                         </div>
@@ -194,7 +194,8 @@
             </div>
         </div>
     @endif
-    <table class="table table-condensed-table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;"  id="table">
+    <table class="table table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif scrollable-container"
+           style="border-collapse:collapse;" id="table">
         <thead>
         <tr class="text-center">
 

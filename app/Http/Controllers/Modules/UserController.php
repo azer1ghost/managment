@@ -211,8 +211,8 @@ class UserController extends Controller
 //        $works = Work::where('user_id', $user->id)
 //            ->whereDate('created_at', '>=', now()->startOfMonth())
 //            ->get();
-        $startOfJuly = Carbon::parse('2023-09-01 00:00:00'); // 2023-07-01 00:00:00
-        $endOfJuly = Carbon::parse('2023-09-30 23:59:59'); // 2023-07-31 23:59:59
+        $startOfJuly = Carbon::parse('2023-10-01 00:00:00'); // 2023-07-01 00:00:00
+        $endOfJuly = Carbon::parse('2023-10-31 23:59:59'); // 2023-07-31 23:59:59
         $works = Work::whereBetween('created_at', [$startOfJuly, $endOfJuly])
             ->where('user_id', $user->id)
             ->get();

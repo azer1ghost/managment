@@ -150,7 +150,7 @@ class CreditorController extends Controller
     {
         $creditor = Creditor::whereId($request->get('id'))->first();
         $creditor->update(['paid' => $creditor->paid + $request->get('paid'), 'vat_paid' => $creditor->vat_paid + $request->get('vat_paid')]);
-        if ($creditor->paid + $creditor->vat_paid > $creditor->amount + $creditor->vat) {
+        if ($creditor->paid + $creditor->vat_paid >= $creditor->amount + $creditor->vat) {
             $creditor->update(['status' => 2]);
         } elseif ($creditor->paid + $creditor->vat_paid < $creditor->amount + $creditor->vat && $creditor->paid + $creditor->vat_paid > 0) {
             $creditor->update(['status' => 3]);

@@ -29,6 +29,12 @@ class Logistics extends Model
     const PURCHASEPAID = 53;
     const SALESPAID = 54;
 
+    const SALESPAIDUSD = 56;
+    const AWB = 57;
+    const BILL = 58;
+    const INVOICE = 59;
+    const VENDOR = 60;
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class)->withDefault();

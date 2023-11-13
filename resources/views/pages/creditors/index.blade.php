@@ -255,6 +255,8 @@
                         <td><strong>@lang('translates.columns.vat'): {{ $creditors->sum('vat') }}</strong></td>
                         <td><strong>@lang('translates.columns.paid'): {{ $creditors->sum('paid') }}</strong></td>
                         <td><strong>@lang('translates.columns.vat_paid'): {{ $creditors->sum('vat_paid') }}</strong></td>
+                        <td><strong>Əsas Qalıq: {{ $creditors->sum('amount') - $creditors->sum('paid') }}</strong></td>
+                        <td><strong>ƏDV Qalıq: {{ $creditors->sum('vat') - $creditors->sum('vat_paid') }}</strong></td>
                         <td><strong>@lang('translates.columns.total'): {{ $creditors->sum('amount') + $creditors->sum('vat') }}</strong></td>
                         <td colspan="4"></td>
                     </tr>

@@ -226,7 +226,7 @@
             <th scope="col">@lang('translates.fields.clientName')</th>
             @if(auth()->user()->hasPermission('update-logistics'))
                 @php
-                    $serviceParameters = \App\Models\Parameter::whereIn('id', [51, 52, 53, 54])->get();
+                    $serviceParameters = \App\Models\Parameter::whereIn('id', [51, 52, 53, 54, 56, 57, 58, 59, 60])->get();
                 @endphp
 
                 @foreach($serviceParameters as $param)
@@ -235,7 +235,6 @@
                 <th scope="col">Profit</th>
                 <th scope="col">Gəlir</th>
             @endif
-
             <th scope="col">Status</th>
             <th scope="col">@lang('translates.fields.created_at')</th>
             <th scope="col">@lang('translates.fields.date')</th>
@@ -261,7 +260,7 @@
                 @if(auth()->user()->hasPermission('update-logistics'))
 
                     @foreach(\App\Models\Service::serviceParameters() as $param)
-                        @if(in_array($param['data']->getAttribute('id'), [51, 52, 53, 54]))
+                        @if(in_array($param['data']->getAttribute('id'), [51, 52, 53, 54, 56, 57, 58, 59, 60]))
                             <td class="update" data-name="{{$param['data']->getAttribute('id')}}"
                                 data-pk="{{ $log->getAttribute('id') }}">{{$log->getParameter($param['data']->getAttribute('id'))}}</td>
 
@@ -322,11 +321,13 @@
                     $sale[] =  $log->getParameter($log::SALES);
                     $paidPurchase[] = $log->getParameter($log::PURCHASEPAID);
                     $paidSale[] = $log->getParameter($log::SALESPAID);
+                    $paidSaleUsd[] = $log->getParameter($log::SALESPAIDUSD);
 
                     $total_purchase = array_sum($purchase);
                     $total_sale = array_sum($sale);
                     $total_paid_purchase = array_sum($paidPurchase);
                     $total_paid_sale = array_sum($paidSale);
+                    $total_usd_sale = array_sum($paidSaleUsd);
                 @endphp
             @endif
 
@@ -351,9 +352,14 @@
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_sale}}</strong></p></td>
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_paid_purchase}}</strong></p></td>
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_paid_sale}}</strong></p></td>
+                    <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_usd_sale}}</strong></p></td>
+                    <td><p style="font-size: 16px" class="mb-0"><strong></strong></p></td>
+                    <td><p style="font-size: 16px" class="mb-0"><strong></strong></p></td>
+                    <td><p style="font-size: 16px" class="mb-0"><strong></strong></p></td>
+                    <td><p style="font-size: 16px" class="mb-0"><strong></strong></p></td>
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_sale - $total_purchase}}</strong></p></td>
                     <td><p style="font-size: 16px" class="mb-0">
-                            <strong>{{ $total_paid_sale - $total_paid_purchase}}</strong></p></td>
+                        <strong>{{ $total_paid_sale - $total_paid_purchase}}</strong></p></td>
 
                     <td colspan="6"></td>
                 </tr>
