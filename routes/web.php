@@ -58,6 +58,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\ReturnWorkController,
     Modules\RoleController,
     Modules\RoomController,
+    Modules\SalaryController,
     Modules\SalesActivityController,
     Modules\SalesActivityTypeController,
     Modules\SalesClientController,
@@ -150,6 +151,7 @@ Route::group([
     Route::resource('/sales-activities', SalesActivityController::class);
     Route::resource('/announcements', AnnouncementController::class);
     Route::resource('/suppliers', SupplierController::class);
+    Route::resource('/salaries', SalaryController::class);
     Route::resource('/certificates', CertificateController::class);
     Route::resource('/companies', CompanyController::class);
     Route::resource('/employee-registrations', EmployeeRegistrationController::class);

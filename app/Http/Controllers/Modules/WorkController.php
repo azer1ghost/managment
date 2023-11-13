@@ -636,7 +636,6 @@ class WorkController extends Controller
             'services' => Service::get(['id', 'name']),
         ]);
     }
-
     public function store(WorkRequest $request): RedirectResponse
     {
         $validated = $request->validated();
