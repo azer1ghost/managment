@@ -8,7 +8,7 @@ use App\Traits\GetClassInfo;
 use App\Traits\HandlesPolicy;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class salaryPolicy
+class SalaryPolicy
 {
     use HandlesAuthorization, HandlesPolicy, GetClassInfo;
 
