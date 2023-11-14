@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SalaryRequest;
+use App\Models\Company;
 use App\Models\Salary;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -34,6 +36,8 @@ class SalaryController extends Controller
             'action' => route('salaries.store'),
             'method' => 'POST',
             'data' => new Salary(),
+            'users' => User::get(['id', 'name', 'surname']),
+            'companies' => Company::get(['id', 'name']),
         ]);
     }
 
@@ -54,6 +58,8 @@ class SalaryController extends Controller
             'action' => route('salaries.store', $salary),
             'method' => null,
             'data' => $salary,
+            'users' => User::get(['id', 'name', 'surname']),
+            'companies' => Company::get(['id', 'name']),
         ]);
     }
 
@@ -63,6 +69,8 @@ class SalaryController extends Controller
             'action' => route('salaries.update', $salary),
             'method' => 'PUT',
             'data' => $salary,
+            'users' => User::get(['id', 'name', 'surname']),
+            'companies' => Company::get(['id', 'name']),
         ]);
     }
 

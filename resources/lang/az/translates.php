@@ -567,6 +567,14 @@ return [
         'overhead_at' => 'Qaimə Tarixi',
         'overhead' => 'Qaimə',
         'supplier' => 'Tədarükçü',
+        'salary' => 'Gəlir',
+        'work_days' => 'İş Günləri',
+        'actual_days' => 'Faktiki Günlər',
+        'calculated_salary' => 'Hesablanmış Gəlir',
+        'prize' => 'Mükafat',
+        'vacation' => 'Məzuniyyət',
+        'salary_tax' => 'Gəlir Vergis',
+        'advance' => 'Avans',
     ],
 
     'notify' => [

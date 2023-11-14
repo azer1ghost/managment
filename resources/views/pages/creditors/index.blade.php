@@ -117,7 +117,7 @@
             </form>
 
             <div class="col-12">
-                <table class="table table-responsive-sm table-hover">
+                <table class="table table-responsive-sm table-hover table-bordered">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
