@@ -353,6 +353,7 @@
                                 <option>Təmsil etdiyi şəxsin tapşırığı əsasında nəqliyyat vasitələrinin çıxarılması</option>
                                 <option>Gömrük rəsmiləşdirilməsinin həyata keçirilməsi zamanı gömrük məmuru ilə əlaqə yaradılması xidməti</option>
                                 <option>Gömrük rəsmiləşdirilməsi üçün lazım olan sənədlərin yoxlanılması</option>
+                                <option>Konsultasiya Xidməti</option>
                             </select>
                         </td>
                         <td>Ədəd</td>
