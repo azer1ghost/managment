@@ -20,7 +20,7 @@ class ChatController extends Controller
                 SUM(IF(c.is_read = 0 AND c.`to` = $id, 1, 0)) AS unread, 
                 MAX(c.created_at) AS last_message_date
             FROM users u
-            LEFT JOIN chats c ON u.id = c.to OR u.id = c.from
+            LEFT JOIN chats c ON u.id = c.to OR u.id = c.from AND u.id = $id
             WHERE u.id != $id AND u.disabled_at IS NULL
             GROUP BY u.id, u.name, u.surname, u.avatar, u.email
             ORDER BY last_message_date DESC
