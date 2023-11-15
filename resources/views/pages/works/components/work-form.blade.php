@@ -23,7 +23,7 @@
                         </div>
                     @endif
                         @php($service_id = \App\Models\Service::find($selected['service_id'])->id)
-                    @if(in_array($service_id, [1,2,14,16,17,18,19,20,21,22,23,26,27,29,30,15]))
+                    @if(in_array($service_id, [1,2,14,16,17,18,19,20,21,22,23,26,27,29,30,15,24]))
                         <div class="form-group col-12 col-md-3">
                             <label for="declaration_no">Sorğu nömrəsi</label>
                             <input value="{{optional($data)->getAttribute('declaration_no')}}"

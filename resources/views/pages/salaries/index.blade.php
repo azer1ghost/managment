@@ -160,7 +160,7 @@
                             </th>
                             <td>{{$salary->getRelationValue('user')->getAttribute('fullname')}}</td>
                             <td>{{$salary->getRelationValue('user')->getRelationValue('position')->getAttribute('name')}}</td>
-                            <td><input type="text" class="salary-{{$salary->getAttribute('id')}}" value="{{$net}}"></td>
+                            <td><input type="text" class="salary-{{$salary->getAttribute('id')}}" value="{{$gross}}"></td>
                             <td><input type="text" class="work_days-{{$salary->getAttribute('id')}}" name="work_days" aria-label="work_days" value="26"></td>
                             <td><input type="text" class="actual_days-{{$salary->getAttribute('id')}}" name="actual_days" aria-label="actual_days" value="26"></td>
                             <td class="calculated-salary-{{$salary->getAttribute('id')}}"></td>
