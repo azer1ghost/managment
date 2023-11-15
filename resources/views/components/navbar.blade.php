@@ -46,8 +46,7 @@
                         <div>
                             @foreach($messages as $message)
                                 @php $user = \App\Models\User::whereId($message->from)->first() @endphp
-
-                                <a class="text-black" href="{{route('chats.index')}}">
+                                <a class="text-black" href="{{route('chats.index', ['from' => $message->from])}}">
                                     <h4 class="preview-subject font-weight-normal">{{$user->getAttribute('fullname')}}</h4>
                                     <p class="mb-1">Sizə Bir Mesaj Var: @if (strlen($message->message) > 200) {!!substr($message->message, 0, 200) . '...'!!}@else
                                         {{$message->message}} @endif

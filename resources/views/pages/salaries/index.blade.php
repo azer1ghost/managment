@@ -306,7 +306,4 @@
             });
         });
     </script>
-
-
-
 @endsection

@@ -14,16 +14,23 @@ class ChatController extends Controller
 {
     public function index()
     {
-        $users = DB::select("select users.id, users.name, users.surname, users.avatar, users.email, count(is_read) as unread 
-        from users LEFT  JOIN  chats ON users.id = chats.from and is_read = 0 and chats.to = " . Auth::id() . "
-        where users.id != " . Auth::id() . " and users.disabled_at IS NULL
-        group by users.id, users.name, users.surname, users.avatar, users.email");
+        $id = Auth::id();
+        $users = DB::select("
+            SELECT u.id, u.name, u.surname, u.avatar, u.email, 
+                SUM(IF(c.is_read = 0 AND c.`to` = $id, 1, 0)) AS unread, 
+                MAX(c.created_at) AS last_message_date
+            FROM users u
+            LEFT JOIN chats c ON u.id = c.to OR u.id = c.from
+            WHERE u.id != $id AND u.disabled_at IS NULL
+            GROUP BY u.id, u.name, u.surname, u.avatar, u.email
+            ORDER BY last_message_date DESC
+        ");
+
         return view('pages.chats.index')->with([
             'users' => $users,
-
         ]);
-
     }
+
     public function message($user_id)
     {
         $user = User::with('position')->find($user_id);

@@ -1,6 +1,6 @@
 <div class="chat-header clearfix">
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-12">
             <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
                 <img src="{{image($user->getAttribute('avatar'))}}" alt="avatar" class="profile">
             </a>

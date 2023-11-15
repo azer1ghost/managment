@@ -202,50 +202,47 @@
 
         var channelchat = pusherchat.subscribe('my-channel');
         channelchat.bind('my-event', function (data) {
+            const toEl = $('#' + data.to);
+            const fromEl = $('#' + data.from);
 
-            if (my_id == data.from) {
-                $('#' + data.to).click()
-            } else if (my_id == data.to) {
-                if (reciever_id == data.from) {
-                    $('#' + data.from).click()
+            if (+my_id === +data.from) {
+                toEl.click()
+            } else if (+my_id === +data.to) {
+                if (+reciever_id === +data.from) {
+                    fromEl.click()
                 } else {
-                    var pendinghtml = $('#' + data.from).find('.pending').html()
+                    var pendinghtml = fromEl.find('.pending').html()
                     var pending = parseInt(pendinghtml?.replace(/[^0-9.]/g, ""));
                     function playSound(url) {
                         const audio = new Audio(url)
                         audio.play()
                     }
-                    console.log(pending)
+
                     if (pending) {
-                        $('#' + data.from).find('.pending').html(pending + 1)
+                        fromEl.find('.pending').html(pending + 1)
                         $('.unread' + data.from).css('display','block')
                         playSound('{{asset('assets/audio/notify/message.wav')}}')
                     } else {
-
-                        $('#' + data.from).append('<span class="pending">1</span>');
+                        fromEl.append('<span class="pending">1</span>');
                         $('.unread' + data.from).css('display','block')
                         playSound('{{asset('assets/audio/notify/message.wav')}}')
                     }
                 }
             }
+
+            fromEl.parent().prepend(fromEl);
         });
+
+        reciever_id = getReceiverFromUrl();
+        getChatFromUrl();
 
         $('.user').click(function () {
             $('.user').removeClass('active');
             $(this).addClass('active');
             $(this).find('.pending').remove();
             $(this).find('.total-unread').css('display','none');
-            reciever_id = $(this).attr('id')
-            $.ajax({
-                type: 'get',
-                url: 'message/' + reciever_id,
-                data: '',
-                cache: false,
-                success: function (data) {
-                    $('#messages').html(data);
-                    scrollToBottomFunc();
-                }
-            })
+            reciever_id = $(this).attr('id');
+            getChatMessages(reciever_id);
         });
 
         $(document).on('keyup', '.input-text input', function (e) {
@@ -269,6 +266,9 @@
                     complete: function () {
                         scrollToBottomFunc()
                         playSound('{{asset('assets/audio/notify/send.wav')}}')
+
+                        const toEl = $('#' + reciever_id);
+                        toEl.parent().prepend(toEl);
                     }
                 })
             }
@@ -280,6 +280,44 @@
             scrollTop: $('.message-wrapper').get(0).scrollHeight
         },50);
         $('.chat-input').focus()
+    }
+
+    function getReceiverFromUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const from = urlParams.get('from');
+
+        return from ?? false;
+    }
+    
+    function getChatFromUrl() {
+        const from = getReceiverFromUrl();
+        const fromEl = $('.searching-list#' + from)
+
+        if (!from || !fromEl.length) {
+            return false;
+        }
+
+        $('.user').removeClass('active');
+        fromEl.addClass('active');
+        fromEl.find('.pending').remove();
+        fromEl.find('.total-unread').css('display','none');
+
+        getChatMessages(from)
+
+        return from;
+    }
+
+    function getChatMessages(from) {
+        $.ajax({
+            type: 'get',
+            url: 'message/' + from,
+            data: '',
+            cache: false,
+            success: function (data) {
+                $('#messages').html(data);
+                scrollToBottomFunc();
+            },
+        })
     }
 </script>
 </body>

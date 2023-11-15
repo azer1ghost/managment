@@ -2,6 +2,34 @@
 
 @section('title', 'Chats')
 
+@section('style')
+    <style>
+        .chat#messages {
+            position: relative;
+        }
+
+        .chat#messages > .chat-header {
+            position: sticky;
+            overflow: hidden;
+            top: 0;
+            width: 100%;
+            z-index: 1;
+            background-color: white;
+        }
+
+        .chat#messages > .chat-message {
+            position:absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .chat#messages > .chat-history {
+            overflow-y: auto;
+            height: 80%;
+        }
+    </style>
+@endsection
+
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
