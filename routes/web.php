@@ -59,6 +59,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\RoleController,
     Modules\RoomController,
     Modules\SalaryController,
+    Modules\SalaryReportController,
     Modules\SalesActivityController,
     Modules\SalesActivityTypeController,
     Modules\SalesClientController,
@@ -152,12 +153,12 @@ Route::group([
     Route::resource('/announcements', AnnouncementController::class);
     Route::resource('/suppliers', SupplierController::class);
     Route::resource('/salaries', SalaryController::class);
+    Route::resource('/salary-reports', SalaryReportController::class);
     Route::resource('/certificates', CertificateController::class);
     Route::resource('/companies', CompanyController::class);
     Route::resource('/employee-registrations', EmployeeRegistrationController::class);
     Route::post('/employee-registrations', [EmployeeRegistrationController::class, 'store'])->name('employee-registrations.store');
-    Route::get('employee-registrations/get-status', [EmployeeRegistrationController::class, 'getStatus'])
-        ->name('employee-registrations.getStatus');
+    Route::get('employee-registrations/get-status', [EmployeeRegistrationController::class, 'getStatus'])->name('employee-registrations.getStatus');
     Route::resource('/asan-imza', AsanImzaController::class);
     Route::resource('/widgets', WidgetController::class);
     Route::resource('/calendars', CalendarController::class)->except('show', 'create', 'edit');

@@ -29,7 +29,7 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
 
-{{--    <form action="{{route('salaries.index')}}">--}}
+    <form action="{{route('salaries.index')}}">
         <div class="row d-flex justify-content-between mb-2">
 
             <div class="col-md-6">
@@ -69,7 +69,7 @@
                         <th scope="col" colspan="1"></th>
                         <th scope="col" colspan="1"></th>
                         <th scope="col" colspan="1"></th>
-                        <th scope="col" colspan="1"><button id="saveButton" class="btn btn-primary">@lang('translates.buttons.save')</button></th>
+                        <th scope="col" colspan="1"></th>
                     </tr>
                         <tr>
                             <th scope="col">#</th>
@@ -95,7 +95,7 @@
                             <th scope="col">yekun ödənilməli məbləğ</th>
                         </tr>
                     </thead>
-                    <tbody id="tblNewAttendees">
+                    <tbody>
                     @forelse($salaries as $salary)
                         @php
                           $gross = 0;
@@ -154,10 +154,7 @@
                         @endphp
 
                         <tr>
-                            <th scope="row">{{$loop->iteration}}
-                                <input type="hidden" class="user_id" name="user_id" value="{{$salary->getAttribute('user_id')}}">
-                                <input type="hidden" class="company_id" name="company_id" value="{{$salary->getAttribute('company_id')}}">
-                            </th>
+                            <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$salary->getRelationValue('user')->getAttribute('fullname')}}</td>
                             <td>{{$salary->getRelationValue('user')->getRelationValue('position')->getAttribute('name')}}</td>
                             <td><input type="text" class="salary-{{$salary->getAttribute('id')}}" value="{{$net}}"></td>
@@ -198,7 +195,7 @@
                 </div>
             </div>
         </div>
-{{--    </form>--}}
+    </form>
 
 @endsection
 @section('scripts')
@@ -214,7 +211,6 @@
 
             // Iterate through each row in the table
             $('tr').each(function () {
-
                 // Find the salary input and work-days input within the current row
                 var salaryInput = $(this).find('input[class^="salary-"]');
                 var workDaysInput = $(this).find('input[class^="work_days-"]');
@@ -235,6 +231,7 @@
                 var amountToPaid = $(this).find('td[class^="amount-to-paid"]');
                 var lastAmountToPaid = $(this).find('td[class^="last-amount-to-paid"]');
 
+                // Attach an input event listener to the salary and work-days inputs
                 updateCalculatedSalary();
                 salaryInput.on('input', function () {
                     updateCalculatedSalary();
@@ -247,19 +244,13 @@
                 actualDaysInput.on('input', function () {
                     updateCalculatedSalary();
                 });
-
-                vacationInput.on('input', function () {
-                    updateCalculatedSalary();
-                });
-
-                prizeInput.on('input', function () {
-                    updateCalculatedSalary();
-                });
                 advanceInput.on('input', function () {
                     updateCalculatedSalary();
                 });
 
+                // Function to update the calculated salary based on the inputs
                 function updateCalculatedSalary() {
+                    // Get the values from the inputs
                     var salary = parseFloat(salaryInput.val()) || 0;
                     var workDays = parseFloat(workDaysInput.val()) || 0;
                     var prize = parseFloat(prizeInput.val()) || 0;
@@ -269,30 +260,30 @@
                     var newCalculatedSalary = (salary / workDays) * actualDays;
                     var newTotalSalary = newCalculatedSalary + prize + vacation;
                     var newSalaryTax = 0;
-                    if (newTotalSalary <= 200) {
-                        var newEmployeeFund = newTotalSalary * 0.03;
+                    if (newCalculatedSalary <= 200) {
+                        var newEmployeeFund = newCalculatedSalary * 0.03; // 3% of newCalculatedSalary
                     } else {
-                        var newEmployeeFund = 6 + (newTotalSalary - 200) * 0.10;
+                        var newEmployeeFund = 6 + (newCalculatedSalary - 200) * 0.10; // 6 + 10% of the amount exceeding 200
                     }
-                    var newEmployeeIsh = newTotalSalary * 0.5/100;
+                    var newEmployeeIsh = newCalculatedSalary * 0.5/100;
 
-                    if (newTotalSalary <= 8000) {
-                        var newEmployeeItsh = newTotalSalary * 0.02;
+                    if (newCalculatedSalary <= 8000) {
+                        var newEmployeeItsh = newCalculatedSalary * 0.02; // 2% of newCalculatedSalary
                     } else {
-                        var newEmployeeItsh = 80 + (newTotalSalary - 8000) * 0.005;
+                        var newEmployeeItsh = 80 + (newCalculatedSalary - 8000) * 0.005; // 80 + 0.5% of the amount exceeding 8000
                     }
 
-                    if (newTotalSalary <= 200) {
-                        var  newEmployerFund = newTotalSalary * 0.22;
+                    if (newCalculatedSalary <= 200) {
+                        var  newEmployerFund = newCalculatedSalary * 0.22; // 22% of newCalculatedSalary
                     } else {
-                        var   newEmployerFund = 44 + (newTotalSalary - 200) * 0.15;
+                        var   newEmployerFund = 44 + (newCalculatedSalary - 200) * 0.15; // 44 + 15% of the amount exceeding 200
                     }
-                    var newEmployerIsh = newTotalSalary * 0.5/100;
+                    var newEmployerIsh = newCalculatedSalary * 0.5/100;
 
-                    if (newTotalSalary <= 8000) {
-                        var newEmployerItsh = newTotalSalary * 0.02;
+                    if (newCalculatedSalary <= 8000) {
+                        var newEmployerItsh = newCalculatedSalary * 0.02; // 2% of newCalculatedSalary
                     } else {
-                        var newEmployerItsh = 80 + (newTotalSalary - 8000) * 0.005;
+                        var newEmployerItsh = 80 + (newCalculatedSalary - 8000) * 0.005; // 80 + 0.5% of the amount exceeding 8000
                     }
                     var newEmployeeTotalTax = newEmployeeFund + newEmployeeIsh + newEmployeeItsh + newSalaryTax
                     var newAmountToPaid = newTotalSalary - newEmployeeTotalTax
@@ -313,46 +304,6 @@
                     lastAmountToPaid.text(newLastAmountToPaid.toFixed(2));
                 }
             });
-            $('#saveButton').on('click', function () {
-                saveSalaryReports();
-                $(this).hide()
-            });
-
-            function saveSalaryReports() {
-                let date = new Date()
-
-                $('#tblNewAttendees tr').each(function () {
-                    var rowData = {
-                        user_id: $(this).find('input[class^="user_id"]').val(),
-                        company_id: $(this).find('input[class^="company_id"]').val(),
-                        salary: $(this).find('input[class^="salary-"]').val(),
-                        working_days: $(this).find('input[class^="work_days-"]').val(),
-                        actual_days: $(this).find('input[class^="actual_days-"]').val(),
-                        vacation : $(this).find('input[class^="vacation-"]').val(),
-                        prize : $(this).find('input[class^="prize-"]').val(),
-                        advance : $(this).find('input[class^="advance-"]').val(),
-                        date : date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate(),
-                        note : '',
-                    };
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-                    $.ajax({
-                        url: '{{ route("salary-reports.store") }}',
-                        method: 'POST',
-                        data: rowData,
-                        success: function (response) {
-                            console.log('Data saved successfully:', response);
-                        },
-                        error: function (error) {
-                            console.error('Error saving data:', error);
-                            console.log(rowData)
-                        }
-                    });
-                });
-            }
         });
     </script>
 @endsection

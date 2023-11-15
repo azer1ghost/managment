@@ -19,4 +19,7 @@ class SalaryReport extends Model
         'date',
         'note',
     ];
+
+    public $timestamps = false;
+
 }
