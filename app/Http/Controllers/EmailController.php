@@ -22,23 +22,23 @@ class EmailController extends Controller
 
 
 
-            'office@kia.az',
-            'agalandarov@bna.az',
-            'narginltd@gmail.com',
-            'sales@asmetal.az',
-            'a.zeynalov@166.az',
-            'info@apex.az',
-            'rajab.feyzullayev@groupmotors.az',
-            'accounts@citco.az',
-            'a.bahruz@hayatgroup.az',
-            'office@fsca.az',
             'ruslanfarajov@uygunlar.com',
-            'director@chery.az',
-            'ruslanmillennium@gmail.com',
+            'royal.z@astexnika.com',
+            'rasimkerimli@mail.ru',
+            'adigozeltiak@gmail.com',
             'info@baroquestyle.az',
-            'info@buludtelecom.com',
-            'aliveliyev016@gmail.com',
-            'z.mustafayeva@mobilgroup.az',
+            'm.bagirov@bakusteel.com',
+            'samir.farzaliyev@gilan-knauf.az',
+            'murad_abdullayev_91@refmotors.az',
+            'procurement@caspianindustry.com',
+            'denizzhasanova@gmail.com',
+            'ft.918@mail.ru',
+            'ayizahmadov@alumin.com.az',
+            'e.rahimov@simplex.az',
+            'ekoproductsaz@gmail.com',
+            'svetlana.80.gr@gmail.com',
+            'alizadenatavan@yandex.ru',
+            'aydinallahverdiyev719@gmail.com',
         ];
 
 
