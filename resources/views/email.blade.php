@@ -336,21 +336,19 @@
 
                                     <td style="text-align: center;" >
                                         <img style="text-align: center" src="https://i.ibb.co/LxTrPG9/p7-B8-GJJj-NI7l-Rf-Zxl-U4-V.png" alt="">
-                                        <h2 style="background: #99cd08; color: white; padding:20px 5px 20px 5px; margin: 20px; font-size: 35px; font-weight: bolder">GÖMRÜK XƏBƏRLƏRİ</h2>
-                                        <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549" >Yaşı 10 ildən çox olan minik avtomobillərinin gətirilməsi dayandırılır!</h2>
-                                        <p style="text-align: justify;">İstismar olunan minik avtomobillərinin Azərbaycan Respublikasının gömrük ərazisinə gətirilməsinin məhdudlaşdırılması haqqında “Azərbaycan Respublikası Gömrük Məcəlləsinin təsdiq edilməsi haqqında” Azərbaycan Respublikası Qanununun tətbiqi barədə” Azərbaycan Respublikası Prezidentinin 2011-ci il 15 sentyabr tarixli 499 nömrəli Fərmanının 28.5-ci bəndinə əsasən, insanların həyat və sağlamlığının və ətraf mühitin qorunması, avtonəqliyyat vasitələrindən atmosfer havasına atılan zərərli maddələrin miqdarının azaldılması və ekoloji vəziyyətin yaxşılaşdırılması məqsədilə AzərbaycanRespublikasının Nazirlər Kabineti qərara alır:
-
-                                            </p>
+                                        <h2 style="background: #99cd08; color: white; padding:20px 5px 20px 5px; margin: 20px; font-size: 35px; font-weight: bolder">Təkmilləşdirmə işləri</h2>
+                                        <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549" >Hörmətli müştəri, nəzərinizə çatdırırıq ki, 21.11.2023-cü il saat 18:00-dan 22.11.2023-cü il saat 10:00-dək email sistemizin təkmilləşdirilməsi üzrə texniki işlər aparılacaq.</h2>
+                                        <p style="text-align: justify;">  Bununla əlaqədar, həmin müddət ərzində sənədlərin göndərilməsi üçün alternativ əlaqə vasitələrindən(WhatsApp) istifadə etməyiniz xahiş olunur.
+                                            Anlayışınız üçün təşəkkürlər.
+                                        </p>
                                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                                             <tbody>
                                             <tr>
-                                                <td align="left">
+                                                <td align="center">
                                                     <table border="0" cellpadding="0" cellspacing="0">
                                                         <tbody>
-                                                        <tr> <td> <img src="https://i.ibb.co/Kjn5P5y/2.png" width="400px" alt=""> </td></tr>
-                                                        <tr>
-                                                            <td> <p  style="text-align: justify; margin-top: 20px">1. Zavod buraxılış tarixinə görə yaşı 10 ildən çox olan minik avtomobillərinin (raritet minik avtomobilləri və gömrük ərazisinə müvəqqəti gətirilən minik avtomobilləri istisna olmaqla) Azərbaycan Respublikası ərazisinə gətirilməsi məhdudlaşdırılsın. 2. Bu Qərar dərc edildiyi gündən 30 (otuz) gün sonra qüvvəyə minir</p> </td>
-                                                        </tr>
+                                                        <tr> <td> <img src="https://i.ibb.co/HP75VVj/1.png" width="400px" alt=""> </td></tr>
+
 
                                                         </tbody>
                                                     </table>
@@ -359,7 +357,7 @@
                                             </tr>
                                             </tbody>
                                         </table>
-                                        <h2 style="font-size: 20px; font-weight: bolder; color: #0a1549" >Yaşı 10 ildən çox olan minik avtomobillərinin gətirilməsi dayandırılır!</h2>
+                                        <h2 style="font-size: 20px; font-weight: bolder; color: #0a1549" >Yüklərinizin gətirilməsi və Gömrük Rəsmiləşdirilməsi üçün:</h2>
                                         <span style="background: #0a1549; border-radius: 40px; color: white; padding:20px 30px 20px 30px; font-size: 35px; font-weight: bolder">*9090</span>
                                     </td>
                                 </tr>

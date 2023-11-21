@@ -41,7 +41,8 @@ class EmailController extends Controller
 //            'info@buludtelecom.com',
 //            'info@ecobox.az',
 
-            'qafarzade2014@gmail.com'
+//            'qafarzade2014@gmail.com',
+            'aliveliyev016@gmail.com',
         ];
 
 
@@ -78,7 +79,9 @@ class EmailController extends Controller
 //            'info@baroquestyle.az',
 //            'info@buludtelecom.com',
 
-            'qafarzade2014@gmail.com'
+//            'qafarzade2014@gmail.com',
+            'aliveliyev1607@gmail.com',
+            'a.valiyev@mobilgroup.az'
         ];
 
         Mail::to($emails)->send(new Info($mailAddress, $template));

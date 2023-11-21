@@ -432,23 +432,10 @@
 
                                     <td style="text-align: center;" >
                                         <img style="text-align: center" src="https://i.ibb.co/LxTrPG9/p7-B8-GJJj-NI7l-Rf-Zxl-U4-V.png" alt="">
-                                        <h2 style="background: #99cd08; color: white; padding:20px 5px 20px 5px; margin: 20px; font-size: 35px; font-weight: bolder">GÖMRÜK XƏBƏRLƏRİ</h2>
-                                        <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549" >Ölkəmizdən tranzit keçən nəqliyyat vasitələrindən də yol vergisi alınacaq.</h2>
-                                        <p style="text-align: justify;">  Qeyd edək ki, dəyişikliyə qədər avtonəqliyyat vasitələrinin növündən,
-                                            mühərriklərinin həcmindən, Azərbaycan Respublikasının ərazisində
-                                            qaldığı müddətdən oturacaqlarının sayından, oxların sayından və
-                                            avtonəqliyyat vasitəsinin yüklə birlikdə ümumi çəkisindən, Azərbaycan
-                                            Respublikası ərazisində qət edilən məsafədən, təhlükəli yüklərin
-                                            daşınmasından asılı olaraq Azərbaycan Respublikasının ərazisinə daxil
-                                            olan və Azərbaycan Respublikasının ərazisini tərk edən xarici dövlətlərdə
-                                            qeydiyyatda avtonəqliyyat vasitələrindən, habelə Azərbaycan
-                                            Respublikasının ərazisində istehsal edilərək
-                                            daxili istehlaka yönəldilən
-                                            (topdan satılan) və Azərbaycan
-                                            Respublikasının ərazisinə idxal
-                                            olunan avtomobil benzininə,
-                                            dizel yanacağına və maye qaza
-                                            görə yol vergisi alınırdı.
+                                        <h2 style="background: #99cd08; color: white; padding:20px 5px 20px 5px; margin: 20px; font-size: 35px; font-weight: bolder">Təkmilləşdirmə işləri</h2>
+                                        <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549" >Hörmətli müştəri, nəzərinizə çatdırırıq ki, 21.11.2023-cü il saat 18:00-dan 22.11.2023-cü il saat 10:00-dək email sistemizin təkmilləşdirilməsi üzrə texniki işlər aparılacaq.</h2>
+                                        <p style="text-align: justify;">  Bununla əlaqədar, həmin müddət ərzində sənədlərin göndərilməsi üçün alternativ əlaqə vasitələrindən(WhatsApp) istifadə etməyiniz xahiş olunur.
+                                            Anlayışınız üçün təşəkkürlər.
                                             </p>
                                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                                             <tbody>
