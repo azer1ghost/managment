@@ -21,28 +21,24 @@ class EmailController extends Controller
         $emails = [
 
 
-//
-//            'faikabdullayev@icloud.com',
-//            'Farid.bagirov@aviongroup.az',
-//            'faxri.huseyn@gmail.com',
-//            'f-aydinoglu@mail.ru',
-//            'gnl.baku@mail.ru',
-//            'habibov.nadir81@gmail.com',
-//            'hresidov@yahoo.com',
-//            'humaartroom@gmail.com',
-//            'huseyin_memmedov91@bk.ru',
-//            'i.mubarizoglu@gmail.com',
-//            'ilkin.khalili@gilan-knauf.az',
-//            'info@aada.az',
-//            'İnfo@ahik.org',
-//            'info@auto.az',
-//            'info@azintech.az',
-//            'info@baroquestyle.az',
-//            'info@buludtelecom.com',
-//            'info@ecobox.az',
 
-//            'qafarzade2014@gmail.com',
+            'office@kia.az',
+            'agalandarov@bna.az',
+            'narginltd@gmail.com',
+            'sales@asmetal.az',
+            'a.zeynalov@166.az',
+            'info@apex.az',
+            'rajab.feyzullayev@groupmotors.az',
+            'accounts@citco.az',
+            'a.bahruz@hayatgroup.az',
+            'office@fsca.az',
+            'ruslanfarajov@uygunlar.com',
+            'director@chery.az',
+            'ruslanmillennium@gmail.com',
+            'info@baroquestyle.az',
+            'info@buludtelecom.com',
             'aliveliyev016@gmail.com',
+            'z.mustafayeva@mobilgroup.az',
         ];
 
 
