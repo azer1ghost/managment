@@ -112,9 +112,9 @@ class EmailController extends Controller
 //            'kanan@overmetal.az',
 //            'rbabayev13@gmail.com',
 //            'agababa.dadashov@gmail.com',
-            'faxri.huseyn@gmail.com',
-            'ramal_ahmedov@list.ru',
-            'info@parrotias.com',
+//            'faxri.huseyn@gmail.com',
+//            'ramal_ahmedov@list.ru',
+//            'info@parrotias.com',
             'aliveliyev016@gmail.com'
         ];
 
