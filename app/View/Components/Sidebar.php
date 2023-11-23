@@ -186,12 +186,7 @@ class Sidebar extends Component
                         'url' => route('incomplete-works'),
                         'permission' => 'viewAny-work',
                     ],
-                    (object)[
-                        'title' => __('translates.navbar.salary'),
-                        'icon' => 'fas fa-scroll',
-                        'url' => route('selectCompany-salary'),
-                        'permission' => 'viewAny-work',
-                    ],
+
                 ]
             ],
 
@@ -235,6 +230,12 @@ class Sidebar extends Component
                         'icon' => 'fas fa-money-check',
                         'url' => route('funds.index'),
                         'permission' => 'viewAny-creditor',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.salary'),
+                        'icon' => 'fas fa-scroll',
+                        'url' => route('selectCompany-salary'),
+                        'permission' => 'viewAny-salary',
                     ],
                 ]
             ],
