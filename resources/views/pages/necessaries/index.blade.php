@@ -35,9 +35,7 @@
 {{--                        <p class="card-text">--}}
                             @foreach(explode("\n", $necessary->getAttribute('detail')) as $item)
                                 @if(!empty($item))
-                                <ol>
                                     <li>{{ $item }}</li>
-                                </ol>
                                 @endif
                             @endforeach
 {{--                                </p>--}}
