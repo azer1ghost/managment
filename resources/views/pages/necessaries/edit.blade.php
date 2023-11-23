@@ -31,5 +31,11 @@
         @endif
         @endbind
     </form>
+    @if($method != 'POST')
+        <div class="my-5">
+            <x-documents :documents="$data->documents" :title="trans('translates.files.contract')"/>
+            <x-document-upload :id="$data->id" model="Necessary"/>
+        </div>
+    @endif
 @endsection
 

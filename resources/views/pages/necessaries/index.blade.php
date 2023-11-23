@@ -53,6 +53,16 @@
                             <i class="fal fa-trash"></i>
                         </a>
                     </div>
+                    <div style="min-width: 150px">
+                        @php($supportedTypes = \App\Models\Document::supportedTypeIcons())
+                        @foreach($necessary->documents as $document)
+                            @php($type = $supportedTypes[$document->type])
+                            @php($route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document))
+                            <a href="{{$route}}" data-toggle="tooltip" title="{{$document->name}}" target="_blank" class="text-dark" style="word-break: break-word">
+                                <i class="fa fa-file-{{$type['icon']}} fa-2x text-{{$type['color']}}"></i>
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
     @endforeach
 @endsection

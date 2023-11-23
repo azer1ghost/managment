@@ -313,7 +313,7 @@
 
     @if($method != 'POST')
         <div class="my-5">
-            <x-documents :documents="$data->documents" :title="trans('translates.files.contract')"/>
+            <x-documents :documents="$data->documents" :title="trans('translates.files.necessary')"/>
             <x-document-upload :id="$data->id" model="Client"/>
         </div>
     @endif
