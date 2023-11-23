@@ -41,6 +41,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\LogisticsClientController,
     Modules\LogisticsController,
     Modules\MeetingController,
+    Modules\NecessaryController,
     Modules\NoteController,
     Modules\OptionController,
     Modules\OrderController,
@@ -288,7 +289,7 @@ Route::group([
     Route::view('/instruction','pages.instructions.index' )->name('instruction');
     Route::view('/presentations','pages.instructions.presentations' )->name('presentations');
     Route::view('/structure','pages.instructions.structure' )->name('structure');
-    Route::view('/necessary','pages.instructions.necessary' )->name('necessary');
+    Route::resource('/necessaries', NecessaryController::class);
     Route::post('/return-works/AjaxStore', [ReturnWorkController::class, 'AjaxStore' ])->name('AjaxStore');
     Route::resource('/return-works', ReturnWorkController::class );
     Route::resource('/statements', StatementController::class);

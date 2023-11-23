@@ -115,7 +115,7 @@ class Sidebar extends Component
                     (object)[
                         'title' => __('translates.navbar.necessary'),
                         'icon' => 'fas fa-file-signature',
-                        'url' => route('necessary'),
+                        'url' => route('necessaries.index'),
                         'permission' => 'generally',
                     ],
                     (object)[
