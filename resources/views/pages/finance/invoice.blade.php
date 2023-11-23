@@ -14,8 +14,8 @@
      $kod = "201412";
      $bvoen = "9900003611";
      $swift = "AIIBAZ2XXXX";
-     $who = "Vüsal Xəlilov İbrahim oğlu";
-     $whoFooter = "V.İ.Xəlilov";
+     $who = "Lamiyə Xəlilova Fərhad qızı";
+     $whoFooter = "L.İ.Xəlilova";
      $stamp = asset('assets/images/finance/mbroker.jpeg');
 
  } else if ($company == 'mbrokerRespublika') {
@@ -27,8 +27,8 @@
      $kod = "507547";
      $bvoen = "9900001901";
      $swift = "BRESAZ22";
-     $who = "Vüsal Xəlilov İbrahim oğlu";
-     $whoFooter = "V.İ.Xəlilov";
+     $who = "Lamiyə Xəlilova Fərhad qızı";
+     $whoFooter = "L.İ.Xəlilova";
      $stamp = asset('assets/images/finance/mbroker.jpeg');
   }else if ($company == 'mgroupRespublika') {
      $companyName = "\"Mobil Group\" MMC";
