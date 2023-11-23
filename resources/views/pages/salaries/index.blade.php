@@ -3,9 +3,14 @@
 @section('title', trans('translates.navbar.salary'))
 @section('style')
     <style>
-        table {
+        #table {
             text-align: center;
             width: 100%;
+        }
+        .sum-table {
+            width: 40%;
+            font-size: 18px;
+
         }
 
         input {
@@ -32,34 +37,28 @@
 {{--    <form action="{{route('salaries.index')}}">--}}
         <div class="row d-flex justify-content-between mb-2">
 
-            <div class="col-md-6">
-                <div class="input-group mb-3">
-                    <input type="search" name="search" value="{{request()->get('search')}}" class="form-control"
-                           placeholder="@lang('translates.fields.enter', ['field' => trans('translates.fields.name')])"
-                           aria-label="Recipient's clientname" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
-                        <a class="btn btn-outline-danger d-flex align-items-center" href="{{route('salaries.index')}}"><i
-                                    class="fal fa-times"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-8 col-md-3  mb-3">
-                <select name="limit" class="custom-select">
-                    @foreach([25, 50, 100] as $size)
-                        <option @if(request()->get('limit') == $size) selected
-                                @endif value="{{$size}}">{{$size}}</option>
-                    @endforeach
-                </select>
-            </div>
+{{--            <div class="col-md-6">--}}
+{{--                <div class="input-group mb-3">--}}
+{{--                    <input type="search" name="search" value="{{request()->get('search')}}" class="form-control"--}}
+{{--                           placeholder="@lang('translates.fields.enter', ['field' => trans('translates.fields.name')])"--}}
+{{--                           aria-label="Recipient's clientname" aria-describedby="basic-addon2">--}}
+{{--                    <div class="input-group-append">--}}
+{{--                        <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>--}}
+{{--                        <a class="btn btn-outline-danger d-flex align-items-center" href="{{route('salaries.index')}}"><i--}}
+{{--                                    class="fal fa-times"></i></a>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
             @can('create', App\Models\Salary::class)
-                <div class="col-2">
+                <div class="col-12 float-right mb-2">
                     <a class="btn btn-outline-success float-right"
                        href="{{route('salaries.create')}}">@lang('translates.buttons.create')</a>
                 </div>
             @endcan
+{{--    </form>--}}
+
             <div class="col-12 table-container">
-                <table class="table table-responsive-sm table-hover table-bordered">
+                <table id="table" class="table table-responsive-sm table-hover table-bordered">
                     <thead>
                     <tr>
                         <th scope="col" colspan="4">Əməkdaş</th>
@@ -166,14 +165,14 @@
                             <td class="calculated-salary-{{$salary->getAttribute('id')}}"></td>
                             <td><input class="prize-{{$salary->getAttribute('id')}}" type="text" name="prize" aria-label="prize" value="0"></td>
                             <td><input class="vacation-{{$salary->getAttribute('id')}}" type="text" name="vacation" aria-label="vacation" value="0"></td>
-                            <td class="total-salary-{{$salary->getAttribute('id')}}"></td>
-                            <td class="salary-tax-{{$salary->getAttribute('id')}}"></td>
-                            <td class="employee-fund-{{$salary->getAttribute('id')}}"></td>
-                            <td class="employee-ish-{{$salary->getAttribute('id')}}"></td>
-                            <td class="employee-itsh-{{$salary->getAttribute('id')}}"></td>
-                            <td class="employer-fund-{{$salary->getAttribute('id')}}"></td>
-                            <td class="employer-ish-{{$salary->getAttribute('id')}}"></td>
-                            <td class="employer-itsh-{{$salary->getAttribute('id')}}"></td>
+                            <td class="total-salary"></td>
+                            <td class="salary-tax"></td>
+                            <td class="employee-fund"></td>
+                            <td class="employee-ish"></td>
+                            <td class="employee-itsh"></td>
+                            <td class="employer-fund"></td>
+                            <td class="employer-ish"></td>
+                            <td class="employer-itsh"></td>
                             <td class="employee-total-tax-{{$salary->getAttribute('id')}}"></td>
                             <td class="amount-to-paid-{{$salary->getAttribute('id')}}"></td>
                             <td><input type="text" class="advance-{{$salary->getAttribute('id')}}" name="advance" aria-label="advance"></td>
@@ -191,15 +190,65 @@
                     @endforelse
                     </tbody>
                 </table>
+
             </div>
+
+
             <div class="col-6">
                 <div class="float-right">
                     {{$salaries->appends(request()->input())->links()}}
                 </div>
             </div>
         </div>
-{{--    </form>--}}
+    <br><br>
 
+    <table class="sum-table">
+        <tr>
+            <th>Fond</th>
+            <th>Məbləğ</th>
+        </tr>
+        <tr>
+            <td>Əmək Haqqı fondu</td>
+            <td class="font-weight-bold" id="sum-total-salary">0.00</td>
+        </tr>
+        <tr>
+            <td>Gəlir vergisi (İşçidən tutulan)</td>
+            <td class="font-weight-bold"  id="sum-salary-tax">0.00</td>
+        </tr>
+        <tr>
+            <td>Pensiya Fondu (İşçidən tutulan)</td>
+            <td class="font-weight-bold"  id="sum-employee-fund">0.00</td>
+        </tr>
+        <tr>
+            <td>İşsizlkdən Sığorta Haqqı (İşçidən tutulan)</td>
+            <td class="font-weight-bold"  id="sum-employee-ish">0.00</td>
+        </tr>
+        <tr>
+            <td>İcbari Tibbi Sığorta (İşçidən tutulan)</td>
+            <td class="font-weight-bold"  id="sum-employee-itsh">0.00</td>
+        </tr>
+        <tr>
+            <td>Pensiya Fondu (İşəgötürən tərəfindən)</td>
+            <td class="font-weight-bold"  id="sum-employer-fund">0.00</td>
+        </tr>
+        <tr>
+            <td>İşsizlikdən Sığorta Haqqı (İşəgötürən tərəfindən)</td>
+            <td class="font-weight-bold"  id="sum-employer-ish">0.00</td>
+        </tr>
+        <tr>
+            <td>İcbari Tibbi Sığorta (İşəgötürən tərəfindən)</td>
+            <td class="font-weight-bold"  id="sum-employer-itsh">0.00</td>
+        </tr>
+
+    </table>
+
+    <div class="col-5">
+        <br><br><br>
+        <h2  class="d-inline font-weight-bold" >Direktor: </h2>
+        <p class="d-inline float-right mt-2 font-weight-bolder">_____________________________</p>
+        <br>
+        <h3 class=" float-right mt-2">M.Y</h3>
+    </div>
 @endsection
 @section('scripts')
     <script>
@@ -210,12 +259,7 @@
 
     <script>
         $(document).ready(function () {
-
-
-            // Iterate through each row in the table
             $('tr').each(function () {
-
-                // Find the salary input and work-days input within the current row
                 var salaryInput = $(this).find('input[class^="salary-"]');
                 var workDaysInput = $(this).find('input[class^="work_days-"]');
                 var actualDaysInput = $(this).find('input[class^="actual_days-"]');
@@ -223,14 +267,14 @@
                 var prizeInput = $(this).find('input[class^="prize-"]');
                 var advanceInput = $(this).find('input[class^="advance-"]');
                 var calculatedSalary = $(this).find('td[class^="calculated-salary-"]');
-                var totalSalary = $(this).find('td[class^="total-salary-"]');
-                var salaryTax = $(this).find('td[class^="salary-tax-"]');
-                var employeeIsh = $(this).find('td[class^="employee-ish-"]');
-                var employeeItsh = $(this).find('td[class^="employee-itsh-"]');
-                var employeeFund = $(this).find('td[class^="employee-fund-"]');
-                var employerIsh = $(this).find('td[class^="employer-ish-"]');
-                var employerItsh = $(this).find('td[class^="employer-itsh-"]');
-                var employerFund = $(this).find('td[class^="employer-fund-"]');
+                var totalSalary = $(this).find('td[class^="total-salary"]');
+                var salaryTax = $(this).find('td[class^="salary-tax"]');
+                var employeeIsh = $(this).find('td[class^="employee-ish"]');
+                var employeeItsh = $(this).find('td[class^="employee-itsh"]');
+                var employeeFund = $(this).find('td[class^="employee-fund"]');
+                var employerIsh = $(this).find('td[class^="employer-ish"]');
+                var employerItsh = $(this).find('td[class^="employer-itsh"]');
+                var employerFund = $(this).find('td[class^="employer-fund"]');
                 var employeeTotalTax = $(this).find('td[class^="employee-total-tax"]');
                 var amountToPaid = $(this).find('td[class^="amount-to-paid"]');
                 var lastAmountToPaid = $(this).find('td[class^="last-amount-to-paid"]');
@@ -311,8 +355,31 @@
                     employeeTotalTax.text(newEmployeeTotalTax.toFixed(2));
                     amountToPaid.text(newAmountToPaid.toFixed(2));
                     lastAmountToPaid.text(newLastAmountToPaid.toFixed(2));
+                    updateTotals('total-salary', 'sum-total-salary');
+                    updateTotals('salary-tax', 'sum-salary-tax');
+                    updateTotals('employee-fund', 'sum-employee-fund');
+                    updateTotals('employee-ish', 'sum-employee-ish');
+                    updateTotals('employee-itsh', 'sum-employee-itsh');
+                    updateTotals('employer-fund', 'sum-employer-fund');
+                    updateTotals('employer-ish', 'sum-employer-ish');
+                    updateTotals('employer-itsh', 'sum-employer-itsh');
+                }
+
+                function updateTotals(columnClass, sumId) {
+                    var sum = 0;
+
+                    $('.' + columnClass).each(function() {
+                        var cellValue = $(this).text();
+
+                        if (!isNaN(cellValue) && cellValue !== '') {
+                            sum += parseFloat(cellValue);
+                        }
+                    });
+
+                    $('#' + sumId).text(sum.toFixed(2));
                 }
             });
+
             $('#saveButton').on('click', function () {
                 saveSalaryReports();
                 $(this).hide()
@@ -348,7 +415,6 @@
                         },
                         error: function (error) {
                             console.error('Error saving data:', error);
-                            console.log(rowData)
                         }
                     });
                 });

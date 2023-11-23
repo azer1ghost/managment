@@ -271,6 +271,7 @@ return [
         'accounts' => 'Hesablar',
         'transaction' => 'Tranzaksiyalar',
         'fund' => 'Bank və Kodlar',
+        'salary' => 'Əmək Haqqı',
     ],
 
     'questionnaire' => [
