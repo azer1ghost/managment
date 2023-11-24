@@ -51,6 +51,30 @@
         {{--                </div>--}}
         {{--            </div>--}}
 
+
+        <div class="col-12 float-left d-inline">
+            <h2>
+                @php
+
+                    $months = [
+                        '01' => 'Yanvar',
+                        '02' => 'Fevral',
+                        '03' => 'Mart',
+                        '04' => 'Aprel',
+                        '05' => 'May',
+                        '06' => 'İyun',
+                        '07' => 'İyul',
+                        '08' => 'Avqust',
+                        '09' => 'Sentyabr',
+                        '10' => 'Oktyabr',
+                        '11' => 'Noyabr',
+                        '12' => 'Dekabr',
+                    ];
+                $currentMonth = $months[request()->get('date-salary')]
+                @endphp
+                {{$currentMonth}} Ayı Üzrə Aylıq Əmək Haqqı Hesabatı
+            </h2>
+        </div>
         <div class="col-12 float-right mb-2">
             <a class="btn btn-outline-success float-right"
                href="{{route('selectCompany-salary')}}">Yeni Əmək Haqqı Hesabla</a>
