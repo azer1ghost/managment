@@ -125,7 +125,7 @@
                                 <a href="#" style="display: none;" class="btn btn-sm btn-outline-success edit-btn edit-btn-{{$salary->getAttribute('id')}}" data-salary-id="{{$salary->getAttribute('id')}}">
                                     <i class="fal fa-pen"></i>
                                 </a>
-                                <a href="#" style="display: none;" class="btn btn-sm btn-outline-secondary undo-btn undo-btn-{{$salary->getAttribute('id')}}" data-salary-id="{{$salary->getAttribute('id')}}">
+                                <a href="#" style="display: none;" class="btn btn-sm btn-outline-secondary undo-btn undo-btn-{{$salary->getAttribute('id')}}" data-salary="{{$salary}}" data-salary-id="{{$salary->getAttribute('id')}}">
                                     <i class="fal fa-undo"></i>
                                 </a>
                                     <a href="{{route('salary-reports.destroy', $salary)}}" delete data-name="{{$salary->getAttribute('user_id')}}" class="btn btn-sm btn-outline-danger" >
@@ -187,7 +187,9 @@
             <td>İcbari Tibbi Sığorta (İşəgötürən tərəfindən)</td>
             <td class="font-weight-bold"  id="sum-employer-itsh">0.00</td>
         </tr>
-
+<div class="col-6 float-right">
+    <a class="btn btn-outline-primary float-right" href="{{ route('salary-report.export' , [ 'filters' => json_encode($filters),]) }}">@lang('translates.buttons.export')</a>
+</div>
     </table>
 
     <div class="col-5">
@@ -206,7 +208,6 @@
     </script>
     <script>
         $(document).ready(function () {
-            // Function to show the edit button and handle changes in input fields
             function handleInputChange(salaryId) {
                 $(".edit-btn-" + salaryId + ", .undo-btn-" + salaryId).hide();
 
@@ -253,24 +254,28 @@
                 e.preventDefault();
 
                 var salaryId = $(this).data("salary-id");
+                var salaryModel = $(this).data("salary");
 
                 $(".edit-btn-" + salaryId + ", .undo-btn-" + salaryId).hide();
-                $("input.salary-" + salaryId).val("{{$salary->getAttribute('salary')}}");
-                $("input.work_days-" + salaryId).val("{{$salary->getAttribute('working_days')}}");
-                $("input.actual-days-" + salaryId).val("{{$salary->getAttribute('actual-days')}}");
-                $("input.prize-" + salaryId).val("{{$salary->getAttribute('prize')}}");
-                $("input.vacation-" + salaryId).val("{{$salary->getAttribute('vacation')}}");
-                $("input.advance-" + salaryId).val("{{$salary->getAttribute('advance')}}");
-                console.log("Changes undone for salary ID: " + salaryId);
+                $("input.salary-" + salaryId).val(salaryModel.salary);
+                $("input.work_days-" + salaryId).val(salaryModel.working_days);
+                $("input.actual_days-" + salaryId).val(salaryModel.actual_days);
+                $("input.prize-" + salaryId).val(salaryModel.prize);
+                $("input.vacation-" + salaryId).val(salaryModel.vacation);
+                $("input.advance-" + salaryId).val(salaryModel.advance);
             });
 
-            @foreach($salaryReports as $salary)
-            handleInputChange({{ $salary->getAttribute('id') }});
-            @endforeach
+                @foreach($salaryReports as $salary)
+                 handleInputChange({{ $salary->getAttribute('id') }});
+                @endforeach
         });
 
         $(document).ready(function () {
+
             $('tr').each(function () {
+                $(".undo-btn").on("click", function () {
+                    updateCalculatedSalary();
+                });
                 var salaryInput = $(this).find('input[class^="salary-"]');
                 var workDaysInput = $(this).find('input[class^="work_days-"]');
                 var actualDaysInput = $(this).find('input[class^="actual_days-"]');

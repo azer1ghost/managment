@@ -2,18 +2,16 @@
 
 namespace App\Models;
 
-use Altek\Accountant\Contracts\Recordable;
 use Altek\Eventually\Eventually;
 use App\Interfaces\DocumentableInterface;
 use App\Traits\Documentable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Creditor extends Model implements DocumentableInterface
 
 {
-    use HasFactory, Documentable, Eventually;
+    use Documentable, Eventually;
 
     protected $fillable = [
         'supplier_id',

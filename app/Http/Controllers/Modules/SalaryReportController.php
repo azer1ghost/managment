@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Modules;
 
+use App\Exports\SalaryReportsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SalaryReportRequest;
 use App\Models\SalaryReport;
@@ -16,6 +17,11 @@ class SalaryReportController extends Controller
 
     public function index(Request $request)
     {
+        $filters = [
+            'date-salary' => now()->year . '-' . $request->get('date-salary'),
+            'company' => $request->get('company_id'),
+
+        ];
         $company = $request->get('company_id');
         $date = now()->year . '-' . $request->get('date-salary');
         $search = $request->get('search');
@@ -24,7 +30,8 @@ class SalaryReportController extends Controller
                 ->when($search, fn($query) => $query->where('name', 'like', "%$search%"))
                 ->when($company, fn($query) => $query->where('company_id', $company))
                 ->when($date, fn($query) => $query->where('date', $date))
-                ->get()
+                ->get(),
+            'filters' => $filters
         ]);
 
     }
@@ -67,4 +74,11 @@ class SalaryReportController extends Controller
         }
         return response()->setStatusCode('204');
     }
+    public function export(Request $request)
+    {
+        $filters = json_decode($request->get('filters'), true);
+
+        return (new SalaryReportsExport($filters))->download('salaryReports.xlsx');
+    }
+
 }
