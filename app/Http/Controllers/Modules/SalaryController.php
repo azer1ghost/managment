@@ -20,7 +20,6 @@ class SalaryController extends Controller
 
     public function index(Request $request)
     {
-        $limit = $request->get('limit', 25);
         $search = $request->get('search');
         $company =$request->get('company_id');
 
@@ -28,7 +27,7 @@ class SalaryController extends Controller
             'salaries' => Salary::query()
                 ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"))
                 ->when($company, fn ($query) => $query->where('company_id', $company))
-                ->paginate($limit)
+                ->get()
         ]);
     }
 
@@ -46,7 +45,6 @@ class SalaryController extends Controller
     public function store(SalaryRequest $request): RedirectResponse
     {
         $validated = $request->validated();
-        $validated['is_service'] = $request->has('is_service');
         $salary = Salary::create($validated);
 
         return redirect()
@@ -79,7 +77,6 @@ class SalaryController extends Controller
     public function update(SalaryRequest $request, Salary $salary): RedirectResponse
     {
         $validated = $request->validated();
-        $validated['is_service'] = $request->has('is_service');
         $salary->update($validated);
 
         return redirect()

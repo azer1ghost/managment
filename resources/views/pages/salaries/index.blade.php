@@ -55,6 +55,10 @@
                        href="{{route('salaries.create')}}">@lang('translates.buttons.create')</a>
                 </div>
             @endcan
+            <div class="col-12 float-right mb-2">
+                <a class="btn btn-outline-success float-right"
+                   href="{{route('selectCompany-salaryReport')}}">Hesablanmış Əmək Haqqı</a>
+            </div>
 {{--    </form>--}}
 
             <div class="col-12 table-container">
@@ -91,7 +95,7 @@
                             <th scope="col">Cəmi Tutulmuşdur</th>
                             <th scope="col">Ödənilməli məbləğ</th>
                             <th scope="col">@lang('translates.columns.advance')</th>
-                            <th scope="col">yekun ödənilməli məbləğ</th>
+                            <th scope="col">Yekun ödənilməli məbləğ</th>
                         </tr>
                     </thead>
                     <tbody id="tblNewAttendees">
@@ -190,14 +194,6 @@
                     @endforelse
                     </tbody>
                 </table>
-
-            </div>
-
-
-            <div class="col-6">
-                <div class="float-right">
-                    {{$salaries->appends(request()->input())->links()}}
-                </div>
             </div>
         </div>
     <br><br>
@@ -280,27 +276,12 @@
                 var lastAmountToPaid = $(this).find('td[class^="last-amount-to-paid"]');
 
                 updateCalculatedSalary();
-                salaryInput.on('input', function () {
-                    updateCalculatedSalary();
-                });
+                var inputs = [salaryInput, workDaysInput, actualDaysInput, vacationInput, prizeInput, advanceInput];
 
-                workDaysInput.on('input', function () {
-                    updateCalculatedSalary();
-                });
-
-                actualDaysInput.on('input', function () {
-                    updateCalculatedSalary();
-                });
-
-                vacationInput.on('input', function () {
-                    updateCalculatedSalary();
-                });
-
-                prizeInput.on('input', function () {
-                    updateCalculatedSalary();
-                });
-                advanceInput.on('input', function () {
-                    updateCalculatedSalary();
+                inputs.forEach(function (input) {
+                    input.on('input', function () {
+                        updateCalculatedSalary();
+                    });
                 });
 
                 function updateCalculatedSalary() {
@@ -398,7 +379,7 @@
                         vacation : $(this).find('input[class^="vacation-"]').val(),
                         prize : $(this).find('input[class^="prize-"]').val(),
                         advance : $(this).find('input[class^="advance-"]').val(),
-                        date : date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate(),
+                        date : date.getFullYear() + '-' + (date.getMonth() + 1),
                         note : '',
                     };
                     $.ajaxSetup({

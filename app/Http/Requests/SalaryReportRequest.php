@@ -17,7 +17,7 @@ class SalaryReportRequest extends FormRequest
             'prize' => 'nullable|string',
             'vacation' => 'nullable|string',
             'advance' => 'nullable|string',
-            'date' => 'nullable|date',
+            'date' => 'nullable|string',
             'note' => 'nullable|string'
         ];
     }

@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SalaryReport extends Model
 {
@@ -14,12 +14,17 @@ class SalaryReport extends Model
         'actual_days',
         'salary',
         'prize',
-        'occupation',
+        'vacation',
         'advance',
         'date',
         'note',
     ];
 
     public $timestamps = false;
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class)->withDefault();
+    }
 
 }

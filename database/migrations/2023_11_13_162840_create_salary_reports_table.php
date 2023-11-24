@@ -24,7 +24,7 @@ class CreateSalaryReportsTable extends Migration
             $table->string('vacation')->nullable();
             $table->string('advance')->nullable();
             $table->text('note')->nullable();
-            $table->date('date')->nullable();
+            $table->string('date')->nullable();
         });
     }
 

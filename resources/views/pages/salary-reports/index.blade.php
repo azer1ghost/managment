@@ -3,9 +3,14 @@
 @section('title', trans('translates.navbar.salary'))
 @section('style')
     <style>
-        table {
+        #table {
             text-align: center;
             width: 100%;
+        }
+        .sum-table {
+            width: 40%;
+            font-size: 18px;
+
         }
 
         input {
@@ -16,6 +21,7 @@
             max-width: 100%;
             overflow: auto;
         }
+
     </style>
 @endsection
 @section('content')
@@ -29,174 +35,168 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
 
-    <form action="{{route('salaries.index')}}">
-        <div class="row d-flex justify-content-between mb-2">
+    {{--    <form action="{{route('salaries.index')}}">--}}
+    <div class="row d-flex justify-content-between mb-2">
 
-            <div class="col-md-6">
-                <div class="input-group mb-3">
-                    <input type="search" name="search" value="{{request()->get('search')}}" class="form-control"
-                           placeholder="@lang('translates.fields.enter', ['field' => trans('translates.fields.name')])"
-                           aria-label="Recipient's clientname" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
-                        <a class="btn btn-outline-danger d-flex align-items-center" href="{{route('salaries.index')}}"><i
-                                    class="fal fa-times"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-8 col-md-3  mb-3">
-                <select name="limit" class="custom-select">
-                    @foreach([25, 50, 100] as $size)
-                        <option @if(request()->get('limit') == $size) selected
-                                @endif value="{{$size}}">{{$size}}</option>
-                    @endforeach
-                </select>
-            </div>
-            @can('create', App\Models\Salary::class)
-                <div class="col-2">
-                    <a class="btn btn-outline-success float-right"
-                       href="{{route('salaries.create')}}">@lang('translates.buttons.create')</a>
-                </div>
-            @endcan
-            <div class="col-12 table-container">
-                <table class="table table-responsive-sm table-hover table-bordered">
-                    <thead>
-                    <tr>
-                        <th scope="col" colspan="4">Əməkdaş</th>
-                        <th scope="col" colspan="6">Hesablanıb</th>
-                        <th scope="col" colspan="4">Tutulmuşdur</th>
-                        <th scope="col" colspan="3">İşəgötürən Tərəfindən</th>
-                        <th scope="col" colspan="1"></th>
-                        <th scope="col" colspan="1"></th>
-                        <th scope="col" colspan="1"></th>
-                        <th scope="col" colspan="1"></th>
-                    </tr>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">@lang('translates.columns.user')</th>
-                            <th scope="col">@lang('translates.fields.position')</th>
-                            <th scope="col">@lang('translates.columns.salary')</th>
-                            <th scope="col">@lang('translates.columns.work_days')</th>
-                            <th scope="col">@lang('translates.columns.actual_days')</th>
-                            <th scope="col">@lang('translates.columns.calculated_salary')</th>
-                            <th scope="col">@lang('translates.columns.prize')</th>
-                            <th scope="col">@lang('translates.columns.vacation')</th>
-                            <th scope="col">@lang('translates.columns.total')</th>
-                            <th scope="col">@lang('translates.columns.salary_tax')</th>
-                            <th scope="col">Pensiya fondu</th>
-                            <th scope="col">I.S.H</th>
-                            <th scope="col">I.T.S.H</th>
-                            <th scope="col">Pensiya fondu</th>
-                            <th scope="col">I.S.H</th>
-                            <th scope="col">I.T.S.H</th>
-                            <th scope="col">Cəmi Tutulmuşdur</th>
-                            <th scope="col">Ödənilməli məbləğ</th>
-                            <th scope="col">@lang('translates.columns.advance')</th>
-                            <th scope="col">yekun ödənilməli məbləğ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @forelse($salaries as $salary)
-                        @php
-                          $gross = 0;
-                          $net = 0;
-                          $totalgb = 0;
-                          $totalqib = 0;
-                          $totalrepresentation = 0;
-                          $totalcmr = 0;
-                          $totalbranchgb = 0;
-                          $totalbranchqib = 0;
+        {{--            <div class="col-md-6">--}}
+        {{--                <div class="input-group mb-3">--}}
+        {{--                    <input type="search" name="search" value="{{request()->get('search')}}" class="form-control"--}}
+        {{--                           placeholder="@lang('translates.fields.enter', ['field' => trans('translates.fields.name')])"--}}
+        {{--                           aria-label="Recipient's clientname" aria-describedby="basic-addon2">--}}
+        {{--                    <div class="input-group-append">--}}
+        {{--                        <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>--}}
+        {{--                        <a class="btn btn-outline-danger d-flex align-items-center" href="{{route('salaries.index')}}"><i--}}
+        {{--                                    class="fal fa-times"></i></a>--}}
+        {{--                    </div>--}}
+        {{--                </div>--}}
+        {{--            </div>--}}
 
-                          $works = \App\Models\Work::where('user_id', $salary->getRelationValue('user')->id)
-                              ->whereDate('created_at', '>=', now()->startOfMonth())
-                              ->get();
-                         $branchWorks = \App\Models\Work::where('department_id' ,$salary->getRelationValue('user')->department_id)
-                                    ->whereDate('created_at', '>=', now()->startOfMonth())
-                                    ->get();
-
-                          $gb = $works->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48]);
-                          $qib = $works->where('service_id', 2);
-                          $representation = $works->where('service_id', 5);
-                          $cmr = $works->whereIn('service_id', [3,4,7]);
-                          $branchGb = $branchWorks->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48]);
-                          $branchQib = $branchWorks->where('service_id', 2);
-
-                          foreach ($gb as $work) {
-                              $totalgb += $work->getParameter(\App\Models\Work::GB);
-                          }
-
-                          foreach ($qib as $work) {
-                              $totalqib += $work->getParameter(\App\Models\Work::GB);
-                          }
-                          foreach ($representation as $work) {
-                              $totalrepresentation += $work->getParameter(\App\Models\Work::AMOUNT) + $work->getParameter(\App\Models\Work::ILLEGALAMOUNT);
-                          }
-                          foreach ($cmr as $work) {
-                              $totalcmr += $work->getParameter(\App\Models\Work::AMOUNT) + $work->getParameter(\App\Models\Work::ILLEGALAMOUNT);
-                          }
-                          foreach ($branchGb as $work) {
-                              $totalbranchgb += $work->getParameter(\App\Models\Work::GB);
-                          }
-                          foreach ($branchQib as $work) {
-                              $totalbranchqib += $work->getParameter(\App\Models\Work::GB);
-                          }
-                        if(in_array($salary->getRelationValue('user')->getAttribute('id'), [41, 75, 51])) {
-                            $gross = $salary->getRelationValue('user')->bonus + $salary->getRelationValue('user')->gross + ($totalgb * $salary->getRelationValue('user')->coefficient) + ($totalqib * $salary->getRelationValue('user')->qib_coefficient) + ($totalrepresentation * 0.2) + ($totalcmr * 0.1) + ($totalbranchgb * 0.4) + ($totalbranchqib * 0.2);
-                            }else {
-                            $gross = $salary->getRelationValue('user')->bonus + $salary->getRelationValue('user')->gross + ($totalgb * $salary->getRelationValue('user')->coefficient) + ($totalqib * $salary->getRelationValue('user')->qib_coefficient) + ($totalrepresentation * 0.2) + ($totalcmr * 0.1);
-                            }
-                             if($gross  <= 200){
-                                $net = $gross - ($gross * 0.03) - ($gross * 0.005) - ($gross * 0.02);
-                               }
-                            else{
-                               $net = $gross - (6 + (($gross-200)  * 0.1)) - ($gross * 0.005) - ($gross * 0.02);
-                            }
-                        @endphp
-
-                        <tr>
-                            <th scope="row">{{$loop->iteration}}</th>
-                            <td>{{$salary->getRelationValue('user')->getAttribute('fullname')}}</td>
-                            <td>{{$salary->getRelationValue('user')->getRelationValue('position')->getAttribute('name')}}</td>
-                            <td><input type="text" class="salary-{{$salary->getAttribute('id')}}" value="{{$net}}"></td>
-                            <td><input type="text" class="work_days-{{$salary->getAttribute('id')}}" name="work_days" aria-label="work_days" value="26"></td>
-                            <td><input type="text" class="actual_days-{{$salary->getAttribute('id')}}" name="actual_days" aria-label="actual_days" value="26"></td>
-                            <td class="calculated-salary-{{$salary->getAttribute('id')}}"></td>
-                            <td><input class="prize-{{$salary->getAttribute('id')}}" type="text" name="prize" aria-label="prize" value="0"></td>
-                            <td><input class="vacation-{{$salary->getAttribute('id')}}" type="text" name="vacation" aria-label="vacation" value="0"></td>
-                            <td class="total-salary-{{$salary->getAttribute('id')}}"></td>
-                            <td class="salary-tax-{{$salary->getAttribute('id')}}"></td>
-                            <td class="employee-fund-{{$salary->getAttribute('id')}}"></td>
-                            <td class="employee-ish-{{$salary->getAttribute('id')}}"></td>
-                            <td class="employee-itsh-{{$salary->getAttribute('id')}}"></td>
-                            <td class="employer-fund-{{$salary->getAttribute('id')}}"></td>
-                            <td class="employer-ish-{{$salary->getAttribute('id')}}"></td>
-                            <td class="employer-itsh-{{$salary->getAttribute('id')}}"></td>
-                            <td class="employee-total-tax-{{$salary->getAttribute('id')}}"></td>
-                            <td class="amount-to-paid-{{$salary->getAttribute('id')}}"></td>
-                            <td><input type="text" class="advance-{{$salary->getAttribute('id')}}" name="advance" aria-label="advance"></td>
-                            <td class="last-amount-to-paid-{{$salary->getAttribute('id')}}"></td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <th colspan="7">
-                                <div class="row justify-content-center m-3">
-                                    <div class="col-7 alert alert-danger text-center"
-                                         role="alert">@lang('translates.general.empty')</div>
-                                </div>
-                            </th>
-                        </tr>
-                    @endforelse
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-6">
-                <div class="float-right">
-                    {{$salaries->appends(request()->input())->links()}}
-                </div>
-            </div>
+        <div class="col-12 float-right mb-2">
+            <a class="btn btn-outline-success float-right"
+               href="{{route('selectCompany-salary')}}">Yeni Əmək Haqqı Hesabla</a>
         </div>
-    </form>
+        {{--    </form>--}}
 
+        <div class="col-12 table-container">
+            <table id="table" class="table table-responsive-sm table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th scope="col" colspan="4">Əməkdaş</th>
+                    <th scope="col" colspan="6">Hesablanıb</th>
+                    <th scope="col" colspan="4">Tutulmuşdur</th>
+                    <th scope="col" colspan="3">İşəgötürən Tərəfindən</th>
+                    <th scope="col" colspan="5"></th>
+                </tr>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">@lang('translates.columns.user')</th>
+                    <th scope="col">@lang('translates.fields.position')</th>
+                    <th scope="col">@lang('translates.columns.salary')</th>
+                    <th scope="col">@lang('translates.columns.work_days')</th>
+                    <th scope="col">@lang('translates.columns.actual_days')</th>
+                    <th scope="col">@lang('translates.columns.calculated_salary')</th>
+                    <th scope="col">@lang('translates.columns.prize')</th>
+                    <th scope="col">@lang('translates.columns.vacation')</th>
+                    <th scope="col">@lang('translates.columns.total')</th>
+                    <th scope="col">@lang('translates.columns.salary_tax')</th>
+                    <th scope="col">Pensiya fondu</th>
+                    <th scope="col">I.S.H</th>
+                    <th scope="col">I.T.S.H</th>
+                    <th scope="col">Pensiya fondu</th>
+                    <th scope="col">I.S.H</th>
+                    <th scope="col">I.T.S.H</th>
+                    <th scope="col">Cəmi Tutulmuşdur</th>
+                    <th scope="col">Ödənilməli məbləğ</th>
+                    <th scope="col">@lang('translates.columns.advance')</th>
+                    <th scope="col">Yekun ödənilməli məbləğ</th>
+                    <th scope="col">Əməliyyatlar</th>
+                </tr>
+                </thead>
+                <tbody id="tblNewAttendees">
+                @forelse($salaryReports as $salary)
+
+                    <tr>
+                        <th scope="row">{{$loop->iteration}}
+                            <input type="hidden" class="user_id" name="user_id" value="{{$salary->getAttribute('user_id')}}">
+                            <input type="hidden" class="company_id" name="company_id" value="{{$salary->getAttribute('company_id')}}">
+                        </th>
+                        <td>{{$salary->getRelationValue('user')->getAttribute('fullname')}}</td>
+                        <td>{{$salary->getRelationValue('user')->getRelationValue('position')->getAttribute('name')}}</td>
+                        <td><input type="text" class="salary-{{$salary->getAttribute('id')}}" value="{{$salary->getAttribute('salary')}}"></td>
+                        <td><input type="text" class="work_days-{{$salary->getAttribute('id')}}" name="work_days" aria-label="work_days" value="{{$salary->getAttribute('working_days')}}"></td>
+                        <td><input type="text" class="actual_days-{{$salary->getAttribute('id')}}" name="actual_days" aria-label="actual_days" value="{{$salary->getAttribute('actual_days')}}"></td>
+                        <td class="calculated-salary-{{$salary->getAttribute('id')}}"></td>
+                        <td><input class="prize-{{$salary->getAttribute('id')}}" type="text" name="prize" aria-label="prize" value="{{$salary->getAttribute('prize')}}"></td>
+                        <td><input class="vacation-{{$salary->getAttribute('id')}}" type="text" name="vacation" aria-label="vacation" value="{{$salary->getAttribute('vacation')}}"></td>
+                        <td class="total-salary"></td>
+                        <td class="salary-tax"></td>
+                        <td class="employee-fund"></td>
+                        <td class="employee-ish"></td>
+                        <td class="employee-itsh"></td>
+                        <td class="employer-fund"></td>
+                        <td class="employer-ish"></td>
+                        <td class="employer-itsh"></td>
+                        <td class="employee-total-tax-{{$salary->getAttribute('id')}}"></td>
+                        <td class="amount-to-paid-{{$salary->getAttribute('id')}}"></td>
+                        <td><input type="text" class="advance-{{$salary->getAttribute('id')}}" name="advance" aria-label="advance" value="{{$salary->getAttribute('advance')}}"></td>
+                        <td class="last-amount-to-paid-{{$salary->getAttribute('id')}}"></td>
+                        <td>
+                            <div class="btn-sm-group d-flex">
+                                <a href="#" style="display: none;" class="btn btn-sm btn-outline-success edit-btn edit-btn-{{$salary->getAttribute('id')}}" data-salary-id="{{$salary->getAttribute('id')}}">
+                                    <i class="fal fa-pen"></i>
+                                </a>
+                                <a href="#" style="display: none;" class="btn btn-sm btn-outline-secondary undo-btn undo-btn-{{$salary->getAttribute('id')}}" data-salary-id="{{$salary->getAttribute('id')}}">
+                                    <i class="fal fa-undo"></i>
+                                </a>
+                                    <a href="{{route('salary-reports.destroy', $salary)}}" delete data-name="{{$salary->getAttribute('user_id')}}" class="btn btn-sm btn-outline-danger" >
+                                        <i class="fal fa-trash"></i>
+                                    </a>
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <th colspan="7">
+                            <div class="row justify-content-center m-3">
+                                <div class="col-7 alert alert-danger text-center"
+                                     role="alert">@lang('translates.general.empty')</div>
+                            </div>
+                        </th>
+                    </tr>
+                @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br><br>
+
+    <table class="sum-table">
+        <tr>
+            <th>Fond</th>
+            <th>Məbləğ</th>
+        </tr>
+        <tr>
+            <td>Əmək Haqqı fondu</td>
+            <td class="font-weight-bold" id="sum-total-salary">0.00</td>
+        </tr>
+        <tr>
+            <td>Gəlir vergisi (İşçidən tutulan)</td>
+            <td class="font-weight-bold"  id="sum-salary-tax">0.00</td>
+        </tr>
+        <tr>
+            <td>Pensiya Fondu (İşçidən tutulan)</td>
+            <td class="font-weight-bold"  id="sum-employee-fund">0.00</td>
+        </tr>
+        <tr>
+            <td>İşsizlkdən Sığorta Haqqı (İşçidən tutulan)</td>
+            <td class="font-weight-bold"  id="sum-employee-ish">0.00</td>
+        </tr>
+        <tr>
+            <td>İcbari Tibbi Sığorta (İşçidən tutulan)</td>
+            <td class="font-weight-bold"  id="sum-employee-itsh">0.00</td>
+        </tr>
+        <tr>
+            <td>Pensiya Fondu (İşəgötürən tərəfindən)</td>
+            <td class="font-weight-bold"  id="sum-employer-fund">0.00</td>
+        </tr>
+        <tr>
+            <td>İşsizlikdən Sığorta Haqqı (İşəgötürən tərəfindən)</td>
+            <td class="font-weight-bold"  id="sum-employer-ish">0.00</td>
+        </tr>
+        <tr>
+            <td>İcbari Tibbi Sığorta (İşəgötürən tərəfindən)</td>
+            <td class="font-weight-bold"  id="sum-employer-itsh">0.00</td>
+        </tr>
+
+    </table>
+
+    <div class="col-5">
+        <br><br><br>
+        <h2  class="d-inline font-weight-bold" >Direktor: </h2>
+        <p class="d-inline float-right mt-2 font-weight-bolder">_____________________________</p>
+        <br>
+        <h3 class=" float-right mt-2">M.Y</h3>
+    </div>
 @endsection
 @section('scripts')
     <script>
@@ -204,14 +204,73 @@
             this.form.submit();
         });
     </script>
-
     <script>
         $(document).ready(function () {
+            // Function to show the edit button and handle changes in input fields
+            function handleInputChange(salaryId) {
+                $(".edit-btn-" + salaryId + ", .undo-btn-" + salaryId).hide();
 
+                $("input.salary-" + salaryId + ", input.work_days-" + salaryId + ", input.actual_days-" + salaryId + ", input.prize-" + salaryId + ", input.vacation-" + salaryId + ", input.advance-" + salaryId).on("input", function () {
+                    $(".edit-btn-" + salaryId + ", .undo-btn-" + salaryId).show();
+                });
+            }
 
-            // Iterate through each row in the table
+            $(".edit-btn").on("click", function (e) {
+                e.preventDefault();
+
+                var salaryId = $(this).data("salary-id");
+                var rowData = {
+                    salary:  $('td').find('input.salary-' + salaryId).val(),
+                    working_days:$('td').find('input.work_days-' + salaryId).val(),
+                    actual_days: $('td').find('input.actual_days-' + salaryId).val(),
+                    vacation : $('td').find('input.vacation-' + salaryId).val(),
+                    prize : $('td').find('input.prize-' + salaryId).val(),
+                    advance : $('td').find('input.advance-' + salaryId).val(),
+                    note : '',
+                };
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: "{{route('salary-reports.update', 'id')}}".replace('id', salaryId),
+                    method: 'PUT',
+                    data: rowData,
+                    success: function (response) {
+                        console.log('Data saved successfully:', response);
+                    },
+                    error: function (error) {
+                        console.error('Error saving data:', error);
+                    }
+                });
+                $(".edit-btn-" + salaryId + ", .undo-btn-" + salaryId).hide();
+
+                console.log("Changes saved for salary ID: " + salaryId);
+            });
+
+            $(".undo-btn").on("click", function (e) {
+                e.preventDefault();
+
+                var salaryId = $(this).data("salary-id");
+
+                $(".edit-btn-" + salaryId + ", .undo-btn-" + salaryId).hide();
+                $("input.salary-" + salaryId).val("{{$salary->getAttribute('salary')}}");
+                $("input.work_days-" + salaryId).val("{{$salary->getAttribute('working_days')}}");
+                $("input.actual-days-" + salaryId).val("{{$salary->getAttribute('actual-days')}}");
+                $("input.prize-" + salaryId).val("{{$salary->getAttribute('prize')}}");
+                $("input.vacation-" + salaryId).val("{{$salary->getAttribute('vacation')}}");
+                $("input.advance-" + salaryId).val("{{$salary->getAttribute('advance')}}");
+                console.log("Changes undone for salary ID: " + salaryId);
+            });
+
+            @foreach($salaryReports as $salary)
+            handleInputChange({{ $salary->getAttribute('id') }});
+            @endforeach
+        });
+
+        $(document).ready(function () {
             $('tr').each(function () {
-                // Find the salary input and work-days input within the current row
                 var salaryInput = $(this).find('input[class^="salary-"]');
                 var workDaysInput = $(this).find('input[class^="work_days-"]');
                 var actualDaysInput = $(this).find('input[class^="actual_days-"]');
@@ -219,38 +278,28 @@
                 var prizeInput = $(this).find('input[class^="prize-"]');
                 var advanceInput = $(this).find('input[class^="advance-"]');
                 var calculatedSalary = $(this).find('td[class^="calculated-salary-"]');
-                var totalSalary = $(this).find('td[class^="total-salary-"]');
-                var salaryTax = $(this).find('td[class^="salary-tax-"]');
-                var employeeIsh = $(this).find('td[class^="employee-ish-"]');
-                var employeeItsh = $(this).find('td[class^="employee-itsh-"]');
-                var employeeFund = $(this).find('td[class^="employee-fund-"]');
-                var employerIsh = $(this).find('td[class^="employer-ish-"]');
-                var employerItsh = $(this).find('td[class^="employer-itsh-"]');
-                var employerFund = $(this).find('td[class^="employer-fund-"]');
+                var totalSalary = $(this).find('td[class^="total-salary"]');
+                var salaryTax = $(this).find('td[class^="salary-tax"]');
+                var employeeIsh = $(this).find('td[class^="employee-ish"]');
+                var employeeItsh = $(this).find('td[class^="employee-itsh"]');
+                var employeeFund = $(this).find('td[class^="employee-fund"]');
+                var employerIsh = $(this).find('td[class^="employer-ish"]');
+                var employerItsh = $(this).find('td[class^="employer-itsh"]');
+                var employerFund = $(this).find('td[class^="employer-fund"]');
                 var employeeTotalTax = $(this).find('td[class^="employee-total-tax"]');
                 var amountToPaid = $(this).find('td[class^="amount-to-paid"]');
                 var lastAmountToPaid = $(this).find('td[class^="last-amount-to-paid"]');
 
-                // Attach an input event listener to the salary and work-days inputs
                 updateCalculatedSalary();
-                salaryInput.on('input', function () {
-                    updateCalculatedSalary();
+                var inputs = [salaryInput, workDaysInput, actualDaysInput, vacationInput, prizeInput, advanceInput];
+
+                inputs.forEach(function (input) {
+                    input.on('input', function () {
+                        updateCalculatedSalary();
+                    });
                 });
 
-                workDaysInput.on('input', function () {
-                    updateCalculatedSalary();
-                });
-
-                actualDaysInput.on('input', function () {
-                    updateCalculatedSalary();
-                });
-                advanceInput.on('input', function () {
-                    updateCalculatedSalary();
-                });
-
-                // Function to update the calculated salary based on the inputs
                 function updateCalculatedSalary() {
-                    // Get the values from the inputs
                     var salary = parseFloat(salaryInput.val()) || 0;
                     var workDays = parseFloat(workDaysInput.val()) || 0;
                     var prize = parseFloat(prizeInput.val()) || 0;
@@ -260,30 +309,30 @@
                     var newCalculatedSalary = (salary / workDays) * actualDays;
                     var newTotalSalary = newCalculatedSalary + prize + vacation;
                     var newSalaryTax = 0;
-                    if (newCalculatedSalary <= 200) {
-                        var newEmployeeFund = newCalculatedSalary * 0.03; // 3% of newCalculatedSalary
+                    if (newTotalSalary <= 200) {
+                        var newEmployeeFund = newTotalSalary * 0.03;
                     } else {
-                        var newEmployeeFund = 6 + (newCalculatedSalary - 200) * 0.10; // 6 + 10% of the amount exceeding 200
+                        var newEmployeeFund = 6 + (newTotalSalary - 200) * 0.10;
                     }
-                    var newEmployeeIsh = newCalculatedSalary * 0.5/100;
+                    var newEmployeeIsh = newTotalSalary * 0.5/100;
 
-                    if (newCalculatedSalary <= 8000) {
-                        var newEmployeeItsh = newCalculatedSalary * 0.02; // 2% of newCalculatedSalary
+                    if (newTotalSalary <= 8000) {
+                        var newEmployeeItsh = newTotalSalary * 0.02;
                     } else {
-                        var newEmployeeItsh = 80 + (newCalculatedSalary - 8000) * 0.005; // 80 + 0.5% of the amount exceeding 8000
+                        var newEmployeeItsh = 80 + (newTotalSalary - 8000) * 0.005;
                     }
 
-                    if (newCalculatedSalary <= 200) {
-                        var  newEmployerFund = newCalculatedSalary * 0.22; // 22% of newCalculatedSalary
+                    if (newTotalSalary <= 200) {
+                        var  newEmployerFund = newTotalSalary * 0.22;
                     } else {
-                        var   newEmployerFund = 44 + (newCalculatedSalary - 200) * 0.15; // 44 + 15% of the amount exceeding 200
+                        var   newEmployerFund = 44 + (newTotalSalary - 200) * 0.15;
                     }
-                    var newEmployerIsh = newCalculatedSalary * 0.5/100;
+                    var newEmployerIsh = newTotalSalary * 0.5/100;
 
-                    if (newCalculatedSalary <= 8000) {
-                        var newEmployerItsh = newCalculatedSalary * 0.02; // 2% of newCalculatedSalary
+                    if (newTotalSalary <= 8000) {
+                        var newEmployerItsh = newTotalSalary * 0.02;
                     } else {
-                        var newEmployerItsh = 80 + (newCalculatedSalary - 8000) * 0.005; // 80 + 0.5% of the amount exceeding 8000
+                        var newEmployerItsh = 80 + (newTotalSalary - 8000) * 0.005;
                     }
                     var newEmployeeTotalTax = newEmployeeFund + newEmployeeIsh + newEmployeeItsh + newSalaryTax
                     var newAmountToPaid = newTotalSalary - newEmployeeTotalTax
@@ -302,8 +351,32 @@
                     employeeTotalTax.text(newEmployeeTotalTax.toFixed(2));
                     amountToPaid.text(newAmountToPaid.toFixed(2));
                     lastAmountToPaid.text(newLastAmountToPaid.toFixed(2));
+                    updateTotals('total-salary', 'sum-total-salary');
+                    updateTotals('salary-tax', 'sum-salary-tax');
+                    updateTotals('employee-fund', 'sum-employee-fund');
+                    updateTotals('employee-ish', 'sum-employee-ish');
+                    updateTotals('employee-itsh', 'sum-employee-itsh');
+                    updateTotals('employer-fund', 'sum-employer-fund');
+                    updateTotals('employer-ish', 'sum-employer-ish');
+                    updateTotals('employer-itsh', 'sum-employer-itsh');
                 }
+
+                function updateTotals(columnClass, sumId) {
+                    var sum = 0;
+
+                    $('.' + columnClass).each(function() {
+                        var cellValue = $(this).text();
+
+                        if (!isNaN(cellValue) && cellValue !== '') {
+                            sum += parseFloat(cellValue);
+                        }
+                    });
+
+                    $('#' + sumId).text(sum.toFixed(2));
+                }
+
             });
+
         });
     </script>
 @endsection

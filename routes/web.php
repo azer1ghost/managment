@@ -288,6 +288,7 @@ Route::group([
 
     Route::view('/instruction','pages.instructions.index' )->name('instruction');
     Route::view('/selectCompany-salary','pages.salaries.selectCompany' )->name('selectCompany-salary');
+    Route::view('/selectCompany-salaryReport','pages.salaries.selectCompany' )->name('selectCompany-salaryReport');
     Route::view('/presentations','pages.instructions.presentations' )->name('presentations');
     Route::view('/structure','pages.instructions.structure' )->name('structure');
     Route::resource('/necessaries', NecessaryController::class);
