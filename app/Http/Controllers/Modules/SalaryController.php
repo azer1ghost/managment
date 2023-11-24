@@ -22,10 +22,12 @@ class SalaryController extends Controller
     {
         $limit = $request->get('limit', 25);
         $search = $request->get('search');
+        $company =$request->get('company_id');
 
         return view('pages.salaries.index' )->with([
             'salaries' => Salary::query()
                 ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"))
+                ->when($company, fn ($query) => $query->where('company_id', $company))
                 ->paginate($limit)
         ]);
     }

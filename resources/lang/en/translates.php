@@ -267,6 +267,7 @@ return [
         'accounts' => 'Accounts',
         'transaction' => 'Transaction',
         'fund' => 'Bank and accounts',
+        'salary' => 'Salaries',
     ],
 
     'questionnaire' => [
