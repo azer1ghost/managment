@@ -678,6 +678,21 @@ class WorkController extends Controller
 
         event(new WorkCreated($work));
 
+        if ($work->service_id == 2) {
+            Work::withoutEvents(function () use ($work) {
+
+                $newPlannedWork = Work::create([
+                    'creator_id' => $work->creator_id ?? null,
+                    'user_id' => $work->user_id ?? null,
+                    'department_id' => $work->department_id ?? null,
+                    'service_id' => 19,
+                    'client_id' => $work->client_id ?? null,
+                    'status' => $work::PLANNED,
+                ]);
+                event(new WorkCreated($newPlannedWork));
+
+            });
+        }
         return redirect()
             ->route('works.edit', $work)
             ->withNotify('success', $work->getAttribute('name'));
