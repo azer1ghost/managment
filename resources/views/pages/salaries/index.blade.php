@@ -109,13 +109,24 @@
                           $totalcmr = 0;
                           $totalbranchgb = 0;
                           $totalbranchqib = 0;
+//$salary->getRelationValue('user')->id
 
-                          $works = \App\Models\Work::where('user_id', $salary->getRelationValue('user')->id)
-                              ->whereDate('created_at', '>=', now()->startOfMonth())
-                              ->get();
-                         $branchWorks = \App\Models\Work::where('department_id' ,$salary->getRelationValue('user')->department_id)
-                                    ->whereDate('created_at', '>=', now()->startOfMonth())
-                                    ->get();
+                        $startOfMonth = now()->setMonth(11)->startOfMonth();
+                        $endOfMonth = now()->setMonth(11)->endOfMonth();
+
+                          $works = Work::where('user_id', $salary->getRelationValue('user')->id)
+                            ->whereDate('created_at', '>=', $startOfMonth)
+                            ->whereDate('created_at', '<=', $endOfMonth)
+                            ->get();
+
+//                         $branchWorks = \App\Models\Work::where('department_id' ,)
+//                                    ->whereDate('created_at', '>=', now()->startOfMonth())
+//                                    ->get();
+//
+                         $branchWorks = Work::where('department_id', $salary->getRelationValue('user')->department_id)
+                            ->whereDate('created_at', '>=', $startOfMonth)
+                            ->whereDate('created_at', '<=', $endOfMonth)
+                            ->get();
 
                           $gb = $works->whereIn('service_id', [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48]);
                           $qib = $works->where('service_id', 2);
