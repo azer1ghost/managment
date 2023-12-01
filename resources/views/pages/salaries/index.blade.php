@@ -114,7 +114,7 @@
                         $startOfMonth = now()->setMonth(11)->startOfMonth();
                         $endOfMonth = now()->setMonth(11)->endOfMonth();
 
-                          $works = Work::where('user_id', $salary->getRelationValue('user')->id)
+                          $works = \App\Models\Work::where('user_id', $salary->getRelationValue('user')->id)
                             ->whereDate('created_at', '>=', $startOfMonth)
                             ->whereDate('created_at', '<=', $endOfMonth)
                             ->get();
@@ -123,7 +123,7 @@
 //                                    ->whereDate('created_at', '>=', now()->startOfMonth())
 //                                    ->get();
 //
-                         $branchWorks = Work::where('department_id', $salary->getRelationValue('user')->department_id)
+                         $branchWorks = \App\Models\Work::where('department_id', $salary->getRelationValue('user')->department_id)
                             ->whereDate('created_at', '>=', $startOfMonth)
                             ->whereDate('created_at', '<=', $endOfMonth)
                             ->get();
