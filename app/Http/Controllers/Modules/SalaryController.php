@@ -12,11 +12,11 @@ use Illuminate\Http\Request;
 
 class SalaryController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->authorizeResource(Salary::class, 'salary');
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('auth');
+//        $this->authorizeResource(Salary::class, 'salary');
+//    }
 
     public function index(Request $request)
     {

@@ -331,6 +331,12 @@ class Sidebar extends Component
                         'url' => route('commands.index'),
                         'permission' => 'generally',
                     ],
+                    (object)[
+                        'title' => __('translates.navbar.salary'),
+                        'icon' => 'fas fa-scroll',
+                        'url' => route('selectCompany-salary'),
+                        'permission' => 'viewAny-salary',
+                    ],
                 ]
             ],
             (object)[
