@@ -49,12 +49,12 @@
 {{--                    </div>--}}
 {{--                </div>--}}
 {{--            </div>--}}
-            @can('create', App\Models\Salary::class)
+{{--            @can('create', App\Models\Salary::class)--}}
                 <div class="col-12 float-right mb-2">
                     <a class="btn btn-outline-success float-right"
                        href="{{route('salaries.create')}}">@lang('translates.buttons.create')</a>
                 </div>
-            @endcan
+{{--            @endcan--}}
             <div class="col-12 float-right mb-2">
                 <a class="btn btn-outline-success float-right"
                    href="{{route('selectCompany-salaryReport')}}">Hesablanmış Əmək Haqqı</a>
