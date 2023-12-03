@@ -185,6 +185,7 @@
                             <td>@lang("translates.clients_type." . $client->getAttribute('type'))</td>
                                 <td>@foreach($client->companies as $company) {{$company->getAttribute('name')}} @if(!$loop->last),@endif @endforeach</td>
                                 <td>{{$client->getRelationValue('users')->getAttribute('id') ? $client->getRelationValue('users')->getAttribute('fullname_with_position') : 'Toğrul Surxayzadə-(Hüquqşünas)'}}</td>
+                                <td>{{$client->getAttribute('coordinators')}}</td>
 
                                 <td><label for="data-checkbox-{{$client->getAttribute('id')}}">{{$client->getAttribute('fullname')}}</label></td>
                                     @if(auth()->user()->hasPermission('viewAll-client'))

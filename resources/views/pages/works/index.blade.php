@@ -356,6 +356,7 @@
                     <th @if(auth()->user()->hasPermission('editPrice-work')) class="code" @endif data-name="code" data-pk="{{ $work->getAttribute('id') }}" scope="row">{{$work->getAttribute('code')}}</th>
                 @endif
 
+{{--                    <td>{{$work->getRelationValue('client_id')->getAttribute('coordinators')}}</td>--}}
                     <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
 
                     <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
