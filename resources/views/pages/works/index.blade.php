@@ -304,6 +304,7 @@
             @endif
 
 {{--            @if(\App\Models\Work::userCanViewAll())--}}
+            <th scope="col">Koordinator</th>
             <th scope="col">@lang('translates.columns.created_by')</th>
             <th scope="col">@lang('translates.columns.department')</th>
 {{--            @endif--}}
@@ -355,8 +356,9 @@
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     <th @if(auth()->user()->hasPermission('editPrice-work')) class="code" @endif data-name="code" data-pk="{{ $work->getAttribute('id') }}" scope="row">{{$work->getAttribute('code')}}</th>
                 @endif
-
-{{--                    <td>{{$work->getRelationValue('client_id')->getAttribute('coordinators')}}</td>--}}
+                    @foreach($work->client->coordinators as $user)
+                        <td>{{$user->getAttribute('fullname')}}</td>
+                    @endforeach
                     <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
 
                     <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
