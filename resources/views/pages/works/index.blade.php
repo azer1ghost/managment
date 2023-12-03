@@ -358,11 +358,8 @@
                 @endif
                     @foreach($work->client->coordinators as $user)
                         <td>
-                            @if($user->getAttribute('fullname'))
+                            @if($user->id)
                                 {{ $user->getAttribute('fullname') }}
-                            @endif
-                            @if(!$loop->last)
-                                <br>
                             @else
                                 Koordinator Yoxdur
                             @endif
