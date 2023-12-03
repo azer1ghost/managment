@@ -356,15 +356,15 @@
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     <th @if(auth()->user()->hasPermission('editPrice-work')) class="code" @endif data-name="code" data-pk="{{ $work->getAttribute('id') }}" scope="row">{{$work->getAttribute('code')}}</th>
                 @endif
-                    @foreach($work->client->coordinators as $user)
-                        <td>
-                            @if($user->id)
-                                {{ $user->getAttribute('fullname') }}
-                            @else
-                                Koordinator Yoxdur
-                            @endif
-                        </td>
-                    @endforeach
+{{--                    @foreach($work->client->coordinators as $user)--}}
+{{--                        <td>--}}
+{{--                            @if($user->id)--}}
+{{--                                {{ $user->getAttribute('fullname') }}--}}
+{{--                            @else--}}
+{{--                                Koordinator Yoxdur--}}
+{{--                            @endif--}}
+{{--                        </td>--}}
+{{--                    @endforeach--}}
                     <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
 
                     <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
