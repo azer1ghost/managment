@@ -27,7 +27,11 @@ class EmployeeSatisfactionController extends Controller
 
         $employeeSatisfaction = EmployeeSatisfaction::query()->with('users');
         if (!auth()->user()->hasPermission('measure-employeeSatisfaction')) {
-            $employeeSatisfaction = $employeeSatisfaction->where('user_id', auth()->id())->orWhere('type', 3);
+            $employeeSatisfaction = $employeeSatisfaction->where(function ($query) {
+                $query->where('user_id', auth()->id())->orWhere(function ($query) {
+                    $query->where('type', 3)->where('user_id', auth()->id());
+                });
+            });
         }
         if($request->has('created_at')){
             $created_at = $request->get('created_at');
