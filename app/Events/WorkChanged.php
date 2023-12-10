@@ -19,7 +19,7 @@ class WorkChanged
         $this->creator = $work->getRelationValue('user');
         $this->title = 'İşin Gb Sayı Dəyişdirilib';
         $this->receivers = User::where('department_id', 5)->get()->all();
-        $this->body = 'Bu geri qaytarılan işin bəyannamə sayı dəyişib';
+        $this->body = 'Bu geri qaytarılan işin bəyannamə sayı və ya kod sayı dəyişib';
     }
 
 }
