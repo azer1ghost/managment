@@ -19,7 +19,7 @@ class WorkChanged
         $this->url = route('works.show', $work);
         $this->creator = $work->getRelationValue('user');
         $this->title = 'İşin Gb Sayı Dəyişdirilib';
-        $this->receivers = User::wherePermissions('viewAny-financeClient')->get()->all();
+        $this->receivers = User::hasPermission('viewAny-financeClient')->get()->all();
         $this->body = 'Bu geri qaytarılan işin bəyannamə sayı dəyişib';
     }
 
