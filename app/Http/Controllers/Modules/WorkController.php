@@ -803,8 +803,8 @@ class WorkController extends Controller
         $validated['status'] = $status;
         if (($work->getAttribute('returned_at') || $request->get('returned_at') !== null) && ($request->get('parameters')[$work::GB] !== $work->getParameter($work::GB))) {
 
-            dd('sakan');
-//            event(new WorkChanged($work));
+//            dd('sakan');
+            event(new WorkChanged($work));
         }
 
         $work->update($validated);
