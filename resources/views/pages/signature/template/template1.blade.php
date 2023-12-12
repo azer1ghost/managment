@@ -34,7 +34,7 @@
                 @foreach ($company->socials as $social)
                     <a href="{{$social->url}}" target="_blank" rel="noopener"><img width="25" src="https://my.mobilgroup.az/assets/images/signature/socials/{{$social->name}}.png" alt="facebook icon" style="border:0; height:25px; width:25px"></a>
                 @endforeach
-
+                <a rel="noopener"><img src="{{asset("assets/images/signature/socials/iso.png")}}" alt="facebook icon" style="border:0; height:100px; width:100px"></a>
 
             </td>
 
