@@ -354,6 +354,7 @@
                                 <option>Gömrük rəsmiləşdirilməsinin həyata keçirilməsi zamanı gömrük məmuru ilə əlaqə yaradılması xidməti</option>
                                 <option>Gömrük rəsmiləşdirilməsi üçün lazım olan sənədlərin yoxlanılması</option>
                                 <option>Konsultasiya Xidməti</option>
+                                <option>Çəki listi(Packing List) Tərtib olunması</option>
                             </select>
                         </td>
                         <td>Ədəd</td>
