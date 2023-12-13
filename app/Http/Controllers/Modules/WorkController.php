@@ -801,10 +801,10 @@ class WorkController extends Controller
         }
 
         $validated['status'] = $status;
-        if (($request->get('parameters')[$work::GB] !== $work->getParameter($work::GB)) || ($request->get('parameters')[$work::CODE] !== $work->getParameter($work::CODE)) ) {
-
-            event(new WorkChanged($work));
-        }
+//        if (($request->get('parameters')[$work::GB] !== $work->getParameter($work::GB)) || ($request->get('parameters')[$work::CODE] !== $work->getParameter($work::CODE)) ) {
+//
+//            event(new WorkChanged($work));
+//        }
 
         $work->update($validated);
 
