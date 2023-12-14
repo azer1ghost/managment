@@ -804,8 +804,8 @@ class WorkController extends Controller
         $parameters = $request->get('parameters');
 
         if (
-            (isset($parameters[$work::GB]) && $parameters[$work::GB] !== $work->getParameter($work::GB)) ||
-            (isset($parameters[$work::CODE]) && $parameters[$work::CODE] !== $work->getParameter($work::CODE))
+            (isset($parameters[$work::GB]) && $work->getParameter($work::GB) !== null && $parameters[$work::GB] !== $work->getParameter($work::GB)) ||
+            (isset($parameters[$work::CODE]) && $work->getParameter($work::CODE) !== null && $parameters[$work::CODE] !== $work->getParameter($work::CODE))
         ) {
             event(new WorkChanged($work));
         }
