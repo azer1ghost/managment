@@ -803,14 +803,16 @@ class WorkController extends Controller
         $validated['status'] = $status;
         $parameters = $request->get('parameters');
 
-        if (
-            (isset($parameters[$work::GB]) && $work->getParameter($work::GB) !== null && $parameters[$work::GB] !== $work->getParameter($work::GB)) ||
-            (isset($parameters[$work::CODE]) && $work->getParameter($work::CODE) !== null && $parameters[$work::CODE] !== $work->getParameter($work::CODE))
-        ) {
-            event(new WorkChanged($work));
-        }
-
         $work->update($validated);
+
+        if ($work->getAttribute('user_id') !== null) {
+            if (
+                (isset($parameters[$work::GB]) && $work->getParameter($work::GB) !== null && $parameters[$work::GB] !== $work->getParameter($work::GB)) ||
+                (isset($parameters[$work::CODE]) && $work->getParameter($work::CODE) !== null && $parameters[$work::CODE] !== $work->getParameter($work::CODE))
+            ) {
+                event(new WorkChanged($work));
+            }
+        }
 
         if ($request->has('rejected') && is_numeric($work->getAttribute('user_id'))) {
             event(new WorkStatusRejected($work));
