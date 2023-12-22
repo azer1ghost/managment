@@ -663,8 +663,8 @@
                 var kod = "507547";
                 var bvoen = "9900001901";
                 var swift = "BRESAZ22";
-                var who = "Əliyev Fuad Rasim oğlu";
-                var whoFooter = "F.R.Əliyev";
+                var who = "Musayev Ağarza Musarza oğlu";
+                var whoFooter = "A.M.Musayev";
                 $('#vatColumn, #vatColumn2, #vatColumn3').hide();
             }  else if (company == 'mindKapital') {
                 var companyName = "\"Mind Services\" MMC";
@@ -675,8 +675,8 @@
                 var kod = "201412";
                 var bvoen = "9900003611";
                 var swift = "AIIBAZ2XXXX";
-                var who = "Əliyev Fuad Rasim oğlu";
-                var whoFooter = "F.R.Əliyev";
+                var who = "Musayev Ağarza Musarza oğlu";
+                var whoFooter = "A.M.Musayev";
                 $('#vatColumn, #vatColumn2, #vatColumn3').hide();
             } else if (company == 'asazaRespublika') {
                 var companyName = "\"ASAZA FLKS\" MMC";

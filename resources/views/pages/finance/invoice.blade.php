@@ -130,8 +130,8 @@
      $kod = "507547";
      $bvoen = "9900001901";
      $swift = "BRESAZ22";
-     $who = "Əliyev Fuad Rasim oğlu";
-     $whoFooter = "F.R.Əliyev";
+     $who = "Musayev Ağarza Musarza oğlu";
+     $whoFooter = "A.M.Musayev";
      $stamp = asset('assets/images/finance/mind.jpeg');
 
 } else if ($company == 'mindKapital') {
@@ -143,8 +143,8 @@
      $kod = "201412";
      $bvoen = "9900003611";
      $swift = "AIIBAZ2XXXX";
-     $who = "Əliyev Fuad Rasim oğlu";
-     $whoFooter = "F.R.Əliyev";
+     $who = "Musayev Ağarza Musarza oğlu";
+     $whoFooter = "A.M.Musayev";
      $stamp = asset('assets/images/finance/mind.jpeg');
 
  } else if ($company == 'asazaRespublika') {
