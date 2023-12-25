@@ -196,11 +196,12 @@
                                         <a  data-tasks='@json($task)' data-toggle="modal" data-target="#exampleModal" class="btn btn-sm btn-outline-primary task-redirect-btn">
                                             <i class="fal fa-paper-plane"></i>
                                         </a>
-                                    @endcan @can('view', $task)
+                                    @endcan
+{{--                                    @can('view', $task)--}}
                                         <a href="{{route('tasks.show', $task)}}" class="btn btn-sm btn-outline-primary">
                                             <i class="fal fa-eye"></i>
                                         </a>
-                                    @endcan
+{{--                                    @endcan--}}
                                     @can('update', $task)
                                         <a href="{{route('tasks.edit', $task)}}" class="btn btn-sm btn-outline-success">
                                             <i class="fal fa-pen"></i>
