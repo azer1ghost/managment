@@ -197,11 +197,11 @@
                                             <i class="fal fa-paper-plane"></i>
                                         </a>
                                     @endcan
-{{--                                    @can('view', $task)--}}
+                                    @can('view', $task)
                                         <a href="{{route('tasks.show', $task)}}" class="btn btn-sm btn-outline-primary">
                                             <i class="fal fa-eye"></i>
                                         </a>
-{{--                                    @endcan--}}
+                                    @endcan
                                     @can('update', $task)
                                         <a href="{{route('tasks.edit', $task)}}" class="btn btn-sm btn-outline-success">
                                             <i class="fal fa-pen"></i>

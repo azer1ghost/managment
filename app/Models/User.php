@@ -235,6 +235,10 @@ User extends Authenticatable implements MustVerifyPhone, Recordable
     {
         return $this->getRelationValue('role')->getAttribute('id') == self::DIRECTOR;
     }
+    public function isQualityControl(): bool
+    {
+        return $this->getAttribute('department_id') == 25;
+    }
 
     public function isDisabled(): bool
     {

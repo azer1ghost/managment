@@ -18,7 +18,8 @@ class TaskPolicy
             $task->canManageTaskable() ||
             $task->canManageLists() ||
             $task->getAttribute('user_id') == $user->getAttribute('id') ||
-            $user->isDirector();
+            $user->isDirector() ||
+            $user->isQualityControl();
     }
 
     public function create(User $user): bool
