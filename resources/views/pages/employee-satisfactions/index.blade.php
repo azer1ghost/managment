@@ -85,11 +85,8 @@
                         <td> @lang('translates.employee_satisfactions.types.' . $employeeSatisfaction->getAttribute('type'))</td>
                         <td>{{$employeeSatisfaction->getAttribute('note')}}</td>
                         @if(in_array(auth()->user()->id, [123, 15, 17, 78, 26]))
-                            <?php
-                            $content = $employeeSatisfaction->getAttribute('content');
-                            $cleanedContent = strip_tags($content);
-                            ?>
-                        <td>{{ $cleanedContent }}</td>
+
+                        <td>{!! $employeeSatisfaction->getAttribute('content') !!}</td>
                         @endif
                         <td>{{$employeeSatisfaction->getAttribute('result')}}</td>
                         @php($status = $employeeSatisfaction->getAttribute('status') ?? 1)
