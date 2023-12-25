@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Modules;
 
-use App\Events\{WorkChanged, WorkCreated, WorkStatusRejected};
+use App\Events\{WorkChanged, WorkCreated, WorkReturned, WorkStatusRejected};
 use App\Exports\WorksExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkRequest;
@@ -812,6 +812,10 @@ class WorkController extends Controller
             ) {
                 event(new WorkChanged($work));
             }
+        }
+        if ($work->getAttribute('user_id') !== null && ($request->get('status') == $work::RETURNED)) {
+
+                event(new WorkReturned($work));
         }
 
         if ($request->has('rejected') && is_numeric($work->getAttribute('user_id'))) {

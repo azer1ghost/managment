@@ -10,6 +10,7 @@ use App\Events\TaskListCreated;
 use App\Events\TaskStatusDone;
 use App\Events\WorkChanged;
 use App\Events\WorkCreated;
+use App\Events\WorkReturned;
 use App\Events\WorkStatusRejected;
 use App\Listeners\SendNotification;
 use App\Listeners\SendPushNotification;
@@ -45,6 +46,10 @@ class EventServiceProvider extends ServiceProvider
             SendPushNotification::class,
         ],
         WorkChanged::class => [
+            SendNotification::class,
+            SendPushNotification::class,
+        ],
+        WorkReturned::class => [
             SendNotification::class,
             SendPushNotification::class,
         ],
