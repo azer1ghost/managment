@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Exports\CreditorsExport;
-use App\Exports\WorksExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreditorRequest;
 use App\Interfaces\CreditorRepositoryInterface;
@@ -158,7 +157,7 @@ class CreditorController extends Controller
             $creditor->update(['status' => 1]);
         }
         $note = '"' . $creditor->getSupplierName() . '" üçün ' . $request->get('paid') + $request->get('vat_paid') . ' AZN ödəniş edildi';
-        Transaction::addTransaction(auth()->id(), 0, $request->get('paid') + $request->get('vat_paid'), $creditor->company_id, '', null, 'Creditor', 0, '', $note);
+        Transaction::addTransaction(auth()->id(), 1, $request->get('paid') + $request->get('vat_paid'), $creditor->company_id, '', null, 'Creditor', 0, '', $note);
         return back();
     }
 

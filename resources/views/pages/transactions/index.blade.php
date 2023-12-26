@@ -170,7 +170,7 @@
                     @forelse($transactions as $transaction)
                         <tr>
                             @php
-                                $typeColor = ($transaction->getAttribute('type') == 1) ? 'green' : 'red';
+                                $typeColor = ($transaction->getAttribute('type') == 1) ? 'red' : 'green';
                             @endphp
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$transaction->getRelationValue('user')->getAttribute('fullname')}}</td>
