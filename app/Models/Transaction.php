@@ -80,4 +80,9 @@ class Transaction extends Model
     {
         return [1, 2];
     }
+
+    public static function methods()
+    {
+        return [1, 2];
+    }
 }

@@ -445,6 +445,10 @@ return [
         'statuses' => [
             0 => 'Successful Payment',
             1 => 'Returned',
+        ],
+        'methods' => [
+            0 => 'Cash',
+            1 => 'Card',
         ]
     ],
 

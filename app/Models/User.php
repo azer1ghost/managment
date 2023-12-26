@@ -216,7 +216,6 @@ User extends Authenticatable implements MustVerifyPhone, Recordable
         return $this->getAttribute('role_id') === self::DEVELOPER;
     }
 
-
     public function isSales(): bool
     {
         return $this->getAttribute('department_id') === 7;
@@ -268,6 +267,10 @@ User extends Authenticatable implements MustVerifyPhone, Recordable
     public function inquiries(): HasMany
     {
         return $this->hasMany(Inquiry::class);
+    }
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
     }
 
     public function barcodes(): HasMany

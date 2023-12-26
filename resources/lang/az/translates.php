@@ -449,6 +449,10 @@ return [
         'statuses' => [
             0 => 'Uğurlu Ödəniş',
             1 => 'Geri Qaytarıldı',
+        ],
+        'methods' => [
+            0 => 'Nağd',
+            1 => 'Kart',
         ]
     ],
 

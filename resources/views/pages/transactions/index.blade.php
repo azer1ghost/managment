@@ -11,19 +11,141 @@
             @lang('translates.navbar.transaction')
         </x-bread-crumb-link>
     </x-bread-crumb>
-    <form action="{{route('transactions.index')}}">
-        <div class="row d-flex justify-content-between mb-2">
-            <div class="col-6">
-                <div class="input-group mb-3">
-                    <div class="alert-info alert"> Filter yaxın zamanda düzələcək</div>
-{{--                    <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="@lang('translates.buttons.search')" aria-label="Recipient's username" aria-describedby="basic-addon2">--}}
-{{--                    <div class="input-group-append">--}}
-{{--                        <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>--}}
-{{--                        <a class="btn btn-outline-danger d-flex align-items-center" href="{{route('transactions.index')}}"><i class="fal fa-times"></i></a>--}}
-{{--                    </div>--}}
+    <form action="{{route('transactions.index')}}" class="row col-12">
+        <div class="col-md-3">
+            <div class="input-group mb-3">
+
+                <input type="search" name="search" value="{{$filters['search']}}" class="form-control"
+                       placeholder="@lang('translates.fields.enter', ['field' => trans('translates.fields.note')])"
+                       aria-label="Transaction Note">
+
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
+                    <a class="btn btn-outline-danger d-flex align-items-center"
+                       href="{{route('transactions.index')}}"><i
+                                class="fal fa-times"></i></a>
                 </div>
             </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <select id="data-company" name="company_id" class="form-control"
+                        data-selected-text-format="count"
+                        data-width="fit" title="@lang('translates.clients.selectCompany')">
+                    <option value=""> @lang('translates.filters.company') </option>
+                    @foreach($companies as $company)
+                        <option
+                                @if($filters['company'] == $company->getAttribute('id')) selected @endif
+                        value="{{$company->getAttribute('id')}}">
+                            {{$company->getAttribute('name')}}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <select id="user" name="user" class="form-control"
+                        data-selected-text-format="count"
+                        data-width="fit" title="@lang('translates.general.user_select')">
+                    <option value=""> @lang('translates.general.user_select') </option>
+                    @foreach($users as $user)
+                        <option
+                                @if($filters['user'] == $user->getAttribute('id')) selected @endif
+                        value="{{$user->getAttribute('id')}}">
+                            {{$user->getAttribute('fullname')}}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="form-group col-12 col-md-3" wire:ignore>
+            <select name="status" id="data-status" class="form-control">
+                <option value="">@lang('translates.general.status_choose')</option>
+                @foreach($statuses as $key => $status)
+                    <option
+                            @if($filters['status'] == $status ) selected
+                            @endif value="{{$status}}"
+                    >
+                        @lang('translates.transactions.statuses.' . $key)
+                    </option>
+                @endforeach
+            </select>
+        </div>
+{{--        <div class="form-group col-12 col-md-3" wire:ignore>--}}
+{{--            <select name="source" id="data-source" class="form-control">--}}
+{{--                <option value="">@lang('translates.filters.source')</option>--}}
+{{--                @foreach($sources as $key => $source)--}}
+{{--                    <option--}}
+{{--                            @if($filters['source'] == $source ) selected--}}
+{{--                            @endif value="{{$source}}"--}}
+{{--                    >--}}
+{{--                        @lang('translates.transactions.statuses.' . $key)--}}
+{{--                    </option>--}}
+{{--                @endforeach--}}
+{{--            </select>--}}
+{{--        </div>--}}
+        <div class="form-group col-12 col-md-3" wire:ignore>
+            <select name="method" id="data-method" class="form-control">
+                <option value="">@lang('translates.general.payment_method')</option>
+                @foreach($methods as $key => $method)
+                    <option
+                            @if($filters['method'] == $method ) selected
+                            @endif value="{{$method}}"
+                    >
+                        @lang('translates.transactions.methods.' . $key)
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group col-12 col-md-3" wire:ignore>
+            <select name="account" id="data-account" class="form-control">
+                <option value="">@lang('translates.navbar.accounts')</option>
+                @foreach($accounts as $key => $account)
+                    <option @if($filters['account'] == $account ) selected @endif value="{{$account}}">
+                        {{$account->getAttribute('name')}}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group col-12 col-md-3" wire:ignore>
+            <select name="type" id="data-type" class="form-control">
+                <option value="">@lang('translates.filters.type')</option>
+                @foreach($types as $key => $type)
+                    <option
+                            @if($filters['type'] == $type ) selected
+                            @endif value="{{$type}}"
+                    >
+                        @lang('translates.transactions.types.' . $key)
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group col-12 col-md-3">
+            <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
+            <input type="checkbox" name="check-created_at" id="check-created_at" @if(request()->has('check-created_at')) checked @endif> <label for="check-created_at">@lang('translates.filters.filter_by')</label>
+        </div>
+        <div class="col-12 mt-3 mb-5 d-flex align-items-center justify-content-end">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="submit" class="btn btn-outline-primary"><i
+                            class="fas fa-filter"></i> @lang('translates.buttons.filter')</button>
+                <a href="{{route('transactions.index')}}" class="btn btn-outline-danger"><i
+                            class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>
+            </div>
+        </div>
 
+        <div class="col-12 col-md-3">
+            <select name="limit" class="custom-select">
+                @foreach([25, 50, 100, 250] as $size)
+                    <option @if(request()->get('limit') == $size) selected
+                            @endif value="{{$size}}">{{$size}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-12 p-0 pr-3 pb-3 mt-4">
+{{--            <a class="btn btn-outline-primary float-right" href="{{route('creditors.export' , [ 'filters' => json_encode($filters),])}}">@lang('translates.buttons.export')</a>--}}
+        </div>
+    </form>
             <div class="col-12">
                 <table class="table table-responsive-sm table-hover">
                     <thead>
@@ -50,7 +172,6 @@
                             @php
                                 $typeColor = ($transaction->getAttribute('type') == 1) ? 'green' : 'red';
                             @endphp
-
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$transaction->getRelationValue('user')->getAttribute('fullname')}}</td>
                             <td>{{$transaction->getRelationValue('company')->getAttribute('name')}}</td>
@@ -107,6 +228,4 @@
                     {{$transactions->appends(request()->input())->links()}}
                 </div>
             </div>
-        </div>
-    </form>
 @endsection

@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TransactionRequest;
+use App\Models\Account;
 use App\Models\Company;
 use App\Models\Transaction;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -18,16 +21,50 @@ class TransactionController extends Controller
 
     public function index(Request $request)
     {
+        $startOfMonth = now()->firstOfMonth()->format('Y/m/d');
+        $endOfMonth = now()->format('Y/m/d');
+
         $limit = $request->get('limit', 25);
         $filters = [
             'search' => $request->get('search'),
-            'company' => $request->get('company_id'),
+            'company' => $request->get('company'),
             'status' => $request->get('status'),
-            'supplier' => $request->get('supplier_id'),
+            'user' => $request->get('user'),
+            'account' => $request->get('account'),
+//            'source' => $request->get('account'),
+            'method' => $request->get('method'),
+            'type' => $request->get('type'),
+            'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
+            'created_at_date' => $request->has('check-created_at'),
         ];
-        $transactions = Transaction::orderByDesc('id')->paginate($limit);
+        $dateRanges = explode(' - ', $filters['created_at']);
+
+        $transactions = Transaction::when($filters['search'], fn($query) => $query
+            ->where('note', 'like', "%" . $filters['search'] . "%"))
+            ->when($filters['company'], fn($query) => $query
+                ->where('company_id', $filters['company']))
+            ->when($filters['status'], fn($query) => $query
+                ->where('status', $filters['status']))
+            ->when($filters['user'], fn($query) => $query
+                ->where('user_id', $filters['user']))
+            ->when($filters['account'], fn($query) => $query
+                ->where('account_id', $filters['account']))
+            ->when($filters['method'], fn($query) => $query
+                ->where('method', $filters['method']))
+            ->when($filters['type'], fn($query) => $query
+                ->where('type', $filters['type']))
+//            ->when($filters['created_at_date'], fn($query) => $query
+//                ->whereBetween('created_at', [Carbon::parse($dateRanges[0])->startOfDay(),
+//                    Carbon::parse($dateRanges[1])->endOfDay()]))
+            ->orderByDesc('id')->paginate($limit);
+
         return view('pages.transactions.index')->with([
             'companies' => Company::get(['id', 'name', 'logo']),
+            'accounts' => Account::get(['id', 'name']),
+            'statuses' => Transaction::statuses(),
+            'types' => Transaction::types(),
+            'methods' => Transaction::methods(),
+            'users' => User::has('transactions')->get(['id', 'name', 'surname']),
             'filters' => $filters,
             'transactions' => $transactions,
         ]);
