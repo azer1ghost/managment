@@ -53,9 +53,9 @@ class TransactionController extends Controller
                 ->where('method', $filters['method']))
             ->when($filters['type'], fn($query) => $query
                 ->where('type', $filters['type']))
-//            ->when($filters['created_at_date'], fn($query) => $query
-//                ->whereBetween('created_at', [Carbon::parse($dateRanges[0])->startOfDay(),
-//                    Carbon::parse($dateRanges[1])->endOfDay()]))
+            ->when($filters['created_at_date'], fn($query) => $query
+                ->whereBetween('created_at', [Carbon::parse($dateRanges[0])->startOfDay(),
+                    Carbon::parse($dateRanges[1])->endOfDay()]))
             ->orderByDesc('id')->paginate($limit);
 
         return view('pages.transactions.index')->with([

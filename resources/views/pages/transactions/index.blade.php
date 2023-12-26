@@ -67,7 +67,7 @@
                             @if($filters['status'] == $status ) selected
                             @endif value="{{$status}}"
                     >
-                        @lang('translates.transactions.statuses.' . $key)
+                        @lang('translates.transactions.statuses.' . $status)
                     </option>
                 @endforeach
             </select>
@@ -93,7 +93,7 @@
                             @if($filters['method'] == $method ) selected
                             @endif value="{{$method}}"
                     >
-                        @lang('translates.transactions.methods.' . $key)
+                        @lang('translates.transactions.methods.' . $method)
                     </option>
                 @endforeach
             </select>
@@ -116,7 +116,7 @@
                             @if($filters['type'] == $type ) selected
                             @endif value="{{$type}}"
                     >
-                        @lang('translates.transactions.types.' . $key)
+                        @lang('translates.transactions.types.' . $type)
                     </option>
                 @endforeach
             </select>
