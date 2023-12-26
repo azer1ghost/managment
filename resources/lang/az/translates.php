@@ -443,16 +443,16 @@ return [
 
     'transactions' => [
         'types' => [
-            0 => 'Məxaric',
-            1 => 'Mədaxil'
+            1 => 'Məxaric',
+            2 => 'Mədaxil'
         ],
         'statuses' => [
-            0 => 'Uğurlu Ödəniş',
-            1 => 'Geri Qaytarıldı',
+            1 => 'Uğurlu Ödəniş',
+            2 => 'Geri Qaytarıldı',
         ],
         'methods' => [
-            0 => 'Nağd',
-            1 => 'Kart',
+            1 => 'Nağd',
+            2 => 'Kart',
         ]
     ],
 

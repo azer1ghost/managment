@@ -439,16 +439,16 @@ return [
 
     'transactions' => [
         'types' => [
-            0 => 'Expense',
-            1 => 'Income'
+            1 => 'Expense',
+            2 => 'Income'
         ],
         'statuses' => [
-            0 => 'Successful Payment',
-            1 => 'Returned',
+            1 => 'Successful Payment',
+            2 => 'Returned',
         ],
         'methods' => [
-            0 => 'Cash',
-            1 => 'Card',
+            1 => 'Cash',
+            2 => 'Card',
         ]
     ],
 
