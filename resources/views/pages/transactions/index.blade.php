@@ -29,7 +29,7 @@
         </div>
         <div class="col-md-3">
             <div class="form-group">
-                <select id="data-company" name="company_id" class="form-control"
+                <select id="data-company" name="company" class="form-control"
                         data-selected-text-format="count"
                         data-width="fit" title="@lang('translates.clients.selectCompany')">
                     <option value=""> @lang('translates.filters.company') </option>
