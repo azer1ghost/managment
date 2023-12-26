@@ -73,16 +73,16 @@ class Transaction extends Model
 
     public static function statuses()
     {
-        return [1, 2];
+        return [1 => 1, 2];
     }
 
     public static function types()
     {
-        return [1, 2];
+        return [1 => 1, 2];
     }
 
     public static function methods()
     {
-        return [1, 2];
+        return [1 => 1, 2];
     }
 }

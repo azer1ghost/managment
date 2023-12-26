@@ -157,7 +157,7 @@ class CreditorController extends Controller
             $creditor->update(['status' => 1]);
         }
         $note = '"' . $creditor->getSupplierName() . '" üçün ' . $request->get('paid') + $request->get('vat_paid') . ' AZN ödəniş edildi';
-        Transaction::addTransaction(auth()->id(), 1, $request->get('paid') + $request->get('vat_paid'), $creditor->company_id, '', null, 'Creditor', 0, '', $note);
+        Transaction::addTransaction(auth()->id(), 1, $request->get('paid') + $request->get('vat_paid'), $creditor->company_id, '', null, 'Creditor', 1, '', $note);
         return back();
     }
 
