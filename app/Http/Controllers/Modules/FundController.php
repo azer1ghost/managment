@@ -14,11 +14,11 @@ use App\Models\User;
 
 class FundController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->authorizeResource(Fund::class, 'fund');
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('auth');
+//        $this->authorizeResource(Fund::class, 'fund');
+//    }
 
     public function index(Request $request)
     {
