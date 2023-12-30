@@ -332,7 +332,7 @@
                     <tr>
                         <td style="text-align: center;" >
                             <img style="text-align: center" src="https://i.ibb.co/LxTrPG9/p7-B8-GJJj-NI7l-Rf-Zxl-U4-V.png" alt="">
-                            <h2 style="background: #99cd08; color: white; padding:20px 5px 20px 5px; margin: 20px; font-size: 35px; font-weight: bolder"></h2>
+                            <h2 style="background: #99cd08; color: white; padding:20px 5px 20px 5px; margin: 50px; font-size: 35px; font-weight: bolder"></h2>
                             <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549" >Dəyərli müştəri,</h2>
                             <p style="text-align: justify;">Dünya Azərbaycanlıların Həmrəylik Günü və Yeni il münasibəti sizi təbrik edirik! Sizə və doğmalarınlza can sağlığı, işlərinizdə bol bol uğurlar arzulayırıq!
                             </p>
