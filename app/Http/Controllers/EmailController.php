@@ -116,8 +116,8 @@ class EmailController extends Controller
 //            'ramal_ahmedov@list.ru',
 //            'info@parrotias.com',
 //            'aliveliyev016@gmail.com'
-            'aliveliyev016@gmail.com',
-            'javid.affandi@gmail.com'
+            'aliveliyev01607@gmail.com',
+//            'javid.affandi@gmail.com'
         ];
 
 
