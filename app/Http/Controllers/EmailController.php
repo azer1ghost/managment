@@ -116,6 +116,8 @@ class EmailController extends Controller
 //            'ramal_ahmedov@list.ru',
 //            'info@parrotias.com',
 //            'aliveliyev016@gmail.com'
+            'aliveliyev016@gmail.com',
+            'javid.affandi@gmail.com'
         ];
 
 
@@ -133,8 +135,8 @@ class EmailController extends Controller
         $template = 'email2';
 
         $emails = [
-            'aliveliyev016@gmail.com',
-            'javid.affandi@gmail.com'
+//            'aliveliyev016@gmail.com',
+//            'javid.affandi@gmail.com'
         ];
 
         Mail::to($emails)->send(new Info($mailAddress, $template));

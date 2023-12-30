@@ -330,38 +330,30 @@
 
                     <!-- START MAIN CONTENT AREA -->
                     <tr>
-                        <td class="wrapper">
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                        <td style="text-align: center;" >
+                            <img style="text-align: center" src="https://i.ibb.co/LxTrPG9/p7-B8-GJJj-NI7l-Rf-Zxl-U4-V.png" alt="">
+                            <h2 style="background: #99cd08; color: white; padding:20px 5px 20px 5px; margin: 20px; font-size: 35px; font-weight: bolder"></h2>
+                            <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549" >Dəyərli müştəri,</h2>
+                            <p style="text-align: justify;">Dünya Azərbaycanlıların Həmrəylik Günü və Yeni il münasibəti sizi təbrik edirik! Sizə və doğmalarınlza can sağlığı, işlərinizdə bol bol uğurlar arzulayırıq!
+                            </p>
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
+                                <tbody>
                                 <tr>
-
-                                    <td style="text-align: center;" >
-                                        <img style="text-align: center" src="https://i.ibb.co/LxTrPG9/p7-B8-GJJj-NI7l-Rf-Zxl-U4-V.png" alt="">
-                                        <h2 style="background: #99cd08; color: white; padding:20px 5px 20px 5px; margin: 20px; font-size: 35px; font-weight: bolder">Təkmilləşdirmə işləri</h2>
-                                        <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549" >Hörmətli müştəri, nəzərinizə çatdırırıq ki, 21.11.2023-cü il saat 18:00-dan 22.11.2023-cü il saat 10:00-dək email sistemizin təkmilləşdirilməsi üzrə texniki işlər aparılacaq.</h2>
-                                        <p style="text-align: justify;">  Bununla əlaqədar, həmin müddət ərzində sənədlərin göndərilməsi üçün alternativ əlaqə vasitələrindən(WhatsApp) istifadə etməyiniz xahiş olunur.
-                                            Anlayışınız üçün təşəkkürlər.
-                                        </p>
-                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
+                                    <td align="center">
+                                        <table border="0" cellpadding="0" cellspacing="0">
                                             <tbody>
-                                            <tr>
-                                                <td align="center">
-                                                    <table border="0" cellpadding="0" cellspacing="0">
-                                                        <tbody>
-                                                        <tr> <td> <img src="https://i.ibb.co/HP75VVj/1.png" width="400px" alt=""> </td></tr>
+                                            <tr> <td> <img src="https://ibb.co/qJW7gVF" width="400px" alt=""> </td></tr>
 
 
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-
-                                            </tr>
                                             </tbody>
                                         </table>
-                                        <h2 style="font-size: 20px; font-weight: bolder; color: #0a1549" >Yüklərinizin gətirilməsi və Gömrük Rəsmiləşdirilməsi üçün:</h2>
-                                        <span style="background: #0a1549; border-radius: 40px; color: white; padding:20px 30px 20px 30px; font-size: 35px; font-weight: bolder">*9090</span>
                                     </td>
+
                                 </tr>
+                                </tbody>
                             </table>
+                            <h2 style="font-size: 20px; font-weight: bolder; color: #0a1549" >Yüklərinizin gətirilməsi və Gömrük Rəsmiləşdirilməsi üçün:</h2>
+                            <span style="background: #0a1549; border-radius: 40px; color: white; padding:20px 30px 20px 30px; font-size: 35px; font-weight: bolder">*9090</span>
                         </td>
                     </tr>
 
