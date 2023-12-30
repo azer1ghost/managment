@@ -342,7 +342,7 @@
                                     <td align="center">
                                         <table border="0" cellpadding="0" cellspacing="0">
                                             <tbody>
-                                            <tr> <td> <img src="https://ibb.co/qJW7gVF" width="400px" alt=""> </td></tr>
+                                            <tr> <td> <a href="https://ibb.co/qJW7gVF"><img src="https://i.ibb.co/MBGZ1Q5/yeni-il-korporativ-1.png" alt="yeni-il-korporativ-1" border="0" /></a> </td></tr>
 
 
                                             </tbody>
