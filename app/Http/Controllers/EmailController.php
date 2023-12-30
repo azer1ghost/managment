@@ -63,7 +63,6 @@ class EmailController extends Controller
             '1@mail.ru',
             'velizadeehtiram@gmail.com',
             '1@mail.ru',
-            'dostagro22gmail.com',
             'info@texnolab.az',
             'hashimovelnar@gmail.com',
             'fx12@mail.ru',
