@@ -331,18 +331,18 @@
                     <!-- START MAIN CONTENT AREA -->
                     <tr>
                         <td style="text-align: center;" >
-                            <img style="text-align: center" src="https://i.ibb.co/LxTrPG9/p7-B8-GJJj-NI7l-Rf-Zxl-U4-V.png" alt="">
-                            <h2 style="background: #99cd08; color: white; padding:50px 8px 50px 8px; margin: 100%; font-size: 35px; font-weight: bolder"></h2>
-                            <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549" >Dəyərli müştəri,</h2>
-                            <p style="text-align: justify;">Dünya Azərbaycanlıların Həmrəylik Günü və Yeni il münasibəti sizi təbrik edirik! Sizə və doğmalarınlza can sağlığı, işlərinizdə bol bol uğurlar arzulayırıq!
-                            </p>
+{{--                            <img style="text-align: center" src="https://i.ibb.co/LxTrPG9/p7-B8-GJJj-NI7l-Rf-Zxl-U4-V.png" alt="">--}}
+{{--                            <h2 style="background: #99cd08; color: white; padding:50px 8px 50px 8px; margin: 100%; font-size: 35px; font-weight: bolder"></h2>--}}
+{{--                            <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549" >Dəyərli müştəri,</h2>--}}
+{{--                            <p style="text-align: justify;">Dünya Azərbaycanlıların Həmrəylik Günü və Yeni il münasibəti sizi təbrik edirik! Sizə və doğmalarınlza can sağlığı, işlərinizdə bol bol uğurlar arzulayırıq!--}}
+{{--                            </p>--}}
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                                 <tbody>
                                 <tr>
                                     <td align="center">
                                         <table border="0" cellpadding="0" cellspacing="0">
                                             <tbody>
-                                            <tr> <td> <a href="https://ibb.co/qJW7gVF"><img src="https://i.ibb.co/MBGZ1Q5/yeni-il-korporativ-1.png" alt="yeni-il-korporativ-1" border="0" /></a> </td></tr>
+                                            <tr> <td> <a href="https://ibb.co/yVBmDC9"><img src="https://i.ibb.co/SJ7D2gj/ziz-M-t-rimiz.png" alt="ziz-M-t-rimiz" border="0"></a> </td></tr>
 
 
                                             </tbody>
@@ -352,8 +352,8 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <h2 style="font-size: 20px; font-weight: bolder; color: #0a1549" >Yüklərinizin gətirilməsi və Gömrük Rəsmiləşdirilməsi üçün:</h2>
-                            <span style="background: #0a1549; border-radius: 40px; color: white; padding:20px 30px 20px 30px; font-size: 35px; font-weight: bolder">*9090</span>
+{{--                            <h2 style="font-size: 20px; font-weight: bolder; color: #0a1549" >Yüklərinizin gətirilməsi və Gömrük Rəsmiləşdirilməsi üçün:</h2>--}}
+{{--                            <span style="background: #0a1549; border-radius: 40px; color: white; padding:20px 30px 20px 30px; font-size: 35px; font-weight: bolder">*9090</span>--}}
                         </td>
                     </tr>
 
