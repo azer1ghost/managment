@@ -342,7 +342,7 @@
                                     <td align="center">
                                         <table border="0" cellpadding="0" cellspacing="0">
                                             <tbody>
-                                            <tr> <td> <a href="https://ibb.co/yVBmDC9"><img src="https://i.ibb.co/SJ7D2gj/ziz-M-t-rimiz.png" alt="ziz-M-t-rimiz" border="0"></a> </td></tr>
+                                            <tr> <td> <a href="https://ibb.co/yVBmDC9"><img src="https://i.ibb.co/SJ7D2gj/ziz-M-t-rimiz.png" alt="ziz-M-t-rimiz" border="0" /></a> </td></tr>
 
 
                                             </tbody>
