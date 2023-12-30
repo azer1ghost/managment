@@ -115,7 +115,7 @@ class EmailController extends Controller
 //            'faxri.huseyn@gmail.com',
 //            'ramal_ahmedov@list.ru',
 //            'info@parrotias.com',
-            'aliveliyev016@gmail.com'
+//            'aliveliyev016@gmail.com'
         ];
 
 
@@ -133,28 +133,8 @@ class EmailController extends Controller
         $template = 'email2';
 
         $emails = [
-//            'faig@brainlab.az',
-//            'faikabdullayev@icloud.com',
-//            'Farid.bagirov@aviongroup.az',
-//            'faxri.huseyn@gmail.com',
-//            'f-aydinoglu@mail.ru',
-//            'gnl.baku@mail.ru',
-//            'habibov.nadir81@gmail.com',
-//            'hresidov@yahoo.com',
-//            'humaartroom@gmail.com',
-//            'huseyin_memmedov91@bk.ru',
-//            'i.mubarizoglu@gmail.com',
-//            'ilkin.khalili@gilan-knauf.az',
-//            'info@aada.az',
-//            'İnfo@ahik.org',
-//            'info@auto.az',
-//            'info@azintech.az',
-//            'info@baroquestyle.az',
-//            'info@buludtelecom.com',
-
-//            'qafarzade2014@gmail.com',
-            'aliveliyev1607@gmail.com',
-            'a.valiyev@mobilgroup.az'
+            'aliveliyev016@gmail.com',
+            'javid.affandi@gmail.com'
         ];
 
         Mail::to($emails)->send(new Info($mailAddress, $template));
