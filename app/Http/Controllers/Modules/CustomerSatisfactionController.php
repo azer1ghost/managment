@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Modules;
 
+use App\Events\CustomerSatisfactionCreated;
 use Carbon\Carbon;
 use App\Http\{Requests\CustomerSatisfactionRequest, Controllers\Controller};
 use App\Models\{Company, CustomerSatisfaction, Parameter, Satisfaction};
@@ -118,6 +119,7 @@ class CustomerSatisfactionController extends Controller
         }
 
         $customerSatisfaction->parameters()->sync($parameters);
+        event(new CustomerSatisfactionCreated($customerSatisfaction));
 
         return view('pages.customer-satisfactions.components.customer-satisfaction-thanks');
     }

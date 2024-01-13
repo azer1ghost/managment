@@ -93,7 +93,6 @@ class TransactionController extends Controller
         return redirect()
             ->route('transactions.edit', $transaction)
             ->withNotify('success', $transaction->getAttribute('name'));
-
     }
 
     public function show(Transaction $transaction)
