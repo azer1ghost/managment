@@ -16,9 +16,10 @@ class WorkReturned
 
     public function __construct($work)
     {
+        $user = new User();
         $accountants = User::where('department_id', 22)->get()->all();
         $quality_controls = User::where('department_id', 25)->get()->all();
-        $chiefs = User::isDepartmentChief()->get()->all();
+        $chiefs = $user->isDepartmentChief()->get()->all();
 
         $this->url = route('works.show', $work);
         $this->creator = $work->getRelationValue('user');
