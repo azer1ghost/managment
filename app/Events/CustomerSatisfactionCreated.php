@@ -17,7 +17,7 @@ class CustomerSatisfactionCreated
     public function __construct(CustomerSatisfaction $customerSatisfaction)
     {
         $this->url = route('customer-satisfactions.index');
-        $this->creator = User::find(123)->get();
+        $this->creator = User::find(123);
         $this->title = 'Müştəri Məmnuniyyəti';
         $this->body = 'Müştəri məmnuniyyətini bildirib';
         $this->receivers = User::where('department_id', 25)->get()->all();
