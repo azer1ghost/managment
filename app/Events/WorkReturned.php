@@ -18,12 +18,12 @@ class WorkReturned
     {
         $accountants = User::where('department_id', 22)->get()->all();
         $quality_controls = User::where('department_id', 25)->get()->all();
-        $chiefs = User::where('department_id', $work->getAttribute('department_id'))->hasPermission('department-chief')->get()->all();
+//        $chiefs = User::where('department_id', $work->getAttribute('department_id'))->hasPermission('department-chief')->get()->all();
 
         $this->url = route('works.show', $work);
         $this->creator = $work->getRelationValue('user');
         $this->title = 'İş geri qaytarıldı';
-        $this->receivers = array_merge($accountants, $chiefs, $quality_controls);
+        $this->receivers = array_merge($accountants, $quality_controls);
         $this->body = 'İşin statusu geri qaytarıldı olaraq dəyişdirilib';
     }
 }
