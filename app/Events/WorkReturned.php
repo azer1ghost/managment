@@ -18,8 +18,7 @@ class WorkReturned
     {
         $accountants = User::where('department_id', 22)->get()->all();
         $quality_controls = User::where('department_id', 25)->get()->all();
-        $chiefs = $work->getRelationValue('department')->users()
-            ->whereNotIn('id', [auth()->id()])->isDepartmentChief()->get()->all();
+        $chiefs = User::where('department_id', $work->getAttribute('department_id'))->isDepartmentChief()->get()->all();
 
         $this->url = route('works.show', $work);
         $this->creator = $work->getRelationValue('user');
