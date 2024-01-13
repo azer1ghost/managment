@@ -16,11 +16,10 @@ class CustomerSatisfactionCreated
 
     public function __construct(CustomerSatisfaction $customerSatisfaction)
     {
-        $quality_control_user = User::where('department_id', 25)->get()->all();
         $this->url = route('customer-satisfactions.index');
-        $this->creator = $quality_control_user;
+        $this->creator = User::where('department_id', 25)->get();
         $this->title = 'Müştəri Məmnuniyyəti';
         $this->body = 'Müştəri məmnuniyyətini bildirib';
-        $this->receivers = $quality_control_user;
+        $this->receivers = User::where('department_id', 25)->get()->all();
     }
 }
