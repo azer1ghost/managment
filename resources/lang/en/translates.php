@@ -62,7 +62,8 @@ return [
     'fields' => [
         'default_lang' => 'Default language',
         'created_at'=>'Created At',
-        'entry_date'=>'Entry date',
+        'injected_at'=>'Injected Date',
+        'entry_date'=>'Entry Date',
         'personal' => 'PERSONAL',
         'employment' => 'EMPLOYMENT',
         'passport' => 'PASSPORT',
