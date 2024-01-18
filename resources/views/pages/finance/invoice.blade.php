@@ -264,6 +264,7 @@
         <label for="copy" class="button-label copy-label">Nüsxə</label>
     </div>
     @endif
+    <button onclick="printCards()" class="btn btn-primary float-right">Print All</button>
 
     <div class="container">
         <br>
@@ -1098,6 +1099,23 @@
         $('body').html(originalContent);
     }
 
+        function printCards() {
+        $('#print-area').hide();
+        $('#form-area').hide();
+        $('.btn-danger').each(function() {
+        $(this).parent().hide();
+    });
+
+        var printContent1 = $('#printCard1').html();
+        var printContent2 = $('#printCard2').html();
+        var printContent3 = $('#printCard3').html();
+        var originalContent = $('body').html();
+
+        var combinedContent = printContent1 + '<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>' + printContent2 + '<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>' + printContent3;
+        $('body').html(combinedContent);
+        window.print();
+        $('body').html(originalContent);
+    }
 </script>
 
 @endsection
