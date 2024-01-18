@@ -1,100 +1,4 @@
-{{--<!doctype html>--}}
-{{--<html lang="en">--}}
-{{--<head>--}}
-{{--    <meta charset="UTF-8">--}}
-{{--    <meta name="viewport"--}}
-{{--          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">--}}
-{{--    <meta http-equiv="X-UA-Compatible" content="ie=edge">--}}
-{{--    <title>Document</title>--}}
-{{--</head>--}}
-{{--<style>--}}
-{{--    p, h1, h2{--}}
-{{--        color: #0a1549;--}}
-{{--    }--}}
-{{--    p {--}}
-{{--        font-size: 20px;--}}
-{{--    }--}}
-{{--    span {--}}
-{{--        background: #0a1549;--}}
-{{--        border-radius: 50px;--}}
-{{--        color: white;--}}
-{{--        font-size: 50px;--}}
-{{--        padding:12px 45px 12px 45px;--}}
-{{--        font-weight: bolder;--}}
-{{--    }--}}
-{{--    @media only screen and (min-width: 1200px) {--}}
-{{--        .ortala {--}}
-{{--            text-align: center; /* dikey olarak ortalamak için */--}}
-{{--            padding-left: 600px;--}}
-{{--            padding-right: 600px;--}}
-{{--        }--}}
-{{--        .img-text{--}}
-{{--            text-align: justify;--}}
-{{--            margin-top: 0 !important;--}}
-{{--            padding-top: 0 !important;--}}
-{{--        }--}}
-{{--        .img-text-div {--}}
-{{--            align-items: flex-start;--}}
-{{--            padding-right: 20px;--}}
-{{--        }--}}
-{{--        .img-div {--}}
-{{--            align-items: flex-end;--}}
-{{--        }--}}
-{{--        .sekil {--}}
-{{--            display: flex;--}}
-{{--        }--}}
-{{--    }--}}
-
-
-{{--</style>--}}
-{{--<body>--}}
-{{--    <div class="ortala" >--}}
-{{--        <div style="margin: 20px">--}}
-{{--            <img src="https://i.ibb.co/LxTrPG9/p7-B8-GJJj-NI7l-Rf-Zxl-U4-V.png" alt="">--}}
-{{--        </div>--}}
-
-{{--        <div style="margin: 40px">--}}
-{{--            <h1 style="background: #99cd08; padding:20px 0 20px 0; color: white">GÖMRÜK XƏBƏRLƏRİ</h1>--}}
-{{--        </div>--}}
-
-{{--        <div>--}}
-{{--            <h2 style="text-align: start; font-size: 30px;">Yaşı 10 ildən çox olan minik avtomobillərinin gətirilməsi dayandırılır!</h2>--}}
-{{--        </div>--}}
-{{--        <div>--}}
-{{--            <p style="text-align: justify"> İstismar olunan minik avtomobillərinin Azərbaycan Respublikasının gömrük--}}
-{{--                ərazisinə gətirilməsinin məhdudlaşdırılması haqqında “Azərbaycan Respublikası--}}
-{{--                Gömrük Məcəlləsinin təsdiq edilməsi haqqında” Azərbaycan Respublikası--}}
-{{--                Qanununun tətbiqi barədə” Azərbaycan Respublikası Prezidentinin 2011-ci il 15--}}
-{{--                sentyabr tarixli 499 nömrəli Fərmanının 28.5-ci bəndinə əsasən, insanların həyat--}}
-{{--                və sağlamlığının və ətraf mühitin qorunması, avtonəqliyyat vasitələrindən--}}
-{{--                atmosfer havasına atılan zərərli maddələrin miqdarının azaldılması və ekoloji--}}
-{{--                vəziyyətin yaxşılaşdırılması məqsədilə AzərbaycanRespublikasının Nazirlər--}}
-{{--                Kabineti qərara alır:</p>--}}
-{{--        </div>--}}
-{{--        <div class="sekil">--}}
-{{--            <div class="img-text-div">--}}
-{{--                <p class="img-text">1. Zavod buraxılış tarixinə görə yaşı 10 ildən--}}
-{{--                    çox olan minik avtomobillərinin (raritet minik--}}
-{{--                    avtomobilləri və gömrük ərazisinə--}}
-{{--                    müvəqqəti gətirilən minik avtomobilləri--}}
-{{--                    istisna olmaqla) Azərbaycan Respublikası--}}
-{{--                    ərazisinə gətirilməsi məhdudlaşdırılsın.--}}
-{{--                    2. Bu Qərar dərc edildiyi gündən 30 (otuz)--}}
-{{--                    gün sonra qüvvəyə minir--}}
-{{--                </p>--}}
-{{--            </div>--}}
-
-{{--            <div><img src="https://i.ibb.co/Kjn5P5y/2.png" alt="" width="250"></div>--}}
-{{--            <div><img src="https://i.ibb.co/HP75VVj/1.png" alt=""></div>--}}
-{{--        </div>--}}
-{{--        <div><h2>Avtomobillərin gətirilməsi və Gömrük Rəsmiləşdirilməsi üçün:--}}
-{{--            </h2></div>--}}
-{{--        <div style="margin-top: 70px;"><span>*9090</span></div>--}}
-{{--    </div>--}}
-{{--</body>--}}
-{{--</html>--}}
-
-        <!doctype html>
+ <!doctype html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -432,17 +336,49 @@
 
                                     <td style="text-align: center;" >
                                         <img style="text-align: center" src="https://i.ibb.co/LxTrPG9/p7-B8-GJJj-NI7l-Rf-Zxl-U4-V.png" alt="">
-                                        <h2 style="background: #99cd08; color: white; padding:20px 5px 20px 5px; margin: 20px; font-size: 35px; font-weight: bolder">Təkmilləşdirmə işləri</h2>
-                                        <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549" >Dəyərli müştəri,</h2>
+                                        <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549" >Hörmətli,</h2>
                                         <p style="text-align: justify;">Dünya Azərbaycanlıların Həmrəylik Günü və Yeni il münasibəti sizi təbrik edirik! Sizə və doğmalarınlza can sağlığı, işlərinizdə bol bol uğurlar arzulayırıq!
                                             </p>
+                                        <p style="text-align: justify;">Dünya Azərbaycanlıların Həmrəylik Günü və Yeni il münasibəti sizi təbrik edirik! Sizə və doğmalarınlza can sağlığı, işlərinizdə bol bol uğurlar arzulayırıq!
+                                            </p>
+                                        <h2 style="background: rgba(8,70,205,0.63); color: white; padding:20px 5px 20px 5px; margin: 20px; font-size: 35px; font-weight: bolder">Təkmilləşdirmə işləri</h2>
+                                        <br>
+                                        <h3 style="background: rgb(22,141,46); color: white; padding: 5px  5px; font-size: 25px; font-weight: bolder; text-align: left; display: inherit" >Əlaqə Vasitələri</h3>
                                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                                             <tbody>
                                             <tr>
                                                 <td align="center">
                                                     <table border="0" cellpadding="0" cellspacing="0">
-                                                        <tbody>
-                                                        <tr> <td> <img src="https://ibb.co/qJW7gVF" width="400px" alt=""> </td></tr>
+                                                        <tbody style="text-align: left">
+                                                        <tr>
+
+                                                            <td  style="text-align: left;">
+                                                                <a href="*0090">*0090</a>
+                                                            </td>
+                                                            <td style="text-align: left;">
+                                                                <a href="*0090">mobilbroker.az</a>
+                                                            </td>
+
+                                                        </tr>
+
+                                                        <tr>
+
+                                                            <td style="text-align: left;">
+                                                                <a href="*0090">+994 51 333 90 90</a>
+                                                            </td>
+                                                            <td style="text-align: left;">
+                                                                <a href="*0090">+994 51 333 90 90</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+
+                                                            <td style="text-align: left;">
+                                                                <a href="*0090">info@mobilbroker.az</a>
+                                                            </td>
+                                                            <td style="text-align: left;">
+                                                                <a href="*0090">Əhməd Rəcəbli, 27B</a>
+                                                            </td>
+                                                        </tr>
 
 
                                                         </tbody>
