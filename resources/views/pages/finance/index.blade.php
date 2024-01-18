@@ -687,8 +687,8 @@
                 var kod = "507547";
                 var bvoen = "9900001901";
                 var swift = "BRESAZ22";
-                var who = "Fərhad İbrahimli Əli oğlu";
-                var whoFooter = "F.Ə.İbrahimli";
+                var who = "Sabir Tahirov Zakir oğlu";
+                var whoFooter = "S.Z.Tahirov";
                 $('#vatColumn, #vatColumn2, #vatColumn3').hide();
             } else if (company == 'mtechnologiesRespublika') {
                 var companyName = "\"Mobil Technologies\" MMC";

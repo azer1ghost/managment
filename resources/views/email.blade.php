@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Simple Transactional Email</title>
     <style>
         /* -------------------------------------
@@ -34,7 +34,9 @@
             border-collapse: separate;
             mso-table-lspace: 0pt;
             mso-table-rspace: 0pt;
-            width: 100%; }
+            width: 100%;
+        }
+
         table td {
             font-family: sans-serif;
             font-size: 14px;
@@ -94,6 +96,7 @@
             text-align: center;
             width: 100%;
         }
+
         .footer td,
         .footer p,
         .footer span,
@@ -135,6 +138,7 @@
             margin-bottom: 15px;
             color: #0a1549;
         }
+
         p li,
         ul li,
         ol li {
@@ -152,17 +156,23 @@
         ------------------------------------- */
         .btn {
             box-sizing: border-box;
-            width: 100%; }
+            width: 100%;
+        }
+
         .btn > tbody > tr > td {
-            padding-bottom: 15px; }
+            padding-bottom: 15px;
+        }
+
         .btn table {
             width: auto;
         }
+
         .btn table td {
             background-color: #ffffff;
             border-radius: 5px;
             text-align: center;
         }
+
         .btn a {
             background-color: #ffffff;
             border-radius: 5px;
@@ -176,7 +186,6 @@
             text-decoration: none;
             text-transform: capitalize;
         }
-
 
 
         /* -------------------------------------
@@ -245,6 +254,7 @@
                 font-size: 28px !important;
                 margin-bottom: 10px !important;
             }
+
             table.body p,
             table.body ul,
             table.body ol,
@@ -253,28 +263,35 @@
             table.body a {
                 font-size: 16px !important;
             }
+
             table.body .wrapper,
             table.body .article {
                 padding: 10px !important;
             }
+
             table.body .content {
                 padding: 0 !important;
             }
+
             table.body .container {
                 padding: 0 !important;
                 width: 100% !important;
             }
+
             table.body .main {
                 border-left-width: 0 !important;
                 border-radius: 0 !important;
                 border-right-width: 0 !important;
             }
+
             table.body .btn table {
                 width: 100% !important;
             }
+
             table.body .btn a {
                 width: 100% !important;
             }
+
             table.body .img-responsive {
                 height: auto !important;
                 max-width: 100% !important;
@@ -289,6 +306,7 @@
             .ExternalClass {
                 width: 100%;
             }
+
             .ExternalClass,
             .ExternalClass p,
             .ExternalClass span,
@@ -297,6 +315,7 @@
             .ExternalClass div {
                 line-height: 100%;
             }
+
             .apple-link a {
                 color: inherit !important;
                 font-family: inherit !important;
@@ -305,6 +324,7 @@
                 line-height: inherit !important;
                 text-decoration: none !important;
             }
+
             #MessageViewBody a {
                 color: inherit;
                 text-decoration: none;
@@ -330,54 +350,95 @@
 
                     <!-- START MAIN CONTENT AREA -->
                     <tr>
-                        <td style="text-align: center;" >
-{{--                            <img style="text-align: center" src="https://i.ibb.co/LxTrPG9/p7-B8-GJJj-NI7l-Rf-Zxl-U4-V.png" alt="">--}}
-{{--                            <h2 style="background: #99cd08; color: white; padding:50px 8px 50px 8px; margin: 100%; font-size: 35px; font-weight: bolder"></h2>--}}
-{{--                            <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549" >Dəyərli müştəri,</h2>--}}
-{{--                            <p style="text-align: justify;">Dünya Azərbaycanlıların Həmrəylik Günü və Yeni il münasibəti sizi təbrik edirik! Sizə və doğmalarınlza can sağlığı, işlərinizdə bol bol uğurlar arzulayırıq!--}}
-{{--                            </p>--}}
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
-                                <tbody>
+                        <td style="text-align: center;">
+                            {{--                            <img style="text-align: center" src="https://i.ibb.co/LxTrPG9/p7-B8-GJJj-NI7l-Rf-Zxl-U4-V.png" alt="">--}}
+                            {{--                            <h2 style="background: #99cd08; color: white; padding:50px 8px 50px 8px; margin: 100%; font-size: 35px; font-weight: bolder"></h2>--}}
+                            {{--                            <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549" >Dəyərli müştəri,</h2>--}}
+                            {{--                            <p style="text-align: justify;">Dünya Azərbaycanlıların Həmrəylik Günü və Yeni il münasibəti sizi təbrik edirik! Sizə və doğmalarınlza can sağlığı, işlərinizdə bol bol uğurlar arzulayırıq!--}}
+                            {{--                            </p>--}}
+                            <table role="presentation" class="main">
                                 <tr>
-                                    <td align="center">
-                                        <table border="0" cellpadding="0" cellspacing="0">
-                                            <tbody>
-                                            <tr> <td> <a href="https://ibb.co/yVBmDC9"><img src="https://i.ibb.co/SJ7D2gj/ziz-M-t-rimiz.png" alt="Yeni İl Təbriki" border="0" /></a> </td></tr>
+                                    <td class="wrapper">
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                                            <tr>
 
+                                                <td style="text-align: center;">
+                                                    <img style="text-align: center"
+                                                         src="https://i.ibb.co/hdmBQ2R/broker-emaill3.png" alt="">
+                                                    <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549">
+                                                        Hörmətli,</h2>
+                                                    <p style="text-align: justify;">Sizə, ilk növbədə təşkil olunmuş
+                                                        görüşə və səmimi qəbula görə
+                                                        təşəkkürümüzü bildiririk. Hesab edirik ki bu görüşümüz uğurlu
+                                                        əməkdaşlığmız üçün başlanğıc olar
+                                                    <p style="text-align: justify;">Sizə, şirkətimiz və xidmətlərimiz
+                                                        haqqımızda ətraflı məlumat
+                                                        əldə etmək üçün təqdimat linkin aşağıda göndəririk.
+                                                    </p>
+                                                    <a href=""><img src="https://i.ibb.co/PzVPFvz/19.png" alt="19"
+                                                                    border="0"></a>
+                                                    <a href=""><img src="https://i.ibb.co/tmr5CXz/elaqe-vasiteleri.png"
+                                                                    alt="elaqe-vasiteleri" border="0"></a>
+                                            <tr>
+                                                <td>Satır 1, Sütun 1</td>
+                                                <td>Satır 1, Sütun 2</td>
+                                                <td>Satır 1, Sütun 2</td>
+                                                <tr></tr>
+                                                <td>Satır 2, Sütun 1</td>
+                                                <td>Satır 2, Sütun 2</td>
+                                            </tr>
+                                            <table role="presentation" border="0" cellpadding="0" cellspacing="0"
+                                                   class="btn btn-primary">
+                                                <tbody>
+                                                <tr>
+                                                    <td align="center">
+                                                        <table border="0" cellpadding="0" cellspacing="0">
+                                                            <tbody>
+                                                            <tr>
+                                                                <td><img src="https://ibb.co/qJW7gVF" width="400px"
+                                                                         alt=""></td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
 
-                                            </tbody>
-                                        </table>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <h2 style="font-size: 20px; font-weight: bolder; color: #0a1549">
+                                                Yüklərinizin gətirilməsi və Gömrük Rəsmiləşdirilməsi üçün:</h2>
+                                            <span style="background: #0a1549; border-radius: 40px; color: white; padding:20px 30px 20px 30px; font-size: 35px; font-weight: bolder">*9090</span>
                                     </td>
-
                                 </tr>
-                                </tbody>
                             </table>
-{{--                            <h2 style="font-size: 20px; font-weight: bolder; color: #0a1549" >Yüklərinizin gətirilməsi və Gömrük Rəsmiləşdirilməsi üçün:</h2>--}}
-{{--                            <span style="background: #0a1549; border-radius: 40px; color: white; padding:20px 30px 20px 30px; font-size: 35px; font-weight: bolder">*9090</span>--}}
                         </td>
                     </tr>
 
-                    <!-- END MAIN CONTENT AREA -->
                 </table>
-                <!-- END CENTERED WHITE CONTAINER -->
-
-                <!-- START FOOTER -->
-                <div class="footer">
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                        <tr>
-                            <td class="content-block">
-                                <span class="apple-link">Mobil Management</span> | All rights reserved.
-                            </td>
-                        </tr>
-
-                    </table>
-                </div>
-                <!-- END FOOTER -->
-
-            </div>
         </td>
-        <td>&nbsp;</td>
     </tr>
+
+    <!-- END MAIN CONTENT AREA -->
+</table>
+<!-- END CENTERED WHITE CONTAINER -->
+
+<!-- START FOOTER -->
+<div class="footer">
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td class="content-block">
+                <span class="apple-link">Mobil Management</span> | All rights reserved.
+            </td>
+        </tr>
+
+    </table>
+</div>
+<!-- END FOOTER -->
+
+</div>
+</td>
+<td>&nbsp;</td>
+</tr>
 </table>
 </body>
 </html>

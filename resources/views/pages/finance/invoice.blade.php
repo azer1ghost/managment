@@ -156,8 +156,8 @@
      $kod = "507547";
      $bvoen = "9900001901";
      $swift = "BRESAZ22";
-     $who = "Fərhad İbrahimli Əli oğlu";
-     $whoFooter = "F.Ə.İbrahimli";
+     $who = "Sabir Tahirov Zakir oğlu";
+     $whoFooter = "S.Z.Tahirov";
      $stamp = asset('assets/images/finance/asaza.jpeg');
 
  }else if ($company == 'mtechnologiesRespublika') {
