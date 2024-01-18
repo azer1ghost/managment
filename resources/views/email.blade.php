@@ -379,25 +379,46 @@
                                                                     border="0"></a>
                                                     <a href=""><img src="https://i.ibb.co/tmr5CXz/elaqe-vasiteleri.png"
                                                                     alt="elaqe-vasiteleri" border="0"></a>
-                                            <tr>
-                                                <td>Satır 1, Sütun 1</td>
-                                                <td>Satır 1, Sütun 2</td>
-                                                <td>Satır 1, Sütun 2</td>
-                                                <tr></tr>
-                                                <td>Satır 2, Sütun 1</td>
-                                                <td>Satır 2, Sütun 2</td>
-                                            </tr>
+
                                             <table role="presentation" border="0" cellpadding="0" cellspacing="0"
                                                    class="btn btn-primary">
+
                                                 <tbody>
                                                 <tr>
                                                     <td align="center">
                                                         <table border="0" cellpadding="0" cellspacing="0">
-                                                            <tbody>
+                                                            <tbody style="text-align: left">
                                                             <tr>
-                                                                <td><img src="https://ibb.co/qJW7gVF" width="400px"
-                                                                         alt=""></td>
+
+                                                                <td  style="text-align: left;">
+                                                                    <a href="*0090">*0090</a>
+                                                                </td>
+                                                                <td style="text-align: left;">
+                                                                    <a href="*0090">mobilbroker.az</a>
+                                                                </td>
+
                                                             </tr>
+
+                                                            <tr>
+
+                                                                <td style="text-align: left;">
+                                                                    <a href="*0090">+994 51 333 90 90</a>
+                                                                </td>
+                                                                <td style="text-align: left;">
+                                                                    <a href="*0090">+994 51 333 90 90</a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+
+                                                                <td style="text-align: left;">
+                                                                    <a href="*0090">info@mobilbroker.az</a>
+                                                                </td>
+                                                                <td style="text-align: left;">
+                                                                    <a href="*0090">Əhməd Rəcəbli, 27B</a>
+                                                                </td>
+                                                            </tr>
+
+
                                                             </tbody>
                                                         </table>
                                                     </td>
