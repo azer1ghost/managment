@@ -334,6 +334,10 @@
                 line-height: inherit;
             }
         }
+        .socials {
+            padding: 0px !important;
+            margin: 0px !important;
+        }
 
     </style>
 </head>
@@ -391,44 +395,50 @@
                                                             <tr>
 
                                                                 <td  style="text-align: left;">
-                                                                    <a href="*0090">*0090</a>
+                                                                    <a href="tel:*0090"><img src="https://i.ibb.co/mHZLNwS/30.png" alt="30" border="0"></a>
                                                                 </td>
                                                                 <td style="text-align: left;">
-                                                                    <a href="*0090">mobilbroker.az</a>
-                                                                </td>
-
-                                                            </tr>
-
-                                                            <tr>
-
-                                                                <td style="text-align: left;">
-                                                                    <a href="*0090">+994 51 333 90 90</a>
-                                                                </td>
-                                                                <td style="text-align: left;">
-                                                                    <a href="*0090">+994 51 333 90 90</a>
+                                                                    <a href="tel:+994513339090"><img src="https://i.ibb.co/6B2CnJG/31.png" alt="31" border="0"></a>
                                                                 </td>
                                                             </tr>
                                                             <tr>
-
                                                                 <td style="text-align: left;">
-                                                                    <a href="*0090">info@mobilbroker.az</a>
+                                                                    <a href="mailto:info@mobilbroker.az"><img src="https://i.ibb.co/gWjFCbc/32.png" alt="32" border="0"></a>
                                                                 </td>
                                                                 <td style="text-align: left;">
-                                                                    <a href="*0090">Əhməd Rəcəbli, 27B</a>
+                                                                    <a href="https://www.mobilbroker.az"><img src="https://i.ibb.co/fHSDsDk/33.png" alt="33" border="0"></a>
                                                                 </td>
                                                             </tr>
+                                                            <tr>
 
+                                                                <td style="text-align: left;">
+                                                                    <a href="https://maps.app.goo.gl/pmHgwhCrt8knTgqr9"><img src="https://i.ibb.co/fHnqx7z/34.png" alt="34" border="0"></a>
+                                                                </td>
+                                                                <td style="text-align: left;">
+                                                                    <a href="https://wa.me/+9943339090"><img src="https://i.ibb.co/FY3tP9T/35.png" alt="35" border="0"></a>
+                                                                </td>
+                                                            </tr>
 
                                                             </tbody>
                                                         </table>
                                                     </td>
 
                                                 </tr>
+                                                <tr>
+
+                                                    <td>
+                                                        <a href="tel:*0090"><img style="width: 20px" class="socials" src="https://i.ibb.co/wY7Fyq3/instagram.png" alt="30" border="0"></a>
+                                                        <a href="tel:*0090"><img style="width: 20px" class="socials" src="https://i.ibb.co/Tgrg8BS/facebook.png" alt="30" border="0"></a>
+                                                        <a href="tel:*0090"><img style="width: 20px" class="socials" src="https://i.ibb.co/wY7Fyq3/instagram.png" alt="30" border="0"></a>
+                                                        <a href="tel:*0090"><img style="width: 20px" class="socials" src="https://i.ibb.co/wY7Fyq3/instagram.png" alt="30" border="0"></a>
+                                                        <a href="tel:*0090"><img style="width: 20px" class="socials" src="https://i.ibb.co/wY7Fyq3/instagram.png" alt="30" border="0"></a>
+                                                    </td>
+                                                </tr>
                                                 </tbody>
                                             </table>
-                                            <h2 style="font-size: 20px; font-weight: bolder; color: #0a1549">
-                                                Yüklərinizin gətirilməsi və Gömrük Rəsmiləşdirilməsi üçün:</h2>
-                                            <span style="background: #0a1549; border-radius: 40px; color: white; padding:20px 30px 20px 30px; font-size: 35px; font-weight: bolder">*9090</span>
+{{--                                            <h2 style="font-size: 20px; font-weight: bolder; color: #0a1549">--}}
+{{--                                                Yüklərinizin gətirilməsi və Gömrük Rəsmiləşdirilməsi üçün:</h2>--}}
+{{--                                            <span style="background: #0a1549; border-radius: 40px; color: white; padding:20px 30px 20px 30px; font-size: 35px; font-weight: bolder">*9090</span>--}}
                                     </td>
                                 </tr>
                             </table>
