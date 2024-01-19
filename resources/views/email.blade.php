@@ -365,20 +365,19 @@
                                     <td class="wrapper">
                                         <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                             <tr>
-
                                                 <td style="text-align: center;">
                                                     <img style="text-align: center"
                                                          src="https://i.ibb.co/hdmBQ2R/broker-emaill3.png" alt="">
-                                                    <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549">
+                                                    <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549; padding-top: 60px">
                                                         Hörmətli,</h2>
-                                                    <p style="text-align: justify;">Sizə, ilk növbədə təşkil olunmuş
+                                                    <h3 style="text-align: justify;">Sizə, ilk növbədə təşkil olunmuş
                                                         görüşə və səmimi qəbula görə
                                                         təşəkkürümüzü bildiririk. Hesab edirik ki bu görüşümüz uğurlu
                                                         əməkdaşlığmız üçün başlanğıc olar
-                                                    <p style="text-align: justify;">Sizə, şirkətimiz və xidmətlərimiz
+                                                    <h3 style="text-align: justify;">Sizə, şirkətimiz və xidmətlərimiz
                                                         haqqımızda ətraflı məlumat
                                                         əldə etmək üçün təqdimat linkin aşağıda göndəririk.
-                                                    </p>
+                                                    </h3>
                                                     <a href=""><img src="https://i.ibb.co/PzVPFvz/19.png" alt="19"
                                                                     border="0"></a>
                                                     <a href=""><img src="https://i.ibb.co/tmr5CXz/elaqe-vasiteleri.png"
@@ -427,15 +426,16 @@
                                                 <tr>
 
                                                     <td>
-                                                        <a href="tel:*0090"><img style="width: 20px" class="socials" src="https://i.ibb.co/wY7Fyq3/instagram.png" alt="30" border="0"></a>
-                                                        <a href="tel:*0090"><img style="width: 20px" class="socials" src="https://i.ibb.co/Tgrg8BS/facebook.png" alt="30" border="0"></a>
-                                                        <a href="tel:*0090"><img style="width: 20px" class="socials" src="https://i.ibb.co/wY7Fyq3/instagram.png" alt="30" border="0"></a>
-                                                        <a href="tel:*0090"><img style="width: 20px" class="socials" src="https://i.ibb.co/wY7Fyq3/instagram.png" alt="30" border="0"></a>
-                                                        <a href="tel:*0090"><img style="width: 20px" class="socials" src="https://i.ibb.co/wY7Fyq3/instagram.png" alt="30" border="0"></a>
+                                                        <a href="https://www.instagram.com/mobilbroker.az?igshid=OGQ5ZDc2ODk2ZA=="><img style="width: 20px" class="socials" src="https://i.ibb.co/wY7Fyq3/instagram.png" alt="30" border="0"></a>
+                                                        <a href="https://www.facebook.com/mobilbroker.az?mibextid=ZbWKwL"><img style="width: 20px" class="socials" src="https://i.ibb.co/Tgrg8BS/facebook.png" alt="30" border="0"></a>
+                                                        <a href="https://youtube.com/@gomruktemsilciniz?si=unbJ9cuDg6_RPAdZ"><img style="width: 20px" class="socials" src="https://i.ibb.co/54jR9yC/youtube.png" alt="30" border="0"></a>
+                                                        <a href="https://www.linkedin.com/company/mobilgroup/"><img style="width: 20px" class="socials" src="https://i.ibb.co/F7XTkgX/linkedin.png" alt="30" border="0"></a>
+                                                        <a href="http://tiktok.com/@gomruktemsilciniz"><img style="width: 20px" class="socials" src="https://i.ibb.co/1LWnWj5/tiktok.png" alt="30" border="0"></a>
                                                     </td>
                                                 </tr>
                                                 </tbody>
                                             </table>
+                                                    <a href=#"><img src="https://i.ibb.co/61j24C3/yeniden-gorusmek.png" alt="yeniden-gorusmek" border="0"></a>
 {{--                                            <h2 style="font-size: 20px; font-weight: bolder; color: #0a1549">--}}
 {{--                                                Yüklərinizin gətirilməsi və Gömrük Rəsmiləşdirilməsi üçün:</h2>--}}
 {{--                                            <span style="background: #0a1549; border-radius: 40px; color: white; padding:20px 30px 20px 30px; font-size: 35px; font-weight: bolder">*9090</span>--}}
