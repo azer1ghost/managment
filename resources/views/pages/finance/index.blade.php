@@ -223,7 +223,7 @@
                 <p class="invoiceNumbers"></p>
                 <br>
 
-                <p class="float-left"><span class="companyName"></span>-nin direktoru</p>
+                <p class="float-left"><span class="companyName"></span>-nin <span class="companyMie"></span> direktoru</p>
                 <p class="float-right" id="who-footer"></p>
             </div>
 
@@ -452,6 +452,7 @@
                     const clients = response;
                     const selectElement = $('#clientSelect');
                     const clientNameInput = $('#clientNameInput');
+                    const clientMieInput = $('#clientMieInput');
                     const clientVoenInput = $('#clientVoenInput');
                     const clienthhInput = $('#clienthhInput');
                     const clientmhInput = $('#clientmhInput');
@@ -484,6 +485,7 @@
 
                         if (selectedClient) {
                             clientNameInput.val(selectedClient.name);
+                            clientMieInput.val(selectedClient.mie);
                             clientVoenInput.val(selectedClient.voen);
                             clienthhInput.val(selectedClient.hn);
                             clientmhInput.val(selectedClient.mh);
@@ -493,6 +495,7 @@
                             clientSwiftInput.val(selectedClient.swift);
                             clientWhoInput.val(selectedClient.orderer);
                             clientName();
+                            clientMie();
                             clientVoen();
                             clienthh();
                             clientmh();
@@ -525,6 +528,7 @@
                 },
                 data: {
                     name: $('#clientNameInput').val(),
+                    mie: $('#clientMieInput').val(),
                     voen: $('#clientVoenInput').val(),
                     hn: $('#clienthhInput').val(),
                     mh: $('#clientmhInput').val(),
@@ -553,6 +557,7 @@
 
             if (company == 'mbrokerKapital') {
                 var companyName = "\"Mobil Broker\" MMC";
+                var companyMie = "(M.İ.E)";
                 var voen = "1804705371";
                 var hh = "AZ78AIIB400500D9447193478229";
                 var mh = "AZ37NABZ01350100000000001944";
@@ -564,6 +569,7 @@
                 var whoFooter = "V.İ.Xəlilov";
             } else if (company == 'mbrokerRespublika') {
                 var companyName = "\"Mobil Broker\" MMC";
+                var companyMie = "(M.İ.E)";
                 var voen = "1804705371";
                 var hh = "AZ17BRES00380394401114863601";
                 var mh = "AZ80NABZ01350100000000014944";
@@ -586,6 +592,7 @@
                 var whoFooter = "V.İ.Xəlilov";
             } else if (company == 'garantKapital') {
                 var companyName = "\"Garant Broker\" MMC";
+                var companyMie = "(M.İ.E)";
                 var voen = "1803974481";
                 var hh = "AZ56AIIB400500D9447227965229";
                 var mh = "AZ37NABZ01350100000000001944";
@@ -597,6 +604,7 @@
                 var whoFooter = "A.M.Cəlilov";
             } else if (company == 'garantRespublika') {
                 var companyName = "\"Garant Broker\" MMC";
+                var companyMie = "(M.İ.E)";
                 var voen = "1803974481";
                 var hh = "AZ95BRES00380394401114875001";
                 var mh = "AZ80NABZ01350100000000014944";
@@ -731,6 +739,7 @@
             }
 
             $('.companyName').text(companyName);
+            $('.companyMie').text(companyMie);
             $('.voen').text(voen);
             $('.hh').text(hh);
             $('.mh').text(mh);
