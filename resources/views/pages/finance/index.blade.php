@@ -452,7 +452,6 @@
                     const clients = response;
                     const selectElement = $('#clientSelect');
                     const clientNameInput = $('#clientNameInput');
-                    const clientMieInput = $('#clientMieInput');
                     const clientVoenInput = $('#clientVoenInput');
                     const clienthhInput = $('#clienthhInput');
                     const clientmhInput = $('#clientmhInput');
@@ -485,7 +484,6 @@
 
                         if (selectedClient) {
                             clientNameInput.val(selectedClient.name);
-                            clientMieInput.val(selectedClient.mie);
                             clientVoenInput.val(selectedClient.voen);
                             clienthhInput.val(selectedClient.hn);
                             clientmhInput.val(selectedClient.mh);
@@ -495,7 +493,6 @@
                             clientSwiftInput.val(selectedClient.swift);
                             clientWhoInput.val(selectedClient.orderer);
                             clientName();
-                            clientMie();
                             clientVoen();
                             clienthh();
                             clientmh();
