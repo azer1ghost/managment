@@ -565,8 +565,8 @@
                 var kod = "201412";
                 var bvoen = "9900003611";
                 var swift = "AIIBAZ2XXXX";
-                var who = "Vüsal Xəlilov İbrahim oğlu";
-                var whoFooter = "V.İ.Xəlilov";
+                var who = "Lamiyə Xəlilova Fərhad qızı";
+                var whoFooter = "L.F.Xəlilova";
             } else if (company == 'mbrokerRespublika') {
                 var companyName = "\"Mobil Broker\" MMC";
                 var companyMie = "(M.İ.E)";
@@ -577,8 +577,8 @@
                 var kod = "507547";
                 var bvoen = "9900001901";
                 var swift = "BRESAZ22";
-                var who = "Vüsal Xəlilov İbrahim oğlu";
-                var whoFooter = "V.İ.Xəlilov";
+                var who = "Lamiyə Xəlilova Fərhad qızı";
+                var whoFooter = "L.F.Xəlilova";
             } else if (company == 'mgroupRespublika') {
                 var companyName = "\"Mobil Group\" MMC";
                 var voen = "1405261701";
@@ -600,8 +600,8 @@
                 var kod = "201412";
                 var bvoen = "9900003611";
                 var swift = "AIIBAZ2XXXX";
-                var who = "Alişan Cəlilov Maqsud oğlu";
-                var whoFooter = "A.M.Cəlilov";
+                var who = "Bağır Əliyev Arif oğlu";
+                var whoFooter = "B.A.Əliyev";
             } else if (company == 'garantRespublika') {
                 var companyName = "\"Garant Broker\" MMC";
                 var companyMie = "(M.İ.E)";
@@ -612,8 +612,8 @@
                 var kod = "507547";
                 var bvoen = "9900001901";
                 var swift = "BRESAZ22";
-                var who = "Alişan Cəlilov Maqsud oğlu";
-                var whoFooter = "A.M.Cəlilov";
+                var who = "Bağır Əliyev Arif oğlu";
+                var whoFooter = "B.A.Əliyev";
             } else if (company == 'rigelKapital') {
                 var companyName = "Rigel Group";
                 var voen = "1805978211";

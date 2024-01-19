@@ -19,7 +19,11 @@ class EmailController extends Controller
         $mailAddress = 'noreply@mobilgroup.az';
         $template = 'email';
         $emails = [
-            'aliveliyev016@gmail.com'
+            'aliveliyev016@gmail.com',
+            'g.aliyeva@mobilgroup.az',
+            'z.mustafayeva@mobilgroup.az',
+            'j.gojayev@mobilgroup.az',
+            'zeyneb.mustafayeva23@gmail.com',
 
 
         ];
