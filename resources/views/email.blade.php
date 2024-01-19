@@ -374,6 +374,7 @@
                                                         görüşə və səmimi qəbula görə
                                                         təşəkkürümüzü bildiririk. Hesab edirik ki bu görüşümüz uğurlu
                                                         əməkdaşlığmız üçün başlanğıc olar
+                                                    </h3>
                                                     <h3 style="text-align: justify;">Sizə, şirkətimiz və xidmətlərimiz
                                                         haqqımızda ətraflı məlumat
                                                         əldə etmək üçün təqdimat linkin aşağıda göndəririk.
