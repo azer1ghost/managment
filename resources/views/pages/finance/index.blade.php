@@ -525,7 +525,6 @@
                 },
                 data: {
                     name: $('#clientNameInput').val(),
-                    mie: $('#clientMieInput').val(),
                     voen: $('#clientVoenInput').val(),
                     hn: $('#clienthhInput').val(),
                     mh: $('#clientmhInput').val(),
@@ -533,7 +532,8 @@
                     bank: $('#clientBankInput').val(),
                     bvoen: $('#clientBvoenInput').val(),
                     swift: $('#clientSwiftInput').val(),
-                    orderer: $('#clientWhoInput').val()
+                    orderer: $('#clientWhoInput').val(),
+                    // mie: $('#clientMieInput').val()
                 },
                 success: function(response) {
                     console.log('Müşteri yaratıldı:', response);
