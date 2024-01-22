@@ -14,8 +14,8 @@
      $kod = "201412";
      $bvoen = "9900003611";
      $swift = "AIIBAZ2XXXX";
-     $who = "Lamiyə Xəlilova Fərhad qızı";
-     $whoFooter = "L.F.Xəlilova";
+     $who = "Vüsal Xəlilov İbrahim oğlu";
+     $whoFooter = "V.İ.Xəlilov";
      $stamp = asset('assets/images/finance/mbroker.jpeg');
 
  } else if ($company == 'mbrokerRespublika') {
@@ -27,8 +27,8 @@
      $kod = "507547";
      $bvoen = "9900001901";
      $swift = "BRESAZ22";
-     $who = "Lamiyə Xəlilova Fərhad qızı";
-     $whoFooter = "L.F.Xəlilova";
+     $who = "Vüsal Xəlilov İbrahim oğlu";
+     $whoFooter = "V.İ.Xəlilov";
      $stamp = asset('assets/images/finance/mbroker.jpeg');
   }else if ($company == 'mgroupRespublika') {
      $companyName = "\"Mobil Group\" MMC";
@@ -52,8 +52,8 @@
      $kod = "201412";
      $bvoen = "9900003611";
      $swift = "AIIBAZ2XXXX";
-     $who = "Bağır Əliyev Arif oğlu";
-     $whoFooter = "B.A.Əliyev";
+     $who = "Alişan Cəlilov Maqsud oğlu";
+     $whoFooter = "A.M.Cəlilov";
      $stamp = asset('assets/images/finance/gbroker.jpeg');
 
  } else if ($company == 'garantRespublika') {
@@ -65,8 +65,8 @@
      $kod = "507547";
      $bvoen = "9900001901";
      $swift = "BRESAZ22";
-     $who = "Bağır Əliyev Arif oğlu";
-     $whoFooter = "B.A.Əliyev";
+     $who = "Alişan Cəlilov Maqsud oğlu";
+     $whoFooter = "A.M.Cəlilov";
      $stamp = asset('assets/images/finance/gbroker.jpeg');
 
  } else if ($company == 'rigelKapital') {
