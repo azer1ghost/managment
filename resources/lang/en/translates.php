@@ -697,6 +697,7 @@ return [
         'work_detail' => 'Detail',
         'department_select' => 'Department Select',
         'user_select' => 'User Select',
+        'coordinator_select' => 'Coordinator Select',
         'partner_select' => 'Partner Select',
         'position_select' => 'Position Select',
         'folder_select' => 'Folder Select',

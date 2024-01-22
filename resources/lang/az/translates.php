@@ -696,6 +696,7 @@ return [
         'work_detail' => 'Detal',
         'department_select' => 'Şöbə Seçin',
         'user_select' => 'Əməkdaş Seçin',
+        'coordinator_select' => 'Koordinator Seçin',
         'partner_select' => 'Partnyor Seçin',
         'position_select' => 'Vəzifə Seçin',
         'folder_select' => 'Qovluq Seçin',

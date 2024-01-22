@@ -89,6 +89,33 @@
                         @endif
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="coordinatorFilter">{{__('translates.general.coordinator_select')}}</label>
+                            <select id="coordinatorFilter" class="select2"
+                                    name="coordinator"
+                                    data-width="fit" title="{{__('translates.filters.select')}}">
+                                <option value="">@lang('translates.filters.select')</option>
+                                @foreach($works as $work)
+                                        <?php
+                                        // İlgili işin müşteri ID'sini al
+                                        $clientId = $work->client_id;
+
+                                        // İlgili müşterinin koordinatörlerini getir
+                                        $coordinators = \App\Models\Client::find($clientId)->coordinators;
+                                        ?>
+
+                                    @foreach($coordinators as $user)
+                                        @if($user->id)
+                                            {{ $user->getAttribute('fullname') }}
+                                        @else
+                                            Koordinator Yoxdur
+                                        @endif
+                                    @endforeach
+                                @endforeach
+                            </select>
+                        </div>
+
+
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="serviceFilter">{{__('translates.general.select_service')}}</label>
                             <select id="serviceFilter" multiple
                                     class="select2 js-example-theme-multiple"

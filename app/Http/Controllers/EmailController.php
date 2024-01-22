@@ -20,10 +20,7 @@ class EmailController extends Controller
         $template = 'email';
         $emails = [
             'aliveliyev016@gmail.com',
-            'g.aliyeva@mobilgroup.az',
-            'z.mustafayeva@mobilgroup.az',
-            'j.gojayev@mobilgroup.az',
-            'zeyneb.mustafayeva23@gmail.com',
+            'elvin.huseynov@mobilgroup.az'
 
 
         ];
