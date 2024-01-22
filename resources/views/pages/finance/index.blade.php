@@ -731,7 +731,6 @@
             }
 
             $('.companyName').text(companyName);
-            $('.companyMie').text(companyMie);
             $('.voen').text(voen);
             $('.hh').text(hh);
             $('.mh').text(mh);
