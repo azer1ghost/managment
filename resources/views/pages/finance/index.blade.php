@@ -223,7 +223,7 @@
                 <p class="invoiceNumbers"></p>
                 <br>
 
-                <p class="float-left"><span class="companyName"></span>-nin <span class="companyMie"></span> direktoru</p>
+                <p class="float-left"><span class="companyName"></span>-nin direktoru</p>
                 <p class="float-right" id="who-footer"></p>
             </div>
 
@@ -533,7 +533,6 @@
                     bvoen: $('#clientBvoenInput').val(),
                     swift: $('#clientSwiftInput').val(),
                     orderer: $('#clientWhoInput').val(),
-                    // mie: $('#clientMieInput').val()
                 },
                 success: function(response) {
                     console.log('Müşteri yaratıldı:', response);
@@ -563,7 +562,6 @@
                 var swift = "AIIBAZ2XXXX";
                 var who = "Vüsal Xəlilov İbrahim oğlu";
                 var whoFooter = "V.İ.Xəlilov";
-                // var companyMie = "(M.İ.E)";
             } else if (company == 'mbrokerRespublika') {
                 var companyName = "\"Mobil Broker\" MMC";
                 var voen = "1804705371";
@@ -575,7 +573,6 @@
                 var swift = "BRESAZ22";
                 var who = "Vüsal Xəlilov İbrahim oğlu";
                 var whoFooter = "V.İ.Xəlilov";
-                // var companyMie = "(M.İ.E)";
             } else if (company == 'mgroupRespublika') {
                 var companyName = "\"Mobil Group\" MMC";
                 var voen = "1405261701";
@@ -598,7 +595,6 @@
                 var swift = "AIIBAZ2XXXX";
                 var who = "Alişan Cəlilov Maqsud oğlu";
                 var whoFooter = "A.M.Cəlilov";
-                // var companyMie = "(M.İ.E)";
             } else if (company == 'garantRespublika') {
                 var companyName = "\"Garant Broker\" MMC";
                 var voen = "1803974481";
@@ -610,7 +606,6 @@
                 var swift = "BRESAZ22";
                 var who = "Alişan Cəlilov Maqsud oğlu";
                 var whoFooter = "A.M.Cəlilov";
-                // var companyMie = "(M.İ.E)";
             } else if (company == 'rigelKapital') {
                 var companyName = "Rigel Group";
                 var voen = "1805978211";
