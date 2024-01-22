@@ -60,6 +60,7 @@ class WorkController extends Controller
             'verified_at' => $request->get('verified_at'),
             'payment_method' => $request->get('payment_method'),
             'status' => $request->get('status'),
+            'coordinator'=> $request->get('coordinator'),
             'destination' => $request->get('destination'),
             'paid_at' => $request->get('paid_at'),
             'vat_date' => $request->get('vat_date'),
@@ -92,6 +93,7 @@ class WorkController extends Controller
 
         $departments = Department::isActive()->has('works')->get(['id', 'name']);
         $companies = Company::query()->has('asanImzalar')->limit(10)->get();
+        $coordinators = Client::all();
 
         $paymentMethods = Work::paymentMethods();
         $statuses = Work::statuses();
@@ -125,7 +127,7 @@ class WorkController extends Controller
         $works = $works->paginate($limit);
 
         return view('pages.works.index',
-            compact('works', 'services', 'departments', 'users',
+            compact('works', 'services', 'departments', 'users','coordinators',
                 'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods', 'destinations')
         );
     }

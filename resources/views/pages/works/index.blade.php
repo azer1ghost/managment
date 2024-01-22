@@ -89,29 +89,19 @@
                         @endif
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="coordinatorFilter">{{__('translates.general.coordinator_select')}}</label>
-                            <select id="coordinatorFilter" class="select2"
-                                    name="coordinator"
-                                    data-width="fit" title="{{__('translates.filters.select')}}">
-                                <option value="">@lang('translates.filters.select')</option>
-                                @foreach($works as $work)
-                                        <?php
-                                        // İlgili işin müşteri ID'sini al
-                                        $clientId = $work->client_id;
-
-                                        // İlgili müşterinin koordinatörlerini getir
-                                        $coordinators = \App\Models\Client::find($clientId)->coordinators;
-                                        ?>
-
-                                    @foreach($coordinators as $user)
-                                        @if($user->id)
-                                            {{ $user->getAttribute('fullname') }}
-                                        @else
-                                            Koordinator Yoxdur
-                                        @endif
+                            <div class="form-group">
+                                <select id="data-sales-coordinator" name="coordinator"  class="form-control" data-selected-text-format="count"
+                                        data-width="fit" title="@lang('translates.clients.selectCoordinator')">
+                                    <option value=""> @lang('translates.filters.coordinator') </option>
+                                    @foreach($coordinators as $coordinator)
+                                        <option
+                                                @if($filters['coordinator'] == $coordinator->getAttribute('id')) selected @endif
+                                        value="{{$coordinator->getAttribute('id')}}">
+                                            {{$coordinator->getAttribute('name')}}
+                                        </option>
                                     @endforeach
-                                @endforeach
-                            </select>
+                                </select>
+                            </div>
                         </div>
 
 
