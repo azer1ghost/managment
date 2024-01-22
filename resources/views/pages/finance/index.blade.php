@@ -554,7 +554,6 @@
 
             if (company == 'mbrokerKapital') {
                 var companyName = "\"Mobil Broker\" MMC";
-                // var companyMie = "(M.İ.E)";
                 var voen = "1804705371";
                 var hh = "AZ78AIIB400500D9447193478229";
                 var mh = "AZ37NABZ01350100000000001944";
@@ -564,9 +563,9 @@
                 var swift = "AIIBAZ2XXXX";
                 var who = "Vüsal Xəlilov İbrahim oğlu";
                 var whoFooter = "V.İ.Xəlilov";
+                // var companyMie = "(M.İ.E)";
             } else if (company == 'mbrokerRespublika') {
                 var companyName = "\"Mobil Broker\" MMC";
-                // var companyMie = "(M.İ.E)";
                 var voen = "1804705371";
                 var hh = "AZ17BRES00380394401114863601";
                 var mh = "AZ80NABZ01350100000000014944";
@@ -576,6 +575,7 @@
                 var swift = "BRESAZ22";
                 var who = "Vüsal Xəlilov İbrahim oğlu";
                 var whoFooter = "V.İ.Xəlilov";
+                // var companyMie = "(M.İ.E)";
             } else if (company == 'mgroupRespublika') {
                 var companyName = "\"Mobil Group\" MMC";
                 var voen = "1405261701";
@@ -589,7 +589,6 @@
                 var whoFooter = "V.İ.Xəlilov";
             } else if (company == 'garantKapital') {
                 var companyName = "\"Garant Broker\" MMC";
-                // var companyMie = "(M.İ.E)";
                 var voen = "1803974481";
                 var hh = "AZ56AIIB400500D9447227965229";
                 var mh = "AZ37NABZ01350100000000001944";
@@ -599,9 +598,9 @@
                 var swift = "AIIBAZ2XXXX";
                 var who = "Alişan Cəlilov Maqsud oğlu";
                 var whoFooter = "A.M.Cəlilov";
+                // var companyMie = "(M.İ.E)";
             } else if (company == 'garantRespublika') {
                 var companyName = "\"Garant Broker\" MMC";
-                // var companyMie = "(M.İ.E)";
                 var voen = "1803974481";
                 var hh = "AZ95BRES00380394401114875001";
                 var mh = "AZ80NABZ01350100000000014944";
@@ -611,6 +610,7 @@
                 var swift = "BRESAZ22";
                 var who = "Alişan Cəlilov Maqsud oğlu";
                 var whoFooter = "A.M.Cəlilov";
+                // var companyMie = "(M.İ.E)";
             } else if (company == 'rigelKapital') {
                 var companyName = "Rigel Group";
                 var voen = "1805978211";
