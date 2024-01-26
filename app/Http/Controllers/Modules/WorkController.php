@@ -550,7 +550,7 @@ class WorkController extends Controller
             'injected_at' => $request->get('injected_at') ?? $startOfMonth . ' - ' . $endOfMonth,
             'datetime' => $request->get('datetime') ?? $startOfMonth . ' - ' . $endOfMonth,
             'invoiced_date' => $request->get('invoiced_date') ?? $startOfMonth . ' - ' . $endOfMonth,
-            'statuses' => [1, 2, 3, 4, 5, 6, ],
+            'statuses' => [1, 2],
         ];
 
         if (Work::userCanViewAll() || Work::userCanViewDepartmentWorks()) {
