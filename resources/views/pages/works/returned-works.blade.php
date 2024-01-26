@@ -219,7 +219,7 @@
 
             <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}">
 
-                <td>{{$work->getRelationValue('declaration_no')}}</td>
+                <td>{{$work->getAttribute('declaration_no')}}</td>
 
                 <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
 
