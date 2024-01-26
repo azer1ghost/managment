@@ -88,21 +88,21 @@
                             </div>
                         @endif
 
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <select id="data-sales-coordinator" name="coordinator"  class="form-control" data-selected-text-format="count"
-                                        data-width="fit" title="@lang('translates.clients.selectCoordinator')">
-                                    <option value=""> @lang('translates.filters.coordinator') </option>
-                                    @foreach($coordinators as $coordinator)
-                                        <option
-                                                @if($filters['coordinator'] == $coordinator->getAttribute('id')) selected @endif
-                                        value="{{$coordinator->getAttribute('id')}}">
-                                            {{$coordinator->getAttribute('name')}}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
+{{--                        <div class="col-md-4">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <select id="data-sales-coordinator" name="coordinator"  class="form-control" data-selected-text-format="count"--}}
+{{--                                        data-width="fit" title="@lang('translates.clients.selectCoordinator')">--}}
+{{--                                    <option value=""> @lang('translates.filters.coordinator') </option>--}}
+{{--                                    @foreach($coordinators as $coordinator)--}}
+{{--                                        <option--}}
+{{--                                                @if($filters['coordinator'] == $coordinator->getAttribute('id')) selected @endif--}}
+{{--                                        value="{{$coordinator->getAttribute('id')}}">--}}
+{{--                                            {{$coordinator->getAttribute('name')}}--}}
+{{--                                        </option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
