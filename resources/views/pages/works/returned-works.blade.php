@@ -219,7 +219,7 @@
 
             <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}">
 
-                <td>{{$work->getAttribute('declaration_no')}}</td>
+                <th class="declaration-no" style="white-space: pre-line;">{{$work->getAttribute('declaration_no')}}</th>
 
                 <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
 
@@ -449,6 +449,28 @@
     <script>
         $(".js-example-theme-multiple").select2({
             theme: "classic"
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var thElements = document.querySelectorAll(".declaration-no");
+
+            thElements.forEach(function(thElement) {
+                var declarationNo = thElement.textContent;
+                var formattedDeclarationNo = formatDeclarationNo(declarationNo);
+                thElement.textContent = formattedDeclarationNo;
+            });
+
+            function formatDeclarationNo(declarationNo) {
+                var formatted = "";
+                for (var i = 0; i < declarationNo.length; i++) {
+                    formatted += declarationNo[i];
+                    if ((i + 1) % 15 === 0 && i !== declarationNo.length - 1) {
+                        formatted += "\n";
+                    }
+                }
+                return formatted;
+            }
         });
     </script>
     @endsection
