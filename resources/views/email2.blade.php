@@ -313,6 +313,10 @@
                 font-weight: inherit;
                 line-height: inherit;
             }
+            .socials {
+                padding: 0px !important;
+                margin: 0px !important;
+            }
         }
 
     </style>
@@ -330,68 +334,97 @@
 
                     <!-- START MAIN CONTENT AREA -->
                     <tr>
-                        <td class="wrapper">
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                        <td style="text-align: center;">
+                            {{--                            <img style="text-align: center" src="https://i.ibb.co/LxTrPG9/p7-B8-GJJj-NI7l-Rf-Zxl-U4-V.png" alt="">--}}
+                            {{--                            <h2 style="background: #99cd08; color: white; padding:50px 8px 50px 8px; margin: 100%; font-size: 35px; font-weight: bolder"></h2>--}}
+                            {{--                            <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549" >Dəyərli müştəri,</h2>--}}
+                            {{--                            <p style="text-align: justify;">Dünya Azərbaycanlıların Həmrəylik Günü və Yeni il münasibəti sizi təbrik edirik! Sizə və doğmalarınlza can sağlığı, işlərinizdə bol bol uğurlar arzulayırıq!--}}
+                            {{--                            </p>--}}
+                            <table role="presentation" class="main">
                                 <tr>
-
-                                    <td style="text-align: center;" >
-                                        <img style="text-align: center" src="https://i.ibb.co/LxTrPG9/p7-B8-GJJj-NI7l-Rf-Zxl-U4-V.png" alt="">
-                                        <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549" >Hörmətli,</h2>
-                                        <p style="text-align: justify;">Dünya Azərbaycanlıların Həmrəylik Günü və Yeni il münasibəti sizi təbrik edirik! Sizə və doğmalarınlza can sağlığı, işlərinizdə bol bol uğurlar arzulayırıq!
-                                            </p>
-                                        <p style="text-align: justify;">Dünya Azərbaycanlıların Həmrəylik Günü və Yeni il münasibəti sizi təbrik edirik! Sizə və doğmalarınlza can sağlığı, işlərinizdə bol bol uğurlar arzulayırıq!
-                                            </p>
-                                        <h2 style="background: rgba(8,70,205,0.63); color: white; padding:20px 5px 20px 5px; margin: 20px; font-size: 35px; font-weight: bolder">Təkmilləşdirmə işləri</h2>
-                                        <br>
-                                        <h3 style="background: rgb(22,141,46); color: white; padding: 5px  5px; font-size: 25px; font-weight: bolder; text-align: left; display: inherit" >Əlaqə Vasitələri</h3>
-                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
-                                            <tbody>
+                                    <td class="wrapper">
+                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                             <tr>
-                                                <td align="center">
-                                                    <table border="0" cellpadding="0" cellspacing="0">
-                                                        <tbody style="text-align: left">
-                                                        <tr>
+                                                <td style="text-align: center;">
+                                                    <img src="https://i.ibb.co/VTzkzGj/51.png" alt="" border="0">
+                                                    <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549; padding-top: 60px">
+                                                        Hörmətli,</h2>
+                                                    <h3 style="text-align: justify;">Sizə, ilk növbədə təşkil olunmuş
+                                                        görüşə və səmimi qəbula görə
+                                                        təşəkkürümüzü bildiririk. Hesab edirik ki bu görüşümüz uğurlu
+                                                        əməkdaşlığmız üçün başlanğıc olar
+                                                    </h3>
+                                                    <h3 style="text-align: justify;">Sizə, şirkətimiz və xidmətlərimiz
+                                                        haqqımızda ətraflı məlumat
+                                                        əldə etmək üçün təqdimat linkin aşağıda göndəririk.
+                                                    </h3>
+                                                    <a href="https://mega.nz/folder/NuNnCCJK#KOW6kTxic7-v1KNl61vt4w"><img src="https://i.ibb.co/PzVPFvz/19.png" alt="19"
+                                                                    border="0"></a>
+                                                    <a href=""><img src="https://i.ibb.co/tmr5CXz/elaqe-vasiteleri.png"
+                                                                    alt="elaqe-vasiteleri" border="0"></a>
 
-                                                            <td  style="text-align: left;">
-                                                                <a href="*0090">*0090</a>
-                                                            </td>
-                                                            <td style="text-align: left;">
-                                                                <a href="*0090">mobilbroker.az</a>
+                                                    <table role="presentation" border="0" cellpadding="0" cellspacing="0"
+                                                           class="btn btn-primary">
+
+                                                        <tbody>
+                                                        <tr>
+                                                            <td align="center">
+                                                                <table border="0" cellpadding="0" cellspacing="0">
+                                                                    <tbody style="text-align: left">
+                                                                    <tr>
+
+                                                                        <td  style="text-align: left;">
+                                                                            <a href="tel:*0090"><img src="https://i.ibb.co/mHZLNwS/30.png" alt="30" border="0"></a>
+                                                                        </td>
+                                                                        <td style="text-align: left;">
+                                                                            <a href="tel:+994513339090"><img src="https://i.ibb.co/6B2CnJG/31.png" alt="31" border="0"></a>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="text-align: left;">
+                                                                            <a href="mailto:info@mobillogistics.az"><img src="https://i.ibb.co/nMsks37/3.png" alt="32" border="0"></a>
+                                                                        </td>
+                                                                        <td style="text-align: left;">
+                                                                            <a href="https://mobillogistics.az"><img src="https://i.ibb.co/nCrNjNP/0090-994513339090-info-mobilbroker-az.png" alt="33" border="0"></a>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+
+                                                                        <td style="text-align: left;">
+                                                                            <a href="https://maps.app.goo.gl/pmHgwhCrt8knTgqr9"><img src="https://i.ibb.co/fHnqx7z/34.png" alt="34" border="0"></a>
+                                                                        </td>
+                                                                        <td style="text-align: left;">
+                                                                            <a href="https://wa.me/+994513339090"><img src="https://i.ibb.co/FY3tP9T/35.png" alt="35" border="0"></a>
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    </tbody>
+                                                                </table>
                                                             </td>
 
                                                         </tr>
-
                                                         <tr>
 
-                                                            <td style="text-align: left;">
-                                                                <a href="*0090">+994 51 333 90 90</a>
-                                                            </td>
-                                                            <td style="text-align: left;">
-                                                                <a href="*0090">+994 51 333 90 90</a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-
-                                                            <td style="text-align: left;">
-                                                                <a href="*0090">info@mobilbroker.az</a>
-                                                            </td>
-                                                            <td style="text-align: left;">
-                                                                <a href="*0090">Əhməd Rəcəbli, 27B</a>
+                                                            <td>
+                                                                <a href="https://www.instagram.com/mobilbroker.az?igshid=OGQ5ZDc2ODk2ZA=="><img style="width: 20px" class="socials" src="https://i.ibb.co/wY7Fyq3/instagram.png" alt="30" border="0"></a>
+                                                                <a href="https://www.facebook.com/mobilbroker.az?mibextid=ZbWKwL"><img style="width: 20px" class="socials" src="https://i.ibb.co/Tgrg8BS/facebook.png" alt="30" border="0"></a>
+                                                                <a href="https://youtube.com/@gomruktemsilciniz?si=unbJ9cuDg6_RPAdZ"><img style="width: 20px" class="socials" src="https://i.ibb.co/54jR9yC/youtube.png" alt="30" border="0"></a>
+                                                                <a href="https://www.linkedin.com/company/mobilgroup/"><img style="width: 20px" class="socials" src="https://i.ibb.co/F7XTkgX/linkedin.png" alt="30" border="0"></a>
+                                                                <a href="http://tiktok.com/@gomruktemsilciniz"><img style="width: 20px" class="socials" src="https://i.ibb.co/1LWnWj5/tiktok.png" alt="30" border="0"></a>
                                                             </td>
                                                         </tr>
-
-
                                                         </tbody>
                                                     </table>
+                                                    <a href=#"><img src="https://i.ibb.co/61j24C3/yeniden-gorusmek.png" alt="yeniden-gorusmek" border="0"></a>
+                                                    {{--                                            <h2 style="font-size: 20px; font-weight: bolder; color: #0a1549">--}}
+                                                    {{--                                                Yüklərinizin gətirilməsi və Gömrük Rəsmiləşdirilməsi üçün:</h2>--}}
+                                                    {{--                                            <span style="background: #0a1549; border-radius: 40px; color: white; padding:20px 30px 20px 30px; font-size: 35px; font-weight: bolder">*9090</span>--}}
                                                 </td>
-
                                             </tr>
-                                            </tbody>
                                         </table>
-                                        <h2 style="font-size: 20px; font-weight: bolder; color: #0a1549" >Yüklərinizin gətirilməsi və Gömrük Rəsmiləşdirilməsi üçün:</h2>
-                                        <span style="background: #0a1549; border-radius: 40px; color: white; padding:20px 30px 20px 30px; font-size: 35px; font-weight: bolder">*9090</span>
                                     </td>
                                 </tr>
+
                             </table>
                         </td>
                     </tr>

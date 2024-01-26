@@ -379,7 +379,7 @@
                                                         haqqımızda ətraflı məlumat
                                                         əldə etmək üçün təqdimat linkin aşağıda göndəririk.
                                                     </h3>
-                                                    <a href=""><img src="https://i.ibb.co/PzVPFvz/19.png" alt="19"
+                                                    <a href="https://mega.nz/folder/NuNnCCJK#KOW6kTxic7-v1KNl61vt4w"><img src="https://i.ibb.co/PzVPFvz/19.png" alt="19"
                                                                     border="0"></a>
                                                     <a href=""><img src="https://i.ibb.co/tmr5CXz/elaqe-vasiteleri.png"
                                                                     alt="elaqe-vasiteleri" border="0"></a>
@@ -415,7 +415,7 @@
                                                                     <a href="https://maps.app.goo.gl/pmHgwhCrt8knTgqr9"><img src="https://i.ibb.co/fHnqx7z/34.png" alt="34" border="0"></a>
                                                                 </td>
                                                                 <td style="text-align: left;">
-                                                                    <a href="https://wa.me/+9943339090"><img src="https://i.ibb.co/FY3tP9T/35.png" alt="35" border="0"></a>
+                                                                    <a href="https://wa.me/+994513339090"><img src="https://i.ibb.co/FY3tP9T/35.png" alt="35" border="0"></a>
                                                                 </td>
                                                             </tr>
 
