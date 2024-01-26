@@ -88,7 +88,7 @@
                             </div>
                         @endif
 
-                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <select id="data-sales-coordinator" name="coordinator"  class="form-control" data-selected-text-format="count"
                                         data-width="fit" title="@lang('translates.clients.selectCoordinator')">

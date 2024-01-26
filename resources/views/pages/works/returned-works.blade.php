@@ -199,7 +199,7 @@
         <thead>
         <tr class="text-center">
 
-            <th scope="col">@lang('translates.columns.created_by')</th>
+            <th scope="col">Sorğu nömrəsi</th>
             <th scope="col">@lang('translates.columns.department')</th>
             <th scope="col">@lang('translates.fields.user')</th>
             <th scope="col">Asan imza</th>
@@ -219,7 +219,7 @@
 
             <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}">
 
-                <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
+                <td>{{$work->getRelationValue('declaration_no')}}</td>
 
                 <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
 
