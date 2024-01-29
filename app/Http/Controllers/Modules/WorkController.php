@@ -867,7 +867,7 @@ class WorkController extends Controller
                 }
 
 
-                if (in_array($request->get('asan_imza_id'), [29, 34, 36, 39, 40, 30, 32, 33, 41, 43, 39, 46, 47, 49, 50, 48, 22, 53, 54, 55, 56, 57])) {
+                if (in_array($request->get('asan_imza_id'), [29, 34, 36, 39, 40, 30, 32, 33, 41, 43, 39, 46, 47, 49, 50, 48, 22, 53, 54, 55, 56, 57, 63])) {
                     $work->parameters()->updateExistingPivot($work::VAT, ['value' => 0]);
                 } else {
                     if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41])) {
@@ -1231,7 +1231,7 @@ class WorkController extends Controller
             'ASAZA' => [39, 55],
             'GARANT' => [8, 9, 10, 25, 27, 45, 52, 59, 16, 62, 7, 11, 12, 14, 16, 21, 24],
             'RIGEL' => [30, 32, 41, 43, 54],
-            'MIND' => [29, 34, 36, 40, 46, 53, 60, 39],
+            'MIND' => [29, 34, 36, 40, 46, 53, 60, 63],
             'TEDORA' => [48, 57],
             'DECLARE' => [47, 49, 50, 56, 61],
             'MOBIL' => [3, 51, 44, 38, 35, 31, 28, 26, 19, 5, 4, 58, 23, 2, 20, 18, 17, 6],
