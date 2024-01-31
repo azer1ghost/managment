@@ -1072,7 +1072,7 @@
             var rows2 = tableBody2[0].rows;
             var rows3 = tableBody3[0].rows;
 
-            for (var i = rowIndex - 1; i < rows2.length; i++) {
+            for (var i = rowIndex + 3; i < rows2.length; i++) {
                 var row2 = rows2[i];
                 var row3 = rows3[i];
 
