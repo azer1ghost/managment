@@ -11,11 +11,11 @@ use Carbon\Carbon;
 
 class SalesInquiryController extends Controller
 {
-//    public function __construct()
-//    {
-//        $this->middleware('auth');
-//        $this->authorizeResource(Inquiry::class, 'inquiry');
-//    }
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->authorizeResource(Inquiry::class, 'inquiry');
+    }
 
     public function index(Request $request)
     {
