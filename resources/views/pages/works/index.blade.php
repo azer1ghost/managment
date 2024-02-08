@@ -339,7 +339,7 @@
             <th scope="col">@lang('translates.navbar.document')</th>
             <th scope="col">@lang('translates.columns.gb')</th>
             <th scope="col">@lang('translates.columns.code_count')</th>
-            <th scope="col">@lang('translates.columns.code_other')</th>
+            <th scope="col">@lang('translates.columns.count_other')</th>
             @if(auth()->user()->hasPermission('viewPrice-work'))
 {{--            @foreach(\App\Models\Service::serviceParameters() as $param)--}}
 {{--                <th scope="col">{{$param['data']->getAttribute('label')}}</th>--}}

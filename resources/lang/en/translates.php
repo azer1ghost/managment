@@ -696,6 +696,7 @@ return [
         'format_choose' => 'Format Choose',
         'club_choose' => 'Club Choose',
         'destination_choose' => 'Destination Choose',
+        'destination' => 'Destination',
         'hard_level' => 'Hard Level',
         'work_earning' => 'Amount',
         'work_detail' => 'Detail',
