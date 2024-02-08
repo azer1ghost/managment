@@ -186,7 +186,6 @@ class Sidebar extends Component
                         'url' => route('incomplete-works'),
                         'permission' => 'viewAny-work',
                     ],
-
                 ]
             ],
 
@@ -471,6 +470,12 @@ class Sidebar extends Component
                         'title' => __('translates.navbar.satisfaction'),
                         'icon' => 'fas fa-concierge-bell',
                         'url' => route('satisfactions.index'),
+                        'permission' => 'viewAny-satisfaction',
+                    ],
+                    (object)[
+                        'title' => 'Email',
+                        'icon' => 'fas fa-concierge-bell',
+                        'url' => route('email-templates.index'),
                         'permission' => 'viewAny-satisfaction',
                     ],
                 ]

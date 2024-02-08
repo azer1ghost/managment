@@ -27,6 +27,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\DatabaseNotificationController,
     Modules\DepartmentController,
     Modules\DocumentController,
+    Modules\EmailTemplateController,
     Modules\EmployeeRegistrationController,
     Modules\EmployeeSatisfactionController,
     Modules\FinanceClientController,
@@ -366,6 +367,8 @@ Route::resource('/customer-satisfactions', CustomerSatisfactionController::class
 Route::get('/cs', [CustomerSatisfactionController::class, 'createSatisfaction'])->name('create-satisfaction');
 Route::view('/template','email' )->name('email');
 Route::view('/template2','email2' )->name('email2');
+Route::resource('/email-templates', EmailTemplateController::class );
+
 
 Route::prefix('clients')->middleware('guest:clients')->group(function () {
     Route::get('/login', [ClientAuthController::class, 'showLoginForm'])->name('myguard.login');

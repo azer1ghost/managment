@@ -368,17 +368,21 @@
                                                 <td style="text-align: center;">
                                                     <img style="text-align: center"
                                                          src="https://i.ibb.co/hdmBQ2R/broker-emaill3.png" alt="">
-                                                    <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549; padding-top: 60px">
-                                                        Hörmətli,</h2>
-                                                    <h3 style="text-align: justify;">Sizə, ilk növbədə təşkil olunmuş
-                                                        görüşə və səmimi qəbula görə
-                                                        təşəkkürümüzü bildiririk. Hesab edirik ki bu görüşümüz uğurlu
-                                                        əməkdaşlığmız üçün başlanğıc olar
-                                                    </h3>
-                                                    <h3 style="text-align: justify;">Sizə, şirkətimiz və xidmətlərimiz
-                                                        haqqımızda ətraflı məlumat
-                                                        əldə etmək üçün təqdimat linkin aşağıda göndəririk.
-                                                    </h3>
+{{--                                                    <h2 style="text-align: justify; font-size: 22px; font-weight: bolder; color: #0a1549; padding-top: 60px">--}}
+{{--                                                        Hörmətli, </h2>--}}
+{{--                                                    <h3 style="text-align: justify;">Sizə, ilk növbədə təşkil olunmuş--}}
+{{--                                                        görüşə və səmimi qəbula görə--}}
+{{--                                                        təşəkkürümüzü bildiririk. Hesab edirik ki bu görüşümüz uğurlu--}}
+{{--                                                        əməkdaşlığmız üçün başlanğıc olar--}}
+{{--                                                    </h3>--}}
+{{--                                                    <h3 style="text-align: justify;">Sizə, şirkətimiz və xidmətlərimiz--}}
+{{--                                                        haqqımızda ətraflı məlumat--}}
+{{--                                                        əldə etmək üçün təqdimat linkin aşağıda göndəririk.--}}
+{{--                                                    </h3>--}}
+                                                    @php
+                                                        $emailTemplate = \App\Models\EmailTemplate::where('name', 'template')->first();
+                                                    @endphp
+                                                    {!! $emailTemplate->getAttribute('content')  !!}
                                                     <a href="https://mega.nz/folder/NuNnCCJK#KOW6kTxic7-v1KNl61vt4w"><img src="https://i.ibb.co/PzVPFvz/19.png" alt="19"
                                                                     border="0"></a>
                                                     <a href=""><img src="https://i.ibb.co/tmr5CXz/elaqe-vasiteleri.png"
