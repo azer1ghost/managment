@@ -322,11 +322,11 @@
             @endif
 
             @if(auth()->user()->hasPermission('viewPrice-work') )
-                <th scope="col">E-Qaimə</th>
+                <th scope="col">@lang('translates.columns.e-receipt')</th>
             @endif
 
 {{--            @if(\App\Models\Work::userCanViewAll())--}}
-            <th scope="col">Koordinator</th>
+            <th scope="col">@lang('translates.general.coordinator')</th>
             <th scope="col">@lang('translates.columns.created_by')</th>
             <th scope="col">@lang('translates.columns.department')</th>
 {{--            @endif--}}
@@ -334,12 +334,12 @@
             <th scope="col">Asan imza və Təmsilçilik Şirkət</th>
             <th scope="col">@lang('translates.navbar.service')</th>
             <th scope="col">@lang('translates.fields.clientName')</th>
-            <th scope="col">Status</th>
-            <th scope="col">Təyinat Orqanı</th>
+            <th scope="col">@lang('translates.columns.status')</th>
+            <th scope="col">@lang('translates.general.destination')</th>
             <th scope="col">@lang('translates.navbar.document')</th>
-            <th scope="col">Gb Say</th>
-            <th scope="col">Kod Say</th>
-            <th scope="col">Say</th>
+            <th scope="col">@lang('translates.columns.gb')</th>
+            <th scope="col">@lang('translates.columns.code_count')</th>
+            <th scope="col">@lang('translates.columns.code_other')</th>
             @if(auth()->user()->hasPermission('viewPrice-work'))
 {{--            @foreach(\App\Models\Service::serviceParameters() as $param)--}}
 {{--                <th scope="col">{{$param['data']->getAttribute('label')}}</th>--}}
