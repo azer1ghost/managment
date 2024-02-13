@@ -96,7 +96,6 @@ Route::group([
     Route::get('/transit-login', [TransitController::class, 'login'])->name('transit-login');
     Route::get('/service', [TransitController::class, 'service'])->name('service');
     Route::get('/payment/{order}', [TransitController::class, 'payment'])->name('payment');
-    Route::get('/payment/{order}', [TransitController::class, 'payment'])->name('payment');
     Route::post('/payFromBalance/', [OrderController::class, 'payFromBalance'])->name('payFromBalance');
     Route::resource('/profile', TransitController::class);
     Route::resource('/order', OrderController::class)->only(['store']);
