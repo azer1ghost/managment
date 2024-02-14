@@ -68,6 +68,7 @@
                     <th scope="col">@lang('translates.employee_satisfactions.result')</th>
                     <th scope="col">@lang('translates.columns.status')</th>
                     <th scope="col">@lang('translates.employee_satisfactions.effectivity')</th>
+                    <th scope="col">@lang('translates.navbar.document')</th>
                     <th scope="col">@lang('translates.fields.created_at')</th>
                     <th scope="col">@lang('translates.parameters.types.operation')</th>
                 </tr>
@@ -95,6 +96,16 @@
                             <div class="progress">
                                 <div class="progress-bar" role="progressbar" style="width: {{$employeeSatisfaction->getAttribute('effectivity')}}%" aria-valuenow="{{$employeeSatisfaction->getAttribute('effectivity')}}" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
+                        </td>
+                        <td>
+                            @php($supportedTypes = \App\Models\Document::supportedTypeIcons())
+                            @foreach($employeeSatisfaction->documents as $document)
+                                @php($type = $supportedTypes[$document->type])
+                                @php($route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document))
+                                <a href="{{$route}}" data-toggle="tooltip" title="{{$document->name}}" target="_blank" class="text-dark" style="word-break: break-word">
+                                    <i class="fa fa-file-{{$type['icon']}} fa-2x text-{{$type['color']}}"></i>
+                                </a>
+                            @endforeach
                         </td>
                         <td>{{$employeeSatisfaction->getAttribute('created_at')}}</td>
                         <td>

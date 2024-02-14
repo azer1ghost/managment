@@ -4,14 +4,15 @@ namespace App\Models;
 
 use Altek\Accountant\Contracts\Recordable;
 use Altek\Eventually\Eventually;
+use App\Interfaces\DocumentableInterface;
 use App\Traits\Documentable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class EmployeeSatisfaction extends Model implements Recordable
+class EmployeeSatisfaction extends Model implements DocumentableInterface, Recordable
 {
-    use  \Altek\Accountant\Recordable,  Eventually;
+    use Documentable, \Altek\Accountant\Recordable,  Eventually;
 
     protected $fillable = [
         'type',
@@ -57,5 +58,9 @@ class EmployeeSatisfaction extends Model implements Recordable
     public static function statuses()
     {
         return [1 => 1, 2, 3, 4, 5];
+    }
+    public function getMainColumn(): string
+    {
+        return $this->getAttribute('id');
     }
 }
