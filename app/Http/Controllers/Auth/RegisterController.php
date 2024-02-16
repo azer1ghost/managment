@@ -128,7 +128,7 @@ class RegisterController extends Controller
     {
         $data = $request->all();
         $data['name'] = ucfirst($data['name']);
-        $data['role_id'] = 4;
+        $data['role_id'] = User::TRANSIT;
         $data['verify_code'] = rand(111111, 999999);
         $data['password'] = Hash::make($data['password']);
 
