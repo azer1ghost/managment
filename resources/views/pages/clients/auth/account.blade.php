@@ -93,7 +93,7 @@
                                                             <label class="custom-file-label" for="document-file">@lang('translates.placeholders.choose_file')</label>
                                                         </div>
                                                         <div class="input-group-append">
-                                                            <input type="hidden" name="user_id" value="{{ $client->id }}">
+                                                            <input type="hidden" name="modelId" value="{{ $client->id }}">
                                                             <button type="submit" id="document-form-submit" class="btn btn-outline-primary mr-3">@lang('translates.buttons.upload_file')</button>
                                                             <div class="spinner-border text-primary d-none" id="document-form-btn"></div>
                                                         </div>
