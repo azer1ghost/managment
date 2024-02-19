@@ -85,7 +85,7 @@
                                         <div class="my-5">
                                             <x-documents :documents="$client->documents" title="Müqavilə və Document" />
                                             <div>
-                                                <form id="document-form" class="form-row" action="{{ route('doc.store') }}" method="POST" enctype="multipart/form-data">
+                                                <form id="document-form" class="form-row" action="{{ route('doc.store', ['modelId' => $client->id]) }}" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     <div class="input-group col-12 col-md-6 @error('file') is-invalid @enderror">
                                                         <div class="custom-file" style="width: 350px !important;max-width: 100%">
