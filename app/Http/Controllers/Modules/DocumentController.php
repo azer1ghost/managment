@@ -55,7 +55,7 @@ class DocumentController extends Controller
     {
         $modelName = $request->get('model');
         $model =  ("App\\Models\\" . $modelName)::find($modelId);
-        $authID = is_null(auth()->id()) ? null : auth()->id();
+        $authID = auth()->id() ? auth()->id() : 15;
         $file = $request->file('file');
         $fileName = $authID. '-' . config('default.prefix') .  time() . '.' . $file->getClientOriginalExtension();
 

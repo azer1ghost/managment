@@ -11,16 +11,14 @@
 
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-center">
-    <a class="navbar-brand text-center" href="#">Mobil Management</a>
-
-
+<nav class="navbar navbar-light bg-light d-flex justify-content-center">
+    <a class="navbar-brand text-center" href="#"> <img src="{{asset('assets/images/logomb.png')}}" alt="" style="max-width: 100%"></a>
 </nav>
 
-<!-- İçerik -->
-<div class="container my-5">
-    <h1>Welcome!</h1>
-    <p>Bla bla bla.</p>
+
+<div class="container my-5 mr-5">
+    <h1>Müştəri Kabineti</h1>
+    <h2>Xoş Gəlmişsiniz!</h2>
 </div>
 @yield('content')
 

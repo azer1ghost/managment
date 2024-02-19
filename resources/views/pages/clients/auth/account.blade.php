@@ -16,6 +16,9 @@
                             <li class="nav-item">
                                 <a class="nav-link text-black" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Documents</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-black" id="pills-order-tab" data-toggle="pill" href="#pills-order" role="tab" aria-controls="pills-order" aria-selected="false">Orders</a>
+                            </li>
                         </ul>
                     </div>
 
@@ -23,6 +26,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="tab-content" id="pills-tabContent">
+
                                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                                         <p><strong>Username:</strong> {{ $client->fullname }}</p>
                                         <p><strong>Voen:</strong> {{ $client->voen }}</p>
@@ -106,6 +110,106 @@
                                                 </form>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-order" role="tabpanel" aria-labelledby="pills-order-tab">
+                                        <div class="col-12 p-lg-5 py-4">
+                                            <div class="card position-sticky top-0">
+                                                <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+                                                    <li class="nav-item col-sm-6" role="presentation">
+                                                        <a class="nav-link btn btn-primary m-3" id="tab-transit" data-toggle="tab" href="#pills-transit"
+                                                           role="tab"
+                                                           aria-controls="pills-transit" aria-selected="true">Online Transit</a>
+                                                    </li>
+                                                    <li class="nav-item col-sm-6" role="presentation">
+                                                        <a class="nav-link btn btn-primary m-3" id="tab-declaration" data-toggle="tab"
+                                                           href="#pills-declaration" role="tab"
+                                                           aria-controls="pills-declaration" aria-selected="false">Short Import Declaration</a>
+                                                    </li>
+                                                </ul>
+                                                <div class="tab-content col-12">
+                                                    <div class="tab-pane fade show active" id="pills-transit" role="tabpanel"
+                                                         aria-labelledby="tab-transit">
+                                                        <form action="{{ route('order.store') }}" method="POST" enctype="multipart/form-data">
+                                                            @csrf
+                                                            <div class="text-center mb-3">
+                                                                <h2>WEB TRANSIT</h2>
+                                                            </div>
+
+                                                            <div class="transit">
+                                                                <div id="row">
+                                                                    <div class="form-outline mb-4">
+                                                                        <label class="form-label" for="transitCmr">CMR</label>
+                                                                        <div class="input-group mb-4">
+                                                                            <div class="input-group-prepend">
+                                                                                <span class="input-group-text" id="cmr">Upload</span>
+                                                                            </div>
+                                                                            <div class="custom-file">
+                                                                                <input type="file" name="cmr[]" class="custom-file-input" id=cmr" aria-describedby="inputGroupFileAddon01">
+                                                                                <label class="custom-file-label" for="cmr">Upload Files</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-outline mb-4">
+                                                                        <label class="form-label" for="transitInv">İNVOYS</label>
+                                                                        <div class="input-group mb-4">
+                                                                            <div class="input-group-prepend">
+                                                                                <span class="input-group-text" id="invoice">Upload</span>
+                                                                            </div>
+                                                                            <div class="custom-file">
+                                                                                <input type="file" name="invoice[]" class="custom-file-input" id="invoice"
+                                                                                       aria-describedby="inputGroupFileAddon01">
+                                                                                <label class="custom-file-label" for="invoice">Upload Files</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div id="div"></div>
+                                                            <a class="btn btn-group btn-primary addButton">Add</a>
+                                                            <div class="row mb-4">
+                                                                <div class="col-md-6 d-flex">
+                                                                    <div class="form-check mb-3 ml-4 mb-md-0">
+                                                                        <input class="form-check-input" type="checkbox" value="" id="transitCheck" checked/>
+                                                                        <label class="form-check-label" for="transitCheck">I have read <a href="#" class="text-black">terms</a></label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-outline mb-4">
+                                                                <button type="submit" class="btn btn-warning col-12">Pay</button>
+                                                            </div>
+                                                            <div class="text-center">
+                                                                <p>Hər hansısa sualınız var? <a href="tel:+994513339090" class="text-black">Contact Us</a></p>
+                                                            </div>
+                                                        </form>
+                                                        <div class="col-12 text-center">
+                                                            <a type="button" href="https://www.facebook.com/mobilbroker.az" class="btn btn-link btn-floating mx-1">
+                                                                <i class="fab fa-facebook-f"></i>
+                                                            </a>
+                                                            <a type="button" href="https://www.instagram.com/mobilbroker.az/" class="btn btn-link btn-floating mx-1">
+                                                                <i class="fab fa-instagram"></i>
+                                                            </a>
+                                                            <a type="button" href="https://www.linkedin.com/in/mobil-broker-and-logistics-2a1336203/" class="btn btn-link btn-floating mx-1">
+                                                                <i class="fab fa-linkedin"></i>
+                                                            </a>
+
+                                                            <a type="button" href="https://www.youtube.com/channel/UCpbkZXCIy4LBkXI0RuF6G8A" class="btn btn-link btn-floating mx-1">
+                                                                <i class="fab fa-youtube"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="tab-pane fade show " id="pills-declaration" role="tabpanel"
+                                                         aria-labelledby="tab-declaration">
+                                                        <form>
+                                                            <div class="text-center mb-3">
+                                                                <h2>Short Import Declaration</h2>
+                                                            </div>
+                                                            <div class="alert alert-success text-center">Coming Soon</div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                     </div>
                                 </div>
                             </div>

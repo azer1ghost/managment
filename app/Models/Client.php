@@ -184,10 +184,4 @@ public function setPhone3Attribute($value): ?string
         return $this->belongsToMany(Service::class, 'client_service')
             ->withPivot('amount');
     }
-
-
-
-
-
-
 }
