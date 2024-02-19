@@ -85,7 +85,7 @@
                                         <div class="my-5">
                                             <x-documents :documents="$client->documents" title="Müqavilə və Document" />
                                             <div>
-                                                <form id="document-form" class="form-row" action="{{ route('doc.store', ['modelId' => $client->id]) }}" method="POST" enctype="multipart/form-data">
+                                                <form id="document-form" class="form-row" action="{{route('doc.store', $client->id)}}" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     <div class="input-group col-12 col-md-6 @error('file') is-invalid @enderror">
                                                         <div class="custom-file" style="width: 350px !important;max-width: 100%">
@@ -93,14 +93,14 @@
                                                             <label class="custom-file-label" for="document-file">@lang('translates.placeholders.choose_file')</label>
                                                         </div>
                                                         <div class="input-group-append">
-                                                            <input type="hidden" name="modelId" value="{{ $client->id }}">
                                                             <button type="submit" id="document-form-submit" class="btn btn-outline-primary mr-3">@lang('translates.buttons.upload_file')</button>
                                                             <div class="spinner-border text-primary d-none" id="document-form-btn"></div>
                                                         </div>
+                                                        <input type="hidden" name="model" value="Client">
                                                     </div>
                                                     @error('file')
                                                     <div class="invalid-feedback p-2">
-                                                        {{ $message }}
+                                                        {{$message}}
                                                     </div>
                                                     @enderror
                                                 </form>
