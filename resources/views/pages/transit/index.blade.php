@@ -18,7 +18,7 @@
             <li class="nav-item col-sm-6" role="presentation">
                 <a class="nav-link btn btn-primary m-3" id="tab-transit" data-toggle="tab" href="#pills-transit"
                    role="tab"
-                   aria-controls="pills-transit" aria-selected="true">Online Tranzit</a>
+                   aria-controls="pills-transit" aria-selected="true">Online Transit</a>
             </li>
             <li class="nav-item col-sm-6" role="presentation">
                 <a class="nav-link btn btn-primary m-3" id="tab-declaration" data-toggle="tab"

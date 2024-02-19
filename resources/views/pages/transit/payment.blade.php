@@ -24,11 +24,11 @@
                     <div class="form-outline mb-4">
                         <a type="button" class="btn btn-primary col-12">Pay by Card</a>
                     </div>
-{{--                    @if(auth()->user()->getAttribute('balance') > $order->getAttribute('amount'))--}}
+                    @if(auth()->user()->getAttribute('balance') > $order->getAttribute('amount'))
                         <div class="form-outline mb-4">
                             <button type="submit" class="btn btn-success col-12">by from Balance</button>
                         </div>
-{{--                    @endif--}}
+                    @endif
                     <button type="submit" class="btn btn-danger btn-block mb-3"><a href="{{route('service')}}">Back to Homepage</a>
                     </button>
                 </form>
