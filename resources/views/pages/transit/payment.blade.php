@@ -18,20 +18,20 @@
                     <span>Total Amount</span> <strong class="text-dark">{{$order->getAttribute('amount')}} AZN</strong>
                 </div>
 
-                <form action="{{ route('payFromBalance') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="code" value="{{$order->getAttribute('code')}}">
-                    <div class="form-outline mb-4">
-                        <a type="button" class="btn btn-primary col-12">Pay by Card</a>
-                    </div>
-                    @if(auth()->user()->getAttribute('balance') > $order->getAttribute('amount'))
-                        <div class="form-outline mb-4">
-                            <button type="submit" class="btn btn-success col-12">by from Balance</button>
-                        </div>
-                    @endif
-                    <button type="submit" class="btn btn-danger btn-block mb-3"><a href="{{route('service')}}">Back to Homepage</a>
+{{--                <form action="{{ route('payFromBalance') }}" method="POST">--}}
+{{--                    @csrf--}}
+{{--                    <input type="hidden" name="code" value="{{$order->getAttribute('code')}}">--}}
+{{--                    <div class="form-outline mb-4">--}}
+{{--                        <a type="button" class="btn btn-primary col-12">Pay by Card</a>--}}
+{{--                    </div>--}}
+{{--                    @if(auth()->user()->getAttribute('balance') > $order->getAttribute('amount'))--}}
+{{--                        <div class="form-outline mb-4">--}}
+{{--                            <button type="submit" class="btn btn-success col-12">by from Balance</button>--}}
+{{--                        </div>--}}
+{{--                    @endif--}}
+                    <button type="submit" class="btn btn-danger btn-block mb-3"><a href="{{route('client-account')}}">Back to Homepage</a>
                     </button>
-                </form>
+{{--                </form>--}}
                 <div class="text-center p-3">
                     <a class="text-dark mx-2" href="tel:+994513339090"><i
                                 class="fas fa-phone mr-1"></i>+994513339090</a>

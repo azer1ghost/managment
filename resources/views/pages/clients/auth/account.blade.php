@@ -127,8 +127,10 @@
                                                     </li>
                                                 </ul>
                                                 <div class="tab-content col-12">
+
                                                     <div class="tab-pane fade show active" id="pills-transit" role="tabpanel"
                                                          aria-labelledby="tab-transit">
+
                                                         <form action="{{ route('order.store') }}" method="POST" enctype="multipart/form-data">
                                                             @csrf
                                                             <div class="text-center mb-3">
@@ -203,12 +205,13 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-outline mb-4">
-                                                                <button type="submit" class="btn btn-warning col-12">Pay</button>
+                                                                <button data-target="#exampleModal" type="submit" class="btn btn-warning col-12">Create Order</button>
                                                             </div>
                                                             <div class="text-center">
-                                                                <p>Hər hansısa sualınız var? <a href="tel:+994513339090" class="text-black">Contact Us</a></p>
+                                                                <p>Do you have any question? <a href="tel:+994513339090" class="text-black">Contact Us</a></p>
                                                             </div>
                                                         </form>
+
                                                         <div class="col-12 text-center">
                                                             <a type="button" href="https://www.facebook.com/mobilbroker.az" class="btn btn-link btn-floating mx-1">
                                                                 <i class="fab fa-facebook-f"></i>
@@ -219,11 +222,11 @@
                                                             <a type="button" href="https://www.linkedin.com/in/mobil-broker-and-logistics-2a1336203/" class="btn btn-link btn-floating mx-1">
                                                                 <i class="fab fa-linkedin"></i>
                                                             </a>
-
                                                             <a type="button" href="https://www.youtube.com/channel/UCpbkZXCIy4LBkXI0RuF6G8A" class="btn btn-link btn-floating mx-1">
                                                                 <i class="fab fa-youtube"></i>
                                                             </a>
                                                         </div>
+
                                                     </div>
 
                                                     <div class="tab-pane fade show " id="pills-declaration" role="tabpanel"
@@ -235,6 +238,7 @@
                                                             <div class="alert alert-success text-center">Coming Soon</div>
                                                         </form>
                                                     </div>
+
                                                 </div>
                                             </div>
                                     </div>
@@ -246,6 +250,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
