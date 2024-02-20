@@ -163,6 +163,33 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+
+                                                                    <div class="form-outline mb-4">
+                                                                        <label class="form-label" for="transitPack">Packing List</label>
+                                                                        <div class="input-group mb-4">
+                                                                            <div class="input-group-prepend">
+                                                                                <span class="input-group-text" id="packing">Upload</span>
+                                                                            </div>
+                                                                            <div class="custom-file">
+                                                                                <input type="file" name="packing[]" class="custom-file-input" id="packing"
+                                                                                       aria-describedby="inputGroupFileAddon01">
+                                                                                <label class="custom-file-label" for="packing">Upload Files</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-outline mb-4">
+                                                                        <label class="form-label" for="transitOther">Other Documents</label>
+                                                                        <div class="input-group mb-4">
+                                                                            <div class="input-group-prepend">
+                                                                                <span class="input-group-text" id="other">Upload</span>
+                                                                            </div>
+                                                                            <div class="custom-file">
+                                                                                <input type="file" name="other[]" class="custom-file-input" id="other"
+                                                                                       aria-describedby="inputGroupFileAddon01">
+                                                                                <label class="custom-file-label" for="other">Upload Files</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div id="div"></div>
@@ -286,5 +313,14 @@
             const fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
         });
+        $(document).ready(function () {
+
+            $(".addButton").click(function () {
+                $(".transit").append("<div> <div id='row''> <div class='form-outline mb-4'> <label class='form-label' for='transitCmr'>CMR</label> <div class='input-group mb-4'> <div class='input-group-prepend'> <span class='input-group-text' id='cmr'>Yüklə</span> </div> <div class='custom-file'> <input type='file' name='cmr[]' class='custom-file-input' id=cmr'aria-describedby='inputGroupFileAddon01'><label class='custom-file-label' for='cmr'>Upload Files</label> </div> </div> </div>    <div class='form-outline mb-4'> <label class='form-label' for='transitInv'>İNVOYS</label> <div class='input-group mb-4'> <div class='input-group-prepend'> <span class='input-group-text' id='invoys'>Yüklə</span> </div> <div class='custom-file'> <input type='file' name='invoice[]' class='custom-file-input' id='invoys'aria-describedby='inputGroupFileAddon01'> <label class='custom-file-label' for='invoys'>Upload Files</label> </div> </div> </div>     <div class='form-outline mb-4'> <label class='form-label' for='packing'>Packing List</label> <div class='input-group mb-4'> <div class='input-group-prepend'> <span class='input-group-text' id='packing'>Yüklə</span> </div> <div class='custom-file'> <input type='file' name='packing[]' class='custom-file-input' id='packing'aria-describedby='inputGroupFileAddon01'> <label class='custom-file-label' for='packing'>Upload Files</label> </div> </div> <div class='form-outline mb-4'> <label class='form-label' for='other'>Other Documents</label> <div class='input-group mb-4'> <div class='input-group-prepend'> <span class='input-group-text' id='other'>Yüklə</span> </div> <div class='custom-file'> <input type='file' name='other[]' class='custom-file-input' id='other'aria-describedby='inputGroupFileAddon01'> <label class='custom-file-label' for='other'>Upload Files</label> </div> </div> </div> </div><button class='btn btn-danger'id='DeleteRow' type='button'> <i class='bi bi-trash'></i>Delete </button></div> </div>");
+            });
+        });
+        $("body").on("click", "#DeleteRow", function () {
+            $(this).parents("#row").remove();
+        })
     </script>
 @endpush
