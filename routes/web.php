@@ -380,6 +380,7 @@ Route::prefix('clients')->middleware('clients')->group(function () {
     Route::put('/update/{client}', [ClientAuthController::class, 'update'])->name('client-account.update');
     Route::post('/logout', [ClientAuthController::class, 'logout'])->name('client-logout');
     Route::post('/doc/{modelId}', [DocumentController::class, 'store'])->name('doc.store');
+    Route::resource('/order', OrderController::class)->only(['store']);
 });
 
 

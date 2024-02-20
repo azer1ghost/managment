@@ -186,6 +186,12 @@ class Sidebar extends Component
                         'url' => route('incomplete-works'),
                         'permission' => 'viewAny-work',
                     ],
+                    (object)[
+                        'title' => __('translates.navbar.order'),
+                        'icon' => 'fas fa-scroll',
+                        'url' => route('orders.index'),
+                        'permission' => 'viewAny-work',
+                    ],
                 ]
             ],
 
