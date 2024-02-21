@@ -307,10 +307,10 @@
 
         </div>
     </form>
-    <form method="POST" action="{{ route('works.update-status') }}">
-        @csrf
-        <button class="btn btn-outline-primary float-right"  type="submit">Tarixi Güncəllə</button>
-    </form>
+{{--    <form method="POST" action="{{ route('works.update-status') }}">--}}
+{{--        @csrf--}}
+{{--        <button class="btn btn-outline-primary float-right"  type="submit">Tarixi Güncəllə</button>--}}
+{{--    </form>--}}
 
 
     @if(is_numeric($filters['limit']))
