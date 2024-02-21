@@ -307,6 +307,12 @@
 
         </div>
     </form>
+    <form method="POST" action="{{ route('works.update-status') }}">
+        @csrf
+        <button class="btn btn-outline-primary float-right"  type="submit">Tarixi Güncəllə</button>
+    </form>
+
+
     @if(is_numeric($filters['limit']))
         <div class="col-12 mt-2">
             <div class="float-right">

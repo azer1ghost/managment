@@ -218,6 +218,8 @@ Route::group([
     Route::post('/test', [WorkController::class, 'editable'])->name('editable');
     Route::post('/code', [WorkController::class, 'code'])->name('work.code');
     Route::post('/declaration', [WorkController::class, 'declaration'])->name('work.declaration');
+    Route::post('/works/update-status', [WorkController::class, 'updateStatus'])->name('works.update-status');
+
 
     Route::resource('/supports', SupportController::class);
     Route::resource('/commands', CommandController::class);

@@ -896,6 +896,25 @@ class WorkController extends Controller
             ->withNotify('success', $work->getAttribute('name'));
     }
 
+     public function updateStatus()
+    {
+        $works = Work::where('status', 3)->get();
+
+        foreach ($works as $work) {
+            $workDate = $work->getAttribute('created_at');
+            $now = Carbon::now();
+
+            if ($now->diffInDays($workDate) >= 1) {
+                $work->created_at = $now;
+                $work->save();
+            }
+        }
+        return redirect()->back()->with('success', 'dd');
+
+    }
+
+
+
     public function verify(Work $work)
     {
         if ($work->update(['verified_at' => now()])) {
