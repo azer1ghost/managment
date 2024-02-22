@@ -356,6 +356,7 @@
                                 <option>Gömrük rəsmiləşdirilməsi üçün lazım olan sənədlərin yoxlanılması</option>
                                 <option>Konsultasiya Xidməti</option>
                                 <option>Çəki listi(Packing List) Tərtib olunması</option>
+                                <option>Ərazi Xərci</option>
                             </select>
                         </td>
                         <td>Ədəd</td>
