@@ -17,8 +17,8 @@
 
 
 <div class="container my-5 mr-5">
-    <h1>Müştəri Kabineti</h1>
-    <h2>Xoş Gəlmişsiniz!</h2>
+    <h1>Client Account</h1>
+    <h2>Welcome!</h2>
 </div>
 @yield('content')
 
