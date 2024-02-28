@@ -686,7 +686,7 @@ class WorkController extends Controller
                     'creator_id' => $work->creator_id ?? null,
                     'user_id' => $work->user_id ?? null,
                     'department_id' => $work->department_id ?? null,
-                    'service_id' => 19,
+                    'service_id' => 17,
                     'client_id' => $work->client_id ?? null,
                     'status' => $work::PLANNED,
                 ]);
