@@ -127,6 +127,7 @@ return [
         'bcreated_at' => 'Doğum günü yaxud Yaranma tarixi',
         'address' => 'Ünvan',
         'website' => 'Sayt',
+        'mark' => 'Qeydiyyat Nişanı',
         'mobile' => 'Mobil',
         'enter' => ':field daxil edin',
         'detail' => 'Detal',

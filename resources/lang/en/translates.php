@@ -123,6 +123,7 @@ return [
         'work_started_at' => 'Date of employment',
         'address' => 'Address',
         'website' => 'Website',
+        'mark' => 'Registration Mark',
         'mobile' => 'Mobile',
         'enter' => 'Enter :field',
         'mail' => 'Email',

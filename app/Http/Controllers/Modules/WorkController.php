@@ -683,6 +683,7 @@ class WorkController extends Controller
             Work::withoutEvents(function () use ($work) {
 
                 $newPlannedWork = Work::create([
+                    'mark' => $work->mark ?? null,
                     'creator_id' => $work->creator_id ?? null,
                     'user_id' => $work->user_id ?? null,
                     'department_id' => $work->department_id ?? null,
