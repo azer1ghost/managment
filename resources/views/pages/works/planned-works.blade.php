@@ -199,6 +199,7 @@
         <thead>
         <tr class="text-center">
 
+            <th scope="col">@lang('translates.fields.mark')</th>
             <th scope="col">@lang('translates.columns.created_by')</th>
             <th scope="col">@lang('translates.columns.department')</th>
             <th scope="col">@lang('translates.fields.user')</th>
@@ -219,6 +220,7 @@
             @endif
             <tr data-toggle="collapse" data-target="#demo{{$work->getAttribute('id')}}" class="accordion-toggle" @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}">
 
+                <td>{{$work->getAttribute('mark')}}</td>
                 <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
 
                 <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
