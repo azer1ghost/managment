@@ -791,6 +791,19 @@ class WorkController extends Controller
             $validated['vat_date'] = $request->get('vat_date');
         }
 
+        if ($request->has('mark')) {
+            $updatedMark = $request->input('mark');
+
+            // Güncellenmiş işin ID'si ile bir büyük olan işi bul
+            $nextWorkId = $work->id + 1;
+            $nextWork = Work::find($nextWorkId);
+
+            // Eğer bu iş varsa, mark'ını güncelle
+            if ($nextWork) {
+                $nextWork->update(['mark' => $updatedMark]);
+            }
+        }
+
 
         if ($work->getAttribute('status') == $work::REJECTED && !$request->has('rejected')) {
             $status = $validated['status'] ?? Work::PENDING;
@@ -819,6 +832,7 @@ class WorkController extends Controller
 
                 event(new WorkReturned($work));
         }
+        if ($work -> getAttribute('mark'))
 
         if ($request->has('rejected') && is_numeric($work->getAttribute('user_id'))) {
             event(new WorkStatusRejected($work));
