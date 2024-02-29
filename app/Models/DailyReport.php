@@ -67,17 +67,17 @@ class DailyReport extends Model implements Recordable
         $startOfMonth = now()->startOfMonth(); // Bu ayın ilk gününü alır
         $endOfMonth = now()->endOfMonth(); // Bu ayın son gününü alır
 
-        $wednesdays = [];
+        $fridays = [];
 
 // Bu ayın tüm günlerini kontrol eder
         for ($date = $startOfMonth; $date->lte($endOfMonth); $date->addDay()) {
             // Eğer gün çarşamba ise diziye ekler
-            if ($date->isWednesday()) {
-                $wednesdays[] = $date->copy();
+            if ($date->isFriday()) {
+                $fridays[] = $date->copy();
             }
         }
 
-        return $wednesdays;
+        return $fridays;
     }
 
     public static function currentMonth()
