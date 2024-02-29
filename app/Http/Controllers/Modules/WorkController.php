@@ -918,7 +918,7 @@ class WorkController extends Controller
         $selectedWorks = $request->input('works', []);
 
         // Seçilen işlerin durumunu güncelle
-        Work::whereIn('id', $selectedWorks)->update(['status' => 3]);
+        Work::whereIn('id', $selectedWorks)->update(['status' => 2]);
 
         return response()->json(['success' => true]);
     }
