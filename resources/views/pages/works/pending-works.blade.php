@@ -197,7 +197,7 @@
     <table class="table table-condensed-table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;"  id="table">
         <thead>
         <tr class="text-center">
-
+            <th scope="col">@lang('translates.fields.mark')</th>
             <th scope="col">@lang('translates.columns.created_by')</th>
             <th scope="col">@lang('translates.columns.department')</th>
             <th scope="col">@lang('translates.fields.user')</th>
@@ -211,8 +211,8 @@
         <tbody>
         @forelse($works as $work)
 
-
             <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}">
+            <th style="font-weight:bold">{{$work->getAttribute('mark')}}</th>
 
                 <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
 
