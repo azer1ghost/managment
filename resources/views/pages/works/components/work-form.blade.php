@@ -36,7 +36,8 @@
                             >
                         </div>
                     @endif
-                        <div class="form-group col-12 col-md-3">
+                        @if(in_array($service_id, [2]))
+                            <div class="form-group col-12 col-md-3">
                             <label for="mark">@lang('translates.fields.mark')</label>
                             <input value="{{optional($data)->getAttribute('mark')}}"
                                    type="text"
@@ -45,7 +46,8 @@
                                    class="form-control"
                                    placeholder="Qeydiyyat nişanı daxil edin"
                             >
-                        </div>
+                        </div> @endif
+
                     <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
                     <div class="d-flex align-items-center">
