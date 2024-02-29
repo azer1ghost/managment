@@ -913,6 +913,15 @@ class WorkController extends Controller
         return redirect()->back()->with('success', 'dd');
 
     }
+    public function updateMark(Request $request)
+    {
+        $selectedWorks = $request->input('works', []);
+
+        // Seçilen işlerin durumunu güncelle
+        Work::whereIn('id', $selectedWorks)->update(['status' => 3]);
+
+        return response()->json(['success' => true]);
+    }
 
 
 

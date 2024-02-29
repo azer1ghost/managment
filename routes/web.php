@@ -219,6 +219,7 @@ Route::group([
     Route::post('/code', [WorkController::class, 'code'])->name('work.code');
     Route::post('/declaration', [WorkController::class, 'declaration'])->name('work.declaration');
     Route::post('/works/update-status', [WorkController::class, 'updateStatus'])->name('works.update-status');
+    Route::put('/plannedWorks/update-mark', [WorkController::class, 'updateMark'])->name('works.update-mark');
 
 
     Route::resource('/supports', SupportController::class);

@@ -198,7 +198,7 @@
     <table class="table table-condensed-table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;"  id="table">
         <thead>
         <tr class="text-center">
-
+            <th><input type="checkbox" id="works-all"></th>
             <th scope="col">@lang('translates.fields.mark')</th>
             <th scope="col">@lang('translates.columns.created_by')</th>
             <th scope="col">@lang('translates.columns.department')</th>
@@ -220,6 +220,7 @@
             @endif
             <tr data-toggle="collapse" data-target="#demo{{$work->getAttribute('id')}}" class="accordion-toggle" @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}">
 
+                <td><input type="checkbox" name="works[]" value="{{$work->getAttribute('id')}}"></td>
                 <th style="font-weight:bold">{{$work->getAttribute('mark')}}</th>
                 <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
 
@@ -345,6 +346,13 @@
             </div>
         </div>
     </div>
+    <form id="changeStatusForm" action="{{ route('works.update-mark') }}" method="POST">
+        @csrf
+        @method('PUT')
+
+        <button id="changeStatusBtn" class="btn btn-primary">Statusu Güncəllə</button>
+    </form>
+
 @endsection
 @section('scripts')
     <script>
@@ -408,6 +416,66 @@
     <script>
         $(".js-example-theme-multiple").select2({
             theme: "classic"
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var checkboxes = document.querySelectorAll('input[type="checkbox"][name="works[]"]');
+            var worksAllCheckbox = document.getElementById('works-all');
+            var changeStatusForm = document.getElementById('changeStatusForm');
+            var updateMarkUrl = "{{ route('works.update-mark') }}";
+
+            // "Tümünü Seç" checkbox'ı tıklandığında
+            worksAllCheckbox.addEventListener('click', function() {
+                checkboxes.forEach(function(checkbox) {
+                    checkbox.checked = worksAllCheckbox.checked;
+                });
+            });
+
+            // Tüm checkbox'lar işaretli mi kontrolü
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    var allChecked = true;
+                    checkboxes.forEach(function(checkbox) {
+                        if (!checkbox.checked) {
+                            allChecked = false;
+                        }
+                    });
+                    worksAllCheckbox.checked = allChecked;
+                });
+            });
+
+            // Form gönderildiğinde
+            changeStatusForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Formun normal submit işlemini durdur
+
+                var selectedWorks = [];
+                checkboxes.forEach(function(checkbox) {
+                    if (checkbox.checked) {
+                        selectedWorks.push(checkbox.value);
+                    }
+                });
+
+                // Seçilen işlerin ID'lerini sunucuya gönder
+                fetch(updateMarkUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ works: selectedWorks })
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            location.reload(); // İşlem başarılıysa sayfayı yenile
+                        } else {
+                            console.error('İşlem başarısız oldu.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Hata:', error);
+                    });
+            });
         });
     </script>
 @endsection
