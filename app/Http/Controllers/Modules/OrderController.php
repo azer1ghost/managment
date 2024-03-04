@@ -39,6 +39,16 @@ class OrderController extends Controller
             $invoice->store('invoice');
             $validated['invoice'] = $invoice->store('invoice');
         }
+        foreach ($request->file('packing') as $packingArray) {
+            $packing = $packingArray;
+            $packing->store('packing');
+            $validated['packing'] = $packing->store('packing');
+        }
+        foreach ($request->file('other') as $otherArray) {
+            $other = $otherArray;
+            $other->store('other');
+            $validated['other'] = $other->store('other');
+        }
          $order = Order::create($validated);
 
         return redirect()->route('payment', $order);
