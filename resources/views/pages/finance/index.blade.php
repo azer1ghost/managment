@@ -187,6 +187,7 @@
                                 <option>Konsultasiya xidməti</option>
                                 <option>Çəki listi(Packing List) Tərtib olunması</option>
                                 <option>Ərazi Xərci</option>
+                                <option>Gömrük təmsilçiliyi xidməti</option>
                             </select>
                         </td>
                         <td>Ədəd</td>
