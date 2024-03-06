@@ -108,16 +108,16 @@
                 </a>
             </div>
 
-{{--            <form id="download-form{{$cmr}}" action="{{ route('orders.download') }}" method="POST">--}}
-{{--                @csrf--}}
-{{--                <input type="hidden" name="document" value="{{$cmr}}">--}}
-{{--            </form>--}}
-{{--            <a class="py-2 my-2 d-flex align-items-center list-group-item text-black" onclick="event.preventDefault();--}}
-{{--                                document.getElementById('download-form{{$cmr}}').submit();">--}}
-{{--                <i style="font-size: 20px" class="fas fa-file fa-3x mr-2"></i>--}}
+            <form id="download-form{{$cmr}}" action="{{ route('orders.download') }}" method="POST">
+                @csrf
+                <input type="hidden" name="document" value="{{$cmr}}">
+            </form>
+            <a class="py-2 my-2 d-flex align-items-center list-group-item text-black" onclick="event.preventDefault();
+                                document.getElementById('download-form{{$cmr}}').submit();">
+                <i style="font-size: 20px" class="fas fa-file fa-3x mr-2"></i>
 
-{{--                {{$cmr}}--}}
-{{--            </a>--}}
+                {{$cmr}}
+            </a>
         @endforeach
     </div>
     <div class="col-md-12 px-0">
