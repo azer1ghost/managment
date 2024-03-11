@@ -38,6 +38,7 @@
                         <th scope="col">@lang('translates.columns.amount')</th>
                         <th scope="col">@lang('translates.columns.payment')</th>
                         <th scope="col">@lang('translates.columns.status')</th>
+                        <th scope="col">@lang('translates.fields.note')</th>
                         <th scope="col">@lang('translates.columns.result')</th>
                         <th scope="col">@lang('translates.columns.actions')</th>
                     </tr>
@@ -48,11 +49,12 @@
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$order->getAttribute('code')}}</td>
-                            <td>{{$order->getRelationValue('users')->getAttribute('name')}}</td>
+                            <td>{{$order->getAttribute('clients')}}</td>
                             <td>{{$order->getAttribute('service')}}</td>
                             <td>{{$order->getAttribute('amount')}} AZN</td>
                             <td>@lang('translates.orders.payment.'.$order->getAttribute('is_paid'))</td>
                             <td>@lang('translates.orders.statuses.' . $order->getAttribute('status'))</td>
+                            <td>{{$order->getAttribute('note')}}</td>
                             <td>
                                 @if($order->getAttribute('result') !== null)
                                     <a class="text-black" href="{{route('order-result.download', $order)}}">

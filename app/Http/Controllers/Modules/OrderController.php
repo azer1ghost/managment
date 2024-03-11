@@ -27,6 +27,10 @@ class OrderController extends Controller
         $validated['service'] = 'Online Transit';
         $validated['amount'] = 45;
 
+        $note = $request->input('note');
+
+        $validated['note'] = $note;
+
         foreach ($request->file('cmr') as $cmrArray) {
             $cmr = $cmrArray;
             $cmr->store('cmr');

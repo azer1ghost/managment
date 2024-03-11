@@ -204,6 +204,13 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <div class="text-center mb-3">
+                                                                <h4>Note</h4>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="noteTextarea">Add your note here:</label>
+                                                                <textarea class="form-control" id="noteTextarea" name="note" rows="3"></textarea>
+                                                            </div>
                                                             <div class="form-outline mb-4">
                                                                 <button data-target="#exampleModal" type="submit" class="btn btn-warning col-12">Create Order</button>
                                                             </div>

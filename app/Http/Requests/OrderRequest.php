@@ -15,6 +15,7 @@ class OrderRequest extends FormRequest
             'user_id' => 'nullable|integer',
             'amount' => 'nullable|string',
             'status' => 'nullable|integer',
+            'note' => 'nullable|string'
         ];
     }
 }
