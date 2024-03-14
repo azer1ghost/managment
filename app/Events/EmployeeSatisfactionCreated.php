@@ -20,7 +20,7 @@ class EmployeeSatisfactionCreated
         $this->creator = $employeeSatisfaction->getRelationValue('users');
         $this->title = trans('translates.employee_satisfactions.incompatibility');
         $this->body = strip_tags($employeeSatisfaction->getAttribute('content'));
-        $directors = User::where('role_id', User::DIRECTOR)->orWhere('department_id', 25)->get()->all();
+        $directors = User::where('role_id', User::DIRECTOR)->orWhere('department_id', 25)->orWhere('user_id', 123)->get()->all();
         $department = $employeeSatisfaction->getRelationValue('departments')->users()
             ->whereNotIn('id', [auth()->id()])
             ->get()->all();
