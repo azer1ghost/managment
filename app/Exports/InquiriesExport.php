@@ -13,8 +13,8 @@ class InquiriesExport implements FromCollection, WithHeadings, WithMapping
 {
     public function collection()
     {
-        $startDate = '2023-08-01';
-        $endDate = '2023-10-12';
+        $startDate = '2024-01-01';
+        $endDate = '2024-03-14';
 
         return Inquiry::whereBetween('created_at', [$startDate, $endDate])->get();
     }
