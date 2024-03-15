@@ -18,7 +18,7 @@ class WorkReturned
     {
         $accountants = User::where('department_id', 22)->get()->all();
         $quality_controls = User::where('department_id', 25)->get()->all();
-        $users = User::where('id', 123)->get()->all();
+        $users = User::where('id', 123)->get();
 //        $chiefs = User::where('department_id', $work->getAttribute('department_id'))->hasPermission('department-chief')->get()->all();
 
         $this->url = route('works.show', $work);
