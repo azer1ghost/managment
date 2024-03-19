@@ -50,7 +50,7 @@ class SalesInquiryController extends Controller
         $subjects  = Parameter::where('name', 'subject')->first()->options->unique();
         $evaluations  = Parameter::where('name', 'evaluation')->first()->options->unique();
         $departmentIds = [Department::SALES, Department::BUSINESS];
-        $users = User::has('inquiries')->wwhereIn('department_id', $departmentIds)->get(['id', 'name', 'surname', 'disabled_at']);
+        $users = User::has('inquiries')->whereIn('department_id', $departmentIds)->get(['id', 'name', 'surname', 'disabled_at']);
 
         $inquiries = Inquiry::with('user', 'company', 'client')
             ->when(app()->environment('production'), fn($q) => $q->whereIn('department_id', $departmentIds)->where('client_id', '!=', null))
