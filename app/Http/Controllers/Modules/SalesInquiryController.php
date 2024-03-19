@@ -49,10 +49,11 @@ class SalesInquiryController extends Controller
         $statuses  = Parameter::where('name', 'status')->first()->options->unique();
         $subjects  = Parameter::where('name', 'subject')->first()->options->unique();
         $evaluations  = Parameter::where('name', 'evaluation')->first()->options->unique();
-        $users = User::has('inquiries')->whereDepartmentId(Department::SALES)->get(['id', 'name', 'surname', 'disabled_at']);
+        $departmentIds = [Department::SALES, Department::BUSINESS];
+        $users = User::has('inquiries')->wwhereIn('department_id', $departmentIds)->get(['id', 'name', 'surname', 'disabled_at']);
 
         $inquiries = Inquiry::with('user', 'company', 'client')
-            ->when(app()->environment('production'), fn($q) => $q->whereDepartmentId(Department::SALES)->where('client_id', '!=', null))
+            ->when(app()->environment('production'), fn($q) => $q->whereIn('department_id', $departmentIds)->where('client_id', '!=', null))
             ->withoutBackups()
             ->when(!Inquiry::userCanViewAll(), function ($query){
                 if (Inquiry::userCanViewAllDepartment()){
