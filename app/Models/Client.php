@@ -127,7 +127,7 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
     }
     public static function channels(): array
     {
-        return [1 => 1, 2, 3, 4, 5, 6, 7];
+        return [1 => 1, 2, 3, 4, 5, 6, 7, 8, 9];
     }
 
     public function setPhone2Attribute($value): ?string

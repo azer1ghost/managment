@@ -796,6 +796,8 @@ return [
         'Facebook',
         'LinkedIn',
         'YouTube',
+        'Heritus Logistics',
+        'Arkas Logistics',
     ],
 
     'logistics_statuses' => [
