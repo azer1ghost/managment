@@ -369,6 +369,7 @@ Route::resource('/customer-satisfactions', CustomerSatisfactionController::class
 Route::get('/cs', [CustomerSatisfactionController::class, 'createSatisfaction'])->name('create-satisfaction');
 Route::view('/template','email' )->name('email');
 Route::view('/template2','email2' )->name('email2');
+Route::get('/excel-import',[ClientController::class, 'excelImport'] )->name('excel-import');
 Route::resource('/email-templates', EmailTemplateController::class );
 
 
@@ -383,7 +384,7 @@ Route::prefix('clients')->middleware('clients')->group(function () {
     Route::put('/update/{client}', [ClientAuthController::class, 'update'])->name('client-account.update');
     Route::post('/logout', [ClientAuthController::class, 'logout'])->name('client-logout');
     Route::post('/doc/{modelId}', [DocumentController::class, 'store'])->name('doc.store');
-    Route::resource('/order', OrderController::class)->only(['store']);
+//    Route::resource('/order', OrderController::class)->only(['store']);
 });
 
 

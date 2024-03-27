@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Exports\ClientsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
+use App\Imports\ClientImport;
 use App\Interfaces\ClientRepositoryInterface;
 use App\Models\Client;
 use App\Models\Company;
@@ -15,6 +16,7 @@ use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ClientController extends Controller
 {
@@ -322,5 +324,11 @@ class ClientController extends Controller
         $document_type = $client->getAttribute('document_type');
 
         return Storage::download('protocol/'.$document_type);
+    }
+    public function excelImport()
+    {
+        Excel::import(new ClientImport(), 'clientsImport6.xlsx');
+
+        return redirect('/')->with('success', 'All good!');
     }
 }
