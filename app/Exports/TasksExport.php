@@ -15,7 +15,7 @@ class TasksExport implements FromCollection, WithHeadings, WithMapping
     public function collection()
     {
         $startDate = '2024-01-01';
-        $endDate = '2024-03-14';
+        $endDate = '2024-03-28';
 
         return Task::whereBetween('created_at', [$startDate, $endDate])->get();
     }
@@ -31,6 +31,7 @@ class TasksExport implements FromCollection, WithHeadings, WithMapping
             'İstifadəçi',
             'Son tarix',
             'Bitmiş',
+            'Yaranma tarixi'
         ];
     }
     public function map($row): array
@@ -45,6 +46,7 @@ class TasksExport implements FromCollection, WithHeadings, WithMapping
             $row->taskable->getClassShortName() == 'user' ? $row->taskable->getAttribute('fullname_with_position'):
             $row->getAttribute('must_end_at'),
             $row->getAttribute('done_at'),
+            $row->getAttribute('created_at'),
         ];
     }
 }
