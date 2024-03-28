@@ -284,6 +284,31 @@
                     </div>
                 </td>
             </tr>
+            <div class="modal fade" id="changeCreate-{{$work->getAttribute('id')}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">@lang('translates.fields.created_at')</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ route('works.changeCreate', $work) }}" method="POST">
+                            @csrf @method('PUT')
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <input type="date" name="created_at" class="form-control" aria-label="paid_at">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
         @empty
             <tr>
                 <th colspan="20">
@@ -296,31 +321,7 @@
         </tbody>
     </table>
 
-    <div class="modal fade" id="changeCreate-{{$work->getAttribute('id')}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">@lang('translates.fields.created_at')</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="{{ route('works.changeCreate', $work) }}" method="POST">
-                    @csrf @method('PUT')
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <input type="date" name="created_at" class="form-control" aria-label="paid_at">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
 
-            </div>
-        </div>
-    </div>
 
     <div class="modal fade" id="create-work">
         <div class="modal-dialog modal-lg modal-dialog-centered">
