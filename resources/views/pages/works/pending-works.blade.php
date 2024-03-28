@@ -269,11 +269,17 @@
                                         <i class="fal fa-check pr-2 text-success"></i>@lang('translates.buttons.verify')
                                     </a>
                                 @endif
+                                @if(auth()->user()->isDeveloper() || auth()->user()->hasPermission('editPrice-work') || auth()->user()->hasPermission('canRedirect-work') )
+                                    <a data-toggle="modal" data-target="#changeCreate-{{$work->getAttribute('id')}}" class="dropdown-item-text text-decoration-none">
+                                        <i class="fal fa-money-check pr-2 text-success"></i>Change Create Date
+                                    </a>
+                                @endif
                                 @can('delete', $work)
                                     <a href="{{route('works.destroy', $work)}}" delete data-name="{{$work->getAttribute('code')}}" class="dropdown-item-text text-decoration-none">
                                         <i class="fal fa-trash pr-2 text-danger"></i>@lang('translates.tasks.delete')
                                     </a>
                                 @endcan
+
                             </div>
                     </div>
                 </td>
@@ -289,6 +295,32 @@
         @endforelse
         </tbody>
     </table>
+
+    <div class="modal fade" id="changeCreate-{{$work->getAttribute('id')}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">@lang('translates.fields.created_at')</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('works.changeCreate', $work) }}" method="POST">
+                    @csrf @method('PUT')
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="date" name="created_at" class="form-control" aria-label="paid_at">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" id="create-work">
         <div class="modal-dialog modal-lg modal-dialog-centered">
