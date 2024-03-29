@@ -58,7 +58,7 @@
                        onchange="clientName()">
                 <input class="form-control col-3 m-2" id="clientVoenInput" placeholder="Müştəri Voen"
                        oninput="clientVoen()">
-                <input class="form-control col-3 m-2" id="clienthhInput" placeholder="Müştəri H/N"
+                <input class="form-control col-3 m-2" id="clienthhInput" placeholder="Müştəri H/H"
                        oninput="clienthh()">
                 <input class="form-control col-3 m-2" id="clientmhInput" placeholder="Müştəri M/H"
                        oninput="clientmh()">
