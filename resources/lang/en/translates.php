@@ -651,7 +651,7 @@ return [
         ],
         'statuses' => [
             '1' => 'Not Viewed',
-            '2' => 'Evaluating',
+            '2' => 'İnvestigated',
             '3' => 'appreciated',
             '4' => 'Executed',
             '5' => 'Rejected',

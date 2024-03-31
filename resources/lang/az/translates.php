@@ -663,7 +663,7 @@ return [
         ],
         'statuses' => [
             '1' => 'Baxılmayıb',
-            '2' => 'Dəyərləndirilir',
+            '2' => 'Araşdırılır',
             '3' => 'İcra Olunur',
             '4' => 'Tamamlandı',
             '5' => 'Rədd Edildi'
