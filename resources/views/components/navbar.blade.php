@@ -33,6 +33,12 @@
 {{--        </ul>--}}
 
         <ul class="navbar-nav navbar-nav-right">
+            <li class="nav-item">
+                <div class="custom-control custom-switch" >
+                    <input type="checkbox" class="custom-control-input" id="darkMode">
+                    <label class="custom-control-label" for="darkMode"><i class="fas fa-moon"></i></label>
+                </div>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link count-indicator dropdown-toggle" id="notificationsDropdown" href="#" data-toggle="dropdown">
                     <i class="fas fa-comment-dots"></i>
