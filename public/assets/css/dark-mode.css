@@ -15,6 +15,9 @@ body, .container, section  {
 .navbar .navbar-menu-wrapper{
     background: #1a2225;
 }
+.navbar {
+    box-shadow: none !important;
+}
 .navbar .navbar-brand-wrapper{
     background: #1a2225;
 }
