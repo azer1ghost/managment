@@ -31,7 +31,6 @@ class TasksExport implements FromCollection, WithHeadings, WithMapping
             'İstifadəçi',
             'Son tarix',
             'Bitmiş',
-            'Yaranma tarixi',
             'Nəticə'
         ];
     }
@@ -50,7 +49,6 @@ class TasksExport implements FromCollection, WithHeadings, WithMapping
             $row->taskable->getClassShortName() == 'user' ? $row->taskable->getAttribute('fullname_with_position'):
             $row->getAttribute('must_end_at'),
             $row->getAttribute('done_at'),
-            $row->created_at->format('Y-m-d H:i:s'),
             $content,
         ];
     }
