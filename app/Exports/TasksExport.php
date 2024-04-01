@@ -38,7 +38,7 @@ class TasksExport implements FromCollection, WithHeadings, WithMapping
     public function map($row): array
     {
 
-        $result = optional($row->result)->toJson();
+        $result = optional($row->result->content)->toJson();
 
         return[
             $row->id,
