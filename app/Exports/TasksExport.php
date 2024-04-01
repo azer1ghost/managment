@@ -37,6 +37,9 @@ class TasksExport implements FromCollection, WithHeadings, WithMapping
     }
     public function map($row): array
     {
+
+        $result = optional($row->result)->toJson();
+
         return[
             $row->id,
             $row->getAttribute('name'),
@@ -48,7 +51,7 @@ class TasksExport implements FromCollection, WithHeadings, WithMapping
             $row->getAttribute('must_end_at'),
             $row->getAttribute('done_at'),
             $row->created_at->format('Y-m-d H:i:s'),
-            optional($row->result)->toArray(),
+            $result,
         ];
     }
 }
