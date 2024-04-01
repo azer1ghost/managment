@@ -1,0 +1,46 @@
+body, .container, section  {
+    background: #222831;
+    color: #F5E8C7;
+}
+.card{
+    background: #222;
+    color: #F5E8C7;
+}
+.content-wrapper {
+    background: #222831;
+}
+.sidebar{
+    background: #222831;
+}
+.navbar .navbar-menu-wrapper{
+    background: #1a2225;
+}
+.navbar {
+    box-shadow: none !important;
+}
+.navbar .navbar-brand-wrapper{
+    background: #1a2225;
+}
+
+a.input-group-text{
+    color: #F5E8C7;
+}
+h6, h5, h4, h3, h2, h1, tr, td, th, span, a, i, .breadcrumb-item>a , .input-group-text {
+    color: #F5E8C7; !important;
+}
+
+.navbar .navbar-menu-wrapper .navbar-nav .nav-item.nav-search .input-group .input-group-text {
+    color: #F5E8C7; !important;
+}
+select.form-control, select.asColorPicker-input, .custom-control-label::before, .custom-file-label, .custom-select , .input-group > .form-control, textarea.form-control, input[type=date].form-control, input[type=date].form-control {
+    background: #5C5470;
+    color: #F5E8C7; !important;
+}
+.form-control, .bootstrap-select .dropdown-toggle .filter-option-inner-inner, .select2-container--bootstrap4.select2-container--focus, .select2-selection , .select2-results__option , .select2-container--bootstrap4 .select2-selection--single .select2-selection__rendered  {
+    background: #5C5470 !important;
+    color: #F5E8C7; !important;
+}
+th, td, .modal-header, .modal-body, .modal-footer, .chat-app, .input-group-text{
+    background: #1a2225 !important;
+    color: #F5E8C7; !important;
+}

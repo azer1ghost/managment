@@ -109,6 +109,39 @@
 
     @auth
 {{--        <script src="https://js.pusher.com/7.1/pusher.min.js"></script>--}}
+<script>
+    $(document).ready(function(){
+        if(localStorage.getItem("darkMode") === "enabled"){
+            addDarkModeCSS();
+            $('#darkMode').prop('checked', true);
+        }
+
+        $('#darkMode').change(function(){
+            if(this.checked){
+                addDarkModeCSS()
+                localStorage.setItem("darkMode", "enabled");
+            }else{
+                removeDarkModeCSS();
+                localStorage.setItem("darkMode", "disabled");
+            }
+        });
+
+        function addDarkModeCSS() {
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = "{{asset('assets/css/dark-mode.css')}}";
+
+            document.head.appendChild(link);
+        }
+
+        function removeDarkModeCSS() {
+            var darkModeCSS = document.querySelector('link[href="{{asset('assets/css/dark-mode.css')}}"]');
+            if (darkModeCSS) {
+                darkModeCSS.remove();
+            }
+        }
+    });
+</script>
 <script src="{{asset('assets/js/pusher/pusher.js')}}" ></script>
         <script>
             $(document).ready(function (){
