@@ -540,9 +540,9 @@
                         <td>
                             <button type="button" class="colorButton btn btn-primary" data-works='@json($work)'>
                                 @if($work->getAttribute('painted') == 1)
-                                    Boyanı sil
+                                    Rəngi sil
                                 @else
-                                    Boya
+                                    Təcili
                                 @endif
                             </button>
                         </td>
