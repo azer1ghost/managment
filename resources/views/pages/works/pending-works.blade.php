@@ -211,7 +211,7 @@
         <tbody>
         @forelse($works as $work)
 
-            <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}">
+            <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}" @if($work->getAttribute('painted') == 1) style="background-color: #ff0000" @endif>
             <th style="font-weight:bold">{{$work->getAttribute('mark')}}</th>
 
                 <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
@@ -279,6 +279,15 @@
                                         <i class="fal fa-trash pr-2 text-danger"></i>@lang('translates.tasks.delete')
                                     </a>
                                 @endcan
+                                    <td>
+                                        <button type="button" class="colorButton btn btn-primary" data-works='@json($work)'>
+                                            @if($work->getAttribute('painted') == 1)
+                                                Boyanı sil
+                                            @else
+                                                Boya
+                                            @endif
+                                        </button>
+                                    </td>
 
                             </div>
                     </div>
@@ -372,6 +381,43 @@
     </script>
 
     <script>
+
+        function getWorks() {
+            let works = $(this).data('works');
+        }
+        $('.colorButton').on('click', function (e) {
+            getWorks()
+            let works = $(this).data('works');
+            let column = $(this).parent().parent();
+            let button = $(this)
+            let paintValue = ''
+            let buttonName = ''
+            if (column.css('background-color') === 'rgb(255, 0, 0)') {
+                paintValue = 0
+                buttonName = 'Boya'
+                column.css('background-color', 'rgb(245,247,255)');
+            } else {
+                column.css('background-color', 'red');
+                paintValue = 1
+                buttonName = 'Boyanı sil'
+            }
+            $.ajax({
+                url: '/module/works/updateColor',
+                type: 'POST',
+                data: {
+                    id: works.id,
+                    painted: paintValue
+                },
+                success: function (response) {
+                    button.html(buttonName)
+                    console.log('Painted:', response);
+                },
+                error: function (error) {
+                    console.log('There is a problem:', error);
+                }
+            });
+        });
+
         const slider = document.querySelector('#table');
         let isDown = false;
         let startX;

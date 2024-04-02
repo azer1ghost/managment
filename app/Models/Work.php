@@ -67,7 +67,8 @@ class Work extends Model implements DocumentableInterface, Recordable
         'returned_at',
         'bank_charge',
         'invoiced_date',
-        'mark'
+        'mark',
+        'painted'
     ];
 
     protected $dates = ['datetime', 'verified_at', 'paid_at', 'vat_date', 'invoiced_date', 'entry_date', 'injected_at', 'returned_at'];

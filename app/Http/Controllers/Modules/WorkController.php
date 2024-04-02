@@ -1099,6 +1099,13 @@ class WorkController extends Controller
         }
     }
 
+    public function updateColor(Request $request)
+    {
+        Work::whereId($request->get('id'))->update(['painted' => $request->get('painted')]);
+
+        return response()->json(['message' => 'ok'], 200);
+    }
+
     public function showTotal(Request $request)
     {
         $startOfMonth = now()->firstOfMonth()->format('Y-m-d');

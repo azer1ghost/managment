@@ -320,9 +320,9 @@
             </div>
         </div>
     @endif
-    <table class="table table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;" id="table">
+    <table class="table table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;" id="table" >
         <thead>
-        <tr class="text-center">
+        <tr class="text-center" >
             @if(auth()->user()->hasPermission('canVerify-work'))
                 <th><input type="checkbox" id="works-all"></th>
             @endif
@@ -375,7 +375,7 @@
                 $injected_at = \Illuminate\Support\Carbon::parse($work->getAttribute('injected_at'));
                 $now = \Illuminate\Support\Carbon::now();
             @endphp
-            <tr data-toggle="collapse" data-target="#demo{{$work->getAttribute('id')}}" class="accordion-toggle" @if($now->diffInHours($injected_at) >= 24 && $work->getAttribute('status') == $work::INJECTED) style="background: #f16b6b" @endif @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}">
+            <tr data-toggle="collapse" data-target="#demo{{$work->getAttribute('id')}}" class="accordion-toggle" @if($now->diffInHours($injected_at) >= 24 && $work->getAttribute('status') == $work::INJECTED) style="background: #f16b6b" @endif @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}" @if($work->getAttribute('painted') == 1) style="background-color: #ff0000" @endif>
                 @if(in_array(optional($work)->getAttribute('status'), [3,4,6]) && is_null($work->getAttribute('verified_at')) && auth()->user()->hasPermission('canVerify-work'))
                     <td><input type="checkbox" name="works[]" value="{{$work->getAttribute('id')}}"></td>
                 @elseif(auth()->user()->hasPermission('canVerify-work'))
@@ -537,6 +537,15 @@
                                 @endif
                             </div>
                         </div>
+                        <td>
+                            <button type="button" class="colorButton btn btn-primary" data-works='@json($work)'>
+                                @if($work->getAttribute('painted') == 1)
+                                    Boyanı sil
+                                @else
+                                    Boya
+                                @endif
+                            </button>
+                        </td>
                     </div>
                 </td>
             </tr>
@@ -745,6 +754,42 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/js/jquery-editable-poshytip.min.js"></script>
 
     <script>
+
+        function getWorks() {
+            let works = $(this).data('works');
+        }
+        $('.colorButton').on('click', function (e) {
+            getWorks()
+            let works = $(this).data('works');
+            let column = $(this).parent().parent();
+            let button = $(this)
+            let paintValue = ''
+            let buttonName = ''
+            if (column.css('background-color') === 'rgb(255, 0, 0)') {
+                paintValue = 0
+                buttonName = 'Boya'
+                column.css('background-color', 'rgb(245,247,255)');
+            } else {
+                column.css('background-color', 'red');
+                paintValue = 1
+                buttonName = 'Boyanı sil'
+            }
+            $.ajax({
+                url: '/module/works/updateColor',
+                type: 'POST',
+                data: {
+                    id: works.id,
+                    painted: paintValue
+                },
+                success: function (response) {
+                    button.html(buttonName)
+                    console.log('Painted:', response);
+                },
+                error: function (error) {
+                    console.log('There is a problem:', error);
+                }
+            });
+        });
         @if($works->isNotEmpty())
             const count  = document.getElementById("count").cloneNode(true);
             $("#table > tbody").prepend(count);
