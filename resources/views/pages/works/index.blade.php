@@ -767,12 +767,12 @@
             let buttonName = ''
             if (column.css('background-color') === 'rgb(255, 0, 0)') {
                 paintValue = 0
-                buttonName = 'Boya'
+                buttonName = 'Təcili'
                 column.css('background-color', 'rgb(245,247,255)');
             } else {
                 column.css('background-color', 'red');
                 paintValue = 1
-                buttonName = 'Boyanı sil'
+                buttonName = 'Rəngi sil'
             }
             $.ajax({
                 url: '/module/works/updateColor',
