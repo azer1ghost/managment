@@ -211,7 +211,7 @@
         <tbody>
         @forelse($works as $work)
 
-            <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}" @if($work->getAttribute('painted') == 1) style="background-color: #ff0000" @endif>
+            <tr @if(is_null($work->getAttribute('user_id')) && !$work->getAttribute('painted') == 1) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}" @if($work->getAttribute('painted') == 1) style="background-color: #ff0000" @endif>
             <th style="font-weight:bold">{{$work->getAttribute('mark')}}</th>
 
                 <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
