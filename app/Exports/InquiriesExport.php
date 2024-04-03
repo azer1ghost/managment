@@ -13,7 +13,7 @@ class InquiriesExport implements FromCollection, WithHeadings, WithMapping
 {
     public function collection()
     {
-        $startDate = '2020-03-01';
+        $startDate = '2024-01-10';
         $endDate = '2024-04-03';
 
         return Inquiry::where('user_id', 102)
