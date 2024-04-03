@@ -375,7 +375,7 @@
                 $injected_at = \Illuminate\Support\Carbon::parse($work->getAttribute('injected_at'));
                 $now = \Illuminate\Support\Carbon::now();
             @endphp
-            <tr data-toggle="collapse" data-target="#demo{{$work->getAttribute('id')}}" class="accordion-toggle" @if($now->diffInHours($injected_at) >= 24 && $work->getAttribute('status') == $work::INJECTED) style="background: #f16b6b" @endif @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}" @if($work->getAttribute('painted') == 1 && !$work->getAttribute('status') > 4) style="background-color: #ff0000" @endif>
+            <tr data-toggle="collapse" data-target="#demo{{$work->getAttribute('id')}}" class="accordion-toggle" @if($now->diffInHours($injected_at) >= 24 && $work->getAttribute('status') == $work::INJECTED) style="background: #f16b6b" @endif @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}" @if($work->getAttribute('painted') == 1 && $work->getAttribute('status') == [1, 2, 3]) style="background-color: #ff0000" @endif>
                 @if(in_array(optional($work)->getAttribute('status'), [3,4,6]) && is_null($work->getAttribute('verified_at')) && auth()->user()->hasPermission('canVerify-work'))
                     <td><input type="checkbox" name="works[]" value="{{$work->getAttribute('id')}}"></td>
                 @elseif(auth()->user()->hasPermission('canVerify-work'))
