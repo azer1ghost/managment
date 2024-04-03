@@ -112,7 +112,7 @@
             </div>
 
             <div class="col-ml-1 align-items-end">
-                @if(auth()->user()->hasPermission('canExport-clientin'))
+                @if(auth()->user()->hasPermission('canExport-client'))
                         <a class="btn btn-outline-primary" href="{{route('tasks.export')}}">@lang('translates.buttons.export')</a>
                 @endif
             </div>

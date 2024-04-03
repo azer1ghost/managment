@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Document;
+use App\Models\EmployeeSatisfaction;
 use App\Http\Controllers\{Auth\LoginController,
     Auth\PhoneVerifycationController,
     Auth\RegisterController,
@@ -303,6 +304,7 @@ Route::group([
     Route::resource('/transactions', TransactionController::class);
     Route::put('employee-satisfaction/addNote', [EmployeeSatisfactionController::class, 'addNote'])->name('addNote');
     Route::resource('/employee-satisfaction', EmployeeSatisfactionController::class);
+    Route::get('/employee-satisfactions/export', [EmployeeSatisfactionController::class, 'export'])->name('employee-satisfactions.export');
     Route::view('/statement','pages.statements.statements' )->name('statement');
     Route::post('/markAsRead', [StatementController::class, 'markAsRead'])->name('mark-as-read');
     Route::get('/jobInstruction/{id}', [JobInstructionController::class, 'getInstruction'])->name('getInstruction');

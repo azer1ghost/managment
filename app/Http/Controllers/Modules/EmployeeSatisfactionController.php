@@ -8,9 +8,11 @@ use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use App\Models\EmployeeSatisfaction;
 use App\Http\Controllers\Controller;
+use App\Exports\EmployeeSatisfactionsExport;
 use Illuminate\Http\Request;
 use App\Models\Department;
 use App\Models\User;
+use Maatwebsite\Excel\Excel;
 
 class EmployeeSatisfactionController extends Controller
 {
@@ -130,4 +132,9 @@ class EmployeeSatisfactionController extends Controller
         }
         return response()->setStatusCode('204');
     }
+    public function export(Request $request)
+    {
+        return \Excel::download(new EmployeeSatisfactionsExport(), 'employee-satisfactions.xlsx');
+    }
+
 }

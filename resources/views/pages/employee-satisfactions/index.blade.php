@@ -50,6 +50,9 @@
                 </select>
             </div>
             <div class="mt-4 mr-3">
+                @if(auth()->user()->hasPermission('canExport-client'))
+                    <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('employee-satisfactions.export')}}">@lang('translates.buttons.export')</a>
+                @endif
                 @can('create', App\Models\EmployeeSatisfaction::class)
                     <a class="btn btn-outline-success" data-toggle="modal" data-target="#create-employee-satisfaction" href="{{route('employee-satisfaction.create')}}">@lang('translates.buttons.create')</a>
                 @endcan
