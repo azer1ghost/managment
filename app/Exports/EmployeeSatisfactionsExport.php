@@ -34,12 +34,20 @@ class EmployeeSatisfactionsExport implements FromCollection, WithHeadings, WithM
             'Yaranma Tarixi'
         ];
     }
+    public static function types()
+    {
+        return [
+            1 => __('employee_satisfactions.types.1'), // 'Offer'
+            2 => __('employee_satisfactions.types.2'), // 'Complaint'
+            3 => __('employee_satisfactions.types.3'), // 'Incompatibility'
+        ];
+    }
 
     public function map($row): array
     {
         return [
             $row->id,
-            $row->type,
+            self::types()[$row->type],
             optional($row->users)->fullname_with_position,
             optional($row->departments)->name,
             optional($row->employees)->fullname_with_position,
