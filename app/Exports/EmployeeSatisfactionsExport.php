@@ -46,7 +46,7 @@ class EmployeeSatisfactionsExport implements FromCollection, WithHeadings, WithM
             optional($row->getAttribute('activity'))->name,
             strip_tags($row->content),
             optional($row->reason),
-            optional($row->status),
+            $row->status,
             $row->effectivity,
             $row->note,
             $row->created_at
