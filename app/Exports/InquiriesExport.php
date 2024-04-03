@@ -40,7 +40,7 @@ class InquiriesExport implements FromCollection, WithHeadings, WithMapping
 
     public function map($row): array
     {
-        $note = optional($row->getParameter('note'))->getAttribute('text');
+        $note = $row->getAttribute('note');
 
         return [
             $row->id,
