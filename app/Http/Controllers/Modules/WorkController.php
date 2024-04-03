@@ -86,10 +86,16 @@ class WorkController extends Controller
             'invoiced_date' => $request->has('check-invoiced_date'),
         ];
 
-        $usersQuery = User::has('works')->with('position', 'role')->isActive()->select(['id', 'name', 'surname', 'position_id', 'role_id']);
-        $users = Work::userCannotViewAll() && Work::userCanViewDepartmentWorks() ?
-            $usersQuery->where('department_id', $user->getAttribute('department_id'))->get() :
-            $usersQuery->get();
+        $departmentIds = [11, 12, 13, 7, 29];
+
+
+        $usersQuery = User::has('works')
+            ->with('position', 'role')
+            ->isActive()
+            ->whereIn('department_id', $departmentIds)
+            ->select(['id', 'name', 'surname', 'position_id', 'role_id']);
+
+        $users = $usersQuery->get();
 
         $departments = Department::isActive()->has('works')->get(['id', 'name']);
         $companies = Company::query()->has('asanImzalar')->limit(10)->get();
