@@ -31,6 +31,7 @@ class EmployeeSatisfactionsExport implements FromCollection, WithHeadings, WithM
             'Status',
             'Effectivity',
             'Note',
+            'Yaranma Tarixi'
         ];
     }
 
@@ -40,14 +41,15 @@ class EmployeeSatisfactionsExport implements FromCollection, WithHeadings, WithM
             $row->id,
             $row->type,
             optional($row->users)->fullname_with_position,
-            optional($row->department)->name,
-            optional($row->employee)->name,
-            optional($row->activity)->name,
+            optional($row->getAttribute('department_id'))->name,
+            optional($row->getAttribute('employee'))->name,
+            optional($row->getAttribute('activity'))->name,
             strip_tags($row->content),
-            optional($row->reason)->text,
-            optional($row->status)->text,
+            optional($row->reason),
+            optional($row->status),
             $row->effectivity,
             $row->note,
+            $row->created_at
         ];
     }
 }
