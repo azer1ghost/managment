@@ -188,6 +188,7 @@
                                 <option>Çəki listi(Packing List) Tərtib olunması</option>
                                 <option>Ərazi Xərci</option>
                                 <option>Gömrük təmsilçiliyi xidməti</option>
+                                <option>Etibarnamənin tərtib olunması</option>
                             </select>
                         </td>
                         <td>Ədəd</td>
