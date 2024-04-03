@@ -40,6 +40,8 @@ class InquiriesExport implements FromCollection, WithHeadings, WithMapping
 
     public function map($row): array
     {
+        $note = optional($row->getParameter('note'))->getAttribute('text');
+
         return [
             $row->id,
             optional($row->getParameter('fullname'))->getAttribute('value'),
@@ -50,7 +52,7 @@ class InquiriesExport implements FromCollection, WithHeadings, WithMapping
             optional($row->getParameter('contact_method'))->getAttribute('text'),
             optional($row->getParameter('source'))->getAttribute('text'),
             optional($row->getParameter('status'))->getAttribute('text'),
-            optional($row->getParameter('note'))->getAttribute('text'),
+            $note,
             $row->getAttribute('created_at'),
         ];
     }
