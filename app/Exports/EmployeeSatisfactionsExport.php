@@ -43,7 +43,7 @@ class EmployeeSatisfactionsExport implements FromCollection, WithHeadings, WithM
             optional($row->users)->fullname_with_position,
             optional($row->departments)->name,
             optional($row->employees)->fullname_with_position,
-            optional($row->activity)->name,
+            strip_tags($row->activity),
             strip_tags($row->content),
             optional($row->reason)->text,
             optional($row->status)->text,
