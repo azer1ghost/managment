@@ -37,9 +37,9 @@ class EmployeeSatisfactionsExport implements FromCollection, WithHeadings, WithM
     public static function types()
     {
         return [
-            1 => __('employee_satisfactions.types.1'), // 'Offer'
-            2 => __('employee_satisfactions.types.2'), // 'Complaint'
-            3 => __('employee_satisfactions.types.3'), // 'Incompatibility'
+            1 => 'Təklif',
+            2 => 'Qarşılaşdığınız Çətinlik', // 'Complaint'
+            3 => 'Uyğunsuzluq', // 'Incompatibility'
         ];
     }
 
