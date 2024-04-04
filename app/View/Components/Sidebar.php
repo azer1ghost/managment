@@ -157,21 +157,9 @@ class Sidebar extends Component
                 'permission' => 'viewAny-work',
                 'children' => [
                     (object)[
-                        'title' => __('translates.navbar.work'),
-                        'icon' => 'fas fa-briefcase',
-                        'url' => route('works.index'),
-                        'permission' => 'viewAny-work',
-                    ],
-                    (object)[
                         'title' => __('translates.navbar.pendingWorks'),
                         'icon' => 'fas fa-bullhorn',
                         'url' => route('pending-works'),
-                        'permission' => 'viewAny-work',
-                    ],
-                    (object)[
-                        'title' => __('translates.navbar.financeWorks'),
-                        'icon' => 'fas fa-scroll',
-                        'url' => route('finance-works'),
                         'permission' => 'viewAny-work',
                     ],
                     (object)[
@@ -184,6 +172,18 @@ class Sidebar extends Component
                         'title' => __('translates.navbar.incompletedWorks'),
                         'icon' => 'fas fa-scroll',
                         'url' => route('incomplete-works'),
+                        'permission' => 'viewAny-work',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.financeWorks'),
+                        'icon' => 'fas fa-scroll',
+                        'url' => route('finance-works'),
+                        'permission' => 'viewAny-work',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.work'),
+                        'icon' => 'fas fa-briefcase',
+                        'url' => route('works.index'),
                         'permission' => 'viewAny-work',
                     ],
                     (object)[
