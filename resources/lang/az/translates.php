@@ -224,7 +224,7 @@ return [
         'services' => 'Xidmətlər',
         'work' => 'Ümumi İşlər',
         'plannedWorks' => 'Planlanan İşlər',
-        'incompletedWorks' => 'Yarımçıq işlər',
+        'incompletedWorks' => 'Tamamlanmamış işlər',
         'pendingWorks' => 'Gözləmədəki İşlər',
         'financeWorks' => 'Ödənişlər',
         'meeting' => 'Görüşmələr',
