@@ -494,11 +494,7 @@ class WorkController extends Controller
         $works = $this->workRepository->allFilteredWorks($filters, $dateFilters)
             ->where(function ($query) {
                 $query->where(function ($innerQuery) {
-                    $innerQuery->where('status', '<>', 6)
-                        ->orWhere(function ($innerInnerQuery) {
-                            $innerInnerQuery->where('status', 6)
-                                ->whereNull('verified_at');
-                        });
+                    $innerQuery->where('status', '<>', 6);
                 })
                     ->orWhere('status', '<>', 6);
             });
