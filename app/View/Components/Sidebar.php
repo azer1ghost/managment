@@ -157,17 +157,18 @@ class Sidebar extends Component
                 'permission' => 'viewAny-work',
                 'children' => [
                     (object)[
-                        'title' => __('translates.navbar.pendingWorks'),
-                        'icon' => 'fas fa-bullhorn',
-                        'url' => route('pending-works'),
-                        'permission' => 'viewAny-work',
-                    ],
-                    (object)[
                         'title' => __('translates.navbar.plannedWorks'),
                         'icon' => 'fas fa-scroll',
                         'url' => route('planned-works'),
                         'permission' => 'viewAny-work',
                     ],
+                    (object)[
+                        'title' => __('translates.navbar.pendingWorks'),
+                        'icon' => 'fas fa-bullhorn',
+                        'url' => route('pending-works'),
+                        'permission' => 'viewAny-work',
+                    ],
+
                     (object)[
                         'title' => __('translates.navbar.incompletedWorks'),
                         'icon' => 'fas fa-scroll',
