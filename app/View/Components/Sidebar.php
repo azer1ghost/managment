@@ -175,12 +175,6 @@ class Sidebar extends Component
                         'permission' => 'viewAny-work',
                     ],
                     (object)[
-                        'title' => __('translates.navbar.financeWorks'),
-                        'icon' => 'fas fa-scroll',
-                        'url' => route('finance-works'),
-                        'permission' => 'viewAny-work',
-                    ],
-                    (object)[
                         'title' => __('translates.navbar.work'),
                         'icon' => 'fas fa-briefcase',
                         'url' => route('works.index'),
@@ -190,6 +184,12 @@ class Sidebar extends Component
                         'title' => __('translates.navbar.order'),
                         'icon' => 'fas fa-scroll',
                         'url' => route('orders.index'),
+                        'permission' => 'viewAny-work',
+                    ],
+                    (object)[
+                        'title' => __('translates.navbar.financeWorks'),
+                        'icon' => 'fas fa-scroll',
+                        'url' => route('finance-works'),
                         'permission' => 'viewAny-work',
                     ],
                 ]
