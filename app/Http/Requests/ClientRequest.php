@@ -13,7 +13,7 @@ class ClientRequest extends FormRequest
 
     public function rules(): array
     {
-//        $voen = $this->isMethod('POST') && !$this->routeIs('clients.store') ? null : $this->request->get('id');
+        $voen = $this->isMethod('POST') && !$this->routeIs('clients.store') ? null : $this->request->get('id');
 
         return [
             'fullname'        => 'required|string|max:255',
@@ -33,7 +33,7 @@ class ClientRequest extends FormRequest
             'protocol'        => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls|max:4096',
             'document_type'   => 'nullable|string',
             'sector'          => 'nullable|string',
-            'voen'            => 'string|required',
+            'voen'            => 'string|required|unique:clients,voen,' . $voen,
             'password'        => 'nullable|string',
             'position'        => 'nullable|string',
             'type'            => 'nullable|integer',
