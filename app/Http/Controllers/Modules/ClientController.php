@@ -87,15 +87,16 @@ class ClientController extends Controller
             'users' => $request->get('users'),
             'reference' => User::get(['id', 'name', 'surname']),
         ];
-        $clients = $this->clientRepository->allFilteredClients($filters)->latest();
+        $clients = $this->clientRepository->allFilteredClients($filters);
+
         if (auth()->id() == 172) {
             $clients->where('user_id', auth()->id());
         }
 
-        if(is_numeric($filters['limit'])) {
-            $clients = $clients->paginate($filters['limit']);
-        }else {
-            $clients = $clients->get();
+        if (is_numeric($filters['limit'])) {
+            $clients = $clients->orderBy('ordering')->paginate($filters['limit']);
+        } else {
+            $clients = $clients->orderBy('ordering')->get();
         }
         $services = Service::get(['id', 'name', 'detail']);
 

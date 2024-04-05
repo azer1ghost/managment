@@ -45,7 +45,8 @@ class ClientRequest extends FormRequest
             'celebrate_at'    => 'nullable|date',
             'main_paper'      => 'nullable|string',
             'qibmain_paper'   => 'nullable|string',
-            'user_id'         => 'nullable|integer'
+            'user_id'         => 'nullable|integer',
+            'ordering'        => 'nullable|integer',
         ];
     }
 }
