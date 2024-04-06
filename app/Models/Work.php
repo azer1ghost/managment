@@ -26,7 +26,7 @@ class Work extends Model implements DocumentableInterface, Recordable
     const STARTED = 3;
     const INJECTED = 4;
     const RETURNED = 5;
-    const ARCHIVE = 6 ;
+    const ARCHIVE = 6;
 
     const DONE = 7;
 
