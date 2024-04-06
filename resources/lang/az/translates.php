@@ -764,6 +764,7 @@ return [
         'Davam Edir',
         'Sistemə Vuruldu',
         'Geri Qaytarıldı',
+        'Arxivləşdirildi',
         'Tamamlandı',
         'Qəbul edilməyib',
         'Laboratoriyada',

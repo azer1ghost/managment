@@ -171,7 +171,7 @@ class WorkController extends Controller
             'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
             'datetime' => $request->get('datetime') ?? $startOfMonth . ' - ' . $endOfMonth,
             'invoiced_date' => $request->get('invoiced_date') ?? $startOfMonth . ' - ' . $endOfMonth,
-            'statuses' => [1, 3, 4, 5, 6, 7],
+            'statuses' => [1, 3, 4, 5, 6, 7, 8],
         ];
 
         if (Work::userCanViewAll() || Work::userCanViewDepartmentWorks()) {
@@ -337,7 +337,7 @@ class WorkController extends Controller
                 ->havingRaw('total_sum > paid_sum');
         }
 
-        $works = $works->whereIn('status', [4, 6])->paginate($limit);
+        $works = $works->whereIn('status', [4, 6, 7])->paginate($limit);
 
         if (auth()->user()->hasPermission('viewPrice-work')) {
             return view('pages.works.finance-works',
@@ -518,9 +518,9 @@ class WorkController extends Controller
         $works = $this->workRepository->allFilteredWorks($filters, $dateFilters)
             ->where(function ($query) {
                 $query->where(function ($innerQuery) {
-                    $innerQuery->where('status', '<>', 6);
+                    $innerQuery->where('status', '<>', 7);
                 })
-                    ->orWhere('status', '<>', 6);
+                    ->orWhere('status', '<>', 7);
             });
 
         $paid_at_explode = explode(' - ', $request->get('paid_at_date'));
@@ -624,12 +624,12 @@ class WorkController extends Controller
         $works = $this->workRepository->allFilteredWorks($filters, $dateFilters)
             ->where(function ($query) {
                 $query->where(function ($innerQuery) {
-                    $innerQuery->where('status', '<>', 6)
+                    $innerQuery->where('status', '<>', 7)
                         ->orWhere(function ($innerInnerQuery) {
-                            $innerInnerQuery->where('status', 6);
+                            $innerInnerQuery->where('status', 7);
                         });
                 })
-                    ->orWhere('status', '<>', 6);
+                    ->orWhere('status', '<>', 7);
             });
 
         $paid_at_explode = explode(' - ', $request->get('paid_at_date'));
@@ -804,7 +804,7 @@ class WorkController extends Controller
         if ($work->getAttribute('returned_at') == null && ($request->get('status') == 5) && !$request->has('rejected')) {
             $validated['returned_at'] = now();
         }
-        if ($work->getAttribute('entry_date') == null && in_array($request->get('status'), [3, 4, 6]) && !$request->has('rejected')) {
+        if ($work->getAttribute('entry_date') == null && in_array($request->get('status'), [3, 4, 6, 7]) && !$request->has('rejected')) {
             $validated['entry_date'] = now();
         }
         if ((!$request->has('paid_check') && $request->has('rejected') && $request->has('paid_at')) || (!$request->has('paid_check') && $request->has('paid_at'))) {

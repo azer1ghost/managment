@@ -755,6 +755,7 @@ return [
         'Continue',
         'Injected to System',
         'Returned',
+        'Archived',
         'Done',
         'Rejected',
         'in the laboratory',

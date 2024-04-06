@@ -26,8 +26,11 @@ class Work extends Model implements DocumentableInterface, Recordable
     const STARTED = 3;
     const INJECTED = 4;
     const RETURNED = 5;
-    const DONE = 6;
-    const REJECTED = 7;
+    const ARCHIVE = 6 ;
+
+    const DONE = 7;
+
+    const REJECTED = 8;
 
     const GB = 17;
     const CODE = 18;
@@ -133,7 +136,7 @@ class Work extends Model implements DocumentableInterface, Recordable
 
     public static function statuses(): array
     {
-        return [1 => 1, 2, 3, 4, 5, 6, 7, 8];
+        return [1 => 1, 2, 3, 4, 5, 6, 7, 8, 9];
     }
 
     public static function destinations(): array
