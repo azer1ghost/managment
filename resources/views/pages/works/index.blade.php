@@ -442,7 +442,7 @@
                                     $color = 'dark';
                                     break;
                                 case(6):
-                                    $color = 'white bg-dark';
+                                    $color = 'white';
                                     break;
                                 case(7):
                                     $color = 'success';
