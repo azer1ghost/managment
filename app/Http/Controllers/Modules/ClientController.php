@@ -328,7 +328,7 @@ class ClientController extends Controller
     }
     public function excelImport()
     {
-        Excel::import(new ClientImport(), 'clientsImport6.xlsx');
+        Excel::import(new ClientImport(), 'clientsImport.xlsx');
 
         return redirect('/')->with('success', 'All good!');
     }
