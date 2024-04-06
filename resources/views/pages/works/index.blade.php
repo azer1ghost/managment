@@ -442,12 +442,15 @@
                                     $color = 'dark';
                                     break;
                                 case(6):
-                                    $color = 'success';
+                                    $color = 'white bg-dark';
                                     break;
                                 case(7):
-                                    $color = 'danger';
+                                    $color = 'success';
                                     break;
                                 case(8):
+                                    $color = 'danger';
+                                    break;
+                                case(9):
                                     $color = 'secondary';
                                     break;
                             }
