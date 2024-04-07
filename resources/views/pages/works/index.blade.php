@@ -777,7 +777,6 @@
 
 @endsection
 @section('scripts')
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/js/jquery-editable-poshytip.min.js"></script>
 
     <script>
