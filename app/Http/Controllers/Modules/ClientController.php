@@ -94,9 +94,9 @@ class ClientController extends Controller
         }
 
         if (is_numeric($filters['limit'])) {
-            $clients = $clients->orderBy('ordering')->paginate($filters['limit']);
+            $clients = $clients->paginate($filters['limit']);
         } else {
-            $clients = $clients->orderBy('ordering')->get();
+            $clients = $clients->get();
         }
         $services = Service::get(['id', 'name', 'detail']);
 
