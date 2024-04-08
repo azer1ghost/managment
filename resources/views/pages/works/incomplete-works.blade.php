@@ -493,6 +493,15 @@
                                 @endif
                             </div>
                         </div>
+                            <td>
+                                <button type="button" class="colorButton btn btn-primary" data-works='@json($work)'>
+                                    @if($work->getAttribute('painted') == 1)
+                                        Rəngi sil
+                                    @else
+                                        Təcili
+                                    @endif
+                                </button>
+                            </td>
                     </div>
                 </td>
             </tr>
@@ -701,6 +710,41 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/js/jquery-editable-poshytip.min.js"></script>
 
     <script>
+        function getWorks() {
+            let works = $(this).data('works');
+        }
+        $('.colorButton').on('click', function (e) {
+            getWorks()
+            let works = $(this).data('works');
+            let column = $(this).parent().parent();
+            let button = $(this)
+            let paintValue = ''
+            let buttonName = ''
+            if (column.css('background-color') === 'rgb(255, 0, 0)') {
+                paintValue = 0
+                buttonName = 'Təcili'
+                column.css('background-color', 'rgb(245,247,255)');
+            } else {
+                column.css('background-color', 'red');
+                paintValue = 1
+                buttonName = 'Rəngi sil'
+            }
+            $.ajax({
+                url: '/module/works/updateColor',
+                type: 'POST',
+                data: {
+                    id: works.id,
+                    painted: paintValue
+                },
+                success: function (response) {
+                    button.html(buttonName)
+                    console.log('Painted:', response);
+                },
+                error: function (error) {
+                    console.log('There is a problem:', error);
+                }
+            });
+        });
         @if($works->isNotEmpty())
             const count  = document.getElementById("count").cloneNode(true);
             $("#table > tbody").prepend(count);

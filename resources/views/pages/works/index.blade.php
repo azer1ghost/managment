@@ -780,8 +780,6 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/js/jquery-editable-poshytip.min.js"></script>
 
     <script>
-
-
         function getWorks() {
             let works = $(this).data('works');
         }
