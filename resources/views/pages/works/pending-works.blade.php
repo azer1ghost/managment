@@ -425,34 +425,66 @@
                 }
             });
         });
-        function updateDoc(docValue, worksId, button) {
+        $('.docButton').on('click', function (e) {
+            let button = $(this);
+            let works = button.data('works');
+            let docValue = '';
+            let buttonName = '';
+
+            if (works.doc == 0) {
+                docValue = 0;
+                buttonName = 'Sənədlər yoxdur';
+            } else {
+                docValue = 1;
+                buttonName = 'Sənədlər var';
+            }
+
             $.ajax({
                 url: '/module/works/updateDoc',
                 type: 'POST',
                 data: {
-                    id: worksId,
+                    id: works.id,
                     doc: docValue
                 },
                 success: function (response) {
+                    button.html(buttonName);
                     console.log('Doc updated:', response);
-                    if (docValue == 1) {
-                        button.html('Sənədlər var');
-                    } else {
-                        button.html('Sənəd yoxdur');
-                    }
                 },
                 error: function (error) {
                     console.log('There is a problem:', error);
                 }
             });
-        }
-
-        $('.docButton').on('click', function (e) {
-            getWorks();
-            let works = $(this).data('works');
-            let docValue = works.doc === 1 ? 0 : 1;
-            updateDoc(docValue, works.id, $(this));
         });
+
+
+        // function updateDoc(docValue, worksId, button) {
+        //     $.ajax({
+        //         url: '/module/works/updateDoc',
+        //         type: 'POST',
+        //         data: {
+        //             id: worksId,
+        //             doc: docValue
+        //         },
+        //         success: function (response) {
+        //             console.log('Doc updated:', response);
+        //             if (docValue == 1) {
+        //                 button.html('Sənədlər var');
+        //             } else {
+        //                 button.html('Sənəd yoxdur');
+        //             }
+        //         },
+        //         error: function (error) {
+        //             console.log('There is a problem:', error);
+        //         }
+        //     });
+        // }
+        //
+        // $('.docButton').on('click', function (e) {
+        //     getWorks();
+        //     let works = $(this).data('works');
+        //     let docValue = works.doc === 1 ? 0 : 1;
+        //     updateDoc(docValue, works.id, $(this));
+        // });
 
 
 
