@@ -501,6 +501,13 @@
                                         Təcili
                                     @endif
                                 </button>
+                                <button type="button" class="docButton btn btn-primary" data-works='@json($work)'>
+                                    @if($work->getAttribute('doc') == 1)
+                                        Sənədlər var
+                                    @else
+                                        Sənəd yoxdur
+                                    @endif
+                                </button>
                             </td>
                     </div>
                 </td>
@@ -739,6 +746,31 @@
                 success: function (response) {
                     button.html(buttonName)
                     console.log('Painted:', response);
+                },
+                error: function (error) {
+                    console.log('There is a problem:', error);
+                }
+            });
+        });
+        $('.docButton').on('click', function (e) {
+            let button = $(this);
+            let works = button.data('works');
+            let docValue = works.doc === 1 ? 0 : 1;
+
+            $.ajax({
+                url: '/module/works/updateDoc',
+                type: 'POST',
+                data: {
+                    id: works.id,
+                    doc: docValue
+                },
+                success: function (response) {
+                    if (docValue === 1) {
+                        button.html('Sənədlər var');
+                    } else {
+                        button.html('Sənəd yoxdur');
+                    }
+                    console.log('Doc updated:', response);
                 },
                 error: function (error) {
                     console.log('There is a problem:', error);

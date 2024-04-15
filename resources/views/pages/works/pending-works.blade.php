@@ -428,16 +428,7 @@
         $('.docButton').on('click', function (e) {
             let button = $(this);
             let works = button.data('works');
-            let docValue = '';
-            let buttonName = '';
-
-            if (works.doc == 0) {
-                docValue = 0;
-                buttonName = 'Sənədlər yoxdur';
-            } else {
-                docValue = 1;
-                buttonName = 'Sənədlər var';
-            }
+            let docValue = works.doc === 1 ? 0 : 1;
 
             $.ajax({
                 url: '/module/works/updateDoc',
@@ -447,7 +438,11 @@
                     doc: docValue
                 },
                 success: function (response) {
-                    button.html(buttonName);
+                    if (docValue === 1) {
+                        button.html('Sənədlər var');
+                    } else {
+                        button.html('Sənəd yoxdur');
+                    }
                     console.log('Doc updated:', response);
                 },
                 error: function (error) {
