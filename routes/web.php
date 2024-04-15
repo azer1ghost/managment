@@ -221,6 +221,7 @@ Route::group([
     Route::post('/declaration', [WorkController::class, 'declaration'])->name('work.declaration');
     Route::post('/works/update-status', [WorkController::class, 'updateStatus'])->name('works.update-status');
     Route::post('/works/updateColor', [WorkController::class, 'updateColor']);
+    Route::post('/works/updateDoc', [WorkController::class, 'updateDoc']);
     Route::put('/plannedWorks/update-mark', [WorkController::class, 'updateMark'])->name('works.update-mark');
 
 

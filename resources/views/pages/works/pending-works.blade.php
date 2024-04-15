@@ -287,6 +287,13 @@
                                                 Təcili
                                             @endif
                                         </button>
+                                        <button type="button" class="docButton btn btn-primary" data-works='@json($work)'>
+                                            @if($work->getAttribute('doc') == 1)
+                                                Sənədlər var
+                                            @else
+                                                Sənəd yoxdur
+                                            @endif
+                                        </button>
                                     </td>
 
                             </div>
@@ -385,21 +392,22 @@
         function getWorks() {
             let works = $(this).data('works');
         }
+
         $('.colorButton').on('click', function (e) {
-            getWorks()
+            getWorks();
             let works = $(this).data('works');
             let column = $(this).parent().parent();
-            let button = $(this)
-            let paintValue = ''
-            let buttonName = ''
+            let button = $(this);
+            let paintValue = '';
+            let buttonName = '';
             if (column.css('background-color') === 'rgb(255, 0, 0)') {
-                paintValue = 0
-                buttonName = 'Təcili'
+                paintValue = 0;
+                buttonName = 'Təcili';
                 column.css('background-color', 'rgb(245,247,255)');
             } else {
                 column.css('background-color', 'red');
-                paintValue = 1
-                buttonName = 'Rəngi sil'
+                paintValue = 1;
+                buttonName = 'Rəngi sil';
             }
             $.ajax({
                 url: '/module/works/updateColor',
@@ -409,7 +417,7 @@
                     painted: paintValue
                 },
                 success: function (response) {
-                    button.html(buttonName)
+                    button.html(buttonName);
                     console.log('Painted:', response);
                 },
                 error: function (error) {
@@ -417,6 +425,36 @@
                 }
             });
         });
+        function updateDoc(docValue, worksId, button) {
+            $.ajax({
+                url: '/module/works/updateDoc',
+                type: 'POST',
+                data: {
+                    id: worksId,
+                    doc: docValue
+                },
+                success: function (response) {
+                    console.log('Doc updated:', response);
+                    if (docValue == 1) {
+                        button.html('Sənədlər var');
+                    } else {
+                        button.html('Sənəd yoxdur');
+                    }
+                },
+                error: function (error) {
+                    console.log('There is a problem:', error);
+                }
+            });
+        }
+
+        $('.docButton').on('click', function (e) {
+            getWorks();
+            let works = $(this).data('works');
+            let docValue = works.doc === 1 ? 0 : 1;
+            updateDoc(docValue, works.id, $(this));
+        });
+
+
 
         const slider = document.querySelector('#table');
         let isDown = false;

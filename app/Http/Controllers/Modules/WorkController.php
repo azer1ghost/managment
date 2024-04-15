@@ -1133,7 +1133,30 @@ class WorkController extends Controller
 
     public function updateColor(Request $request)
     {
-        Work::whereId($request->get('id'))->update(['painted' => $request->get('painted')]);
+        $painted = $request->get('painted');
+        $id = $request->get('id');
+
+        $work = Work::findOrFail($id);
+
+        if ($work->doc != 1) {
+            return response()->json(['message' => 'error', 'reason' => 'doc değeri 1 değil'], 400);
+        }
+
+        $work->painted = $painted;
+        $work->save();
+
+        return response()->json(['message' => 'ok'], 200);
+    }
+
+    public function updateDoc(Request $request)
+    {
+        $doc = $request->get('doc');
+        $id = $request->get('id');
+
+        $work = Work::findOrFail($id);
+
+        $work->doc = $doc;
+        $work->save();
 
         return response()->json(['message' => 'ok'], 200);
     }
