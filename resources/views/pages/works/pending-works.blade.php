@@ -287,7 +287,7 @@
                                                 Təcili
                                             @endif
                                         </button>
-                                        <button type="button" class="docButton btn btn-primary" data-works='@json($work)'>
+                                        <button type="button" class="docButton btn @if($work->getAttribute('doc') == 1) btn-success @else btn-danger @endif" data-works='@json($work)'>
                                             @if($work->getAttribute('doc') == 1)
                                                 Sənədlər var
                                             @else
@@ -295,7 +295,6 @@
                                             @endif
                                         </button>
                                     </td>
-
                             </div>
                     </div>
                 </td>
@@ -389,12 +388,8 @@
 
     <script>
 
-        function getWorks() {
-            let works = $(this).data('works');
-        }
 
         $('.colorButton').on('click', function (e) {
-            getWorks();
             let works = $(this).data('works');
             let column = $(this).parent().parent();
             let button = $(this);
@@ -425,10 +420,19 @@
                 }
             });
         });
+
         $('.docButton').on('click', function (e) {
             let button = $(this);
             let works = button.data('works');
             let docValue = works.doc === 1 ? 0 : 1;
+
+            if (docValue === 1) {
+                button.removeClass('btn-danger').addClass('btn-success');
+                button.html('Sənədlər var');
+            } else {
+                button.removeClass('btn-success').addClass('btn-danger');
+                button.html('Sənəd yoxdur');
+            }
 
             $.ajax({
                 url: '/module/works/updateDoc',
@@ -438,11 +442,6 @@
                     doc: docValue
                 },
                 success: function (response) {
-                    if (docValue === 1) {
-                        button.html('Sənədlər var');
-                    } else {
-                        button.html('Sənəd yoxdur');
-                    }
                     console.log('Doc updated:', response);
                 },
                 error: function (error) {
@@ -450,38 +449,6 @@
                 }
             });
         });
-
-
-        // function updateDoc(docValue, worksId, button) {
-        //     $.ajax({
-        //         url: '/module/works/updateDoc',
-        //         type: 'POST',
-        //         data: {
-        //             id: worksId,
-        //             doc: docValue
-        //         },
-        //         success: function (response) {
-        //             console.log('Doc updated:', response);
-        //             if (docValue == 1) {
-        //                 button.html('Sənədlər var');
-        //             } else {
-        //                 button.html('Sənəd yoxdur');
-        //             }
-        //         },
-        //         error: function (error) {
-        //             console.log('There is a problem:', error);
-        //         }
-        //     });
-        // }
-        //
-        // $('.docButton').on('click', function (e) {
-        //     getWorks();
-        //     let works = $(this).data('works');
-        //     let docValue = works.doc === 1 ? 0 : 1;
-        //     updateDoc(docValue, works.id, $(this));
-        // });
-
-
 
         const slider = document.querySelector('#table');
         let isDown = false;
