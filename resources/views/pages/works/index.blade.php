@@ -472,7 +472,13 @@
 {{--                            <button onClick="timer.mode(0)">Count down</button>--}}
 {{--                        </div>--}}
 {{--                    </td>--}}
-                    <td>{{trans('translates.work_destination.' . $work->getAttribute('destination'))}}</td>
+                    <td>
+                        @if($work->getAttribute('destination') === null)
+                            Təyinat orqanı boşdur
+                        @else
+                            {{ trans('translates.work_destination.' . $work->getAttribute('destination')) }}
+                        @endif
+                    </td>
                     <td style="min-width: 130px">
                         @php $supportedTypes = \App\Models\Document::supportedTypeIcons() @endphp
                         @foreach($work->documents as $document)
