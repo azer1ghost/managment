@@ -507,7 +507,7 @@
                                         Təcili
                                     @endif
                                 </button>
-                                <button type="button" class="docButton btn btn-primary" data-works='@json($work)'>
+                                <button type="button" class="docButton btn @if($work->getAttribute('doc') == 1) btn-success @else btn-danger @endif" data-works='@json($work)'>
                                     @if($work->getAttribute('doc') == 1)
                                         Sənədlər var
                                     @else
@@ -763,6 +763,14 @@
             let works = button.data('works');
             let docValue = works.doc === 1 ? 0 : 1;
 
+            if (docValue === 1) {
+                button.removeClass('btn-danger').addClass('btn-success');
+                button.html('Sənədlər var');
+            } else {
+                button.removeClass('btn-success').addClass('btn-danger');
+                button.html('Sənəd yoxdur');
+            }
+
             $.ajax({
                 url: '/module/works/updateDoc',
                 type: 'POST',
@@ -771,11 +779,6 @@
                     doc: docValue
                 },
                 success: function (response) {
-                    if (docValue === 1) {
-                        button.html('Sənədlər var');
-                    } else {
-                        button.html('Sənəd yoxdur');
-                    }
                     console.log('Doc updated:', response);
                 },
                 error: function (error) {
