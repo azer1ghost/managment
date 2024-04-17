@@ -68,6 +68,7 @@ class Work extends Model implements DocumentableInterface, Recordable
         'entry_date',
         'injected_at',
         'returned_at',
+        'resume_date',
         'bank_charge',
         'invoiced_date',
         'mark',
@@ -75,7 +76,7 @@ class Work extends Model implements DocumentableInterface, Recordable
         'doc'
     ];
 
-    protected $dates = ['datetime', 'verified_at', 'paid_at', 'vat_date', 'invoiced_date', 'entry_date', 'injected_at', 'returned_at'];
+    protected $dates = ['datetime', 'verified_at', 'paid_at', 'vat_date', 'invoiced_date', 'entry_date', 'injected_at', 'returned_at', 'resume_date'];
 
     public function getMainColumn(): string
     {

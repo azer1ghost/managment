@@ -798,6 +798,9 @@ class WorkController extends Controller
         if ($work->getAttribute('injected_at') == null && $request->get('status') == $work::INJECTED) {
             $validated['injected_at'] = now();
         }
+        if ($work->getAttribute('resume_date') == null && $request->get('status') == $work::STARTED) {
+            $validated['resume_date'] = now();
+        }
 
         $validated['verified_at'] = $request->has('verified') && !$request->has('rejected') ? now() : NULL;
 
