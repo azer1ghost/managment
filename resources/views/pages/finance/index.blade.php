@@ -189,6 +189,7 @@
                                 <option>Ərazi Xərci</option>
                                 <option>Gömrük təmsilçiliyi xidməti</option>
                                 <option>Etibarnamənin tərtib olunması</option>
+                                <option>Anbar və Terminal ödənişi</option>
                             </select>
                         </td>
                         <td>Ədəd</td>
