@@ -428,10 +428,10 @@
                                    $color = 'dark';
                                    break;
                                case(6):
-                                   $color = 'success';
+                                   $color = 'white';
                                    break;
                                case(7):
-                                   $color = 'danger';
+                                   $color = 'success';
                                    break;
                            }
                         @endphp
