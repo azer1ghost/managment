@@ -369,7 +369,7 @@
                         $minutes = floor(($difference % 3600) / 60);
                         $seconds = $difference % 60;
 
-                        echo "$hours saat $minutes dəqiqə $seconds saniyə";
+                        echo "$hours:$minutes:$seconds ";
                     @endphp
 {{--                    <div id="demo{{$work->id}}" class="demo">00:00:00--}}
 {{--                    </div>--}}
