@@ -357,7 +357,63 @@
                          {{trans('translates.work_status.' . $work->getAttribute('status'))}}
                     </span>
                 </td>
-                <td><div id="demo1" class="demo">00:00:00 </div> </td>
+                <td>
+                    @php
+
+                        $resumeDate = \Carbon\Carbon::parse($work->resume_date);
+                        $createdAt = \Carbon\Carbon::parse($work->created_at);
+
+                        $difference = $resumeDate->diffInSeconds($createdAt);
+
+                        $hours = floor($difference / 3600);
+                        $minutes = floor(($difference % 3600) / 60);
+                        $seconds = $difference % 60;
+
+                        echo "$hours saat $minutes dəqiqə $seconds saniyə";
+                    @endphp
+{{--                    <div id="demo{{$work->id}}" class="demo">00:00:00--}}
+{{--                    </div>--}}
+
+{{--                    <script>--}}
+{{--                        var startTime{{$work->id}}; // Başlangıç zamanını saklamak için değişken--}}
+{{--                        var counterElement{{$work->id}} = document.getElementById("demo{{$work->id}}");--}}
+{{--                        var workStatusElement{{$work->id}} = document.querySelector('.badge');--}}
+{{--                        var workStatus{{$work->id}} = parseInt("{{$work->getAttribute('status')}}");--}}
+{{--                        var elapsed{{$work->id}} = 0; // Geçen süreyi saklamak için değişken--}}
+
+{{--                        function updateCounter{{$work->id}}() {--}}
+{{--                            var currentTime{{$work->id}} = new Date();--}}
+{{--                            var difference{{$work->id}} = currentTime{{$work->id}} - startTime{{$work->id}} + elapsed{{$work->id}};--}}
+{{--                            var seconds{{$work->id}} = Math.floor((difference{{$work->id}} % (1000 * 60)) / 1000);--}}
+
+{{--                            counterElement{{$work->id}}.textContent = formatTime{{$work->id}}(seconds{{$work->id}});--}}
+{{--                        }--}}
+
+{{--                        function formatTime{{$work->id}}(time) {--}}
+{{--                            return pad{{$work->id}}(Math.floor(time / 3600)) + ":" +--}}
+{{--                                pad{{$work->id}}(Math.floor((time % 3600) / 60)) + ":" +--}}
+{{--                                pad{{$work->id}}(Math.floor(time % 60));--}}
+{{--                        }--}}
+
+{{--                        function pad{{$work->id}}(num) {--}}
+{{--                            return (num < 10 ? '0' : '') + num;--}}
+{{--                        }--}}
+
+{{--                        // Status 3, 4 veya 5 olduğunda ve sayaç başlatılmadığında yeni sayaç başlatılır--}}
+{{--                        if ((workStatus{{$work->id}} === 3 || workStatus{{$work->id}} === 4 || workStatus{{$work->id}} === 5) && !startTime{{$work->id}}) {--}}
+{{--                            startTime{{$work->id}} = new Date();--}}
+{{--                            var interval{{$work->id}} = setInterval(updateCounter{{$work->id}}, 1000);--}}
+{{--                        }--}}
+
+{{--                        // Status 6 olduğunda sayaç durdurulur ve geçen süre saklanır--}}
+{{--                        if (workStatus{{$work->id}} === 6) {--}}
+{{--                            clearInterval(interval{{$work->id}});--}}
+{{--                            // Geçen süreyi sakla--}}
+{{--                            elapsed{{$work->id}} += new Date() - startTime{{$work->id}};--}}
+{{--                            startTime{{$work->id}} = null; // Başlangıç zamanını sıfırla--}}
+{{--                        }--}}
+{{--                    </script>--}}
+                </td>
                 <td>
                         @if($work->getAttribute('destination') === null)
                             Təyinat orqanı boşdur

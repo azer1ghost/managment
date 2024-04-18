@@ -543,6 +543,7 @@ class WorkController extends Controller
                 'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods', 'destinations')
         );
     }
+
     public function returnedWorks(Request $request)
     {
         $user = auth()->user();
