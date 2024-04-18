@@ -357,7 +357,7 @@
                          {{trans('translates.work_status.' . $work->getAttribute('status'))}}
                     </span>
                 </td>
-                <td></td>
+                <td><div id="demo1" class="demo">00:00:00 </div> </td>
                 <td>
                         @if($work->getAttribute('destination') === null)
                             Təyinat orqanı boşdur
@@ -445,7 +445,6 @@
                 </th>
             </tr>
         @endforelse
-
         </tbody>
     </table>
 
@@ -564,4 +563,5 @@
             $('#table').DataTable();
         });
     </script>
+
     @endsection
