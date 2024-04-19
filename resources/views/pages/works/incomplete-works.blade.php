@@ -476,14 +476,14 @@
                                 <a href="{{route('works.verify', $work)}}" verify
                                    data-name="{{$work->getAttribute('code')}}"
                                    class="dropdown-item-text text-decoration-none">
-                                    <i class="fal fa-check pr-2 text-success"></i>@lang('translates.buttons.verify')
+                                    <i class="fal fa-check pr-2 text-success"></i>
                                 </a>
                             @endif
                             @can('delete', $work)
                                 <a href="{{route('works.destroy', $work)}}" delete
                                    data-name="{{$work->getAttribute('code')}}"
                                    class="dropdown-item-text text-decoration-none">
-                                    <i class="fal fa-trash pr-2 text-danger"></i>@lang('translates.tasks.delete')
+                                    <i class="fal fa-trash pr-2 text-danger"></i>
                                 </a>
                             @endcan
                         </div>
