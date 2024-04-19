@@ -37,7 +37,7 @@
 </div>
 
 <script src="{{ mix('assets/js/app.js') }}" ></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+{{--<script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>--}}
 
 
 @stack('scripts')
