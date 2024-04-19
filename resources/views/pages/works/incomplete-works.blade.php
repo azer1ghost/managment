@@ -457,7 +457,7 @@
                             @can('view', $work)
                                 <a href="{{route('works.show', $work)}}"
                                    class="dropdown-item-text text-decoration-none">
-                                    <i class="fal fa-eye pr-2 text-primary"></i>@lang('translates.buttons.view')
+                                    <i class="fal fa-eye pr-2 text-primary"></i>
                                 </a>
                             @endcan
                             @if(auth()->user()->hasPermission('update-work') || $work->getAttribute('creator_id') == auth()->id() || $work->getAttribute('user_id') == auth()->id() || auth()->user()->isDeveloper() )
@@ -465,9 +465,9 @@
                                     <a href="{{route('works.edit', $work)}}"
                                        class="dropdown-item-text text-decoration-none">
                                         @if($work->getAttribute('creator_id') == auth()->id() || auth()->user()->isDeveloper() || auth()->user()->hasPermission('update-work'))
-                                            <i class="fal fa-pen pr-2 text-success"></i>@lang('translates.tasks.edit')
+                                            <i class="fal fa-pen pr-2 text-success"></i>
                                         @elseif($work->getAttribute('user_id') == auth()->id())
-                                            <i class="fal fa-arrow-right pr-2 text-success"></i>@lang('translates.buttons.execute')
+                                            <i class="fal fa-arrow-right pr-2 text-success"></i>
                                         @endif
                                     </a>
                                 @endcan
