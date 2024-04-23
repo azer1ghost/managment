@@ -18,7 +18,7 @@ class EmployeeSatisfactionCreated
     {
         $this->url = route('employee-satisfaction.show', $employeeSatisfaction);
         $this->creator = $employeeSatisfaction->getRelationValue('users');
-        $this->title = trans('translates.employee_satisfactions.incompatibility');
+        $this->title = trans('translates.employee_satisfactions.incompatibility',['types' => trans('translates.employee_satisfactions.types.' . $employeeSatisfaction->getAttribute('type'))] );
         $this->body = strip_tags($employeeSatisfaction->getAttribute('content'));
         $directors = User::where('role_id', User::DIRECTOR)->orWhere('department_id', 25)->orWhere('id', [123, 78])->get()->all();
         $department = $employeeSatisfaction->getRelationValue('departments')->users()

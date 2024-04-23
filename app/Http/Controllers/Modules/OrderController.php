@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderRequest;
+use App\Models\Client;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,7 +22,7 @@ class OrderController extends Controller
     public function store(OrderRequest $request)
     {
         $validated = $request->validated();
-        $validated['user_id'] = auth()->id();
+        $validated['client_id'] = auth('clients')->id();
         $validated['code'] = Order::generateCustomCode();
         $validated['status'] = 1;
         $validated['service'] = 'Online Transit';
@@ -64,7 +65,7 @@ class OrderController extends Controller
             'action' => null,
             'method' => null,
             'data' => $order,
-            'users' => User::get(['id', 'name']),
+            'clients' => Client::get(['id', 'name']),
             'statuses' => Order::statuses(),
         ]);
     }
@@ -75,7 +76,7 @@ class OrderController extends Controller
             'action' => route('orders.update', $order),
             'method' => 'PUT',
             'data' => $order,
-            'users' => User::get(['id', 'name']),
+            'clients' => Client::get(['id', 'name']),
             'statuses' => Order::statuses(),
         ]);
     }

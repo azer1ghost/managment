@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Modules;
 
+use App\Exports\ClientsExport;
+use App\Exports\InternalRelationsExport;
 use App\Http\{Controllers\Controller, Requests\InternalRelationRequest};
 use App\Models\{Department, InternalRelation, User};
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InternalRelationController extends Controller
 {
@@ -96,5 +99,9 @@ class InternalRelationController extends Controller
             $internalRelation->ordering = $key;
             $internalRelation->save();
         }
+    }
+    public function export(Request $request)
+    {
+        return \Maatwebsite\Excel\Excel::download(new InternalRelationsExport(), 'internal.xlsx');
     }
 }
