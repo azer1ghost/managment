@@ -102,6 +102,6 @@ class InternalRelationController extends Controller
     }
     public function export(Request $request)
     {
-        return \Maatwebsite\Excel\Excel::download(new InternalRelationsExport(), 'internal.xlsx');
+        return \Excel::download(new InternalRelationsExport(), 'internal.xlsx');
     }
 }
