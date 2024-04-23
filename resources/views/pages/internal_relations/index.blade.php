@@ -28,7 +28,7 @@
                     </div>
                 @endcan
                     <div class="col-ml-1 align-items-end">
-                            <a class="btn btn-outline-primary" href="{{route('internal-relation.export')}}">@lang('translates.buttons.export')</a>
+                            <a class="btn btn-outline-primary" href="{{route('internal-relations.export')}}">@lang('translates.buttons.export')</a>
                     </div>
                 <table class="table table-responsive-sm table-hover">
                     <thead>
