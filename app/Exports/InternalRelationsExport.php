@@ -10,8 +10,8 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 class InternalRelationsExport implements FromCollection, WithHeadings, WithMapping
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         $startDate = '2022-03-01';
@@ -19,6 +19,7 @@ class InternalRelationsExport implements FromCollection, WithHeadings, WithMappi
 
         return InternalRelation::whereBetween('created_at', [$startDate, $endDate])->get();
     }
+
     public function headings(): array
     {
         return [
@@ -29,11 +30,13 @@ class InternalRelationsExport implements FromCollection, WithHeadings, WithMappi
             'Əlaqə Saxlanılacaq Şəxs',
             'Əlaqə Vasitəsi',
             'Əlaqə Zamanı',
+            'Tamamlanma Zamanı', // done_at sütunu eklendi
         ];
     }
+
     public function map($row): array
     {
-        return[
+        return [
             $row->id,
             $row->getRelationValue('departments')->getAttribute('name'),
             $row->getAttribute('case'),
@@ -41,7 +44,7 @@ class InternalRelationsExport implements FromCollection, WithHeadings, WithMappi
             $row->getAttribute('user_id') == null ? $row->getAttribute('reciever') : $row->getRelationValue('users')->getFullnameWithPositionAttribute(),
             $row->getAttribute('tool'),
             $row->getAttribute('contact_time'),
-            $row->getAttribute('done_at'),
+            $row->getAttribute('done_at'), // done_at sütunu eklendi
         ];
     }
 }
