@@ -30,7 +30,7 @@ class InternalRelationsExport implements FromCollection, WithHeadings, WithMappi
             'Əlaqə Saxlanılacaq Şəxs',
             'Əlaqə Vasitəsi',
             'Əlaqə Zamanı',
-            'Tamamlanma Zamanı', // done_at sütunu eklendi
+            'Tamamlanma Zamanı',
         ];
     }
 
@@ -44,7 +44,7 @@ class InternalRelationsExport implements FromCollection, WithHeadings, WithMappi
             $row->getAttribute('user_id') == null ? $row->getAttribute('reciever') : $row->getRelationValue('users')->getFullnameWithPositionAttribute(),
             $row->getAttribute('tool'),
             $row->getAttribute('contact_time'),
-            $row->getAttribute('done_at'), // done_at sütunu eklendi
+            $row->getAttribute('done_at'),
         ];
     }
 }
