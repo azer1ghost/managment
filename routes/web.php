@@ -239,7 +239,7 @@ Route::group([
     Route::resource('/registration-logs', RegistrationLogController::class);
     Route::get('/cooperative-numbers', [InternalNumberController::class, 'cooperative'])->name('cooperative-numbers');
     Route::resource('/internal-relations', InternalRelationController::class);
-    Route::get('/works/export', [InternalRelationController::class, 'export'])->name('internal-relation.export');
+    Route::get('/internal-relations/export', [InternalRelationController::class, 'export'])->name('internal-relations.export');
     Route::resource('/logistic-clients', LogisticsClientController::class);
     Route::resource('/internal-documents', InternalDocumentController::class);
     Route::resource('/iso-documents', IsoDocumentController::class);
