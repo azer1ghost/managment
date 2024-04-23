@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class InternalRelation extends Model implements DocumentableInterface, Recordable
 {
-    use SoftDeletes, Documentable, Resultable, GetClassInfo, \Altek\Accountant\Recordable, Eventually;
+    use  Documentable, Resultable, GetClassInfo, \Altek\Accountant\Recordable, Eventually;
 
     protected $fillable = ['user_id', 'department_id', 'case', 'applicant', 'reciever', 'tool', 'contact_time', 'ordering', 'is_foreign'];
 
