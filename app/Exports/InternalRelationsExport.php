@@ -24,7 +24,7 @@ class InternalRelationsExport implements FromCollection, WithHeadings, WithMappi
     {
         return [
             '#',
-            'Department',
+//            'Department',
             'Əlaqə Saxlanılacaq Hal',
             'Müraciət Edən Şəxs',
             'Əlaqə Saxlanılacaq Şəxs',
@@ -38,7 +38,7 @@ class InternalRelationsExport implements FromCollection, WithHeadings, WithMappi
     {
         return [
             $row->id,
-            $row->getRelationValue('departments')->getAttribute('name'),
+//            $row->getRelationValue('departments')->getAttribute('name'),
             $row->getAttribute('case'),
             $row->getAttribute('applicant'),
             $row->getAttribute('user_id') == null ? $row->getAttribute('reciever') : $row->getRelationValue('users')->getFullnameWithPositionAttribute(),
