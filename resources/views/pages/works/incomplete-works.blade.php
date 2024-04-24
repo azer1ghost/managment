@@ -606,7 +606,9 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#table').DataTable();
+            $('#table').DataTable({
+                "pageLength": 150
+            });
         });
     </script>
 
