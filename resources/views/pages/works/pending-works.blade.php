@@ -254,14 +254,14 @@
                 <td title="{{optional($work->getAttribute('created_at'))->diffForHumans()}}" data-toggle="tooltip">{{$work->getAttribute('created_at')}}</td>
                 <td>
                     <div class="btn-sm-group d-flex align-items-center">
-                        @if($work->getAttribute('creator_id') != auth()->id() && is_null($work->getAttribute('user_id')) && !auth()->user()->isDeveloper())
-                            @can('update', $work)
-                                <a title="@lang('translates.buttons.execute')" data-toggle="tooltip" href="{{route('works.edit', $work)}}"
-                                   class="btn btn-sm btn-outline-success">
-                                    <i class="fal fa-arrow-right"></i>
-                                </a>
-                            @endcan
-                        @endif
+{{--                        @if($work->getAttribute('creator_id') != auth()->id() && is_null($work->getAttribute('user_id')) && !auth()->user()->isDeveloper())--}}
+{{--                            @can('update', $work)--}}
+{{--                                <a title="@lang('translates.buttons.execute')" data-toggle="tooltip" href="{{route('works.edit', $work)}}"--}}
+{{--                                   class="btn btn-sm btn-outline-success">--}}
+{{--                                    <i class="fal fa-arrow-right"></i>--}}
+{{--                                </a>--}}
+{{--                            @endcan--}}
+{{--                        @endif--}}
 
                             <div class="">
                                 @can('view', $work)
