@@ -29,17 +29,17 @@ class InternalRelationsExport implements FromCollection, WithHeadings, WithMappi
         ];
     }
 
-    public function map($row): array
+    public function map($internalRelation): array
     {
         return [
-            $row->id,
-            $row->getRelationValue('departments')->getAttribute('name'),
-            $row->getAttribute('case'),
-            $row->getAttribute('applicant'),
-            $row->getAttribute('user_id') == null ? $row->getAttribute('reciever') : $row->getRelationValue('users')->getFullnameWithPositionAttribute(),
-            $row->getAttribute('tool'),
-            $row->getAttribute('contact_time'),
-            $row->getAttribute('done_at'),
+            $internalRelation->id,
+            $internalRelation->departments->name,
+            $internalRelation->case,
+            $internalRelation->applicant,
+            $internalRelation->user_id == null ? $internalRelation->reciever : $internalRelation->users->getFullnameWithPositionAttribute(),
+            $internalRelation->tool,
+            $internalRelation->contact_time,
+            $internalRelation->done_at,
         ];
     }
 }
