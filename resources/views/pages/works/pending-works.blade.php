@@ -235,6 +235,18 @@
                          {{trans('translates.work_status.' . $work->getAttribute('status'))}}
                     </span>
                 </td>
+                @php
+                    $resumeDate = \Carbon\Carbon::parse($work->resume_date);
+                    $createdAt = \Carbon\Carbon::parse($work->created_at);
+
+                    $difference = $resumeDate->diffInSeconds($createdAt);
+
+                    $hours = floor($difference / 3600);
+                    $minutes = floor(($difference % 3600) / 60);
+                    $seconds = $difference % 60;
+
+                    echo sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
+                @endphp
                 <td title="{{optional($work->getAttribute('created_at'))->diffForHumans()}}" data-toggle="tooltip">{{$work->getAttribute('created_at')}}</td>
                 <td>
                     <div class="btn-sm-group d-flex align-items-center">
