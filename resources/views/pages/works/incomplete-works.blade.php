@@ -607,7 +607,7 @@
     <script>
         $(document).ready(function() {
             $('#table').DataTable({
-                "pageLength": 150
+                "paging": false
             });
         });
     </script>
