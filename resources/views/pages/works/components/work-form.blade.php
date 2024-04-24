@@ -110,22 +110,37 @@
                     </div>
                 @endif
 
-                @if($selected['department_id'])
-                    <div class="form-group col-12 col-md-6" wire:key="department-user" wire:ignore>
-                        <label for="data-user_id">@lang('translates.general.user_select')</label>
-                        <select name="user_id" id="data-user_id" class="form-control" wire:model="selected.user_id" @if(!auth()->user()->hasPermission('canRedirect-work')) disabled @endif>
-                            <option value="" selected>@lang('translates.general.user_select')</option>
+{{--                @if($selected['department_id'])--}}
+{{--                    <div class="form-group col-12 col-md-6" wire:key="department-user" wire:ignore>--}}
+{{--                        <label for="data-user_id">@lang('translates.general.user_select')</label>--}}
+{{--                        <select name="user_id" id="data-user_id" class="form-control" wire:model="selected.user_id" @if(!auth()->user()->hasPermission('canRedirect-work')) disabled @endif>--}}
+{{--                            <option value="" selected>@lang('translates.general.user_select')</option>--}}
 {{--                            <option value="{{ auth()->id() }}">{{  auth()->user()->name . ' ' . auth()->user()->surname }}</option>--}}
-                            @foreach($users ?? [] as $user)
-                                @php($position = $user['position']['name'][app()->getLocale()] ?? ($user['position']['name']['en'] ?? ''))
-                                <option value="{{ $user['id'] }}">{{ $user['name'] . ' ' . $user['surname'] . "($position)"}}</option>
-                            @endforeach
-                        </select>
-                        @if(!auth()->user()->hasPermission('canRedirect-work'))
-                            <input type="hidden" wire:model="selected.user_id" name="user_id">
+{{--                            @foreach($users ?? [] as $user)--}}
+{{--                                @php($position = $user['position']['name'][app()->getLocale()] ?? ($user['position']['name']['en'] ?? ''))--}}
+{{--                                <option value="{{ $user['id'] }}">{{ $user['name'] . ' ' . $user['surname'] . "($position)"}}</option>--}}
+{{--                            @endforeach--}}
+{{--                        </select>--}}
+{{--                        @if(!auth()->user()->hasPermission('canRedirect-work'))--}}
+{{--                            <input type="hidden" wire:model="selected.user_id" name="user_id">--}}
+{{--                        @endif--}}
+{{--                    </div>--}}
+{{--                @endif--}}
+                        @if($selected['department_id'])
+                            <div class="form-group col-12 col-md-6" wire:key="department-user" wire:ignore>
+                                <label for="data-user_id">@lang('translates.general.user_select')</label>
+                                <select name="user_id" id="data-user_id" class="form-control" @if(!auth()->user()->hasPermission('canRedirect-work')) disabled @endif>
+                                    <option value="" selected>@lang('translates.general.user_select')</option>
+                                    @foreach($users ?? [] as $user)
+                                        @php($position = $user['position']['name'][app()->getLocale()] ?? ($user['position']['name']['en'] ?? ''))
+                                        <option value="{{ $user['id'] }}">{{ $user['name'] . ' ' . $user['surname'] . "($position)"}}</option>
+                                    @endforeach
+                                </select>
+                                @if(!auth()->user()->hasPermission('canRedirect-work'))
+
+                                @endif
+                            </div>
                         @endif
-                    </div>
-                @endif
 
                 @if($this->service->getAttribute('has_asan_imza') && $method != 'POST')
                     <div class="form-group col-12 col-md-6" wire:key="asan-imza" wire:ignore>
