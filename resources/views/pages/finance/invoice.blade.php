@@ -360,6 +360,8 @@
                                 <option>Gömrük təmsilçiliyi xidməti</option>
                                 <option>Etibarnamənin tərtib olunması</option>
                                 <option>Anbar və Terminal ödənişi</option>
+                                <option>Elektron Qısa İdxal GB-nin tərtib olunması xidməti (Əsas Vərəq)</option>
+                                <option>Elektron Qısa İdxal GB-nin tərtib olunması xidməti (Əlavə Vərəq)</option>
                             </select>
                         </td>
                         <td>Ədəd</td>
