@@ -606,9 +606,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#table').DataTable({
-                "paging": false
-            });
+            $('#table').DataTable();
         });
     </script>
 
