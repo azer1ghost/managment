@@ -766,7 +766,7 @@ return [
         'Geri Qaytarıldı',
         'Arxivləşdirildi',
         'Tamamlandı',
-        'Qəbul edilməyib',
+        'Dayandırılıb',
         'Laboratoriyada',
     ],
 

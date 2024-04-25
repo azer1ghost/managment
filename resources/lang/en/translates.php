@@ -757,7 +757,7 @@ return [
         'Returned',
         'Archived',
         'Done',
-        'Rejected',
+        'Stopped',
         'in the laboratory',
     ],
     'work_destination' => [
