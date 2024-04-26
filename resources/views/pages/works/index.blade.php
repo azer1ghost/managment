@@ -541,17 +541,13 @@
                                         <i class="fal fa-eye pr-2 text-primary"></i>@lang('translates.buttons.view')
                                     </a>
                                 @endcan
-                                @if(auth()->user()->hasPermission('update-work') || $work->getAttribute('creator_id') == auth()->id() || $work->getAttribute('user_id') == auth()->id() || auth()->user()->isDeveloper() )
-                                    @can('update', $work)
-                                        <a href="{{route('works.edit', $work)}}" class="dropdown-item-text text-decoration-none">
-                                            @if($work->getAttribute('creator_id') == auth()->id() || auth()->user()->isDeveloper() || auth()->user()->hasPermission('update-work'))
+                                    @if($work->getAttribute('creator_id') == auth()->id() || auth()->user()->isDeveloper() || auth()->id() == $work->getAttribute('user_id') || auth()->user()->hasPermission('canRedirect-work') )
+                                        @can('update', $work)
+                                            <a href="{{route('works.edit', $work)}}" class="dropdown-item-text text-decoration-none">
                                                 <i class="fal fa-pen pr-2 text-success"></i>@lang('translates.tasks.edit')
-                                            @elseif($work->getAttribute('user_id') == auth()->id())
-                                                <i class="fal fa-arrow-right pr-2 text-success"></i>@lang('translates.buttons.execute')
-                                            @endif
-                                        </a>
-                                    @endcan
-                                @endif
+                                            </a>
+                                        @endcan
+                                    @endif
                                 @if(auth()->user()->hasPermission('canVerify-work') && in_array(optional($work)->getAttribute('status') , [3,4,6]) && is_null($work->getAttribute('verified_at')))
                                     <a href="{{route('works.verify', $work)}}" verify data-name="{{$work->getAttribute('code')}}" class="dropdown-item-text text-decoration-none">
                                         <i class="fal fa-check pr-2 text-success"></i>@lang('translates.buttons.verify')
