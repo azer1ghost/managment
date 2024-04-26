@@ -114,7 +114,7 @@
                     <div class="form-group col-12 col-md-6" wire:key="department-user" wire:ignore>
                         <label for="data-user_id">@lang('translates.general.user_select')</label>
                         <select name="user_id" id="data-user_id" class="form-control"
-                                @if(!is_null($data->getAttribute('user_id'))) wire:model="selected.user_id" @endif
+                                @if(!is_null(optional($data)->getAttribute('user_id'))) wire:model="selected.user_id" @endif
                                 @if(!auth()->user()->hasPermission('canRedirect-work')) disabled @endif
                         >
                             <option value="" selected>@lang('translates.general.user_select')</option>
