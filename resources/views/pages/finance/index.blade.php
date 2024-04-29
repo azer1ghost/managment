@@ -192,6 +192,7 @@
                                 <option>Anbar və Terminal ödənişi</option>
                                 <option>Elektron Qısa İdxal GB-nin tərtib olunması xidməti (Əsas Vərəq)</option>
                                 <option>Elektron Qısa İdxal GB-nin tərtib olunması xidməti (Əlavə Vərəq)</option>
+                                <option>Sadələşdirilmiş Bəyannamə</option>
                             </select>
                         </td>
                         <td>Ədəd</td>
