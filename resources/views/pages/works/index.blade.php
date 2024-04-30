@@ -191,6 +191,19 @@
                             </select>
                         </div>
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="destinationFilter">{{trans('translates.general.destination_choose')}}</label>
+                            <select name="destination" id="destinationFilter" class="form-control" style="width: 100% !important;">
+                                <option value="">@lang('translates.filters.select')</option>
+                                @foreach($destinations as $destination)
+                                    <option value="{{$destination}}"
+                                            @if($destination == $filters['destination']) selected @endif>
+                                        @lang('translates.work_destination.' . $destination)
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="createdAtFilter">{{trans('translates.fields.created_at')}}</label>
                             <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
                             <input type="checkbox" name="check-created_at" id="check-created_at" @if(request()->has('check-created_at')) checked @endif> <label for="check-created_at">@lang('translates.filters.filter_by')</label>
