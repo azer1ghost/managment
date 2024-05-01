@@ -363,6 +363,7 @@
                                 <option>Elektron Qısa İdxal GB-nin tərtib olunması xidməti (Əsas Vərəq)</option>
                                 <option>Elektron Qısa İdxal GB-nin tərtib olunması xidməti (Əlavə Vərəq)</option>
                                 <option>Sadələşdirilmiş Bəyannamə</option>
+                                <option>Gömrükxana xidməti və Elektron Gömrük Bəyannamələrinin tərtib olunması</option>
                             </select>
                         </td>
                         <td>Ədəd</td>
