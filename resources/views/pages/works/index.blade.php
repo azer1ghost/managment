@@ -455,7 +455,7 @@
                                     $color = 'dark';
                                     break;
                                 case(6):
-                                    $color = 'white';
+                                    $color = '';
                                     break;
                                 case(7):
                                     $color = 'success';
@@ -469,7 +469,7 @@
                             }
                         @endphp
                     @endif
-                    <span class="badge badge-{{$color}}" style="font-size: 12px">
+                    <span  @if( $work->getAttribute('status') == '6' ) class="badge" style="font-size: 12px; background-color: #8A2BE2 !important;color: white"@else class="badge badge-{{$color}} " style="font-size: 12px" @endif  >
                          {{trans('translates.work_status.' . $work->getAttribute('status'))}}
                     </span>
                 </td>
