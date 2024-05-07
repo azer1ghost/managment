@@ -70,6 +70,10 @@ class InquiryController extends Controller
         $sources  = Parameter::where('name', 'source')->first()->options->unique();
         $statuses  = Parameter::where('name', 'status')->first()->options->unique();
         $companies = Company::isInquirable()->get();
+        $tasks = [];
+        foreach ($inquiries as $inquiry) {
+            $tasks[$inquiry->id] = $this->getTaskData($inquiry->id);
+        }
 
         $users = User::has('inquiries');
         if (Inquiry::userCanViewAll()){
@@ -152,7 +156,8 @@ class InquiryController extends Controller
                 'users',
                 'trashBox',
                 'daterange',
-                'departments'
+                'departments',
+                'tasks'
             )
         );
     }
@@ -384,6 +389,14 @@ class InquiryController extends Controller
         }
 
         return response('',204);
+    }
+    public function getTaskData($inquiryId)
+    {
+        $inquiry = Inquiry::findOrFail($inquiryId);
+
+        $task = $inquiry->task()->first();
+
+        return $task;
     }
 
 }
