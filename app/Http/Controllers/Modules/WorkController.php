@@ -776,9 +776,9 @@ class WorkController extends Controller
         $replace = array('C', 'c', 'G', 'g', 'i', 'I', 'O', 'o', 'S', 's', 'U', 'u', 'E', 'e');
         $serviceName = str_replace($search, $replace, $serviceText);
         $clientName = str_replace($search, $replace, $clientText);
-        $message = 'Deyerli ' . $clientName . ' sizin ' . $serviceName . ' uzre isiniz tamamlandi. ' . $work->getAttribute('created_at')->format('d/m/y') . ' https://my.mobilgroup.az/cs?url=mb-sat -linke kecid ederek xidmet keyfiyyetini deyerlendirmeyinizi xahis edirik!';
+        $message = 'Deyerli ' . $clientName . ' sizin ' . $serviceName . ' uzre isiniz buraxilisdadir. ' . $work->getAttribute('created_at')->format('d/m/y') . ' https://my.mobilgroup.az/cs?url=mb-sat -linke kecid ederek xidmet keyfiyyetini deyerlendirmeyinizi xahis edirik!';
 
-        if ($request->status == $work::DONE && $client->getAttribute('send_sms') == 1) {
+        if ($request->status == $work::ARCHIVE && $client->getAttribute('send_sms') == 1) {
             if (!empty($client->getAttribute('phone1'))) {
                 (new NotifyClientSms($message))->toSms($client)->send();
             }
