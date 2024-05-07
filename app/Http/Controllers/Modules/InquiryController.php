@@ -157,7 +157,7 @@ class InquiryController extends Controller
                 'trashBox',
                 'daterange',
                 'departments',
-                'tasks'
+//                'tasks'
             )
         );
     }
