@@ -16,7 +16,7 @@ class InquiriesExport implements FromCollection, WithHeadings, WithMapping
         $startDate = '2024-04-03';
         $endDate = '2024-04-30';
 
-        return Inquiry::where('user_id', 102)
+        return Inquiry::where('user_id', 187)
             ->whereBetween('created_at', [$startDate, $endDate])
             ->get();
     }

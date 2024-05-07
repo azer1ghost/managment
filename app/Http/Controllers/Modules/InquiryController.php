@@ -70,10 +70,10 @@ class InquiryController extends Controller
         $sources  = Parameter::where('name', 'source')->first()->options->unique();
         $statuses  = Parameter::where('name', 'status')->first()->options->unique();
         $companies = Company::isInquirable()->get();
-        $tasks = [];
-        foreach ($inquiries as $inquiry) {
-            $tasks[$inquiry->id] = $this->getTaskData($inquiry->id);
-        }
+//        $tasks = [];
+//        foreach ($inquiries as $inquiry) {
+//            $tasks[$inquiry->id] = $this->getTaskData($inquiry->id);
+//        }
 
         $users = User::has('inquiries');
         if (Inquiry::userCanViewAll()){
