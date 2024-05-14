@@ -23,7 +23,7 @@ class EmployeeSatisfactionUpdated
             'types' => trans('translates.employee_satisfactions.types.' . $employeeSatisfaction->getAttribute('type'))
         ]);
 
-        $receiversIds = $employeeSatisfaction->getAttribute('users');
-        $this->receivers = User::whereIn('id', $receiversIds)->get()->toArray();
+
+        $this->receivers = User::whereIn('id', $employeeSatisfaction->getAttribute('user_id'))->get();
     }
 }

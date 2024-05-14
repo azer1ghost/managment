@@ -124,7 +124,7 @@ class EmployeeSatisfactionController extends Controller
         $employeeSatisfaction->update($validated);
 
 //        if ($employeeSatisfaction -> getAttribute('note') !== null) {
-            event(new EmployeeSatisfactionUpdated($employeeSatisfaction));
+        event(new EmployeeSatisfactionUpdated($employeeSatisfaction));
 //        }
 
         return back()->withNotify('info', $employeeSatisfaction->getAttribute('name'));
