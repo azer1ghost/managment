@@ -123,9 +123,9 @@ class EmployeeSatisfactionController extends Controller
         $validated['is_enough'] = $request->has('is_enough');
         $employeeSatisfaction->update($validated);
 
-        if ($employeeSatisfaction -> getAttribute('note') !== null) {
+//        if ($employeeSatisfaction -> getAttribute('note') !== null) {
             event(new EmployeeSatisfactionUpdated($employeeSatisfaction));
-        }
+//        }
 
         return back()->withNotify('info', $employeeSatisfaction->getAttribute('name'));
     }
