@@ -11,7 +11,7 @@ class EmployeeSatisfactionUpdated
     use Dispatchable;
 
     public User $creator;
-    public array $receiver;
+    public $receiver;
     public string $title, $body = '', $url;
 
     public function __construct(EmployeeSatisfaction $employeeSatisfaction)
