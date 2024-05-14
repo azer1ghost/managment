@@ -11,7 +11,7 @@ class EmployeeSatisfactionUpdated
     use Dispatchable;
 
     public User $creator;
-    public array $receivers = [];
+    public array $receiver;
     public string $title, $body = '', $url;
 
     public function __construct(EmployeeSatisfaction $employeeSatisfaction)
@@ -24,6 +24,6 @@ class EmployeeSatisfactionUpdated
         ]);
 
 
-        $this->receivers = User::where('id', $employeeSatisfaction->getAttribute('user_id'))->get();
+        $this->receiver = User::where('id', $employeeSatisfaction->getAttribute('user_id'))->get();
     }
 }
