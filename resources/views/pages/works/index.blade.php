@@ -473,18 +473,6 @@
                          {{trans('translates.work_status.' . $work->getAttribute('status'))}}
                     </span>
                 </td>
-{{--                    <td>--}}
-{{--                        <div class="timer">--}}
-{{--                            <span class="hour">00</span>:<span class="minute">00</span>:<span class="second">10</span>--}}
-{{--                        </div>--}}
-{{--                        <div class="control">--}}
-{{--                            <button onClick="timer.start(1000)">Start</button>--}}
-{{--                            <button onClick="timer.stop()">Stop</button>--}}
-{{--                            <button onClick="timer.reset(60)">Reset</button>--}}
-{{--                            <button onClick="timer.mode(1)">Count up</button>--}}
-{{--                            <button onClick="timer.mode(0)">Count down</button>--}}
-{{--                        </div>--}}
-{{--                    </td>--}}
                     <td>
                         @if($work->getAttribute('destination') === null)
                             Təyinat orqanı boşdur

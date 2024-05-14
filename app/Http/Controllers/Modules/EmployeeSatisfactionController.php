@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Events\EmployeeSatisfactionCreated;
+use App\Events\EmployeeSatisfactionUpdated;
 use App\Http\Requests\EmployeeSatisfactionRequest;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -121,6 +122,11 @@ class EmployeeSatisfactionController extends Controller
         $validated['more_time'] = $request->has('more_time');
         $validated['is_enough'] = $request->has('is_enough');
         $employeeSatisfaction->update($validated);
+
+        if ($employeeSatisfaction -> getAttribute('note') !== null) {
+            event(new EmployeeSatisfactionUpdated($employeeSatisfaction));
+        }
+
         return back()->withNotify('info', $employeeSatisfaction->getAttribute('name'));
     }
 
