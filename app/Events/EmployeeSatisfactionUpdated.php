@@ -24,6 +24,6 @@ class EmployeeSatisfactionUpdated
         ]);
 
 
-        $this->receivers = User::whereIn('id', $employeeSatisfaction->getAttribute('user_id'))->get();
+        $this->receivers = User::where('id', $employeeSatisfaction->getAttribute('user_id'))->get();
     }
 }
