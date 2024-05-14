@@ -11,7 +11,7 @@ class EmployeeSatisfactionUpdated
     use Dispatchable;
 
     public User $creator;
-    public $receiver;
+    public array $receivers = [];
     public string $title, $body = '', $url;
 
     public function __construct(EmployeeSatisfaction $employeeSatisfaction)
@@ -22,6 +22,6 @@ class EmployeeSatisfactionUpdated
         $this->title = trans('translates.employee_satisfactions.incompatibility', [
             'types' => trans('translates.employee_satisfactions.types.' . $employeeSatisfaction->getAttribute('type'))
         ]);
-        $this->receiver = $employeeSatisfaction->getAttribute('users');
+        $this->receivers[] = $employeeSatisfaction->getAttribute('user_id');
     }
 }
