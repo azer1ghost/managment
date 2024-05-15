@@ -19,9 +19,7 @@ class EmployeeSatisfactionUpdated
         $this->url = route('employee-satisfaction.show', $employeeSatisfaction);
         $this->creator = $employeeSatisfaction->getAttribute('users');
         $this->body = $employeeSatisfaction->getAttribute('note');
-        $this->title = trans('translates.employee_satisfactions.incompatibility', [
-            'types' => trans('translates.employee_satisfactions.types.' . $employeeSatisfaction->getAttribute('type'))
-        ]);
+        $this->title = 'Məmnuniyyət sorğunuz cavablandırılıb';
         $this->receivers[] = $employeeSatisfaction->getAttribute('users');
     }
 }
