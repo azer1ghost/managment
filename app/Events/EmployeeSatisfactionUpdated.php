@@ -22,6 +22,6 @@ class EmployeeSatisfactionUpdated
         $this->title = trans('translates.employee_satisfactions.incompatibility', [
             'types' => trans('translates.employee_satisfactions.types.' . $employeeSatisfaction->getAttribute('type'))
         ]);
-        $this->receivers[] = $employeeSatisfaction->getAttribute('user_id');
+        $this->receivers[] = $employeeSatisfaction->getAttribute('users');
     }
 }
