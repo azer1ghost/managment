@@ -14,7 +14,7 @@ class TasksExport implements FromCollection, WithHeadings, WithMapping
     */
     public function collection()
     {
-        $startDate = '2024-05-01';
+        $startDate = '2024-04-01';
         $endDate = '2024-05-31';
 
         return Task::whereBetween('created_at', [$startDate, $endDate])->where('user_id',187)->get();
