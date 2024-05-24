@@ -385,36 +385,36 @@ class Sidebar extends Component
                         'url' => route('inquiry.sales'),
                         'permission' => 'viewAny-salesInquiry',
                     ],
-                    (object)[
-                        'title' => __('translates.navbar.barcode'),
-                        'icon' => 'fal fa-barcode',
-                        'url' => route('barcode.index'),
-                        'permission' => 'viewAny-barcode',
-                    ],
-                    (object)[
-                        'title' => __('translates.navbar.sales_activities'),
-                        'icon' => 'fas fa-chart-line',
-                        'url' => route('sales-activities.index'),
-                        'permission' => 'viewAny-salesActivity',
-                    ],
-                    (object)[
-                        'title' => __('translates.navbar.sales_activities_type'),
-                        'icon' => 'fas fa-chart-line',
-                        'url' => route('sales-activities-types.index'),
-                        'permission' => 'viewAny-salesActivityType',
-                    ],
-                    (object)[
-                        'title' => __('translates.navbar.organization'),
-                        'icon' => 'fal fa-house',
-                        'url' => route('organizations.index'),
-                        'permission' => 'viewAny-organization',
-                    ],
-                    (object)[
-                        'title' => __('translates.navbar.certificate'),
-                        'icon' => 'far fa-file-certificate',
-                        'url' => route('certificates.index'),
-                        'permission' => 'viewAny-certificate',
-                    ],
+//                    (object)[
+//                        'title' => __('translates.navbar.barcode'),
+//                        'icon' => 'fal fa-barcode',
+//                        'url' => route('barcode.index'),
+//                        'permission' => 'viewAny-barcode',
+//                    ],
+//                    (object)[
+//                        'title' => __('translates.navbar.sales_activities'),
+//                        'icon' => 'fas fa-chart-line',
+//                        'url' => route('sales-activities.index'),
+//                        'permission' => 'viewAny-salesActivity',
+//                    ],
+//                    (object)[
+//                        'title' => __('translates.navbar.sales_activities_type'),
+//                        'icon' => 'fas fa-chart-line',
+//                        'url' => route('sales-activities-types.index'),
+//                        'permission' => 'viewAny-salesActivityType',
+//                    ],
+//                    (object)[
+//                        'title' => __('translates.navbar.organization'),
+//                        'icon' => 'fal fa-house',
+//                        'url' => route('organizations.index'),
+//                        'permission' => 'viewAny-organization',
+//                    ],
+//                    (object)[
+//                        'title' => __('translates.navbar.certificate'),
+//                        'icon' => 'far fa-file-certificate',
+//                        'url' => route('certificates.index'),
+//                        'permission' => 'viewAny-certificate',
+//                    ],
                 ]
             ],
 
