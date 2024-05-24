@@ -30,6 +30,7 @@ class TasksExport implements FromCollection, WithHeadings, WithMapping
             'Şöbə',
             'İstifadəçi',
             'Son tarix',
+            'Bitme',
             'Nəticə'
         ];
     }
