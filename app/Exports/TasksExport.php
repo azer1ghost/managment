@@ -29,7 +29,6 @@ class TasksExport implements FromCollection, WithHeadings, WithMapping
             'Tapşırıq verən',
             'Şöbə',
             'İstifadəçi',
-            'Bitme Tarixi',
             'Nəticə'
         ];
     }
@@ -46,7 +45,6 @@ class TasksExport implements FromCollection, WithHeadings, WithMapping
             $row->getRelationValue('user')->getAttribute('fullname_with_position'),
             $row->taskable->getClassShortName() == 'department' ? $row->taskable->getAttribute('name') : $row->taskable->getRelationValue('department')->getAttribute('name'),
             $row->taskable->getClassShortName() == 'user' ? $row->taskable->getAttribute('fullname_with_position'):
-            $row->getAttribute('done_at'),
             $content,
         ];
     }
