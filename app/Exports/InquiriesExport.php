@@ -3,22 +3,22 @@
 namespace App\Exports;
 
 use App\Models\Inquiry;
+use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
 class InquiriesExport implements FromQuery, WithHeadings, WithMapping
-
-
 {
-    protected $filters;
-    protected $parameterFilters;
-    public function __construct($filters, $parameterFilters)
-    {
+    use Exportable;
+
+    protected array $filters = [], $parameterFilters = [];
+
+    public function __construct(array $filters = [], array $parameterFilters = []){
         $this->filters = $filters;
         $this->parameterFilters = $parameterFilters;
-    }
 
+    }
     public function query()
     {
         $query = Inquiry::query();
@@ -30,17 +30,6 @@ class InquiriesExport implements FromQuery, WithHeadings, WithMapping
                 $query->where($field, 'LIKE', "%{$value}%");
             }
         }
-
-        foreach ($this->parameterFilters as $field => $value) {
-            if (!empty($value)) {
-                $query->whereHas('parameters', function ($q) use ($field, $value) {
-                    $q->where('name', $field)->whereIn('value', $value);
-                });
-            }
-        }
-
-        $result = $query->get(); // Bu satırı ekleyin
-        dd($result); // Bu satırı ekleyin
 
         return $query;
     }
@@ -64,7 +53,9 @@ class InquiriesExport implements FromQuery, WithHeadings, WithMapping
 
     public function map($row): array
     {
-        $output = [
+        $note = $row->getAttribute('note');
+
+        return [
             $row->id,
             optional($row->getParameter('fullname'))->getAttribute('value'),
             optional($row->getParameter('phone'))->getAttribute('value'),
@@ -74,12 +65,8 @@ class InquiriesExport implements FromQuery, WithHeadings, WithMapping
             optional($row->getParameter('contact_method'))->getAttribute('text'),
             optional($row->getParameter('source'))->getAttribute('text'),
             optional($row->getParameter('status'))->getAttribute('text'),
-            $row->note,
-            $row->created_at,
+            $note,
+            $row->getAttribute('created_at'),
         ];
-
-        dd($output); // Bu satırı ekleyin
-
-        return $output;
     }
 }

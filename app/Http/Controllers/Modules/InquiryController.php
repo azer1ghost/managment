@@ -15,8 +15,6 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Excel as ExcelService;
-use Maatwebsite\Excel\Facades\Excel;
 
 class InquiryController extends Controller
 {
@@ -249,24 +247,9 @@ class InquiryController extends Controller
                 'backUrl' => $backUrl
             ]);
     }
-    public function export(Request $request, ExcelService $excel)
+    public function export()
     {
-        $filters = [
-            'code'       => $request->get('code'),
-            'note'       => $request->get('note'),
-            'company_id' => $request->get('company') == null ? [] : explode(',', $request->get('company')),
-            'department_id' => $request->get('department'),
-            'user_id'    => $request->get('user'),
-            'is_out'     => $request->get('is_out'),
-        ];
-        $parameterFilters = [
-            'subject' => [],
-            'status' => [],
-            'contact_method' => [],
-            'source' => [],
-            'search_client' => null
-        ];
-        return $excel->download(new InquiriesExport($filters, $parameterFilters), 'inquiries.xlsx');
+        return \Excel::download(new InquiriesExport(), 'inquiries.xlsx');
     }
 
     public function update(InquiryRequest $request, Inquiry $inquiry): RedirectResponse
