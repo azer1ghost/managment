@@ -3,22 +3,43 @@
 namespace App\Exports;
 
 use App\Models\Inquiry;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class InquiriesExport implements FromCollection, WithHeadings, WithMapping
+class InquiriesExport implements FromQuery, WithHeadings, WithMapping
 
 
 {
-    public function collection()
+    protected $filters;
+    protected $parameterFilters;
+    public function __construct($filters, $parameterFilters)
     {
-        $startDate = '2024-04-03';
-        $endDate = '2024-04-30';
+        $this->filters = $filters;
+        $this->parameterFilters = $parameterFilters;
+    }
 
-        return Inquiry::where('user_id', 187)
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->get();
+    public function query()
+    {
+        $query = Inquiry::query();
+
+        foreach ($this->filters as $field => $value) {
+            if (is_array($value)) {
+                $query->whereIn($field, $value);
+            } else if ($value !== null) {
+                $query->where($field, 'LIKE', "%{$value}%");
+            }
+        }
+
+        foreach ($this->parameterFilters as $field => $value) {
+            if (!empty($value)) {
+                $query->whereHas('parameters', function ($q) use ($field, $value) {
+                    $q->where('name', $field)->whereIn('value', $value);
+                });
+            }
+        }
+
+        return $query;
     }
 
     public function headings(): array
