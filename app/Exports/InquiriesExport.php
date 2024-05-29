@@ -39,6 +39,9 @@ class InquiriesExport implements FromQuery, WithHeadings, WithMapping
             }
         }
 
+        $result = $query->get(); // Bu satırı ekleyin
+        dd($result); // Bu satırı ekleyin
+
         return $query;
     }
 
@@ -61,9 +64,7 @@ class InquiriesExport implements FromQuery, WithHeadings, WithMapping
 
     public function map($row): array
     {
-        $note = $row->getAttribute('note');
-
-        return [
+        $output = [
             $row->id,
             optional($row->getParameter('fullname'))->getAttribute('value'),
             optional($row->getParameter('phone'))->getAttribute('value'),
@@ -73,8 +74,12 @@ class InquiriesExport implements FromQuery, WithHeadings, WithMapping
             optional($row->getParameter('contact_method'))->getAttribute('text'),
             optional($row->getParameter('source'))->getAttribute('text'),
             optional($row->getParameter('status'))->getAttribute('text'),
-            $note,
-            $row->getAttribute('created_at'),
+            $row->note,
+            $row->created_at,
         ];
+
+        dd($output); // Bu satırı ekleyin
+
+        return $output;
     }
 }
