@@ -55,11 +55,9 @@ class ClientController extends Controller
 
     public function export(Request $request)
     {
-//        $filters = json_decode($request->get('filters'), true);
-//
-//        return  (new ClientsExport($this->clientRepository, $filters))->download('clients.xlsx');
+        $filters = json_decode($request->get('filters'), true);
 
-        return \Excel::download(new ClientsExport(), 'clients.xlsx');
+        return Excel::download(new ClientsExport($this->clientRepository, $filters), 'clients.xlsx');
     }
 
     public function index(Request $request)
