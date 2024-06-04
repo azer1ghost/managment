@@ -212,7 +212,7 @@ class Sidebar extends Component
                         'title' => trans('translates.navbar.creditor'),
                         'icon' => 'fas fa-money-check-edit-alt',
                         'url' => route('creditors.index'),
-                        'permission' => 'view-creditor',
+                        'permission' => 'viewAny-creditor',
                     ],
                     (object)[
                         'title' => trans('translates.navbar.accounts'),
