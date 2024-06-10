@@ -20,6 +20,7 @@ class InquiryForm extends Component
 
     public ?string $action = null, $method = null;
     public ?string $backUrl;
+    public ?string $type;
 
     public ?Inquiry $inquiry;
     public Carbon $datetime;
@@ -33,6 +34,8 @@ class InquiryForm extends Component
     public function mount()
     {
         $this->companies = Company::isInquirable()->get();
+        $this->type = request('type');
+
 
         $this->datetime = $this->inquiry->getAttribute('datetime') ?? now();
         $this->note = $this->inquiry->getAttribute('note');

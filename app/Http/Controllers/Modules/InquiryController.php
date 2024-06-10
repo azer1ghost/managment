@@ -65,15 +65,13 @@ class InquiryController extends Controller
         [$from, $to] = explode(' - ', $daterange);
 
         $departments  =  Department::has('inquiries')->get(['id', 'name']);
-        $subjects  =  Parameter::where('name', 'subject')->first()->options->unique();
-        $contact_methods = Parameter::where('name', 'contact_method')->first()->options->unique();
-        $sources  = Parameter::where('name', 'source')->first()->options->unique();
-        $statuses  = Parameter::where('name', 'status')->first()->options->unique();
+        $subjects = optional(optional(Parameter::where('name', 'subject')->first())->options)->unique() ?? collect();
+        $contact_methods = optional(optional(Parameter::where('name', 'contact_method')->first())->options)->unique() ?? collect();
+        $sources = optional(optional(Parameter::where('name', 'source')->first())->options)->unique() ?? collect();
+        $statuses = optional(optional(Parameter::where('name', 'status')->first())->options)->unique() ?? collect();
+
         $companies = Company::isInquirable()->get();
-//        $tasks = [];
-//        foreach ($inquiries as $inquiry) {
-//            $tasks[$inquiry->id] = $this->getTaskData($inquiry->id);
-//        }
+
 
         $users = User::has('inquiries');
         if (Inquiry::userCanViewAll()){
@@ -145,6 +143,9 @@ class InquiryController extends Controller
         else {
             $inquiries = $inquiries->get();
         }
+
+        $types = Inquiry::types();
+
         return view('pages.inquiry.index',
             compact(
                 'inquiries',
@@ -157,7 +158,7 @@ class InquiryController extends Controller
                 'trashBox',
                 'daterange',
                 'departments',
-//                'tasks'
+                'types'
             )
         );
     }

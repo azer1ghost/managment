@@ -32,6 +32,31 @@
         </div>
     @endif
 
+        @if($type == \App\Enums\InquiryType::CLIENT || $inquiry->getAttribute('client_id'))
+            <p>herkese salam </p>
+            <div class="form-group col-12 col-md-6" >
+                <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
+                <div class="d-flex align-items-center">
+                    <select name="client_id" id="data-client-type" data-url="{{route('clients.search')}}" class="custom-select2" style="width: 100% !important;" required>
+                        @if(is_numeric(optional($inquiry)->getAttribute('client_id')))
+                            <option class="@if(optional($inquiry)->getRelationValue('client')->getAttribute('active') == 1) text-danger @endif"  value="{{optional($inquiry)->getAttribute('client_id')}}">{{optional($inquiry)->getRelationValue('client')->getAttribute('fullname_with_voen')}}</option>
+                        @endif
+                    </select>
+                    @if(is_numeric(optional($inquiry)->getAttribute('client_id')))
+                        @can('update', \App\Models\Client::find(optional($inquiry)->getAttribute('client_id')))
+                            <a target="_blank" href="{{route('clients.edit', optional($inquiry)->getAttribute('client_id'))}}" class="btn btn-outline-primary ml-3">
+                                <i class="fa fa-pen"></i>
+                            </a>
+                        @endcan
+                    @endif
+
+                    <a target="_blank" href="{{route('clients.create', ['type' => \App\Models\Client::PHYSICAL])}}" class="btn btn-outline-success ml-1">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+        @endif
+
     @csrf @method($method)
 
     <div wire:loading.delay class="col-12">

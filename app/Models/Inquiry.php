@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Altek\Accountant\Contracts\Recordable;
 use Altek\Eventually\Eventually;
+use App\Enums\InquiryType;
 use App\Interfaces\DocumentableInterface;
 use App\Traits\Documentable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -195,6 +196,16 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
 
     public function client(): BelongsTo
     {
-        return $this->belongsTo(SalesClient::class, 'client_id')->withDefault();
+        return $this->belongsTo(Client::class, 'client_id')->withDefault();
+    }
+    public static function types()
+    {
+        return [
+            InquiryType::CLIENT => trans('translates.inquiries.types.0'),
+            InquiryType::COLLABORATION => trans('translates.inquiries.types.1'),
+            InquiryType::VENDOR => trans('translates.inquiries.types.2'),
+            InquiryType::PARTNER => trans('translates.inquiries.types.3'),
+            InquiryType::VACANCY => trans('translates.inquiries.types.4'),
+        ];
     }
 }

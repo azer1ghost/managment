@@ -146,55 +146,70 @@
             </div>
         </div>
 
-        <div class="col-12">
-            <table class="table table-responsive-sm table-hover">
-                <thead>
-                    <tr>
-                        @if(auth()->user()->hasPermission('canAssignUsers-client'))
-                            <th><input aria-label="check" type="checkbox" id="clients-all"></th>
-                        @endif
-                        <th scope="col">#</th>
-                        <th scope="col">@lang('translates.columns.type')</th>
-                        <th scope="col">@lang('translates.columns.company')</th>
-                        <th scope="col">@lang('translates.columns.creator')</th>
-
-                        <th scope="col">@lang('translates.columns.full_name')</th>
-                        @if(auth()->user()->hasPermission('viewAll-client'))
-                            <th scope="col">@lang('translates.fields.detail')</th>
-                            <th scope="col">@lang('translates.columns.email')</th>
-                            <th scope="col">@lang('translates.columns.phone')</th>
-                        @endif
-                        <th scope="col">VOEN/GOOEN</th>
-                        <th scope="col">@lang('translates.navbar.document')</th>
-                        @if(auth()->user()->hasPermission('viewAll-client'))
-                            <th scope="col">@lang('translates.columns.actions')</th>
-                        @endif
-                    </tr>
-                    </thead>
-                <tbody>
-                    @forelse($clients as $client)
-{{--                        @dd()--}}
-                        <tr data-toggle="collapse" data-target="#client-demo{{$client->getAttribute('id')}}" class="accordion-toggle" @if(\App\Models\Client::userCanViewAll())
-                                title="@foreach($client->coordinators as $user) {{$user->getAttribute('fullname')}} @if(!$loop->last),@endif @endforeach"
-                                data-toggle="tooltip"
-                            @endif>
-                            @if(auth()->user()->hasPermission('canAssignUsers-client'))
-                                <td><input type="checkbox" name="clients[]" value="{{$client->getAttribute('id')}}" id="data-checkbox-{{$client->getAttribute('id')}}"></td>
-                            @endif
-                            <th scope="row">{{$loop->iteration}}</th>
-                            <td>@lang("translates.clients_type." . $client->getAttribute('type'))</td>
-                                <td>@foreach($client->companies as $company) {{$company->getAttribute('name')}} @if(!$loop->last),@endif @endforeach</td>
-                                <td>{{$client->getRelationValue('users')->getAttribute('id') ? $client->getRelationValue('users')->getAttribute('fullname_with_position') : 'Toğrul Surxayzadə-(Hüquqşünas)'}}</td>
-{{--                                <td>{{$client->getAttribute('coordinators')}}</td>--}}
-
-                                <td><label for="data-checkbox-{{$client->getAttribute('id')}}">{{$client->getAttribute('fullname')}}</label></td>
+        <div class="container">
+            <ul class="nav nav-tabs" id="clientTabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="group1-tab" data-toggle="tab" href="#group1" role="tab" aria-controls="group1" aria-selected="true">Group 1</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="group2-tab" data-toggle="tab" href="#group2" role="tab" aria-controls="group2" aria-selected="false">Group 2</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="group3-tab" data-toggle="tab" href="#group3" role="tab" aria-controls="group3" aria-selected="false">Group 3</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="clientTabsContent">
+                <div class="tab-pane fade show active" id="group1" role="tabpanel" aria-labelledby="group1-tab">
+                    <!-- Group 1 Table -->
+                    <div class="col-12">
+                        <table class="table table-responsive-sm table-hover">
+                            <thead>
+                            <tr>
+                                @if(auth()->user()->hasPermission('canAssignUsers-client'))
+                                    <th><input aria-label="check" type="checkbox" id="clients-all-group1"></th>
+                                @endif
+                                <th scope="col">#</th>
+                                <th scope="col">@lang('translates.columns.type')</th>
+                                <th scope="col">@lang('translates.columns.company')</th>
+                                <th scope="col">@lang('translates.columns.creator')</th>
+                                <th scope="col">@lang('translates.columns.full_name')</th>
+                                @if(auth()->user()->hasPermission('viewAll-client'))
+                                    <th scope="col">@lang('translates.fields.detail')</th>
+                                    <th scope="col">@lang('translates.columns.email')</th>
+                                    <th scope="col">@lang('translates.columns.phone')</th>
+                                @endif
+                                <th scope="col">VOEN/GOOEN</th>
+                                <th scope="col">@lang('translates.navbar.document')</th>
+                                @if(auth()->user()->hasPermission('viewAll-client'))
+                                    <th scope="col">@lang('translates.columns.actions')</th>
+                                @endif
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @forelse($clients->slice(0, $clients->count() / 3) as $client)
+                                <tr data-toggle="collapse" data-target="#client-demo{{$client->getAttribute('id')}}" class="accordion-toggle" @if(\App\Models\Client::userCanViewAll())
+                                    title="@foreach($client->coordinators as $user) {{$user->getAttribute('fullname')}} @if(!$loop->last),@endif @endforeach"
+                                    data-toggle="tooltip"
+                                        @endif>
+                                    @if(auth()->user()->hasPermission('canAssignUsers-client'))
+                                        <td><input type="checkbox" name="clients[]" value="{{$client->getAttribute('id')}}" id="data-checkbox-{{$client->getAttribute('id')}}"></td>
+                                    @endif
+                                    <th scope="row">{{$loop->iteration}}</th>
+                                    <td>@lang("translates.clients_type." . $client->getAttribute('type'))</td>
+                                    <td>@foreach($client->companies as $company) {{$company->getAttribute('name')}} @if(!$loop->last),@endif @endforeach</td>
+                                    <td>{{$client->getRelationValue('users')->getAttribute('id') ? $client->getRelationValue('users')->getAttribute('fullname_with_position') : 'Toğrul Surxayzadə-(Hüquqşünas)'}}</td>
+                                    <td>
+                                        <label for="data-checkbox-{{$client->getAttribute('id')}}">
+                                            {{$client->getAttribute('fullname')}}
+                                        </label>
+                                    </td>
                                     @if(auth()->user()->hasPermission('viewAll-client'))
                                         <td>{{$client->getAttribute('detail') ? $client->getAttribute('detail') : trans('translates.clients.detail_empty') }} </td>
                                         <td>{{$client->getAttribute('email1') ? $client->getAttribute('email1') : trans('translates.clients.email_empty')}} </td>
                                         <td>{{$client->getAttribute('phone1') ? $client->getAttribute('phone1') : trans('translates.clients.phone_empty')}} </td>
-                                   @endif
-                                <td>{{$client->getAttribute('voen') ? $client->getAttribute('voen') : trans('translates.clients.voen_empty')}} </td>
-                                <td style="min-width: 150px">
+                                    @endif
+                                    <td>{{$client->getAttribute('voen') ? $client->getAttribute('voen') : trans('translates.clients.voen_empty')}} </td>
+                                    <td style="min-width: 150px">
                                         @php($supportedTypes = \App\Models\Document::supportedTypeIcons())
                                         @foreach($client->documents as $document)
                                             @php($type = $supportedTypes[$document->type])
@@ -204,60 +219,71 @@
                                             </a>
                                         @endforeach
                                     </td>
-                            @if(auth()->user()->hasPermission('viewAll-client'))
-                                <td>
-                                    <div class="btn-sm-group">
-                                        @can('view', $client)
-                                            <a href="{{route('clients.show', $client)}}" class="btn btn-sm btn-outline-primary">
-                                                <i class="fal fa-eye"></i>
-                                            </a>
-                                        @endcan
-                                        @can('update', $client)
-                                            <a href="{{route('clients.edit', $client)}}" class="btn btn-sm btn-outline-success">
-                                                <i class="fal fa-pen"></i>
-                                            </a>
-                                        @endcan
-                                        @can('delete', $client)
-                                            <a href="{{route('clients.destroy', $client)}}" delete data-name="{{$client->getAttribute('fullname')}}" class="btn btn-sm btn-outline-danger" >
-                                                <i class="fal fa-trash"></i>
-                                            </a>
-                                        @endcan
-                                    </div>
-                                </td>
-                            @endif
-                        </tr>
-                        <tr>
-                            <td colspan="99" class="hiddenRow">
-                                <div class="accordian-body collapse" id="client-demo{{$client->getAttribute('id')}}">
-                                    <table>
-                                        <thead>
-                                        <tr>
-                                            <th scope="col">Kanal</th>
-                                            <th scope="col">@lang('translates.navbar.reference')</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td title="{{$client->getAttribute('channel')}}" data-toggle="tooltip">{{trans('translates.client_channels.' . $client->getAttribute('channel'))}}</td>
-                                            <td title="{{\App\Models\CustomerEngagement::where('client_id', $client->id)->first() ? \App\Models\CustomerEngagement::where('client_id', $client->id)->first()->getRelationValue('user')->getAttribute('fullname_with_position') : 'Birbaşa'}}" data-toggle="tooltip">{{\App\Models\CustomerEngagement::where('client_id', $client->id)->first() ? \App\Models\CustomerEngagement::where('client_id', $client->id)->first()->getRelationValue('user')->getAttribute('fullname_with_position') : 'Birbaşa'}}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <th colspan="20">
-                                <div class="row justify-content-center m-3">
-                                    <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.not_found')</div>
-                                </div>
-                            </th>
-                        </tr>
-                    @endforelse
-                    </tbody>
-            </table>
+                                    @if(auth()->user()->hasPermission('viewAll-client'))
+                                        <td>
+                                            <div class="btn-sm-group">
+                                                @can('view', $client)
+                                                    <a href="{{route('clients.show', $client)}}" class="btn btn-sm btn-outline-primary">
+                                                        <i class="fal fa-eye"></i>
+                                                    </a>
+                                                @endcan
+                                                @can('update', $client)
+                                                    <a href="{{route('clients.edit', $client)}}" class="btn btn-sm btn-outline-success">
+                                                        <i class="fal fa-pen"></i>
+                                                    </a>
+                                                @endcan
+                                                @can('delete', $client)
+                                                    <a href="{{route('clients.destroy', $client)}}" delete data-name="{{$client->getAttribute('fullname')}}" class="btn btn-sm btn-outline-danger">
+                                                        <i class="fal fa-trash"></i>
+                                                    </a>
+                                                @endcan
+                                            </div>
+                                        </td>
+                                    @endif
+                                </tr>
+                            @empty
+                                <tr>
+                                    <th colspan="20">
+                                        <div class="row justify-content-center m-3">
+                                            <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.not_found')</div>
+                                        </div>
+                                    </th>
+                                </tr>
+                            @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="group2" role="tabpanel" aria-labelledby="group2-tab">
+                    <!-- Group 2 Table -->
+                    <div class="col-12">
+                        <table class="table table-responsive-sm table-hover">
+                            <!-- Copy the same table structure as above and update the loop range for Group 2 -->
+                            <thead>
+<th>salam</th>                            </thead>
+                            <tbody>
+                                <td>salam</td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="group3" role="tabpanel" aria-labelledby="group3-tab">
+                    <!-- Group 3 Table -->
+                    <div class="col-12">
+                        <table class="table table-responsive-sm table-hover">
+                            <!-- Copy the same table structure as above and update the loop range for Group 3 -->
+                            <thead>
+<th>salam</th>                            </thead>
+                            <tbody>
+                            <td>salam</td>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
+
 
         <div class="col-12">
             @if(is_numeric($filters['limit']))
@@ -282,16 +308,16 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="data-companies">Select Company</label><br/>
-                                    <select id="data-companies" name="companies[]" multiple required class="filterSelector form-control" data-selected-text-format="count"
-                                            data-width="fit" title="@lang('translates.filters.select')">
-                                        @foreach($companies as $company)
-                                            <option value="{{$company->getAttribute('id')}}">{{$company->getAttribute('name')}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                            @csrf
+                            <div class="form-group">
+                                <label for="data-companies">Select Company</label><br/>
+                                <select id="data-companies" name="companies[]" multiple required class="filterSelector form-control" data-selected-text-format="count"
+                                        data-width="fit" title="@lang('translates.filters.select')">
+                                    @foreach($companies as $company)
+                                        <option value="{{$company->getAttribute('id')}}">{{$company->getAttribute('name')}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>

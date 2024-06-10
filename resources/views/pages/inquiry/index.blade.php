@@ -407,6 +407,17 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="form-group col-12 p-0">
+                            <select class="form-control" name="type" required>
+                                <option value="">Select Type</option>
+                                @foreach($types as $key => $type)
+                                    <option
+                                        value="{{$key}}">
+                                        {{$type}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
