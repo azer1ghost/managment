@@ -32,6 +32,7 @@
         .table {
             overflow-x: scroll;
         }
+
     </style>
 
 @endsection
@@ -252,7 +253,8 @@
                                     for="check-vat_paid_at">@lang('translates.filters.filter_by')</label>
                         </div>
                         <div class="form-group col-12 mt-3 mb-3 pl-0">
-                            <input type="checkbox" name="filterByCheckbox" id="filterByCheckbox" @if(request()->has('filterByCheckbox')) checked @endif>
+                            <input type="checkbox" name="filterByCheckbox" id="filterByCheckbox"
+                                   @if(request()->has('filterByCheckbox')) checked @endif>
                             <label for="filterByCheckbox">Borclular</label>
                         </div>
 
@@ -347,33 +349,36 @@
             </div>
         </div>
     @endif
+
     <table class="table table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif scrollable-container"
            style="border-collapse:collapse;" id="table">
         <thead>
         <tr class="text-center">
+
             <th scope="col">E-Qaimə</th>
-            <th scope="col">@lang('translates.fields.user')</th>
-            <th scope="col">Asan imza</th>
-            <th scope="col">@lang('translates.navbar.service')</th>
+            <th scope="col">@lang('translates.fields.invoiced_date')</th>
+            <th scope="col">@lang('translates.fields.created_at')</th>
+            <th scope="col">Sistemə vuruldu</th>
             <th scope="col">@lang('translates.fields.clientName')</th>
-            <th scope="col">Status</th>
+            <th scope="col">@lang('translates.navbar.service')</th>
             @if(auth()->user()->hasPermission('viewPrice-work'))
                 @php
-                        $desiredOrder = [17, 33, 34, 35, 36, 37, 38, 20, 48, 50, 55];
-                        $serviceParameters = \App\Models\Parameter::whereIn('id', $desiredOrder)
-                                         ->orderByRaw("FIELD(id, " . implode(',', $desiredOrder) . ")")
-                                         ->get();
+                    $desiredOrder = [17, 33, 34, 35, 36, 37, 38, 20, 48, 50, 55];
+                    $serviceParameters = \App\Models\Parameter::whereIn('id', $desiredOrder)
+                                     ->orderByRaw("FIELD(id, " . implode(',', $desiredOrder) . ")")
+                                     ->get();
                 @endphp
                 @foreach($serviceParameters as $param)
                     <th>{{$param->getAttribute('label')}}</th>
                 @endforeach
             @endif
+            <th scope="col">@lang('translates.fields.user')</th>
+            <th scope="col">Asan imza</th>
+            <th scope="col">Status</th>
+
             <th scope="col" class="paymentMethod">@lang('translates.general.payment_method')</th>
-            <th scope="col">@lang('translates.fields.created_at')</th>
-            <th scope="col">Sistemə vuruldu</th>
             <th scope="col">@lang('translates.fields.paid_at')</th>
             <th scope="col">@lang('translates.fields.vat_paid_at')</th>
-            <th scope="col">@lang('translates.fields.invoiced_date')</th>
             <th scope="col"></th>
 
         </tr>
@@ -397,6 +402,39 @@
 
                 <td @if(auth()->user()->hasPermission('editPrice-work')) class="code" @endif data-name="code"
                     data-pk="{{ $work->getAttribute('id') }}" scope="row">{{$work->getAttribute('code')}}</td>
+                <td title="{{$work->getAttribute('invoiced_date')}}"
+                    data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
+                <td title="{{optional($work->getAttribute('created_at'))->diffForHumans()}}"
+                    data-toggle="tooltip">{{$work->getAttribute('created_at')}}</td>
+                <td title="{{optional($work->getAttribute('injected_at'))->diffForHumans()}}"
+                    data-toggle="tooltip">{{$work->getAttribute('injected_at')}}</td>
+                <td data-toggle="tooltip" data-placement="bottom"
+                    title="{{$work->getRelationValue('client')->getAttribute('fullname')}}">
+                    {{mb_strimwidth($work->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}
+                </td>
+                <td><i class="{{$work->getRelationValue('service')->getAttribute('icon')}} pr-2"
+                       style="font-size: 20px"></i> {{$work->getRelationValue('service')->getAttribute('name')}}</td>
+                @if(auth()->user()->hasPermission('viewPrice-work'))
+                    @foreach(\App\Models\Service::serviceParameters() as $param)
+                        @if(in_array($param['data']->getAttribute('id'), [17, 33, 34, 35, 36, 38, 37, 20, 48, 50, 55]))
+                            <td @if(auth()->user()->hasPermission('editPrice-work')) class="update"
+                                @endif data-name="{{$param['data']->getAttribute('id')}}"
+                                data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
+                            @php
+                                if($param['count']){ // check if parameter is countable
+                                    $count = (int) $work->getParameter($param['data']->getAttribute('id'));
+                                    if(isset($totals[$param['data']->getAttribute('id')])){
+                                        $totals[$param['data']->getAttribute('id')] += $count;
+                                    }else{
+                                        $totals[$param['data']->getAttribute('id')] = $count;
+                                    }
+                                }else{
+                                    $totals[$param['data']->getAttribute('id')] = NULL;
+                                }
+                            @endphp
+                        @endif
+                    @endforeach
+                @endif
                 <td>
                     @if(is_numeric($work->getAttribute('user_id')))
                         {{$work->getRelationValue('user')->getAttribute('fullname_with_position')}}
@@ -405,12 +443,6 @@
                     @endif
                 </td>
                 <td>{{$work->asanImza()->exists() ? $work->getRelationValue('asanImza')->getAttribute('user_with_company') : trans('translates.filters.select')}}</td>
-                <td><i class="{{$work->getRelationValue('service')->getAttribute('icon')}} pr-2"
-                       style="font-size: 20px"></i> {{$work->getRelationValue('service')->getAttribute('name')}}</td>
-                <td data-toggle="tooltip" data-placement="bottom"
-                    title="{{$work->getRelationValue('client')->getAttribute('fullname')}}">
-                    {{mb_strimwidth($work->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}
-                </td>
                 <td>
                     @if(is_numeric($work->getAttribute('status')))
                         @php
@@ -444,27 +476,7 @@
                          {{trans('translates.work_status.' . $work->getAttribute('status'))}}
                     </span>
                 </td>
-                @if(auth()->user()->hasPermission('viewPrice-work'))
-                    @foreach(\App\Models\Service::serviceParameters() as $param)
-                        @if(in_array($param['data']->getAttribute('id'), [17, 33, 34, 35, 36, 38, 37, 20, 48, 50, 55]))
-                            <td @if(auth()->user()->hasPermission('editPrice-work')) class="update"
-                                @endif data-name="{{$param['data']->getAttribute('id')}}"
-                                data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
-                            @php
-                                if($param['count']){ // check if parameter is countable
-                                    $count = (int) $work->getParameter($param['data']->getAttribute('id'));
-                                    if(isset($totals[$param['data']->getAttribute('id')])){
-                                        $totals[$param['data']->getAttribute('id')] += $count;
-                                    }else{
-                                        $totals[$param['data']->getAttribute('id')] = $count;
-                                    }
-                                }else{
-                                    $totals[$param['data']->getAttribute('id')] = NULL;
-                                }
-                            @endphp
-                        @endif
-                    @endforeach
-                @endif
+
                 <td class="paymentMethod">
                     <select id="payment_method" data-id="{{$work->getAttribute('id')}}" name="payment_method"
                             class="form-control payment_method">
@@ -474,17 +486,11 @@
                         @endforeach
                     </select>
                 </td>
-                <td title="{{optional($work->getAttribute('created_at'))->diffForHumans()}}"
-                    data-toggle="tooltip">{{$work->getAttribute('created_at')}}</td>
-                <td title="{{optional($work->getAttribute('injected_at'))->diffForHumans()}}"
-                    data-toggle="tooltip">{{$work->getAttribute('injected_at')}}</td>
+
                 <td title="{{$work->getAttribute('paid_at')}}"
                     data-toggle="tooltip">{{optional($work->getAttribute('paid_at'))->format('Y-m-d')}}</td>
                 <td title="{{$work->getAttribute('vat_date')}}"
                     data-toggle="tooltip">{{optional($work->getAttribute('vat_date'))->format('Y-m-d')}}</td>
-                <td title="{{$work->getAttribute('invoiced_date')}}"
-                    data-toggle="tooltip">{{optional($work->getAttribute('invoiced_date'))->format('Y-m-d')}}</td>
-
                 <td>
                     <div class="btn-sm-group d-flex align-items-center">
                         @if($work->getAttribute('creator_id') != auth()->id() && is_null($work->getAttribute('user_id')) && !auth()->user()->isDeveloper())
@@ -728,8 +734,14 @@
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_mainpage}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{$total_qibpayment}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{$total_qibamount}}</strong></p></td>
-                <td><p style="font-size: 16px" class="mb-0">Faktiki məbləğ:<strong>{{ $total_illegal_amount + $total_amount + $total_vat}}</strong></p></td>
-                <td><p style="font-size: 16px" class="mb-0">Borc:<strong style="color: red">@if((($total_amount_payment + $total_vat_payment + $total_illegal_payment) - ($total_illegal_amount + $total_amount + $total_vat)) == 0) Borc Yoxdur @else {{ (($total_illegal_amount + $total_amount + $total_vat) - ($total_amount_payment + $total_vat_payment + $total_illegal_payment)) * -1}} @endif</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0">Faktiki
+                        məbləğ:<strong>{{ $total_illegal_amount + $total_amount + $total_vat}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0">Borc:<strong
+                                style="color: red">@if((($total_amount_payment + $total_vat_payment + $total_illegal_payment) - ($total_illegal_amount + $total_amount + $total_vat)) == 0)
+                                Borc Yoxdur
+                            @else
+                                {{ (($total_illegal_amount + $total_amount + $total_vat) - ($total_amount_payment + $total_vat_payment + $total_illegal_payment)) * -1}}
+                            @endif</strong></p></td>
                 <td colspan="7"></td>
             </tr>
         @endif

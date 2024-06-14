@@ -385,12 +385,22 @@ return [
     ],
 
     'inquiries' => [
-        'types' => [
+        'where' => [
             'from_us' => 'From us',
             'from_customers' => 'From customers'
         ],
         'label' => 'Inquiry type',
         'alarm' => 'You must contact the customer'
+    ],
+
+    'inquiries' => [
+      'types' =>[
+          0 => 'Potential Customer',
+          1 => 'Cooperation offer',
+          2 => 'Vendor',
+          3 => 'Partner',
+          4 => 'Vacancy',
+      ]
     ],
 
     'tasks' => [

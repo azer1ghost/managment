@@ -389,13 +389,21 @@ return [
     ],
 
     'inquiries' => [
-        'types' => [
+        'types' =>[
+            0 => 'Potensial Müştəri',
+            1 => 'Əməkdaşlıq Təklifi',
+            2 => 'Vendor',
+            3 => 'Partnyor',
+            4 => 'Vakansiya',
+        ],
+        'where' => [
             'from_us' => 'Bizdən',
             'from_customers' => 'Müştərilərdən'
         ],
         'label' => 'Sorğu növü',
         'alarm' => 'Müştəri ilə əlaqə saxlamalısınız'
     ],
+
 
     'tasks' => [
         'is_executing' => 'İcra olunur',

@@ -33,7 +33,6 @@
     @endif
 
         @if($type == \App\Enums\InquiryType::CLIENT || $inquiry->getAttribute('client_id'))
-            <p>herkese salam </p>
             <div class="form-group col-12 col-md-6" >
                 <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
                 <div class="d-flex align-items-center">
@@ -123,13 +122,13 @@
             <div>
                 <input wire:model="selected.is_out" type="radio" name="is_out" id="is_out1" value="0">
                 <label class="form-check-label" for="is_out1">
-                    @lang('translates.inquiries.types.from_customers')
+                    @lang('translates.inquiries.where.from_customers')
                 </label>
             </div>
             <div>
                 <input type="radio" wire:model="selected.is_out" name="is_out" id="is_out" value="1">
                 <label class="form-check-label" for="is_out">
-                    @lang('translates.inquiries.types.from_us')
+                    @lang('translates.inquiries.where.from_us')
                 </label>
             </div>
         </div>

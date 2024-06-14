@@ -17,6 +17,40 @@
         .table{
             overflow-x: scroll;
         }
+        .fa-eye:hover {
+            color: #007bff; // Mavi renk
+        }
+        .modal.right .modal-dialog {
+            position: fixed;
+            margin: auto;
+            width: 50%;
+            height: 100%;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            transition: transform 0.3s ease-out;
+        }
+
+        .modal.right .modal-content {
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .modal.right.fade .modal-dialog {
+            transform: translateX(100%);
+        }
+
+        .modal.right.fade.show .modal-dialog {
+            transform: translateX(0);
+        }
+
+        .modal-header {
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .modal-body {
+            padding: 10px 15px;
+        }
     </style>
 @endsection
 @section('content')
@@ -146,7 +180,7 @@
             </div>
         </div>
 
-        <div class="container">
+        <div>
             <ul class="nav nav-tabs" id="clientTabs" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="group1-tab" data-toggle="tab" href="#group1" role="tab" aria-controls="group1" aria-selected="true">Group 1</a>
@@ -162,7 +196,7 @@
                 <div class="tab-pane fade show active" id="group1" role="tabpanel" aria-labelledby="group1-tab">
                     <!-- Group 1 Table -->
                     <div class="col-12">
-                        <table class="table table-responsive-sm table-hover">
+                        <table id="myTable" class="table table-responsive-sm table-hover">
                             <thead>
                             <tr>
                                 @if(auth()->user()->hasPermission('canAssignUsers-client'))
@@ -186,7 +220,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @forelse($clients->slice(0, $clients->count() / 3) as $client)
+                            @forelse($clients as $client)
                                 <tr data-toggle="collapse" data-target="#client-demo{{$client->getAttribute('id')}}" class="accordion-toggle" @if(\App\Models\Client::userCanViewAll())
                                     title="@foreach($client->coordinators as $user) {{$user->getAttribute('fullname')}} @if(!$loop->last),@endif @endforeach"
                                     data-toggle="tooltip"
@@ -257,12 +291,18 @@
                 <div class="tab-pane fade" id="group2" role="tabpanel" aria-labelledby="group2-tab">
                     <!-- Group 2 Table -->
                     <div class="col-12">
-                        <table class="table table-responsive-sm table-hover">
-                            <!-- Copy the same table structure as above and update the loop range for Group 2 -->
+                        <table id="myTable" class="table table-responsive-sm table-hover">
                             <thead>
-<th>salam</th>                            </thead>
+                            <tr>
+                                <th>Salam</th>
+                                <th>Salam 2</th>
+                            </tr>
+                            </thead>
                             <tbody>
-                                <td>salam</td>
+                            <tr>
+                                <td>Necesen</td>
+                                <td>Necesen</td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -270,13 +310,18 @@
                 <div class="tab-pane fade" id="group3" role="tabpanel" aria-labelledby="group3-tab">
                     <!-- Group 3 Table -->
                     <div class="col-12">
-                        <table class="table table-responsive-sm table-hover">
-                            <!-- Copy the same table structure as above and update the loop range for Group 3 -->
+                        <table id="myTable" class="display">
                             <thead>
-<th>salam</th>                            </thead>
+                            <tr>
+                                <th>Column 1</th>
+                                <th>Column 2</th>
+                            </tr>
+                            </thead>
                             <tbody>
-                            <td>salam</td>
-
+                            <tr>
+                                <td>Row 1 Data 1</td>
+                                <td>Row 1 Data 2</td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -358,6 +403,22 @@
                             <button type="submit" class="btn btn-primary">@lang('translates.buttons.save')</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal right fade" id="clientDetailModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="clientDetailModalLabel">Client Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <!-- Client details will be loaded here -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -524,5 +585,32 @@
                 }
             });
         });
+
+    </script>
+    <script>
+        let table = $('#myTable').DataTable({
+            columnDefs: [
+                {
+                    targets: 5,
+                    render: function(data, type, row) {
+                        return `<span>${data} <i class="fa fa-eye" style="cursor: pointer;"></i></span>`;
+                    }
+                },
+            ]
+        });
+
+        $('#myTable tbody').on('click', 'i.fa-eye', function() {
+            var tr = $(this).closest('tr');
+            var data = table.row(tr).data();
+            showModal(data);
+        });
+
+        function showModal(data) {
+            var modalBody = $('#clientDetailModal .modal-body');
+            modalBody.html('<p>Client Name: ' + data[4] + '</p><p>Email: ' + data[7] + '</p><p>Phone: ' + data[8] + '</p>');
+            $('#clientDetailModalLabel').text('Details for ' + data[4]);
+            $('#clientDetailModal').modal('show');
+        }
+
     </script>
 @endsection
