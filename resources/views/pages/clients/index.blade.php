@@ -3,23 +3,7 @@
 @section('title', __('translates.navbar.client'))
 @section('style')
     <style>
-        .table td, .table th{
-            vertical-align: middle !important;
-        }
-        .table tr {
-            cursor: pointer;
-        }
-        .hiddenRow {
-            padding: 0 4px !important;
-            background-color: #eeeeee;
-            font-size: 13px;
-        }
-        .table{
-            overflow-x: scroll;
-        }
-        .fa-eye:hover {
-            color: #007bff; // Mavi renk
-        }
+
         .modal.right .modal-dialog {
             position: fixed;
             margin: auto;
@@ -50,6 +34,22 @@
 
         .modal-body {
             padding: 10px 15px;
+        }
+
+    </style>
+    <style>
+        .nav-tabs {
+            width: 100%;
+            display: table;
+            table-layout: fixed;
+        }
+        .nav-item {
+            float: none;
+            display: table-cell;
+            text-align: center;
+        }
+        .nav-link {
+            width: 100%;
         }
     </style>
 @endsection
@@ -88,7 +88,6 @@
                     @endforeach
                 </select>
             </div>
-
             <div class="col-md-4">
                 <select aria-label="user" name="users" id="userFilter" class="form-control" >
                     <option value="">@lang('translates.columns.user') @lang('translates.filters.select')</option>
@@ -146,7 +145,6 @@
                 <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
                 <input type="checkbox" name="check-created_at" id="check-created_at" @if(request()->has('check-created_at')) checked @endif> <label for="check-created_at">@lang('translates.filters.filter_by')</label>
             </div>
-
             <div class="col-12 mt-3 mb-5 d-flex align-items-center justify-content-end">
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <button type="submit" class="btn btn-outline-primary"><i
@@ -155,7 +153,6 @@
                                 class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>
                 </div>
             </div>
-
             <div class="col-8 pt-2 d-flex align-items-center">
                 <p class="mb-0"> @lang('translates.total_items', ['count' => $clients->count(), 'total' => is_numeric($filters['limit']) ? $clients->total() : $clients->count()])</p>
                 <div class="input-group col-md-3">
@@ -166,7 +163,6 @@
                     </select>
                 </div>
             </div>
-
             <div class="col-4 p-0 pr-3 pb-3 mt-4">
                 @can('create', App\Models\Client::class)
                     <a class="btn btn-outline-success float-right " href="{{route('clients.create', ['type' => \App\Models\Client::LEGAL])}}">@lang('translates.buttons.create')</a>
@@ -183,20 +179,19 @@
         <div>
             <ul class="nav nav-tabs" id="clientTabs" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="group1-tab" data-toggle="tab" href="#group1" role="tab" aria-controls="group1" aria-selected="true">Group 1</a>
+                    <a class="nav-link active" id="group1-tab" data-toggle="tab" href="#group1" role="tab" aria-controls="group1" aria-selected="true">All</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="group2-tab" data-toggle="tab" href="#group2" role="tab" aria-controls="group2" aria-selected="false">Group 2</a>
+                    <a class="nav-link" id="group2-tab" data-toggle="tab" href="#group2" role="tab" aria-controls="group2" aria-selected="false">Marketing</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="group3-tab" data-toggle="tab" href="#group3" role="tab" aria-controls="group3" aria-selected="false">Group 3</a>
+                    <a class="nav-link" id="group3-tab" data-toggle="tab" href="#group3" role="tab" aria-controls="group3" aria-selected="false">Sales</a>
                 </li>
             </ul>
             <div class="tab-content" id="clientTabsContent">
                 <div class="tab-pane fade show active" id="group1" role="tabpanel" aria-labelledby="group1-tab">
-                    <!-- Group 1 Table -->
                     <div class="col-12">
-                        <table id="myTable" class="table table-responsive-sm table-hover">
+                        <table class="table table-responsive-sm table-hover">
                             <thead>
                             <tr>
                                 @if(auth()->user()->hasPermission('canAssignUsers-client'))
@@ -208,7 +203,6 @@
                                 <th scope="col">@lang('translates.columns.creator')</th>
                                 <th scope="col">@lang('translates.columns.full_name')</th>
                                 @if(auth()->user()->hasPermission('viewAll-client'))
-                                    <th scope="col">@lang('translates.fields.detail')</th>
                                     <th scope="col">@lang('translates.columns.email')</th>
                                     <th scope="col">@lang('translates.columns.phone')</th>
                                 @endif
@@ -238,7 +232,6 @@
                                         </label>
                                     </td>
                                     @if(auth()->user()->hasPermission('viewAll-client'))
-                                        <td>{{$client->getAttribute('detail') ? $client->getAttribute('detail') : trans('translates.clients.detail_empty') }} </td>
                                         <td>{{$client->getAttribute('email1') ? $client->getAttribute('email1') : trans('translates.clients.email_empty')}} </td>
                                         <td>{{$client->getAttribute('phone1') ? $client->getAttribute('phone1') : trans('translates.clients.phone_empty')}} </td>
                                     @endif
@@ -257,7 +250,7 @@
                                         <td>
                                             <div class="btn-sm-group">
                                                 @can('view', $client)
-                                                    <a href="{{route('clients.show', $client)}}" class="btn btn-sm btn-outline-primary">
+                                                    <a data-toggle="modal" data-target="#clientDetailModal" class="btn btn-sm btn-outline-primary" data-client-id="{{ $client->id }}">
                                                         <i class="fal fa-eye"></i>
                                                     </a>
                                                 @endcan
@@ -328,7 +321,6 @@
                 </div>
             </div>
         </div>
-
 
         <div class="col-12">
             @if(is_numeric($filters['limit']))
@@ -406,27 +398,181 @@
                 </div>
             </div>
         </div>
+    @endif
+
         <div class="modal right fade" id="clientDetailModal" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="clientDetailModalLabel">Client Details</h5>
+                        <h3 class="modal-title font-weight-bolder" id="clientDetailModalLabel">Client Name</h3>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
+                        <div class="text-center mb-4">
+                            <img src="{{asset('assets/images/logos/broker.png')}}" alt="Logo" class="img-fluid my-2" style="max-width: 100px;">
+                            <h6 class="mt-2">client.email@mail.com</h6>
+                        </div>
+                        <div class="d-flex justify-content-around mb-4 nav " id="clientDetailTab" role="tablist">
+                            <button class="btn btn-outline-secondary"><i class="fas fa-envelope"></i> Email</button>
+                            <button class="btn btn-outline-secondary"><i class="fas fa-phone"></i> Call</button>
 
-                        <!-- Client details will be loaded here -->
+                                <button class="active tab btn btn-outline-secondary" id="detailNote-tab" data-toggle="tab" href="#detailNote" role="tab" aria-controls="detailNote" aria-selected="true">
+                                    <i class="fas fa-sticky-note"></i> Note
+                                </button>
+                                <button class="btn btn-outline-secondary" id="detailWorks-tab" data-toggle="tab" href="#detailWorks" role="tab" aria-controls="detailWorks" aria-selected="false">
+                                    <i class="fas fa-tasks"></i> Works
+                                </button>
+                                <button class="btn btn-outline-secondary" id="detailInquiries-tab" data-toggle="tab" href="#detailInquiries" role="tab" aria-controls="detailInquiries" aria-selected="false">
+                                    <i class="fas fa-tasks"></i> Inquiries
+                                </button>
+                                <button class="btn btn-outline-secondary" id="detailEmployees-tab" data-toggle="tab" href="#detailEmployees" role="tab" aria-controls="detailEmployees" aria-selected="false">
+                                    <i class="fas fa-calendar-alt"></i> Employees
+                                </button>
+
+
+                        </div>
+                        <div>
+                            <h6 class="font-weight-bold text-center">About This Contact</h6>
+                            <p><b>Voen: </b><span id="clientDetailVoen"></span><button class="btn btn-xs"><i class="fas fa-copy"></i></button></p>
+                            <p><b>Email: </b><a id="clientDetailEmail" class="text-black">--</a></p>
+                            <p><b>Phone number: </b><a id="clientDetailPhone" class="text-black">--</a></p>
+                            <p><b>Address: </b><a id="clientDetailAddress" class="text-black">--</a></p>
+                        </div>
+                        <div class="tab-content" id="clientDetailTab">
+                            <div class="tab-pane fade show active" id="detailNote" role="tabpanel" aria-labelledby="detailNote-tab">
+                               <div class="form-group">
+                                   <textarea name="" class="form-control" id="clientDetailNote" cols="30" rows="10"></textarea>
+                               </div>
+                            </div>
+                            <div class="tab-pane fade" id="detailWorks" role="tabpanel" aria-labelledby="detailWorks-tab">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">User</th>
+                                        <th scope="col">Service</th>
+                                        <th scope="col">Status</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="worksTableBody"></tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="detailInquiries" role="tabpanel" aria-labelledby="detailInquiries-tab">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">User</th>
+                                        <th scope="col">Created_at</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="inquiriesTableBody"></tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="detailEmployees" role="tabpanel" aria-labelledby="detailEmployees-tab">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Position</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Phone</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="subClientsTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    @endif
 @endsection
 @section('scripts')
     <script>
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var target = $(e.target).attr("href"); // activated tab
+            $(target).addClass("show active");
+        });
+        $('#clientDetailModal').on('show.bs.modal', function (event) {
+            let button = $(event.relatedTarget);
+            let clientId = button.data('client-id');
+            let url = "{{ route('clients.show', ':id') }}";
+            url = url.replace(':id', clientId);
 
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (data) {
+                    $('#clientDetailModalLabel').html(data.client.fullname);
+                    $('#clientDetailVoen').html(data.client.voen)
+                    $('#clientDetailNote').html(data.client.detail)
+                    $('#clientDetailAddress').html(data.client.address1)
+                    let email = $('#clientDetailEmail')
+                    let phone = $('#clientDetailPhone')
+                    email.html(data.client.email1)
+                    phone.html(data.client.phone1)
+                    email.href = 'mailto:' + data.client.email1;
+                    phone.href = 'mailto:' + data.client.phone1;
+
+
+                    var worksHtml = '';
+                    if (data.works && data.works.length > 0) {
+                        data.works.forEach(function(work) {
+                            worksHtml += '<tr>';
+                            worksHtml += '<th scope="row">' + (work.id) + '</th>';
+                            worksHtml += '<td>' + (work.user ? work.user.name : '-') + '</td>';
+                            worksHtml += '<td>' + (work.service ? work.service.name['az'] : '-') + '</td>';
+                            worksHtml += '<td>' + work.status + '</td>';
+                            worksHtml += '</tr>';
+                        });
+                    } else {
+                        worksHtml = '<tr><td colspan="4">No works found for this client.</td></tr>';
+                    }
+                    $('#worksTableBody').html(worksHtml);
+
+                    var inquiriesHtml = '';
+                    if (data.inquiries && data.inquiries.length > 0) {
+                        data.inquiries.forEach(function(inquiries) {
+                            inquiriesHtml += '<tr>';
+                            inquiriesHtml += '<th scope="row">' + (inquiries.id) + '</th>';
+                            inquiriesHtml += '<td>' + (inquiries.user ? inquiries.user.name : '-') + '</td>';
+                            inquiriesHtml += '<td>' + inquiries.created_at + '</td>';
+                            inquiriesHtml += '</tr>';
+                        });
+                    } else {
+                        inquiriesHtml = '<tr><td colspan="4">No works found for this client.</td></tr>';
+                    }
+                    $('#inquiriesTableBody').html(inquiriesHtml);
+
+                    var subClientsHtml = '';
+                    if (data.subClients && data.subClients.length > 0) {
+                        data.subClients.forEach(function(subClients) {
+                            subClientsHtml += '<tr>';
+                            subClientsHtml += '<th scope="row">' + (subClients.id) + '</th>';
+                            subClientsHtml += '<td>' + (subClients.fullname) + '</td>';
+                            subClientsHtml += '<td>' + (subClients.position) + '</td>';
+                            subClientsHtml += '<td>' + (subClients.email1) + '</td>';
+                            subClientsHtml += '<td>' + (subClients.phone1) + '</td>';
+                            subClientsHtml += '</tr>';
+                        });
+                    } else {
+                        subClientsHtml = '<tr><td colspan="4">No works found for this client.</td></tr>';
+                    }
+                    $('#subClientsTableBody').html(subClientsHtml);
+
+                },
+                error: function () {
+                    $('#clientDetailContent').html('<p>An error occurred while fetching the data.</p>');
+                }
+            });
+        });
+    </script>
+
+    <script>
         const clientsCheckbox = $("input[name='clients[]']");
         $('#clients-all').change(function () {
             if ($(this).is(':checked')) {
@@ -585,32 +731,6 @@
                 }
             });
         });
-
-    </script>
-    <script>
-        let table = $('#myTable').DataTable({
-            columnDefs: [
-                {
-                    targets: 5,
-                    render: function(data, type, row) {
-                        return `<span>${data} <i class="fa fa-eye" style="cursor: pointer;"></i></span>`;
-                    }
-                },
-            ]
-        });
-
-        $('#myTable tbody').on('click', 'i.fa-eye', function() {
-            var tr = $(this).closest('tr');
-            var data = table.row(tr).data();
-            showModal(data);
-        });
-
-        function showModal(data) {
-            var modalBody = $('#clientDetailModal .modal-body');
-            modalBody.html('<p>Client Name: ' + data[4] + '</p><p>Email: ' + data[7] + '</p><p>Phone: ' + data[8] + '</p>');
-            $('#clientDetailModalLabel').text('Details for ' + data[4]);
-            $('#clientDetailModal').modal('show');
-        }
 
     </script>
 @endsection

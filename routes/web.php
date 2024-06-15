@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Document;
-use App\Models\EmployeeSatisfaction;
 use App\Http\Controllers\{Auth\LoginController,
     Auth\PhoneVerifycationController,
     Auth\RegisterController,
@@ -223,7 +222,6 @@ Route::group([
     Route::post('/works/updateColor', [WorkController::class, 'updateColor']);
     Route::post('/works/updateDoc', [WorkController::class, 'updateDoc']);
     Route::put('/plannedWorks/update-mark', [WorkController::class, 'updateMark'])->name('works.update-mark');
-
 
     Route::resource('/supports', SupportController::class);
     Route::resource('/commands', CommandController::class);

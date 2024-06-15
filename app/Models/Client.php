@@ -21,30 +21,17 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
 
     const LEGAL = 0;
     const PHYSICAL  = 1;
-
     const FOREIGNPHYSICAL  = 2;
-
     const FOREIGNLEGAL  = 3;
-
     const ACTIVE = 1;
-
     const PASSIVE = 0;
 
 
     protected $fillable = [
         'fullname',
-        'father',
-        'gender',
-        'serial_pattern',
-        'serial',
-        'fin',
-        'phone2',
-        'phone3',
         'phone1',
-        'email2',
         'email1',
         'address1',
-        'address2',
         'voen',
         'password',
         'position',
@@ -55,16 +42,14 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
         'protocol',
         'document_type',
         'client_id',
-        'satisfaction',
-        'channel',
         'user_id',
         'price',
         'birthday',
         'sector',
-        'celebrate_at',
         'main_paper',
         'qibmain_paper',
-        'ordering'
+        'ordering',
+        'deleted_items'
     ];
 
     public function clients(): HasMany
@@ -122,14 +107,6 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
     {
         return $this->attributes['phone1'] = phone_cleaner($value);
     }
-    public static function satisfactions(): array
-    {
-        return [1 => 1, 2, 3];
-    }
-    public static function channels(): array
-    {
-        return [1 => 1, 2, 3, 4, 5, 6, 7, 8, 9];
-    }
 
     public function setPhone2Attribute($value): ?string
     {
@@ -176,13 +153,14 @@ public function setPhone3Attribute($value): ?string
         return $this->hasMany(CustomerEngagement::class, 'client_id');
     }
 
-//    public function service(): BelongsTo
-//    {
-//        return $this->belongsTo(Service::class)->withDefault();
-//    }
     public function services(): BelongsToMany
     {
         return $this->belongsToMany(Service::class, 'client_service')
             ->withPivot('amount');
+    }
+
+    public function works(): HasMany
+    {
+        return $this->hasMany(Work::class);
     }
 }

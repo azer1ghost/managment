@@ -11,9 +11,11 @@ use App\Models\Client;
 use App\Models\Company;
 use App\Models\CustomerEngagement;
 use App\Models\Department;
+use App\Models\Inquiry;
 use App\Models\Referral;
 use App\Models\Service;
 use App\Models\User;
+use App\Models\Work;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
@@ -70,7 +72,6 @@ class ClientController extends Controller
         }
 
         $filters = [
-            'satisfaction' => $request->get('satisfaction'),
             'search' => $request->get('search'),
             'type' => $request->get('type'),
             'active' => $request->get('active'),
@@ -116,7 +117,6 @@ class ClientController extends Controller
                 'clients' => $clients,
                 'coordinators' => User::isActive()->where('department_id', Department::COORDINATOR)->get(['id', 'name', 'surname']),
                 'companies' => Company::get(['id','name', 'logo']),
-                'satisfactions' => Client::satisfactions(),
                 'users' => User::isActive()->get(['id', 'name', 'surname']),
                 'services' => $services
             ]);
@@ -129,8 +129,6 @@ class ClientController extends Controller
                 'action' => route('clients.store'),
                 'method' => 'POST',
                 'data' => new Client(),
-                'satisfactions' => Client::satisfactions(),
-                'channels' => Client::channels(),
                 'companies' => Company::get(['id','name']),
                 'users' => User::isActive()->get(),
                 'engagement' => new CustomerEngagement()
@@ -176,30 +174,28 @@ class ClientController extends Controller
 
     public function show(Client $client)
     {
+        $client->load('works');
 
-        if ($client->services()->where('client_id', $client->id)->first())
-        {
-            $services = $client->getRelationValue('services');
-        }
-        else
-        {
-            $services = Service::get(['id', 'name']);
-        }
+        $works = Work::with('user', 'service')
+            ->where('client_id', $client->id)
+            ->limit(10)
+            ->get();
 
-        $engagement = CustomerEngagement::where('client_id', $client->id)->first();
+        $inquiry = Inquiry::with('user')
+            ->where('client_id', $client->id)
+            ->limit(10)
+            ->get();
 
-        return view('pages.clients.edit')
-            ->with([
-                'action' => null,
-                'method' => null,
-                'data' => $client,
-                'satisfactions' => Client::satisfactions(),
-                'channels' => Client::channels(),
-                'companies' => Company::get(['id','name','logo']),
-                'users' => User::get(['id', 'name', 'surname']),
-                'engagement' => $engagement,
-                'services' => $services,
-            ]);
+        $subClient = Client::query()
+            ->where('client_id', $client->id)
+            ->get();
+
+        return response()->json([
+            'client' => $client,
+            'works' => $works,
+            'inquiries' => $inquiry,
+            'subClients' => $subClient,
+        ]);
     }
 
     public function edit(Client $client)
@@ -219,8 +215,6 @@ class ClientController extends Controller
                 'action' => route('clients.update', $client),
                 'method' => "PUT",
                 'data' => $client,
-                'satisfactions' => Client::satisfactions(),
-                'channels' => Client::channels(),
                 'companies' => Company::get(['id','name', 'logo']),
                 'users' => User::get(['id', 'name', 'surname']),
                 'engagement' => CustomerEngagement::where('client_id', $client->id)->first(),
