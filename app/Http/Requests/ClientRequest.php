@@ -24,7 +24,7 @@ class ClientRequest extends FormRequest
             'protocol'        => 'nullable|file|mimes:pdf,doc,docx,xlsx,xls|max:4096',
             'document_type'   => 'nullable|string',
             'sector'          => 'nullable|string',
-            'voen'            => 'string|required|unique:clients,voen,' . $voen,
+            'voen'            => 'string|nullable|unique:clients,voen,' . $voen,
             'password'        => 'nullable|string',
             'position'        => 'nullable|string',
             'type'            => 'nullable|integer',

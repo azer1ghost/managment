@@ -14,7 +14,7 @@ class AddTypeColumnToInquiriesTable extends Migration
     public function up()
     {
         Schema::table('inquiries', function (Blueprint $table) {
-            $table->string('type')->nullable()->after('status');
+            $table->string('type')->nullable();
             $table->string('sales_client_id')->nullable();
         });
     }

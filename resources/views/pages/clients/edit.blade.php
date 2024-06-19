@@ -206,32 +206,30 @@
             </div>
         </div>
 
-        <div class="custom-control custom-switch mr-3">
-            <input type="checkbox" name="send_sms" class="custom-control-input" id="send_sms"
-                   @if($data->getAttribute('send_sms') || $method == 'POST' ) checked @endif>
-            <label class="custom-control-label" for="send_sms">@lang('translates.buttons.send_sms')</label>
-        </div>
-        <div class="custom-control custom-switch mr-5">
-            <input type="checkbox" name="active" class="custom-control-input" id="active"
-                   @if($data->getAttribute('active') || $method == 'POST' ) checked @endif>
-            <label class="custom-control-label" for="active">@lang('translates.buttons.active')</label>
-        </div>
-
         <div class="form-row col-md-12">
-
-            <!-- Contact -->
             <div class="col-md-12">
                 <br>
                 <p class="text-muted mb-2">Document</p>
                 <hr class="my-2">
             </div>
         </div>
-
-        <div class="input-group col-6 mb-3">
+        <div class="input-group col-12 mb-3">
             <div class="custom-file">
                 <label class="custom-file-label" id="protocol-label" for="protocol">Qiymət Təklifi</label>
                 <input type="file" value="{{$data->getAttribute('protocol')}}" name="protocol" class="custom-file-input"
                        id="protocol">
+            </div>
+        </div>
+        <div class="input-group col-6 ml-2">
+            <div class="custom-control custom-switch mr-3 col-6">
+                <input type="checkbox" name="send_sms" class="custom-control-input" id="send_sms"
+                       @if($data->getAttribute('send_sms') || $method == 'POST' ) checked @endif>
+                <label class="custom-control-label" for="send_sms">@lang('translates.buttons.send_sms')</label>
+            </div>
+            <div class="custom-control custom-switch mr-5 col-6">
+                <input type="checkbox" name="active" class="custom-control-input" id="active"
+                       @if($data->getAttribute('active') || $method == 'POST' ) checked @endif>
+                <label class="custom-control-label" for="active">@lang('translates.buttons.active')</label>
             </div>
         </div>
 
@@ -272,7 +270,6 @@
 
             </table>
         </div>
-
 
         @if($action)
             <x-input::submit/>

@@ -177,17 +177,17 @@
         </div>
 
         <div>
-            <ul class="nav nav-tabs" id="clientTabs" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="group1-tab" data-toggle="tab" href="#group1" role="tab" aria-controls="group1" aria-selected="true">All</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="group2-tab" data-toggle="tab" href="#group2" role="tab" aria-controls="group2" aria-selected="false">Marketing</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="group3-tab" data-toggle="tab" href="#group3" role="tab" aria-controls="group3" aria-selected="false">Sales</a>
-                </li>
-            </ul>
+{{--            <ul class="nav nav-tabs" id="clientTabs" role="tablist">--}}
+{{--                <li class="nav-item">--}}
+{{--                    <a class="nav-link active" id="group1-tab" data-toggle="tab" href="#group1" role="tab" aria-controls="group1" aria-selected="true">All</a>--}}
+{{--                </li>--}}
+{{--                <li class="nav-item">--}}
+{{--                    <a class="nav-link" id="group2-tab" data-toggle="tab" href="#group2" role="tab" aria-controls="group2" aria-selected="false">Marketing</a>--}}
+{{--                </li>--}}
+{{--                <li class="nav-item">--}}
+{{--                    <a class="nav-link" id="group3-tab" data-toggle="tab" href="#group3" role="tab" aria-controls="group3" aria-selected="false">Sales</a>--}}
+{{--                </li>--}}
+{{--            </ul>--}}
             <div class="tab-content" id="clientTabsContent">
                 <div class="tab-pane fade show active" id="group1" role="tabpanel" aria-labelledby="group1-tab">
                     <div class="col-12">
@@ -207,7 +207,6 @@
                                     <th scope="col">@lang('translates.columns.phone')</th>
                                 @endif
                                 <th scope="col">VOEN/GOOEN</th>
-                                <th scope="col">@lang('translates.navbar.document')</th>
                                 @if(auth()->user()->hasPermission('viewAll-client'))
                                     <th scope="col">@lang('translates.columns.actions')</th>
                                 @endif
@@ -236,16 +235,6 @@
                                         <td>{{$client->getAttribute('phone1') ? $client->getAttribute('phone1') : trans('translates.clients.phone_empty')}} </td>
                                     @endif
                                     <td>{{$client->getAttribute('voen') ? $client->getAttribute('voen') : trans('translates.clients.voen_empty')}} </td>
-                                    <td style="min-width: 150px">
-                                        @php($supportedTypes = \App\Models\Document::supportedTypeIcons())
-                                        @foreach($client->documents as $document)
-                                            @php($type = $supportedTypes[$document->type])
-                                            @php($route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document))
-                                            <a href="{{$route}}" data-toggle="tooltip" title="{{$document->name}}" target="_blank" class="text-dark" style="word-break: break-word">
-                                                <i class="fa fa-file-{{$type['icon']}} fa-2x text-{{$type['color']}}"></i>
-                                            </a>
-                                        @endforeach
-                                    </td>
                                     @if(auth()->user()->hasPermission('viewAll-client'))
                                         <td>
                                             <div class="btn-sm-group">
@@ -281,44 +270,170 @@
                         </table>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="group2" role="tabpanel" aria-labelledby="group2-tab">
-                    <!-- Group 2 Table -->
-                    <div class="col-12">
-                        <table id="myTable" class="table table-responsive-sm table-hover">
-                            <thead>
-                            <tr>
-                                <th>Salam</th>
-                                <th>Salam 2</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Necesen</td>
-                                <td>Necesen</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="group3" role="tabpanel" aria-labelledby="group3-tab">
-                    <!-- Group 3 Table -->
-                    <div class="col-12">
-                        <table id="myTable" class="display">
-                            <thead>
-                            <tr>
-                                <th>Column 1</th>
-                                <th>Column 2</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Row 1 Data 1</td>
-                                <td>Row 1 Data 2</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+{{--                <div class="tab-pane fade" id="group2" role="tabpanel" aria-labelledby="group2-tab">--}}
+{{--                    <!-- Group 2 Table -->--}}
+{{--                    <div class="col-12">--}}
+{{--                        <table class="table table-responsive-sm table-hover">--}}
+{{--                            <thead>--}}
+{{--                            <tr>--}}
+{{--                                @if(auth()->user()->hasPermission('canAssignUsers-client'))--}}
+{{--                                    <th><input aria-label="check" type="checkbox" id="clients-all-group1"></th>--}}
+{{--                                @endif--}}
+{{--                                <th scope="col">#</th>--}}
+{{--                                <th scope="col">@lang('translates.columns.type')</th>--}}
+{{--                                <th scope="col">@lang('translates.columns.company')</th>--}}
+{{--                                <th scope="col">@lang('translates.columns.creator')</th>--}}
+{{--                                <th scope="col">@lang('translates.columns.full_name')</th>--}}
+{{--                                @if(auth()->user()->hasPermission('viewAll-client'))--}}
+{{--                                    <th scope="col">@lang('translates.columns.email')</th>--}}
+{{--                                    <th scope="col">@lang('translates.columns.phone')</th>--}}
+{{--                                @endif--}}
+{{--                                <th scope="col">VOEN/GOOEN</th>--}}
+{{--                                @if(auth()->user()->hasPermission('viewAll-client'))--}}
+{{--                                    <th scope="col">@lang('translates.columns.actions')</th>--}}
+{{--                                @endif--}}
+{{--                            </tr>--}}
+{{--                            </thead>--}}
+{{--                            <tbody>--}}
+{{--                            @forelse($marketingClients as $client)--}}
+{{--                                <tr data-toggle="collapse" data-target="#client-demo{{$client->getAttribute('id')}}" class="accordion-toggle" @if(\App\Models\Client::userCanViewAll())--}}
+{{--                                    title="@foreach($client->coordinators as $user) {{$user->getAttribute('fullname')}} @if(!$loop->last),@endif @endforeach"--}}
+{{--                                    data-toggle="tooltip"--}}
+{{--                                        @endif>--}}
+{{--                                    @if(auth()->user()->hasPermission('canAssignUsers-client'))--}}
+{{--                                        <td><input type="checkbox" name="clients[]" value="{{$client->getAttribute('id')}}" id="data-checkbox-{{$client->getAttribute('id')}}"></td>--}}
+{{--                                    @endif--}}
+{{--                                    <th scope="row">{{$loop->iteration}}</th>--}}
+{{--                                    <td>@lang("translates.clients_type." . $client->getAttribute('type'))</td>--}}
+{{--                                    <td>@foreach($client->companies as $company) {{$company->getAttribute('name')}} @if(!$loop->last),@endif @endforeach</td>--}}
+{{--                                    <td>{{$client->getRelationValue('users')->getAttribute('id') ? $client->getRelationValue('users')->getAttribute('fullname_with_position') : 'Toğrul Surxayzadə-(Hüquqşünas)'}}</td>--}}
+{{--                                    <td>--}}
+{{--                                        <label for="data-checkbox-{{$client->getAttribute('id')}}">--}}
+{{--                                            {{$client->getAttribute('fullname')}}--}}
+{{--                                        </label>--}}
+{{--                                    </td>--}}
+{{--                                    @if(auth()->user()->hasPermission('viewAll-client'))--}}
+{{--                                        <td>{{$client->getAttribute('email1') ? $client->getAttribute('email1') : trans('translates.clients.email_empty')}} </td>--}}
+{{--                                        <td>{{$client->getAttribute('phone1') ? $client->getAttribute('phone1') : trans('translates.clients.phone_empty')}} </td>--}}
+{{--                                    @endif--}}
+{{--                                    <td>{{$client->getAttribute('voen') ? $client->getAttribute('voen') : trans('translates.clients.voen_empty')}} </td>--}}
+{{--                                    @if(auth()->user()->hasPermission('viewAll-client'))--}}
+{{--                                        <td>--}}
+{{--                                            <div class="btn-sm-group">--}}
+{{--                                                @can('view', $client)--}}
+{{--                                                    <a data-toggle="modal" data-target="#clientDetailModal" class="btn btn-sm btn-outline-primary" data-client-id="{{ $client->id }}">--}}
+{{--                                                        <i class="fal fa-eye"></i>--}}
+{{--                                                    </a>--}}
+{{--                                                @endcan--}}
+{{--                                                @can('update', $client)--}}
+{{--                                                    <a href="{{route('clients.edit', $client)}}" class="btn btn-sm btn-outline-success">--}}
+{{--                                                        <i class="fal fa-pen"></i>--}}
+{{--                                                    </a>--}}
+{{--                                                @endcan--}}
+{{--                                                @can('delete', $client)--}}
+{{--                                                    <a href="{{route('clients.destroy', $client)}}" delete data-name="{{$client->getAttribute('fullname')}}" class="btn btn-sm btn-outline-danger">--}}
+{{--                                                        <i class="fal fa-trash"></i>--}}
+{{--                                                    </a>--}}
+{{--                                                @endcan--}}
+{{--                                            </div>--}}
+{{--                                        </td>--}}
+{{--                                    @endif--}}
+{{--                                </tr>--}}
+{{--                            @empty--}}
+{{--                                <tr>--}}
+{{--                                    <th colspan="20">--}}
+{{--                                        <div class="row justify-content-center m-3">--}}
+{{--                                            <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.not_found')</div>--}}
+{{--                                        </div>--}}
+{{--                                    </th>--}}
+{{--                                </tr>--}}
+{{--                            @endforelse--}}
+{{--                            </tbody>--}}
+{{--                        </table>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="tab-pane fade" id="group3" role="tabpanel" aria-labelledby="group3-tab">--}}
+{{--                    <!-- Group 3 Table -->--}}
+{{--                    <div class="col-12">--}}
+{{--                        <table class="table table-responsive-sm table-hover">--}}
+{{--                            <thead>--}}
+{{--                            <tr>--}}
+{{--                                @if(auth()->user()->hasPermission('canAssignUsers-client'))--}}
+{{--                                    <th><input aria-label="check" type="checkbox" id="clients-all-group1"></th>--}}
+{{--                                @endif--}}
+{{--                                <th scope="col">#</th>--}}
+{{--                                <th scope="col">@lang('translates.columns.type')</th>--}}
+{{--                                <th scope="col">@lang('translates.columns.company')</th>--}}
+{{--                                <th scope="col">@lang('translates.columns.creator')</th>--}}
+{{--                                <th scope="col">@lang('translates.columns.full_name')</th>--}}
+{{--                                @if(auth()->user()->hasPermission('viewAll-client'))--}}
+{{--                                    <th scope="col">@lang('translates.columns.email')</th>--}}
+{{--                                    <th scope="col">@lang('translates.columns.phone')</th>--}}
+{{--                                @endif--}}
+{{--                                <th scope="col">VOEN/GOOEN</th>--}}
+{{--                                @if(auth()->user()->hasPermission('viewAll-client'))--}}
+{{--                                    <th scope="col">@lang('translates.columns.actions')</th>--}}
+{{--                                @endif--}}
+{{--                            </tr>--}}
+{{--                            </thead>--}}
+{{--                            <tbody>--}}
+{{--                            @forelse($salesClients as $client)--}}
+{{--                                <tr data-toggle="collapse" data-target="#client-demo{{$client->getAttribute('id')}}" class="accordion-toggle" @if(\App\Models\Client::userCanViewAll())--}}
+{{--                                    title="@foreach($client->coordinators as $user) {{$user->getAttribute('fullname')}} @if(!$loop->last),@endif @endforeach"--}}
+{{--                                    data-toggle="tooltip"--}}
+{{--                                        @endif>--}}
+{{--                                    @if(auth()->user()->hasPermission('canAssignUsers-client'))--}}
+{{--                                        <td><input type="checkbox" name="clients[]" value="{{$client->getAttribute('id')}}" id="data-checkbox-{{$client->getAttribute('id')}}"></td>--}}
+{{--                                    @endif--}}
+{{--                                    <th scope="row">{{$loop->iteration}}</th>--}}
+{{--                                    <td>@lang("translates.clients_type." . $client->getAttribute('type'))</td>--}}
+{{--                                    <td>@foreach($client->companies as $company) {{$company->getAttribute('name')}} @if(!$loop->last),@endif @endforeach</td>--}}
+{{--                                    <td>{{$client->getRelationValue('users')->getAttribute('id') ? $client->getRelationValue('users')->getAttribute('fullname_with_position') : 'Toğrul Surxayzadə-(Hüquqşünas)'}}</td>--}}
+{{--                                    <td>--}}
+{{--                                        <label for="data-checkbox-{{$client->getAttribute('id')}}">--}}
+{{--                                            {{$client->getAttribute('fullname')}}--}}
+{{--                                        </label>--}}
+{{--                                    </td>--}}
+{{--                                    @if(auth()->user()->hasPermission('viewAll-client'))--}}
+{{--                                        <td>{{$client->getAttribute('email1') ? $client->getAttribute('email1') : trans('translates.clients.email_empty')}} </td>--}}
+{{--                                        <td>{{$client->getAttribute('phone1') ? $client->getAttribute('phone1') : trans('translates.clients.phone_empty')}} </td>--}}
+{{--                                    @endif--}}
+{{--                                    <td>{{$client->getAttribute('voen') ? $client->getAttribute('voen') : trans('translates.clients.voen_empty')}} </td>--}}
+{{--                                    @if(auth()->user()->hasPermission('viewAll-client'))--}}
+{{--                                        <td>--}}
+{{--                                            <div class="btn-sm-group">--}}
+{{--                                                @can('view', $client)--}}
+{{--                                                    <a data-toggle="modal" data-target="#clientDetailModal" class="btn btn-sm btn-outline-primary" data-client-id="{{ $client->id }}">--}}
+{{--                                                        <i class="fal fa-eye"></i>--}}
+{{--                                                    </a>--}}
+{{--                                                @endcan--}}
+{{--                                                @can('update', $client)--}}
+{{--                                                    <a href="{{route('clients.edit', $client)}}" class="btn btn-sm btn-outline-success">--}}
+{{--                                                        <i class="fal fa-pen"></i>--}}
+{{--                                                    </a>--}}
+{{--                                                @endcan--}}
+{{--                                                @can('delete', $client)--}}
+{{--                                                    <a href="{{route('clients.destroy', $client)}}" delete data-name="{{$client->getAttribute('fullname')}}" class="btn btn-sm btn-outline-danger">--}}
+{{--                                                        <i class="fal fa-trash"></i>--}}
+{{--                                                    </a>--}}
+{{--                                                @endcan--}}
+{{--                                            </div>--}}
+{{--                                        </td>--}}
+{{--                                    @endif--}}
+{{--                                </tr>--}}
+{{--                            @empty--}}
+{{--                                <tr>--}}
+{{--                                    <th colspan="20">--}}
+{{--                                        <div class="row justify-content-center m-3">--}}
+{{--                                            <div class="col-7 alert alert-danger text-center" role="alert">@lang('translates.general.not_found')</div>--}}
+{{--                                        </div>--}}
+{{--                                    </th>--}}
+{{--                                </tr>--}}
+{{--                            @endforelse--}}
+{{--                            </tbody>--}}
+{{--                        </table>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
             </div>
         </div>
 
@@ -414,31 +529,33 @@
                             <img src="{{asset('assets/images/logos/broker.png')}}" alt="Logo" class="img-fluid my-2" style="max-width: 100px;">
                             <h6 class="mt-2">client.email@mail.com</h6>
                         </div>
-                        <div class="d-flex justify-content-around mb-4 nav " id="clientDetailTab" role="tablist">
-                            <button class="btn btn-outline-secondary"><i class="fas fa-envelope"></i> Email</button>
-                            <button class="btn btn-outline-secondary"><i class="fas fa-phone"></i> Call</button>
-
-                                <button class="active tab btn btn-outline-secondary" id="detailNote-tab" data-toggle="tab" href="#detailNote" role="tab" aria-controls="detailNote" aria-selected="true">
-                                    <i class="fas fa-sticky-note"></i> Note
-                                </button>
-                                <button class="btn btn-outline-secondary" id="detailWorks-tab" data-toggle="tab" href="#detailWorks" role="tab" aria-controls="detailWorks" aria-selected="false">
-                                    <i class="fas fa-tasks"></i> Works
-                                </button>
-                                <button class="btn btn-outline-secondary" id="detailInquiries-tab" data-toggle="tab" href="#detailInquiries" role="tab" aria-controls="detailInquiries" aria-selected="false">
-                                    <i class="fas fa-tasks"></i> Inquiries
-                                </button>
-                                <button class="btn btn-outline-secondary" id="detailEmployees-tab" data-toggle="tab" href="#detailEmployees" role="tab" aria-controls="detailEmployees" aria-selected="false">
-                                    <i class="fas fa-calendar-alt"></i> Employees
-                                </button>
-
-
+                        <div class="d-flex justify-content-around mb-4 nav" id="clientDetailTab" role="tablist">
+                            <a id="sendEmail" href="#" class="btn btn-outline-secondary"><i class="fas fa-envelope"></i> Email</a>
+                            <a id="call" class="btn btn-outline-secondary"><i class="fas fa-phone"></i> Call</a>
+                            <button class="active tab btn btn-outline-secondary" id="detailNote-tab" data-toggle="tab" href="#detailNote" role="tab" aria-controls="detailNote" aria-selected="true">
+                                <i class="fas fa-sticky-note"></i> Note
+                            </button>
+                            <button class="btn btn-outline-secondary" id="detailWorks-tab" data-toggle="tab" href="#detailWorks" role="tab" aria-controls="detailWorks" aria-selected="false">
+                                <i class="fas fa-tasks"></i> Works
+                            </button>
+                            <button class="btn btn-outline-secondary" id="detailInquiries-tab" data-toggle="tab" href="#detailInquiries" role="tab" aria-controls="detailInquiries" aria-selected="false">
+                                <i class="fas fa-phone-office"></i> Inquiries
+                            </button>
+                            <button class="btn btn-outline-secondary" id="detailEmployees-tab" data-toggle="tab" href="#detailEmployees" role="tab" aria-controls="detailEmployees" aria-selected="false">
+                                <i class="fas fa-user"></i> Employees
+                            </button>
                         </div>
                         <div>
                             <h6 class="font-weight-bold text-center">About This Contact</h6>
+                            <p><b>Companies: </b><span id="companiesSection"></span></p>
                             <p><b>Voen: </b><span id="clientDetailVoen"></span><button class="btn btn-xs"><i class="fas fa-copy"></i></button></p>
                             <p><b>Email: </b><a id="clientDetailEmail" class="text-black">--</a></p>
                             <p><b>Phone number: </b><a id="clientDetailPhone" class="text-black">--</a></p>
                             <p><b>Address: </b><a id="clientDetailAddress" class="text-black">--</a></p>
+                        </div>
+                        <div>
+                            <h6 class="font-weight-bold">Documents</h6>
+                            <div id="documentsSection"></div>
                         </div>
                         <div class="tab-content" id="clientDetailTab">
                             <div class="tab-pane fade show active" id="detailNote" role="tabpanel" aria-labelledby="detailNote-tab">
@@ -492,6 +609,7 @@
         </div>
 @endsection
 @section('scripts')
+
     <script>
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             var target = $(e.target).attr("href"); // activated tab
@@ -515,9 +633,10 @@
                     let phone = $('#clientDetailPhone')
                     email.html(data.client.email1)
                     phone.html(data.client.phone1)
-                    email.href = 'mailto:' + data.client.email1;
-                    phone.href = 'mailto:' + data.client.phone1;
-
+                    $('#sendEmail').attr('href', 'mailto:' + data.client.email1);
+                    $('#call').attr('href', 'tel:' + data.client.phone1);
+                    email.attr('href', 'mailto:' + data.client.email1);
+                    phone.attr('href', 'tel:' + data.client.phone1);
 
                     var worksHtml = '';
                     if (data.works && data.works.length > 0) {
@@ -564,6 +683,25 @@
                     }
                     $('#subClientsTableBody').html(subClientsHtml);
 
+                    var documentsHtml = '';
+                    if (data.documents && data.documents.length > 0) {
+                        data.documents.forEach(function(document) {
+                            documentsHtml += '<a href="' + document.url + '" data-toggle="tooltip" title="' + document.name + '" target="_blank" class="text-dark" style="word-break: break-word">';
+                            documentsHtml += '<i class="fa fa-file-' + document.icon + ' fa-2x text-' + document.color + '"></i>';
+                            documentsHtml += '</a> ';
+                        });
+                    } else {
+                        documentsHtml = '<p>No documents found for this client.</p>';
+                    }
+                    $('#documentsSection').html(documentsHtml);
+
+                    var companiesHtml = '';
+                    if (data.companies && data.companies.length > 0) {
+                        companiesHtml = data.companies.join(', ');
+                    } else {
+                        companiesHtml = 'No companies found for this client.';
+                    }
+                    $('#companiesSection').html(companiesHtml);
                 },
                 error: function () {
                     $('#clientDetailContent').html('<p>An error occurred while fetching the data.</p>');
@@ -571,7 +709,6 @@
             });
         });
     </script>
-
     <script>
         const clientsCheckbox = $("input[name='clients[]']");
         $('#clients-all').change(function () {

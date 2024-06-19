@@ -13,7 +13,7 @@ class ClientRepository implements ClientRepositoryInterface
     {
 
         [$from, $to] = explode(' - ', $filters['created_at']);
-        return Client::with('coordinators')
+        return Client::with(['coordinators'])
             ->whereNull('client_id')
             ->when($filters['check-created_at'], fn($query) => $query->whereBetween('created_at', [Carbon::parse($from)->startOfDay(), Carbon::parse($to)->endOfDay()]))
             ->when($filters['free_clients'], fn($query) => $query->doesnthave('salesUsers'))

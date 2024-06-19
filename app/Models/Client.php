@@ -7,7 +7,6 @@ use Altek\Eventually\Eventually;
 use App\Interfaces\DocumentableInterface;
 use App\Traits\Documentable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -108,25 +107,7 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
         return $this->attributes['phone1'] = phone_cleaner($value);
     }
 
-    public function setPhone2Attribute($value): ?string
-    {
-        return $this->attributes['phone2'] = phone_cleaner($value);
-    }
-public function setPhone3Attribute($value): ?string
-    {
-        return $this->attributes['phone3'] = phone_cleaner($value);
-    }
-
     public function getPhone1Attribute($value): ?string
-    {
-        return phone_formatter($value, true);
-    }
-  public function getPhone3Attribute($value): ?string
-    {
-        return phone_formatter($value, true);
-    }
-
-    public function getPhone2Attribute($value): ?string
     {
         return phone_formatter($value, true);
     }
@@ -140,14 +121,17 @@ public function setPhone3Attribute($value): ?string
 
         return "{$this->getAttribute('fullname')} ({$this->getAttribute('voen')}) ($company)";
     }
+
     public function users():BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id')->withDefault();
     }
+
     public function references():BelongsTo
     {
         return $this->belongsTo(User::class, 'reference')->withDefault();
     }
+
     public function engagement():HasMany
     {
         return $this->hasMany(CustomerEngagement::class, 'client_id');
@@ -162,5 +146,10 @@ public function setPhone3Attribute($value): ?string
     public function works(): HasMany
     {
         return $this->hasMany(Work::class);
+    }
+
+    public function inquiries(): HasMany
+    {
+        return $this->hasMany(Inquiry::class, 'client_id');
     }
 }

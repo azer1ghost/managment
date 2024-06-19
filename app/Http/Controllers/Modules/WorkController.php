@@ -763,7 +763,6 @@ class WorkController extends Controller
 
     public function update(WorkRequest $request, Work $work): RedirectResponse
     {
-//        dd(User::wherePermissions('viewAny-financeClient')->get())
         $client = Client::where('id', $request->client_id)->first();
         $firstAsan = 0;
         if (is_null($work->getAttribute('asan_imza_id'))) {
@@ -781,9 +780,6 @@ class WorkController extends Controller
         if ($request->status == $work::ARCHIVE && $client->getAttribute('send_sms') == 1) {
             if (!empty($client->getAttribute('phone1'))) {
                 (new NotifyClientSms($message))->toSms($client)->send();
-            }
-            if (!empty($client->getAttribute('phone2'))) {
-                (new NotifyClientDirectorSms($message))->toSms($client)->send();
             }
         }
 
@@ -830,16 +826,13 @@ class WorkController extends Controller
         if ($request->has('mark')) {
             $updatedMark = $request->input('mark');
 
-            // Güncellenmiş işin ID'si ile bir büyük olan işi bul
             $nextWorkId = $work->id + 1;
             $nextWork = Work::find($nextWorkId);
 
-            // Eğer bu iş varsa, mark'ını güncelle
             if ($nextWork) {
                 $nextWork->update(['mark' => $updatedMark]);
             }
         }
-
 
         if ($work->getAttribute('status') == $work::REJECTED && !$request->has('rejected')) {
             $status = $validated['status'] ?? Work::PENDING;
