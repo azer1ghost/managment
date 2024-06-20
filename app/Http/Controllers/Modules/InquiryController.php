@@ -82,7 +82,6 @@ class InquiryController extends Controller
 
         $inquiries = Inquiry::with('user', 'company')
             ->when(app()->environment('production'), fn($q) => $q->whereIn('department_id', [Department::CALL_CENTER,Department::SALES,Department::TEST])
-                ->where('client_id', null)
             )
             ->withoutBackups()
             ->when(!Inquiry::userCanViewAll(), function ($query){
