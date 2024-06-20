@@ -20,9 +20,9 @@
                     <p>@lang('translates.columns.created_by'): {{$client->getRelationValue('user')->getAttribute('fullname')}}</p>
                 </div>
 
-{{--                <div class="col-12 col-md-4">--}}
-{{--                    <p>VOEN/GOEN: {{$client->getAttribute('voen')}}</p>--}}
-{{--                </div>--}}
+                <div class="col-12 col-md-4">
+                    <p>VOEN/GOEN: {{$client->getAttribute('voen')}}</p>
+                </div>
 
                 <div class="col-12 col-md-4">
                     <p>@lang('translates.fields.phone'): {{$client->getAttribute('phone')}}</p>
