@@ -7,30 +7,30 @@
         @endcan
     @endif
 
-    @if(app()->environment('production') &&
-        (
-            ($method != 'POST' || auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES) && !is_null($client)
-        )
-    )
-        <div class="col-12 text-center">
-            <h4>@lang('translates.fields.client')</h4>
-            <div class="row">
-                <div class="col-12 col-md-4">
-                    <p>@lang('translates.columns.name'): {{$client->getAttribute('name')}}</p>
-                    <p>@lang('translates.columns.created_by'): {{$client->getRelationValue('user')->getAttribute('fullname')}}</p>
-                </div>
+{{--    @if(app()->environment('production') &&--}}
+{{--        (--}}
+{{--            ($method != 'POST' || auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES) && !is_null($client)--}}
+{{--        )--}}
+{{--    )--}}
+{{--        <div class="col-12 text-center">--}}
+{{--            <h4>@lang('translates.fields.client')</h4>--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-12 col-md-4">--}}
+{{--                    <p>@lang('translates.columns.name'): {{$client->getAttribute('name')}}</p>--}}
+{{--                    <p>@lang('translates.columns.created_by'): {{$client->getRelationValue('user')->getAttribute('fullname')}}</p>--}}
+{{--                </div>--}}
 
-                <div class="col-12 col-md-4">
-                    <p>VOEN/GOEN: {{$client->getAttribute('voen')}}</p>
-                </div>
+{{--                <div class="col-12 col-md-4">--}}
+{{--                    <p>VOEN/GOEN: {{$client->getAttribute('voen')}}</p>--}}
+{{--                </div>--}}
 
-                <div class="col-12 col-md-4">
-                    <p>@lang('translates.fields.phone'): {{$client->getAttribute('phone')}}</p>
-                </div>
-                <input type="hidden" name="client_id" value="{{$client->getAttribute('id')}}">
-            </div>
-        </div>
-    @endif
+{{--                <div class="col-12 col-md-4">--}}
+{{--                    <p>@lang('translates.fields.phone'): {{$client->getAttribute('phone')}}</p>--}}
+{{--                </div>--}}
+{{--                <input type="hidden" name="client_id" value="{{$client->getAttribute('id')}}">--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    @endif--}}
 
         @if($type == \App\Enums\InquiryType::CLIENT || $inquiry->getAttribute('client_id'))
             <div class="form-group col-12 col-md-6" >
