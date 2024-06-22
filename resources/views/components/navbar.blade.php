@@ -1,3 +1,30 @@
+<style>
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        will-change: transform;
+        top: 100%;
+        left: 0;
+    }
+    .dropdown-menu.show {
+        display: block;
+    }
+    .list-content {
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .date {
+        font-size: 12px;
+        color: gray;
+    }
+    .global-search {
+        flex: 1;
+    }
+
+</style>
+
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
         <a class="navbar-brand brand-logo" href="{{ route('dashboard') }}"><img src="{{asset('assets/images/logo.svg')}}" alt="logo"/><h6 class="m-0">Mobil Management</h6></a>
@@ -19,18 +46,15 @@
                 </div>
             </li>
         </ul>
-{{--        <ul class="navbar-nav mr-lg-2">--}}
-{{--            <li class="nav-item nav-search d-none d-lg-block">--}}
-{{--                <div class="input-group">--}}
-{{--                    <div class="input-group-prepend hover-cursor" id="navbar-search-icon">--}}
-{{--                            <span class="input-group-text" id="search">--}}
-{{--                              <i class="fas fa-search"></i>--}}
-{{--                            </span>--}}
-{{--                    </div>--}}
-{{--                    <input type="text" class="form-control" id="navbar-search-input" placeholder="Search now" aria-label="search" aria-describedby="search">--}}
-{{--                </div>--}}
-{{--            </li>--}}
-{{--        </ul>--}}
+
+        <div class="container-fluid">
+            <div class="global-search d-flex col-12 position-relative p-0">
+                <form class="d-flex flex-grow-1 w-100">
+                    <input class="form-control" placeholder="Search anything you want" aria-label="Search" id="searchInput" style="max-width: 100%;">
+                </form>
+                <ul class="dropdown-menu col-12" id="dropdownMenu"></ul>
+            </div>
+        </div>
 
         <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item">
@@ -105,7 +129,6 @@
                     @endif
                 </div>
             </li>
-
 
             <li class="nav-item dropdown">
                 <a class="nav-link count-indicator dropdown-toggle" id="notificationsDropdown" href="#" data-toggle="dropdown">
@@ -207,4 +230,51 @@
              }
          });
      </script>
+
+
+     <script>
+         document.getElementById('searchInput').addEventListener('input', function() {
+             var query = this.value.trim();
+             var dropdownMenu = document.getElementById('dropdownMenu');
+
+             if (query.length >= 3) {
+                 fetchResults(query);
+             } else if (query.length < 3 && query.length >= 1) {
+                 let html = '<li class="list-content mx-2">You should enter 3 character at least</li>'
+                 populateDropdown(html)
+             } else if (query.length === 0) {
+                 dropdownMenu.classList.remove('show');
+             }
+         });
+
+         async function fetchResults(query) {
+             try {
+                 const response = await fetch('{{ route("global-search") }}', {
+                     method: 'POST',
+                     headers: {
+                         'Content-Type': 'application/json',
+                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                     },
+                     body: JSON.stringify({ query: query })
+                 });
+
+                 if (response.ok) {
+                     const data = await response.json();
+                     populateDropdown(data);
+                 } else {
+                     console.error('Search request failed.');
+                 }
+             } catch (error) {
+                 console.error('Error:', error);
+             }
+         }
+
+         function populateDropdown(html) {
+             var dropdownMenu = document.getElementById('dropdownMenu');
+             dropdownMenu.innerHTML = '<li></li>';
+             dropdownMenu.innerHTML += html;
+             dropdownMenu.classList.add('show');
+         }
+     </script>
+
  @endpush

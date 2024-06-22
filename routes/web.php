@@ -6,6 +6,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Auth\RegisterController,
     BarcodeController,
     ClientAuthController,
+    GlobalSearchController,
     Main\AccountController,
     Main\PlatformController,
     Modules\AccessRateController,
@@ -113,6 +114,7 @@ Route::get('/close-notify/{announcement}', [PlatformController::class, 'closeNot
 Route::redirect('/','/welcome')->name('home');
 Route::get('/welcome', [PlatformController::class, 'welcome'])->name('welcome');
 Route::get('/dashboard', [PlatformController::class, 'dashboard'])->middleware(['verified_phone', 'deactivated','is_transit_customer'])->name('dashboard');
+Route::post('global-search', GlobalSearchController::class)->name('global-search');
 
 Route::get('/account', [AccountController::class, 'account'])->middleware(['verified_phone', 'deactivated'])->name('account');
 Route::post('/account/{user}', [AccountController::class, 'save'])->middleware(['verified_phone', 'deactivated'])->name('account.save');
