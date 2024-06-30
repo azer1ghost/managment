@@ -6,57 +6,30 @@
             </div>
         @endcan
     @endif
-
-{{--    @if(app()->environment('production') &&--}}
-{{--        (--}}
-{{--            ($method != 'POST' || auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES) && !is_null($client)--}}
-{{--        )--}}
-{{--    )--}}
-{{--        <div class="col-12 text-center">--}}
-{{--            <h4>@lang('translates.fields.client')</h4>--}}
-{{--            <div class="row">--}}
-{{--                <div class="col-12 col-md-4">--}}
-{{--                    <p>@lang('translates.columns.name'): {{$client->getAttribute('name')}}</p>--}}
-{{--                    <p>@lang('translates.columns.created_by'): {{$client->getRelationValue('user')->getAttribute('fullname')}}</p>--}}
-{{--                </div>--}}
-
-{{--                <div class="col-12 col-md-4">--}}
-{{--                    <p>VOEN/GOEN: {{$client->getAttribute('voen')}}</p>--}}
-{{--                </div>--}}
-
-{{--                <div class="col-12 col-md-4">--}}
-{{--                    <p>@lang('translates.fields.phone'): {{$client->getAttribute('phone')}}</p>--}}
-{{--                </div>--}}
-{{--                <input type="hidden" name="client_id" value="{{$client->getAttribute('id')}}">--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    @endif--}}
-
-        @if($type == \App\Enums\InquiryType::CLIENT || $inquiry->getAttribute('client_id'))
-            <div class="form-group col-12 col-md-6" >
-                <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
-                <div class="d-flex align-items-center">
-                    <select name="client_id" id="data-client-type" data-url="{{route('clients.search')}}" class="custom-select2" style="width: 100% !important;" required>
-                        @if(is_numeric(optional($inquiry)->getAttribute('client_id')))
-                            <option class="@if(optional($inquiry)->getRelationValue('client')->getAttribute('active') == 1) text-danger @endif"  value="{{optional($inquiry)->getAttribute('client_id')}}">{{optional($inquiry)->getRelationValue('client')->getAttribute('fullname_with_voen')}}</option>
-                        @endif
-                    </select>
-                    @if(is_numeric(optional($inquiry)->getAttribute('client_id')))
-                        @can('update', \App\Models\Client::find(optional($inquiry)->getAttribute('client_id')))
-                            <a target="_blank" href="{{route('clients.edit', optional($inquiry)->getAttribute('client_id'))}}" class="btn btn-outline-primary ml-3">
-                                <i class="fa fa-pen"></i>
-                            </a>
-                        @endcan
-                    @endif
-
-                    <a target="_blank" href="{{route('clients.create', ['type' => \App\Models\Client::PHYSICAL])}}" class="btn btn-outline-success ml-1">
-                        <i class="fa fa-plus"></i>
-                    </a>
-                </div>
-            </div>
-        @endif
-
     @csrf @method($method)
+    @if($type == \App\Enums\InquiryType::CLIENT || $inquiry->getAttribute('client_id'))
+        <div class="form-group col-12 col-md-6" wire:ignore >
+            <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
+            <div class="d-flex align-items-center">
+                <select name="client_id" id="data-client-type" data-url="{{route('clients.search')}}" class="custom-select2" style="width: 100% !important;" required>
+                    @if(is_numeric(optional($inquiry)->getAttribute('client_id')))
+                        <option class="@if(optional($inquiry)->getRelationValue('client')->getAttribute('active') == 1) text-danger @endif"  value="{{optional($inquiry)->getAttribute('client_id')}}">{{optional($inquiry)->getRelationValue('client')->getAttribute('fullname_with_voen')}}</option>
+                    @endif
+                </select>
+                @if(is_numeric(optional($inquiry)->getAttribute('client_id')))
+                    @can('update', \App\Models\Client::find(optional($inquiry)->getAttribute('client_id')))
+                        <a target="_blank" href="{{route('clients.edit', optional($inquiry)->getAttribute('client_id'))}}" class="btn btn-outline-primary ml-3">
+                            <i class="fa fa-pen"></i>
+                        </a>
+                    @endcan
+                @endif
+
+                <a target="_blank" href="{{route('clients.create', ['type' => \App\Models\Client::PHYSICAL])}}" class="btn btn-outline-success ml-1">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+        </div>
+    @endif
 
     <div wire:loading.delay class="col-12">
         <div style="position: absolute;right: 0;top: -25px">
@@ -117,7 +90,7 @@
             </div>
         @endif
     @if($selected['company'])
-        <x-input::textarea name="note"  :value="$note"  label="Note"   width="12" rows="4"/>
+        <x-input::textarea name="note" :value="$note" label="Note" width="12" rows="4"/>
         <div class="col-md-3">
             <div>
                 <input wire:model="selected.is_out" type="radio" name="is_out" id="is_out1" value="0">
