@@ -160,7 +160,7 @@
                                 <option
                                         @if(optional($data)->getAttribute('status') === $status ) selected
                                         @endif value="{{$status}}"
-                                        @if($status == \App\Models\Work::REJECTED || (optional($data)->hasAsanImza() && $status == \App\Models\Work::DONE && is_null(optional($data)->getAttribute('asan_imza_id')))) disabled
+                                        @if($status == \App\Models\Work::REJECTED || (optional($data)->hasAsanImza() && $status == \App\Models\Work::DONE && is_null(optional($data)->getAttribute('asan_imza_id'))))
                                         @endif
                                 >
                                     @lang('translates.work_status.' . $key)
