@@ -774,7 +774,7 @@ return [
         'Geri Qaytarıldı',
         'Buraxılışda',
         'Tamamlandı',
-        'Dayandırılıb',
+        'Ləğv Olundu',
         'Laboratoriyada',
     ],
 
