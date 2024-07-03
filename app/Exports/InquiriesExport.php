@@ -4,11 +4,12 @@ namespace App\Exports;
 
 use App\Models\Inquiry;
 use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class InquiriesExport implements WithHeadings, WithMapping
+class InquiriesExport implements FromCollection, WithHeadings, WithMapping
 {
     use Exportable;
 
