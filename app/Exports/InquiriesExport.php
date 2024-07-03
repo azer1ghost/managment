@@ -14,25 +14,27 @@ class InquiriesExport implements FromQuery, WithHeadings, WithMapping
 
     protected array $filters = [], $parameterFilters = [];
 
-    public function __construct(array $filters = [], array $parameterFilters = []){
-        $this->filters = $filters;
-        $this->parameterFilters = $parameterFilters;
-
-    }
-    public function query()
+    public function collection()
     {
-        $query = Inquiry::query();
+        $startDate = '2024-06-01';
+        $endDate = '2024-06-30';
 
-        foreach ($this->filters as $field => $value) {
-            if (is_array($value)) {
-                $query->whereIn($field, $value);
-            } else if ($value !== null) {
-                $query->where($field, 'LIKE', "%{$value}%");
-            }
-        }
-
-        return $query;
+        return Inquiry::whereBetween('created_at', [$startDate, $endDate])->whereIn('user_id', [187, 102])->get();
     }
+//    public function query()
+//    {
+//        $query = Inquiry::query();
+//
+//        foreach ($this->filters as $field => $value) {
+//            if (is_array($value)) {
+//                $query->whereIn($field, $value);
+//            } else if ($value !== null) {
+//                $query->where($field, 'LIKE', "%{$value}%");
+//            }
+//        }
+//
+//        return $query;
+//    }
 
     public function headings(): array
     {
