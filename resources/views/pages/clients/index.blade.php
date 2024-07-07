@@ -239,7 +239,7 @@
                                     <td>{{$client->getAttribute('voen') ? $client->getAttribute('voen') : trans('translates.clients.voen_empty')}} </td>
                                     <td>
                                         @if($client->inquiries->last())
-                                            {{optional($client->inquiries->last()->getParameter('channel'))->getAttribute('value')}}
+                                            {{optional($client->inquiries->last()->getParameter('channel'))}}
                                         @endif
                                     </td>
                                     <td>{{$client->getAttribute('created_at')}}</td>
