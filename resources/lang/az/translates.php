@@ -390,11 +390,11 @@ return [
 
     'inquiries' => [
         'types' =>[
-            0 => 'Potensial Müştəri',
-            1 => 'Əməkdaşlıq Təklifi',
-            2 => 'Vendor',
-            3 => 'Partnyor',
-            4 => 'Vakansiya',
+            1 => 'Potensial Müştəri',
+            2 => 'Əməkdaşlıq Təklifi',
+            3 => 'Vendor',
+            4 => 'Partnyor',
+            5 => 'Vakansiya',
         ],
         'where' => [
             'from_us' => 'Bizdən',

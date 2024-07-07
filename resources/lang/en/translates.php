@@ -395,11 +395,11 @@ return [
 
     'inquiries' => [
       'types' =>[
-          0 => 'Potential Customer',
-          1 => 'Cooperation offer',
-          2 => 'Vendor',
-          3 => 'Partner',
-          4 => 'Vacancy',
+          1 => 'Potential Customer',
+          2 => 'Cooperation offer',
+          3 => 'Vendor',
+          4 => 'Partner',
+          5 => 'Vacancy',
       ]
     ],
 

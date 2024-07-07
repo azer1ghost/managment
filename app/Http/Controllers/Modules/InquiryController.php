@@ -220,7 +220,7 @@ class InquiryController extends Controller
                 ['editable_ended_at' => $inquiry->getAttribute('created_at')->addHours(10)] //->addMinutes(7)
             );
 
-        return redirect()->to($request->get('backUrl'))->withNotify('info', 'Inquiry');
+        return redirect()->route('inquiry.index')->withNotify('info', 'Inquiry');
     }
 
     public function show(Inquiry $inquiry)
@@ -275,7 +275,7 @@ class InquiryController extends Controller
            $inquiry->parameters()->sync(syncResolver($newParameters ?? [], 'value'));
         }
 
-        return redirect()->to($request->get('backUrl'))->withNotify('info', 'Inquiry updated');
+        return redirect()->route('inquiry.index')->withNotify('info', 'Inquiry updated');
     }
 
     public function logs(Inquiry $inquiry)

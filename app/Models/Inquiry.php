@@ -202,11 +202,11 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
     public static function types()
     {
         return [
-            InquiryType::CLIENT => trans('translates.inquiries.types.0'),
-            InquiryType::COLLABORATION => trans('translates.inquiries.types.1'),
-            InquiryType::VENDOR => trans('translates.inquiries.types.2'),
-            InquiryType::PARTNER => trans('translates.inquiries.types.3'),
-            InquiryType::VACANCY => trans('translates.inquiries.types.4'),
+            InquiryType::CLIENT => trans('translates.inquiries.types.1'),
+            InquiryType::COLLABORATION => trans('translates.inquiries.types.2'),
+            InquiryType::VENDOR => trans('translates.inquiries.types.3'),
+            InquiryType::PARTNER => trans('translates.inquiries.types.4'),
+            InquiryType::VACANCY => trans('translates.inquiries.types.5'),
         ];
     }
 }
