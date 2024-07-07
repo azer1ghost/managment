@@ -6,6 +6,28 @@
             </div>
         @endcan
     @endif
+            @if(app()->environment('production') &&
+                (
+                    $method != 'POST' && !is_null($client)
+                )
+            )
+                <div class="col-12 text-center">
+                    <h4>@lang('translates.fields.client')</h4>
+                    <div class="row">
+                        <div class="col-12 col-md-4">
+                            <p>@lang('translates.columns.name'):{{optional($inquiry)->getRelationValue('client')->getAttribute('fullname')}}</p>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <p>VOEN/GOEN: {{optional($inquiry)->getRelationValue('client')->getAttribute('voen')}}</p>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <p>@lang('translates.fields.phone'): {{optional($inquiry)->getRelationValue('client')->getAttribute('phone1')}}</p>
+                        </div>
+                    </div>
+                </div>
+            @endif
     @csrf @method($method)
     @if($type == \App\Enums\InquiryType::CLIENT || $inquiry->getAttribute('client_id'))
         <div class="form-group col-12 col-md-6" wire:ignore >
@@ -48,7 +70,8 @@
 
 
     <input type="hidden" name="company_id" wire:model="selected.company">
-    <input type="hidden" name="backUrl" wire:model="backUrl">
+    <input type="hidden" name="company_id" wire:model="selected.company">
+    <input type="hidden" name="inq_type" value="{{request('type')}}" wire:ignore>
 
     @foreach($formFields as $formField)
         @if($formField['type'] === 'select' && count($formField['options']) == 0)
@@ -81,14 +104,14 @@
             @endif
         </div>
     @endforeach
-        @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES)
-            <div class="form-group col-12 col-md-3 mb-3 mb-md-0">
-                <label for="alarm">Alarm Vaxtı</label>
-                <input type="text" name="alarm"
-                       value="{{$inquiry->getAttribute('alarm')}}"
-                       id="alarm" class="form-control custom-single-daterange" >
-            </div>
-        @endif
+{{--    @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES)--}}
+{{--        <div class="form-group col-12 col-md-3 mb-3 mb-md-0">--}}
+{{--            <label for="alarm">Alarm Vaxtı</label>--}}
+{{--            <input type="text" name="alarm"--}}
+{{--                   value="{{$inquiry->getAttribute('alarm')}}"--}}
+{{--                   id="alarm" class="form-control custom-single-daterange" >--}}
+{{--        </div>--}}
+{{--    @endif--}}
     @if($selected['company'])
         <x-input::textarea name="note" :value="$note" label="Note" width="12" rows="4"/>
         <div class="col-md-3">
@@ -106,23 +129,6 @@
             </div>
         </div>
 {{--    <x-input::select name="redirected" :options="$operators" label="Redirect" width="4" class="pr-2" />--}}
-    @endif
-
-    @if(auth()->user()->hasPermission('checkRejectedReason-inquiry') && optional($inquiry->getParameter('status'))->getAttribute('id') == \App\Models\Inquiry::REJECTED)
-        <div class="col-md-3">
-            <div>
-                <input type="radio" name="checking" id="checking" @if($inquiry->getAttribute('checking') == 0) checked @endif value="0">
-                <label class="form-check-label" for="checking">
-                    İmtina səbəbi uyğun deyil
-                </label>
-            </div>
-            <div>
-                <input type="radio" name="checking" id="checking1" @if($inquiry->getAttribute('checking') == 1) checked @endif value="1">
-                <label class="form-check-label" for="checking1">
-                    İmtina səbəbi düzgündür
-                </label>
-            </div>
-        </div>
     @endif
 
     @if($action)

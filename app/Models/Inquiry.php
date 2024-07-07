@@ -46,7 +46,8 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
         'client_id',
         'checking',
         'alarm',
-        'next_call_at'
+        'next_call_at',
+        'type'
     ];
 
     protected $casts = [

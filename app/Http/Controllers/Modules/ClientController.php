@@ -87,18 +87,6 @@ class ClientController extends Controller
             'reference' => User::get(['id', 'name', 'surname']),
         ];
         $clients = $this->clientRepository->allFilteredClients($filters);
-//
-//        $marketingClients = $clients->get()->filter(function ($client) {
-//            $lastInquiry = $client->inquiries->last();
-////            dd($client->inquiries);
-//            return $lastInquiry && $lastInquiry->department_id == 1;
-//        });
-//
-//
-//        $salesClients = $clients->get()->filter(function ($client) {
-//            $lastInquiry = $client->inquiries->last();
-//            return $lastInquiry && $lastInquiry->department_id == 29;
-//        });
 
         if (auth()->id() == 172) {
             $clients->where('user_id', auth()->id());
@@ -128,8 +116,6 @@ class ClientController extends Controller
                     (string)Client::PASSIVE => trans('translates.buttons.passive')
                 ],
                 'clients' => $clients,
-//                'marketingClients' => $marketingClients,
-//                'salesClients' => $salesClients,
                 'coordinators' => User::isActive()->where('department_id', Department::COORDINATOR)->get(['id', 'name', 'surname']),
                 'companies' => Company::get(['id', 'name', 'logo']),
                 'users' => User::isActive()->get(['id', 'name', 'surname']),

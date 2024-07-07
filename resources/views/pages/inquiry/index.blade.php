@@ -227,9 +227,9 @@
                         <td>{{$inquiry->getAttribute('datetime')->format('d-m-Y')}}</td>
                         <td>{{$inquiry->getAttribute('datetime')->format('H:i')}}</td>
                         <td>{{$inquiry->getRelationValue('company')->getAttribute('name')}}</td>
-                        <td>{{optional($inquiry->getParameter('fullname'))->getAttribute('value')}}</td>
+                        <td>{{$inquiry->getRelationValue('client')->getAttribute('fullname')}}</td>
                         <td>{{$inquiry->getRelationValue('user')->getAttribute('fullname')}} {!! $inquiry->getRelationValue('user')->getAttribute('disabled_at') ? ' <span class="text-danger">(' . __('translates.disabled') . ')</span>' : '' !!}</td>
-                        <td>{{optional($inquiry->getParameter('subject'))->getAttribute('text')}}</td>
+                        <td>{{trans('translates.inquiries.types.'.$inquiry->getAttribute('type'))}}</td>
                         <td class="text-center">
                             @if($inquiry->getAttribute('wasDone'))
                                 <i class="fa fa-check text-success" style="font-size: 18px"></i>
