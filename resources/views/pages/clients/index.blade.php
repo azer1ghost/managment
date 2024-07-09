@@ -205,10 +205,10 @@
                                 @if(auth()->user()->hasPermission('viewAll-client'))
                                     <th scope="col">@lang('translates.columns.email')</th>
                                     <th scope="col">@lang('translates.columns.phone')</th>
-                                    <th scope="col">@lang('translates.navbar.document')</th>
                                 @endif
                                     <th scope="col">VOEN/GOOEN</th>
                                     <th scope="col">Channel</th>
+                                    <th scope="col">@lang('translates.navbar.document')</th>
                                     <th scope="col">@lang('translates.columns.created_at')</th>
                                 @if(auth()->user()->hasPermission('viewAll-client'))
                                     <th scope="col">@lang('translates.columns.actions')</th>
@@ -236,15 +236,7 @@
                                     @if(auth()->user()->hasPermission('viewAll-client'))
                                         <td>{{$client->getAttribute('email1') ? $client->getAttribute('email1') : trans('translates.clients.email_empty')}} </td>
                                         <td>{{$client->getAttribute('phone1') ? $client->getAttribute('phone1') : trans('translates.clients.phone_empty')}} </td>
-                                            <td style="min-width: 130px">
-                                                @php $supportedTypes = \App\Models\Document::supportedTypeIcons() @endphp
-                                                @foreach($client->documents as $document)
-                                                    @php $type = $supportedTypes[$document->type] @endphp
-                                                    @php $route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document) @endphp
-                                                    <a href="{{$route}}" data-toggle="tooltip" title="{{$document->name}}" target="_blank" class="text-dark" style="word-break: break-word">
-                                                        <i class="fa fa-file-{{$type['icon']}} fa-2x text-{{$type['color']}}"></i>
-                                                    </a>
-                                                @endforeach
+                                            dforeach
                                             </td>
                                     @endif
                                     <td>{{$client->getAttribute('voen') ? $client->getAttribute('voen') : trans('translates.clients.voen_empty')}} </td>
@@ -253,6 +245,15 @@
                                             {{optional($client->inquiries->last()->getParameter('channel'))->getAttribute('text')}}
                                         @endif
                                     </td>
+                                        <td style="min-width: 130px">
+                                            @php $supportedTypes = \App\Models\Document::supportedTypeIcons() @endphp
+                                            @foreach($client->documents as $document)
+                                                @php $type = $supportedTypes[$document->type] @endphp
+                                                @php $route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document) @endphp
+                                                <a href="{{$route}}" data-toggle="tooltip" title="{{$document->name}}" target="_blank" class="text-dark" style="word-break: break-word">
+                                                    <i class="fa fa-file-{{$type['icon']}} fa-2x text-{{$type['color']}}"></i>
+                                                </a>
+                                                @en
                                     <td>{{$client->getAttribute('created_at')}}</td>
                                     @if(auth()->user()->hasPermission('viewAll-client'))
                                         <td>
