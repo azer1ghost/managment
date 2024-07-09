@@ -237,7 +237,7 @@
                                         <td>{{$client->getAttribute('email1') ? $client->getAttribute('email1') : trans('translates.clients.email_empty')}} </td>
                                         <td>{{$client->getAttribute('phone1') ? $client->getAttribute('phone1') : trans('translates.clients.phone_empty')}} </td>
 
-                                            </td>
+
                                     @endif
                                     <td>{{$client->getAttribute('voen') ? $client->getAttribute('voen') : trans('translates.clients.voen_empty')}} </td>
                                     <td>
@@ -253,7 +253,8 @@
                                                 <a href="{{$route}}" data-toggle="tooltip" title="{{$document->name}}" target="_blank" class="text-dark" style="word-break: break-word">
                                                     <i class="fa fa-file-{{$type['icon']}} fa-2x text-{{$type['color']}}"></i>
                                                 </a>
-                                                @en
+                                        @endforeach
+                                        </td>
                                     <td>{{$client->getAttribute('created_at')}}</td>
                                     @if(auth()->user()->hasPermission('viewAll-client'))
                                         <td>
