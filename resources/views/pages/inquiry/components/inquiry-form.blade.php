@@ -6,28 +6,28 @@
             </div>
         @endcan
     @endif
-            @if(app()->environment('production') &&
-                (
-                    $method != 'POST' && !is_null($client)
-                )
-            )
-                <div class="col-12 text-center">
-                    <h4>@lang('translates.fields.client')</h4>
-                    <div class="row">
-                        <div class="col-12 col-md-4">
-                            <p>@lang('translates.columns.name'):{{optional($inquiry)->getRelationValue('client')->getAttribute('fullname')}}</p>
-                        </div>
-
-                        <div class="col-12 col-md-4">
-                            <p>VOEN/GOEN: {{optional($inquiry)->getRelationValue('client')->getAttribute('voen')}}</p>
-                        </div>
-
-                        <div class="col-12 col-md-4">
-                            <p>@lang('translates.fields.phone'): {{optional($inquiry)->getRelationValue('client')->getAttribute('phone1')}}</p>
-                        </div>
-                    </div>
+    @if(app()->environment('production') &&
+        (
+            $method != 'POST' && !is_null($client)
+        )
+    )
+        <div class="col-12 text-center">
+            <h4>@lang('translates.fields.client')</h4>
+            <div class="row">
+                <div class="col-12 col-md-4">
+                    <p>@lang('translates.columns.name'):{{optional($inquiry)->getRelationValue('client')->getAttribute('fullname')}}</p>
                 </div>
-            @endif
+
+                <div class="col-12 col-md-4">
+                    <p>VOEN/GOEN: {{optional($inquiry)->getRelationValue('client')->getAttribute('voen')}}</p>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <p>@lang('translates.fields.phone'): {{optional($inquiry)->getRelationValue('client')->getAttribute('phone1')}}</p>
+                </div>
+            </div>
+        </div>
+    @endif
     @csrf @method($method)
     @if($type == \App\Enums\InquiryType::CLIENT || $inquiry->getAttribute('client_id'))
         <div class="form-group col-12 col-md-6" wire:ignore >
@@ -100,10 +100,21 @@
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $formField['message'] ?? null }}</strong>
                 </span>
-                </span>
             @endif
         </div>
     @endforeach
+    <div class="form-group col-md-3">
+        <label for="priority">
+            Priority
+        </label>
+        <select class="form-control" name="priority" id="priority" wire:ignore>
+            @foreach($priorities as $key => $priority)
+                <option value="{{$key}}" {{$inquiry->getAttribute('priority') == $key ? 'selected' : ''}}>
+                    {{$priority}}
+                </option>
+            @endforeach
+        </select>
+    </div>
 {{--    @if(auth()->user()->getAttribute('department_id') == \App\Models\Department::SALES)--}}
 {{--        <div class="form-group col-12 col-md-3 mb-3 mb-md-0">--}}
 {{--            <label for="alarm">Alarm Vaxtı</label>--}}
@@ -130,6 +141,8 @@
         </div>
 {{--    <x-input::select name="redirected" :options="$operators" label="Redirect" width="4" class="pr-2" />--}}
     @endif
+
+
 
     @if($action)
         <div class="col-12">

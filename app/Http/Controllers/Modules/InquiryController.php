@@ -193,7 +193,8 @@ class InquiryController extends Controller
                 'method' => 'POST',
                 'action' => route('inquiry.store'),
                 'data'   => new Inquiry(),
-                'backUrl'   => $backUrl
+                'backUrl'   => $backUrl,
+                'priorities' => Inquiry::priorities()
             ]);
     }
 
@@ -207,6 +208,7 @@ class InquiryController extends Controller
                     'datetime' => $request->get('date')." ".$request->get('time'),
                     'department_id' => auth()->user()->getAttribute('department_id'),
                     'type' => $request->get('inq_type'),
+                    'priority' => $request->get('priority'),
                 ]
             )
         );
@@ -232,7 +234,8 @@ class InquiryController extends Controller
                 'method' => null,
                 'action' => null,
                 'data'   => $inquiry,
-                'backUrl' => $backUrl
+                'backUrl' => $backUrl,
+                'priorities' => $inquiry->priorities()
             ]);
     }
 
@@ -245,7 +248,8 @@ class InquiryController extends Controller
                 'method' => "PUT",
                 'action' => route('inquiry.update', $inquiry),
                 'data'   => $inquiry,
-                'backUrl' => $backUrl
+                'backUrl' => $backUrl,
+                'priorities' => $inquiry->priorities()
             ]);
     }
     public function export()
@@ -258,7 +262,7 @@ class InquiryController extends Controller
         $oldInquiry = $inquiry->replicate(['code'])->getAttributes();
         $inquiry->update(
             array_merge(
-                $request->only(['note', 'company_id', 'is_out', 'client_name', 'checking', 'alarm']),
+                $request->only(['note', 'company_id', 'is_out', 'client_name', 'checking', 'alarm', 'priority']),
                 ['datetime' => Carbon::createFromFormat('d-m-Y H:i', $request->get('date')." ".$request->get('time'))]
             )
         );
@@ -309,7 +313,7 @@ class InquiryController extends Controller
         return json_encode(['data' => [
             'type'    => 'blue',
             'title'   =>  __('translates.flash_messages.inquiry_status_updated.title', ['code' => $inquiry->getAttribute('code')]),
-            'message' =>  __('translates.flash_messages.inquiry_status_updated.msg',   ['prev' => $oldOption, 'next' => $newOption])]
+            'message' =>  __('translates.flash_messages.inquiry_status_updated.msg', ['prev' => $oldOption, 'next' => $newOption])]
         ]);
     }
 

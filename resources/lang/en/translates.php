@@ -390,18 +390,22 @@ return [
             'from_customers' => 'From customers'
         ],
         'label' => 'Inquiry type',
-        'alarm' => 'You must contact the customer'
+        'alarm' => 'You must contact the customer',
+        'types' => [
+            1 => 'Potential Customer',
+            2 => 'Cooperation offer',
+            3 => 'Vendor',
+            4 => 'Partner',
+            5 => 'Vacancy',
+        ],
+        'priorities' => [
+            0 => 'Unnecessary',
+            1 => 'Low',
+            2 => 'Medium',
+            3 => 'High',
+        ]
     ],
 
-    'inquiries' => [
-      'types' =>[
-          1 => 'Potential Customer',
-          2 => 'Cooperation offer',
-          3 => 'Vendor',
-          4 => 'Partner',
-          5 => 'Vacancy',
-      ]
-    ],
 
     'tasks' => [
         'is_executing' => 'Is executing',

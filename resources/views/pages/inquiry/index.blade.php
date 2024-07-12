@@ -213,6 +213,7 @@
                     <th>@lang('translates.fields.writtenBy')</th>
                     <th>@lang('translates.fields.subject')</th>
                     <th class="text-center">Status</th>
+                    <th class="text-center">Priority</th>
                     <th>@lang('translates.fields.actions')</th>
                 </tr>
                 </thead>
@@ -258,7 +259,8 @@
                                 @endif
                             @endif
                         </td>
-                        <td>
+                        <td>{{$inquiry->priorities()[$inquiry->getAttribute('priority')]}}</td>
+                            <td>
                             <div class="btn-sm-group d-flex align-items-center justify-content-center">
                                 @if(!$trashBox)
                                     @can('view', $inquiry)

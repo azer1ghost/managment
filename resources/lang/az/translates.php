@@ -396,6 +396,12 @@ return [
             4 => 'Partnyor',
             5 => 'Vakansiya',
         ],
+        'priorities' => [
+            0 => 'Yoxdur',
+            1 => 'Aşağı',
+            2 => 'Orta',
+            3 => 'Yüksək',
+        ],
         'where' => [
             'from_us' => 'Bizdən',
             'from_customers' => 'Müştərilərdən'

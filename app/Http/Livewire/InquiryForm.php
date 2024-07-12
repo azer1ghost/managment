@@ -21,6 +21,7 @@ class InquiryForm extends Component
     public ?string $action = null, $method = null;
     public ?string $backUrl;
     public ?string $type;
+    public ?array $priorities;
 
     public ?Inquiry $inquiry;
     public Carbon $datetime;
@@ -35,7 +36,7 @@ class InquiryForm extends Component
     {
         $this->companies = Company::isInquirable()->get();
         $this->type = request('type');
-
+        $this->priorities = $this->inquiry->priorities();
 
         $this->datetime = $this->inquiry->getAttribute('datetime') ?? now();
         $this->note = $this->inquiry->getAttribute('note');

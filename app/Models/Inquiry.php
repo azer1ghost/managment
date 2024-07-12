@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Altek\Accountant\Contracts\Recordable;
 use Altek\Eventually\Eventually;
+use App\Enums\InquiryPriority;
 use App\Enums\InquiryType;
 use App\Interfaces\DocumentableInterface;
 use App\Traits\Documentable;
@@ -47,7 +48,8 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
         'checking',
         'alarm',
         'next_call_at',
-        'type'
+        'type',
+        'priority'
     ];
 
     protected $casts = [
@@ -207,6 +209,15 @@ class Inquiry extends Model implements DocumentableInterface, Recordable
             InquiryType::VENDOR => trans('translates.inquiries.types.3'),
             InquiryType::PARTNER => trans('translates.inquiries.types.4'),
             InquiryType::VACANCY => trans('translates.inquiries.types.5'),
+        ];
+    }
+    public static function priorities()
+    {
+        return [
+            InquiryPriority::UNNECESSARY => trans('translates.inquiries.priorities.0'),
+            InquiryPriority::LOW => trans('translates.inquiries.priorities.1'),
+            InquiryPriority::MEDIUM => trans('translates.inquiries.priorities.2'),
+            InquiryPriority::HIGH => trans('translates.inquiries.priorities.3'),
         ];
     }
 }

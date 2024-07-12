@@ -25,7 +25,7 @@ class RemoveUnnecessaryColumnsFromClientsTable extends Migration
             $table->dropColumn('serial_pattern');
             $table->dropColumn('gender');
             $table->dropColumn('celebrate_at');
-            $table->dropColumn('channel');
+            $table->dropColumn('reference');
 
         });
     }
