@@ -34,6 +34,7 @@ class ClientRequest extends FormRequest
             'main_paper'      => 'nullable|string',
             'qibmain_paper'   => 'nullable|string',
             'user_id'         => 'nullable|integer',
+            'channel'         => 'nullable',
             'ordering'        => 'nullable|integer',
         ];
     }

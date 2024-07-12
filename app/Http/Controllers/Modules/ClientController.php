@@ -132,7 +132,8 @@ class ClientController extends Controller
                 'data' => new Client(),
                 'companies' => Company::get(['id', 'name']),
                 'users' => User::isActive()->get(),
-                'engagement' => new CustomerEngagement()
+                'engagement' => new CustomerEngagement(),
+                'channels' => Client::channels()
             ]);
     }
 
@@ -239,6 +240,7 @@ class ClientController extends Controller
                 'users' => User::get(['id', 'name', 'surname']),
                 'engagement' => CustomerEngagement::where('client_id', $client->id)->first(),
                 'services' => $services,
+                'channels' => $client->channels()
             ]);
     }
 

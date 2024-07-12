@@ -48,6 +48,7 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
         'main_paper',
         'qibmain_paper',
         'ordering',
+        'channel',
         'deleted_items'
     ];
 
@@ -151,5 +152,10 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
     public function inquiries(): HasMany
     {
         return $this->hasMany(Inquiry::class, 'client_id');
+    }
+
+    public static function channels(): array
+    {
+        return [1 => 1, 2, 3, 4, 5, 6, 7, 8, 9];
     }
 }

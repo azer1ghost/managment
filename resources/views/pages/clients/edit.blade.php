@@ -192,7 +192,6 @@
                     <x-form-textarea name="detail" style="height: 200px"/>
                 </x-form-group>
 
-
                 <div class="form-group col-6 user">
                     <label for="user_id">Vasitəçi</label><br/>
                     <select class="select2 form-control" name="reference_id" id="user_id">
@@ -200,6 +199,18 @@
                         @foreach($users as $user)
                             <option @if($engagement !== null) @if($engagement->getAttribute('user_id') == $user->id) selected
                                     @endif @endif value="{{$user->id}}">{{$user->getFullNameWithPositionAttribute()}} </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group col-12 col-md-3" wire:ignore>
+                    <label for="data-channel">Kanal @lang('translates.placeholders.choose')</label>
+                    <select name="channel" id="data-channel" class="form-control">
+                        <option value="0">Kanal @lang('translates.placeholders.choose')</option>
+                        @foreach($channels as $key => $channel)
+                            <option @if(optional($data)->getAttribute('channel') == $channel ) selected
+                                    @endif value="{{$channel}}">
+                                @lang('translates.client_channels.' . $key)
+                            </option>
                         @endforeach
                     </select>
                 </div>

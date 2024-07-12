@@ -241,8 +241,11 @@
                                     @endif
                                     <td>{{$client->getAttribute('voen') ? $client->getAttribute('voen') : trans('translates.clients.voen_empty')}} </td>
                                     <td>
-                                        @if($client->inquiries->last())
-                                            {{optional($client->inquiries->last()->getParameter('channel'))->getAttribute('text')}}
+                                        @if($client->getAttribute('channel') > 0)
+                                            @lang('translates.client_channels.' . $client->getAttribute('channel'))
+                                        @elseif($client->inquiries->last())
+                                            <p>{{optional($client->inquiries->last()->getParameter('digital_channels'))->getAttribute('text')}}</p>
+                                            <p>{{optional($client->inquiries->last()->getParameter('traditional_channel'))->getAttribute('text')}}</p>
                                         @endif
                                     </td>
                                         <td style="min-width: 130px">

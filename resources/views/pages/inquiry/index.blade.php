@@ -219,7 +219,15 @@
                 </thead>
                 <tbody>
                 @forelse($inquiries as $inquiry)
-                    <tr>
+                    <tr
+                        @if (
+                            (\Carbon\Carbon::parse($inquiry->created_at)->addMinutes(15)->isPast() && $inquiry->priority == 3 && optional($inquiry->getParameter('status'))->getAttribute('text') == 'Active') ||
+                            (\Carbon\Carbon::parse($inquiry->created_at)->addHour()->isPast() && $inquiry->priority == 2 && optional($inquiry->getParameter('status'))->getAttribute('text') == 'Active') ||
+                            (now()->hour >= 17 && $inquiry->priority == 1 && optional($inquiry->getParameter('status'))->getAttribute('text') == 'Active')
+                        )
+                            class="border border-danger" style="color: darkred"
+                        @endif
+                    >
                         @if(auth()->user()->isDeveloper())
                             <td><input type="checkbox" name="inquiries[]" value="{{$inquiry->id}}"></td>
                         @endif
@@ -250,7 +258,7 @@
                                                 @continue
                                             @endif
                                             <option
-                                                    @if ($status->getAttribute('id') ==  optional($inquiry->getParameter('status'))->getAttribute('id')) selected @endif
+                                                    @if ($status->getAttribute('id') == optional($inquiry->getParameter('status'))->getAttribute('id')) selected @endif
                                                     value="{{$status->getAttribute('id')}}">
                                                 {{$status->getAttribute('text')}}
                                             </option>
