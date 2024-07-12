@@ -246,6 +246,7 @@
                                         @elseif($client->inquiries->last())
                                             <p>{{optional($client->inquiries->last()->getParameter('digital_channels'))->getAttribute('text')}}</p>
                                             <p>{{optional($client->inquiries->last()->getParameter('traditional_channel'))->getAttribute('text')}}</p>
+                                            <p>{{optional($client->inquiries->last()->getParameter('user'))->getAttribute('text')}}</p>
                                         @endif
                                     </td>
                                         <td style="min-width: 130px">
