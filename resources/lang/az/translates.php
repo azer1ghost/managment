@@ -794,7 +794,8 @@ return [
         '00905 Yevlax Gömrük Postu',
         '18000 Naxçıvan BGİ',
         '00123 Bakı KOB g/p',
-        '00110 Sahil g/p'
+        '00110 Sahil g/p',
+        '00808 Poçt göndərişləri G/P'
     ],
 
     'client_channels' => [
