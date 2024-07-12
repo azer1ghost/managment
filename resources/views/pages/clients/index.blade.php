@@ -175,19 +175,7 @@
                 @endif
             </div>
         </div>
-
         <div>
-{{--            <ul class="nav nav-tabs" id="clientTabs" role="tablist">--}}
-{{--                <li class="nav-item">--}}
-{{--                    <a class="nav-link active" id="group1-tab" data-toggle="tab" href="#group1" role="tab" aria-controls="group1" aria-selected="true">All</a>--}}
-{{--                </li>--}}
-{{--                <li class="nav-item">--}}
-{{--                    <a class="nav-link" id="group2-tab" data-toggle="tab" href="#group2" role="tab" aria-controls="group2" aria-selected="false">Marketing</a>--}}
-{{--                </li>--}}
-{{--                <li class="nav-item">--}}
-{{--                    <a class="nav-link" id="group3-tab" data-toggle="tab" href="#group3" role="tab" aria-controls="group3" aria-selected="false">Sales</a>--}}
-{{--                </li>--}}
-{{--            </ul>--}}
             <div class="tab-content" id="clientTabsContent">
                 <div class="tab-pane fade show active" id="group1" role="tabpanel" aria-labelledby="group1-tab">
                     <div class="col-12">
@@ -206,10 +194,10 @@
                                     <th scope="col">@lang('translates.columns.email')</th>
                                     <th scope="col">@lang('translates.columns.phone')</th>
                                 @endif
-                                    <th scope="col">VOEN/GOOEN</th>
-                                    <th scope="col">Channel</th>
-                                    <th scope="col">@lang('translates.navbar.document')</th>
-                                    <th scope="col">@lang('translates.columns.created_at')</th>
+                                <th scope="col">VOEN/GOOEN</th>
+                                <th scope="col">Channel</th>
+                                <th scope="col">@lang('translates.navbar.document')</th>
+                                <th scope="col">@lang('translates.columns.created_at')</th>
                                 @if(auth()->user()->hasPermission('viewAll-client'))
                                     <th scope="col">@lang('translates.columns.actions')</th>
                                 @endif
@@ -244,21 +232,21 @@
                                         @if($client->getAttribute('channel') > 0)
                                             @lang('translates.client_channels.' . $client->getAttribute('channel'))
                                         @elseif($client->inquiries->last())
+                                            <p>{{optional($client->inquiries->last()->getParameter('user'))->getAttribute('value')}}</p>
                                             <p>{{optional($client->inquiries->last()->getParameter('digital_channels'))->getAttribute('text')}}</p>
                                             <p>{{optional($client->inquiries->last()->getParameter('traditional_channel'))->getAttribute('text')}}</p>
-                                            <p>{{optional($client->inquiries->last()->getParameter('user'))->getAttribute('text')}}</p>
                                         @endif
                                     </td>
-                                        <td style="min-width: 130px">
-                                            @php $supportedTypes = \App\Models\Document::supportedTypeIcons() @endphp
-                                            @foreach($client->documents as $document)
-                                                @php $type = $supportedTypes[$document->type] @endphp
-                                                @php $route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document) @endphp
+                                    <td style="min-width: 130px">
+                                        @php $supportedTypes = \App\Models\Document::supportedTypeIcons() @endphp
+                                        @foreach($client->documents as $document)
+                                            @php $type = $supportedTypes[$document->type] @endphp
+                                            @php $route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document) @endphp
                                                 <a href="{{$route}}" data-toggle="tooltip" title="{{$document->name}}" target="_blank" class="text-dark" style="word-break: break-word">
                                                     <i class="fa fa-file-{{$type['icon']}} fa-2x text-{{$type['color']}}"></i>
                                                 </a>
                                         @endforeach
-                                        </td>
+                                    </td>
                                     <td>{{$client->getAttribute('created_at')}}</td>
                                     @if(auth()->user()->hasPermission('viewAll-client'))
                                         <td>
@@ -340,7 +328,6 @@
                 </div>
             </div>
         </div>
-
         <button type="button" class="btn btn-outline-primary" id="sum-assign-coordinators" data-toggle="modal" data-target="#sum-assign-modal-coordinators">
             @lang('translates.clients.assignCoordinator')
         </button>
@@ -355,16 +342,16 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="data-coordinators">Select Coordinators</label><br/>
-                                    <select id="data-coordinators" name="users[]" multiple required class="filterSelector form-control" data-selected-text-format="count"
-                                            data-width="fit" title="@lang('translates.filters.select')">
-                                        @foreach($coordinators as $coordinator)
-                                            <option value="{{$coordinator->getAttribute('id')}}">{{$coordinator->getAttribute('name')}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                            @csrf
+                            <div class="form-group">
+                                <label for="data-coordinators">Select Coordinators</label><br/>
+                                <select id="data-coordinators" name="users[]" multiple required class="filterSelector form-control" data-selected-text-format="count"
+                                        data-width="fit" title="@lang('translates.filters.select')">
+                                    @foreach($coordinators as $coordinator)
+                                        <option value="{{$coordinator->getAttribute('id')}}">{{$coordinator->getAttribute('name')}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
@@ -376,98 +363,98 @@
         </div>
     @endif
 
-        <div class="modal right fade" id="clientDetailModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title font-weight-bolder" id="clientDetailModalLabel">Client Name</h3>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+    <div class="modal right fade" id="clientDetailModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title font-weight-bolder" id="clientDetailModalLabel">Client Name</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <img src="{{asset('assets/images/logos/broker.png')}}" alt="Logo" class="img-fluid my-2" style="max-width: 100px;">
+                        <h6 class="mt-2">client.email@mail.com</h6>
+                    </div>
+                    <div class="d-flex justify-content-around mb-4 nav" id="clientDetailTab" role="tablist">
+                        <a id="sendEmail" href="#" class="btn btn-outline-secondary"><i class="fas fa-envelope"></i> Email</a>
+                        <a id="call" class="btn btn-outline-secondary"><i class="fas fa-phone"></i> Call</a>
+                        <button class="active tab btn btn-outline-secondary" id="detailNote-tab" data-toggle="tab" href="#detailNote" role="tab" aria-controls="detailNote" aria-selected="true">
+                            <i class="fas fa-sticky-note"></i> Note
+                        </button>
+                        <button class="btn btn-outline-secondary" id="detailWorks-tab" data-toggle="tab" href="#detailWorks" role="tab" aria-controls="detailWorks" aria-selected="false">
+                            <i class="fas fa-tasks"></i> Works
+                        </button>
+                        <button class="btn btn-outline-secondary" id="detailInquiries-tab" data-toggle="tab" href="#detailInquiries" role="tab" aria-controls="detailInquiries" aria-selected="false">
+                            <i class="fas fa-phone-office"></i> Inquiries
+                        </button>
+                        <button class="btn btn-outline-secondary" id="detailEmployees-tab" data-toggle="tab" href="#detailEmployees" role="tab" aria-controls="detailEmployees" aria-selected="false">
+                            <i class="fas fa-user"></i> Employees
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <div class="text-center mb-4">
-                            <img src="{{asset('assets/images/logos/broker.png')}}" alt="Logo" class="img-fluid my-2" style="max-width: 100px;">
-                            <h6 class="mt-2">client.email@mail.com</h6>
-                        </div>
-                        <div class="d-flex justify-content-around mb-4 nav" id="clientDetailTab" role="tablist">
-                            <a id="sendEmail" href="#" class="btn btn-outline-secondary"><i class="fas fa-envelope"></i> Email</a>
-                            <a id="call" class="btn btn-outline-secondary"><i class="fas fa-phone"></i> Call</a>
-                            <button class="active tab btn btn-outline-secondary" id="detailNote-tab" data-toggle="tab" href="#detailNote" role="tab" aria-controls="detailNote" aria-selected="true">
-                                <i class="fas fa-sticky-note"></i> Note
-                            </button>
-                            <button class="btn btn-outline-secondary" id="detailWorks-tab" data-toggle="tab" href="#detailWorks" role="tab" aria-controls="detailWorks" aria-selected="false">
-                                <i class="fas fa-tasks"></i> Works
-                            </button>
-                            <button class="btn btn-outline-secondary" id="detailInquiries-tab" data-toggle="tab" href="#detailInquiries" role="tab" aria-controls="detailInquiries" aria-selected="false">
-                                <i class="fas fa-phone-office"></i> Inquiries
-                            </button>
-                            <button class="btn btn-outline-secondary" id="detailEmployees-tab" data-toggle="tab" href="#detailEmployees" role="tab" aria-controls="detailEmployees" aria-selected="false">
-                                <i class="fas fa-user"></i> Employees
-                            </button>
-                        </div>
-                        <div>
-                            <h6 class="font-weight-bold text-center">About This Contact</h6>
-                            <p><b>Companies: </b><span id="companiesSection"></span></p>
-                            <p><b>Voen: </b><span id="clientDetailVoen"></span><button class="btn btn-xs"><i class="fas fa-copy"></i></button></p>
-                            <p><b>Email: </b><a id="clientDetailEmail" class="text-black">--</a></p>
-                            <p><b>Phone number: </b><a id="clientDetailPhone" class="text-black">--</a></p>
-                            <p><b>Address: </b><a id="clientDetailAddress" class="text-black">--</a></p>
-                        </div>
-                        <div>
-                            <h6 class="font-weight-bold">Documents</h6>
-                            <div id="documentsSection"></div>
-                        </div>
-                        <div class="tab-content" id="clientDetailTab">
-                            <div class="tab-pane fade show active" id="detailNote" role="tabpanel" aria-labelledby="detailNote-tab">
-                               <div class="form-group">
-                                   <textarea name="" class="form-control" id="clientDetailNote" cols="30" rows="10"></textarea>
-                               </div>
+                    <div>
+                        <h6 class="font-weight-bold text-center">About This Contact</h6>
+                        <p><b>Companies: </b><span id="companiesSection"></span></p>
+                        <p><b>Voen: </b><span id="clientDetailVoen"></span><button class="btn btn-xs"><i class="fas fa-copy"></i></button></p>
+                        <p><b>Email: </b><a id="clientDetailEmail" class="text-black">--</a></p>
+                        <p><b>Phone number: </b><a id="clientDetailPhone" class="text-black">--</a></p>
+                        <p><b>Address: </b><a id="clientDetailAddress" class="text-black">--</a></p>
+                    </div>
+                    <div>
+                        <h6 class="font-weight-bold">Documents</h6>
+                        <div id="documentsSection"></div>
+                    </div>
+                    <div class="tab-content" id="clientDetailTab">
+                        <div class="tab-pane fade show active" id="detailNote" role="tabpanel" aria-labelledby="detailNote-tab">
+                            <div class="form-group">
+                                <textarea name="" class="form-control" id="clientDetailNote" cols="30" rows="10"></textarea>
                             </div>
-                            <div class="tab-pane fade" id="detailWorks" role="tabpanel" aria-labelledby="detailWorks-tab">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">User</th>
-                                        <th scope="col">Service</th>
-                                        <th scope="col">Status</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="worksTableBody"></tbody>
-                                </table>
-                            </div>
-                            <div class="tab-pane fade" id="detailInquiries" role="tabpanel" aria-labelledby="detailInquiries-tab">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">User</th>
-                                        <th scope="col">Created_at</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="inquiriesTableBody"></tbody>
-                                </table>
-                            </div>
-                            <div class="tab-pane fade" id="detailEmployees" role="tabpanel" aria-labelledby="detailEmployees-tab">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Position</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Phone</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="subClientsTableBody"></tbody>
-                                </table>
-                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="detailWorks" role="tabpanel" aria-labelledby="detailWorks-tab">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">User</th>
+                                    <th scope="col">Service</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                                </thead>
+                                <tbody id="worksTableBody"></tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="detailInquiries" role="tabpanel" aria-labelledby="detailInquiries-tab">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">User</th>
+                                    <th scope="col">Created_at</th>
+                                </tr>
+                                </thead>
+                                <tbody id="inquiriesTableBody"></tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="detailEmployees" role="tabpanel" aria-labelledby="detailEmployees-tab">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Position</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Phone</th>
+                                </tr>
+                                </thead>
+                                <tbody id="subClientsTableBody"></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 @endsection
 @section('scripts')
 
