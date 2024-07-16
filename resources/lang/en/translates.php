@@ -792,7 +792,8 @@ return [
         '18000 Naxçıvan BGİ',
         '00123 Bakı KOB g/p',
         '00110 Sahil g/p',
-        '00808 Poçt göndərişləri G/P'
+        '00808 Poçt göndərişləri G/P',
+        '00121 Abşeron G/P'
     ],
     'client_channels' => [
         1 => 'Friend/acquaintance',
