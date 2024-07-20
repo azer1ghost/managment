@@ -375,7 +375,7 @@
                 let selectedValue = $(this).val();
                 let noteValue =  $('#data-detail').val()
                 if (selectedValue == 5) {
-                    $('#data-detail').val(noteValue + '\n \n' + 'Əsas Səbəb:\n \nGeri Qayıtma Səbəbi:\n \nİnspektorun adı:\n  \nƏlaqə nömrəsi: ');
+                    $('#data-detail').val(noteValue + '\n \n' + 'Əsas Səbəb:\n \nGeri Qayıtma Səbəbi:\n \nİnspektorun adı:\n  \nƏlaqə nömrəsi:\n \nSəbəbkar:\n \nÖdənişi ödəyən və ödəniş məbləği: ');
                     // $('#exampleModal').modal('show');
 
                 }
