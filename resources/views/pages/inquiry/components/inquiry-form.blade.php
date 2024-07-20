@@ -142,15 +142,20 @@
 {{--    <x-input::select name="redirected" :options="$operators" label="Redirect" width="4" class="pr-2" />--}}
     @endif
 
-
-
     @if($action)
         <div class="col-12">
             <button class="btn btn-outline-primary float-right">@lang('translates.buttons.save')</button>
         </div>
     @endif
-
 </form>
+@if($method != 'POST' && !is_null($inquiry) && !is_null($inquiry->task))
+    @if($result = $inquiry->task->result()->first())
+        <div class="col-12">
+            <h3>Nəticə</h3>
+            <p class="border"> {{$result->content}}</p>
+        </div>
+    @endif
+@endif
 
 @if(is_null($action))
 @push('scripts')

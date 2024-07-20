@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Inquiry;
+use App\Models\Task;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -18,9 +19,9 @@ class InquiriesExport implements FromCollection, WithHeadings, WithMapping
     public function collection()
     {
         $startDate = '2024-03-01';
-        $endDate = '2024-07-07';
+        $endDate = '2024-07-30';
 
-        return Inquiry::whereBetween('created_at', [$startDate, $endDate])->whereIn('user_id', [187, 102])->get();
+        return Inquiry::whereBetween('created_at', [$startDate, $endDate])->with('task')->get();
     }
 //    public function query()
 //    {
@@ -51,13 +52,19 @@ class InquiriesExport implements FromCollection, WithHeadings, WithMapping
             'Status',
             'Note',
             'Date',
+            'Task Result',
         ];
     }
 
     public function map($row): array
     {
         $note = $row->getAttribute('note');
-
+        $task = Task::where('inquiry_id', $row->id)->first();
+        $resultValue = null;
+        if ($task) {
+            if ($result = $task->result()->first())
+            $resultValue = $result->content;
+        }
         return [
             $row->id,
             optional($row->getParameter('fullname'))->getAttribute('value'),
@@ -70,6 +77,7 @@ class InquiriesExport implements FromCollection, WithHeadings, WithMapping
             optional($row->getParameter('status'))->getAttribute('text'),
             $note,
             $row->getAttribute('created_at'),
+            $resultValue
         ];
     }
 }
