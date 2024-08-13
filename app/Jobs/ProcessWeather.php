@@ -35,8 +35,8 @@ class ProcessWeather implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
-    {
-        $this->cacheService->resolveOpenWeather();
-    }
+//    public function handle()
+//    {
+//        $this->cacheService->resolveOpenWeather();
+//    }
 }
