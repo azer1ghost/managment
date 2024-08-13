@@ -13,17 +13,17 @@ use Cache;
 class CacheService
 {
     /**
-     * @var OpenWeatherApi $openWeatherApi
+//     * @var OpenWeatherApi $openWeatherApi
      */
-    private OpenWeatherApi $openWeatherApi;
-
-    /**
-     * @param OpenWeatherApi $openWeatherApi
-     */
-    public function __construct(OpenWeatherApi $openWeatherApi)
-    {
-        $this->openWeatherApi = $openWeatherApi;
-    }
+//    private OpenWeatherApi $openWeatherApi;
+//
+//    /**
+//     * @param OpenWeatherApi $openWeatherApi
+//     */
+//    public function __construct(OpenWeatherApi $openWeatherApi)
+//    {
+//        $this->openWeatherApi = $openWeatherApi;
+//    }
 
     /**
      * @param string $key
@@ -147,10 +147,10 @@ class CacheService
     /**
      * @return void
      */
-    public function resolveOpenWeather(): void
-    {
-        $weather = $this->openWeatherApi->location(40.4093, 49.8671)->send(); // Baku lat/lon
-
-        $this->update('open_weather', $weather);
-    }
+//    public function resolveOpenWeather(): void
+//    {
+//        $weather = $this->openWeatherApi->location(40.4093, 49.8671)->send(); // Baku lat/lon
+//
+//        $this->update('open_weather', $weather);
+//    }
 }
