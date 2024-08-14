@@ -911,7 +911,7 @@ class WorkController extends Controller
                 }
 
 
-                if (in_array($request->get('asan_imza_id'), [29, 34, 36, 39, 40, 30, 32, 33, 41, 43, 39, 46, 47, 49, 50, 48, 22, 53, 54, 55, 56, 57, 63, 80])) {
+                if (in_array($request->get('asan_imza_id'), [29, 34, 36, 39, 40, 30, 32, 33, 41, 43, 39, 46, 47, 49, 50, 48, 22, 53, 54, 55, 56, 57, 63, 80, 60, 71, 74, 83, 61, 73, 64, 72, 82])) {
                     $work->parameters()->updateExistingPivot($work::VAT, ['value' => 0]);
                 } else {
                     if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41])) {
@@ -960,7 +960,6 @@ class WorkController extends Controller
     {
         $selectedWorks = $request->input('works', []);
 
-        // Seçilen işlerin durumunu güncelle
         Work::whereIn('id', $selectedWorks)->update(['status' => 2]);
 
         return response()->json(['success' => true]);
