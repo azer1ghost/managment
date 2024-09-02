@@ -264,7 +264,9 @@
                     <td>
                         <input type="text" class="form-control" name="main_paper"
                                value="{{ $data->getAttribute('main_paper') }}"
-                               @if($data->getAttribute('department_id') != 2) required @else  @endif>
+                               @if($user->department_id != 2)
+                                   required
+                             @endif
                     </td>
                 </tr>
                 <tr>
@@ -272,7 +274,9 @@
                     <td>
                         <input type="text" class="form-control" name="qibmain_paper"
                                value="{{ $data->getAttribute('qibmain_paper') }}"
-                               @if($data->getAttribute('department_id') != 2) required @else  @endif>
+                               @if($user->department_id != 2)
+                                   required
+                              @endif
                     </td>
                 </tr>
                 @if($method !== 'POST')
@@ -287,9 +291,9 @@
                                 <input type="text"
                                        name="services[{{ $service->getAttribute('id') }}][amount]"
                                        value="{{ $service->pivot->amount ?? '' }}"
-                                       @if(in_array($service->getAttribute('id'), [1, 2, 5, 17]) && $data->getAttribute('department_id') != 2)
+                                       @if(in_array($service->getAttribute('id'), [1, 2, 5, 17]) && $user->department_id != 2)
                                            required
-                                @else
+                                        @else
                                         @endif>
                             </td>
                         </tr>
