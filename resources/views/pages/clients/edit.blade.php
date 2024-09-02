@@ -259,12 +259,22 @@
                     <th>Xidmətlər</th>
                     <th>Qiymət</th>
                 </tr>
-                <td><label>Əsas Vərəq</label></td>
-                <td><input type="text" class="form-control" name="main_paper"
-                           value="{{$data->getAttribute('main_paper')}}" @if($data->getAttribute('department_id')  != 2) required @endif></td>
-                <td><label>QIB Əsas Vərəq</label></td>
-                <td><input type="text" class="form-control" name="qibmain_paper"
-                           value="{{$data->getAttribute('qibmain_paper')}}" @if($data->getAttribute('department_id')  != 2) required @endif ></td>
+                <tr>
+                    <td><label>Əsas Vərəq</label></td>
+                    <td>
+                        <input type="text" class="form-control" name="main_paper"
+                               value="{{ $data->getAttribute('main_paper') }}"
+                               @if($data->getAttribute('department_id') != 2) required @endif>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>QIB Əsas Vərəq</label></td>
+                    <td>
+                        <input type="text" class="form-control" name="qibmain_paper"
+                               value="{{ $data->getAttribute('qibmain_paper') }}"
+                               @if($data->getAttribute('department_id') != 2) required @endif>
+                    </td>
+                </tr>
                 @if($method !== 'POST')
                     @foreach ($services as $service)
                         <tr>
@@ -285,6 +295,7 @@
                     @endforeach
                 @endif
             </table>
+
         </div>
 
         @if($action)
