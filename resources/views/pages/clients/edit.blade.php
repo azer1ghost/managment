@@ -261,10 +261,10 @@
                 </tr>
                 <td><label>Əsas Vərəq</label></td>
                 <td><input type="text" class="form-control" name="main_paper"
-                           value="{{$data->getAttribute('main_paper')}}" required></td>
+                           value="{{$data->getAttribute('main_paper')}}" @if($data->getAttribute('department_id')  != 2) required @endif></td>
                 <td><label>QIB Əsas Vərəq</label></td>
                 <td><input type="text" class="form-control" name="qibmain_paper"
-                           value="{{$data->getAttribute('qibmain_paper')}}" required></td>
+                           value="{{$data->getAttribute('qibmain_paper')}}" @if($data->getAttribute('department_id')  != 2) required @endif ></td>
                 @if($method !== 'POST')
                     @foreach ($services as $service)
                         <tr>
@@ -277,14 +277,13 @@
                                 <input type="text"
                                        name="services[{{ $service->getAttribute('id') }}][amount]"
                                        value="{{ $service->pivot->amount ?? '' }}"
-                                       @if(in_array($service->getAttribute('id'), [1, 2, 5, 17]))
+                                       @if(in_array($service->getAttribute('id'), [1, 2, 5, 17]) && $data->getAttribute('department_id') != 2)
                                            required
                                         @endif>
                             </td>
                         </tr>
                     @endforeach
                 @endif
-
             </table>
         </div>
 
