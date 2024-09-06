@@ -135,7 +135,8 @@ class ClientController extends Controller
                 'companies' => Company::get(['id', 'name']),
                 'users' => User::isActive()->get(),
                 'engagement' => new CustomerEngagement(),
-                'channels' => Client::channels()
+                'channels' => Client::channels(),
+                'payment_methods' => Client::paymentMethods()
             ]);
     }
 
