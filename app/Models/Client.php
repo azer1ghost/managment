@@ -49,7 +49,8 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
         'qibmain_paper',
         'ordering',
         'channel',
-        'deleted_items'
+        'deleted_items',
+        'payment_method'
     ];
 
     public function clients(): HasMany
@@ -158,4 +159,9 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
     {
         return [1 => 1, 2, 3, 4, 5, 6, 7, 8, 9];
     }
+    public static function paymentMethods(): array
+    {
+        return [1 => 1, 2, 3];
+    }
+
 }

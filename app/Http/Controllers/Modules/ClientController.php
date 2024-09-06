@@ -81,6 +81,7 @@ class ClientController extends Controller
             'check-created_at' => $request->has('check-created_at'),
             'created_at' => $createdTime,
             'company' => $request->get('company_id'),
+            'payment_method' => $request->get('payment_method'),
             'free_company' => $request->has('free_company'),
             'free_coordinator' => $request->has('free_coordinator'),
             'users' => $request->get('users'),
@@ -98,7 +99,7 @@ class ClientController extends Controller
             $clients = $clients->orderByDesc('created_at')->get();
         }
         $services = Service::get(['id', 'name', 'detail']);
-
+        $paymentMethods = Client::paymentMethods();
 
         return view('pages.clients.index')
             ->with([
@@ -119,7 +120,8 @@ class ClientController extends Controller
                 'coordinators' => User::isActive()->where('department_id', Department::COORDINATOR)->get(['id', 'name', 'surname']),
                 'companies' => Company::get(['id', 'name', 'logo']),
                 'users' => User::isActive()->get(['id', 'name', 'surname']),
-                'services' => $services
+                'services' => $services,
+                'paymentMethods' => $paymentMethods,
             ]);
     }
 
@@ -240,16 +242,16 @@ class ClientController extends Controller
                 'users' => User::get(['id', 'name', 'surname']),
                 'engagement' => CustomerEngagement::where('client_id', $client->id)->first(),
                 'services' => $services,
-                'channels' => $client->channels()
+                'channels' => $client->channels(),
+                'payment_methods' => $client->paymentMethods(),
             ]);
     }
 
     public function update(ClientRequest $request, Client $client)
     {
-
         $services = $request->get('services');
 
-        foreach ($services as $service_id => $data) {
+        foreach ($services ?? [] as $service_id => $data) {
             $client = Client::find($data['client_id']);
 
             $pivotData = $client->services()

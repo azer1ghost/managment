@@ -36,6 +36,7 @@ class ClientRequest extends FormRequest
             'user_id'         => 'nullable|integer',
             'channel'         => 'nullable',
             'ordering'        => 'nullable|integer',
+            'payment_method' => 'nullable|integer',
         ];
     }
 }

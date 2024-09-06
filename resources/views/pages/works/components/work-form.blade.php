@@ -168,22 +168,21 @@
                             @endforeach
                         </select>
                     </div>
-                            <div class="form-group col-12 col-md-3" wire:ignore>
-                                <label for="data-destination">@lang('translates.general.destination_choose')</label>
-                                <select name="destination" id="data-status" class="form-control">
-                                    <option disabled>@lang('translates.placeholders.choose')</option>
-                                    @foreach($destinations as $key => $destination)
-                                        <option
-                                                @if(optional($data)->getAttribute('destination') == $destination) selected @endif
-                                        value="{{$destination}}"
-                                        >
-                                            @lang('translates.work_destination.' . $destination)
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                    <div class="form-group col-12 col-md-3" wire:ignore>
+                        <label for="data-destination">@lang('translates.general.destination_choose')</label>
+                        <select name="destination" id="data-status" class="form-control">
+                            <option disabled>@lang('translates.placeholders.choose')</option>
+                            @foreach($destinations as $key => $destination)
+                                <option
+                                        @if(optional($data)->getAttribute('destination') == $destination) selected @endif
+                                value="{{$destination}}"
+                                >
+                                    @lang('translates.work_destination.' . $destination)
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                 @endif
-
 
                 @if(!is_null($data) && !is_null(optional($data)->getAttribute('datetime')))
                     <x-input::text wire:ignore name="datetime"  :label="__('translates.fields.date')" value="{{$data->getAttribute('datetime')->format('Y-m-d H:i')}}" width="3" class="pr-3" />
@@ -220,19 +219,26 @@
                                 @break
                         @endswitch
                     @endforeach
-
-                        <div class="form-group col-12 col-md-3" wire:ignore>
-                            <label for="data-payment_method">@lang('translates.general.payment_method')</label>
-                            <select name="payment_method" id="data-payment_method" class="form-control">
-                                <option disabled>@lang('translates.general.payment_method')</option>
-                                @foreach($payment_methods as $key => $payment_method)
-                                    <option @if(optional($data)->getAttribute('payment_method') === $payment_method || $data === null && $payment_method == 2) selected @endif
-                                    value="{{$payment_method}}">
-                                        @lang('translates.payment_methods.' . $key)
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+                        @if($method != 'POST')
+                <div class="form-group col-12 col-md-3" wire:ignore>
+                    <label for="data-payment_method">@lang('translates.general.payment_method')</label>
+                    <select name="payment_method" id="data-payment_method" class="form-control">
+                        <option disabled>@lang('translates.general.payment_method')</option>
+                        @php($clientPaymentMethod = optional($data)->getRelationValue('client')->getAttribute('payment_method'))
+                        @foreach($payment_methods as $key => $payment_method)
+                            <option
+                                @if(!is_null($clientPaymentMethod) && $clientPaymentMethod == $key)
+                                    selected
+                                @elseif(optional($data)->getAttribute('payment_method') === $payment_method || $data === null && $payment_method == 2)
+                                    selected
+                                @endif
+                                value="{{$payment_method}}">
+                                @lang('translates.payment_methods.' . $key)
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                        @endif
 
                 <div class="form-group col-12 col-md-3 bank_charge" wire:ignore>
                     <label for="bank_charge">Bank Xərci</label>

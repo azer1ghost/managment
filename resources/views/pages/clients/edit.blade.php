@@ -253,6 +253,18 @@
                 </a>
             </div>
         @endif
+        <div class="form-group col-12 col-md-3">
+            <label for="data-payment_method">@lang('translates.general.payment_method')</label>
+            <select name="payment_method" id="data-payment_method" class="form-control">
+                <option disabled>@lang('translates.general.payment_method')</option>
+                @foreach($payment_methods as $key => $payment_method)
+                    <option @if($key == $data->payment_method) selected @endif
+                    value="{{$key}}">
+                        @lang('translates.payment_methods.' . $key)
+                    </option>
+                @endforeach
+            </select>
+        </div>
         <div class="col-12">
             <table>
                 <tr>
@@ -300,7 +312,6 @@
                     @endforeach
                 @endif
             </table>
-
         </div>
 
         @if($action)
