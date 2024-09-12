@@ -274,13 +274,13 @@
                 <tr>
                     <td><label>Əsas Vərəq</label></td>
                     <td>
-                        <input type="text" class="form-control" name="main_paper" value="{{ $data->getAttribute('main_paper') }}" @if($data->getAttribute('user_id') != 187) required @endif>
+                        <input type="text" class="form-control" name="main_paper" value="{{ $data->getAttribute('main_paper') }}" @if($data->getAttribute('user_id') != [187, 95]) required @endif>
                     </td>
                 </tr>
                 <tr>
                     <td><label>QIB Əsas Vərəq</label></td>
                     <td>
-                        <input type="text" class="form-control" name="qibmain_paper" value="{{ $data->getAttribute('qibmain_paper') }}" @if($data->getAttribute('user_id') != 187) required @endif>
+                        <input type="text" class="form-control" name="qibmain_paper" value="{{ $data->getAttribute('qibmain_paper') }}" @if($data->getAttribute('user_id') != [187,95]) required @endif>
                     </td>
                 </tr>
                 @if($method !== 'POST')
@@ -290,7 +290,7 @@
                             <input type="hidden" name="services[{{ $service->getAttribute('id') }}][service_id]" value="{{ $service->getAttribute('id') }}">
                             <td><label>{{ $service->getAttribute('name') }}</label></td>
                             <td>
-                                <input type="text" class="form-control service-input" data-service-id="{{ $service->getAttribute('id') }}" name="services[{{ $service->getAttribute('id') }}][amount]" value="{{ $service->pivot->amount ?? '' }}" @if(in_array($service->getAttribute('id'), [1, 2, 5, 17]) && $data->getAttribute('user_id') != 187) required @endif>
+                                <input type="text" class="form-control service-input" data-service-id="{{ $service->getAttribute('id') }}" name="services[{{ $service->getAttribute('id') }}][amount]" value="{{ $service->pivot->amount ?? '' }}" @if(in_array($service->getAttribute('id'), [1, 2, 5, 17]) && $data->getAttribute('user_id') != [187,95]) required @endif>
                             </td>
                         </tr>
                     @endforeach
