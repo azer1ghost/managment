@@ -274,39 +274,23 @@
                 <tr>
                     <td><label>Əsas Vərəq</label></td>
                     <td>
-                        <input type="text" class="form-control" name="main_paper"
-                               value="{{ $data->getAttribute('main_paper') }}"
-                               @if($data->getAttribute('user_id') != 187)
-                                   required
-                               @endif
+                        <input type="text" class="form-control" name="main_paper" value="{{ $data->getAttribute('main_paper') }}" @if($data->getAttribute('user_id') != 187) required @endif>
                     </td>
                 </tr>
                 <tr>
                     <td><label>QIB Əsas Vərəq</label></td>
                     <td>
-                        <input type="text" class="form-control" name="qibmain_paper"
-                               value="{{ $data->getAttribute('qibmain_paper') }}"
-                               @if($data->getAttribute('user_id') != 187)
-                                   required
-                        @endif
+                        <input type="text" class="form-control" name="qibmain_paper" value="{{ $data->getAttribute('qibmain_paper') }}" @if($data->getAttribute('user_id') != 187) required @endif>
                     </td>
                 </tr>
                 @if($method !== 'POST')
                     @foreach ($services as $service)
                         <tr>
-                            <input type="hidden" name="services[{{ $service->getAttribute('id') }}][client_id]"
-                                   value="{{ $data->id }}">
-                            <input type="hidden" name="services[{{ $service->getAttribute('id') }}][service_id]"
-                                   value="{{ $service->getAttribute('id') }}">
+                            <input type="hidden" name="services[{{ $service->getAttribute('id') }}][client_id]" value="{{ $data->id }}">
+                            <input type="hidden" name="services[{{ $service->getAttribute('id') }}][service_id]" value="{{ $service->getAttribute('id') }}">
                             <td><label>{{ $service->getAttribute('name') }}</label></td>
                             <td>
-                                <input type="text"
-                                       name="services[{{ $service->getAttribute('id') }}][amount]"
-                                       value="{{ $service->pivot->amount ?? '' }}"
-                                       @if(in_array($service->getAttribute('id'), [1, 2, 5, 17]) && $data->getAttribute('user_id') != 187)
-                                           required
-                                        @else
-                                        @endif>
+                                <input type="text" class="form-control service-input" data-service-id="{{ $service->getAttribute('id') }}" name="services[{{ $service->getAttribute('id') }}][amount]" value="{{ $service->pivot->amount ?? '' }}" @if(in_array($service->getAttribute('id'), [1, 2, 5, 17]) && $data->getAttribute('user_id') != 187) required @endif>
                             </td>
                         </tr>
                     @endforeach
@@ -314,7 +298,8 @@
             </table>
         </div>
 
-        @if($action)
+
+    @if($action)
             <x-input::submit/>
         @endif
         @endbind
@@ -403,5 +388,32 @@
             window.location.href = '{{route('clients.create')}}' + '?type=' + $(this).val();
         });
         @endif
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Hizmet ID eşleşmelerini tanımlayın
+            const serviceMappings = {
+                1: [17, 18, 19, 23, 20, 21, 30, 22, 16, 26, 27, 29, 24, 25],
+                9: [3, 4, 10, 11, 12],
+                6: [31, 32, 33, 34, 35, 36, 37, 38],
+                8: [7, 58]
+            };
+
+            // Değer değişimlerini dinle
+            $('.service-input').on('input', function() {
+                const serviceId = $(this).data('service-id');
+                const value = $(this).val();
+
+                // Eğer bu ID'nin eşleşmesi varsa
+                if (serviceMappings[serviceId]) {
+                    const mappedServiceIds = serviceMappings[serviceId];
+                    // Eşleşen ID'lere sahip olan inputları bulun ve değerlerini değiştirin
+                    mappedServiceIds.forEach(function(mappedServiceId) {
+                        $(`.service-input[data-service-id=${mappedServiceId}]`).val(value);
+                    });
+                }
+            });
+        });
+
     </script>
 @endsection
