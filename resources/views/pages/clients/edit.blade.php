@@ -255,7 +255,7 @@
         @endif
         <div class="form-group col-12 col-md-3">
             <label for="data-payment_method">@lang('translates.general.payment_method')</label>
-            <select name="payment_method" id="data-payment_method" class="form-control">
+            <select name="payment_method" id="data-payment_method" class="form-control" @if(in_array($service->getAttribute('id'), [1, 2, 5, 17]) && $data->getAttribute('user_id') != [187,95]) required @endif>
                 <option disabled>@lang('translates.general.payment_method')</option>
                 @foreach($payment_methods as $key => $payment_method)
                     <option @if($key == $data->payment_method) selected @endif
