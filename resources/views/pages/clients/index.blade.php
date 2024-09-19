@@ -139,6 +139,25 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <select id="data-sales" name="sales"  class="form-control" data-selected-text-format="count"
+                                data-width="fit" title="@lang('translates.clients.selectSales')">
+                            <option value=""> @lang('translates.filters.sales') </option>
+                            @foreach($sales as $sale)
+                                <option
+                                        @if($filters['sales'] == $sale->getAttribute('id')) selected @endif
+                                value="{{$sale->getAttribute('id')}}">
+                                    {{$sale->getAttribute('name')}}
+                                </option>
+                            @endforeach
+                        </select>
+                        <div class="form-group ml-2">
+                            <input name="free_sale" @if($filters['free_sale']) checked @endif type="checkbox" id="sale-check">
+                            <label class="form-check-label" for="sale-check">@lang('translates.filters.free_sale')</label>
+                        </div>
+                    </div>
+                </div>
             @endif
 
             <div class="form-group col-12 col-md-3">

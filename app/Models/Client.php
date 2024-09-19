@@ -161,7 +161,7 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
 
     public static function channels(): array
     {
-        return [1 => 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        return [1 => 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     }
     public static function paymentMethods(): array
     {

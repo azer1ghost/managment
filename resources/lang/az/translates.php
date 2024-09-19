@@ -20,6 +20,7 @@ return [
         'company' => 'Şirkətə görə filtrləyin',
         'supplier' => 'Tədarükçüyə görə filtrləyin',
         'coordinator' => 'Koordinatora görə filtrləyin',
+        'Sale' => 'Satışa görə filtrləyin',
         'client_name' => 'Müştəri adına görə filtrləyin',
         'phone' => 'Telefon adına görə filtrləyin',
         'written_by' => 'Müəllif adına görə filtrləyin',
@@ -33,6 +34,7 @@ return [
         'free_clients' => 'Boş müştərilər',
         'free_company' => 'Boş Şirkət',
         'free_coordinator' => 'Boş Koordinator',
+        'free_sale' => 'Boş Satış işçisi',
         'sales_activities_type' => 'Satış Fəaliyyətinə Görə Filterləyin',
         'type' => 'Növü',
     ],
@@ -717,7 +719,9 @@ return [
         'department_select' => 'Şöbə Seçin',
         'user_select' => 'Əməkdaş Seçin',
         'coordinator_select' => 'Koordinator Seçin',
+        'sale_select' => 'Satış işçisi Seçin',
         'coordinator' => 'Koordinator',
+        'sale' => 'Satış',
         'partner_select' => 'Partnyor Seçin',
         'position_select' => 'Vəzifə Seçin',
         'folder_select' => 'Qovluq Seçin',
@@ -764,6 +768,7 @@ return [
         'selectUser' => 'Satış İstifadəçisi Seç',
         'selectCompany' => 'Şirkət Seçin',
         'selectCoordinator' => 'Koordinator Seçin',
+        'selectSale' => 'Satış işçisi Seçin',
     ],
 
     'clients_type' => [
@@ -816,6 +821,9 @@ return [
         'YouTube',
         'Heritus Logistics',
         'Arkas Logistics',
+        'AMBGI',
+        'BBGI',
+        'HNBGI'
     ],
 
     'logistics_statuses' => [

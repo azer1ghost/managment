@@ -77,6 +77,7 @@ class ClientController extends Controller
             'active' => $request->get('active'),
             'limit' => $request->get('limit', 25),
             'coordinator' => $request->get('coordinator'),
+            'sale' => $request->get('sale'),
             'free_clients' => $request->has('free_clients'),
             'check-created_at' => $request->has('check-created_at'),
             'created_at' => $createdTime,
@@ -84,6 +85,7 @@ class ClientController extends Controller
             'payment_method' => $request->get('payment_method'),
             'free_company' => $request->has('free_company'),
             'free_coordinator' => $request->has('free_coordinator'),
+            'free_sale' => $request->has('free_sale'),
             'users' => $request->get('users'),
             'reference' => User::get(['id', 'name', 'surname']),
         ];

@@ -806,6 +806,9 @@ return [
         'YouTube',
         'Heritus Logistics',
         'Arkas Logistics',
+        'AMBGI',
+        'BBGI',
+        'HNBGI'
     ],
 
     'logistics_statuses' => [
