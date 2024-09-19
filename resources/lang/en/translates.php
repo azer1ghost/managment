@@ -589,6 +589,7 @@ return [
         'overhead_at' => 'Overhead Date',
         'overhead' => 'Overhead',
         'supplier' => 'Supplier',
+        'sales' => 'Sales',
     ],
 
     'notify' => [

@@ -197,7 +197,8 @@
                                 <th scope="col">VOEN/GOOEN</th>
                                 <th scope="col">Channel</th>
                                 <th scope="col">@lang('translates.navbar.document')</th>
-                                <th scope="col">@lang('translates.columns.created_at')</th>
+                                    <th scope="col">@lang('translates.columns.sales')</th>
+                                    <th scope="col">@lang('translates.columns.created_at')</th>
                                 @if(auth()->user()->hasPermission('viewAll-client'))
                                     <th scope="col">@lang('translates.columns.actions')</th>
                                 @endif
@@ -247,6 +248,11 @@
                                                 </a>
                                         @endforeach
                                     </td>
+                                        <td>
+                                            @foreach($client->sales as $sale)
+                                                {{ $sale->name }} <br>
+                                            @endforeach
+                                        </td>
                                     <td>{{$client->getAttribute('created_at')}}</td>
                                     @if(auth()->user()->hasPermission('viewAll-client'))
                                         <td>

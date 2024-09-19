@@ -600,6 +600,7 @@ return [
         'vacation' => 'Məzuniyyət',
         'salary_tax' => 'Gəlir Vergis',
         'advance' => 'Avans',
+        'sales' => 'Satış Əməkdaşı'
     ],
 
     'notify' => [
