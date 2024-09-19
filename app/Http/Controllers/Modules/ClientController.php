@@ -33,7 +33,7 @@ class ClientController extends Controller
 
     public function search(Request $request): object
     {
-        $clients = Client::with(['coordinators'])->where('fullname', 'LIKE', "%{$request->get('search')}%")
+        $clients = Client::with(['coordinators', 'sales'])->where('fullname', 'LIKE', "%{$request->get('search')}%")
             ->orWhere('voen', 'LIKE', "%{$request->get('search')}%")
             ->limit(10)
             ->get(['id', 'fullname', 'voen', 'active']);
@@ -118,6 +118,7 @@ class ClientController extends Controller
                 ],
                 'clients' => $clients,
                 'coordinators' => User::isActive()->where('department_id', Department::COORDINATOR)->get(['id', 'name', 'surname']),
+                'sales' => User::isActive()->where('department_id', Department::SALES)->get(['id', 'name', 'surname']),
                 'companies' => Company::get(['id', 'name', 'logo']),
                 'users' => User::isActive()->get(['id', 'name', 'surname']),
                 'services' => $services,
@@ -302,6 +303,19 @@ class ClientController extends Controller
         $err = 0;
         foreach (explode(',', $request->get('clients')) as $client) {
             if (!Client::find($client)->coordinators()->sync($request->get('users'))) {
+                $err = 400;
+            }
+        }
+        if ($err == 400) {
+            return response()->setStatusCode('204');
+        }
+        return response('OK');
+    }
+    public function sumAssignSales(Request $request)
+    {
+        $err = 0;
+        foreach (explode(',', $request->get('clients')) as $client) {
+            if (!Client::find($client)->sales()->sync($request->get('users'))) {
                 $err = 400;
             }
         }

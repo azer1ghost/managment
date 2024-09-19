@@ -95,6 +95,10 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
     {
         return $this->belongsToMany(User::class, 'sales_clients_relationship');
     }
+    public function sales(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'sales_clients_relationship');
+    }
     public function companies(): BelongsToMany
     {
         return $this->belongsToMany(Company::class, 'clients_companies_relationship');

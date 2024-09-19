@@ -361,6 +361,39 @@
                 </div>
             </div>
         </div>
+        <button type="button" class="btn btn-outline-primary" id="sum-assign-sales" data-toggle="modal" data-target="#sum-assign-modal-sales">
+            @lang('translates.clients.assignSales')
+        </button>
+        <div class="modal fade" id="sum-assign-modal-sales" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{route('clients.sum.assign-sales')}}" method="POST" id="sum-assign-form-sales">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Assign Coordinator</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            @csrf
+                            <div class="form-group">
+                                <label for="data-sales">Select Sales</label><br/>
+                                <select id="data-sales" name="users[]" multiple required class="filterSelector form-control" data-selected-text-format="count"
+                                        data-width="fit" title="@lang('translates.filters.select')">
+                                    @foreach($sales as $sale)
+                                        <option value="{{$sale->getAttribute('id')}}">{{$sale->getAttribute('name')}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>
+                            <button type="submit" class="btn btn-primary">@lang('translates.buttons.save')</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     @endif
 
     <div class="modal right fade" id="clientDetailModal" tabindex="-1" role="dialog">
@@ -679,6 +712,74 @@
                 type: "POST",
                 url: '{{route('clients.sum.assign-coordinators')}}',
                 data: $('#sum-assign-form-coordinators').serialize() + "&" + params.toString(),
+                success: function() {
+                    $.confirm({
+                        title: 'Successful',
+                        icon: 'fa fa-check',
+                        type: 'blue',
+                        typeAnimated: true,
+                        autoClose: 'reload|3000',
+                        theme: 'modern',
+                        buttons: {
+                            reload: {
+                                text: 'Ok',
+                                btnClass: 'btn-blue',
+                                keys: ['enter'],
+                                action: function(){
+                                    window.location.reload()
+                                }
+                            }
+                        }
+                    });
+                },
+                error: function (err) {
+                    $.confirm({
+                        title: 'Ops something went wrong!',
+                        content: err?.responseJSON,
+                        type: 'red',
+                        typeAnimated: true,
+                        buttons: {
+                            close: {
+                                text: 'Close',
+                                btnClass: 'btn-blue',
+                                keys: ['enter'],
+                            }
+                        }
+                    });
+                }
+            });
+        });
+        function checkUnverifiedWorks(){
+            let hasOneChecked = false;
+            clientsCheckbox.map(function () {
+                if ($(this).is(':checked')) {
+                    hasOneChecked = true;
+                }
+            });
+            if (hasOneChecked) {
+                $('#sum-assign-sales').attr('disabled', false);
+            } else {
+
+                $('#sum-assign-sales').attr('disabled', true);
+            }
+        }
+        $('#sum-assign-form-sales').submit(function (e){
+            e.preventDefault();
+            const checkedClients = [];
+            $("input[name='clients[]']:checked").each(function(){
+                checkedClients.push($(this).val());
+            });
+
+            const params = new URLSearchParams({
+                clients: checkedClients,
+            });
+
+            $('#sum-assign-modal-sales').modal('hide');
+
+            $.ajax({
+                type: "POST",
+                url: '{{route('clients.sum.assign-sales')}}',
+                data: $('#sum-assign-form-sales').serialize() + "&" + params.toString(),
                 success: function() {
                     $.confirm({
                         title: 'Successful',
