@@ -141,7 +141,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <select id="data-sales" name="sales"  class="form-control" data-selected-text-format="count"
+                        <select id="data-sales" name="sale"  class="form-control" data-selected-text-format="count"
                                 data-width="fit" title="@lang('translates.clients.selectSales')">
                             <option value=""> @lang('translates.filters.sales') </option>
                             @foreach($sales as $sale)
