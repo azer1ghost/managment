@@ -146,7 +146,7 @@
                             <option value=""> @lang('translates.filters.sales') </option>
                             @foreach($sales as $sale)
                                 <option
-                                        @if($filters['sales'] == $sale->getAttribute('id')) selected @endif
+                                        @if($filters['sale'] == $sale->getAttribute('id')) selected @endif
                                 value="{{$sale->getAttribute('id')}}">
                                     {{$sale->getAttribute('name')}}
                                 </option>
