@@ -178,8 +178,8 @@
         <div>
             <div class="tab-content" id="clientTabsContent">
                 <div class="tab-pane fade show active" id="group1" role="tabpanel" aria-labelledby="group1-tab">
-                    <div class="col-12">
-                        <table style="overflow-x: auto;" class="table table-responsive-sm table-hover">
+                    <div class="col-12" style="overflow-x: auto;">
+                        <table  class="table table-responsive-sm table-hover">
                             <thead>
                             <tr>
                                 @if(auth()->user()->hasPermission('canAssignUsers-client'))
