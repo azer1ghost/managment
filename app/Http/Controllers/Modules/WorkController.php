@@ -91,7 +91,6 @@ class WorkController extends Controller
 
         $usersQuery = User::has('works')
             ->with('position', 'role')
-            ->isActive()
             ->whereIn('department_id', $departmentIds)
             ->select(['id', 'name', 'surname', 'position_id', 'role_id']);
 
