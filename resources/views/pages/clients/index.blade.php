@@ -208,6 +208,7 @@
                                 <th scope="col">@lang('translates.columns.type')</th>
                                 <th scope="col">@lang('translates.columns.company')</th>
                                 <th scope="col">@lang('translates.columns.creator')</th>
+                                <th scope="col">@lang('translates.columns.coordinator')</th>
                                 <th scope="col">@lang('translates.columns.full_name')</th>
                                 @if(auth()->user()->hasPermission('viewAll-client'))
                                     <th scope="col">@lang('translates.columns.email')</th>
@@ -236,6 +237,11 @@
                                     <td>@lang("translates.clients_type." . $client->getAttribute('type'))</td>
                                     <td>@foreach($client->companies as $company) {{$company->getAttribute('name')}} @if(!$loop->last),@endif @endforeach</td>
                                     <td>{{$client->getRelationValue('users')->getAttribute('id') ? $client->getRelationValue('users')->getAttribute('fullname_with_position') : 'Toğrul Surxayzadə-(Hüquqşünas)'}}</td>
+                                        <td>
+                                            @foreach($client->coordinators as $coordinator)
+                                                {{ $coordinator->name }} <br>
+                                            @endforeach
+                                        </td>
                                     <td>
                                         <label for="data-checkbox-{{$client->getAttribute('id')}}">
                                             {{$client->getAttribute('fullname')}}
