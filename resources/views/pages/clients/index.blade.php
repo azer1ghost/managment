@@ -208,7 +208,7 @@
                                 <th scope="col">@lang('translates.columns.type')</th>
                                 <th scope="col">@lang('translates.columns.company')</th>
                                 <th scope="col">@lang('translates.columns.creator')</th>
-                                <th scope="col">@lang('translates.columns.coordinator')</th>
+                                <th scope="col">@lang('translates.general.coordinator')</th>
                                 <th scope="col">@lang('translates.columns.full_name')</th>
                                 @if(auth()->user()->hasPermission('viewAll-client'))
                                     <th scope="col">@lang('translates.columns.email')</th>
