@@ -603,8 +603,8 @@
                 var kod = "201412";
                 var bvoen = "9900003611";
                 var swift = "AIIBAZ2XXXX";
-                var who = "Alişan Cəlilov Maqsud oğlu";
-                var whoFooter = "A.M.Cəlilov";
+                var who = "Əhmədbəy İsmixanov Səfixan oğlu";
+                var whoFooter = "Ə.S.İsmixanov";
             } else if (company == 'garantRespublika') {
                 var companyName = "\"Garant Broker\" MMC";
                 var voen = "1803974481";
@@ -614,8 +614,8 @@
                 var kod = "507547";
                 var bvoen = "9900001901";
                 var swift = "BRESAZ22";
-                var who = "Alişan Cəlilov Maqsud oğlu";
-                var whoFooter = "A.M.Cəlilov";
+                var who = "Əhmədbəy İsmixanov Səfixan oğlu";
+                var whoFooter = "Ə.S.İsmixanov";
             } else if (company == 'rigelKapital') {
                 var companyName = "Rigel Group";
                 var voen = "1805978211";
