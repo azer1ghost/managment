@@ -21,24 +21,40 @@ class WorkPersonalWidget extends Component
         $this->widget = $widget;
         $this->model = $this->getClassRealName();
         $auth = auth()->id();
+        $authDepartmentId = auth()->user()->department_id;
 
         if (Cache::has("{$this->widget->getAttribute('key')}_{$auth}_widget")) {
             $this->results = Cache::get("{$this->widget->getAttribute('key')}_widget");
         } else {
             $data = [];
 
-            $works = auth()->user()
-                ->works()
-                ->select(['id', 'datetime', 'user_id'])
-                ->whereDate('datetime', '>=', now()->startOfMonth())
-                ->orderBy('datetime')
-                ->worksDone()
-                ->get()
-                ->groupBy(function($work) {
-                    return $work->datetime->format('d');
-                });
+            $allowedUserIds = [17, 124, 15, 123];
+            if (in_array($auth, $allowedUserIds)) {
+                // Tüm kullanıcıların işləri
+                $works = Work::select(['id', 'datetime', 'user_id'])
+                    ->whereDate('datetime', '>=', now()->startOfMonth())
+                    ->orderBy('datetime')
+                    ->worksDone()
+                    ->get()
+                    ->groupBy(function ($work) {
+                        return $work->datetime->format('d');
+                    });
+            } else {
 
-            $works->each(function ($works) use (&$data){
+                $works = Work::select(['id', 'datetime', 'user_id'])
+                    ->whereHas('user', function ($query) use ($authDepartmentId) {
+                        $query->where('department_id', $authDepartmentId);
+                    })
+                    ->whereDate('datetime', '>=', now()->startOfMonth())
+                    ->orderBy('datetime')
+                    ->worksDone()
+                    ->get()
+                    ->groupBy(function ($work) {
+                        return $work->datetime->format('d');
+                    });
+            }
+
+            $works->each(function ($works) use (&$data) {
                 $data[] = $works->count();
             });
 
@@ -48,6 +64,7 @@ class WorkPersonalWidget extends Component
             Cache::put("{$this->widget->getAttribute('key')}_widget", $this->results, 7200);
         }
     }
+
 
     public function render()
     {
