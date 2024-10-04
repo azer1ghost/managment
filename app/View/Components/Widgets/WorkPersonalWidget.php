@@ -29,8 +29,9 @@ class WorkPersonalWidget extends Component
             $data = [];
 
             $allowedUserIds = [17, 124, 15, 123];
+
+
             if (in_array($auth, $allowedUserIds)) {
-                // Tüm kullanıcıların işləri
                 $works = Work::select(['id', 'datetime', 'user_id'])
                     ->whereDate('datetime', '>=', now()->startOfMonth())
                     ->orderBy('datetime')
@@ -40,7 +41,6 @@ class WorkPersonalWidget extends Component
                         return $work->datetime->format('d');
                     });
             } else {
-
                 $works = Work::select(['id', 'datetime', 'user_id'])
                     ->whereHas('user', function ($query) use ($authDepartmentId) {
                         $query->where('department_id', $authDepartmentId);
@@ -64,6 +64,7 @@ class WorkPersonalWidget extends Component
             Cache::put("{$this->widget->getAttribute('key')}_widget", $this->results, 7200);
         }
     }
+
 
 
     public function render()
