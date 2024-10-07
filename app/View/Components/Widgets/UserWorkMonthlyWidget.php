@@ -24,7 +24,8 @@ class UserWorkMonthlyWidget extends Component
         $userId = auth()->id();
         $specialUserIds = [17, 124, 15, 123];
 
-        $this->works = DB::table('users')
+        // Əsas sorğu
+        $query = DB::table('users')
             ->select('users.name', 'users.surname', DB::raw('SUM(work_parameter.value) AS total_value'))
             ->join('works', 'works.user_id', '=', 'users.id')
             ->join('work_parameter', 'works.id', '=', 'work_parameter.work_id')
@@ -32,22 +33,22 @@ class UserWorkMonthlyWidget extends Component
             ->where('disabled_at', '=', null)
             ->where('works.deleted_at', '=', null)
             ->whereDate('entry_date', '>=', now()->startOfMonth())
-            ->groupBy('users.name', 'users.surname', 'users.department_id') // Burada department_id əlavə edirik
-            ->orderByDesc('total_value')
-            ->get();
+            ->groupBy('users.name', 'users.surname', 'users.department_id')
+            ->orderByDesc('total_value');
 
-
-        if (in_array($userId, $specialUserIds)) {
-            $this->works = $this->works->get();
-        } else {
+        // Əgər istifadəçi xüsusi ID-lərdəndirsə, bütün məlumatları gətir
+        if (!in_array($userId, $specialUserIds)) {
+            // Əks halda, istifadəçinin departamentini al
             $departmentId = DB::table('users')->where('id', $userId)->value('department_id');
 
-            $this->works = $this->works
-                ->where('users.department_id', '=', $departmentId)
-                ->get();
+            // Sorğunu departamentə görə filtr et
+            $query->where('users.department_id', '=', $departmentId);
         }
 
+        // Sorğunu icra edərək nəticəni `$this->works`-ə təyin et
+        $this->works = $query->get();
     }
+
 
     public function render()
     {
