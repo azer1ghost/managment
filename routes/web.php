@@ -218,6 +218,7 @@ Route::group([
     Route::get('/financeWorks', [WorkController::class, 'financeWorks'])->name('finance-works');
     Route::get('/incompleteWorks', [WorkController::class, 'incompleteWorks'])->name('incomplete-works');
     Route::get('/total', [WorkController::class, 'showTotal'])->name('total');
+    Route::get('/information', [WorkController::class, 'showInformation'])->name('information');
     Route::post('/test', [WorkController::class, 'editable'])->name('editable');
     Route::post('/code', [WorkController::class, 'code'])->name('work.code');
     Route::post('/declaration', [WorkController::class, 'declaration'])->name('work.declaration');

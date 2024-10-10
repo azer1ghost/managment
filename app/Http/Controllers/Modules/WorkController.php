@@ -1448,4 +1448,10 @@ class WorkController extends Controller
 //                        'dateFilters',
             ));
     }
+    public function showInformation(request $request)
+    {
+        $works = Work::all();
+        $clients = Client::all();
+        return view('pages.works.information', compact('works'));
+    }
 }
