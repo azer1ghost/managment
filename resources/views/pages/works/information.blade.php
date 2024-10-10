@@ -34,7 +34,7 @@
     </x-bread-crumb>
 
     <div class="datatable-container">
-        <table id="works-table" class="display" style="width:100%">
+        <table id="works-table" class="display nowrap" style="width:100%">
             <thead>
             <tr>
                 <th>Müştəri Adı</th>
@@ -103,11 +103,11 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -117,7 +117,7 @@
                 "ordering": true,
                 "info": true,
                 "autoWidth": false,
-                "scrollX": true,
+                "scrollX": true, // Yatay kaydırma eklendi
                 "fixedHeader": true,
                 "order": [],
                 "columnDefs": [
