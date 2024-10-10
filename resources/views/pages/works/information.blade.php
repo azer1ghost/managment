@@ -3,19 +3,17 @@
 @section('title', __('translates.navbar.information'))
 @section('style')
     <style>
-        /* Tabloyu kapsayan container */
+
         .datatable-container {
             width: 100%;
             overflow-x: auto;
         }
 
-        /* Tablo genişliğini sabitleme */
         table.dataTable {
             table-layout: fixed;
             width: 100% !important;
         }
 
-        /* Hücrelerin taşmasını önlemek ve kaydırma eklemek */
         table.dataTable th,
         table.dataTable td {
             overflow: hidden;
@@ -38,12 +36,16 @@
     <table id="works-table" class="display">
         <thead>
         <tr>
-            <th>Müşteri Adı</th>
-            <th>Departman</th>
-            <th>Satışlar</th>
-            <th>Service ID 2 - Parametre 17</th>
-            <th>Service ID 1,16,17,18 - Parametre 17</th>
-            <th>Service ID 5 - Parametre 20</th>
+            <th>Müştəri Adı</th>
+            <th>Filial</th>
+            <th>Satış Əməkdaşı</th>
+            <th>QİB Sayı</th>
+            <th>QİB dövriyyə</th>
+            <th>GB sayı</th>
+            <th>GB dövriyyə</th>
+            <th>Təmsilçilik sayı</th>
+            <th>Təmsilçilik dövriyyə</th>
+            <th>Logistika profit</th>
         </tr>
         </thead>
         <tbody>
@@ -59,9 +61,9 @@
                 <td>
                     @foreach ($group['works'] as $work)
                         @if ($work->service_id == 2)
-                            @foreach($work->parameters as $parameter)
-                                @if ($parameter->parameter_id == 17)
-                                    {{ $parameter->value }} <br>
+                            @foreach(optional($work->parameters) as $parameter)
+                                @if ($parameter->pivot->parameter_id == 17)
+                                    {{ $parameter->pivot->value }} <br>
                                 @endif
                             @endforeach
                         @endif
@@ -70,9 +72,9 @@
                 <td>
                     @foreach ($group['works'] as $work)
                         @if (in_array($work->service_id, [1, 16, 17, 18]))
-                            @foreach($work->parameters as $parameter)
-                                @if ($parameter->parameter_id == 17)
-                                    {{ $parameter->value }} <br>
+                            @foreach(optional($work->parameters) as $parameter)
+                                @if ($parameter->pivot->parameter_id == 17)
+                                    {{ $parameter->pivot->value }} <br>
                                 @endif
                             @endforeach
                         @endif
@@ -81,9 +83,9 @@
                 <td>
                     @foreach ($group['works'] as $work)
                         @if ($work->service_id == 5)
-                            @foreach($work->parameters as $parameter)
-                                @if ($parameter->parameter_id == 20)
-                                    {{ $parameter->value }} <br>
+                            @foreach(optional($work->parameters) as $parameter)
+                                @if ($parameter->pivot->parameter_id == 20)
+                                    {{ $parameter->pivot->value }} <br>
                                 @endif
                             @endforeach
                         @endif
@@ -97,7 +99,7 @@
 @endsection
 @section('scripts')
 
-    <!-- jQuery Kütüphanesi -->
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- DataTables CSS -->
@@ -109,21 +111,25 @@
     <script>
         $(document).ready(function() {
             $('#works-table').DataTable({
-                "paging": true, // Sayfalama
-                "searching": true, // Arama
-                "ordering": true, // Sıralama
-                "info": true, // Bilgi gösterimi
-                "autoWidth": false, // Otomatik genişlik kapalı
-                "scrollX": true, // Yatay kaydırma ekler
-                "fixedHeader": true, // Başlıkların sabit kalmasını sağlar
-                "order": [], // Varsayılan sıralama yok
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "scrollX": true,
+                "fixedHeader": true,
+                "order": [],
                 "columnDefs": [
-                    { "width": "150px", "targets": 0 }, // Her sütun için genişlik ayarı
+                    { "width": "150px", "targets": 0 },
                     { "width": "150px", "targets": 1 },
                     { "width": "200px", "targets": 2 },
                     { "width": "250px", "targets": 3 },
                     { "width": "250px", "targets": 4 },
-                    { "width": "250px", "targets": 5 }
+                    { "width": "250px", "targets": 5 },
+                    { "width": "250px", "targets": 6 },
+                    { "width": "250px", "targets": 7 },
+                    { "width": "250px", "targets": 8 },
+                    { "width": "250px", "targets": 9 },
                 ]
             });
         });
