@@ -1448,20 +1448,30 @@ class WorkController extends Controller
 //                        'dateFilters',
             ));
     }
-    public function showInformation(request $request)
+    public function showInformation(Request $request)
     {
         $startDate = Carbon::now()->subDays(10);
         $endDate = Carbon::now();
 
-        $works = Work::with(['client', 'department', 'parameters'])
+
+        $works = Work::with(['client.sales', 'department', 'parameters'])
             ->whereBetween('created_at', [$startDate, $endDate])
             ->get();
+
 
         $groupedWorks = $works->groupBy(function ($work) {
             return $work->client->id . '-' . $work->department->id;
         });
 
-        $clients = Client::all();
-        return view('pages.works.information', compact('groupedWorks', 'clients'));
+
+        $formattedWorks = $groupedWorks->map(function ($group) {
+            return [
+                'client' => $group->first()->client,
+                'department' => $group->first()->department,
+                'works' => $group
+            ];
+        });
+
+        return view('pages.works.information', compact('formattedWorks','clients'));
     }
 }

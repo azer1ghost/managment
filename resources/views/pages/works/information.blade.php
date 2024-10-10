@@ -28,20 +28,17 @@
     </tr>
     </thead>
     <tbody>
-    @foreach ($groupedWorks as $groupKey => $work)
-        @php
-            $firstWork = $works->first();
-        @endphp
+    @foreach ($formattedWorks as $group)
         <tr>
-            <td>{{ $firstWork->client->fullname }}</td>
-            <td>{{ $firstWork->department->short }}</td>
+            <td>{{ $group['client']->fullname }}</td>
+            <td>{{ $group['department']->short }}</td>
             <td>
-                @foreach($firstWork->client->sales as $sale)
+                @foreach($group['client']->sales as $sale)
                     {{ $sale->name }} <br>
                 @endforeach
             </td>
             <td>
-                @foreach ($works as $work)
+                @foreach ($group['works'] as $work)
                     @if ($work->service_id == 2)
                         @foreach($work->parameters as $parameter)
                             @if ($parameter->parameter_id == 17)
@@ -52,34 +49,30 @@
                 @endforeach
             </td>
             <td>
-                @if ($work->service_id == 2)
-                    @foreach($work->parameters as $parameter)
-                        @if ($parameter->parameter_id == 17)
-                            {{ $parameter->value }} <br>
-                        @endif
-                    @endforeach
-                @endif
+                @foreach ($group['works'] as $work)
+                    @if (in_array($work->service_id, [1, 16, 17, 18]))
+                        @foreach($work->parameters as $parameter)
+                            @if ($parameter->parameter_id == 17)
+                                {{ $parameter->value }} <br>
+                            @endif
+                        @endforeach
+                    @endif
+                @endforeach
             </td>
             <td>
-                @if (in_array($work->service_id, [1, 16, 17, 18]))
-                    @foreach($work->parameters as $parameter)
-                        @if ($parameter->parameter_id == 17)
-                            {{ $parameter->value }} <br>
-                        @endif
-                    @endforeach
-                @endif
-            </td>
-            <td>
-                @if (in_array($work->service_id, [5]))
-                    @foreach($work->parameters as $parameter)
-                        @if ($parameter->parameter_id == 20)
-                            {{ $parameter->value }} <br>
-                        @endif
-                    @endforeach
-                @endif
+                @foreach ($group['works'] as $work)
+                    @if ($work->service_id == 5)
+                        @foreach($work->parameters as $parameter)
+                            @if ($parameter->parameter_id == 20)
+                                {{ $parameter->value }} <br>
+                            @endif
+                        @endforeach
+                    @endif
+                @endforeach
             </td>
         </tr>
     @endforeach
+
     </tbody>
 </table>
 @endsection
