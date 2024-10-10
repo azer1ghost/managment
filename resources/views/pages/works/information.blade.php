@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('title', __('translates.navbar.information'))
+
 @section('style')
     <style>
         /* Tabloyu kapsayan container */
@@ -25,6 +26,7 @@
     </style>
 
 @endsection
+
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -44,6 +46,9 @@
             <th>Service ID 2 - Parametre 17</th>
             <th>Service ID 1,16,17,18 - Parametre 17</th>
             <th>Service ID 5 - Parametre 20</th>
+            <th>Yeni Sütun 1</th>
+            <th>Yeni Sütun 2</th>
+            <th>Yeni Sütun 3</th>
         </tr>
         </thead>
         <tbody>
@@ -89,12 +94,16 @@
                         @endif
                     @endforeach
                 </td>
+                <td>Veri 1</td> <!-- Yeni sütun 1 için örnek veri -->
+                <td>Veri 2</td> <!-- Yeni sütun 2 için örnek veri -->
+                <td>Veri 3</td> <!-- Yeni sütun 3 için örnek veri -->
             </tr>
         @endforeach
         </tbody>
     </table>
 
 @endsection
+
 @section('scripts')
 
     <!-- jQuery Kütüphanesi -->
@@ -123,11 +132,13 @@
                     { "width": "200px", "targets": 2 },
                     { "width": "250px", "targets": 3 },
                     { "width": "250px", "targets": 4 },
-                    { "width": "250px", "targets": 5 }
+                    { "width": "250px", "targets": 5 },
+                    { "width": "150px", "targets": 6 },
+                    { "width": "150px", "targets": 7 },
+                    { "width": "150px", "targets": 8 }
                 ]
             });
         });
     </script>
-
 
 @endsection
