@@ -1,9 +1,9 @@
 @extends('layouts.main')
 
 @section('title', __('translates.navbar.information'))
-
 @section('style')
     <style>
+
         .datatable-container {
             width: 100%;
             overflow-x: auto;
@@ -21,8 +21,8 @@
             white-space: nowrap;
         }
     </style>
-@endsection
 
+@endsection
 @section('content')
     <x-bread-crumb>
         <x-bread-crumb-link :link="route('dashboard')">
@@ -33,74 +33,73 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
 
-    <div class="datatable-container">
-        <table id="works-table" class="display nowrap" style="width:100%">
-            <thead>
+    <table id="works-table" class="display">
+        <thead>
+        <tr>
+            <th>Müştəri Adı</th>
+            <th>Filial</th>
+            <th>Satış Əməkdaşı</th>
+            <th>QİB Sayı</th>
+            <th>QİB dövriyyə</th>
+            <th>GB sayı</th>
+            <th>GB dövriyyə</th>
+            <th>Təmsilçilik sayı</th>
+            <th>Təmsilçilik dövriyyə</th>
+            <th>Logistika profit</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach ($formattedWorks as $group)
             <tr>
-                <th>Müştəri Adı</th>
-                <th>Filial</th>
-                <th>Satış Əməkdaşı</th>
-                <th>QİB Sayı</th>
-                <th>QİB dövriyyə</th>
-                <th>GB sayı</th>
-                <th>GB dövriyyə</th>
-                <th>Təmsilçilik sayı</th>
-                <th>Təmsilçilik dövriyyə</th>
-                <th>Logistika profit</th>
+                <td>{{ $group['client']->fullname }}</td>
+                <td>{{ $group['department']->short }}</td>
+                <td>
+                    @foreach($group['client']->sales as $sale)
+                        {{ $sale->name }} <br>
+                    @endforeach
+                </td>
+                <td>
+                    @foreach ($group['works'] as $work)
+                        @if ($work->service_id == 2)
+                            @foreach($work->parameters as $parameter)
+                                @if ($parameter->parameter_id == 17)
+                                    {{ $parameter->value }} <br>
+                                @endif
+                            @endforeach
+                        @endif
+                    @endforeach
+                </td>
+                <td>
+                    @foreach ($group['works'] as $work)
+                        @if (in_array($work->service_id, [1, 16, 17, 18]))
+                            @foreach($work->parameters as $parameter)
+                                @if ($parameter->parameter_id == 17)
+                                    {{ $parameter->value }} <br>
+                                @endif
+                            @endforeach
+                        @endif
+                    @endforeach
+                </td>
+                <td>
+                    @foreach ($group['works'] as $work)
+                        @if ($work->service_id == 5)
+                            @foreach($work->parameters as $parameter)
+                                @if ($parameter->parameter_id == 20)
+                                    {{ $parameter->value }} <br>
+                                @endif
+                            @endforeach
+                        @endif
+                    @endforeach
+                </td>
             </tr>
-            </thead>
-            <tbody>
-            @foreach ($formattedWorks as $group)
-                <tr>
-                    <td>{{ $group['client']->fullname }}</td>
-                    <td>{{ $group['department']->short }}</td>
-                    <td>
-                        @foreach($group['client']->sales as $sale)
-                            {{ $sale->name }} <br>
-                        @endforeach
-                    </td>
-                    <td>
-                        @foreach ($group['works'] as $work)
-                            @if ($work->service_id == 2)
-                                @foreach(optional($work->parameters) as $parameter)
-                                    @if ($parameter->pivot->parameter_id == 17)
-                                        {{ $parameter->pivot->value }} <br>
-                                    @endif
-                                @endforeach
-                            @endif
-                        @endforeach
-                    </td>
-                    <td>
-                        @foreach ($group['works'] as $work)
-                            @if (in_array($work->service_id, [1, 16, 17, 18]))
-                                @foreach(optional($work->parameters) as $parameter)
-                                    @if ($parameter->pivot->parameter_id == 17)
-                                        {{ $parameter->pivot->value }} <br>
-                                    @endif
-                                @endforeach
-                            @endif
-                        @endforeach
-                    </td>
-                    <td>
-                        @foreach ($group['works'] as $work)
-                            @if ($work->service_id == 5)
-                                @foreach(optional($work->parameters) as $parameter)
-                                    @if ($parameter->pivot->parameter_id == 20)
-                                        {{ $parameter->pivot->value }} <br>
-                                    @endif
-                                @endforeach
-                            @endif
-                        @endforeach
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
-    </div>
-@endsection
+        @endforeach
+        </tbody>
+    </table>
 
+@endsection
 @section('scripts')
-    <!-- jQuery -->
+
+    <!-- jQuery Kütüphanesi -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- DataTables CSS -->
@@ -117,7 +116,7 @@
                 "ordering": true,
                 "info": true,
                 "autoWidth": false,
-                "scrollX": true, // Yatay kaydırma eklendi
+                "scrollX": true,
                 "fixedHeader": true,
                 "order": [],
                 "columnDefs": [
@@ -130,9 +129,11 @@
                     { "width": "250px", "targets": 6 },
                     { "width": "250px", "targets": 7 },
                     { "width": "250px", "targets": 8 },
-                    { "width": "250px", "targets": 9 }
+                    { "width": "250px", "targets": 9 },
                 ]
             });
         });
     </script>
+
+
 @endsection
