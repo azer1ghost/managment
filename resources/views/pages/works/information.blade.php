@@ -28,7 +28,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach ($works as $work)
+    @foreach ($groupedWorks as $groupKey => $work)
         <tr>
             <td>{{ $work->getAttribute('id') }}</td>
             <td>{{ $work->getRelationValue('client')->getAttribute('fullname') }}</td>

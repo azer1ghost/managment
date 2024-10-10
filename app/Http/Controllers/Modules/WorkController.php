@@ -1454,7 +1454,12 @@ class WorkController extends Controller
         $endDate = Carbon::now();
 
         $works = Work::whereBetween('created_at', [$startDate, $endDate])->get();
+
+        $groupedWorks = $works->groupBy(function ($work) {
+            return $work->client->id . '-' . $work->department->id;
+        });
+
         $clients = Client::all();
-        return view('pages.works.information', compact('works', 'clients'));
+        return view('pages.works.information', compact('groupedWorks', 'clients'));
     }
 }
