@@ -1450,7 +1450,10 @@ class WorkController extends Controller
     }
     public function showInformation(request $request)
     {
-        $works = Work::all();
+        $startDate = Carbon::now()->subDays(10);
+        $endDate = Carbon::now();
+
+        $works = Work::whereBetween('created_at', [$startDate, $endDate])->get();
         $clients = Client::all();
         return view('pages.works.information', compact('works'));
     }
