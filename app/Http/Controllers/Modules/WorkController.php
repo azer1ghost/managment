@@ -1472,6 +1472,6 @@ class WorkController extends Controller
             ];
         });
 
-        return view('pages.works.information', compact('formattedWorks','clients'));
+        return view('pages.works.information', compact('formattedWorks'));
     }
 }
