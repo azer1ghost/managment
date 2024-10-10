@@ -29,13 +29,26 @@
     </thead>
     <tbody>
     @foreach ($groupedWorks as $groupKey => $work)
+        @php
+            $firstWork = $works->first();
+        @endphp
         <tr>
-            <td>{{ $work->getAttribute('id') }}</td>
-            <td>{{ $work->getRelationValue('client')->getAttribute('fullname') }}</td>
-            <td>{{ $work->getRelationValue('department')->getAttribute('short') }}</td>
+            <td>{{ $firstWork->client->fullname }}</td>
+            <td>{{ $firstWork->department->short }}</td>
             <td>
-                @foreach($work->client->sales as $sale)
+                @foreach($firstWork->client->sales as $sale)
                     {{ $sale->name }} <br>
+                @endforeach
+            </td>
+            <td>
+                @foreach ($works as $work)
+                    @if ($work->service_id == 2)
+                        @foreach($work->parameters as $parameter)
+                            @if ($parameter->parameter_id == 17)
+                                {{ $parameter->value }} <br>
+                            @endif
+                        @endforeach
+                    @endif
                 @endforeach
             </td>
             <td>
