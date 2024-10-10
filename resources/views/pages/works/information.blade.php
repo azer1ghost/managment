@@ -40,14 +40,10 @@
         <tr>
             <th>Müştəri Adı</th>
             <th>Filial</th>
-            <th>Satış Əməkdaşı</th>
-            <th>QİB Sayı</th>
-            <th>QİB dövriyyə</th>
-            <th>GB sayı</th>
-            <th>GB dövriyyə</th>
-            <th>Təmsilçilik sayı</th>
-            <th>Təmsilçilik dövriyyə</th>
-            <th>Logistika profit</th>
+            <th>Satışlar</th>
+            <th>Service ID 2 - Parametre 17</th>
+            <th>Service ID 1,16,17,18 - Parametre 17</th>
+            <th>Service ID 5 - Parametre 20</th>
         </tr>
         </thead>
         <tbody>
