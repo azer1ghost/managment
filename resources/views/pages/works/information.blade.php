@@ -129,7 +129,7 @@
                     { "width": "250px", "targets": 6 },
                     { "width": "250px", "targets": 7 },
                     { "width": "250px", "targets": 8 },
-                    { "width": "250px", "targets": 9 },
+                    { "width": "250px", "targets": 9 }
                 ]
             });
         });
