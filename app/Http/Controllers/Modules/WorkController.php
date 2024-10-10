@@ -1455,6 +1455,6 @@ class WorkController extends Controller
 
         $works = Work::whereBetween('created_at', [$startDate, $endDate])->get();
         $clients = Client::all();
-        return view('pages.works.information', compact('works'));
+        return view('pages.works.information', compact('works', 'clients'));
     }
 }

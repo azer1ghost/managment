@@ -33,9 +33,11 @@
             <td>{{ $work->getAttribute('id') }}</td>
             <td>{{ $work->getRelationValue('client')->getAttribute('fullname') }}</td>
             <td>{{ $work->getRelationValue('department')->getAttribute('short') }}</td>
-            @foreach($work->client->sales as $sale)
-                {{ $sale->name }} <br>
-            @endforeach
+            <td>
+                @foreach($work->client->sales as $sale)
+                    {{ $sale->name }} <br>
+                @endforeach
+            </td>
             <td>
                 @if ($work->service_id == 2)
                     @foreach($work->parameters as $parameter)
