@@ -15,7 +15,9 @@ class ClientImport implements ToCollection
             Client::updateOrCreate([
                 'id' => $row[0],
             ], [
-                'ordering' => $row[1],
+                'price' => $row[1],
+                'main_paper' => $row[2],
+                'qibmain_paper' => $row[3],
             ]);
         }
 
