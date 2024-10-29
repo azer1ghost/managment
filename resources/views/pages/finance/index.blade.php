@@ -196,6 +196,7 @@
                                 <option>Gömrükxana xidməti və Elektron Gömrük Bəyannamələrinin tərtib olunması</option>
                                 <option>Subicarə xidməti</option>
                                 <option>Yüklərin təhvil-təslim aktı əsasında ünvana çatdırılması xidməti(Bakı şəhəri üzrə)</option>
+                                <option>Digər xidmət</option>
                             </select>
                         </td>
                         <td>Ədəd</td>
