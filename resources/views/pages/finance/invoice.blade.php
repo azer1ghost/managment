@@ -478,6 +478,9 @@ q                           </select>
                     </tbody>
                 </table>
                 <br>
+                <div class="imzalar" style="width: 350px; height: 350px">
+                    <p class="invoiceNumbers" contenteditable="true">{{$data->getAttribute('invoiceNumbers')}}</p>
+                </div>
                 <br>
                 <p>Yekun Məbləğ:  <span class="total">0</span>  AZN (<span class="numberWord"></span>)</p>
                 <br><br>
@@ -594,6 +597,9 @@ q                           </select>
                     </tbody>
                 </table>
                 <br>
+                <div class="imzalar" style="width: 350px; height: 350px">
+                    <p class="invoiceNumbers" contenteditable="true">{{$data->getAttribute('invoiceNumbers')}}</p>
+                </div>
                 <br>
                 <p>Yekun Məbləğ: <span class="total">0</span> AZN (<span class="numberWord"></span>)</p>
                 <br><br>
