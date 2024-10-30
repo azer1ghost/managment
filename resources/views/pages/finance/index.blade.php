@@ -294,6 +294,7 @@
                     </tbody>
                 </table>
                 <br>
+                <p class="invoiceNumbers"></p>
                 <br>
                 <p>Yekun Məbləğ:  <span id="total7">0</span>  AZN (<span class="numberWord"></span>)</p>
                 <br><br>
@@ -403,6 +404,7 @@
                     </tbody>
                 </table>
                 <br>
+                <p class="invoiceNumbers"></p>
                 <br>
                 <p>Yekun Məbləğ: <span id="total6">0</span> AZN (<span class="numberWord"></span>)</p>
                 <br><br>

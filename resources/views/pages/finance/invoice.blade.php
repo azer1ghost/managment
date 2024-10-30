@@ -367,7 +367,7 @@
                                 <option>Subicarə xidməti</option>
                                 <option>Yüklərin təhvil-təslim aktı əsasında ünvana çatdırılması xidməti(Bakı şəhəri üzrə)</option>
                                 <option>Digər xidmət</option>
-                            </select>
+q                           </select>
                         </td>
                         <td>Ədəd</td>
                         <td><input type="text" class="form-control" id="input3"></td>
