@@ -288,13 +288,13 @@
                                                     </a>
                                                 @endcan
 
+                                                    @if($client->getRelationValue('users')->getAttribute('id') === auth()->id())
                                                     @can('update', $client)
-                                                        @if($client->getRelationValue('users')->getAttribute('id') === auth()->id())
                                                             <a href="{{ route('clients.edit', $client) }}" class="btn btn-sm btn-outline-success">
                                                                 <i class="fal fa-pen"></i>
                                                             </a>
-                                                        @endif
                                                     @endcan
+                                                    @endif
 
                                                 @can('delete', $client)
                                                     <a href="{{route('clients.destroy', $client)}}" delete data-name="{{$client->getAttribute('fullname')}}" class="btn btn-sm btn-outline-danger">
