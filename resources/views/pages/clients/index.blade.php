@@ -464,6 +464,9 @@
                         <button class="btn btn-outline-secondary" id="detailEmployees-tab" data-toggle="tab" href="#detailEmployees" role="tab" aria-controls="detailEmployees" aria-selected="false">
                             <i class="fas fa-user"></i> Employees
                         </button>
+                        <button class="btn btn-outline-secondary" id="detailPrices-tab" data-toggle="tab" href="#detailPrices" role="tab" aria-controls="detailPrices" aria-selected="false">
+                            <i class="fas fa-dollar-sign"></i> Prices
+                        </button>
                     </div>
                     <div>
                         <h6 class="font-weight-bold text-center">About This Contact</h6>
@@ -521,6 +524,36 @@
                                 </thead>
                                 <tbody id="subClientsTableBody"></tbody>
                             </table>
+                        </div>
+                        <div class="tab-pane fade" id="detailPrices" role="tabpanel" aria-labelledby="detailPrices-tab">
+                            <div class="col-12">
+                                <table>
+                                    <tr>
+                                        <th>Xidmətlər</th>
+                                        <th>Qiymət</th>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Əsas Vərəq</label></td>
+                                        <td>
+                                            <span>{{ $client->getAttribute('main_paper') }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>QIB Əsas Vərəq</label></td>
+                                        <td>
+                                            <span>{{ $client->getAttribute('qibmain_paper') }}</span>
+                                        </td>
+                                    </tr>
+                                    @foreach ($services as $service)
+                                        <tr>
+                                            <td><label>{{ $service->getAttribute('name') }}</label></td>
+                                            <td>
+                                                <span>{{ $service->pivot->amount ?? '' }}</span>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
