@@ -297,10 +297,15 @@
                 @endif
             </table>
         </div>
+        @php
+            $user = $data->getRelationValue('users');
+        @endphp
 
+        @if(($user && $user->getAttribute('id') === auth()->id()) || in_array(auth()->id(), [103, 123, 178]))
 
-    @if($action)
+        @if($action)
             <x-input::submit/>
+        @endif
         @endif
         @endbind
     </form>

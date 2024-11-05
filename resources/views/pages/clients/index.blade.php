@@ -287,19 +287,11 @@
                                                         <i class="fal fa-eye"></i>
                                                     </a>
                                                 @endcan
-
-                                                    @php
-                                                        $user = $client->getRelationValue('users');
-                                                    @endphp
-
-                                                    @if(($user && $user->getAttribute('id') === auth()->id()) || in_array(auth()->id(), [103, 123, 178]))
                                                         @can('update', $client)
                                                             <a href="{{ route('clients.edit', $client) }}" class="btn btn-sm btn-outline-success">
                                                                 <i class="fal fa-pen"></i>
                                                             </a>
                                                         @endcan
-                                                    @endif
-
                                                 @can('delete', $client)
                                                     <a href="{{route('clients.destroy', $client)}}" delete data-name="{{$client->getAttribute('fullname')}}" class="btn btn-sm btn-outline-danger">
                                                         <i class="fal fa-trash"></i>
@@ -464,9 +456,9 @@
                         <button class="btn btn-outline-secondary" id="detailEmployees-tab" data-toggle="tab" href="#detailEmployees" role="tab" aria-controls="detailEmployees" aria-selected="false">
                             <i class="fas fa-user"></i> Employees
                         </button>
-                        <button class="btn btn-outline-secondary" id="detailPrices-tab" data-toggle="tab" href="#detailPrices" role="tab" aria-controls="detailPrices" aria-selected="false">
-                            <i class="fas fa-dollar-sign"></i> Prices
-                        </button>
+{{--                        <button class="btn btn-outline-secondary" id="detailPrices-tab" data-toggle="tab" href="#detailPrices" role="tab" aria-controls="detailPrices" aria-selected="false">--}}
+{{--                            <i class="fas fa-dollar-sign"></i> Prices--}}
+{{--                        </button>--}}
                     </div>
                     <div>
                         <h6 class="font-weight-bold text-center">About This Contact</h6>
