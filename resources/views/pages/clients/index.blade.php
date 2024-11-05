@@ -290,11 +290,9 @@
 
                                                     @php
                                                         $user = $client->getRelationValue('users');
-                                                        $userId = $user ? $user->getAttribute('id') : null;
-                                                        $userIds = $client->getRelationValue('users')->pluck('id')->toArray();
                                                     @endphp
 
-                                                    @if($userId === auth()->id() || in_array($userId, [103, 123, 178]))
+                                                    @if(($user && $user->getAttribute('id') === auth()->id()) || in_array(auth()->id(), [103, 123, 178]))
                                                         @can('update', $client)
                                                             <a href="{{ route('clients.edit', $client) }}" class="btn btn-sm btn-outline-success">
                                                                 <i class="fal fa-pen"></i>
