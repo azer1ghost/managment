@@ -288,7 +288,7 @@
                                                     </a>
                                                 @endcan
 
-                                                    @if($client->getRelationValue('users')->getAttribute('id') === auth()->id() || in_array($client->getRelationValue('users')->id, [103, 123, 178,]))
+                                                    @if($client->getRelationValue('users')->getAttribute('id') === auth()->id() || in_array($client->getRelationValue('users')->getAttribute('id'), [103, 123, 178,]))
                                                     @can('update', $client)
                                                             <a href="{{ route('clients.edit', $client) }}" class="btn btn-sm btn-outline-success">
                                                                 <i class="fal fa-pen"></i>
