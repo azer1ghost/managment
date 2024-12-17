@@ -86,7 +86,7 @@ class WorkController extends Controller
             'invoiced_date' => $request->has('check-invoiced_date'),
         ];
 
-        $departmentIds = [11, 12, 13, 7, 29];
+        $departmentIds = [11, 12, 13, 7, 29, 22];
 
 
         $usersQuery = User::has('works')
