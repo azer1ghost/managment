@@ -367,6 +367,8 @@
                                 <option>Subicarə xidməti</option>
                                 <option>Yüklərin təhvil-təslim aktı əsasında ünvana çatdırılması xidməti(Bakı şəhəri üzrə)</option>
                                 <option>Digər xidmət</option>
+                                <option>Elektron GB-nin tərtib olunması(əsas vərəq)</option>
+                                <option>Elektron GB-nin tərtib olunması(əlavə vərəq)</option>
 q                           </select>
                         </td>
                         <td>Ədəd</td>
