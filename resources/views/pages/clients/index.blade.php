@@ -520,24 +520,6 @@
                         <div class="tab-pane fade" id="detailPrices" role="tabpanel" aria-labelledby="detailPrices-tab">
                             <div class="col-12">
                                 <table>
-                                    <tr>
-                                        <th>Xidmətlər</th>
-                                        <th>Qiymət</th>
-                                    </tr>
-                                    @if(isset($client))
-                                        <tr>
-                                            <td><label>Əsas Vərəq</label></td>
-                                            <td>
-                                                <span>{{ $client->getAttribute('main_paper') }}</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><label>QIB Əsas Vərəq</label></td>
-                                            <td>
-                                                <span>{{ $client->getAttribute('qibmain_paper') }}</span>
-                                            </td>
-                                        </tr>
-                                    @endif
                                     @foreach ($services as $service)
                                         <tr>
                                             <td><label>{{ $service->getAttribute('name') }}</label></td>
