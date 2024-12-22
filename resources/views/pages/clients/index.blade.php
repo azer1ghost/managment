@@ -524,18 +524,20 @@
                                         <th>Xidmətlər</th>
                                         <th>Qiymət</th>
                                     </tr>
-                                    <tr>
-                                        <td><label>Əsas Vərəq</label></td>
-                                        <td>
-                                            <span>{{ $client->getAttribute('main_paper') }}</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>QIB Əsas Vərəq</label></td>
-                                        <td>
-                                            <span>{{ $client->getAttribute('qibmain_paper') }}</span>
-                                        </td>
-                                    </tr>
+                                    @if(isset($client))
+                                        <tr>
+                                            <td><label>Əsas Vərəq</label></td>
+                                            <td>
+                                                <span>{{ $client->getAttribute('main_paper') }}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>QIB Əsas Vərəq</label></td>
+                                            <td>
+                                                <span>{{ $client->getAttribute('qibmain_paper') }}</span>
+                                            </td>
+                                        </tr>
+                                    @endif
                                     @foreach ($services as $service)
                                         <tr>
                                             <td><label>{{ $service->getAttribute('name') }}</label></td>
