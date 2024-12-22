@@ -134,7 +134,7 @@ User extends Authenticatable implements MustVerifyPhone, Recordable
 
     public function sales(): BelongsToMany
     {
-        return $this->belongsToMany(Client::class, 'sales_clients_relationship');
+        return $this->belongsToMany(Client::class, 'sales_clients_relationship', 'user_id', 'client_id');
     }
     public function coordinators(): BelongsToMany
     {
