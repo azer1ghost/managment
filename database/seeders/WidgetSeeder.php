@@ -80,14 +80,6 @@ class WidgetSeeder extends Seeder
                 'status' => 1
             ),
             array(
-                'key' => "salesClientMonthly-widget",
-                'class_attribute' => "col-12 mb-3 col-md-8",
-                'style_attribute' => "height: 520px;",
-                'details' => json_encode(['en' => 'Sales Client', 'az' => 'Satış Müştəriləri']),
-                'order' => 3,
-                'status' => 1
-            ),
-            array(
                 'key' => "inquiryUser-widget",
                 'class_attribute' => "col-12 mb-3",
                 'style_attribute' => "height: 520px;",
