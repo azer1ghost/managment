@@ -371,14 +371,8 @@ class Sidebar extends Component
                 'title' => __('translates.navbar.sales'),
                 'icon' => 'fas fa-dollar-sign',
                 'url' => '#',
-                'permission' => 'viewAny-salesClient',
+                'permission' => 'viewAny-salesInquiry',
                 'children' => [
-                    (object)[
-                        'title' => __('translates.navbar.sales_client'),
-                        'icon' => 'fas fa-portrait',
-                        'url' => route('sales-client.index'),
-                        'permission' => 'viewAny-salesClient',
-                    ],
                     (object)[
                         'title' => __('translates.navbar.inquiry_sales'),
                         'icon' => 'fa fa-phone',
