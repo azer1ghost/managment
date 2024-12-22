@@ -65,7 +65,6 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\SalaryReportController,
     Modules\SalesActivityController,
     Modules\SalesActivityTypeController,
-    Modules\SalesClientController,
     Modules\SalesInquiryController,
     Modules\SatisfactionController,
     Modules\SentDocumentController,
@@ -188,9 +187,6 @@ Route::group([
     Route::any('/clients/search', [ClientController::class, 'search'])->name('clients.search');
     Route::any('/supplier/search', [SupplierController::class, 'search'])->name('suppliers.search');
     Route::resource('/clients', ClientController::class);
-    Route::any('/sales-client/search', [SalesClientController::class, 'search'])->name('sales-client.search');
-    Route::resource('/sales-client', SalesClientController::class);
-    Route::get('/sales-clients/export', [SalesClientController::class, 'export'])->name('sales-clients.export');
     Route::get('/protocol-download/{client}', [ClientController::class, 'download'])->name('protocol.download');
 
     Route::resource('/referrals', ReferralController::class)->except('create');

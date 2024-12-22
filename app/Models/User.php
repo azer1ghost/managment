@@ -114,11 +114,6 @@ User extends Authenticatable implements MustVerifyPhone, Recordable
         ];
     }
 
-    public function salesInquiryUsers(): HasMany
-    {
-        return $this->hasMany(SalesClient::class);
-    }
-
     public function salesActivityUsers(): HasMany
     {
         return $this->hasMany(SalesActivity::class);

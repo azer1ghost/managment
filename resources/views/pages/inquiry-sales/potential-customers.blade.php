@@ -59,7 +59,7 @@
                                 data-url="{{route('sales-client.search')}}"
                                 style="width: 100% !important;">
                             @if(is_numeric(request()->get('client_id')))
-                                <option value="{{request()->get('client_id')}}">{{\App\Models\SalesClient::find(request()->get('client_id'))->getAttribute('name_with_voen')}}</option>
+                                <option value="{{request()->get('client_id')}}">{{\App\Models\Client::find(request()->get('client_id'))->getAttribute('fullname_with_voen')}}</option>
                             @endif
                         </select>
                     </div>

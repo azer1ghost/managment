@@ -44,10 +44,6 @@ class SalesActivity extends Model
         return $this->hasMany(SalesActivitiesSupply::class, 'sales_activity_id');
     }
 
-    public function client(): BelongsTo
-    {
-        return $this->belongsTo(SalesClient::class, 'client_id')->withDefault();
-    }
     public function scopeMonthly($query)
     {
         return $query->where('datetime', '>=', now()->firstOfMonth());

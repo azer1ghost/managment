@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Modules;
 
-use App\Models\SalesClient;
 use App\Models\User;
 use App\Http\{Controllers\Controller, Requests\LogisticsClientRequest};
 use App\Models\LogisticsClient;
