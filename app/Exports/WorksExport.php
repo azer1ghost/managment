@@ -17,7 +17,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
 {
     use Exportable;
 
-    protected array $filters = [],$dateRanges = [],$dateFilters = [];
+    protected array $filters = [], $dateRanges = [], $dateFilters = [];
     protected WorkRepositoryInterface $workRepository;
     protected array $headings = [];
 
@@ -34,7 +34,6 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             'Müştəri adı',
             'Şəxs',
             trans('translates.general.work_service'),
-
         ];
 
         foreach (Service::serviceParametersExport() as $servicesParameter) {
@@ -42,16 +41,15 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         }
 
         $this->headings = array_merge($this->headings, [
-                'Əsas Məbləğ Ödəniş Tarixi',
-                'Ədv Ödəniş Tarixi',
-                'Borc',
-                'Bəyannaməçi',
-                'Sistemdə (ASAN IMZA)',
-                trans('translates.columns.department'),
-                'Ödəniş Üsulu',
-                'Bank Xərci',
-            ]
-        );
+            'Əsas Məbləğ Ödəniş Tarixi',
+            'Ədv Ödəniş Tarixi',
+            'Borc',
+            'Bəyannaməçi',
+            'Sistemdə (ASAN IMZA)',
+            trans('translates.columns.department'),
+            'Ödəniş Üsulu',
+            'Bank Xərci',
+        ]);
     }
 
     public function headings(): array
@@ -69,6 +67,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             $row->getRelationValue('client')->getAttribute('type') ? 'FŞ' : 'HŞ',
             $row->getRelationValue('service')->getAttribute('shortName')
         ];
+
         foreach (Service::serviceParametersExport() as $servicesParameter) {
             $maps[] = $row->getParameter($servicesParameter['data']->getAttribute('id'));
         }
@@ -76,20 +75,35 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         return array_merge($maps, [
             optional($row->getAttribute('paid_at'))->format('d-m-Y') ?? 'Tam Ödəniş olmayıb',
             optional($row->getAttribute('vat_date'))->format('d-m-Y') ?? 'ƏDV Ödənişi olmayıb',
-            ($row->getParameter($row::VAT) + $row->getParameter($row::AMOUNT) + $row->getParameter($row::ILLEGALAMOUNT) - ($row->getParameter($row::PAID) + $row->getParameter($row::VATPAYMENT) +  $row->getParameter($row::ILLEGALPAID))) * -1,
+            $this->calculateDebt($row),
             $row->getRelationValue('user')->getAttribute('fullname'),
             $row->asanImza()->exists() ? $row->getRelationValue('asanImza')->getAttribute('user_with_company') : trans('translates.filters.select'),
             $row->getRelationValue('department')->getAttribute('short'),
             $row->getAttribute('payment_method') ? trans('translates.payment_methods.' . $row->getAttribute('payment_method')) : '',
             $row->getAttribute('bank_charge')
-
         ]);
+    }
+
+    private function calculateDebt($row): float
+    {
+        $vat = $this->numeric($row->getParameter($row::VAT));
+        $amount = $this->numeric($row->getParameter($row::AMOUNT));
+        $illegalAmount = $this->numeric($row->getParameter($row::ILLEGALAMOUNT));
+        $paid = $this->numeric($row->getParameter($row::PAID));
+        $vatPayment = $this->numeric($row->getParameter($row::VATPAYMENT));
+        $illegalPaid = $this->numeric($row->getParameter($row::ILLEGALPAID));
+
+        return ($vat + $amount + $illegalAmount - ($paid + $vatPayment + $illegalPaid)) * -1;
+    }
+
+    private function numeric($value): float
+    {
+        return is_numeric($value) ? (float)$value : 0.0;
     }
 
     public function styles(Worksheet $sheet): array
     {
         return [
-            // Style the first row as bold text.
             1 => [
                 'font' => ['bold' => true],
                 'alignment' => [
@@ -102,9 +116,9 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
                     ],
                 ],
             ],
-
         ];
     }
+
     public function query()
     {
         return $this->workRepository->allFilteredWorks($this->filters, $this->dateFilters);
@@ -117,12 +131,4 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             'F' => 13,
         ];
     }
-
-//    public function columnFormats(): array
-//    {
-//        return [
-//            'B' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-//            'C' => NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE,
-//        ];
-//    }
 }
