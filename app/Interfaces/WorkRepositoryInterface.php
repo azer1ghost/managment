@@ -9,10 +9,7 @@ use Carbon\Carbon;
 class WorkRepository implements WorkRepositoryInterface
 {
     public function allFilteredWorks(array $filters = [], array $dateFilters = []): \Illuminate\Database\Eloquent\Builder
-    {
-        // allFilteredWorks metodu daha önce yazıldığı gibi
-        // Burada mevcut kodunuz yer alacak
-    }
+    {}
 
     /**
      * Belirli sütunları döndürür.
@@ -26,7 +23,6 @@ class WorkRepository implements WorkRepositoryInterface
     }
 
     /**
-     * Filtrelenmiş işlerin toplam sayısını döndürür.
      *
      * @param array $filters
      * @param array $dateFilters
