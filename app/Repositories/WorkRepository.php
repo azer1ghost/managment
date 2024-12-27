@@ -8,20 +8,18 @@ use Carbon\Carbon;
 
 class WorkRepository implements WorkRepositoryInterface
 {
-    public function allFilteredWorks(array $filters = [], $dateFilters = [])
+    public function allFilteredWorks(array $filters = [], array $dateFilters = []): \Illuminate\Database\Eloquent\Builder
     {
         $user = auth()->user();
 
-        $dateRanges = array_map(function ($filter) {
-            return !empty($filter) ? explode(' - ', $filter) : null;
-        }, [
-            'datetime' => $filters['datetime'] ?? null,
-            'created_at' => $filters['created_at'] ?? null,
-            'injected_at' => $filters['injected_at'] ?? null,
-            'entry_date' => $filters['entry_date'] ?? null,
-            'invoiced_date' => $filters['invoiced_date'] ?? null,
-            'vat_date' => $filters['vat_date'] ?? null,
-        ]);
+        $dateRanges = [
+            'datetime' => !empty($filters['datetime']) ? explode(' - ', $filters['datetime']) : null,
+            'created_at' => !empty($filters['created_at']) ? explode(' - ', $filters['created_at']) : null,
+            'injected_at' => !empty($filters['injected_at']) ? explode(' - ', $filters['injected_at']) : null,
+            'entry_date' => !empty($filters['entry_date']) ? explode(' - ', $filters['entry_date']) : null,
+            'invoiced_date' => !empty($filters['invoiced_date']) ? explode(' - ', $filters['invoiced_date']) : null,
+            'vat_date' => !empty($filters['vat_date']) ? explode(' - ', $filters['vat_date']) : null,
+        ];
 
         $status = $filters['status'] ?? null;
         $statuses = $filters['statuses'] ?? [];
@@ -38,7 +36,7 @@ class WorkRepository implements WorkRepositoryInterface
             ->when($status, function ($query) use ($status) {
                 $query->where('status', $status);
             })
-            ->when(!empty($statuses), function ($query) use ($statuses) {
+            ->when($statuses, function ($query) use ($statuses) {
                 $query->whereNotIn('status', $statuses);
             })
             ->when(Work::userCannotViewAll(), function ($query) use ($user) {
@@ -51,13 +49,13 @@ class WorkRepository implements WorkRepositoryInterface
                     })->orWhere('user_id', $user->id);
                 }
             })
-            ->where(function ($query) use ($filters, $dateRanges, $dateFilters) {
+            ->where(function ($query) use ($filters, $dateRanges) {
                 foreach ($filters as $column => $value) {
                     if ($column === 'limit') {
                         continue;
                     }
 
-                    $query->when($value, function ($query, $value) use ($column, $dateRanges, $dateFilters) {
+                    $query->when($value, function ($query, $value) use ($column, $dateRanges) {
                         switch ($column) {
                             case 'verified_at':
                             case 'paid_at':
@@ -84,7 +82,7 @@ class WorkRepository implements WorkRepositoryInterface
                             default:
                                 if (is_numeric($value)) {
                                     $query->where($column, $value);
-                                } elseif (is_string($value) && isset($dateFilters[$column]) && isset($dateRanges[$column])) {
+                                } elseif (isset($dateRanges[$column]) && is_array($dateRanges[$column])) {
                                     $query->whereBetween(
                                         $column,
                                         [
@@ -101,4 +99,4 @@ class WorkRepository implements WorkRepositoryInterface
             ->latest('id')
             ->latest('datetime');
     }
-}
+
