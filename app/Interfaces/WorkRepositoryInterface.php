@@ -8,8 +8,37 @@ use Carbon\Carbon;
 
 class WorkRepository implements WorkRepositoryInterface
 {
+    /**
+     * Filtrelenmiş işlerin sorgusunu döndürür.
+     *
+     * @param array $filters
+     * @param array $dateFilters
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function allFilteredWorks(array $filters = [], array $dateFilters = []): \Illuminate\Database\Eloquent\Builder
-    {}
+    {
+        // Boş bir sorgu başlatıyoruz.
+        $query = Work::query();
+
+        // Filtreleri uygula
+        foreach ($filters as $key => $value) {
+            if (!empty($value)) {
+                $query->where($key, $value);
+            }
+        }
+
+        // Tarih aralıklarını uygula
+        foreach ($dateFilters as $key => $dateRange) {
+            if (!empty($dateRange) && is_array($dateRange) && count($dateRange) === 2) {
+                $query->whereBetween($key, [
+                    Carbon::parse($dateRange[0])->startOfDay(),
+                    Carbon::parse($dateRange[1])->endOfDay(),
+                ]);
+            }
+        }
+
+        return $query;
+    }
 
     /**
      * Belirli sütunları döndürür.
@@ -23,6 +52,7 @@ class WorkRepository implements WorkRepositoryInterface
     }
 
     /**
+     * Filtrelenmiş işlerin toplam sayısını döndürür.
      *
      * @param array $filters
      * @param array $dateFilters
