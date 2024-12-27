@@ -99,4 +99,5 @@ class WorkRepository implements WorkRepositoryInterface
             ->latest('id')
             ->latest('datetime');
     }
+}
 
