@@ -41,7 +41,10 @@ class WorkRepository implements WorkRepositoryInterface
                 if ($key === 'limit') {
                     continue;
                 }
-
+                if ($key === 'statuses') {
+                    $query->whereIn('status', $value);
+                    continue;
+                }
                 if (is_array($value)) {
                     $query->whereIn($key, $value);
                 } elseif (is_string($value)) {
