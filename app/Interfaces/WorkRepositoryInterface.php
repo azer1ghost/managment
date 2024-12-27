@@ -19,7 +19,7 @@ class WorkRepository implements WorkRepositoryInterface
     {
         $query = Work::query();
 
-        // Filtreleri uygula
+        // Genel filtreleri uygula
         $this->applyFilters($query, $filters);
 
         // Tarih filtrelerini uygula
@@ -48,32 +48,38 @@ class WorkRepository implements WorkRepositoryInterface
      */
     public function countFilteredWorks(array $filters = [], array $dateFilters = []): int
     {
-        $query = $this->allFilteredWorks($filters, $dateFilters);
-        return $query->count();
+        return $this->allFilteredWorks($filters, $dateFilters)->count();
     }
 
     /**
-     * Genel filtreleri uygular.
+     * Genel filtreleri sorguya uygular.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param array $filters
      */
-    protected function applyFilters(&$query, array $filters)
+    protected function applyFilters(&$query, array $filters): void
     {
         foreach ($filters as $key => $value) {
             if (!empty($value)) {
-                $query->where($key, $value);
+                // Özelleştirilmiş filtreleme işlemleri
+                if (is_array($value)) {
+                    $query->whereIn($key, $value);
+                } elseif (is_string($value)) {
+                    $query->where($key, 'LIKE', "%$value%");
+                } else {
+                    $query->where($key, $value);
+                }
             }
         }
     }
 
     /**
-     * Tarih filtrelerini uygular.
+     * Tarih filtrelerini sorguya uygular.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param array $dateFilters
      */
-    protected function applyDateFilters(&$query, array $dateFilters)
+    protected function applyDateFilters(&$query, array $dateFilters): void
     {
         foreach ($dateFilters as $key => $dateRange) {
             if (!empty($dateRange) && is_array($dateRange) && count($dateRange) === 2) {
