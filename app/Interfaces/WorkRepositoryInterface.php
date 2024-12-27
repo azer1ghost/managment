@@ -1,32 +1,40 @@
 <?php
 
-namespace App\Interfaces;
+namespace App\Repositories;
 
-interface WorkRepositoryInterface
+use App\Interfaces\WorkRepositoryInterface;
+use App\Models\Work;
+use Carbon\Carbon;
+
+class WorkRepository implements WorkRepositoryInterface
 {
-    /**
-     * Get all works with applied filters and date ranges.
-     *
-     * @param array $filters Key-value pairs for filtering works.
-     * @param array $dateFilters Date ranges, e.g. ['start_date' => 'Y-m-d', 'end_date' => 'Y-m-d'].
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function allFilteredWorks(array $filters = [], array $dateFilters = []): \Illuminate\Database\Eloquent\Builder;
+    public function allFilteredWorks(array $filters = [], array $dateFilters = []): \Illuminate\Database\Eloquent\Builder
+    {
+        // allFilteredWorks metodu daha önce yazıldığı gibi
+        // Burada mevcut kodunuz yer alacak
+    }
 
     /**
-     * Additional method to get specific fields or customized data.
+     * Belirli sütunları döndürür.
      *
-     * @param array $columns Columns to select from the works table.
+     * @param array $columns
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getWorksWithSpecificColumns(array $columns): \Illuminate\Database\Eloquent\Collection;
+    public function getWorksWithSpecificColumns(array $columns): \Illuminate\Database\Eloquent\Collection
+    {
+        return Work::select($columns)->get();
+    }
 
     /**
-     * Count the filtered works for optimization or pagination.
+     * Filtrelenmiş işlerin toplam sayısını döndürür.
      *
-     * @param array $filters Key-value pairs for filtering works.
-     * @param array $dateFilters Date ranges.
+     * @param array $filters
+     * @param array $dateFilters
      * @return int
      */
-    public function countFilteredWorks(array $filters = [], array $dateFilters = []): int;
+    public function countFilteredWorks(array $filters = [], array $dateFilters = []): int
+    {
+        $query = $this->allFilteredWorks($filters, $dateFilters);
+        return $query->count();
+    }
 }
