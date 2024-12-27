@@ -17,25 +17,13 @@ class WorkRepository implements WorkRepositoryInterface
      */
     public function allFilteredWorks(array $filters = [], array $dateFilters = []): \Illuminate\Database\Eloquent\Builder
     {
-        // Boş bir sorgu başlatıyoruz.
         $query = Work::query();
 
         // Filtreleri uygula
-        foreach ($filters as $key => $value) {
-            if (!empty($value)) {
-                $query->where($key, $value);
-            }
-        }
+        $this->applyFilters($query, $filters);
 
-        // Tarih aralıklarını uygula
-        foreach ($dateFilters as $key => $dateRange) {
-            if (!empty($dateRange) && is_array($dateRange) && count($dateRange) === 2) {
-                $query->whereBetween($key, [
-                    Carbon::parse($dateRange[0])->startOfDay(),
-                    Carbon::parse($dateRange[1])->endOfDay(),
-                ]);
-            }
-        }
+        // Tarih filtrelerini uygula
+        $this->applyDateFilters($query, $dateFilters);
 
         return $query;
     }
@@ -62,5 +50,38 @@ class WorkRepository implements WorkRepositoryInterface
     {
         $query = $this->allFilteredWorks($filters, $dateFilters);
         return $query->count();
+    }
+
+    /**
+     * Genel filtreleri uygular.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param array $filters
+     */
+    protected function applyFilters(&$query, array $filters)
+    {
+        foreach ($filters as $key => $value) {
+            if (!empty($value)) {
+                $query->where($key, $value);
+            }
+        }
+    }
+
+    /**
+     * Tarih filtrelerini uygular.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param array $dateFilters
+     */
+    protected function applyDateFilters(&$query, array $dateFilters)
+    {
+        foreach ($dateFilters as $key => $dateRange) {
+            if (!empty($dateRange) && is_array($dateRange) && count($dateRange) === 2) {
+                $query->whereBetween($key, [
+                    Carbon::parse($dateRange[0])->startOfDay(),
+                    Carbon::parse($dateRange[1])->endOfDay(),
+                ]);
+            }
+        }
     }
 }
