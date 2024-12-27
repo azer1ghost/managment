@@ -33,6 +33,10 @@ class WorkRepository implements WorkRepositoryInterface
     {
         foreach ($filters as $key => $value) {
             if (!empty($value)) {
+                if ($key === 'limit') {
+                    continue;
+                }
+
                 if (is_array($value)) {
                     $query->whereIn($key, $value);
                 } elseif (is_string($value)) {
@@ -43,6 +47,7 @@ class WorkRepository implements WorkRepositoryInterface
             }
         }
     }
+
 
     protected function applyDateFilters(&$query, array $dateFilters): void
     {
