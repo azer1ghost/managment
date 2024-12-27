@@ -16,8 +16,13 @@ class WorkRepository implements WorkRepositoryInterface
 
         $this->applyDateFilters($query, $dateFilters);
 
+        if (isset($filters['limit']) && is_numeric($filters['limit'])) {
+            $query->take($filters['limit']);
+        }
+
         return $query;
     }
+
 
     public function getWorksWithSpecificColumns(array $columns): \Illuminate\Database\Eloquent\Collection
     {
