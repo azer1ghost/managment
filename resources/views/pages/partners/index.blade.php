@@ -14,15 +14,15 @@
     <form action="{{route('partners.index')}}">
         <div class="row d-flex justify-content-between mb-2">
 
-            <div class="col-md-6">
-                <div class="input-group mb-3">
-                    <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="@lang('translates.fields.enter', ['field' => trans('translates.fields.name')])" aria-label="Recipient's clientname" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>
-                        <a class="btn btn-outline-danger d-flex align-items-center" href="{{route('sales-client.index')}}"><i class="fal fa-times"></i></a>
-                    </div>
-                </div>
-            </div>
+{{--            <div class="col-md-6">--}}
+{{--                <div class="input-group mb-3">--}}
+{{--                    <input type="search" name="search" value="{{request()->get('search')}}" class="form-control" placeholder="@lang('translates.fields.enter', ['field' => trans('translates.fields.name')])" aria-label="Recipient's clientname" aria-describedby="basic-addon2">--}}
+{{--                    <div class="input-group-append">--}}
+{{--                        <button class="btn btn-outline-primary" type="submit"><i class="fal fa-search"></i></button>--}}
+{{--                        <a class="btn btn-outline-danger d-flex align-items-center" href="{{route('sales-client.index')}}"><i class="fal fa-times"></i></a>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
             <div class="col-8 col-md-3  mb-3">
                 <select name="limit" class="custom-select">
