@@ -9,6 +9,7 @@ use App\Models\DailyReport;
 use App\Models\Report;
 use App\Models\User;
 use Carbon\Carbon;
+use Kreait\Firebase\Storage;
 
 class ReportController extends Controller
 {
@@ -103,5 +104,11 @@ class ReportController extends Controller
             return response('OK');
         }
         return response()->setStatusCode('204');
+    }
+    public function download(Report $report)
+    {
+        $document_type = $report->getAttribute('document_type');
+
+        return \Illuminate\Support\Facades\Storage::download('report/' . $document_type);
     }
 }

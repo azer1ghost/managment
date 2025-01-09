@@ -43,6 +43,12 @@
             <x-input::submit  :value="__('translates.buttons.save')" />
         @endif
     </form>
+    @if(!is_null($data))
+        <div class="col-12">
+            <x-documents :documents="$data->documents ?? collect([])" />
+            <x-document-upload :id="$data->id" model="Report"/>
+        </div>
+    @endif
 @endsection
 @section('scripts')
     <script>

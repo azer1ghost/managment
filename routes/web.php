@@ -271,6 +271,7 @@ Route::group([
     Route::put('/reports/sub-report/{report}', [DailyReportController::class, 'updateSubReport'])->name('reports.sub.update');
     Route::post('/reports/generate', [ReportController::class, 'generateReports'])->name('reports.generate');
     Route::resource('/reports', ReportController::class)->only('index', 'destroy');
+    Route::get('/download', [ReportController::class, 'download'])->name('report.download');
     Route::resource('/customer-engagement', CustomerEngagementController::class);
     Route::get('/customer-engagement/getAmount/{customerEngagement}',[ CustomerEngagementController::class,'getAmount'])->name('getAmount');
     Route::post('/calculate-amounts',[ CustomerEngagementController::class,'calculateAmounts'])->name('calculate-amounts');

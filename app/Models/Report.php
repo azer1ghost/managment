@@ -4,16 +4,20 @@ namespace App\Models;
 
 use Altek\Accountant\Contracts\Recordable;
 use Altek\Eventually\Eventually;
+use App\Interfaces\DocumentableInterface;
+use App\Traits\Documentable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use PhpParser\Comment\Doc;
 
-class Report extends Model implements Recordable
+class Report extends Model implements Recordable, DocumentableInterface
 {
-    use SoftDeletes, \Altek\Accountant\Recordable, Eventually;
+    use SoftDeletes, \Altek\Accountant\Recordable, Eventually, Documentable;
 
-    protected $fillable = ['chief_id'];
+    protected $fillable = ['chief_id', 'document_type'];
 
     public function chief(): BelongsTo
     {
@@ -34,5 +38,9 @@ class Report extends Model implements Recordable
     public static function cannotViewAll()
     {
         return !self::canViewAll();
+    }
+    public function getMainColumn(): string
+    {
+        return $this->getAttribute('id');
     }
 }

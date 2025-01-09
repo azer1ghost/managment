@@ -10,7 +10,8 @@ class ReportRequest extends FormRequest
     {
         return [
             'detail' => 'required|string',
-            'date' => 'required|date:Y-m-d'
+            'date' => 'required|date:Y-m-d',
+            'document_type'   => 'nullable|string',
         ];
     }
 }
