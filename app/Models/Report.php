@@ -13,11 +13,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use PhpParser\Comment\Doc;
 
-class Report extends Model implements Recordable, DocumentableInterface
+class Report extends Model implements Recordable
 {
-    use SoftDeletes, \Altek\Accountant\Recordable, Eventually, Documentable;
+    use SoftDeletes, \Altek\Accountant\Recordable, Eventually;
 
-    protected $fillable = ['chief_id', 'document_type'];
+    protected $fillable = ['chief_id'];
 
     public function chief(): BelongsTo
     {
@@ -38,9 +38,5 @@ class Report extends Model implements Recordable, DocumentableInterface
     public static function cannotViewAll()
     {
         return !self::canViewAll();
-    }
-    public function getMainColumn(): string
-    {
-        return $this->getAttribute('id');
     }
 }

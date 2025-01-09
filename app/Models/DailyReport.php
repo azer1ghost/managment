@@ -4,13 +4,15 @@ namespace App\Models;
 
 use Altek\Accountant\Contracts\Recordable;
 use Altek\Eventually\Eventually;
+use App\Interfaces\DocumentableInterface;
+use App\Traits\Documentable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class DailyReport extends Model implements Recordable
+class DailyReport extends Model implements Recordable, DocumentableInterface
 {
-    use SoftDeletes, \Altek\Accountant\Recordable, Eventually;
+    use SoftDeletes, \Altek\Accountant\Recordable, Eventually, Documentable;
 
     protected $table = 'daily_reports';
 
@@ -131,5 +133,9 @@ class DailyReport extends Model implements Recordable
         for ($date = $daterange->getAttribute('start_at'); $date < $daterange->getAttribute('end_at'); $date->addDay()){
             $callback($date);
         }
+    }
+    public function getMainColumn(): string
+    {
+        return $this->getAttribute('id');
     }
 }

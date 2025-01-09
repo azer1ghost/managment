@@ -105,10 +105,4 @@ class ReportController extends Controller
         }
         return response()->setStatusCode('204');
     }
-    public function download(Report $report)
-    {
-        $document_type = $report->getAttribute('document_type');
-
-        return \Illuminate\Support\Facades\Storage::download('report/' . $document_type);
-    }
 }

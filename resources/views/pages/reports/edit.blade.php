@@ -46,7 +46,7 @@
     @if($method != 'POST')
         <div class="col-12">
             <x-documents :documents="$data->documents ?? collect([])" />
-            <x-document-upload :id="$data->id" model="Report"/>
+            <x-document-upload :id="$data->id" model="DailyReport"/>
         </div>
     @endif
 @endsection

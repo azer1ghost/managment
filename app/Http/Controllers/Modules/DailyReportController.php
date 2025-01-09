@@ -9,6 +9,7 @@ use App\Models\DailyReport;
 use App\Models\Report;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class DailyReportController extends Controller
 {
@@ -56,5 +57,11 @@ class DailyReportController extends Controller
         $report->update($request->validated());
 
         return redirect()->route('reports.subs.show', $report->getAttribute('report_id'));
+    }
+    public function download(Report $report)
+    {
+        $document_type = $report->getAttribute('document_type');
+
+        return Storage::download('protocol/' . $document_type);
     }
 }
