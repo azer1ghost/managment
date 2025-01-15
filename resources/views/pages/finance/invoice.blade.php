@@ -369,7 +369,8 @@
                                 <option>Digər xidmət</option>
                                 <option>Elektron GB-nin tərtib olunması(əsas vərəq)</option>
                                 <option>Elektron GB-nin tərtib olunması(əlavə vərəq)</option>
-q                           </select>
+                                <option>Ərazi Xərci və Digər Ödənişlər</option>
+                            </select>
                         </td>
                         <td>Ədəd</td>
                         <td><input type="text" class="form-control" id="input3"></td>

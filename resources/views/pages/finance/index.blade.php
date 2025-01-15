@@ -199,6 +199,7 @@
                                 <option>Digər xidmət</option>
                                 <option>Elektron GB-nin tərtib olunması(əsas vərəq)</option>
                                 <option>Elektron GB-nin tərtib olunması(əlavə vərəq)</option>
+                                <option>Ərazi Xərci və Digər Ödənişlər</option>
                             </select>
                         </td>
                         <td>Ədəd</td>
