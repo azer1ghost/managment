@@ -241,6 +241,7 @@ Route::group([
     Route::resource('/logistic-clients', LogisticsClientController::class);
     Route::resource('/internal-documents', InternalDocumentController::class);
     Route::resource('/iso-documents', IsoDocumentController::class);
+    Route::resource('/rules', \App\Http\Controllers\Modules\RuleController::class);
     Route::resource('/sent-documents', SentDocumentController::class);
     Route::resource('/protocols', ProtocolController::class);
     Route::resource('/folders', FolderController::class);
