@@ -276,6 +276,8 @@ return [
         'transaction' => 'Tranzaksiyalar',
         'fund' => 'Bank və Kodlar',
         'salary' => 'Əmək Haqqı',
+        'rule' => 'Qayda',
+        'rules' => 'Qaydalar',
     ],
 
     'questionnaire' => [

@@ -29,8 +29,8 @@
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Sənəd Adı</th>
-                        <th scope="col">Sənəd</th>
+                        <th scope="col">Qayda Adı</th>
+                        <th scope="col">File</th>
                     </tr>
                     </thead>
                     <tbody id="sortable">
