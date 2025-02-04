@@ -10,6 +10,7 @@ class RuleRequest extends FormRequest
     {
         return [
             'name' => 'nullable|string',
-            ];
+            'content' => 'nullable|string',
+        ];
     }
 }

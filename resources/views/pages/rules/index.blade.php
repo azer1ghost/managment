@@ -30,7 +30,6 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Qayda Adı</th>
-                        <th scope="col">File</th>
                     </tr>
                     </thead>
                     <tbody id="sortable">
@@ -38,28 +37,19 @@
                             <tr id="item-{{$rule->getAttribute('id')}}">
                             <th>{{$loop->iteration}}</th>
                             <th>{{$rule->getAttribute('name')}}</th>
-                                <td> @php($supportedTypes = \App\Models\Document::supportedTypeIcons())
-                                    @foreach($rule->documents as $document)
-                                        @php($type = $supportedTypes[$document->type])
-                                        @php($route = $document->type == 'application/pdf' ? route('document.temporaryUrl', $document) : route('document.temporaryViewerUrl', $document))
-                                        <a href="{{$route}}" data-toggle="tooltip" title="{{$document->file}}" target="_blank" class="text-dark d-flex align-items-center mr-2" style=" word-break: break-word">
-                                            <i class="fa fa-file-{{$type['icon']}} fa-2x m-1 text-{{$type['color']}}"></i>
-                                            <span>{{substr($document->name, 0, 10) . '...'}} </span>
+                            <td>
+                                <div class="btn-sm-group">
+                                        <a href="{{route('rules.show', $rule)}}" class="btn btn-sm btn-outline-primary">
+                                            <i class="fal fa-eye"></i>
                                         </a>
-                                    @endforeach</td>
-                                <td>
-                                    <div class="btn-sm-group">
-                                            <a href="{{route('rules.show', $rule)}}" class="btn btn-sm btn-outline-primary">
-                                                <i class="fal fa-eye"></i>
-                                            </a>
-                                            <a href="{{route('rules.edit', $rule)}}" class="btn btn-sm btn-outline-success">
-                                                <i class="fal fa-pen"></i>
-                                            </a>
-                                            <a href="{{route('rules.destroy', $rule)}}" delete data-name="{{$rule->getAttribute('id')}}" class="btn btn-sm btn-outline-danger" >
-                                                <i class="fal fa-trash"></i>
-                                            </a>
-                                    </div>
-                                </td>
+                                        <a href="{{route('rules.edit', $rule)}}" class="btn btn-sm btn-outline-success">
+                                            <i class="fal fa-pen"></i>
+                                        </a>
+                                        <a href="{{route('rules.destroy', $rule)}}" delete data-name="{{$rule->getAttribute('id')}}" class="btn btn-sm btn-outline-danger" >
+                                            <i class="fal fa-trash"></i>
+                                        </a>
+                                </div>
+                            </td>
                         </tr>
                     @empty
                         <tr>

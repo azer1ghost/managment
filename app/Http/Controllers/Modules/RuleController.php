@@ -43,11 +43,7 @@ class RuleController extends Controller
 
     public function show(Rule $rule)
     {
-        return view('pages.rules.edit')->with([
-            'action' => null,
-            'method' => null,
-            'data' => $rule,
-        ]);
+        return view('pages.rules.show', compact('rule'));
     }
 
     public function edit(Rule $rule)

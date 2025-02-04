@@ -8,7 +8,7 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
         <x-bread-crumb-link :link="route('rules.index')">
-            @lang('translates.navbar.folder')
+            @lang('translates.navbar.rule')
         </x-bread-crumb-link>
         <x-bread-crumb-link>
             @if (!is_null($data))
@@ -25,9 +25,12 @@
             <div class="form-group col-12">
                 <div class="row">
                     <x-form-group  class="pr-3 col-12 col-lg-6"  >
-                        <x-form-input  name="name" label="Sənəd adı" placeholder="Sənəd adı daxil edin"/>
+                        <x-form-input  name="name" label="Rule Adı" placeholder="Rule adı daxil edin"/>
                     </x-form-group>
                 </div>
+            </div>
+            <div class="form-group col-12">
+                <textarea id="summernote" name="content"> {{$data->getAttribute('content')}}</textarea>
             </div>
         </div>
         @if($action)
@@ -35,14 +38,17 @@
         @endif
         @endbind
     </form>
-    @if($method != 'POST')
-        <div class="my-5">
-            <x-documents :documents="$data->documents" :title="trans('translates.navbar.document')" />
-            <x-document-upload :id="$data->id" model="Rule"/>
-        </div>
-    @endif
 @endsection
 @section('scripts')
+    <script>
+        $('#summernote').summernote({
+            height: 500,
+            minHeight: null,
+            maxHeight: null,
+            focus: true
+        });
+    </script>
+
     @if(is_null($action))
         <script>
             $('form :input').attr('disabled', true)
