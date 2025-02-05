@@ -86,7 +86,7 @@ class WorkController extends Controller
             'invoiced_date' => $request->has('check-invoiced_date'),
         ];
 
-        $departmentIds = [11, 12, 13, 7, 29, 22, 30];
+        $departmentIds = [11, 12, 13, 7, 29, 22, 30, 24];
 
 
         $usersQuery = User::has('works')
@@ -187,7 +187,7 @@ class WorkController extends Controller
             'invoiced_date' => $request->has('check-invoiced_date')
         ];
 
-        $departmentIds = [11, 12, 13, 7, 29, 30];
+        $departmentIds = [11, 12, 13, 7, 29, 30, 24];
 
 
         $usersQuery = User::has('works')
@@ -278,7 +278,7 @@ class WorkController extends Controller
             'invoiced_date' => $request->has('check-invoiced_date')
         ];
 
-        $departmentIds = [11, 12, 13, 7, 29, 30];
+        $departmentIds = [11, 12, 13, 7, 29, 30, 24];
 
 
         $usersQuery = User::has('works')
@@ -394,7 +394,7 @@ class WorkController extends Controller
             'invoiced_date' => $request->has('check-invoiced_date')
         ];
 
-        $departmentIds = [11, 12, 13, 7, 29, 30];
+        $departmentIds = [11, 12, 13, 7, 29, 30, 24];
 
 
         $usersQuery = User::has('works')
@@ -486,7 +486,7 @@ class WorkController extends Controller
             'invoiced_date' => $request->has('check-invoiced_date'),
         ];
 
-        $departmentIds = [11, 12, 13, 7, 29, 30];
+        $departmentIds = [11, 12, 13, 7, 29, 30, 24];
 
 
         $usersQuery = User::has('works')
@@ -593,7 +593,7 @@ class WorkController extends Controller
             'invoiced_date' => $request->has('check-invoiced_date'),
         ];
 
-        $departmentIds = [11, 12, 13, 7, 29, 30];
+        $departmentIds = [11, 12, 13, 7, 29, 30, 24];
 
 
         $usersQuery = User::has('works')
