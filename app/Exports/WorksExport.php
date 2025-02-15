@@ -42,17 +42,15 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             'Təyinat Orqanı',
             'Status',
             'Sənədlər',
-            'GB Sayı',
-            'Kod Sayı',
             'Əsas Məbləğ Ödəniş Tarixi',
             'ƏDV Ödəniş Tarixi',
             'Qalıq',
             'Yaradılma Tarixi (Gün)', 'Yaradılma Tarixi (Saat)',
-            'Son Dəyişiklik Tarixi',
-            'Sisteme Vurulma Tarixi',
+            'Sisteme Tarixi (Gün)', 'Sisteme Tarixi (Saat)',
             'Toplam Məbləğ',
             'Vasitəçi',
             'Referans',
+            'Son Dəyişiklik Tarixi',
         ];
 
         foreach (Service::serviceParametersExport() as $servicesParameter) {
@@ -85,17 +83,15 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             trans('translates.work_destination.' . $row->getAttribute('destination')) ?? 'Təyinat orqanı boşdur',
             trans('translates.work_status.' . $row->getAttribute('status')),
             implode(', ', $row->documents->pluck('name')->toArray()),
-            $row->getParameter($row::GB),
-            $row->getParameter($row::CODE),
             optional($row->getAttribute('paid_at'))->format('d-m-Y') ?? 'Tam Ödəniş olmayıb',
             optional($row->getAttribute('vat_date'))->format('d-m-Y') ?? 'ƏDV Ödənişi olmayıb',
             ($row->getParameter($row::VAT) + $row->getParameter($row::AMOUNT) + $row->getParameter($row::ILLEGALAMOUNT) - ($row->getParameter($row::PAID) + $row->getParameter($row::VATPAYMENT) +  $row->getParameter($row::ILLEGALPAID))) * -1,
             optional($row->getAttribute('created_at'))->format('d-m-Y'), optional($row->getAttribute('created_at'))->format('H:i:s'),
-            optional($row->getAttribute('updated_at'))->format('d-m-Y H:i:s'),
-            optional($row->getAttribute('injected_at'))->format('d-m-Y H:i:s'),
+            optional($row->getAttribute('injected_at'))->format('d-m-Y'),optional($row->getAttribute('injected_at'))->format('H:i:s'),
             $row->getAttribute('total_amount') ?? 'Məlumat yoxdur',
             optional($agent)->getAttribute('fullname') ?? 'Vasitəçi yoxdur',
             optional($reference)->getAttribute('name') ?? 'Referans yoxdur',
+            optional($row->getAttribute('updated_at'))->format('d-m-Y H:i:s'),
         ];
 
         foreach (Service::serviceParametersExport() as $servicesParameter) {
