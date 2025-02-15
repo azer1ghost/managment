@@ -97,7 +97,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         ];
 
         foreach (Service::serviceParametersExport() as $servicesParameter) {
-            $maps[] = null;
+            $maps[] = $row->getParameter($servicesParameter['data']->getAttribute('id'));
         }
 
         return $maps;
