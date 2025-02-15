@@ -56,7 +56,9 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         ];
 
         foreach (Service::serviceParametersExport() as $servicesParameter) {
-            $this->headings[] = $servicesParameter['data']->getAttribute('label');
+            if (!in_array($servicesParameter['data']->getAttribute('id'), [51, 52, 53, 54, 56, 57, 60])) {
+                $this->headings[] = $servicesParameter['data']->getAttribute('label');
+            }
         }
     }
 
@@ -97,7 +99,9 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         ];
 
         foreach (Service::serviceParametersExport() as $servicesParameter) {
-            $maps[] = $row->getParameter($servicesParameter['data']->getAttribute('id'));
+            if (!in_array($servicesParameter['data']->getAttribute('id'), [51, 52, 53, 54, 56, 57, 60])) {
+                $maps[] = $row->getParameter($servicesParameter['data']->getAttribute('id'));
+            }
         }
 
         return $maps;
