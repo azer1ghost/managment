@@ -54,6 +54,10 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             'Vasitəçi',
             'Referans',
         ];
+
+        foreach (Service::serviceParametersExport() as $servicesParameter) {
+            $this->headings[] = $servicesParameter['data']->getAttribute('label');
+        }
     }
 
     public function headings(): array
@@ -67,7 +71,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         $agent = $customerEngagement ? User::find($customerEngagement->user_id) : null;
         $reference = $customerEngagement ? Partner::find($customerEngagement->partner_id) : null;
 
-        return [
+        $maps = [
             $row->getAttribute('declaration_no'),
             $row->getAttribute('code'),
             $row->getRelationValue('creator')->getAttribute('fullname_with_position'),
@@ -91,6 +95,12 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             optional($agent)->getAttribute('fullname') ?? 'Vasitəçi yoxdur',
             optional($reference)->getAttribute('name') ?? 'Referans yoxdur',
         ];
+
+        foreach (Service::serviceParametersExport() as $servicesParameter) {
+            $maps[] = null;
+        }
+
+        return $maps;
     }
 
     public function styles(Worksheet $sheet): array
