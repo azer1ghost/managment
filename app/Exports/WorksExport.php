@@ -83,15 +83,15 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             optional($row->getRelationValue('client')->coordinators->first())->fullname ?? 'Koordinator Yoxdur',
             optional($row->getRelationValue('user'))->getAttribute('fullname') ?? 'İcraçı yoxdur',
             $row->asanImza()->exists() ? $row->getRelationValue('asanImza')->getAttribute('user_with_company') : trans('translates.filters.select'),
-            $row->getRelationValue('client')->getAttribute('type') == 'legal' ? 'HŞ' : 'FŞ',
+            $row->getRelationValue('client')->getAttribute('type') == 0 ? 'HŞ' : 'FŞ',
             $row->getRelationValue('service')->getAttribute('name'),
             trans('translates.work_destination.' . $row->getAttribute('destination')) ?? 'Təyinat orqanı boşdur',
             trans('translates.work_status.' . $row->getAttribute('status')),
             implode(', ', $row->documents->pluck('name')->toArray()),
             optional($row->getAttribute('paid_at'))->format('d/m/Y') ?? 'Tam Ödəniş olmayıb',
             optional($row->getAttribute('vat_date'))->format('d/m/Y') ?? 'ƏDV Ödənişi olmayıb',
-            ($row->getParameter($row::VAT) + $row->getParameter($row::AMOUNT) + $row->getParameter($row::ILLEGALAMOUNT))
-            ($row->getParameter($row::PAID) + $row->getParameter($row::VATPAYMENT) + $row->getParameter($row::ILLEGALPAID))
+            ($row->getParameter($row::VAT) + $row->getParameter($row::AMOUNT) + $row->getParameter($row::ILLEGALAMOUNT)),
+            ($row->getParameter($row::PAID) + $row->getParameter($row::VATPAYMENT) + $row->getParameter($row::ILLEGALPAID)),
             ($row->getParameter($row::VAT) + $row->getParameter($row::AMOUNT) + $row->getParameter($row::ILLEGALAMOUNT) - ($row->getParameter($row::PAID) + $row->getParameter($row::VATPAYMENT) +  $row->getParameter($row::ILLEGALPAID))) * -1,
             optional($row->getAttribute('created_at'))->format('d/m/Y'), optional($row->getAttribute('created_at'))->format('H:i:s'),
             optional($row->getAttribute('injected_at'))->format('d/m/Y'),optional($row->getAttribute('injected_at'))->format('H:i:s'),
