@@ -36,6 +36,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
 
             'Şöbə',
             'Koordinator',
+            'İcraçı Əməkdaş',
             'Müştəri adı',
             'Şəxs (Fiziki / Hüquqi)',
             'Xidmət',
@@ -77,21 +78,22 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
 
             $row->getRelationValue('department')->getAttribute('short'),
             optional($row->getRelationValue('client')->coordinators->first())->fullname ?? 'Koordinator Yoxdur',
+            optional($row->getRelationValue('user'))->getAttribute('fullname') ?? 'İcraçı yoxdur',
             $row->getRelationValue('client')->getAttribute('fullname'),
-            $row->getRelationValue('client')->getAttribute('type') == 'legal' ? 'Hüquqi Şəxs' : 'Fiziki Şəxs',
+            $row->getRelationValue('client')->getAttribute('type') == '0' ? 'Hüquqi Şəxs' : 'Fiziki Şəxs',
             $row->getRelationValue('service')->getAttribute('name'),
             trans('translates.work_destination.' . $row->getAttribute('destination')) ?? 'Təyinat orqanı boşdur',
             trans('translates.work_status.' . $row->getAttribute('status')),
             implode(', ', $row->documents->pluck('name')->toArray()),
-            optional($row->getAttribute('paid_at'))->format('d-m-Y') ?? 'Tam Ödəniş olmayıb',
-            optional($row->getAttribute('vat_date'))->format('d-m-Y') ?? 'ƏDV Ödənişi olmayıb',
+            optional($row->getAttribute('paid_at'))->format('d/m/Y') ?? 'Tam Ödəniş olmayıb',
+            optional($row->getAttribute('vat_date'))->format('d/m/Y') ?? 'ƏDV Ödənişi olmayıb',
             ($row->getParameter($row::VAT) + $row->getParameter($row::AMOUNT) + $row->getParameter($row::ILLEGALAMOUNT) - ($row->getParameter($row::PAID) + $row->getParameter($row::VATPAYMENT) +  $row->getParameter($row::ILLEGALPAID))) * -1,
-            optional($row->getAttribute('created_at'))->format('d-m-Y'), optional($row->getAttribute('created_at'))->format('H:i:s'),
-            optional($row->getAttribute('injected_at'))->format('d-m-Y'),optional($row->getAttribute('injected_at'))->format('H:i:s'),
+            optional($row->getAttribute('created_at'))->format('d/m/Y'), optional($row->getAttribute('created_at'))->format('H:i:s'),
+            optional($row->getAttribute('injected_at'))->format('d/m/Y'),optional($row->getAttribute('injected_at'))->format('H:i:s'),
             $row->getAttribute('total_amount') ?? 'Məlumat yoxdur',
             optional($agent)->getAttribute('fullname') ?? 'Vasitəçi yoxdur',
             optional($reference)->getAttribute('name') ?? 'Referans yoxdur',
-            optional($row->getAttribute('updated_at'))->format('d-m-Y H:i:s'),
+            optional($row->getAttribute('updated_at'))->format('d/m/Y H:i:s'),
         ];
 
         foreach (Service::serviceParametersExport() as $servicesParameter) {
