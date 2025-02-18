@@ -47,7 +47,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             'Əsas Məbləğ Ödəniş Tarixi',
             'ƏDV Ödəniş Tarixi',
             'Tam məbləğ',
-            'Borc məbləğ',
+            'Ödənmiş məbləğ',
             'Qalıq',
             'Yaradılma Tarixi (Gün)', 'Yaradılma Tarixi (Saat)',
             'Sisteme Tarixi (Gün)', 'Sisteme Tarixi (Saat)',
