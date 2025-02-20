@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Interfaces\WorkRepositoryInterface;
+use App\Models\Client;
 use App\Models\Service;
 use App\Models\CustomerEngagement;
 use App\Models\User;
@@ -77,6 +78,13 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         $agent = $customerEngagement ? User::find($customerEngagement->user_id) : null;
         $reference = $customerEngagement ? Partner::find($customerEngagement->partner_id) : null;
 
+        $types = [
+            Client::LEGAL => 'Hüquqi',
+            Client::PHYSICAL => 'Fiziki',
+            Client::FOREIGNPHYSICAL => 'Xarici Fiziki',
+            Client::FOREIGNLEGAL => 'Xarici Hüquqi',
+        ];
+
         $maps = [
             $row->getAttribute('declaration_no'),
             $row->getAttribute('code'),
@@ -86,7 +94,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             optional($row->getRelationValue('user'))->getAttribute('fullname') ?? 'İcraçı yoxdur',
             $row->asanImza()->exists() ? $row->getRelationValue('asanImza')->getAttribute('user_with_company') : trans('translates.filters.select'),
             $row->getRelationValue('client')->getAttribute('fullname'),
-            $row->getRelationValue('client')->getAttribute('type'),
+            $types[$row->getRelationValue('client')->getAttribute('type')] ?? 'Unknown',
             $row->getRelationValue('service')->getAttribute('name'),
             trans('translates.work_destination.' . $row->getAttribute('destination')) ?? 'Təyinat orqanı boşdur',
             trans('translates.work_status.' . $row->getAttribute('status')),

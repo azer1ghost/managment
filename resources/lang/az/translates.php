@@ -774,7 +774,7 @@ return [
     ],
 
     'clients_type' => [
-        1 => 'Hüquqi',
+        'Hüquqi',
         'Fiziki',
         'Xarici Fiziki',
         'Xarici Hüquqi',
