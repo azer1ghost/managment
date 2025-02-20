@@ -167,10 +167,11 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
     {
         return [1 => 1, 2, 3];
     }
-    public function getTypeAttribute($value)
+    public static function types(): array
     {
-        return in_array($value, [0, 1, 2, 3]) ? $value : 'Unknown';
+        return [1 => 1, 2, 3, 4];
     }
+
 
 
 }
