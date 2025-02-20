@@ -167,5 +167,16 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
     {
         return [1 => 1, 2, 3];
     }
+    public function getTypeAttribute($value)
+    {
+        $types = [
+            self::LEGAL => 'LEGAL',
+            self::PHYSICAL => 'PHYSICAL',
+            self::FOREIGNPHYSICAL => 'FOREIGN PHYSICAL',
+            self::FOREIGNLEGAL => 'FOREIGN LEGAL'
+        ];
+
+        return $types[$value] ?? 'Unknown';
+    }
 
 }

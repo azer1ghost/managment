@@ -72,6 +72,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
 
     public function map($row): array
     {
+
         $customerEngagement = CustomerEngagement::where('client_id', $row->client_id)->first();
         $agent = $customerEngagement ? User::find($customerEngagement->user_id) : null;
         $reference = $customerEngagement ? Partner::find($customerEngagement->partner_id) : null;
