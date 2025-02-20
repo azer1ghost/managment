@@ -761,7 +761,7 @@ return [
     ],
 
     'clients_type' => [
-        1 => 'Legal',
+        'Legal',
         'Physical',
         'Foreign Physical',
         'Foreign Legal',
