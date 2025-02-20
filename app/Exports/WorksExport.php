@@ -79,10 +79,10 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         $reference = $customerEngagement ? Partner::find($customerEngagement->partner_id) : null;
 
         $types = [
-            Client::LEGAL => 'Hüquqi',
-            Client::PHYSICAL => 'Fiziki',
-            Client::FOREIGNPHYSICAL => 'Xarici Fiziki',
-            Client::FOREIGNLEGAL => 'Xarici Hüquqi',
+            Client::LEGAL => 0,
+            Client::PHYSICAL => 1,
+            Client::FOREIGNPHYSICAL => 2,
+            Client::FOREIGNLEGAL => 3,
         ];
 
         $maps = [
