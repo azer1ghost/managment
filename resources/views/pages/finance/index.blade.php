@@ -43,6 +43,7 @@
                     <option value="tgroupKapital">Tedora Group Kapital</option>
                     <option value="dgroupKapital">Declare Group Kapital</option>
                     <option value="mtechnologiesRespublika">Mobil Technologies Bank Respublika</option>
+                    <option value="mtechnologiesKapital">Mobil Technologies Kapital Bank</option>
                     <option value="logisticsKapital">Mobil Logistics Kapital</option>
                     <option value="logisticsRespublika">Mobil Logistics Bank Respublika</option>
                 </select>
@@ -719,6 +720,18 @@
                 var who = "Sabir Tahirov Zakir oğlu";
                 var whoFooter = "S.Z.Tahirov";
                 $('#temsilci').html("İcraçı");
+            } else if (company == 'mtechnologiesKapital') {
+                var companyName = "\"Mobil Technologies\" MMC";
+                var voen = "1804325861";
+                var hh = "AZ59AIIB400600C9444349136102";
+                var mh = "AZ37NABZ01350100000000001944";
+                var bank = "KAPITAL BANK ASC mərkəz filialı";
+                var kod = "200026";
+                var bvoen = "9900003611";
+                var swift = "AIIBAZ2XXXX";
+                var who = "Sabir Tahirov Zakir oğlu";
+                var whoFooter = "S.Z.Tahirov";
+                $('#temsilci').html("İcraçı");
             } else if (company == 'logisticsKapital') {
                 var companyName = "\"Mobil Logistics\" MMC";
                 var voen = "1804811521";
@@ -867,7 +880,7 @@
             var totalCell = $('#total');
 
             var edvCompany = $('#companies').val();
-            var edv = (edvCompany !== 'mbrokerRespublika' && edvCompany !== 'mtechnologiesRespublika' && edvCompany !== 'garantRespublika' && edvCompany !== 'garantKapital' && edvCompany !== 'mbrokerKapital') ? 1 : 1.18;
+            var edv = (edvCompany !== 'mbrokerRespublika' && edvCompany !== 'mtechnologiesRespublika' && edvCompany !== 'garantRespublika' && edvCompany !== 'garantKapital' && edvCompany !== 'mbrokerKapital' && edvCompany !== 'mtechnologiesKapital') ? 1 : 1.18;
 
             sumCell.text(sum.toFixed(2));
             vatCell.text((sum * 0.18).toFixed(2));

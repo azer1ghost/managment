@@ -173,6 +173,19 @@
      $whoFooter = "S.Z.Tahirov";
      $stamp = asset('assets/images/finance/mtech.jpeg');
 
+ } else if ($company == 'mtechnologiesKapital') {
+     $companyName = "\"Mobil Technologies\" MMC";
+     $voen = "1804325861";
+     $hh = "AZ59AIIB400600C9444349136102";
+     $mh = "AZ37NABZ01350100000000001944";
+     $bank = "KAPITAL BANK ASC mərkəz filialı";
+     $kod = "200026";
+     $bvoen = "9900003611";
+     $swift = "AIIBAZ2XXXX";
+     $who = "Sabir Tahirov Zakir oğlu";
+     $whoFooter = "S.Z.Tahirov";
+     $stamp = asset('assets/images/finance/mtech.jpeg');
+
  } else if ($company == 'logisticsKapital') {
      $companyName = "\"Mobil Logistics\" MMC";
      $voen = "1804811521";
@@ -918,7 +931,7 @@
         var totalCell = $('#total');
 
         var edvCompany = $('#companies').val();
-        var edv = (edvCompany !== 'mbrokerRespublika' && edvCompany !== 'mtechnologiesRespublika' && edvCompany !== 'garantRespublika' && edvCompany !== 'garantKapital' && edvCompany !== 'mbrokerKapital') ? 1 : 1.18;
+        var edv = (edvCompany !== 'mbrokerRespublika' && edvCompany !== 'mtechnologiesRespublika' && edvCompany !== 'garantRespublika' && edvCompany !== 'garantKapital' && edvCompany !== 'mbrokerKapital' && edvCompany !== 'mtechnologiesKapital') ? 1 : 1.18;
 
         var overallElements = $(".overal");
         var sum2 = 0;
