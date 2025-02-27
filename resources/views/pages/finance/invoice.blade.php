@@ -384,6 +384,7 @@
                                 <option>Elektron GB-nin tərtib olunması(əlavə vərəq)</option>
                                 <option>Ərazi Xərci və Digər Ödənişlər</option>
                                 <option>Laboratoriya təmsilçiliyi</option>
+                                <option>Texniki xidmətlərin göstərilməsi</option>
                             </select>
                         </td>
                         <td>Ədəd</td>
