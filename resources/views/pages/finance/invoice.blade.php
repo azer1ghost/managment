@@ -176,10 +176,10 @@
  } else if ($company == 'mtechnologiesKapital') {
      $companyName = "\"Mobil Technologies\" MMC";
      $voen = "1804325861";
-     $hh = "AZ59AIIB400600C9444349136102";
+     $hh = "AZ52AIIB400600D9447189871229";
      $mh = "AZ37NABZ01350100000000001944";
-     $bank = "KAPITAL BANK ASC mərkəz filialı";
-     $kod = "200026";
+     $bank = "Kapital Bank ASC KOB mərkəzi filialı";
+     $kod = "201412";
      $bvoen = "9900003611";
      $swift = "AIIBAZ2XXXX";
      $who = "Sabir Tahirov Zakir oğlu";

@@ -724,10 +724,10 @@
             } else if (company == 'mtechnologiesKapital') {
                 var companyName = "\"Mobil Technologies\" MMC";
                 var voen = "1804325861";
-                var hh = "AZ59AIIB400600C9444349136102";
+                var hh = "AZ52AIIB400600D9447189871229";
                 var mh = "AZ37NABZ01350100000000001944";
-                var bank = "KAPITAL BANK ASC mərkəz filialı";
-                var kod = "200026";
+                var bank = "Kapital Bank ASC KOB mərkəzi filialı";
+                var kod = "201412";
                 var bvoen = "9900003611";
                 var swift = "AIIBAZ2XXXX";
                 var who = "Sabir Tahirov Zakir oğlu";
