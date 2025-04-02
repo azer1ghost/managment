@@ -98,6 +98,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             $row->getRelationValue('service')->getAttribute('name'),
             trans('translates.work_destination.' . $row->getAttribute('destination')) ?? 'Təyinat orqanı boşdur',
             trans('translates.work_status.' . $row->getAttribute('status')),
+            strip_tags($row->getAttribute('detail')),
             implode(', ', $row->documents->pluck('name')->toArray()),
             optional($row->getAttribute('paid_at'))->format('d/m/Y') ?? 'Tam Ödəniş olmayıb',
             optional($row->getAttribute('vat_date'))->format('d/m/Y') ?? 'ƏDV Ödənişi olmayıb',
