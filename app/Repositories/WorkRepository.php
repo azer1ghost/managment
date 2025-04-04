@@ -23,6 +23,7 @@ class WorkRepository implements WorkRepositoryInterface {
         $statuses = $filters['statuses'] ?? [];
 
         return Work::query()
+            ->select('works.*')
             ->with([
                 'creator','department:id,name,short_name',
                 'service',
