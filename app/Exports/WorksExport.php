@@ -44,6 +44,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             'Xidmət',
             'Təyinat Orqanı',
             'Status',
+            'Detallar',
             'Sənədlər',
             'Əsas Məbləğ Ödəniş Tarixi',
             'ƏDV Ödəniş Tarixi',
