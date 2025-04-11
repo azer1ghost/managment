@@ -81,14 +81,20 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             Client::FOREIGNLEGAL => 3,
         ];
 
+        $coordinator = $row->client?->coordinators?->first();
+        $coordinatorName = $coordinator ? $coordinator->name . ' ' . $coordinator->surname : 'Koordinator yoxdur';
+
+        $userName = $row->user ? $row->user->name . ' ' . $row->user->surname : 'İcraçı yoxdur';
+        $agentName = $agent ? $agent->name . ' ' . $agent->surname : 'Vasitəçi yoxdur';
+
         $maps = [
             $row->declaration_no,
             $row->code,
             $row->department?->short_name,
-            $row->client?->coordinators?->first()?->name . ' ' . $row->client?->coordinators?->first()?->surname ?? 'Koordinator yoxdur',
-            $row->user?->name . ' ' . $row->user?->surname ?? 'İcraçı yoxdur',
+            $coordinatorName,
+            $userName,
             $row->asanImza?->user_with_company ?? trans('translates.filters.select'),
-            $row->client?->fullname,
+            $row->client?->fullname ?? '-',
             $types[$row->client?->type] ?? 'Unknown',
             $row->service?->name,
             trans('translates.work_destination.' . $row->destination) ?? 'Təyinat orqanı boşdur',
@@ -105,7 +111,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             optional($row->injected_at)?->toDateString(), optional($row->injected_at)?->toTimeString(),
             $row->total_amount ?? 'Məlumat yoxdur',
             trans('translates.payment_methods.' . $row->payment_method),
-            $agent?->fullname ?? 'Vasitəçi yoxdur',
+            $agentName,
             $reference?->name ?? 'Referans yoxdur',
             optional($row->updated_at)?->format('d/m/Y H:i:s'),
         ];
@@ -143,7 +149,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             ->with([
                 'department:id,short_name',
                 'client:id,fullname,type',
-                'client.coordinators:id,fullname,client_id',
+                'client.coordinators:id,name,surname,client_id',
                 'user:id,name,surname',
                 'service:id,name',
                 'asanImza:id,user_with_company,work_id',
