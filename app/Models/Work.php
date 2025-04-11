@@ -223,4 +223,9 @@ class Work extends Model implements DocumentableInterface, Recordable
 
         return null;
     }
+    public function customerEngagement()
+    {
+        return $this->hasOne(\App\Models\CustomerEngagement::class, 'client_id', 'client_id');
+    }
+
 }

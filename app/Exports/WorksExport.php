@@ -5,25 +5,22 @@ namespace App\Exports;
 use App\Interfaces\WorkRepositoryInterface;
 use App\Models\Client;
 use App\Models\Service;
-use App\Models\CustomerEngagement;
-use App\Models\User;
-use App\Models\Partner;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWidths, ShouldAutoSize, WithStyles
+class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWidths, ShouldAutoSize, WithStyles, WithChunkReading
 {
     use Exportable;
 
-    protected array $filters = [],$dateRanges = [],$dateFilters = [];
+    protected array $filters = [], $dateFilters = [], $headings = [];
     protected WorkRepositoryInterface $workRepository;
-    protected array $headings = [];
 
     public function __construct(WorkRepositoryInterface $workRepository, array $filters = [], array $dateFilters = [])
     {
@@ -34,7 +31,6 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         $this->headings = [
             'Sorğu nömrəsi',
             'İş Kodu',
-
             'Şöbə',
             'Koordinator',
             'İcraçı Əməkdaş',
@@ -61,8 +57,8 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         ];
 
         foreach (Service::serviceParametersExport() as $servicesParameter) {
-            if (!in_array($servicesParameter['data']->getAttribute('id'), [51, 52, 53, 54, 56, 57, 60])) {
-                $this->headings[] = $servicesParameter['data']->getAttribute('label');
+            if (!in_array($servicesParameter['data']->id, [51, 52, 53, 54, 56, 57, 60])) {
+                $this->headings[] = $servicesParameter['data']->label;
             }
         }
     }
@@ -74,10 +70,9 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
 
     public function map($row): array
     {
-
-        $customerEngagement = CustomerEngagement::where('client_id', $row->client_id)->first();
-        $agent = $customerEngagement ? User::find($customerEngagement->user_id) : null;
-        $reference = $customerEngagement ? Partner::find($customerEngagement->partner_id) : null;
+        $customerEngagement = $row->customerEngagement;
+        $agent = $customerEngagement?->user;
+        $reference = $customerEngagement?->partner;
 
         $types = [
             Client::LEGAL => 0,
@@ -87,37 +82,37 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         ];
 
         $maps = [
-            $row->getAttribute('declaration_no'),
-            $row->getAttribute('code'),
-
-            $row->getRelationValue('department')->getAttribute('short'),
-            optional($row->getRelationValue('client')->coordinators->first())->fullname ?? 'Koordinator Yoxdur',
-            optional($row->getRelationValue('user'))->getAttribute('fullname') ?? 'İcraçı yoxdur',
-            $row->asanImza()->exists() ? $row->getRelationValue('asanImza')->getAttribute('user_with_company') : trans('translates.filters.select'),
-            $row->getRelationValue('client')->getAttribute('fullname'),
-            $types[$row->getRelationValue('client')->getAttribute('type')] ?? 'Unknown',
-            $row->getRelationValue('service')->getAttribute('name'),
-            trans('translates.work_destination.' . $row->getAttribute('destination')) ?? 'Təyinat orqanı boşdur',
-            trans('translates.work_status.' . $row->getAttribute('status')),
-            strip_tags($row->getAttribute('detail')),
-            implode(', ', $row->documents->pluck('name')->toArray()),
-            optional($row->getAttribute('paid_at'))->format('d/m/Y') ?? 'Tam Ödəniş olmayıb',
-            optional($row->getAttribute('vat_date'))->format('d/m/Y') ?? 'ƏDV Ödənişi olmayıb',
-            ($row->getParameter($row::VAT) + $row->getParameter($row::AMOUNT) + $row->getParameter($row::ILLEGALAMOUNT)),
-            ($row->getParameter($row::PAID) + $row->getParameter($row::VATPAYMENT) + $row->getParameter($row::ILLEGALPAID)),
-            ($row->getParameter($row::VAT) + $row->getParameter($row::AMOUNT) + $row->getParameter($row::ILLEGALAMOUNT) - ($row->getParameter($row::PAID) + $row->getParameter($row::VATPAYMENT) +  $row->getParameter($row::ILLEGALPAID))) * -1,
-            optional($row->getAttribute('created_at'))->format('d/m/Y'), optional($row->getAttribute('created_at'))->format('H:i:s'),
-            optional($row->getAttribute('injected_at'))->format('d/m/Y'),optional($row->getAttribute('injected_at'))->format('H:i:s'),
-            $row->getAttribute('total_amount') ?? 'Məlumat yoxdur',
-            trans('translates.payment_methods.' . $row->getAttribute('payment_method')),
-            optional($agent)->getAttribute('fullname') ?? 'Vasitəçi yoxdur',
-            optional($reference)->getAttribute('name') ?? 'Referans yoxdur',
-            optional($row->getAttribute('updated_at'))->format('d/m/Y H:i:s'),
+            $row->declaration_no,
+            $row->code,
+            $row->department?->short,
+            $row->client?->coordinators?->first()?->fullname ?? 'Koordinator yoxdur',
+            $row->user?->fullname ?? 'İcraçı yoxdur',
+            $row->asanImza?->user_with_company ?? trans('translates.filters.select'),
+            $row->client?->fullname,
+            $types[$row->client?->type] ?? 'Unknown',
+            $row->service?->name,
+            trans('translates.work_destination.' . $row->destination) ?? 'Təyinat orqanı boşdur',
+            trans('translates.work_status.' . $row->status),
+            strip_tags($row->detail),
+            implode(', ', $row->documents?->pluck('name')->toArray() ?? []),
+            optional($row->paid_at)?->format('d/m/Y') ?? 'Tam Ödəniş olmayıb',
+            optional($row->vat_date)?->format('d/m/Y') ?? 'ƏDV Ödənişi olmayıb',
+            $row->getParameter($row::VAT) + $row->getParameter($row::AMOUNT) + $row->getParameter($row::ILLEGALAMOUNT),
+            $row->getParameter($row::PAID) + $row->getParameter($row::VATPAYMENT) + $row->getParameter($row::ILLEGALPAID),
+            ($row->getParameter($row::VAT) + $row->getParameter($row::AMOUNT) + $row->getParameter($row::ILLEGALAMOUNT)
+                - ($row->getParameter($row::PAID) + $row->getParameter($row::VATPAYMENT) +  $row->getParameter($row::ILLEGALPAID))) * -1,
+            optional($row->created_at)?->toDateString(), optional($row->created_at)?->toTimeString(),
+            optional($row->injected_at)?->toDateString(), optional($row->injected_at)?->toTimeString(),
+            $row->total_amount ?? 'Məlumat yoxdur',
+            trans('translates.payment_methods.' . $row->payment_method),
+            $agent?->fullname ?? 'Vasitəçi yoxdur',
+            $reference?->name ?? 'Referans yoxdur',
+            optional($row->updated_at)?->format('d/m/Y H:i:s'),
         ];
 
         foreach (Service::serviceParametersExport() as $servicesParameter) {
-            if (!in_array($servicesParameter['data']->getAttribute('id'), [51, 52, 53, 54, 56, 57, 60])) {
-                $maps[] = $row->getParameter($servicesParameter['data']->getAttribute('id'));
+            if (!in_array($servicesParameter['data']->id, [51, 52, 53, 54, 56, 57, 60])) {
+                $maps[] = $row->getParameter($servicesParameter['data']->id);
             }
         }
 
@@ -144,7 +139,18 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
 
     public function query()
     {
-        return $this->workRepository->allFilteredWorks($this->filters, $this->dateFilters);
+        return $this->workRepository->allFilteredWorks($this->filters, $this->dateFilters)
+            ->with([
+                'department:id,short',
+                'client:id,fullname,type',
+                'client.coordinators:id,fullname,client_id',
+                'user:id,fullname',
+                'service:id,name',
+                'asanImza:id,user_with_company,work_id',
+                'documents:id,work_id,name',
+                'customerEngagement.user:id,fullname',
+                'customerEngagement.partner:id,name',
+            ]);
     }
 
     public function columnWidths(): array
@@ -156,5 +162,10 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             'E' => 30,
             'F' => 35,
         ];
+    }
+
+    public function chunkSize(): int
+    {
+        return 1000;
     }
 }
