@@ -156,7 +156,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
                 'client.coordinators:id,name,surname',
                 'user:id,name,surname',
                 'service:id,name',
-                'asanImza:id,user_id,company_id,work_id',
+                'asanImza:id,user_id,company_id',
                 'asanImza.user:id,name',
                 'asanImza.company:id,name',
                 'documents:id,work_id,name',
