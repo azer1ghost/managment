@@ -87,13 +87,17 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         $userName = $row->user ? $row->user->name . ' ' . $row->user->surname : 'İcraçı yoxdur';
         $agentName = $agent ? $agent->name . ' ' . $agent->surname : 'Vasitəçi yoxdur';
 
+        $asanImzaName = $row->asanImza
+            ? optional($row->asanImza->user)->name . ' - ' . optional($row->asanImza->company)->name
+            : trans('translates.filters.select');
+
         $maps = [
             $row->declaration_no,
             $row->code,
             $row->department?->short_name,
             $coordinatorName,
             $userName,
-            $row->asanImza?->user_with_company ?? trans('translates.filters.select'),
+            $asanImzaName,
             $row->client?->fullname ?? '-',
             $types[$row->client?->type] ?? 'Unknown',
             $row->service?->name,
@@ -152,7 +156,9 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
                 'client.coordinators:id,name,surname',
                 'user:id,name,surname',
                 'service:id,name',
-                'asanImza:id,user_with_company,work_id',
+                'asanImza:id,user_id,company_id,work_id',
+                'asanImza.user:id,name',
+                'asanImza.company:id,name',
                 'documents:id,work_id,name',
                 'customerEngagement.user:id,name,surname',
                 'customerEngagement.partner:id,name',
