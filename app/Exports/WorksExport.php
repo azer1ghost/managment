@@ -149,7 +149,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             ->with([
                 'department:id,short_name',
                 'client:id,fullname,type',
-                'client.coordinators:id,name,surname,client_id',
+                'client.coordinators:id,name,surname',
                 'user:id,name,surname',
                 'service:id,name',
                 'asanImza:id,user_with_company,work_id',
