@@ -85,7 +85,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             $row->declaration_no,
             $row->code,
             $row->department?->short_name,
-            $row->client?->coordinators?->first()?->fullname ?? 'Koordinator yoxdur',
+            $row->client?->coordinators?->first()?->name . ' ' . $row->client?->coordinators?->first()?->surname ?? 'Koordinator yoxdur',
             $row->user?->name . ' ' . $row->user?->surname ?? 'İcraçı yoxdur',
             $row->asanImza?->user_with_company ?? trans('translates.filters.select'),
             $row->client?->fullname,
