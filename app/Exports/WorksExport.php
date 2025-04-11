@@ -41,7 +41,6 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             'Təyinat Orqanı',
             'Status',
             'Detallar',
-            'Sənədlər',
             'Əsas Məbləğ Ödəniş Tarixi',
             'ƏDV Ödəniş Tarixi',
             'Tam məbləğ',
@@ -104,7 +103,6 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             trans('translates.work_destination.' . $row->destination) ?? 'Təyinat orqanı boşdur',
             trans('translates.work_status.' . $row->status),
             strip_tags($row->detail),
-            implode(', ', $row->documents?->pluck('name')->toArray() ?? []),
             optional($row->paid_at)?->format('d/m/Y') ?? 'Tam Ödəniş olmayıb',
             optional($row->vat_date)?->format('d/m/Y') ?? 'ƏDV Ödənişi olmayıb',
             $row->getParameter($row::VAT) + $row->getParameter($row::AMOUNT) + $row->getParameter($row::ILLEGALAMOUNT),
@@ -159,7 +157,6 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
                 'asanImza:id,user_id,company_id',
                 'asanImza.user:id,name',
                 'asanImza.company:id,name',
-                'documents:id,work_id,name',
                 'customerEngagement.user:id,name,surname',
                 'customerEngagement.partner:id,name',
             ]);
