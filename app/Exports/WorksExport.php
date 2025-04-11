@@ -148,7 +148,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
                 'service:id,name',
                 'asanImza:id,user_with_company,work_id',
                 'documents:id,work_id,name',
-                'customerEngagement.user:id,fullname',
+                'customerEngagement.user:id,name,surname',
                 'customerEngagement.partner:id,name',
             ]);
     }
