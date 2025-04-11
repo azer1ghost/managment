@@ -84,7 +84,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         $maps = [
             $row->declaration_no,
             $row->code,
-            $row->department?->short,
+            $row->department?->short_name,
             $row->client?->coordinators?->first()?->fullname ?? 'Koordinator yoxdur',
             $row->user?->fullname ?? 'İcraçı yoxdur',
             $row->asanImza?->user_with_company ?? trans('translates.filters.select'),
@@ -141,7 +141,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
     {
         return $this->workRepository->allFilteredWorks($this->filters, $this->dateFilters)
             ->with([
-                'department:id,short',
+                'department:id,short_name',
                 'client:id,fullname,type',
                 'client.coordinators:id,fullname,client_id',
                 'user:id,fullname',
