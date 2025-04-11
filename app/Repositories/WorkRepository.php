@@ -50,56 +50,44 @@ class WorkRepository implements WorkRepositoryInterface {
             })
             ->where(function($query) use ($filters, $dateRanges, $dateFilters){
                 foreach ($filters as $column => $value) {
-                    if($column == 'limit') continue;
+                    if ($column === 'limit' || $value === null || $value === '') continue;
+
                     $query->when($value, function ($query, $value) use ($column, $dateRanges, $dateFilters) {
-                        if($column == 'verified_at'){
-                            switch ($value){
-                                case 1:
-                                    $query->whereNull($column);
-                                    break;
-                                case 2:
-                                    $query->whereNotNull($column);
-                                    break;
-                            }
+                        if (isset($dateFilters[$column]) && isset($dateRanges[$column])) {
+                            return $query->whereBetween($column, [
+                                Carbon::parse($dateRanges[$column][0])->startOfDay(),
+                                Carbon::parse($dateRanges[$column][1])->endOfDay()
+                            ]);
                         }
-                        else if ($column == 'paid_at'){
-                            switch ($value){
-                                case 1:
-                                    $query->whereNull($column);
-                                    break;
-                                case 2:
-                                    $query->whereNotNull($column);
-                                    break;
-                            }
+
+                        if (in_array($column, ['verified_at', 'paid_at'])) {
+                            return $value == 1
+                                ? $query->whereNull($column)
+                                : $query->whereNotNull($column);
                         }
-                        else if($column == 'asan_imza_company_id'){
-                            $query->whereHas('asanImza', function ($asanImzaQuery) use ($value) {
-                                $asanImzaQuery->whereHas('company', function ($companyQuery) use ($value) {
-                                    $companyQuery->whereId($value);
-                                });
+
+                        if (in_array($column, ['code', 'declaration_no'])) {
+                            return $query->where($column, 'like', "%$value%");
+                        }
+
+                        // Asan İmza və relation filterləri
+                        if ($column === 'asan_imza_company_id') {
+                            return $query->whereHas('asanImza.company', function ($q) use ($value) {
+                                $q->where('id', $value);
                             });
-                        }else{
-                            if($column == 'code'){
-                                $query->where($column, 'LIKE', "%$value%");
-                            }
-                            elseif($column == 'declaration_no'){
-                                $query->where($column, 'LIKE', "%$value%");
-                            }
-                            elseif($column == 'service_id'){
-                                $query->whereIn($column, $value);
-                            }
-                            else if (is_numeric($value)){
-                                $query->where($column, $value);
-                            }
-                            else if(is_string($value) && $dateFilters[$column]){
-                                $query->whereBetween($column,
-                                    [
-                                        Carbon::parse($dateRanges[$column][0])->startOfDay(),
-                                        Carbon::parse($dateRanges[$column][1])->endOfDay()
-                                    ]
-                                );
-                            }
                         }
+
+                        if ($column === 'asan_imza_id') {
+                            return $query->whereHas('asanImza', function ($q) use ($value) {
+                                $q->where('id', $value);
+                            });
+                        }
+
+                        if (is_array($value)) {
+                            return $query->whereIn($column, $value);
+                        }
+
+                        return $query->where($column, $value);
                     });
                 }
             })
