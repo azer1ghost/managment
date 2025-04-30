@@ -128,6 +128,9 @@ class WorkController extends Controller
         if ($request->has('check-returned_at')) {
             $works = $works->whereNotNull('returned_at');
         }
+        if ($request->filled('empty_invoice') && $request->empty_invoice == 1) {
+            $works = $works->whereNull('code');
+        }
 
         $works = $works->paginate($limit);
 

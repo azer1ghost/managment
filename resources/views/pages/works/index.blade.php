@@ -53,6 +53,14 @@
                             <label for="codeFilter">Qaimə nömrəsinə görə axtarış</label>
                             <input type="search" id="codeFilter" name="code" value="{{$filters['code']}}"
                                    placeholder="E-qaimə" class="form-control">
+                            <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">
+                                <div class="form-check mt-4">
+                                    <input class="form-check-input" type="checkbox" id="emptyInvoice" name="empty_invoice" value="1"
+                                            {{ request('empty_invoice') ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="emptyInvoice">
+                                        Yalnız boş qaimələr
+                                    </label>
+                                </div>
                         </div>
                         <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">
                             <label for="codeFilter">Sorğu nömrəsinə görə axtarış</label>
