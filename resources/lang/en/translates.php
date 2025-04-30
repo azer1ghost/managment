@@ -796,7 +796,8 @@ return [
         '00123 Bakı KOB g/p',
         '00110 Sahil g/p',
         '00808 Poçt göndərişləri G/P',
-        '00121 Abşeron G/P'
+        '00121 Abşeron G/P',
+        '00800 HNBGI (Aksiz)'
     ],
     'client_channels' => [
         1 => 'Friend/acquaintance',
