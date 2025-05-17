@@ -18,7 +18,7 @@ class WorkRepository implements WorkRepositoryInterface {
             'entry_date' => explode(' - ', $filters['entry_date']),
             'invoiced_date' => explode(' - ', $filters['invoiced_date']),
             'vat_date' => explode(' - ', $filters['vat_date']),
-            'paid_at' => explode(' - ', $filters['paid_at_date']),
+            'paid_at' => explode(' - ', $filters['paid_at']),
         ];
         $status = $filters['status'];
         $statuses = $filters['statuses'] ?? [];
