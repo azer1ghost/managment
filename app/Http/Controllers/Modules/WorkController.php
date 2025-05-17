@@ -79,7 +79,7 @@ class WorkController extends Controller
         $dateFilters = [
             'datetime' => $request->has('check-datetime'),
             'created_at' => $request->has('check-created_at'),
-//            'paid_at_date' => $request->has('check-paid_at'),
+            'paid_at' => $request->has('check-paid_at'),
             'entry_date' => $request->has('check-entry_date'),
             'injected_at' => $request->has('check-injected_at'),
             'vat_date' => $request->has('check-vat_paid_at'),
@@ -183,11 +183,11 @@ class WorkController extends Controller
         $dateFilters = [
             'datetime' => $request->has('check-datetime'),
             'created_at' => $request->has('check-created_at'),
-//            'paid_at_date' => $request->has('check-paid_at'),
+            'paid_at' => $request->has('check-paid_at'),
             'vat_date' => $request->has('check-vat_paid_at'),
             'injected_at' => $request->has('check-injected_at'),
             'entry_date' => $request->has('check-entry_date'),
-            'invoiced_date' => $request->has('check-invoiced_date')
+            'invoiced_date' => $request->has('check-invoiced_date'),
         ];
 
         $departmentIds = [11, 12, 13, 7, 29, 30, 24];
@@ -276,9 +276,9 @@ class WorkController extends Controller
             'created_at' => $request->has('check-created_at'),
             'entry_date' => $request->has('check-entry_date'),
             'injected_at' => $request->has('check-injected_at'),
-//            'paid_at_date' => $request->has('check-paid_at'),
+            'paid_at' => $request->has('check-paid_at'),
             'vat_date' => $request->has('check-vat_paid_at'),
-            'invoiced_date' => $request->has('check-invoiced_date')
+            'invoiced_date' => $request->has('check-invoiced_date'),
         ];
 
         $departmentIds = [11, 12, 13, 7, 29, 30, 24];
