@@ -257,7 +257,7 @@ class WorkController extends Controller
             'payment_method' => $request->get('payment_method'),
             'status' => $request->get('status'),
             'destination' => $request->get('destination'),
-            'paid_at' => $request->get('paid_check'),
+            'paid_at' => $request->get('paid_at_date'),
             'vat_date' => $request->get('vat_date'),
             'injected_at' => $request->get('injected_at') ?? $startOfMonth . ' - ' . $endOfMonth,
             'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
@@ -276,7 +276,7 @@ class WorkController extends Controller
             'created_at' => $request->has('check-created_at'),
             'entry_date' => $request->has('check-entry_date'),
             'injected_at' => $request->has('check-injected_at'),
-            'paid_at' => $request->has('paid_check'),
+            'paid_at_date' => $request->has('check-paid_at'),
             'vat_date' => $request->has('check-vat_paid_at'),
             'invoiced_date' => $request->has('check-invoiced_date'),
         ];
