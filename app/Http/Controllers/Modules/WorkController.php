@@ -258,6 +258,7 @@ class WorkController extends Controller
             'status' => $request->get('status'),
             'destination' => $request->get('destination'),
             'paid_at' => $request->get('paid_at'),
+            'paid_at_null'      => $request->has('check-paid_at-null') ? 1 : 0,
             'vat_date' => $request->get('vat_date'),
             'injected_at' => $request->get('injected_at') ?? $startOfMonth . ' - ' . $endOfMonth,
             'created_at' => $request->get('created_at') ?? $startOfMonth . ' - ' . $endOfMonth,
