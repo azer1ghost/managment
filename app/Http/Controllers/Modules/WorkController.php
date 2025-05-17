@@ -276,7 +276,7 @@ class WorkController extends Controller
             'created_at' => $request->has('check-created_at'),
             'entry_date' => $request->has('check-entry_date'),
             'injected_at' => $request->has('check-injected_at'),
-            'paid_at_date' => $request->has('check-paid_at'),
+            'paid_at' => $request->has('check-paid_at'),
             'vat_date' => $request->has('check-vat_paid_at'),
             'invoiced_date' => $request->has('check-invoiced_date'),
         ];
