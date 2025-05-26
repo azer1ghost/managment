@@ -1089,7 +1089,8 @@
                 protocolDate: $('#protocolDate').text(),
                 contractNo: $('#contractNo').text(),
                 contractDate: $('#contractDate').text(),
-                services: services
+                invoiceNumbers: $('.invoiceNumbers').first().text(),
+                services: services,
             },
             success: function(response) {
                 console.log('Invoice yaratıldı:', response);
