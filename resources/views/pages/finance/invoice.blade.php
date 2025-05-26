@@ -16,7 +16,7 @@
      $swift = "AIIBAZ2XXXX";
      $who = "Vüsal Xəlilov İbrahim oğlu";
      $whoFooter = "V.İ.Xəlilov";
-     $stamp = asset('assets/images/finance/mbroker.jpeg');
+     $stamp = asset('assets/images/finance/mbroker1.jpeg');
 
  } else if ($company == 'mbrokerRespublika') {
      $companyName = "\"Mobil Broker\" MMC";
@@ -29,7 +29,7 @@
      $swift = "BRESAZ22";
      $who = "Vüsal Xəlilov İbrahim oğlu";
      $whoFooter = "V.İ.Xəlilov";
-     $stamp = asset('assets/images/finance/mbroker.jpeg');
+     $stamp = asset('assets/images/finance/mbroker1.jpeg');
   }else if ($company == 'mgroupRespublika') {
      $companyName = "\"Mobil Group\" MMC";
      $voen = "1405261701";
@@ -41,7 +41,7 @@
      $swift = "BRESAZ22";
      $who = "Vüsal Xəlilov İbrahim oğlu";
      $whoFooter = "V.İ.Xəlilov";
-     $stamp = asset('assets/images/finance/mgroup.jpeg');
+     $stamp = asset('assets/images/finance/mgroup1.jpeg');
 
  } else if ($company == 'garantKapital') {
      $companyName = "\"Garant Broker\" MMC";
@@ -54,7 +54,7 @@
      $swift = "AIIBAZ2XXXX";
      $who = "Əhmədbəy İsmixanov Səfixan oğlu";
      $whoFooter = "Ə.S.İsmixanov";
-     $stamp = asset('assets/images/finance/gbroker.jpeg');
+     $stamp = asset('assets/images/finance/gbroker1.jpeg');
 
  } else if ($company == 'garantRespublika') {
      $companyName = "\"Garant Broker\" MMC";
@@ -67,7 +67,7 @@
      $swift = "BRESAZ22";
      $who = "Əhmədbəy İsmixanov Səfixan oğlu";
      $whoFooter = "Ə.S.İsmixanov";
-     $stamp = asset('assets/images/finance/gbroker.jpeg');
+     $stamp = asset('assets/images/finance/gbroker1.jpeg');
 
  } else if ($company == 'rigelKapital') {
      $companyName = "\"Rigel Group\" MMC";
@@ -80,7 +80,7 @@
      $swift = "AIIBAZ2XXXX";
      $who = "Xəlilova Lamiyə Fərhad qızı";
      $whoFooter = "L.İ.Xəlilova";
-     $stamp = asset('assets/images/finance/rigel.jpeg');
+     $stamp = asset('assets/images/finance/rigel1.jpeg');
 
  } else if ($company == 'tgroupKapital') {
      $companyName = "\"Tedora Group\" MMC";
@@ -93,7 +93,7 @@
      $swift = "AIIBAZ2XXXX";
      $who = "Toğrul Surxayzadə Məhərrəm oğlu";
      $whoFooter = "T.M.Surxayzadə";
-     $stamp = asset('assets/images/finance/tedora.jpeg');
+     $stamp = asset('assets/images/finance/tedora1.jpeg');
 
  } else if ($company == 'dgroupKapital') {
      $companyName = "\"Declare Group\" MMC";
@@ -106,7 +106,7 @@
      $swift = "AIIBAZ2XXXX";
      $who = "Mahir Həsənquliyev Tahir oğlu";
      $whoFooter = "M.T.Həsənquliyev";
-     $stamp = asset('assets/images/finance/declare.jpeg');
+     $stamp = asset('assets/images/finance/declare1.jpeg');
 
  } else if ($company == 'rigelRespublika') {
      $companyName = "\"Rigel Group\" MMC";
@@ -119,7 +119,7 @@
      $swift = "BRESAZ22";
      $who = "Xəlilova Lamiyə Fərhad qızı";
      $whoFooter = "L.İ.Xəlilova";
-     $stamp = asset('assets/images/finance/rigel.jpeg');
+     $stamp = asset('assets/images/finance/rigel1.jpeg');
 
  } else if ($company == 'mindRespublika') {
      $companyName = "\"Mind Services\" MMC";
@@ -132,7 +132,7 @@
      $swift = "BRESAZ22";
      $who = "Musayev Ağarza Musarza oğlu";
      $whoFooter = "A.M.Musayev";
-     $stamp = asset('assets/images/finance/mind.jpeg');
+     $stamp = asset('assets/images/finance/mind1.jpeg');
 
 } else if ($company == 'mindKapital') {
      $companyName = "\"Mind Services\" MMC";
@@ -145,7 +145,7 @@
      $swift = "AIIBAZ2XXXX";
      $who = "Musayev Ağarza Musarza oğlu";
      $whoFooter = "A.M.Musayev";
-     $stamp = asset('assets/images/finance/mind.jpeg');
+     $stamp = asset('assets/images/finance/mind1.jpeg');
 
  } else if ($company == 'asazaRespublika') {
      $companyName = "\"ASAZA FLKS\" MMC";
@@ -158,7 +158,7 @@
      $swift = "BRESAZ22";
      $who = "Sabir Tahirov Zakir oğlu";
      $whoFooter = "S.Z.Tahirov";
-     $stamp = asset('assets/images/finance/asaza.jpeg');
+     $stamp = asset('assets/images/finance/asaza1.jpeg');
 
  }else if ($company == 'mtechnologiesRespublika') {
      $companyName = "\"Mobil Technologies\" MMC";
@@ -171,7 +171,7 @@
      $swift = "BRESAZ22";
      $who = "Sabir Tahirov Zakir oğlu";
      $whoFooter = "S.Z.Tahirov";
-     $stamp = asset('assets/images/finance/mtech.jpeg');
+     $stamp = asset('assets/images/finance/mtech1.jpeg');
 
  } else if ($company == 'mtechnologiesKapital') {
      $companyName = "\"Mobil Technologies\" MMC";
@@ -184,7 +184,7 @@
      $swift = "AIIBAZ2XXXX";
      $who = "Sabir Tahirov Zakir oğlu";
      $whoFooter = "S.Z.Tahirov";
-     $stamp = asset('assets/images/finance/mtech.jpeg');
+     $stamp = asset('assets/images/finance/mtech1.jpeg');
 
  } else if ($company == 'logisticsKapital') {
      $companyName = "\"Mobil Logistics\" MMC";
@@ -198,7 +198,7 @@
      $who = "Xəlilova Lamiyə Fərhad qızı";
      $whoFooter = "L.İ.Xəlilova";
      $representer = "Ekspeditor";
-     $stamp = asset('assets/images/finance/logistics.jpeg');
+     $stamp = asset('assets/images/finance/logistics1.jpeg');
      }else if ($company == 'logisticsRespublika') {
      $companyName = "\"Mobil Logistics\" MMC";
      $voen = "1804811521";
@@ -211,7 +211,7 @@
      $who = "Xəlilova Lamiyə Fərhad qızı";
      $whoFooter = "L.İ.Xəlilova";
      $representer = "Ekspeditor";
-     $stamp = asset('assets/images/finance/logistics.jpeg');
+     $stamp = asset('assets/images/finance/logistics1.jpeg');
      }
 @endphp
 
@@ -435,7 +435,7 @@
         <button onclick="printCard2()" class="btn btn-primary float-right">Print</button>
         <div class="card" id="printCard2">
             <div class="card-body">
-                <img src="{{asset('assets/images/finance/nusxe.jpeg')}}" class="copies" width="400" alt="">
+                <img src="{{asset('assets/images/finance/nusxe1.jpeg')}}" class="copies" width="400" alt="">
                  <p class="float-left">Bakı Şəhəri</p>
           
                  <p class="float-right" id="protocolDate" contenteditable="true">{{$data->getAttribute('protocolDate')}}</p>
@@ -556,7 +556,7 @@
 
         <div class="card" id="printCard3">
             <div class="card-body">
-                <img src="{{asset('assets/images/finance/nusxe.jpeg')}}" class="copies" width="400" alt="">
+                <img src="{{asset('assets/images/finance/nusxe1.jpeg')}}" class="copies" width="400" alt="">
 
                 <p class="float-left">Bakı Şəhəri</p>
                 <p class="float-right invoiceDate">{{$data->getAttribute('invoiceDate')}}</p>
