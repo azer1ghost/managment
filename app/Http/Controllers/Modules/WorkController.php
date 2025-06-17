@@ -755,7 +755,7 @@ class WorkController extends Controller
             'action' => route('works.update', $work),
             'method' => 'PUT',
             'data' => $work,
-            'users' => User::get(['id', 'name', 'surname']),
+            'users' => User::isActive()->get(['id', 'name', 'surname']),
             'companies' => Company::get(['id', 'name']),
             'destinations' => Work::destinations(),
             'departments' => Department::get(['id', 'name']),
