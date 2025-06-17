@@ -429,6 +429,9 @@
 
                     @endforeach
                     </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
 
                     <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
