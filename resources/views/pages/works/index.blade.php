@@ -429,9 +429,9 @@
 
                     @endforeach
                     </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ $work->sorter->fullname ?? '-' }}</td>
+                    <td>{{ $work->operator->fullname ?? '-' }}</td>
+                    <td>{{ $work->analyst->fullname ?? '-' }}</td>
                     <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
 
                     <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
