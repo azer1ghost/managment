@@ -129,8 +129,47 @@
                         @endif
                     </div>
                 @endif
+                        {{-- Sorter --}}
+                        <div class="form-group">
+                            <label for="sorter_id">Sorter</label>
+                            <select name="sorter_id" class="form-control">
+                                <option value="">-- Seçin --</option>
+                                @foreach($users as $user)
+                                    <option value="{{ $user->id }}" {{ optional($data)->sorter_id == $user->id ? 'selected' : '' }}>
+                                        {{ $user->name }} {{ $user->surname }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                @if($this->service->getAttribute('has_asan_imza') && $method != 'POST')
+                        {{-- Operator --}}
+                        <div class="form-group">
+                            <label for="operator_id">Operator</label>
+                            <select name="operator_id" class="form-control">
+                                <option value="">-- Seçin --</option>
+                                @foreach($users as $user)
+                                    <option value="{{ $user->id }}" {{ optional($data)->operator_id == $user->id ? 'selected' : '' }}>
+                                        {{ $user->name }} {{ $user->surname }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        {{-- Analyst --}}
+                        <div class="form-group">
+                            <label for="analyst_id">Analyst</label>
+                            <select name="analyst_id" class="form-control">
+                                <option value="">-- Seçin --</option>
+                                @foreach($users as $user)
+                                    <option value="{{ $user->id }}" {{ optional($data)->analyst_id == $user->id ? 'selected' : '' }}>
+                                        {{ $user->name }} {{ $user->surname }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+
+                    @if($this->service->getAttribute('has_asan_imza') && $method != 'POST')
                     <div class="form-group col-12 col-md-6" wire:key="asan-imza" wire:ignore>
                         <label for="data-asan_imza_id">Asan imza və Təmsilçilik şirkət</label>
                         <select name="asan_imza_id" id="data-asan_imza_id" data-url="{{route('asanImza.user.search')}}" class="custom-select2 form-control">

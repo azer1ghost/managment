@@ -759,6 +759,9 @@ return [
         'paid' => 'Ödənilib',
         'transport_type' => 'Daşınma Növü',
         'transport_type_choose' => 'Daşınma Növü Seçin',
+        'sorter' => 'Çeşidləyici',
+        'operator' => 'Operator',
+        'analyst' => 'Data Analitik',
     ],
 
     'clients' => [

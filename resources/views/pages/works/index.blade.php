@@ -363,6 +363,9 @@
 
 {{--            @if(\App\Models\Work::userCanViewAll())--}}
             <th scope="col">@lang('translates.general.coordinator')</th>
+            <th scope="col">@lang('translates.general.sorter')</th>
+            <th scope="col">@lang('translates.general.operator')</th>
+            <th scope="col">@lang('translates.general.analyst')</th>
             <th scope="col">@lang('translates.columns.created_by')</th>
             <th scope="col">@lang('translates.columns.department')</th>
 {{--            @endif--}}

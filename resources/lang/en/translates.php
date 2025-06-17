@@ -743,6 +743,9 @@ return [
         'paid' => 'Paid',
         'transport_type' => 'Transport Type',
         'transport_type_choose' => 'Select Transport Type',
+        'sorter' => 'Sorter',
+        'operator' => 'Operator',
+        'analyst' => 'Analyst',
 
     ],
 

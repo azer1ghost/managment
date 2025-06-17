@@ -50,6 +50,9 @@ class Work extends Model implements DocumentableInterface, Recordable
         'declaration_no',
         'detail',
         'creator_id',
+        'sorter_id',
+        'operator_id',
+        'analyst_id',
         'user_id',
         'department_id',
         'asan_imza_id',
@@ -86,6 +89,18 @@ class Work extends Model implements DocumentableInterface, Recordable
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'creator_id')->withDefault();
+    }
+    public function sorter(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'sorter_id')->withDefault();
+    }
+    public function operator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'operator_id')->withDefault();
+    }
+    public function analyst(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'analyst_id')->withDefault();
     }
 
     public function hours(): HasMany

@@ -652,7 +652,7 @@
             }else if (company == 'dgroupKapital') {
                 var companyName = "\"DECLARE GROUP\" MMC";
                 var voen = "1406438851";
-                var hh = "AZ61AIIB400500F9443405268229";
+                var hh = "AZ62AIIB400500F9443405268229";
                 var mh = "AZ37NABZ01350100000000001944";
                 var bank = "Kapital Bank ASC KOB mərkəzi filialı";
                 var kod = "201412";

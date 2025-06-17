@@ -32,6 +32,9 @@ class WorkRequest extends FormRequest
             'bank_charge' => 'nullable',
             'invoiced_date' => 'nullable',
             'returned_at' => 'nullable',
+            'sorter_id' => 'nullable|exists:users,id',
+            'operator_id' => 'nullable|exists:users,id',
+            'analyst_id' => 'nullable|exists:users,id',
         ];
     }
 }

@@ -98,7 +98,7 @@
  } else if ($company == 'dgroupKapital') {
      $companyName = "\"Declare Group\" MMC";
      $voen = "1406438851";
-     $hh = "AZ61AIIB400500F9443405268229";
+     $hh = "AZ62AIIB400500F9443405268229";
      $mh = "AZ37NABZ01350100000000001944";
      $bank = "KAPITAL BANK ASC KOB mərkəz filialı";
      $kod = "201412";
