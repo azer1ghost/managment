@@ -135,9 +135,10 @@
                             <select name="sorter_id" class="form-control">
                                 <option value="">-- Seçin --</option>
                                 @foreach($users as $user)
-                                    <option value="{{ $user->id }}" {{ ($data->sorter_id ?? '') == $user->id ? 'selected' : '' }}>
-                                        {{ $user->name }} {{ $user->surname }}
+                                    <option value="{{ $user['id'] }}" {{ ($data->sorter_id ?? '') == $user['id'] ? 'selected' : '' }}>
+                                        {{ $user['name'] }} {{ $user['surname'] }}
                                     </option>
+
                                 @endforeach
                             </select>
                         </div>
@@ -148,9 +149,10 @@
                             <select name="operator_id" class="form-control">
                                 <option value="">-- Seçin --</option>
                                 @foreach($users as $user)
-                                    <option value="{{ $user->id }}" {{ ($data->sorter_id ?? '') == $user->id ? 'selected' : '' }}>
-                                        {{ $user->name }} {{ $user->surname }}
+                                    <option value="{{ $user['id'] }}" {{ ($data->operator_id ?? '') == $user['id'] ? 'selected' : '' }}>
+                                        {{ $user['name'] }} {{ $user['surname'] }}
                                     </option>
+
                                 @endforeach
                             </select>
                         </div>
@@ -161,8 +163,8 @@
                             <select name="analyst_id" class="form-control">
                                 <option value="">-- Seçin --</option>
                                 @foreach($users as $user)
-                                    <option value="{{ $user->id }}" {{ ($data->sorter_id ?? '') == $user->id ? 'selected' : '' }}>
-                                        {{ $user->name }} {{ $user->surname }}
+                                    <option value="{{ $user['id'] }}" {{ ($data->analyst_id ?? '') == $user['id'] ? 'selected' : '' }}>
+                                        {{ $user['name'] }} {{ $user['surname'] }}
                                     </option>
                                 @endforeach>
                             </select>
