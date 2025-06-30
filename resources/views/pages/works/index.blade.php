@@ -541,6 +541,7 @@
                     @php
                         $sum_tax = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT);
                         $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID) + $work->getAttribute('bank_charge');
+                        $residue_vat = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) - $sum_tax) * -1;
                         $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) + $work->getParameter($work::ILLEGALAMOUNT) - $sum_payment) * -1;
                     @endphp
                 @if(auth()->user()->hasPermission('viewPrice-work'))
@@ -747,7 +748,7 @@
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $code_count}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $service_count}}</strong></p></td>
                 @if(auth()->user()->hasPermission('viewPrice-work'))
-                <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_total_tax}}</strong></p></td>
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{$residue_vat}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_total_payment}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_balance}}</strong></p></td>
                 @endif
