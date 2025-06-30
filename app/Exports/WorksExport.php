@@ -33,6 +33,8 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             'İş Kodu',
             'Şöbə',
             'Koordinator',
+            'Sıralayıcı Əməkdaş', // NEW
+            'Analitik Əməkdaş',   // NEW
             'İcraçı Əməkdaş',
             'Sistemdə (ASAN IMZA)',
             'Müştəri adı',
@@ -84,6 +86,8 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         $coordinatorName = $coordinator ? $coordinator->name . ' ' . $coordinator->surname : 'Koordinator yoxdur';
 
         $userName = $row->user ? $row->user->name . ' ' . $row->user->surname : 'İcraçı yoxdur';
+        $sorterName = $row->sorter ? $row->sorter->name . ' ' . $row->sorter->surname : 'Sıralayıcı yoxdur';
+        $analystName = $row->analyst ? $row->analyst->name . ' ' . $row->analyst->surname : 'Analitik yoxdur';
         $agentName = $agent ? $agent->name . ' ' . $agent->surname : 'Vasitəçi yoxdur';
 
         $asanImzaName = $row->asanImza
@@ -95,6 +99,8 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             $row->code,
             $row->department?->short_name,
             $coordinatorName,
+            $sorterName,      // NEW
+            $analystName,     // NEW
             $userName,
             $asanImzaName,
             $row->client?->fullname ?? '-',
@@ -153,6 +159,8 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
                 'client:id,fullname,type',
                 'client.coordinators:id,name,surname',
                 'user:id,name,surname',
+                'sorter:id,name,surname',   // NEW
+                'analyst:id,name,surname',  // NEW
                 'service:id,name',
                 'asanImza:id,user_id,company_id',
                 'asanImza.user:id,name',
