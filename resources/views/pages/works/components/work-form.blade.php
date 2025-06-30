@@ -144,18 +144,18 @@
                         </div>
 
                         {{-- Operator --}}
-                        <div class="form-group">
-                            <label for="operator_id">Operator</label>
-                            <select name="operator_id" class="form-control">
-                                <option value="">-- Seçin --</option>
-                                @foreach($users as $user)
-                                    <option value="{{ $user['id'] }}" {{ ($data->operator_id ?? '') == $user['id'] ? 'selected' : '' }}>
-                                        {{ $user['name'] }} {{ $user['surname'] }}
-                                    </option>
+{{--                        <div class="form-group">--}}
+{{--                            <label for="operator_id">Operator</label>--}}
+{{--                            <select name="operator_id" class="form-control">--}}
+{{--                                <option value="">-- Seçin --</option>--}}
+{{--                                @foreach($users as $user)--}}
+{{--                                    <option value="{{ $user['id'] }}" {{ ($data->operator_id ?? '') == $user['id'] ? 'selected' : '' }}>--}}
+{{--                                        {{ $user['name'] }} {{ $user['surname'] }}--}}
+{{--                                    </option>--}}
 
-                                @endforeach
-                            </select>
-                        </div>
+{{--                                @endforeach--}}
+{{--                            </select>--}}
+{{--                        </div>--}}
 
                         {{-- Analyst --}}
                         <div class="form-group">

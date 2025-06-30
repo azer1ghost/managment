@@ -539,6 +539,7 @@
                     <td>{{$work->getParameter($work::CODE)}}</td>
                     <td>{{$work->getParameter($work::SERVICECOUNT)}}</td>
                     @php
+                        $sum_tax = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT);
                         $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID) + $work->getAttribute('bank_charge');
                         $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) + $work->getParameter($work::ILLEGALAMOUNT) - $sum_payment) * -1;
                     @endphp
@@ -692,6 +693,8 @@
                 $serviceCount[] = $work->getParameter($work::SERVICECOUNT);
                 $sum_balance = array_sum($balance);
                 $total_payment[] = $sum_payment;
+                $total_tax[] = $sum_tax;
+                $sum_total_tax = array_sum($total_tax);
                 $sum_total_payment = array_sum($total_payment);
                 $gb_count = array_sum($gb);
                 $code_count = array_sum($code);
@@ -744,6 +747,7 @@
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $code_count}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{ $service_count}}</strong></p></td>
                 @if(auth()->user()->hasPermission('viewPrice-work'))
+                <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_total_tax}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_total_payment}}</strong></p></td>
                 <td><p style="font-size: 16px" class="mb-0"><strong>{{$sum_balance}}</strong></p></td>
                 @endif
