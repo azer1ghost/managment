@@ -105,6 +105,32 @@
                             </div>
                         @endif
 
+                        <form method="GET" action="{{ route('works.index') }}">
+                            <div class="form-group">
+                                <label for="sorter_id">Sorter</label>
+                                <select name="sorter_id" class="form-control" onchange="this.form.submit()">
+                                    <option value="">-- Hamısı --</option>
+                                    @foreach($users as $user)
+                                        <option value="{{ $user->id }}" {{ request('sorter_id') == $user->id ? 'selected' : '' }}>
+                                            {{ $user->name }} {{ $user->surname }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </form>
+                        <form method="GET" action="{{ route('works.index') }}">
+                            <div class="form-group">
+                                <label for="analyst_id">Analyst</label>
+                                <select name="analyst_id" class="form-control" onchange="this.form.submit()">
+                                    <option value="">-- Hamısı --</option>
+                                    @foreach($users as $user)
+                                        <option value="{{ $user->id }}" {{ request('analyst_id') == $user->id ? 'selected' : '' }}>
+                                            {{ $user->name }} {{ $user->surname }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </form>
 {{--                        <div class="col-md-4">--}}
 {{--                            <div class="form-group">--}}
 {{--                                <select id="data-sales-coordinator" name="coordinator"  class="form-control" data-selected-text-format="count"--}}
@@ -705,7 +731,6 @@
                 <td colspan=" @if(auth()->user()->isDeveloper() || auth()->user()->hasPermission('viewPrice-work')) 11 @elseif(auth()->user()->hasPermission('viewAll-work') || auth()->user()->hasPermission('canVerify-work')) 10 @else 9 @endif">
                     <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
                 </td>
-                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
