@@ -87,29 +87,31 @@
                             </div>
                         @endif
 
-                        @if(\App\Models\Work::userCanViewAll() || \App\Models\Work::userCanViewDepartmentWorks())
-                            <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                                <label class="d-block" for="userFilter">{{__('translates.general.user_select')}}</label>
-                                <select id="userFilter" class="select2"
-                                        name="user_id"
-                                        data-width="fit" title="{{__('translates.filters.select')}}">
-                                    <option value="">@lang('translates.filters.select')</option>
-                                    @foreach($users as $user)
-                                        <option
-                                            @if($user->getAttribute('id') == $filters['user_id']) selected @endif
-                                                value="{{$user->getAttribute('id')}}">
-                                            {{$user->getAttribute('fullname_with_position')}}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        @endif
+                        <form method="GET" action="{{ route('works.index') }}" class="row">
+                            @if(\App\Models\Work::userCanViewAll() || \App\Models\Work::userCanViewDepartmentWorks())
+                                <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                                    <label class="d-block" for="userFilter">{{ __('translates.general.user_select') }}</label>
+                                    <select id="userFilter" class="select2 form-control"
+                                            name="user_id"
+                                            data-width="fit" title="{{ __('translates.filters.select') }}"
+                                            onchange="this.form.submit()">
+                                        <option value="">@lang('translates.filters.select')</option>
+                                        @foreach($users as $user)
+                                            <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
+                                                {{ $user->fullname_with_position }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endif
 
-                        <form method="GET" action="{{ route('works.index') }}">
-                            <div class="form-group">
-                                <label for="sorter_id">Sorter</label>
-                                <select name="sorter_id" class="form-control" onchange="this.form.submit()">
-                                    <option value="">-- Hamısı --</option>
+                            <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                                <label class="d-block" for="sorterFilter">Sorter</label>
+                                <select id="sorterFilter" class="select2 form-control"
+                                        name="sorter_id"
+                                        data-width="fit" title="-- Seçin --"
+                                        onchange="this.form.submit()">
+                                    <option value="">-- Seçin --</option>
                                     @foreach($users as $user)
                                         <option value="{{ $user->id }}" {{ request('sorter_id') == $user->id ? 'selected' : '' }}>
                                             {{ $user->name }} {{ $user->surname }}
@@ -117,12 +119,14 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </form>
-                        <form method="GET" action="{{ route('works.index') }}">
-                            <div class="form-group">
-                                <label for="analyst_id">Analyst</label>
-                                <select name="analyst_id" class="form-control" onchange="this.form.submit()">
-                                    <option value="">-- Hamısı --</option>
+
+                            <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                                <label class="d-block" for="analystFilter">Analyst</label>
+                                <select id="analystFilter" class="select2 form-control"
+                                        name="analyst_id"
+                                        data-width="fit" title="-- Seçin --"
+                                        onchange="this.form.submit()">
+                                    <option value="">-- Seçin --</option>
                                     @foreach($users as $user)
                                         <option value="{{ $user->id }}" {{ request('analyst_id') == $user->id ? 'selected' : '' }}>
                                             {{ $user->name }} {{ $user->surname }}
@@ -131,7 +135,9 @@
                                 </select>
                             </div>
                         </form>
-{{--                        <div class="col-md-4">--}}
+
+
+                        {{--                        <div class="col-md-4">--}}
 {{--                            <div class="form-group">--}}
 {{--                                <select id="data-sales-coordinator" name="coordinator"  class="form-control" data-selected-text-format="count"--}}
 {{--                                        data-width="fit" title="@lang('translates.clients.selectCoordinator')">--}}

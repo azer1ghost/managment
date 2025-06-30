@@ -75,12 +75,9 @@ class WorkController extends Controller
         if (Work::userCanViewAll() || Work::userCanViewDepartmentWorks()) {
             $filters['user_id'] = $request->get('user_id');
         }
-        if ($request->filled('sorter_id')) {
-            Work::query()->where('sorter_id', $request->input('sorter_id'));
-        }
-        if ($request->filled('analyst_id')) {
-            Work::query()->where('analyst_id', $request->input('analyst_id'));
-        }
+
+        $filters['sorter_id'] = $request->get('sorter_id');
+        $filters['analyst_id'] = $request->get('analyst_id');
 
         $dateFilters = [
             'datetime' => $request->has('check-datetime'),
