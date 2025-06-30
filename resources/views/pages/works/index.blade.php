@@ -363,14 +363,14 @@
 
 {{--            @if(\App\Models\Work::userCanViewAll())--}}
             <th scope="col">@lang('translates.general.coordinator')</th>
-            <th scope="col">@lang('translates.general.sorter')</th>
-            <th scope="col">@lang('translates.general.operator')</th>
-            <th scope="col">@lang('translates.general.analyst')</th>
-            <th scope="col">@lang('translates.columns.created_by')</th>
-            <th scope="col">@lang('translates.columns.department')</th>
-{{--            @endif--}}
-            <th scope="col">@lang('translates.fields.user')</th>
-            <th scope="col">Asan imza və Təmsilçilik Şirkət</th>
+                {{--            <th scope="col">@lang('translates.general.operator')</th>--}}
+                <th scope="col">@lang('translates.columns.created_by')</th>
+                <th scope="col">@lang('translates.columns.department')</th>
+                {{--            @endif--}}
+                <th scope="col">@lang('translates.general.sorter')</th>
+                <th scope="col">@lang('translates.general.analyst')</th>
+                <th scope="col">@lang('translates.fields.user')</th>
+                <th scope="col">Asan imza və Təmsilçilik Şirkət</th>
             <th scope="col">@lang('translates.navbar.service')</th>
             <th scope="col">@lang('translates.fields.clientName')</th>
             <th scope="col">@lang('translates.columns.status')</th>
@@ -429,21 +429,21 @@
 
                     @endforeach
                     </td>
-                    <td>{{ $work->sorter->fullname ?? '-' }}</td>
-                    <td>{{ $work->operator->fullname ?? '-' }}</td>
-                    <td>{{ $work->analyst->fullname ?? '-' }}</td>
+{{--                    <td>{{ $work->operator->fullname ?? '-' }}</td>--}}
                     <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
 
                     <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
 
-                <td>
+                    <td>{{ $work->sorter->fullname ?? '-' }}</td>
+                    <td>{{ $work->analyst->fullname ?? '-' }}</td>
+                    <td>
                     @if(is_numeric($work->getAttribute('user_id')))
                         {{$work->getRelationValue('user')->getAttribute('fullname_with_position')}}
-                    @else
+                        @else
                         @lang('translates.navbar.general')
-                    @endif
-                </td>
-                <td>{{$work->asanImza()->exists() ? $work->getRelationValue('asanImza')->getAttribute('user_with_company') : trans('translates.filters.select')}}</td>
+                        @endif
+                    </td>
+                    <td>{{$work->asanImza()->exists() ? $work->getRelationValue('asanImza')->getAttribute('user_with_company') : trans('translates.filters.select')}}</td>
                 <td><i class="{{$work->getRelationValue('service')->getAttribute('icon')}} pr-2" style="font-size: 20px"></i> {{$work->getRelationValue('service')->getAttribute('name')}}</td>
                 <td data-toggle="tooltip" data-placement="bottom" title="{{$work->getRelationValue('client')->getAttribute('fullname')}}" >
                     {{mb_strimwidth($work->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}
