@@ -689,10 +689,12 @@
             </tr>
             @php
                 $balance[] = $residue;
+                $balance_tax[] = $residue_vat;
                 $gb[] = $work->getParameter($work::GB);
                 $code[] =  $work->getParameter($work::CODE);
                 $serviceCount[] = $work->getParameter($work::SERVICECOUNT);
                 $sum_balance = array_sum($balance);
+                $sum_balance_tax = array_sum($balance_tax);
                 $total_payment[] = $sum_payment;
                 $total_tax[] = $sum_tax;
                 $sum_total_tax = array_sum($total_tax);
