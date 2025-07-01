@@ -648,6 +648,7 @@
                                     <th scope="col">@lang('translates.fields.paid_at')</th>
                                     <th scope="col">@lang('translates.fields.invoiced_date')</th>
                                     <th scope="col">@lang('translates.fields.invoiced_date')</th>
+                                    <th scope="col">@lang('translates.fields.invoiced_date')</th>
                             </tr>
 
                             </thead>
