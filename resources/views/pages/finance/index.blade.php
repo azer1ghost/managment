@@ -46,6 +46,8 @@
                     <option value="mtechnologiesKapital">Mobil Technologies Kapital Bank</option>
                     <option value="logisticsKapital">Mobil Logistics Kapital</option>
                     <option value="logisticsRespublika">Mobil Logistics Bank Respublika</option>
+                    <option value="mobexRespublika">Mobex Bank Respublika</option>
+                    <option value="mobexKapital">Mobex Kapital Bank</option>
                 </select>
                 <select id="clientSelect" onchange="changeClient()" class=" col-4 mt-4 select2">
                     <option value="">Müştəri seç</option>
