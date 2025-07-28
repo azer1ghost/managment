@@ -196,10 +196,10 @@
      $bvoen = "9900003611";
      $swift = "AIIBAZ2XXXX";
      $who = "Xəlilova Lamiyə Fərhad qızı";
-     $whoFooter = "L.İ.Xəlilova";
+     $whoFooter = "L.F.Xəlilova";
      $representer = "Ekspeditor";
      $stamp = asset('assets/images/finance/logistics1.jpeg');
-     }else if ($company == 'logisticsRespublika') {
+ } else if ($company == 'logisticsRespublika') {
      $companyName = "\"Mobil Logistics\" MMC";
      $voen = "1804811521";
      $hh = "AZ77BRES00380394401116001301";
@@ -209,9 +209,33 @@
      $bvoen = "9900001901";
      $swift = "BRESAZ22";
      $who = "Xəlilova Lamiyə Fərhad qızı";
-     $whoFooter = "L.İ.Xəlilova";
+     $whoFooter = "L.F.Xəlilova";
      $representer = "Ekspeditor";
      $stamp = asset('assets/images/finance/logistics1.jpeg');
+ } else if ($company == 'mobexRespublika') {
+     $companyName = "\"Mobex\" MMC";
+     $voen = "1804892041";
+     $hh = "AZ55BRES40050AZ0111181435001";
+     $mh = "AZ80NABZ01350100000000014944";
+     $bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
+     $kod = "507547";
+     $bvoen = "9900001901";
+     $swift = "BRESAZ22";
+     $who = "Həsənova Vüsalə İbrahim qızı";
+     $whoFooter = "V.İ.Həsənova";
+     $stamp = asset('assets/images/finance/mobex1.jpeg');
+ } else if ($company == 'mobexKapital') {
+     $companyName = "\"Mobex\" MMC";
+     $voen = "1804892041";
+     $hh = "AZ64AIIB400500D9447160681229";
+     $mh = "AZ37NABZ01350100000000001944";
+     $bank = "Kapital Bank ASC KOB mərkəzi filialı";
+     $kod = "201412";
+     $bvoen = "9900003611";
+     $swift = "AIIBAZ2XXXX";
+     $who = "Həsənova Vüsalə İbrahim qızı";
+     $whoFooter = "V.İ.Həsənova";
+     $stamp = asset('assets/images/finance/mobex1.jpeg');
      }
 @endphp
 

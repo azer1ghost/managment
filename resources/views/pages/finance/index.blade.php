@@ -709,6 +709,30 @@
                 var who = "Sabir Tahirov Zakir oğlu";
                 var whoFooter = "S.Z.Tahirov";
                 $('#vatColumn, #vatColumn2, #vatColumn3').hide();
+            }else if (company == 'mobexKapital') {
+                var companyName = "\"Mobex\" MMC";
+                var voen = "1804892041";
+                var hh = "AZ64AIIB400500D9447160681229";
+                var mh = "AZ37NABZ01350100000000001944";
+                var bank = "Kapital Bank ASC KOB mərkəzi filialı";
+                var kod = "201412";
+                var bvoen = "9900003611";
+                var swift = "AIIBAZ2XXXX";
+                var who = "Həsənova Vüsalə İbrahim qızı";
+                var whoFooter = "V.İ.Həsənova";
+                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
+            }else if (company == 'mobexRespublika') {
+                var companyName = "\"Mobex\" MMC";
+                var voen = "1804892041";
+                var hh = "AZ55BRES40050AZ0111181435001";
+                var mh = "AZ80NABZ01350100000000014944";
+                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
+                var kod = "507547";
+                var bvoen = "9900001901";
+                var swift = "BRESAZ22";
+                var who = "Həsənova Vüsalə İbrahim qızı";
+                var whoFooter = "V.İ.Həsənova";
+                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
             } else if (company == 'mtechnologiesRespublika') {
                 var companyName = "\"Mobil Technologies\" MMC";
                 var voen = "1804325861";
