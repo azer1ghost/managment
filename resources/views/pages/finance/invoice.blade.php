@@ -213,7 +213,7 @@
      $representer = "Ekspeditor";
      $stamp = asset('assets/images/finance/logistics1.jpeg');
  } else if ($company == 'mobexRespublika') {
-     $companyName = "\"Mobex\" MMC";
+     $companyName = "\"Mobil Express\" MMC";
      $voen = "1804892041";
      $hh = "AZ55BRES40050AZ0111181435001";
      $mh = "AZ80NABZ01350100000000014944";
@@ -225,7 +225,7 @@
      $whoFooter = "V.İ.Həsənova";
      $stamp = asset('assets/images/finance/mobex1.jpeg');
  } else if ($company == 'mobexKapital') {
-     $companyName = "\"Mobex\" MMC";
+     $companyName = "\"Mobil Express\" MMC";
      $voen = "1804892041";
      $hh = "AZ64AIIB400500D9447160681229";
      $mh = "AZ37NABZ01350100000000001944";

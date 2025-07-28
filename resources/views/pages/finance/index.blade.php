@@ -712,7 +712,7 @@
                 var whoFooter = "S.Z.Tahirov";
                 $('#vatColumn, #vatColumn2, #vatColumn3').hide();
             }else if (company == 'mobexKapital') {
-                var companyName = "\"Mobex\" MMC";
+                var companyName = "\"Mobil Express\" MMC";
                 var voen = "1804892041";
                 var hh = "AZ64AIIB400500D9447160681229";
                 var mh = "AZ37NABZ01350100000000001944";
@@ -724,7 +724,7 @@
                 var whoFooter = "V.İ.Həsənova";
                 $('#vatColumn, #vatColumn2, #vatColumn3').hide();
             }else if (company == 'mobexRespublika') {
-                var companyName = "\"Mobex\" MMC";
+                var companyName = "\"Mobil Express\" MMC";
                 var voen = "1804892041";
                 var hh = "AZ55BRES40050AZ0111181435001";
                 var mh = "AZ80NABZ01350100000000014944";
