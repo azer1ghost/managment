@@ -423,6 +423,19 @@
                                 <option>Ərazi Xərci və Digər Ödənişlər</option>
                                 <option>Laboratoriya təmsilçiliyi</option>
                                 <option>Texniki xidmətlərin göstərilməsi</option>
+                                <option>Təsdiq edici sənəd üçün müraciət xidməti</option>
+                                <option>Gigiyenik sertifikatın alınması xidməti</option>
+                                <option>AQTA sertifikatın alınması üçün müraciət xidməti</option>
+                                <option>Mənşə sertifikatı üçün müraciət xidməti</option>
+                                <option>Müvəqqəti saxlanc bəyannaməsinin tərtib olunması xidməti</option>
+                                <option>Müvəqqəti idxal ərizəsinin yazılması xidməti</option>
+                                <option>İnvoys ərizəsinin yazılması xidməti</option>
+                                <option>Barkod dəyişdirilməsi ərizəsinin yazılması xidməti</option>
+                                <option>Ad dəyişmə ərizəsinin yazılması İdxalatçının adı xidməti</option>
+                                <option>Gömrük idarəsinin (təyinat) dəyişdirilməsi ərizəsinin yazılması</option>
+                                <option>Öhdəlik ərizəsinin yazılması xidməti</option>
+                                <option>Laboratoriya ərizəsinin (şəxsi müraciət əsasında) yazılması xidməti</option>
+                                <option>Ümumi düzəliş ərizəsinin yazılması xidməti</option>
                             </select>
                         </td>
                         <td>Ədəd</td>

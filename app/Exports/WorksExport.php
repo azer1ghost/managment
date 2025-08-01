@@ -99,8 +99,8 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             $row->code,
             $row->department?->short_name,
             $coordinatorName,
-            $sorterName,      // NEW
-            $analystName,     // NEW
+            $sorterName,
+            $analystName,
             $userName,
             $asanImzaName,
             $row->client?->fullname ?? '-',
@@ -159,8 +159,8 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
                 'client:id,fullname,type',
                 'client.coordinators:id,name,surname',
                 'user:id,name,surname',
-                'sorter:id,name,surname',   // NEW
-                'analyst:id,name,surname',  // NEW
+                'sorter:id,name,surname',
+                'analyst:id,name,surname',
                 'service:id,name',
                 'asanImza:id,user_id,company_id',
                 'asanImza.user:id,name',
