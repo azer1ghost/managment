@@ -40,6 +40,7 @@
                     <option value="mindRespublika">Mind Bank Respublika</option>
                     <option value="mindKapital">Mind Kapital</option>
                     <option value="asazaRespublika">Asaza Bank Respublika</option>
+                    <option value="asazaKapital">Asaza Kapital</option>
                     <option value="tgroupKapital">Tedora Group Kapital</option>
                     <option value="dgroupKapital">Declare Group Kapital</option>
                     <option value="mtechnologiesRespublika">Mobil Technologies Bank Respublika</option>
@@ -708,6 +709,19 @@
                 var kod = "507547";
                 var bvoen = "9900001901";
                 var swift = "BRESAZ22";
+                var who = "Sabir Tahirov Zakir oğlu";
+                var whoFooter = "S.Z.Tahirov";
+                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
+            }
+            else if (company == 'asazaKapital') {
+                var companyName = "\"ASAZA FLKS\" MMC";
+                var voen = "1805091391";
+                var hh = "AZ79AIIB400500E9446021649229";
+                var mh = "AZ37NABZ01350100000000001944";
+                var bank = "Kapital Bank ASC KOB mərkəzi filialı";
+                var kod = "201412";
+                var bvoen = "9900001901";
+                var swift = "AIIBAZ2XXXX";
                 var who = "Sabir Tahirov Zakir oğlu";
                 var whoFooter = "S.Z.Tahirov";
                 $('#vatColumn, #vatColumn2, #vatColumn3').hide();

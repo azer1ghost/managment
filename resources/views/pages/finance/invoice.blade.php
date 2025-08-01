@@ -160,6 +160,20 @@
      $whoFooter = "S.Z.Tahirov";
      $stamp = asset('assets/images/finance/asaza1.jpeg');
 
+ }
+ else if ($company == 'asazaKapital') {
+     $companyName = "\"ASAZA FLKS\" MMC";
+     $voen = "1805091391";
+     $hh = "AZ79AIIB400500E9446021649229";
+     $mh = "AZ37NABZ01350100000000001944";
+     $bank = "Kapital Bank ASC KOB mərkəzi filialı";
+     $kod = "201412";
+     $bvoen = "9900001901";
+     $swift = "AIIBAZ2XXXX";
+     $who = "Sabir Tahirov Zakir oğlu";
+     $whoFooter = "S.Z.Tahirov";
+     $stamp = asset('assets/images/finance/asaza1.jpeg');
+
  }else if ($company == 'mtechnologiesRespublika') {
      $companyName = "\"Mobil Technologies\" MMC";
      $voen = "1804325861";
