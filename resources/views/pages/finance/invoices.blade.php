@@ -8,6 +8,7 @@
             <thead>
             <tr>
                 <th>Hesab Faktura No</th>
+                <th>@lang('translates.fields.company')</th>
                 <th>@lang('translates.fields.clientName')</th>
                 <th>@lang('translates.columns.created_at')</th>
                 <th>@lang('translates.columns.status')</th>
@@ -18,6 +19,7 @@
                 @foreach($invoices as $invoice)
                     <tr>
                         <td>{{$invoice->getAttribute('invoiceNo')}}</td>
+                        <td>{{$invoice->getAttribute('company')}}</td>
                         <td>{{$invoice->getRelationValue('financeClients')->getAttribute('name')}}</td>
                         <td>{{$invoice->getAttribute('is_signed') == 1 ? 'İmzalanıb' : 'İmzalanmayıb'}} </td>
                         <td>{{$invoice->getAttribute('created_at')}}</td>
