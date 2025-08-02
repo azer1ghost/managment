@@ -86,6 +86,9 @@ class WorkRepository implements WorkRepositoryInterface {
                             elseif($column == 'declaration_no'){
                                 $query->where($column, 'LIKE', "%$value%");
                             }
+                            elseif($column == 'transport_no'){
+                                $query->where($column, 'LIKE', "%$value%");
+                            }
                             elseif($column == 'service_id'){
                                 $query->whereIn($column, $value);
                             }

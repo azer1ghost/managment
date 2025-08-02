@@ -96,6 +96,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
 
         $maps = [
             $row->declaration_no,
+            $row->transport_no,
             $row->code,
             $row->department?->short_name,
             $coordinatorName,

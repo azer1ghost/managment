@@ -220,6 +220,7 @@
             <tr @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}">
 
                 <th class="declaration-no" style="white-space: pre-line;">{{$work->getAttribute('declaration_no')}}</th>
+                <th class="transport-no" style="white-space: pre-line;">{{$work->getAttribute('transport_no')}}</th>
 
                 <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
 

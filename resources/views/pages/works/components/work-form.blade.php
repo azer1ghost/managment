@@ -36,6 +36,15 @@
                             >
                         </div>
                     @endif
+                        <div class="form-group col-12 col-md-3">
+                            <label for="transport_no">Nəqliyyat nömrəsi</label>
+                            <input value="{{optional($data)->getAttribute('transport_no')}}"
+                                   type="text"
+                                   name="transport_no"
+                                   id="transport_no"
+                                   class="form-control"
+                                   placeholder="Nəqliyyat nömrəsi daxil edin">
+                        </div>
                         @if(in_array($service_id, [2]))
                             <div class="form-group col-12 col-md-3">
                             <label for="mark">@lang('translates.fields.mark')</label>
