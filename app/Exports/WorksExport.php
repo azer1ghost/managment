@@ -30,6 +30,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
 
         $this->headings = [
             'Sorğu nömrəsi',
+            'Nəqliyyat nömrəsi',
             'İş Kodu',
             'Şöbə',
             'Koordinator',
