@@ -346,7 +346,7 @@
         </tr>
         <tr>
             <th scope="row">7</th>
-            <td>Mobil Broker</td>
+            <td>Mobil Express</td>
             <td>{{ $AMBGICashTotals['MOBEX'] }}</td>
             <td>{{ $BBGICashTotals['MOBEX'] }}</td>
             <td>{{ $HNBGICashTotals['MOBEX'] }}</td>
