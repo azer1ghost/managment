@@ -1339,20 +1339,27 @@ class WorkController extends Controller
                     return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
                 });
         }
-        $validCategories = ['ASAZA', 'GARANT', 'RIGEL', 'MIND', 'TEDORA', 'DECLARE', 'MOBIL'];
+        $companyIdToCategory = [
+            3  => 'MOBIL',
+            6  => 'GARANT',
+            10 => 'MIND',
+            11 => 'RIGEL',
+            12 => 'ASAZA',
+            15 => 'TEDORA',
+        ];
 
-        $CompanyCategories = AsanImza::with('company')
-            ->get()
-            ->filter(function ($item) use ($validCategories) {
-                return $item->company && in_array(strtoupper($item->company->category), $validCategories);
-            })
-            ->groupBy(function ($item) {
-                return strtoupper($item->company->category);
-            })
-            ->map(function ($group) {
-                return $group->pluck('id')->toArray();
-            })
-            ->toArray();
+        $asanImzas = AsanImza::all();
+
+        $CompanyCategories = [];
+
+        foreach ($asanImzas as $asanImza) {
+            $companyId = $asanImza->company_id;
+
+            if (isset($companyIdToCategory[$companyId])) {
+                $category = $companyIdToCategory[$companyId];
+                $CompanyCategories[$category][] = $asanImza->id;
+            }
+        }
 
         dd($CompanyCategories);
 
