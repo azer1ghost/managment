@@ -1361,7 +1361,7 @@ class WorkController extends Controller
             }
         }
 
-        dd($CompanyCategories);
+//        dd($CompanyCategories);
 
         $AMBGICashTotals = [];
         $AMBGIBankTotals = [];
