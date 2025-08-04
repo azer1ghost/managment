@@ -1347,6 +1347,7 @@ class WorkController extends Controller
             12 => 'ASAZA',
             15 => 'TEDORA',
             14 => 'DECLARE',
+            4 => 'MOBEX',
         ];
 
         $asanImzas = AsanImza::all();
@@ -1392,6 +1393,7 @@ class WorkController extends Controller
         $TedoraTotal  = ($AMBGICashTotals['TEDORA'] ?? 0) + ($BBGICashTotals['TEDORA'] ?? 0) + ($HNBGICashTotals['TEDORA'] ?? 0);
         $MindTotal    = ($AMBGICashTotals['MIND'] ?? 0) + ($BBGICashTotals['MIND'] ?? 0) + ($HNBGICashTotals['MIND'] ?? 0);
         $AsazaTotal   = ($AMBGICashTotals['ASAZA'] ?? 0) + ($BBGICashTotals['ASAZA'] ?? 0) + ($HNBGICashTotals['ASAZA'] ?? 0);
+        $MobexTotal   = ($AMBGICashTotals['MOBEX'] ?? 0) + ($BBGICashTotals['MOBEX'] ?? 0) + ($HNBGICashTotals['ASAZA'] ?? 0);
 
         $RigelBankTotal   = ($AMBGIBankTotals['RIGEL'] ?? 0) + ($BBGIBankTotals['RIGEL'] ?? 0) + ($HNBGIBankTotals['RIGEL'] ?? 0);
         $DeclareBankTotal = ($AMBGIBankTotals['DECLARE'] ?? 0) + ($BBGIBankTotals['DECLARE'] ?? 0) + ($HNBGIBankTotals['DECLARE'] ?? 0);
@@ -1400,18 +1402,19 @@ class WorkController extends Controller
         $TedoraBankTotal  = ($AMBGIBankTotals['TEDORA'] ?? 0) + ($BBGIBankTotals['TEDORA'] ?? 0) + ($HNBGIBankTotals['TEDORA'] ?? 0);
         $MindBankTotal    = ($AMBGIBankTotals['MIND'] ?? 0) + ($BBGIBankTotals['MIND'] ?? 0) + ($HNBGIBankTotals['MIND'] ?? 0);
         $AsazaBankTotal   = ($AMBGIBankTotals['ASAZA'] ?? 0) + ($BBGIBankTotals['ASAZA'] ?? 0) + ($HNBGIBankTotals['ASAZA'] ?? 0);
+        $MobexBankTotal   = ($AMBGIBankTotals['MOBEX'] ?? 0) + ($BBGIBankTotals['MOBEX'] ?? 0) + ($HNBGIBankTotals['MOBEX'] ?? 0);
 
         $totalAMBGICash = ($AMBGICashTotals['RIGEL'] ?? 0) + ($AMBGICashTotals['DECLARE'] ?? 0) + ($AMBGICashTotals['GARANT'] ?? 0)
             + ($AMBGICashTotals['MOBIL'] ?? 0) + ($AMBGICashTotals['TEDORA'] ?? 0) + ($AMBGICashTotals['MIND'] ?? 0)
-            + ($AMBGICashTotals['ASAZA'] ?? 0);
+            + ($AMBGICashTotals['ASAZA'] ?? 0) + ($AMBGICashTotals['MOBEX'] ?? 0);
 
         $totalBBGICash = ($BBGICashTotals['RIGEL'] ?? 0) + ($BBGICashTotals['DECLARE'] ?? 0) + ($BBGICashTotals['GARANT'] ?? 0)
             + ($BBGICashTotals['MOBIL'] ?? 0) + ($BBGICashTotals['TEDORA'] ?? 0) + ($BBGICashTotals['MIND'] ?? 0)
-            + ($BBGICashTotals['ASAZA'] ?? 0);
+            + ($BBGICashTotals['ASAZA'] ?? 0) + ($BBGICashTotals['MOBEX'] ?? 0);
 
         $totalHNBGICash = ($HNBGICashTotals['RIGEL'] ?? 0) + ($HNBGICashTotals['DECLARE'] ?? 0) + ($HNBGICashTotals['GARANT'] ?? 0)
             + ($HNBGICashTotals['MOBIL'] ?? 0) + ($HNBGICashTotals['TEDORA'] ?? 0) + ($HNBGICashTotals['MIND'] ?? 0)
-            + ($HNBGICashTotals['ASAZA'] ?? 0);
+            + ($HNBGICashTotals['ASAZA'] ?? 0) + ($HNBGICashTotals['MOBEX'] ?? 0);
 
 
 
@@ -1462,6 +1465,7 @@ class WorkController extends Controller
                         'TedoraTotal',
                         'MindTotal',
                         'AsazaTotal',
+                        'MobexTotal',
                         'RigelBankTotal',
                         'DeclareBankTotal',
                         'GarantBankTotal',
@@ -1469,6 +1473,7 @@ class WorkController extends Controller
                         'TedoraBankTotal',
                         'MindBankTotal',
                         'AsazaBankTotal',
+                        'MobexBankTotal',
                         'totalAMBGICash',
                         'totalBBGICash',
                         'totalHNBGICash',

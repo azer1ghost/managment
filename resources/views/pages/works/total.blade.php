@@ -213,13 +213,13 @@
             <th scope="col">{{$totalBBGICash}}</th>
             <th scope="col">{{$totalHNBGICash}}</th>
             <th scope="col">0</th>
-            <th scope="col">{{$RigelTotal + $DeclareTotal + $GarantTotal + $MobilTotal + $TedoraTotal + $MindTotal + $AsazaTotal}}</th>
+            <th scope="col">{{$RigelTotal + $DeclareTotal + $GarantTotal + $MobilTotal + $TedoraTotal + $MindTotal + $AsazaTotal + $MobexTotal}}</th>
             <th scope="col">0</th>
             <th scope="col">{{$totalAMBGI - $totalAMBGICash}}</th>
             <th scope="col">{{$totalBBGI - $totalBBGICash}}</th>
             <th scope="col">{{$totalHNBGI - $totalHNBGICash}}</th>
             <th scope="col">0</th>
-            <th scope="col">{{$RigelBankTotal + $DeclareBankTotal + $GarantBankTotal + $MobilBankTotal + $TedoraBankTotal + $MindBankTotal + $AsazaBankTotal}}</th>
+            <th scope="col">{{$RigelBankTotal + $DeclareBankTotal + $GarantBankTotal + $MobilBankTotal + $TedoraBankTotal + $MindBankTotal + $AsazaBankTotal + $MobexBankTotal}}</th>
             <th scope="col">{{ round($totalPaidVat, 2) }}</th>
             <th scope="col">{{ round($totalPaidAll, 2) }}</th>
         </tr>
@@ -343,6 +343,23 @@
             <td>{{$MobilBankTotal}}</td>
             <td>0</td>
             <td>{{$MobilBankTotal + $MobilTotal}}</td>
+        </tr>
+        <tr>
+            <th scope="row">7</th>
+            <td>Mobil Broker</td>
+            <td>{{ $AMBGICashTotals['MOBEX'] }}</td>
+            <td>{{ $BBGICashTotals['MOBEX'] }}</td>
+            <td>{{ $HNBGICashTotals['MOBEX'] }}</td>
+            <td>0</td>
+            <td>{{$MobexTotal}}</td>
+            <td>0</td>
+            <td>{{ $AMBGIBankTotals['MOBEX'] }}</td>
+            <td>{{ $BBGIBankTotals['MOBEX'] }}</td>
+            <td>{{ $HNBGIBankTotals['MOBEX'] }}</td>
+            <td>0</td>
+            <td>{{$MobexBankTotal}}</td>
+            <td>0</td>
+            <td>{{$MobexBankTotal + $MobexTotal}}</td>
         </tr>
         <tr>
             <th scope="row">8</th>
