@@ -1385,31 +1385,34 @@ class WorkController extends Controller
             $HNBGIBankTotals[$category] = calculateBankTotal($HNBGIPaid, $asanImzaIds);
         }
 
-        $RigelTotal = $AMBGICashTotals['RIGEL'] + $BBGICashTotals['RIGEL'] + $HNBGICashTotals['RIGEL'];
-        $DeclareTotal = $AMBGICashTotals['DECLARE'] + $BBGICashTotals['DECLARE'] + $HNBGICashTotals['DECLARE'];
-        $GarantTotal = $AMBGICashTotals['GARANT'] + $BBGICashTotals['GARANT'] + $HNBGICashTotals['GARANT'];
-        $MobilTotal = $AMBGICashTotals['MOBIL'] + $BBGICashTotals['MOBIL'] + $HNBGICashTotals['MOBIL'];
-        $TedoraTotal = $AMBGICashTotals['TEDORA'] + $BBGICashTotals['TEDORA'] + $HNBGICashTotals['TEDORA'];
-        $MindTotal = $AMBGICashTotals['MIND'] + $BBGICashTotals['MIND'] + $HNBGICashTotals['MIND'];
-        $AsazaTotal = $AMBGICashTotals['ASAZA'] + $BBGICashTotals['ASAZA'] + $HNBGICashTotals['ASAZA'];
+        $RigelTotal   = ($AMBGICashTotals['RIGEL'] ?? 0) + ($BBGICashTotals['RIGEL'] ?? 0) + ($HNBGICashTotals['RIGEL'] ?? 0);
+        $DeclareTotal = ($AMBGICashTotals['DECLARE'] ?? 0) + ($BBGICashTotals['DECLARE'] ?? 0) + ($HNBGICashTotals['DECLARE'] ?? 0);
+        $GarantTotal  = ($AMBGICashTotals['GARANT'] ?? 0) + ($BBGICashTotals['GARANT'] ?? 0) + ($HNBGICashTotals['GARANT'] ?? 0);
+        $MobilTotal   = ($AMBGICashTotals['MOBIL'] ?? 0) + ($BBGICashTotals['MOBIL'] ?? 0) + ($HNBGICashTotals['MOBIL'] ?? 0);
+        $TedoraTotal  = ($AMBGICashTotals['TEDORA'] ?? 0) + ($BBGICashTotals['TEDORA'] ?? 0) + ($HNBGICashTotals['TEDORA'] ?? 0);
+        $MindTotal    = ($AMBGICashTotals['MIND'] ?? 0) + ($BBGICashTotals['MIND'] ?? 0) + ($HNBGICashTotals['MIND'] ?? 0);
+        $AsazaTotal   = ($AMBGICashTotals['ASAZA'] ?? 0) + ($BBGICashTotals['ASAZA'] ?? 0) + ($HNBGICashTotals['ASAZA'] ?? 0);
 
-        $RigelBankTotal = $AMBGIBankTotals['RIGEL'] + $BBGIBankTotals['RIGEL'] + $HNBGIBankTotals['RIGEL'];
-        $DeclareBankTotal = $AMBGIBankTotals['DECLARE'] + $BBGIBankTotals['DECLARE'] + $HNBGIBankTotals['DECLARE'];
-        $GarantBankTotal = $AMBGIBankTotals['GARANT'] + $BBGIBankTotals['GARANT'] + $HNBGIBankTotals['GARANT'];
-        $MobilBankTotal = $AMBGIBankTotals['MOBIL'] + $BBGIBankTotals['MOBIL'] + $HNBGIBankTotals['MOBIL'];
-        $TedoraBankTotal = $AMBGIBankTotals['TEDORA'] + $BBGIBankTotals['TEDORA'] + $HNBGIBankTotals['TEDORA'];
-        $MindBankTotal = $AMBGIBankTotals['MIND'] + $BBGIBankTotals['MIND'] + $HNBGIBankTotals['MIND'];
-        $AsazaBankTotal = $AMBGIBankTotals['ASAZA'] + $BBGIBankTotals['ASAZA'] + $HNBGIBankTotals['ASAZA'];
+        $RigelBankTotal   = ($AMBGIBankTotals['RIGEL'] ?? 0) + ($BBGIBankTotals['RIGEL'] ?? 0) + ($HNBGIBankTotals['RIGEL'] ?? 0);
+        $DeclareBankTotal = ($AMBGIBankTotals['DECLARE'] ?? 0) + ($BBGIBankTotals['DECLARE'] ?? 0) + ($HNBGIBankTotals['DECLARE'] ?? 0);
+        $GarantBankTotal  = ($AMBGIBankTotals['GARANT'] ?? 0) + ($BBGIBankTotals['GARANT'] ?? 0) + ($HNBGIBankTotals['GARANT'] ?? 0);
+        $MobilBankTotal   = ($AMBGIBankTotals['MOBIL'] ?? 0) + ($BBGIBankTotals['MOBIL'] ?? 0) + ($HNBGIBankTotals['MOBIL'] ?? 0);
+        $TedoraBankTotal  = ($AMBGIBankTotals['TEDORA'] ?? 0) + ($BBGIBankTotals['TEDORA'] ?? 0) + ($HNBGIBankTotals['TEDORA'] ?? 0);
+        $MindBankTotal    = ($AMBGIBankTotals['MIND'] ?? 0) + ($BBGIBankTotals['MIND'] ?? 0) + ($HNBGIBankTotals['MIND'] ?? 0);
+        $AsazaBankTotal   = ($AMBGIBankTotals['ASAZA'] ?? 0) + ($BBGIBankTotals['ASAZA'] ?? 0) + ($HNBGIBankTotals['ASAZA'] ?? 0);
 
-        $totalAMBGICash = $AMBGICashTotals['RIGEL'] + $AMBGICashTotals['DECLARE'] +
-                          $AMBGICashTotals['GARANT'] + $AMBGICashTotals['MOBIL'] +
-                          $AMBGICashTotals['TEDORA'] + $AMBGICashTotals['MIND'] + $AMBGICashTotals['ASAZA'];
-        $totalBBGICash = $BBGICashTotals['RIGEL'] + $BBGICashTotals['DECLARE'] +
-                        $BBGICashTotals['GARANT'] + $BBGICashTotals['MOBIL'] +
-                        $BBGICashTotals['TEDORA'] + $BBGICashTotals['MIND'] + $BBGICashTotals['ASAZA'];
-        $totalHNBGICash = $HNBGICashTotals['RIGEL'] + $HNBGICashTotals['DECLARE'] +
-                        $HNBGICashTotals['GARANT'] + $HNBGICashTotals['MOBIL'] +
-                        $HNBGICashTotals['TEDORA'] + $HNBGICashTotals['MIND'] + $HNBGICashTotals['ASAZA'];
+        $totalAMBGICash = ($AMBGICashTotals['RIGEL'] ?? 0) + ($AMBGICashTotals['DECLARE'] ?? 0) + ($AMBGICashTotals['GARANT'] ?? 0)
+            + ($AMBGICashTotals['MOBIL'] ?? 0) + ($AMBGICashTotals['TEDORA'] ?? 0) + ($AMBGICashTotals['MIND'] ?? 0)
+            + ($AMBGICashTotals['ASAZA'] ?? 0);
+
+        $totalBBGICash = ($BBGICashTotals['RIGEL'] ?? 0) + ($BBGICashTotals['DECLARE'] ?? 0) + ($BBGICashTotals['GARANT'] ?? 0)
+            + ($BBGICashTotals['MOBIL'] ?? 0) + ($BBGICashTotals['TEDORA'] ?? 0) + ($BBGICashTotals['MIND'] ?? 0)
+            + ($BBGICashTotals['ASAZA'] ?? 0);
+
+        $totalHNBGICash = ($HNBGICashTotals['RIGEL'] ?? 0) + ($HNBGICashTotals['DECLARE'] ?? 0) + ($HNBGICashTotals['GARANT'] ?? 0)
+            + ($HNBGICashTotals['MOBIL'] ?? 0) + ($HNBGICashTotals['TEDORA'] ?? 0) + ($HNBGICashTotals['MIND'] ?? 0)
+            + ($HNBGICashTotals['ASAZA'] ?? 0);
+
 
 
         return view('pages.works.total',
