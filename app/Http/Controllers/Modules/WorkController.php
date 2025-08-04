@@ -1346,6 +1346,7 @@ class WorkController extends Controller
             11 => 'RIGEL',
             12 => 'ASAZA',
             15 => 'TEDORA',
+            14 => 'TEDORA',
         ];
 
         $asanImzas = AsanImza::all();
