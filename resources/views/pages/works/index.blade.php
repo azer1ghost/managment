@@ -360,6 +360,7 @@
             </div>
             @php
                 $filters = [
+                    'limit' => request('limit', 25),
                     'code' => request('code'),
                     'declaration_no' => request('declaration_no'),
                     'transport_no' => request('transport_no'),
