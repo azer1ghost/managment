@@ -31,6 +31,7 @@ class WorkController extends Controller
     {
         $filters = json_decode($request->get('filters'), true);
         $dateFilters = json_decode($request->get('dateFilters'), true);
+        dd($filters, $dateFilters);
 
         return (new WorksExport($this->workRepository, $filters, $dateFilters))->download('works.xlsx');
     }
