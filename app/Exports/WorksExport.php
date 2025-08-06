@@ -34,8 +34,9 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             'İş Kodu',
             'Şöbə',
             'Koordinator',
-            'Sıralayıcı Əməkdaş', // NEW
-            'Analitik Əməkdaş',   // NEW
+            'Satış Əməkdaşı',
+            'Sıralayıcı Əməkdaş',
+            'Analitik Əməkdaş',
             'İcraçı Əməkdaş',
             'Sistemdə (ASAN IMZA)',
             'Müştəri adı',
@@ -84,7 +85,9 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         ];
 
         $coordinator = $row->client?->coordinators?->first();
+        $sale = $row->client?->sales?->first();
         $coordinatorName = $coordinator ? $coordinator->name . ' ' . $coordinator->surname : 'Koordinator yoxdur';
+        $saleName = $sale ? $sale->name . ' ' . $sale->surname : 'Satış Əməkdaşı yoxdur';
 
         $userName = $row->user ? $row->user->name . ' ' . $row->user->surname : 'İcraçı yoxdur';
         $sorterName = $row->sorter ? $row->sorter->name . ' ' . $row->sorter->surname : 'Sıralayıcı yoxdur';
@@ -101,6 +104,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             $row->code,
             $row->department?->short_name,
             $coordinatorName,
+            $saleName,
             $sorterName,
             $analystName,
             $userName,
