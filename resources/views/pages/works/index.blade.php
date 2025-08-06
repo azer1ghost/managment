@@ -404,9 +404,9 @@
                     @if(auth()->user()->hasPermission('canRedirect-work'))
                         <a class="btn btn-outline-primary float-right mr-sm-2"
                            href="{{ route('works.export', [
-                'filters' => json_encode($filters),
-                'dateFilters' => json_encode($dateFilters)
-           ]) }}">
+                                    'filters' => json_encode($filters),
+                                    'dateFilters' => json_encode($dateFilters)
+                               ]) }}">
                             @lang('translates.buttons.export')
                         </a>
                     @endif
