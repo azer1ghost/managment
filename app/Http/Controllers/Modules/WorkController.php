@@ -844,6 +844,7 @@ class WorkController extends Controller
                 $nextWork->update(['mark' => $updatedMark]);
             }
         }
+        $oldStatus = $work->getAttribute('status');
 
         if ($work->getAttribute('status') == $work::REJECTED && !$request->has('rejected')) {
             $status = $validated['status'] ?? Work::PENDING;
@@ -859,6 +860,10 @@ class WorkController extends Controller
         $parameters = $request->get('parameters');
 
         $work->update($validated);
+
+        if ($work->getAttribute('status') == 1 && $request->get('status') != 1) {
+            $work->forceFill(['created_at' => now()])->save();
+        }
 
         if ($work->getAttribute('user_id') !== null) {
             if (
