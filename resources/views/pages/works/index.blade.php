@@ -300,16 +300,17 @@
                             </select>
                         </div>
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-                            <label class="d-block" for="paidVerifiedFilter">@lang('translates.columns.paid')</label>
-                            <select name="paid_at" id="paidVerifiedFilter" class="form-control" style="width: 100% !important;">
-                                <option value="">@lang('translates.filters.select')</option>
-                                @foreach($priceVerifies as $key => $paid)
-                                    <option
-                                        value="{{$key}}" @if($key == $filters['paid_at']) selected @endif>{{$paid}}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <label for="paid_at">Ödənmə tarixi aralığı</label>
+                            <input type="text" name="paid_at" id="paid_at" class="form-control daterangepicker"
+                                   value="{{ request('paid_at') }}">
                         </div>
+
+                        <div class="form-group form-check ml-2">
+                            <input type="checkbox" name="check-paid_at" id="check-paid_at" value="1"
+                                   class="form-check-input" {{ request()->has('check-paid_at') ? 'checked' : '' }}>
+                            <label class="form-check-label" for="check-paid_at">Bu tarix aralığı ilə filtrlə</label>
+                        </div>
+
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="paymentMethodFilter">@lang('translates.general.payment_method')</label>
                             <select name="payment_method" id="paymentMethodFilter" class="form-control" style="width: 100% !important;">
@@ -357,15 +358,54 @@
                     </div>
                 </div>
             </div>
+            @php
+                $filters = [
+                    'code' => request('code'),
+                    'declaration_no' => request('declaration_no'),
+                    'transport_no' => request('transport_no'),
+                    'department_id' => request('department_id'),
+                    'service_id' => request('service_id'),
+                    'asan_imza_id' => request('asan_imza_id'),
+                    'asan_imza_company_id' => request('asan_imza_company_id'),
+                    'client_id' => request('client_id'),
+                    'verified_at' => request('verified_at'),
+                    'payment_method' => request('payment_method'),
+                    'status' => request('status'),
+                    'coordinator' => request('coordinator'),
+                    'destination' => request('destination'),
+                    'paid_at' => request('paid_at'),
+                    'vat_date' => request('vat_date'),
+                    'entry_date' => request('entry_date'),
+                    'created_at' => request('created_at'),
+                    'injected_at' => request('injected_at'),
+                    'datetime' => request('datetime'),
+                    'invoiced_date' => request('invoiced_date'),
+                    'sorter_id' => request('sorter_id'),
+                    'analyst_id' => request('analyst_id'),
+                ];
 
+                $dateFilters = [
+                    'datetime' => request()->has('check-datetime'),
+                    'created_at' => request()->has('check-created_at'),
+                    'paid_at' => request()->has('check-paid_at'),
+                    'entry_date' => request()->has('check-entry_date'),
+                    'injected_at' => request()->has('check-injected_at'),
+                    'vat_date' => request()->has('check-vat_paid_at'),
+                    'invoiced_date' => request()->has('check-invoiced_date'),
+                ];
+            @endphp
             @can('create', App\Models\Work::class)
                 <div class="col-sm-6 py-3">
-                    <a class="btn btn-outline-success float-right" data-toggle="modal" data-target="#create-work">@lang('translates.buttons.create')</a>
+                    <a class="btn btn-outline-success float-right" data-toggle="modal" data-target="#create-work">
+                        @lang('translates.buttons.create')
+                    </a>
+
                     @if(auth()->user()->hasPermission('canRedirect-work'))
-                        <a class="btn btn-outline-primary float-right mr-sm-2" href="{{route('works.export', [
-                            'filters' => json_encode($filters),
-                            'dateFilters' => json_encode($dateFilters)
-                            ])}}">
+                        <a class="btn btn-outline-primary float-right mr-sm-2"
+                           href="{{ route('works.export', [
+                'filters' => json_encode($filters),
+                'dateFilters' => json_encode($dateFilters)
+           ]) }}">
                             @lang('translates.buttons.export')
                         </a>
                     @endif
