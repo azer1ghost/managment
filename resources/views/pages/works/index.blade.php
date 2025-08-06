@@ -374,7 +374,7 @@
                     'status' => request('status'),
                     'coordinator' => request('coordinator'),
                     'destination' => request('destination'),
-                    'paid_at' => request('paid_at'),
+                    'paid_at' => request('paid_at') ?? request('paid_at_date'),
                     'vat_date' => request('vat_date'),
                     'entry_date' => request('entry_date'),
                     'created_at' => request('created_at'),
