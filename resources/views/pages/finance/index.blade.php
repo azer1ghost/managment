@@ -206,7 +206,7 @@
                                 <option>Ərazi Xərci və Digər Ödənişlər</option>
                                 <option>Laboratoriya təmsilçiliyi</option>
                                 <option>Texniki xidmətlərin göstərilməsi</option>
-                                <option>Təsdiq edici sənəd üçün müraciət xidməti</option>
+                                <option>Təsdiq edici sənəd hazırlanması xidməti</option>
                                 <option>Gigiyenik sertifikatın alınması xidməti</option>
                                 <option>AQTA sertifikatın alınması üçün müraciət xidməti</option>
                                 <option>Mənşə sertifikatı üçün müraciət xidməti</option>
