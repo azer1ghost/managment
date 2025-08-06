@@ -861,8 +861,10 @@ class WorkController extends Controller
 
         $work->update($validated);
 
-        if ($work->getAttribute('status') == 1 && $request->get('status') != 1) {
-            $work->forceFill(['created_at' => now()])->save();
+        if ($oldStatus == 1 && $status != 1) {
+            DB::table('works')
+                ->where('id', $work->id)
+                ->update(['created_at' => now()]);
         }
 
         if ($work->getAttribute('user_id') !== null) {
