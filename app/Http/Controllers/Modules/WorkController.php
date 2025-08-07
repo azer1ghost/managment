@@ -136,7 +136,7 @@ class WorkController extends Controller
             $works = $works->whereNull('code');
         }
 
-        $works = $works->paginate($limit);
+        $works = $works->orderBy('created_at', 'desc')->paginate($limit);
 
         return view('pages.works.index',
             compact('works', 'services', 'departments', 'users','coordinators',
