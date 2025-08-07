@@ -99,7 +99,7 @@
 
                 <div class="col-8 pt-2 col-md-3  mb-3">
                     <select name="limit" class="custom-select">
-                        @foreach([25, 50, 100, 250] as $size)
+                        @foreach([25, 50, 100, 250, 500] as $size)
                             <option @if(request()->get('limit') == $size) selected
                                     @endif value="{{$size}}">{{$size}}</option>
                         @endforeach
