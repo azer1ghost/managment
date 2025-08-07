@@ -233,7 +233,7 @@ class WorkController extends Controller
             $works = $works->whereNull('paid_at');
         }
 
-        $works = $works->orderBy('created_at')->pending()->paginate($limit);
+        $works = $works->orderByDesc('created_at')->pending()->paginate($limit);
 
         return view('pages.works.pending-works',
             compact('works', 'services', 'departments', 'users',
