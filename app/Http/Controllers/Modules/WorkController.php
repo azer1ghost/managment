@@ -136,7 +136,7 @@ class WorkController extends Controller
             $works = $works->whereNull('code');
         }
 
-        $works = $works->orderBy('created_at', 'desc')->paginate($limit);
+        $works = $works->orderBy('created_at')->paginate($limit);
 
         return view('pages.works.index',
             compact('works', 'services', 'departments', 'users','coordinators',
@@ -233,7 +233,7 @@ class WorkController extends Controller
             $works = $works->whereNull('paid_at');
         }
 
-        $works = $works->orderBy('created_at', 'desc')->pending()->paginate($limit);
+        $works = $works->orderBy('created_at')->pending()->paginate($limit);
 
         return view('pages.works.pending-works',
             compact('works', 'services', 'departments', 'users',
