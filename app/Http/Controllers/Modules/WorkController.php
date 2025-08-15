@@ -696,6 +696,16 @@ class WorkController extends Controller
         }
         $work->parameters()->sync($parameters);
 
+        $requestNumber = DB::table('work_parameters')
+            ->where('work_id', $work->id)
+            ->where('parameter_id', 39)
+            ->value('value');
+
+        if (!is_null($requestNumber)) {
+            $work->request_number = $requestNumber;
+            $work->save();
+        }
+
 
         $work->parameters()->sync($parameters);
         if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41, 54, 53])) {
@@ -729,7 +739,7 @@ class WorkController extends Controller
 
         if ($work->service_id == 2) {
             $requestNumber = $request->input('parameters.39') ?? $work->getParameter(39);
-            Work::withoutEvents(function () use ($work) {
+            Work::withoutEvents(function () use ($work, $requestNumber) {
 
                 $newPlannedWork = Work::create([
                     'mark' => $work->mark ?? null,
