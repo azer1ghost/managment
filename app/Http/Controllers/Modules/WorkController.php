@@ -695,7 +695,7 @@ class WorkController extends Controller
         }
         $work->parameters()->sync($parameters);
 
-        $requestNumber = Work::REQUESTNUMBER;
+        $requestNumber = $work->getParameter(Work::REQUESTNUMBER);
 
 
         if (!is_null($requestNumber)) {
