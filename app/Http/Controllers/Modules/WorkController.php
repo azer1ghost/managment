@@ -693,18 +693,10 @@ class WorkController extends Controller
             if ($parameter === null || $parameter === '') continue;
             $parameters[$key] = ['value' => $parameter];
         }
-        $work->parameters()->sync($parameters);
-
-        $requestNumber = $work->getParameter(Work::REQUESTNUMBER);
-
-
-        if (!is_null($requestNumber)) {
-            $work->request_number = $requestNumber;
-            $work->save();
-        }
-
 
         $work->parameters()->sync($parameters);
+
+
         if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41, 54, 53])) {
             $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)]);
             $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)) * 0.18]);
@@ -732,15 +724,16 @@ class WorkController extends Controller
             $work->parameters()->updateExistingPivot($work::VAT, ['value' => $roundedValue]);
         }
 
+        $request_number = Work::REQUESTNUMBER;
         event(new WorkCreated($work));
 
         if ($work->service_id == 2) {
-            Work::withoutEvents(function () use ($work, $requestNumber) {
+            Work::withoutEvents(function () use ($work, $request_number) {
 
                 $newPlannedWork = Work::create([
                     'mark' => $work->mark ?? null,
                     'transport_no' => $work->transport_no ?? null,
-                    'request_number'  => $requestNumber ?? null,
+                    'request_number'  => $request_number ?? null,
                     'creator_id' => $work->creator_id ?? null,
                     'user_id' => null,
                     'department_id' => $work->department_id ?? null,
