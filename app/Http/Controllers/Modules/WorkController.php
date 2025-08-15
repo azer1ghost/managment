@@ -689,7 +689,9 @@ class WorkController extends Controller
         $work = Work::create($validated);
 
         $parameters = [];
-        foreach ($validated['parameters'] ?? [] as $key => $parameter) {
+        foreach ($request->input('parameters', []) as $key => $parameter) {
+            if ($parameter === null || $parameter === '') continue;
+
             $parameters[$key] = ['value' => $parameter];
         }
         $work->parameters()->sync($parameters);
@@ -726,12 +728,13 @@ class WorkController extends Controller
         event(new WorkCreated($work));
 
         if ($work->service_id == 2) {
+            $requestNumber = $request->input('parameters.39') ?? $work->getParameter(39);
             Work::withoutEvents(function () use ($work) {
 
                 $newPlannedWork = Work::create([
                     'mark' => $work->mark ?? null,
                     'transport_no' => $work->transport_no ?? null,
-                    'request_number'  => $work->getParameter(39) ?? null,
+                    'request_number'  => $requestNumber ?? null,
                     'creator_id' => $work->creator_id ?? null,
                     'user_id' => null,
                     'department_id' => $work->department_id ?? null,
