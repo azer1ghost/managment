@@ -692,6 +692,8 @@ class WorkController extends Controller
         foreach ($validated['parameters'] ?? [] as $key => $parameter) {
             $parameters[$key] = ['value' => $parameter];
         }
+        $work->parameters()->sync($parameters);
+
 
         $work->parameters()->sync($parameters);
         if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41, 54, 53])) {
@@ -728,6 +730,7 @@ class WorkController extends Controller
 
                 $newPlannedWork = Work::create([
                     'mark' => $work->mark ?? null,
+                    'request_number'  => $work->getParameter(39) ?? null,
                     'creator_id' => $work->creator_id ?? null,
                     'user_id' => null,
                     'department_id' => $work->department_id ?? null,

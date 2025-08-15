@@ -200,6 +200,7 @@
         <tr class="text-center">
             <th><input type="checkbox" id="works-all"></th>
             <th scope="col">Nəqliyyat xanası</th>
+            <th scope="col">Sorğu nömrəsi</th>
             <th scope="col">@lang('translates.columns.created_by')</th>
             <th scope="col">@lang('translates.columns.department')</th>
             <th scope="col">@lang('translates.fields.user')</th>
@@ -222,6 +223,7 @@
 
                 <td><input type="checkbox" name="works[]" value="{{$work->getAttribute('id')}}"></td>
                 <th style="font-weight:bold">{{$work->getAttribute('transport_no')}}</th>
+                <th style="font-weight:bold">{{$work->getAttribute('request_number')}}</th>
                 <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
 
                 <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
