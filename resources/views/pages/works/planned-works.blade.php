@@ -199,7 +199,7 @@
         <thead>
         <tr class="text-center">
             <th><input type="checkbox" id="works-all"></th>
-            <th scope="col">@lang('translates.fields.mark')</th>
+            <th scope="col">Nəqliyyat xanası</th>
             <th scope="col">@lang('translates.columns.created_by')</th>
             <th scope="col">@lang('translates.columns.department')</th>
             <th scope="col">@lang('translates.fields.user')</th>
@@ -221,7 +221,7 @@
             <tr data-toggle="collapse" data-target="#demo{{$work->getAttribute('id')}}" class="accordion-toggle" @if(is_null($work->getAttribute('user_id'))) style="background: #eed58f" @endif title="{{$work->getAttribute('code')}}">
 
                 <td><input type="checkbox" name="works[]" value="{{$work->getAttribute('id')}}"></td>
-                <th style="font-weight:bold">{{$work->getAttribute('mark')}}</th>
+                <th style="font-weight:bold">{{$work->getAttribute('transport_no')}}</th>
                 <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
 
                 <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
