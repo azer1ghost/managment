@@ -725,8 +725,10 @@ class WorkController extends Controller
         }
 
         $request_number = optional(
-            $parameters->firstWhere('id', Work::REQUESTNUMBER)->pivot
-        )->value;
+            $work->getRelationValue('parameters')
+                ->where('id', Work::REQUESTNUMBER)
+                ->first()
+        )->pivot->value ?? null;
         event(new WorkCreated($work));
 
         if ($work->service_id == 2) {
