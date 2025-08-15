@@ -701,6 +701,7 @@ class WorkController extends Controller
             ->where('parameter_id', 39)
             ->value('value');
 
+        dd($requestNumber);
         if (!is_null($requestNumber)) {
             $work->request_number = $requestNumber;
             $work->save();
