@@ -45,6 +45,8 @@ class Work extends Model implements DocumentableInterface, Recordable
     const QIBPAYMENT = 50;
     const QIBAMOUNT = 55;
 
+    const REQUESTNUMBER = 39;
+
     protected $fillable = [
         'code',
         'declaration_no',

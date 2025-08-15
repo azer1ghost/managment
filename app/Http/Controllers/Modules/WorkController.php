@@ -695,10 +695,7 @@ class WorkController extends Controller
         }
         $work->parameters()->sync($parameters);
 
-        $requestNumber = DB::table('work_parameter')
-            ->where('work_id', $work->id)
-            ->where('parameter_id', 39)
-            ->value('value');
+        $requestNumber = Work::REQUESTNUMBER;
 
 
         if (!is_null($requestNumber)) {
