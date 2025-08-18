@@ -737,7 +737,7 @@ class WorkController extends Controller
                 $newPlannedWork = Work::create([
                     'mark' => $work->mark ?? null,
                     'transport_no' => $work->transport_no ?? null,
-                    'request_number'  => $request_number ?? null,
+                    'request_number'  => $request_number->value ?? null,
                     'creator_id' => $work->creator_id ?? null,
                     'user_id' => null,
                     'department_id' => $work->department_id ?? null,
