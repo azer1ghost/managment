@@ -724,7 +724,7 @@ class WorkController extends Controller
             $work->parameters()->updateExistingPivot($work::VAT, ['value' => $roundedValue]);
         }
 
-        $request_number = Work::REQUESTNUMBER->value;
+        $request_number = Work::REQUESTNUMBER;
         dd($request_number);
 
         if ($work->service_id == 2) {
