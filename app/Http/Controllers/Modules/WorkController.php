@@ -724,16 +724,14 @@ class WorkController extends Controller
             $work->parameters()->updateExistingPivot($work::VAT, ['value' => $roundedValue]);
         }
 
-        $request_number = Work::REQUESTNUMBER;
-        dd($request_number);
+
 
         if ($work->service_id == 2) {
-            Work::withoutEvents(function () use ($work, $request_number) {
+            Work::withoutEvents(function () use ($work) {
 
                 $newPlannedWork = Work::create([
                     'mark' => $work->mark ?? null,
                     'transport_no' => $work->transport_no ?? null,
-                    'request_number'  => $request_number ?? null,
                     'creator_id' => $work->creator_id ?? null,
                     'user_id' => null,
                     'department_id' => $work->department_id ?? null,
