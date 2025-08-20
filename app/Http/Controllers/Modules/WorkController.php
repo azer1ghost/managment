@@ -792,11 +792,11 @@ class WorkController extends Controller
         $clientName = str_replace($search, $replace, $clientText);
         $message = 'Deyerli ' . $clientName . ' sizin ' . $serviceName . ' uzre isiniz tamamlandi. ' . $work->getAttribute('created_at')->format('d/m/y') . ' https://my.mobilgroup.az/cs?url=mb-sat -linke kecid ederek xidmet keyfiyyetini deyerlendirmeyinizi xahis edirik!';
 
-        if ($request->status == $work::DONE && $client->getAttribute('send_sms') == 1) {
-            if (!empty($client->getAttribute('phone1'))) {
-                (new NotifyClientSms($message))->toSms($client)->send();
+            if ($request->status == $work::DONE && $client->getAttribute('send_sms') == 1) {
+                if (!empty($client->getAttribute('phone1')) && !in_array($work->getAttribute('service_id'), [62, 61, 54, 53])) {
+                    (new NotifyClientSms($message))->toSms($client)->send();
+                }
             }
-        }
 
         $validated = $request->validated();
         if ($work->getAttribute('datetime') == null ) {
