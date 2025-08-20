@@ -223,7 +223,7 @@
 
                 <td><input type="checkbox" name="works[]" value="{{$work->getAttribute('id')}}"></td>
                 <th style="font-weight:bold">{{$work->getAttribute('transport_no')}}</th>
-                <th style="font-weight:bold">{{$work->getAttribute('decleration_no')}}</th>
+                <th style="font-weight:bold">{{$work->getAttribute('declaration_no')}}</th>
                 <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
 
                 <td>{{$work->getRelationValue('department')->getAttribute('short')}}</td>
