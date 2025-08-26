@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkRequest;
 use App\Interfaces\WorkRepositoryInterface;
 use App\Notifications\{NotifyClientDirectorSms, NotifyClientSms};
+use Illuminate\Support\Str;
 use App\Models\{AsanImza, Company, Department, Logistics, Service, User, Work, Client};
 
 use Carbon\Carbon;
