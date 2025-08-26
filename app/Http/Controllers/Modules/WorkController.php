@@ -729,28 +729,27 @@ class WorkController extends Controller
 
         if ($work->service_id == 2) {
             DB::transaction(function () use ($work) {
-                Work::withoutEvents(function () use ($work) {
-
-                    $newPlannedWork = Work::create([
-                        'mark'          => $work->mark ?? null,
-                        'transport_no'  => $work->transport_no ?? null,
-                        'declaration_no'=> $work->declaration_no ?? null,
-                        'creator_id'    => $work->creator_id ?? null,
+                $newPlannedWork = Work::withoutEvents(function () use ($work) {
+                    return Work::create([
+                        'mark'          => $work->mark,
+                        'transport_no'  => $work->transport_no,
+                        'declaration_no'=> $work->declaration_no,
+                        'creator_id'    => $work->creator_id,
                         'user_id'       => null,
-                        'department_id' => $work->department_id ?? null,
+                        'department_id' => $work->department_id,
                         'service_id'    => 17,
-                        'client_id'     => $work->client_id ?? null,
+                        'client_id'     => $work->client_id,
                         'status'        => Work::PLANNED,
                     ]);
-
-                    $link = (string) Str::uuid();
-                    $work->update(['link_key' => $link]);
-                    $newPlannedWork->update(['link_key' => $link]);
-
-                    event(new WorkCreated($newPlannedWork));
                 });
+                $link = (string) Str::uuid();
+                $work->update(['link_key' => $link]);
+                $newPlannedWork->update(['link_key' => $link]);
+
+                event(new WorkCreated($newPlannedWork));
             });
         }
+
         return redirect()
             ->route('works.edit', $work)
             ->withNotify('success', $work->getAttribute('name'));
