@@ -866,6 +866,42 @@ class WorkController extends Controller
 
         $work->update($validated);
 
+        $oldTransportNo = $work->transport_no;
+
+        $syncMap = [
+            2  => [17],
+            17 => [2],
+        ];
+
+        $targets = $syncMap[(int) $work->service_id] ?? [];
+
+        $newTransportNo   = $validated['transport_no']   ?? $work->transport_no;
+        $newDeclarationNo = $validated['declaration_no'] ?? $work->declaration_no;
+
+        $searchTransports = array_values(array_unique(array_filter([
+            $oldTransportNo,
+            $newTransportNo,
+        ])));
+
+        if (!empty($targets) && !empty($searchTransports)) {
+            $siblings = Work::query()
+                ->whereIn('service_id', $targets)
+                ->whereIn('transport_no', $searchTransports)
+                ->where('id', '!=', $work->id)
+                ->get();
+
+            if ($siblings->isNotEmpty()) {
+                Work::withoutEvents(function () use ($siblings, $newTransportNo, $newDeclarationNo) {
+                    foreach ($siblings as $sib) {
+                        $sib->update([
+                            'transport_no'   => $newTransportNo,
+                            'declaration_no' => $newDeclarationNo,
+                        ]);
+                    }
+                });
+            }
+        }
+
         if ($oldStatus == 1 && $status != 1) {
             DB::table('works')
                 ->where('id', $work->id)
