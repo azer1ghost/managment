@@ -729,10 +729,8 @@ class WorkController extends Controller
             $link = $work->link_key ?: (string) Str::uuid();
 
             DB::transaction(function () use ($work, $link) {
-                if (empty($work->link_key)) {
-                    $work->update(['link_key' => $link]);
-                }
-
+                $work->link_key = $link;
+                $work->saveQuietly();
 
                 $newPlannedWork = Work::withoutEvents(function () use ($work, $link) {
                     return Work::create([
