@@ -866,29 +866,56 @@ class WorkController extends Controller
 
         $work->update($validated);
 
-        $oldTransportNo = $work->transport_no;
+        $oldTransportNo = $work->getOriginal('transport_no');   // <-- original dəyəri götür
+        $oldServiceId   = (int) $work->getOriginal('service_id');
 
+// --- SƏNİN MÖVCUD KODUN ---
+// $work->update($validated);  // <-- BUNU ETDİKDƏN SONRA aşağıdakı bloku yerləşdir
+// --------------------------
+
+// === Sibling sync: transport_no üzrə, manual xəritə (config/helpers YOX) ===
         $syncMap = [
-            2  => [17],
-            17 => [2],
+            2  => [17],  // 2 dəyişəndə 17
+            17 => [2],   // 17 dəyişəndə 2
+            // Gələcəkdə burada genişləndir:
+            // 3  => [15, 17],
+            // 15 => [3],
         ];
 
-        $targets = $syncMap[(int) $work->service_id] ?? [];
+        $serviceId = (int) $work->service_id;
+        $targets   = $syncMap[$serviceId] ?? [];
 
         $newTransportNo   = $validated['transport_no']   ?? $work->transport_no;
         $newDeclarationNo = $validated['declaration_no'] ?? $work->declaration_no;
 
+// Axtarışı həm köhnə, həm də yeni transport_no ilə et ki, dəyişikliyin hər iki halda tutulsun
         $searchTransports = array_values(array_unique(array_filter([
             $oldTransportNo,
             $newTransportNo,
         ])));
 
         if (!empty($targets) && !empty($searchTransports)) {
+
+            // (Müvəqqəti diaqnostika) – log ataq ki, nə axtarırıq görünsün
+            \Log::info('SiblingSync search', [
+                'work_id'           => $work->id,
+                'service_id'        => $serviceId,
+                'targets'           => $targets,
+                'old_transport_no'  => $oldTransportNo,
+                'new_transport_no'  => $newTransportNo,
+                'search_transports' => $searchTransports,
+            ]);
+
             $siblings = Work::query()
                 ->whereIn('service_id', $targets)
                 ->whereIn('transport_no', $searchTransports)
                 ->where('id', '!=', $work->id)
                 ->get();
+
+            \Log::info('SiblingSync found', [
+                'work_id'    => $work->id,
+                'sibling_ids'=> $siblings->pluck('id')->all(),
+            ]);
 
             if ($siblings->isNotEmpty()) {
                 Work::withoutEvents(function () use ($siblings, $newTransportNo, $newDeclarationNo) {
