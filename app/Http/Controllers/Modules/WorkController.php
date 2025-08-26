@@ -866,20 +866,14 @@ class WorkController extends Controller
 
         $work->update($validated);
 
-        $oldTransportNo = $work->getOriginal('transport_no');   // <-- original dəyəri götür
+        $oldTransportNo = $work->getOriginal('transport_no');
         $oldServiceId   = (int) $work->getOriginal('service_id');
 
-// --- SƏNİN MÖVCUD KODUN ---
-// $work->update($validated);  // <-- BUNU ETDİKDƏN SONRA aşağıdakı bloku yerləşdir
-// --------------------------
 
-// === Sibling sync: transport_no üzrə, manual xəritə (config/helpers YOX) ===
         $syncMap = [
-            2  => [17],  // 2 dəyişəndə 17
-            17 => [2],   // 17 dəyişəndə 2
-            // Gələcəkdə burada genişləndir:
-            // 3  => [15, 17],
-            // 15 => [3],
+            2  => [17],
+            17 => [2],
+
         ];
 
         $serviceId = (int) $work->service_id;
@@ -888,7 +882,6 @@ class WorkController extends Controller
         $newTransportNo   = $validated['transport_no']   ?? $work->transport_no;
         $newDeclarationNo = $validated['declaration_no'] ?? $work->declaration_no;
 
-// Axtarışı həm köhnə, həm də yeni transport_no ilə et ki, dəyişikliyin hər iki halda tutulsun
         $searchTransports = array_values(array_unique(array_filter([
             $oldTransportNo,
             $newTransportNo,
@@ -896,7 +889,6 @@ class WorkController extends Controller
 
         if (!empty($targets) && !empty($searchTransports)) {
 
-            // (Müvəqqəti diaqnostika) – log ataq ki, nə axtarırıq görünsün
             \Log::info('SiblingSync search', [
                 'work_id'           => $work->id,
                 'service_id'        => $serviceId,
