@@ -872,43 +872,17 @@ class WorkController extends Controller
 
         $work->update($validated);
 
-        $oldTransportNo = $work->getOriginal('transport_no');
-        $work->update($validated);
-
-        $pairServiceId = null;
-        if ((int)$work->service_id === 2)  $pairServiceId = 17;
-        if ((int)$work->service_id === 17) $pairServiceId = 2;
-
-        $newTransportNo   = $validated['transport_no']   ?? $work->transport_no;
-        $newDeclarationNo = $validated['declaration_no'] ?? $work->declaration_no;
-
-        if ($pairServiceId && empty($work->link_key)) {
-            $sibling = Work::where('service_id', $pairServiceId)
-                ->whereIn('transport_no', [$oldTransportNo, $newTransportNo])
-                ->where('id','!=',$work->id)
-                ->latest()->first();
-
-            if ($sibling) {
-                $link = (string) Str::uuid();
-                Work::withoutEvents(function () use ($work,$sibling,$link) {
-                    $work->update(['link_key'=>$link]);
-                    $sibling->update(['link_key'=>$link]);
-                });
-                $work->refresh();
-            }
-        }
-
         if (!empty($work->link_key)) {
-            $siblings = Work::where('link_key',$work->link_key)
-                ->where('id','!=',$work->id)->get();
+            $newTransportNo   = $validated['transport_no']   ?? $work->transport_no;
+            $newDeclarationNo = $validated['declaration_no'] ?? $work->declaration_no;
 
-            Work::withoutEvents(function () use ($siblings,$newTransportNo,$newDeclarationNo) {
-                foreach ($siblings as $sib) {
-                    $sib->update([
-                        'transport_no'=>$newTransportNo,
-                        'declaration_no'=>$newDeclarationNo,
+            Work::withoutEvents(function () use ($work, $newTransportNo, $newDeclarationNo) {
+                Work::where('link_key', $work->link_key)
+                    ->where('id', '!=', $work->id)
+                    ->update([
+                        'transport_no'   => $newTransportNo,
+                        'declaration_no' => $newDeclarationNo,
                     ]);
-                }
             });
         }
 
