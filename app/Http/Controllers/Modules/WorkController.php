@@ -727,21 +727,27 @@ class WorkController extends Controller
 
 
         if ($work->service_id == 2) {
-            Work::withoutEvents(function () use ($work) {
+            DB::transaction(function () use ($work) {
+                Work::withoutEvents(function () use ($work) {
 
-                $newPlannedWork = Work::create([
-                    'mark' => $work->mark ?? null,
-                    'transport_no' => $work->transport_no ?? null,
-                    'declaration_no' => $work->declaration_no ?? null,
-                    'creator_id' => $work->creator_id ?? null,
-                    'user_id' => null,
-                    'department_id' => $work->department_id ?? null,
-                    'service_id' => 17,
-                    'client_id' => $work->client_id ?? null,
-                    'status' => $work::PLANNED,
-                ]);
-                event(new WorkCreated($newPlannedWork));
+                    $newPlannedWork = Work::create([
+                        'mark'          => $work->mark ?? null,
+                        'transport_no'  => $work->transport_no ?? null,
+                        'declaration_no'=> $work->declaration_no ?? null,
+                        'creator_id'    => $work->creator_id ?? null,
+                        'user_id'       => null,
+                        'department_id' => $work->department_id ?? null,
+                        'service_id'    => 17,
+                        'client_id'     => $work->client_id ?? null,
+                        'status'        => Work::PLANNED,
+                    ]);
 
+                    $link = (string) Str::uuid();
+                    $work->update(['link_key' => $link]);
+                    $newPlannedWork->update(['link_key' => $link]);
+
+                    event(new WorkCreated($newPlannedWork));
+                });
             });
         }
         return redirect()
@@ -866,48 +872,14 @@ class WorkController extends Controller
 
         $work->update($validated);
 
-        $oldTransportNo = $work->getOriginal('transport_no');
-        $oldServiceId   = (int) $work->getOriginal('service_id');
-
-
-        $syncMap = [
-            2  => [17],
-            17 => [2],
-
-        ];
-
-        $serviceId = (int) $work->service_id;
-        $targets   = $syncMap[$serviceId] ?? [];
-
-        $newTransportNo   = $validated['transport_no']   ?? $work->transport_no;
-        $newDeclarationNo = $validated['declaration_no'] ?? $work->declaration_no;
-
-        $searchTransports = array_values(array_unique(array_filter([
-            $oldTransportNo,
-            $newTransportNo,
-        ])));
-
-        if (!empty($targets) && !empty($searchTransports)) {
-
-            \Log::info('SiblingSync search', [
-                'work_id'           => $work->id,
-                'service_id'        => $serviceId,
-                'targets'           => $targets,
-                'old_transport_no'  => $oldTransportNo,
-                'new_transport_no'  => $newTransportNo,
-                'search_transports' => $searchTransports,
-            ]);
+        if (!empty($work->link_key)) {
+            $newTransportNo   = $validated['transport_no']   ?? $work->transport_no;
+            $newDeclarationNo = $validated['declaration_no'] ?? $work->declaration_no;
 
             $siblings = Work::query()
-                ->whereIn('service_id', $targets)
-                ->whereIn('transport_no', $searchTransports)
+                ->where('link_key', $work->link_key)
                 ->where('id', '!=', $work->id)
                 ->get();
-
-            \Log::info('SiblingSync found', [
-                'work_id'    => $work->id,
-                'sibling_ids'=> $siblings->pluck('id')->all(),
-            ]);
 
             if ($siblings->isNotEmpty()) {
                 Work::withoutEvents(function () use ($siblings, $newTransportNo, $newDeclarationNo) {
