@@ -725,28 +725,27 @@ class WorkController extends Controller
             $work->parameters()->updateExistingPivot($work::VAT, ['value' => $roundedValue]);
         }
 
-        $link = $work->link_key ?: (string) Str::uuid();
+        if ((int)$work->service_id === 2) {
+            $link = $work->link_key ?: (string) Str::uuid();
 
-        if (empty($work->link_key)) {
-            $work->update(['link_key' => $link]);
-        }
-
-
-        if ($work->service_id == 2) {
             DB::transaction(function () use ($work, $link) {
-                $newPlannedWork = Work::withoutEvents(function () use ($work) {
-                    return Work::create([
-                        'mark'          => $work->mark,
-                        'transport_no'  => $work->transport_no,
-                        'declaration_no'=> $work->declaration_no,
-                        'creator_id'    => $work->creator_id,
-                        'user_id'       => null,
-                        'department_id' => $work->department_id,
-                        'service_id'    => 17,
-                        'client_id'     => $work->client_id,
-                        'status'        => Work::PLANNED,
-                        'link_key'       => $link,
+                if (empty($work->link_key)) {
+                    $work->update(['link_key' => $link]);
+                }
 
+
+                $newPlannedWork = Work::withoutEvents(function () use ($work, $link) {
+                    return Work::create([
+                        'mark'           => $work->mark,
+                        'transport_no'   => $work->transport_no,
+                        'declaration_no' => $work->declaration_no,
+                        'creator_id'     => $work->creator_id,
+                        'user_id'        => null,
+                        'department_id'  => $work->department_id,
+                        'service_id'     => 17,
+                        'client_id'      => $work->client_id,
+                        'status'         => Work::PLANNED,
+                        'link_key'       => $link,
                     ]);
                 });
 
