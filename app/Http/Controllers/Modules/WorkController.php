@@ -725,10 +725,15 @@ class WorkController extends Controller
             $work->parameters()->updateExistingPivot($work::VAT, ['value' => $roundedValue]);
         }
 
+        $link = $work->link_key ?: (string) Str::uuid();
+
+        if (empty($work->link_key)) {
+            $work->update(['link_key' => $link]);
+        }
 
 
         if ($work->service_id == 2) {
-            DB::transaction(function () use ($work) {
+            DB::transaction(function () use ($work, $link) {
                 $newPlannedWork = Work::withoutEvents(function () use ($work) {
                     return Work::create([
                         'mark'          => $work->mark,
@@ -740,11 +745,10 @@ class WorkController extends Controller
                         'service_id'    => 17,
                         'client_id'     => $work->client_id,
                         'status'        => Work::PLANNED,
+                        'link_key'       => $link,
+
                     ]);
                 });
-                $link = (string) Str::uuid();
-                $work->update(['link_key' => $link]);
-                $newPlannedWork->update(['link_key' => $link]);
 
                 event(new WorkCreated($newPlannedWork));
             });
