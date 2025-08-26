@@ -729,10 +729,9 @@ class WorkController extends Controller
             $link = $work->link_key ?: (string) Str::uuid();
 
             DB::transaction(function () use ($work, $link) {
-                $work->link_key = $link;
-                $work->saveQuietly();
+                $work->forceFill(['link_key' => $link])->saveQuietly();
 
-                $newPlannedWork = Work::withoutEvents(function () use ($work, $link) {
+                $pair = Work::withoutEvents(function () use ($work) {
                     return Work::create([
                         'mark'           => $work->mark,
                         'transport_no'   => $work->transport_no,
@@ -743,11 +742,15 @@ class WorkController extends Controller
                         'service_id'     => 17,
                         'client_id'      => $work->client_id,
                         'status'         => Work::PLANNED,
-                        'link_key'       => $link,
+                        // 'link_key' => $link  // bəzən $fillable səbəbindən yazılmaya bilər, ona görə 3-cü addımda məcburi yazırıq
                     ]);
                 });
 
-                event(new WorkCreated($newPlannedWork));
+                Work::withoutEvents(function () use ($pair, $link) {
+                    $pair->forceFill(['link_key' => $link])->saveQuietly();
+                });
+
+                event(new WorkCreated($pair));
             });
         }
 
