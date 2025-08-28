@@ -34,7 +34,7 @@
         <i class="far fa-filter"></i> @lang('translates.buttons.filter_open')
     </button>
 
-    <form action="{{route('pending-works')}}">
+    <form action="{{route('planned-works')}}">
         <div class="row d-flex justify-content-between mb-2">
             <div id="filterContainer" class="mb-3" @if(request()->has('datetime')) style="display:block;" @else style="display:none;" @endif>
                 <div class="col-12">
