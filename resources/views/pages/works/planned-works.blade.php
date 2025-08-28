@@ -150,7 +150,7 @@
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <button type="submit" class="btn btn-outline-primary"><i
                                             class="fas fa-filter"></i> @lang('translates.buttons.filter')</button>
-                                <a href="{{route('pending-works')}}" class="btn btn-outline-danger"><i
+                                <a href="{{route('planned-works')}}" class="btn btn-outline-danger"><i
                                             class="fal fa-times-circle"></i> @lang('translates.filters.clear')</a>
                             </div>
                         </div>
