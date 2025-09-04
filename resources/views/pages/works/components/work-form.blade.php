@@ -45,17 +45,17 @@
                                    class="form-control"
                                    placeholder="Nəqliyyat nömrəsi daxil edin">
                         </div>
-                        @if(in_array($service_id, [2]))
-                            <div class="form-group col-12 col-md-3">
-                            <label for="mark">@lang('translates.fields.mark')</label>
-                            <input value="{{optional($data)->getAttribute('mark')}}"
-                                   type="text"
-                                   name="mark"
-                                   id="mark"
-                                   class="form-control"
-                                   placeholder="Qeydiyyat nişanı daxil edin"
-                            >
-                        </div> @endif
+{{--                        @if(in_array($service_id, [2]))--}}
+{{--                            <div class="form-group col-12 col-md-3">--}}
+{{--                            <label for="mark">@lang('translates.fields.mark')</label>--}}
+{{--                            <input value="{{optional($data)->getAttribute('mark')}}"--}}
+{{--                                   type="text"--}}
+{{--                                   name="mark"--}}
+{{--                                   id="mark"--}}
+{{--                                   class="form-control"--}}
+{{--                                   placeholder="Qeydiyyat nişanı daxil edin"--}}
+{{--                            >--}}
+{{--                        </div> @endif--}}
 
                     <div class="form-group col-12 col-md-6" wire:ignore>
                     <label for="data-client-type">{{trans('translates.fields.clientName')}}</label><br/>
