@@ -475,11 +475,7 @@
                            }
                         @endphp
                     @endif
-                <td>
-                    @if(!$work->paid_at && $work->invoiced_date && now()->gt(\Carbon\Carbon::parse($work->invoiced_date)->addDays(30)))
-                        ❗
-                    @endif
-                </td>
+
                     @php
                         $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID) + $work->getAttribute('bank_charge');
                         $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) + $work->getParameter($work::ILLEGALAMOUNT) - $sum_payment) * -1;
@@ -487,6 +483,11 @@
                     <span class="badge badge-{{$color}}" style="font-size: 12px">
                          {{trans('translates.work_status.' . $work->getAttribute('status'))}}
                     </span>
+                </td>
+                <td>
+                    @if(!$work->paid_at && $work->invoiced_date && now()->gt(\Carbon\Carbon::parse($work->invoiced_date)->addDays(30)))
+                        ❗
+                    @endif
                 </td>
 
                 <td class="paymentMethod">
