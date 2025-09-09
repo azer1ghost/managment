@@ -495,7 +495,7 @@
                     <td></td>
                 @endif
                     <td>
-                        @if(!$work->paid_at && $work->code && now()->gt(\Carbon\Carbon::parse($work->invoiced_date)->addDays(30)))
+                        @if(!$work->paid_at && $work->invoiced_date && now()->gt(\Carbon\Carbon::parse($work->invoiced_date)->addDays(30)))
                             ❗
                         @endif
                     </td>
