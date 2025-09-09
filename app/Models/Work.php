@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Altek\Eventually\Eventually;
 use App\Interfaces\DocumentableInterface;
 use App\Traits\Documentable;
+use Carbon\Carbon;
+
 use Illuminate\Database\Eloquent\{Factories\HasFactory,
     Model,
     Relations\BelongsTo,
