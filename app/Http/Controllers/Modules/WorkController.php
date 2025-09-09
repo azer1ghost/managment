@@ -278,6 +278,7 @@ class WorkController extends Controller
             $filters['user_id'] = $request->get('user_id');
         }
 
+
         $dateFilters = [
             'datetime' => $request->has('check-datetime'),
             'created_at' => $request->has('check-created_at'),
@@ -315,6 +316,16 @@ class WorkController extends Controller
             ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user) {
                 $query->whereBelongsTo($user->getRelationValue('company'));
             })->get(['id', 'name', 'detail']);
+
+        $works = $this->workRepository->allFilteredWorks($filters, $dateFilters)
+            ->addSelect(DB::raw("
+            CASE 
+                WHEN paid_at IS NULL 
+                 AND invoiced_date IS NOT NULL
+                 AND DATE_ADD(invoiced_date, INTERVAL 30 DAY) <= NOW()
+            THEN 1 ELSE 0 
+            END as need_attention
+        "));
 
         $works = $this->workRepository->allFilteredWorks($filters, $dateFilters);
 

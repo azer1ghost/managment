@@ -245,5 +245,17 @@ class Work extends Model implements DocumentableInterface, Recordable
     {
         return $this->hasOne(\App\Models\CustomerEngagement::class, 'client_id', 'client_id');
     }
+    public function getNeedAttentionAttribute()
+    {
+        if ($this->paid_at) {
+            return false;
+        }
+
+        if (!$this->invoiced_date) {
+            return false;
+        }
+
+        return now()->greaterThan(Carbon::parse($this->invoiced_date)->addDays(30));
+    }
 
 }
