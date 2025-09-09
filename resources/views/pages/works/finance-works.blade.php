@@ -486,7 +486,8 @@
                 </td>
                 <td>
                     @if($work->need_attention)
-                        ❗
+                        <span style="color:red; font-size: 22px; font-weight: bold;">❗</span>
+
                     @endif
                 </td>
 
