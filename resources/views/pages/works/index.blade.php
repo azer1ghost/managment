@@ -452,7 +452,6 @@
             <th scope="col">@lang('translates.navbar.service')</th>
             <th scope="col">@lang('translates.fields.clientName')</th>
             <th scope="col">@lang('translates.columns.status')</th>
-            <th scope="col"></th>
 {{--            <th scope="col">Timer</th>--}}
             <th scope="col">@lang('translates.general.destination')</th>
             <th scope="col">@lang('translates.navbar.document')</th>
@@ -494,11 +493,6 @@
                 @elseif(auth()->user()->hasPermission('canVerify-work'))
                     <td></td>
                 @endif
-                    <td>
-                        @if(!$work->paid_at && $work->invoiced_date && now()->gt(\Carbon\Carbon::parse($work->invoiced_date)->addDays(30)))
-                            ❗Salam
-                        @endif
-                    </td>
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     <th @if(auth()->user()->hasPermission('editPrice-work')) class="code" @endif data-name="code" data-pk="{{ $work->getAttribute('id') }}" scope="row">{{$work->getAttribute('code')}}</th>
                 @endif

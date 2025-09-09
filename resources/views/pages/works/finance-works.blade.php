@@ -381,6 +381,7 @@
             <th scope="col">@lang('translates.fields.user')</th>
             <th scope="col">Asan imza</th>
             <th scope="col">Status</th>
+            <th scope="col"></th>
 
             <th scope="col" class="paymentMethod">@lang('translates.general.payment_method')</th>
             <th scope="col">@lang('translates.fields.paid_at')</th>
@@ -474,6 +475,11 @@
                            }
                         @endphp
                     @endif
+                <td>
+                    @if(!$work->paid_at && $work->invoiced_date && now()->gt(\Carbon\Carbon::parse($work->invoiced_date)->addDays(30)))
+                        ❗
+                    @endif
+                </td>
                     @php
                         $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID) + $work->getAttribute('bank_charge');
                         $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) + $work->getParameter($work::ILLEGALAMOUNT) - $sum_payment) * -1;
