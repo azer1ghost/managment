@@ -26,7 +26,6 @@
                                             </div>
                                         </td>
                                         <td><h5 class="font-weight-bold mb-0">{{$work->total_value}}</h5></td>
-                                        <td><h5 class="font-weight-bold mb-0">{{$work->total_qib}}</h5></td>
                                     </tr>
                                 @endforeach
                                 @else
