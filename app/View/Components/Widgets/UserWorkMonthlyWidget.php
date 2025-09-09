@@ -29,9 +29,9 @@ class UserWorkMonthlyWidget extends Component
             ->join('works', 'works.user_id', '=', 'users.id')
             ->join('work_parameter', 'works.id', '=', 'work_parameter.work_id')
             ->where('work_parameter.parameter_id', Work::GB)
-            ->whereNull('works.disabled_at')
-            ->whereNull('works.deleted_at')
-            ->whereDate('works.entry_date', '>=', now()->startOfMonth())
+            ->whereNull('users.disabled_at')        // << burada users-a keçirildi
+            ->whereNull('works.deleted_at')         // varsa SoftDeletes üçün
+            ->whereDate('works.entry_date', '>=', now()->startOfMonth()->toDateString())
             ->select(
                 'users.id',
                 'users.name',
@@ -39,7 +39,7 @@ class UserWorkMonthlyWidget extends Component
                 'users.department_id',
                 // total_value = ümumi GB - service_id=2 GB
                 DB::raw("SUM(work_parameter.value) - SUM(CASE WHEN works.service_id = 2 THEN work_parameter.value ELSE 0 END) AS total_value"),
-                // total_qib = yalnız service_id=2 olan GB
+                // total_qib = yalnız service_id=2 GB
                 DB::raw("SUM(CASE WHEN works.service_id = 2 THEN work_parameter.value ELSE 0 END) AS total_qib")
             )
             ->groupBy('users.id', 'users.name', 'users.surname', 'users.department_id')
