@@ -29,8 +29,8 @@ class UserWorkMonthlyWidget extends Component
             ->join('works', 'works.user_id', '=', 'users.id')
             ->join('work_parameter', 'works.id', '=', 'work_parameter.work_id')
             ->where('work_parameter.parameter_id', Work::GB)
-            ->whereNull('users.disabled_at')        // << burada users-a keçirildi
-            ->whereNull('works.deleted_at')         // varsa SoftDeletes üçün
+            ->whereNull('users.disabled_at')
+            ->whereNull('works.deleted_at')
             ->whereDate('works.entry_date', '>=', now()->startOfMonth()->toDateString())
             ->select(
                 'users.id',
