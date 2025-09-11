@@ -22,7 +22,7 @@ class OperatorWorkMonthlyWidget extends Component
         $this->model = $this->getClassRealName();
 
         $userId = auth()->id();
-        $specialUserIds = [17, 124, 15, 123, 78];
+        $specialUserIds = [17, 124, 15, 123, 78, 149];
 
         // Əsas sorğu
         $query = DB::table('users')
