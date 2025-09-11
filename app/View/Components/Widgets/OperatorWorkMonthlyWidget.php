@@ -61,7 +61,7 @@ class OperatorWorkMonthlyWidget extends Component
 
     public function render()
     {
-        return view('components.widgets.userWorkMonthly-widget');
+        return view('components.widgets.operatorWorkMonthly-widget');
     }
 }
 
