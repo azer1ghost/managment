@@ -94,6 +94,7 @@ return [
         'client-widget',
         'workMonthly-widget',
         'userWorkMonthly-widget',
+        'operatorWorkMonthly-widget',
         'workPersonal-widget',
         'service-widget',
     ],
