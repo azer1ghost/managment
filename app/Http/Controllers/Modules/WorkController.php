@@ -317,15 +317,36 @@ class WorkController extends Controller
                 $query->whereBelongsTo($user->getRelationValue('company'));
             })->get(['id', 'name', 'detail']);
 
-        $works = $this->workRepository->allFilteredWorks($filters, $dateFilters)
-            ->addSelect(DB::raw("
+        $attention = $request->input('attention'); // seçilməyibsə null/'' olacaq
+
+        $query = $this->workRepository->allFilteredWorks($filters, $dateFilters)
+            ->select('*')
+            ->selectRaw("
             CASE 
                 WHEN paid_at IS NULL 
                  AND invoiced_date IS NOT NULL
                  AND DATE_ADD(invoiced_date, INTERVAL 30 DAY) <= NOW()
             THEN 1 ELSE 0 
             END as need_attention
-        "));
+        ");
+
+        if ($attention === 'need') {
+            $query->whereRaw("
+            paid_at IS NULL 
+            AND invoiced_date IS NOT NULL
+            AND DATE_ADD(invoiced_date, INTERVAL 30 DAY) <= NOW()
+        ");
+        } elseif ($attention === 'ok') {
+            $query->whereRaw("
+            NOT (
+                paid_at IS NULL 
+                AND invoiced_date IS NOT NULL
+                AND DATE_ADD(invoiced_date, INTERVAL 30 DAY) <= NOW()
+            )
+        ");
+        }
+
+
 
         $works = $this->workRepository->allFilteredWorks($filters, $dateFilters);
 

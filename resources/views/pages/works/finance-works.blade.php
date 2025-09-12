@@ -303,6 +303,17 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div> <select name="attention" class="form-control" onchange="this.form.submit()">
+                                <option value="">Hamısı</option>
+                                <option value="need" {{ request('attention') === 'need' ? 'selected' : '' }}>
+                                    Diqqət tələb edənlər
+                                </option>
+                                <option value="ok" {{ request('attention') === 'ok' ? 'selected' : '' }}>
+                                    Digərləri
+                                </option>
+                            </select>
+                        </div>
+
                         <div class="col-12 mt-3 mb-5 d-flex align-items-center justify-content-end">
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <button type="submit" class="btn btn-outline-primary"><i
