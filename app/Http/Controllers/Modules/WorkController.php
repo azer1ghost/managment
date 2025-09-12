@@ -317,33 +317,30 @@ class WorkController extends Controller
                 $query->whereBelongsTo($user->getRelationValue('company'));
             })->get(['id', 'name', 'detail']);
 
-        $attention = $request->input('attention'); // seçilməyibsə null/'' olacaq
+        $attention = $request->query('attention'); // '', 'need', 'ok'
 
         $query = $this->workRepository->allFilteredWorks($filters, $dateFilters)
-            ->select('*')
-            ->selectRaw("
+            // mütləq: get() YOXDUR, əvvəlcə filtr!
+            ->select('works.*') // cədvəl aliasın fərqlidirsə, onu yaz
+            ->addSelect(DB::raw("
             CASE 
-                WHEN paid_at IS NULL 
-                 AND invoiced_date IS NOT NULL
-                 AND DATE_ADD(invoiced_date, INTERVAL 30 DAY) <= NOW()
+                WHEN works.paid_at IS NULL 
+                 AND works.invoiced_date IS NOT NULL
+                 AND TIMESTAMPDIFF(DAY, works.invoiced_date, NOW()) >= 30
             THEN 1 ELSE 0 
-            END as need_attention
-        ");
+            END AS need_attention
+        "));
 
         if ($attention === 'need') {
-            $query->whereRaw("
-            paid_at IS NULL 
-            AND invoiced_date IS NOT NULL
-            AND DATE_ADD(invoiced_date, INTERVAL 30 DAY) <= NOW()
-        ");
+            $query->whereNull('works.paid_at')
+                ->whereNotNull('works.invoiced_date')
+                ->whereRaw('TIMESTAMPDIFF(DAY, works.invoiced_date, NOW()) >= 30');
         } elseif ($attention === 'ok') {
-            $query->whereRaw("
-            NOT (
-                paid_at IS NULL 
-                AND invoiced_date IS NOT NULL
-                AND DATE_ADD(invoiced_date, INTERVAL 30 DAY) <= NOW()
-            )
-        ");
+            $query->where(function ($q) {
+                $q->whereNotNull('works.paid_at')
+                    ->orWhereNull('works.invoiced_date')
+                    ->orWhereRaw('TIMESTAMPDIFF(DAY, works.invoiced_date, NOW()) < 30');
+            });
         }
 
 

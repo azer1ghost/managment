@@ -303,14 +303,11 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div> <select name="attention" class="form-control" onchange="this.form.submit()">
-                                <option value="">Hamısı</option>
-                                <option value="need" {{ request('attention') === 'need' ? 'selected' : '' }}>
-                                    Diqqət tələb edənlər
-                                </option>
-                                <option value="ok" {{ request('attention') === 'ok' ? 'selected' : '' }}>
-                                    Digərləri
-                                </option>
+                        <div>
+                            <select name="attention" class="form-control" onchange="this.form.submit()">
+                                <option value="" {{ ($attention ?? '') === '' ? 'selected' : '' }}>Hamısı</option>
+                                <option value="need" {{ ($attention ?? '') === 'need' ? 'selected' : '' }}>Diqqət tələb edənlər</option>
+                                <option value="ok"   {{ ($attention ?? '') === 'ok' ? 'selected' : '' }}>Digərləri</option>
                             </select>
                         </div>
 
