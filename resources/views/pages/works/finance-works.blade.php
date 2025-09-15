@@ -304,10 +304,10 @@
                             </select>
                         </div>
                         <div>
-                            <select name="attention" class="form-control" onchange="this.form.submit()">
-                                <option value="" {{ ($attention ?? '') === '' ? 'selected' : '' }}>Hamısı</option>
-                                <option value="need" {{ ($attention ?? '') === 'need' ? 'selected' : '' }}>Diqqət tələb edənlər</option>
-                                <option value="ok"   {{ ($attention ?? '') === 'ok' ? 'selected' : '' }}>Digərləri</option>
+                            <select name="need_attention" class="form-control" onchange="this.form.submit()">
+                                <option value=""    {{ request('need_attention') === null || request('need_attention') === '' ? 'selected' : '' }}>Hamısı</option>
+                                <option value="1"   {{ request('need_attention') === '1'  ? 'selected' : '' }}>Diqqət tələb edənlər</option>
+                                <option value="0"   {{ request('need_attention') === '0'  ? 'selected' : '' }}>Digərləri</option>
                             </select>
                         </div>
 

@@ -247,17 +247,26 @@ class Work extends Model implements DocumentableInterface, Recordable
     {
         return $this->hasOne(\App\Models\CustomerEngagement::class, 'client_id', 'client_id');
     }
-    public function getNeedAttentionAttribute()
+    protected $casts = [
+        'invoiced_date' => 'datetime',
+        'paid_at'       => 'datetime',
+    ];
+
+    protected $appends = ['need_attention'];
+
+    public function getNeedAttentionAttribute(): bool
     {
-        if ($this->paid_at) {
-            return false;
-        }
-
-        if (!$this->invoiced_date) {
-            return false;
-        }
-
+        if ($this->paid_at) return false;
+        if (!$this->invoiced_date) return false;
         return now()->greaterThan(Carbon::parse($this->invoiced_date)->addDays(30));
+    }
+
+    public function scopeNeedsAttention(Builder $query): Builder
+    {
+        return $query
+            ->whereNull('paid_at')
+            ->whereNotNull('invoiced_date')
+            ->whereDate('invoiced_date', '<=', now()->subDays(30));
     }
 
 }
