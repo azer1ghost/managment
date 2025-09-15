@@ -3,7 +3,7 @@
         <div class="card-body">
             <div class="d-flex justify-content-between">
                 <p class="card-title">{{$widget->details}}</p>
-                <h3 style="margin-left: 40px;">GB QIB</h3>
+                <p style="margin-left: 40px;">GB QIB</p>
             </div>
             <p class="font-weight-500"></p>
             <div></div>
