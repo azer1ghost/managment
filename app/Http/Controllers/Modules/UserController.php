@@ -136,8 +136,8 @@ class UserController extends Controller
         $totalbranchgb = 0;
         $totalbranchqib = 0;
 
-        $startOfMonth = '2024-01-01';
-        $endOfMonth = '2024-01-31' ;
+        $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
+        $endOfMonth = Carbon::now()->endOfMonth()->toDateString();
 
 //        $startOfMonth = now()->startOfMonth();
 //        $endOfMonth = now()->endOfMonth();
@@ -211,13 +211,13 @@ class UserController extends Controller
 //        $works = Work::where('user_id', $user->id)
 //            ->whereDate('created_at', '>=', now()->startOfMonth())
 //            ->get();
-        $startOfJuly = Carbon::parse('2025-09-01 00:00:00'); // 2023-07-01 00:00:00
-        $endOfJuly = Carbon::parse('2025-09-30 23:59:59'); // 2023-07-31 23:59:59
-        $works = Work::whereBetween('created_at', [$startOfJuly, $endOfJuly])
+        $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
+        $endOfMonth = Carbon::now()->endOfMonth()->toDateString();
+        $works = Work::whereBetween('created_at', [$startOfMonth, $endOfMonth])
             ->where('user_id', $user->id)
             ->get();
         $branchWorks = Work::where('department_id' ,$user->department_id)
-            ->whereBetween('created_at', [$startOfJuly, $endOfJuly])
+            ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
             ->get();
 //        $branchWorks = Work::where('department_id' ,$user->department_id)
 //            ->whereDate('created_at', '>=', now()->startOfMonth())
