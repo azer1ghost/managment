@@ -8,14 +8,12 @@ use Carbon\Carbon;
 
 class WorkRepository implements WorkRepositoryInterface
 {
+
     public function allFilteredWorks(array $filters = [], $dateFilters = [])
     {
-        $user         = auth()->user();
-        $needAttention = (bool)($filters['need_attention'] ?? false);
-        $orderBy       = $filters['order_by']        ?? null;
-        $orderDir      = strtolower($filters['order_dir'] ?? 'desc');
-        $limit         = (int)($filters['limit']     ?? 25);
+        $user = auth()->user();
 
+        // Tarix filterləri üçün explode et
         $dateRanges = [];
         foreach (['datetime', 'created_at', 'injected_at', 'entry_date', 'invoiced_date', 'vat_date', 'paid_at'] as $dateField) {
             if (!empty($filters[$dateField])) {
@@ -23,14 +21,13 @@ class WorkRepository implements WorkRepositoryInterface
             }
         }
 
-        $status   = $filters['status']   ?? null;
+        $status = $filters['status'] ?? null;
         $statuses = $filters['statuses'] ?? [];
 
-        $query = Work::query()
+        return Work::query()
             ->select('works.*')
             ->with([
-                'creator',
-                'department:id,name,short_name',
+                'creator', 'department:id,name,short_name',
                 'service',
                 'user:id,name,surname,department_id,permissions',
                 'client:id,fullname,voen',
@@ -49,26 +46,22 @@ class WorkRepository implements WorkRepositoryInterface
             })
             ->where(function ($query) use ($filters, $dateFilters, $dateRanges) {
                 foreach ($filters as $column => $value) {
-                    if (in_array($column, ['limit', 'need_attention', 'order_by', 'order_dir'])) {
-                        continue;
-                    }
+                    if ($column == 'limit') continue;
 
                     $query->when($value, function ($query, $value) use ($column, $dateFilters, $dateRanges) {
                         if ($column == 'verified_at') {
                             $value == 1
                                 ? $query->whereNull($column)
                                 : $query->whereNotNull($column);
-
-                        } elseif ($column == 'paid_at' && in_array($value, [1, 2])) {
+                        }
+                        elseif ($column == 'paid_at' && in_array($value, [1, 2])) {
                             $value == 1
                                 ? $query->whereNull($column)
                                 : $query->whereNotNull($column);
-
                         } elseif ($column == 'asan_imza_company_id') {
                             $query->whereHas('asanImza', function ($q) use ($value) {
                                 $q->whereHas('company', fn($c) => $c->whereId($value));
                             });
-
                         } elseif (is_string($value) && isset($dateFilters[$column]) && $dateFilters[$column]) {
                             if (isset($dateRanges[$column])) {
                                 $query->whereBetween($column, [
@@ -76,42 +69,20 @@ class WorkRepository implements WorkRepositoryInterface
                                     Carbon::parse($dateRanges[$column][1])->endOfDay(),
                                 ]);
                             }
-
-                        } elseif (in_array($column, ['code', 'declaration_no', 'transport_no'], true)) {
+                        } elseif ($column == 'code' || $column == 'declaration_no' || $column == 'transport_no') {
                             $query->where($column, 'LIKE', "%$value%");
-
                         } elseif ($column == 'service_id') {
                             $query->whereIn($column, (array)$value);
-
                         } elseif ($column == 'destination') {
                             $query->where($column, $value);
-
                         } elseif (is_numeric($value)) {
                             $query->where($column, $value);
                         }
                     });
                 }
-            });
-
-        if ($needAttention) {
-            $query->whereNull('paid_at')
-                ->whereNotNull('invoiced_date')
-                ->where('invoiced_date', '<=', now()->subDays(30));
-        }
-
-        if ($orderBy === 'need_attention') {
-            $expr = "CASE 
-                        WHEN paid_at IS NULL 
-                         AND invoiced_date IS NOT NULL 
-                         AND invoiced_date <= ? 
-                        THEN 1 ELSE 0 
-                     END";
-            $query->orderByRaw("$expr " . ($orderDir === 'asc' ? 'ASC' : 'DESC'), [now()->subDays(30)]);
-        } else {
-            $query->orderByDesc('created_at')
-                ->orderByDesc('id');
-        }
-
-        return $query->paginate($limit);
+            })
+            ->orderByDesc('created_at')
+            ->orderByDesc('id');
     }
 }
+
