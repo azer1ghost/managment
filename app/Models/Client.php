@@ -169,9 +169,9 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
 
         static::creating(function ($client) {
             if ($client->type == 0) {
-                $client->payment_method = 1;
-            } elseif ($client->type == 1) {
                 $client->payment_method = 2;
+            } elseif ($client->type == 1) {
+                $client->payment_method = 1;
             }
         });
     }
