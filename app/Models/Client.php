@@ -163,9 +163,20 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
     {
         return [1 => 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     }
-    protected $attributes = [
-        'payment_method' => 2,
-    ];
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($client) {
+            if ($client->type == 0) {
+                $client->payment_method = 1;
+            } elseif ($client->type == 1) {
+                $client->payment_method = 2;
+            }
+        });
+    }
+
+
     public static function paymentMethods(): array
     {
         return [1 => 1, 2, 3];
