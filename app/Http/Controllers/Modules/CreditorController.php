@@ -40,7 +40,7 @@ class CreditorController extends Controller
         ];
         $creditors = $this->creditorRepository
             ->allFilteredCreditors($filters)
-            ->orderByRaw('CASE WHEN painted_at IS NOT NULL THEN 0 ELSE 1 END')
+            ->orderByRaw('CASE WHEN painted IS NOT NULL THEN 0 ELSE 1 END')
             ->orderBy('status')
             ->paginate($limit);
         return view('pages.creditors.index')->with([
