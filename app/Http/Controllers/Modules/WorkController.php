@@ -349,7 +349,9 @@ class WorkController extends Controller
                 ->havingRaw('total_sum > paid_sum');
         }
 
-        $works = $works->whereIn('status', [4, 6, 7])->paginate($limit);
+        $works = Work::query()
+            ->whereIn('status', [4,6,7])
+            ->paginate($limit);
 
         if (auth()->user()->hasPermission('viewPrice-work')) {
             return view('pages.works.finance-works',
