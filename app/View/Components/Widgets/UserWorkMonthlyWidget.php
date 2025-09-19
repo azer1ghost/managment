@@ -46,12 +46,15 @@ class UserWorkMonthlyWidget extends Component
             ->orderByDesc('total_value');
 
         // Əgər istifadəçi xüsusi ID-lərdəndirsə, bütün məlumatları gətir
+//        if (!in_array($userId, $specialUserIds)) {
+//            // Əks halda, istifadəçinin departamentini al
+//            $departmentId = DB::table('users')->where('id', $userId)->value('department_id');
+//
+//            // Sorğunu departamentə görə filtr et
+//            $query->where('users.department_id', '=', $departmentId);
+//        }
         if (!in_array($userId, $specialUserIds)) {
-            // Əks halda, istifadəçinin departamentini al
-            $departmentId = DB::table('users')->where('id', $userId)->value('department_id');
-
-            // Sorğunu departamentə görə filtr et
-            $query->where('users.department_id', '=', $departmentId);
+            $query->where('users.id', '=', $userId);
         }
 
         // Sorğunu icra edərək nəticəni `$this->works`-ə təyin et

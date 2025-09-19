@@ -139,8 +139,6 @@ class UserController extends Controller
         $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
         $endOfMonth = Carbon::now()->endOfMonth()->toDateString();
 
-//        $startOfMonth = now()->startOfMonth();
-//        $endOfMonth = now()->endOfMonth();
 
         $works = Work::where('user_id', $user->id)
             ->whereDate('created_at', '>=', $startOfMonth)
