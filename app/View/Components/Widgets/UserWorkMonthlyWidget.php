@@ -23,6 +23,11 @@ class UserWorkMonthlyWidget extends Component
 
         $userId = auth()->id();
         $specialUserIds = [17, 124, 15, 123, 78];
+        $deptVisibilityMap = [
+            49  => [11],
+            149 => [12, 13],
+        ];
+
 
         // Əsas sorğu
         $query = DB::table('users')
@@ -53,9 +58,12 @@ class UserWorkMonthlyWidget extends Component
 //            // Sorğunu departamentə görə filtr et
 //            $query->where('users.department_id', '=', $departmentId);
 //        }
-        if (!in_array($userId, $specialUserIds)) {
-            $query->where('users.id', '=', $userId);
+        if (isset($deptVisibilityMap[$userId])) {
+            $query->whereIn('users.department_id', $deptVisibilityMap[$userId]);
+        } elseif (!in_array($userId, $specialUserIds)) {
+            $query->where('users.id', $userId);
         }
+
 
         // Sorğunu icra edərək nəticəni `$this->works`-ə təyin et
         $this->works = $query->get();
