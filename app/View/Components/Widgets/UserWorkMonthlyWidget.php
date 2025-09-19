@@ -22,7 +22,7 @@ class UserWorkMonthlyWidget extends Component
         $this->model = $this->getClassRealName();
 
         $userId = auth()->id();
-        $specialUserIds = [17, 124, 15, 123, 78];
+        $specialUserIds = [17, 124, 15, 123, 78, 211];
         $deptVisibilityMap = [
             42  => [11],
             149 => [12, 13],
