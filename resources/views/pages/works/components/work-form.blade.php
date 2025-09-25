@@ -185,7 +185,6 @@
                     <div class="form-group col-12 col-md-6" wire:key="asan-imza" wire:ignore>
                         <label for="data-asan_imza_id">Asan imza və Təmsilçilik şirkət</label>
                         <select name="asan_imza_id" id="data-asan_imza_id" data-url="{{route('asanImza.user.search')}}" class="custom-select2 form-control">
-                            @if(isset($data) && !in_array($data->getAttribute('status'), [0,1,2])) required @endif>
                             <option value="" selected>Asan imza select</option>
                             @foreach(\App\Models\AsanImza::get() as $asanUser)
                                 <option value="{{ $asanUser->getAttribute('id') }}"
@@ -204,23 +203,28 @@
                 @endif
 
                 @if($method != 'POST')
-                    <div class="form-group col-12 col-md-3" wire:ignore>
-                        <label for="data-status">@lang('translates.general.status_choose')</label>
-                        <select name="status" id="data-status" class="form-control">
-                            <option disabled >@lang('translates.general.status_choose')</option>
-                            @foreach($statuses as $key => $status)
-                                <option
-                                        @if(optional($data)->getAttribute('status') === $status ) selected
-                                        @endif value="{{$status}}"
-                                        @if($status == \App\Models\Work::REJECTED || (optional($data)->hasAsanImza() && $status == \App\Models\Work::DONE && is_null(optional($data)->getAttribute('asan_imza_id'))))
-                                        @endif
-                                >
-                                    @lang('translates.work_status.' . $key)
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-12 col-md-3" wire:ignore>
+                            <div class="form-group col-12 col-md-3" wire:ignore>
+                                <label for="data-status">@lang('translates.general.status_choose')</label>
+                                <select name="status" id="data-status" class="form-control">
+                                    <option disabled>@lang('translates.general.status_choose')</option>
+                                    @foreach($statuses as $key => $status)
+                                        @php
+                                            $asanImzaYoxdur = is_null(optional($data)->getAttribute('asan_imza_id'));
+                                            $icazeVar = !$asanImzaYoxdur || in_array($status, [0,1,2]);
+                                        @endphp
+
+                                        <option
+                                                value="{{ $status }}"
+                                                @if(optional($data)->getAttribute('status') === $status) selected @endif
+                                                @if(!$icazeVar) style="pointer-events:none; background:#eee; color:#aaa;" @endif
+                                        >
+                                            @lang('translates.work_status.' . $key)
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group col-12 col-md-3" wire:ignore>
                         <label for="data-destination">@lang('translates.general.destination_choose')</label>
                         <select name="destination" id="data-status" class="form-control">
                             <option disabled>@lang('translates.placeholders.choose')</option>
