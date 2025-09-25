@@ -208,18 +208,18 @@
                                 <select name="status" id="data-status" class="form-control">
                                     <option disabled>@lang('translates.general.status_choose')</option>
                                     @foreach($statuses as $key => $status)
-                                        @php
-                                            $asanImzaYoxdur = is_null(optional($data)->getAttribute('asan_imza_id'));
-                                            $icazeVar = !$asanImzaYoxdur || in_array($status, [0,1,2]);
-                                        @endphp
-
-                                        <option
-                                                value="{{ $status }}"
-                                                @if(optional($data)->getAttribute('status') === $status) selected @endif
-                                                @if(!$icazeVar) style="pointer-events:none; background:#eee; color:#aaa;" @endif
-                                        >
-                                            @lang('translates.work_status.' . $key)
-                                        </option>
+                                        @if(is_null(optional($data)->getAttribute('asan_imza_id')) && !in_array($status, [0,1,2]))
+                                            <option value="{{ $status }}"
+                                                    @if(optional($data)->getAttribute('status') === $status) selected @endif
+                                                    style="pointer-events:none; background:#eee; color:#aaa;">
+                                                @lang('translates.work_status.' . $key)
+                                            </option>
+                                        @else
+                                            <option value="{{ $status }}"
+                                                    @if(optional($data)->getAttribute('status') === $status) selected @endif>
+                                                @lang('translates.work_status.' . $key)
+                                            </option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
