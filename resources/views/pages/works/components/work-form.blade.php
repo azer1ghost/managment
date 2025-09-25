@@ -185,6 +185,7 @@
                     <div class="form-group col-12 col-md-6" wire:key="asan-imza" wire:ignore>
                         <label for="data-asan_imza_id">Asan imza və Təmsilçilik şirkət</label>
                         <select name="asan_imza_id" id="data-asan_imza_id" data-url="{{route('asanImza.user.search')}}" class="custom-select2 form-control">
+                            @if(isset($data) && !in_array($data->getAttribute('status'), [0,1,2])) required @endif>
                             <option value="" selected>Asan imza select</option>
                             @foreach(\App\Models\AsanImza::get() as $asanUser)
                                 <option value="{{ $asanUser->getAttribute('id') }}"
