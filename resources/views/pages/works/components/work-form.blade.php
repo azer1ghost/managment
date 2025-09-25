@@ -205,21 +205,27 @@
                 @if($method != 'POST')
                             <div class="form-group col-12 col-md-3" wire:ignore>
                                 <label for="data-status">@lang('translates.general.status_choose')</label>
-                                <select name="status" id="data-status" class="form-control">
+                                @php
+                                    $asanImzaYoxdur = is_null(optional($data)->getAttribute('asan_imza_id'));
+                                    $allowedStatuses = [0,1,2];
+                                @endphp
+
+                                <select
+                                        name="status"
+                                        id="data-status"
+                                        class="form-control"
+                                        data-lock-non-allowed="{{ $asanImzaYoxdur ? '1' : '0' }}"
+                                        data-allowed-statuses="{{ implode(',', $allowedStatuses) }}"
+                                >
                                     <option disabled>@lang('translates.general.status_choose')</option>
+
                                     @foreach($statuses as $key => $status)
-                                        @if(is_null(optional($data)->getAttribute('asan_imza_id')) && !in_array($status, [0,1,2]))
-                                            <option value="{{ $status }}"
-                                                    @if(optional($data)->getAttribute('status') === $status) selected @endif
-                                                    style="pointer-events:none; background:#eee; color:#aaa;">
-                                                @lang('translates.work_status.' . $key)
-                                            </option>
-                                        @else
-                                            <option value="{{ $status }}"
-                                                    @if(optional($data)->getAttribute('status') === $status) selected @endif>
-                                                @lang('translates.work_status.' . $key)
-                                            </option>
-                                        @endif
+                                        <option
+                                                value="{{ $status }}"
+                                                {{ optional($data)->getAttribute('status') === $status ? 'selected' : '' }}
+                                        >
+                                            @lang('translates.work_status.' . $key)
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -547,6 +553,28 @@
         clientId.change(function () {
             if ($(this).val() === '1865') $('.custom_client').show();
             else $('.custom_client').hide();
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            var select = document.getElementById('data-status');
+            if (!select) return;
+
+            var lock = select.dataset.lockNonAllowed === '1';
+            var allowed = (select.dataset.allowedStatuses || '').split(',');
+            var prev = select.value;
+
+            // Seçim öncəsi hazırkı dəyəri yadda saxla
+            select.addEventListener('focus', function () { prev = select.value; });
+
+            // Yalnız 0,1,2-ə icazə ver; əks halda geri qaytar
+            select.addEventListener('change', function (e) {
+                if (lock && allowed.indexOf(this.value) === -1) {
+                    this.value = prev; // əvvəlki dəyərə qaytar
+                    // İstəsən buranı toast/layer ilə əvəz edə bilərsən
+                    alert('Asan imza yoxdursa yalnız 0, 1, 2 seçilə bilər.');
+                } else {
+                    prev = this.value;
+                }
+            });
         });
     </script>
 @endpush
