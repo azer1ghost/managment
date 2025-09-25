@@ -211,7 +211,7 @@
                                         id="data-status"
                                         class="form-control"
                                         data-lock-non-allowed="{{ is_null(optional($data)->getAttribute('asan_imza_id')) ? '1' : '0' }}"
-                                        data-allowed-statuses="0,1,2"
+                                        data-allowed-statuses="1,2,3"
                                 >
                                     <option disabled>@lang('translates.general.status_choose')</option>
 
@@ -225,6 +225,7 @@
                                     @endforeach
                                 </select>
                             </div>
+
 
 
                             <div class="form-group col-12 col-md-3" wire:ignore>
@@ -567,7 +568,7 @@
                 if (lock && allowed.indexOf(this.value) === -1) {
                     this.value = prev; // əvvəlki dəyərə qaytar
                     // İstəsən buranı toast/layer ilə əvəz edə bilərsən
-                    alert('Asan imza yoxdursa yalnız 0, 1, 2 seçilə bilər.');
+                    alert('Asan imza yoxdursa yalnız Planlanan,Gözləmədə və Davam Edir statusları seçilə bilər.');
                 } else {
                     prev = this.value;
                 }
