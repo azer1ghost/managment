@@ -205,17 +205,13 @@
                 @if($method != 'POST')
                             <div class="form-group col-12 col-md-3" wire:ignore>
                                 <label for="data-status">@lang('translates.general.status_choose')</label>
-                                @php
-                                    $asanImzaYoxdur = is_null(optional($data)->getAttribute('asan_imza_id'));
-                                    $allowedStatuses = [0,1,2];
-                                @endphp
 
                                 <select
                                         name="status"
                                         id="data-status"
                                         class="form-control"
-                                        data-lock-non-allowed="{{ $asanImzaYoxdur ? '1' : '0' }}"
-                                        data-allowed-statuses="{{ implode(',', $allowedStatuses) }}"
+                                        data-lock-non-allowed="{{ is_null(optional($data)->getAttribute('asan_imza_id')) ? '1' : '0' }}"
+                                        data-allowed-statuses="0,1,2"
                                 >
                                     <option disabled>@lang('translates.general.status_choose')</option>
 
@@ -229,6 +225,7 @@
                                     @endforeach
                                 </select>
                             </div>
+
 
                             <div class="form-group col-12 col-md-3" wire:ignore>
                         <label for="data-destination">@lang('translates.general.destination_choose')</label>
