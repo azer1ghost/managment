@@ -26,18 +26,14 @@
 {{--                    @if(in_array($service_id, [1,2,14,16,17,18,19,20,21,22,23,26,27,29,30,15,24,54]))--}}
                         <div class="form-group col-12 col-md-3">
                             <label for="declaration_no">Sorğu nömrəsi</label>
-                            <input value="{{ optional($data)->getAttribute('declaration_no') }}"
-                                   type="text"
-                                   name="declaration_no"
-                                   id="declaration_no"
-                                   class="form-control"
-                                   placeholder="Sorğu nömrəsi daxil edin"
-                                   @if(
-                                       in_array(optional($data)->getAttribute('service_id'), [1,2,16,17,18,19,20,21,22,23,24,26,27,29,30,42,48]) &&
-                                       optional($data)->getAttribute('status') > 3
-                                   )
-                                       required minlength="14"
-                                    @endif
+                            <input
+                                    value="{{ old('declaration_no', optional($data)->getAttribute('declaration_no')) }}"
+                                    type="text"
+                                    name="declaration_no"
+                                    id="declaration_no"
+                                    class="form-control"
+                                    placeholder="Sorğu nömrəsi daxil edin"
+                                    minlength="14"
                             >
                         </div>
 
@@ -579,6 +575,20 @@
                     prev = this.value;
                 }
             });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const requiredServices = [1,2,16,17,18,19,20,21,22,23,24,26,27,29,30,42,48];
+            const declarationInput = document.getElementById("declaration_no");
+
+            const serviceId = {{ (int) optional($data)->getAttribute('service_id') }};
+            const status    = {{ (int) optional($data)->getAttribute('status') }};
+
+            if (requiredServices.includes(serviceId) && status > 3) {
+                declarationInput.setAttribute("required", "required");
+            } else {
+                declarationInput.removeAttribute("required");
+            }
         });
     </script>
 @endpush
