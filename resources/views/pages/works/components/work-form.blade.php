@@ -32,18 +32,16 @@
                                    id="declaration_no"
                                    class="form-control"
                                    placeholder="Sorğu nömrəsi daxil edin"
-                                   @php
-                                       $requiredServiceIds = [1,2,16,17,18,19,20,21,22,23,24,26,27,29,30,42,48];
-                                   @endphp
                                    @if(
-                                       in_array(optional($data)->getAttribute('service_id'), $requiredServiceIds) &&
+                                       in_array(optional($data)->getAttribute('service_id'), [1,2,16,17,18,19,20,21,22,23,24,26,27,29,30,42,48]) &&
                                        optional($data)->getAttribute('status') > 3
                                    )
-                                       required
+                                       required minlength="14"
                                     @endif
                             >
                         </div>
-{{--                    @endif--}}
+
+                        {{--                    @endif--}}
                         <div class="form-group col-12 col-md-3">
                             <label for="transport_no">Nəqliyyat nömrəsi</label>
                             <input value="{{optional($data)->getAttribute('transport_no')}}"
