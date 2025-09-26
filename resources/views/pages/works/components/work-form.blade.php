@@ -26,13 +26,21 @@
 {{--                    @if(in_array($service_id, [1,2,14,16,17,18,19,20,21,22,23,26,27,29,30,15,24,54]))--}}
                         <div class="form-group col-12 col-md-3">
                             <label for="declaration_no">Sorğu nömrəsi</label>
-                            <input value="{{optional($data)->getAttribute('declaration_no')}}"
+                            <input value="{{ optional($data)->getAttribute('declaration_no') }}"
                                    type="text"
                                    name="declaration_no"
                                    id="declaration_no"
                                    class="form-control"
                                    placeholder="Sorğu nömrəsi daxil edin"
-                                   @if(!auth()->user()->hasPermission('canRedirect-work') && optional($data)->getAttribute('status') > 3) minlength="14" required @endif
+                                   @php
+                                       $requiredServiceIds = [1,2,16,17,18,19,20,21,22,23,24,26,27,29,30,42,48];
+                                   @endphp
+                                   @if(
+                                       in_array(optional($data)->getAttribute('service_id'), $requiredServiceIds) &&
+                                       optional($data)->getAttribute('status') > 3
+                                   )
+                                       required
+                                    @endif
                             >
                         </div>
 {{--                    @endif--}}
