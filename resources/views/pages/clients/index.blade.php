@@ -383,6 +383,19 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="form-group mt-3">
+                                <label for="data-department">Select Department</label><br/>
+                                <select id="data-department"
+                                        name="department_id"
+                                        required
+                                        class="filterSelector form-control"
+                                        data-width="fit"
+                                        title="@lang('translates.filters.select')">
+                                    @foreach($departments as $department)
+                                        <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('translates.buttons.close')</button>

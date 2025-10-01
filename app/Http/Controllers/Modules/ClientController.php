@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
+
 class ClientController extends Controller
 {
     protected ClientRepositoryInterface $clientRepository;
@@ -125,6 +126,7 @@ class ClientController extends Controller
                 'users' => User::isActive()->get(['id', 'name', 'surname']),
                 'services' => $services,
                 'paymentMethods' => $paymentMethods,
+                'departments' => Department::select('id','name')->orderBy('name')->get(),
             ]);
     }
 
