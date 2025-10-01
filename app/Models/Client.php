@@ -93,7 +93,7 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
 
     public function coordinators(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'coordinators_clients_relationship');
+        return $this->belongsToMany(User::class, 'coordinators_clients_relationship')->withPivot('department_id');
     }
     public function sales(): BelongsToMany
     {

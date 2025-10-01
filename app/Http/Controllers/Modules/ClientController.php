@@ -305,14 +305,29 @@ class ClientController extends Controller
     public function sumAssignCoordinators(Request $request)
     {
         $err = 0;
-        foreach (explode(',', $request->get('clients')) as $client) {
-            if (!Client::find($client)->coordinators()->sync($request->get('users'))) {
+
+        foreach (explode(',', $request->get('clients')) as $clientId) {
+            $client = Client::find($clientId);
+            if (!$client) {
+                $err = 400;
+                continue;
+            }
+
+            try {
+                $client->coordinators()->syncWithPivotValues(
+                    $request->get('users', []),
+                    ['department_id' => $request->get('department_id')],
+                    false
+                );
+            } catch (\Throwable $e) {
                 $err = 400;
             }
         }
-        if ($err == 400) {
-            return response()->setStatusCode('204');
+
+        if ($err === 400) {
+            return response()->setStatusCode(204);
         }
+
         return response('OK');
     }
     public function sumAssignSales(Request $request)
