@@ -1482,7 +1482,70 @@ class WorkController extends Controller
             + ($HNBGICashTotals['MOBIL'] ?? 0) + ($HNBGICashTotals['TEDORA'] ?? 0) + ($HNBGICashTotals['MIND'] ?? 0)
             + ($HNBGICashTotals['ASAZA'] ?? 0) + ($HNBGICashTotals['MOBEX'] ?? 0);
 
+        $__start12 = Carbon::now()->subMonthsNoOverflow(12)->startOfMonth()->toDateString();
+        $__end12   = Carbon::now()->endOfDay()->toDateString();
 
+// Son 12 ay üçün ayrıca kolleksiyalar (paid_at / vat_date / created_at)
+        $__works12 = Work::whereBetween('paid_at', [$__start12, $__end12])
+            ->with('parameters')->get();
+
+        $__vatWorks12 = Work::whereBetween('vat_date', [$__start12, $__end12])
+            ->with('parameters')->get();
+
+        $__createdWorks12 = Work::whereBetween('created_at', [$__start12, $__end12])
+            ->with('parameters')->get();
+
+// Ümumi period set (duplicate-ləri at)
+        $__periodWorks12 = $__works12->merge($__vatWorks12)->merge($__createdWorks12)->unique('id');
+
+// Kateqoriya (şirkət) üzrə nağd/bank/total hesabla
+        $__companyTotals12 = [];
+        foreach ($CompanyCategories as $__category => $__asanIds) {
+            $__cash = calculateCashTotal($__periodWorks12, $__asanIds);
+            $__bank = calculateBankTotal($__periodWorks12, $__asanIds);
+            $__companyTotals12[$__category] = [
+                'cash'  => $__cash,
+                'bank'  => $__bank,
+                'total' => $__cash + $__bank,
+            ];
+        }
+
+// Sadə “obşi” dəyişənlər
+        $mobilCash  = $__companyTotals12['MOBIL']['cash']   ?? 0;
+        $mobilBank  = $__companyTotals12['MOBIL']['bank']   ?? 0;
+        $mobil      = $__companyTotals12['MOBIL']['total']  ?? 0;
+
+        $garantCash = $__companyTotals12['GARANT']['cash']  ?? 0;
+        $garantBank = $__companyTotals12['GARANT']['bank']  ?? 0;
+        $garant     = $__companyTotals12['GARANT']['total'] ?? 0;
+
+        $mindCash   = $__companyTotals12['MIND']['cash']    ?? 0;
+        $mindBank   = $__companyTotals12['MIND']['bank']    ?? 0;
+        $mind       = $__companyTotals12['MIND']['total']   ?? 0;
+
+        $rigelCash  = $__companyTotals12['RIGEL']['cash']   ?? 0;
+        $rigelBank  = $__companyTotals12['RIGEL']['bank']   ?? 0;
+        $rigel      = $__companyTotals12['RIGEL']['total']  ?? 0;
+
+        $asazaCash  = $__companyTotals12['ASAZA']['cash']   ?? 0;
+        $asazaBank  = $__companyTotals12['ASAZA']['bank']   ?? 0;
+        $asaza      = $__companyTotals12['ASAZA']['total']  ?? 0;
+
+        $tedoraCash = $__companyTotals12['TEDORA']['cash']  ?? 0;
+        $tedoraBank = $__companyTotals12['TEDORA']['bank']  ?? 0;
+        $tedora     = $__companyTotals12['TEDORA']['total'] ?? 0;
+
+        $declareCash= $__companyTotals12['DECLARE']['cash'] ?? 0;
+        $declareBank= $__companyTotals12['DECLARE']['bank'] ?? 0;
+        $declare    = $__companyTotals12['DECLARE']['total']?? 0;
+
+        $mobexCash  = $__companyTotals12['MOBEX']['cash']   ?? 0;
+        $mobexBank  = $__companyTotals12['MOBEX']['bank']   ?? 0;
+        $mobex      = $__companyTotals12['MOBEX']['total']  ?? 0;
+
+// Blade-də loop üçün ayrıca massiv və tarix aralığı
+        $companyObshi = $__companyTotals12;
+        $obshiRange12 = [$__start12, $__end12];
 
         return view('pages.works.total',
             compact(
@@ -1547,6 +1610,16 @@ class WorkController extends Controller
                         'logSales',
                         'logPurchase',
 //                        'dateFilters',
+                // ... digərlərinin yanına əlavə et:
+                'mobil','mobilCash','mobilBank',
+                'garant','garantCash','garantBank',
+                'mind','mindCash','mindBank',
+                'rigel','rigelCash','rigelBank',
+                'asaza','asazaCash','asazaBank',
+                'tedora','tedoraCash','tedoraBank',
+                'declare','declareCash','declareBank',
+                'mobex','mobexCash','mobexBank',
+                'companyObshi','obshiRange12',
             ));
     }
     public function showInformation(Request $request)
