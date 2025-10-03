@@ -1482,69 +1482,6 @@ class WorkController extends Controller
             + ($HNBGICashTotals['MOBIL'] ?? 0) + ($HNBGICashTotals['TEDORA'] ?? 0) + ($HNBGICashTotals['MIND'] ?? 0)
             + ($HNBGICashTotals['ASAZA'] ?? 0) + ($HNBGICashTotals['MOBEX'] ?? 0);
 
-        // ===== OBŞİ: SON 12 AY (NAĞD + BANK) =====
-// Qeyd: faylın yuxarısında 'use Carbon\Carbon;' varsa normal Carbon yaz,
-// yoxdursa tam ad sahəsi ilə istifadə et: \Carbon\Carbon
-
-        $__start12 = \Carbon\Carbon::now()->subMonthsNoOverflow(12)->startOfMonth()->toDateString();
-        $__end12   = \Carbon\Carbon::now()->endOfDay()->toDateString();
-
-// Eyni request-də ayrıca üç query yerinə birləşdirilmiş query də yaza bilərsən:
-        $__periodWorks12 = Work::query()
-            ->whereBetween('paid_at',   [$__start12, $__end12])
-            ->orWhereBetween('vat_date',   [$__start12, $__end12])
-            ->orWhereBetween('created_at', [$__start12, $__end12])
-            ->with('parameters')
-            ->get()
-            ->unique('id');
-
-// Kateqoriya (şirkət) üzrə nağd/bank/total
-        $__companyTotals12 = [];
-        foreach ($CompanyCategories as $__category => $__asanIds) {
-            $cash = calculateCashTotal($__periodWorks12, $__asanIds);
-            $bank = calculateBankTotal($__periodWorks12, $__asanIds);
-            $__companyTotals12[$__category] = [
-                'cash'  => $cash,
-                'bank'  => $bank,
-                'total' => $cash + $bank,
-            ];
-        }
-
-// Sadə “obşi” dəyişənlər
-        $mobilCash  = $__companyTotals12['MOBIL']['cash']   ?? 0;
-        $mobilBank  = $__companyTotals12['MOBIL']['bank']   ?? 0;
-        $mobil      = $__companyTotals12['MOBIL']['total']  ?? 0;
-
-        $garantCash = $__companyTotals12['GARANT']['cash']  ?? 0;
-        $garantBank = $__companyTotals12['GARANT']['bank']  ?? 0;
-        $garant     = $__companyTotals12['GARANT']['total'] ?? 0;
-
-        $mindCash   = $__companyTotals12['MIND']['cash']    ?? 0;
-        $mindBank   = $__companyTotals12['MIND']['bank']    ?? 0;
-        $mind       = $__companyTotals12['MIND']['total']   ?? 0;
-
-        $rigelCash  = $__companyTotals12['RIGEL']['cash']   ?? 0;
-        $rigelBank  = $__companyTotals12['RIGEL']['bank']   ?? 0;
-        $rigel      = $__companyTotals12['RIGEL']['total']  ?? 0;
-
-        $asazaCash  = $__companyTotals12['ASAZA']['cash']   ?? 0;
-        $asazaBank  = $__companyTotals12['ASAZA']['bank']   ?? 0;
-        $asaza      = $__companyTotals12['ASAZA']['total']  ?? 0;
-
-        $tedoraCash = $__companyTotals12['TEDORA']['cash']  ?? 0;
-        $tedoraBank = $__companyTotals12['TEDORA']['bank']  ?? 0;
-        $tedora     = $__companyTotals12['TEDORA']['total'] ?? 0;
-
-        $declareCash= $__companyTotals12['DECLARE']['cash'] ?? 0;
-        $declareBank= $__companyTotals12['DECLARE']['bank'] ?? 0;
-        $declare    = $__companyTotals12['DECLARE']['total']?? 0;
-
-        $mobexCash  = $__companyTotals12['MOBEX']['cash']   ?? 0;
-        $mobexBank  = $__companyTotals12['MOBEX']['bank']   ?? 0;
-        $mobex      = $__companyTotals12['MOBEX']['total']  ?? 0;
-
-        $companyObshi = $__companyTotals12;
-        $obshiRange12 = [$__start12, $__end12];
 
 
         return view('pages.works.total',
@@ -1610,16 +1547,6 @@ class WorkController extends Controller
                         'logSales',
                         'logPurchase',
 //                        'dateFilters',
-                // ... digərlərinin yanına əlavə et:
-                'mobil','mobilCash','mobilBank',
-                'garant','garantCash','garantBank',
-                'mind','mindCash','mindBank',
-                'rigel','rigelCash','rigelBank',
-                'asaza','asazaCash','asazaBank',
-                'tedora','tedoraCash','tedoraBank',
-                'declare','declareCash','declareBank',
-                'mobex','mobexCash','mobexBank',
-                'companyObshi','obshiRange12',
             ));
     }
     public function showInformation(Request $request)
