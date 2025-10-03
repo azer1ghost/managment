@@ -1482,27 +1482,45 @@ class WorkController extends Controller
             + ($HNBGICashTotals['MOBIL'] ?? 0) + ($HNBGICashTotals['TEDORA'] ?? 0) + ($HNBGICashTotals['MIND'] ?? 0)
             + ($HNBGICashTotals['ASAZA'] ?? 0) + ($HNBGICashTotals['MOBEX'] ?? 0);
 
-        $__start12 = now()->subMonths(12)->startOfMonth()->format('Y-m-d');
-        $__end12   = now()->endOfDay()->format('Y-m-d');
+        $start12 = now()->copy()->subMonths(12)->startOfMonth()->format('Y-m-d H:i:s');
+        $end12   = now()->copy()->endOfDay()->format('Y-m-d H:i:s');
 
-// Yalnız created_at üzrə işlər
-        $__periodWorks12 = Work::whereBetween('created_at', [$__start12, $__end12])
+// Yalnız created_at aralığına düşən işlər (son 12 ay)
+        $periodWorks12 = Work::whereBetween('created_at', [$start12, $end12])
             ->with('parameters')
             ->get();
 
-// Şirkət üzrə nağd/bank/total
+// Şirkət üzrə (CompanyCategories) nağd/bank/total hesabla
         $companyObshi12 = [];
-        foreach ($CompanyCategories as $__category => $__asanIds) {
-            $cash = calculateCashTotal($__periodWorks12, $__asanIds);
-            $bank = calculateBankTotal($__periodWorks12, $__asanIds);
-            $companyObshi12[$__category] = [
+        foreach ($CompanyCategories as $category => $asanImzaIds) {
+            // Nağd
+            $cash = $periodWorks12
+                ->whereIn('asan_imza_id', $asanImzaIds)
+                ->where('payment_method', 1)
+                ->sum(function ($item) {
+                    return (float)$item->getParameter(Work::ILLEGALPAID)
+                        + (float)$item->getParameter(Work::VATPAYMENT)
+                        + (float)$item->getParameter(Work::PAID);
+                });
+
+            // Bank
+            $bank = $periodWorks12
+                ->whereIn('asan_imza_id', $asanImzaIds)
+                ->where('payment_method', 2)
+                ->sum(function ($item) {
+                    return (float)$item->getParameter(Work::ILLEGALPAID)
+                        + (float)$item->getParameter(Work::VATPAYMENT)
+                        + (float)$item->getParameter(Work::PAID);
+                });
+
+            $companyObshi12[$category] = [
                 'cash'  => $cash,
                 'bank'  => $bank,
                 'total' => $cash + $bank,
             ];
         }
 
-// Ayrı dəyişənlər
+// Blade-də birbaşa istifadə üçün sadə dəyişənlər
         $mobil12   = $companyObshi12['MOBIL']['total']   ?? 0;
         $garant12  = $companyObshi12['GARANT']['total']  ?? 0;
         $mind12    = $companyObshi12['MIND']['total']    ?? 0;
@@ -1512,7 +1530,7 @@ class WorkController extends Controller
         $declare12 = $companyObshi12['DECLARE']['total'] ?? 0;
         $mobex12   = $companyObshi12['MOBEX']['total']   ?? 0;
 
-        $obshiRange12 = [$__start12, $__end12];
+        $obshiRange12 = [$start12, $end12];
 
 
         return view('pages.works.total',
