@@ -12,8 +12,7 @@ use Illuminate\Support\Str;
 use App\Models\{AsanImza, Company, Department, Logistics, Service, User, Work, Client};
 
 use Carbon\Carbon;
-
-use DB;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\{RedirectResponse, Request};
 
@@ -1574,5 +1573,40 @@ class WorkController extends Controller
         });
 
         return view('pages.works.information', compact('formattedWorks'));
+    }
+
+    public function companyPaymentsLastYear(Request $request)
+    {
+        $since = now()->subYear()->startOfDay();
+
+        // Subquery: hər iş üçün amount = 33+34+38 parametrlərinin cəmi
+        $amountSub = DB::raw("
+            (
+                SELECT wp.work_id, SUM(CAST(wp.value AS DECIMAL(18,2))) AS amount
+                FROM work_parameter wp
+                WHERE wp.parameter_id IN (33,34,38)
+                GROUP BY wp.work_id
+            ) AS amt
+        ");
+
+        $rows = DB::table('works as w')
+            ->join('asan_imzalar as ai', 'ai.id', '=', 'w.asan_imza_id')
+            ->join('companies as c', 'c.id', '=', 'ai.company_id')
+            ->join($amountSub, 'amt.work_id', '=', 'w.id')
+            ->whereNotNull('w.asan_imza_id')
+            ->where('w.created_at', '>=', $since)
+            ->groupBy('c.id', 'c.name')
+            ->select([
+                'c.id as company_id',
+                'c.name as company_name',
+                DB::raw('SUM(amt.amount) AS total_payment')
+            ])
+            ->orderByDesc('total_payment')
+            ->get();
+
+        return response()->json([
+            'since' => $since->toDateString(),
+            'data'  => $rows,
+        ]);
     }
 }

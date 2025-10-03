@@ -381,7 +381,118 @@
         </tbody>
     </table>
 
-
-
-
+    <div class="card mt-4" id="company-payments-card">
+        <div class="card-header">
+            Son 1 il üzrə şirkətə görə ödəniş cəmləri
+            <small class="text-muted" id="company-payments-since"></small>
+        </div>
+        <div class="card-body p-0">
+            <div class="p-3" id="company-payments-loading">Yüklənir...</div>
+            <div class="table-responsive d-none" id="company-payments-wrapper">
+                <table class="table table-striped mb-0" id="company-payments-table">
+                    <thead>
+                    <tr>
+                        <th style="width:70px">#</th>
+                        <th>Şirkət</th>
+                        <th class="text-right">Ödəniş cəmi</th>
+                    </tr>
+                    </thead>
+                    <tbody><!-- JS dolduracaq --></tbody>
+                </table>
+            </div>
+            <div class="p-3 text-danger d-none" id="company-payments-error"></div>
+        </div>
+    </div>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const url = "{{ route('reports.company_payments_last_year') }}";
+            const loadingEl = document.getElementById('company-payments-loading');
+            const wrapperEl = document.getElementById('company-payments-wrapper');
+            const tbodyEl   = document.querySelector('#company-payments-table tbody');
+            const errorEl   = document.getElementById('company-payments-error');
+            const sinceEl   = document.getElementById('company-payments-since');
+
+            function fmt(n){
+                if(n === null || n === undefined || isNaN(n)) return '0.00';
+                // Azərbaycan formatında boşluq min separatoru, '.' isə onluq
+                return Number(n).toLocaleString('az-AZ', {minimumFractionDigits:2, maximumFractionDigits:2});
+            }
+
+            async function loadCompanyPayments(){
+                try{
+                    loadingEl.classList.remove('d-none');
+                    wrapperEl.classList.add('d-none');
+                    errorEl.classList.add('d-none');
+                    errorEl.textContent = '';
+
+                    const res = await fetch(url, {
+                        headers: { 'Accept': 'application/json' },
+                        credentials: 'same-origin' // auth cookie varsa
+                    });
+
+                    if(!res.ok){
+                        throw new Error('Server xətası: ' + res.status);
+                    }
+
+                    const json = await res.json();
+                    const rows = json.data || [];
+                    sinceEl.textContent = rows.length ? ` (başlanğıc: ${json.since})` : '';
+
+                    // Tbody təmizlə
+                    tbodyEl.innerHTML = '';
+
+                    if(rows.length === 0){
+                        tbodyEl.innerHTML = '<tr><td colspan="3" class="text-center text-muted p-3">Məlumat tapılmadı</td></tr>';
+                    }else{
+                        rows.forEach((r, i) => {
+                            const tr = document.createElement('tr');
+
+                            const tdIdx = document.createElement('td');
+                            tdIdx.textContent = (i+1).toString();
+
+                            const tdCompany = document.createElement('td');
+                            tdCompany.textContent = r.company_name ?? '—';
+
+                            const tdTotal = document.createElement('td');
+                            tdTotal.className = 'text-right';
+                            tdTotal.textContent = fmt(r.total_payment);
+
+                            tr.appendChild(tdIdx);
+                            tr.appendChild(tdCompany);
+                            tr.appendChild(tdTotal);
+
+                            tbodyEl.appendChild(tr);
+                        });
+                    }
+
+                    wrapperEl.classList.remove('d-none');
+                }catch(e){
+                    errorEl.textContent = e.message || 'Bilinməyən xəta baş verdi.';
+                    errorEl.classList.remove('d-none');
+                }finally{
+                    loadingEl.classList.add('d-none');
+                }
+            }
+
+            // İlk yükləmədə çək
+            loadCompanyPayments();
+
+            // (İstəyə bağlı) üst form submit olunanda tam səhifə refresh əvəzinə yenilə:
+            const filterForm = document.querySelector('form[action="{{ route('total') }}"]');
+            if(filterForm){
+                filterForm.addEventListener('submit', function(ev){
+                    // Əgər bu cədvəl də filterlərdən asılı olsun istəyirsənsə,
+                    // burada url-ə query string əlavə edib loadCompanyPayments-i ona görə yazmaq lazımdır.
+                    // Hazırda bu cədvəl son 1 ilə görədir deyə, default davranışı saxlayırıq.
+                    // Evita edirsənsə, aşağıdakı iki sətri aç və uyğunlaşdır:
+                    // ev.preventDefault();
+                    // loadCompanyPayments();
+                });
+            }
+        });
+    </script>
+@endpush
+

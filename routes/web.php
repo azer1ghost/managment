@@ -162,6 +162,8 @@ Route::group([
     Route::resource('/employee-registrations', EmployeeRegistrationController::class);
     Route::post('/employee-registrations', [EmployeeRegistrationController::class, 'store'])->name('employee-registrations.store');
     Route::get('employee-registrations/get-status', [EmployeeRegistrationController::class, 'getStatus'])->name('employee-registrations.getStatus');
+    Route::get('/reports/company-payments-last-year', [WorkController::class, 'companyPaymentsLastYear'])
+        ->name('reports.company_payments_last_year');
     Route::resource('/asan-imza', AsanImzaController::class);
     Route::resource('/widgets', WidgetController::class);
     Route::resource('/calendars', CalendarController::class)->except('show', 'create', 'edit');
