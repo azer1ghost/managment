@@ -1482,31 +1482,31 @@ class WorkController extends Controller
             + ($HNBGICashTotals['MOBIL'] ?? 0) + ($HNBGICashTotals['TEDORA'] ?? 0) + ($HNBGICashTotals['MIND'] ?? 0)
             + ($HNBGICashTotals['ASAZA'] ?? 0) + ($HNBGICashTotals['MOBEX'] ?? 0);
 
-        $__start12 = Carbon::now()->subMonthsNoOverflow(12)->startOfMonth()->toDateString();
-        $__end12   = Carbon::now()->endOfDay()->toDateString();
+        // ===== OBŞİ: SON 12 AY (NAĞD + BANK) =====
+// Qeyd: faylın yuxarısında 'use Carbon\Carbon;' varsa normal Carbon yaz,
+// yoxdursa tam ad sahəsi ilə istifadə et: \Carbon\Carbon
 
-// Son 12 ay üçün ayrıca kolleksiyalar (paid_at / vat_date / created_at)
-        $__works12 = Work::whereBetween('paid_at', [$__start12, $__end12])
-            ->with('parameters')->get();
+        $__start12 = \Carbon\Carbon::now()->subMonthsNoOverflow(12)->startOfMonth()->toDateString();
+        $__end12   = \Carbon\Carbon::now()->endOfDay()->toDateString();
 
-        $__vatWorks12 = Work::whereBetween('vat_date', [$__start12, $__end12])
-            ->with('parameters')->get();
+// Eyni request-də ayrıca üç query yerinə birləşdirilmiş query də yaza bilərsən:
+        $__periodWorks12 = Work::query()
+            ->whereBetween('paid_at',   [$__start12, $__end12])
+            ->orWhereBetween('vat_date',   [$__start12, $__end12])
+            ->orWhereBetween('created_at', [$__start12, $__end12])
+            ->with('parameters')
+            ->get()
+            ->unique('id');
 
-        $__createdWorks12 = Work::whereBetween('created_at', [$__start12, $__end12])
-            ->with('parameters')->get();
-
-// Ümumi period set (duplicate-ləri at)
-        $__periodWorks12 = $__works12->merge($__vatWorks12)->merge($__createdWorks12)->unique('id');
-
-// Kateqoriya (şirkət) üzrə nağd/bank/total hesabla
+// Kateqoriya (şirkət) üzrə nağd/bank/total
         $__companyTotals12 = [];
         foreach ($CompanyCategories as $__category => $__asanIds) {
-            $__cash = calculateCashTotal($__periodWorks12, $__asanIds);
-            $__bank = calculateBankTotal($__periodWorks12, $__asanIds);
+            $cash = calculateCashTotal($__periodWorks12, $__asanIds);
+            $bank = calculateBankTotal($__periodWorks12, $__asanIds);
             $__companyTotals12[$__category] = [
-                'cash'  => $__cash,
-                'bank'  => $__bank,
-                'total' => $__cash + $__bank,
+                'cash'  => $cash,
+                'bank'  => $bank,
+                'total' => $cash + $bank,
             ];
         }
 
@@ -1543,9 +1543,9 @@ class WorkController extends Controller
         $mobexBank  = $__companyTotals12['MOBEX']['bank']   ?? 0;
         $mobex      = $__companyTotals12['MOBEX']['total']  ?? 0;
 
-// Blade-də loop üçün ayrıca massiv və tarix aralığı
         $companyObshi = $__companyTotals12;
         $obshiRange12 = [$__start12, $__end12];
+
 
         return view('pages.works.total',
             compact(
