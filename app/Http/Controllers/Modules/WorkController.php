@@ -1482,6 +1482,37 @@ class WorkController extends Controller
             + ($HNBGICashTotals['MOBIL'] ?? 0) + ($HNBGICashTotals['TEDORA'] ?? 0) + ($HNBGICashTotals['MIND'] ?? 0)
             + ($HNBGICashTotals['ASAZA'] ?? 0) + ($HNBGICashTotals['MOBEX'] ?? 0);
 
+        $__start12 = now()->subMonths(12)->startOfMonth()->format('Y-m-d');
+        $__end12   = now()->endOfDay()->format('Y-m-d');
+
+// Yalnız created_at üzrə işlər
+        $__periodWorks12 = Work::whereBetween('created_at', [$__start12, $__end12])
+            ->with('parameters')
+            ->get();
+
+// Şirkət üzrə nağd/bank/total
+        $companyObshi12 = [];
+        foreach ($CompanyCategories as $__category => $__asanIds) {
+            $cash = calculateCashTotal($__periodWorks12, $__asanIds);
+            $bank = calculateBankTotal($__periodWorks12, $__asanIds);
+            $companyObshi12[$__category] = [
+                'cash'  => $cash,
+                'bank'  => $bank,
+                'total' => $cash + $bank,
+            ];
+        }
+
+// Ayrı dəyişənlər
+        $mobil12   = $companyObshi12['MOBIL']['total']   ?? 0;
+        $garant12  = $companyObshi12['GARANT']['total']  ?? 0;
+        $mind12    = $companyObshi12['MIND']['total']    ?? 0;
+        $rigel12   = $companyObshi12['RIGEL']['total']   ?? 0;
+        $asaza12   = $companyObshi12['ASAZA']['total']   ?? 0;
+        $tedora12  = $companyObshi12['TEDORA']['total']  ?? 0;
+        $declare12 = $companyObshi12['DECLARE']['total'] ?? 0;
+        $mobex12   = $companyObshi12['MOBEX']['total']   ?? 0;
+
+        $obshiRange12 = [$__start12, $__end12];
 
 
         return view('pages.works.total',
@@ -1547,6 +1578,10 @@ class WorkController extends Controller
                         'logSales',
                         'logPurchase',
 //                        'dateFilters',
+                'companyObshi12','obshiRange12',
+                'mobil12','garant12','mind12','rigel12',
+                'asaza12','tedora12','declare12','mobex12',
+
             ));
     }
     public function showInformation(Request $request)
