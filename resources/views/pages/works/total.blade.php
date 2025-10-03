@@ -381,7 +381,6 @@
         </tbody>
     </table>
 
-    MOBIL = {{ number_format($mobil12, 2) }} (son 12 aydakı dövriyyəsi)
 
 
 

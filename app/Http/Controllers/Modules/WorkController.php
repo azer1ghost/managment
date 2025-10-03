@@ -1482,62 +1482,6 @@ class WorkController extends Controller
             + ($HNBGICashTotals['MOBIL'] ?? 0) + ($HNBGICashTotals['TEDORA'] ?? 0) + ($HNBGICashTotals['MIND'] ?? 0)
             + ($HNBGICashTotals['ASAZA'] ?? 0) + ($HNBGICashTotals['MOBEX'] ?? 0);
 
-        $__start12 = Carbon::now()->subMonthsNoOverflow(12)->startOfMonth()->toDateString();
-        $__end12   = Carbon::now()->endOfDay()->toDateString();
-
-        $__periodWorks12 = Work::query()
-            ->whereBetween('paid_at',     [$__start12, $__end12])
-            ->orWhereBetween('vat_date',   [$__start12, $__end12])
-            ->orWhereBetween('created_at', [$__start12, $__end12])
-            ->with('parameters')
-            ->get()
-            ->unique('id');
-
-        $companyObshi12 = [];
-        foreach ($CompanyCategories as $__category => $__asanIds) {
-            $cash = calculateCashTotal($__periodWorks12, $__asanIds);
-            $bank = calculateBankTotal($__periodWorks12, $__asanIds);
-            $companyObshi12[$__category] = [
-                'cash'  => $cash,
-                'bank'  => $bank,
-                'total' => $cash + $bank,
-            ];
-        }
-        $mobilCash12   = $companyObshi12['MOBIL']['cash']   ?? 0;
-        $mobilBank12   = $companyObshi12['MOBIL']['bank']   ?? 0;
-        $mobil12       = $companyObshi12['MOBIL']['total']  ?? 0;
-
-        $garantCash12  = $companyObshi12['GARANT']['cash']  ?? 0;
-        $garantBank12  = $companyObshi12['GARANT']['bank']  ?? 0;
-        $garant12      = $companyObshi12['GARANT']['total'] ?? 0;
-
-        $mindCash12    = $companyObshi12['MIND']['cash']    ?? 0;
-        $mindBank12    = $companyObshi12['MIND']['bank']    ?? 0;
-        $mind12        = $companyObshi12['MIND']['total']   ?? 0;
-
-        $rigelCash12   = $companyObshi12['RIGEL']['cash']   ?? 0;
-        $rigelBank12   = $companyObshi12['RIGEL']['bank']   ?? 0;
-        $rigel12       = $companyObshi12['RIGEL']['total']  ?? 0;
-
-        $asazaCash12   = $companyObshi12['ASAZA']['cash']   ?? 0;
-        $asazaBank12   = $companyObshi12['ASAZA']['bank']   ?? 0;
-        $asaza12       = $companyObshi12['ASAZA']['total']  ?? 0;
-
-        $tedoraCash12  = $companyObshi12['TEDORA']['cash']  ?? 0;
-        $tedoraBank12  = $companyObshi12['TEDORA']['bank']  ?? 0;
-        $tedora12      = $companyObshi12['TEDORA']['total'] ?? 0;
-
-        $declareCash12 = $companyObshi12['DECLARE']['cash'] ?? 0;
-        $declareBank12 = $companyObshi12['DECLARE']['bank'] ?? 0;
-        $declare12     = $companyObshi12['DECLARE']['total']?? 0;
-
-        $mobexCash12   = $companyObshi12['MOBEX']['cash']   ?? 0;
-        $mobexBank12   = $companyObshi12['MOBEX']['bank']   ?? 0;
-        $mobex12       = $companyObshi12['MOBEX']['total']  ?? 0;
-
-        $obshiRange12  = [$__start12, $__end12];
-
-
 
 
         return view('pages.works.total',
@@ -1603,16 +1547,6 @@ class WorkController extends Controller
                         'logSales',
                         'logPurchase',
 //                        'dateFilters',
-                'companyObshi12','obshiRange12',
-                'mobil12','mobilCash12','mobilBank12',
-                'garant12','garantCash12','garantBank12',
-                'mind12','mindCash12','mindBank12',
-                'rigel12','rigelCash12','rigelBank12',
-                'asaza12','asazaCash12','asazaBank12',
-                'tedora12','tedoraCash12','tedoraBank12',
-                'declare12','declareCash12','declareBank12',
-                'mobex12','mobexCash12','mobexBank12',
-
             ));
     }
     public function showInformation(Request $request)
