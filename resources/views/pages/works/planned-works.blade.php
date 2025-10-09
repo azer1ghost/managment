@@ -96,6 +96,16 @@
                                 @endforeach
                             </select>
                         </div>
+                            <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">
+                                <label for="codeFilter">Sorğu nömrəsinə görə axtarış</label>
+                                <input type="search" id="codeFilter" name="declaration_no" value="{{$filters['declaration_no']}}"
+                                       placeholder="Sorğu nömrəsi" class="form-control">
+                            </div>
+                            <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">
+                                <label for="codeFilter">Nəqliyyat nömrəsinə görə axtarış</label>
+                                <input type="search" id="codeFilter" name="transport_no" value="{{$filters['transport_no']}}"
+                                       placeholder="Nəqliyyat nömrəsi" class="form-control">
+                            </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
