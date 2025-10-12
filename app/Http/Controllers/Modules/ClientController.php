@@ -17,6 +17,7 @@ use App\Models\Service;
 use App\Models\User;
 use App\Models\Work;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -304,9 +305,12 @@ class ClientController extends Controller
 
     public function sumAssignCoordinators(Request $request)
     {
+        $clientIds = explode(',', $request->get('clients'));
+        $userIds = $request->get('users', []);
+        $departmentId = $request->get('department_id');
         $err = 0;
 
-        foreach (explode(',', $request->get('clients')) as $clientId) {
+        foreach ($clientIds as $clientId) {
             $client = Client::find($clientId);
             if (!$client) {
                 $err = 400;
@@ -314,11 +318,19 @@ class ClientController extends Controller
             }
 
             try {
-                $client->coordinators()->syncWithPivotValues(
-                    $request->get('users', []),
-                    ['department_id' => $request->get('department_id')],
-                    false
-                );
+                foreach ($userIds as $userId) {
+                    $exists = DB::table('coordinators_clients_relationship')
+                        ->where('client_id', $clientId)
+                        ->where('user_id', $userId)
+                        ->where('department_id', $departmentId)
+                        ->exists();
+
+                    if (!$exists) {
+                        $client->coordinators()->attach($userId, [
+                            'department_id' => $departmentId,
+                        ]);
+                    }
+                }
             } catch (\Throwable $e) {
                 $err = 400;
             }
