@@ -242,7 +242,7 @@
                                                 {{ $coordinator->name }}
 
                                                 @php
-                                                    $department = $client->departments->firstWhere('id', $coordinator->pivot->department_id);
+                                                    $department = optional($client->departments)->firstWhere('id', $coordinator->pivot->department_id);
                                                 @endphp
 
                                                 @if($department)
