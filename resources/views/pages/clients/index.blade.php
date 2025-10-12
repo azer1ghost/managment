@@ -239,7 +239,16 @@
                                     <td>{{$client->getRelationValue('users')->getAttribute('id') ? $client->getRelationValue('users')->getAttribute('fullname_with_position') : 'Toğrul Surxayzadə-(Hüquqşünas)'}}</td>
                                         <td>
                                             @foreach($client->coordinators as $coordinator)
-                                                {{ $coordinator->name }} <br>
+                                                {{ $coordinator->name }}
+
+                                                @php
+                                                    $department = $client->departments->firstWhere('id', $coordinator->pivot->department_id);
+                                                @endphp
+
+                                                @if($department)
+                                                    <small class="text-muted">({{ $department->name }})</small>
+                                                @endif
+                                                <br>
                                             @endforeach
                                         </td>
                                     <td>
