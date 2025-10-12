@@ -241,13 +241,13 @@
                                             @foreach($client->coordinators as $coordinator)
                                                 {{ $coordinator->name }}
 
-                                                @php
-                                                    $department = optional($client->departments)->firstWhere('id', $coordinator->pivot->department_id);
-                                                @endphp
-
-                                                @if($department)
-                                                    <small class="text-muted">({{ $department->name }})</small>
+                                                @if($coordinator->pivot->department_id)
+                                                    @php
+                                                        $departmentName = \App\Models\Department::where('id', $coordinator->pivot->department_id)->value('name');
+                                                    @endphp
+                                                    <small class="text-muted">({{ $departmentName }})</small>
                                                 @endif
+
                                                 <br>
                                             @endforeach
                                         </td>
