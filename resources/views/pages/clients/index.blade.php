@@ -201,9 +201,9 @@
                         <table  class="table table-responsive-sm table-hover">
                             <thead>
                             <tr>
-{{--                                @if(auth()->user()->hasPermission('canAssignUsers-client'))--}}
+                                @if(auth()->user()->hasPermission('canAssignUsers-client'))
                                     <th><input aria-label="check" type="checkbox" id="clients-all-group1"></th>
-{{--                                @endif--}}
+                                @endif
                                 <th scope="col">#</th>
                                 <th scope="col">@lang('translates.columns.type')</th>
                                 <th scope="col">@lang('translates.columns.company')</th>
@@ -904,6 +904,16 @@
                     });
                 }
             });
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            const selectAll = document.getElementById('clients-all-group1');
+            const checkboxes = document.querySelectorAll('input[name="clients[]"]');
+
+            if (selectAll) {
+                selectAll.addEventListener('change', function () {
+                    checkboxes.forEach(ch => ch.checked = this.checked);
+                });
+            }
         });
 
     </script>
