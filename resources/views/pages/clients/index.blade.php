@@ -333,6 +333,9 @@
                 </div>
             @endif
         </div>
+        @if(auth()->user()->hasPermission('canAssignUsers-client'))
+            <th><input aria-label="check" type="checkbox" id="clients-all-group1"></th>
+        @endif
     </form>
     @if(auth()->user()->hasPermission('canAssignUsers-client'))
         <button type="button" class="btn btn-outline-primary" id="sum-assign-companies" data-toggle="modal" data-target="#sum-assign-modal-companies">
