@@ -959,11 +959,14 @@ class WorkController extends Controller
         $work->unsetRelation('parameters');
         $work->load('parameters', 'client', 'department');
 
-// GB-nin dəyişdiyini yoxlamaq üçün (parametr ID-lə)
+// GB və SERVICECOUNT dəyişikliklərini yoxlamaq üçün (parametr ID-lə)
         $gbParamId = $work::GB;
-        $gbChanged = isset($validated['parameters'][$gbParamId]);
+        $serviceCountParamId = $work::SERVICECOUNT;
 
-        if (Work::getClientServiceAmount($work) > 0 && ($firstAsan == 1 || $gbChanged)) {
+        $gbChanged = isset($validated['parameters'][$gbParamId]);
+        $serviceCountChanged = isset($validated['parameters'][$serviceCountParamId]);
+
+        if (Work::getClientServiceAmount($work) > 0 && ($firstAsan == 1 || $gbChanged || $serviceCountChanged)) {
 
             $serviceId = $request->get('service_id');
             $asanImzaId = $request->get('asan_imza_id');
@@ -1041,6 +1044,7 @@ class WorkController extends Controller
             // VAT pivotunu yenilə
             $work->parameters()->updateExistingPivot($work::VAT, ['value' => $vat]);
         }
+
 
 
 
