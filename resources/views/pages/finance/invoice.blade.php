@@ -437,6 +437,7 @@
                                 <option>Laboratoriya ərizəsinin (şəxsi müraciət əsasında) yazılması xidməti</option>
                                 <option>Ümumi düzəliş ərizəsinin yazılması xidməti</option>
                                 <option>Gömrük bəyannaməsi, invoys və digər xərclər əsas götürülərək maya dəyərinin dəqiq hesablanması xidməti</option>
+                                <option>Təsdiqedici sənəd üçün müraciət</option>
                             </select>
                         </td>
                         <td>Ədəd</td>
