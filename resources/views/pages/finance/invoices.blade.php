@@ -56,7 +56,7 @@
 @section('scripts')
     <script>
         $('#invoices').DataTable({
-            "order": [[0, "desc"]]
+            "order": [[invoiceDate, "desc"]]
         });
 
     </script>
