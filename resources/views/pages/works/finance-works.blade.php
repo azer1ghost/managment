@@ -432,18 +432,24 @@
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     @foreach(\App\Models\Service::serviceParameters() as $param)
                         @if(in_array($param['data']->getAttribute('id'), [17, 33, 34, 35, 36, 38, 37, 20, 48, 50, 55]))
-                            <td @if(auth()->user()->hasPermission('editPrice-work')) class="update"
-                                @endif data-name="{{$param['data']->getAttribute('id')}}"
-                                data-pk="{{ $work->getAttribute('id') }}">{{$work->getParameter($param['data']->getAttribute('id'))}}</td>
+                            <td>
+                                <a href="#"
+                                   @if(auth()->user()->hasPermission('editPrice-work')) class="update" @endif
+                                   data-type="text"
+                                   data-name="{{ $param['data']->getAttribute('id') }}"
+                                   data-pk="{{ $work->getAttribute('id') }}">
+                                    {{ $work->getParameter($param['data']->getAttribute('id')) }}
+                                </a>
+                            </td>
                             @php
-                                if($param['count']){ // check if parameter is countable
+                                if($param['count']) {
                                     $count = (int) $work->getParameter($param['data']->getAttribute('id'));
-                                    if(isset($totals[$param['data']->getAttribute('id')])){
+                                    if(isset($totals[$param['data']->getAttribute('id')])) {
                                         $totals[$param['data']->getAttribute('id')] += $count;
-                                    }else{
+                                    } else {
                                         $totals[$param['data']->getAttribute('id')] = $count;
                                     }
-                                }else{
+                                } else {
                                     $totals[$param['data']->getAttribute('id')] = NULL;
                                 }
                             @endphp
