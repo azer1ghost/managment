@@ -988,6 +988,12 @@
         $('.update').editable({
             url: "{{ route('editable') }}",
         });
+        $('.editable, .update').on('save', function(e, params) {
+            if (params.response && params.response.amount !== null) {
+                $('#amount_' + params.pk).text(params.response.amount);
+                $('#vat_' + params.pk).text(params.response.vat);
+            }
+        });
     </script>
     <script>
         $(".js-example-theme-multiple").select2({

@@ -1199,14 +1199,129 @@ class WorkController extends Controller
         ]);
     }
 
+//    public function editable(Request $request)
+//    {
+//        if ($request->ajax()) {
+//            $work = Work::find($request->pk);
+//            $work->parameters()->updateExistingPivot($request->name, ['value' => $request->value]);
+//            return response()->json(['success' => true]);
+//        }
+//    }
+
     public function editable(Request $request)
     {
         if ($request->ajax()) {
-            $work = Work::find($request->pk);
+            $work = Work::with('parameters', 'client', 'department')->find($request->pk);
+
+            // Pivot dəyəri yenilə
             $work->parameters()->updateExistingPivot($request->name, ['value' => $request->value]);
-            return response()->json(['success' => true]);
+
+            // Cache təmizləmək üçün relation-ı yenilə
+            $work->unsetRelation('parameters');
+            $work->load('parameters', 'client', 'department');
+
+            // Yenilənən parametrin ID-sini yoxla
+            $paramId = (int)$request->name;
+
+            // Hansı parametrlər dəyişəndə hesablama getsin
+            $recalcParams = [
+                $work::GB,
+                $work::SERVICECOUNT,
+                $work::MAINPAGE,
+            ];
+
+            $amount = null;
+            $vat = null;
+
+            // Əgər dəyişən bu parametrlərdən biridirsə, yenidən hesabla
+            if (in_array($paramId, $recalcParams)) {
+                [$amount, $vat] = $this->recalculateAmountAndVat($work);
+            }
+
+            return response()->json([
+                'success' => true,
+                'amount' => $amount,
+                'vat' => $vat,
+            ]);
         }
     }
+
+    /**
+     * Pivot məlumatlarına əsasən AMOUNT və VAT yeniləyir
+     * və eyni zamanda bu dəyərləri geri qaytarır.
+     */
+    protected function recalculateAmountAndVat(Work $work)
+    {
+        $serviceId = $work->service_id;
+        $asanImzaId = $work->asan_imza_id;
+        $client = $work->client;
+        $deptId = $work->department->id;
+
+        $amount = null;
+        $vat = 0;
+
+        // ==================== AMOUNT hesablamaları ====================
+
+        if (in_array($serviceId, [5, 6, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41, 54, 53])) {
+            $amount = Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT);
+        }
+
+        elseif (in_array($serviceId, [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48])) {
+            $mainPaper = $client->main_paper;
+            if ($mainPaper > 0) {
+                if (in_array($asanImzaId, [22])) {
+                    $amount = 0;
+                    if ($deptId === 12)
+                        $work->parameters()->updateExistingPivot($work::ILLEGALAMOUNT, ['value' => $work->getParameter($work::GB) * 20]);
+                    elseif ($deptId === 13)
+                        $work->parameters()->updateExistingPivot($work::ILLEGALAMOUNT, ['value' => $work->getParameter($work::GB) * 15]);
+                } else {
+                    $amount = (Work::getClientServiceAmount($work)
+                            * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE)))
+                        + ($mainPaper * $work->getParameter($work::MAINPAGE));
+                }
+            } else {
+                $amount = Work::getClientServiceAmount($work) * $work->getParameter($work::GB) + $mainPaper;
+            }
+        }
+
+        elseif (in_array($serviceId, [2])) {
+            $qibPaper = $client->qibmain_paper;
+            if ($qibPaper > 0) {
+                if (in_array($asanImzaId, [22])) {
+                    $amount = 0;
+                } else {
+                    $amount = (Work::getClientServiceAmount($work)
+                            * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE)))
+                        + ($qibPaper * $work->getParameter($work::MAINPAGE));
+                }
+            } else {
+                $amount = Work::getClientServiceAmount($work) * $work->getParameter($work::GB) + $qibPaper;
+            }
+        }
+
+        if ($amount !== null) {
+            $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => round($amount, 2)]);
+        }
+
+        // ==================== VAT hesablamaları ====================
+
+        $noVatAsan = [
+            29, 34, 36, 39, 40, 30, 32, 33, 41, 43, 39, 46, 47, 49, 50, 48, 22,
+            53, 54, 55, 56, 57, 63, 80, 60, 71, 74, 83, 61, 73, 64, 72, 82, 100,
+            102, 98, 95, 94, 93, 91, 90, 87, 83, 78, 127, 128, 129, 130, 63,
+            102, 113, 117, 98, 107, 114, 73
+        ];
+
+        if (!in_array($asanImzaId, $noVatAsan) && $amount !== null) {
+            $vat = round($amount * 0.18, 2);
+        }
+
+        $work->parameters()->updateExistingPivot($work::VAT, ['value' => $vat]);
+
+        return [round($amount, 2), round($vat, 2)];
+    }
+
 
     public function code(Request $request)
     {
