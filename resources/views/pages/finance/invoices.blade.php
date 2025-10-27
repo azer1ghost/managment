@@ -55,6 +55,9 @@
 @endsection
 @section('scripts')
     <script>
-        $('#invoices').DataTable();
+        $('#invoices').DataTable({
+            "order": [[0, "desc"]]
+        });
+
     </script>
 @endsection
