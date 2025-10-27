@@ -987,11 +987,22 @@
 
         $('.update').editable({
             url: "{{ route('editable') }}",
-        });
-        $('.update').on('save', function(e, params) {
-            if (params.response && params.response.amount !== null) {
-                $('#amount_' + params.pk).text(params.response.amount);
-                $('#vat_' + params.pk).text(params.response.vat);
+
+            // 🔹 Server cavabını birbaşa buradan idarə et
+            success: function(response, newValue) {
+                console.log('Editable response:', response);
+
+                if (response && response.amount !== null) {
+                    // ID tap (pk = Work ID)
+                    const workId = $(this).data('pk');
+                    // Cədvəldəki məbləğ və ƏDV-ni dərhal yenilə
+                    $('#amount_' + workId).text(response.amount);
+                    $('#vat_' + workId).text(response.vat);
+                }
+            },
+
+            error: function(response) {
+                console.error('Editable error:', response);
             }
         });
     </script>
