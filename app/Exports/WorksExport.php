@@ -28,10 +28,12 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         $this->filters = $filters;
         $this->dateFilters = $dateFilters;
 
-        // BURDA SƏNİN EXCEL SIRAN SAXLANILIR
+        // EXCEL-DEKI FINAL 45 SUTUN
         $this->headings = [
-            'Yaradılma Tarixi (Gün)', 'Yaradılma Tarixi (Saat)',
-            'Bitmə Tarixi (Gün)', 'Bitmə Tarixi (Saat)',
+            'Yaradılma Tarixi (Gün)',
+            'Yaradılma Tarixi (Saat)',
+            'Bitmə Tarixi (Gün)',
+            'Bitmə Tarixi (Saat)',
             'Şöbə',
             'Koordinator',
             'Sorğu nömrəsi',
@@ -39,36 +41,49 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             'Sıralayıcı Əməkdaş',
             'Analitik Əməkdaş',
             'İcraçı Əməkdaş',
-            'Sistemdə (ASAN IMZA)',
+            'Sistem (ASAN IMZA)',
             'Müştəri adı',
-            'Şəxs (Fiziki / Hüquqi)',
+            'Müştəri növü',
             'Xidmət',
             'Status',
             'Təyinat Orqanı',
             'Detallar',
 
-            'Tam məbləğ',
-            'Qaime Tarixi (Gün)',
-            'Qaime nomresi',
-            'Ödəmə Üsulu',
-            'Vasitəçi',
+            'GB',
+            'Kod sayı',
+            'Say',
+            'Əsas Vərəq',
+            'Əsas Məbləğ',
+            'ƏDV',
+            'Digər məbləğ',
 
+            'Tam məbləğ',
+            'Faktiki məbləğ (Toplam məbləğ)',
+            'Qaimə tarixi',
+            'Qaimə nömrəsi',
+
+            'Əsas Məbləğdən Ödənilən',
             'Əsas Məbləğ Ödəniş Tarixi',
+            "ƏDV'dən Ödənilən",
             'ƏDV Ödəniş Tarixi',
-            'Ödənmiş məbləğ',
-            'Qalıq',
-            'Sisteme Tarixi (Gün)', 'Sisteme Tarixi (Saat)',
-            'Toplam Məbləğ',
+            'Digər Ödəniş',
+
+            'Faktiki ödəniş (Ödənmiş məbləğ)',
+            'Ödəmə Üsulu',
+
+            'Borc əsas',
+            'Borc ƏDV',
+            'Borc ümumi(Qalıq)',
+
+            'Satış Əməkdaşı',
+            'Vasitəçi',
             'Referans',
+
+            'Sisteme Tarixi (Gün)',
+            'Sisteme Tarixi (Saat)',
+
             'Son Dəyişiklik Tarixi',
         ];
-
-        // Əlavə servis parametrləri
-        foreach (Service::serviceParametersExport() as $servicesParameter) {
-            if (!in_array($servicesParameter['data']->id, [51, 52, 53, 54, 56, 57, 60])) {
-                $this->headings[] = $servicesParameter['data']->label;
-            }
-        }
     }
 
     public function headings(): array
@@ -78,9 +93,25 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
 
     public function map($row): array
     {
-        $customerEngagement = $row->customerEngagement;
-        $agent = $customerEngagement?->user;
-        $reference = $customerEngagement?->partner;
+        // Parametr ID-ləri
+        $gb              = $row->getParameter(17);
+        $kodSayi         = $row->getParameter(18);
+        $esasMebleg      = $row->getParameter(19);
+        $say             = $row->getParameter(20);
+        $edv             = $row->getParameter(34);
+        $diger           = $row->getParameter(38);
+
+        $esasPaid        = $row->getParameter(35);
+        $edvPaid         = $row->getParameter(36);
+        $digerPaid       = $row->getParameter(37);
+
+        // Hesablamalar
+        $tamMebleg = $esasMebleg + $edv + $diger;
+        $odenmis   = $esasPaid + $edvPaid + $digerPaid;
+
+        $borcEsas  = $esasMebleg - $esasPaid;
+        $borcEdv   = $edv - $edvPaid;
+        $borcUmumi = $tamMebleg - $odenmis;
 
         $types = [
             Client::LEGAL => 0,
@@ -89,136 +120,72 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             Client::FOREIGNLEGAL => 3,
         ];
 
-        $coordinator = $row->client?->coordinators?->first();
-        $coordinatorName = $coordinator
-            ? $coordinator->name . ' ' . $coordinator->surname
-            : 'Koordinator yoxdur';
+        return [
 
-        $userName = $row->user
-            ? $row->user->name . ' ' . $row->user->surname
-            : 'İcraçı yoxdur';
-
-        $sorterName = $row->sorter
-            ? $row->sorter->name . ' ' . $row->sorter->surname
-            : 'Sıralayıcı yoxdur';
-
-        $analystName = $row->analyst
-            ? $row->analyst->name . ' ' . $row->analyst->surname
-            : 'Analitik yoxdur';
-
-        $agentName = $agent
-            ? $agent->name . ' ' . $agent->surname
-            : 'Vasitəçi yoxdur';
-
-        $asanImzaName = $row->asanImza
-            ? optional($row->asanImza->user)->name . ' - ' . optional($row->asanImza->company)->name
-            : trans('translates.filters.select');
-
-        // Tam məbləğ və ödənişlər
-        $totalAmount =
-            $row->getParameter($row::VAT) +
-            $row->getParameter($row::AMOUNT) +
-            $row->getParameter($row::ILLEGALAMOUNT);
-
-        $paidTotal =
-            $row->getParameter($row::PAID) +
-            $row->getParameter($row::VATPAYMENT) +
-            $row->getParameter($row::ILLEGALPAID);
-
-        $balance = $totalAmount - $paidTotal;
-
-        $maps = [
-            // 1–4: Yaradılma / Bitmə tarix & saat
             optional($row->created_at)?->toDateString(),
             optional($row->created_at)?->toTimeString(),
+
             optional($row->datetime)?->toDateString(),
             optional($row->datetime)?->toTimeString(),
 
-            // 5: Şöbə
             $row->department?->short_name,
+            optional($row->client?->coordinators?->first())?->fullname ?? '-',
 
-            // 6: Koordinator
-            $coordinatorName,
-
-            // 7–8: Sorğu / Nəqliyyat
             $row->declaration_no,
             $row->transport_no,
 
-            // 9–11: İşçilər
-            $sorterName,
-            $analystName,
-            $userName,
+            optional($row->sorter)?->fullname ?? '-',
+            optional($row->analyst)?->fullname ?? '-',
+            optional($row->user)?->fullname ?? '-',
 
-            // 12: Sistem (ASAN IMZA)
-            $asanImzaName,
+            $row->asanImza ? optional($row->asanImza->user)->name . ' - ' . optional($row->asanImza->company)->name : '-',
 
-            // 13: Müştəri adı
             $row->client?->fullname ?? '-',
-
-            // 14: Şəxs (Fiziki / Hüquqi)
             $types[$row->client?->type] ?? 'Unknown',
 
-            // 15: Xidmət
-            $row->service?->name,
-
-            // 16: Status
+            $row->service?->name ?? '-',
             trans('translates.work_status.' . $row->status),
+            trans('translates.work_destination.' . $row->destination),
 
-            // 17: Təyinat Orqanı
-            trans('translates.work_destination.' . $row->destination) ?? 'Təyinat orqanı boşdur',
-
-            // 18: Detallar
             strip_tags($row->detail),
 
-            // 19: Tam məbləğ
-            $totalAmount,
+            // PARAMETRLƏR
+            $gb,
+            $kodSayi,
+            $say,
+            $row->main_paper,  // Əsas Vərəq (ID sonra deyərsən)
+            $esasMebleg,
+            $edv,
+            $diger,
 
-            // 20: Qaime Tarixi (Gün)
+            // HESABLANANLAR
+            $tamMebleg,
+            $row->total_amount,
             optional($row->invoiced_date)?->toDateString(),
-
-            // 21: Qaime nomresi
             $row->code,
 
-            // 22: Ödəmə Üsulu
+            $esasPaid,
+            optional($row->paid_at)?->format('d/m/Y'),
+            $edvPaid,
+            optional($row->vat_date)?->format('d/m/Y'),
+            $digerPaid,
+
+            $odenmis,
             trans('translates.payment_methods.' . $row->payment_method),
 
-            // 23: Vasitəçi
-            $agentName,
+            $borcEsas,
+            $borcEdv,
+            $borcUmumi,
 
-            // 24: Əsas Məbləğ Ödəniş Tarixi
-            optional($row->paid_at)?->format('d/m/Y') ?? 'Tam Ödəniş olmayıb',
+            optional($row->client?->sales?->first())?->fullname ?? '-',
+            optional($row->customerEngagement?->user)?->fullname ?? '-',
+            optional($row->customerEngagement?->partner)?->name ?? '-',
 
-            // 25: ƏDV Ödəniş Tarixi
-            optional($row->vat_date)?->format('d/m/Y') ?? 'ƏDV Ödənişi olmayıb',
-
-            // 26: Ödənmiş məbləğ
-            $paidTotal,
-
-            // 27: Qalıq
-            $balance,
-
-            // 28–29: Sisteme Tarixi (Gün / Saat)
             optional($row->injected_at)?->toDateString(),
             optional($row->injected_at)?->toTimeString(),
 
-            // 30: Toplam Məbləğ
-            $row->total_amount ?? 'Məlumat yoxdur',
-
-            // 31: Referans
-            $reference?->name ?? 'Referans yoxdur',
-
-            // 32: Son Dəyişiklik Tarixi
             optional($row->updated_at)?->format('d/m/Y H:i:s'),
         ];
-
-        // Dinamik servis parametrləri (constructor ilə eyni filter)
-        foreach (Service::serviceParametersExport() as $servicesParameter) {
-            if (!in_array($servicesParameter['data']->id, [51, 52, 53, 54, 56, 57, 60])) {
-                $maps[] = $row->getParameter($servicesParameter['data']->id);
-            }
-        }
-
-        return $maps;
     }
 
     public function styles(Worksheet $sheet): array
@@ -246,6 +213,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
                 'department:id,short_name',
                 'client:id,fullname,type',
                 'client.coordinators:id,name,surname',
+                'client.sales:id,name,surname',
                 'user:id,name,surname',
                 'sorter:id,name,surname',
                 'analyst:id,name,surname',
@@ -261,11 +229,9 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
     public function columnWidths(): array
     {
         return [
+            'A' => 20,
             'B' => 20,
-            'C' => 25,
-            'D' => 15,
-            'E' => 30,
-            'F' => 35,
+            'C' => 20,
         ];
     }
 
