@@ -28,13 +28,14 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         $this->filters = $filters;
         $this->dateFilters = $dateFilters;
 
+        // BURDA SƏNİN EXCEL SIRAN SAXLANILIR
         $this->headings = [
-            'Sorğu nömrəsi',
-            'Nəqliyyat nömrəsi',
-            'İş Kodu',
+            'Yaradılma Tarixi (Gün)', 'Yaradılma Tarixi (Saat)',
+            'Bitmə Tarixi (Gün)', 'Bitmə Tarixi (Saat)',
             'Şöbə',
             'Koordinator',
-            'Satış Əməkdaşı',
+            'Sorğu nömrəsi',
+            'Nəqliyyat nömrəsi',
             'Sıralayıcı Əməkdaş',
             'Analitik Əməkdaş',
             'İcraçı Əməkdaş',
@@ -42,23 +43,27 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             'Müştəri adı',
             'Şəxs (Fiziki / Hüquqi)',
             'Xidmət',
-            'Təyinat Orqanı',
             'Status',
+            'Təyinat Orqanı',
             'Detallar',
-            'Əsas Məbləğ Ödəniş Tarixi',
-            'ƏDV Ödəniş Tarixi',
+
             'Tam məbləğ',
-            'Ödənmiş məbləğ',
-            'Qalıq',
-            'Yaradılma Tarixi (Gün)', 'Yaradılma Tarixi (Saat)',
-            'Sisteme Tarixi (Gün)', 'Sisteme Tarixi (Saat)',
-            'Toplam Məbləğ',
+            'Qaime Tarixi (Gün)',
+            'Qaime nomresi',
             'Ödəmə Üsulu',
             'Vasitəçi',
+
+            'Əsas Məbləğ Ödəniş Tarixi',
+            'ƏDV Ödəniş Tarixi',
+            'Ödənmiş məbləğ',
+            'Qalıq',
+            'Sisteme Tarixi (Gün)', 'Sisteme Tarixi (Saat)',
+            'Toplam Məbləğ',
             'Referans',
             'Son Dəyişiklik Tarixi',
         ];
 
+        // Əlavə servis parametrləri
         foreach (Service::serviceParametersExport() as $servicesParameter) {
             if (!in_array($servicesParameter['data']->id, [51, 52, 53, 54, 56, 57, 60])) {
                 $this->headings[] = $servicesParameter['data']->label;
@@ -85,51 +90,128 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         ];
 
         $coordinator = $row->client?->coordinators?->first();
-        $sale = $row->client?->sales?->first();
-        $coordinatorName = $coordinator ? $coordinator->name . ' ' . $coordinator->surname : 'Koordinator yoxdur';
-        $saleName = $sale ? $sale->name . ' ' . $sale->surname : 'Satış Əməkdaşı yoxdur';
+        $coordinatorName = $coordinator
+            ? $coordinator->name . ' ' . $coordinator->surname
+            : 'Koordinator yoxdur';
 
-        $userName = $row->user ? $row->user->name . ' ' . $row->user->surname : 'İcraçı yoxdur';
-        $sorterName = $row->sorter ? $row->sorter->name . ' ' . $row->sorter->surname : 'Sıralayıcı yoxdur';
-        $analystName = $row->analyst ? $row->analyst->name . ' ' . $row->analyst->surname : 'Analitik yoxdur';
-        $agentName = $agent ? $agent->name . ' ' . $agent->surname : 'Vasitəçi yoxdur';
+        $userName = $row->user
+            ? $row->user->name . ' ' . $row->user->surname
+            : 'İcraçı yoxdur';
+
+        $sorterName = $row->sorter
+            ? $row->sorter->name . ' ' . $row->sorter->surname
+            : 'Sıralayıcı yoxdur';
+
+        $analystName = $row->analyst
+            ? $row->analyst->name . ' ' . $row->analyst->surname
+            : 'Analitik yoxdur';
+
+        $agentName = $agent
+            ? $agent->name . ' ' . $agent->surname
+            : 'Vasitəçi yoxdur';
 
         $asanImzaName = $row->asanImza
             ? optional($row->asanImza->user)->name . ' - ' . optional($row->asanImza->company)->name
             : trans('translates.filters.select');
 
+        // Tam məbləğ və ödənişlər
+        $totalAmount =
+            $row->getParameter($row::VAT) +
+            $row->getParameter($row::AMOUNT) +
+            $row->getParameter($row::ILLEGALAMOUNT);
+
+        $paidTotal =
+            $row->getParameter($row::PAID) +
+            $row->getParameter($row::VATPAYMENT) +
+            $row->getParameter($row::ILLEGALPAID);
+
+        $balance = $totalAmount - $paidTotal;
+
         $maps = [
+            // 1–4: Yaradılma / Bitmə tarix & saat
+            optional($row->created_at)?->toDateString(),
+            optional($row->created_at)?->toTimeString(),
+            optional($row->datetime)?->toDateString(),
+            optional($row->datetime)?->toTimeString(),
+
+            // 5: Şöbə
+            $row->department?->short_name,
+
+            // 6: Koordinator
+            $coordinatorName,
+
+            // 7–8: Sorğu / Nəqliyyat
             $row->declaration_no,
             $row->transport_no,
-            $row->code,
-            $row->department?->short_name,
-            $coordinatorName,
-            $saleName,
+
+            // 9–11: İşçilər
             $sorterName,
             $analystName,
             $userName,
+
+            // 12: Sistem (ASAN IMZA)
             $asanImzaName,
+
+            // 13: Müştəri adı
             $row->client?->fullname ?? '-',
+
+            // 14: Şəxs (Fiziki / Hüquqi)
             $types[$row->client?->type] ?? 'Unknown',
+
+            // 15: Xidmət
             $row->service?->name,
-            trans('translates.work_destination.' . $row->destination) ?? 'Təyinat orqanı boşdur',
+
+            // 16: Status
             trans('translates.work_status.' . $row->status),
+
+            // 17: Təyinat Orqanı
+            trans('translates.work_destination.' . $row->destination) ?? 'Təyinat orqanı boşdur',
+
+            // 18: Detallar
             strip_tags($row->detail),
-            optional($row->paid_at)?->format('d/m/Y') ?? 'Tam Ödəniş olmayıb',
-            optional($row->vat_date)?->format('d/m/Y') ?? 'ƏDV Ödənişi olmayıb',
-            $row->getParameter($row::VAT) + $row->getParameter($row::AMOUNT) + $row->getParameter($row::ILLEGALAMOUNT),
-            $row->getParameter($row::PAID) + $row->getParameter($row::VATPAYMENT) + $row->getParameter($row::ILLEGALPAID),
-            ($row->getParameter($row::VAT) + $row->getParameter($row::AMOUNT) + $row->getParameter($row::ILLEGALAMOUNT)
-                - ($row->getParameter($row::PAID) + $row->getParameter($row::VATPAYMENT) +  $row->getParameter($row::ILLEGALPAID))) * -1,
-            optional($row->created_at)?->toDateString(), optional($row->created_at)?->toTimeString(),
-            optional($row->injected_at)?->toDateString(), optional($row->injected_at)?->toTimeString(),
-            $row->total_amount ?? 'Məlumat yoxdur',
+
+            // 19: Tam məbləğ
+            $totalAmount,
+
+            // 20: Qaime Tarixi (Gün)
+            optional($row->invoiced_date)?->toDateString(),
+
+            // 21: Qaime nomresi
+            $row->code,
+
+            // 22: Ödəmə Üsulu
             trans('translates.payment_methods.' . $row->payment_method),
+
+            // 23: Vasitəçi
             $agentName,
+
+            // 24: Əsas Məbləğ Ödəniş Tarixi
+            optional($row->paid_at)?->format('d/m/Y') ?? 'Tam Ödəniş olmayıb',
+
+            // 25: ƏDV Ödəniş Tarixi
+            optional($row->vat_date)?->format('d/m/Y') ?? 'ƏDV Ödənişi olmayıb',
+
+            // 26: Ödənmiş məbləğ
+            $paidTotal,
+
+            // 27: Qalıq
+            $balance,
+
+            // 28–29: Sisteme Tarixi (Gün / Saat)
+            optional($row->injected_at)?->toDateString(),
+            optional($row->injected_at)?->toTimeString(),
+
+            // 30: Toplam Məbləğ
+            $row->total_amount ?? 'Məlumat yoxdur',
+
+            // 31: Referans
             $reference?->name ?? 'Referans yoxdur',
+
+            // 32: Son Dəyişiklik Tarixi
             optional($row->updated_at)?->format('d/m/Y H:i:s'),
         ];
 
+        // Dinamik servis parametrləri (constructor ilə eyni filter)
         foreach (Service::serviceParametersExport() as $servicesParameter) {
             if (!in_array($servicesParameter['data']->id, [51, 52, 53, 54, 56, 57, 60])) {
                 $maps[] = $row->getParameter($servicesParameter['data']->id);
