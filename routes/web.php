@@ -110,7 +110,7 @@ Route::get('/deactivated', [PlatformController::class, 'deactivated'])->name('de
 
 Route::get('/close-notify/{announcement}', [PlatformController::class, 'closeNotify'])->name('closeNotify');
 
-Route::redirect('/','/welcome')->name('home');
+Route::redirect('/','/dashboard')->name('home');
 Route::get('/welcome', [PlatformController::class, 'welcome'])->name('welcome');
 Route::get('/dashboard', [PlatformController::class, 'dashboard'])->middleware(['verified_phone', 'deactivated','is_transit_customer'])->name('dashboard');
 Route::post('global-search', GlobalSearchController::class)->name('global-search');
