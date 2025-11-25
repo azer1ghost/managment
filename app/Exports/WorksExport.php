@@ -93,10 +93,12 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
 
     public function map($row): array
     {
+        dd($row->getParameter(19));
+
         // Parametr ID-ləri
         $gb              = $row->getParameter(17);
         $kodSayi         = $row->getParameter(18);
-        $esasMebleg      = $row->getParameter(19)->value;
+        $esasMebleg      = $row->getParameter(19);
         $say             = $row->getParameter(20);
         $edv             = $row->getParameter(34);
         $diger           = $row->getParameter(38);
@@ -105,7 +107,6 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         $edvPaid         = $row->getParameter(36);
         $digerPaid       = $row->getParameter(37);
 
-        dd($row->getParameter(19));
 
         // Hesablamalar
         $tamMebleg = $esasMebleg + $edv + $diger;
