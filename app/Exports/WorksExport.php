@@ -101,6 +101,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         $say             = $row->getParameter(20);
         $edv             = $row->getParameter(34);
         $diger           = $row->getParameter(38);
+        $esasVereq        = $row->getParameter(48);
 
         $esasPaid        = $row->getParameter(35);
         $edvPaid         = $row->getParameter(36);
@@ -154,7 +155,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             $gb,
             $kodSayi,
             $say,
-            $row->main_paper,
+            $esasVereq,
             $esasMebleg,
             $edv,
             $diger,
