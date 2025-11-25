@@ -94,9 +94,10 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
     public function map($row): array
     {
 
+        // Parametr ID-ləri
         $gb              = $row->getParameter(17);
         $kodSayi         = $row->getParameter(18);
-        $esasMebleg = optional($row->getParameter(19)->first())->value ?? 0;
+        $esasMebleg      = $row->getParameter(19);
         $say             = $row->getParameter(20);
         $edv             = $row->getParameter(34);
         $diger           = $row->getParameter(38);
