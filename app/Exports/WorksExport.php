@@ -96,7 +96,7 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         // Parametr ID-ləri
         $gb              = $row->getParameter(17);
         $kodSayi         = $row->getParameter(18);
-        $esasMebleg      = $row->getParameter(19);
+        $esasMebleg      = $row->getParameter(19)->value;
         $say             = $row->getParameter(20);
         $edv             = $row->getParameter(34);
         $diger           = $row->getParameter(38);
@@ -104,6 +104,8 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         $esasPaid        = $row->getParameter(35);
         $edvPaid         = $row->getParameter(36);
         $digerPaid       = $row->getParameter(37);
+
+        dd($row->getParameter(19));
 
         // Hesablamalar
         $tamMebleg = $esasMebleg + $edv + $diger;
@@ -149,16 +151,14 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
 
             strip_tags($row->detail),
 
-            // PARAMETRLƏR
             $gb,
             $kodSayi,
             $say,
-            $row->main_paper,  // Əsas Vərəq (ID sonra deyərsən)
+            $row->main_paper,
             $esasMebleg,
             $edv,
             $diger,
 
-            // HESABLANANLAR
             $tamMebleg,
             $row->total_amount,
             optional($row->invoiced_date)?->toDateString(),
