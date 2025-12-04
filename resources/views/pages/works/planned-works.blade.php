@@ -17,6 +17,11 @@
         .table{
             overflow-x: scroll;
         }
+        #table-wrapper {
+            overflow-x: auto;
+            cursor: grab;
+            white-space: nowrap;
+        }
     </style>
 @endsection
 
@@ -205,6 +210,7 @@
             </div>
         </div>
     @endif
+    <div id="table-wrapper" class="table-responsive">
     <table class="table table-condensed-table-responsive @if($works->count()) table-responsive-md @else table-responsive-sm @endif" style="border-collapse:collapse;"  id="table">
         <thead>
         <tr class="text-center">
@@ -315,6 +321,7 @@
         @endforelse
         </tbody>
     </table>
+    </div>
 
     <div class="modal fade" id="create-work">
         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -490,6 +497,28 @@
             });
         });
     </script>
+        <script>
+        const slider = document.querySelector('#table-wrapper');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+        slider.addEventListener('mouseleave', () => isDown = false);
+        slider.addEventListener('mouseup', () => isDown = false);
+        slider.addEventListener('mousemove', (e) => {
+            if(!isDown) return;
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 3;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+    </script>
+
+
 @endsection
 
 
