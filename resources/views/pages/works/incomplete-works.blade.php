@@ -12,6 +12,11 @@
             background-color: #eeeeee;
             font-size: 13px;
         }
+        #table-wrapper {
+            overflow-x: auto;
+            cursor: grab;
+            white-space: nowrap;
+        }
     </style>
 @endsection
 
@@ -285,6 +290,7 @@
             </div>
         </div>
     @endif
+    <div id="table-wrapper" style="overflow-x:auto; cursor:grab; white-space:nowrap;">
 
     <table class="table table-responsive-sm table-hover" id="table">
         <thead>
@@ -496,6 +502,7 @@
         @endforelse
         </tbody>
     </table>
+    </div>
 
     <div class="modal fade" id="create-work">
         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -613,6 +620,34 @@
     <script>
         $(document).ready(function() {
             $('#table').DataTable();
+        });
+    </script>
+    <script>
+        const slider = document.querySelector('#table-wrapper');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+        });
+
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+            if(!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2; // sürət
+            slider.scrollLeft = scrollLeft - walk;
         });
     </script>
 
