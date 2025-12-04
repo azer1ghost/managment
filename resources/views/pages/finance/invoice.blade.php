@@ -306,7 +306,7 @@
 @endsection
 
 @section('content')
-    @if(auth()->user()->isDeveloper() || auth()->user()->isDirector() || in_array(auth()->user()->id, [103, 17, 120, 216, 120, 185, 188, 212, 213, 216, 173, 33, 32, 118, 86]))
+    @if(auth()->user()->isDeveloper() || auth()->user()->isDirector() || in_array(auth()->user()->id, [103, 17, 120, 216, 120, 185, 188, 212, 213, 216, 173, 33, 32, 118, 86, 232]))
         <div class="text-center">
         <input type="checkbox" id="imzala" @if($data->getAttribute('is_signed') == 1) checked @endif>
         <label for="imzala" class="button-label imzala-label">İmzala</label>
