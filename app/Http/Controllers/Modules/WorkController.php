@@ -911,6 +911,7 @@ class WorkController extends Controller
             Work::withoutEvents(function () use ($work, $newTransportNo, $newDeclarationNo) {
                 Work::where('link_key', $work->link_key)
                     ->where('id', '!=', $work->id)
+                    ->where('status', Work::PLANNED)
                     ->update([
                         'transport_no'   => $newTransportNo,
                         'declaration_no' => $newDeclarationNo,
