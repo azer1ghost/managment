@@ -1857,4 +1857,59 @@ class WorkController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    /**
+     * Update invoice parameter value
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateInvoiceParameter(Request $request)
+    {
+        try {
+            $workId = $request->input('work_id');
+            $parameterId = $request->input('parameter_id');
+            $value = $request->input('value');
+
+            if (!$workId || !$parameterId) {
+                return response()->json(['error' => 'Work ID and Parameter ID are required'], 400);
+            }
+
+            // Validate parameter IDs - only allow the 6 editable parameters
+            $allowedParameters = [
+                Work::AMOUNT,
+                Work::PAID,
+                Work::VAT,
+                Work::VATPAYMENT,
+                Work::ILLEGALAMOUNT,
+                Work::ILLEGALPAID,
+            ];
+
+            if (!in_array((int)$parameterId, $allowedParameters)) {
+                return response()->json(['error' => 'Invalid parameter ID'], 400);
+            }
+
+            // Validate value is numeric
+            if (!is_numeric($value)) {
+                return response()->json(['error' => 'Value must be numeric'], 400);
+            }
+
+            $work = Work::with('parameters')->findOrFail($workId);
+
+            // Update parameter value
+            $work->setParameterValue((int)$parameterId, (float)$value);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Updated successfully',
+                'value' => number_format((float)$value, 2)
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error in updateInvoiceParameter: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Server error occurred',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
