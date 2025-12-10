@@ -1912,4 +1912,53 @@ class WorkController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Update invoice date field (paid_at or vat_date)
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateInvoiceDate(Request $request)
+    {
+        try {
+            $workId = $request->input('work_id');
+            $field = $request->input('field');
+            $value = $request->input('value');
+
+            if (!$workId || !$field) {
+                return response()->json(['error' => 'Work ID and field name are required'], 400);
+            }
+
+            // Validate field names - only allow paid_at and vat_date
+            $allowedFields = ['paid_at', 'vat_date'];
+
+            if (!in_array($field, $allowedFields)) {
+                return response()->json(['error' => 'Invalid field name'], 400);
+            }
+
+            $work = Work::findOrFail($workId);
+
+            // Update the date field
+            if ($value) {
+                $work->$field = Carbon::parse($value);
+            } else {
+                $work->$field = null;
+            }
+            
+            $work->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Updated successfully',
+                'value' => $work->$field ? $work->$field->format('Y-m-d') : '-'
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error in updateInvoiceDate: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Server error occurred',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

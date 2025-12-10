@@ -21,6 +21,27 @@
         margin-left: 5px;
         vertical-align: middle;
     }
+    .editable-date {
+        position: relative;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    .editable-date:hover:not([data-disabled="true"]) {
+        background-color: #f0f8ff !important;
+    }
+    .editable-date[data-disabled="true"] {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+    .editable-date .date-value {
+        display: inline-block;
+        min-width: 100px;
+    }
+    .editable-date .editing-date-input {
+        width: 150px !important;
+        display: inline-block;
+        margin: 0;
+    }
 </style>
 
 <div class="table-responsive">
@@ -104,19 +125,21 @@
                     <span class="parameter-value">{{ number_format($illegalPaid, 2) }}</span>
                     <span class="save-indicator" style="display: none; margin-left: 5px;"></span>
                 </td>
-                <td>
-                    <input type="date" 
-                           name="paid_at[{{ $work->id }}]" 
-                           class="form-control form-control-sm" 
-                           value="{{ $work->paid_at ? $work->paid_at->format('Y-m-d') : '' }}"
-                           @if($isFullyPaid) disabled @endif>
+                <td class="editable-date" 
+                    data-work-id="{{ $work->id }}" 
+                    data-field="paid_at"
+                    style="cursor: pointer; position: relative;"
+                    @if($isFullyPaid) data-disabled="true" @endif>
+                    <span class="date-value">{{ $work->paid_at ? $work->paid_at->format('Y-m-d') : '-' }}</span>
+                    <span class="save-indicator" style="display: none; margin-left: 5px;"></span>
                 </td>
-                <td>
-                    <input type="date" 
-                           name="vat_date[{{ $work->id }}]" 
-                           class="form-control form-control-sm" 
-                           value="{{ $work->vat_date ? $work->vat_date->format('Y-m-d') : '' }}"
-                           @if($isFullyPaid) disabled @endif>
+                <td class="editable-date" 
+                    data-work-id="{{ $work->id }}" 
+                    data-field="vat_date"
+                    style="cursor: pointer; position: relative;"
+                    @if($isFullyPaid) data-disabled="true" @endif>
+                    <span class="date-value">{{ $work->vat_date ? $work->vat_date->format('Y-m-d') : '-' }}</span>
+                    <span class="save-indicator" style="display: none; margin-left: 5px;"></span>
                 </td>
                 <td>
                     @if($isFullyPaid)
@@ -276,10 +299,149 @@
     
     // Initialize when DOM is ready
     if (document.readyState === 'loading') {
-        $(document).ready(initInlineEditing);
+        $(document).ready(function() {
+            initInlineEditing();
+            initDateEditing();
+        });
     } else {
         // DOM already loaded (content loaded dynamically)
         initInlineEditing();
+        initDateEditing();
+    }
+    
+    // Date field inline editing
+    function initDateEditing() {
+        // Remove any existing handlers to prevent duplicates
+        $(document).off('click', '.editable-date');
+        
+        // Handle inline editing for date fields
+        $(document).on('click', '.editable-date', function(e) {
+            e.stopPropagation();
+            
+            const $cell = $(this);
+            
+            // Don't edit if disabled
+            if ($cell.data('disabled') === true) {
+                return;
+            }
+            
+            const $valueSpan = $cell.find('.date-value');
+            
+            // Don't edit if already in edit mode
+            if ($cell.find('input.editing-date-input').length > 0) {
+                return;
+            }
+            
+            const currentValue = $valueSpan.text().trim();
+            const workId = $cell.data('work-id');
+            const fieldName = $cell.data('field');
+            
+            if (!workId || !fieldName) {
+                console.error('Missing work_id or field name');
+                return;
+            }
+            
+            // Create date input field
+            const $input = $('<input>', {
+                type: 'date',
+                class: 'form-control form-control-sm editing-date-input',
+                value: currentValue !== '-' ? currentValue : '',
+                style: 'width: 150px; display: inline-block;'
+            });
+            
+            // Store original value for cancel
+            const originalValue = currentValue;
+            
+            // Replace span with input
+            $valueSpan.hide();
+            $input.insertAfter($valueSpan);
+            $input.focus();
+            
+            // Save on change (date selection)
+            $input.on('change', function() {
+                const newValue = $(this).val();
+                if (newValue && newValue !== originalValue) {
+                    saveDate($cell, $input, $valueSpan, workId, fieldName, newValue);
+                } else if (!newValue && originalValue !== '-') {
+                    // Clear date
+                    saveDate($cell, $input, $valueSpan, workId, fieldName, '');
+                } else {
+                    // No change, just restore
+                    $input.remove();
+                    $valueSpan.show();
+                }
+            });
+            
+            // Cancel on Escape
+            $input.on('keydown', function(e) {
+                if (e.key === 'Escape' || e.keyCode === 27) {
+                    e.preventDefault();
+                    $input.remove();
+                    $valueSpan.show();
+                }
+            });
+        });
+    }
+    
+    function saveDate($cell, $input, $valueSpan, workId, fieldName, newValue) {
+        const $indicator = $cell.find('.save-indicator');
+        
+        // Remove input and show loading
+        $input.remove();
+        $valueSpan.text('...').show();
+        $indicator.html('<i class="fa fa-spinner fa-spin text-info" style="font-size: 12px;"></i>').show();
+        
+        $.ajax({
+            url: '{{ route("works.update-invoice-date") }}',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                work_id: workId,
+                field: fieldName,
+                value: newValue,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(res) {
+                if (res.success) {
+                    // Update displayed value
+                    const displayValue = res.value || newValue || '-';
+                    $valueSpan.text(displayValue);
+                    
+                    // Show green success indicator
+                    $indicator.html('<i class="fa fa-check text-success" style="font-size: 12px;" title="Yadda saxlanıldı"></i>').show();
+                    
+                    // Hide indicator after 2 seconds
+                    setTimeout(function() {
+                        $indicator.fadeOut(300, function() {
+                            $(this).hide();
+                        });
+                    }, 2000);
+                } else {
+                    showDateError($valueSpan, $indicator, res.error || 'Yadda saxlanılmadı');
+                }
+            },
+            error: function(xhr) {
+                let errorMsg = 'Xəta baş verdi';
+                if (xhr.responseJSON && xhr.responseJSON.error) {
+                    errorMsg = xhr.responseJSON.error;
+                } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMsg = xhr.responseJSON.message;
+                }
+                showDateError($valueSpan, $indicator, errorMsg);
+            }
+        });
+    }
+    
+    function showDateError($valueSpan, $indicator, errorMsg) {
+        // Show red error indicator
+        $indicator.html('<i class="fa fa-times text-danger" style="font-size: 12px;" title="' + errorMsg + '"></i>').show();
+        
+        // Hide indicator after 3 seconds
+        setTimeout(function() {
+            $indicator.fadeOut(300, function() {
+                $(this).hide();
+            });
+        }, 3000);
     }
 })();
 </script>
