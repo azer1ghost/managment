@@ -1122,6 +1122,246 @@
             theme: "classic"
         });
     </script>
+
+    <!-- Invoice Modal JavaScript -->
+    <script>
+        $(document).ready(function() {
+            // Verify jQuery and Bootstrap are loaded
+            if (typeof $ === 'undefined') {
+                console.error('jQuery is not loaded!');
+                return;
+            }
+            
+            if (typeof $.fn.modal === 'undefined') {
+                console.error('Bootstrap modal plugin is not loaded!');
+                return;
+            }
+            
+            // Debug: Log when invoice modal elements are found
+            console.log('Invoice modal elements:', {
+                modal: $('#invoiceModal').length,
+                buttons: $('.showInvoiceModal').length
+            });
+
+            // Handle invoice code click to open modal with all works having same invoice code
+            $(document).on('click', '.showInvoiceModal', function (e) {
+                // CRITICAL: Stop all event propagation to prevent row collapse
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                
+                console.log('Invoice modal clicked');
+                
+                const invoiceCode = $(this).data('invoice-code');
+                const workId = $(this).data('work-id');
+                
+                if (!invoiceCode) {
+                    console.error('Invoice code not found');
+                    alert('Qaimə nömrəsi tapılmadı.');
+                    return false;
+                }
+
+                // Check if modal exists
+                const $modal = $('#invoiceModal');
+                if ($modal.length === 0) {
+                    console.error('Modal element not found');
+                    alert('Modal tapılmadı. Səhifəni yeniləyin.');
+                    return false;
+                }
+
+                console.log('Opening modal for invoice code:', invoiceCode);
+
+                // Show loading state
+                $('#invoiceModalBody').html('<div class="text-center p-4"><i class="fa fa-spinner fa-spin fa-2x"></i><p>Yüklənir...</p></div>');
+                
+                // Open modal immediately using Bootstrap 4
+                $modal.modal('show');
+                
+                // Double-check modal is visible after a short delay
+                setTimeout(function() {
+                    if (!$modal.hasClass('show') || $modal.css('display') === 'none') {
+                        console.warn('Modal did not open, using fallback');
+                        $modal.addClass('show').css('display', 'block');
+                        $('body').addClass('modal-open');
+                        if ($('.modal-backdrop').length === 0) {
+                            $('body').append('<div class="modal-backdrop fade show"></div>');
+                        }
+                    } else {
+                        console.log('Modal opened successfully');
+                    }
+                }, 50);
+
+                // Fetch all works with the same invoice code
+                $.ajax({
+                    url: '{{ route("works.invoice.fetch") }}',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        invoice_code: invoiceCode,
+                        _token: '{{ csrf_token() }}',
+                    },
+                    success: function (res) {
+                        console.log('AJAX success:', res);
+                        if (res && res.html) {
+                            $('#invoiceModalBody').html(res.html);
+                        } else {
+                            $('#invoiceModalBody').html('<div class="alert alert-danger">Məlumat yüklənə bilmədi.</div>');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error:', {status: status, error: error, response: xhr.responseText});
+                        let errorMessage = 'Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        } else if (xhr.responseJSON && xhr.responseJSON.error) {
+                            errorMessage = xhr.responseJSON.error;
+                        }
+                        $('#invoiceModalBody').html('<div class="alert alert-danger">' + errorMessage + '</div>');
+                    }
+                });
+                
+                return false;
+            });
+
+            // Handle complete payment button click (using event delegation for dynamically loaded content)
+            $(document).on('click', '.completePayment', function () {
+                const id = $(this).data('id');
+                const tr = $(this).closest('tr');
+
+                const paidDate = tr.find('input[name="paid_at[' + id + ']"]').val();
+                const vatDate = tr.find('input[name="vat_date[' + id + ']"]').val();
+
+                const button = $(this);
+                const originalText = button.html();
+                button.prop('disabled', true).html('Gözləyin...');
+
+                $.ajax({
+                    url: '{{ route("works.payment.complete") }}',
+                    method: 'POST',
+                    data: {
+                        id: id,
+                        paid_date: paidDate,
+                        vat_date: vatDate,
+                        _token: '{{ csrf_token() }}',
+                    },
+                    success: function (res) {
+                        if (res.success) {
+                            // Update the row to show as fully paid
+                            button.replaceWith('<span class="badge badge-success">Tam ödənilib</span>');
+                            tr.find('input[name="paid_at[' + id + ']"]').prop('disabled', true);
+                            tr.find('input[name="vat_date[' + id + ']"]').prop('disabled', true);
+                            
+                            // Update the displayed values
+                            const amount = tr.find('td[data-amount]').data('amount');
+                            const vat = tr.find('td[data-vat]').data('vat');
+                            const illegalAmount = tr.find('td[data-illegal-amount]').data('illegal-amount') || 0;
+                            
+                            tr.find('td[data-paid]').text(parseFloat(amount).toFixed(2));
+                            tr.find('td[data-vat-payment]').text(parseFloat(vat).toFixed(2));
+                            tr.find('td[data-illegal-paid]').text(parseFloat(illegalAmount).toFixed(2));
+                        } else {
+                            alert('Ödəniş tamamlanmadı.');
+                            button.prop('disabled', false).html(originalText);
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
+                        console.error(xhr);
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            console.error(xhr.responseJSON.message);
+                        }
+                        button.prop('disabled', false).html(originalText);
+                    }
+                });
+            });
+
+            // Select all checkboxes for invoice finalization
+            $('#works-select-all').on('change', function() {
+                $('.work-checkbox').prop('checked', $(this).prop('checked'));
+            });
+
+            // Handle invoice finalize button click
+            $(document).on('click', '#invoiceFinalizeBtn', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                let ids = [];
+                $('.work-checkbox:checked').each(function () {
+                    ids.push($(this).val());
+                });
+
+                if (ids.length === 0) {
+                    alert('Ən azı bir iş seçin.');
+                    return false;
+                }
+
+                // Show loading state
+                const button = $(this);
+                const originalText = button.html();
+                button.prop('disabled', true).html('Yüklənir...');
+
+                // Check if modal exists
+                if ($('#invoiceModal').length === 0) {
+                    alert('Modal tapılmadı. Səhifəni yeniləyin.');
+                    button.prop('disabled', false).html(originalText);
+                    return false;
+                }
+
+                $.ajax({
+                    url: '{{ route("works.invoice.fetch") }}',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        ids: ids,
+                        _token: '{{ csrf_token() }}',
+                    },
+                    success: function (res) {
+                        button.prop('disabled', false).html(originalText);
+                        
+                        if (res && res.html) {
+                            $('#invoiceModalBody').html(res.html);
+                            $('#invoiceModal').modal('show');
+                        } else {
+                            console.error('Unexpected response format:', res);
+                            alert('Məlumat yüklənə bilmədi. Cavab formatı yanlışdır.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        button.prop('disabled', false).html(originalText);
+                        
+                        console.error('AJAX Error:', {
+                            status: status,
+                            error: error,
+                            response: xhr.responseText,
+                            statusCode: xhr.status
+                        });
+                        
+                        let errorMessage = 'Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.';
+                        
+                        if (xhr.responseJSON) {
+                            if (xhr.responseJSON.message) {
+                                errorMessage = xhr.responseJSON.message;
+                            } else if (xhr.responseJSON.error) {
+                                errorMessage = xhr.responseJSON.error;
+                            }
+                        } else if (xhr.responseText) {
+                            try {
+                                const parsed = JSON.parse(xhr.responseText);
+                                if (parsed.message) errorMessage = parsed.message;
+                                if (parsed.error) errorMessage = parsed.error;
+                            } catch(e) {
+                                // Not JSON, use default message
+                            }
+                        }
+                        
+                        alert('Xəta: ' + errorMessage);
+                    }
+                });
+                
+                return false;
+            });
+        });
+    </script>
 {{--    <script>--}}
 {{--        function _timer(callback)--}}
 {{--        {--}}
@@ -1266,254 +1506,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('scripts')
-    <script>
-        $(document).ready(function() {
-            // Verify jQuery and Bootstrap are loaded
-            if (typeof $ === 'undefined') {
-                console.error('jQuery is not loaded!');
-                return;
-            }
-            
-            if (typeof $.fn.modal === 'undefined') {
-                console.error('Bootstrap modal plugin is not loaded!');
-                return;
-            }
-            
-            // Test modal button (for debugging - remove in production)
-            $('#testModalBtn').on('click', function() {
-                $('#invoiceModalBody').html('<p>Test modal content</p>');
-                $('#invoiceModal').modal('show');
-            });
-            
-            // Select all checkboxes
-            $('#works-select-all').on('change', function() {
-                $('.work-checkbox').prop('checked', $(this).prop('checked'));
-            });
-            
-            // Debug: Log when invoice modal elements are found
-            console.log('Invoice modal elements:', {
-                modal: $('#invoiceModal').length,
-                buttons: $('.showInvoiceModal').length
-            });
-
-            // Handle invoice code click to open modal with all works having same invoice code
-            $(document).on('click', '.showInvoiceModal', function (e) {
-                // CRITICAL: Stop all event propagation to prevent row collapse
-                e.preventDefault();
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-                
-                console.log('Invoice modal clicked');
-                
-                const invoiceCode = $(this).data('invoice-code');
-                const workId = $(this).data('work-id');
-                
-                if (!invoiceCode) {
-                    console.error('Invoice code not found');
-                    alert('Qaimə nömrəsi tapılmadı.');
-                    return false;
-                }
-
-                // Check if modal exists
-                const $modal = $('#invoiceModal');
-                if ($modal.length === 0) {
-                    console.error('Modal element not found');
-                    alert('Modal tapılmadı. Səhifəni yeniləyin.');
-                    return false;
-                }
-
-                console.log('Opening modal for invoice code:', invoiceCode);
-
-                // Show loading state
-                $('#invoiceModalBody').html('<div class="text-center p-4"><i class="fa fa-spinner fa-spin fa-2x"></i><p>Yüklənir...</p></div>');
-                
-                // Open modal immediately using Bootstrap 4
-                $modal.modal('show');
-                
-                // Double-check modal is visible after a short delay
-                setTimeout(function() {
-                    if (!$modal.hasClass('show') || $modal.css('display') === 'none') {
-                        console.warn('Modal did not open, using fallback');
-                        $modal.addClass('show').css('display', 'block');
-                        $('body').addClass('modal-open');
-                        if ($('.modal-backdrop').length === 0) {
-                            $('body').append('<div class="modal-backdrop fade show"></div>');
-                        }
-                    } else {
-                        console.log('Modal opened successfully');
-                    }
-                }, 50);
-
-                // Fetch all works with the same invoice code
-                $.ajax({
-                    url: '{{ route("works.invoice.fetch") }}',
-                    method: 'POST',
-                    dataType: 'json',
-                    data: {
-                        invoice_code: invoiceCode,
-                        _token: '{{ csrf_token() }}',
-                    },
-                    success: function (res) {
-                        console.log('AJAX success:', res);
-                        if (res && res.html) {
-                            $('#invoiceModalBody').html(res.html);
-                        } else {
-                            $('#invoiceModalBody').html('<div class="alert alert-danger">Məlumat yüklənə bilmədi.</div>');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('AJAX Error:', {status: status, error: error, response: xhr.responseText});
-                        let errorMessage = 'Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.';
-                        if (xhr.responseJSON && xhr.responseJSON.message) {
-                            errorMessage = xhr.responseJSON.message;
-                        } else if (xhr.responseJSON && xhr.responseJSON.error) {
-                            errorMessage = xhr.responseJSON.error;
-                        }
-                        $('#invoiceModalBody').html('<div class="alert alert-danger">' + errorMessage + '</div>');
-                    }
-                });
-                
-                return false;
-            });
-
-            // Handle invoice finalize button click
-            $(document).on('click', '#invoiceFinalizeBtn', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                let ids = [];
-                $('.work-checkbox:checked').each(function () {
-                    ids.push($(this).val());
-                });
-
-                if (ids.length === 0) {
-                    alert('Ən azı bir iş seçin.');
-                    return false;
-                }
-
-                // Show loading state
-                const button = $(this);
-                const originalText = button.html();
-                button.prop('disabled', true).html('Yüklənir...');
-
-                // Check if modal exists
-                if ($('#invoiceModal').length === 0) {
-                    alert('Modal tapılmadı. Səhifəni yeniləyin.');
-                    button.prop('disabled', false).html(originalText);
-                    return false;
-                }
-
-                $.ajax({
-                    url: '{{ route("works.invoice.fetch") }}',
-                    method: 'POST',
-                    dataType: 'json',
-                    data: {
-                        ids: ids,
-                        _token: '{{ csrf_token() }}',
-                    },
-                    success: function (res) {
-                        button.prop('disabled', false).html(originalText);
-                        
-                        if (res && res.html) {
-                            // Set the modal body content
-                            $('#invoiceModalBody').html(res.html);
-                            
-                            // Show modal using Bootstrap 4
-                            $('#invoiceModal').modal('show');
-                        } else {
-                            console.error('Unexpected response format:', res);
-                            alert('Məlumat yüklənə bilmədi. Cavab formatı yanlışdır.');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        button.prop('disabled', false).html(originalText);
-                        
-                        console.error('AJAX Error:', {
-                            status: status,
-                            error: error,
-                            response: xhr.responseText,
-                            statusCode: xhr.status
-                        });
-                        
-                        let errorMessage = 'Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.';
-                        
-                        if (xhr.responseJSON) {
-                            if (xhr.responseJSON.message) {
-                                errorMessage = xhr.responseJSON.message;
-                            } else if (xhr.responseJSON.error) {
-                                errorMessage = xhr.responseJSON.error;
-                            }
-                        } else if (xhr.responseText) {
-                            try {
-                                const parsed = JSON.parse(xhr.responseText);
-                                if (parsed.message) errorMessage = parsed.message;
-                                if (parsed.error) errorMessage = parsed.error;
-                            } catch(e) {
-                                // Not JSON, use default message
-                            }
-                        }
-                        
-                        alert('Xəta: ' + errorMessage);
-                    }
-                });
-                
-                return false;
-            });
-
-            // Handle complete payment button click (using event delegation for dynamically loaded content)
-            $(document).on('click', '.completePayment', function () {
-                const id = $(this).data('id');
-                const tr = $(this).closest('tr');
-
-                const paidDate = tr.find('input[name="paid_at[' + id + ']"]').val();
-                const vatDate = tr.find('input[name="vat_date[' + id + ']"]').val();
-
-                const button = $(this);
-                const originalText = button.html();
-                button.prop('disabled', true).html('Gözləyin...');
-
-                $.ajax({
-                    url: '{{ route("works.payment.complete") }}',
-                    method: 'POST',
-                    data: {
-                        id: id,
-                        paid_date: paidDate,
-                        vat_date: vatDate,
-                        _token: '{{ csrf_token() }}',
-                    },
-                    success: function (res) {
-                        if (res.success) {
-                            // Update the row to show as fully paid
-                            button.replaceWith('<span class="badge badge-success">Tam ödənilib</span>');
-                            tr.find('input[name="paid_at[' + id + ']"]').prop('disabled', true);
-                            tr.find('input[name="vat_date[' + id + ']"]').prop('disabled', true);
-                            
-                            // Update the displayed values
-                            const amount = tr.find('td[data-amount]').data('amount');
-                            const vat = tr.find('td[data-vat]').data('vat');
-                            const illegalAmount = tr.find('td[data-illegal-amount]').data('illegal-amount') || 0;
-                            
-                            tr.find('td[data-paid]').text(parseFloat(amount).toFixed(2));
-                            tr.find('td[data-vat-payment]').text(parseFloat(vat).toFixed(2));
-                            tr.find('td[data-illegal-paid]').text(parseFloat(illegalAmount).toFixed(2));
-                        } else {
-                            alert('Ödəniş tamamlanmadı.');
-                            button.prop('disabled', false).html(originalText);
-                        }
-                    },
-                    error: function(xhr) {
-                        alert('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
-                        console.error(xhr);
-                        if (xhr.responseJSON && xhr.responseJSON.message) {
-                            console.error(xhr.responseJSON.message);
-                        }
-                        button.prop('disabled', false).html(originalText);
-                    }
-                });
-            });
-        });
-    </script>
 @endsection
