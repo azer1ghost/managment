@@ -42,7 +42,93 @@
         display: inline-block;
         margin: 0;
     }
+    .payment-panel {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    .payment-panel .form-group {
+        margin-bottom: 10px;
+    }
+    .payment-panel label {
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+    .partial-fields {
+        display: none;
+    }
+    .partial-fields.show {
+        display: block;
+    }
 </style>
+
+@php
+    $invoiceCode = $works->first()->code ?? null;
+    $today = now()->format('Y-m-d');
+@endphp
+
+@if($invoiceCode)
+<!-- Unified Payment Panel -->
+<div class="payment-panel">
+    <h5 class="mb-3">Unified Payment Panel</h5>
+    <form id="unifiedPaymentForm">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="paymentType">Payment Type</label>
+                    <select id="paymentType" name="paymentType" class="form-control">
+                        <option value="full">Full Payment</option>
+                        <option value="partial">Partial Payment</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3 partial-fields">
+                <div class="form-group">
+                    <label for="partialMain">Paid Main Amount</label>
+                    <input type="number" 
+                           id="partialMain" 
+                           name="partialMain" 
+                           step="0.01" 
+                           min="0"
+                           placeholder="Paid Main Amount" 
+                           class="form-control">
+                </div>
+            </div>
+            <div class="col-md-3 partial-fields">
+                <div class="form-group">
+                    <label for="partialVat">Paid VAT Amount</label>
+                    <input type="number" 
+                           id="partialVat" 
+                           name="partialVat" 
+                           step="0.01" 
+                           min="0"
+                           placeholder="Paid VAT Amount" 
+                           class="form-control">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="paymentDate">Payment Date</label>
+                    <input type="date" 
+                           id="paymentDate" 
+                           name="paymentDate" 
+                           value="{{ $today }}"
+                           class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <button type="button" id="applyPayment" class="btn btn-primary btn-lg">
+                    <i class="fa fa-check"></i> Apply Payment to All Tasks
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+@endif
 
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
@@ -302,11 +388,135 @@
         $(document).ready(function() {
             initInlineEditing();
             initDateEditing();
+            initUnifiedPayment();
         });
     } else {
         // DOM already loaded (content loaded dynamically)
         initInlineEditing();
         initDateEditing();
+        initUnifiedPayment();
+    }
+    
+    // Unified Payment Panel
+    function initUnifiedPayment() {
+        // Check if payment panel exists
+        if ($('#paymentType').length === 0) {
+            return; // Payment panel not available
+        }
+        
+        const invoiceCode = '{{ $invoiceCode ?? "" }}';
+        
+        if (!invoiceCode) {
+            $('#applyPayment').prop('disabled', true).attr('title', 'Invoice code not available');
+            return;
+        }
+        
+        // Show/hide partial fields based on payment type
+        $('#paymentType').on('change', function() {
+            if ($(this).val() === 'partial') {
+                $('.partial-fields').addClass('show');
+            } else {
+                $('.partial-fields').removeClass('show');
+                $('#partialMain').val('');
+                $('#partialVat').val('');
+            }
+        });
+        
+        // Handle Apply Payment button
+        $('#applyPayment').on('click', function() {
+            const paymentType = $('#paymentType').val();
+            const paymentDate = $('#paymentDate').val();
+            const partialMain = parseFloat($('#partialMain').val()) || 0;
+            const partialVat = parseFloat($('#partialVat').val()) || 0;
+            
+            // Validation
+            if (!paymentDate) {
+                alert('Please select a payment date.');
+                return;
+            }
+            
+            if (paymentType === 'partial') {
+                if (partialMain <= 0 && partialVat <= 0) {
+                    alert('Please enter at least one partial payment amount.');
+                    return;
+                }
+            }
+            
+            if (!invoiceCode) {
+                alert('Invoice code not found.');
+                return;
+            }
+            
+            // Disable button and show loading
+            const $button = $(this);
+            const originalText = $button.html();
+            $button.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Processing...');
+            
+            // Prepare data
+            const data = {
+                invoice: invoiceCode,
+                paymentType: paymentType,
+                paymentDate: paymentDate,
+                partialMain: partialMain,
+                partialVat: partialVat,
+                _token: '{{ csrf_token() }}'
+            };
+            
+            $.ajax({
+                url: '{{ route("works.apply-unified-payment") }}',
+                method: 'POST',
+                dataType: 'json',
+                data: data,
+                success: function(res) {
+                    if (res.success) {
+                        // Show success message
+                        alert('Payment applied successfully to ' + res.affected_works + ' task(s)!');
+                        
+                        // Refresh modal content by re-fetching
+                        $.ajax({
+                            url: '{{ route("works.invoice.fetch") }}',
+                            method: 'POST',
+                            dataType: 'json',
+                            data: {
+                                invoice_code: '{{ $invoiceCode }}',
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(fetchRes) {
+                                if (fetchRes && fetchRes.html) {
+                                    $('#invoiceModalBody').html(fetchRes.html);
+                                } else {
+                                    // Fallback: close modal and reload page
+                                    $('#invoiceModal').modal('hide');
+                                    setTimeout(function() {
+                                        location.reload();
+                                    }, 500);
+                                }
+                            },
+                            error: function() {
+                                // Fallback: close modal and reload page
+                                $('#invoiceModal').modal('hide');
+                                setTimeout(function() {
+                                    location.reload();
+                                }, 500);
+                            }
+                        });
+                    } else {
+                        alert('Error: ' + (res.error || 'Payment application failed'));
+                        $button.prop('disabled', false).html(originalText);
+                    }
+                },
+                error: function(xhr) {
+                    let errorMsg = 'Xəta baş verdi';
+                    if (xhr.responseJSON && xhr.responseJSON.error) {
+                        errorMsg = xhr.responseJSON.error;
+                    } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMsg = xhr.responseJSON.message;
+                    }
+                    alert('Error: ' + errorMsg);
+                    $button.prop('disabled', false).html(originalText);
+                }
+            });
+        });
     }
     
     // Date field inline editing

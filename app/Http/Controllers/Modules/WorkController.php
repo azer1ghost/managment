@@ -1806,7 +1806,10 @@ class WorkController extends Controller
                 return response()->json(['error' => 'No works found'], 404);
             }
 
-            $html = view('works.partials.invoice-popup', compact('works'))->render();
+            // Get invoice code from first work
+            $invoiceCode = $works->first()->code;
+
+            $html = view('works.partials.invoice-popup', compact('works', 'invoiceCode'))->render();
 
             return response()->json(['html' => $html]);
         } catch (\Exception $e) {
@@ -1955,6 +1958,117 @@ class WorkController extends Controller
             ]);
         } catch (\Exception $e) {
             \Log::error('Error in updateInvoiceDate: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Server error occurred',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Apply unified payment to all works with the same invoice code
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function applyUnifiedPayment(Request $request)
+    {
+        try {
+            $invoiceCode = $request->input('invoice');
+            $paymentType = $request->input('paymentType');
+            $paymentDate = $request->input('paymentDate');
+            $partialMain = (float)($request->input('partialMain') ?? 0);
+            $partialVat = (float)($request->input('partialVat') ?? 0);
+
+            if (!$invoiceCode || !$paymentType || !$paymentDate) {
+                return response()->json(['error' => 'Invoice code, payment type, and payment date are required'], 400);
+            }
+
+            // Fetch all works with the same invoice code
+            $works = Work::with('parameters')
+                ->where('code', $invoiceCode)
+                ->get();
+
+            if ($works->isEmpty()) {
+                return response()->json(['error' => 'No works found for this invoice'], 404);
+            }
+
+            $paymentDateCarbon = Carbon::parse($paymentDate);
+
+            DB::beginTransaction();
+
+            if ($paymentType === 'full') {
+                // Full payment: set PAID = AMOUNT, VATPAYMENT = VAT, ILLEGALPAID = ILLEGALAMOUNT
+                foreach ($works as $work) {
+                    $amount = $work->getParameterValue(Work::AMOUNT) ?? 0;
+                    $vat = $work->getParameterValue(Work::VAT) ?? 0;
+                    $illegalAmount = $work->getParameterValue(Work::ILLEGALAMOUNT) ?? 0;
+
+                    // Update parameter values
+                    $work->setParameterValue(Work::PAID, $amount);
+                    $work->setParameterValue(Work::VATPAYMENT, $vat);
+                    $work->setParameterValue(Work::ILLEGALPAID, $illegalAmount);
+
+                    // Update date fields
+                    $work->paid_at = $paymentDateCarbon;
+                    $work->vat_date = $paymentDateCarbon;
+                    $work->save();
+                }
+            } else {
+                // Partial payment: distribute amounts sequentially
+                $remainingMain = $partialMain;
+                $remainingVat = $partialVat;
+
+                foreach ($works as $work) {
+                    $amount = $work->getParameterValue(Work::AMOUNT) ?? 0;
+                    $vat = $work->getParameterValue(Work::VAT) ?? 0;
+                    $currentPaid = $work->getParameterValue(Work::PAID) ?? 0;
+                    $currentVatPaid = $work->getParameterValue(Work::VATPAYMENT) ?? 0;
+
+                    // Calculate remaining amounts for this work
+                    $mainRemaining = $amount - $currentPaid;
+                    $vatRemaining = $vat - $currentVatPaid;
+
+                    $paymentMade = false;
+
+                    // Distribute main amount
+                    if ($remainingMain > 0 && $mainRemaining > 0) {
+                        $toPayMain = min($remainingMain, $mainRemaining);
+                        $newPaid = $currentPaid + $toPayMain;
+                        $work->setParameterValue(Work::PAID, $newPaid);
+                        $remainingMain -= $toPayMain;
+                        $paymentMade = true;
+                    }
+
+                    // Distribute VAT amount
+                    if ($remainingVat > 0 && $vatRemaining > 0) {
+                        $toPayVat = min($remainingVat, $vatRemaining);
+                        $newVatPaid = $currentVatPaid + $toPayVat;
+                        $work->setParameterValue(Work::VATPAYMENT, $newVatPaid);
+                        $remainingVat -= $toPayVat;
+                        $paymentMade = true;
+                    }
+
+                    // Update date fields if any payment was made to this work
+                    if ($paymentMade) {
+                        $work->paid_at = $paymentDateCarbon;
+                        $work->vat_date = $paymentDateCarbon;
+                    }
+
+                    $work->save();
+                }
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Payment applied successfully to all tasks',
+                'affected_works' => $works->count()
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error('Error in applyUnifiedPayment: ' . $e->getMessage());
             return response()->json([
                 'error' => 'Server error occurred',
                 'message' => $e->getMessage()
