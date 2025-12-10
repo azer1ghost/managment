@@ -1763,4 +1763,76 @@ class WorkController extends Controller
             'data'  => $rows,
         ]);
     }
+
+    /**
+     * Fetch works for invoice finalization popup
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function fetchInvoiceWorks(Request $request)
+    {
+        $workIds = $request->input('ids', []);
+        
+        if (empty($workIds) || !is_array($workIds)) {
+            return response()->json(['error' => 'No work IDs provided'], 400);
+        }
+
+        // Fetch works with parameters and service eager loaded
+        $works = Work::with(['parameters', 'service'])
+            ->whereIn('id', $workIds)
+            ->get();
+
+        // Optional: Filter by same invoice code if needed
+        // $firstWork = $works->first();
+        // if ($firstWork && $firstWork->code) {
+        //     $works = $works->filter(function ($work) use ($firstWork) {
+        //         return $work->code === $firstWork->code;
+        //     });
+        // }
+
+        $html = view('works.partials.invoice-popup', compact('works'))->render();
+
+        return response()->json(['html' => $html]);
+    }
+
+    /**
+     * Complete payment for a work
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function completePayment(Request $request)
+    {
+        $workId = $request->input('id');
+        $paidDate = $request->input('paid_date');
+        $vatDate = $request->input('vat_date');
+
+        if (!$workId) {
+            return response()->json(['error' => 'Work ID is required'], 400);
+        }
+
+        $work = Work::with('parameters')->findOrFail($workId);
+
+        // Get amounts from parameters
+        $amount = $work->getParameterValue(Work::AMOUNT) ?? 0;
+        $vat = $work->getParameterValue(Work::VAT) ?? 0;
+        $illegalAmount = $work->getParameterValue(Work::ILLEGALAMOUNT) ?? 0;
+
+        // Set payment dates
+        $paidAt = $paidDate ? Carbon::parse($paidDate) : now();
+        $vatDateValue = $vatDate ? Carbon::parse($vatDate) : $paidAt;
+
+        // Update work dates
+        $work->paid_at = $paidAt;
+        $work->vat_date = $vatDateValue;
+        $work->save();
+
+        // Update parameter values
+        $work->setParameterValue(Work::PAID, $amount);
+        $work->setParameterValue(Work::VATPAYMENT, $vat);
+        $work->setParameterValue(Work::ILLEGALPAID, $illegalAmount);
+
+        return response()->json(['success' => true]);
+    }
 }

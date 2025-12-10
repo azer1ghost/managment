@@ -156,6 +156,64 @@ class Work extends Model implements DocumentableInterface, Recordable
             null;
     }
 
+    /**
+     * Get parameter value as float/numeric from work_parameter table
+     *
+     * @param int $parameterId
+     * @return float|null
+     */
+    public function getParameterValue(int $parameterId): ?float
+    {
+        $parameter = $this->parameters()->where('parameters.id', $parameterId)->first();
+        
+        if (!$parameter || !isset($parameter->pivot->value)) {
+            return null;
+        }
+        
+        $value = $parameter->pivot->value;
+        return is_numeric($value) ? (float) $value : null;
+    }
+
+    /**
+     * Set parameter value in work_parameter table
+     *
+     * @param int $parameterId
+     * @param mixed $value
+     * @return void
+     */
+    public function setParameterValue(int $parameterId, $value): void
+    {
+        if ($this->parameters()->where('parameters.id', $parameterId)->exists()) {
+            $this->parameters()->updateExistingPivot($parameterId, ['value' => $value]);
+        } else {
+            $this->parameters()->attach($parameterId, ['value' => $value]);
+        }
+        
+        // Clear relation cache
+        $this->unsetRelation('parameters');
+    }
+
+    /**
+     * Check if work is fully paid
+     *
+     * @return bool
+     */
+    public function isFullyPaid(): bool
+    {
+        $amount = $this->getParameterValue(self::AMOUNT) ?? 0;
+        $paid = $this->getParameterValue(self::PAID) ?? 0;
+        
+        $vat = $this->getParameterValue(self::VAT) ?? 0;
+        $vatPayment = $this->getParameterValue(self::VATPAYMENT) ?? 0;
+        
+        $illegalAmount = $this->getParameterValue(self::ILLEGALAMOUNT) ?? 0;
+        $illegalPaid = $this->getParameterValue(self::ILLEGALPAID) ?? 0;
+        
+        return abs($paid - $amount) < 0.01 
+            && abs($vatPayment - $vat) < 0.01 
+            && abs($illegalPaid - $illegalAmount) < 0.01;
+    }
+
     public static function statuses(): array
     {
         return [1 => 1, 2, 3, 4, 5, 6, 7, 8, 9 ];

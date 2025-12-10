@@ -413,6 +413,14 @@
                 </div>
             @endcan
 
+            @if(auth()->user()->hasPermission('viewPrice-work'))
+                <div class="col-sm-6 py-3">
+                    <button type="button" id="invoiceFinalizeBtn" class="btn btn-primary">
+                        Qaimə üzrə yekunlaşdır
+                    </button>
+                </div>
+            @endif
+
         </div>
     </form>
 {{--    <form method="POST" action="{{ route('works.update-status') }}">--}}
@@ -433,6 +441,10 @@
         <tr class="text-center" >
             @if(auth()->user()->hasPermission('canVerify-work'))
                 <th><input type="checkbox" id="works-all"></th>
+            @endif
+
+            @if(auth()->user()->hasPermission('viewPrice-work'))
+                <th><input type="checkbox" id="works-select-all"></th>
             @endif
 
             @if(auth()->user()->hasPermission('viewPrice-work') )
@@ -492,6 +504,9 @@
                     <td><input type="checkbox" name="works[]" value="{{$work->getAttribute('id')}}"></td>
                 @elseif(auth()->user()->hasPermission('canVerify-work'))
                     <td></td>
+                @endif
+                @if(auth()->user()->hasPermission('viewPrice-work'))
+                    <td><input type="checkbox" name="works[]" class="work-checkbox" value="{{$work->getAttribute('id')}}"></td>
                 @endif
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     <th @if(auth()->user()->hasPermission('editPrice-work')) class="code" @endif data-name="code" data-pk="{{ $work->getAttribute('id') }}" scope="row">{{$work->getAttribute('code')}}</th>
@@ -1212,4 +1227,108 @@
 {{--            timer.mode(0);--}}
 {{--        });--}}
 {{--    </script>--}}
+
+    <!-- Invoice Finalization Modal -->
+    <div class="modal fade" id="invoiceModal" tabindex="-1" role="dialog" aria-labelledby="invoiceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="invoiceModalLabel">Qaimə üzrə ödənişlərin yekunlaşdırılması</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="invoiceModalBody">
+                    <!-- Dynamic content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section('script')
+    <script>
+        $(document).ready(function() {
+            // Select all checkboxes
+            $('#works-select-all').on('change', function() {
+                $('.work-checkbox').prop('checked', $(this).prop('checked'));
+            });
+
+            // Handle invoice finalize button click
+            $('#invoiceFinalizeBtn').on('click', function () {
+                let ids = [];
+                $('.work-checkbox:checked').each(function () {
+                    ids.push($(this).val());
+                });
+
+                if (ids.length === 0) {
+                    alert('Ən azı bir iş seçin.');
+                    return;
+                }
+
+                $.ajax({
+                    url: '{{ route("works.invoice.fetch") }}',
+                    method: 'POST',
+                    data: {
+                        ids: ids,
+                        _token: '{{ csrf_token() }}',
+                    },
+                    success: function (res) {
+                        $('#invoiceModalBody').html(res.html);
+                        $('#invoiceModal').modal('show');
+                    },
+                    error: function(xhr) {
+                        alert('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
+                        console.error(xhr);
+                    }
+                });
+            });
+
+            // Handle complete payment button click
+            $(document).on('click', '.completePayment', function () {
+                const id = $(this).data('id');
+                const tr = $(this).closest('tr');
+
+                const paidDate = tr.find('input[name="paid_at[' + id + ']"]').val();
+                const vatDate = tr.find('input[name="vat_date[' + id + ']"]').val();
+
+                const button = $(this);
+                const originalText = button.html();
+                button.prop('disabled', true).html('Gözləyin...');
+
+                $.ajax({
+                    url: '{{ route("works.payment.complete") }}',
+                    method: 'POST',
+                    data: {
+                        id: id,
+                        paid_date: paidDate,
+                        vat_date: vatDate,
+                        _token: '{{ csrf_token() }}',
+                    },
+                    success: function (res) {
+                        if (res.success) {
+                            // Update the row to show as fully paid
+                            button.replaceWith('<span class="badge badge-success">Tam ödənilib</span>');
+                            tr.find('input[name="paid_at[' + id + ']"]').prop('disabled', true);
+                            tr.find('input[name="vat_date[' + id + ']"]').prop('disabled', true);
+                            
+                            // Update the displayed values
+                            const amount = tr.find('td[data-amount]').data('amount');
+                            const vat = tr.find('td[data-vat]').data('vat');
+                            const illegalAmount = tr.find('td[data-illegal-amount]').data('illegal-amount') || 0;
+                            
+                            tr.find('td[data-paid]').text(parseFloat(amount).toFixed(2));
+                            tr.find('td[data-vat-payment]').text(parseFloat(vat).toFixed(2));
+                            tr.find('td[data-illegal-paid]').text(parseFloat(illegalAmount).toFixed(2));
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
+                        console.error(xhr);
+                        button.prop('disabled', false).html(originalText);
+                    }
+                });
+            });
+        });
+    </script>
     @endsection
+@endsection
