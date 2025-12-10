@@ -126,83 +126,83 @@
 @if($invoiceCode)
 <!-- Invoice Total Summary -->
 <div class="invoice-summary-panel mb-3">
-    <h5 class="mb-2">Invoice Total Summary</h5>
+    <h5 class="mb-2">Qaimə Ümumi Xülasəsi</h5>
     <div class="row">
         <div class="col-md-3">
-            <strong>Total Main:</strong> <span id="summaryTotalMain">{{ number_format($totalMain, 2, '.', ' ') }}</span> AZN
+            <strong>Ümumi Əsas Məbləğ:</strong> <span id="summaryTotalMain">{{ number_format($totalMain, 2, '.', ' ') }}</span> AZN
         </div>
         <div class="col-md-3">
-            <strong>Total VAT:</strong> <span id="summaryTotalVat">{{ number_format($totalVat, 2, '.', ' ') }}</span> AZN
+            <strong>Ümumi ƏDV:</strong> <span id="summaryTotalVat">{{ number_format($totalVat, 2, '.', ' ') }}</span> AZN
         </div>
         <div class="col-md-3">
-            <strong>Total Other:</strong> <span id="summaryTotalOther">{{ number_format($totalOther, 2, '.', ' ') }}</span> AZN
+            <strong>Ümumi Digər Məbləğ:</strong> <span id="summaryTotalOther">{{ number_format($totalOther, 2, '.', ' ') }}</span> AZN
         </div>
         <div class="col-md-3">
-            <strong>Total Amount (Main + Other):</strong> <span id="summaryTotalAmount" class="text-primary">{{ number_format($totalAmount, 2, '.', ' ') }}</span> AZN
-        </div>
-    </div>
-    <div class="row mt-2">
-        <div class="col-md-3">
-            <strong>Actual Amount (Main + VAT + Other):</strong> <span id="summaryActualAmount" class="text-success">{{ number_format($actualAmount, 2, '.', ' ') }}</span> AZN
-        </div>
-        <div class="col-md-3">
-            <strong>Paid Main:</strong> <span id="summaryPaidMain">{{ number_format($totalPaidMain, 2, '.', ' ') }}</span> AZN
-        </div>
-        <div class="col-md-3">
-            <strong>Paid VAT:</strong> <span id="summaryPaidVat">{{ number_format($totalPaidVat, 2, '.', ' ') }}</span> AZN
-        </div>
-        <div class="col-md-3">
-            <strong>Remaining Main:</strong> <span id="summaryRemainingMain" class="text-danger">{{ number_format($remainingMain, 2, '.', ' ') }}</span> AZN
+            <strong>Tam Məbləğ (Əsas + Digər):</strong> <span id="summaryTotalAmount" class="text-primary">{{ number_format($totalAmount, 2, '.', ' ') }}</span> AZN
         </div>
     </div>
     <div class="row mt-2">
         <div class="col-md-3">
-            <strong>Remaining VAT:</strong> <span id="summaryRemainingVat" class="text-danger">{{ number_format($remainingVat, 2, '.', ' ') }}</span> AZN
+            <strong>Faktiki Məbləğ (Əsas + ƏDV + Digər):</strong> <span id="summaryActualAmount" class="text-success">{{ number_format($actualAmount, 2, '.', ' ') }}</span> AZN
+        </div>
+        <div class="col-md-3">
+            <strong>Ödənilmiş Əsas:</strong> <span id="summaryPaidMain">{{ number_format($totalPaidMain, 2, '.', ' ') }}</span> AZN
+        </div>
+        <div class="col-md-3">
+            <strong>Ödənilmiş ƏDV:</strong> <span id="summaryPaidVat">{{ number_format($totalPaidVat, 2, '.', ' ') }}</span> AZN
+        </div>
+        <div class="col-md-3">
+            <strong>Qalan Əsas:</strong> <span id="summaryRemainingMain" class="text-danger">{{ number_format($remainingMain, 2, '.', ' ') }}</span> AZN
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-3">
+            <strong>Qalan ƏDV:</strong> <span id="summaryRemainingVat" class="text-danger">{{ number_format($remainingVat, 2, '.', ' ') }}</span> AZN
         </div>
     </div>
 </div>
 
 <!-- Unified Payment Panel -->
 <div class="payment-panel">
-    <h5 class="mb-3">Unified Payment Panel</h5>
+    <h5 class="mb-3">Birləşdirilmiş Ödəniş Paneli</h5>
     <form id="unifiedPaymentForm">
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="paymentType">Payment Type</label>
+                    <label for="paymentType">Ödəniş Növü</label>
                     <select id="paymentType" name="paymentType" class="form-control">
-                        <option value="full">Full Payment</option>
-                        <option value="partial">Partial Payment</option>
+                        <option value="full">Tam Ödəniş</option>
+                        <option value="partial">Qismən Ödəniş</option>
                     </select>
                 </div>
             </div>
             <div class="col-md-3 partial-fields">
                 <div class="form-group">
-                    <label for="partialMain">Paid Main Amount</label>
+                    <label for="partialMain">Əsas Məbləğdən Ödənilən</label>
                     <input type="number" 
                            id="partialMain" 
                            name="partialMain" 
                            step="0.01" 
                            min="0"
-                           placeholder="Paid Main Amount" 
+                           placeholder="Əsas Məbləğdən Ödənilən" 
                            class="form-control">
                 </div>
             </div>
             <div class="col-md-3 partial-fields">
                 <div class="form-group">
-                    <label for="partialVat">Paid VAT Amount</label>
+                    <label for="partialVat">ƏDV-dən Ödənilən</label>
                     <input type="number" 
                            id="partialVat" 
                            name="partialVat" 
                            step="0.01" 
                            min="0"
-                           placeholder="Paid VAT Amount" 
+                           placeholder="ƏDV-dən Ödənilən" 
                            class="form-control">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="globalPaymentDate">Global Payment Date</label>
+                    <label for="globalPaymentDate">Ümumi Ödəniş Tarixi</label>
                     <div class="input-group">
                         <input type="date" 
                                id="globalPaymentDate" 
@@ -211,7 +211,7 @@
                                class="form-control"
                                required>
                         <div class="input-group-append">
-                            <button type="button" id="clearPaymentDate" class="btn btn-outline-secondary" title="Clear Date">
+                            <button type="button" id="clearPaymentDate" class="btn btn-outline-secondary" title="Tarixi Təmizlə">
                                 <i class="fa fa-times"></i>
                             </button>
                         </div>
@@ -222,10 +222,10 @@
         <div class="row">
             <div class="col-12">
                 <button type="button" id="clearAllPayments" class="btn btn-warning btn-lg mr-2">
-                    <i class="fa fa-eraser"></i> Clear All Paid Amounts
+                    <i class="fa fa-eraser"></i> Bütün Ödənişləri Təmizlə
                 </button>
                 <button type="button" id="applyPayment" class="btn btn-primary btn-lg">
-                    <i class="fa fa-check"></i> Apply Payment to All Tasks
+                    <i class="fa fa-check"></i> Ödənişi Bütün Tapşırıqlara Tətbiq Et
                 </button>
             </div>
         </div>
@@ -582,7 +582,7 @@
         
         // Handle Clear Payment Date button
         $('#clearPaymentDate').on('click', function() {
-            if (confirm('Are you sure you want to clear the global payment date? This will set all payment dates to NULL.')) {
+            if (confirm('Ümumi ödəniş tarixini təmizləmək istədiyinizə əminsiniz? Bu, bütün ödəniş tarixlərini NULL olaraq təyin edəcək.')) {
                 const invoiceCode = '{{ $invoiceCode ?? "" }}';
                 
                 $.ajax({
@@ -599,11 +599,11 @@
                             $('#globalPaymentDate').val(null).removeAttr('value');
                             // Remove required attribute when cleared
                             $('#globalPaymentDate').removeAttr('required');
-                            alert('Payment dates cleared successfully!');
+                            alert('Ödəniş tarixləri uğurla təmizləndi!');
                             // Refresh modal content
                             refreshModalContent(invoiceCode);
                         } else {
-                            alert('Error: ' + (res.error || 'Failed to clear dates'));
+                            alert('Xəta: ' + (res.error || 'Tarixləri təmizləmək mümkün olmadı'));
                         }
                     },
                     error: function(xhr) {
@@ -611,7 +611,7 @@
                         if (xhr.responseJSON && xhr.responseJSON.error) {
                             errorMsg = xhr.responseJSON.error;
                         }
-                        alert('Error: ' + errorMsg);
+                        alert('Xəta: ' + errorMsg);
                     }
                 });
             }
@@ -619,13 +619,13 @@
         
         // Handle Clear All Payments button
         $('#clearAllPayments').on('click', function() {
-            if (confirm('Are you sure you want to clear ALL paid amounts? This will reset all tasks to unpaid state.')) {
+            if (confirm('BÜTÜN ödənilmiş məbləğləri təmizləmək istədiyinizə əminsiniz? Bu, bütün tapşırıqları ödənilməmiş vəziyyətə qaytaracaq.')) {
                 const invoiceCode = '{{ $invoiceCode ?? "" }}';
                 
                 // Disable button and show loading
                 const $button = $(this);
                 const originalText = $button.html();
-                $button.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Clearing...');
+                $button.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Təmizlənir...');
                 
                 $.ajax({
                     url: '{{ route("works.clear-all-payments") }}',
@@ -637,11 +637,11 @@
                     },
                     success: function(res) {
                         if (res.success) {
-                            alert('All payments cleared successfully!');
+                            alert('Bütün ödənişlər uğurla təmizləndi!');
                             // Refresh modal content
                             refreshModalContent(invoiceCode);
                         } else {
-                            alert('Error: ' + (res.error || 'Failed to clear payments'));
+                            alert('Xəta: ' + (res.error || 'Ödənişləri təmizləmək mümkün olmadı'));
                             $button.prop('disabled', false).html(originalText);
                         }
                     },
@@ -650,7 +650,7 @@
                         if (xhr.responseJSON && xhr.responseJSON.error) {
                             errorMsg = xhr.responseJSON.error;
                         }
-                        alert('Error: ' + errorMsg);
+                        alert('Xəta: ' + errorMsg);
                         $button.prop('disabled', false).html(originalText);
                     }
                 });
@@ -682,7 +682,7 @@
             
             // Validation - payment date is required for both full and partial
             if (!paymentDate || paymentDate.trim() === '') {
-                alert('Please select a payment date.');
+                alert('Zəhmət olmasa ödəniş tarixini seçin.');
                 // Re-add required attribute
                 $('#globalPaymentDate').attr('required', 'required');
                 return;
@@ -691,26 +691,26 @@
             // Validate date format (YYYY-MM-DD)
             const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
             if (!dateRegex.test(paymentDate)) {
-                alert('Invalid date format. Please select a valid date.');
+                alert('Yanlış tarix formatı. Zəhmət olmasa düzgün tarix seçin.');
                 return;
             }
             
             if (paymentType === 'partial') {
                 if (partialMain <= 0 && partialVat <= 0) {
-                    alert('Please enter at least one partial payment amount.');
+                    alert('Zəhmət olmasa ən azı bir qismən ödəniş məbləği daxil edin.');
                     return;
                 }
             }
             
             if (!invoiceCode) {
-                alert('Invoice code not found.');
+                alert('Qaimə nömrəsi tapılmadı.');
                 return;
             }
             
             // Disable button and show loading
             const $button = $(this);
             const originalText = $button.html();
-            $button.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Processing...');
+            $button.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> İşlənir...');
             
             // Prepare data - ensure paymentDate is sent
             const data = {
@@ -730,12 +730,12 @@
                 success: function(res) {
                     if (res.success) {
                         // Show success message
-                        alert('Payment applied successfully to ' + res.affected_works + ' task(s)!');
+                        alert('Ödəniş ' + res.affected_works + ' tapşırığa uğurla tətbiq edildi!');
                         
                         // Refresh modal content
                         refreshModalContent(invoiceCode);
                     } else {
-                        alert('Error: ' + (res.error || 'Payment application failed'));
+                        alert('Xəta: ' + (res.error || 'Ödəniş tətbiq edilmədi'));
                         $button.prop('disabled', false).html(originalText);
                     }
                 },
@@ -746,7 +746,7 @@
                     } else if (xhr.responseJSON && xhr.responseJSON.message) {
                         errorMsg = xhr.responseJSON.message;
                     }
-                    alert('Error: ' + errorMsg);
+                    alert('Xəta: ' + errorMsg);
                     $button.prop('disabled', false).html(originalText);
                 }
             });
