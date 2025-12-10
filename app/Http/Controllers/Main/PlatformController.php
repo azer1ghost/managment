@@ -144,6 +144,13 @@ class PlatformController extends Controller
 //            $currencies[$currency]['value'] = $this->exchangeRatesApi->convert($currency);
 //        }
 
+        // Check for today's birthdays
+        $today = now()->format('m-d');
+        $birthdayUsers = \App\Models\User::whereNotNull('birthday')
+            ->whereRaw("DATE_FORMAT(birthday, '%m-%d') = ?", [$today])
+            ->whereNull('disabled_at')
+            ->get();
+
         return view('pages.main.dashboard', [
             'widgets'    => Widget::isActive()->oldest('order')->get(),
             'tasksCount' => auth()->user()->tasks()->newTasks()->departmentNewTasks()->count(),
@@ -153,6 +160,7 @@ class PlatformController extends Controller
             'newCustomer' => $newCustomer,
             'recall' => $recall,
             'meetings' => $meetings,
+            'birthdayUsers' => $birthdayUsers,
         ]);
     }
 
