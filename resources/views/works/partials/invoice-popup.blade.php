@@ -83,14 +83,52 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+    
+    /* Fixed table layout to prevent column overlapping */
     table.export-table {
         table-layout: fixed;
+        width: 100%;
     }
+    
+    /* Consistent column widths for all table cells */
+    table.export-table th,
+    table.export-table td {
+        min-width: 140px;
+        max-width: 160px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: 8px;
+    }
+    
+    /* Header styling */
+    table.export-table thead th {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        vertical-align: middle;
+        font-weight: 600;
+    }
+    
+    /* Table responsive container */
+    .table-responsive {
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Special handling for long text fields */
     table.export-table td.export-column-long {
         max-width: 200px;
         word-break: break-word;
         white-space: normal;
         overflow: hidden;
+    }
+    
+    /* Ensure editable cells maintain width */
+    table.export-table td.editable-parameter,
+    table.export-table td.editable-date {
+        min-width: 140px;
+        max-width: 160px;
     }
 </style>
 
@@ -237,20 +275,20 @@
     <table class="table table-bordered table-striped export-table">
         <thead>
         <tr class="text-center">
-            <th>İş ID</th>
-            <th>İş adı</th>
-            <th>Qaimə nömrəsi</th>
-            <th>Əsas məbləğ (AMOUNT)</th>
-            <th>Əsas məbləğdən ödənilən (PAID)</th>
-            <th>ƏDV məbləği (VAT)</th>
-            <th>ƏDV-dən ödənilən (VATPAYMENT)</th>
-            <th>Qeyri-rəsmi məbləğ (ILLEGALAMOUNT)</th>
-            <th>Qeyri-rəsmi ödənilən (ILLEGALPAID)</th>
-            <th>Tam məbləğ (Əsas + Digər)</th>
-            <th>Faktiki məbləğ (Əsas + ƏDV + Digər)</th>
-            <th>Əsas ödəniş tarixi</th>
-            <th>ƏDV ödəniş tarixi</th>
-            <th>Status</th>
+            <th title="İş ID">İş ID</th>
+            <th title="İş adı">İş adı</th>
+            <th title="Qaimə nömrəsi">Qaimə nömrəsi</th>
+            <th title="Əsas məbləğ (AMOUNT)">Əsas məbləğ (AMOUNT)</th>
+            <th title="Əsas məbləğdən ödənilən (PAID)">Əsas məbləğdən ödənilən (PAID)</th>
+            <th title="ƏDV məbləği (VAT)">ƏDV məbləği (VAT)</th>
+            <th title="ƏDV-dən ödənilən (VATPAYMENT)">ƏDV-dən ödənilən (VATPAYMENT)</th>
+            <th title="Qeyri-rəsmi məbləğ (ILLEGALAMOUNT)">Qeyri-rəsmi məbləğ (ILLEGALAMOUNT)</th>
+            <th title="Qeyri-rəsmi ödənilən (ILLEGALPAID)">Qeyri-rəsmi ödənilən (ILLEGALPAID)</th>
+            <th title="Tam məbləğ (Əsas + Digər)">Tam məbləğ (Əsas + Digər)</th>
+            <th title="Faktiki məbləğ (Əsas + ƏDV + Digər)">Faktiki məbləğ (Əsas + ƏDV + Digər)</th>
+            <th title="Əsas ödəniş tarixi">Əsas ödəniş tarixi</th>
+            <th title="ƏDV ödəniş tarixi">ƏDV ödəniş tarixi</th>
+            <th title="Status">Status</th>
         </tr>
         </thead>
         <tbody>
@@ -275,52 +313,58 @@
                 <td class="export-column" title="{{ $work->id }}">{{ $work->id }}</td>
                 <td class="export-column" title="{{ $work->getRelationValue('service')->getAttribute('name') ?? '-' }}">{{ $work->getRelationValue('service')->getAttribute('name') ?? '-' }}</td>
                 <td class="export-column" title="{{ $work->code ?? '-' }}">{{ $work->code ?? '-' }}</td>
-                <td class="editable-parameter" 
+                <td class="editable-parameter export-column" 
                     data-work-id="{{ $work->id }}" 
                     data-parameter-id="{{ \App\Models\Work::AMOUNT }}"
                     data-amount="{{ $amount }}"
+                    title="{{ number_format($amount, 2, '.', ' ') }}"
                     style="cursor: pointer; position: relative;">
                     <span class="parameter-value">{{ number_format($amount, 2, '.', ' ') }}</span>
                     <span class="save-indicator" style="display: none; margin-left: 5px;"></span>
                 </td>
-                <td class="editable-parameter" 
+                <td class="editable-parameter export-column" 
                     data-work-id="{{ $work->id }}" 
                     data-parameter-id="{{ \App\Models\Work::PAID }}"
                     data-paid="{{ $paid }}"
+                    title="{{ number_format($paid, 2, '.', ' ') }}"
                     style="cursor: pointer; position: relative;">
-                    <span class="parameter-value">{{ number_format($paid, 2) }}</span>
+                    <span class="parameter-value">{{ number_format($paid, 2, '.', ' ') }}</span>
                     <span class="save-indicator" style="display: none; margin-left: 5px;"></span>
                 </td>
-                <td class="editable-parameter" 
+                <td class="editable-parameter export-column" 
                     data-work-id="{{ $work->id }}" 
                     data-parameter-id="{{ \App\Models\Work::VAT }}"
                     data-vat="{{ $vat }}"
+                    title="{{ number_format($vat, 2, '.', ' ') }}"
                     style="cursor: pointer; position: relative;">
-                    <span class="parameter-value">{{ number_format($vat, 2) }}</span>
+                    <span class="parameter-value">{{ number_format($vat, 2, '.', ' ') }}</span>
                     <span class="save-indicator" style="display: none; margin-left: 5px;"></span>
                 </td>
-                <td class="editable-parameter" 
+                <td class="editable-parameter export-column" 
                     data-work-id="{{ $work->id }}" 
                     data-parameter-id="{{ \App\Models\Work::VATPAYMENT }}"
                     data-vat-payment="{{ $vatPayment }}"
+                    title="{{ number_format($vatPayment, 2, '.', ' ') }}"
                     style="cursor: pointer; position: relative;">
-                    <span class="parameter-value">{{ number_format($vatPayment, 2) }}</span>
+                    <span class="parameter-value">{{ number_format($vatPayment, 2, '.', ' ') }}</span>
                     <span class="save-indicator" style="display: none; margin-left: 5px;"></span>
                 </td>
-                <td class="editable-parameter" 
+                <td class="editable-parameter export-column" 
                     data-work-id="{{ $work->id }}" 
                     data-parameter-id="{{ \App\Models\Work::ILLEGALAMOUNT }}"
                     data-illegal-amount="{{ $illegalAmount }}"
+                    title="{{ number_format($illegalAmount, 2, '.', ' ') }}"
                     style="cursor: pointer; position: relative;">
-                    <span class="parameter-value">{{ number_format($illegalAmount, 2) }}</span>
+                    <span class="parameter-value">{{ number_format($illegalAmount, 2, '.', ' ') }}</span>
                     <span class="save-indicator" style="display: none; margin-left: 5px;"></span>
                 </td>
-                <td class="editable-parameter" 
+                <td class="editable-parameter export-column" 
                     data-work-id="{{ $work->id }}" 
                     data-parameter-id="{{ \App\Models\Work::ILLEGALPAID }}"
                     data-illegal-paid="{{ $illegalPaid }}"
+                    title="{{ number_format($illegalPaid, 2, '.', ' ') }}"
                     style="cursor: pointer; position: relative;">
-                    <span class="parameter-value">{{ number_format($illegalPaid, 2) }}</span>
+                    <span class="parameter-value">{{ number_format($illegalPaid, 2, '.', ' ') }}</span>
                     <span class="save-indicator" style="display: none; margin-left: 5px;"></span>
                 </td>
                 <td class="export-column" title="{{ number_format($totalAmount, 2, '.', ' ') }}">
@@ -329,23 +373,25 @@
                 <td class="export-column" title="{{ number_format($actualAmount, 2, '.', ' ') }}">
                     <strong class="text-success">{{ number_format($actualAmount, 2, '.', ' ') }}</strong>
                 </td>
-                <td class="editable-date" 
+                <td class="editable-date export-column" 
                     data-work-id="{{ $work->id }}" 
                     data-field="paid_at"
+                    title="{{ $work->paid_at ? $work->paid_at->format('Y-m-d') : '-' }}"
                     style="cursor: pointer; position: relative;"
                     @if($isFullyPaid) data-disabled="true" @endif>
                     <span class="date-value">{{ $work->paid_at ? $work->paid_at->format('Y-m-d') : '-' }}</span>
                     <span class="save-indicator" style="display: none; margin-left: 5px;"></span>
                 </td>
-                <td class="editable-date" 
+                <td class="editable-date export-column" 
                     data-work-id="{{ $work->id }}" 
                     data-field="vat_date"
+                    title="{{ $work->vat_date ? $work->vat_date->format('Y-m-d') : '-' }}"
                     style="cursor: pointer; position: relative;"
                     @if($isFullyPaid) data-disabled="true" @endif>
                     <span class="date-value">{{ $work->vat_date ? $work->vat_date->format('Y-m-d') : '-' }}</span>
                     <span class="save-indicator" style="display: none; margin-left: 5px;"></span>
                 </td>
-                <td>
+                <td class="export-column" title="@if($isFullyPaid) Tam ödənilib @else Tam ödəniş et @endif">
                     @if($isFullyPaid)
                         <span class="badge badge-success">Tam ödənilib</span>
                     @else
