@@ -76,6 +76,22 @@
     .invoice-summary-panel strong {
         color: #0c5460;
     }
+    /* Export column styling */
+    .export-column {
+        max-width: 160px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    table.export-table {
+        table-layout: fixed;
+    }
+    table.export-table td.export-column-long {
+        max-width: 200px;
+        word-break: break-word;
+        white-space: normal;
+        overflow: hidden;
+    }
 </style>
 
 @php
@@ -85,15 +101,23 @@
     // Calculate invoice totals
     $totalMain = 0;
     $totalVat = 0;
+    $totalOther = 0;
     $totalPaidMain = 0;
     $totalPaidVat = 0;
     
     foreach ($works as $work) {
         $totalMain += $work->getParameterValue(\App\Models\Work::AMOUNT) ?? 0;
         $totalVat += $work->getParameterValue(\App\Models\Work::VAT) ?? 0;
+        $totalOther += $work->getParameterValue(\App\Models\Work::ILLEGALAMOUNT) ?? 0;
         $totalPaidMain += $work->getParameterValue(\App\Models\Work::PAID) ?? 0;
         $totalPaidVat += $work->getParameterValue(\App\Models\Work::VATPAYMENT) ?? 0;
     }
+    
+    // Total Amount = Main + Other
+    $totalAmount = $totalMain + $totalOther;
+    
+    // Actual Amount = Main + VAT + Other
+    $actualAmount = $totalMain + $totalVat + $totalOther;
     
     $remainingMain = $totalMain - $totalPaidMain;
     $remainingVat = $totalVat - $totalPaidVat;
@@ -105,24 +129,35 @@
     <h5 class="mb-2">Invoice Total Summary</h5>
     <div class="row">
         <div class="col-md-3">
-            <strong>Total Main:</strong> <span id="summaryTotalMain">{{ number_format($totalMain, 2) }}</span> AZN
+            <strong>Total Main:</strong> <span id="summaryTotalMain">{{ number_format($totalMain, 2, '.', ' ') }}</span> AZN
         </div>
         <div class="col-md-3">
-            <strong>Total VAT:</strong> <span id="summaryTotalVat">{{ number_format($totalVat, 2) }}</span> AZN
+            <strong>Total VAT:</strong> <span id="summaryTotalVat">{{ number_format($totalVat, 2, '.', ' ') }}</span> AZN
         </div>
         <div class="col-md-3">
-            <strong>Paid Main:</strong> <span id="summaryPaidMain">{{ number_format($totalPaidMain, 2) }}</span> AZN
+            <strong>Total Other:</strong> <span id="summaryTotalOther">{{ number_format($totalOther, 2, '.', ' ') }}</span> AZN
         </div>
         <div class="col-md-3">
-            <strong>Paid VAT:</strong> <span id="summaryPaidVat">{{ number_format($totalPaidVat, 2) }}</span> AZN
+            <strong>Total Amount (Main + Other):</strong> <span id="summaryTotalAmount" class="text-primary">{{ number_format($totalAmount, 2, '.', ' ') }}</span> AZN
         </div>
     </div>
     <div class="row mt-2">
         <div class="col-md-3">
-            <strong>Remaining Main:</strong> <span id="summaryRemainingMain" class="text-danger">{{ number_format($remainingMain, 2) }}</span> AZN
+            <strong>Actual Amount (Main + VAT + Other):</strong> <span id="summaryActualAmount" class="text-success">{{ number_format($actualAmount, 2, '.', ' ') }}</span> AZN
         </div>
         <div class="col-md-3">
-            <strong>Remaining VAT:</strong> <span id="summaryRemainingVat" class="text-danger">{{ number_format($remainingVat, 2) }}</span> AZN
+            <strong>Paid Main:</strong> <span id="summaryPaidMain">{{ number_format($totalPaidMain, 2, '.', ' ') }}</span> AZN
+        </div>
+        <div class="col-md-3">
+            <strong>Paid VAT:</strong> <span id="summaryPaidVat">{{ number_format($totalPaidVat, 2, '.', ' ') }}</span> AZN
+        </div>
+        <div class="col-md-3">
+            <strong>Remaining Main:</strong> <span id="summaryRemainingMain" class="text-danger">{{ number_format($remainingMain, 2, '.', ' ') }}</span> AZN
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-3">
+            <strong>Remaining VAT:</strong> <span id="summaryRemainingVat" class="text-danger">{{ number_format($remainingVat, 2, '.', ' ') }}</span> AZN
         </div>
     </div>
 </div>
@@ -199,7 +234,7 @@
 @endif
 
 <div class="table-responsive">
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped export-table">
         <thead>
         <tr class="text-center">
             <th>İş ID</th>
@@ -211,6 +246,8 @@
             <th>ƏDV-dən ödənilən (VATPAYMENT)</th>
             <th>Qeyri-rəsmi məbləğ (ILLEGALAMOUNT)</th>
             <th>Qeyri-rəsmi ödənilən (ILLEGALPAID)</th>
+            <th>Tam məbləğ (Əsas + Digər)</th>
+            <th>Faktiki məbləğ (Əsas + ƏDV + Digər)</th>
             <th>Əsas ödəniş tarixi</th>
             <th>ƏDV ödəniş tarixi</th>
             <th>Status</th>
@@ -225,18 +262,25 @@
                 $vatPayment = $work->getParameterValue(\App\Models\Work::VATPAYMENT) ?? 0;
                 $illegalAmount = $work->getParameterValue(\App\Models\Work::ILLEGALAMOUNT) ?? 0;
                 $illegalPaid = $work->getParameterValue(\App\Models\Work::ILLEGALPAID) ?? 0;
+                
+                // Calculate Total Amount (Main + Other)
+                $totalAmount = $amount + $illegalAmount;
+                
+                // Calculate Actual Amount (Main + VAT + Other)
+                $actualAmount = $amount + $vat + $illegalAmount;
+                
                 $isFullyPaid = $work->isFullyPaid();
             @endphp
             <tr>
-                <td>{{ $work->id }}</td>
-                <td>{{ $work->getRelationValue('service')->getAttribute('name') ?? '-' }}</td>
-                <td>{{ $work->code ?? '-' }}</td>
+                <td class="export-column" title="{{ $work->id }}">{{ $work->id }}</td>
+                <td class="export-column" title="{{ $work->getRelationValue('service')->getAttribute('name') ?? '-' }}">{{ $work->getRelationValue('service')->getAttribute('name') ?? '-' }}</td>
+                <td class="export-column" title="{{ $work->code ?? '-' }}">{{ $work->code ?? '-' }}</td>
                 <td class="editable-parameter" 
                     data-work-id="{{ $work->id }}" 
                     data-parameter-id="{{ \App\Models\Work::AMOUNT }}"
                     data-amount="{{ $amount }}"
                     style="cursor: pointer; position: relative;">
-                    <span class="parameter-value">{{ number_format($amount, 2) }}</span>
+                    <span class="parameter-value">{{ number_format($amount, 2, '.', ' ') }}</span>
                     <span class="save-indicator" style="display: none; margin-left: 5px;"></span>
                 </td>
                 <td class="editable-parameter" 
@@ -278,6 +322,12 @@
                     style="cursor: pointer; position: relative;">
                     <span class="parameter-value">{{ number_format($illegalPaid, 2) }}</span>
                     <span class="save-indicator" style="display: none; margin-left: 5px;"></span>
+                </td>
+                <td class="export-column" title="{{ number_format($totalAmount, 2, '.', ' ') }}">
+                    <strong>{{ number_format($totalAmount, 2, '.', ' ') }}</strong>
+                </td>
+                <td class="export-column" title="{{ number_format($actualAmount, 2, '.', ' ') }}">
+                    <strong class="text-success">{{ number_format($actualAmount, 2, '.', ' ') }}</strong>
                 </td>
                 <td class="editable-date" 
                     data-work-id="{{ $work->id }}" 
@@ -839,4 +889,5 @@
     }
 })();
 </script>
+
 

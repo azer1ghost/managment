@@ -56,9 +56,8 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             'Əsas Məbləğ',
             'ƏDV',
             'Digər məbləğ',
-
-            'Tam məbləğ',
-            'Faktiki məbləğ (Toplam məbləğ)',
+            'Tam məbləğ (Əsas + Digər)',
+            'Faktiki məbləğ (Əsas + ƏDV + Digər)',
             'Qaimə tarixi',
             'Qaimə nömrəsi',
 
@@ -97,19 +96,24 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
         // Parametr ID-ləri
         $gb              = $row->getParameter(17);
         $kodSayi         = $row->getParameter(18);
-        $esasMebleg      = $row->getParameter(33);
+        $esasMebleg      = $row->getParameter(33) ?? 0;
         $say             = $row->getParameter(20);
-        $edv             = $row->getParameter(34);
-        $diger           = $row->getParameter(38);
+        $edv             = $row->getParameter(34) ?? 0;
+        $diger           = $row->getParameter(38) ?? 0;
         $esasVereq        = $row->getParameter(48);
 
-        $esasPaid        = $row->getParameter(35);
-        $edvPaid         = $row->getParameter(36);
-        $digerPaid       = $row->getParameter(37);
+        $esasPaid        = $row->getParameter(35) ?? 0;
+        $edvPaid         = $row->getParameter(36) ?? 0;
+        $digerPaid       = $row->getParameter(37) ?? 0;
 
-
-        // Hesablamalar
-        $tamMebleg = $esasMebleg + $edv + $diger;
+        // Correct calculations according to new requirements
+        // Total Amount = Main Amount (AMOUNT) + Other Amount (ILLEGALAMOUNT)
+        $tamMebleg = $esasMebleg + $diger;
+        
+        // Actual Amount = Main Amount (AMOUNT) + VAT (VAT) + Other Amount (ILLEGALAMOUNT)
+        $faktikiMebleg = $esasMebleg + $edv + $diger;
+        
+        // Total paid amount
         $odenmis   = $esasPaid + $edvPaid + $digerPaid;
 
         $borcEsas  = $esasMebleg - $esasPaid;
@@ -156,27 +160,25 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             $kodSayi,
             $say,
             $esasVereq,
-            $esasMebleg,
-            $edv,
-            $diger,
-
-            $tamMebleg,
-            $row->total_amount,
+            number_format($esasMebleg, 2, '.', ' '),
+            number_format($edv, 2, '.', ' '),
+            number_format($diger, 2, '.', ' '),
+            number_format($tamMebleg, 2, '.', ' '),
+            number_format($faktikiMebleg, 2, '.', ' '),
             optional($row->invoiced_date)?->toDateString(),
             $row->code,
 
-            $esasPaid,
+            number_format($esasPaid, 2, '.', ' '),
             optional($row->paid_at)?->format('d/m/Y'),
-            $edvPaid,
+            number_format($edvPaid, 2, '.', ' '),
             optional($row->vat_date)?->format('d/m/Y'),
-            $digerPaid,
-
-            $odenmis,
+            number_format($digerPaid, 2, '.', ' '),
+            number_format($odenmis, 2, '.', ' '),
             trans('translates.payment_methods.' . $row->payment_method),
 
-            $borcEsas,
-            $borcEdv,
-            $borcUmumi,
+            number_format($borcEsas, 2, '.', ' '),
+            number_format($borcEdv, 2, '.', ' '),
+            number_format($borcUmumi, 2, '.', ' '),
 
             optional($row->client?->sales?->first())?->fullname ?? '-',
             optional($row->customerEngagement?->user)?->fullname ?? '-',
