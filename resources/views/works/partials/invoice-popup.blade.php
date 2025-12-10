@@ -76,61 +76,46 @@
     .invoice-summary-panel strong {
         color: #0c5460;
     }
-    /* Export column styling */
-    .export-column {
-        max-width: 160px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
     
-    /* Table scroll container for horizontal scrolling */
-    .table-scroll-container {
+    /* Invoice table wrapper for horizontal scrolling */
+    .invoice-table-wrapper {
         width: 100%;
         overflow-x: auto;
         overflow-y: hidden;
-        padding-bottom: 8px;
+        padding-bottom: 10px;
         white-space: nowrap;
-        scrollbar-width: thin;
         -webkit-overflow-scrolling: touch;
     }
     
-    /* Fixed table layout to prevent column overlapping */
-    table.export-table {
-        table-layout: fixed;
-        width: 100%;
+    /* Invoice table - allow full natural width */
+    .invoice-table {
+        table-layout: auto !important;
+        width: auto !important;
     }
     
-    /* Prevent column compression - consistent column widths for all table cells */
-    table.export-table th,
-    table.export-table td {
-        min-width: 160px;
+    /* Keep all table headers fully visible */
+    .invoice-table th {
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        padding: 8px;
-    }
-    
-    /* Header styling */
-    table.export-table thead th {
-        text-overflow: ellipsis;
-        overflow: hidden;
-        vertical-align: middle;
+        padding: 8px 12px;
         font-weight: 600;
+        overflow: visible !important;
+        text-overflow: unset !important;
     }
     
-    /* Special handling for long text fields */
-    table.export-table td.export-column-long {
-        max-width: 200px;
-        word-break: break-word;
-        white-space: normal;
-        overflow: hidden;
+    /* Keep all table cells fully visible */
+    .invoice-table td {
+        white-space: nowrap;
+        padding: 6px 12px;
+        vertical-align: middle;
+        overflow: visible !important;
+        text-overflow: unset !important;
     }
     
-    /* Ensure editable cells maintain width */
-    table.export-table td.editable-parameter,
-    table.export-table td.editable-date {
-        min-width: 160px !important;
+    /* Remove any width constraints from editable cells */
+    .invoice-table td.editable-parameter,
+    .invoice-table td.editable-date {
+        min-width: unset !important;
+        max-width: unset !important;
     }
 </style>
 
@@ -273,8 +258,8 @@
 </div>
 @endif
 
-<div class="table-scroll-container">
-    <table class="table table-bordered table-striped export-table">
+<div class="invoice-table-wrapper">
+    <table class="table table-bordered table-striped invoice-table">
         <thead>
         <tr class="text-center">
             <th title="İş ID">İş ID</th>
@@ -312,10 +297,10 @@
                 $isFullyPaid = $work->isFullyPaid();
             @endphp
             <tr>
-                <td class="export-column" title="{{ $work->id }}">{{ $work->id }}</td>
-                <td class="export-column" title="{{ $work->getRelationValue('service')->getAttribute('name') ?? '-' }}">{{ $work->getRelationValue('service')->getAttribute('name') ?? '-' }}</td>
-                <td class="export-column" title="{{ $work->code ?? '-' }}">{{ $work->code ?? '-' }}</td>
-                <td class="editable-parameter export-column" 
+                <td title="{{ $work->id }}">{{ $work->id }}</td>
+                <td title="{{ $work->getRelationValue('service')->getAttribute('name') ?? '-' }}">{{ $work->getRelationValue('service')->getAttribute('name') ?? '-' }}</td>
+                <td title="{{ $work->code ?? '-' }}">{{ $work->code ?? '-' }}</td>
+                <td class="editable-parameter" 
                     data-work-id="{{ $work->id }}" 
                     data-parameter-id="{{ \App\Models\Work::AMOUNT }}"
                     data-amount="{{ $amount }}"
@@ -324,7 +309,7 @@
                     <span class="parameter-value">{{ number_format($amount, 2, '.', ' ') }}</span>
                     <span class="save-indicator" style="display: none; margin-left: 5px;"></span>
                 </td>
-                <td class="editable-parameter export-column" 
+                <td class="editable-parameter" 
                     data-work-id="{{ $work->id }}" 
                     data-parameter-id="{{ \App\Models\Work::PAID }}"
                     data-paid="{{ $paid }}"
@@ -333,7 +318,7 @@
                     <span class="parameter-value">{{ number_format($paid, 2, '.', ' ') }}</span>
                     <span class="save-indicator" style="display: none; margin-left: 5px;"></span>
                 </td>
-                <td class="editable-parameter export-column" 
+                <td class="editable-parameter" 
                     data-work-id="{{ $work->id }}" 
                     data-parameter-id="{{ \App\Models\Work::VAT }}"
                     data-vat="{{ $vat }}"
@@ -342,7 +327,7 @@
                     <span class="parameter-value">{{ number_format($vat, 2, '.', ' ') }}</span>
                     <span class="save-indicator" style="display: none; margin-left: 5px;"></span>
                 </td>
-                <td class="editable-parameter export-column" 
+                <td class="editable-parameter" 
                     data-work-id="{{ $work->id }}" 
                     data-parameter-id="{{ \App\Models\Work::VATPAYMENT }}"
                     data-vat-payment="{{ $vatPayment }}"
@@ -351,7 +336,7 @@
                     <span class="parameter-value">{{ number_format($vatPayment, 2, '.', ' ') }}</span>
                     <span class="save-indicator" style="display: none; margin-left: 5px;"></span>
                 </td>
-                <td class="editable-parameter export-column" 
+                <td class="editable-parameter" 
                     data-work-id="{{ $work->id }}" 
                     data-parameter-id="{{ \App\Models\Work::ILLEGALAMOUNT }}"
                     data-illegal-amount="{{ $illegalAmount }}"
@@ -360,7 +345,7 @@
                     <span class="parameter-value">{{ number_format($illegalAmount, 2, '.', ' ') }}</span>
                     <span class="save-indicator" style="display: none; margin-left: 5px;"></span>
                 </td>
-                <td class="editable-parameter export-column" 
+                <td class="editable-parameter" 
                     data-work-id="{{ $work->id }}" 
                     data-parameter-id="{{ \App\Models\Work::ILLEGALPAID }}"
                     data-illegal-paid="{{ $illegalPaid }}"
@@ -369,13 +354,13 @@
                     <span class="parameter-value">{{ number_format($illegalPaid, 2, '.', ' ') }}</span>
                     <span class="save-indicator" style="display: none; margin-left: 5px;"></span>
                 </td>
-                <td class="export-column" title="{{ number_format($totalAmount, 2, '.', ' ') }}">
+                <td title="{{ number_format($totalAmount, 2, '.', ' ') }}">
                     <strong>{{ number_format($totalAmount, 2, '.', ' ') }}</strong>
                 </td>
-                <td class="export-column" title="{{ number_format($actualAmount, 2, '.', ' ') }}">
+                <td title="{{ number_format($actualAmount, 2, '.', ' ') }}">
                     <strong class="text-success">{{ number_format($actualAmount, 2, '.', ' ') }}</strong>
                 </td>
-                <td class="editable-date export-column" 
+                <td class="editable-date" 
                     data-work-id="{{ $work->id }}" 
                     data-field="paid_at"
                     title="{{ $work->paid_at ? $work->paid_at->format('Y-m-d') : '-' }}"
@@ -384,7 +369,7 @@
                     <span class="date-value">{{ $work->paid_at ? $work->paid_at->format('Y-m-d') : '-' }}</span>
                     <span class="save-indicator" style="display: none; margin-left: 5px;"></span>
                 </td>
-                <td class="editable-date export-column" 
+                <td class="editable-date" 
                     data-work-id="{{ $work->id }}" 
                     data-field="vat_date"
                     title="{{ $work->vat_date ? $work->vat_date->format('Y-m-d') : '-' }}"
@@ -393,7 +378,7 @@
                     <span class="date-value">{{ $work->vat_date ? $work->vat_date->format('Y-m-d') : '-' }}</span>
                     <span class="save-indicator" style="display: none; margin-left: 5px;"></span>
                 </td>
-                <td class="export-column" title="@if($isFullyPaid) Tam ödənilib @else Tam ödəniş et @endif">
+                <td title="@if($isFullyPaid) Tam ödənilib @else Tam ödəniş et @endif">
                     @if($isFullyPaid)
                         <span class="badge badge-success">Tam ödənilib</span>
                     @else
