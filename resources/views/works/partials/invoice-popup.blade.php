@@ -84,17 +84,27 @@
         text-overflow: ellipsis;
     }
     
+    /* Table scroll container for horizontal scrolling */
+    .table-scroll-container {
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 8px;
+        white-space: nowrap;
+        scrollbar-width: thin;
+        -webkit-overflow-scrolling: touch;
+    }
+    
     /* Fixed table layout to prevent column overlapping */
     table.export-table {
         table-layout: fixed;
         width: 100%;
     }
     
-    /* Consistent column widths for all table cells */
+    /* Prevent column compression - consistent column widths for all table cells */
     table.export-table th,
     table.export-table td {
-        min-width: 140px;
-        max-width: 160px;
+        min-width: 160px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -109,13 +119,6 @@
         font-weight: 600;
     }
     
-    /* Table responsive container */
-    .table-responsive {
-        overflow-x: auto;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-    }
-    
     /* Special handling for long text fields */
     table.export-table td.export-column-long {
         max-width: 200px;
@@ -127,8 +130,7 @@
     /* Ensure editable cells maintain width */
     table.export-table td.editable-parameter,
     table.export-table td.editable-date {
-        min-width: 140px;
-        max-width: 160px;
+        min-width: 160px !important;
     }
 </style>
 
@@ -271,7 +273,7 @@
 </div>
 @endif
 
-<div class="table-responsive">
+<div class="table-scroll-container">
     <table class="table table-bordered table-striped export-table">
         <thead>
         <tr class="text-center">
