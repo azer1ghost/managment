@@ -22,6 +22,37 @@
     .global-search {
         flex: 1;
     }
+    
+    /* New Year Navbar Logo Glow Effect */
+    .navbar-brand {
+        position: relative;
+    }
+    
+    .navbar-brand::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,0,0,0.4), transparent);
+        animation: pulse 2.5s infinite;
+        pointer-events: none;
+        z-index: -1;
+    }
+    
+    @keyframes pulse {
+        0% { 
+            transform: translate(-50%, -50%) scale(0.9); 
+            opacity: 0.7; 
+        }
+        100% { 
+            transform: translate(-50%, -50%) scale(1.2); 
+            opacity: 0; 
+        }
+    }
 
 </style>
 

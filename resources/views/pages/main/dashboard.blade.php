@@ -7,6 +7,78 @@
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <!-- Chart JS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- New Year Styles -->
+    <style>
+        .newyear-banner {
+            text-align: center;
+            padding: 12px;
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(90deg, #ff2e63, #ff9a00);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px #ff9a00;
+            animation: glow 2s infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 0 8px #ff9a00; }
+            to   { box-shadow: 0 0 20px #ff2e63; }
+        }
+        
+        .card {
+            border-radius: 16px !important;
+            box-shadow: 0 0 10px rgba(255, 182, 193, 0.2);
+            transition: 0.3s;
+        }
+        
+        .card:hover {
+            box-shadow: 0 0 16px rgba(255, 82, 82, 0.45);
+            transform: translateY(-3px);
+        }
+        
+        .ny-countdown {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(255, 46, 99, 0.9), rgba(255, 154, 0, 0.9));
+            backdrop-filter: blur(8px);
+            border-radius: 14px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(255, 154, 0, 0.3);
+        }
+        
+        .ny-countdown h3 {
+            color: #fff;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        #countdown {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 10px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: white;
+            font-size: 18px;
+            animation: fall linear infinite;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        @keyframes fall {
+            to { transform: translateY(110vh); }
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -15,6 +87,17 @@
             @lang('translates.navbar.dashboard')
         </x-bread-crumb-link>
     </x-bread-crumb>
+    
+    <!-- Happy New Year 2026 Banner -->
+    <div class="newyear-banner">
+        🎄 Happy New Year 2026 🎆
+    </div>
+    
+    <!-- New Year Countdown Widget -->
+    <div class="ny-countdown">
+        <h3>⏳ New Year Countdown</h3>
+        <div id="countdown">Loading...</div>
+    </div>
     <div class="row m-0">
         <div class="col-md-12 grid-margin">
             <div class="row">
@@ -164,15 +247,54 @@
         @endforeach
     </div>
 @endsection
-{{--@section('scripts')--}}
-{{--    <script>--}}
-{{--        $('.copy').click(function () {--}}
-{{--            const newCustomer = '{{$newCustomer}}';--}}
-{{--            const meetings = '{{$meetings}}';--}}
-{{--            const recall = '{{$recall}}';--}}
-{{--            let data = `Yeni Müştəri: ${newCustomer}, Təkrakr Zəng: ${recall}, Görüşmə: ${meetings}`;--}}
-{{--            navigator.clipboard.writeText(data);--}}
-{{--            $(this).text('@lang('translates.buttons.copied')');--}}
-{{--        });--}}
-{{--    </script>--}}
-{{--@endsection--}}
+
+@section('scripts')
+    <script>
+        // New Year Countdown
+        const target = new Date("Jan 1, 2026 00:00:00").getTime();
+        
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = target - now;
+            
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000*60*60*24));
+                const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+                const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
+                const secs = Math.floor((diff % (1000*60)) / 1000);
+                
+                document.getElementById("countdown").innerHTML =
+                    `${days}d ${hours}h ${mins}m ${secs}s`;
+            } else {
+                document.getElementById("countdown").innerHTML = "Happy New Year 2026! 🎉";
+            }
+        }, 1000);
+        
+        // Snowfall Animation
+        document.addEventListener("DOMContentLoaded", () => {
+            const body = document.body;
+            for (let i = 0; i < 60; i++) {
+                let snow = document.createElement("div");
+                snow.classList.add("snowflake");
+                snow.style.left = Math.random() * 100 + "vw";
+                snow.style.animationDuration = (2 + Math.random() * 5) + "s";
+                snow.style.opacity = Math.random();
+                snow.innerHTML = "❅";
+                body.appendChild(snow);
+            }
+        });
+    </script>
+    
+    {{--@section('scripts')--}}
+    {{--    <script>--}}
+    {{--        $('.copy').click(function () {--}}
+    {{--            const newCustomer = '{{$newCustomer}}';--}}
+    {{--            const meetings = '{{$meetings}}';--}}
+    {{--            const recall = '{{$recall}}';--}}
+    {{--            let data = `Yeni Müştəri: ${newCustomer}, Təkrakr Zəng: ${recall}, Görüşmə: ${meetings}`;--}}
+    {{--            navigator.clipboard.writeText(data);--}}
+    {{--            $(this).text('@lang('translates.buttons.copied')');--}}
+    {{--        });--}}
+    {{--    </script>--}}
+    {{--@endsection--}}
+@endsection
