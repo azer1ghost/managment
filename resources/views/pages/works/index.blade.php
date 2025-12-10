@@ -413,16 +413,16 @@
                 </div>
             @endcan
 
-            @if(auth()->user()->hasPermission('viewPrice-work'))
-                <div class="col-sm-6 py-3">
-                    <button type="button" id="invoiceFinalizeBtn" class="btn btn-primary">
-                        Qaimə üzrə yekunlaşdır
-                    </button>
-                </div>
-            @endif
-
         </div>
     </form>
+
+    @if(auth()->user()->hasPermission('viewPrice-work'))
+        <div class="mb-3">
+            <button type="button" id="invoiceFinalizeBtn" class="btn btn-primary">
+                Qaimə üzrə yekunlaşdır
+            </button>
+        </div>
+    @endif
 {{--    <form method="POST" action="{{ route('works.update-status') }}">--}}
 {{--        @csrf--}}
 {{--        <button class="btn btn-outline-primary float-right"  type="submit">Tarixi Güncəllə</button>--}}
@@ -1244,8 +1244,9 @@
             </div>
         </div>
     </div>
+@endsection
 
-    @section('script')
+@section('scripts')
     <script>
         $(document).ready(function() {
             // Select all checkboxes
@@ -1254,15 +1255,22 @@
             });
 
             // Handle invoice finalize button click
-            $('#invoiceFinalizeBtn').on('click', function () {
+            $(document).on('click', '#invoiceFinalizeBtn', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                console.log('Button clicked');
+                
                 let ids = [];
                 $('.work-checkbox:checked').each(function () {
                     ids.push($(this).val());
                 });
 
+                console.log('Selected IDs:', ids);
+
                 if (ids.length === 0) {
                     alert('Ən azı bir iş seçin.');
-                    return;
+                    return false;
                 }
 
                 $.ajax({
@@ -1273,17 +1281,28 @@
                         _token: '{{ csrf_token() }}',
                     },
                     success: function (res) {
-                        $('#invoiceModalBody').html(res.html);
-                        $('#invoiceModal').modal('show');
+                        console.log('Response received:', res);
+                        if (res.html) {
+                            $('#invoiceModalBody').html(res.html);
+                            $('#invoiceModal').modal('show');
+                        } else {
+                            alert('Məlumat yüklənə bilmədi.');
+                        }
                     },
                     error: function(xhr) {
+                        console.error('AJAX Error:', xhr);
                         alert('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
-                        console.error(xhr);
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            console.error(xhr.responseJSON.message);
+                            alert('Xəta: ' + xhr.responseJSON.message);
+                        }
                     }
                 });
+                
+                return false;
             });
 
-            // Handle complete payment button click
+            // Handle complete payment button click (using event delegation for dynamically loaded content)
             $(document).on('click', '.completePayment', function () {
                 const id = $(this).data('id');
                 const tr = $(this).closest('tr');
@@ -1319,16 +1338,21 @@
                             tr.find('td[data-paid]').text(parseFloat(amount).toFixed(2));
                             tr.find('td[data-vat-payment]').text(parseFloat(vat).toFixed(2));
                             tr.find('td[data-illegal-paid]').text(parseFloat(illegalAmount).toFixed(2));
+                        } else {
+                            alert('Ödəniş tamamlanmadı.');
+                            button.prop('disabled', false).html(originalText);
                         }
                     },
                     error: function(xhr) {
                         alert('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
                         console.error(xhr);
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            console.error(xhr.responseJSON.message);
+                        }
                         button.prop('disabled', false).html(originalText);
                     }
                 });
             });
         });
     </script>
-    @endsection
 @endsection
