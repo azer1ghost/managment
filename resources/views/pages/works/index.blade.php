@@ -512,7 +512,18 @@
                     <td><input type="checkbox" name="works[]" class="work-checkbox" value="{{$work->getAttribute('id')}}"></td>
                 @endif
                 @if(auth()->user()->hasPermission('viewPrice-work'))
-                    <th @if(auth()->user()->hasPermission('editPrice-work')) class="code" @endif data-name="code" data-pk="{{ $work->getAttribute('id') }}" scope="row">{{$work->getAttribute('code')}}</th>
+                    <th @if(auth()->user()->hasPermission('editPrice-work')) class="code" @endif data-name="code" data-pk="{{ $work->getAttribute('id') }}" scope="row">
+                        @if($work->getAttribute('code'))
+                            <span class="showInvoiceModal" 
+                                  style="cursor: pointer; color: #007bff; text-decoration: underline;" 
+                                  data-invoice-code="{{ $work->getAttribute('code') }}"
+                                  title="Qaimə üzrə ödənişləri yekunlaşdır">
+                                {{ $work->getAttribute('code') }}
+                            </span>
+                        @else
+                            {{ $work->getAttribute('code') }}
+                        @endif
+                    </th>
                 @endif
                     <td>
                     @foreach($work->client->coordinators as $user)
@@ -1232,7 +1243,7 @@
 {{--    </script>--}}
 
     <!-- Invoice Finalization Modal -->
-    <div class="modal fade" id="invoiceModal" tabindex="-1" role="dialog" aria-labelledby="invoiceModalLabel" aria-hidden="true">
+    <div class="modal fade" id="invoiceModal" tabindex="-1" role="dialog" aria-labelledby="invoiceModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1242,7 +1253,13 @@
                     </button>
                 </div>
                 <div class="modal-body" id="invoiceModalBody">
-                    <!-- Dynamic content will be loaded here -->
+                    <div class="text-center p-4">
+                        <i class="fa fa-spinner fa-spin fa-2x"></i>
+                        <p>Yüklənir...</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Bağla</button>
                 </div>
             </div>
         </div>
@@ -1261,6 +1278,53 @@
             // Select all checkboxes
             $('#works-select-all').on('change', function() {
                 $('.work-checkbox').prop('checked', $(this).prop('checked'));
+            });
+
+            // Handle invoice code click to open modal with all works having same invoice code
+            $(document).on('click', '.showInvoiceModal', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const invoiceCode = $(this).data('invoice-code');
+                
+                if (!invoiceCode) {
+                    alert('Qaimə nömrəsi tapılmadı.');
+                    return false;
+                }
+
+                // Show loading state and open modal immediately
+                $('#invoiceModalBody').html('<div class="text-center p-4"><i class="fa fa-spinner fa-spin fa-2x"></i><p>Yüklənir...</p></div>');
+                $('#invoiceModal').modal('show');
+
+                // Fetch all works with the same invoice code
+                $.ajax({
+                    url: '{{ route("works.invoice.fetch") }}',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        invoice_code: invoiceCode,
+                        _token: '{{ csrf_token() }}',
+                    },
+                    success: function (res) {
+                        if (res && res.html) {
+                            $('#invoiceModalBody').html(res.html);
+                        } else {
+                            $('#invoiceModalBody').html('<div class="alert alert-danger">Məlumat yüklənə bilmədi.</div>');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error:', {status: status, error: error, response: xhr.responseText});
+                        let errorMessage = 'Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        } else if (xhr.responseJSON && xhr.responseJSON.error) {
+                            errorMessage = xhr.responseJSON.error;
+                        }
+                        $('#invoiceModalBody').html('<div class="alert alert-danger">' + errorMessage + '</div>');
+                    }
+                });
+                
+                return false;
             });
 
             // Handle invoice finalize button click

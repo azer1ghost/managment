@@ -1774,27 +1774,37 @@ class WorkController extends Controller
     {
         try {
             $workIds = $request->input('ids', []);
+            $invoiceCode = $request->input('invoice_code', null);
             
-            if (empty($workIds) || !is_array($workIds)) {
-                return response()->json(['error' => 'No work IDs provided'], 400);
+            // If invoice code is provided, fetch all works with that invoice code
+            if ($invoiceCode) {
+                $works = Work::with(['parameters', 'service'])
+                    ->where('code', $invoiceCode)
+                    ->get();
+            } 
+            // Otherwise use provided work IDs
+            else if (!empty($workIds) && is_array($workIds)) {
+                $works = Work::with(['parameters', 'service'])
+                    ->whereIn('id', $workIds)
+                    ->get();
+                
+                // If we have works and want to filter by the first work's invoice code
+                if ($works->isNotEmpty()) {
+                    $firstWork = $works->first();
+                    if ($firstWork && $firstWork->code) {
+                        // Fetch all works with the same invoice code
+                        $works = Work::with(['parameters', 'service'])
+                            ->where('code', $firstWork->code)
+                            ->get();
+                    }
+                }
+            } else {
+                return response()->json(['error' => 'No work IDs or invoice code provided'], 400);
             }
-
-            // Fetch works with parameters and service eager loaded
-            $works = Work::with(['parameters', 'service'])
-                ->whereIn('id', $workIds)
-                ->get();
 
             if ($works->isEmpty()) {
-                return response()->json(['error' => 'No works found with provided IDs'], 404);
+                return response()->json(['error' => 'No works found'], 404);
             }
-
-            // Optional: Filter by same invoice code if needed
-            // $firstWork = $works->first();
-            // if ($firstWork && $firstWork->code) {
-            //     $works = $works->filter(function ($work) use ($firstWork) {
-            //         return $work->code === $firstWork->code;
-            //     });
-            // }
 
             $html = view('works.partials.invoice-popup', compact('works'))->render();
 
