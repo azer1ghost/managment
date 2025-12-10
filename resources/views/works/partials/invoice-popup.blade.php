@@ -62,14 +62,71 @@
     .partial-fields.show {
         display: block;
     }
+    .invoice-summary-panel {
+        background-color: #e8f4f8;
+        border: 1px solid #bee5eb;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    .invoice-summary-panel h5 {
+        color: #0c5460;
+        font-weight: 600;
+    }
+    .invoice-summary-panel strong {
+        color: #0c5460;
+    }
 </style>
 
 @php
     $invoiceCode = $works->first()->code ?? null;
     $today = now()->format('Y-m-d');
+    
+    // Calculate invoice totals
+    $totalMain = 0;
+    $totalVat = 0;
+    $totalPaidMain = 0;
+    $totalPaidVat = 0;
+    
+    foreach ($works as $work) {
+        $totalMain += $work->getParameterValue(\App\Models\Work::AMOUNT) ?? 0;
+        $totalVat += $work->getParameterValue(\App\Models\Work::VAT) ?? 0;
+        $totalPaidMain += $work->getParameterValue(\App\Models\Work::PAID) ?? 0;
+        $totalPaidVat += $work->getParameterValue(\App\Models\Work::VATPAYMENT) ?? 0;
+    }
+    
+    $remainingMain = $totalMain - $totalPaidMain;
+    $remainingVat = $totalVat - $totalPaidVat;
 @endphp
 
 @if($invoiceCode)
+<!-- Invoice Total Summary -->
+<div class="invoice-summary-panel mb-3">
+    <h5 class="mb-2">Invoice Total Summary</h5>
+    <div class="row">
+        <div class="col-md-3">
+            <strong>Total Main:</strong> <span id="summaryTotalMain">{{ number_format($totalMain, 2) }}</span> AZN
+        </div>
+        <div class="col-md-3">
+            <strong>Total VAT:</strong> <span id="summaryTotalVat">{{ number_format($totalVat, 2) }}</span> AZN
+        </div>
+        <div class="col-md-3">
+            <strong>Paid Main:</strong> <span id="summaryPaidMain">{{ number_format($totalPaidMain, 2) }}</span> AZN
+        </div>
+        <div class="col-md-3">
+            <strong>Paid VAT:</strong> <span id="summaryPaidVat">{{ number_format($totalPaidVat, 2) }}</span> AZN
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-3">
+            <strong>Remaining Main:</strong> <span id="summaryRemainingMain" class="text-danger">{{ number_format($remainingMain, 2) }}</span> AZN
+        </div>
+        <div class="col-md-3">
+            <strong>Remaining VAT:</strong> <span id="summaryRemainingVat" class="text-danger">{{ number_format($remainingVat, 2) }}</span> AZN
+        </div>
+    </div>
+</div>
+
 <!-- Unified Payment Panel -->
 <div class="payment-panel">
     <h5 class="mb-3">Unified Payment Panel</h5>
@@ -110,17 +167,27 @@
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="paymentDate">Payment Date</label>
-                    <input type="date" 
-                           id="paymentDate" 
-                           name="paymentDate" 
-                           value="{{ $today }}"
-                           class="form-control">
+                    <label for="globalPaymentDate">Global Payment Date</label>
+                    <div class="input-group">
+                        <input type="date" 
+                               id="globalPaymentDate" 
+                               name="globalPaymentDate" 
+                               value="{{ $today }}"
+                               class="form-control">
+                        <div class="input-group-append">
+                            <button type="button" id="clearPaymentDate" class="btn btn-outline-secondary" title="Clear Date">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
+                <button type="button" id="clearAllPayments" class="btn btn-warning btn-lg mr-2">
+                    <i class="fa fa-eraser"></i> Clear All Paid Amounts
+                </button>
                 <button type="button" id="applyPayment" class="btn btn-primary btn-lg">
                     <i class="fa fa-check"></i> Apply Payment to All Tasks
                 </button>
