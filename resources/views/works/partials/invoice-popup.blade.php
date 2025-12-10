@@ -173,7 +173,8 @@
                                id="globalPaymentDate" 
                                name="globalPaymentDate" 
                                value="{{ $today }}"
-                               class="form-control">
+                               class="form-control"
+                               required>
                         <div class="input-group-append">
                             <button type="button" id="clearPaymentDate" class="btn btn-outline-secondary" title="Clear Date">
                                 <i class="fa fa-times"></i>
@@ -464,6 +465,37 @@
         initUnifiedPayment();
     }
     
+    // Helper function to refresh modal content
+    function refreshModalContent(invoiceCode) {
+        $.ajax({
+            url: '{{ route("works.invoice.fetch") }}',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                invoice_code: invoiceCode,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(fetchRes) {
+                if (fetchRes && fetchRes.html) {
+                    $('#invoiceModalBody').html(fetchRes.html);
+                } else {
+                    // Fallback: close modal and reload page
+                    $('#invoiceModal').modal('hide');
+                    setTimeout(function() {
+                        location.reload();
+                    }, 500);
+                }
+            },
+            error: function() {
+                // Fallback: close modal and reload page
+                $('#invoiceModal').modal('hide');
+                setTimeout(function() {
+                    location.reload();
+                }, 500);
+            }
+        });
+    }
+    
     // Unified Payment Panel
     function initUnifiedPayment() {
         // Check if payment panel exists
@@ -489,16 +521,127 @@
             }
         });
         
+        // Ensure date input is always enabled and restore required attribute when date is selected
+        $('#globalPaymentDate').on('change', function() {
+            const dateValue = $(this).val();
+            if (dateValue && dateValue.trim() !== '') {
+                // Date is selected, ensure required attribute is set
+                $(this).attr('required', 'required');
+            }
+        });
+        
+        // Handle Clear Payment Date button
+        $('#clearPaymentDate').on('click', function() {
+            if (confirm('Are you sure you want to clear the global payment date? This will set all payment dates to NULL.')) {
+                const invoiceCode = '{{ $invoiceCode ?? "" }}';
+                
+                $.ajax({
+                    url: '{{ route("works.clear-invoice-dates") }}',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        invoice: invoiceCode,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(res) {
+                        if (res.success) {
+                            // Clear the date input value
+                            $('#globalPaymentDate').val(null).removeAttr('value');
+                            // Remove required attribute when cleared
+                            $('#globalPaymentDate').removeAttr('required');
+                            alert('Payment dates cleared successfully!');
+                            // Refresh modal content
+                            refreshModalContent(invoiceCode);
+                        } else {
+                            alert('Error: ' + (res.error || 'Failed to clear dates'));
+                        }
+                    },
+                    error: function(xhr) {
+                        let errorMsg = 'Xəta baş verdi';
+                        if (xhr.responseJSON && xhr.responseJSON.error) {
+                            errorMsg = xhr.responseJSON.error;
+                        }
+                        alert('Error: ' + errorMsg);
+                    }
+                });
+            }
+        });
+        
+        // Handle Clear All Payments button
+        $('#clearAllPayments').on('click', function() {
+            if (confirm('Are you sure you want to clear ALL paid amounts? This will reset all tasks to unpaid state.')) {
+                const invoiceCode = '{{ $invoiceCode ?? "" }}';
+                
+                // Disable button and show loading
+                const $button = $(this);
+                const originalText = $button.html();
+                $button.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Clearing...');
+                
+                $.ajax({
+                    url: '{{ route("works.clear-all-payments") }}',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        invoice: invoiceCode,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(res) {
+                        if (res.success) {
+                            alert('All payments cleared successfully!');
+                            // Refresh modal content
+                            refreshModalContent(invoiceCode);
+                        } else {
+                            alert('Error: ' + (res.error || 'Failed to clear payments'));
+                            $button.prop('disabled', false).html(originalText);
+                        }
+                    },
+                    error: function(xhr) {
+                        let errorMsg = 'Xəta baş verdi';
+                        if (xhr.responseJSON && xhr.responseJSON.error) {
+                            errorMsg = xhr.responseJSON.error;
+                        }
+                        alert('Error: ' + errorMsg);
+                        $button.prop('disabled', false).html(originalText);
+                    }
+                });
+            }
+        });
+        
         // Handle Apply Payment button
         $('#applyPayment').on('click', function() {
             const paymentType = $('#paymentType').val();
-            const paymentDate = $('#paymentDate').val();
+            
+            // Get the actual date value from the input
+            let rawDate = $('#globalPaymentDate').val();
+            
+            // Convert date format if needed (handle DD.MM.YYYY to YYYY-MM-DD)
+            let paymentDate = null;
+            if (rawDate && rawDate.trim() !== '') {
+                // Check if date is in DD.MM.YYYY format
+                if (rawDate.includes('.')) {
+                    const [day, month, year] = rawDate.split('.');
+                    paymentDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+                } else {
+                    // Already in YYYY-MM-DD format (standard HTML5 date input)
+                    paymentDate = rawDate.trim();
+                }
+            }
+            
             const partialMain = parseFloat($('#partialMain').val()) || 0;
             const partialVat = parseFloat($('#partialVat').val()) || 0;
             
-            // Validation
-            if (!paymentDate) {
+            // Validation - payment date is required for both full and partial
+            if (!paymentDate || paymentDate.trim() === '') {
                 alert('Please select a payment date.');
+                // Re-add required attribute
+                $('#globalPaymentDate').attr('required', 'required');
+                return;
+            }
+            
+            // Validate date format (YYYY-MM-DD)
+            const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+            if (!dateRegex.test(paymentDate)) {
+                alert('Invalid date format. Please select a valid date.');
                 return;
             }
             
@@ -519,11 +662,11 @@
             const originalText = $button.html();
             $button.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Processing...');
             
-            // Prepare data
+            // Prepare data - ensure paymentDate is sent
             const data = {
                 invoice: invoiceCode,
                 paymentType: paymentType,
-                paymentDate: paymentDate,
+                paymentDate: paymentDate, // Always send the formatted date
                 partialMain: partialMain,
                 partialVat: partialVat,
                 _token: '{{ csrf_token() }}'
@@ -539,34 +682,8 @@
                         // Show success message
                         alert('Payment applied successfully to ' + res.affected_works + ' task(s)!');
                         
-                        // Refresh modal content by re-fetching
-                        $.ajax({
-                            url: '{{ route("works.invoice.fetch") }}',
-                            method: 'POST',
-                            dataType: 'json',
-                            data: {
-                                invoice_code: '{{ $invoiceCode }}',
-                                _token: '{{ csrf_token() }}'
-                            },
-                            success: function(fetchRes) {
-                                if (fetchRes && fetchRes.html) {
-                                    $('#invoiceModalBody').html(fetchRes.html);
-                                } else {
-                                    // Fallback: close modal and reload page
-                                    $('#invoiceModal').modal('hide');
-                                    setTimeout(function() {
-                                        location.reload();
-                                    }, 500);
-                                }
-                            },
-                            error: function() {
-                                // Fallback: close modal and reload page
-                                $('#invoiceModal').modal('hide');
-                                setTimeout(function() {
-                                    location.reload();
-                                }, 500);
-                            }
-                        });
+                        // Refresh modal content
+                        refreshModalContent(invoiceCode);
                     } else {
                         alert('Error: ' + (res.error || 'Payment application failed'));
                         $button.prop('disabled', false).html(originalText);

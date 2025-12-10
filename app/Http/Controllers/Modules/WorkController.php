@@ -1980,8 +1980,20 @@ class WorkController extends Controller
             $partialMain = (float)($request->input('partialMain') ?? 0);
             $partialVat = (float)($request->input('partialVat') ?? 0);
 
-            if (!$invoiceCode || !$paymentType || !$paymentDate) {
-                return response()->json(['error' => 'Invoice code, payment type, and payment date are required'], 400);
+            if (!$invoiceCode || !$paymentType) {
+                return response()->json(['error' => 'Invoice code and payment type are required'], 400);
+            }
+            
+            // Validate payment date is provided
+            if (!$paymentDate || trim($paymentDate) === '') {
+                return response()->json(['error' => 'Payment date is missing.'], 422);
+            }
+            
+            // Validate and parse date format
+            try {
+                $paymentDateCarbon = Carbon::createFromFormat('Y-m-d', trim($paymentDate));
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Invalid payment date format. Expected YYYY-MM-DD.'], 422);
             }
 
             // Fetch all works with the same invoice code
@@ -1993,8 +2005,7 @@ class WorkController extends Controller
                 return response()->json(['error' => 'No works found for this invoice'], 404);
             }
 
-            $paymentDateCarbon = Carbon::parse($paymentDate);
-
+            // Payment date is already validated and parsed above
             DB::beginTransaction();
 
             if ($paymentType === 'full') {
@@ -2009,7 +2020,7 @@ class WorkController extends Controller
                     $work->setParameterValue(Work::VATPAYMENT, $vat);
                     $work->setParameterValue(Work::ILLEGALPAID, $illegalAmount);
 
-                    // Update date fields
+                    // Update date fields with the payment date
                     $work->paid_at = $paymentDateCarbon;
                     $work->vat_date = $paymentDateCarbon;
                     $work->save();
@@ -2069,6 +2080,109 @@ class WorkController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error('Error in applyUnifiedPayment: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Server error occurred',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Clear all payments for all works with the same invoice code
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function clearAllPayments(Request $request)
+    {
+        try {
+            $invoiceCode = $request->input('invoice');
+
+            if (!$invoiceCode) {
+                return response()->json(['error' => 'Invoice code is required'], 400);
+            }
+
+            // Fetch all works with the same invoice code
+            $works = Work::with('parameters')
+                ->where('code', $invoiceCode)
+                ->get();
+
+            if ($works->isEmpty()) {
+                return response()->json(['error' => 'No works found for this invoice'], 404);
+            }
+
+            DB::beginTransaction();
+
+            foreach ($works as $work) {
+                // Reset all payment parameters to 0
+                $work->setParameterValue(Work::PAID, 0);
+                $work->setParameterValue(Work::VATPAYMENT, 0);
+                $work->setParameterValue(Work::ILLEGALPAID, 0);
+
+                // Clear all date fields
+                $work->paid_at = null;
+                $work->vat_date = null;
+                $work->save();
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'All payments cleared successfully',
+                'affected_works' => $works->count()
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error('Error in clearAllPayments: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Server error occurred',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Clear all payment dates for works with the same invoice code
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function clearInvoiceDates(Request $request)
+    {
+        try {
+            $invoiceCode = $request->input('invoice');
+
+            if (!$invoiceCode) {
+                return response()->json(['error' => 'Invoice code is required'], 400);
+            }
+
+            // Fetch all works with the same invoice code
+            $works = Work::where('code', $invoiceCode)->get();
+
+            if ($works->isEmpty()) {
+                return response()->json(['error' => 'No works found for this invoice'], 404);
+            }
+
+            DB::beginTransaction();
+
+            foreach ($works as $work) {
+                // Clear all date fields
+                $work->paid_at = null;
+                $work->vat_date = null;
+                $work->save();
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Payment dates cleared successfully',
+                'affected_works' => $works->count()
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error('Error in clearInvoiceDates: ' . $e->getMessage());
             return response()->json([
                 'error' => 'Server error occurred',
                 'message' => $e->getMessage()
