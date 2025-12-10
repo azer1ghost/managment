@@ -1772,28 +1772,40 @@ class WorkController extends Controller
      */
     public function fetchInvoiceWorks(Request $request)
     {
-        $workIds = $request->input('ids', []);
-        
-        if (empty($workIds) || !is_array($workIds)) {
-            return response()->json(['error' => 'No work IDs provided'], 400);
+        try {
+            $workIds = $request->input('ids', []);
+            
+            if (empty($workIds) || !is_array($workIds)) {
+                return response()->json(['error' => 'No work IDs provided'], 400);
+            }
+
+            // Fetch works with parameters and service eager loaded
+            $works = Work::with(['parameters', 'service'])
+                ->whereIn('id', $workIds)
+                ->get();
+
+            if ($works->isEmpty()) {
+                return response()->json(['error' => 'No works found with provided IDs'], 404);
+            }
+
+            // Optional: Filter by same invoice code if needed
+            // $firstWork = $works->first();
+            // if ($firstWork && $firstWork->code) {
+            //     $works = $works->filter(function ($work) use ($firstWork) {
+            //         return $work->code === $firstWork->code;
+            //     });
+            // }
+
+            $html = view('works.partials.invoice-popup', compact('works'))->render();
+
+            return response()->json(['html' => $html]);
+        } catch (\Exception $e) {
+            \Log::error('Error in fetchInvoiceWorks: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Server error occurred',
+                'message' => $e->getMessage()
+            ], 500);
         }
-
-        // Fetch works with parameters and service eager loaded
-        $works = Work::with(['parameters', 'service'])
-            ->whereIn('id', $workIds)
-            ->get();
-
-        // Optional: Filter by same invoice code if needed
-        // $firstWork = $works->first();
-        // if ($firstWork && $firstWork->code) {
-        //     $works = $works->filter(function ($work) use ($firstWork) {
-        //         return $work->code === $firstWork->code;
-        //     });
-        // }
-
-        $html = view('works.partials.invoice-popup', compact('works'))->render();
-
-        return response()->json(['html' => $html]);
     }
 
     /**

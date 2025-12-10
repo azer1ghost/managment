@@ -421,6 +421,9 @@
             <button type="button" id="invoiceFinalizeBtn" class="btn btn-primary">
                 Qaimə üzrə yekunlaşdır
             </button>
+            <button type="button" id="testModalBtn" class="btn btn-secondary ml-2" style="display:none;">
+                Test Modal
+            </button>
         </div>
     @endif
 {{--    <form method="POST" action="{{ route('works.update-status') }}">--}}
@@ -1249,6 +1252,12 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
+            // Test modal button (for debugging - remove in production)
+            $('#testModalBtn').on('click', function() {
+                $('#invoiceModalBody').html('<p>Test modal content</p>');
+                $('#invoiceModal').modal('show');
+            });
+            
             // Select all checkboxes
             $('#works-select-all').on('change', function() {
                 $('.work-checkbox').prop('checked', $(this).prop('checked'));
@@ -1259,43 +1268,79 @@
                 e.preventDefault();
                 e.stopPropagation();
                 
-                console.log('Button clicked');
-                
                 let ids = [];
                 $('.work-checkbox:checked').each(function () {
                     ids.push($(this).val());
                 });
-
-                console.log('Selected IDs:', ids);
 
                 if (ids.length === 0) {
                     alert('Ən azı bir iş seçin.');
                     return false;
                 }
 
+                // Show loading state
+                const button = $(this);
+                const originalText = button.html();
+                button.prop('disabled', true).html('Yüklənir...');
+
+                // Check if modal exists
+                if ($('#invoiceModal').length === 0) {
+                    alert('Modal tapılmadı. Səhifəni yeniləyin.');
+                    button.prop('disabled', false).html(originalText);
+                    return false;
+                }
+
                 $.ajax({
                     url: '{{ route("works.invoice.fetch") }}',
                     method: 'POST',
+                    dataType: 'json',
                     data: {
                         ids: ids,
                         _token: '{{ csrf_token() }}',
                     },
                     success: function (res) {
-                        console.log('Response received:', res);
-                        if (res.html) {
+                        button.prop('disabled', false).html(originalText);
+                        
+                        if (res && res.html) {
+                            // Set the modal body content
                             $('#invoiceModalBody').html(res.html);
+                            
+                            // Show modal using Bootstrap 4
                             $('#invoiceModal').modal('show');
                         } else {
-                            alert('Məlumat yüklənə bilmədi.');
+                            console.error('Unexpected response format:', res);
+                            alert('Məlumat yüklənə bilmədi. Cavab formatı yanlışdır.');
                         }
                     },
-                    error: function(xhr) {
-                        console.error('AJAX Error:', xhr);
-                        alert('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
-                        if (xhr.responseJSON && xhr.responseJSON.message) {
-                            console.error(xhr.responseJSON.message);
-                            alert('Xəta: ' + xhr.responseJSON.message);
+                    error: function(xhr, status, error) {
+                        button.prop('disabled', false).html(originalText);
+                        
+                        console.error('AJAX Error:', {
+                            status: status,
+                            error: error,
+                            response: xhr.responseText,
+                            statusCode: xhr.status
+                        });
+                        
+                        let errorMessage = 'Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.';
+                        
+                        if (xhr.responseJSON) {
+                            if (xhr.responseJSON.message) {
+                                errorMessage = xhr.responseJSON.message;
+                            } else if (xhr.responseJSON.error) {
+                                errorMessage = xhr.responseJSON.error;
+                            }
+                        } else if (xhr.responseText) {
+                            try {
+                                const parsed = JSON.parse(xhr.responseText);
+                                if (parsed.message) errorMessage = parsed.message;
+                                if (parsed.error) errorMessage = parsed.error;
+                            } catch(e) {
+                                // Not JSON, use default message
+                            }
                         }
+                        
+                        alert('Xəta: ' + errorMessage);
                     }
                 });
                 
