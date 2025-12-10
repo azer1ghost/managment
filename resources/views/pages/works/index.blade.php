@@ -514,12 +514,14 @@
                 @if(auth()->user()->hasPermission('viewPrice-work'))
                     <th @if(auth()->user()->hasPermission('editPrice-work')) class="code" @endif data-name="code" data-pk="{{ $work->getAttribute('id') }}" scope="row">
                         @if($work->getAttribute('code'))
-                            <span class="showInvoiceModal" 
-                                  style="cursor: pointer; color: #007bff; text-decoration: underline;" 
-                                  data-invoice-code="{{ $work->getAttribute('code') }}"
-                                  title="Qaimə üzrə ödənişləri yekunlaşdır">
+                            <a href="javascript:void(0);" 
+                               class="showInvoiceModal" 
+                               style="cursor: pointer; color: #007bff; text-decoration: underline; display: inline-block; z-index: 10; position: relative;" 
+                               data-invoice-code="{{ $work->getAttribute('code') }}"
+                               data-work-id="{{ $work->getAttribute('id') }}"
+                               title="Qaimə üzrə ödənişləri yekunlaşdır">
                                 {{ $work->getAttribute('code') }}
-                            </span>
+                            </a>
                         @else
                             {{ $work->getAttribute('code') }}
                         @endif
@@ -1243,7 +1245,7 @@
 {{--    </script>--}}
 
     <!-- Invoice Finalization Modal -->
-    <div class="modal fade" id="invoiceModal" tabindex="-1" role="dialog" aria-labelledby="invoiceModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal fade" id="invoiceModal" tabindex="-1" role="dialog" aria-labelledby="invoiceModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1269,6 +1271,17 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
+            // Verify jQuery and Bootstrap are loaded
+            if (typeof $ === 'undefined') {
+                console.error('jQuery is not loaded!');
+                return;
+            }
+            
+            if (typeof $.fn.modal === 'undefined') {
+                console.error('Bootstrap modal plugin is not loaded!');
+                return;
+            }
+            
             // Test modal button (for debugging - remove in production)
             $('#testModalBtn').on('click', function() {
                 $('#invoiceModalBody').html('<p>Test modal content</p>');
@@ -1279,22 +1292,60 @@
             $('#works-select-all').on('change', function() {
                 $('.work-checkbox').prop('checked', $(this).prop('checked'));
             });
+            
+            // Debug: Log when invoice modal elements are found
+            console.log('Invoice modal elements:', {
+                modal: $('#invoiceModal').length,
+                buttons: $('.showInvoiceModal').length
+            });
 
             // Handle invoice code click to open modal with all works having same invoice code
             $(document).on('click', '.showInvoiceModal', function (e) {
+                // CRITICAL: Stop all event propagation to prevent row collapse
                 e.preventDefault();
                 e.stopPropagation();
+                e.stopImmediatePropagation();
+                
+                console.log('Invoice modal clicked');
                 
                 const invoiceCode = $(this).data('invoice-code');
+                const workId = $(this).data('work-id');
                 
                 if (!invoiceCode) {
+                    console.error('Invoice code not found');
                     alert('Qaimə nömrəsi tapılmadı.');
                     return false;
                 }
 
-                // Show loading state and open modal immediately
+                // Check if modal exists
+                const $modal = $('#invoiceModal');
+                if ($modal.length === 0) {
+                    console.error('Modal element not found');
+                    alert('Modal tapılmadı. Səhifəni yeniləyin.');
+                    return false;
+                }
+
+                console.log('Opening modal for invoice code:', invoiceCode);
+
+                // Show loading state
                 $('#invoiceModalBody').html('<div class="text-center p-4"><i class="fa fa-spinner fa-spin fa-2x"></i><p>Yüklənir...</p></div>');
-                $('#invoiceModal').modal('show');
+                
+                // Open modal immediately using Bootstrap 4
+                $modal.modal('show');
+                
+                // Double-check modal is visible after a short delay
+                setTimeout(function() {
+                    if (!$modal.hasClass('show') || $modal.css('display') === 'none') {
+                        console.warn('Modal did not open, using fallback');
+                        $modal.addClass('show').css('display', 'block');
+                        $('body').addClass('modal-open');
+                        if ($('.modal-backdrop').length === 0) {
+                            $('body').append('<div class="modal-backdrop fade show"></div>');
+                        }
+                    } else {
+                        console.log('Modal opened successfully');
+                    }
+                }, 50);
 
                 // Fetch all works with the same invoice code
                 $.ajax({
@@ -1306,6 +1357,7 @@
                         _token: '{{ csrf_token() }}',
                     },
                     success: function (res) {
+                        console.log('AJAX success:', res);
                         if (res && res.html) {
                             $('#invoiceModalBody').html(res.html);
                         } else {
