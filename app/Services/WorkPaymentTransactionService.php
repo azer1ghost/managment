@@ -121,20 +121,44 @@ class WorkPaymentTransactionService
             }
             
             // Create or update ONLY income transactions
+            // CRITICAL: NEVER touch expense transactions (type=EXPENSE or source != 'works')
             foreach ($groupedPayments as $key => $paymentData) {
                 if ($paymentData['total_amount'] <= 0) {
                     continue;
                 }
                 
                 // Find existing INCOME transaction for this client + date + source
+                // CRITICAL: Only look for income transactions from works source
+                // NEVER touch expense transactions (type=EXPENSE or source != 'works')
                 $existingTransaction = Transaction::where('client_id', $paymentData['client_id'])
-                    ->where('transaction_date', $paymentData['date'])
-                    ->where('source', 'works')
-                    ->where('type', Transaction::INCOME) // ONLY income
+                    ->where(function($q) use ($paymentData) {
+                        $q->where('transaction_date', $paymentData['date'])
+                          ->orWhere(function($subQ) use ($paymentData) {
+                              // Also check created_at if transaction_date is null
+                              $subQ->whereNull('transaction_date')
+                                   ->whereDate('created_at', $paymentData['date']);
+                          });
+                    })
+                    ->where('source', 'works') // MUST be from works
+                    ->where('type', Transaction::INCOME) // MUST be income (1)
                     ->first();
                 
                 if ($existingTransaction) {
+                    // SAFETY CHECK: Verify it's actually an income transaction from works
+                    // This prevents accidentally updating expense transactions
+                    if ($existingTransaction->type != Transaction::INCOME || $existingTransaction->source != 'works') {
+                        \Log::warning('Attempted to update non-income transaction - skipping', [
+                            'transaction_id' => $existingTransaction->id,
+                            'type' => $existingTransaction->type,
+                            'source' => $existingTransaction->source,
+                            'expected_type' => Transaction::INCOME,
+                            'expected_source' => 'works'
+                        ]);
+                        continue; // Skip this transaction - it's not an income from works
+                    }
+                    
                     // Update existing income transaction
+                    // CRITICAL: Only update amount, user_id, and note - NEVER change type or source
                     $existingTransaction->update([
                         'amount' => $paymentData['total_amount'],
                         'user_id' => $paymentData['created_by'],
@@ -142,13 +166,15 @@ class WorkPaymentTransactionService
                     ]);
                 } else {
                     // Create new income transaction
+                    // CRITICAL: Always set type=INCOME (1) and source='works'
+                    // NEVER create expense transactions here
                     Transaction::create([
                         'client_id' => $paymentData['client_id'],
                         'transaction_date' => $paymentData['date'],
-                        'type' => Transaction::INCOME, // ONLY income
+                        'type' => Transaction::INCOME, // ALWAYS income (1)
                         'amount' => $paymentData['total_amount'],
                         'currency' => 'AZN',
-                        'source' => 'works',
+                        'source' => 'works', // ALWAYS from works
                         'status' => Transaction::SUCCESSFUL,
                         'user_id' => $paymentData['created_by'],
                         'note' => 'Mədaxil - İşlərdən ödənişlər (İş ID-ləri: ' . implode(', ', array_unique($paymentData['works'])) . ')',
@@ -259,6 +285,58 @@ class WorkPaymentTransactionService
         // Expenses are NEVER touched
         foreach ($dates as $date) {
             $this->syncIncomeTransactionsFromWorks($work->client_id, $date);
+        }
+    }
+    
+    /**
+     * Sync ALL income transactions from all works
+     * Useful for initial setup or bulk recalculation
+     * Expenses are NEVER touched
+     * 
+     * @return void
+     */
+    public function syncAllIncomeTransactions()
+    {
+        // Get all unique client+date combinations from works with payments
+        $works = Work::with(['parameters', 'client'])
+            ->whereNotNull('client_id')
+            ->where(function($q) {
+                $q->whereNotNull('paid_at')
+                  ->orWhereNotNull('vat_date');
+            })
+            ->get();
+        
+        $clientDates = [];
+        
+        foreach ($works as $work) {
+            if (!$work->client_id) {
+                continue;
+            }
+            
+            $paid = (float)($work->getParameterValue(Work::PAID) ?? 0);
+            $vatPaid = (float)($work->getParameterValue(Work::VATPAYMENT) ?? 0);
+            $illegalPaid = (float)($work->getParameterValue(Work::ILLEGALPAID) ?? 0);
+            
+            if ($paid <= 0 && $vatPaid <= 0 && $illegalPaid <= 0) {
+                continue;
+            }
+            
+            if ($work->paid_at) {
+                $date = Carbon::parse($work->paid_at)->format('Y-m-d');
+                $clientDates[$work->client_id][$date] = true;
+            }
+            
+            if ($work->vat_date) {
+                $date = Carbon::parse($work->vat_date)->format('Y-m-d');
+                $clientDates[$work->client_id][$date] = true;
+            }
+        }
+        
+        // Sync each client+date combination
+        foreach ($clientDates as $clientId => $dates) {
+            foreach (array_keys($dates) as $date) {
+                $this->syncIncomeTransactionsFromWorks($clientId, $date);
+            }
         }
     }
 }
