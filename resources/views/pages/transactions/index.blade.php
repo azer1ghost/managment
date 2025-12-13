@@ -45,6 +45,22 @@
         </div>
         <div class="col-md-3">
             <div class="form-group">
+                <select id="data-client" name="client" class="form-control"
+                        data-selected-text-format="count"
+                        data-width="fit" title="@lang('translates.filters.client')">
+                    <option value=""> @lang('translates.filters.client') </option>
+                    @foreach($clients as $client)
+                        <option
+                                @if($filters['client'] == $client->getAttribute('id')) selected @endif
+                        value="{{$client->getAttribute('id')}}">
+                            {{$client->getAttribute('fullname')}}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
                 <select id="user" name="user" class="form-control"
                         data-selected-text-format="count"
                         data-width="fit" title="@lang('translates.general.user_select')">
@@ -153,6 +169,7 @@
                         <th scope="col">#</th>
                         <th scope="col">@lang('translates.columns.user')</th>
                         <th scope="col">@lang('translates.columns.company')</th>
+                        <th scope="col">@lang('translates.fields.clientName')</th>
                         <th scope="col">@lang('translates.navbar.account')</th>
                         <th scope="col">@lang('translates.parameters.types.source')</th>
                         <th scope="col">@lang('translates.general.earning')</th>
@@ -165,24 +182,35 @@
                     </thead>
                     <tbody>
                     @php
-                        $totalAmount = 0;
+                        $totalIncome = 0;
+                        $totalExpense = 0;
                     @endphp
                     @forelse($transactions as $transaction)
                         <tr>
                             @php
-                                $typeColor = ($transaction->getAttribute('type') == 1) ? 'red' : 'green';
+                                // Income (1) = green, Expense (0) = red
+                                $isIncome = $transaction->getAttribute('type') == 1; // Transaction::INCOME = 1
+                                $typeColor = $isIncome ? 'green' : 'red';
+                                $transactionDate = $transaction->getAttribute('transaction_date') ?? $transaction->getAttribute('created_at');
                             @endphp
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$transaction->getRelationValue('user')->getAttribute('fullname')}}</td>
                             <td>{{$transaction->getRelationValue('company')->getAttribute('name')}}</td>
+                            <td>{{$transaction->getRelationValue('client')->getAttribute('fullname') ?? '-'}}</td>
                             <td>{{$transaction->getRelationValue('account')->getAttribute('name')}}</td>
                             <td>{{$transaction->getAttribute('source')}}</td>
-                            <td class="font-weight-bold" style="color: {{$typeColor}}">{{$transaction->getAttribute('amount')}}</td>
-                            <td class="font-weight-bold" style="color: {{$typeColor}}">{{trans('translates.transactions.types.'.$transaction->getAttribute('type'))}}</td>
+                            <td class="font-weight-bold" style="color: {{$typeColor}}">{{number_format($transaction->getAttribute('amount'), 2, '.', ' ')}}</td>
+                            <td class="font-weight-bold" style="color: {{$typeColor}}">
+                                @if($isIncome)
+                                    Mədaxil
+                                @else
+                                    Xərc
+                                @endif
+                            </td>
                             <td>{{$transaction->getAttribute('method')}}</td>
                             <td>{{trans('translates.transactions.statuses.'.$transaction->getAttribute('status'))}}</td>
                             <td>{{$transaction->getAttribute('note')}}</td>
-                            <td>{{$transaction->getAttribute('created_at')}}</td>
+                            <td>{{$transactionDate}}</td>
                             <td>
                                 <div class="btn-sm-group">
 {{--                                    @can('view', $transaction)--}}
@@ -204,7 +232,11 @@
                             </td>
                         </tr>
                         @php
-                            $totalAmount += $transaction->getAttribute('amount');
+                            if ($transaction->getAttribute('type') == 1) { // Transaction::INCOME = 1
+                                $totalIncome += $transaction->getAttribute('amount');
+                            } else {
+                                $totalExpense += $transaction->getAttribute('amount');
+                            }
                         @endphp
                     @empty
                         <tr>
@@ -217,7 +249,9 @@
                     @endforelse
                     <div class="row">
                         <div class="col-12">
-                            <p class="font-weight-bold">Toplam Ödənilən: {{$totalAmount}}</p>
+                            <p class="font-weight-bold" style="color: green;">Ümumi Mədaxil: {{number_format($totalIncome, 2, '.', ' ')}} AZN</p>
+                            <p class="font-weight-bold" style="color: red;">Ümumi Xərc: {{number_format($totalExpense, 2, '.', ' ')}} AZN</p>
+                            <p class="font-weight-bold">Balans: {{number_format($totalIncome - $totalExpense, 2, '.', ' ')}} AZN</p>
                         </div>
                     </div>
                     </tbody>
