@@ -10,7 +10,6 @@ use App\Interfaces\WorkRepositoryInterface;
 use App\Notifications\{NotifyClientDirectorSms, NotifyClientSms};
 use Illuminate\Support\Str;
 use App\Models\{AsanImza, Company, Department, Logistics, Service, User, Work, Client};
-use App\Services\WorkPaymentTransactionService;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -20,14 +19,12 @@ use Illuminate\Http\{RedirectResponse, Request};
 class WorkController extends Controller
 {
     protected WorkRepositoryInterface $workRepository;
-    protected WorkPaymentTransactionService $transactionService;
 
-    public function __construct(WorkRepositoryInterface $workRepository, WorkPaymentTransactionService $transactionService)
+    public function __construct(WorkRepositoryInterface $workRepository)
     {
         $this->middleware('auth');
         $this->authorizeResource(Work::class, 'work');
         $this->workRepository = $workRepository;
-        $this->transactionService = $transactionService;
     }
 
     public function export(Request $request)
@@ -1860,10 +1857,6 @@ class WorkController extends Controller
         $work->setParameterValue(Work::PAID, $amount);
         $work->setParameterValue(Work::VATPAYMENT, $vat);
         $work->setParameterValue(Work::ILLEGALPAID, $illegalAmount);
-        
-        // Sync income transaction
-        $work->load('parameters');
-        $this->transactionService->syncIncomeForWork($work);
 
         return response()->json(['success' => true]);
     }
@@ -1908,12 +1901,6 @@ class WorkController extends Controller
 
             // Update parameter value
             $work->setParameterValue((int)$parameterId, (float)$value);
-            
-            // Sync income transaction if payment parameters changed
-            if (in_array((int)$parameterId, [Work::PAID, Work::VATPAYMENT, Work::ILLEGALPAID])) {
-                $work->load('parameters');
-                $this->transactionService->syncIncomeForWork($work);
-            }
 
             return response()->json([
                 'success' => true,
@@ -1963,10 +1950,6 @@ class WorkController extends Controller
             }
             
             $work->save();
-            
-            // Sync income transaction
-            $work->load('parameters');
-            $this->transactionService->syncIncomeForWork($work);
 
             return response()->json([
                 'success' => true,
@@ -2088,12 +2071,6 @@ class WorkController extends Controller
             }
 
             DB::commit();
-            
-            // Sync income transactions for all affected works
-            foreach ($works as $w) {
-                $w->load('parameters');
-                $this->transactionService->syncIncomeForWork($w);
-            }
 
             return response()->json([
                 'success' => true,
@@ -2146,9 +2123,6 @@ class WorkController extends Controller
                 $work->paid_at = null;
                 $work->vat_date = null;
                 $work->save();
-                
-                // Remove income transaction for this work
-                $this->transactionService->removeIncomeForWork($work);
             }
 
             DB::commit();

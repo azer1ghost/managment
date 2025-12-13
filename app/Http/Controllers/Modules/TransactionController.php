@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TransactionRequest;
 use App\Models\Account;
-use App\Models\Client;
 use App\Models\Company;
 use App\Models\Transaction;
 use App\Models\User;
@@ -29,7 +28,6 @@ class TransactionController extends Controller
         $filters = [
             'search' => $request->get('search'),
             'company' => $request->get('company'),
-            'client' => $request->get('client'),
             'status' => $request->get('status'),
             'user' => $request->get('user'),
             'account' => $request->get('account'),
@@ -41,13 +39,10 @@ class TransactionController extends Controller
         ];
         $dateRanges = explode(' - ', $filters['created_at']);
 
-        $transactions = Transaction::with(['client', 'user', 'company', 'account'])
-            ->when($filters['search'], fn($query) => $query
-                ->where('note', 'like', "%" . $filters['search'] . "%"))
+        $transactions = Transaction::when($filters['search'], fn($query) => $query
+            ->where('note', 'like', "%" . $filters['search'] . "%"))
             ->when($filters['company'], fn($query) => $query
                 ->where('company_id', $filters['company']))
-            ->when($filters['client'], fn($query) => $query
-                ->where('client_id', $filters['client']))
             ->when($filters['status'], fn($query) => $query
                 ->where('status', $filters['status']))
             ->when($filters['user'], fn($query) => $query
@@ -59,18 +54,13 @@ class TransactionController extends Controller
             ->when($filters['type'], fn($query) => $query
                 ->where('type', $filters['type']))
             ->when($filters['created_at_date'], fn($query) => $query
-                ->where(function($q) use ($dateRanges) {
-                    $q->whereBetween('transaction_date', [Carbon::parse($dateRanges[0])->startOfDay(),
-                            Carbon::parse($dateRanges[1])->endOfDay()])
-                      ->orWhereBetween('created_at', [Carbon::parse($dateRanges[0])->startOfDay(),
-                            Carbon::parse($dateRanges[1])->endOfDay()]);
-                }))
+                ->whereBetween('created_at', [Carbon::parse($dateRanges[0])->startOfDay(),
+                    Carbon::parse($dateRanges[1])->endOfDay()]))
             ->orderByDesc('id')->paginate($limit);
 
         return view('pages.transactions.index')->with([
             'companies' => Company::get(['id', 'name', 'logo']),
             'accounts' => Account::get(['id', 'name']),
-            'clients' => Client::has('works')->get(['id', 'fullname']),
             'statuses' => Transaction::statuses(),
             'types' => Transaction::types(),
             'methods' => Transaction::methods(),

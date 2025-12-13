@@ -3,13 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\{Model, Relations\BelongsTo, SoftDeletes};
-use App\Models\Client;
 
 class Transaction extends Model
 {
     protected $fillable = [
         'user_id',
-        'client_id',
         'company_id',
         'account_id',
         'source',
@@ -19,10 +17,7 @@ class Transaction extends Model
         'method',
         'status',
         'note',
-        'transaction_date',
     ];
-    
-    protected $dates = ['transaction_date'];
 
     //types
     const EXPENSE = 0;
@@ -47,11 +42,6 @@ class Transaction extends Model
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class)->withDefault();
-    }
-
-    public function client(): BelongsTo
-    {
-        return $this->belongsTo(Client::class)->withDefault();
     }
 
     /**
