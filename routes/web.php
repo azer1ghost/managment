@@ -301,6 +301,10 @@ Route::group([
     Route::put('/updateFinanceClient/{client}',[FinanceClientController::class, 'updateFinanceClient'] )->name('updateFinanceClient');
     Route::get('/deleteFinanceClient/{client}',[FinanceClientController::class, 'deleteFinanceClient'] )->name('deleteFinanceClient');
     Route::get('/invoices',[FinanceClientController::class, 'invoices'] )->name('invoices');
+    Route::get('/invoices/trash',[FinanceClientController::class, 'trash'] )->name('invoices.trash');
+    Route::get('/invoices/{invoice}/duplicate',[FinanceClientController::class, 'duplicateInvoice'] )->name('invoices.duplicate');
+    Route::get('/invoices/{id}/restore',[FinanceClientController::class, 'restoreInvoice'] )->name('invoices.restore');
+    Route::get('/invoices/{id}/force-delete',[FinanceClientController::class, 'forceDeleteInvoice'] )->name('invoices.force-delete');
     Route::post('/signInvoice',[FinanceClientController::class, 'signInvoice'] )->name('signInvoice');
 
     Route::view('/instruction','pages.instructions.index' )->name('instruction');
