@@ -52,10 +52,11 @@ class WorkObserver
         }
         
         // Sync income transactions when payment-related fields change
+        // ONLY for paid values (PAID, VATPAYMENT, ILLEGALPAID) - NOT for expense transactions
         if ($work->isDirty(['paid_at', 'vat_date']) || 
-            $work->isDirty('client_id') ||
-            $this->isPaymentParameterChanged($work)) {
-            // Recalculate transactions after update
+            $work->isDirty('client_id')) {
+            // Recalculate ONLY income transactions after update
+            // Expenses are NEVER touched
             $work->load('parameters');
             $this->transactionService->recalculateWorkTransactions($work);
         }
