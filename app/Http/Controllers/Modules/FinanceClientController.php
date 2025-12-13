@@ -48,41 +48,11 @@ class FinanceClientController extends Controller
             'invoiceNumbers',
         ]);
 
-        $services = $request->get('services', []);
-        
-        // Validate services array
-        if (empty($services) || !is_array($services)) {
-            return response()->json(['error' => 'At least one service is required'], 400);
-        }
-        
-        // Filter out invalid services
-        $validServices = array_filter($services, function($service) {
-            return isset($service['input1']) && 
-                   isset($service['input3']) && 
-                   isset($service['input4']) &&
-                   is_numeric($service['input3']) &&
-                   is_numeric($service['input4']) &&
-                   $service['input3'] > 0 &&
-                   $service['input4'] > 0;
-        });
-        
-        if (empty($validServices)) {
-            return response()->json(['error' => 'At least one valid service is required'], 400);
-        }
-        
-        $data['services'] = json_encode(array_values($validServices)); // Re-index array
-        $data['created_by'] = auth()->id(); // Set the creator
+        $data['services'] = json_encode($request->get('services'));
 
-        // Create invoice instance to calculate total_amount
-        $invoice = new Invoice($data);
-        $data['total_amount'] = $invoice->calculateTotalAmount(); // Calculate and store total amount
+        Invoice::create($data);
 
-        $createdInvoice = Invoice::create($data);
-
-        return response()->json([
-            'message' => $data['company'],
-            'id' => $createdInvoice->id
-        ], 200);
+        return response()->json(['message' => $data['company']], 200);
     }
 
     public function getClients()
@@ -93,7 +63,7 @@ class FinanceClientController extends Controller
 
     public function invoices()
     {
-        return view('pages.finance.invoices')->with(['invoices' => Invoice::with(['creator', 'financeClients'])->get()]);
+        return view('pages.finance.invoices')->with(['invoices' => Invoice::get()]);
     }
     public function clients()
     {
@@ -121,95 +91,10 @@ class FinanceClientController extends Controller
 
     public function deleteInvoice(Invoice $invoice)
     {
-        // Check authorization - only creator can delete
-        if (auth()->id() !== $invoice->created_by) {
-            abort(403, 'You are not authorized to delete this invoice.');
+        if ($invoice->delete()) {
+            return back();
         }
-
-        // Soft delete
-        $invoice->delete();
-
-        return redirect()->route('invoices')->withNotify('success', 'Invoice moved to trash successfully.');
-    }
-
-    /**
-     * Show trash (deleted invoices)
-     */
-    public function trash()
-    {
-        $deletedInvoices = Invoice::onlyTrashed()
-            ->with(['creator', 'financeClients'])
-            ->get();
-
-        return view('pages.finance.trash', compact('deletedInvoices'));
-    }
-
-    /**
-     * Restore a deleted invoice
-     */
-    public function restoreInvoice($id)
-    {
-        $invoice = Invoice::onlyTrashed()->findOrFail($id);
-
-        // Check authorization - only creator can restore
-        if (auth()->id() !== $invoice->created_by) {
-            abort(403, 'You are not authorized to restore this invoice.');
-        }
-
-        $invoice->restore();
-
-        return redirect()->route('invoices.trash')->withNotify('success', 'Invoice restored successfully.');
-    }
-
-    /**
-     * Permanently delete an invoice
-     */
-    public function forceDeleteInvoice($id)
-    {
-        $invoice = Invoice::onlyTrashed()->findOrFail($id);
-
-        // Check authorization - only creator can permanently delete
-        if (auth()->id() !== $invoice->created_by) {
-            abort(403, 'You are not authorized to permanently delete this invoice.');
-        }
-
-        $invoice->forceDelete();
-
-        return redirect()->route('invoices.trash')->withNotify('success', 'Invoice permanently deleted.');
-    }
-
-    /**
-     * Duplicate (clone) an invoice
-     */
-    public function duplicateInvoice(Invoice $invoice)
-    {
-        $newInvoice = $invoice->replicate();
-        
-        // Generate clean invoice number (remove any existing -COPY suffix and create new number)
-        $baseInvoiceNo = preg_replace('/-COPY.*$/', '', $invoice->invoiceNo);
-        $datePrefix = now()->format('Ymd');
-        
-        // Find the next available invoice number for today
-        $lastInvoice = Invoice::where('invoiceNo', 'like', $datePrefix . '%')
-            ->orderBy('invoiceNo', 'desc')
-            ->first();
-        
-        if ($lastInvoice && preg_match('/' . $datePrefix . '(\d+)/', $lastInvoice->invoiceNo, $matches)) {
-            $sequence = (int)$matches[1] + 1;
-        } else {
-            $sequence = 1;
-        }
-        
-        $newInvoice->invoiceNo = $datePrefix . str_pad($sequence, 4, '0', STR_PAD_LEFT);
-        
-        $newInvoice->created_by = auth()->id();
-        $newInvoice->is_signed = 0; // Reset signed status
-        $newInvoice->total_amount = null; // Reset to recalculate on save
-        $newInvoice->created_at = now();
-        $newInvoice->updated_at = now();
-        $newInvoice->save();
-
-        return redirect()->route('financeInvoice', $newInvoice->id)->withNotify('success', 'Invoice duplicated successfully. You can now edit it.');
+        return response()->setStatusCode('204');
     }
     public function deleteFinanceClient(FinanceClient $client)
     {
