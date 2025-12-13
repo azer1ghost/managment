@@ -2,6 +2,35 @@
 
 @section('title', trans('translates.navbar.dashboard'))
 @php
+    // Check if invoice is saved (has ID) - determines if it's immutable
+    $hasId = $data->getAttribute('id') !== null;
+    
+    // Check if invoice is a draft/duplicate (should be editable):
+    // 1. Created within last hour by current user (likely a duplicate)
+    // 2. OR invoice number contains "-COPY" (legacy check)
+    $isDraft = false;
+    if ($hasId) {
+        $createdAt = $data->getAttribute('created_at');
+        $createdBy = $data->getAttribute('created_by');
+        $invoiceNo = $data->getAttribute('invoiceNo');
+        
+        // Check if recently created (within last hour) by current user
+        if ($createdAt && $createdBy == auth()->id()) {
+            $hoursSinceCreation = now()->diffInHours($createdAt);
+            if ($hoursSinceCreation < 1) {
+                $isDraft = true;
+            }
+        }
+        
+        // Legacy check: if invoice number contains "-COPY", treat as draft
+        if (strpos($invoiceNo, '-COPY') !== false) {
+            $isDraft = true;
+        }
+    }
+    
+    // Invoice is saved (immutable) only if it has ID AND is not a draft
+    $isSaved = $hasId && !$isDraft;
+    
     $company = $data->getAttribute('company');
     $representer = "Gömrük Təmsilçisi";
 
@@ -16,7 +45,7 @@
      $swift = "AIIBAZ2XXXX";
      $who = "Vüsal Xəlilov İbrahim oğlu";
      $whoFooter = "V.İ.Xəlilov";
-     $stamp = asset('assets/images/finance/mbroker1.jpeg');
+      $stamp = asset('assets/images/finance/mbroker1.jpeg');
 
  } else if ($company == 'mbrokerRespublika') {
      $companyName = "\"Mobil Broker\" MMC";
@@ -29,7 +58,7 @@
      $swift = "BRESAZ22";
      $who = "Vüsal Xəlilov İbrahim oğlu";
      $whoFooter = "V.İ.Xəlilov";
-     $stamp = asset('assets/images/finance/mbroker1.jpeg');
+      $stamp = asset('assets/images/finance/mbroker1.jpeg');
   }else if ($company == 'mgroupRespublika') {
      $companyName = "\"Mobil Group\" MMC";
      $voen = "1405261701";
@@ -250,7 +279,20 @@
      $who = "Həsənova Vüsalə İbrahim qızı";
      $whoFooter = "V.İ.Həsənova";
      $stamp = asset('assets/images/finance/mobex1.jpeg');
-     }
+} else {
+    // Default values if company doesn't match any condition
+    $companyName = "Şirkət";
+    $voen = "";
+    $hh = "";
+    $mh = "";
+    $bank = "";
+    $kod = "";
+    $bvoen = "";
+    $swift = "";
+    $who = "";
+    $whoFooter = "";
+    $stamp = asset('assets/images/finance/default-stamp.jpeg');
+}
 @endphp
 
 @section('style')
@@ -274,7 +316,7 @@
             background: white; !important;
         }
         .imza {
-            background-image: url('{{$stamp}}');
+             background-image: url('{{$stamp ?? asset('assets/images/finance/default-stamp.jpeg')}}');
             background-position: center;
             background-repeat: no-repeat;
             background-size: contain;
@@ -319,12 +361,23 @@
 
     <div class="container">
         <br>
+        @if($isSaved)
+            <div class="alert alert-info">
+                <strong>Məlumat:</strong> Bu qaimə saxlanıldıqdan sonra dəyişdirilə bilməz. Dəyişiklik etmək istəyirsinizsə, lütfən qaiməni kopyalayın və yeni qaimə yaradın.
+            </div>
+        @else
+            <div class="alert alert-warning">
+                <strong>Məlumat:</strong> Bu qaimə hələ saxlanmayıb. Bütün dəyişiklikləri etdikdən sonra "Yadda Saxla" düyməsini basın.
+            </div>
+        @endif
         <button onclick="printCard1()" class="btn btn-primary float-right">Print</button>
-        <button onclick="createInvoice()" class="btn btn-success float-right">+</button>
+        @if(!$isSaved)
+            <button onclick="createInvoice()" class="btn btn-success float-right mr-2">Yadda Saxla</button>
+        @endif
         <div class="card" id="printCard1">
             <div class="card-body">
                 <h2 class="text-center companyName" data-company="{{$company}}" id="companyName">{{$companyName}}</h2>
-                <h3 class="text-center">HESAB FAKTURA &numero; <span id="invoiceNo" contenteditable="true">{{$data->getAttribute('invoiceNo')}}</span></h3>
+                <h3 class="text-center">HESAB FAKTURA &numero; <span id="invoiceNo" @if(!$isSaved) contenteditable="true" @endif>{{$data->getAttribute('invoiceNo')}}</span></h3>
                 <h6 class=" mb-2"><span class="companyName">{{$companyName}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VOEN: <span class="voen">{{$voen}}</span></h6>
                 <h6 class=" mb-2">H/H: <span class="hh">{{$hh}}</span></h6>
                 <h6 class=" mb-2">M/H <span class="mh">{{$mh}}</span></h6>
@@ -343,12 +396,12 @@
                     <tbody>
                     <tr>
                         <td colspan="2" class="border border-bottom-0 tabelBorder clientName">{{$data->getRelationValue('financeClients')->getAttribute('name')}}</td>
-                        <td class="border tabelBorder">Tarix: <span id="invoiceDate" contenteditable="true">{{$data->getAttribute('invoiceDate')}}</span></td>
+                        <td class="border tabelBorder">Tarix: <span id="invoiceDate" @if(!$isSaved) contenteditable="true" @endif>{{$data->getAttribute('invoiceDate')}}</span></td>
                         <td class="border tabelBorder">&numero; <span class="invoiceNo">{{$data->getAttribute('invoiceNo')}}</span></td>
                     </tr>
                     <tr>
                         <td colspan="2" class="border border-top-0 tabelBorder">VÖEN: <span class="clientVoen">{{$data->getRelationValue('financeClients')->getAttribute('voen')}}</span></td>
-                        <td class="border tabelBorder">Ödəmə növü: <span id="paymentType" contenteditable="true">{{$data->getAttribute('paymentType')}}</span></td>
+                        <td class="border tabelBorder">Ödəmə növü: <span id="paymentType" @if(!$isSaved) contenteditable="true" @endif>{{$data->getAttribute('paymentType')}}</span></td>
                         <td class="border tabelBorder total"></td>
                     </tr>
                     </tbody>
@@ -369,12 +422,16 @@
                     <tbody id="table-body">
                     @foreach(json_decode($data->getAttribute('services')) as $service)
                     <tr>
-                        <td class="tabelBorder"  contenteditable="true" >{{$service->input1}}</td>
+                        <td class="tabelBorder" @if(!$isSaved) contenteditable="true" @endif>{{$service->input1}}</td>
                         <td class="tabelBorder">Ədəd</td>
-                        <td class="tabelBorder count count-{{$loop->iteration}}" contenteditable="true" data-row="{{$loop->iteration}}">{{$service->input3}}</td>
-                        <td class="tabelBorder amount amount-{{$loop->iteration}}" contenteditable="true" data-row="{{$loop->iteration}}">{{$service->input4}}</td>
+                        <td class="tabelBorder count count-{{$loop->iteration}}" @if(!$isSaved) contenteditable="true" @endif data-row="{{$loop->iteration}}">{{$service->input3}}</td>
+                        <td class="tabelBorder amount amount-{{$loop->iteration}}" @if(!$isSaved) contenteditable="true" @endif data-row="{{$loop->iteration}}">{{$service->input4}}</td>
                         <td class="tabelBorder overal">{{$service->input3 * $service->input4}}</td>
-                        <td class="tabelBorder"><a  onclick="deleteOldRow({{$loop->iteration}})" class="btn btn-danger">Sil</a></td>
+                        <td class="tabelBorder">
+                            @if(!$isSaved)
+                                <a onclick="deleteOldRow({{$loop->iteration}})" class="btn btn-danger btn-sm">Sil</a>
+                            @endif
+                        </td>
 
                     </tr>
                     @endforeach
@@ -443,7 +500,11 @@
                         <td>Ədəd</td>
                         <td><input type="text" class="form-control" id="input3"></td>
                         <td><input type="text" class="form-control" id="input4"></td>
-                        <td id="print-area"><button onclick="addRow()" class="btn btn-primary">+</button></td>
+                        <td id="print-area">
+                            @if(!$isSaved)
+                                <button onclick="addRow()" class="btn btn-primary">+</button>
+                            @endif
+                        </td>
                     </tr>
                     <tr>
                         <td></td>
@@ -473,7 +534,7 @@
                 </table>
                 <br>
                 <div class="imzalar" style="width: 350px; height: 350px">
-                    <p class="invoiceNumbers" contenteditable="true">{{$data->getAttribute('invoiceNumbers')}}</p>
+                    <p class="invoiceNumbers" @if(!$isSaved) contenteditable="true" @endif>{{$data->getAttribute('invoiceNumbers')}}</p>
                 </div>
                 <br>
 
@@ -491,13 +552,13 @@
                 <img src="{{asset('assets/images/finance/nusxe1.jpeg')}}" class="copies" width="400" alt="">
                  <p class="float-left">Bakı Şəhəri</p>
           
-                 <p class="float-right" id="protocolDate" contenteditable="true">{{$data->getAttribute('protocolDate')}}</p>
+                 <p class="float-right" id="protocolDate" @if(!$isSaved) contenteditable="true" @endif>{{$data->getAttribute('protocolDate')}}</p>
                  <br>
                  <br>
                  <br>
                  <h3 class="mb-2 text-center">QİYMƏT RAZILAŞDIRMA PROTOKOLU &numero; <span class="invoiceNo">{{$data->getAttribute('invoiceNo')}}</span></h3>
                  <h6 class="mb-2 text-center"><span class="companyName">{{$companyName}}</span> və <span class="clientName">{{$data->getRelationValue('financeClients')->getAttribute('name')}}</span> arasında bağlanan <span class="contractDate">{{$data->getAttribute('contractDate')}}</span> tarixli</h6>
-                 <h6 class="mb-2 text-center">&numero; <span class="contractNo" id="contractNo">{{$data->getAttribute('contractNo')}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Müqaviləyə əlavə</h6>
+                 <h6 class="mb-2 text-center">&numero; <span class="contractNo" id="contractNo" @if(!$isSaved) contenteditable="true" @endif>{{$data->getAttribute('contractNo')}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Müqaviləyə əlavə</h6>
                  <br>
 
                 <table class="table table-borderless tabelBorder">
@@ -550,7 +611,7 @@
                 </table>
                 <br>
 
-                    <p class="invoiceNumbers" contenteditable="true">{{$data->getAttribute('invoiceNumbers')}}</p>
+                    <p class="invoiceNumbers" @if(!$isSaved) contenteditable="true" @endif>{{$data->getAttribute('invoiceNumbers')}}</p>
 
                 <br>
                 <p>Yekun Məbləğ:  <span class="total">0</span>  AZN (<span class="numberWord"></span>)</p>
@@ -616,7 +677,7 @@
                 <br>
                 <br>
                 <br>
-                <h6 class=" mb-2 text-center"><span class="companyName">{{$companyName}}</span> və <span class="clientName">{{$data->getRelationValue('financeClients')->getAttribute('name')}}</span> arasında bağlanan &numero; <span class="contractDate" id="contractDate">{{$data->getAttribute('contractDate')}}</span>  tarixli</h6>
+                <h6 class=" mb-2 text-center"><span class="companyName">{{$companyName}}</span> və <span class="clientName">{{$data->getRelationValue('financeClients')->getAttribute('name')}}</span> arasında bağlanan &numero; <span class="contractDate" id="contractDate" @if(!$isSaved) contenteditable="true" @endif>{{$data->getAttribute('contractDate')}}</span>  tarixli</h6>
                 <h6 class=" mb-2 text-center">müqaviləyə əsasən göstərilən xidmətlərin Təhvil-Təslim aktı &numero; <span class="invoiceNo">{{$data->getAttribute('invoiceNo')}}</span></h6>
                 <br>
                 <table class="table table-borderless tabelBorder">
@@ -669,7 +730,7 @@
                 </table>
                 <br>
 
-                    <p class="invoiceNumbers" contenteditable="true">{{$data->getAttribute('invoiceNumbers')}}</p>
+                    <p class="invoiceNumbers" @if(!$isSaved) contenteditable="true" @endif>{{$data->getAttribute('invoiceNumbers')}}</p>
 
                 <br>
                 <p>Yekun Məbləğ: <span class="total">0</span> AZN (<span class="numberWord"></span>)</p>
@@ -701,6 +762,10 @@
     </div>
 @endsection
 @section('scripts')
+    <script>
+        // Track if invoice is saved (immutable)
+        const isInvoiceSaved = @json($isSaved);
+    </script>
 {{--    <script>--}}
 {{--        $(document).ready(function() {--}}
 {{--            $('#loginput').css('display', 'none');--}}
@@ -773,6 +838,10 @@
 
     var savedRows = [];
     function addRow() {
+        if (isInvoiceSaved) {
+            alert('Bu qaimə saxlanıldıqdan sonra dəyişdirilə bilməz. Dəyişiklik etmək istəyirsinizsə, lütfən qaiməni kopyalayın.');
+            return;
+        }
         // var selectElement = $('#input1');
         // var selectedOption = selectElement.find('option:selected');
         // var input1 = selectedOption.text();
@@ -826,37 +895,46 @@
         var cell32 = newRow2.insertCell(2);
         var cell33 = newRow3.insertCell(2);
         cell3.textContent = input3;
+        cell3.classList.add('count');
+        cell3.classList.add('tabelBorder');
+        // Calculate row index for data-row attribute
+        var rowIndex = newRow.rowIndex;
+        cell3.setAttribute('data-row', rowIndex);
         cell32.textContent = "Ədəd";
         cell33.textContent = "Ədəd";
         var cell4 = newRow.insertCell(3);
         var cell42 = newRow2.insertCell(3);
         var cell43 = newRow3.insertCell(3);
         cell4.textContent = input4;
+        cell4.classList.add('amount');
+        cell4.classList.add('tabelBorder');
+        cell4.setAttribute('data-row', rowIndex);
         cell42.textContent = input3;
         cell43.textContent = input3;
         var cell5 = newRow.insertCell(4);
         var cell52 = newRow2.insertCell(4);
         var cell53 = newRow3.insertCell(4);
-        cell5.textContent = input3 * input4;
+        var overallValue = input3 * input4;
+        cell5.textContent = overallValue.toFixed(2);
+        cell5.classList.add('overal');
+        cell5.classList.add('miktar-hucre');
+        cell5.classList.add('tabelBorder');
         cell52.textContent = input4;
         cell53.textContent = input4;
-        cell5.classList.add('miktar-hucre');
         var cell6 = newRow.insertCell(5);
         var cell62 = newRow2.insertCell(5);
         var cell63 = newRow3.insertCell(5);
+        // Classes already added above for cell3, cell4, cell5
         cell1.classList.add('tabelBorder');
         cell12.classList.add('tabelBorder');
         cell13.classList.add('tabelBorder');
         cell2.classList.add('tabelBorder');
         cell22.classList.add('tabelBorder');
         cell23.classList.add('tabelBorder');
-        cell3.classList.add('tabelBorder');
         cell32.classList.add('tabelBorder');
         cell33.classList.add('tabelBorder');
-        cell4.classList.add('tabelBorder');
         cell42.classList.add('tabelBorder');
         cell43.classList.add('tabelBorder');
-        cell5.classList.add('tabelBorder');
         cell52.classList.add('tabelBorder');
         cell53.classList.add('tabelBorder');
         cell6.classList.add('tabelBorder');
@@ -894,28 +972,73 @@
         setEditableContent(newRow3);
     }
     function setEditableContent(row) {
+        if (isInvoiceSaved) {
+            return; // Don't make editable if invoice is saved
+        }
         var cells = row.cells;
         for (var i = 0; i < cells.length; i++) {
             var cell = cells[i];
+            if (!cell.classList.contains('tabelBorder') || cell.querySelector('button')) {
+                continue; // Skip cells with buttons or special classes
+            }
             cell.setAttribute('contenteditable', 'true');
         }
     }
     savedRows = savedRows.concat({!! $data->getAttribute('services') !!})
 
-        $('.count').on('input', function() {
+        // Enable editing only for new invoices
+        // Use event delegation to handle dynamically added rows
+        if (!isInvoiceSaved) {
+            $(document).on('input', '#table-body .count', function() {
+                var $cell = $(this);
+                var rowIndex = $cell.closest('tr').index();
+                var newValue = parseFloat($cell.text().trim()) || 0;
+                
+                // Update savedRows if it exists, otherwise create entry
+                if (!savedRows[rowIndex]) {
+                    var input1 = $cell.closest('tr').find('td:first').text().trim();
+                    var input4 = parseFloat($cell.closest('tr').find('.amount').text().trim()) || 0;
+                    savedRows[rowIndex] = {
+                        input1: input1,
+                        input3: newValue,
+                        input4: input4
+                    };
+                } else {
+                    savedRows[rowIndex].input3 = newValue;
+                }
+                
+                // Recalculate totals
+                calculateTotal();
+            });
 
-            var iteration = $(this).data('row');
-            var newValue = $(this).text();
-            savedRows[iteration-1].input3 = newValue
-        });
-
-        $('.amount').on('input', function() {
-            var iteration = $(this).data('row');
-            var newAmount = $(this).text();
-            savedRows[iteration-1].input4 = newAmount
-        });
+            $(document).on('input', '#table-body .amount', function() {
+                var $cell = $(this);
+                var rowIndex = $cell.closest('tr').index();
+                var newAmount = parseFloat($cell.text().trim()) || 0;
+                
+                // Update savedRows if it exists, otherwise create entry
+                if (!savedRows[rowIndex]) {
+                    var input1 = $cell.closest('tr').find('td:first').text().trim();
+                    var input3 = parseFloat($cell.closest('tr').find('.count').text().trim()) || 0;
+                    savedRows[rowIndex] = {
+                        input1: input1,
+                        input3: input3,
+                        input4: newAmount
+                    };
+                } else {
+                    savedRows[rowIndex].input4 = newAmount;
+                }
+                
+                // Recalculate totals
+                calculateTotal();
+            });
+        }
 
     function deleteRow(button) {
+        if (isInvoiceSaved) {
+            alert('Bu qaimə saxlanıldıqdan sonra dəyişdirilə bilməz. Dəyişiklik etmək istəyirsinizsə, lütfən qaiməni kopyalayın.');
+            return;
+        }
         var row = $(button).closest('tr');
         var rowIndex = row.index() + 1;
 
@@ -942,6 +1065,10 @@
         calculateTotal();
     }
     function deleteOldRow(iteration) {
+        if (isInvoiceSaved) {
+            alert('Bu qaimə saxlanıldıqdan sonra dəyişdirilə bilməz. Dəyişiklik etmək istəyirsinizsə, lütfən qaiməni kopyalayın.');
+            return;
+        }
         var row = $('[data-row="' + iteration + '"]').closest('tr');
 
         var tableBody = $('#table-body');
@@ -991,11 +1118,14 @@
         var sum2 = 0;
 
         overallElements.each(function() {
-            var count = parseInt($(this).closest("tr").find(".count").text());
-            var amount = parseFloat($(this).closest("tr").find(".amount").text());
+            var $row = $(this).closest("tr");
+            var count = parseFloat($row.find(".count").text().trim()) || 0;
+            var amount = parseFloat($row.find(".amount").text().trim()) || 0;
             var overallValue = count * amount;
-            $(this).text(overallValue.toFixed(2));
-            sum2 += overallValue;
+            if (!isNaN(overallValue) && overallValue > 0) {
+                $(this).text(overallValue.toFixed(2));
+                sum2 += overallValue;
+            }
         });
 
         var getCompany = $("#getCompany").html();
@@ -1128,7 +1258,47 @@
     }
 
     function createInvoice() {
-        var services = savedRows;
+        if (isInvoiceSaved) {
+            alert('Bu qaimə artıq saxlanılıb. Yeni qaimə yaratmaq üçün qaiməni kopyalayın.');
+            return;
+        }
+        
+        // Collect all current service rows from the table
+        var services = [];
+        $('#table-body tr').each(function() {
+            var $row = $(this);
+            // Skip header rows, form input row, and summary rows (CƏMİ, ƏDV, YEKUN)
+            var rowText = $row.text().trim();
+            if (rowText.includes('CƏMİ') || rowText.includes('ƏDV') || rowText.includes('YEKUN')) {
+                return; // Skip summary rows
+            }
+            
+            // Check if row has count and amount cells (service row)
+            var $countCell = $row.find('.count');
+            var $amountCell = $row.find('.amount');
+            
+            if ($countCell.length > 0 && $amountCell.length > 0) {
+                var input1 = $row.find('td:first').text().trim();
+                var input3 = parseFloat($countCell.text().trim()) || 0;
+                var input4 = parseFloat($amountCell.text().trim()) || 0;
+                
+                // Validate service data
+                if (input1 && !isNaN(input3) && input3 > 0 && !isNaN(input4) && input4 > 0) {
+                    services.push({
+                        input1: input1,
+                        input3: input3,
+                        input4: input4
+                    });
+                }
+            }
+        });
+        
+        console.log('Collected services:', services); // Debug log
+        
+        if (services.length === 0) {
+            alert('Ən azı bir xidmət əlavə edin.');
+            return;
+        }
         console.log(services)
         $.ajax({
             url: '/module/createFinanceInvoice',
@@ -1147,7 +1317,14 @@
             },
             success: function(response) {
                 console.log('Invoice yaratıldı:', response);
-                $('#invoiceCreate').hide()
+                alert('Qaimə uğurla yaradıldı!');
+                // Redirect to the new invoice page (it will have an ID now)
+                if (response && response.id) {
+                    window.location.href = '/module/financeInvoice/' + response.id;
+                } else {
+                    // Reload page to show saved invoice (now immutable)
+                    window.location.reload();
+                }
             },
             error: function(error) {
                 console.log('Invoice yaratılırken hata oluştu:', error);
