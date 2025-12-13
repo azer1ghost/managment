@@ -1861,8 +1861,9 @@ class WorkController extends Controller
         $work->setParameterValue(Work::VATPAYMENT, $vat);
         $work->setParameterValue(Work::ILLEGALPAID, $illegalAmount);
         
-        // Sync income transactions
-        $this->transactionService->recalculateWorkTransactions($work);
+        // Sync income transaction
+        $work->load('parameters');
+        $this->transactionService->syncIncomeForWork($work);
 
         return response()->json(['success' => true]);
     }
@@ -1908,10 +1909,10 @@ class WorkController extends Controller
             // Update parameter value
             $work->setParameterValue((int)$parameterId, (float)$value);
             
-            // Sync income transactions if payment parameters changed
+            // Sync income transaction if payment parameters changed
             if (in_array((int)$parameterId, [Work::PAID, Work::VATPAYMENT, Work::ILLEGALPAID])) {
                 $work->load('parameters');
-                $this->transactionService->recalculateWorkTransactions($work);
+                $this->transactionService->syncIncomeForWork($work);
             }
 
             return response()->json([
@@ -1954,9 +1955,6 @@ class WorkController extends Controller
 
             $work = Work::findOrFail($workId);
 
-            // Store old date for cleanup
-            $oldDate = $work->$field ? Carbon::parse($work->$field)->format('Y-m-d') : null;
-            
             // Update the date field
             if ($value) {
                 $work->$field = Carbon::parse($value);
@@ -1966,14 +1964,9 @@ class WorkController extends Controller
             
             $work->save();
             
-            // Sync income transactions
-            if ($oldDate) {
-                $this->transactionService->syncIncomeTransactionsFromWorks($work->client_id, $oldDate);
-            }
-            if ($work->$field) {
-                $newDate = Carbon::parse($work->$field)->format('Y-m-d');
-                $this->transactionService->syncIncomeTransactionsFromWorks($work->client_id, $newDate);
-            }
+            // Sync income transaction
+            $work->load('parameters');
+            $this->transactionService->syncIncomeForWork($work);
 
             return response()->json([
                 'success' => true,
@@ -2095,6 +2088,12 @@ class WorkController extends Controller
             }
 
             DB::commit();
+            
+            // Sync income transactions for all affected works
+            foreach ($works as $w) {
+                $w->load('parameters');
+                $this->transactionService->syncIncomeForWork($w);
+            }
 
             return response()->json([
                 'success' => true,
@@ -2135,19 +2134,6 @@ class WorkController extends Controller
                 return response()->json(['error' => 'No works found for this invoice'], 404);
             }
 
-            // Collect dates before clearing (for transaction sync)
-            $datesToSync = [];
-            foreach ($works as $work) {
-                if ($work->client_id) {
-                    if ($work->paid_at) {
-                        $datesToSync[$work->client_id][] = Carbon::parse($work->paid_at)->format('Y-m-d');
-                    }
-                    if ($work->vat_date) {
-                        $datesToSync[$work->client_id][] = Carbon::parse($work->vat_date)->format('Y-m-d');
-                    }
-                }
-            }
-            
             DB::beginTransaction();
 
             foreach ($works as $work) {
@@ -2160,16 +2146,12 @@ class WorkController extends Controller
                 $work->paid_at = null;
                 $work->vat_date = null;
                 $work->save();
+                
+                // Remove income transaction for this work
+                $this->transactionService->removeIncomeForWork($work);
             }
 
             DB::commit();
-            
-            // Sync income transactions - remove transactions for cleared payments
-            foreach ($datesToSync as $clientId => $dates) {
-                foreach (array_unique($dates) as $date) {
-                    $this->transactionService->syncIncomeTransactionsFromWorks($clientId, $date);
-                }
-            }
 
             return response()->json([
                 'success' => true,

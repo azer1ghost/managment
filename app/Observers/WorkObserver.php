@@ -50,34 +50,29 @@ class WorkObserver
         if(!auth()->user()->hasPermission('canRedirect-work') && $work->isDirty('user_id')){
             $work->setAttribute('status', Work::STARTED);
         }
-        
-        // Sync income transactions when payment-related fields change
-        // ONLY for paid values (PAID, VATPAYMENT, ILLEGALPAID) - NOT for expense transactions
-        if ($work->isDirty(['paid_at', 'vat_date']) || 
-            $work->isDirty('client_id')) {
-            // Recalculate ONLY income transactions after update
-            // Expenses are NEVER touched
-            $work->load('parameters');
-            $this->transactionService->recalculateWorkTransactions($work);
-        }
     }
     
     public function updated(Work $work)
     {
-        // Handle payment deletion (when paid_at or vat_date is set to null)
-        if ($work->wasChanged('paid_at') && $work->paid_at === null) {
-            $this->transactionService->removeWorkTransactions($work);
+        // Sync income transaction when payment fields change
+        // Simple: if paid_at or vat_date changed, recalculate income
+        if ($work->wasChanged(['paid_at', 'vat_date', 'client_id'])) {
+            $work->load('parameters');
+            $this->transactionService->syncIncomeForWork($work);
         }
-        if ($work->wasChanged('vat_date') && $work->vat_date === null) {
-            $this->transactionService->removeWorkTransactions($work);
+        
+        // If payment was removed, recalculate
+        if (($work->wasChanged('paid_at') && $work->paid_at === null) ||
+            ($work->wasChanged('vat_date') && $work->vat_date === null)) {
+            $this->transactionService->removeIncomeForWork($work);
         }
     }
     
     public function deleted(Work $work)
     {
-        // Remove transactions when work is deleted
+        // Remove income transaction when work is deleted
         if ($work->client_id) {
-            $this->transactionService->removeWorkTransactions($work);
+            $this->transactionService->removeIncomeForWork($work);
         }
     }
     

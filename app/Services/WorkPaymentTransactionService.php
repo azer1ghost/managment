@@ -10,221 +10,134 @@ use Illuminate\Support\Facades\DB;
 class WorkPaymentTransactionService
 {
     /**
-     * Generate income transactions from work payments
-     * ONLY from PAID values (PAID, VATPAYMENT, ILLEGALPAID)
-     * Groups by client_id + payment_date and sums all paid amounts
+     * Sync income transaction for a work's payment
+     * Simple: ONE client + ONE date = ONE income transaction
      * 
-     * IMPORTANT: This ONLY creates INCOME transactions. Expenses are NEVER touched.
-     * 
-     * @param int|null $clientId Optional: specific client to process
-     * @param string|null $date Optional: specific date to process
+     * @param Work $work
      * @return void
      */
-    public function syncIncomeTransactionsFromWorks($clientId = null, $date = null)
+    public function syncIncomeForWork(Work $work)
     {
+        if (!$work->client_id) {
+            return;
+        }
+
+        // Get ONLY paid values (not amounts due)
+        $paid = (float)($work->getParameterValue(Work::PAID) ?? 0);
+        $vatPaid = (float)($work->getParameterValue(Work::VATPAYMENT) ?? 0);
+        $illegalPaid = (float)($work->getParameterValue(Work::ILLEGALPAID) ?? 0);
+        
+        $totalPaid = $paid + $vatPaid + $illegalPaid;
+        
+        // Get payment date (use paid_at, fallback to vat_date)
+        $paymentDate = null;
+        if ($work->paid_at) {
+            $paymentDate = Carbon::parse($work->paid_at)->format('Y-m-d');
+        } elseif ($work->vat_date) {
+            $paymentDate = Carbon::parse($work->vat_date)->format('Y-m-d');
+        }
+        
+        if (!$paymentDate) {
+            // No payment date = no income transaction
+            return;
+        }
+        
         DB::beginTransaction();
         
         try {
-            // Get all works with payments (paid_at or vat_date)
-            // ONLY works that have actual PAID values
-            $query = Work::with(['parameters', 'client'])
-                ->whereNotNull('client_id')
-                ->where(function($q) {
-                    $q->whereNotNull('paid_at')
-                      ->orWhereNotNull('vat_date');
-                });
+            // Get ALL works for this client on this date
+            $worksOnDate = Work::with('parameters')
+                ->where('client_id', $work->client_id)
+                ->where(function($q) use ($paymentDate) {
+                    $q->whereDate('paid_at', $paymentDate)
+                      ->orWhereDate('vat_date', $paymentDate);
+                })
+                ->get();
             
-            if ($clientId) {
-                $query->where('client_id', $clientId);
-            }
+            // Sum ALL paid values for this client on this date
+            $totalAmount = 0;
+            $workIds = [];
             
-            if ($date) {
-                $query->where(function($q) use ($date) {
-                    $q->whereDate('paid_at', $date)
-                      ->orWhereDate('vat_date', $date);
-                });
-            }
-            
-            $works = $query->get();
-            
-            // Group by client_id and payment date
-            // ONLY sum PAID values (not AMOUNT, VAT, ILLEGALAMOUNT)
-            $groupedPayments = [];
-            
-            foreach ($works as $work) {
-                $workClientId = $work->client_id;
+            foreach ($worksOnDate as $w) {
+                $wPaid = (float)($w->getParameterValue(Work::PAID) ?? 0);
+                $wVatPaid = (float)($w->getParameterValue(Work::VATPAYMENT) ?? 0);
+                $wIllegalPaid = (float)($w->getParameterValue(Work::ILLEGALPAID) ?? 0);
                 
-                if (!$workClientId) {
-                    continue;
-                }
+                $wTotal = $wPaid + $wVatPaid + $wIllegalPaid;
                 
-                // Get ONLY paid values (not amounts due)
-                $paid = (float)($work->getParameterValue(Work::PAID) ?? 0);
-                $vatPaid = (float)($work->getParameterValue(Work::VATPAYMENT) ?? 0);
-                $illegalPaid = (float)($work->getParameterValue(Work::ILLEGALPAID) ?? 0);
-                
-                // Skip if no payments at all
-                if ($paid <= 0 && $vatPaid <= 0 && $illegalPaid <= 0) {
-                    continue;
-                }
-                
-                // Process main payment (paid_at date)
-                if ($work->paid_at && ($paid > 0 || $illegalPaid > 0)) {
-                    $paymentDate = Carbon::parse($work->paid_at)->format('Y-m-d');
-                    $key = $workClientId . '_' . $paymentDate;
-                    
-                    if (!isset($groupedPayments[$key])) {
-                        $groupedPayments[$key] = [
-                            'client_id' => $workClientId,
-                            'date' => $paymentDate,
-                            'total_amount' => 0,
-                            'works' => [],
-                            'created_by' => auth()->id() ?? $work->user_id ?? null,
-                        ];
-                    }
-                    
-                    // Sum ONLY paid values
-                    $groupedPayments[$key]['total_amount'] += $paid + $illegalPaid;
-                    $groupedPayments[$key]['works'][] = $work->id;
-                }
-                
-                // Process VAT payment (vat_date) - separate if different date
-                if ($work->vat_date && $vatPaid > 0) {
-                    $vatPaymentDate = Carbon::parse($work->vat_date)->format('Y-m-d');
-                    $paidAtDate = $work->paid_at ? Carbon::parse($work->paid_at)->format('Y-m-d') : null;
-                    
-                    // If VAT date is same as paid_at, merge into existing transaction
-                    if ($paidAtDate === $vatPaymentDate && isset($groupedPayments[$workClientId . '_' . $vatPaymentDate])) {
-                        // Merge VAT payment into existing transaction
-                        $groupedPayments[$workClientId . '_' . $vatPaymentDate]['total_amount'] += $vatPaid;
-                        if (!in_array($work->id, $groupedPayments[$workClientId . '_' . $vatPaymentDate]['works'])) {
-                            $groupedPayments[$workClientId . '_' . $vatPaymentDate]['works'][] = $work->id;
-                        }
-                    } else {
-                        // Create separate VAT transaction
-                        $vatKey = $workClientId . '_vat_' . $vatPaymentDate;
-                        
-                        if (!isset($groupedPayments[$vatKey])) {
-                            $groupedPayments[$vatKey] = [
-                                'client_id' => $workClientId,
-                                'date' => $vatPaymentDate,
-                                'total_amount' => 0,
-                                'works' => [],
-                                'created_by' => auth()->id() ?? $work->user_id ?? null,
-                            ];
-                        }
-                        
-                        $groupedPayments[$vatKey]['total_amount'] += $vatPaid;
-                        $groupedPayments[$vatKey]['works'][] = $work->id;
-                    }
+                if ($wTotal > 0) {
+                    $totalAmount += $wTotal;
+                    $workIds[] = $w->id;
                 }
             }
             
-            // Create or update ONLY income transactions
-            // CRITICAL: NEVER touch expense transactions (type=EXPENSE or source != 'works')
-            foreach ($groupedPayments as $key => $paymentData) {
-                if ($paymentData['total_amount'] <= 0) {
-                    continue;
-                }
-                
-                // Find existing INCOME transaction for this client + date + source
-                // CRITICAL: Only look for income transactions from works source
-                // NEVER touch expense transactions (type=EXPENSE or source != 'works')
-                $existingTransaction = Transaction::where('client_id', $paymentData['client_id'])
-                    ->where(function($q) use ($paymentData) {
-                        $q->where('transaction_date', $paymentData['date'])
-                          ->orWhere(function($subQ) use ($paymentData) {
-                              // Also check created_at if transaction_date is null
-                              $subQ->whereNull('transaction_date')
-                                   ->whereDate('created_at', $paymentData['date']);
-                          });
-                    })
-                    ->where('source', 'works') // MUST be from works
-                    ->where('type', Transaction::INCOME) // MUST be income (1)
-                    ->first();
-                
+            // Find existing income transaction for this client + date
+            // CRITICAL: Only look for income from works - NEVER touch expenses
+            $existingTransaction = Transaction::where('client_id', $work->client_id)
+                ->where(function($q) use ($paymentDate) {
+                    $q->where('transaction_date', $paymentDate)
+                      ->orWhere(function($subQ) use ($paymentDate) {
+                          $subQ->whereNull('transaction_date')
+                               ->whereDate('created_at', $paymentDate);
+                      });
+                })
+                ->where('source', 'works')
+                ->where('type', Transaction::INCOME)
+                ->first();
+            
+            if ($totalAmount > 0) {
                 if ($existingTransaction) {
-                    // SAFETY CHECK: Verify it's actually an income transaction from works
-                    // This prevents accidentally updating expense transactions
-                    if ($existingTransaction->type != Transaction::INCOME || $existingTransaction->source != 'works') {
-                        \Log::warning('Attempted to update non-income transaction - skipping', [
-                            'transaction_id' => $existingTransaction->id,
-                            'type' => $existingTransaction->type,
-                            'source' => $existingTransaction->source,
-                            'expected_type' => Transaction::INCOME,
-                            'expected_source' => 'works'
-                        ]);
-                        continue; // Skip this transaction - it's not an income from works
-                    }
-                    
                     // Update existing income transaction
-                    // CRITICAL: Only update amount, user_id, and note - NEVER change type or source
                     $existingTransaction->update([
-                        'amount' => $paymentData['total_amount'],
-                        'user_id' => $paymentData['created_by'],
-                        'note' => 'Mədaxil - İşlərdən ödənişlər (İş ID-ləri: ' . implode(', ', array_unique($paymentData['works'])) . ')',
+                        'amount' => $totalAmount,
+                        'user_id' => auth()->id() ?? $work->user_id ?? null,
+                        'note' => 'Mədaxil - İşlərdən ödənişlər',
                     ]);
                 } else {
                     // Create new income transaction
-                    // CRITICAL: Always set type=INCOME (1) and source='works'
-                    // NEVER create expense transactions here
                     Transaction::create([
-                        'client_id' => $paymentData['client_id'],
-                        'transaction_date' => $paymentData['date'],
-                        'type' => Transaction::INCOME, // ALWAYS income (1)
-                        'amount' => $paymentData['total_amount'],
+                        'client_id' => $work->client_id,
+                        'transaction_date' => $paymentDate,
+                        'type' => Transaction::INCOME,
+                        'amount' => $totalAmount,
                         'currency' => 'AZN',
-                        'source' => 'works', // ALWAYS from works
+                        'source' => 'works',
                         'status' => Transaction::SUCCESSFUL,
-                        'user_id' => $paymentData['created_by'],
-                        'note' => 'Mədaxil - İşlərdən ödənişlər (İş ID-ləri: ' . implode(', ', array_unique($paymentData['works'])) . ')',
+                        'user_id' => auth()->id() ?? $work->user_id ?? null,
+                        'note' => 'Mədaxil - İşlərdən ödənişlər',
                     ]);
                 }
-            }
-            
-            // Remove income transactions that should no longer exist (zero payments)
-            // ONLY remove income transactions from works source
-            if ($clientId && $date) {
-                $hasPayments = isset($groupedPayments[$clientId . '_' . $date]) || 
-                              isset($groupedPayments[$clientId . '_vat_' . $date]);
-                
-                if (!$hasPayments) {
-                    Transaction::where('client_id', $clientId)
-                        ->where('transaction_date', $date)
-                        ->where('source', 'works')
-                        ->where('type', Transaction::INCOME) // ONLY income
-                        ->delete();
+            } else {
+                // No payments = delete income transaction if exists
+                if ($existingTransaction) {
+                    $existingTransaction->delete();
                 }
             }
             
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Error syncing income transactions from works: ' . $e->getMessage());
-            throw $e;
+            \Log::error('Error syncing income transaction: ' . $e->getMessage());
         }
     }
     
     /**
-     * Recalculate ONLY income transactions for a specific work after payment changes
-     * Expenses are NEVER recalculated or touched
+     * Remove income transaction when payment is deleted
      * 
      * @param Work $work
      * @return void
      */
-    public function recalculateWorkTransactions(Work $work)
+    public function removeIncomeForWork(Work $work)
     {
         if (!$work->client_id) {
             return;
         }
         
+        // Get dates before deletion
         $dates = [];
-        
-        // Get dates from payment fields (paid_at, vat_date)
         if ($work->paid_at) {
             $dates[] = Carbon::parse($work->paid_at)->format('Y-m-d');
         }
-        
         if ($work->vat_date) {
             $vatDate = Carbon::parse($work->vat_date)->format('Y-m-d');
             if (!in_array($vatDate, $dates)) {
@@ -232,112 +145,33 @@ class WorkPaymentTransactionService
             }
         }
         
-        // Also check original values if work was updated (for date changes)
-        if ($work->wasChanged('paid_at') && $work->getOriginal('paid_at')) {
-            $originalDate = Carbon::parse($work->getOriginal('paid_at'))->format('Y-m-d');
-            if (!in_array($originalDate, $dates)) {
-                $dates[] = $originalDate;
-            }
-        }
-        
-        if ($work->wasChanged('vat_date') && $work->getOriginal('vat_date')) {
-            $originalVatDate = Carbon::parse($work->getOriginal('vat_date'))->format('Y-m-d');
-            if (!in_array($originalVatDate, $dates)) {
-                $dates[] = $originalVatDate;
-            }
-        }
-        
-        // Recalculate ONLY income transactions for each date
-        // Expenses are NEVER touched
+        // Recalculate for each date (will delete if no payments)
         foreach ($dates as $date) {
-            $this->syncIncomeTransactionsFromWorks($work->client_id, $date);
-        }
-    }
-    
-    /**
-     * Remove ONLY income transactions when work payment is deleted
-     * Expenses are NEVER removed or touched
-     * 
-     * @param Work $work
-     * @return void
-     */
-    public function removeWorkTransactions(Work $work)
-    {
-        if (!$work->client_id) {
-            return;
-        }
-        
-        $dates = [];
-        
-        // Get dates from payment fields before deletion
-        if ($work->paid_at) {
-            $dates[] = Carbon::parse($work->paid_at)->format('Y-m-d');
-        }
-        
-        if ($work->vat_date) {
-            $vatDate = Carbon::parse($work->vat_date)->format('Y-m-d');
-            if (!in_array($vatDate, $dates)) {
-                $dates[] = $vatDate;
-            }
-        }
-        
-        // Recalculate ONLY income transactions (will remove if total becomes zero)
-        // Expenses are NEVER touched
-        foreach ($dates as $date) {
-            $this->syncIncomeTransactionsFromWorks($work->client_id, $date);
-        }
-    }
-    
-    /**
-     * Sync ALL income transactions from all works
-     * Useful for initial setup or bulk recalculation
-     * Expenses are NEVER touched
-     * 
-     * @return void
-     */
-    public function syncAllIncomeTransactions()
-    {
-        // Get all unique client+date combinations from works with payments
-        $works = Work::with(['parameters', 'client'])
-            ->whereNotNull('client_id')
-            ->where(function($q) {
-                $q->whereNotNull('paid_at')
-                  ->orWhereNotNull('vat_date');
-            })
-            ->get();
-        
-        $clientDates = [];
-        
-        foreach ($works as $work) {
-            if (!$work->client_id) {
-                continue;
-            }
+            // Get a work with this date to recalculate
+            $workOnDate = Work::where('client_id', $work->client_id)
+                ->where(function($q) use ($date) {
+                    $q->whereDate('paid_at', $date)
+                      ->orWhereDate('vat_date', $date);
+                })
+                ->with('parameters')
+                ->first();
             
-            $paid = (float)($work->getParameterValue(Work::PAID) ?? 0);
-            $vatPaid = (float)($work->getParameterValue(Work::VATPAYMENT) ?? 0);
-            $illegalPaid = (float)($work->getParameterValue(Work::ILLEGALPAID) ?? 0);
-            
-            if ($paid <= 0 && $vatPaid <= 0 && $illegalPaid <= 0) {
-                continue;
-            }
-            
-            if ($work->paid_at) {
-                $date = Carbon::parse($work->paid_at)->format('Y-m-d');
-                $clientDates[$work->client_id][$date] = true;
-            }
-            
-            if ($work->vat_date) {
-                $date = Carbon::parse($work->vat_date)->format('Y-m-d');
-                $clientDates[$work->client_id][$date] = true;
-            }
-        }
-        
-        // Sync each client+date combination
-        foreach ($clientDates as $clientId => $dates) {
-            foreach (array_keys($dates) as $date) {
-                $this->syncIncomeTransactionsFromWorks($clientId, $date);
+            if ($workOnDate) {
+                $this->syncIncomeForWork($workOnDate);
+            } else {
+                // No works on this date = delete transaction
+                Transaction::where('client_id', $work->client_id)
+                    ->where(function($q) use ($date) {
+                        $q->where('transaction_date', $date)
+                          ->orWhere(function($subQ) use ($date) {
+                              $subQ->whereNull('transaction_date')
+                                   ->whereDate('created_at', $date);
+                          });
+                    })
+                    ->where('source', 'works')
+                    ->where('type', Transaction::INCOME)
+                    ->delete();
             }
         }
     }
 }
-
