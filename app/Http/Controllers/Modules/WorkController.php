@@ -1311,6 +1311,31 @@ class WorkController extends Controller
     }
 
     /**
+     * Normalize numeric value to float, defaulting to 0 if NULL
+     * This is critical for handling NULL database values in arithmetic operations
+     * 
+     * @param mixed $value
+     * @return float
+     */
+    protected function normalizeNumericValue($value): float
+    {
+        // Handle NULL, empty string, or non-numeric values
+        if ($value === null || $value === '' || $value === false) {
+            return 0.0;
+        }
+        
+        // Convert to float
+        $floatValue = (float)$value;
+        
+        // Handle NaN or Infinity (shouldn't happen, but be safe)
+        if (!is_finite($floatValue)) {
+            return 0.0;
+        }
+        
+        return $floatValue;
+    }
+
+    /**
      * Pivot məlumatlarına əsasən AMOUNT və VAT yeniləyir
      * və eyni zamanda bu dəyərləri geri qaytarır.
      */
@@ -2092,10 +2117,22 @@ class WorkController extends Controller
                 // Full payment: set PAID = AMOUNT, VATPAYMENT = VAT, ILLEGALPAID = ILLEGALAMOUNT
                 foreach ($works as $work) {
                     try {
-                        // Ensure all values default to 0 (never NULL)
-                        $amount = (float)($work->getParameterValue(Work::AMOUNT) ?? 0);
-                        $vat = (float)($work->getParameterValue(Work::VAT) ?? 0);
-                        $illegalAmount = (float)($work->getParameterValue(Work::ILLEGALAMOUNT) ?? 0);
+                        // Normalize all numeric fields to 0 (handle NULL values from database)
+                        // This is critical for first-time payments where fields may be NULL
+                        $amount = $this->normalizeNumericValue($work->getParameterValue(Work::AMOUNT));
+                        $vat = $this->normalizeNumericValue($work->getParameterValue(Work::VAT));
+                        $illegalAmount = $this->normalizeNumericValue($work->getParameterValue(Work::ILLEGALAMOUNT));
+                        $currentPaid = $this->normalizeNumericValue($work->getParameterValue(Work::PAID));
+                        $currentVatPaid = $this->normalizeNumericValue($work->getParameterValue(Work::VATPAYMENT));
+                        $currentIllegalPaid = $this->normalizeNumericValue($work->getParameterValue(Work::ILLEGALPAID));
+
+                        \Log::info('Full payment processing work', [
+                            'work_id' => $work->id,
+                            'amount' => $amount,
+                            'vat' => $vat,
+                            'currentPaid' => $currentPaid,
+                            'currentVatPaid' => $currentVatPaid,
+                        ]);
 
                         // Update date fields FIRST (before updating parameters)
                         // This ensures service can use correct dates for transaction_date
@@ -2107,25 +2144,50 @@ class WorkController extends Controller
                         // Payment date for transactions
                         $paymentDate = $paymentDateCarbon->format('Y-m-d');
 
-                        // Update base payment parameter (always process if amount > 0)
+                        // Process base payment separately (always process if amount > 0)
                         if ($amount > 0) {
+                            // Calculate delta for logging (but service will recalculate)
+                            $paidDelta = $amount - $currentPaid;
+                            \Log::info('Processing base payment', [
+                                'work_id' => $work->id,
+                                'currentPaid' => $currentPaid,
+                                'targetAmount' => $amount,
+                                'delta' => $paidDelta
+                            ]);
                             $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, $amount, $paymentDate);
                         }
 
-                        // Update VAT payment parameter (only if VAT > 0)
+                        // Process VAT payment separately (only if VAT > 0)
                         if ($vat > 0) {
+                            // Calculate delta for logging (but service will recalculate)
+                            $vatDelta = $vat - $currentVatPaid;
+                            \Log::info('Processing VAT payment', [
+                                'work_id' => $work->id,
+                                'currentVatPaid' => $currentVatPaid,
+                                'targetVat' => $vat,
+                                'delta' => $vatDelta
+                            ]);
                             $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, $vat, $paymentDate);
                         }
 
-                        // Update illegal amount payment (only if illegalAmount > 0)
+                        // Process illegal amount payment separately (only if illegalAmount > 0)
                         if ($illegalAmount > 0) {
+                            $illegalDelta = $illegalAmount - $currentIllegalPaid;
+                            \Log::info('Processing illegal amount payment', [
+                                'work_id' => $work->id,
+                                'currentIllegalPaid' => $currentIllegalPaid,
+                                'targetIllegalAmount' => $illegalAmount,
+                                'delta' => $illegalDelta
+                            ]);
                             $this->incomeService->updateParameterAndCreateIncome($work, Work::ILLEGALPAID, $illegalAmount, $paymentDate);
                         }
                     } catch (\Exception $e) {
-                        \Log::error('Error processing work payment in applyUnifiedPayment', [
+                        \Log::error('Error processing work payment in applyUnifiedPayment (full)', [
                             'work_id' => $work->id,
                             'invoice_code' => $invoiceCode,
                             'error' => $e->getMessage(),
+                            'file' => $e->getFile(),
+                            'line' => $e->getLine(),
                             'trace' => $e->getTraceAsString()
                         ]);
                         throw $e; // Re-throw to trigger rollback
@@ -2138,13 +2200,15 @@ class WorkController extends Controller
 
                 foreach ($works as $work) {
                     try {
-                        // Ensure all values default to 0 (never NULL)
-                        $amount = (float)($work->getParameterValue(Work::AMOUNT) ?? 0);
-                        $vat = (float)($work->getParameterValue(Work::VAT) ?? 0);
-                        $currentPaid = (float)($work->getParameterValue(Work::PAID) ?? 0);
-                        $currentVatPaid = (float)($work->getParameterValue(Work::VATPAYMENT) ?? 0);
+                        // Normalize all numeric fields to 0 (handle NULL values from database)
+                        // This is critical for first-time payments where fields may be NULL
+                        $amount = $this->normalizeNumericValue($work->getParameterValue(Work::AMOUNT));
+                        $vat = $this->normalizeNumericValue($work->getParameterValue(Work::VAT));
+                        $currentPaid = $this->normalizeNumericValue($work->getParameterValue(Work::PAID));
+                        $currentVatPaid = $this->normalizeNumericValue($work->getParameterValue(Work::VATPAYMENT));
 
                         // Calculate remaining amounts for this work (ensure never negative)
+                        // All values are normalized to 0, so arithmetic is safe
                         $mainRemaining = max(0, $amount - $currentPaid);
                         $vatRemaining = max(0, $vat - $currentVatPaid);
 

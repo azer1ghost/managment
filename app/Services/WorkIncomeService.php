@@ -73,13 +73,21 @@ class WorkIncomeService
             $work->load('service');
             
             DB::transaction(function () use ($work, $parameterId, $newValue, $paymentDate) {
+                // Normalize newValue first (critical for handling NULL/invalid values)
+                $normalizedNewValue = is_finite((float)$newValue) ? (float)$newValue : 0.0;
+                
                 // STEP 1: Read OLD value from DB BEFORE update (with lock to prevent race conditions)
                 $param = WorkParameter::where('work_id', $work->id)
                     ->where('parameter_id', $parameterId)
                     ->lockForUpdate()
                     ->first();
 
-                $oldValue = $param ? (float)($param->value ?? 0) : 0;
+                // Normalize old value to 0 if NULL or invalid (critical for first-time payments)
+                $oldValue = 0.0;
+                if ($param && isset($param->value) && $param->value !== null && $param->value !== '') {
+                    $parsedValue = (float)$param->value;
+                    $oldValue = is_finite($parsedValue) ? $parsedValue : 0.0;
+                }
 
                 // STEP 2: Create record if it doesn't exist
                 if (!$param) {
@@ -88,21 +96,21 @@ class WorkIncomeService
                         'parameter_id' => $parameterId,
                         'value' => '0',
                     ]);
-                    $oldValue = 0;
+                    $oldValue = 0.0;
                 }
 
                 // STEP 3: Update the value in work_parameter table
-                $param->update(['value' => (string)$newValue]);
+                $param->update(['value' => (string)$normalizedNewValue]);
 
-                // STEP 4: Calculate delta
-                $delta = $newValue - $oldValue;
+                // STEP 4: Calculate delta (both values are normalized, so arithmetic is safe)
+                $delta = $normalizedNewValue - $oldValue;
 
                 // DEBUG: Log values to verify delta calculation
                 Log::info('WorkIncomeService: Parameter update', [
                     'work_id' => $work->id,
                     'parameter_id' => $parameterId,
                     'old_value' => $oldValue,
-                    'new_value' => $newValue,
+                    'new_value' => $normalizedNewValue,
                     'delta' => $delta,
                     'client_id' => $work->client_id,
                 ]);
@@ -149,6 +157,9 @@ class WorkIncomeService
                     // Create income transaction with delta amount
                     // Note: type and status are stored as strings in DB (per migration)
                     // Database uses: 1 = Məxaric (Expense), 2 = Mədaxil (Income)
+                    // Ensure delta is normalized (should be positive at this point, but be safe)
+                    $transactionAmount = is_finite((float)$delta) ? (float)$delta : 0.0;
+                    
                     $transaction = Transaction::create([
                         'type' => '2', // 2 = Mədaxil (Income)
                         'source' => 'works',
@@ -157,18 +168,18 @@ class WorkIncomeService
                         'company_id' => $companyId, // Add company_id from service
                         'operator_id' => $operatorId,
                         'transaction_date' => $transactionDate,
-                        'amount' => (string)$delta,
+                        'amount' => (string)$transactionAmount,
                         'currency' => 'AZN',
                         'status' => (string)Transaction::SUCCESSFUL, // Convert to string as per DB schema
                         'user_id' => $operatorId,
-                        'note' => $this->getParameterNote($parameterId) . ' - Delta: ' . number_format($delta, 2),
+                        'note' => $this->getParameterNote($parameterId) . ' - Delta: ' . number_format($transactionAmount, 2),
                     ]);
 
                     Log::info('WorkIncomeService: Income transaction created successfully', [
                         'transaction_id' => $transaction->id,
                         'work_id' => $work->id,
                         'parameter_id' => $parameterId,
-                        'delta' => $delta,
+                        'delta' => $transactionAmount,
                         'transaction_date' => $transactionDate,
                         'client_id' => $work->client_id,
                     ]);
