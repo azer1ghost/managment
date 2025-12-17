@@ -905,6 +905,10 @@ class WorkController extends Controller
         $validated['status'] = $status;
         $parameters = $request->get('parameters');
 
+        // Store old payment dates before update
+        $oldPaidAt = $work->paid_at;
+        $oldVatDate = $work->vat_date;
+
         $work->update($validated);
 
         if (!empty($work->link_key)) {
@@ -962,6 +966,52 @@ class WorkController extends Controller
 // Pivotları tam təzələmək vacibdir (cache təmizlənir)
         $work->unsetRelation('parameters');
         $work->load('parameters', 'client', 'department');
+
+        // Create income transactions when paid_at or vat_date are set/changed
+        // Reload work to get fresh values after update
+        $work->refresh();
+        
+        // Check if paid_at was set (was null, now has value) or changed
+        $newPaidAt = $work->paid_at;
+        $paidAtChanged = false;
+        if ($newPaidAt) {
+            if ($oldPaidAt === null) {
+                $paidAtChanged = true; // Was null, now set
+            } else {
+                // Compare dates (handle both string and Carbon instances)
+                $oldDateStr = $oldPaidAt instanceof Carbon ? $oldPaidAt->format('Y-m-d') : Carbon::parse($oldPaidAt)->format('Y-m-d');
+                $newDateStr = $newPaidAt instanceof Carbon ? $newPaidAt->format('Y-m-d') : Carbon::parse($newPaidAt)->format('Y-m-d');
+                $paidAtChanged = ($oldDateStr !== $newDateStr);
+            }
+        }
+        
+        if ($paidAtChanged) {
+            $amount = $work->getParameterValue(Work::AMOUNT) ?? 0;
+            $paymentDate = $newPaidAt instanceof Carbon ? $newPaidAt->format('Y-m-d') : Carbon::parse($newPaidAt)->format('Y-m-d');
+            // Update PAID parameter to match AMOUNT (service will create transaction if delta > 0)
+            $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, $amount, $paymentDate);
+        }
+        
+        // Check if vat_date was set (was null, now has value) or changed
+        $newVatDate = $work->vat_date;
+        $vatDateChanged = false;
+        if ($newVatDate) {
+            if ($oldVatDate === null) {
+                $vatDateChanged = true; // Was null, now set
+            } else {
+                // Compare dates (handle both string and Carbon instances)
+                $oldDateStr = $oldVatDate instanceof Carbon ? $oldVatDate->format('Y-m-d') : Carbon::parse($oldVatDate)->format('Y-m-d');
+                $newDateStr = $newVatDate instanceof Carbon ? $newVatDate->format('Y-m-d') : Carbon::parse($newVatDate)->format('Y-m-d');
+                $vatDateChanged = ($oldDateStr !== $newDateStr);
+            }
+        }
+        
+        if ($vatDateChanged) {
+            $vat = $work->getParameterValue(Work::VAT) ?? 0;
+            $paymentDate = $newVatDate instanceof Carbon ? $newVatDate->format('Y-m-d') : Carbon::parse($newVatDate)->format('Y-m-d');
+            // Update VATPAYMENT parameter to match VAT (service will create transaction if delta > 0)
+            $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, $vat, $paymentDate);
+        }
 
 // GB və SERVICECOUNT dəyişikliklərini yoxlamaq üçün (parametr ID-lə)
         $gbParamId = $work::GB;
@@ -1105,7 +1155,12 @@ class WorkController extends Controller
     {
         $date = $request->get('paid_at') ?? now();
         $work->update(['paid_at' => $date]);
-        $work->parameters()->updateExistingPivot($work::PAID, ['value' => $work->getParameter($work::AMOUNT)]);
+        
+        // Get amount value and update parameter using service (creates income transaction)
+        $amount = $work->getParameterValue(Work::AMOUNT) ?? 0;
+        $paymentDate = Carbon::parse($date)->format('Y-m-d');
+        $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, $amount, $paymentDate);
+        
         return back();
     }
 
@@ -1113,7 +1168,12 @@ class WorkController extends Controller
     {
         $date = $request->get('vatPaid_at') ?? now();
         $work->update(['vat_date' => $date]);
-        $work->parameters()->updateExistingPivot($work::VATPAYMENT, ['value' => $work->getParameter($work::VAT)]);
+        
+        // Get VAT value and update parameter using service (creates income transaction)
+        $vat = $work->getParameterValue(Work::VAT) ?? 0;
+        $paymentDate = Carbon::parse($date)->format('Y-m-d');
+        $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, $vat, $paymentDate);
+        
         return back();
     }
 

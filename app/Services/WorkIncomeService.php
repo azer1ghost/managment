@@ -96,14 +96,28 @@ class WorkIncomeService
                     // Reload work to get latest paid_at/vat_date values
                     $work->refresh();
                     
-                    // Determine payment date: from request OR paid_at OR vat_date OR now()
-                    $transactionDate = $paymentDate 
-                        ? Carbon::parse($paymentDate)->format('Y-m-d')
-                        : ($work->paid_at 
+                    // Determine payment date: 
+                    // 1. Use provided paymentDate parameter if given
+                    // 2. For PAID parameter, use paid_at date
+                    // 3. For VATPAYMENT parameter, use vat_date date
+                    // 4. For ILLEGALPAID parameter, use paid_at date (no separate date field)
+                    // 5. Fallback to now() if none available
+                    if ($paymentDate) {
+                        $transactionDate = Carbon::parse($paymentDate)->format('Y-m-d');
+                    } elseif ($parameterId === Work::PAID && $work->paid_at) {
+                        $transactionDate = Carbon::parse($work->paid_at)->format('Y-m-d');
+                    } elseif ($parameterId === Work::VATPAYMENT && $work->vat_date) {
+                        $transactionDate = Carbon::parse($work->vat_date)->format('Y-m-d');
+                    } elseif ($parameterId === Work::ILLEGALPAID && $work->paid_at) {
+                        $transactionDate = Carbon::parse($work->paid_at)->format('Y-m-d');
+                    } else {
+                        // Fallback: try paid_at, then vat_date, then now()
+                        $transactionDate = $work->paid_at 
                             ? Carbon::parse($work->paid_at)->format('Y-m-d')
                             : ($work->vat_date 
                                 ? Carbon::parse($work->vat_date)->format('Y-m-d')
-                                : now()->format('Y-m-d')));
+                                : now()->format('Y-m-d'));
+                    }
 
                     // Get operator (who entered the payment)
                     $operatorId = auth()->id();
