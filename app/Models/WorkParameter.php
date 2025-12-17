@@ -9,6 +9,10 @@ class WorkParameter extends Model
 {
     protected $table = 'work_parameter';
 
+    // work_parameter table has no primary key (it's a pivot table)
+    protected $primaryKey = null;
+    public $incrementing = false;
+
     protected $fillable = [
         'work_id',
         'parameter_id',

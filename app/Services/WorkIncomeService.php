@@ -62,10 +62,23 @@ class WorkIncomeService
             ]);
             // Still update the parameter value, just don't create transaction
             // This ensures payment data is saved even if client_id is missing
-            if ($work->parameters()->where('parameters.id', $parameterId)->exists()) {
-                $work->parameters()->updateExistingPivot($parameterId, ['value' => (string)$normalizedNewValue]);
+            $exists = DB::table('work_parameter')
+                ->where('work_id', $work->id)
+                ->where('parameter_id', $parameterId)
+                ->exists();
+            
+            if ($exists) {
+                DB::table('work_parameter')
+                    ->where('work_id', $work->id)
+                    ->where('parameter_id', $parameterId)
+                    ->update(['value' => (string)$normalizedNewValue]);
             } else {
-                $work->parameters()->attach($parameterId, ['value' => (string)$normalizedNewValue]);
+                DB::table('work_parameter')
+                    ->insert([
+                        'work_id' => $work->id,
+                        'parameter_id' => $parameterId,
+                        'value' => (string)$normalizedNewValue
+                    ]);
             }
             $work->unsetRelation('parameters');
             return;
@@ -100,8 +113,12 @@ class WorkIncomeService
                     $oldValue = 0.0;
                 }
 
-                // STEP 3: Update the value in work_parameter table
-                $param->update(['value' => (string)$normalizedNewValue]);
+                // STEP 3: Update the value in work_parameter table using DB query
+                // (Cannot use Eloquent update() on pivot table without primary key)
+                DB::table('work_parameter')
+                    ->where('work_id', $work->id)
+                    ->where('parameter_id', $parameterId)
+                    ->update(['value' => (string)$normalizedNewValue]);
 
                 // STEP 4: Calculate delta (both values are normalized, so arithmetic is safe)
                 $delta = $normalizedNewValue - $oldValue;
