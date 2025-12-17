@@ -112,9 +112,10 @@ class WorkIncomeService
                 }
 
                 // Create income transaction with delta amount
+                // Note: type and status are stored as strings in DB (per migration)
                 try {
                     $transaction = Transaction::create([
-                        'type' => Transaction::INCOME,
+                        'type' => (string)Transaction::INCOME, // Convert to string as per DB schema
                         'source' => 'works',
                         'work_id' => $work->id,
                         'client_id' => $work->client_id,
@@ -122,7 +123,7 @@ class WorkIncomeService
                         'transaction_date' => $transactionDate,
                         'amount' => (string)$delta,
                         'currency' => 'AZN',
-                        'status' => Transaction::SUCCESSFUL,
+                        'status' => (string)Transaction::SUCCESSFUL, // Convert to string as per DB schema
                         'user_id' => $operatorId,
                         'note' => $this->getParameterNote($parameterId) . ' - Delta: ' . number_format($delta, 2),
                     ]);
