@@ -117,7 +117,8 @@ class CustomerEngagementController extends Controller
             /**
              * @var Work $work
              */
-            $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::ILLEGALPAID);
+            // Use getParameterValue() for payment parameters to handle NULL safely (returns 0 instead of null)
+            $sum_payment = $work->getParameterValue($work::PAID) + $work->getParameterValue($work::ILLEGALPAID);
             $total_payment[] = $sum_payment;
             $sum_total_payment = array_sum($total_payment);
         }
@@ -146,11 +147,15 @@ class CustomerEngagementController extends Controller
                 $sum_total_payment = 0;
 
             foreach ($works as $work) {
-                $sum_total_payment += $work->getParameter($work::PAID) + $work->getParameter($work::ILLEGALPAID);
+                // Use getParameterValue() for payment parameters to handle NULL safely (returns 0 instead of null)
+                $sum_total_payment += $work->getParameterValue($work::PAID) + $work->getParameterValue($work::ILLEGALPAID);
             }
 
             foreach ($logistics as $logistic) {
-                $sum_total_payment += $logistic->getParameter(Logistics::SALESPAID) - $logistic->getParameter(Logistics::PURCHASEPAID);
+                // Handle NULL values for logistics parameters
+                $salesPaid = is_numeric($logistic->getParameter(Logistics::SALESPAID)) ? (float)$logistic->getParameter(Logistics::SALESPAID) : 0;
+                $purchasePaid = is_numeric($logistic->getParameter(Logistics::PURCHASEPAID)) ? (float)$logistic->getParameter(Logistics::PURCHASEPAID) : 0;
+                $sum_total_payment += $salesPaid - $purchasePaid;
             }
 
             $customerEngagement->setAttribute('amount',$sum_total_payment)->save();

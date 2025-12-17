@@ -158,23 +158,30 @@ class UserController extends Controller
         $branchQib = $branchWorks->where('service_id', 2);
 
         foreach ($gb as $work) {
-            $totalgb += $work->getParameter(Work::GB);
+            // Handle NULL values - GB is not a payment parameter but should still be safe
+            $gbValue = is_numeric($work->getParameter(Work::GB)) ? (float)$work->getParameter(Work::GB) : 0;
+            $totalgb += $gbValue;
         }
 
         foreach ($qib as $work) {
-            $totalqib += $work->getParameter(Work::GB);
+            $gbValue = is_numeric($work->getParameter(Work::GB)) ? (float)$work->getParameter(Work::GB) : 0;
+            $totalqib += $gbValue;
         }
         foreach ($branchGb as $work) {
-            $totalbranchgb += $work->getParameter(Work::GB);
+            $gbValue = is_numeric($work->getParameter(Work::GB)) ? (float)$work->getParameter(Work::GB) : 0;
+            $totalbranchgb += $gbValue;
         }
         foreach ($branchQib as $work) {
-            $totalbranchqib += $work->getParameter(Work::GB);
+            $gbValue = is_numeric($work->getParameter(Work::GB)) ? (float)$work->getParameter(Work::GB) : 0;
+            $totalbranchqib += $gbValue;
         }
         foreach ($representation as $work) {
-            $totalrepresentation += $work->getParameter(Work::AMOUNT) + $work->getParameter(Work::ILLEGALAMOUNT);
+            // Use getParameterValue() for payment parameters to handle NULL safely
+            $totalrepresentation += $work->getParameterValue(Work::AMOUNT) + $work->getParameterValue(Work::ILLEGALAMOUNT);
         }
         foreach ($cmr as $work) {
-            $totalcmr += $work->getParameter(Work::AMOUNT) + $work->getParameter(Work::ILLEGALAMOUNT);
+            // Use getParameterValue() for payment parameters to handle NULL safely
+            $totalcmr += $work->getParameterValue(Work::AMOUNT) + $work->getParameterValue(Work::ILLEGALAMOUNT);
         }
 
         return view('pages.users.edit')
@@ -229,23 +236,30 @@ class UserController extends Controller
         $branchQib = $branchWorks->where('service_id', 2);
 
         foreach ($gb as $work) {
-            $totalgb += $work->getParameter(Work::GB);
+            // Handle NULL values - GB is not a payment parameter but should still be safe
+            $gbValue = is_numeric($work->getParameter(Work::GB)) ? (float)$work->getParameter(Work::GB) : 0;
+            $totalgb += $gbValue;
         }
 
         foreach ($qib as $work) {
-            $totalqib += $work->getParameter(Work::GB);
+            $gbValue = is_numeric($work->getParameter(Work::GB)) ? (float)$work->getParameter(Work::GB) : 0;
+            $totalqib += $gbValue;
         }
         foreach ($branchGb as $work) {
-            $totalbranchgb += $work->getParameter(Work::GB);
+            $gbValue = is_numeric($work->getParameter(Work::GB)) ? (float)$work->getParameter(Work::GB) : 0;
+            $totalbranchgb += $gbValue;
         }
         foreach ($branchQib as $work) {
-            $totalbranchqib += $work->getParameter(Work::GB);
+            $gbValue = is_numeric($work->getParameter(Work::GB)) ? (float)$work->getParameter(Work::GB) : 0;
+            $totalbranchqib += $gbValue;
         }
         foreach ($representation as $work) {
-            $totalrepresentation += $work->getParameter(Work::AMOUNT) + $work->getParameter(Work::ILLEGALAMOUNT);
+            // Use getParameterValue() for payment parameters to handle NULL safely
+            $totalrepresentation += $work->getParameterValue(Work::AMOUNT) + $work->getParameterValue(Work::ILLEGALAMOUNT);
         }
         foreach ($cmr as $work) {
-            $totalcmr += $work->getParameter(Work::AMOUNT) + $work->getParameter(Work::ILLEGALAMOUNT);
+            // Use getParameterValue() for payment parameters to handle NULL safely
+            $totalcmr += $work->getParameterValue(Work::AMOUNT) + $work->getParameterValue(Work::ILLEGALAMOUNT);
         }
 
         return view('pages.users.edit')

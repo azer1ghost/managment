@@ -721,9 +721,15 @@ class WorkController extends Controller
         $work = Work::create($validated);
 
         $parameters = [];
+        $workModel = new Work();
         foreach ($request->input('parameters', []) as $key => $parameter) {
-            if ($parameter === null || $parameter === '') continue;
-            $parameters[$key] = ['value' => $parameter];
+            // For payment parameters, always set a value (default to 0 if null/empty)
+            if ($workModel->isPaymentParameter((int)$key)) {
+                $parameters[$key] = ['value' => ($parameter === null || $parameter === '') ? 0 : $parameter];
+            } elseif ($parameter !== null && $parameter !== '') {
+                // For non-payment parameters, skip null/empty values
+                $parameters[$key] = ['value' => $parameter];
+            }
         }
 
         $work->parameters()->sync($parameters);
@@ -957,8 +963,15 @@ class WorkController extends Controller
 
 
         $parameters = [];
+        $workModel = new Work();
         foreach ($validated['parameters'] ?? [] as $key => $parameter) {
-            $parameters[$key] = ['value' => $parameter];
+            // For payment parameters, always set a value (default to 0 if null/empty)
+            if ($workModel->isPaymentParameter((int)$key)) {
+                $parameters[$key] = ['value' => ($parameter === null || $parameter === '') ? 0 : $parameter];
+            } elseif ($parameter !== null && $parameter !== '') {
+                // For non-payment parameters, skip null/empty values
+                $parameters[$key] = ['value' => $parameter];
+            }
         }
 
         $work->parameters()->sync($parameters);
@@ -1586,16 +1599,17 @@ class WorkController extends Controller
             $logPurchase += round($log->getParameter(Logistics::PURCHASEPAID), 2) ?? 0;
         }
         foreach ($works as $work){
-            $totalPaidAmount += round($work->getParameter(Work::PAID), 2) ?? 0;
-            $totalPaidIllegal += round($work->getParameter(Work::ILLEGALPAID), 2) ?? 0;
+            // Use getParameterValue() for payment parameters to handle NULL safely (returns 0 instead of null)
+            $totalPaidAmount += round($work->getParameterValue(Work::PAID), 2);
+            $totalPaidIllegal += round($work->getParameterValue(Work::ILLEGALPAID), 2);
         }
         foreach ($vatWorks as $vatWork){
-            $totalPaidVat += round($vatWork->getParameter(Work::VATPAYMENT), 2) ?? 0;
+            $totalPaidVat += round($vatWork->getParameterValue(Work::VATPAYMENT), 2);
         }
         foreach ($createdWorks as $createdWork){
-            $totalIllegalAmount += round($createdWork->getParameter(Work::ILLEGALAMOUNT), 2) ?? 0;
-            $totalAmount += round($createdWork->getParameter(Work::AMOUNT), 2) ?? 0;
-            $totalVat += round($createdWork->getParameter(Work::VAT), 2) ?? 0;
+            $totalIllegalAmount += round($createdWork->getParameterValue(Work::ILLEGALAMOUNT), 2);
+            $totalAmount += round($createdWork->getParameterValue(Work::AMOUNT), 2);
+            $totalVat += round($createdWork->getParameterValue(Work::VAT), 2);
             $totalAll = round($totalIllegalAmount + $totalAmount + $totalVat, 2);
         }
         $totalPaidAll = round($totalPaidAmount + $totalPaidVat + $totalPaidIllegal, 2);
@@ -1636,14 +1650,16 @@ class WorkController extends Controller
             return $works->whereIn('asan_imza_id', $asanImzaIds)
                 ->where('payment_method', 1)
                 ->sum(function($item) {
-                    return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
+                    // Use getParameterValue() for payment parameters to handle NULL safely
+                    return $item->getParameterValue(Work::ILLEGALPAID) + $item->getParameterValue(Work::VATPAYMENT) + $item->getParameterValue(Work::PAID);
                 });
         }
         function calculateBankTotal($works, $asanImzaIds) {
             return $works->whereIn('asan_imza_id', $asanImzaIds)
                 ->where('payment_method', 2)
                 ->sum(function($item) {
-                    return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
+                    // Use getParameterValue() for payment parameters to handle NULL safely
+                    return $item->getParameterValue(Work::ILLEGALPAID) + $item->getParameterValue(Work::VATPAYMENT) + $item->getParameterValue(Work::PAID);
                 });
         }
         $companyIdToCategory = [
