@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\Log;
 /**
  * Isolated service for creating income transactions from work_parameters updates.
  * 
- * IMPORTANT: This service ONLY handles income (type=Transaction::INCOME).
- * It NEVER touches or modifies expense transactions (type=Transaction::EXPENSE).
+ * IMPORTANT: This service ONLY handles income (type=2 in database).
+ * It NEVER touches or modifies expense transactions (type=1 in database).
+ * Database values: 1 = Məxaric (Expense), 2 = Mədaxil (Income)
  * 
  * Income is created ONLY when payment parameters (35/36/37) are UPDATED in work_parameter table
  * and the delta (new_value - old_value) is positive.
@@ -135,8 +136,9 @@ class WorkIncomeService
                     
                     // Create income transaction with delta amount
                     // Note: type and status are stored as strings in DB (per migration)
+                    // Database uses: 1 = Məxaric (Expense), 2 = Mədaxil (Income)
                     $transaction = Transaction::create([
-                        'type' => (string)Transaction::INCOME, // Convert to string as per DB schema
+                        'type' => '2', // 2 = Mədaxil (Income)
                         'source' => 'works',
                         'work_id' => $work->id,
                         'client_id' => $work->client_id,

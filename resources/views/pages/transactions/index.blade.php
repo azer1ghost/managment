@@ -173,8 +173,8 @@
                     @forelse($transactions as $transaction)
                         <tr>
                             @php
-                                // INCOME (1) = green (mədaxil), EXPENSE (0) = red (xərc)
-                                $typeColor = ($transaction->getAttribute('type') == \App\Models\Transaction::INCOME) ? 'green' : 'red';
+                                // 1 = Məxaric (red), 2 = Mədaxil (green)
+                                $typeColor = ($transaction->getAttribute('type') == 2 || $transaction->getAttribute('type') == '2') ? 'green' : 'red';
                             @endphp
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$transaction->getRelationValue('user')->getAttribute('fullname')}}</td>
@@ -211,7 +211,8 @@
                         @php
                             $amount = (float)$transaction->getAttribute('amount');
                             $totalAmount += $amount;
-                            if ($transaction->getAttribute('type') == \App\Models\Transaction::INCOME) {
+                            // 1 = Məxaric, 2 = Mədaxil
+                            if ($transaction->getAttribute('type') == 2 || $transaction->getAttribute('type') == '2') {
                                 $totalIncome += $amount;
                             } else {
                                 $totalExpense += $amount;
