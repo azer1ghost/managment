@@ -2091,81 +2091,109 @@ class WorkController extends Controller
             if ($paymentType === 'full') {
                 // Full payment: set PAID = AMOUNT, VATPAYMENT = VAT, ILLEGALPAID = ILLEGALAMOUNT
                 foreach ($works as $work) {
-                    $amount = $work->getParameterValue(Work::AMOUNT) ?? 0;
-                    $vat = $work->getParameterValue(Work::VAT) ?? 0;
-                    $illegalAmount = $work->getParameterValue(Work::ILLEGALAMOUNT) ?? 0;
+                    try {
+                        // Ensure all values default to 0 (never NULL)
+                        $amount = (float)($work->getParameterValue(Work::AMOUNT) ?? 0);
+                        $vat = (float)($work->getParameterValue(Work::VAT) ?? 0);
+                        $illegalAmount = (float)($work->getParameterValue(Work::ILLEGALAMOUNT) ?? 0);
 
-                    // Update date fields FIRST (before updating parameters)
-                    // This ensures service can use correct dates for transaction_date
-                    $work->paid_at = $paymentDateCarbon;
-                    $work->vat_date = $paymentDateCarbon;
-                    $work->save();
-                    $work->refresh(); // Refresh to ensure dates are available
+                        // Update date fields FIRST (before updating parameters)
+                        // This ensures service can use correct dates for transaction_date
+                        $work->paid_at = $paymentDateCarbon;
+                        $work->vat_date = $paymentDateCarbon;
+                        $work->save();
+                        $work->refresh(); // Refresh to ensure dates are available
 
-                    // Payment date for transactions
-                    $paymentDate = $paymentDateCarbon->format('Y-m-d');
+                        // Payment date for transactions
+                        $paymentDate = $paymentDateCarbon->format('Y-m-d');
 
-                    // Update payment parameters using service (reads old value, updates, creates income if delta > 0)
-                    // Dates are already set above, so service will use correct transaction_date
-                    $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, $amount, $paymentDate);
-                    $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, $vat, $paymentDate);
-                    $this->incomeService->updateParameterAndCreateIncome($work, Work::ILLEGALPAID, $illegalAmount, $paymentDate);
+                        // Update base payment parameter (always process if amount > 0)
+                        if ($amount > 0) {
+                            $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, $amount, $paymentDate);
+                        }
+
+                        // Update VAT payment parameter (only if VAT > 0)
+                        if ($vat > 0) {
+                            $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, $vat, $paymentDate);
+                        }
+
+                        // Update illegal amount payment (only if illegalAmount > 0)
+                        if ($illegalAmount > 0) {
+                            $this->incomeService->updateParameterAndCreateIncome($work, Work::ILLEGALPAID, $illegalAmount, $paymentDate);
+                        }
+                    } catch (\Exception $e) {
+                        \Log::error('Error processing work payment in applyUnifiedPayment', [
+                            'work_id' => $work->id,
+                            'invoice_code' => $invoiceCode,
+                            'error' => $e->getMessage(),
+                            'trace' => $e->getTraceAsString()
+                        ]);
+                        throw $e; // Re-throw to trigger rollback
+                    }
                 }
             } else {
                 // Partial payment: distribute amounts sequentially
-                $remainingMain = $partialMain;
-                $remainingVat = $partialVat;
+                $remainingMain = max(0, (float)$partialMain); // Ensure never negative
+                $remainingVat = max(0, (float)$partialVat); // Ensure never negative
 
                 foreach ($works as $work) {
-                    $amount = $work->getParameterValue(Work::AMOUNT) ?? 0;
-                    $vat = $work->getParameterValue(Work::VAT) ?? 0;
-                    $currentPaid = $work->getParameterValue(Work::PAID) ?? 0;
-                    $currentVatPaid = $work->getParameterValue(Work::VATPAYMENT) ?? 0;
+                    try {
+                        // Ensure all values default to 0 (never NULL)
+                        $amount = (float)($work->getParameterValue(Work::AMOUNT) ?? 0);
+                        $vat = (float)($work->getParameterValue(Work::VAT) ?? 0);
+                        $currentPaid = (float)($work->getParameterValue(Work::PAID) ?? 0);
+                        $currentVatPaid = (float)($work->getParameterValue(Work::VATPAYMENT) ?? 0);
 
-                    // Calculate remaining amounts for this work
-                    $mainRemaining = $amount - $currentPaid;
-                    $vatRemaining = $vat - $currentVatPaid;
+                        // Calculate remaining amounts for this work (ensure never negative)
+                        $mainRemaining = max(0, $amount - $currentPaid);
+                        $vatRemaining = max(0, $vat - $currentVatPaid);
 
-                    $paymentMade = false;
-                    
-                    // Payment date for transactions
-                    $paymentDate = $paymentDateCarbon->format('Y-m-d');
+                        // Payment date for transactions
+                        $paymentDate = $paymentDateCarbon->format('Y-m-d');
 
-                    // Update date fields BEFORE updating parameters (so service can use correct dates)
-                    // Check if we'll make any payment
-                    $willPayMain = ($remainingMain > 0 && $mainRemaining > 0);
-                    $willPayVat = ($remainingVat > 0 && $vatRemaining > 0);
-                    
-                    if ($willPayMain || $willPayVat) {
-                        $work->paid_at = $paymentDateCarbon;
-                        $work->vat_date = $paymentDateCarbon;
-                        $work->save(); // Save dates first
-                        $work->refresh(); // Refresh to ensure dates are available
-                        $paymentMade = true;
-                    }
-
-                    // Distribute main amount
-                    if ($remainingMain > 0 && $mainRemaining > 0) {
-                        $toPayMain = min($remainingMain, $mainRemaining);
-                        $newPaid = $currentPaid + $toPayMain;
+                        // Update date fields BEFORE updating parameters (so service can use correct dates)
+                        // Check if we'll make any payment
+                        $willPayMain = ($remainingMain > 0 && $mainRemaining > 0);
+                        $willPayVat = ($remainingVat > 0 && $vatRemaining > 0);
                         
-                        // Service will read old value, update, and create income if delta > 0
-                        // Dates are already set above, so service will use correct transaction_date
-                        $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, $newPaid, $paymentDate);
-                        
-                        $remainingMain -= $toPayMain;
-                    }
+                        if ($willPayMain || $willPayVat) {
+                            $work->paid_at = $paymentDateCarbon;
+                            $work->vat_date = $paymentDateCarbon;
+                            $work->save(); // Save dates first
+                            $work->refresh(); // Refresh to ensure dates are available
+                        }
 
-                    // Distribute VAT amount
-                    if ($remainingVat > 0 && $vatRemaining > 0) {
-                        $toPayVat = min($remainingVat, $vatRemaining);
-                        $newVatPaid = $currentVatPaid + $toPayVat;
-                        
-                        // Service will read old value, update, and create income if delta > 0
-                        // Dates are already set above, so service will use correct transaction_date
-                        $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, $newVatPaid, $paymentDate);
-                        
-                        $remainingVat -= $toPayVat;
+                        // Distribute main amount
+                        if ($remainingMain > 0 && $mainRemaining > 0) {
+                            $toPayMain = min($remainingMain, $mainRemaining);
+                            $newPaid = $currentPaid + $toPayMain;
+                            
+                            // Service will read old value, update, and create income if delta > 0
+                            // Dates are already set above, so service will use correct transaction_date
+                            $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, $newPaid, $paymentDate);
+                            
+                            $remainingMain -= $toPayMain;
+                        }
+
+                        // Distribute VAT amount (only if there's VAT to pay)
+                        if ($remainingVat > 0 && $vatRemaining > 0 && $vat > 0) {
+                            $toPayVat = min($remainingVat, $vatRemaining);
+                            $newVatPaid = $currentVatPaid + $toPayVat;
+                            
+                            // Service will read old value, update, and create income if delta > 0
+                            // Dates are already set above, so service will use correct transaction_date
+                            $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, $newVatPaid, $paymentDate);
+                            
+                            $remainingVat -= $toPayVat;
+                        }
+                    } catch (\Exception $e) {
+                        \Log::error('Error processing work payment in applyUnifiedPayment (partial)', [
+                            'work_id' => $work->id,
+                            'invoice_code' => $invoiceCode,
+                            'error' => $e->getMessage(),
+                            'trace' => $e->getTraceAsString()
+                        ]);
+                        throw $e; // Re-throw to trigger rollback
                     }
                 }
             }
@@ -2179,10 +2207,23 @@ class WorkController extends Controller
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Error in applyUnifiedPayment: ' . $e->getMessage());
+            \Log::error('Error in applyUnifiedPayment', [
+                'invoice_code' => $invoiceCode ?? 'unknown',
+                'payment_type' => $paymentType ?? 'unknown',
+                'error' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
             return response()->json([
-                'error' => 'Server error occurred',
-                'message' => $e->getMessage()
+                'success' => false,
+                'error' => 'Server error occurred while processing payment',
+                'message' => config('app.debug') ? $e->getMessage() : 'An error occurred. Please check the logs.',
+                'details' => config('app.debug') ? [
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                ] : null
             ], 500);
         }
     }

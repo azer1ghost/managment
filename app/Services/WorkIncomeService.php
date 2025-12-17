@@ -52,7 +52,19 @@ class WorkIncomeService
 
         // Work must have a client
         if (!$work->client_id) {
-            Log::warning('WorkIncomeService: Work has no client_id', ['work_id' => $work->id]);
+            Log::warning('WorkIncomeService: Work has no client_id - skipping transaction creation', [
+                'work_id' => $work->id,
+                'parameter_id' => $parameterId,
+                'new_value' => $newValue
+            ]);
+            // Still update the parameter value, just don't create transaction
+            // This ensures payment data is saved even if client_id is missing
+            if ($work->parameters()->where('parameters.id', $parameterId)->exists()) {
+                $work->parameters()->updateExistingPivot($parameterId, ['value' => (string)$newValue]);
+            } else {
+                $work->parameters()->attach($parameterId, ['value' => (string)$newValue]);
+            }
+            $work->unsetRelation('parameters');
             return;
         }
 
