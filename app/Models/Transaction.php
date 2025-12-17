@@ -19,6 +19,8 @@ class Transaction extends Model
         'note',
         'client_id',
         'transaction_date',
+        'work_id',
+        'operator_id',
     ];
 
     //types
@@ -49,6 +51,16 @@ class Transaction extends Model
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class)->withDefault();
+    }
+
+    public function work(): BelongsTo
+    {
+        return $this->belongsTo(Work::class)->withDefault();
+    }
+
+    public function operator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'operator_id')->withDefault();
     }
 
     /**
