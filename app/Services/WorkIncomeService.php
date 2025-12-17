@@ -50,6 +50,7 @@ class WorkIncomeService
 
         // Work must have a client
         if (!$work->client_id) {
+            Log::warning('WorkIncomeService: Work has no client_id', ['work_id' => $work->id]);
             return;
         }
 
@@ -67,7 +68,7 @@ class WorkIncomeService
                 $param = WorkParameter::create([
                     'work_id' => $work->id,
                     'parameter_id' => $parameterId,
-                    'value' => 0,
+                    'value' => '0',
                 ]);
                 $oldValue = 0;
             }
@@ -85,10 +86,14 @@ class WorkIncomeService
                 'old_value' => $oldValue,
                 'new_value' => $newValue,
                 'delta' => $delta,
+                'client_id' => $work->client_id,
             ]);
 
             // STEP 5: Create income transaction ONLY if delta > 0
             if ($delta > 0) {
+                // Reload work to get latest paid_at/vat_date values
+                $work->refresh();
+                
                 // Determine payment date: from request OR paid_at OR vat_date OR now()
                 $transactionDate = $paymentDate 
                     ? Carbon::parse($paymentDate)->format('Y-m-d')
@@ -101,26 +106,50 @@ class WorkIncomeService
                 // Get operator (who entered the payment)
                 $operatorId = auth()->id();
 
-                // Create income transaction with delta amount
-                Transaction::create([
-                    'type' => Transaction::INCOME,
-                    'source' => 'works',
-                    'work_id' => $work->id,
-                    'client_id' => $work->client_id,
-                    'operator_id' => $operatorId,
-                    'transaction_date' => $transactionDate,
-                    'amount' => $delta,
-                    'currency' => 'AZN',
-                    'status' => Transaction::SUCCESSFUL,
-                    'user_id' => $operatorId,
-                    'note' => $this->getParameterNote($parameterId) . ' - Delta: ' . number_format($delta, 2),
-                ]);
+                if (!$operatorId) {
+                    Log::error('WorkIncomeService: No authenticated user', ['work_id' => $work->id]);
+                    return;
+                }
 
-                Log::info('WorkIncomeService: Income transaction created', [
+                // Create income transaction with delta amount
+                try {
+                    $transaction = Transaction::create([
+                        'type' => Transaction::INCOME,
+                        'source' => 'works',
+                        'work_id' => $work->id,
+                        'client_id' => $work->client_id,
+                        'operator_id' => $operatorId,
+                        'transaction_date' => $transactionDate,
+                        'amount' => (string)$delta,
+                        'currency' => 'AZN',
+                        'status' => Transaction::SUCCESSFUL,
+                        'user_id' => $operatorId,
+                        'note' => $this->getParameterNote($parameterId) . ' - Delta: ' . number_format($delta, 2),
+                    ]);
+
+                    Log::info('WorkIncomeService: Income transaction created successfully', [
+                        'transaction_id' => $transaction->id,
+                        'work_id' => $work->id,
+                        'parameter_id' => $parameterId,
+                        'delta' => $delta,
+                        'transaction_date' => $transactionDate,
+                        'client_id' => $work->client_id,
+                    ]);
+                } catch (\Exception $e) {
+                    Log::error('WorkIncomeService: Failed to create transaction', [
+                        'work_id' => $work->id,
+                        'parameter_id' => $parameterId,
+                        'delta' => $delta,
+                        'error' => $e->getMessage(),
+                        'trace' => $e->getTraceAsString(),
+                    ]);
+                    throw $e;
+                }
+            } else {
+                Log::info('WorkIncomeService: Delta is not positive, skipping transaction', [
                     'work_id' => $work->id,
                     'parameter_id' => $parameterId,
                     'delta' => $delta,
-                    'transaction_date' => $transactionDate,
                 ]);
             }
         });

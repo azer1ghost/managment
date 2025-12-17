@@ -1903,30 +1903,23 @@ class WorkController extends Controller
                 return response()->json(['error' => 'Value must be numeric'], 400);
             }
 
-            $work = Work::with('parameters')->findOrFail($workId);
+            $work = Work::findOrFail($workId);
 
-            // Get old value from work_parameters table BEFORE update
-            $oldValue = $work->getParameterValue((int)$parameterId) ?? 0;
-            $newValue = (float)$value;
-
-            // Update parameter value in work_parameters table
-            $work->setParameterValue((int)$parameterId, $newValue);
-
-            // Trigger income creation ONLY if payment parameter increased (delta > 0)
+            // For payment parameters: use service to update work_parameter and create income
             if (in_array((int)$parameterId, [Work::PAID, Work::VATPAYMENT, Work::ILLEGALPAID])) {
                 // Get payment date from request if provided
                 $paymentDate = $request->input('payment_date');
                 
-                // Create income transaction if delta > 0
-                if ($newValue > $oldValue) {
-                    $this->incomeService->createIncomeFromParameterUpdate(
-                        $work, 
-                        (int)$parameterId, 
-                        $oldValue, 
-                        $newValue, 
-                        $paymentDate
-                    );
-                }
+                // Service will: read old value, update work_parameter, calculate delta, create income if delta > 0
+                $this->incomeService->updateParameterAndCreateIncome(
+                    $work, 
+                    (int)$parameterId, 
+                    (float)$value, 
+                    $paymentDate
+                );
+            } else {
+                // For non-payment parameters: use standard update method
+                $work->setParameterValue((int)$parameterId, (float)$value);
             }
 
             return response()->json([
