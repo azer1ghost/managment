@@ -56,6 +56,9 @@ class WorkIncomeService
         }
 
         try {
+            // Load service relationship to get company_id
+            $work->load('service');
+            
             DB::transaction(function () use ($work, $parameterId, $newValue, $paymentDate) {
                 // STEP 1: Read OLD value from DB BEFORE update (with lock to prevent race conditions)
                 $param = WorkParameter::where('work_id', $work->id)
@@ -127,6 +130,9 @@ class WorkIncomeService
                         return;
                     }
 
+                    // Get company_id from service (work -> service -> company_id)
+                    $companyId = $work->service_id ? optional($work->service)->company_id : null;
+                    
                     // Create income transaction with delta amount
                     // Note: type and status are stored as strings in DB (per migration)
                     $transaction = Transaction::create([
@@ -134,6 +140,7 @@ class WorkIncomeService
                         'source' => 'works',
                         'work_id' => $work->id,
                         'client_id' => $work->client_id,
+                        'company_id' => $companyId, // Add company_id from service
                         'operator_id' => $operatorId,
                         'transaction_date' => $transactionDate,
                         'amount' => (string)$delta,
