@@ -1856,29 +1856,13 @@ class WorkController extends Controller
         $work->vat_date = $vatDateValue;
         $work->save();
 
-        // Get old values from work_parameters BEFORE update
-        $oldPaid = $work->getParameterValue(Work::PAID) ?? 0;
-        $oldVatPayment = $work->getParameterValue(Work::VATPAYMENT) ?? 0;
-        $oldIllegalPaid = $work->getParameterValue(Work::ILLEGALPAID) ?? 0;
-
-        // Update parameter values in work_parameters table
-        $work->setParameterValue(Work::PAID, $amount);
-        $work->setParameterValue(Work::VATPAYMENT, $vat);
-        $work->setParameterValue(Work::ILLEGALPAID, $illegalAmount);
-
         // Get payment date from request
         $paymentDate = $paidDate ? Carbon::parse($paidDate)->format('Y-m-d') : null;
 
-        // Create income transactions ONLY if values increased (delta > 0)
-        if ($amount > $oldPaid) {
-            $this->incomeService->createIncomeFromParameterUpdate($work, Work::PAID, $oldPaid, $amount, $paymentDate);
-        }
-        if ($vat > $oldVatPayment) {
-            $this->incomeService->createIncomeFromParameterUpdate($work, Work::VATPAYMENT, $oldVatPayment, $vat, $paymentDate);
-        }
-        if ($illegalAmount > $oldIllegalPaid) {
-            $this->incomeService->createIncomeFromParameterUpdate($work, Work::ILLEGALPAID, $oldIllegalPaid, $illegalAmount, $paymentDate);
-        }
+        // Update payment parameters using service (reads old value, updates, creates income if delta > 0)
+        $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, $amount, $paymentDate);
+        $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, $vat, $paymentDate);
+        $this->incomeService->updateParameterAndCreateIncome($work, Work::ILLEGALPAID, $illegalAmount, $paymentDate);
 
         return response()->json(['success' => true]);
     }
@@ -2058,16 +2042,6 @@ class WorkController extends Controller
                     $vat = $work->getParameterValue(Work::VAT) ?? 0;
                     $illegalAmount = $work->getParameterValue(Work::ILLEGALAMOUNT) ?? 0;
 
-                    // Get old values from work_parameters BEFORE update
-                    $oldPaid = $work->getParameterValue(Work::PAID) ?? 0;
-                    $oldVatPayment = $work->getParameterValue(Work::VATPAYMENT) ?? 0;
-                    $oldIllegalPaid = $work->getParameterValue(Work::ILLEGALPAID) ?? 0;
-
-                    // Update parameter values in work_parameters table
-                    $work->setParameterValue(Work::PAID, $amount);
-                    $work->setParameterValue(Work::VATPAYMENT, $vat);
-                    $work->setParameterValue(Work::ILLEGALPAID, $illegalAmount);
-
                     // Update date fields with the payment date
                     $work->paid_at = $paymentDateCarbon;
                     $work->vat_date = $paymentDateCarbon;
@@ -2076,16 +2050,10 @@ class WorkController extends Controller
                     // Payment date for transactions
                     $paymentDate = $paymentDateCarbon->format('Y-m-d');
 
-                    // Create income transactions ONLY if values increased (delta > 0)
-                    if ($amount > $oldPaid) {
-                        $this->incomeService->createIncomeFromParameterUpdate($work, Work::PAID, $oldPaid, $amount, $paymentDate);
-                    }
-                    if ($vat > $oldVatPayment) {
-                        $this->incomeService->createIncomeFromParameterUpdate($work, Work::VATPAYMENT, $oldVatPayment, $vat, $paymentDate);
-                    }
-                    if ($illegalAmount > $oldIllegalPaid) {
-                        $this->incomeService->createIncomeFromParameterUpdate($work, Work::ILLEGALPAID, $oldIllegalPaid, $illegalAmount, $paymentDate);
-                    }
+                    // Update payment parameters using service (reads old value, updates, creates income if delta > 0)
+                    $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, $amount, $paymentDate);
+                    $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, $vat, $paymentDate);
+                    $this->incomeService->updateParameterAndCreateIncome($work, Work::ILLEGALPAID, $illegalAmount, $paymentDate);
                 }
             } else {
                 // Partial payment: distribute amounts sequentially
@@ -2111,28 +2079,24 @@ class WorkController extends Controller
                     if ($remainingMain > 0 && $mainRemaining > 0) {
                         $toPayMain = min($remainingMain, $mainRemaining);
                         $newPaid = $currentPaid + $toPayMain;
-                        $work->setParameterValue(Work::PAID, $newPaid);
+                        
+                        // Service will read old value, update, and create income if delta > 0
+                        $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, $newPaid, $paymentDate);
+                        
                         $remainingMain -= $toPayMain;
                         $paymentMade = true;
-                        
-                        // Create income transaction if delta > 0
-                        if ($newPaid > $currentPaid) {
-                            $this->incomeService->createIncomeFromParameterUpdate($work, Work::PAID, $currentPaid, $newPaid, $paymentDate);
-                        }
                     }
 
                     // Distribute VAT amount
                     if ($remainingVat > 0 && $vatRemaining > 0) {
                         $toPayVat = min($remainingVat, $vatRemaining);
                         $newVatPaid = $currentVatPaid + $toPayVat;
-                        $work->setParameterValue(Work::VATPAYMENT, $newVatPaid);
+                        
+                        // Service will read old value, update, and create income if delta > 0
+                        $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, $newVatPaid, $paymentDate);
+                        
                         $remainingVat -= $toPayVat;
                         $paymentMade = true;
-                        
-                        // Create income transaction if delta > 0
-                        if ($newVatPaid > $currentVatPaid) {
-                            $this->incomeService->createIncomeFromParameterUpdate($work, Work::VATPAYMENT, $currentVatPaid, $newVatPaid, $paymentDate);
-                        }
                     }
 
                     // Update date fields if any payment was made to this work
@@ -2190,19 +2154,13 @@ class WorkController extends Controller
 
             foreach ($works as $work) {
                 // Reset all payment parameters to 0
-                // Get old values before clearing
-                $oldPaid = $work->getParameterValue(Work::PAID) ?? 0;
-                $oldVatPayment = $work->getParameterValue(Work::VATPAYMENT) ?? 0;
-                $oldIllegalPaid = $work->getParameterValue(Work::ILLEGALPAID) ?? 0;
-
                 // Clear parameter values (set to 0)
-                $work->setParameterValue(Work::PAID, 0);
-                $work->setParameterValue(Work::VATPAYMENT, 0);
-                $work->setParameterValue(Work::ILLEGALPAID, 0);
-                
                 // Note: When clearing payments, delta will be negative (0 - oldValue)
                 // The service only creates income when delta > 0, so no income will be created here
                 // Existing income transactions remain (they represent historical payments)
+                $work->setParameterValue(Work::PAID, 0);
+                $work->setParameterValue(Work::VATPAYMENT, 0);
+                $work->setParameterValue(Work::ILLEGALPAID, 0);
 
                 // Clear all date fields
                 $work->paid_at = null;

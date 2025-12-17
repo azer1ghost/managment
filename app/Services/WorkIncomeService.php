@@ -4,7 +4,10 @@ namespace App\Services;
 
 use App\Models\Transaction;
 use App\Models\Work;
+use App\Models\WorkParameter;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Isolated service for creating income transactions from work_parameters updates.
@@ -12,32 +15,31 @@ use Carbon\Carbon;
  * IMPORTANT: This service ONLY handles income (type=Transaction::INCOME).
  * It NEVER touches or modifies expense transactions (type=Transaction::EXPENSE).
  * 
- * Income is created ONLY when payment parameters (35/36/37) are UPDATED in work_parameters table
+ * Income is created ONLY when payment parameters (35/36/37) are UPDATED in work_parameter table
  * and the delta (new_value - old_value) is positive.
+ * 
+ * CRITICAL: Old value MUST be read BEFORE update, otherwise delta will always be 0.
  */
 class WorkIncomeService
 {
     /**
-     * Create income transaction when a payment parameter is updated.
+     * Update work_parameter and create income transaction if delta > 0.
      * 
-     * This method is called when work_parameters is UPDATED:
-     * - parameter_id = 35 (PAID)
-     * - parameter_id = 36 (VATPAYMENT)
-     * - parameter_id = 37 (ILLEGALPAID)
-     * 
-     * Creates ONE income transaction per parameter update with delta amount.
+     * This method:
+     * 1. Reads OLD value from work_parameter table BEFORE update
+     * 2. Updates the value in work_parameter table
+     * 3. Calculates delta = new_value - old_value
+     * 4. Creates income transaction if delta > 0
      * 
      * @param Work $work The work being updated
      * @param int $parameterId The parameter ID (35=PAID, 36=VATPAYMENT, 37=ILLEGALPAID)
-     * @param float $oldValue The previous value from work_parameters table
      * @param float $newValue The new value from request
      * @param string|null $paymentDate Payment date from request (Y-m-d format) or null to use now()
      * @return void
      */
-    public function createIncomeFromParameterUpdate(
+    public function updateParameterAndCreateIncome(
         Work $work, 
         int $parameterId, 
-        float $oldValue, 
         float $newValue, 
         ?string $paymentDate = null
     ): void {
@@ -46,45 +48,85 @@ class WorkIncomeService
             return;
         }
 
-        // Calculate delta
-        $delta = $newValue - $oldValue;
-
-        // Only create income if delta > 0 (real money entered)
-        if ($delta <= 0) {
-            return;
-        }
-
         // Work must have a client
         if (!$work->client_id) {
             return;
         }
 
-        // Determine payment date: from request OR paid_at OR vat_date OR now()
-        $transactionDate = $paymentDate 
-            ? Carbon::parse($paymentDate)->format('Y-m-d')
-            : ($work->paid_at 
-                ? Carbon::parse($work->paid_at)->format('Y-m-d')
-                : ($work->vat_date 
-                    ? Carbon::parse($work->vat_date)->format('Y-m-d')
-                    : now()->format('Y-m-d')));
+        DB::transaction(function () use ($work, $parameterId, $newValue, $paymentDate) {
+            // STEP 1: Read OLD value from DB BEFORE update (with lock to prevent race conditions)
+            $param = WorkParameter::where('work_id', $work->id)
+                ->where('parameter_id', $parameterId)
+                ->lockForUpdate()
+                ->first();
 
-        // Get operator (who entered the payment)
-        $operatorId = auth()->id();
+            $oldValue = $param ? (float)($param->value ?? 0) : 0;
 
-        // Create income transaction with delta amount
-        Transaction::create([
-            'type' => Transaction::INCOME,
-            'source' => 'works',
-            'work_id' => $work->id,
-            'client_id' => $work->client_id,
-            'operator_id' => $operatorId,
-            'transaction_date' => $transactionDate,
-            'amount' => $delta,
-            'currency' => 'AZN',
-            'status' => Transaction::SUCCESSFUL,
-            'user_id' => $operatorId,
-            'note' => $this->getParameterNote($parameterId) . ' - Delta: ' . number_format($delta, 2),
-        ]);
+            // STEP 2: Create record if it doesn't exist
+            if (!$param) {
+                $param = WorkParameter::create([
+                    'work_id' => $work->id,
+                    'parameter_id' => $parameterId,
+                    'value' => 0,
+                ]);
+                $oldValue = 0;
+            }
+
+            // STEP 3: Update the value in work_parameter table
+            $param->update(['value' => (string)$newValue]);
+
+            // STEP 4: Calculate delta
+            $delta = $newValue - $oldValue;
+
+            // DEBUG: Log values to verify delta calculation
+            Log::info('WorkIncomeService: Parameter update', [
+                'work_id' => $work->id,
+                'parameter_id' => $parameterId,
+                'old_value' => $oldValue,
+                'new_value' => $newValue,
+                'delta' => $delta,
+            ]);
+
+            // STEP 5: Create income transaction ONLY if delta > 0
+            if ($delta > 0) {
+                // Determine payment date: from request OR paid_at OR vat_date OR now()
+                $transactionDate = $paymentDate 
+                    ? Carbon::parse($paymentDate)->format('Y-m-d')
+                    : ($work->paid_at 
+                        ? Carbon::parse($work->paid_at)->format('Y-m-d')
+                        : ($work->vat_date 
+                            ? Carbon::parse($work->vat_date)->format('Y-m-d')
+                            : now()->format('Y-m-d')));
+
+                // Get operator (who entered the payment)
+                $operatorId = auth()->id();
+
+                // Create income transaction with delta amount
+                Transaction::create([
+                    'type' => Transaction::INCOME,
+                    'source' => 'works',
+                    'work_id' => $work->id,
+                    'client_id' => $work->client_id,
+                    'operator_id' => $operatorId,
+                    'transaction_date' => $transactionDate,
+                    'amount' => $delta,
+                    'currency' => 'AZN',
+                    'status' => Transaction::SUCCESSFUL,
+                    'user_id' => $operatorId,
+                    'note' => $this->getParameterNote($parameterId) . ' - Delta: ' . number_format($delta, 2),
+                ]);
+
+                Log::info('WorkIncomeService: Income transaction created', [
+                    'work_id' => $work->id,
+                    'parameter_id' => $parameterId,
+                    'delta' => $delta,
+                    'transaction_date' => $transactionDate,
+                ]);
+            }
+        });
+
+        // Clear work's parameter relation cache so it reflects the new value
+        $work->unsetRelation('parameters');
     }
 
     /**
