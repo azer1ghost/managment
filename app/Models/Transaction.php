@@ -92,12 +92,18 @@ class Transaction extends Model
 
     public static function statuses()
     {
-        return [1 => 1, 2];
+        return [
+            self::SUCCESSFUL => self::SUCCESSFUL,
+            self::RETURNED => self::RETURNED,
+        ];
     }
 
     public static function types()
     {
-        return [1 => 1, 2];
+        return [
+            self::EXPENSE => self::EXPENSE,
+            self::INCOME => self::INCOME,
+        ];
     }
 
     public static function methods()

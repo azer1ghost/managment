@@ -463,12 +463,12 @@ return [
 
     'transactions' => [
         'types' => [
-            1 => 'Məxaric',
-            2 => 'Mədaxil'
+            0 => 'Məxaric',
+            1 => 'Mədaxil'
         ],
         'statuses' => [
-            1 => 'Uğurlu Ödəniş',
-            2 => 'Geri Qaytarıldı',
+            0 => 'Uğurlu Ödəniş',
+            1 => 'Geri Qaytarıldı',
         ],
         'methods' => [
             1 => 'Nağd',
@@ -519,6 +519,7 @@ return [
         'status' => 'Status',
         'created_by' => 'Tapşırıq verən',
         'created_at' => 'Yaradıldı',
+        'transaction_date' => 'Tranzaksiya Tarixi',
         'user' => 'İstifadəçi',
         'stage' => 'Mərhələ',
         'full_name' => 'Tam Adı',

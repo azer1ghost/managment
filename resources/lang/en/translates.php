@@ -457,12 +457,12 @@ return [
 
     'transactions' => [
         'types' => [
-            1 => 'Expense',
-            2 => 'Income'
+            0 => 'Expense',
+            1 => 'Income'
         ],
         'statuses' => [
-            1 => 'Successful Payment',
-            2 => 'Returned',
+            0 => 'Successful Payment',
+            1 => 'Returned',
         ],
         'methods' => [
             1 => 'Cash',
@@ -513,6 +513,7 @@ return [
         'status' => 'Status',
         'created_by' => 'Created By',
         'created_at' => 'Created At',
+        'transaction_date' => 'Transaction Date',
         'user' => 'User',
         'stage' => 'Stage',
         'full_name' => 'Full Name',

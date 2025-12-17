@@ -160,17 +160,21 @@
                         <th scope="col">@lang('translates.general.payment_method')</th>
                         <th scope="col">@lang('translates.columns.status')</th>
                         <th scope="col">@lang('translates.fields.note')</th>
+                        <th scope="col">@lang('translates.columns.transaction_date')</th>
                         <th scope="col">@lang('translates.columns.created_at')</th>
                     </tr>
                     </thead>
                     <tbody>
                     @php
                         $totalAmount = 0;
+                        $totalIncome = 0;
+                        $totalExpense = 0;
                     @endphp
                     @forelse($transactions as $transaction)
                         <tr>
                             @php
-                                $typeColor = ($transaction->getAttribute('type') == 1) ? 'red' : 'green';
+                                // INCOME (1) = green (mədaxil), EXPENSE (0) = red (xərc)
+                                $typeColor = ($transaction->getAttribute('type') == \App\Models\Transaction::INCOME) ? 'green' : 'red';
                             @endphp
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$transaction->getRelationValue('user')->getAttribute('fullname')}}</td>
@@ -182,6 +186,7 @@
                             <td>{{$transaction->getAttribute('method')}}</td>
                             <td>{{trans('translates.transactions.statuses.'.$transaction->getAttribute('status'))}}</td>
                             <td>{{$transaction->getAttribute('note')}}</td>
+                            <td>{{$transaction->transaction_date ? \Carbon\Carbon::parse($transaction->transaction_date)->format('Y-m-d') : '-'}}</td>
                             <td>{{$transaction->getAttribute('created_at')}}</td>
                             <td>
                                 <div class="btn-sm-group">
@@ -204,7 +209,13 @@
                             </td>
                         </tr>
                         @php
-                            $totalAmount += $transaction->getAttribute('amount');
+                            $amount = (float)$transaction->getAttribute('amount');
+                            $totalAmount += $amount;
+                            if ($transaction->getAttribute('type') == \App\Models\Transaction::INCOME) {
+                                $totalIncome += $amount;
+                            } else {
+                                $totalExpense += $amount;
+                            }
                         @endphp
                     @empty
                         <tr>
@@ -215,9 +226,16 @@
                             </th>
                         </tr>
                     @endforelse
-                    <div class="row">
+                    <div class="row mt-3">
                         <div class="col-12">
-                            <p class="font-weight-bold">Toplam Ödənilən: {{$totalAmount}}</p>
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="font-weight-bold mb-2">Ümumi Statistikalar:</p>
+                                    <p class="text-success mb-1">Ümumi Mədaxil: <strong>{{number_format($totalIncome, 2)}} AZN</strong></p>
+                                    <p class="text-danger mb-1">Ümumi Məxaric: <strong>{{number_format($totalExpense, 2)}} AZN</strong></p>
+                                    <p class="font-weight-bold mb-0">Qalıq: <strong>{{number_format($totalIncome - $totalExpense, 2)}} AZN</strong></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     </tbody>
