@@ -10,6 +10,7 @@ use App\Interfaces\WorkRepositoryInterface;
 use App\Notifications\{NotifyClientDirectorSms, NotifyClientSms};
 use Illuminate\Support\Str;
 use App\Models\{AsanImza, Company, Department, Logistics, Service, User, Work, Client};
+use App\Services\WorkIncomeService;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -19,12 +20,14 @@ use Illuminate\Http\{RedirectResponse, Request};
 class WorkController extends Controller
 {
     protected WorkRepositoryInterface $workRepository;
+    protected WorkIncomeService $incomeService;
 
-    public function __construct(WorkRepositoryInterface $workRepository)
+    public function __construct(WorkRepositoryInterface $workRepository, WorkIncomeService $incomeService)
     {
         $this->middleware('auth');
         $this->authorizeResource(Work::class, 'work');
         $this->workRepository = $workRepository;
+        $this->incomeService = $incomeService;
     }
 
     public function export(Request $request)
@@ -1853,10 +1856,26 @@ class WorkController extends Controller
         $work->vat_date = $vatDateValue;
         $work->save();
 
+        // Get old values before update
+        $oldPaid = $work->getParameterValue(Work::PAID) ?? 0;
+        $oldVatPayment = $work->getParameterValue(Work::VATPAYMENT) ?? 0;
+        $oldIllegalPaid = $work->getParameterValue(Work::ILLEGALPAID) ?? 0;
+
         // Update parameter values
         $work->setParameterValue(Work::PAID, $amount);
         $work->setParameterValue(Work::VATPAYMENT, $vat);
         $work->setParameterValue(Work::ILLEGALPAID, $illegalAmount);
+
+        // Trigger income creation ONLY if values increased
+        if ($amount > $oldPaid) {
+            $this->incomeService->handlePaymentIncrease($work, Work::PAID, $oldPaid, $amount);
+        }
+        if ($vat > $oldVatPayment) {
+            $this->incomeService->handlePaymentIncrease($work, Work::VATPAYMENT, $oldVatPayment, $vat);
+        }
+        if ($illegalAmount > $oldIllegalPaid) {
+            $this->incomeService->handlePaymentIncrease($work, Work::ILLEGALPAID, $oldIllegalPaid, $illegalAmount);
+        }
 
         return response()->json(['success' => true]);
     }
@@ -1899,8 +1918,22 @@ class WorkController extends Controller
 
             $work = Work::with('parameters')->findOrFail($workId);
 
+            // Get old value before update (for payment parameters only)
+            $oldValue = 0;
+            if (in_array((int)$parameterId, [Work::PAID, Work::VATPAYMENT, Work::ILLEGALPAID])) {
+                $oldValue = $work->getParameterValue((int)$parameterId) ?? 0;
+            }
+
             // Update parameter value
             $work->setParameterValue((int)$parameterId, (float)$value);
+
+            // Trigger income creation ONLY if payment parameter increased
+            if (in_array((int)$parameterId, [Work::PAID, Work::VATPAYMENT, Work::ILLEGALPAID])) {
+                $newValue = (float)$value;
+                if ($newValue > $oldValue) {
+                    $this->incomeService->handlePaymentIncrease($work, (int)$parameterId, $oldValue, $newValue);
+                }
+            }
 
             return response()->json([
                 'success' => true,
@@ -2015,6 +2048,11 @@ class WorkController extends Controller
                     $vat = $work->getParameterValue(Work::VAT) ?? 0;
                     $illegalAmount = $work->getParameterValue(Work::ILLEGALAMOUNT) ?? 0;
 
+                    // Get old values before update
+                    $oldPaid = $work->getParameterValue(Work::PAID) ?? 0;
+                    $oldVatPayment = $work->getParameterValue(Work::VATPAYMENT) ?? 0;
+                    $oldIllegalPaid = $work->getParameterValue(Work::ILLEGALPAID) ?? 0;
+
                     // Update parameter values
                     $work->setParameterValue(Work::PAID, $amount);
                     $work->setParameterValue(Work::VATPAYMENT, $vat);
@@ -2024,6 +2062,17 @@ class WorkController extends Controller
                     $work->paid_at = $paymentDateCarbon;
                     $work->vat_date = $paymentDateCarbon;
                     $work->save();
+
+                    // Trigger income creation ONLY if values increased
+                    if ($amount > $oldPaid) {
+                        $this->incomeService->handlePaymentIncrease($work, Work::PAID, $oldPaid, $amount);
+                    }
+                    if ($vat > $oldVatPayment) {
+                        $this->incomeService->handlePaymentIncrease($work, Work::VATPAYMENT, $oldVatPayment, $vat);
+                    }
+                    if ($illegalAmount > $oldIllegalPaid) {
+                        $this->incomeService->handlePaymentIncrease($work, Work::ILLEGALPAID, $oldIllegalPaid, $illegalAmount);
+                    }
                 }
             } else {
                 // Partial payment: distribute amounts sequentially
@@ -2049,6 +2098,11 @@ class WorkController extends Controller
                         $work->setParameterValue(Work::PAID, $newPaid);
                         $remainingMain -= $toPayMain;
                         $paymentMade = true;
+                        
+                        // Trigger income creation ONLY if value increased
+                        if ($newPaid > $currentPaid) {
+                            $this->incomeService->handlePaymentIncrease($work, Work::PAID, $currentPaid, $newPaid);
+                        }
                     }
 
                     // Distribute VAT amount
@@ -2058,6 +2112,11 @@ class WorkController extends Controller
                         $work->setParameterValue(Work::VATPAYMENT, $newVatPaid);
                         $remainingVat -= $toPayVat;
                         $paymentMade = true;
+                        
+                        // Trigger income creation ONLY if value increased
+                        if ($newVatPaid > $currentVatPaid) {
+                            $this->incomeService->handlePaymentIncrease($work, Work::VATPAYMENT, $currentVatPaid, $newVatPaid);
+                        }
                     }
 
                     // Update date fields if any payment was made to this work
@@ -2118,6 +2177,9 @@ class WorkController extends Controller
                 $work->setParameterValue(Work::PAID, 0);
                 $work->setParameterValue(Work::VATPAYMENT, 0);
                 $work->setParameterValue(Work::ILLEGALPAID, 0);
+                
+                // Remove income transaction when payments are cleared
+                $this->incomeService->removeIncomeForWork($work);
 
                 // Clear all date fields
                 $work->paid_at = null;

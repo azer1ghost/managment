@@ -17,6 +17,8 @@ class Transaction extends Model
         'method',
         'status',
         'note',
+        'client_id',
+        'transaction_date',
     ];
 
     //types
@@ -42,6 +44,11 @@ class Transaction extends Model
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class)->withDefault();
+    }
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class)->withDefault();
     }
 
     /**
