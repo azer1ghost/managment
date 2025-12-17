@@ -45,6 +45,7 @@ class WorkIncomeService
     ): void {
         // Only process payment parameters
         if (!in_array($parameterId, [Work::PAID, Work::VATPAYMENT, Work::ILLEGALPAID])) {
+            Log::info('WorkIncomeService: Not a payment parameter', ['parameter_id' => $parameterId]);
             return;
         }
 
@@ -54,66 +55,66 @@ class WorkIncomeService
             return;
         }
 
-        DB::transaction(function () use ($work, $parameterId, $newValue, $paymentDate) {
-            // STEP 1: Read OLD value from DB BEFORE update (with lock to prevent race conditions)
-            $param = WorkParameter::where('work_id', $work->id)
-                ->where('parameter_id', $parameterId)
-                ->lockForUpdate()
-                ->first();
+        try {
+            DB::transaction(function () use ($work, $parameterId, $newValue, $paymentDate) {
+                // STEP 1: Read OLD value from DB BEFORE update (with lock to prevent race conditions)
+                $param = WorkParameter::where('work_id', $work->id)
+                    ->where('parameter_id', $parameterId)
+                    ->lockForUpdate()
+                    ->first();
 
-            $oldValue = $param ? (float)($param->value ?? 0) : 0;
+                $oldValue = $param ? (float)($param->value ?? 0) : 0;
 
-            // STEP 2: Create record if it doesn't exist
-            if (!$param) {
-                $param = WorkParameter::create([
-                    'work_id' => $work->id,
-                    'parameter_id' => $parameterId,
-                    'value' => '0',
-                ]);
-                $oldValue = 0;
-            }
-
-            // STEP 3: Update the value in work_parameter table
-            $param->update(['value' => (string)$newValue]);
-
-            // STEP 4: Calculate delta
-            $delta = $newValue - $oldValue;
-
-            // DEBUG: Log values to verify delta calculation
-            Log::info('WorkIncomeService: Parameter update', [
-                'work_id' => $work->id,
-                'parameter_id' => $parameterId,
-                'old_value' => $oldValue,
-                'new_value' => $newValue,
-                'delta' => $delta,
-                'client_id' => $work->client_id,
-            ]);
-
-            // STEP 5: Create income transaction ONLY if delta > 0
-            if ($delta > 0) {
-                // Reload work to get latest paid_at/vat_date values
-                $work->refresh();
-                
-                // Determine payment date: from request OR paid_at OR vat_date OR now()
-                $transactionDate = $paymentDate 
-                    ? Carbon::parse($paymentDate)->format('Y-m-d')
-                    : ($work->paid_at 
-                        ? Carbon::parse($work->paid_at)->format('Y-m-d')
-                        : ($work->vat_date 
-                            ? Carbon::parse($work->vat_date)->format('Y-m-d')
-                            : now()->format('Y-m-d')));
-
-                // Get operator (who entered the payment)
-                $operatorId = auth()->id();
-
-                if (!$operatorId) {
-                    Log::error('WorkIncomeService: No authenticated user', ['work_id' => $work->id]);
-                    return;
+                // STEP 2: Create record if it doesn't exist
+                if (!$param) {
+                    $param = WorkParameter::create([
+                        'work_id' => $work->id,
+                        'parameter_id' => $parameterId,
+                        'value' => '0',
+                    ]);
+                    $oldValue = 0;
                 }
 
-                // Create income transaction with delta amount
-                // Note: type and status are stored as strings in DB (per migration)
-                try {
+                // STEP 3: Update the value in work_parameter table
+                $param->update(['value' => (string)$newValue]);
+
+                // STEP 4: Calculate delta
+                $delta = $newValue - $oldValue;
+
+                // DEBUG: Log values to verify delta calculation
+                Log::info('WorkIncomeService: Parameter update', [
+                    'work_id' => $work->id,
+                    'parameter_id' => $parameterId,
+                    'old_value' => $oldValue,
+                    'new_value' => $newValue,
+                    'delta' => $delta,
+                    'client_id' => $work->client_id,
+                ]);
+
+                // STEP 5: Create income transaction ONLY if delta > 0
+                if ($delta > 0) {
+                    // Reload work to get latest paid_at/vat_date values
+                    $work->refresh();
+                    
+                    // Determine payment date: from request OR paid_at OR vat_date OR now()
+                    $transactionDate = $paymentDate 
+                        ? Carbon::parse($paymentDate)->format('Y-m-d')
+                        : ($work->paid_at 
+                            ? Carbon::parse($work->paid_at)->format('Y-m-d')
+                            : ($work->vat_date 
+                                ? Carbon::parse($work->vat_date)->format('Y-m-d')
+                                : now()->format('Y-m-d')));
+
+                    // Get operator (who entered the payment)
+                    $operatorId = auth()->id();
+
+                    if (!$operatorId) {
+                        Log::error('WorkIncomeService: No authenticated user', ['work_id' => $work->id]);
+                        return;
+                    }
+
+                    // Create income transaction with delta amount
+                    // Note: type and status are stored as strings in DB (per migration)
                     $transaction = Transaction::create([
                         'type' => (string)Transaction::INCOME, // Convert to string as per DB schema
                         'source' => 'works',
@@ -136,27 +137,28 @@ class WorkIncomeService
                         'transaction_date' => $transactionDate,
                         'client_id' => $work->client_id,
                     ]);
-                } catch (\Exception $e) {
-                    Log::error('WorkIncomeService: Failed to create transaction', [
+                } else {
+                    Log::info('WorkIncomeService: Delta is not positive, skipping transaction', [
                         'work_id' => $work->id,
                         'parameter_id' => $parameterId,
                         'delta' => $delta,
-                        'error' => $e->getMessage(),
-                        'trace' => $e->getTraceAsString(),
+                        'old_value' => $oldValue,
+                        'new_value' => $newValue,
                     ]);
-                    throw $e;
                 }
-            } else {
-                Log::info('WorkIncomeService: Delta is not positive, skipping transaction', [
-                    'work_id' => $work->id,
-                    'parameter_id' => $parameterId,
-                    'delta' => $delta,
-                ]);
-            }
-        });
+            });
 
-        // Clear work's parameter relation cache so it reflects the new value
-        $work->unsetRelation('parameters');
+            // Clear work's parameter relation cache so it reflects the new value
+            $work->unsetRelation('parameters');
+        } catch (\Exception $e) {
+            Log::error('WorkIncomeService: Exception occurred', [
+                'work_id' => $work->id,
+                'parameter_id' => $parameterId,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            throw $e;
+        }
     }
 
     /**
