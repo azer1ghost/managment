@@ -158,7 +158,6 @@ class Work extends Model implements DocumentableInterface, Recordable
 
     /**
      * Get parameter value as float/numeric from work_parameter table
-     * For payment-related parameters, returns 0 instead of null to prevent arithmetic errors
      *
      * @param int $parameterId
      * @return float|null
@@ -168,62 +167,15 @@ class Work extends Model implements DocumentableInterface, Recordable
         $parameter = $this->parameters()->where('parameters.id', $parameterId)->first();
         
         if (!$parameter || !isset($parameter->pivot->value)) {
-            // For payment-related parameters, return 0 instead of null to prevent arithmetic errors
-            if ($this->isPaymentParameter($parameterId)) {
-                return 0.0;
-            }
             return null;
         }
         
         $value = $parameter->pivot->value;
-        
-        // Handle NULL, empty string, or non-numeric values
-        if ($value === null || $value === '' || $value === false) {
-            // For payment-related parameters, return 0 instead of null
-            if ($this->isPaymentParameter($parameterId)) {
-                return 0.0;
-            }
-            return null;
-        }
-        
-        // Convert to float
-        $floatValue = (float) $value;
-        
-        // Handle NaN or Infinity (shouldn't happen, but be safe)
-        if (!is_finite($floatValue)) {
-            if ($this->isPaymentParameter($parameterId)) {
-                return 0.0;
-            }
-            return null;
-        }
-        
-        return $floatValue;
-    }
-    
-    /**
-     * Check if a parameter ID is a payment-related parameter
-     * Payment parameters must never be NULL to prevent arithmetic errors
-     *
-     * @param int $parameterId
-     * @return bool
-     */
-    public function isPaymentParameter(int $parameterId): bool
-    {
-        return in_array($parameterId, [
-            self::AMOUNT,        // 33 - Base amount
-            self::PAID,          // 35 - Paid base
-            self::VAT,           // 34 - VAT
-            self::VATPAYMENT,    // 36 - Paid VAT
-            self::ILLEGALAMOUNT, // 38 - Illegal amount
-            self::ILLEGALPAID,   // 37 - Paid illegal
-            self::QIBPAYMENT,    // 50 - QIB payment
-            self::QIBAMOUNT,     // 55 - QIB amount
-        ]);
+        return is_numeric($value) ? (float) $value : null;
     }
 
     /**
      * Set parameter value in work_parameter table
-     * For payment-related parameters, NULL values are normalized to 0 to prevent arithmetic errors
      *
      * @param int $parameterId
      * @param mixed $value
@@ -231,16 +183,6 @@ class Work extends Model implements DocumentableInterface, Recordable
      */
     public function setParameterValue(int $parameterId, $value): void
     {
-        // Normalize NULL values to 0 for payment-related parameters
-        if ($this->isPaymentParameter($parameterId)) {
-            if ($value === null || $value === '' || $value === false) {
-                $value = 0;
-            } else {
-                // Ensure numeric value for payment parameters
-                $value = is_numeric($value) ? (float) $value : 0;
-            }
-        }
-        
         if ($this->parameters()->where('parameters.id', $parameterId)->exists()) {
             $this->parameters()->updateExistingPivot($parameterId, ['value' => $value]);
         } else {

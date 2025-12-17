@@ -721,15 +721,9 @@ class WorkController extends Controller
         $work = Work::create($validated);
 
         $parameters = [];
-        $workModel = new Work();
         foreach ($request->input('parameters', []) as $key => $parameter) {
-            // For payment parameters, always set a value (default to 0 if null/empty)
-            if ($workModel->isPaymentParameter((int)$key)) {
-                $parameters[$key] = ['value' => ($parameter === null || $parameter === '') ? 0 : $parameter];
-            } elseif ($parameter !== null && $parameter !== '') {
-                // For non-payment parameters, skip null/empty values
-                $parameters[$key] = ['value' => $parameter];
-            }
+            if ($parameter === null || $parameter === '') continue;
+            $parameters[$key] = ['value' => $parameter];
         }
 
         $work->parameters()->sync($parameters);
@@ -963,15 +957,8 @@ class WorkController extends Controller
 
 
         $parameters = [];
-        $workModel = new Work();
         foreach ($validated['parameters'] ?? [] as $key => $parameter) {
-            // For payment parameters, always set a value (default to 0 if null/empty)
-            if ($workModel->isPaymentParameter((int)$key)) {
-                $parameters[$key] = ['value' => ($parameter === null || $parameter === '') ? 0 : $parameter];
-            } elseif ($parameter !== null && $parameter !== '') {
-                // For non-payment parameters, skip null/empty values
-                $parameters[$key] = ['value' => $parameter];
-            }
+            $parameters[$key] = ['value' => $parameter];
         }
 
         $work->parameters()->sync($parameters);
@@ -999,7 +986,7 @@ class WorkController extends Controller
         }
         
         if ($paidAtChanged) {
-            $amount = $work->getParameterValue(Work::AMOUNT) ?? 0;
+            $amount = $work->getParameter(Work::AMOUNT) ?? 0;
             $paymentDate = $newPaidAt instanceof Carbon ? $newPaidAt->format('Y-m-d') : Carbon::parse($newPaidAt)->format('Y-m-d');
             // Update PAID parameter to match AMOUNT (service will create transaction if delta > 0)
             $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, $amount, $paymentDate);
@@ -1020,7 +1007,7 @@ class WorkController extends Controller
         }
         
         if ($vatDateChanged) {
-            $vat = $work->getParameterValue(Work::VAT) ?? 0;
+            $vat = $work->getParameter(Work::VAT) ?? 0;
             $paymentDate = $newVatDate instanceof Carbon ? $newVatDate->format('Y-m-d') : Carbon::parse($newVatDate)->format('Y-m-d');
             // Update VATPAYMENT parameter to match VAT (service will create transaction if delta > 0)
             $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, $vat, $paymentDate);
@@ -1170,7 +1157,7 @@ class WorkController extends Controller
         $work->update(['paid_at' => $date]);
         
         // Get amount value and update parameter using service (creates income transaction)
-        $amount = $work->getParameterValue(Work::AMOUNT) ?? 0;
+        $amount = $work->getParameter(Work::AMOUNT) ?? 0;
         $paymentDate = Carbon::parse($date)->format('Y-m-d');
         $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, $amount, $paymentDate);
         
@@ -1183,7 +1170,7 @@ class WorkController extends Controller
         $work->update(['vat_date' => $date]);
         
         // Get VAT value and update parameter using service (creates income transaction)
-        $vat = $work->getParameterValue(Work::VAT) ?? 0;
+        $vat = $work->getParameter(Work::VAT) ?? 0;
         $paymentDate = Carbon::parse($date)->format('Y-m-d');
         $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, $vat, $paymentDate);
         
@@ -1321,31 +1308,6 @@ class WorkController extends Controller
                 'vat' => $vat,
             ]);
         }
-    }
-
-    /**
-     * Normalize numeric value to float, defaulting to 0 if NULL
-     * This is critical for handling NULL database values in arithmetic operations
-     * 
-     * @param mixed $value
-     * @return float
-     */
-    protected function normalizeNumericValue($value): float
-    {
-        // Handle NULL, empty string, or non-numeric values
-        if ($value === null || $value === '' || $value === false) {
-            return 0.0;
-        }
-        
-        // Convert to float
-        $floatValue = (float)$value;
-        
-        // Handle NaN or Infinity (shouldn't happen, but be safe)
-        if (!is_finite($floatValue)) {
-            return 0.0;
-        }
-        
-        return $floatValue;
     }
 
     /**
@@ -1599,17 +1561,16 @@ class WorkController extends Controller
             $logPurchase += round($log->getParameter(Logistics::PURCHASEPAID), 2) ?? 0;
         }
         foreach ($works as $work){
-            // Use getParameterValue() for payment parameters to handle NULL safely (returns 0 instead of null)
-            $totalPaidAmount += round($work->getParameterValue(Work::PAID), 2);
-            $totalPaidIllegal += round($work->getParameterValue(Work::ILLEGALPAID), 2);
+            $totalPaidAmount += round($work->getParameter(Work::PAID), 2) ?? 0;
+            $totalPaidIllegal += round($work->getParameter(Work::ILLEGALPAID), 2) ?? 0;
         }
         foreach ($vatWorks as $vatWork){
-            $totalPaidVat += round($vatWork->getParameterValue(Work::VATPAYMENT), 2);
+            $totalPaidVat += round($vatWork->getParameter(Work::VATPAYMENT), 2) ?? 0;
         }
         foreach ($createdWorks as $createdWork){
-            $totalIllegalAmount += round($createdWork->getParameterValue(Work::ILLEGALAMOUNT), 2);
-            $totalAmount += round($createdWork->getParameterValue(Work::AMOUNT), 2);
-            $totalVat += round($createdWork->getParameterValue(Work::VAT), 2);
+            $totalIllegalAmount += round($createdWork->getParameter(Work::ILLEGALAMOUNT), 2) ?? 0;
+            $totalAmount += round($createdWork->getParameter(Work::AMOUNT), 2) ?? 0;
+            $totalVat += round($createdWork->getParameter(Work::VAT), 2) ?? 0;
             $totalAll = round($totalIllegalAmount + $totalAmount + $totalVat, 2);
         }
         $totalPaidAll = round($totalPaidAmount + $totalPaidVat + $totalPaidIllegal, 2);
@@ -1650,16 +1611,14 @@ class WorkController extends Controller
             return $works->whereIn('asan_imza_id', $asanImzaIds)
                 ->where('payment_method', 1)
                 ->sum(function($item) {
-                    // Use getParameterValue() for payment parameters to handle NULL safely
-                    return $item->getParameterValue(Work::ILLEGALPAID) + $item->getParameterValue(Work::VATPAYMENT) + $item->getParameterValue(Work::PAID);
+                    return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
                 });
         }
         function calculateBankTotal($works, $asanImzaIds) {
             return $works->whereIn('asan_imza_id', $asanImzaIds)
                 ->where('payment_method', 2)
                 ->sum(function($item) {
-                    // Use getParameterValue() for payment parameters to handle NULL safely
-                    return $item->getParameterValue(Work::ILLEGALPAID) + $item->getParameterValue(Work::VATPAYMENT) + $item->getParameterValue(Work::PAID);
+                    return $item->getParameter(Work::ILLEGALPAID) + $item->getParameter(Work::VATPAYMENT) + $item->getParameter(Work::PAID);
                 });
         }
         $companyIdToCategory = [
@@ -1944,9 +1903,9 @@ class WorkController extends Controller
         $work = Work::with('parameters')->findOrFail($workId);
 
         // Get amounts from parameters
-        $amount = $work->getParameterValue(Work::AMOUNT) ?? 0;
-        $vat = $work->getParameterValue(Work::VAT) ?? 0;
-        $illegalAmount = $work->getParameterValue(Work::ILLEGALAMOUNT) ?? 0;
+        $amount = $work->getParameter(Work::AMOUNT) ?? 0;
+        $vat = $work->getParameter(Work::VAT) ?? 0;
+        $illegalAmount = $work->getParameter(Work::ILLEGALAMOUNT) ?? 0;
 
         // Set payment dates
         $paidAt = $paidDate ? Carbon::parse($paidDate) : now();
@@ -2130,34 +2089,21 @@ class WorkController extends Controller
             DB::beginTransaction();
 
             if ($paymentType === 'full') {
-                // Full payment: set PAID = AMOUNT, VATPAYMENT = VAT, ILLEGALPAID = ILLEGALAMOUNT
-                // Payment logic is independent and null-safe - does not rely on WorkIncomeService assumptions
                 foreach ($works as $work) {
                     try {
-                        // STEP 1: Read and normalize ALL numeric values (handle NULL from database)
-                        // Do NOT assume fields are initialized - they may be NULL
-                        $amount = $this->normalizeNumericValue($work->getParameterValue(Work::AMOUNT));
-                        $vat = $this->normalizeNumericValue($work->getParameterValue(Work::VAT));
-                        $illegalAmount = $this->normalizeNumericValue($work->getParameterValue(Work::ILLEGALAMOUNT));
-                        $currentPaid = $this->normalizeNumericValue($work->getParameterValue(Work::PAID));
-                        $currentVatPaid = $this->normalizeNumericValue($work->getParameterValue(Work::VATPAYMENT));
-                        $currentIllegalPaid = $this->normalizeNumericValue($work->getParameterValue(Work::ILLEGALPAID));
+                        $amount = $work->getParameter(Work::AMOUNT) ?? 0;
+                        $vat = $work->getParameter(Work::VAT) ?? 0;
+                        $illegalAmount = $work->getParameter(Work::ILLEGALAMOUNT) ?? 0;
+                        $currentPaid = $work->getParameter(Work::PAID) ?? 0;
+                        $currentVatPaid = $work->getParameter(Work::VATPAYMENT) ?? 0;
+                        $currentIllegalPaid = $work->getParameter(Work::ILLEGALPAID) ?? 0;
 
-                        \Log::info('Full payment processing work (null-safe)', [
-                            'work_id' => $work->id,
-                            'amount' => $amount,
-                            'vat' => $vat,
-                            'currentPaid' => $currentPaid,
-                            'currentVatPaid' => $currentVatPaid,
-                        ]);
-
-                        // STEP 2: Update date fields FIRST
+                        // Update date fields
                         $work->paid_at = $paymentDateCarbon;
                         $work->vat_date = $paymentDateCarbon;
                         $work->save();
                         $work->refresh();
 
-                        // STEP 3: Payment distribution logic (independent, null-safe)
                         // Calculate deltas for transaction creation
                         $paidDelta = max(0, $amount - $currentPaid);
                         $vatDelta = max(0, $vat - $currentVatPaid);
@@ -2166,7 +2112,6 @@ class WorkController extends Controller
                         // Payment date for transactions
                         $paymentDate = $paymentDateCarbon->format('Y-m-d');
 
-                        // STEP 4: Update parameters and create transactions ONLY if there's a positive delta
                         // Base payment
                         if ($paidDelta > 0) {
                             \Log::info('Processing base payment', [
@@ -2223,31 +2168,28 @@ class WorkController extends Controller
                 }
             } else {
                 // Partial payment: distribute amounts sequentially
-                // Payment logic is independent and null-safe - handles NULL values correctly
-                $remainingMain = max(0, (float)$partialMain); // Ensure never negative
-                $remainingVat = max(0, (float)$partialVat); // Ensure never negative
+                $remainingMain = max(0, (float)$partialMain);
+                $remainingVat = max(0, (float)$partialVat);
 
                 foreach ($works as $work) {
                     try {
-                        // STEP 1: Read and normalize ALL numeric values (handle NULL from database)
-                        // Do NOT assume fields are initialized - they may be NULL
-                        $amount = $this->normalizeNumericValue($work->getParameterValue(Work::AMOUNT));
-                        $vat = $this->normalizeNumericValue($work->getParameterValue(Work::VAT));
-                        $currentPaid = $this->normalizeNumericValue($work->getParameterValue(Work::PAID));
-                        $currentVatPaid = $this->normalizeNumericValue($work->getParameterValue(Work::VATPAYMENT));
+                        $amount = $work->getParameter(Work::AMOUNT) ?? 0;
+                        $vat = $work->getParameter(Work::VAT) ?? 0;
+                        $currentPaid = $work->getParameter(Work::PAID) ?? 0;
+                        $currentVatPaid = $work->getParameter(Work::VATPAYMENT) ?? 0;
 
-                        // STEP 2: Calculate remaining amounts for this work (all values normalized, arithmetic is safe)
+                        // Calculate remaining amounts for this work
                         $mainRemaining = max(0, $amount - $currentPaid);
                         $vatRemaining = max(0, $vat - $currentVatPaid);
 
                         // Payment date for transactions
                         $paymentDate = $paymentDateCarbon->format('Y-m-d');
 
-                        // STEP 3: Determine if we'll make any payment
+                        // Determine if we'll make any payment
                         $willPayMain = ($remainingMain > 0 && $mainRemaining > 0);
                         $willPayVat = ($remainingVat > 0 && $vatRemaining > 0 && $vat > 0);
                         
-                        // STEP 4: Update date fields if payment will be made
+                        // Update date fields if payment will be made
                         if ($willPayMain || $willPayVat) {
                             $work->paid_at = $paymentDateCarbon;
                             $work->vat_date = $paymentDateCarbon;
@@ -2255,7 +2197,7 @@ class WorkController extends Controller
                             $work->refresh();
                         }
 
-                        // STEP 5: Distribute main amount (independent payment logic)
+                        // Distribute main amount
                         if ($remainingMain > 0 && $mainRemaining > 0) {
                             $toPayMain = min($remainingMain, $mainRemaining);
                             $newPaid = $currentPaid + $toPayMain;
@@ -2277,7 +2219,7 @@ class WorkController extends Controller
                             $remainingMain -= $toPayMain;
                         }
 
-                        // STEP 6: Distribute VAT amount (only if there's VAT to pay)
+                        // Distribute VAT amount
                         if ($remainingVat > 0 && $vatRemaining > 0 && $vat > 0) {
                             $toPayVat = min($remainingVat, $vatRemaining);
                             $newVatPaid = $currentVatPaid + $toPayVat;
