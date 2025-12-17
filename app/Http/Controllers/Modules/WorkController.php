@@ -2076,8 +2076,8 @@ class WorkController extends Controller
                 return response()->json(['error' => 'Invalid payment date format. Expected YYYY-MM-DD.'], 422);
             }
 
-            // Fetch all works with the same invoice code
-            $works = Work::with('parameters')
+            // Fetch all works with the same invoice code (load service for company_id)
+            $works = Work::with('parameters', 'service')
                 ->where('code', $invoiceCode)
                 ->get();
 
@@ -2095,15 +2095,18 @@ class WorkController extends Controller
                     $vat = $work->getParameterValue(Work::VAT) ?? 0;
                     $illegalAmount = $work->getParameterValue(Work::ILLEGALAMOUNT) ?? 0;
 
-                    // Update date fields with the payment date
+                    // Update date fields FIRST (before updating parameters)
+                    // This ensures service can use correct dates for transaction_date
                     $work->paid_at = $paymentDateCarbon;
                     $work->vat_date = $paymentDateCarbon;
                     $work->save();
+                    $work->refresh(); // Refresh to ensure dates are available
 
                     // Payment date for transactions
                     $paymentDate = $paymentDateCarbon->format('Y-m-d');
 
                     // Update payment parameters using service (reads old value, updates, creates income if delta > 0)
+                    // Dates are already set above, so service will use correct transaction_date
                     $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, $amount, $paymentDate);
                     $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, $vat, $paymentDate);
                     $this->incomeService->updateParameterAndCreateIncome($work, Work::ILLEGALPAID, $illegalAmount, $paymentDate);
@@ -2128,16 +2131,29 @@ class WorkController extends Controller
                     // Payment date for transactions
                     $paymentDate = $paymentDateCarbon->format('Y-m-d');
 
+                    // Update date fields BEFORE updating parameters (so service can use correct dates)
+                    // Check if we'll make any payment
+                    $willPayMain = ($remainingMain > 0 && $mainRemaining > 0);
+                    $willPayVat = ($remainingVat > 0 && $vatRemaining > 0);
+                    
+                    if ($willPayMain || $willPayVat) {
+                        $work->paid_at = $paymentDateCarbon;
+                        $work->vat_date = $paymentDateCarbon;
+                        $work->save(); // Save dates first
+                        $work->refresh(); // Refresh to ensure dates are available
+                        $paymentMade = true;
+                    }
+
                     // Distribute main amount
                     if ($remainingMain > 0 && $mainRemaining > 0) {
                         $toPayMain = min($remainingMain, $mainRemaining);
                         $newPaid = $currentPaid + $toPayMain;
                         
                         // Service will read old value, update, and create income if delta > 0
+                        // Dates are already set above, so service will use correct transaction_date
                         $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, $newPaid, $paymentDate);
                         
                         $remainingMain -= $toPayMain;
-                        $paymentMade = true;
                     }
 
                     // Distribute VAT amount
@@ -2146,19 +2162,11 @@ class WorkController extends Controller
                         $newVatPaid = $currentVatPaid + $toPayVat;
                         
                         // Service will read old value, update, and create income if delta > 0
+                        // Dates are already set above, so service will use correct transaction_date
                         $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, $newVatPaid, $paymentDate);
                         
                         $remainingVat -= $toPayVat;
-                        $paymentMade = true;
                     }
-
-                    // Update date fields if any payment was made to this work
-                    if ($paymentMade) {
-                        $work->paid_at = $paymentDateCarbon;
-                        $work->vat_date = $paymentDateCarbon;
-                    }
-
-                    $work->save();
                 }
             }
 
