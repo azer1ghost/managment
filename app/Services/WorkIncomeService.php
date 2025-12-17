@@ -50,19 +50,22 @@ class WorkIncomeService
             return;
         }
 
+        // Normalize newValue first (before any processing)
+        $normalizedNewValue = is_finite((float)$newValue) ? (float)$newValue : 0.0;
+        
         // Work must have a client
         if (!$work->client_id) {
             Log::warning('WorkIncomeService: Work has no client_id - skipping transaction creation', [
                 'work_id' => $work->id,
                 'parameter_id' => $parameterId,
-                'new_value' => $newValue
+                'new_value' => $normalizedNewValue
             ]);
             // Still update the parameter value, just don't create transaction
             // This ensures payment data is saved even if client_id is missing
             if ($work->parameters()->where('parameters.id', $parameterId)->exists()) {
-                $work->parameters()->updateExistingPivot($parameterId, ['value' => (string)$newValue]);
+                $work->parameters()->updateExistingPivot($parameterId, ['value' => (string)$normalizedNewValue]);
             } else {
-                $work->parameters()->attach($parameterId, ['value' => (string)$newValue]);
+                $work->parameters()->attach($parameterId, ['value' => (string)$normalizedNewValue]);
             }
             $work->unsetRelation('parameters');
             return;
@@ -72,9 +75,7 @@ class WorkIncomeService
             // Load service relationship to get company_id
             $work->load('service');
             
-            DB::transaction(function () use ($work, $parameterId, $newValue, $paymentDate) {
-                // Normalize newValue first (critical for handling NULL/invalid values)
-                $normalizedNewValue = is_finite((float)$newValue) ? (float)$newValue : 0.0;
+            DB::transaction(function () use ($work, $parameterId, $normalizedNewValue, $paymentDate) {
                 
                 // STEP 1: Read OLD value from DB BEFORE update (with lock to prevent race conditions)
                 $param = WorkParameter::where('work_id', $work->id)

@@ -2115,10 +2115,11 @@ class WorkController extends Controller
 
             if ($paymentType === 'full') {
                 // Full payment: set PAID = AMOUNT, VATPAYMENT = VAT, ILLEGALPAID = ILLEGALAMOUNT
+                // Payment logic is independent and null-safe - does not rely on WorkIncomeService assumptions
                 foreach ($works as $work) {
                     try {
-                        // Normalize all numeric fields to 0 (handle NULL values from database)
-                        // This is critical for first-time payments where fields may be NULL
+                        // STEP 1: Read and normalize ALL numeric values (handle NULL from database)
+                        // Do NOT assume fields are initialized - they may be NULL
                         $amount = $this->normalizeNumericValue($work->getParameterValue(Work::AMOUNT));
                         $vat = $this->normalizeNumericValue($work->getParameterValue(Work::VAT));
                         $illegalAmount = $this->normalizeNumericValue($work->getParameterValue(Work::ILLEGALAMOUNT));
@@ -2126,7 +2127,7 @@ class WorkController extends Controller
                         $currentVatPaid = $this->normalizeNumericValue($work->getParameterValue(Work::VATPAYMENT));
                         $currentIllegalPaid = $this->normalizeNumericValue($work->getParameterValue(Work::ILLEGALPAID));
 
-                        \Log::info('Full payment processing work', [
+                        \Log::info('Full payment processing work (null-safe)', [
                             'work_id' => $work->id,
                             'amount' => $amount,
                             'vat' => $vat,
@@ -2134,33 +2135,39 @@ class WorkController extends Controller
                             'currentVatPaid' => $currentVatPaid,
                         ]);
 
-                        // Update date fields FIRST (before updating parameters)
-                        // This ensures service can use correct dates for transaction_date
+                        // STEP 2: Update date fields FIRST
                         $work->paid_at = $paymentDateCarbon;
                         $work->vat_date = $paymentDateCarbon;
                         $work->save();
-                        $work->refresh(); // Refresh to ensure dates are available
+                        $work->refresh();
+
+                        // STEP 3: Payment distribution logic (independent, null-safe)
+                        // Calculate deltas for transaction creation
+                        $paidDelta = max(0, $amount - $currentPaid);
+                        $vatDelta = max(0, $vat - $currentVatPaid);
+                        $illegalDelta = max(0, $illegalAmount - $currentIllegalPaid);
 
                         // Payment date for transactions
                         $paymentDate = $paymentDateCarbon->format('Y-m-d');
 
-                        // Process base payment separately (always process if amount > 0)
-                        if ($amount > 0) {
-                            // Calculate delta for logging (but service will recalculate)
-                            $paidDelta = $amount - $currentPaid;
+                        // STEP 4: Update parameters and create transactions ONLY if there's a positive delta
+                        // Base payment
+                        if ($paidDelta > 0) {
                             \Log::info('Processing base payment', [
                                 'work_id' => $work->id,
                                 'currentPaid' => $currentPaid,
                                 'targetAmount' => $amount,
                                 'delta' => $paidDelta
                             ]);
+                            // Use service to update parameter and create transaction
                             $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, $amount, $paymentDate);
+                        } elseif ($amount > 0) {
+                            // Even if delta is 0, ensure parameter is set to correct value
+                            $work->setParameterValue(Work::PAID, $amount);
                         }
 
-                        // Process VAT payment separately (only if VAT > 0)
-                        if ($vat > 0) {
-                            // Calculate delta for logging (but service will recalculate)
-                            $vatDelta = $vat - $currentVatPaid;
+                        // VAT payment (only process if VAT exists)
+                        if ($vatDelta > 0 && $vat > 0) {
                             \Log::info('Processing VAT payment', [
                                 'work_id' => $work->id,
                                 'currentVatPaid' => $currentVatPaid,
@@ -2168,11 +2175,13 @@ class WorkController extends Controller
                                 'delta' => $vatDelta
                             ]);
                             $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, $vat, $paymentDate);
+                        } elseif ($vat > 0) {
+                            // Even if delta is 0, ensure parameter is set to correct value
+                            $work->setParameterValue(Work::VATPAYMENT, $vat);
                         }
 
-                        // Process illegal amount payment separately (only if illegalAmount > 0)
-                        if ($illegalAmount > 0) {
-                            $illegalDelta = $illegalAmount - $currentIllegalPaid;
+                        // Illegal amount payment (only process if illegalAmount exists)
+                        if ($illegalDelta > 0 && $illegalAmount > 0) {
                             \Log::info('Processing illegal amount payment', [
                                 'work_id' => $work->id,
                                 'currentIllegalPaid' => $currentIllegalPaid,
@@ -2180,6 +2189,9 @@ class WorkController extends Controller
                                 'delta' => $illegalDelta
                             ]);
                             $this->incomeService->updateParameterAndCreateIncome($work, Work::ILLEGALPAID, $illegalAmount, $paymentDate);
+                        } elseif ($illegalAmount > 0) {
+                            // Even if delta is 0, ensure parameter is set to correct value
+                            $work->setParameterValue(Work::ILLEGALPAID, $illegalAmount);
                         }
                     } catch (\Exception $e) {
                         \Log::error('Error processing work payment in applyUnifiedPayment (full)', [
@@ -2195,57 +2207,77 @@ class WorkController extends Controller
                 }
             } else {
                 // Partial payment: distribute amounts sequentially
+                // Payment logic is independent and null-safe - handles NULL values correctly
                 $remainingMain = max(0, (float)$partialMain); // Ensure never negative
                 $remainingVat = max(0, (float)$partialVat); // Ensure never negative
 
                 foreach ($works as $work) {
                     try {
-                        // Normalize all numeric fields to 0 (handle NULL values from database)
-                        // This is critical for first-time payments where fields may be NULL
+                        // STEP 1: Read and normalize ALL numeric values (handle NULL from database)
+                        // Do NOT assume fields are initialized - they may be NULL
                         $amount = $this->normalizeNumericValue($work->getParameterValue(Work::AMOUNT));
                         $vat = $this->normalizeNumericValue($work->getParameterValue(Work::VAT));
                         $currentPaid = $this->normalizeNumericValue($work->getParameterValue(Work::PAID));
                         $currentVatPaid = $this->normalizeNumericValue($work->getParameterValue(Work::VATPAYMENT));
 
-                        // Calculate remaining amounts for this work (ensure never negative)
-                        // All values are normalized to 0, so arithmetic is safe
+                        // STEP 2: Calculate remaining amounts for this work (all values normalized, arithmetic is safe)
                         $mainRemaining = max(0, $amount - $currentPaid);
                         $vatRemaining = max(0, $vat - $currentVatPaid);
 
                         // Payment date for transactions
                         $paymentDate = $paymentDateCarbon->format('Y-m-d');
 
-                        // Update date fields BEFORE updating parameters (so service can use correct dates)
-                        // Check if we'll make any payment
+                        // STEP 3: Determine if we'll make any payment
                         $willPayMain = ($remainingMain > 0 && $mainRemaining > 0);
-                        $willPayVat = ($remainingVat > 0 && $vatRemaining > 0);
+                        $willPayVat = ($remainingVat > 0 && $vatRemaining > 0 && $vat > 0);
                         
+                        // STEP 4: Update date fields if payment will be made
                         if ($willPayMain || $willPayVat) {
                             $work->paid_at = $paymentDateCarbon;
                             $work->vat_date = $paymentDateCarbon;
-                            $work->save(); // Save dates first
-                            $work->refresh(); // Refresh to ensure dates are available
+                            $work->save();
+                            $work->refresh();
                         }
 
-                        // Distribute main amount
+                        // STEP 5: Distribute main amount (independent payment logic)
                         if ($remainingMain > 0 && $mainRemaining > 0) {
                             $toPayMain = min($remainingMain, $mainRemaining);
                             $newPaid = $currentPaid + $toPayMain;
                             
-                            // Service will read old value, update, and create income if delta > 0
-                            // Dates are already set above, so service will use correct transaction_date
+                            // Calculate delta for this payment
+                            $paidDelta = $newPaid - $currentPaid;
+                            
+                            \Log::info('Processing partial base payment', [
+                                'work_id' => $work->id,
+                                'currentPaid' => $currentPaid,
+                                'toPayMain' => $toPayMain,
+                                'newPaid' => $newPaid,
+                                'delta' => $paidDelta
+                            ]);
+                            
+                            // Use service to update parameter and create transaction
                             $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, $newPaid, $paymentDate);
                             
                             $remainingMain -= $toPayMain;
                         }
 
-                        // Distribute VAT amount (only if there's VAT to pay)
+                        // STEP 6: Distribute VAT amount (only if there's VAT to pay)
                         if ($remainingVat > 0 && $vatRemaining > 0 && $vat > 0) {
                             $toPayVat = min($remainingVat, $vatRemaining);
                             $newVatPaid = $currentVatPaid + $toPayVat;
                             
-                            // Service will read old value, update, and create income if delta > 0
-                            // Dates are already set above, so service will use correct transaction_date
+                            // Calculate delta for this payment
+                            $vatDelta = $newVatPaid - $currentVatPaid;
+                            
+                            \Log::info('Processing partial VAT payment', [
+                                'work_id' => $work->id,
+                                'currentVatPaid' => $currentVatPaid,
+                                'toPayVat' => $toPayVat,
+                                'newVatPaid' => $newVatPaid,
+                                'delta' => $vatDelta
+                            ]);
+                            
+                            // Use service to update parameter and create transaction
                             $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, $newVatPaid, $paymentDate);
                             
                             $remainingVat -= $toPayVat;
@@ -2255,6 +2287,8 @@ class WorkController extends Controller
                             'work_id' => $work->id,
                             'invoice_code' => $invoiceCode,
                             'error' => $e->getMessage(),
+                            'file' => $e->getFile(),
+                            'line' => $e->getLine(),
                             'trace' => $e->getTraceAsString()
                         ]);
                         throw $e; // Re-throw to trigger rollback
