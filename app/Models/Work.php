@@ -183,10 +183,24 @@ class Work extends Model implements DocumentableInterface, Recordable
      */
     public function setParameterValue(int $parameterId, $value): void
     {
-        if ($this->parameters()->where('parameters.id', $parameterId)->exists()) {
-            $this->parameters()->updateExistingPivot($parameterId, ['value' => $value]);
+        // Check if pivot record exists using DB query to avoid relationship issues
+        $exists = DB::table('work_parameter')
+            ->where('work_id', $this->id)
+            ->where('parameter_id', $parameterId)
+            ->exists();
+        
+        if ($exists) {
+            DB::table('work_parameter')
+                ->where('work_id', $this->id)
+                ->where('parameter_id', $parameterId)
+                ->update(['value' => $value]);
         } else {
-            $this->parameters()->attach($parameterId, ['value' => $value]);
+            DB::table('work_parameter')
+                ->insert([
+                    'work_id' => $this->id,
+                    'parameter_id' => $parameterId,
+                    'value' => $value
+                ]);
         }
         
         // Clear relation cache
