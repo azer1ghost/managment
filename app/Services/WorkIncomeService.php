@@ -207,7 +207,7 @@ class WorkIncomeService
                         'parameter_id' => $parameterId,
                         'delta' => $delta,
                         'old_value' => $oldValue,
-                        'new_value' => $newValue,
+                        'new_value' => $normalizedNewValue,
                     ]);
                 }
             });
