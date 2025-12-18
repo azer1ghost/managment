@@ -2021,7 +2021,10 @@ class WorkController extends Controller
             }
 
             $work = Work::findOrFail($workId);
-
+            
+            // Store old value to check if it changed
+            $oldValue = $work->$field;
+            
             // Update the date field
             if ($value) {
                 $work->$field = Carbon::parse($value);
@@ -2030,6 +2033,44 @@ class WorkController extends Controller
             }
             
             $work->save();
+            $work->refresh();
+            
+            // Check if date was set/changed and automatically fill payment amounts
+            $dateChanged = false;
+            if ($work->$field) {
+                if ($oldValue === null) {
+                    $dateChanged = true; // Was null, now set
+                } else {
+                    // Compare dates
+                    $oldDateStr = $oldValue instanceof Carbon ? $oldValue->format('Y-m-d') : Carbon::parse($oldValue)->format('Y-m-d');
+                    $newDateStr = $work->$field instanceof Carbon ? $work->$field->format('Y-m-d') : Carbon::parse($work->$field)->format('Y-m-d');
+                    $dateChanged = ($oldDateStr !== $newDateStr);
+                }
+            }
+            
+            // If paid_at date was set/changed, automatically fill PAID with AMOUNT (if amount > 0)
+            if ($dateChanged && $field === 'paid_at' && $work->paid_at) {
+                $amount = $work->getParameter(Work::AMOUNT) ?? 0;
+                $currentPaid = $work->getParameter(Work::PAID) ?? 0;
+                
+                // Only update if amount > 0 and paid is less than amount
+                if ($amount > 0 && $currentPaid < $amount) {
+                    $paymentDate = $work->paid_at instanceof Carbon ? $work->paid_at->format('Y-m-d') : Carbon::parse($work->paid_at)->format('Y-m-d');
+                    $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, $amount, $paymentDate);
+                }
+            }
+            
+            // If vat_date was set/changed, automatically fill VATPAYMENT with VAT (if vat > 0)
+            if ($dateChanged && $field === 'vat_date' && $work->vat_date) {
+                $vat = $work->getParameter(Work::VAT) ?? 0;
+                $currentVatPaid = $work->getParameter(Work::VATPAYMENT) ?? 0;
+                
+                // Only update if vat > 0 and vatPayment is less than vat
+                if ($vat > 0 && $currentVatPaid < $vat) {
+                    $paymentDate = $work->vat_date instanceof Carbon ? $work->vat_date->format('Y-m-d') : Carbon::parse($work->vat_date)->format('Y-m-d');
+                    $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, $vat, $paymentDate);
+                }
+            }
 
             return response()->json([
                 'success' => true,

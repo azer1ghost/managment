@@ -223,9 +223,32 @@ class Work extends Model implements DocumentableInterface, Recordable
         $illegalAmount = $this->getParameterValue(self::ILLEGALAMOUNT) ?? 0;
         $illegalPaid = $this->getParameterValue(self::ILLEGALPAID) ?? 0;
         
-        return abs($paid - $amount) < 0.01 
-            && abs($vatPayment - $vat) < 0.01 
-            && abs($illegalPaid - $illegalAmount) < 0.01;
+        // Check if main amount is paid
+        // If amount > 0, paid must equal amount
+        // If amount = 0, check if payment date exists (for zero-amount services or illegal payments)
+        $amountPaid = false;
+        if ($amount > 0) {
+            $amountPaid = abs($paid - $amount) < 0.01;
+        } else {
+            // Amount is 0 - check if payment date exists (allows marking as paid even with zero amount)
+            $amountPaid = $this->paid_at !== null;
+        }
+        
+        // Check if VAT is paid
+        // If VAT > 0, VAT payment must equal VAT
+        // If VAT = 0, check if VAT payment date exists
+        $vatPaid = false;
+        if ($vat > 0) {
+            $vatPaid = abs($vatPayment - $vat) < 0.01;
+        } else {
+            // VAT is 0 - check if VAT payment date exists
+            $vatPaid = $this->vat_date !== null;
+        }
+        
+        // Check if illegal amount is paid
+        $illegalPaidCheck = abs($illegalPaid - $illegalAmount) < 0.01;
+        
+        return $amountPaid && $vatPaid && $illegalPaidCheck;
     }
 
     public static function statuses(): array
