@@ -28,7 +28,7 @@ use phpDocumentor\Reflection\Types\Self_;
 class
 User extends Authenticatable implements MustVerifyPhone, Recordable
 {
-    use HasFactory, Notifiable, SoftDeletes, Documentable, GetClassInfo, \App\Traits\Auth\MustVerifyPhone, \Altek\Accountant\Recordable, Eventually;
+    use HasFactory, Notifiable, SoftDeletes, Documentable, GetClassInfo, \App\Traits\Auth\MustVerifyPhone, \Altek\Accountant\Recordable, Eventually, \App\Traits\Loger;
 
     const DIRECTOR = 7;
     const DEVELOPER = 1;

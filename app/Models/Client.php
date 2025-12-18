@@ -16,7 +16,7 @@ use Illuminate\Notifications\Notifiable;
 
 class Client  extends Authenticatable implements DocumentableInterface, Recordable
 {
-    use SoftDeletes, Notifiable, HasFactory, Documentable, \Altek\Accountant\Recordable, Eventually;
+    use SoftDeletes, Notifiable, HasFactory, Documentable, \Altek\Accountant\Recordable, Eventually, \App\Traits\Loger;
 
     const LEGAL = 0;
     const PHYSICAL  = 1;

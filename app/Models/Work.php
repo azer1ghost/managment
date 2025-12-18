@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\{Factories\HasFactory,
  */
 class Work extends Model implements DocumentableInterface, Recordable
 {
-    use HasFactory, SoftDeletes, Documentable, \Altek\Accountant\Recordable, Eventually;
+    use HasFactory, SoftDeletes, Documentable, \Altek\Accountant\Recordable, Eventually, \App\Traits\Loger;
 
     const PLANNED = 1;
     const PENDING = 2;
