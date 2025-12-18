@@ -178,20 +178,69 @@ class WorkIncomeService
                     // Ensure delta is normalized (should be positive at this point, but be safe)
                     $transactionAmount = is_finite((float)$delta) ? (float)$delta : 0.0;
                     
-                    $transaction = Transaction::create([
-                        'type' => '2', // 2 = Mədaxil (Income)
-                        'source' => 'works',
-                        'work_id' => $work->id,
-                        'client_id' => $work->client_id,
-                        'company_id' => $companyId, // Add company_id from service
-                        'operator_id' => $operatorId,
-                        'transaction_date' => $transactionDate,
-                        'amount' => (string)$transactionAmount,
-                        'currency' => 'AZN',
-                        'status' => (string)Transaction::SUCCESSFUL, // Convert to string as per DB schema
-                        'user_id' => $operatorId,
-                        'note' => $this->getParameterNote($parameterId) . ' - Delta: ' . number_format($transactionAmount, 2),
-                    ]);
+                    // Load client to get name
+                    $work->load('client');
+                    $clientName = $work->client ? $work->client->fullname : 'Naməlum müştəri';
+                    
+                    // Check if there's an existing transaction for the same client, date, and source
+                    // If exists, update it by adding the amount (consolidate transactions)
+                    $existingTransaction = Transaction::where('client_id', $work->client_id)
+                        ->where('transaction_date', $transactionDate)
+                        ->where('source', 'works')
+                        ->where('type', '2') // Mədaxil (Income)
+                        ->where('status', (string)Transaction::SUCCESSFUL)
+                        ->first();
+                    
+                    if ($existingTransaction) {
+                        // Consolidate: add new amount to existing transaction
+                        $existingAmount = (float)$existingTransaction->amount;
+                        $newTotalAmount = $existingAmount + $transactionAmount;
+                        
+                        // Update note to include all payment types
+                        $note = $clientName . ' üçün ' . number_format($newTotalAmount, 2, '.', ' ') . ' AZN ümumi ödəniş edildi';
+                        
+                        $existingTransaction->update([
+                            'amount' => (string)$newTotalAmount,
+                            'note' => $note,
+                        ]);
+                        
+                        Log::info('WorkIncomeService: Transaction consolidated', [
+                            'transaction_id' => $existingTransaction->id,
+                            'work_id' => $work->id,
+                            'parameter_id' => $parameterId,
+                            'added_amount' => $transactionAmount,
+                            'total_amount' => $newTotalAmount,
+                            'transaction_date' => $transactionDate,
+                            'client_id' => $work->client_id,
+                        ]);
+                    } else {
+                        // Create new transaction with client name in note
+                        $note = $clientName . ' üçün ' . number_format($transactionAmount, 2, '.', ' ') . ' AZN ödəniş edildi';
+                        
+                        $transaction = Transaction::create([
+                            'type' => '2', // 2 = Mədaxil (Income)
+                            'source' => 'works',
+                            'work_id' => $work->id,
+                            'client_id' => $work->client_id,
+                            'company_id' => $companyId, // Add company_id from service
+                            'operator_id' => $operatorId,
+                            'transaction_date' => $transactionDate,
+                            'amount' => (string)$transactionAmount,
+                            'currency' => 'AZN',
+                            'status' => (string)Transaction::SUCCESSFUL, // Convert to string as per DB schema
+                            'user_id' => $operatorId,
+                            'note' => $note,
+                        ]);
+                        
+                        Log::info('WorkIncomeService: Income transaction created successfully', [
+                            'transaction_id' => $transaction->id,
+                            'work_id' => $work->id,
+                            'parameter_id' => $parameterId,
+                            'delta' => $transactionAmount,
+                            'transaction_date' => $transactionDate,
+                            'client_id' => $work->client_id,
+                        ]);
+                    }
 
                     Log::info('WorkIncomeService: Income transaction created successfully', [
                         'transaction_id' => $transaction->id,
@@ -225,20 +274,4 @@ class WorkIncomeService
         }
     }
 
-    /**
-     * Get note text for parameter type.
-     * 
-     * @param int $parameterId
-     * @return string
-     */
-    private function getParameterNote(int $parameterId): string
-    {
-        $notes = [
-            Work::PAID => 'Mədaxil - Əsas məbləğdən ödəniş',
-            Work::VATPAYMENT => 'Mədaxil - ƏDV-dən ödəniş',
-            Work::ILLEGALPAID => 'Mədaxil - Digər məbləğdən ödəniş',
-        ];
-
-        return $notes[$parameterId] ?? 'Mədaxil - İş ödənişi';
-    }
 }
