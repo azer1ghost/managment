@@ -214,6 +214,7 @@ Route::group([
     Route::post('/works/apply-unified-payment', [WorkController::class, 'applyUnifiedPayment'])->name('works.apply-unified-payment');
     Route::post('/works/clear-all-payments', [WorkController::class, 'clearAllPayments'])->name('works.clear-all-payments');
     Route::post('/works/clear-invoice-dates', [WorkController::class, 'clearInvoiceDates'])->name('works.clear-invoice-dates');
+    Route::post('/works/assign-bulk-invoice-code', [WorkController::class, 'assignBulkInvoiceCode'])->name('works.assign-bulk-invoice-code');
     Route::get('/works/report', [WorkController::class, 'report'])->name('works.report');
     Route::get('/works/export', [WorkController::class, 'export'])->name('works.export');
     Route::resource('/works', WorkController::class);

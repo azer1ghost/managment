@@ -122,6 +122,10 @@
 @php
     $invoiceCode = $works->first()->code ?? null;
     $today = now()->format('Y-m-d');
+    $hasInvoiceCode = !empty($invoiceCode);
+    
+    // Get work IDs for bulk operations
+    $workIds = $works->pluck('id')->toArray();
     
     // Calculate invoice totals
     $totalMain = 0;
@@ -148,45 +152,41 @@
     $remainingVat = $totalVat - $totalPaidVat;
 @endphp
 
-@if($invoiceCode)
-<!-- Invoice Total Summary -->
-<div class="invoice-summary-panel mb-3">
-    <h5 class="mb-2">Qaimə Ümumi Xülasəsi</h5>
-    <div class="row">
-        <div class="col-md-3">
-            <strong>Ümumi Əsas Məbləğ:</strong> <span id="summaryTotalMain">{{ number_format($totalMain, 2, '.', ' ') }}</span> AZN
+@if(!$hasInvoiceCode)
+<!-- Bulk Invoice Code Assignment Panel for works without invoice code -->
+<div class="payment-panel" style="background-color: #fff3cd; border-color: #ffc107;">
+    <h5 class="mb-3">Toplu Qaimə Təyin Etmə</h5>
+    <p class="text-muted mb-3">Bu işlər üçün qaimə nömrəsi yoxdur. Toplu qaimə nömrəsi təyin edə bilərsiniz.</p>
+    <form id="bulkInvoiceCodeForm">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="bulkInvoiceCode">Qaimə Nömrəsi</label>
+                    <input type="text" 
+                           id="bulkInvoiceCode" 
+                           name="bulkInvoiceCode" 
+                           placeholder="Qaimə nömrəsi daxil edin" 
+                           class="form-control"
+                           required>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <div>
+                        <button type="button" id="assignInvoiceCode" class="btn btn-success btn-lg">
+                            <i class="fa fa-check"></i> Qaimə Nömrəsini Təyin Et
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-3">
-            <strong>Ümumi ƏDV:</strong> <span id="summaryTotalVat">{{ number_format($totalVat, 2, '.', ' ') }}</span> AZN
-        </div>
-        <div class="col-md-3">
-            <strong>Ümumi Digər Məbləğ:</strong> <span id="summaryTotalOther">{{ number_format($totalOther, 2, '.', ' ') }}</span> AZN
-        </div>
-        <div class="col-md-3">
-            <strong>Tam Məbləğ (Əsas + Digər):</strong> <span id="summaryTotalAmount" class="text-primary">{{ number_format($totalAmount, 2, '.', ' ') }}</span> AZN
-        </div>
-    </div>
-    <div class="row mt-2">
-        <div class="col-md-3">
-            <strong>Faktiki Məbləğ (Əsas + ƏDV + Digər):</strong> <span id="summaryActualAmount" class="text-success">{{ number_format($actualAmount, 2, '.', ' ') }}</span> AZN
-        </div>
-        <div class="col-md-3">
-            <strong>Ödənilmiş Əsas:</strong> <span id="summaryPaidMain">{{ number_format($totalPaidMain, 2, '.', ' ') }}</span> AZN
-        </div>
-        <div class="col-md-3">
-            <strong>Ödənilmiş ƏDV:</strong> <span id="summaryPaidVat">{{ number_format($totalPaidVat, 2, '.', ' ') }}</span> AZN
-        </div>
-        <div class="col-md-3">
-            <strong>Qalan Əsas:</strong> <span id="summaryRemainingMain" class="text-danger">{{ number_format($remainingMain, 2, '.', ' ') }}</span> AZN
-        </div>
-    </div>
-    <div class="row mt-2">
-        <div class="col-md-3">
-            <strong>Qalan ƏDV:</strong> <span id="summaryRemainingVat" class="text-danger">{{ number_format($remainingVat, 2, '.', ' ') }}</span> AZN
-        </div>
-    </div>
+        <input type="hidden" id="bulkWorkIds" value="{{ json_encode($workIds) }}">
+    </form>
 </div>
+@endif
 
+@if($hasInvoiceCode)
 <!-- Unified Payment Panel -->
 <div class="payment-panel">
     <h5 class="mb-3">Birləşdirilmiş Ödəniş Paneli</h5>
@@ -257,6 +257,44 @@
     </form>
 </div>
 @endif
+
+<!-- Invoice Summary Panel (shown for all works) -->
+<div class="invoice-summary-panel mb-3">
+    <h5 class="mb-2">@if($hasInvoiceCode) Qaimə Ümumi Xülasəsi @else Seçilmiş İşlər Ümumi Xülasəsi @endif</h5>
+    <div class="row">
+        <div class="col-md-3">
+            <strong>Ümumi Əsas Məbləğ:</strong> <span id="summaryTotalMain">{{ number_format($totalMain, 2, '.', ' ') }}</span> AZN
+        </div>
+        <div class="col-md-3">
+            <strong>Ümumi ƏDV:</strong> <span id="summaryTotalVat">{{ number_format($totalVat, 2, '.', ' ') }}</span> AZN
+        </div>
+        <div class="col-md-3">
+            <strong>Ümumi Digər Məbləğ:</strong> <span id="summaryTotalOther">{{ number_format($totalOther, 2, '.', ' ') }}</span> AZN
+        </div>
+        <div class="col-md-3">
+            <strong>Tam Məbləğ (Əsas + Digər):</strong> <span id="summaryTotalAmount" class="text-primary">{{ number_format($totalAmount, 2, '.', ' ') }}</span> AZN
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-3">
+            <strong>Faktiki Məbləğ (Əsas + ƏDV + Digər):</strong> <span id="summaryActualAmount" class="text-success">{{ number_format($actualAmount, 2, '.', ' ') }}</span> AZN
+        </div>
+        <div class="col-md-3">
+            <strong>Ödənilmiş Əsas:</strong> <span id="summaryPaidMain">{{ number_format($totalPaidMain, 2, '.', ' ') }}</span> AZN
+        </div>
+        <div class="col-md-3">
+            <strong>Ödənilmiş ƏDV:</strong> <span id="summaryPaidVat">{{ number_format($totalPaidVat, 2, '.', ' ') }}</span> AZN
+        </div>
+        <div class="col-md-3">
+            <strong>Qalan Əsas:</strong> <span id="summaryRemainingMain" class="text-danger">{{ number_format($remainingMain, 2, '.', ' ') }}</span> AZN
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-3">
+            <strong>Qalan ƏDV:</strong> <span id="summaryRemainingVat" class="text-danger">{{ number_format($remainingVat, 2, '.', ' ') }}</span> AZN
+        </div>
+    </div>
+</div>
 
 <div class="invoice-table-wrapper">
     <table class="table table-bordered table-striped invoice-table">
@@ -540,24 +578,40 @@
             initInlineEditing();
             initDateEditing();
             initUnifiedPayment();
+            initBulkInvoiceCodeAssignment();
         });
     } else {
         // DOM already loaded (content loaded dynamically)
         initInlineEditing();
         initDateEditing();
         initUnifiedPayment();
+        initBulkInvoiceCodeAssignment();
     }
     
     // Helper function to refresh modal content
-    function refreshModalContent(invoiceCode) {
+    function refreshModalContent(invoiceCode, workIds) {
+        const requestData = {
+            _token: '{{ csrf_token() }}'
+        };
+        
+        if (invoiceCode) {
+            requestData.invoice_code = invoiceCode;
+        } else if (workIds && Array.isArray(workIds) && workIds.length > 0) {
+            requestData.ids = workIds;
+        } else {
+            // Fallback: close modal and reload page
+            $('#invoiceModal').modal('hide');
+            setTimeout(function() {
+                location.reload();
+            }, 500);
+            return;
+        }
+        
         $.ajax({
             url: '{{ route("works.invoice.fetch") }}',
             method: 'POST',
             dataType: 'json',
-            data: {
-                invoice_code: invoiceCode,
-                _token: '{{ csrf_token() }}'
-            },
+            data: requestData,
             success: function(fetchRes) {
                 if (fetchRes && fetchRes.html) {
                     $('#invoiceModalBody').html(fetchRes.html);
@@ -576,6 +630,90 @@
                     location.reload();
                 }, 500);
             }
+        });
+    }
+    
+    // Bulk Invoice Code Assignment
+    function initBulkInvoiceCodeAssignment() {
+        if ($('#assignInvoiceCode').length === 0) {
+            return; // Bulk assignment panel not available
+        }
+        
+        $('#assignInvoiceCode').on('click', function() {
+            const invoiceCode = $('#bulkInvoiceCode').val().trim();
+            const workIdsStr = $('#bulkWorkIds').val();
+            
+            if (!invoiceCode) {
+                alert('Zəhmət olmasa qaimə nömrəsi daxil edin.');
+                $('#bulkInvoiceCode').focus();
+                return;
+            }
+            
+            if (!workIdsStr) {
+                alert('İş ID-ləri tapılmadı.');
+                return;
+            }
+            
+            let workIds;
+            try {
+                workIds = JSON.parse(workIdsStr);
+            } catch(e) {
+                alert('İş ID-ləri formatı yanlışdır.');
+                return;
+            }
+            
+            if (!Array.isArray(workIds) || workIds.length === 0) {
+                alert('Heç bir iş seçilməyib.');
+                return;
+            }
+            
+            if (!confirm('Seçilmiş ' + workIds.length + ' işə "' + invoiceCode + '" qaimə nömrəsini təyin etmək istədiyinizə əminsiniz?')) {
+                return;
+            }
+            
+            // Disable button and show loading
+            const $button = $(this);
+            const originalText = $button.html();
+            $button.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Təyin edilir...');
+            
+            $.ajax({
+                url: '{{ route("works.assign-bulk-invoice-code") }}',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    invoice_code: invoiceCode,
+                    work_ids: workIds,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(res) {
+                    if (res.success) {
+                        alert('Qaimə nömrəsi ' + res.affected_works + ' işə uğurla təyin edildi!');
+                        // Refresh modal content with new invoice code
+                        if (res.invoice_code) {
+                            refreshModalContent(res.invoice_code);
+                        } else {
+                            // Fallback: reload page
+                            $('#invoiceModal').modal('hide');
+                            setTimeout(function() {
+                                location.reload();
+                            }, 500);
+                        }
+                    } else {
+                        alert('Xəta: ' + (res.error || 'Qaimə nömrəsi təyin edilmədi'));
+                        $button.prop('disabled', false).html(originalText);
+                    }
+                },
+                error: function(xhr) {
+                    let errorMsg = 'Xəta baş verdi';
+                    if (xhr.responseJSON && xhr.responseJSON.error) {
+                        errorMsg = xhr.responseJSON.error;
+                    } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMsg = xhr.responseJSON.message;
+                    }
+                    alert('Xəta: ' + errorMsg);
+                    $button.prop('disabled', false).html(originalText);
+                }
+            });
         });
     }
     

@@ -2390,4 +2390,61 @@ class WorkController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Assign bulk invoice code to multiple works
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function assignBulkInvoiceCode(Request $request)
+    {
+        try {
+            $invoiceCode = $request->input('invoice_code');
+            $workIds = $request->input('work_ids', []);
+
+            if (!$invoiceCode || empty(trim($invoiceCode))) {
+                return response()->json(['error' => 'Qaimə nömrəsi daxil edilməlidir'], 400);
+            }
+
+            if (empty($workIds) || !is_array($workIds)) {
+                return response()->json(['error' => 'İş ID-ləri daxil edilməlidir'], 400);
+            }
+
+            // Fetch all works
+            $works = Work::whereIn('id', $workIds)->get();
+
+            if ($works->isEmpty()) {
+                return response()->json(['error' => 'Heç bir iş tapılmadı'], 404);
+            }
+
+            DB::beginTransaction();
+
+            $affectedCount = 0;
+            foreach ($works as $work) {
+                // Only assign if work doesn't already have an invoice code
+                if (empty($work->code)) {
+                    $work->code = trim($invoiceCode);
+                    $work->save();
+                    $affectedCount++;
+                }
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Qaimə nömrəsi uğurla təyin edildi',
+                'affected_works' => $affectedCount,
+                'invoice_code' => trim($invoiceCode)
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error('Error in assignBulkInvoiceCode: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Xəta baş verdi',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
