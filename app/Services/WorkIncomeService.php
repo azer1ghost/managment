@@ -193,8 +193,10 @@ class WorkIncomeService
                 $work->load('client');
                 $clientName = $work->client ? $work->client->fullname : 'Naməlum müştəri';
                 
-                // Check if there's an existing transaction for the same client, date, and source
-                $existingTransaction = Transaction::where('client_id', $work->client_id)
+                // Find existing transaction for THIS specific work and parameter
+                // This allows us to track and delete individual work transactions
+                $existingTransaction = Transaction::where('work_id', $work->id)
+                    ->where('client_id', $work->client_id)
                     ->where('transaction_date', $transactionDate)
                     ->where('source', 'works')
                     ->where('type', '2') // Mədaxil (Income)
@@ -206,19 +208,18 @@ class WorkIncomeService
                     $transactionAmount = is_finite((float)$delta) ? (float)$delta : 0.0;
                     
                     if ($existingTransaction) {
-                        // Consolidate: add new amount to existing transaction
+                        // Update existing transaction for this work
                         $existingAmount = (float)$existingTransaction->amount;
                         $newTotalAmount = $existingAmount + $transactionAmount;
                         
-                        // Update note to include all payment types
-                        $note = $clientName . ' üçün ' . number_format($newTotalAmount, 2, '.', ' ') . ' AZN ümumi ödəniş edildi';
+                        $note = $clientName . ' üçün ' . number_format($newTotalAmount, 2, '.', ' ') . ' AZN ödəniş edildi';
                         
                         $existingTransaction->update([
                             'amount' => (string)$newTotalAmount,
                             'note' => $note,
                         ]);
                         
-                        Log::info('WorkIncomeService: Transaction consolidated', [
+                        Log::info('WorkIncomeService: Transaction updated', [
                             'transaction_id' => $existingTransaction->id,
                             'work_id' => $work->id,
                             'parameter_id' => $parameterId,
@@ -278,7 +279,7 @@ class WorkIncomeService
                             ]);
                         } else {
                             // Update transaction with reduced amount
-                            $note = $clientName . ' üçün ' . number_format($newTotalAmount, 2, '.', ' ') . ' AZN ümumi ödəniş edildi';
+                            $note = $clientName . ' üçün ' . number_format($newTotalAmount, 2, '.', ' ') . ' AZN ödəniş edildi';
                             
                             $existingTransaction->update([
                                 'amount' => (string)$newTotalAmount,
@@ -297,14 +298,37 @@ class WorkIncomeService
                             ]);
                         }
                     } else {
-                        // No existing transaction to decrease - log warning
-                        Log::warning('WorkIncomeService: Cannot decrease transaction - no existing transaction found', [
-                            'work_id' => $work->id,
-                            'parameter_id' => $parameterId,
-                            'delta' => $delta,
-                            'transaction_date' => $transactionDate,
-                            'client_id' => $work->client_id,
-                        ]);
+                        // Try to find any transaction for this work (maybe different date)
+                        $anyTransaction = Transaction::where('work_id', $work->id)
+                            ->where('client_id', $work->client_id)
+                            ->where('source', 'works')
+                            ->where('type', '2')
+                            ->where('status', (string)Transaction::SUCCESSFUL)
+                            ->orderByDesc('transaction_date')
+                            ->first();
+                        
+                        if ($anyTransaction) {
+                            // Delete the transaction found
+                            $anyTransaction->delete();
+                            
+                            Log::info('WorkIncomeService: Transaction deleted (found by work_id)', [
+                                'transaction_id' => $anyTransaction->id,
+                                'work_id' => $work->id,
+                                'parameter_id' => $parameterId,
+                                'decreased_amount' => $decreaseAmount,
+                                'transaction_date' => $anyTransaction->transaction_date,
+                                'client_id' => $work->client_id,
+                            ]);
+                        } else {
+                            // No existing transaction to decrease - log warning
+                            Log::warning('WorkIncomeService: Cannot decrease transaction - no existing transaction found', [
+                                'work_id' => $work->id,
+                                'parameter_id' => $parameterId,
+                                'delta' => $delta,
+                                'transaction_date' => $transactionDate,
+                                'client_id' => $work->client_id,
+                            ]);
+                        }
                     }
                 } else {
                     // Delta is 0 - no change
