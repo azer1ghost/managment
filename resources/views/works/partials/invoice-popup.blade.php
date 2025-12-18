@@ -292,16 +292,34 @@
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="globalPaymentDate">Ümumi Ödəniş Tarixi</label>
+                    <label for="globalMainPaymentDate">Əsas Ödəniş Tarixi</label>
                     <div class="input-group">
                         <input type="date" 
-                               id="globalPaymentDate" 
-                               name="globalPaymentDate" 
+                               id="globalMainPaymentDate" 
+                               name="globalMainPaymentDate" 
                                value="{{ $today }}"
                                class="form-control"
                                required>
                         <div class="input-group-append">
-                            <button type="button" id="clearPaymentDate" class="btn btn-outline-secondary" title="Tarixi Təmizlə">
+                            <button type="button" id="clearMainPaymentDate" class="btn btn-outline-secondary" title="Tarixi Təmizlə">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="globalVatPaymentDate">ƏDV Ödəniş Tarixi</label>
+                    <div class="input-group">
+                        <input type="date" 
+                               id="globalVatPaymentDate" 
+                               name="globalVatPaymentDate" 
+                               value="{{ $today }}"
+                               class="form-control"
+                               required>
+                        <div class="input-group-append">
+                            <button type="button" id="clearVatPaymentDate" class="btn btn-outline-secondary" title="Tarixi Təmizlə">
                                 <i class="fa fa-times"></i>
                             </button>
                         </div>
@@ -980,8 +998,8 @@
             }
         });
         
-        // Ensure date input is always enabled and restore required attribute when date is selected
-        $('#globalPaymentDate').on('change', function() {
+        // Ensure date inputs are always enabled and restore required attribute when date is selected
+        $('#globalMainPaymentDate, #globalVatPaymentDate').on('change', function() {
             const dateValue = $(this).val();
             if (dateValue && dateValue.trim() !== '') {
                 // Date is selected, ensure required attribute is set
@@ -989,9 +1007,9 @@
             }
         });
         
-        // Handle Clear Payment Date button
-        $('#clearPaymentDate').on('click', function() {
-            if (confirm('Ümumi ödəniş tarixini təmizləmək istədiyinizə əminsiniz? Bu, bütün ödəniş tarixlərini NULL olaraq təyin edəcək.')) {
+        // Handle Clear Main Payment Date button
+        $('#clearMainPaymentDate').on('click', function() {
+            if (confirm('Əsas ödəniş tarixini təmizləmək istədiyinizə əminsiniz?')) {
                 const invoiceCode = '{{ $invoiceCode ?? "" }}';
                 
                 $.ajax({
@@ -1000,19 +1018,58 @@
                     dataType: 'json',
                     data: {
                         invoice: invoiceCode,
+                        date_type: 'main', // Clear only main payment date
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(res) {
                         if (res.success) {
                             // Clear the date input value
-                            $('#globalPaymentDate').val(null).removeAttr('value');
+                            $('#globalMainPaymentDate').val(null).removeAttr('value');
                             // Remove required attribute when cleared
-                            $('#globalPaymentDate').removeAttr('required');
-                            alert('Ödəniş tarixləri uğurla təmizləndi!');
+                            $('#globalMainPaymentDate').removeAttr('required');
+                            alert('Əsas ödəniş tarixi uğurla təmizləndi!');
                             // Refresh modal content
                             refreshModalContent(invoiceCode);
                         } else {
-                            alert('Xəta: ' + (res.error || 'Tarixləri təmizləmək mümkün olmadı'));
+                            alert('Xəta: ' + (res.error || 'Tarixi təmizləmək mümkün olmadı'));
+                        }
+                    },
+                    error: function(xhr) {
+                        let errorMsg = 'Xəta baş verdi';
+                        if (xhr.responseJSON && xhr.responseJSON.error) {
+                            errorMsg = xhr.responseJSON.error;
+                        }
+                        alert('Xəta: ' + errorMsg);
+                    }
+                });
+            }
+        });
+        
+        // Handle Clear VAT Payment Date button
+        $('#clearVatPaymentDate').on('click', function() {
+            if (confirm('ƏDV ödəniş tarixini təmizləmək istədiyinizə əminsiniz?')) {
+                const invoiceCode = '{{ $invoiceCode ?? "" }}';
+                
+                $.ajax({
+                    url: '{{ route("works.clear-invoice-dates") }}',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        invoice: invoiceCode,
+                        date_type: 'vat', // Clear only VAT payment date
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(res) {
+                        if (res.success) {
+                            // Clear the date input value
+                            $('#globalVatPaymentDate').val(null).removeAttr('value');
+                            // Remove required attribute when cleared
+                            $('#globalVatPaymentDate').removeAttr('required');
+                            alert('ƏDV ödəniş tarixi uğurla təmizləndi!');
+                            // Refresh modal content
+                            refreshModalContent(invoiceCode);
+                        } else {
+                            alert('Xəta: ' + (res.error || 'Tarixi təmizləmək mümkün olmadı'));
                         }
                     },
                     error: function(xhr) {
@@ -1070,37 +1127,61 @@
         $('#applyPayment').on('click', function() {
             const paymentType = $('#paymentType').val();
             
-            // Get the actual date value from the input
-            let rawDate = $('#globalPaymentDate').val();
+            // Get the actual date values from the inputs
+            let rawMainDate = $('#globalMainPaymentDate').val();
+            let rawVatDate = $('#globalVatPaymentDate').val();
             
             // Convert date format if needed (handle DD.MM.YYYY to YYYY-MM-DD)
-            let paymentDate = null;
-            if (rawDate && rawDate.trim() !== '') {
+            let mainPaymentDate = null;
+            let vatPaymentDate = null;
+            
+            if (rawMainDate && rawMainDate.trim() !== '') {
                 // Check if date is in DD.MM.YYYY format
-                if (rawDate.includes('.')) {
-                    const [day, month, year] = rawDate.split('.');
-                    paymentDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+                if (rawMainDate.includes('.')) {
+                    const [day, month, year] = rawMainDate.split('.');
+                    mainPaymentDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
                 } else {
                     // Already in YYYY-MM-DD format (standard HTML5 date input)
-                    paymentDate = rawDate.trim();
+                    mainPaymentDate = rawMainDate.trim();
+                }
+            }
+            
+            if (rawVatDate && rawVatDate.trim() !== '') {
+                // Check if date is in DD.MM.YYYY format
+                if (rawVatDate.includes('.')) {
+                    const [day, month, year] = rawVatDate.split('.');
+                    vatPaymentDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+                } else {
+                    // Already in YYYY-MM-DD format (standard HTML5 date input)
+                    vatPaymentDate = rawVatDate.trim();
                 }
             }
             
             const partialMain = parseFloat($('#partialMain').val()) || 0;
             const partialVat = parseFloat($('#partialVat').val()) || 0;
             
-            // Validation - payment date is required for both full and partial
-            if (!paymentDate || paymentDate.trim() === '') {
-                alert('Zəhmət olmasa ödəniş tarixini seçin.');
-                // Re-add required attribute
-                $('#globalPaymentDate').attr('required', 'required');
+            // Validation - payment dates are required for both full and partial
+            if (!mainPaymentDate || mainPaymentDate.trim() === '') {
+                alert('Zəhmət olmasa əsas ödəniş tarixini seçin.');
+                $('#globalMainPaymentDate').attr('required', 'required').focus();
+                return;
+            }
+            
+            if (!vatPaymentDate || vatPaymentDate.trim() === '') {
+                alert('Zəhmət olmasa ƏDV ödəniş tarixini seçin.');
+                $('#globalVatPaymentDate').attr('required', 'required').focus();
                 return;
             }
             
             // Validate date format (YYYY-MM-DD)
             const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-            if (!dateRegex.test(paymentDate)) {
-                alert('Yanlış tarix formatı. Zəhmət olmasa düzgün tarix seçin.');
+            if (!dateRegex.test(mainPaymentDate)) {
+                alert('Yanlış əsas ödəniş tarixi formatı. Zəhmət olmasa düzgün tarix seçin.');
+                return;
+            }
+            
+            if (!dateRegex.test(vatPaymentDate)) {
+                alert('Yanlış ƏDV ödəniş tarixi formatı. Zəhmət olmasa düzgün tarix seçin.');
                 return;
             }
             
@@ -1121,11 +1202,12 @@
             const originalText = $button.html();
             $button.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> İşlənir...');
             
-            // Prepare data - ensure paymentDate is sent
+            // Prepare data - send both dates separately
             const data = {
                 invoice: invoiceCode,
                 paymentType: paymentType,
-                paymentDate: paymentDate, // Always send the formatted date
+                mainPaymentDate: mainPaymentDate,
+                vatPaymentDate: vatPaymentDate,
                 partialMain: partialMain,
                 partialVat: partialVat,
                 _token: '{{ csrf_token() }}'

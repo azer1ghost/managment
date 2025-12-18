@@ -2056,7 +2056,8 @@ class WorkController extends Controller
         try {
             $invoiceCode = $request->input('invoice');
             $paymentType = $request->input('paymentType');
-            $paymentDate = $request->input('paymentDate');
+            $mainPaymentDate = $request->input('mainPaymentDate');
+            $vatPaymentDate = $request->input('vatPaymentDate');
             $partialMain = (float)($request->input('partialMain') ?? 0);
             $partialVat = (float)($request->input('partialVat') ?? 0);
 
@@ -2064,16 +2065,26 @@ class WorkController extends Controller
                 return response()->json(['error' => 'Invoice code and payment type are required'], 400);
             }
             
-            // Validate payment date is provided
-            if (!$paymentDate || trim($paymentDate) === '') {
-                return response()->json(['error' => 'Payment date is missing.'], 422);
+            // Validate payment dates are provided
+            if (!$mainPaymentDate || trim($mainPaymentDate) === '') {
+                return response()->json(['error' => 'Əsas ödəniş tarixi daxil edilməlidir.'], 422);
             }
             
-            // Validate and parse date format
+            if (!$vatPaymentDate || trim($vatPaymentDate) === '') {
+                return response()->json(['error' => 'ƏDV ödəniş tarixi daxil edilməlidir.'], 422);
+            }
+            
+            // Validate and parse date formats
             try {
-                $paymentDateCarbon = Carbon::createFromFormat('Y-m-d', trim($paymentDate));
+                $mainPaymentDateCarbon = Carbon::createFromFormat('Y-m-d', trim($mainPaymentDate));
             } catch (\Exception $e) {
-                return response()->json(['error' => 'Invalid payment date format. Expected YYYY-MM-DD.'], 422);
+                return response()->json(['error' => 'Yanlış əsas ödəniş tarixi formatı. Gözlənilən format: YYYY-MM-DD.'], 422);
+            }
+            
+            try {
+                $vatPaymentDateCarbon = Carbon::createFromFormat('Y-m-d', trim($vatPaymentDate));
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Yanlış ƏDV ödəniş tarixi formatı. Gözlənilən format: YYYY-MM-DD.'], 422);
             }
 
             // Fetch all works with the same invoice code (load service for company_id)
@@ -2098,9 +2109,9 @@ class WorkController extends Controller
                         $currentVatPaid = $work->getParameter(Work::VATPAYMENT) ?? 0;
                         $currentIllegalPaid = $work->getParameter(Work::ILLEGALPAID) ?? 0;
 
-                        // Update date fields
-                        $work->paid_at = $paymentDateCarbon;
-                        $work->vat_date = $paymentDateCarbon;
+                        // Update date fields - use separate dates
+                        $work->paid_at = $mainPaymentDateCarbon;
+                        $work->vat_date = $vatPaymentDateCarbon;
                         $work->save();
                         $work->refresh();
 
@@ -2109,10 +2120,11 @@ class WorkController extends Controller
                         $vatDelta = max(0, $vat - $currentVatPaid);
                         $illegalDelta = max(0, $illegalAmount - $currentIllegalPaid);
 
-                        // Payment date for transactions
-                        $paymentDate = $paymentDateCarbon->format('Y-m-d');
+                        // Payment dates for transactions
+                        $mainPaymentDateStr = $mainPaymentDateCarbon->format('Y-m-d');
+                        $vatPaymentDateStr = $vatPaymentDateCarbon->format('Y-m-d');
 
-                        // Base payment
+                        // Base payment - use main payment date
                         if ($paidDelta > 0) {
                             \Log::info('Processing base payment', [
                                 'work_id' => $work->id,
@@ -2121,13 +2133,13 @@ class WorkController extends Controller
                                 'delta' => $paidDelta
                             ]);
                             // Use service to update parameter and create transaction
-                            $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, $amount, $paymentDate);
+                            $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, $amount, $mainPaymentDateStr);
                         } elseif ($amount > 0) {
                             // Even if delta is 0, ensure parameter is set to correct value
                             $work->setParameterValue(Work::PAID, $amount);
                         }
 
-                        // VAT payment (only process if VAT exists)
+                        // VAT payment (only process if VAT exists) - use VAT payment date
                         if ($vatDelta > 0 && $vat > 0) {
                             \Log::info('Processing VAT payment', [
                                 'work_id' => $work->id,
@@ -2135,13 +2147,13 @@ class WorkController extends Controller
                                 'targetVat' => $vat,
                                 'delta' => $vatDelta
                             ]);
-                            $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, $vat, $paymentDate);
+                            $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, $vat, $vatPaymentDateStr);
                         } elseif ($vat > 0) {
                             // Even if delta is 0, ensure parameter is set to correct value
                             $work->setParameterValue(Work::VATPAYMENT, $vat);
                         }
 
-                        // Illegal amount payment (only process if illegalAmount exists)
+                        // Illegal amount payment (only process if illegalAmount exists) - use main payment date
                         if ($illegalDelta > 0 && $illegalAmount > 0) {
                             \Log::info('Processing illegal amount payment', [
                                 'work_id' => $work->id,
@@ -2149,7 +2161,7 @@ class WorkController extends Controller
                                 'targetIllegalAmount' => $illegalAmount,
                                 'delta' => $illegalDelta
                             ]);
-                            $this->incomeService->updateParameterAndCreateIncome($work, Work::ILLEGALPAID, $illegalAmount, $paymentDate);
+                            $this->incomeService->updateParameterAndCreateIncome($work, Work::ILLEGALPAID, $illegalAmount, $mainPaymentDateStr);
                         } elseif ($illegalAmount > 0) {
                             // Even if delta is 0, ensure parameter is set to correct value
                             $work->setParameterValue(Work::ILLEGALPAID, $illegalAmount);
@@ -2182,22 +2194,27 @@ class WorkController extends Controller
                         $mainRemaining = max(0, $amount - $currentPaid);
                         $vatRemaining = max(0, $vat - $currentVatPaid);
 
-                        // Payment date for transactions
-                        $paymentDate = $paymentDateCarbon->format('Y-m-d');
+                        // Payment dates for transactions
+                        $mainPaymentDateStr = $mainPaymentDateCarbon->format('Y-m-d');
+                        $vatPaymentDateStr = $vatPaymentDateCarbon->format('Y-m-d');
 
                         // Determine if we'll make any payment
                         $willPayMain = ($remainingMain > 0 && $mainRemaining > 0);
                         $willPayVat = ($remainingVat > 0 && $vatRemaining > 0 && $vat > 0);
                         
-                        // Update date fields if payment will be made
+                        // Update date fields if payment will be made - use separate dates
+                        if ($willPayMain) {
+                            $work->paid_at = $mainPaymentDateCarbon;
+                        }
+                        if ($willPayVat) {
+                            $work->vat_date = $vatPaymentDateCarbon;
+                        }
                         if ($willPayMain || $willPayVat) {
-                            $work->paid_at = $paymentDateCarbon;
-                            $work->vat_date = $paymentDateCarbon;
                             $work->save();
                             $work->refresh();
                         }
 
-                        // Distribute main amount
+                        // Distribute main amount - use main payment date
                         if ($remainingMain > 0 && $mainRemaining > 0) {
                             $toPayMain = min($remainingMain, $mainRemaining);
                             $newPaid = $currentPaid + $toPayMain;
@@ -2214,12 +2231,12 @@ class WorkController extends Controller
                             ]);
                             
                             // Use service to update parameter and create transaction
-                            $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, $newPaid, $paymentDate);
+                            $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, $newPaid, $mainPaymentDateStr);
                             
                             $remainingMain -= $toPayMain;
                         }
 
-                        // Distribute VAT amount
+                        // Distribute VAT amount - use VAT payment date
                         if ($remainingVat > 0 && $vatRemaining > 0 && $vat > 0) {
                             $toPayVat = min($remainingVat, $vatRemaining);
                             $newVatPaid = $currentVatPaid + $toPayVat;
@@ -2236,7 +2253,7 @@ class WorkController extends Controller
                             ]);
                             
                             // Use service to update parameter and create transaction
-                            $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, $newVatPaid, $paymentDate);
+                            $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, $newVatPaid, $vatPaymentDateStr);
                             
                             $remainingVat -= $toPayVat;
                         }
@@ -2344,7 +2361,7 @@ class WorkController extends Controller
     }
 
     /**
-     * Clear all payment dates for works with the same invoice code
+     * Clear payment dates for works with the same invoice code
      *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -2353,6 +2370,7 @@ class WorkController extends Controller
     {
         try {
             $invoiceCode = $request->input('invoice');
+            $dateType = $request->input('date_type'); // 'main', 'vat', or null (both)
 
             if (!$invoiceCode) {
                 return response()->json(['error' => 'Invoice code is required'], 400);
@@ -2367,10 +2385,21 @@ class WorkController extends Controller
 
             DB::beginTransaction();
 
+            $message = '';
             foreach ($works as $work) {
-                // Clear all date fields
-                $work->paid_at = null;
-                $work->vat_date = null;
+                // Clear date fields based on date_type
+                if ($dateType === 'main') {
+                    $work->paid_at = null;
+                    $message = 'Əsas ödəniş tarixləri təmizləndi';
+                } elseif ($dateType === 'vat') {
+                    $work->vat_date = null;
+                    $message = 'ƏDV ödəniş tarixləri təmizləndi';
+                } else {
+                    // Clear both if no specific type is provided
+                    $work->paid_at = null;
+                    $work->vat_date = null;
+                    $message = 'Ödəniş tarixləri təmizləndi';
+                }
                 $work->save();
             }
 
@@ -2378,7 +2407,7 @@ class WorkController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Payment dates cleared successfully',
+                'message' => $message,
                 'affected_works' => $works->count()
             ]);
         } catch (\Exception $e) {
