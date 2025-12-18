@@ -295,6 +295,7 @@ Route::group([
     Route::get('/financeClients',[FinanceClientController::class, 'clients'] )->name('financeClients');
     Route::post('/createFinanceClient',[FinanceClientController::class, 'createFinanceClient'] )->name('createFinanceClient');
     Route::post('/createFinanceInvoice',[FinanceClientController::class, 'createFinanceInvoice'] )->name('createFinanceInvoice');
+    Route::post('/updateFinanceInvoice/{invoice}',[FinanceClientController::class, 'updateFinanceInvoice'] )->name('updateFinanceInvoice');
     Route::get('/financeInvoice/{invoice}',[FinanceClientController::class, 'financeInvoice'] )->name('financeInvoice');
     Route::get('/deleteInvoice/{invoice}',[FinanceClientController::class, 'deleteInvoice'] )->name('deleteInvoice');
     Route::get('/editFinanceClient/{client}',[FinanceClientController::class, 'editFinanceClient'] )->name('editFinanceClient');

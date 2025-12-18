@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FinanceClientRequest;
+use Illuminate\Support\Facades\DB;
 use App\Models\FinanceClient;
 use Illuminate\Http\Request;
 use App\Models\Invoice;
@@ -82,6 +83,65 @@ class FinanceClientController extends Controller
         return response()->json([
             'message' => $data['company'],
             'id' => $createdInvoice->id
+        ], 200);
+    }
+
+    /**
+     * Update existing finance invoice (used from invoice view "Yadda Saxla")
+     *
+     * Note: We bypass Eloquent updating hook to allow full invoice edits and
+     * update the record directly via query builder.
+     */
+    public function updateFinanceInvoice(Request $request, Invoice $invoice)
+    {
+        $data = $request->only([
+            'company',
+            'client',
+            'invoiceNo',
+            'invoiceDate',
+            'paymentType',
+            'protocolDate',
+            'contractNo',
+            'contractDate',
+            'invoiceNumbers',
+        ]);
+
+        $services = $request->get('services', []);
+
+        // Validate services array
+        if (empty($services) || !is_array($services)) {
+            return response()->json(['error' => 'At least one service is required'], 400);
+        }
+
+        // Filter out invalid services
+        $validServices = array_filter($services, function ($service) {
+            return isset($service['input1']) &&
+                isset($service['input3']) &&
+                isset($service['input4']) &&
+                is_numeric($service['input3']) &&
+                is_numeric($service['input4']) &&
+                $service['input3'] > 0 &&
+                $service['input4'] > 0;
+        });
+
+        if (empty($validServices)) {
+            return response()->json(['error' => 'At least one valid service is required'], 400);
+        }
+
+        $data['services'] = json_encode(array_values($validServices)); // Re-index array
+
+        // Recalculate total_amount using the same logic as on creation
+        $tempInvoice = new Invoice($data);
+        $data['total_amount'] = $tempInvoice->calculateTotalAmount();
+
+        // Update invoice directly in DB to bypass immutability updating hook
+        DB::table('invoices')
+            ->where('id', $invoice->id)
+            ->update(array_merge($data, ['updated_at' => now()]));
+
+        return response()->json([
+            'message' => 'Invoice updated successfully',
+            'id' => $invoice->id,
         ], 200);
     }
 
@@ -185,26 +245,22 @@ class FinanceClientController extends Controller
     {
         $newInvoice = $invoice->replicate();
 
-        // Generate clean invoice number (remove any existing -COPY suffix and create new number)
-        $baseInvoiceNo = preg_replace('/-COPY.*$/', '', $invoice->invoiceNo);
-        $datePrefix = now()->format('Ymd');
-
-        // Find the next available invoice number for today
-        $lastInvoice = Invoice::where('invoiceNo', 'like', $datePrefix . '%')
-            ->orderBy('invoiceNo', 'desc')
-            ->first();
-
-        if ($lastInvoice && preg_match('/' . $datePrefix . '(\d+)/', $lastInvoice->invoiceNo, $matches)) {
-            $sequence = (int)$matches[1] + 1;
+        // Generate next invoice number based on original (e.g. 178B -> 179B, 1a -> 2a)
+        $originalNo = $invoice->invoiceNo;
+        if (preg_match('/^(\d+)(.*)$/', $originalNo, $matches)) {
+            $number = (int)$matches[1] + 1;
+            $suffix = $matches[2];
+            $newInvoiceNo = $number . $suffix;
         } else {
-            $sequence = 1;
+            // Fallback: append -COPY if format is unexpected
+            $newInvoiceNo = $originalNo . '-COPY';
         }
 
-        $newInvoice->invoiceNo = $datePrefix . str_pad($sequence, 4, '0', STR_PAD_LEFT);
+        $newInvoice->invoiceNo = $newInvoiceNo;
 
         $newInvoice->created_by = auth()->id();
         $newInvoice->is_signed = 0; // Reset signed status
-        $newInvoice->total_amount = null; // Reset to recalculate on save
+        $newInvoice->total_amount = null; // Let model recalculate on create
         $newInvoice->created_at = now();
         $newInvoice->updated_at = now();
         $newInvoice->save();

@@ -1301,7 +1301,7 @@
         }
         console.log(services)
         $.ajax({
-            url: '/module/createFinanceInvoice',
+            url: '/module/updateFinanceInvoice/{{ $data->id }}',
             type: 'POST',
             data: {
                 company: $('#companyName').attr('data-company'),
@@ -1316,15 +1316,10 @@
                 services: services,
             },
             success: function(response) {
-                console.log('Invoice yaratıldı:', response);
-                alert('Qaimə uğurla yaradıldı!');
-                // Redirect to the new invoice page (it will have an ID now)
-                if (response && response.id) {
-                    window.location.href = '/module/financeInvoice/' + response.id;
-                } else {
-                    // Reload page to show saved invoice (now immutable)
-                    window.location.reload();
-                }
+                console.log('Invoice yeniləndi:', response);
+                alert('Qaimə uğurla yadda saxlanıldı!');
+                // Eyni qaimə səhifəsini yenilə (yeni sətir yaranmır)
+                window.location.reload();
             },
             error: function(error) {
                 console.log('Invoice yaratılırken hata oluştu:', error);
