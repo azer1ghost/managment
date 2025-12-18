@@ -241,15 +241,6 @@ class WorkIncomeService
                             'client_id' => $work->client_id,
                         ]);
                     }
-
-                    Log::info('WorkIncomeService: Income transaction created successfully', [
-                        'transaction_id' => $transaction->id,
-                        'work_id' => $work->id,
-                        'parameter_id' => $parameterId,
-                        'delta' => $transactionAmount,
-                        'transaction_date' => $transactionDate,
-                        'client_id' => $work->client_id,
-                    ]);
                 } else {
                     Log::info('WorkIncomeService: Delta is not positive, skipping transaction', [
                         'work_id' => $work->id,
