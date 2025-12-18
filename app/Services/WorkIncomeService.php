@@ -194,44 +194,57 @@ class WorkIncomeService
                 $clientName = $work->client ? $work->client->fullname : 'Naməlum müştəri';
                 
                 // Find existing transaction for THIS specific work and parameter
-                // This allows us to track and delete individual work transactions
+                // This allows us to track and update individual work transactions
                 $existingTransaction = Transaction::where('work_id', $work->id)
                     ->where('client_id', $work->client_id)
-                    ->where('transaction_date', $transactionDate)
                     ->where('source', 'works')
                     ->where('type', '2') // Mədaxil (Income)
                     ->where('status', (string)Transaction::SUCCESSFUL)
+                    ->orderByDesc('transaction_date')
                     ->first();
                 
-                if ($delta > 0) {
-                    // Amount increased: create or update transaction
-                    $transactionAmount = is_finite((float)$delta) ? (float)$delta : 0.0;
-                    
+                // NEW LOGIC: Always sync transaction with the new value, not delta
+                // If new value is 0, delete transaction
+                // If new value > 0, create or update transaction to match new value exactly
+                if ($normalizedNewValue == 0) {
+                    // Payment is zeroed - delete transaction if exists
                     if ($existingTransaction) {
-                        // Update existing transaction for this work
-                        $existingAmount = (float)$existingTransaction->amount;
-                        $newTotalAmount = $existingAmount + $transactionAmount;
+                        $existingTransaction->delete();
                         
-                        $note = $clientName . ' üçün ' . number_format($newTotalAmount, 2, '.', ' ') . ' AZN ödəniş edildi';
-                        
-                        $existingTransaction->update([
-                            'amount' => (string)$newTotalAmount,
-                            'note' => $note,
-                        ]);
-                        
-                        Log::info('WorkIncomeService: Transaction updated', [
+                        Log::info('WorkIncomeService: Transaction deleted (payment zeroed)', [
                             'transaction_id' => $existingTransaction->id,
                             'work_id' => $work->id,
                             'parameter_id' => $parameterId,
-                            'added_amount' => $transactionAmount,
-                            'total_amount' => $newTotalAmount,
+                            'old_amount' => $existingTransaction->amount,
+                            'new_value' => $normalizedNewValue,
+                            'transaction_date' => $existingTransaction->transaction_date,
+                            'client_id' => $work->client_id,
+                        ]);
+                    }
+                } elseif ($normalizedNewValue > 0) {
+                    // Payment exists - create or update transaction to match new value exactly
+                    $note = $clientName . ' üçün ' . number_format($normalizedNewValue, 2, '.', ' ') . ' AZN ödəniş edildi';
+                    
+                    if ($existingTransaction) {
+                        // Update existing transaction to match new value exactly
+                        $existingTransaction->update([
+                            'amount' => (string)$normalizedNewValue,
+                            'note' => $note,
+                            'transaction_date' => $transactionDate, // Update date if changed
+                        ]);
+                        
+                        Log::info('WorkIncomeService: Transaction updated to match new value', [
+                            'transaction_id' => $existingTransaction->id,
+                            'work_id' => $work->id,
+                            'parameter_id' => $parameterId,
+                            'old_amount' => $existingTransaction->getOriginal('amount'),
+                            'new_amount' => $normalizedNewValue,
+                            'delta' => $delta,
                             'transaction_date' => $transactionDate,
                             'client_id' => $work->client_id,
                         ]);
                     } else {
-                        // Create new transaction with client name in note
-                        $note = $clientName . ' üçün ' . number_format($transactionAmount, 2, '.', ' ') . ' AZN ödəniş edildi';
-                        
+                        // Create new transaction with exact new value
                         $transaction = Transaction::create([
                             'type' => '2', // 2 = Mədaxil (Income)
                             'source' => 'works',
@@ -240,111 +253,23 @@ class WorkIncomeService
                             'company_id' => $companyId,
                             'operator_id' => $operatorId,
                             'transaction_date' => $transactionDate,
-                            'amount' => (string)$transactionAmount,
+                            'amount' => (string)$normalizedNewValue,
                             'currency' => 'AZN',
                             'status' => (string)Transaction::SUCCESSFUL,
                             'user_id' => $operatorId,
                             'note' => $note,
                         ]);
                         
-                        Log::info('WorkIncomeService: Income transaction created successfully', [
+                        Log::info('WorkIncomeService: Income transaction created with new value', [
                             'transaction_id' => $transaction->id,
                             'work_id' => $work->id,
                             'parameter_id' => $parameterId,
-                            'delta' => $transactionAmount,
-                            'transaction_date' => $transactionDate,
-                            'client_id' => $work->client_id,
-                        ]);
-                    }
-                } elseif ($delta < 0) {
-                    // Amount decreased: reduce or delete transaction
-                    // IMPORTANT: Only delete transactions for THIS specific work_id
-                    // Do NOT touch transactions from other works, even if they have same client_id and date
-                    $decreaseAmount = abs($delta); // Make it positive for calculation
-                    
-                    // Find transactions ONLY for this specific work_id
-                    // This ensures we don't accidentally delete transactions from other works
-                    $existingTransaction = Transaction::where('work_id', $work->id)
-                        ->where('client_id', $work->client_id)
-                        ->where('source', 'works')
-                        ->where('type', '2')
-                        ->where('status', (string)Transaction::SUCCESSFUL)
-                        ->orderByDesc('transaction_date')
-                        ->first();
-                    
-                    if ($existingTransaction) {
-                        $existingAmount = (float)$existingTransaction->amount;
-                        
-                        // If payment is zeroed out, delete the transaction
-                        if ($normalizedNewValue == 0) {
-                            $existingTransaction->delete();
-                            
-                            Log::info('WorkIncomeService: Transaction deleted (payment zeroed)', [
-                                'transaction_id' => $existingTransaction->id,
-                                'work_id' => $work->id,
-                                'parameter_id' => $parameterId,
-                                'transaction_amount' => $existingAmount,
-                                'transaction_date' => $existingTransaction->transaction_date,
-                                'client_id' => $work->client_id,
-                            ]);
-                        } else {
-                            // Payment reduced but not zeroed - reduce transaction amount
-                            $newTotalAmount = $existingAmount - $decreaseAmount;
-                            
-                            if ($newTotalAmount <= 0) {
-                                // Delete transaction if amount becomes 0 or negative
-                                $existingTransaction->delete();
-                                
-                                Log::info('WorkIncomeService: Transaction deleted due to payment decrease', [
-                                    'transaction_id' => $existingTransaction->id,
-                                    'work_id' => $work->id,
-                                    'parameter_id' => $parameterId,
-                                    'decreased_amount' => $decreaseAmount,
-                                    'old_amount' => $existingAmount,
-                                    'transaction_date' => $existingTransaction->transaction_date,
-                                    'client_id' => $work->client_id,
-                                ]);
-                            } else {
-                                // Update transaction with reduced amount
-                                $note = $clientName . ' üçün ' . number_format($newTotalAmount, 2, '.', ' ') . ' AZN ödəniş edildi';
-                                
-                                $existingTransaction->update([
-                                    'amount' => (string)$newTotalAmount,
-                                    'note' => $note,
-                                ]);
-                                
-                                Log::info('WorkIncomeService: Transaction reduced due to payment decrease', [
-                                    'transaction_id' => $existingTransaction->id,
-                                    'work_id' => $work->id,
-                                    'parameter_id' => $parameterId,
-                                    'decreased_amount' => $decreaseAmount,
-                                    'old_amount' => $existingAmount,
-                                    'new_amount' => $newTotalAmount,
-                                    'transaction_date' => $existingTransaction->transaction_date,
-                                    'client_id' => $work->client_id,
-                                ]);
-                            }
-                        }
-                    } else {
-                        // No existing transaction found for this work_id - log warning
-                        Log::warning('WorkIncomeService: Cannot decrease transaction - no existing transaction found for this work', [
-                            'work_id' => $work->id,
-                            'parameter_id' => $parameterId,
+                            'amount' => $normalizedNewValue,
                             'delta' => $delta,
                             'transaction_date' => $transactionDate,
                             'client_id' => $work->client_id,
-                            'new_value' => $normalizedNewValue,
                         ]);
                     }
-                } else {
-                    // Delta is 0 - no change
-                    Log::info('WorkIncomeService: Delta is zero, no transaction change', [
-                        'work_id' => $work->id,
-                        'parameter_id' => $parameterId,
-                        'delta' => $delta,
-                        'old_value' => $oldValue,
-                        'new_value' => $normalizedNewValue,
-                    ]);
                 }
             });
 
