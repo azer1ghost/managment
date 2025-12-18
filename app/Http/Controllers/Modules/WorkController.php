@@ -2369,14 +2369,11 @@ class WorkController extends Controller
             DB::beginTransaction();
 
             foreach ($works as $work) {
-                // Reset all payment parameters to 0
-                // Clear parameter values (set to 0)
-                // Note: When clearing payments, delta will be negative (0 - oldValue)
-                // The service only creates income when delta > 0, so no income will be created here
-                // Existing income transactions remain (they represent historical payments)
-                $work->setParameterValue(Work::PAID, 0);
-                $work->setParameterValue(Work::VATPAYMENT, 0);
-                $work->setParameterValue(Work::ILLEGALPAID, 0);
+                // Use WorkIncomeService to clear payments - this will also delete transactions
+                // When setting to 0, the service will delete the transactions
+                $this->incomeService->updateParameterAndCreateIncome($work, Work::PAID, 0, null);
+                $this->incomeService->updateParameterAndCreateIncome($work, Work::VATPAYMENT, 0, null);
+                $this->incomeService->updateParameterAndCreateIncome($work, Work::ILLEGALPAID, 0, null);
 
                 // Clear all date fields
                 $work->paid_at = null;
