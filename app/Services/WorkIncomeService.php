@@ -88,7 +88,11 @@ class WorkIncomeService
             // Load service relationship to get company_id
             $work->load('service');
             
-            DB::transaction(function () use ($work, $parameterId, $normalizedNewValue, $paymentDate) {
+            // Store old dates before transaction (needed for deletion case)
+            $oldPaidAt = $work->paid_at;
+            $oldVatDate = $work->vat_date;
+            
+            DB::transaction(function () use ($work, $parameterId, $normalizedNewValue, $paymentDate, $oldPaidAt, $oldVatDate) {
                 
                 // STEP 1: Read OLD value from DB BEFORE update (with lock to prevent race conditions)
                 $param = WorkParameter::where('work_id', $work->id)
@@ -133,63 +137,73 @@ class WorkIncomeService
                     'client_id' => $work->client_id,
                 ]);
 
-                // STEP 5: Create income transaction ONLY if delta > 0
-                if ($delta > 0) {
-                    // Reload work to get latest paid_at/vat_date values
-                    $work->refresh();
-                    
-                    // Determine payment date: 
-                    // 1. Use provided paymentDate parameter if given
-                    // 2. For PAID parameter, use paid_at date
-                    // 3. For VATPAYMENT parameter, use vat_date date
-                    // 4. For ILLEGALPAID parameter, use paid_at date (no separate date field)
-                    // 5. Fallback to now() if none available
-                    if ($paymentDate) {
-                        $transactionDate = Carbon::parse($paymentDate)->format('Y-m-d');
-                    } elseif ($parameterId === Work::PAID && $work->paid_at) {
-                        $transactionDate = Carbon::parse($work->paid_at)->format('Y-m-d');
-                    } elseif ($parameterId === Work::VATPAYMENT && $work->vat_date) {
-                        $transactionDate = Carbon::parse($work->vat_date)->format('Y-m-d');
-                    } elseif ($parameterId === Work::ILLEGALPAID && $work->paid_at) {
-                        $transactionDate = Carbon::parse($work->paid_at)->format('Y-m-d');
-                    } else {
-                        // Fallback: try paid_at, then vat_date, then now()
-                        $transactionDate = $work->paid_at 
-                            ? Carbon::parse($work->paid_at)->format('Y-m-d')
-                            : ($work->vat_date 
-                                ? Carbon::parse($work->vat_date)->format('Y-m-d')
-                                : now()->format('Y-m-d'));
-                    }
-
-                    // Get operator (who entered the payment)
-                    $operatorId = auth()->id();
-
-                    if (!$operatorId) {
-                        Log::error('WorkIncomeService: No authenticated user', ['work_id' => $work->id]);
-                        return;
-                    }
-
-                    // Get company_id from service (work -> service -> company_id)
-                    $companyId = $work->service_id ? optional($work->service)->company_id : null;
-                    
-                    // Create income transaction with delta amount
-                    // Note: type and status are stored as strings in DB (per migration)
-                    // Database uses: 1 = Məxaric (Expense), 2 = Mədaxil (Income)
-                    // Ensure delta is normalized (should be positive at this point, but be safe)
-                    $transactionAmount = is_finite((float)$delta) ? (float)$delta : 0.0;
-                    
-                    // Load client to get name
-                    $work->load('client');
-                    $clientName = $work->client ? $work->client->fullname : 'Naməlum müştəri';
-                    
-                    // Check if there's an existing transaction for the same client, date, and source
-                    // If exists, update it by adding the amount (consolidate transactions)
-                    $existingTransaction = Transaction::where('client_id', $work->client_id)
-                        ->where('transaction_date', $transactionDate)
+                // STEP 5: Handle transactions based on delta
+                // Reload work to get latest paid_at/vat_date values
+                $work->refresh();
+                
+                // Determine payment date: 
+                // 1. Use provided paymentDate parameter if given
+                // 2. For PAID parameter, use paid_at date (or old paid_at if current is null)
+                // 3. For VATPAYMENT parameter, use vat_date date (or old vat_date if current is null)
+                // 4. For ILLEGALPAID parameter, use paid_at date (or old paid_at if current is null)
+                // 5. Fallback to now() if none available
+                if ($paymentDate) {
+                    $transactionDate = Carbon::parse($paymentDate)->format('Y-m-d');
+                } elseif ($parameterId === Work::PAID) {
+                    $transactionDate = ($work->paid_at ? Carbon::parse($work->paid_at) : ($oldPaidAt ? Carbon::parse($oldPaidAt) : null))?->format('Y-m-d');
+                } elseif ($parameterId === Work::VATPAYMENT) {
+                    $transactionDate = ($work->vat_date ? Carbon::parse($work->vat_date) : ($oldVatDate ? Carbon::parse($oldVatDate) : null))?->format('Y-m-d');
+                } elseif ($parameterId === Work::ILLEGALPAID) {
+                    $transactionDate = ($work->paid_at ? Carbon::parse($work->paid_at) : ($oldPaidAt ? Carbon::parse($oldPaidAt) : null))?->format('Y-m-d');
+                } else {
+                    // Fallback: try current dates, then old dates, then now()
+                    $transactionDate = ($work->paid_at ? Carbon::parse($work->paid_at) : ($oldPaidAt ? Carbon::parse($oldPaidAt) : null))?->format('Y-m-d')
+                        ?? ($work->vat_date ? Carbon::parse($work->vat_date) : ($oldVatDate ? Carbon::parse($oldVatDate) : null))?->format('Y-m-d')
+                        ?? now()->format('Y-m-d');
+                }
+                
+                // If still no date found, try to find from existing transactions
+                if (!$transactionDate) {
+                    $existingTransactionForDate = Transaction::where('client_id', $work->client_id)
                         ->where('source', 'works')
-                        ->where('type', '2') // Mədaxil (Income)
+                        ->where('type', '2')
                         ->where('status', (string)Transaction::SUCCESSFUL)
+                        ->orderByDesc('transaction_date')
                         ->first();
+                    
+                    if ($existingTransactionForDate) {
+                        $transactionDate = $existingTransactionForDate->transaction_date;
+                    } else {
+                        $transactionDate = now()->format('Y-m-d');
+                    }
+                }
+
+                // Get operator (who entered the payment)
+                $operatorId = auth()->id();
+
+                if (!$operatorId) {
+                    Log::error('WorkIncomeService: No authenticated user', ['work_id' => $work->id]);
+                    return;
+                }
+
+                // Get company_id from service (work -> service -> company_id)
+                $companyId = $work->service_id ? optional($work->service)->company_id : null;
+                
+                // Load client to get name
+                $work->load('client');
+                $clientName = $work->client ? $work->client->fullname : 'Naməlum müştəri';
+                
+                // Check if there's an existing transaction for the same client, date, and source
+                $existingTransaction = Transaction::where('client_id', $work->client_id)
+                    ->where('transaction_date', $transactionDate)
+                    ->where('source', 'works')
+                    ->where('type', '2') // Mədaxil (Income)
+                    ->where('status', (string)Transaction::SUCCESSFUL)
+                    ->first();
+                
+                if ($delta > 0) {
+                    // Amount increased: create or update transaction
+                    $transactionAmount = is_finite((float)$delta) ? (float)$delta : 0.0;
                     
                     if ($existingTransaction) {
                         // Consolidate: add new amount to existing transaction
@@ -222,12 +236,12 @@ class WorkIncomeService
                             'source' => 'works',
                             'work_id' => $work->id,
                             'client_id' => $work->client_id,
-                            'company_id' => $companyId, // Add company_id from service
+                            'company_id' => $companyId,
                             'operator_id' => $operatorId,
                             'transaction_date' => $transactionDate,
                             'amount' => (string)$transactionAmount,
                             'currency' => 'AZN',
-                            'status' => (string)Transaction::SUCCESSFUL, // Convert to string as per DB schema
+                            'status' => (string)Transaction::SUCCESSFUL,
                             'user_id' => $operatorId,
                             'note' => $note,
                         ]);
@@ -241,8 +255,60 @@ class WorkIncomeService
                             'client_id' => $work->client_id,
                         ]);
                     }
+                } elseif ($delta < 0) {
+                    // Amount decreased: reduce or delete transaction
+                    $decreaseAmount = abs($delta); // Make it positive for calculation
+                    
+                    if ($existingTransaction) {
+                        $existingAmount = (float)$existingTransaction->amount;
+                        $newTotalAmount = $existingAmount - $decreaseAmount;
+                        
+                        if ($newTotalAmount <= 0) {
+                            // Delete transaction if amount becomes 0 or negative
+                            $existingTransaction->delete();
+                            
+                            Log::info('WorkIncomeService: Transaction deleted due to payment decrease', [
+                                'transaction_id' => $existingTransaction->id,
+                                'work_id' => $work->id,
+                                'parameter_id' => $parameterId,
+                                'decreased_amount' => $decreaseAmount,
+                                'old_amount' => $existingAmount,
+                                'transaction_date' => $transactionDate,
+                                'client_id' => $work->client_id,
+                            ]);
+                        } else {
+                            // Update transaction with reduced amount
+                            $note = $clientName . ' üçün ' . number_format($newTotalAmount, 2, '.', ' ') . ' AZN ümumi ödəniş edildi';
+                            
+                            $existingTransaction->update([
+                                'amount' => (string)$newTotalAmount,
+                                'note' => $note,
+                            ]);
+                            
+                            Log::info('WorkIncomeService: Transaction reduced due to payment decrease', [
+                                'transaction_id' => $existingTransaction->id,
+                                'work_id' => $work->id,
+                                'parameter_id' => $parameterId,
+                                'decreased_amount' => $decreaseAmount,
+                                'old_amount' => $existingAmount,
+                                'new_amount' => $newTotalAmount,
+                                'transaction_date' => $transactionDate,
+                                'client_id' => $work->client_id,
+                            ]);
+                        }
+                    } else {
+                        // No existing transaction to decrease - log warning
+                        Log::warning('WorkIncomeService: Cannot decrease transaction - no existing transaction found', [
+                            'work_id' => $work->id,
+                            'parameter_id' => $parameterId,
+                            'delta' => $delta,
+                            'transaction_date' => $transactionDate,
+                            'client_id' => $work->client_id,
+                        ]);
+                    }
                 } else {
-                    Log::info('WorkIncomeService: Delta is not positive, skipping transaction', [
+                    // Delta is 0 - no change
+                    Log::info('WorkIncomeService: Delta is zero, no transaction change', [
                         'work_id' => $work->id,
                         'parameter_id' => $parameterId,
                         'delta' => $delta,
