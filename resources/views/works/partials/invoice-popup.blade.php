@@ -156,10 +156,10 @@
 <!-- Bulk Invoice Code Assignment Panel for works without invoice code -->
 <div class="payment-panel" style="background-color: #fff3cd; border-color: #ffc107;">
     <h5 class="mb-3">Toplu Qaimə Təyin Etmə</h5>
-    <p class="text-muted mb-3">Bu işlər üçün qaimə nömrəsi yoxdur. Toplu qaimə nömrəsi təyin edə bilərsiniz.</p>
+    <p class="text-muted mb-3">Bu işlər üçün qaimə nömrəsi yoxdur. Toplu qaimə nömrəsi və tarixi təyin edə bilərsiniz.</p>
     <form id="bulkInvoiceCodeForm">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="bulkInvoiceCode">Qaimə Nömrəsi</label>
                     <input type="text" 
@@ -170,18 +170,83 @@
                            required>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="bulkInvoiceDate">Qaimə Tarixi</label>
+                    <input type="date" 
+                           id="bulkInvoiceDate" 
+                           name="bulkInvoiceDate" 
+                           value="{{ $today }}"
+                           class="form-control"
+                           required>
+                </div>
+            </div>
+            <div class="col-md-4">
                 <div class="form-group">
                     <label>&nbsp;</label>
                     <div>
                         <button type="button" id="assignInvoiceCode" class="btn btn-success btn-lg">
-                            <i class="fa fa-check"></i> Qaimə Nömrəsini Təyin Et
+                            <i class="fa fa-check"></i> Qaimə Təyin Et
                         </button>
                     </div>
                 </div>
             </div>
         </div>
         <input type="hidden" id="bulkWorkIds" value="{{ json_encode($workIds) }}">
+    </form>
+</div>
+@endif
+
+@if($hasInvoiceCode)
+<!-- Invoice Code and Date Management Panel for works with invoice code -->
+<div class="payment-panel" style="background-color: #e8f4f8; border-color: #bee5eb;">
+    <h5 class="mb-3">Qaimə Məlumatları</h5>
+    <form id="invoiceCodeManagementForm">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="editInvoiceCode">Qaimə Nömrəsi</label>
+                    <div class="input-group">
+                        <input type="text" 
+                               id="editInvoiceCode" 
+                               name="editInvoiceCode" 
+                               value="{{ $invoiceCode }}" 
+                               class="form-control"
+                               readonly>
+                        <div class="input-group-append">
+                            <button type="button" id="editInvoiceCodeBtn" class="btn btn-outline-secondary" title="Redaktə et">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="editInvoiceDate">Qaimə Tarixi</label>
+                    <input type="date" 
+                           id="editInvoiceDate" 
+                           name="editInvoiceDate" 
+                           value="{{ $works->first()->invoiced_date ? $works->first()->invoiced_date->format('Y-m-d') : $today }}"
+                           class="form-control">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <div>
+                        <button type="button" id="updateInvoiceCode" class="btn btn-primary btn-lg mr-2">
+                            <i class="fa fa-save"></i> Yenilə
+                        </button>
+                        <button type="button" id="removeInvoiceCode" class="btn btn-danger btn-lg" title="Qaimə nömrəsini sil">
+                            <i class="fa fa-trash"></i> Sil
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="currentInvoiceCode" value="{{ $invoiceCode }}">
+        <input type="hidden" id="currentWorkIds" value="{{ json_encode($workIds) }}">
     </form>
 </div>
 @endif
@@ -579,6 +644,7 @@
             initDateEditing();
             initUnifiedPayment();
             initBulkInvoiceCodeAssignment();
+            initInvoiceCodeManagement();
         });
     } else {
         // DOM already loaded (content loaded dynamically)
@@ -586,6 +652,7 @@
         initDateEditing();
         initUnifiedPayment();
         initBulkInvoiceCodeAssignment();
+        initInvoiceCodeManagement();
     }
     
     // Helper function to refresh modal content
@@ -641,11 +708,18 @@
         
         $('#assignInvoiceCode').on('click', function() {
             const invoiceCode = $('#bulkInvoiceCode').val().trim();
+            const invoiceDate = $('#bulkInvoiceDate').val();
             const workIdsStr = $('#bulkWorkIds').val();
             
             if (!invoiceCode) {
                 alert('Zəhmət olmasa qaimə nömrəsi daxil edin.');
                 $('#bulkInvoiceCode').focus();
+                return;
+            }
+            
+            if (!invoiceDate) {
+                alert('Zəhmət olmasa qaimə tarixini seçin.');
+                $('#bulkInvoiceDate').focus();
                 return;
             }
             
@@ -667,7 +741,7 @@
                 return;
             }
             
-            if (!confirm('Seçilmiş ' + workIds.length + ' işə "' + invoiceCode + '" qaimə nömrəsini təyin etmək istədiyinizə əminsiniz?')) {
+            if (!confirm('Seçilmiş ' + workIds.length + ' işə "' + invoiceCode + '" qaimə nömrəsini və "' + invoiceDate + '" tarixini təyin etmək istədiyinizə əminsiniz?')) {
                 return;
             }
             
@@ -682,12 +756,13 @@
                 dataType: 'json',
                 data: {
                     invoice_code: invoiceCode,
+                    invoice_date: invoiceDate,
                     work_ids: workIds,
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(res) {
                     if (res.success) {
-                        alert('Qaimə nömrəsi ' + res.affected_works + ' işə uğurla təyin edildi!');
+                        alert('Qaimə nömrəsi və tarixi ' + res.affected_works + ' işə uğurla təyin edildi!');
                         // Refresh modal content with new invoice code
                         if (res.invoice_code) {
                             refreshModalContent(res.invoice_code);
@@ -700,6 +775,169 @@
                         }
                     } else {
                         alert('Xəta: ' + (res.error || 'Qaimə nömrəsi təyin edilmədi'));
+                        $button.prop('disabled', false).html(originalText);
+                    }
+                },
+                error: function(xhr) {
+                    let errorMsg = 'Xəta baş verdi';
+                    if (xhr.responseJSON && xhr.responseJSON.error) {
+                        errorMsg = xhr.responseJSON.error;
+                    } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMsg = xhr.responseJSON.message;
+                    }
+                    alert('Xəta: ' + errorMsg);
+                    $button.prop('disabled', false).html(originalText);
+                }
+            });
+        });
+    }
+    
+    // Invoice Code Management (for works with invoice code)
+    function initInvoiceCodeManagement() {
+        // Edit invoice code button
+        $('#editInvoiceCodeBtn').on('click', function() {
+            const $input = $('#editInvoiceCode');
+            if ($input.prop('readonly')) {
+                $input.prop('readonly', false).focus();
+                $(this).html('<i class="fa fa-check"></i>').removeClass('btn-outline-secondary').addClass('btn-success');
+            } else {
+                $input.prop('readonly', true);
+                $(this).html('<i class="fa fa-edit"></i>').removeClass('btn-success').addClass('btn-outline-secondary');
+            }
+        });
+        
+        // Update invoice code and date
+        $('#updateInvoiceCode').on('click', function() {
+            const invoiceCode = $('#editInvoiceCode').val().trim();
+            const invoiceDate = $('#editInvoiceDate').val();
+            const currentInvoiceCode = $('#currentInvoiceCode').val();
+            const workIdsStr = $('#currentWorkIds').val();
+            
+            if (!invoiceCode) {
+                alert('Zəhmət olmasa qaimə nömrəsi daxil edin.');
+                $('#editInvoiceCode').focus();
+                return;
+            }
+            
+            if (!invoiceDate) {
+                alert('Zəhmət olmasa qaimə tarixini seçin.');
+                $('#editInvoiceDate').focus();
+                return;
+            }
+            
+            if (!workIdsStr) {
+                alert('İş ID-ləri tapılmadı.');
+                return;
+            }
+            
+            let workIds;
+            try {
+                workIds = JSON.parse(workIdsStr);
+            } catch(e) {
+                alert('İş ID-ləri formatı yanlışdır.');
+                return;
+            }
+            
+            if (!Array.isArray(workIds) || workIds.length === 0) {
+                alert('Heç bir iş tapılmadı.');
+                return;
+            }
+            
+            if (!confirm('Qaimə nömrəsini "' + currentInvoiceCode + '"-dən "' + invoiceCode + '"-ə və tarixi "' + invoiceDate + '"-ə yeniləmək istədiyinizə əminsiniz?')) {
+                return;
+            }
+            
+            // Disable button and show loading
+            const $button = $(this);
+            const originalText = $button.html();
+            $button.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Yenilənir...');
+            
+            $.ajax({
+                url: '{{ route("works.update-bulk-invoice-code") }}',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    old_invoice_code: currentInvoiceCode,
+                    invoice_code: invoiceCode,
+                    invoice_date: invoiceDate,
+                    work_ids: workIds,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(res) {
+                    if (res.success) {
+                        alert('Qaimə məlumatları ' + res.affected_works + ' işə uğurla yeniləndi!');
+                        // Refresh modal content with new invoice code
+                        if (res.invoice_code) {
+                            refreshModalContent(res.invoice_code);
+                        } else {
+                            refreshModalContent(null, workIds);
+                        }
+                    } else {
+                        alert('Xəta: ' + (res.error || 'Qaimə məlumatları yenilənmədi'));
+                        $button.prop('disabled', false).html(originalText);
+                    }
+                },
+                error: function(xhr) {
+                    let errorMsg = 'Xəta baş verdi';
+                    if (xhr.responseJSON && xhr.responseJSON.error) {
+                        errorMsg = xhr.responseJSON.error;
+                    } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMsg = xhr.responseJSON.message;
+                    }
+                    alert('Xəta: ' + errorMsg);
+                    $button.prop('disabled', false).html(originalText);
+                }
+            });
+        });
+        
+        // Remove invoice code
+        $('#removeInvoiceCode').on('click', function() {
+            const currentInvoiceCode = $('#currentInvoiceCode').val();
+            const workIdsStr = $('#currentWorkIds').val();
+            
+            if (!confirm('Qaimə nömrəsini və tarixini silmək istədiyinizə əminsiniz? Bu əməliyyat geri qaytarıla bilməz.')) {
+                return;
+            }
+            
+            if (!workIdsStr) {
+                alert('İş ID-ləri tapılmadı.');
+                return;
+            }
+            
+            let workIds;
+            try {
+                workIds = JSON.parse(workIdsStr);
+            } catch(e) {
+                alert('İş ID-ləri formatı yanlışdır.');
+                return;
+            }
+            
+            if (!Array.isArray(workIds) || workIds.length === 0) {
+                alert('Heç bir iş tapılmadı.');
+                return;
+            }
+            
+            // Disable button and show loading
+            const $button = $(this);
+            const originalText = $button.html();
+            $button.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Silinir...');
+            
+            $.ajax({
+                url: '{{ route("works.remove-bulk-invoice-code") }}',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    invoice_code: currentInvoiceCode,
+                    work_ids: workIds,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(res) {
+                    if (res.success) {
+                        alert('Qaimə nömrəsi və tarixi ' + res.affected_works + ' işdən uğurla silindi!');
+                        // Refresh modal content without invoice code
+                        refreshModalContent(null, workIds);
+                    } else {
+                        alert('Xəta: ' + (res.error || 'Qaimə nömrəsi silinmədi'));
                         $button.prop('disabled', false).html(originalText);
                     }
                 },

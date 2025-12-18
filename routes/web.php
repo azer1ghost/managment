@@ -215,6 +215,8 @@ Route::group([
     Route::post('/works/clear-all-payments', [WorkController::class, 'clearAllPayments'])->name('works.clear-all-payments');
     Route::post('/works/clear-invoice-dates', [WorkController::class, 'clearInvoiceDates'])->name('works.clear-invoice-dates');
     Route::post('/works/assign-bulk-invoice-code', [WorkController::class, 'assignBulkInvoiceCode'])->name('works.assign-bulk-invoice-code');
+    Route::post('/works/update-bulk-invoice-code', [WorkController::class, 'updateBulkInvoiceCode'])->name('works.update-bulk-invoice-code');
+    Route::post('/works/remove-bulk-invoice-code', [WorkController::class, 'removeBulkInvoiceCode'])->name('works.remove-bulk-invoice-code');
     Route::get('/works/report', [WorkController::class, 'report'])->name('works.report');
     Route::get('/works/export', [WorkController::class, 'export'])->name('works.export');
     Route::resource('/works', WorkController::class);

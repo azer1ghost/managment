@@ -2401,6 +2401,7 @@ class WorkController extends Controller
     {
         try {
             $invoiceCode = $request->input('invoice_code');
+            $invoiceDate = $request->input('invoice_date');
             $workIds = $request->input('work_ids', []);
 
             if (!$invoiceCode || empty(trim($invoiceCode))) {
@@ -2425,6 +2426,14 @@ class WorkController extends Controller
                 // Only assign if work doesn't already have an invoice code
                 if (empty($work->code)) {
                     $work->code = trim($invoiceCode);
+                    // Set invoice date if provided
+                    if ($invoiceDate) {
+                        try {
+                            $work->invoiced_date = Carbon::parse($invoiceDate);
+                        } catch (\Exception $e) {
+                            \Log::warning('Invalid invoice date format: ' . $invoiceDate);
+                        }
+                    }
                     $work->save();
                     $affectedCount++;
                 }
@@ -2434,13 +2443,139 @@ class WorkController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Qaimə nömrəsi uğurla təyin edildi',
+                'message' => 'Qaimə nömrəsi və tarixi uğurla təyin edildi',
                 'affected_works' => $affectedCount,
                 'invoice_code' => trim($invoiceCode)
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error('Error in assignBulkInvoiceCode: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Xəta baş verdi',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Update bulk invoice code and date for multiple works
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateBulkInvoiceCode(Request $request)
+    {
+        try {
+            $oldInvoiceCode = $request->input('old_invoice_code');
+            $invoiceCode = $request->input('invoice_code');
+            $invoiceDate = $request->input('invoice_date');
+            $workIds = $request->input('work_ids', []);
+
+            if (!$oldInvoiceCode || empty(trim($oldInvoiceCode))) {
+                return response()->json(['error' => 'Köhnə qaimə nömrəsi daxil edilməlidir'], 400);
+            }
+
+            if (!$invoiceCode || empty(trim($invoiceCode))) {
+                return response()->json(['error' => 'Yeni qaimə nömrəsi daxil edilməlidir'], 400);
+            }
+
+            if (empty($workIds) || !is_array($workIds)) {
+                return response()->json(['error' => 'İş ID-ləri daxil edilməlidir'], 400);
+            }
+
+            // Fetch all works with the old invoice code
+            $works = Work::where('code', $oldInvoiceCode)
+                ->whereIn('id', $workIds)
+                ->get();
+
+            if ($works->isEmpty()) {
+                return response()->json(['error' => 'Heç bir iş tapılmadı'], 404);
+            }
+
+            DB::beginTransaction();
+
+            $affectedCount = 0;
+            foreach ($works as $work) {
+                $work->code = trim($invoiceCode);
+                // Update invoice date if provided
+                if ($invoiceDate) {
+                    try {
+                        $work->invoiced_date = Carbon::parse($invoiceDate);
+                    } catch (\Exception $e) {
+                        \Log::warning('Invalid invoice date format: ' . $invoiceDate);
+                    }
+                }
+                $work->save();
+                $affectedCount++;
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Qaimə məlumatları uğurla yeniləndi',
+                'affected_works' => $affectedCount,
+                'invoice_code' => trim($invoiceCode)
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error('Error in updateBulkInvoiceCode: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Xəta baş verdi',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Remove bulk invoice code and date from multiple works
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function removeBulkInvoiceCode(Request $request)
+    {
+        try {
+            $invoiceCode = $request->input('invoice_code');
+            $workIds = $request->input('work_ids', []);
+
+            if (!$invoiceCode || empty(trim($invoiceCode))) {
+                return response()->json(['error' => 'Qaimə nömrəsi daxil edilməlidir'], 400);
+            }
+
+            if (empty($workIds) || !is_array($workIds)) {
+                return response()->json(['error' => 'İş ID-ləri daxil edilməlidir'], 400);
+            }
+
+            // Fetch all works with the invoice code
+            $works = Work::where('code', $invoiceCode)
+                ->whereIn('id', $workIds)
+                ->get();
+
+            if ($works->isEmpty()) {
+                return response()->json(['error' => 'Heç bir iş tapılmadı'], 404);
+            }
+
+            DB::beginTransaction();
+
+            $affectedCount = 0;
+            foreach ($works as $work) {
+                $work->code = null;
+                $work->invoiced_date = null;
+                $work->save();
+                $affectedCount++;
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Qaimə nömrəsi və tarixi uğurla silindi',
+                'affected_works' => $affectedCount
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error('Error in removeBulkInvoiceCode: ' . $e->getMessage());
             return response()->json([
                 'error' => 'Xəta baş verdi',
                 'message' => $e->getMessage()
