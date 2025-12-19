@@ -144,8 +144,9 @@
             <p> @lang('translates.total_items', ['count' => $barcodes->count(), 'total' => $barcodes->total()])</p>
         </div>
     </div>
-        <div class="col-md-12 overflow-auto">
-            <table class="table table-responsive-sm table-hover table-striped" style="min-height: 200px">
+        <div class="col-md-12">
+            <div class="table-responsive" style="overflow-x: auto;">
+            <table class="table table-hover table-striped" style="min-height: 200px">
                 <thead>
                 <tr>
                     <th>@lang('translates.navbar.barcode')</th>
@@ -223,6 +224,7 @@
 
                 </tbody>
             </table>
+            </div>
         </div>
         <div class="d-flex">
 

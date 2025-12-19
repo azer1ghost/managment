@@ -42,7 +42,8 @@
             <button class="btn btn-outline-success float-left" type="submit">Mobil Logistics</button>
         </form>
 
-        <table class="table table-responsive-sm table-hover">
+        <div class="table-responsive" style="overflow-x: auto;">
+                <table class="table table-hover">
             <tr>
                 <th scope="col">Qovluq Adı</th>
                 <th scope="col">Tərkibi</th>

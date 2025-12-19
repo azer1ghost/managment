@@ -15,7 +15,8 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
     <div class="row m-0">
-        <table class="table table-responsive-sm table-hover text-capitalize">
+        <div class="table-responsive" style="overflow-x: auto;">
+                <table class="table table-hover text-capitalize">
 
         </table>
     </div>

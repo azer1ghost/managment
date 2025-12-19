@@ -198,7 +198,8 @@
             <div class="tab-content" id="clientTabsContent">
                 <div class="tab-pane fade show active" id="group1" role="tabpanel" aria-labelledby="group1-tab">
                     <div class="col-12" style="overflow-x: auto;">
-                        <table  class="table table-responsive-sm table-hover">
+                        <div class="table-responsive" style="overflow-x: auto;">
+                <table class="table table-hover">
                             <thead>
                             <tr>
                                 @if(auth()->user()->hasPermission('canAssignUsers-client'))
@@ -321,6 +322,7 @@
                             @endforelse
                             </tbody>
                         </table>
+                </div>
                     </div>
                 </div>
             </div>
@@ -501,6 +503,7 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="detailWorks" role="tabpanel" aria-labelledby="detailWorks-tab">
+                            <div class="table-responsive" style="overflow-x: auto;">
                             <table class="table">
                                 <thead>
                                 <tr>
@@ -512,8 +515,10 @@
                                 </thead>
                                 <tbody id="worksTableBody"></tbody>
                             </table>
+                            </div>
                         </div>
                         <div class="tab-pane fade" id="detailInquiries" role="tabpanel" aria-labelledby="detailInquiries-tab">
+                            <div class="table-responsive" style="overflow-x: auto;">
                             <table class="table">
                                 <thead>
                                 <tr>
@@ -524,8 +529,10 @@
                                 </thead>
                                 <tbody id="inquiriesTableBody"></tbody>
                             </table>
+                            </div>
                         </div>
                         <div class="tab-pane fade" id="detailEmployees" role="tabpanel" aria-labelledby="detailEmployees-tab">
+                            <div class="table-responsive" style="overflow-x: auto;">
                             <table class="table">
                                 <thead>
                                 <tr>
@@ -538,9 +545,11 @@
                                 </thead>
                                 <tbody id="subClientsTableBody"></tbody>
                             </table>
+                            </div>
                         </div>
                         <div class="tab-pane fade" id="detailPrices" role="tabpanel" aria-labelledby="detailPrices-tab">
                             <div class="col-12">
+                                <div class="table-responsive" style="overflow-x: auto;">
                                 <table>
                                     <tr>
                                         <th>Xidmətlər</th>
@@ -569,6 +578,7 @@
                                         </tr>
                                     @endforeach
                                 </table>
+                                </div>
                             </div>
                         </div>
                     </div>

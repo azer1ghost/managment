@@ -27,7 +27,8 @@
                         <a class="btn btn-outline-success float-right" href="{{route('internal-relations.create')}}">@lang('translates.buttons.create')</a>
                     </div>
                 @endcan
-                <table  class="table table-responsive-sm table-hover">
+                <div class="table-responsive" style="overflow-x: auto;">
+                <table  class="table table-hover">
                     <thead>
                     <tr>
                         <th scope="col">Department</th>
@@ -80,6 +81,7 @@
                     @endforelse
                     </tbody>
                 </table>
+                </div>
             </div>
 
 

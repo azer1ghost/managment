@@ -46,8 +46,8 @@
             <a class="btn btn-outline-success float-right" href="{{route('funds.create')}}">@lang('translates.buttons.create')</a>
         </div>
 
-
-        <table class="table table-responsive-sm table-hover" id="command">
+        <div class="table-responsive" style="overflow-x: auto;">
+        <table class="table table-hover" id="command">
             <thead>
             <tr>
                 <th scope="col">#</th>
@@ -113,6 +113,7 @@
 
             </tbody>
         </table>
+        </div>
         @if(request()->get('limit') !== 'all')
             <div class="float-right">
                 {{$funds->appends(request()->input())->links()}}

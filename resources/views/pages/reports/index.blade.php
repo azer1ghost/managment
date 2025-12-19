@@ -13,7 +13,8 @@
     </x-bread-crumb>
     <div class="row">
         <form class="col-12" action="{{route('reports.index')}}">
-                <table class="table table-responsive-sm table-hover">
+                <div class="table-responsive" style="overflow-x: auto;">
+                <table class="table table-hover">
                     <thead>
                     <tr>
                         <th scope="col"></th>
@@ -76,6 +77,7 @@
                     @endforelse
                     </tbody>
                 </table>
+                </div>
         </form>
         @can('generateReports', App\Models\Report::class)
             <div class="col-12 my-3">

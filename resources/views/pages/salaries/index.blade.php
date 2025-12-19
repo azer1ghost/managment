@@ -62,7 +62,8 @@
 {{--    </form>--}}
 
             <div class="col-12 table-container">
-                <table id="table" class="table table-responsive-sm table-hover table-bordered">
+                <div class="table-responsive" style="overflow-x: auto;">
+                <table id="table" class="table table-hover table-bordered">
                     <thead>
                     <tr>
                         <th scope="col" colspan="4">Əməkdaş</th>
@@ -205,6 +206,7 @@
                     @endforelse
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     <br><br>

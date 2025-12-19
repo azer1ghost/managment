@@ -27,7 +27,8 @@
                         <a class="btn btn-outline-success float-right" href="{{route('changes.create')}}">@lang('translates.buttons.create')</a>
                     </div>
                 @endcan
-                <table class="table table-responsive-sm table-hover" id="changes">
+                <div class="table-responsive" style="overflow-x: auto;">
+                <table class="table table-hover" id="changes">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -94,6 +95,7 @@
                     @endforelse
                     </tbody>
                 </table>
+                </div>
                     <div class="float-right">
                         {{$changes->appends(request()->input())->links()}}
                     </div>

@@ -11,7 +11,8 @@
             Security
         </x-bread-crumb-link>
     </x-bread-crumb>
-    <table class="table table-responsive-sm table-hover">
+    <div class="table-responsive" style="overflow-x: auto;">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <td>Clients</td>
@@ -43,4 +44,5 @@
         @endforeach
         </tbody>
     </table>
+    </div>
 @endsection

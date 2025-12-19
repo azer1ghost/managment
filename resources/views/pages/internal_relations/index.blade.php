@@ -30,7 +30,8 @@
                     <div class="col-ml-1 align-items-end">
                         <a class="btn btn-outline-primary" href="{{ route('internal-relations.export') }}">@lang('translates.buttons.export')</a>
                     </div>
-                <table class="table table-responsive-sm table-hover">
+                <div class="table-responsive" style="overflow-x: auto;">
+                <table class="table table-hover">
                     <thead>
                     <tr>
                         <th scope="col">Department</th>
@@ -83,6 +84,7 @@
                     @endforelse
                     </tbody>
                 </table>
+                </div>
             </div>
 @endsection
 

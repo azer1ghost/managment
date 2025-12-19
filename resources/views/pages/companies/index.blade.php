@@ -16,7 +16,8 @@
             <a class="btn btn-outline-success" href="{{route('companies.create')}}">@lang('translates.buttons.create')</a>
         @endcan
     </div>
-    <table class="table table-responsive-sm table-hover">
+    <div class="table-responsive" style="overflow-x: auto;">
+                <table class="table table-hover">
         <thead>
             <tr>
                 <th scope="col">#</th>

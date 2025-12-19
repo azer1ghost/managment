@@ -117,7 +117,8 @@
             </form>
 
             <div class="col-12">
-                <table class="table table-responsive-sm table-hover table-bordered">
+                <div class="table-responsive" style="overflow-x: auto;">
+                <table class="table table-hover table-bordered">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -262,6 +263,7 @@
                     </tr>
                     </tbody>
                 </table>
+                </div>
             </div>
             <div class="col-6">
                 <div class="float-right">
