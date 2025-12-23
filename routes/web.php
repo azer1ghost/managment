@@ -159,6 +159,7 @@ Route::group([
     Route::resource('/salary-reports', SalaryReportController::class);
     Route::resource('/certificates', CertificateController::class);
     Route::resource('/companies', CompanyController::class);
+    Route::post('/companies/{company}/toggle-vat', [CompanyController::class, 'toggleVat'])->name('companies.toggle-vat');
     Route::resource('/employee-registrations', EmployeeRegistrationController::class);
     Route::post('/employee-registrations', [EmployeeRegistrationController::class, 'store'])->name('employee-registrations.store');
     Route::get('employee-registrations/get-status', [EmployeeRegistrationController::class, 'getStatus'])->name('employee-registrations.getStatus');

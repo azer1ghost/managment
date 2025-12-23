@@ -35,12 +35,14 @@ class Company extends Model implements Recordable
         'about',
         'keywords',
         'is_inquirable',
+        'has_no_vat',
         'intercity_phone',
         'company_id',
     ];
 
     protected $casts = [
-        'is_inquirable' => 'boolean'
+        'is_inquirable' => 'boolean',
+        'has_no_vat' => 'boolean'
     ];
 
     public function scopeIsInquirable($query)
@@ -81,4 +83,12 @@ class Company extends Model implements Recordable
         return $this->belongsToMany(Client::class, 'clients_companies_relationship');
     }
 
+    /**
+     * Bu Company-nin VAT-siz olub-olmadığını yoxlayır
+     * has_no_vat field-indən istifadə edir
+     */
+    public function hasNoVat(): bool
+    {
+        return (bool) $this->has_no_vat;
+    }
 }

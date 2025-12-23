@@ -34,6 +34,15 @@
             <td>{{$company->getAttribute('name')}}</td>
             <td>
                 <div class="btn-sm-group">
+                    @can('update', $company)
+                        <button type="button" 
+                                class="btn btn-sm {{ $company->has_no_vat ? 'btn-warning' : 'btn-info' }} toggle-vat-btn" 
+                                data-company-id="{{ $company->id }}"
+                                title="{{ $company->has_no_vat ? 'ƏDV-siz (basaraq ƏDV-li edin)' : 'ƏDV-li (basaraq ƏDV-siz edin)' }}">
+                            <i class="fal {{ $company->has_no_vat ? 'fa-times-circle' : 'fa-check-circle' }}"></i>
+                            {{ $company->has_no_vat ? 'ƏDV-siz' : 'ƏDV-li' }}
+                        </button>
+                    @endcan
                     @can('view', $company)
                         <a href="{{route('companies.show', $company)}}" class="btn btn-sm btn-outline-primary">
                             <i class="fal fa-eye"></i>
@@ -66,5 +75,57 @@
     <div class="float-right">
         {{$companies->appends(request()->input())->links()}}
     </div>
+@endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        $('.toggle-vat-btn').on('click', function() {
+            const btn = $(this);
+            const companyId = btn.data('company-id');
+            const originalHtml = btn.html();
+            
+            // Loading state
+            btn.prop('disabled', true);
+            btn.html('<i class="fal fa-spinner fa-spin"></i> Yüklənir...');
+            
+            $.ajax({
+                url: '{{ route("companies.toggle-vat", ":id") }}'.replace(':id', companyId),
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Update button appearance
+                        if (response.has_no_vat) {
+                            btn.removeClass('btn-info').addClass('btn-warning');
+                            btn.html('<i class="fal fa-times-circle"></i> ƏDV-siz');
+                            btn.attr('title', 'ƏDV-siz (basaraq ƏDV-li edin)');
+                        } else {
+                            btn.removeClass('btn-warning').addClass('btn-info');
+                            btn.html('<i class="fal fa-check-circle"></i> ƏDV-li');
+                            btn.attr('title', 'ƏDV-li (basaraq ƏDV-siz edin)');
+                        }
+                        
+                        // Show success message
+                        if (typeof showNotify === 'function') {
+                            showNotify('success', response.message);
+                        } else {
+                            alert(response.message);
+                        }
+                    }
+                },
+                error: function(xhr) {
+                    btn.html(originalHtml);
+                    alert('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
+                },
+                complete: function() {
+                    btn.prop('disabled', false);
+                }
+            });
+        });
+    });
+</script>
 @endsection
 

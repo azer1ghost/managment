@@ -15,7 +15,7 @@ class AsanImza extends Model implements Recordable
 
     protected $table = 'asan_imzalar';
     protected $fillable = ['user_id', 'department_id', 'company_id', 'asan_id', 'phone', 'pin1', 'pin2', 'is_active','puk'];
-    protected $with = ['user:id,name,surname', 'company:id,name'];
+    protected $with = ['user:id,name,surname', 'company:id,name,has_no_vat'];
 
     public function user(): BelongsTo
     {
@@ -48,5 +48,18 @@ class AsanImza extends Model implements Recordable
     public function getUserWithCompanyAttribute($value): ?string
     {
         return "{$this->user->getAttribute('fullname')} ({$this->company->getAttribute('name')})";
+    }
+
+    /**
+     * Bu Asan İmza-nın VAT-siz olub-olmadığını yoxlayır
+     * Company ID-yə görə müəyyən edilir
+     */
+    public function hasNoVat(): bool
+    {
+        if (!$this->company_id) {
+            return false;
+        }
+
+        return $this->company->hasNoVat();
     }
 }

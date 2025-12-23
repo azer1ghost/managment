@@ -730,30 +730,56 @@ class WorkController extends Controller
 
 
         if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41, 54, 53])) {
-            $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)]);
-            $work->parameters()->updateExistingPivot($work::VAT, ['value' => (Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT)) * 0.18]);
+            $amount = Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT);
+            $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => $amount]);
+            
+            // VAT hesablaması - Company-nin has_no_vat statusuna görə
+            $asanImza = $work->asanImza;
+            $vat = 0;
+            if ($asanImza && !$asanImza->hasNoVat() && $amount !== null) {
+                $vat = round($amount * 0.18, 2);
+            }
+            $work->parameters()->updateExistingPivot($work::VAT, ['value' => $vat]);
         } else if (in_array($request->get('service_id'), [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48])) {
-            if ($work->getRelationValue('client')->getAttribute('main_paper') > 0) {
-                $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))]);
-                $value = ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))) * 0.18;
-                $roundedValue = round($value, 2);
-                $work->parameters()->updateExistingPivot($work::VAT, ['value' => $roundedValue]);
-            } else
-                $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))]);
-            $value = ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('main_paper') * $work->getParameter($work::MAINPAGE))) * 0.18;
-            $roundedValue = round($value, 2);
-            $work->parameters()->updateExistingPivot($work::VAT, ['value' => $roundedValue]);
+            $client = $work->getRelationValue('client');
+            $mainPaper = $client->getAttribute('main_paper');
+            $amount = null;
+            
+            if ($mainPaper > 0) {
+                $amount = (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($mainPaper * $work->getParameter($work::MAINPAGE));
+            } else {
+                $amount = Work::getClientServiceAmount($work) * $work->getParameter($work::GB) + $mainPaper;
+            }
+            
+            $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => $amount]);
+            
+            // VAT hesablaması - Company-nin has_no_vat statusuna görə
+            $asanImza = $work->asanImza;
+            $vat = 0;
+            if ($asanImza && !$asanImza->hasNoVat() && $amount !== null) {
+                $vat = round($amount * 0.18, 2);
+            }
+            $work->parameters()->updateExistingPivot($work::VAT, ['value' => $vat]);
         } else if (in_array($request->get('service_id'), [2])) {
-            if ($work->getRelationValue('client')->getAttribute('qibmain_paper') > 0) {
-                $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))]);
-                $value = ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))) * 0.18;
-                $roundedValue = round($value, 2);
-                $work->parameters()->updateExistingPivot($work::VAT, ['value' => $roundedValue]);
-            } else
-                $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))]);
-            $value = ((Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($work->getRelationValue('client')->getAttribute('qibmain_paper') * $work->getParameter($work::MAINPAGE))) * 0.18;
-            $roundedValue = round($value, 2);
-            $work->parameters()->updateExistingPivot($work::VAT, ['value' => $roundedValue]);
+            $client = $work->getRelationValue('client');
+            $qibPaper = $client->getAttribute('qibmain_paper');
+            $amount = null;
+            
+            if ($qibPaper > 0) {
+                $amount = (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($qibPaper * $work->getParameter($work::MAINPAGE));
+            } else {
+                $amount = Work::getClientServiceAmount($work) * $work->getParameter($work::GB) + $qibPaper;
+            }
+            
+            $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => $amount]);
+            
+            // VAT hesablaması - Company-nin has_no_vat statusuna görə
+            $asanImza = $work->asanImza;
+            $vat = 0;
+            if ($asanImza && !$asanImza->hasNoVat() && $amount !== null) {
+                $vat = round($amount * 0.18, 2);
+            }
+            $work->parameters()->updateExistingPivot($work::VAT, ['value' => $vat]);
         }
 
         if ((int)$work->service_id === 2) {
@@ -1083,16 +1109,17 @@ class WorkController extends Controller
 
             // ==================== VAT hesablamaları ====================
 
-            // ƏDV olmayan Asan İmzalar
-            $noVatAsan = [
-                29, 34, 36, 39, 40, 30, 32, 33, 41, 43, 39, 46, 47, 49, 50, 48, 22,
-                53, 54, 55, 56, 57, 63, 80, 60, 71, 74, 83, 61, 73, 64, 72, 82, 100,
-                102, 98, 95, 94, 93, 91, 90, 87, 83, 78, 127, 128, 129, 130, 63,
-                102, 113, 117, 98, 107, 114, 73, 110, 139, 104, 137
-            ];
-
-            if (!in_array($asanImzaId, $noVatAsan) && $amount !== null) {
-                $vat = round($amount * 0.18, 2);
+            // Asan İmza-nın Company ID-yə görə VAT-siz olub-olmadığını yoxlayırıq
+            // Əgər Company has_no_vat = true olarsa, VAT 0%, yoxdursa 18%
+            $asanImza = $asanImzaId ? AsanImza::with('company')->find($asanImzaId) : null;
+            if ($asanImza && $amount !== null) {
+                if (!$asanImza->hasNoVat()) {
+                    // Company ƏDV-li olduğu üçün 18% ƏDV hesablanır
+                    $vat = round($amount * 0.18, 2);
+                } else {
+                    // Company ƏDV-siz olduğu üçün VAT = 0
+                    $vat = 0;
+                }
             }
 
             // VAT pivotunu yenilə
@@ -1370,20 +1397,22 @@ class WorkController extends Controller
 
         // ==================== VAT hesablamaları ====================
 
-        $noVatAsan = [
-            29, 34, 36, 39, 40, 30, 32, 33, 41, 43, 39, 46, 47, 49, 50, 48, 22,
-            53, 54, 55, 56, 57, 63, 80, 60, 71, 74, 83, 61, 73, 64, 72, 82, 100,
-            102, 98, 95, 94, 93, 91, 90, 87, 83, 78, 127, 128, 129, 130, 63,
-            102, 113, 117, 98, 107, 114, 73
-        ];
-
-        if (!in_array($asanImzaId, $noVatAsan) && $amount !== null) {
-            $vat = round($amount * 0.18, 2);
+        // Asan İmza-nın Company ID-yə görə VAT-siz olub-olmadığını yoxlayırıq
+        // Əgər Company has_no_vat = true olarsa, VAT 0%, yoxdursa 18%
+        $asanImza = $work->asanImza;
+        if ($asanImza && $amount !== null) {
+            if (!$asanImza->hasNoVat()) {
+                // Company ƏDV-li olduğu üçün 18% ƏDV hesablanır
+                $vat = round($amount * 0.18, 2);
+            } else {
+                // Company ƏDV-siz olduğu üçün VAT = 0
+                $vat = 0;
+            }
         }
 
         $work->parameters()->updateExistingPivot($work::VAT, ['value' => $vat]);
 
-        return [round($amount, 2), round($vat, 2)];
+        return [round($amount ?? 0, 2), round($vat, 2)];
     }
 
 

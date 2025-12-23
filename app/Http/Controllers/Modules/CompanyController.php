@@ -20,7 +20,7 @@ class CompanyController extends Controller
     {
         return view('pages.companies.index')
             ->with([
-                'companies' => Company::select(['id', 'logo', 'name'])->simplePaginate(10)
+                'companies' => Company::select(['id', 'logo', 'name', 'has_no_vat'])->simplePaginate(10)
             ]);
     }
 
@@ -118,5 +118,24 @@ class CompanyController extends Controller
             return response('OK');
         }
         return response()->setStatusCode('204');
+    }
+
+    /**
+     * Company-nin VAT statusunu toggle edir (edvli/edvsiz)
+     */
+    public function toggleVat(Company $company)
+    {
+        $this->authorize('update', $company);
+        
+        $company->has_no_vat = !$company->has_no_vat;
+        $company->save();
+        
+        return response()->json([
+            'success' => true,
+            'has_no_vat' => $company->has_no_vat,
+            'message' => $company->has_no_vat 
+                ? 'Şirkət ƏDV-siz kimi işarələndi' 
+                : 'Şirkət ƏDV-li kimi işarələndi'
+        ]);
     }
 }
