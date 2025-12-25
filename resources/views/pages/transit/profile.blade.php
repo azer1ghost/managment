@@ -1,6 +1,6 @@
 @extends('pages.transit.layout')
 
-@section('title', 'Online Transit | Account')
+@section('title', __('transit.title') . ' | ' . __('transit.account'))
 
 @section('content')
 <div class="row gutters-sm">
@@ -53,19 +53,19 @@
             <div class="card-body p-0">
                 <nav class="nav flex-column nav-pills" id="profileTabs" role="tablist">
                     <a class="nav-link active" id="tab-account" data-toggle="tab" href="#pills-account" role="tab">
-                        <i class="fas fa-user"></i> Account
+                        <i class="fas fa-user"></i> {{ __('transit.nav.account') }}
                     </a>
                     <a class="nav-link" id="tab-balance" data-toggle="tab" href="#pills-balance" role="tab">
-                        <i class="fas fa-wallet"></i> Balance
+                        <i class="fas fa-wallet"></i> {{ __('transit.nav.balance') }}
                     </a>
                     <a class="nav-link" id="tab-order" data-toggle="tab" href="#pills-order" role="tab">
-                        <i class="fas fa-shopping-cart"></i> My Orders
+                        <i class="fas fa-shopping-cart"></i> {{ __('transit.nav.orders') }}
                     </a>
                     <a class="nav-link" id="tab-transactions" data-toggle="tab" href="#pills-transactions" role="tab">
-                        <i class="fas fa-exchange-alt"></i> Transactions
+                        <i class="fas fa-exchange-alt"></i> {{ __('transit.nav.transactions') }}
                     </a>
                     <a class="nav-link" href="{{ route('service') }}">
-                        <i class="fas fa-home"></i> Home
+                        <i class="fas fa-home"></i> {{ __('transit.nav.home') }}
                     </a>
                 </nav>
             </div>
@@ -79,9 +79,9 @@
                     <!-- Account Tab -->
                     <div class="tab-pane fade show active" id="pills-account" role="tabpanel">
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h4 class="mb-0"><i class="fas fa-user text-primary"></i> Account Information</h4>
+                            <h4 class="mb-0"><i class="fas fa-user text-primary"></i> {{ __('transit.profile.account_info') }}</h4>
                             <a href="{{route('profile.edit', auth()->id())}}" class="btn btn-primary">
-                                <i class="fas fa-edit"></i> Edit Profile
+                                <i class="fas fa-edit"></i> {{ __('transit.profile.edit_profile') }}
                             </a>
                         </div>
 
@@ -123,11 +123,11 @@
 
                         <div class="d-flex gap-2">
                             <a href="{{route('profile.edit', auth()->id())}}" class="btn btn-primary">
-                                <i class="fas fa-edit"></i> Edit Profile
+                                <i class="fas fa-edit"></i> {{ __('transit.profile.edit_profile') }}
                             </a>
                             <a href="{{ route('logout') }}" class="btn btn-danger" 
                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <i class="fas fa-sign-out-alt"></i> Logout
+                                <i class="fas fa-sign-out-alt"></i> {{ __('transit.button.logout') }}
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
@@ -138,7 +138,7 @@
                     <!-- Balance Tab -->
                     <div class="tab-pane fade" id="pills-balance" role="tabpanel">
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h4 class="mb-0"><i class="fas fa-wallet text-primary"></i> Balance</h4>
+                            <h4 class="mb-0"><i class="fas fa-wallet text-primary"></i> {{ __('transit.nav.balance') }}</h4>
                         </div>
 
                         <div class="balance-display text-center p-5 mb-4 rounded glow" 
@@ -151,7 +151,7 @@
                                         animation: rotate 15s linear infinite;"></div>
                             <div style="position: relative; z-index: 1;">
                                 <h6 class="mb-3" style="opacity: 0.9; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;">
-                                    <i class="fas fa-wallet me-2"></i>Current Balance
+                                    <i class="fas fa-wallet me-2"></i>{{ __('transit.profile.current_balance') }}
                                 </h6>
                                 <h1 class="display-4 mb-0 pulse-animation" style="font-weight: 900; text-shadow: 0 5px 20px rgba(0,0,0,0.3);">
                                     {{number_format(auth()->user()->getAttribute('balance') ?? 0, 2)}} <small style="font-size: 0.5em;">AZN</small>
@@ -159,28 +159,28 @@
                             </div>
                         </div>
 
-                        <div class="text-center">
-                            <a href="{{route('profile.edit', auth()->id())}}" class="btn btn-primary btn-lg">
-                                <i class="fas fa-plus-circle"></i> Add Balance
-                            </a>
-                        </div>
+                            <div class="text-center">
+                                <a href="{{route('profile.edit', auth()->id())}}" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-plus-circle"></i> {{ __('transit.button.add_balance') }}
+                                </a>
+                            </div>
                     </div>
 
                     <!-- Orders Tab -->
                     <div class="tab-pane fade" id="pills-order" role="tabpanel">
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h4 class="mb-0"><i class="fas fa-shopping-cart text-primary"></i> My Orders</h4>
+                            <h4 class="mb-0"><i class="fas fa-shopping-cart text-primary"></i> {{ __('transit.profile.my_orders') }}</h4>
                         </div>
 
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead class="table-light">
                                     <tr>
-                                        <th><i class="fas fa-hashtag"></i> Number</th>
-                                        <th><i class="fas fa-cog"></i> Service</th>
-                                        <th><i class="fas fa-calendar"></i> Date</th>
-                                        <th><i class="fas fa-info-circle"></i> Status</th>
-                                        <th><i class="fas fa-file"></i> Result</th>
+                                        <th><i class="fas fa-hashtag"></i> {{ __('transit.profile.order_number') }}</th>
+                                        <th><i class="fas fa-cog"></i> {{ __('transit.profile.service') }}</th>
+                                        <th><i class="fas fa-calendar"></i> {{ __('transit.profile.date') }}</th>
+                                        <th><i class="fas fa-info-circle"></i> {{ __('transit.profile.status') }}</th>
+                                        <th><i class="fas fa-file"></i> {{ __('transit.profile.result') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -214,7 +214,7 @@
                                         <tr>
                                             <td colspan="5" class="text-center py-5">
                                                 <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
-                                                <p class="text-muted mb-0">No orders found</p>
+                                                <p class="text-muted mb-0">{{ __('transit.profile.no_orders') }}</p>
                                             </td>
                                         </tr>
                                     @endforelse
@@ -232,18 +232,18 @@
                     <!-- Transactions Tab -->
                     <div class="tab-pane fade" id="pills-transactions" role="tabpanel">
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h4 class="mb-0"><i class="fas fa-exchange-alt text-primary"></i> Transactions</h4>
+                            <h4 class="mb-0"><i class="fas fa-exchange-alt text-primary"></i> {{ __('transit.profile.transactions') }}</h4>
                         </div>
 
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead class="table-light">
                                     <tr>
-                                        <th><i class="fas fa-hashtag"></i> Number</th>
-                                        <th><i class="fas fa-tag"></i> Type</th>
-                                        <th><i class="fas fa-calendar"></i> Date</th>
-                                        <th><i class="fas fa-money-bill"></i> Amount</th>
-                                        <th><i class="fas fa-check-circle"></i> Status</th>
+                                        <th><i class="fas fa-hashtag"></i> {{ __('transit.profile.transaction_number') }}</th>
+                                        <th><i class="fas fa-tag"></i> {{ __('transit.profile.transaction_type') }}</th>
+                                        <th><i class="fas fa-calendar"></i> {{ __('transit.profile.date') }}</th>
+                                        <th><i class="fas fa-money-bill"></i> {{ __('transit.profile.amount') }}</th>
+                                        <th><i class="fas fa-check-circle"></i> {{ __('transit.profile.transaction_status') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>

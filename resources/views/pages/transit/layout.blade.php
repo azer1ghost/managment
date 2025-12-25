@@ -19,6 +19,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <link href="{{ asset('assets/fonts/fontawesome.pro.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="{{ mix('assets/css/app.css') }}" rel="stylesheet">
 
     <style>
@@ -348,6 +349,70 @@
                         0 0 60px rgba(102, 126, 234, 0.1);
         }
         
+        .language-selector-wrapper {
+            position: relative;
+            z-index: 10;
+        }
+        
+        .language-selector {
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 8px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .lang-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .lang-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+        
+        .lang-btn:hover::before {
+            width: 100px;
+            height: 100px;
+        }
+        
+        .lang-btn:hover {
+            transform: scale(1.15) translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .lang-btn.active {
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.5) inset,
+                        0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .lang-btn .flag-icon {
+            font-size: 24px;
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        
         @media (max-width: 768px) {
             .transit-logo {
                 max-width: 180px;
@@ -357,6 +422,17 @@
             }
             body::before, body::after {
                 display: none;
+            }
+            .language-selector {
+                padding: 6px;
+                gap: 6px;
+            }
+            .lang-btn {
+                width: 35px;
+                height: 35px;
+            }
+            .lang-btn .flag-icon {
+                font-size: 20px;
             }
         }
     </style>
@@ -368,6 +444,25 @@
 <body>
 <div class="transit-container">
     <div class="text-center py-4">
+        <div class="d-flex justify-content-end mb-3 language-selector-wrapper">
+            <div class="language-selector">
+                @foreach(config('app.locales') as $locale => $name)
+                    <a href="{{ route('locale', $locale) }}" 
+                       class="lang-btn @if(app()->getLocale() == $locale) active @endif"
+                       title="{{ $name }}">
+                        @if($locale == 'az')
+                            <span class="flag-icon flag-icon-az"></span>
+                        @elseif($locale == 'en')
+                            <span class="flag-icon flag-icon-gb"></span>
+                        @elseif($locale == 'ru')
+                            <span class="flag-icon flag-icon-ru"></span>
+                        @elseif($locale == 'tr')
+                            <span class="flag-icon flag-icon-tr"></span>
+                        @endif
+                    </a>
+                @endforeach
+            </div>
+        </div>
         <img src="{{asset('assets/images/logomb.png')}}" alt="Logo" class="transit-logo">
         @yield('content')
     </div>

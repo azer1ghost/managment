@@ -1,6 +1,6 @@
 @extends('pages.transit.layout')
 
-@section('title', 'Online Transit | Services')
+@section('title', __('transit.title') . ' | ' . __('transit.services'))
 
 @section('content')
 <div class="transit-card">
@@ -8,7 +8,7 @@
         @auth()
         <div class="d-flex justify-content-end mb-3">
             <a href="{{route('profile.index')}}" class="btn btn-outline-primary btn-sm">
-                <i class="fas fa-user"></i> Account
+                <i class="fas fa-user"></i> {{ __('transit.nav.account') }}
             </a>
         </div>
         @endauth
@@ -17,14 +17,14 @@
             <li class="nav-item" role="presentation">
                 <a class="nav-link active" id="tab-transit" data-toggle="tab" href="#pills-transit"
                    role="tab" aria-controls="pills-transit" aria-selected="true">
-                    <i class="fas fa-truck"></i> Online Transit
+                    <i class="fas fa-truck"></i> {{ __('transit.nav.online_transit') }}
                 </a>
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="tab-declaration" data-toggle="tab"
                    href="#pills-declaration" role="tab"
                    aria-controls="pills-declaration" aria-selected="false">
-                    <i class="fas fa-file-alt"></i> Short Import Declaration
+                    <i class="fas fa-file-alt"></i> {{ __('transit.nav.short_declaration') }}
                 </a>
             </li>
         </ul>
@@ -42,7 +42,7 @@
                         <h2 class="mb-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; font-size: 2.5rem; text-shadow: 0 0 30px rgba(102, 126, 234, 0.3);">
                             WEB TRANSIT
                         </h2>
-                        <p class="text-muted fs-5">Upload your CMR and Invoice documents</p>
+                        <p class="text-muted fs-5">{{ __('transit.message.upload_documents') }}</p>
                         <div class="progress-bar-wrapper mt-3" style="max-width: 300px; margin: 0 auto;">
                             <div class="progress" style="height: 4px; background: rgba(102, 126, 234, 0.2); border-radius: 10px;">
                                 <div class="progress-bar progress-bar-striped progress-bar-animated" 
@@ -57,40 +57,40 @@
                         <div class="document-row mb-4 p-4 border rounded" data-row="0" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%); border: 2px solid rgba(102, 126, 234, 0.2) !important; transition: all 0.3s ease;">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h5 class="mb-0" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700;">
-                                    <i class="fas fa-file-alt me-2"></i>Document Set #1
+                                    <i class="fas fa-file-alt me-2"></i>{{ __('transit.document.document_set') }} #1
                                 </h5>
                                 <span class="badge" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 8px 15px; border-radius: 20px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);">
-                                    <i class="fas fa-star me-1"></i>Required
+                                    <i class="fas fa-star me-1"></i>{{ __('transit.button.required') }}
                                 </span>
                             </div>
                             
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label fw-bold" for="cmr_0">
-                                        <i class="fas fa-file-pdf text-danger"></i> CMR Document
+                                        <i class="fas fa-file-pdf text-danger"></i> {{ __('transit.document.cmr') }}
                                     </label>
                                     <div class="file-upload-wrapper">
                                         <input type="file" name="cmr[]" class="form-control file-input" 
                                                id="cmr_0" accept=".pdf,.jpg,.jpeg,.png" required>
                                         <label for="cmr_0" class="file-upload-label">
                                             <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
-                                            <div class="file-name">Choose CMR file...</div>
-                                            <small class="text-muted">PDF, JPG, PNG (Max 10MB)</small>
+                                            <div class="file-name">{{ __('transit.document.choose_file') }}</div>
+                                            <small class="text-muted">{{ __('transit.document.file_types') }}</small>
                                         </label>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label fw-bold" for="invoice_0">
-                                        <i class="fas fa-file-invoice text-success"></i> İNVOYS Document
+                                        <i class="fas fa-file-invoice text-success"></i> {{ __('transit.document.invoice') }}
                                     </label>
                                     <div class="file-upload-wrapper">
                                         <input type="file" name="invoice[]" class="form-control file-input" 
                                                id="invoice_0" accept=".pdf,.jpg,.jpeg,.png" required>
                                         <label for="invoice_0" class="file-upload-label">
                                             <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
-                                            <div class="file-name">Choose Invoice file...</div>
-                                            <small class="text-muted">PDF, JPG, PNG (Max 10MB)</small>
+                                            <div class="file-name">{{ __('transit.document.choose_file') }}</div>
+                                            <small class="text-muted">{{ __('transit.document.file_types') }}</small>
                                         </label>
                                     </div>
                                 </div>
@@ -100,10 +100,10 @@
 
                     <div class="d-flex justify-content-between align-items-center mb-4 p-3 rounded" style="background: rgba(102, 126, 234, 0.1); border: 2px dashed rgba(102, 126, 234, 0.3);">
                         <button type="button" class="btn btn-primary" id="addDocumentRow" style="box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);">
-                            <i class="fas fa-plus-circle me-2"></i> Add More Documents
+                            <i class="fas fa-plus-circle me-2"></i> {{ __('transit.document.add_more') }}
                         </button>
                         <span class="badge badge-lg" id="documentCount" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 10px 20px; border-radius: 25px; font-size: 14px; font-weight: 600;">
-                            <i class="fas fa-folder-open me-2"></i><span id="countText">1 document set</span>
+                            <i class="fas fa-folder-open me-2"></i><span id="countText">1 {{ __('transit.document.document_set') }}</span>
                         </span>
                     </div>
 
@@ -114,19 +114,19 @@
                     <div class="form-check mb-4">
                         <input class="form-check-input" type="checkbox" value="1" id="transitCheck" required>
                         <label class="form-check-label" for="transitCheck">
-                            I have read and agree to the <a href="#" class="text-primary" data-toggle="modal" data-target="#termsModal">terms and conditions</a>
+                            {{ __('transit.form.terms_agree') }} <a href="#" class="text-primary" data-toggle="modal" data-target="#termsModal">{{ __('transit.form.terms_link') }}</a>
                         </label>
                     </div>
 
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-warning btn-lg pulse-animation" id="submitBtn" style="font-size: 18px; padding: 20px; box-shadow: 0 10px 40px rgba(245, 87, 108, 0.5);">
-                            <i class="fas fa-credit-card me-2"></i> Proceed to Payment
+                            <i class="fas fa-credit-card me-2"></i> {{ __('transit.button.proceed_payment') }}
                             <i class="fas fa-arrow-right ms-2"></i>
                         </button>
                     </div>
 
                     <div class="text-center mt-4">
-                        <p class="text-muted mb-2">Hər hansısa sualınız var?</p>
+                        <p class="text-muted mb-2">{{ __('transit.message.any_questions') }}</p>
                         <a href="tel:+994513339090" class="btn btn-link text-primary">
                             <i class="fas fa-phone"></i> +994 51 333 90 90
                         </a>
@@ -162,11 +162,11 @@
                 <div class="text-center py-5">
                     <div class="mb-4">
                         <i class="fas fa-file-alt fa-4x text-primary mb-3"></i>
-                        <h2 class="mb-3">Short Import Declaration</h2>
+                        <h2 class="mb-3">{{ __('transit.nav.short_declaration') }}</h2>
                     </div>
                     <div class="alert alert-success">
-                        <i class="fas fa-clock"></i> Coming Soon
-                        <p class="mb-0 mt-2">This service will be available shortly. Please check back later.</p>
+                        <i class="fas fa-clock"></i> {{ __('transit.message.coming_soon') }}
+                        <p class="mb-0 mt-2">{{ __('transit.message.will_be_available') }}</p>
                     </div>
                 </div>
             </div>
@@ -179,17 +179,17 @@
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="termsModalLabel">Terms and Conditions</h5>
+                <h5 class="modal-title" id="termsModalLabel">{{ __('transit.form.terms_link') }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Please read our terms and conditions carefully before using our services.</p>
+                <p>{{ __('transit.message.accept_terms') }}</p>
                 <!-- Add terms content here -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('transit.button.back') }}</button>
             </div>
         </div>
     </div>
@@ -200,6 +200,18 @@
 <script>
 $(document).ready(function() {
     let rowCount = 1;
+    
+    // Translations
+    const translations = {
+        documentSet: '{{ __('transit.document.document_set') }}',
+        documentSets: '{{ __('transit.document.document_sets') }}',
+        cmrDocument: '{{ __('transit.document.cmr') }}',
+        invoiceDocument: '{{ __('transit.document.invoice') }}',
+        chooseFile: '{{ __('transit.document.choose_file') }}',
+        fileTypes: '{{ __('transit.document.file_types') }}',
+        remove: '{{ __('transit.document.remove') }}',
+        required: '{{ __('transit.button.required') }}'
+    };
 
     // File input change handler
     $(document).on('change', '.file-input', function() {
@@ -237,38 +249,38 @@ $(document).ready(function() {
             <div class="document-row mb-4 p-4 border rounded" data-row="${rowCount}" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%); border: 2px solid rgba(102, 126, 234, 0.2) !important; opacity: 0; transform: translateY(20px);">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="mb-0" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700;">
-                        <i class="fas fa-file-alt me-2"></i>Document Set #${rowCount + 1}
+                        <i class="fas fa-file-alt me-2"></i>${translations.documentSet} #${rowCount + 1}
                     </h5>
                     <button type="button" class="btn btn-sm btn-danger remove-row" style="box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);">
-                        <i class="fas fa-trash me-1"></i> Remove
+                        <i class="fas fa-trash me-1"></i> ${translations.remove}
                     </button>
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold" for="cmr_${rowCount}">
-                            <i class="fas fa-file-pdf text-danger"></i> CMR Document
+                            <i class="fas fa-file-pdf text-danger"></i> ${translations.cmrDocument}
                         </label>
                         <div class="file-upload-wrapper">
                             <input type="file" name="cmr[]" class="form-control file-input" 
                                    id="cmr_${rowCount}" accept=".pdf,.jpg,.jpeg,.png">
                             <label for="cmr_${rowCount}" class="file-upload-label">
                                 <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
-                                <div class="file-name">Choose CMR file...</div>
-                                <small class="text-muted">PDF, JPG, PNG (Max 10MB)</small>
+                                <div class="file-name">${translations.chooseFile}</div>
+                                <small class="text-muted">${translations.fileTypes}</small>
                             </label>
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold" for="invoice_${rowCount}">
-                            <i class="fas fa-file-invoice text-success"></i> İNVOYS Document
+                            <i class="fas fa-file-invoice text-success"></i> ${translations.invoiceDocument}
                         </label>
                         <div class="file-upload-wrapper">
                             <input type="file" name="invoice[]" class="form-control file-input" 
                                    id="invoice_${rowCount}" accept=".pdf,.jpg,.jpeg,.png">
                             <label for="invoice_${rowCount}" class="file-upload-label">
                                 <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
-                                <div class="file-name">Choose Invoice file...</div>
-                                <small class="text-muted">PDF, JPG, PNG (Max 10MB)</small>
+                                <div class="file-name">${translations.chooseFile}</div>
+                                <small class="text-muted">${translations.fileTypes}</small>
                             </label>
                         </div>
                     </div>
@@ -308,7 +320,7 @@ $(document).ready(function() {
     // Update document count
     function updateDocumentCount() {
         const count = $('.document-row').length;
-        $('#countText').text(count + ' document set' + (count > 1 ? 's' : ''));
+        $('#countText').text(count + ' ' + (count > 1 ? translations.documentSets : translations.documentSet));
         
         // Animate badge
         $('#documentCount').css('transform', 'scale(1.1)');
@@ -364,7 +376,7 @@ $(document).ready(function() {
     $('#transitForm').on('submit', function(e) {
         if (!$('#transitCheck').is(':checked')) {
             e.preventDefault();
-            showAlert('Please accept the terms and conditions to continue.', 'danger');
+            showAlert('{{ __('transit.message.accept_terms') }}', 'danger');
             $('#transitCheck').focus();
             return false;
         }
@@ -375,11 +387,11 @@ $(document).ready(function() {
 
         if (!hasFiles) {
             e.preventDefault();
-            showAlert('Please upload at least one CMR and Invoice document.', 'danger');
+            showAlert('{{ __('transit.message.upload_required') }}', 'danger');
             return false;
         }
 
-        $('#submitBtn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Processing...');
+        $('#submitBtn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> {{ __('transit.status.processing') }}...');
     });
 });
 </script>

@@ -1,6 +1,6 @@
 @extends('pages.transit.layout')
 
-@section('title', 'Online Transit | Payment')
+@section('title', __('transit.title') . ' | ' . __('transit.payment'))
 
 @section('content')
 <div class="row justify-content-center">
@@ -20,9 +20,9 @@
                                            -webkit-text-fill-color: transparent; 
                                            font-weight: 800; 
                                            font-size: 2.5rem;">
-                        Order Payment
+                        {{ __('transit.payment.order_payment') }}
                     </h3>
-                    <p class="text-muted fs-5">Complete your payment to proceed</p>
+                    <p class="text-muted fs-5">{{ __('transit.message.upload_required') }}</p>
                 </div>
 
                 <div class="order-summary mb-4 p-4 rounded" 
@@ -39,14 +39,14 @@
                                     -webkit-background-clip: text; 
                                     -webkit-text-fill-color: transparent; 
                                     font-weight: 700;">
-                            Order Summary
+                            {{ __('transit.payment.order_summary') }}
                         </span>
                     </h5>
                     
                     <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
                         <div>
                             <i class="fas fa-cog text-muted"></i>
-                            <span class="text-muted">Service</span>
+                            <span class="text-muted">{{ __('transit.profile.service') }}</span>
                         </div>
                         <strong>{{$order->getAttribute('service')}}</strong>
                     </div>
@@ -54,7 +54,7 @@
                     <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
                         <div>
                             <i class="fas fa-hashtag text-muted"></i>
-                            <span class="text-muted">Order Number</span>
+                            <span class="text-muted">{{ __('transit.payment.order_number') }}</span>
                         </div>
                         <strong class="text-primary">{{$order->getAttribute('code')}}</strong>
                     </div>
@@ -62,7 +62,7 @@
                     <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
                         <div>
                             <i class="fas fa-money-bill text-muted"></i>
-                            <span class="text-muted">Amount</span>
+                            <span class="text-muted">{{ __('transit.payment.amount') }}</span>
                         </div>
                         <strong>{{number_format($order->getAttribute('amount'), 2)}} AZN</strong>
                     </div>
@@ -70,7 +70,7 @@
                     <hr>
 
                     <div class="d-flex justify-content-between align-items-center" style="position: relative; z-index: 1;">
-                        <h5 class="mb-0" style="font-weight: 700;">Total Amount</h5>
+                        <h5 class="mb-0" style="font-weight: 700;">{{ __('transit.payment.total_amount') }}</h5>
                         <h3 class="mb-0 pulse-animation" 
                             style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
                                    -webkit-background-clip: text; 
@@ -126,7 +126,7 @@
                                 background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
                                 animation: rotate 15s linear infinite;"></div>
                     <h5 class="mb-3" style="position: relative; z-index: 1;">
-                        <i class="fas fa-headset me-2"></i> Need Help?
+                        <i class="fas fa-headset me-2"></i> {{ __('transit.payment.need_help') }}
                     </h5>
                     <div class="row text-center" style="position: relative; z-index: 1;">
                         <div class="col-md-4 mb-3">
@@ -155,7 +155,7 @@
 
                 <div class="d-grid gap-2">
                     <a href="{{route('client-account')}}" class="btn btn-outline-secondary btn-lg">
-                        <i class="fas fa-arrow-left"></i> Back to Homepage
+                        <i class="fas fa-arrow-left"></i> {{ __('transit.button.back') }} {{ __('transit.nav.home') }}
                     </a>
                 </div>
             </div>

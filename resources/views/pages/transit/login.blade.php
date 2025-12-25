@@ -1,6 +1,6 @@
 @extends('pages.transit.layout')
 
-@section('title', 'Online Transit | Log In')
+@section('title', __('transit.title') . ' | ' . __('transit.login'))
 
 @section('content')
 <div class="transit-card">
@@ -9,13 +9,13 @@
             <li class="nav-item" role="presentation">
                 <a class="nav-link active" id="tab-login" data-toggle="tab" href="#pills-login" role="tab"
                    aria-controls="pills-login" aria-selected="true">
-                    <i class="fas fa-sign-in-alt"></i> Login
+                    <i class="fas fa-sign-in-alt"></i> {{ __('transit.login') }}
                 </a>
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="tab-register" data-toggle="tab" href="#pills-register" role="tab"
                    aria-controls="pills-register" aria-selected="false">
-                    <i class="fas fa-user-plus"></i> Register
+                    <i class="fas fa-user-plus"></i> {{ __('transit.register') }}
                 </a>
             </li>
         </ul>
@@ -28,7 +28,7 @@
                         <i class="fas fa-user-circle fa-5x text-primary pulse-animation" style="filter: drop-shadow(0 5px 20px rgba(102, 126, 234, 0.5));"></i>
                     </div>
                     <h3 style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800;">
-                        Welcome Back!
+                        {{ __('transit.message.welcome_back') }}
                     </h3>
                 </div>
                 
@@ -47,11 +47,11 @@
                     @csrf
                     <div class="mb-4">
                         <label class="form-label fw-bold" for="loginName" style="font-size: 16px;">
-                            <i class="fas fa-envelope text-primary me-2"></i> Email or Username
+                            <i class="fas fa-envelope text-primary me-2"></i> {{ __('transit.form.email') }}
                         </label>
                         <div class="input-group-icon">
                             <input type="email" name="login" id="loginName" class="form-control" 
-                                   placeholder="Enter your email or username" required autofocus
+                                   placeholder="{{ __('transit.form.email') }}" required autofocus
                                    style="padding-left: 50px;">
                             <i class="fas fa-envelope input-icon"></i>
                         </div>
@@ -59,11 +59,11 @@
 
                     <div class="mb-4">
                         <label class="form-label fw-bold" for="loginPassword" style="font-size: 16px;">
-                            <i class="fas fa-lock text-primary me-2"></i> Password
+                            <i class="fas fa-lock text-primary me-2"></i> {{ __('transit.form.password') }}
                         </label>
                         <div class="input-group-icon">
                             <input type="password" name="password" id="loginPassword" class="form-control" 
-                                   placeholder="Enter your password" required
+                                   placeholder="{{ __('transit.form.password') }}" required
                                    style="padding-left: 50px; padding-right: 50px;">
                             <i class="fas fa-lock input-icon"></i>
                             <button class="btn btn-link password-toggle" type="button" id="togglePassword" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); z-index: 10; color: #667eea;">
@@ -77,25 +77,25 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="remember" id="loginCheck" checked>
                                 <label class="form-check-label" for="loginCheck">
-                                    Remember me
+                                    {{ __('transit.form.remember_me') }}
                                 </label>
                             </div>
                         </div>
                         <div class="col-md-6 text-end">
-                            <a href="#" class="text-primary text-decoration-none">Forgot password?</a>
+                            <a href="#" class="text-primary text-decoration-none">{{ __('transit.form.forgot_password') }}</a>
                         </div>
                     </div>
 
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="fas fa-sign-in-alt"></i> Sign In
+                            <i class="fas fa-sign-in-alt"></i> {{ __('transit.button.sign_in') }}
                         </button>
                     </div>
 
                     <div class="text-center mt-4">
-                        <p class="text-muted">Not a member? 
+                        <p class="text-muted">{{ __('transit.message.not_member') }} 
                             <a href="#" class="text-primary text-decoration-none" id="switchToRegister">
-                                Register now
+                                {{ __('transit.message.register_now') }}
                             </a>
                         </p>
                     </div>
