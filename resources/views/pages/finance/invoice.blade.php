@@ -28,8 +28,10 @@
         }
     }
     
-    // Invoice is saved (immutable) only if it has ID AND is not a draft
-    $isSaved = $hasId && !$isDraft;
+    // Invoice is saved (immutable) only if it is signed
+    // All invoices can be edited except signed ones
+    $isSaved = $data->getAttribute('is_signed') == 1;
+    $isEditable = !$isSaved; // All invoices are editable except signed ones
     
     $company = $data->getAttribute('company');
     $representer = "Gömrük Təmsilçisi";
@@ -308,7 +310,9 @@
         @media print {
             .tabelBorder {
                 border: solid black 2px !important;
-
+            }
+            .no-print {
+                display: none !important;
             }
         }
 
@@ -363,21 +367,48 @@
         <br>
         @if($isSaved)
             <div class="alert alert-info">
-                <strong>Məlumat:</strong> Bu qaimə saxlanıldıqdan sonra dəyişdirilə bilməz. Dəyişiklik etmək istəyirsinizsə, lütfən qaiməni kopyalayın və yeni qaimə yaradın.
+                <strong>Məlumat:</strong> Bu qaimə imzalanıb və dəyişdirilə bilməz. Dəyişiklik etmək istəyirsinizsə, lütfən qaiməni kopyalayın.
             </div>
         @else
             <div class="alert alert-warning">
-                <strong>Məlumat:</strong> Bu qaimə hələ saxlanmayıb. Bütün dəyişiklikləri etdikdən sonra "Yadda Saxla" düyməsini basın.
+                <strong>Məlumat:</strong> Bu qaimə dəyişdirilə bilər. Bütün dəyişiklikləri etdikdən sonra "Yadda Saxla" düyməsini basın.
             </div>
         @endif
-        <button onclick="printCard1()" class="btn btn-primary float-right">Print</button>
-        @if(!$isSaved)
-            <button onclick="createInvoice()" class="btn btn-success float-right mr-2">Yadda Saxla</button>
-        @endif
+        <div class="mb-2 no-print">
+            <button onclick="printCard1()" class="btn btn-primary float-right">Print</button>
+            @if($isEditable)
+                <button onclick="createInvoice()" class="btn btn-success float-right mr-2" id="saveBtn">Yadda Saxla</button>
+            @endif
+            <div class="mb-2" id="bankAccountSelector" style="display:none; clear:both;">
+                <label for="bankAccountSelect">Bank Hesabı:</label>
+                <select id="bankAccountSelect" class="form-control" style="max-width: 400px;">
+                    <option value="mbrokerKapital" @if($company == 'mbrokerKapital') selected @endif>Mobil Broker Kapital</option>
+                    <option value="mbrokerRespublika" @if($company == 'mbrokerRespublika') selected @endif>Mobil Broker Bank Respublika</option>
+                    <option value="mgroupRespublika" @if($company == 'mgroupRespublika') selected @endif>Mobil Group Bank Respublika</option>
+                    <option value="mgroupKapital" @if($company == 'mgroupKapital') selected @endif>Mobil Group Kapital</option>
+                    <option value="garantKapital" @if($company == 'garantKapital') selected @endif>Garant Broker Kapital</option>
+                    <option value="garantRespublika" @if($company == 'garantRespublika') selected @endif>Garant Broker Bank Respublika</option>
+                    <option value="rigelRespublika" @if($company == 'rigelRespublika') selected @endif>Rigel Bank Respublika</option>
+                    <option value="rigelKapital" @if($company == 'rigelKapital') selected @endif>Rigel Kapital</option>
+                    <option value="mindRespublika" @if($company == 'mindRespublika') selected @endif>Mind Bank Respublika</option>
+                    <option value="mindKapital" @if($company == 'mindKapital') selected @endif>Mind Kapital</option>
+                    <option value="asazaRespublika" @if($company == 'asazaRespublika') selected @endif>Asaza Bank Respublika</option>
+                    <option value="asazaKapital" @if($company == 'asazaKapital') selected @endif>Asaza Kapital</option>
+                    <option value="tgroupKapital" @if($company == 'tgroupKapital') selected @endif>Tedora Group Kapital</option>
+                    <option value="dgroupKapital" @if($company == 'dgroupKapital') selected @endif>Declare Group Kapital</option>
+                    <option value="mtechnologiesRespublika" @if($company == 'mtechnologiesRespublika') selected @endif>Mobil Technologies Bank Respublika</option>
+                    <option value="mtechnologiesKapital" @if($company == 'mtechnologiesKapital') selected @endif>Mobil Technologies Kapital Bank</option>
+                    <option value="logisticsKapital" @if($company == 'logisticsKapital') selected @endif>Mobil Logistics Kapital</option>
+                    <option value="logisticsRespublika" @if($company == 'logisticsRespublika') selected @endif>Mobil Logistics Bank Respublika</option>
+                    <option value="mobexRespublika" @if($company == 'mobexRespublika') selected @endif>Mobex Bank Respublika</option>
+                    <option value="mobexKapital" @if($company == 'mobexKapital') selected @endif>Mobex Kapital Bank</option>
+                </select>
+            </div>
+        </div>
         <div class="card" id="printCard1">
             <div class="card-body">
                 <h2 class="text-center companyName" data-company="{{$company}}" id="companyName">{{$companyName}}</h2>
-                <h3 class="text-center">HESAB FAKTURA &numero; <span id="invoiceNo" @if(!$isSaved) contenteditable="true" @endif>{{$data->getAttribute('invoiceNo')}}</span></h3>
+                <h3 class="text-center">HESAB FAKTURA &numero; <span id="invoiceNo" @if($isEditable) contenteditable="true" @endif>{{$data->getAttribute('invoiceNo')}}</span></h3>
                 <h6 class=" mb-2"><span class="companyName">{{$companyName}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VOEN: <span class="voen">{{$voen}}</span></h6>
                 <h6 class=" mb-2">H/H: <span class="hh">{{$hh}}</span></h6>
                 <h6 class=" mb-2">M/H <span class="mh">{{$mh}}</span></h6>
@@ -396,12 +427,12 @@
                     <tbody>
                     <tr>
                         <td colspan="2" class="border border-bottom-0 tabelBorder clientName">{{$data->getRelationValue('financeClients')->getAttribute('name')}}</td>
-                        <td class="border tabelBorder">Tarix: <span id="invoiceDate" @if(!$isSaved) contenteditable="true" @endif>{{$data->getAttribute('invoiceDate')}}</span></td>
+                        <td class="border tabelBorder">Tarix: <span id="invoiceDate" @if($isEditable) contenteditable="true" @endif>{{$data->getAttribute('invoiceDate')}}</span></td>
                         <td class="border tabelBorder">&numero; <span class="invoiceNo">{{$data->getAttribute('invoiceNo')}}</span></td>
                     </tr>
                     <tr>
                         <td colspan="2" class="border border-top-0 tabelBorder">VÖEN: <span class="clientVoen">{{$data->getRelationValue('financeClients')->getAttribute('voen')}}</span></td>
-                        <td class="border tabelBorder">Ödəmə növü: <span id="paymentType" @if(!$isSaved) contenteditable="true" @endif>{{$data->getAttribute('paymentType')}}</span></td>
+                        <td class="border tabelBorder">Ödəmə növü: <span id="paymentType" @if($isEditable) contenteditable="true" @endif>{{$data->getAttribute('paymentType')}}</span></td>
                         <td class="border tabelBorder total"></td>
                     </tr>
                     </tbody>
@@ -422,20 +453,20 @@
                     <tbody id="table-body">
                     @foreach(json_decode($data->getAttribute('services')) as $service)
                     <tr>
-                        <td class="tabelBorder" @if(!$isSaved) contenteditable="true" @endif>{{$service->input1}}</td>
+                        <td class="tabelBorder" @if($isEditable) contenteditable="true" @endif>{{$service->input1}}</td>
                         <td class="tabelBorder">Ədəd</td>
-                        <td class="tabelBorder count count-{{$loop->iteration}}" @if(!$isSaved) contenteditable="true" @endif data-row="{{$loop->iteration}}">{{$service->input3}}</td>
-                        <td class="tabelBorder amount amount-{{$loop->iteration}}" @if(!$isSaved) contenteditable="true" @endif data-row="{{$loop->iteration}}">{{$service->input4}}</td>
+                        <td class="tabelBorder count count-{{$loop->iteration}}" @if($isEditable) contenteditable="true" @endif data-row="{{$loop->iteration}}">{{$service->input3}}</td>
+                        <td class="tabelBorder amount amount-{{$loop->iteration}}" @if($isEditable) contenteditable="true" @endif data-row="{{$loop->iteration}}">{{$service->input4}}</td>
                         <td class="tabelBorder overal">{{$service->input3 * $service->input4}}</td>
                         <td class="tabelBorder">
-                            @if(!$isSaved)
+                            @if($isEditable)
                                 <a onclick="deleteOldRow({{$loop->iteration}})" class="btn btn-danger btn-sm">Sil</a>
                             @endif
                         </td>
 
                     </tr>
                     @endforeach
-                    <tr id="form-area">
+                    <tr id="form-area" @if(!$isEditable) style="display:none;" @endif>
                         <td id="loginput"><input type="text" class="form-control" id="input1l"></td>
                         <td id="brokerinput">
                             <select id="input1" class="form-control">
@@ -501,7 +532,7 @@
                         <td><input type="text" class="form-control" id="input3"></td>
                         <td><input type="text" class="form-control" id="input4"></td>
                         <td id="print-area">
-                            @if(!$isSaved)
+                            @if($isEditable)
                                 <button onclick="addRow()" class="btn btn-primary">+</button>
                             @endif
                         </td>
@@ -534,7 +565,7 @@
                 </table>
                 <br>
                 <div class="imzalar" style="width: 350px; height: 350px">
-                    <p class="invoiceNumbers" @if(!$isSaved) contenteditable="true" @endif>{{$data->getAttribute('invoiceNumbers')}}</p>
+                    <p class="invoiceNumbers" @if($isEditable) contenteditable="true" @endif>{{$data->getAttribute('invoiceNumbers')}}</p>
                 </div>
                 <br>
 
@@ -552,13 +583,13 @@
                 <img src="{{asset('assets/images/finance/nusxe1.jpeg')}}" class="copies" width="400" alt="">
                  <p class="float-left">Bakı Şəhəri</p>
           
-                 <p class="float-right" id="protocolDate" @if(!$isSaved) contenteditable="true" @endif>{{$data->getAttribute('protocolDate')}}</p>
+                 <p class="float-right" id="protocolDate" @if($isEditable) contenteditable="true" @endif>{{$data->getAttribute('protocolDate')}}</p>
                  <br>
                  <br>
                  <br>
                  <h3 class="mb-2 text-center">QİYMƏT RAZILAŞDIRMA PROTOKOLU &numero; <span class="invoiceNo">{{$data->getAttribute('invoiceNo')}}</span></h3>
                  <h6 class="mb-2 text-center"><span class="companyName">{{$companyName}}</span> və <span class="clientName">{{$data->getRelationValue('financeClients')->getAttribute('name')}}</span> arasında bağlanan <span class="contractDate">{{$data->getAttribute('contractDate')}}</span> tarixli</h6>
-                 <h6 class="mb-2 text-center">&numero; <span class="contractNo" id="contractNo" @if(!$isSaved) contenteditable="true" @endif>{{$data->getAttribute('contractNo')}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Müqaviləyə əlavə</h6>
+                 <h6 class="mb-2 text-center">&numero; <span class="contractNo" id="contractNo" @if($isEditable) contenteditable="true" @endif>{{$data->getAttribute('contractNo')}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Müqaviləyə əlavə</h6>
                  <br>
 
                 <table class="table table-borderless tabelBorder">
@@ -611,7 +642,7 @@
                 </table>
                 <br>
 
-                    <p class="invoiceNumbers" @if(!$isSaved) contenteditable="true" @endif>{{$data->getAttribute('invoiceNumbers')}}</p>
+                    <p class="invoiceNumbers" @if($isEditable) contenteditable="true" @endif>{{$data->getAttribute('invoiceNumbers')}}</p>
 
                 <br>
                 <p>Yekun Məbləğ:  <span class="total">0</span>  AZN (<span class="numberWord"></span>)</p>
@@ -677,7 +708,7 @@
                 <br>
                 <br>
                 <br>
-                <h6 class=" mb-2 text-center"><span class="companyName">{{$companyName}}</span> və <span class="clientName">{{$data->getRelationValue('financeClients')->getAttribute('name')}}</span> arasında bağlanan &numero; <span class="contractDate" id="contractDate" @if(!$isSaved) contenteditable="true" @endif>{{$data->getAttribute('contractDate')}}</span>  tarixli</h6>
+                <h6 class=" mb-2 text-center"><span class="companyName">{{$companyName}}</span> və <span class="clientName">{{$data->getRelationValue('financeClients')->getAttribute('name')}}</span> arasında bağlanan &numero; <span class="contractDate" id="contractDate" @if($isEditable) contenteditable="true" @endif>{{$data->getAttribute('contractDate')}}</span>  tarixli</h6>
                 <h6 class=" mb-2 text-center">müqaviləyə əsasən göstərilən xidmətlərin Təhvil-Təslim aktı &numero; <span class="invoiceNo">{{$data->getAttribute('invoiceNo')}}</span></h6>
                 <br>
                 <table class="table table-borderless tabelBorder">
@@ -695,11 +726,11 @@
                     @foreach(json_decode($data->getAttribute('services')) as $service)
                         <tr>
                             <td class="tabelBorder">{{$loop->iteration}}</td>
-                            <td class="tabelBorder">{{$service->input1}}</td>
+                            <td class="tabelBorder service-name-3" @if($isEditable) contenteditable="true" @endif>{{$service->input1}}</td>
                             <td class="tabelBorder">Ədəd</td>
-                            <td class="tabelBorder" id="countCell-{{$loop->iteration}}">{{$service->input3}}</td>
-                            <td class="tabelBorder" id="amountCell-{{$loop->iteration}}">{{$service->input4}}</td>
-                            <td class="tabelBorder" id="overalCell-{{$loop->iteration}}">{{$service->input3 * $service->input4}}</td>
+                            <td class="tabelBorder count-3 count-3-{{$loop->iteration}}" @if($isEditable) contenteditable="true" @endif id="countCell-{{$loop->iteration}}">{{$service->input3}}</td>
+                            <td class="tabelBorder amount-3 amount-3-{{$loop->iteration}}" @if($isEditable) contenteditable="true" @endif id="amountCell-{{$loop->iteration}}">{{$service->input4}}</td>
+                            <td class="tabelBorder overal-3" id="overalCell-{{$loop->iteration}}">{{$service->input3 * $service->input4}}</td>
                         </tr>
                     @endforeach
                     <tr>
@@ -730,7 +761,7 @@
                 </table>
                 <br>
 
-                    <p class="invoiceNumbers" @if(!$isSaved) contenteditable="true" @endif>{{$data->getAttribute('invoiceNumbers')}}</p>
+                    <p class="invoiceNumbers" @if($isEditable) contenteditable="true" @endif>{{$data->getAttribute('invoiceNumbers')}}</p>
 
                 <br>
                 <p>Yekun Məbləğ: <span class="total">0</span> AZN (<span class="numberWord"></span>)</p>
@@ -763,8 +794,81 @@
 @endsection
 @section('scripts')
     <script>
-        // Track if invoice is saved (immutable)
+        // Track if invoice is saved (immutable) and editable
         const isInvoiceSaved = @json($isSaved);
+        let isEditMode = @json($isEditable);
+        
+        // Initially, if invoice is not saved, it's already in edit mode
+        // If saved (signed), need to click "Redaktə Et" to enable edit mode
+        
+        // Bank account templates data
+        const bankAccounts = {
+            @php
+                $companies = [
+                    'mbrokerKapital' => ['name' => '"Mobil Broker" MMC', 'voen' => '1804705371', 'hh' => 'AZ78AIIB400500D9447193478229', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'KAPITAL BANK ASC KOB mərkəz filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Vüsal Xəlilov İbrahim oğlu', 'whoFooter' => 'V.İ.Xəlilov'],
+                    'mbrokerRespublika' => ['name' => '"Mobil Broker" MMC', 'voen' => '1804705371', 'hh' => 'AZ17BRES00380394401114863601', 'mh' => 'AZ80NABZ01350100000000014944', 'bank' => 'Bank Respublika ASC-nin \'Azadlıq\' filialı', 'kod' => '507547', 'bvoen' => '9900001901', 'swift' => 'BRESAZ22', 'who' => 'Vüsal Xəlilov İbrahim oğlu', 'whoFooter' => 'V.İ.Xəlilov'],
+                    'mgroupKapital' => ['name' => '"Mobil Group" MMC', 'voen' => '1405261701', 'hh' => 'AZ31BRES00380394401115941601', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'KAPITAL BANK ASC KOB mərkəz filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Vüsal Xəlilov İbrahim oğlu', 'whoFooter' => 'V.İ.Xəlilov'],
+                    'mgroupRespublika' => ['name' => '"Mobil Group" MMC', 'voen' => '1405261701', 'hh' => 'AZ31BRES00380394401115941601', 'mh' => 'AZ80NABZ01350100000000014944', 'bank' => 'Bank Respublika ASC-nin \'Azadlıq\' filialı', 'kod' => '507547', 'bvoen' => '9900001901', 'swift' => 'BRESAZ22', 'who' => 'Vüsal Xəlilov İbrahim oğlu', 'whoFooter' => 'V.İ.Xəlilov'],
+                    'garantKapital' => ['name' => '"Garant Broker" MMC', 'voen' => '1803974481', 'hh' => 'AZ56AIIB400500D9447227965229', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'KAPITAL BANK ASC KOB mərkəz filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Əhmədbəy İsmixanov Səfixan oğlu', 'whoFooter' => 'Ə.S.İsmixanov'],
+                    'garantRespublika' => ['name' => '"Garant Broker" MMC', 'voen' => '1803974481', 'hh' => 'AZ95BRES00380394401114875001', 'mh' => 'AZ80NABZ01350100000000014944', 'bank' => 'Bank Respublika ASC-nin \'Azadlıq\' filialı', 'kod' => '507547', 'bvoen' => '9900001901', 'swift' => 'BRESAZ22', 'who' => 'Əhmədbəy İsmixanov Səfixan oğlu', 'whoFooter' => 'Ə.S.İsmixanov'],
+                    'rigelKapital' => ['name' => '"Rigel Group" MMC', 'voen' => '1805978211', 'hh' => 'AZ61AIIB400500E9445911817229', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'KAPITAL BANK ASC KOB mərkəz filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Xəlilova Lamiyə Fərhad qızı', 'whoFooter' => 'L.İ.Xəlilova'],
+                    'rigelRespublika' => ['name' => '"Rigel Group" MMC', 'voen' => '1805978211', 'hh' => 'AZ43BRES00380394401162048201', 'mh' => 'AZ80NABZ01350100000000014944', 'bank' => 'Bank Respublika ASC-nin \'Azadlıq\' filialı', 'kod' => '507547', 'bvoen' => '9900001901', 'swift' => 'BRESAZ22', 'who' => 'Xəlilova Lamiyə Fərhad qızı', 'whoFooter' => 'L.İ.Xəlilova'],
+                    'tgroupKapital' => ['name' => '"Tedora Group" MMC', 'voen' => '1008142601', 'hh' => 'AZ06AIIB400500F9443614259229', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'KAPITAL BANK ASC KOB mərkəz filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Toğrul Surxayzadə Məhərrəm oğlu', 'whoFooter' => 'T.M.Surxayzadə'],
+                    'dgroupKapital' => ['name' => '"Declare Group" MMC', 'voen' => '1406438851', 'hh' => 'AZ62AIIB400500F9443405268229', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'KAPITAL BANK ASC KOB mərkəz filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Mahir Həsənquliyev Tahir oğlu', 'whoFooter' => 'M.T.Həsənquliyev'],
+                    'mindKapital' => ['name' => '"Mind Services" MMC', 'voen' => '1506046601', 'hh' => 'AZ28AIIB400500E9444984575229', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'Kapital Bank ASC KOB mərkəzi filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Musayev Ağarza Musarza oğlu', 'whoFooter' => 'A.M.Musayev'],
+                    'mindRespublika' => ['name' => '"Mind Services" MMC', 'voen' => '1506046601', 'hh' => 'AZ88BRES00380394401162079401', 'mh' => 'AZ80NABZ01350100000000014944', 'bank' => 'Bank Respublika ASC-nin \'Azadlıq\' filialı', 'kod' => '507547', 'bvoen' => '9900001901', 'swift' => 'BRESAZ22', 'who' => 'Musayev Ağarza Musarza oğlu', 'whoFooter' => 'A.M.Musayev'],
+                    'asazaKapital' => ['name' => '"ASAZA FLKS" MMC', 'voen' => '1805091391', 'hh' => 'AZ79AIIB400500E9446021649229', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'Kapital Bank ASC KOB mərkəzi filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Sabir Tahirov Zakir oğlu', 'whoFooter' => 'S.Z.Tahirov'],
+                    'asazaRespublika' => ['name' => '"ASAZA FLKS" MMC', 'voen' => '1805091391', 'hh' => 'AZ80BRES00380394401196199101', 'mh' => 'AZ80NABZ01350100000000014944', 'bank' => 'Bank Respublika ASC-nin \'Azadlıq\' filialı', 'kod' => '507547', 'bvoen' => '9900001901', 'swift' => 'BRESAZ22', 'who' => 'Sabir Tahirov Zakir oğlu', 'whoFooter' => 'S.Z.Tahirov'],
+                    'mtechnologiesKapital' => ['name' => '"Mobil Technologies" MMC', 'voen' => '1804325861', 'hh' => 'AZ52AIIB400600D9447189871229', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'Kapital Bank ASC KOB mərkəzi filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Sabir Tahirov Zakir oğlu', 'whoFooter' => 'S.Z.Tahirov'],
+                    'mtechnologiesRespublika' => ['name' => '"Mobil Technologies" MMC', 'voen' => '1804325861', 'hh' => 'AZ20BRES00380394401131856201', 'mh' => 'AZ80NABZ01350100000000014944', 'bank' => 'Bank Respublika ASC-nin \'Azadlıq\' filialı', 'kod' => '507547', 'bvoen' => '9900001901', 'swift' => 'BRESAZ22', 'who' => 'Sabir Tahirov Zakir oğlu', 'whoFooter' => 'S.Z.Tahirov'],
+                    'logisticsKapital' => ['name' => '"Mobil Logistics" MMC', 'voen' => '1804811521', 'hh' => 'AZ85AIIB400500D9447161910229', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'KAPITAL BANK ASC KOB mərkəz filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Xəlilova Lamiyə Fərhad qızı', 'whoFooter' => 'L.F.Xəlilova'],
+                    'logisticsRespublika' => ['name' => '"Mobil Logistics" MMC', 'voen' => '1804811521', 'hh' => 'AZ77BRES00380394401116001301', 'mh' => 'AZ80NABZ01350100000000014944', 'bank' => 'Bank Respublika ASC-nin \'Azadlıq\' filialı', 'kod' => '507547', 'bvoen' => '9900001901', 'swift' => 'BRESAZ22', 'who' => 'Xəlilova Lamiyə Fərhad qızı', 'whoFooter' => 'L.F.Xəlilova'],
+                    'mobexKapital' => ['name' => '"Mobil Express" MMC', 'voen' => '1804892041', 'hh' => 'AZ64AIIB400500D9447160681229', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'Kapital Bank ASC KOB mərkəzi filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Həsənova Vüsalə İbrahim qızı', 'whoFooter' => 'V.İ.Həsənova'],
+                    'mobexRespublika' => ['name' => '"Mobil Express" MMC', 'voen' => '1804892041', 'hh' => 'AZ55BRES40050AZ0111181435001', 'mh' => 'AZ80NABZ01350100000000014944', 'bank' => 'Bank Respublika ASC-nin \'Azadlıq\' filialı', 'kod' => '507547', 'bvoen' => '9900001901', 'swift' => 'BRESAZ22', 'who' => 'Həsənova Vüsalə İbrahim qızı', 'whoFooter' => 'V.İ.Həsənova'],
+                ];
+            @endphp
+            @foreach($companies as $key => $values)
+                '{{ $key }}': {!! json_encode($values) !!},
+            @endforeach
+        };
+        
+        // If already in edit mode (not saved), show bank selector and save button
+        $(document).ready(function() {
+            if (isEditMode) {
+                $('#bankAccountSelector').show();
+                $('#saveBtn').show();
+            }
+        });
+        
+        // Bank account change handler - use event delegation
+        $(document).on('change', '#bankAccountSelect', function() {
+            if (!isEditMode) {
+                alert('Redaktə modunu aktivləşdirin.');
+                $(this).val($('#companyName').attr('data-company')); // Reset to original
+                return;
+            }
+            
+            const selectedCompany = $(this).val();
+            const bankData = bankAccounts[selectedCompany];
+            
+            if (bankData) {
+                // Update all bank-related fields
+                $('.companyName').text(bankData.name);
+                $('.voen').text(bankData.voen);
+                $('.hh').text(bankData.hh);
+                $('.mh').text(bankData.mh);
+                $('.bank').text(bankData.bank);
+                $('.kod').text(bankData.kod);
+                $('.bbank, .bvoen').text(bankData.bvoen);
+                $('.swift').text(bankData.swift);
+                $('#who').text(bankData.who);
+                $('#who-footer').text(bankData.whoFooter);
+                
+                // Update company data attribute
+                $('#companyName').attr('data-company', selectedCompany);
+                $('#getCompany').text(bankData.name);
+            }
+        });
     </script>
 {{--    <script>--}}
 {{--        $(document).ready(function() {--}}
@@ -838,8 +942,8 @@
 
     var savedRows = [];
     function addRow() {
-        if (isInvoiceSaved) {
-            alert('Bu qaimə saxlanıldıqdan sonra dəyişdirilə bilməz. Dəyişiklik etmək istəyirsinizsə, lütfən qaiməni kopyalayın.');
+        if (!isEditMode) {
+            alert('Redaktə modunu aktivləşdirin.');
             return;
         }
         // var selectElement = $('#input1');
@@ -972,8 +1076,8 @@
         setEditableContent(newRow3);
     }
     function setEditableContent(row) {
-        if (isInvoiceSaved) {
-            return; // Don't make editable if invoice is saved
+        if (!isEditMode) {
+            return; // Don't make editable if edit mode is not enabled
         }
         var cells = row.cells;
         for (var i = 0; i < cells.length; i++) {
@@ -988,7 +1092,7 @@
 
         // Enable editing only for new invoices
         // Use event delegation to handle dynamically added rows
-        if (!isInvoiceSaved) {
+        if (isEditMode) {
             $(document).on('input', '#table-body .count', function() {
                 var $cell = $(this);
                 var rowIndex = $cell.closest('tr').index();
@@ -1035,8 +1139,8 @@
         }
 
     function deleteRow(button) {
-        if (isInvoiceSaved) {
-            alert('Bu qaimə saxlanıldıqdan sonra dəyişdirilə bilməz. Dəyişiklik etmək istəyirsinizsə, lütfən qaiməni kopyalayın.');
+        if (!isEditMode) {
+            alert('Redaktə modunu aktivləşdirin.');
             return;
         }
         var row = $(button).closest('tr');
@@ -1065,8 +1169,8 @@
         calculateTotal();
     }
     function deleteOldRow(iteration) {
-        if (isInvoiceSaved) {
-            alert('Bu qaimə saxlanıldıqdan sonra dəyişdirilə bilməz. Dəyişiklik etmək istəyirsinizsə, lütfən qaiməni kopyalayın.');
+        if (!isEditMode) {
+            alert('Redaktə modunu aktivləşdirin.');
             return;
         }
         var row = $('[data-row="' + iteration + '"]').closest('tr');
@@ -1258,8 +1362,8 @@
     }
 
     function createInvoice() {
-        if (isInvoiceSaved) {
-            alert('Bu qaimə artıq saxlanılıb. Yeni qaimə yaratmaq üçün qaiməni kopyalayın.');
+        if (isInvoiceSaved && !isEditMode) {
+            alert('Bu qaimə imzalanıb və dəyişdirilə bilməz. Dəyişiklik etmək üçün qaiməni kopyalayın.');
             return;
         }
         
@@ -1299,30 +1403,42 @@
             alert('Ən azı bir xidmət əlavə edin.');
             return;
         }
+        
+        // Get selected company (bank account)
+        var selectedCompany = $('#bankAccountSelect').val() || $('#companyName').attr('data-company');
+        
         console.log(services)
         $.ajax({
             url: '/module/updateFinanceInvoice/{{ $data->id }}',
             type: 'POST',
             data: {
-                company: $('#companyName').attr('data-company'),
+                _token: '{{ csrf_token() }}',
+                company: selectedCompany,
                 client: $('#clientId').attr('data-id'),
-                invoiceNo: $('#invoiceNo').text(),
-                invoiceDate: $('#invoiceDate').text(),
-                paymentType: $('#paymentType').text(),
-                protocolDate: $('#protocolDate').text(),
-                contractNo: $('#contractNo').text(),
-                contractDate: $('#contractDate').text(),
-                invoiceNumbers: $('.invoiceNumbers').first().text(),
+                invoiceNo: $('#invoiceNo').text().trim(),
+                invoiceDate: $('#invoiceDate').text().trim(),
+                paymentType: $('#paymentType').text().trim(),
+                protocolDate: $('#protocolDate').text().trim(),
+                contractNo: $('#contractNo').text().trim(),
+                contractDate: $('#contractDate').text().trim(),
+                invoiceNumbers: $('.invoiceNumbers').first().text().trim(),
                 services: services,
             },
             success: function(response) {
                 console.log('Invoice yeniləndi:', response);
                 alert('Qaimə uğurla yadda saxlanıldı!');
-                // Eyni qaimə səhifəsini yenilə (yeni sətir yaranmır)
+                // Eyni qaimə səhifəsini yenilə
                 window.location.reload();
             },
-            error: function(error) {
-                console.log('Invoice yaratılırken hata oluştu:', error);
+            error: function(xhr) {
+                console.log('Invoice yenilənərkən xəta:', xhr);
+                var errorMsg = 'Xəta baş verdi.';
+                if (xhr.responseJSON && xhr.responseJSON.error) {
+                    errorMsg = xhr.responseJSON.error;
+                } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMsg = xhr.responseJSON.message;
+                }
+                alert(errorMsg);
             }
         });
     }

@@ -94,6 +94,13 @@ class FinanceClientController extends Controller
      */
     public function updateFinanceInvoice(Request $request, Invoice $invoice)
     {
+        // Check if invoice is signed - signed invoices cannot be edited
+        if ($invoice->is_signed == 1) {
+            return response()->json([
+                'error' => 'İmzalanmış qaimələr dəyişdirilə bilməz. Dəyişiklik etmək üçün qaiməni kopyalayın.'
+            ], 403);
+        }
+
         $data = $request->only([
             'company',
             'client',
@@ -134,7 +141,7 @@ class FinanceClientController extends Controller
         $tempInvoice = new Invoice($data);
         $data['total_amount'] = $tempInvoice->calculateTotalAmount();
 
-        // Update invoice directly in DB to bypass immutability updating hook
+        // Update invoice directly in DB to bypass immutability updating hook (since we already checked is_signed)
         DB::table('invoices')
             ->where('id', $invoice->id)
             ->update(array_merge($data, ['updated_at' => now()]));

@@ -24,17 +24,20 @@ class Invoice extends Model
     {
         parent::boot();
 
-        // Prevent updates to saved invoices (immutability)
+        // Prevent updates to signed invoices only (immutability)
         static::updating(function ($invoice) {
-            // Only allow updating is_signed flag (for signing invoices)
-            $allowedFields = ['is_signed', 'updated_at'];
-            $dirtyFields = array_keys($invoice->getDirty());
+            // If invoice is signed, only allow updating is_signed flag
+            if ($invoice->is_signed == 1) {
+                $allowedFields = ['is_signed', 'updated_at'];
+                $dirtyFields = array_keys($invoice->getDirty());
 
-            foreach ($dirtyFields as $field) {
-                if (!in_array($field, $allowedFields)) {
-                    throw new \Exception('Invoices are immutable after creation. Only the signature status can be changed. To modify an invoice, create a duplicate.');
+                foreach ($dirtyFields as $field) {
+                    if (!in_array($field, $allowedFields)) {
+                        throw new \Exception('İmzalanmış qaimələr dəyişdirilə bilməz. Yalnız imza statusu dəyişdirilə bilər. Dəyişiklik etmək üçün qaiməni kopyalayın.');
+                    }
                 }
             }
+            // If invoice is not signed, allow all updates
         });
 
         // Calculate and store total_amount on creation

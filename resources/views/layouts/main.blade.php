@@ -353,5 +353,10 @@
         })
     }
 </script>
+
+{{-- AI Assistant Component (only visible for authorized users) - Must be inside body before closing tag --}}
+@auth
+    <x-ai-assistant/>
+@endauth
 </body>
 </html>
