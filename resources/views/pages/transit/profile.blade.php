@@ -37,7 +37,7 @@
                                         animation: rotate 10s linear infinite;"></div>
                             <div style="position: relative; z-index: 1;">
                                 <small class="d-block mb-2" style="opacity: 0.9; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">
-                                    <i class="fas fa-wallet me-2"></i>Current Balance
+                                    <i class="fas fa-wallet me-2"></i>{{ __('transit.profile.current_balance') }}
                                 </small>
                                 <h2 class="mb-0 pulse-animation" style="font-weight: 800; text-shadow: 0 2px 10px rgba(0,0,0,0.2);">
                                     {{number_format(auth()->user()->getAttribute('balance') ?? 0, 2)}} <small style="font-size: 0.6em;">AZN</small>

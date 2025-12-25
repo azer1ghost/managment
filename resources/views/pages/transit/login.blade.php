@@ -110,12 +110,12 @@
 
                     <div class="mb-4">
                         <label class="form-label fw-bold" for="type">
-                            <i class="fas fa-user-tag text-primary"></i> Customer Type
+                            <i class="fas fa-user-tag text-primary"></i> {{ __('transit.form.customer_type') }}
                         </label>
                         <select class="form-select" id="type" name="type" required>
-                            <option value="">Select customer type</option>
-                            <option value="legal">Hüquqi (Legal Entity)</option>
-                            <option value="people">Fiziki (Individual)</option>
+                            <option value="">{{ __('transit.form.select_customer_type') }}</option>
+                            <option value="legal">{{ __('transit.form.legal') }}</option>
+                            <option value="people">{{ __('transit.form.individual') }}</option>
                         </select>
                     </div>
 
@@ -123,10 +123,10 @@
                     <div id="legalFields" style="display: none;">
                         <div class="mb-4">
                             <label class="form-label fw-bold" for="country">
-                                <i class="fas fa-globe text-primary"></i> Country
+                                <i class="fas fa-globe text-primary"></i> {{ __('transit.form.country') }}
                             </label>
                             <select class="form-select" name="country" id="country">
-                                <option value="">Select country</option>
+                                <option value="">{{ __('transit.form.select_country') }}</option>
                                 <option value="Azerbaijan">Azerbaijan</option>
                                 <option value="Turkey">Turkey</option>
                                 <option value="Georgia">Georgia</option>
@@ -137,73 +137,73 @@
 
                         <div class="mb-4" id="rekvizitField" style="display: none;">
                             <label class="form-label fw-bold" for="rekvisit">
-                                <i class="fas fa-file-contract text-primary"></i> Rekvizit
+                                <i class="fas fa-file-contract text-primary"></i> {{ __('transit.form.rekvizit') }}
                             </label>
                             <div class="file-upload-wrapper">
                                 <input type="file" name="rekvisit" id="rekvisit" class="form-control file-input" 
                                        accept=".pdf,.jpg,.jpeg,.png">
                                 <label for="rekvisit" class="file-upload-label">
                                     <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
-                                    <div class="file-name">Upload Rekvizit...</div>
-                                    <small class="text-muted">PDF, JPG, PNG (Max 10MB)</small>
+                                    <div class="file-name">{{ __('transit.document.choose_file') }}</div>
+                                    <small class="text-muted">{{ __('transit.document.file_types') }}</small>
                                 </label>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label fw-bold" for="voen">
-                                <i class="fas fa-id-card text-primary"></i> VOEN
+                                <i class="fas fa-id-card text-primary"></i> {{ __('transit.form.voen') }}
                             </label>
                             <input type="text" name="voen" id="voen" class="form-control" 
-                                   placeholder="Enter VOEN number">
+                                   placeholder="{{ __('transit.form.voen') }}">
                         </div>
                     </div>
 
                     <div class="mb-4">
                         <label class="form-label fw-bold" for="registerName">
-                            <i class="fas fa-user text-primary"></i> Full Name
+                            <i class="fas fa-user text-primary"></i> {{ __('transit.form.full_name') }}
                         </label>
                         <input type="text" name="name" id="registerName" class="form-control" 
-                               placeholder="Enter your full name" required>
+                               placeholder="{{ __('transit.form.full_name') }}" required>
                     </div>
 
                     <div class="mb-4">
                         <label class="form-label fw-bold" for="registerEmail">
-                            <i class="fas fa-envelope text-primary"></i> Email
+                            <i class="fas fa-envelope text-primary"></i> {{ __('transit.form.email') }}
                         </label>
                         <input type="email" name="email" id="registerEmail" class="form-control" 
-                               placeholder="Enter your email" required>
+                               placeholder="{{ __('transit.form.email') }}" required>
                     </div>
 
                     <div class="mb-4">
                         <label class="form-label fw-bold" for="registerPhone">
-                            <i class="fas fa-phone text-primary"></i> Phone Number
+                            <i class="fas fa-phone text-primary"></i> {{ __('transit.form.phone') }}
                         </label>
                         <input type="text" name="phone" id="registerPhone" class="form-control" 
-                               placeholder="Enter your phone number" required>
+                               placeholder="{{ __('transit.form.phone') }}" required>
                     </div>
 
                     <div class="mb-4">
                         <label class="form-label fw-bold" for="registerPassword">
-                            <i class="fas fa-lock text-primary"></i> Password
+                            <i class="fas fa-lock text-primary"></i> {{ __('transit.form.password') }}
                         </label>
                         <div class="input-group">
                             <input type="password" name="password" id="registerPassword" class="form-control" 
-                                   placeholder="Enter password" required minlength="8">
+                                   placeholder="{{ __('transit.form.password') }}" required minlength="8">
                             <button class="btn btn-outline-secondary" type="button" id="toggleRegisterPassword">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
-                        <small class="text-muted">Minimum 8 characters</small>
+                        <small class="text-muted">{{ __('transit.validation.min_password') }}</small>
                     </div>
 
                     <div class="mb-4">
                         <label class="form-label fw-bold" for="registerRepeatPassword">
-                            <i class="fas fa-lock text-primary"></i> Confirm Password
+                            <i class="fas fa-lock text-primary"></i> {{ __('transit.form.confirm_password') }}
                         </label>
                         <div class="input-group">
                             <input type="password" name="password_confirmation" id="registerRepeatPassword" 
-                                   class="form-control" placeholder="Confirm password" required>
+                                   class="form-control" placeholder="{{ __('transit.form.confirm_password') }}" required>
                             <button class="btn btn-outline-secondary" type="button" id="toggleRegisterRepeatPassword">
                                 <i class="fas fa-eye"></i>
                             </button>
@@ -213,20 +213,20 @@
                     <div class="form-check mb-4">
                         <input class="form-check-input" type="checkbox" value="1" id="registerCheck" required>
                         <label class="form-check-label" for="registerCheck">
-                            I have read and agree to the <a href="#" class="text-primary">terms and conditions</a>
+                            {{ __('transit.form.terms_agree') }} <a href="#" class="text-primary">{{ __('transit.form.terms_link') }}</a>
                         </label>
                     </div>
 
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="fas fa-user-plus"></i> Register
+                            <i class="fas fa-user-plus"></i> {{ __('transit.button.register') }}
                         </button>
                     </div>
 
                     <div class="text-center mt-4">
-                        <p class="text-muted">Already have an account? 
+                        <p class="text-muted">{{ __('transit.message.already_member') }} 
                             <a href="#" class="text-primary text-decoration-none" id="switchToLogin">
-                                Sign in
+                                {{ __('transit.message.sign_in') }}
                             </a>
                         </p>
                     </div>
@@ -350,13 +350,13 @@ $(document).ready(function() {
         
         if (password !== confirmPassword) {
             e.preventDefault();
-            alert('Passwords do not match!');
+            alert('{{ __('transit.validation.password_mismatch') }}');
             return false;
         }
 
         if (!$('#registerCheck').is(':checked')) {
             e.preventDefault();
-            alert('Please accept the terms and conditions to continue.');
+            alert('{{ __('transit.message.accept_terms') }}');
             return false;
         }
     });
