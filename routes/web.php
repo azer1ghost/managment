@@ -10,6 +10,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Main\AccountController,
     Main\PlatformController,
     Modules\AccessRateController,
+    Modules\AIController,
     Modules\AdvertisingController,
     Modules\AnnouncementController,
     Modules\AsanImzaController,
@@ -311,6 +312,9 @@ Route::group([
     Route::get('/invoices/{id}/restore',[FinanceClientController::class, 'restoreInvoice'] )->name('invoices.restore');
     Route::get('/invoices/{id}/force-delete',[FinanceClientController::class, 'forceDeleteInvoice'] )->name('invoices.force-delete');
     Route::post('/signInvoice',[FinanceClientController::class, 'signInvoice'] )->name('signInvoice');
+
+    // AI Agent - READ-ONLY analytical questions
+    Route::post('/ai/ask', [AIController::class, 'ask'])->name('ai.ask');
 
     Route::view('/instruction','pages.instructions.index' )->name('instruction');
     Route::view('/selectCompany-salary','pages.salaries.selectCompany' )->name('selectCompany-salary');

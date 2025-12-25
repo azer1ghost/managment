@@ -39,5 +39,9 @@ return [
     'open_weather' => [
         'key' => env('OPEN_WEATHER_KEY', 'null'),
         'url' => env('OPEN_WEATHER_URL', 'null'),
-    ]
+    ],
+
+    'openai' => [
+        'api_key' => env('OPENAI_API_KEY'),
+    ],
 ];
