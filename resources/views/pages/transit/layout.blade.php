@@ -351,52 +351,67 @@
         
         .language-selector-wrapper {
             position: relative;
-            z-index: 10;
+            z-index: 1000;
+            margin-bottom: 20px !important;
+            padding: 0 15px;
         }
         
         .language-selector {
-            min-width: 200px;
+            min-width: 220px;
+            max-width: 250px;
         }
         
         .language-select {
-            background: rgba(255, 255, 255, 0.95) !important;
+            background: rgba(255, 255, 255, 0.98) !important;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 2px solid rgba(102, 126, 234, 0.3) !important;
+            border: 2px solid rgba(102, 126, 234, 0.4) !important;
             border-radius: 15px !important;
-            padding: 12px 45px 12px 15px !important;
+            padding: 14px 50px 14px 18px !important;
             font-weight: 600;
-            font-size: 15px;
+            font-size: 16px;
             color: #333 !important;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2), 0 0 0 2px rgba(102, 126, 234, 0.1) inset;
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23667eea' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 12 12'%3E%3Cpath fill='%23667eea' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
             background-repeat: no-repeat !important;
-            background-position: right 15px center !important;
-            background-size: 12px !important;
+            background-position: right 18px center !important;
+            background-size: 14px !important;
+            width: 100%;
         }
         
         .language-select:hover {
-            border-color: rgba(102, 126, 234, 0.6) !important;
-            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
-            transform: translateY(-2px);
+            border-color: rgba(102, 126, 234, 0.7) !important;
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4),
+                        0 0 0 2px rgba(102, 126, 234, 0.2) inset;
+            transform: translateY(-3px);
+            background-color: rgba(255, 255, 255, 1) !important;
         }
         
         .language-select:focus {
             border-color: #667eea !important;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2),
-                        0 10px 40px rgba(102, 126, 234, 0.4) !important;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.25),
+                        0 15px 45px rgba(102, 126, 234, 0.5) !important;
             outline: none;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            background-color: rgba(255, 255, 255, 1) !important;
         }
         
         .language-select option {
-            padding: 10px;
+            padding: 12px 15px;
             background: white;
             color: #333;
             font-weight: 500;
+            font-size: 15px;
+        }
+        
+        .language-select option:checked {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
         }
         
         @media (max-width: 768px) {
@@ -409,11 +424,15 @@
             body::before, body::after {
                 display: none;
             }
+            .language-selector-wrapper {
+                padding: 0 10px;
+            }
             .language-selector {
-                min-width: 150px;
+                min-width: 180px;
+                max-width: 200px;
             }
             .language-select {
-                padding: 10px 40px 10px 12px !important;
+                padding: 12px 45px 12px 15px !important;
                 font-size: 14px;
             }
         }
@@ -425,28 +444,29 @@
 
 <body>
 <div class="transit-container">
-    <div class="text-center py-4">
-        <div class="d-flex justify-content-end mb-3 language-selector-wrapper">
-            <div class="language-selector">
-                <select id="languageSelect" class="form-select language-select" onchange="changeLanguage(this.value)">
-                    @foreach(config('app.locales') as $locale => $name)
-                        <option value="{{ $locale }}" 
-                                data-flag="{{ $locale == 'en' ? 'gb' : $locale }}"
-                                @if(app()->getLocale() == $locale) selected @endif>
-                            @if($locale == 'az')
-                                🇦🇿 Azərbaycan
-                            @elseif($locale == 'en')
-                                🇬🇧 English
-                            @elseif($locale == 'ru')
-                                🇷🇺 Русский
-                            @elseif($locale == 'tr')
-                                🇹🇷 Türkçe
-                            @endif
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+    <!-- Language Selector - Top Right -->
+    <div class="language-selector-wrapper">
+        <div class="language-selector">
+            <select id="languageSelect" class="form-select language-select" onchange="changeLanguage(this.value)" title="Select Language">
+                @foreach(config('app.locales') as $locale => $name)
+                    <option value="{{ $locale }}" 
+                            @if(app()->getLocale() == $locale) selected @endif>
+                        @if($locale == 'az')
+                            🇦🇿 Azərbaycan
+                        @elseif($locale == 'en')
+                            🇬🇧 English
+                        @elseif($locale == 'ru')
+                            🇷🇺 Русский
+                        @elseif($locale == 'tr')
+                            🇹🇷 Türkçe
+                        @endif
+                    </option>
+                @endforeach
+            </select>
         </div>
+    </div>
+    
+    <div class="text-center py-4">
         <img src="{{asset('assets/images/logomb.png')}}" alt="Logo" class="transit-logo">
         @yield('content')
     </div>
