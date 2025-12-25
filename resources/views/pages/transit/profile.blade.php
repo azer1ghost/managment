@@ -7,11 +7,17 @@
     <div class="col-md-4 mb-4">
         <div class="transit-card">
             <div class="card-body text-center">
-                <div class="d-flex flex-column align-items-center">
-                    <div class="profile-avatar mb-3">
-                        <img src="{{asset('assets/images/diamond-green.png')}}" alt="Profile" 
-                             class="rounded-circle" width="150" height="150" style="object-fit: cover;">
-                    </div>
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="profile-avatar mb-3 position-relative">
+                            <div class="avatar-ring"></div>
+                            <img src="{{asset('assets/images/diamond-green.png')}}" alt="Profile" 
+                                 class="rounded-circle pulse-animation" width="150" height="150" 
+                                 style="object-fit: cover; border: 5px solid rgba(102, 126, 234, 0.3); 
+                                        box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);">
+                            <div class="avatar-badge">
+                                <i class="fas fa-check-circle text-success"></i>
+                            </div>
+                        </div>
                     <div class="mt-3">
                         <h4 class="mb-1">{{auth()->user()->getFullnameAttribute()}}</h4>
                         <p class="text-secondary mb-1">
@@ -20,9 +26,23 @@
                         <p class="text-muted mb-3">
                             <i class="fas fa-envelope"></i> {{auth()->user()->getAttribute('email')}}
                         </p>
-                        <div class="balance-card p-3 rounded mb-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-                            <small class="d-block mb-1">Current Balance</small>
-                            <h3 class="mb-0">{{number_format(auth()->user()->getAttribute('balance') ?? 0, 2)}} AZN</h3>
+                        <div class="balance-card p-4 rounded mb-3 glow" 
+                             style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                                    color: white; 
+                                    box-shadow: 0 15px 50px rgba(102, 126, 234, 0.5);
+                                    position: relative;
+                                    overflow: hidden;">
+                            <div style="position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; 
+                                        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+                                        animation: rotate 10s linear infinite;"></div>
+                            <div style="position: relative; z-index: 1;">
+                                <small class="d-block mb-2" style="opacity: 0.9; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">
+                                    <i class="fas fa-wallet me-2"></i>Current Balance
+                                </small>
+                                <h2 class="mb-0 pulse-animation" style="font-weight: 800; text-shadow: 0 2px 10px rgba(0,0,0,0.2);">
+                                    {{number_format(auth()->user()->getAttribute('balance') ?? 0, 2)}} <small style="font-size: 0.6em;">AZN</small>
+                                </h2>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -121,10 +141,22 @@
                             <h4 class="mb-0"><i class="fas fa-wallet text-primary"></i> Balance</h4>
                         </div>
 
-                        <div class="balance-display text-center p-5 mb-4 rounded" 
-                             style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-                            <h6 class="mb-3">Current Balance</h6>
-                            <h1 class="display-4 mb-0">{{number_format(auth()->user()->getAttribute('balance') ?? 0, 2)}} AZN</h1>
+                        <div class="balance-display text-center p-5 mb-4 rounded glow" 
+                             style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                                    color: white;
+                                    position: relative;
+                                    overflow: hidden;">
+                            <div style="position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; 
+                                        background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+                                        animation: rotate 15s linear infinite;"></div>
+                            <div style="position: relative; z-index: 1;">
+                                <h6 class="mb-3" style="opacity: 0.9; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;">
+                                    <i class="fas fa-wallet me-2"></i>Current Balance
+                                </h6>
+                                <h1 class="display-4 mb-0 pulse-animation" style="font-weight: 900; text-shadow: 0 5px 20px rgba(0,0,0,0.3);">
+                                    {{number_format(auth()->user()->getAttribute('balance') ?? 0, 2)}} <small style="font-size: 0.5em;">AZN</small>
+                                </h1>
+                            </div>
                         </div>
 
                         <div class="text-center">
@@ -274,10 +306,65 @@ $(document).ready(function() {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
 }
+.table-hover tbody tr {
+    transition: all 0.3s ease;
+}
 .table-hover tbody tr:hover {
-    background: #f8f9fa;
-    transform: scale(1.01);
-    transition: all 0.2s ease;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%) !important;
+    transform: translateX(10px) scale(1.02);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+}
+
+.avatar-ring {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border: 3px solid transparent;
+    border-top-color: #667eea;
+    border-right-color: #764ba2;
+    border-radius: 50%;
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.avatar-badge {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: white;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.badge {
+    transition: all 0.3s ease;
+}
+
+.badge:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5);
 }
 </style>
 @endsection

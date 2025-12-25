@@ -35,16 +35,33 @@
                  aria-labelledby="tab-transit">
                 <form id="transitForm" action="{{ route('order.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <div class="text-center mb-4">
-                        <h2 class="mb-2" style="color: #667eea; font-weight: 600;">WEB TRANSIT</h2>
-                        <p class="text-muted">Upload your CMR and Invoice documents</p>
+                    <div class="text-center mb-5">
+                        <div class="mb-3">
+                            <i class="fas fa-truck fa-4x text-primary pulse-animation" style="filter: drop-shadow(0 5px 15px rgba(102, 126, 234, 0.5));"></i>
+                        </div>
+                        <h2 class="mb-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; font-size: 2.5rem; text-shadow: 0 0 30px rgba(102, 126, 234, 0.3);">
+                            WEB TRANSIT
+                        </h2>
+                        <p class="text-muted fs-5">Upload your CMR and Invoice documents</p>
+                        <div class="progress-bar-wrapper mt-3" style="max-width: 300px; margin: 0 auto;">
+                            <div class="progress" style="height: 4px; background: rgba(102, 126, 234, 0.2); border-radius: 10px;">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                     role="progressbar" 
+                                     style="width: 0%; background: linear-gradient(90deg, #667eea, #764ba2);"
+                                     id="uploadProgress"></div>
+                            </div>
+                        </div>
                     </div>
 
                     <div id="transitDocuments" class="transit-documents">
-                        <div class="document-row mb-4 p-3 border rounded" data-row="0">
+                        <div class="document-row mb-4 p-4 border rounded" data-row="0" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%); border: 2px solid rgba(102, 126, 234, 0.2) !important; transition: all 0.3s ease;">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="mb-0 text-primary">Document Set #1</h5>
-                                <span class="badge bg-secondary">Required</span>
+                                <h5 class="mb-0" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700;">
+                                    <i class="fas fa-file-alt me-2"></i>Document Set #1
+                                </h5>
+                                <span class="badge" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 8px 15px; border-radius: 20px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);">
+                                    <i class="fas fa-star me-1"></i>Required
+                                </span>
                             </div>
                             
                             <div class="row">
@@ -81,11 +98,13 @@
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <button type="button" class="btn btn-outline-primary" id="addDocumentRow">
-                            <i class="fas fa-plus"></i> Add More Documents
+                    <div class="d-flex justify-content-between align-items-center mb-4 p-3 rounded" style="background: rgba(102, 126, 234, 0.1); border: 2px dashed rgba(102, 126, 234, 0.3);">
+                        <button type="button" class="btn btn-primary" id="addDocumentRow" style="box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);">
+                            <i class="fas fa-plus-circle me-2"></i> Add More Documents
                         </button>
-                        <span class="text-muted" id="documentCount">1 document set</span>
+                        <span class="badge badge-lg" id="documentCount" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 10px 20px; border-radius: 25px; font-size: 14px; font-weight: 600;">
+                            <i class="fas fa-folder-open me-2"></i><span id="countText">1 document set</span>
+                        </span>
                     </div>
 
                     <div class="alert alert-info d-none" id="formAlert">
@@ -100,8 +119,9 @@
                     </div>
 
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-warning btn-lg" id="submitBtn">
-                            <i class="fas fa-credit-card"></i> Proceed to Payment
+                        <button type="submit" class="btn btn-warning btn-lg pulse-animation" id="submitBtn" style="font-size: 18px; padding: 20px; box-shadow: 0 10px 40px rgba(245, 87, 108, 0.5);">
+                            <i class="fas fa-credit-card me-2"></i> Proceed to Payment
+                            <i class="fas fa-arrow-right ms-2"></i>
                         </button>
                     </div>
 
@@ -197,18 +217,30 @@ $(document).ready(function() {
             return;
         }
 
-        label.find('.file-name').text(fileName);
+        // Animate file upload
+        label.find('.file-name').html('<i class="fas fa-check-circle text-success me-2"></i>' + fileName);
         label.addClass('has-file');
+        
+        // Add success animation
+        label.css('transform', 'scale(1.05)');
+        setTimeout(() => {
+            label.css('transform', 'scale(1)');
+        }, 300);
+        
+        // Update progress bar
+        updateProgressBar();
     });
 
     // Add new document row
     $('#addDocumentRow').on('click', function() {
         const newRow = `
-            <div class="document-row mb-4 p-3 border rounded" data-row="${rowCount}">
+            <div class="document-row mb-4 p-4 border rounded" data-row="${rowCount}" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%); border: 2px solid rgba(102, 126, 234, 0.2) !important; opacity: 0; transform: translateY(20px);">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="mb-0 text-primary">Document Set #${rowCount + 1}</h5>
-                    <button type="button" class="btn btn-sm btn-danger remove-row">
-                        <i class="fas fa-trash"></i> Remove
+                    <h5 class="mb-0" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700;">
+                        <i class="fas fa-file-alt me-2"></i>Document Set #${rowCount + 1}
+                    </h5>
+                    <button type="button" class="btn btn-sm btn-danger remove-row" style="box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);">
+                        <i class="fas fa-trash me-1"></i> Remove
                     </button>
                 </div>
                 <div class="row">
@@ -243,9 +275,26 @@ $(document).ready(function() {
                 </div>
             </div>
         `;
-        $('#transitDocuments').append(newRow);
+        const $newRow = $(newRow);
+        $('#transitDocuments').append($newRow);
+        
+        // Animate in
+        setTimeout(() => {
+            $newRow.css({
+                'opacity': '1',
+                'transform': 'translateY(0)',
+                'transition': 'all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)'
+            });
+        }, 10);
+        
         rowCount++;
         updateDocumentCount();
+        
+        // Button animation
+        $(this).css('transform', 'scale(0.95)');
+        setTimeout(() => {
+            $(this).css('transform', 'scale(1)');
+        }, 200);
     });
 
     // Remove document row
@@ -259,16 +308,56 @@ $(document).ready(function() {
     // Update document count
     function updateDocumentCount() {
         const count = $('.document-row').length;
-        $('#documentCount').text(count + ' document set' + (count > 1 ? 's' : ''));
+        $('#countText').text(count + ' document set' + (count > 1 ? 's' : ''));
+        
+        // Animate badge
+        $('#documentCount').css('transform', 'scale(1.1)');
+        setTimeout(() => {
+            $('#documentCount').css('transform', 'scale(1)');
+        }, 200);
+    }
+    
+    // Update progress bar
+    function updateProgressBar() {
+        const totalInputs = $('.file-input').length;
+        const filledInputs = $('.file-input').filter(function() {
+            return $(this).val() !== '';
+        }).length;
+        const percentage = (filledInputs / (totalInputs * 2)) * 100; // Each row has 2 inputs
+        
+        $('#uploadProgress').css('width', percentage + '%');
+        
+        if (percentage === 100) {
+            $('#uploadProgress').addClass('glow');
+        }
     }
 
     // Show alert
     function showAlert(message, type = 'info') {
         const alert = $('#formAlert');
         alert.removeClass('d-none alert-info alert-danger alert-success')
-             .addClass('alert-' + type);
-        $('#alertMessage').text(message);
-        setTimeout(() => alert.fadeOut(), 5000);
+             .addClass('alert-' + type)
+             .css({
+                 'opacity': '0',
+                 'transform': 'translateY(-20px)'
+             });
+        $('#alertMessage').html('<i class="fas fa-' + (type === 'danger' ? 'exclamation-triangle' : 'info-circle') + ' me-2"></i>' + message);
+        
+        setTimeout(() => {
+            alert.css({
+                'opacity': '1',
+                'transform': 'translateY(0)',
+                'transition': 'all 0.3s ease'
+            });
+        }, 10);
+        
+        setTimeout(() => {
+            alert.css({
+                'opacity': '0',
+                'transform': 'translateY(-20px)'
+            });
+            setTimeout(() => alert.addClass('d-none'), 300);
+        }, 5000);
     }
 
     // Form validation
@@ -297,12 +386,28 @@ $(document).ready(function() {
 
 <style>
 .document-row {
-    background: #f8f9fa;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    position: relative;
+    overflow: hidden;
+}
+.document-row::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+    transition: left 0.5s;
+}
+.document-row:hover::before {
+    left: 100%;
 }
 .document-row:hover {
-    background: #ffffff;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%) !important;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3) !important;
+    transform: translateY(-5px) scale(1.02);
+    border-color: rgba(102, 126, 234, 0.5) !important;
 }
 .file-upload-wrapper {
     position: relative;
@@ -343,10 +448,25 @@ $(document).ready(function() {
     margin-top: 10px;
 }
 .social-links a {
-    transition: transform 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    display: inline-block;
 }
 .social-links a:hover {
-    transform: translateY(-5px);
+    transform: translateY(-10px) scale(1.2) rotate(5deg);
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+}
+.progress-bar-wrapper {
+    animation: fadeInUp 0.6s ease-out;
+}
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 </style>
 @endsection

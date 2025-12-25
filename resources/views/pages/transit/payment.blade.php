@@ -7,14 +7,41 @@
     <div class="col-lg-8">
         <div class="transit-card">
             <div class="p-4">
-                <div class="text-center mb-4">
-                    <i class="fas fa-credit-card fa-3x text-primary mb-3"></i>
-                    <h3 class="mb-2">Order Payment</h3>
-                    <p class="text-muted">Complete your payment to proceed</p>
+                <div class="text-center mb-5">
+                    <div class="mb-3">
+                        <i class="fas fa-credit-card fa-5x text-primary pulse-animation" 
+                           style="filter: drop-shadow(0 5px 20px rgba(102, 126, 234, 0.5)); 
+                                  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                  -webkit-background-clip: text;
+                                  -webkit-text-fill-color: transparent;"></i>
+                    </div>
+                    <h3 class="mb-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                                           -webkit-background-clip: text; 
+                                           -webkit-text-fill-color: transparent; 
+                                           font-weight: 800; 
+                                           font-size: 2.5rem;">
+                        Order Payment
+                    </h3>
+                    <p class="text-muted fs-5">Complete your payment to proceed</p>
                 </div>
 
-                <div class="order-summary mb-4 p-4 rounded" style="background: #f8f9fa;">
-                    <h5 class="mb-4"><i class="fas fa-receipt text-primary"></i> Order Summary</h5>
+                <div class="order-summary mb-4 p-4 rounded" 
+                     style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+                            border: 2px solid rgba(102, 126, 234, 0.2);
+                            position: relative;
+                            overflow: hidden;">
+                    <div style="position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; 
+                                background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+                                animation: rotate 20s linear infinite;"></div>
+                    <h5 class="mb-4" style="position: relative; z-index: 1;">
+                        <i class="fas fa-receipt text-primary me-2"></i> 
+                        <span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                                    -webkit-background-clip: text; 
+                                    -webkit-text-fill-color: transparent; 
+                                    font-weight: 700;">
+                            Order Summary
+                        </span>
+                    </h5>
                     
                     <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
                         <div>
@@ -42,11 +69,16 @@
 
                     <hr>
 
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Total Amount</h5>
-                        <h4 class="mb-0 text-primary">
+                    <div class="d-flex justify-content-between align-items-center" style="position: relative; z-index: 1;">
+                        <h5 class="mb-0" style="font-weight: 700;">Total Amount</h5>
+                        <h3 class="mb-0 pulse-animation" 
+                            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                                   -webkit-background-clip: text; 
+                                   -webkit-text-fill-color: transparent; 
+                                   font-weight: 900;
+                                   text-shadow: 0 0 30px rgba(102, 126, 234, 0.3);">
                             <strong>{{number_format($order->getAttribute('amount'), 2)}} AZN</strong>
-                        </h4>
+                        </h3>
                     </div>
                 </div>
 
@@ -85,25 +117,37 @@
                     </div>
                 </div>
 
-                <div class="contact-info p-4 rounded mb-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-                    <h5 class="mb-3"><i class="fas fa-headset"></i> Need Help?</h5>
-                    <div class="row text-center">
+                <div class="contact-info p-4 rounded mb-4 glow" 
+                     style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                            color: white;
+                            position: relative;
+                            overflow: hidden;">
+                    <div style="position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; 
+                                background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+                                animation: rotate 15s linear infinite;"></div>
+                    <h5 class="mb-3" style="position: relative; z-index: 1;">
+                        <i class="fas fa-headset me-2"></i> Need Help?
+                    </h5>
+                    <div class="row text-center" style="position: relative; z-index: 1;">
                         <div class="col-md-4 mb-3">
-                            <a href="tel:+994513339090" class="text-white text-decoration-none">
-                                <i class="fas fa-phone fa-2x mb-2"></i>
-                                <div>+994 51 333 90 90</div>
+                            <a href="tel:+994513339090" class="text-white text-decoration-none contact-item" 
+                               style="display: block; padding: 15px; border-radius: 15px; transition: all 0.3s ease;">
+                                <i class="fas fa-phone fa-2x mb-2 pulse-animation"></i>
+                                <div style="font-weight: 600;">+994 51 333 90 90</div>
                             </a>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <a href="mailto:info@mobilbroker.az" class="text-white text-decoration-none">
-                                <i class="fas fa-envelope fa-2x mb-2"></i>
-                                <div>info@mobilbroker.az</div>
+                            <a href="mailto:info@mobilbroker.az" class="text-white text-decoration-none contact-item"
+                               style="display: block; padding: 15px; border-radius: 15px; transition: all 0.3s ease;">
+                                <i class="fas fa-envelope fa-2x mb-2 pulse-animation"></i>
+                                <div style="font-weight: 600;">info@mobilbroker.az</div>
                             </a>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <a href="tel:9090" class="text-white text-decoration-none">
-                                <i class="fas fa-phone-office fa-2x mb-2"></i>
-                                <div>*9090</div>
+                            <a href="tel:9090" class="text-white text-decoration-none contact-item"
+                               style="display: block; padding: 15px; border-radius: 15px; transition: all 0.3s ease;">
+                                <i class="fas fa-phone-office fa-2x mb-2 pulse-animation"></i>
+                                <div style="font-weight: 600;">*9090</div>
                             </a>
                         </div>
                     </div>
@@ -157,12 +201,18 @@ $(document).ready(function() {
 .payment-method-btn:active {
     transform: translateY(0);
 }
-.contact-info a {
-    transition: all 0.3s ease;
+.contact-item {
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
-.contact-info a:hover {
-    opacity: 0.8;
-    transform: translateY(-3px);
+.contact-item:hover {
+    background: rgba(255,255,255,0.2) !important;
+    transform: translateY(-10px) scale(1.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 </style>
 @endsection

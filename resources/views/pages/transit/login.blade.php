@@ -23,8 +23,17 @@
         <div class="tab-content">
             <!-- Login Tab -->
             <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
+                <div class="text-center mb-4">
+                    <div class="mb-3">
+                        <i class="fas fa-user-circle fa-5x text-primary pulse-animation" style="filter: drop-shadow(0 5px 20px rgba(102, 126, 234, 0.5));"></i>
+                    </div>
+                    <h3 style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800;">
+                        Welcome Back!
+                    </h3>
+                </div>
+                
                 @if($errors->any())
-                    <div class="alert alert-danger">
+                    <div class="alert alert-danger" style="border-radius: 15px; border-left: 5px solid #dc3545; animation: shake 0.5s;">
                         <i class="fas fa-exclamation-circle"></i>
                         <ul class="mb-0">
                             @foreach($errors->all() as $error)
@@ -37,21 +46,27 @@
                 <form action="{{ route('login') }}" method="POST" id="loginForm">
                     @csrf
                     <div class="mb-4">
-                        <label class="form-label fw-bold" for="loginName">
-                            <i class="fas fa-envelope text-primary"></i> Email or Username
+                        <label class="form-label fw-bold" for="loginName" style="font-size: 16px;">
+                            <i class="fas fa-envelope text-primary me-2"></i> Email or Username
                         </label>
-                        <input type="email" name="login" id="loginName" class="form-control" 
-                               placeholder="Enter your email or username" required autofocus>
+                        <div class="input-group-icon">
+                            <input type="email" name="login" id="loginName" class="form-control" 
+                                   placeholder="Enter your email or username" required autofocus
+                                   style="padding-left: 50px;">
+                            <i class="fas fa-envelope input-icon"></i>
+                        </div>
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label fw-bold" for="loginPassword">
-                            <i class="fas fa-lock text-primary"></i> Password
+                        <label class="form-label fw-bold" for="loginPassword" style="font-size: 16px;">
+                            <i class="fas fa-lock text-primary me-2"></i> Password
                         </label>
-                        <div class="input-group">
+                        <div class="input-group-icon">
                             <input type="password" name="password" id="loginPassword" class="form-control" 
-                                   placeholder="Enter your password" required>
-                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                   placeholder="Enter your password" required
+                                   style="padding-left: 50px; padding-right: 50px;">
+                            <i class="fas fa-lock input-icon"></i>
+                            <button class="btn btn-link password-toggle" type="button" id="togglePassword" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); z-index: 10; color: #667eea;">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
@@ -349,6 +364,41 @@ $(document).ready(function() {
 </script>
 
 <style>
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+.input-group-icon {
+    position: relative;
+}
+
+.input-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #667eea;
+    z-index: 5;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus ~ .input-icon {
+    color: #764ba2;
+    transform: translateY(-50%) scale(1.2);
+}
+
+.password-toggle {
+    background: transparent !important;
+    border: none !important;
+}
+
+.password-toggle:hover {
+    color: #764ba2 !important;
+    transform: translateY(-50%) scale(1.1);
+}
+
 .file-upload-wrapper {
     position: relative;
 }
@@ -362,30 +412,69 @@ $(document).ready(function() {
 }
 .file-upload-label {
     display: block;
-    padding: 20px;
-    background: #f8f9fa;
-    border: 2px dashed #dee2e6;
-    border-radius: 10px;
+    padding: 30px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    border: 3px dashed rgba(102, 126, 234, 0.5);
+    border-radius: 20px;
     text-align: center;
     cursor: pointer;
-    transition: all 0.3s ease;
-    min-height: 120px;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    min-height: 150px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
+    overflow: hidden;
 }
+
+.file-upload-label::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+    transform: rotate(45deg);
+    transition: all 0.6s;
+}
+
+.file-upload-label:hover::before {
+    animation: shine 1.5s infinite;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
 .file-upload-label:hover {
-    background: #e9ecef;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
     border-color: #667eea;
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
 }
 .file-upload-label.has-file {
-    background: #d4edda;
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.2) 0%, rgba(40, 167, 69, 0.1) 100%);
     border-color: #28a745;
+    border-style: solid;
 }
 .file-name {
-    font-weight: 500;
+    font-weight: 600;
     margin-top: 10px;
+    font-size: 15px;
+}
+
+.form-check-input:checked {
+    background-color: #667eea;
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.form-check-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
 }
 </style>
 @endsection
