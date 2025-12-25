@@ -349,39 +349,48 @@
                         0 0 60px rgba(102, 126, 234, 0.1);
         }
         
-        .language-selector-wrapper {
-            position: relative;
-            z-index: 1000;
-            margin-bottom: 20px !important;
-            padding: 0 15px;
+        .language-selector-wrapper-fixed {
+            position: fixed !important;
+            top: 20px !important;
+            right: 20px !important;
+            z-index: 99999 !important;
+            padding: 0 !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
         
         .language-selector {
-            min-width: 220px;
-            max-width: 250px;
+            min-width: 220px !important;
+            max-width: 250px !important;
+            margin-left: auto !important;
+            display: block !important;
         }
         
         .language-select {
             background: rgba(255, 255, 255, 0.98) !important;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
             border: 2px solid rgba(102, 126, 234, 0.4) !important;
             border-radius: 15px !important;
             padding: 14px 50px 14px 18px !important;
-            font-weight: 600;
-            font-size: 16px;
+            font-weight: 600 !important;
+            font-size: 16px !important;
             color: #333 !important;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2), 0 0 0 2px rgba(102, 126, 234, 0.1) inset;
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
+            cursor: pointer !important;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2), 0 0 0 2px rgba(102, 126, 234, 0.1) inset !important;
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 12 12'%3E%3Cpath fill='%23667eea' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
             background-repeat: no-repeat !important;
             background-position: right 18px center !important;
             background-size: 14px !important;
-            width: 100%;
+            width: 100% !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
         
         .language-select:hover {
@@ -424,8 +433,9 @@
             body::before, body::after {
                 display: none;
             }
-            .language-selector-wrapper {
-                padding: 0 10px;
+            .language-selector-wrapper-fixed {
+                top: 10px;
+                right: 10px;
             }
             .language-selector {
                 min-width: 180px;
@@ -443,29 +453,29 @@
 </head>
 
 <body>
-<div class="transit-container">
-    <!-- Language Selector - Top Right -->
-    <div class="language-selector-wrapper">
-        <div class="language-selector">
-            <select id="languageSelect" class="form-select language-select" onchange="changeLanguage(this.value)" title="Select Language">
-                @foreach(config('app.locales') as $locale => $name)
-                    <option value="{{ $locale }}" 
-                            @if(app()->getLocale() == $locale) selected @endif>
-                        @if($locale == 'az')
-                            🇦🇿 Azərbaycan
-                        @elseif($locale == 'en')
-                            🇬🇧 English
-                        @elseif($locale == 'ru')
-                            🇷🇺 Русский
-                        @elseif($locale == 'tr')
-                            🇹🇷 Türkçe
-                        @endif
-                    </option>
-                @endforeach
-            </select>
-        </div>
+<!-- Language Selector - Fixed Top Right -->
+<div class="language-selector-wrapper-fixed">
+    <div class="language-selector">
+        <select id="languageSelect" class="form-select language-select" onchange="changeLanguage(this.value)" title="Select Language">
+            @foreach(config('app.locales') as $locale => $name)
+                <option value="{{ $locale }}" 
+                        @if(app()->getLocale() == $locale) selected @endif>
+                    @if($locale == 'az')
+                        🇦🇿 Azərbaycan
+                    @elseif($locale == 'en')
+                        🇬🇧 English
+                    @elseif($locale == 'ru')
+                        🇷🇺 Русский
+                    @elseif($locale == 'tr')
+                        🇹🇷 Türkçe
+                    @endif
+                </option>
+            @endforeach
+        </select>
     </div>
-    
+</div>
+
+<div class="transit-container">
     <div class="text-center py-4">
         <img src="{{asset('assets/images/logomb.png')}}" alt="Logo" class="transit-logo">
         @yield('content')
