@@ -3,12 +3,12 @@
 @section('title', __('transit.title') . ' | ' . __('transit.services'))
 
 @section('content')
-<div class="transit-card">uihjnjn
+<div class="transit-card">
     <div class="p-4">
         @auth()
         <div class="d-flex justify-content-end mb-3">
             <a href="{{route('profile.index')}}" class="btn btn-outline-primary btn-sm">
-                <i class="fas fa-user"></i> {{ __('transit.nav.account') }}
+                <i class="fas fa-user"></i> {{ __('transit.nav.account') }}asdsadasd
             </a>
         </div>
         @endauth
