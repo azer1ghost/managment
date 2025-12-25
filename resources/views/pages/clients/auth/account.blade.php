@@ -140,56 +140,61 @@
                                                             <div class="transit">
                                                                 <div id="row">
                                                                     <div class="form-outline mb-4">
-                                                                        <label class="form-label" for="transitCmr">CMR</label>
-                                                                        <div class="input-group mb-4">
-                                                                            <div class="input-group-prepend">
-                                                                                <span class="input-group-text" id="cmr">Upload</span>
-                                                                            </div>
-                                                                            <div class="custom-file">
-                                                                                <input type="file" name="cmr[]" class="custom-file-input" id=cmr" aria-describedby="inputGroupFileAddon01">
-                                                                                <label class="custom-file-label" for="cmr">Upload Files</label>
-                                                                            </div>
+                                                                        <label class="form-label fw-bold" for="transitCmr">
+                                                                            <i class="fas fa-file-pdf text-danger"></i> CMR
+                                                                        </label>
+                                                                        <div class="file-upload-wrapper">
+                                                                            <input type="file" name="cmr[]" class="form-control file-input" 
+                                                                                   id="transitCmr" accept=".pdf,.jpg,.jpeg,.png" required>
+                                                                            <label for="transitCmr" class="file-upload-label">
+                                                                                <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
+                                                                                <div class="file-name">Choose File</div>
+                                                                                <small class="text-muted">PDF, JPG, PNG</small>
+                                                                            </label>
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="form-outline mb-4">
-                                                                        <label class="form-label" for="transitInv">İNVOYS</label>
-                                                                        <div class="input-group mb-4">
-                                                                            <div class="input-group-prepend">
-                                                                                <span class="input-group-text" id="invoice">Upload</span>
-                                                                            </div>
-                                                                            <div class="custom-file">
-                                                                                <input type="file" name="invoice[]" class="custom-file-input" id="invoice"
-                                                                                       aria-describedby="inputGroupFileAddon01">
-                                                                                <label class="custom-file-label" for="invoice">Upload Files</label>
-                                                                            </div>
+                                                                        <label class="form-label fw-bold" for="transitInv">
+                                                                            <i class="fas fa-file-invoice text-success"></i> İNVOYS
+                                                                        </label>
+                                                                        <div class="file-upload-wrapper">
+                                                                            <input type="file" name="invoice[]" class="form-control file-input" 
+                                                                                   id="transitInv" accept=".pdf,.jpg,.jpeg,.png" required>
+                                                                            <label for="transitInv" class="file-upload-label">
+                                                                                <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
+                                                                                <div class="file-name">Choose File</div>
+                                                                                <small class="text-muted">PDF, JPG, PNG</small>
+                                                                            </label>
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="form-outline mb-4">
-                                                                        <label class="form-label" for="transitPack">Packing List</label>
-                                                                        <div class="input-group mb-4">
-                                                                            <div class="input-group-prepend">
-                                                                                <span class="input-group-text" id="packing">Upload</span>
-                                                                            </div>
-                                                                            <div class="custom-file">
-                                                                                <input type="file" name="packing[]" class="custom-file-input" id="packing"
-                                                                                       aria-describedby="inputGroupFileAddon01">
-                                                                                <label class="custom-file-label" for="packing">Upload Files</label>
-                                                                            </div>
+                                                                        <label class="form-label fw-bold" for="transitPack">
+                                                                            <i class="fas fa-box text-info"></i> Packing List
+                                                                        </label>
+                                                                        <div class="file-upload-wrapper">
+                                                                            <input type="file" name="packing[]" class="form-control file-input" 
+                                                                                   id="transitPack" accept=".pdf,.jpg,.jpeg,.png">
+                                                                            <label for="transitPack" class="file-upload-label">
+                                                                                <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
+                                                                                <div class="file-name">Choose File</div>
+                                                                                <small class="text-muted">PDF, JPG, PNG</small>
+                                                                            </label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-outline mb-4">
-                                                                        <label class="form-label" for="transitOther">Other Documents</label>
-                                                                        <div class="input-group mb-4">
-                                                                            <div class="input-group-prepend">
-                                                                                <span class="input-group-text" id="other">Upload</span>
-                                                                            </div>
-                                                                            <div class="custom-file">
-                                                                                <input type="file" name="other[]" class="custom-file-input" id="other"
-                                                                                       aria-describedby="inputGroupFileAddon01">
-                                                                                <label class="custom-file-label" for="other">Upload Files</label>
-                                                                            </div>
+                                                                        <label class="form-label fw-bold" for="transitOther">
+                                                                            <i class="fas fa-file-alt text-warning"></i> Other Documents
+                                                                        </label>
+                                                                        <div class="file-upload-wrapper">
+                                                                            <input type="file" name="other[]" class="form-control file-input" 
+                                                                                   id="transitOther" accept=".pdf,.jpg,.jpeg,.png">
+                                                                            <label for="transitOther" class="file-upload-label">
+                                                                                <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
+                                                                                <div class="file-name">Choose File</div>
+                                                                                <small class="text-muted">PDF, JPG, PNG</small>
+                                                                            </label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -327,12 +332,97 @@
         });
         $(document).ready(function () {
 
+            let rowCount = 0;
             $(".addButton").click(function () {
-                $(".transit").append("<div> <div id='row''> <div class='form-outline mb-4'> <label class='form-label' for='transitCmr'>CMR</label> <div class='input-group mb-4'> <div class='input-group-prepend'> <span class='input-group-text' id='cmr'>Yüklə</span> </div> <div class='custom-file'> <input type='file' name='cmr[]' class='custom-file-input' id=cmr'aria-describedby='inputGroupFileAddon01'><label class='custom-file-label' for='cmr'>Upload Files</label> </div> </div> </div>    <div class='form-outline mb-4'> <label class='form-label' for='transitInv'>İNVOYS</label> <div class='input-group mb-4'> <div class='input-group-prepend'> <span class='input-group-text' id='invoys'>Yüklə</span> </div> <div class='custom-file'> <input type='file' name='invoice[]' class='custom-file-input' id='invoys'aria-describedby='inputGroupFileAddon01'> <label class='custom-file-label' for='invoys'>Upload Files</label> </div> </div> </div>     <div class='form-outline mb-4'> <label class='form-label' for='packing'>Packing List</label> <div class='input-group mb-4'> <div class='input-group-prepend'> <span class='input-group-text' id='packing'>Yüklə</span> </div> <div class='custom-file'> <input type='file' name='packing[]' class='custom-file-input' id='packing'aria-describedby='inputGroupFileAddon01'> <label class='custom-file-label' for='packing'>Upload Files</label> </div> </div> <div class='form-outline mb-4'> <label class='form-label' for='other'>Other Documents</label> <div class='input-group mb-4'> <div class='input-group-prepend'> <span class='input-group-text' id='other'>Yüklə</span> </div> <div class='custom-file'> <input type='file' name='other[]' class='custom-file-input' id='other'aria-describedby='inputGroupFileAddon01'> <label class='custom-file-label' for='other'>Upload Files</label> </div> </div> </div> </div><button class='btn btn-danger'id='DeleteRow' type='button'> <i class='bi bi-trash'></i>Delete </button></div> </div>");
+                rowCount++;
+                const newRow = `
+                    <div class="mb-4" style="border: 2px dashed #667eea; padding: 20px; border-radius: 15px; background: rgba(102, 126, 234, 0.05);">
+                        <div id="row_${rowCount}">
+                            <div class="form-outline mb-4">
+                                <label class="form-label fw-bold" for="transitCmr_${rowCount}">
+                                    <i class="fas fa-file-pdf text-danger"></i> CMR
+                                </label>
+                                <div class="file-upload-wrapper">
+                                    <input type="file" name="cmr[]" class="form-control file-input" 
+                                           id="transitCmr_${rowCount}" accept=".pdf,.jpg,.jpeg,.png" required>
+                                    <label for="transitCmr_${rowCount}" class="file-upload-label">
+                                        <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
+                                        <div class="file-name">Choose File</div>
+                                        <small class="text-muted">PDF, JPG, PNG</small>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label fw-bold" for="transitInv_${rowCount}">
+                                    <i class="fas fa-file-invoice text-success"></i> İNVOYS
+                                </label>
+                                <div class="file-upload-wrapper">
+                                    <input type="file" name="invoice[]" class="form-control file-input" 
+                                           id="transitInv_${rowCount}" accept=".pdf,.jpg,.jpeg,.png" required>
+                                    <label for="transitInv_${rowCount}" class="file-upload-label">
+                                        <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
+                                        <div class="file-name">Choose File</div>
+                                        <small class="text-muted">PDF, JPG, PNG</small>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label fw-bold" for="transitPack_${rowCount}">
+                                    <i class="fas fa-box text-info"></i> Packing List
+                                </label>
+                                <div class="file-upload-wrapper">
+                                    <input type="file" name="packing[]" class="form-control file-input" 
+                                           id="transitPack_${rowCount}" accept=".pdf,.jpg,.jpeg,.png">
+                                    <label for="transitPack_${rowCount}" class="file-upload-label">
+                                        <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
+                                        <div class="file-name">Choose File</div>
+                                        <small class="text-muted">PDF, JPG, PNG</small>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label fw-bold" for="transitOther_${rowCount}">
+                                    <i class="fas fa-file-alt text-warning"></i> Other Documents
+                                </label>
+                                <div class="file-upload-wrapper">
+                                    <input type="file" name="other[]" class="form-control file-input" 
+                                           id="transitOther_${rowCount}" accept=".pdf,.jpg,.jpeg,.png">
+                                    <label for="transitOther_${rowCount}" class="file-upload-label">
+                                        <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
+                                        <div class="file-name">Choose File</div>
+                                        <small class="text-muted">PDF, JPG, PNG</small>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-danger" id="DeleteRow_${rowCount}" type="button">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                `;
+                $(".transit").append(newRow);
+                
+                // Add file change handlers for new inputs
+                $('.file-input').on('change', function() {
+                    const fileName = $(this).val().split("\\").pop();
+                    if (fileName) {
+                        $(this).siblings('.file-upload-label').addClass('has-file').find('.file-name').text(fileName);
+                    }
+                });
             });
         });
-        $("body").on("click", "#DeleteRow", function () {
-            $(this).parents("#row").remove();
-        })
+        $("body").on("click", "[id^='DeleteRow_']", function () {
+            $(this).closest('.mb-4').remove();
+        });
+        
+        // File input change handlers
+        $(document).on('change', '.file-input', function() {
+            const fileName = $(this).val().split("\\").pop();
+            if (fileName) {
+                $(this).siblings('.file-upload-label').addClass('has-file').find('.file-name').text(fileName);
+            } else {
+                $(this).siblings('.file-upload-label').removeClass('has-file').find('.file-name').text('Choose File');
+            }
+        });
     </script>
 @endpush

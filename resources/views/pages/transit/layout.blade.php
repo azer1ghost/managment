@@ -281,21 +281,31 @@
         }
         
         .file-upload-wrapper input[type=file] {
-            position: absolute;
-            left: -9999px;
+            position: absolute !important;
+            opacity: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            cursor: pointer !important;
+            z-index: 10 !important;
+            top: 0 !important;
+            left: 0 !important;
         }
         
         .file-upload-label {
-            display: block;
-            padding: 30px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-            border: 3px dashed rgba(102, 126, 234, 0.5);
-            border-radius: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            position: relative;
-            overflow: hidden;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 40px 20px !important;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%) !important;
+            border: 3px dashed rgba(102, 126, 234, 0.6) !important;
+            border-radius: 20px !important;
+            text-align: center !important;
+            cursor: pointer !important;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+            position: relative !important;
+            overflow: hidden !important;
+            min-height: 180px !important;
         }
         
         .file-upload-label::before {
@@ -349,44 +359,45 @@
                         0 0 60px rgba(102, 126, 234, 0.1);
         }
         
+        /* Language Selector - Very Visible */
         .language-selector-wrapper-fixed {
             position: fixed !important;
             top: 20px !important;
             right: 20px !important;
-            z-index: 99999 !important;
+            z-index: 999999 !important;
             padding: 0 !important;
             display: block !important;
             visibility: visible !important;
             opacity: 1 !important;
+            pointer-events: auto !important;
         }
         
         .language-selector {
-            min-width: 220px !important;
-            max-width: 250px !important;
+            min-width: 250px !important;
+            max-width: 280px !important;
             margin-left: auto !important;
             display: block !important;
         }
         
         .language-select {
-            background: rgba(255, 255, 255, 0.98) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            border: 2px solid rgba(102, 126, 234, 0.4) !important;
+            background: #ffffff !important;
+            border: 3px solid #667eea !important;
             border-radius: 15px !important;
-            padding: 14px 50px 14px 18px !important;
-            font-weight: 600 !important;
-            font-size: 16px !important;
+            padding: 16px 55px 16px 20px !important;
+            font-weight: 700 !important;
+            font-size: 17px !important;
             color: #333 !important;
             cursor: pointer !important;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2), 0 0 0 2px rgba(102, 126, 234, 0.1) inset !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 10px 35px rgba(102, 126, 234, 0.5), 
+                        0 0 0 3px rgba(102, 126, 234, 0.2) inset !important;
             appearance: none !important;
             -webkit-appearance: none !important;
             -moz-appearance: none !important;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 12 12'%3E%3Cpath fill='%23667eea' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 12 12'%3E%3Cpath fill='%23667eea' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
             background-repeat: no-repeat !important;
-            background-position: right 18px center !important;
-            background-size: 14px !important;
+            background-position: right 20px center !important;
+            background-size: 16px !important;
             width: 100% !important;
             display: block !important;
             visibility: visible !important;
