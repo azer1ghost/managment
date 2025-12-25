@@ -3,7 +3,7 @@
 @section('title', __('transit.title') . ' | ' . __('transit.services'))
 
 @section('content')
-<div class="transit-card">
+<div class="transit-card">uihjnjn
     <div class="p-4">
         @auth()
         <div class="d-flex justify-content-end mb-3">
