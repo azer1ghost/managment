@@ -131,13 +131,20 @@ class RegisterController extends Controller
         $data['role_id'] = User::TRANSIT;
         $data['verify_code'] = rand(111111, 999999);
         $data['password'] = Hash::make($data['password']);
+        
+        // Handle rekvizit file upload if exists
+        if($rekvisit = $request->file('rekvisit')){
+            $data['rekvisit'] = $rekvisit->storeAs('rekvizits', $rekvisit->hashName());
+        } else {
+            $data['rekvisit'] = null;
+        }
 
         return User::create($data);
     }
 
     public function transitRegister(Request $request)
     {
-        $this->validator($request)->validate();
+        $this->transitValidator($request)->validate();
 
         event(new Registered($user = $this->createTransitUser($request)));
 
@@ -150,6 +157,36 @@ class RegisterController extends Controller
         return $request->wantsJson()
             ? new JsonResponse([], 201)
             : redirect($this->redirectPath());
+    }
+    
+    protected function transitValidator(Request $request)
+    {
+        $validated = $request->all();
+
+        if(array_key_exists('phone', $validated)){
+            $validated['phone'] = phone_cleaner($validated['phone']);
+        }
+
+        $validator = Validator::make($validated, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email:rfc,dns', 'max:255', 'unique:users,email'],
+            'phone' => ['required', 'string', 'min:9', 'max:15', 'unique:users,phone'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'type' => ['nullable', 'string', 'in:legal,people'],
+            'country' => ['nullable', 'string', 'max:255'],
+            'voen' => ['nullable', 'string', 'max:255'],
+            'rekvisit' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:10240'], // 10MB max
+        ]);
+
+        if($request->expectsJson()){
+            if ($validator->passes()) {
+                return response()->json(['success' => true]);
+            }
+
+            return response()->json(['success' => false, 'errors' => $validator->errors()]);
+        }
+
+        return $validator;
     }
 
 }

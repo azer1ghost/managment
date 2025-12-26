@@ -8,7 +8,7 @@
         @auth()
         <div class="d-flex justify-content-end mb-3">
             <a href="{{route('profile.index')}}" class="btn btn-outline-primary btn-sm">
-                <i class="fas fa-user"></i> {{ __('transit.nav.account') }}asdsadasd
+                <i class="fas fa-user"></i> {{ __('transit.nav.account') }}
             </a>
         </div>
         @endauth
