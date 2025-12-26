@@ -194,8 +194,34 @@
                                                 <small>{{$order->getAttribute('created_at')->format('d.m.Y H:i')}}</small>
                                             </td>
                                             <td>
-                                                <span class="badge bg-{{$order->getAttribute('status') === 'done' ? 'success' : ($order->getAttribute('status') === 'pending' ? 'warning' : 'info')}}">
-                                                    {{trans('translates.orders.statuses.'.$order->getAttribute('status'))}}
+                                                @php
+                                                    $status = $order->getAttribute('status');
+                                                    $isPaid = $order->getAttribute('is_paid');
+                                                    $statusText = '';
+                                                    $statusClass = '';
+                                                    
+                                                    if ($status == 1 && !$isPaid) {
+                                                        $statusText = 'Taslak';
+                                                        $statusClass = 'secondary';
+                                                    } elseif ($status == 1 && $isPaid) {
+                                                        $statusText = trans('translates.orders.statuses.1');
+                                                        $statusClass = 'warning';
+                                                    } elseif ($status == 2) {
+                                                        $statusText = trans('translates.orders.statuses.2');
+                                                        $statusClass = 'info';
+                                                    } elseif ($status == 3) {
+                                                        $statusText = trans('translates.orders.statuses.3');
+                                                        $statusClass = 'success';
+                                                    } elseif ($status == 4) {
+                                                        $statusText = trans('translates.orders.statuses.4');
+                                                        $statusClass = 'danger';
+                                                    } else {
+                                                        $statusText = trans('translates.orders.statuses.' . $status);
+                                                        $statusClass = 'info';
+                                                    }
+                                                @endphp
+                                                <span class="badge bg-{{$statusClass}}">
+                                                    {{$statusText}}
                                                 </span>
                                             </td>
                                             <td>

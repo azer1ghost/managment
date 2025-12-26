@@ -111,9 +111,29 @@
                         @endif
                     </form> --}}
 
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle"></i> 
-                        Payment integration is being configured. Please contact us for payment.
+                    <form action="{{ route('payFromBalance') }}" method="POST" id="paymentForm">
+                        @csrf
+                        <input type="hidden" name="code" value="{{$order->getAttribute('code')}}">
+                        
+                        @if(transit_user() && transit_user()->balance >= $order->getAttribute('amount'))
+                            <div class="d-grid gap-2 mb-3">
+                                <button type="submit" class="btn btn-success btn-lg payment-method-btn" data-method="balance">
+                                    <i class="fas fa-wallet"></i> Balansdan Ödə
+                                    <small class="d-block mt-1">Mövcud: {{number_format(transit_user()->balance, 2)}} AZN</small>
+                                </button>
+                            </div>
+                        @else
+                            <div class="alert alert-warning mb-3">
+                                <i class="fas fa-exclamation-triangle"></i> 
+                                Kifayət qədər balans yoxdur. Cari balans: {{number_format(transit_user() ? transit_user()->balance : 0, 2)}} AZN
+                            </div>
+                        @endif
+                    </form>
+
+                    <div class="d-grid gap-2">
+                        <a href="{{route('profile.index')}}" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-save"></i> Ödəniş etmədən davam et (Taslak)
+                        </a>
                     </div>
                 </div>
 

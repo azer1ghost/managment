@@ -73,13 +73,34 @@
                                         <td>{{number_format($order->amount, 2)}} AZN</td>
                                         <td>{{$order->created_at->format('d.m.Y H:i')}}</td>
                                         <td>
-                                            <span class="badge bg-{{$order->status == 4 ? 'success' : ($order->status == 1 ? 'warning' : 'info')}}">
-                                                @if($order->status == 1) Gözləyir
-                                                @elseif($order->status == 2) İşlənir
-                                                @elseif($order->status == 3) Hazırdır
-                                                @elseif($order->status == 4) Tamamlanıb
-                                                @else {{$order->status}}
-                                                @endif
+                                            @php
+                                                $status = $order->status;
+                                                $isPaid = $order->is_paid;
+                                                $statusText = '';
+                                                $statusClass = '';
+                                                
+                                                if ($status == 1 && !$isPaid) {
+                                                    $statusText = 'Taslak';
+                                                    $statusClass = 'secondary';
+                                                } elseif ($status == 1 && $isPaid) {
+                                                    $statusText = 'Gözləyir';
+                                                    $statusClass = 'warning';
+                                                } elseif ($status == 2) {
+                                                    $statusText = 'İşlənir';
+                                                    $statusClass = 'info';
+                                                } elseif ($status == 3) {
+                                                    $statusText = 'Hazırdır';
+                                                    $statusClass = 'success';
+                                                } elseif ($status == 4) {
+                                                    $statusText = 'Tamamlanıb';
+                                                    $statusClass = 'success';
+                                                } else {
+                                                    $statusText = trans('translates.orders.statuses.' . $status);
+                                                    $statusClass = 'info';
+                                                }
+                                            @endphp
+                                            <span class="badge bg-{{$statusClass}}">
+                                                {{$statusText}}
                                             </span>
                                         </td>
                                     </tr>

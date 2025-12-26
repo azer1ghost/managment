@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderRequest;
 use App\Models\Client;
 use App\Models\Order;
+use App\Models\TransitCustomer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -129,18 +130,48 @@ class OrderController extends Controller
             ->withNotify('success', $order->getAttribute('code'));
     }
 
-    public function payFromBalance(Request $request, Order $order)
+    public function payFromBalance(Request $request)
     {
-        $order = $order->where('code', $request->get('code'))->first();
-        $user = User::whereId($order->getAttribute('user_id'))->first();
-        $balance = $user->getAttribute('balance');
-        $amount = $order->getAttribute('amount');
-        if (!($balance < $amount)) {
-            $order->setAttribute('is_paid', 1);
-            $user->setAttribute('balance', ($balance - $amount));
-            $order->save();
-            $user->save();
+        $order = Order::where('code', $request->get('code'))->firstOrFail();
+        
+        // Support transit customers
+        if ($order->transit_customer_id) {
+            $customer = \App\Models\TransitCustomer::findOrFail($order->transit_customer_id);
+            $balance = $customer->balance;
+            $amount = $order->amount;
+            
+            if ($balance >= $amount) {
+                $order->is_paid = 1;
+                $customer->balance = $balance - $amount;
+                $order->save();
+                $customer->save();
+                
+                return redirect()->route('profile.index')
+                    ->with('success', 'Ödəniş uğurla tamamlandı!');
+            } else {
+                return back()->withErrors(['balance' => 'Kifayət qədər balans yoxdur.']);
+            }
+        } 
+        // Legacy support for users table
+        elseif ($order->user_id) {
+            $user = User::findOrFail($order->user_id);
+            $balance = $user->balance;
+            $amount = $order->amount;
+            
+            if ($balance >= $amount) {
+                $order->is_paid = 1;
+                $user->balance = $balance - $amount;
+                $order->save();
+                $user->save();
+                
+                return redirect()->route('profile.index')
+                    ->with('success', 'Ödəniş uğurla tamamlandı!');
+            } else {
+                return back()->withErrors(['balance' => 'Kifayət qədər balans yoxdur.']);
+            }
         }
+        
+        return back()->withErrors(['error' => 'Sifariş tapılmadı.']);
     }
 
     public function destroy(Order $order)
