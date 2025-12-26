@@ -79,6 +79,7 @@ use App\Http\Controllers\{Auth\LoginController,
     Modules\TaskListController,
     Modules\TransactionController,
     Modules\TransitController,
+    Modules\TransitCustomerController,
     Modules\UpdateController,
     Modules\UserController,
     Modules\WidgetController,
@@ -174,6 +175,7 @@ Route::group([
     Route::resource('/options', OptionController::class);
     Route::post('/sortable-user', [UserController::class, 'sortable'])->name('user.sortable');
     Route::resource('/users', UserController::class);
+    Route::resource('/transit-customers', TransitCustomerController::class);
     Route::post('/update-monthly-values', [UserController::class, 'updateMonthlyValues'])->name('updateMonthlyValues');
     Route::resource('/roles', RoleController::class);
     Route::resource('/departments', DepartmentController::class);
