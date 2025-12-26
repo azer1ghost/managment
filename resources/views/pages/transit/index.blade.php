@@ -5,13 +5,13 @@
 @section('content')
 <div class="transit-card">
     <div class="p-4">
-        @auth()
+        @if(transit_user())
         <div class="d-flex justify-content-end mb-3">
             <a href="{{route('profile.index')}}" class="btn btn-outline-primary btn-sm">
                 <i class="fas fa-user"></i> {{ __('transit.nav.account') }}
             </a>
         </div>
-        @endauth
+        @endif
 
         <ul class="nav nav-pills nav-justified mb-4" id="serviceTabs" role="tablist">
             <li class="nav-item" role="presentation">
@@ -62,7 +62,7 @@
                                 <span class="badge" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 8px 15px; border-radius: 20px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);">
                                     <i class="fas fa-star me-1"></i>{{ __('transit.button.required') }}
                                 </span>
-                            </div>
+                                    </div>
                             
                             <div class="row">
                                 <div class="col-md-6 mb-3">
@@ -77,8 +77,8 @@
                                             <div class="file-name">{{ __('transit.document.choose_file') }}</div>
                                             <small class="text-muted">{{ __('transit.document.file_types') }}</small>
                                         </label>
-                                    </div>
                                 </div>
+                            </div>
 
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label fw-bold" for="invoice_0">
@@ -105,11 +105,11 @@
                         <span class="badge badge-lg" id="documentCount" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 10px 20px; border-radius: 25px; font-size: 14px; font-weight: 600;">
                             <i class="fas fa-folder-open me-2"></i><span id="countText">1 {{ __('transit.document.document_set') }}</span>
                         </span>
-                    </div>
+                            </div>
 
                     <div class="alert alert-info d-none" id="formAlert">
                         <i class="fas fa-info-circle"></i> <span id="alertMessage"></span>
-                    </div>
+                        </div>
 
                     <div class="form-check mb-4">
                         <input class="form-check-input" type="checkbox" value="1" id="transitCheck" required>
@@ -153,7 +153,7 @@
                             <i class="fab fa-youtube fa-2x"></i>
                         </a>
                     </div>
-                </div>
+              </div>
             </div>
 
             <!-- Short Import Declaration Tab -->
@@ -192,12 +192,12 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('transit.button.back') }}</button>
             </div>
         </div>
-    </div>
+</div>
 </div>
 @endsection
 
 @section('scripts')
-<script>
+    <script>
 $(document).ready(function() {
     let rowCount = 1;
     
@@ -392,9 +392,9 @@ $(document).ready(function() {
         }
 
         $('#submitBtn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> {{ __('transit.status.processing') }}...');
-    });
-});
-</script>
+            });
+        });
+    </script>
 
 <style>
 .document-row {

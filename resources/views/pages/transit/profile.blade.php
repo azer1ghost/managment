@@ -19,12 +19,12 @@
                             </div>
                         </div>
                     <div class="mt-3">
-                        <h4 class="mb-1">{{auth()->user()->getFullnameAttribute()}}</h4>
+                        <h4 class="mb-1">{{transit_user() ? transit_user()->name : 'N/A'}}</h4>
                         <p class="text-secondary mb-1">
-                            <i class="fas fa-id-card"></i> {{auth()->user()->getAttribute('voen') ?: 'N/A'}}
+                            <i class="fas fa-id-card"></i> {{transit_user() ? (transit_user()->voen ?: 'N/A') : 'N/A'}}
                         </p>
                         <p class="text-muted mb-3">
-                            <i class="fas fa-envelope"></i> {{auth()->user()->getAttribute('email')}}
+                            <i class="fas fa-envelope"></i> {{transit_user() ? transit_user()->email : 'N/A'}}
                         </p>
                         <div class="balance-card p-4 rounded mb-3 glow" 
                              style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
@@ -40,7 +40,7 @@
                                     <i class="fas fa-wallet me-2"></i>{{ __('transit.profile.current_balance') }}
                                 </small>
                                 <h2 class="mb-0 pulse-animation" style="font-weight: 800; text-shadow: 0 2px 10px rgba(0,0,0,0.2);">
-                                    {{number_format(auth()->user()->getAttribute('balance') ?? 0, 2)}} <small style="font-size: 0.6em;">AZN</small>
+                                    {{number_format(transit_user() ? (transit_user()->balance ?? 0) : 0, 2)}} <small style="font-size: 0.6em;">AZN</small>
                                 </h2>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                     <div class="tab-pane fade show active" id="pills-account" role="tabpanel">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h4 class="mb-0"><i class="fas fa-user text-primary"></i> {{ __('transit.profile.account_info') }}</h4>
-                            <a href="{{route('profile.edit', auth()->id())}}" class="btn btn-primary">
+                            <a href="{{route('profile.edit', transit_id())}}" class="btn btn-primary">
                                 <i class="fas fa-edit"></i> {{ __('transit.profile.edit_profile') }}
                             </a>
                         </div>
@@ -91,7 +91,7 @@
                                     <i class="fas fa-user-circle text-primary me-2 fa-lg"></i>
                                     <h6 class="mb-0 text-muted">Full Name</h6>
                                 </div>
-                                <p class="mb-0 fs-5">{{auth()->user()->getFullnameAttribute()}}</p>
+                                <p class="mb-0 fs-5">{{transit_user() ? transit_user()->name : 'N/A'}}</p>
                             </div>
 
                             <div class="info-item mb-4 pb-3 border-bottom">
@@ -99,7 +99,7 @@
                                     <i class="fas fa-envelope text-primary me-2 fa-lg"></i>
                                     <h6 class="mb-0 text-muted">Email</h6>
                                 </div>
-                                <p class="mb-0 fs-5">{{auth()->user()->getAttribute('email')}}</p>
+                                <p class="mb-0 fs-5">{{transit_user() ? transit_user()->email : 'N/A'}}</p>
                             </div>
 
                             <div class="info-item mb-4 pb-3 border-bottom">
@@ -107,7 +107,7 @@
                                     <i class="fas fa-id-card text-primary me-2 fa-lg"></i>
                                     <h6 class="mb-0 text-muted">VOEN</h6>
                                 </div>
-                                <p class="mb-0 fs-5">{{auth()->user()->getAttribute('voen') ?: 'Not provided'}}</p>
+                                <p class="mb-0 fs-5">{{transit_user() ? (transit_user()->voen ?: 'Not provided') : 'Not provided'}}</p>
                             </div>
 
                             <div class="info-item mb-4">
@@ -115,14 +115,14 @@
                                     <i class="fas fa-phone text-primary me-2 fa-lg"></i>
                                     <h6 class="mb-0 text-muted">Phone Number</h6>
                                 </div>
-                                <p class="mb-0 fs-5">{{auth()->user()->getAttribute('phone') ?: 'Not provided'}}</p>
+                                <p class="mb-0 fs-5">{{transit_user() ? (transit_user()->phone ?: 'Not provided') : 'Not provided'}}</p>
                             </div>
                         </div>
 
                         <hr class="my-4">
 
                         <div class="d-flex gap-2">
-                            <a href="{{route('profile.edit', auth()->id())}}" class="btn btn-primary">
+                            <a href="{{route('profile.edit', transit_id())}}" class="btn btn-primary">
                                 <i class="fas fa-edit"></i> {{ __('transit.profile.edit_profile') }}
                             </a>
                             <a href="{{ route('logout') }}" class="btn btn-danger" 

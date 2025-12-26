@@ -96,17 +96,17 @@
                             </button>
                         </div>
 
-                        @if(auth()->user()->getAttribute('balance') >= $order->getAttribute('amount'))
+                        @if(transit_user() && transit_user()->balance >= $order->getAttribute('amount'))
                             <div class="d-grid gap-2 mb-3">
                                 <button type="submit" class="btn btn-success btn-lg payment-method-btn" data-method="balance">
                                     <i class="fas fa-wallet"></i> Pay from Balance
-                                    <small class="d-block mt-1">Available: {{number_format(auth()->user()->getAttribute('balance'), 2)}} AZN</small>
+                                    <small class="d-block mt-1">Available: {{number_format(transit_user()->balance, 2)}} AZN</small>
                                 </button>
                             </div>
                         @else
                             <div class="alert alert-warning">
                                 <i class="fas fa-exclamation-triangle"></i> 
-                                Insufficient balance. Current balance: {{number_format(auth()->user()->getAttribute('balance'), 2)}} AZN
+                                Insufficient balance. Current balance: {{number_format(transit_user() ? transit_user()->balance : 0, 2)}} AZN
                             </div>
                         @endif
                     </form> --}}

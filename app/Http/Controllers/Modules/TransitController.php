@@ -43,6 +43,37 @@ class TransitController extends Controller
         return view('pages.transit.edit');
     }
 
+    public function update(Request $request, $id)
+    {
+        $customer = TransitCustomer::findOrFail($id);
+        
+        // Verify that the authenticated user is updating their own profile
+        if (auth('transit')->id() != $id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:transit_customers,email,' . $id,
+            'phone' => 'required|string|unique:transit_customers,phone,' . $id,
+            'voen' => 'nullable|string|max:255',
+            'balance' => 'nullable|numeric|min:0',
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
+
+        // Handle password update
+        if ($request->filled('password')) {
+            $validated['password'] = Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
+
+        $customer->update($validated);
+
+        return redirect()->route('profile.index')
+            ->with('success', 'Profile updated successfully!');
+    }
+
     public function service()
     {
         return view('pages.transit.index');
@@ -82,6 +113,6 @@ class TransitController extends Controller
 
     public function profile()
     {
-        return view('pages.transit.profile');
+        return $this->index(); // Alias for index
     }
 }

@@ -129,3 +129,28 @@ if (! function_exists('rand_color')){
         return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
     }
 }
+
+if (! function_exists('transit_user')){
+    /**
+     * Get current transit user (either TransitCustomer or legacy User with role_id=9)
+     */
+    function transit_user() {
+        if (auth('transit')->check()) {
+            return auth('transit')->user();
+        }
+        if (auth()->check() && auth()->user()->isTransitCustomer()) {
+            return auth()->user();
+        }
+        return null;
+    }
+}
+
+if (! function_exists('transit_id')){
+    /**
+     * Get current transit user ID
+     */
+    function transit_id() {
+        $user = transit_user();
+        return $user ? $user->id : null;
+    }
+}

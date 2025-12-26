@@ -14,7 +14,7 @@
                     </a>
                 </div>
 
-                <form action="{{route('profile.update', auth()->id())}}" method="POST" enctype="multipart/form-data" id="editProfileForm">
+                <form action="{{route('profile.update', transit_id())}}" method="POST" enctype="multipart/form-data" id="editProfileForm">
                     @csrf
                     @method('PUT')
 
@@ -48,7 +48,7 @@
                                        name="name" 
                                        id="fullName" 
                                        class="form-control" 
-                                       value="{{auth()->user()->getFullnameAttribute()}}"
+                                       value="{{transit_user() ? transit_user()->name : ''}}"
                                        placeholder="Enter your full name" 
                                        required>
                             </div>
@@ -61,7 +61,7 @@
                                        name="email" 
                                        id="email" 
                                        class="form-control" 
-                                       value="{{auth()->user()->getAttribute('email')}}"
+                                       value="{{transit_user() ? transit_user()->email : ''}}"
                                        placeholder="Enter your email" 
                                        required>
                             </div>
@@ -75,7 +75,7 @@
                                            name="phone" 
                                            id="phone" 
                                            class="form-control" 
-                                           value="{{auth()->user()->getAttribute('phone')}}"
+                                           value="{{transit_user() ? transit_user()->phone : ''}}"
                                            placeholder="Enter your phone number">
                                 </div>
 
@@ -87,7 +87,7 @@
                                            name="voen" 
                                            id="voen" 
                                            class="form-control" 
-                                           value="{{auth()->user()->getAttribute('voen')}}"
+                                           value="{{transit_user() ? transit_user()->voen : ''}}"
                                            placeholder="Enter VOEN number">
                                 </div>
                             </div>
@@ -102,7 +102,7 @@
                                            name="balance" 
                                            id="balance" 
                                            class="form-control" 
-                                           value="{{auth()->user()->getAttribute('balance') ?? 0}}"
+                                           value="{{transit_user() ? (transit_user()->balance ?? 0) : 0}}"
                                            step="0.01"
                                            min="0"
                                            placeholder="0.00">
