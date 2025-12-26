@@ -18,6 +18,11 @@ class Order extends Model
         return $this->belongsTo(TransitCustomer::class, 'transit_customer_id')->withDefault();
     }
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id')->withDefault();
+    }
+
     public static function generateCustomCode($prefix = 'TRN', $digits = 8): string
     {
         do {

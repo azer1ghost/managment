@@ -17,16 +17,22 @@ class TransitController extends Controller
 
     public function index()
     {
-        $orders = Order::where('transit_customer_id', auth('transit')->id())
-            ->orWhere(function($query) {
-                // Legacy support for old transit users
-                $query->where('user_id', auth()->id())
-                      ->whereHas('user', function($q) {
-                          $q->where('role_id', 9);
-                      });
-            })
-            ->latest()
-            ->paginate(8);
+        $transitId = transit_id();
+        
+        if (!$transitId) {
+            $orders = Order::whereRaw('1 = 0')->paginate(8); // Empty result
+        } elseif (auth('transit')->check()) {
+            // New TransitCustomer
+            $orders = Order::where('transit_customer_id', $transitId)->latest()->paginate(8);
+        } else {
+            // Legacy support for old transit users in users table
+            $orders = Order::where('user_id', $transitId)
+                ->whereHas('user', function($q) {
+                    $q->where('role_id', 9);
+                })
+                ->latest()
+                ->paginate(8);
+        }
             
         return view('pages.transit.profile')->with([
             'orders' => $orders
