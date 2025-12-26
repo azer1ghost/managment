@@ -20,7 +20,9 @@ class TransitController extends Controller
         $transitId = transit_id();
         
         if (!$transitId) {
-            $orders = Order::whereRaw('1 = 0')->paginate(8); // Empty result
+            // Create empty paginator
+            $orders = new \Illuminate\Pagination\LengthAwarePaginator([], 0, 8);
+            $orders->withPath(request()->url());
         } elseif (auth('transit')->check()) {
             // New TransitCustomer
             $orders = Order::where('transit_customer_id', $transitId)->latest()->paginate(8);

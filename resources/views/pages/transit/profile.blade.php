@@ -154,13 +154,13 @@
                                     <i class="fas fa-wallet me-2"></i>{{ __('transit.profile.current_balance') }}
                                 </h6>
                                 <h1 class="display-4 mb-0 pulse-animation" style="font-weight: 900; text-shadow: 0 5px 20px rgba(0,0,0,0.3);">
-                                    {{number_format(auth()->user()->getAttribute('balance') ?? 0, 2)}} <small style="font-size: 0.5em;">AZN</small>
+                                    {{number_format(transit_user() ? (transit_user()->balance ?? 0) : 0, 2)}} <small style="font-size: 0.5em;">AZN</small>
                                 </h1>
                             </div>
                         </div>
 
                             <div class="text-center">
-                                <a href="{{route('profile.edit', auth()->id())}}" class="btn btn-primary btn-lg">
+                                <a href="{{route('profile.edit', transit_id())}}" class="btn btn-primary btn-lg">
                                     <i class="fas fa-plus-circle"></i> {{ __('transit.button.add_balance') }}
                                 </a>
                             </div>
