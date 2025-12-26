@@ -268,6 +268,13 @@ class Sidebar extends Component
             ],
 
             (object)[
+                'title' => 'Transit Müştəriləri',
+                'icon' => 'fas fa-truck',
+                'url' => route('transit-customers.index'),
+                'permission' => 'generally',
+            ],
+
+            (object)[
                 'title' => __('translates.navbar.report'),
                 'icon' => 'fal fa-file',
                 'url' => route('reports.index'),

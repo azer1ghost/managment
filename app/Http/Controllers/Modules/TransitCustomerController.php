@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modules;
 use App\Http\Controllers\Controller;
 use App\Models\TransitCustomer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class TransitCustomerController extends Controller
 {
@@ -102,9 +103,7 @@ class TransitCustomerController extends Controller
             'rekvisit' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
         ]);
 
-        if ($request->filled('password')) {
-            $validated['password'] = $validated['password'];
-        } else {
+        if (!$request->filled('password')) {
             unset($validated['password']);
         }
 
