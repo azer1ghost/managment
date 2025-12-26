@@ -95,6 +95,7 @@ Route::group([
     'prefix' => 'transit',
 ], function () {
     Route::get('/transit-login', [TransitController::class, 'login'])->name('transit-login');
+    Route::post('/login', [TransitController::class, 'loginSubmit'])->name('transit.login.submit');
     Route::get('/service', [TransitController::class, 'service'])->name('service');
     Route::get('/payment/{order}', [TransitController::class, 'payment'])->name('payment');
     Route::post('/payFromBalance/', [OrderController::class, 'payFromBalance'])->name('payFromBalance');

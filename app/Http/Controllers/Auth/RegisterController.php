@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\TransitCustomer;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -124,13 +125,12 @@ class RegisterController extends Controller
         return User::create($data);
     }
 
-    protected function createTransitUser(Request $request): User
+    protected function createTransitCustomer(Request $request): TransitCustomer
     {
         $data = $request->all();
         $data['name'] = ucfirst($data['name']);
-        $data['role_id'] = User::TRANSIT;
         $data['verify_code'] = rand(111111, 999999);
-        $data['password'] = Hash::make($data['password']);
+        $data['password'] = $data['password']; // Will be hashed by model mutator
         
         // Handle rekvizit file upload if exists
         if($rekvisit = $request->file('rekvisit')){
@@ -139,24 +139,25 @@ class RegisterController extends Controller
             $data['rekvisit'] = null;
         }
 
-        return User::create($data);
+        return TransitCustomer::create($data);
     }
 
     public function transitRegister(Request $request)
     {
         $this->transitValidator($request)->validate();
 
-        event(new Registered($user = $this->createTransitUser($request)));
+        $customer = $this->createTransitCustomer($request);
 
-        $this->guard()->login($user);
+        // Login transit customer
+        auth('transit')->login($customer);
 
-        if ($response = $this->registered($request, $user)) {
+        if ($response = $this->registered($request, $customer)) {
             return $response;
         }
 
         return $request->wantsJson()
             ? new JsonResponse([], 201)
-            : redirect($this->redirectPath());
+            : redirect()->route('service');
     }
     
     protected function transitValidator(Request $request)
@@ -169,8 +170,8 @@ class RegisterController extends Controller
 
         $validator = Validator::make($validated, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email:rfc,dns', 'max:255', 'unique:users,email'],
-            'phone' => ['required', 'string', 'min:9', 'max:15', 'unique:users,phone'],
+            'email' => ['required', 'string', 'email:rfc,dns', 'max:255', 'unique:transit_customers,email'],
+            'phone' => ['required', 'string', 'min:9', 'max:15', 'unique:transit_customers,phone'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'type' => ['nullable', 'string', 'in:legal,people'],
             'country' => ['nullable', 'string', 'max:255'],

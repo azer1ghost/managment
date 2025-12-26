@@ -7,15 +7,29 @@ use App\Http\Requests\CertificateRequest;
 use App\Models\Certificate;
 use App\Models\Order;
 use App\Models\Organization;
+use App\Models\TransitCustomer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class TransitController extends Controller
 {
 
     public function index()
     {
+        $orders = Order::where('transit_customer_id', auth('transit')->id())
+            ->orWhere(function($query) {
+                // Legacy support for old transit users
+                $query->where('user_id', auth()->id())
+                      ->whereHas('user', function($q) {
+                          $q->where('role_id', 9);
+                      });
+            })
+            ->latest()
+            ->paginate(8);
+            
         return view('pages.transit.profile')->with([
-            'orders' => Order::where('user_id', auth()->id())->latest()->paginate(8)
+            'orders' => $orders
         ]);
     }
 
@@ -37,6 +51,28 @@ class TransitController extends Controller
     public function login()
     {
         return view('pages.transit.login');
+    }
+
+    public function loginSubmit(Request $request)
+    {
+        $request->validate([
+            'login' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        $credentials = [
+            'email' => $request->login,
+            'password' => $request->password,
+        ];
+
+        if (Auth::guard('transit')->attempt($credentials, $request->filled('remember'))) {
+            $request->session()->regenerate();
+            return redirect()->route('service');
+        }
+
+        return back()->withErrors([
+            'login' => 'Email və ya şifrə yanlışdır.',
+        ])->onlyInput('login');
     }
 
     public function payment(Order $order)

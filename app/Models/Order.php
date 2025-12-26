@@ -11,11 +11,16 @@ class Order extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['client_id', 'code', 'cmr', 'invoice', 'packing', 'other', 'service', 'amount', 'result', 'status', 'is_paid', 'note'];
+    protected $fillable = ['user_id', 'client_id', 'transit_customer_id', 'code', 'cmr', 'invoice', 'packing', 'other', 'service', 'amount', 'result', 'status', 'is_paid', 'note'];
 
     public function clients(): BelongsTo
     {
         return $this->belongsTo(Client::class, 'client_id')->withDefault();
+    }
+
+    public function transitCustomer(): BelongsTo
+    {
+        return $this->belongsTo(TransitCustomer::class, 'transit_customer_id')->withDefault();
     }
 
     public static function generateCustomCode($prefix = 'TRN', $digits = 8): string

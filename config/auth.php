@@ -127,6 +127,11 @@ return [
             'provider' => 'clients',
         ],
 
+        'transit' => [
+            'driver' => 'session',
+            'provider' => 'transit_customers',
+        ],
+
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -159,6 +164,10 @@ return [
         'clients' => [
             'driver' => 'eloquent',
             'model' => App\Models\Client::class,
+        ],
+        'transit_customers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\TransitCustomer::class,
         ],
         // 'users' => [
         //     'driver' => 'database',

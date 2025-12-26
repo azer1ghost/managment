@@ -43,7 +43,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('login') }}" method="POST" id="loginForm">
+                <form action="{{ route('transit.login.submit') }}" method="POST" id="loginForm">
                     @csrf
                     <div class="mb-4">
                         <label class="form-label fw-bold" for="loginName" style="font-size: 16px;">

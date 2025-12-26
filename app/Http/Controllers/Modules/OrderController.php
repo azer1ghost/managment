@@ -22,39 +22,68 @@ class OrderController extends Controller
     public function store(OrderRequest $request)
     {
         $validated = $request->validated();
-        $validated['client_id'] = auth('clients')->id();
+        
+        // Support transit customers, regular users, and client users
+        if (auth('transit')->check()) {
+            $validated['transit_customer_id'] = auth('transit')->id();
+            $validated['client_id'] = null;
+            $validated['user_id'] = null;
+        } elseif (auth()->check() && auth()->user()->isTransitCustomer()) {
+            // Legacy support for old transit users in users table
+            $validated['user_id'] = auth()->id();
+            $validated['client_id'] = null;
+            $validated['transit_customer_id'] = null;
+        } else {
+            $validated['client_id'] = auth('clients')->id();
+            $validated['user_id'] = null;
+            $validated['transit_customer_id'] = null;
+        }
+        
         $validated['code'] = Order::generateCustomCode();
         $validated['status'] = 1;
         $validated['service'] = 'Online Transit';
         $validated['amount'] = 45;
 
         $note = $request->input('note');
-
         $validated['note'] = $note;
 
-        foreach ($request->file('cmr') as $cmrArray) {
-            $cmr = $cmrArray;
-            $cmr->store('cmr');
-            $array[] =  $cmr->store('cmr');
-            $validated['cmr'] = implode(",", $array);
+        // Handle CMR files (multiple files)
+        if ($request->hasFile('cmr')) {
+            $cmrFiles = [];
+            foreach ($request->file('cmr') as $cmrFile) {
+                $cmrFiles[] = $cmrFile->store('cmr');
+            }
+            $validated['cmr'] = implode(",", $cmrFiles);
         }
 
-        foreach ($request->file('invoice') as $invoiceArray) {
-            $invoice = $invoiceArray;
-            $invoice->store('invoice');
-            $validated['invoice'] = $invoice->store('invoice');
+        // Handle Invoice files (multiple files)
+        if ($request->hasFile('invoice')) {
+            $invoiceFiles = [];
+            foreach ($request->file('invoice') as $invoiceFile) {
+                $invoiceFiles[] = $invoiceFile->store('invoice');
+            }
+            $validated['invoice'] = implode(",", $invoiceFiles);
         }
-        foreach ($request->file('packing') as $packingArray) {
-            $packing = $packingArray;
-            $packing->store('packing');
-            $validated['packing'] = $packing->store('packing');
+        
+        // Handle Packing files (optional, multiple files)
+        if ($request->hasFile('packing')) {
+            $packingFiles = [];
+            foreach ($request->file('packing') as $packingFile) {
+                $packingFiles[] = $packingFile->store('packing');
+            }
+            $validated['packing'] = implode(",", $packingFiles);
         }
-        foreach ($request->file('other') as $otherArray) {
-            $other = $otherArray;
-            $other->store('other');
-            $validated['other'] = $other->store('other');
+        
+        // Handle Other files (optional, multiple files)
+        if ($request->hasFile('other')) {
+            $otherFiles = [];
+            foreach ($request->file('other') as $otherFile) {
+                $otherFiles[] = $otherFile->store('other');
+            }
+            $validated['other'] = implode(",", $otherFiles);
         }
-         $order = Order::create($validated);
+        
+        $order = Order::create($validated);
 
         return redirect()->route('payment', $order);
     }
