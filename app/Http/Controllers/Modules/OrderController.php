@@ -26,16 +26,18 @@ class OrderController extends Controller
         // Support transit customers, regular users, and client users
         if (auth('transit')->check()) {
             $validated['transit_customer_id'] = auth('transit')->id();
-            $validated['client_id'] = null;
             $validated['user_id'] = null;
         } elseif (auth()->check() && auth()->user()->isTransitCustomer()) {
             // Legacy support for old transit users in users table
             $validated['user_id'] = auth()->id();
-            $validated['client_id'] = null;
+            $validated['transit_customer_id'] = null;
+        } elseif (auth('clients')->check()) {
+            // For client users, we might need to add client_id column to orders table
+            // For now, we'll use user_id as null
+            $validated['user_id'] = null;
             $validated['transit_customer_id'] = null;
         } else {
-            $validated['client_id'] = auth('clients')->id();
-            $validated['user_id'] = null;
+            $validated['user_id'] = auth()->id();
             $validated['transit_customer_id'] = null;
         }
         

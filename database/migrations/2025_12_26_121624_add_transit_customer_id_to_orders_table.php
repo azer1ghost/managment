@@ -14,7 +14,7 @@ class AddTransitCustomerIdToOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->foreignId('transit_customer_id')->nullable()->after('client_id')->constrained('transit_customers')->onDelete('cascade');
+            $table->foreignId('transit_customer_id')->nullable()->after('user_id')->constrained('transit_customers')->onDelete('cascade');
         });
     }
 
