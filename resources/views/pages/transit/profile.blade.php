@@ -225,7 +225,17 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                @if($order->getAttribute('result') !== null)
+                                                @if($order->getAttribute('declaration'))
+                                                    <form id="download-declaration-form-{{$order->id}}" action="{{ route('orders.download') }}" method="POST" style="display: inline;">
+                                                        @csrf
+                                                        <input type="hidden" name="document" value="{{$order->getAttribute('declaration')}}">
+                                                    </form>
+                                                    <a class="btn btn-sm btn-outline-success" 
+                                                       onclick="event.preventDefault(); document.getElementById('download-declaration-form-{{$order->id}}').submit();"
+                                                       title="Bəyannamə">
+                                                        <i class="fas fa-file-pdf"></i> Bəyannamə
+                                                    </a>
+                                                @elseif($order->getAttribute('result') !== null)
                                                     <a class="btn btn-sm btn-outline-primary" 
                                                        href="{{route('order-result.download', $order)}}"
                                                        title="Download Result">
