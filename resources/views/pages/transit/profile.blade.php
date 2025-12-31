@@ -231,9 +231,10 @@
                                                         <input type="hidden" name="document" value="{{$order->getAttribute('declaration')}}">
                                                     </form>
                                                     <a class="btn btn-sm btn-outline-success" 
+                                                       href="#"
                                                        onclick="event.preventDefault(); document.getElementById('download-declaration-form-{{$order->id}}').submit();"
-                                                       title="Bəyannamə">
-                                                        <i class="fas fa-file-pdf"></i> Bəyannamə
+                                                       title="Bəyannaməni yüklə">
+                                                        <i class="fas fa-download"></i> Bəyannamə
                                                     </a>
                                                 @elseif($order->getAttribute('result') !== null)
                                                     <a class="btn btn-sm btn-outline-primary" 
