@@ -100,6 +100,7 @@ Route::group([
     Route::get('/service', [TransitController::class, 'service'])->name('service');
     Route::get('/payment/{order}', [TransitController::class, 'payment'])->name('payment');
     Route::post('/payFromBalance/', [OrderController::class, 'payFromBalance'])->name('payFromBalance');
+    Route::post('/order-download', [OrderController::class, 'download'])->name('transit.orders.download');
     Route::resource('/profile', TransitController::class);
     Route::resource('/order', OrderController::class)->only(['store']);
 });

@@ -226,7 +226,7 @@
                                             </td>
                                             <td>
                                                 @if($order->getAttribute('declaration'))
-                                                    <form id="download-declaration-form-{{$order->id}}" action="{{ route('orders.download') }}" method="POST" style="display: inline;">
+                                                    <form id="download-declaration-form-{{$order->id}}" action="{{ route('transit.orders.download') }}" method="POST" style="display: inline;">
                                                         @csrf
                                                         <input type="hidden" name="document" value="{{$order->getAttribute('declaration')}}">
                                                     </form>
