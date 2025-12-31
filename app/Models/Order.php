@@ -11,7 +11,7 @@ class Order extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['user_id', 'transit_customer_id', 'code', 'cmr', 'invoice', 'packing', 'other', 'service', 'amount', 'result', 'status', 'is_paid', 'note'];
+    protected $fillable = ['user_id', 'transit_customer_id', 'code', 'cmr', 'invoice', 'packing', 'other', 'declaration', 'service', 'amount', 'result', 'status', 'is_paid', 'note'];
 
     public function transitCustomer(): BelongsTo
     {

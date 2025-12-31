@@ -63,6 +63,7 @@
                                     <th>Məbləğ</th>
                                     <th>Tarix</th>
                                     <th>Status</th>
+                                    <th>Bəyannamə</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -103,10 +104,31 @@
                                                 {{$statusText}}
                                             </span>
                                         </td>
+                                        <td>
+                                            @if($order->declaration)
+                                                <form id="download-form-{{$order->id}}" action="{{ route('orders.download') }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="document" value="{{$order->declaration}}">
+                                                </form>
+                                                <a class="btn btn-sm btn-success" onclick="event.preventDefault(); document.getElementById('download-form-{{$order->id}}').submit();" title="Bəyannaməni yüklə">
+                                                    <i class="fas fa-file-pdf"></i> Bax
+                                                </a>
+                                            @else
+                                                <form action="{{ route('orders.upload-declaration', $order) }}" method="POST" enctype="multipart/form-data" class="declaration-upload-form" data-order-id="{{$order->id}}">
+                                                    @csrf
+                                                    <div class="file-upload-wrapper">
+                                                        <input type="file" name="declaration" id="declaration-{{$order->id}}" class="declaration-file-input d-none" accept=".pdf,.jpg,.jpeg,.png" required>
+                                                        <label for="declaration-{{$order->id}}" class="btn btn-sm btn-primary mb-0" style="cursor: pointer;">
+                                                            <i class="fas fa-upload"></i> Yüklə
+                                                        </label>
+                                                    </div>
+                                                </form>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="text-center py-4">
+                                        <td colspan="6" class="text-center py-4">
                                             <i class="fas fa-inbox fa-2x text-muted mb-2"></i>
                                             <p class="text-muted mb-0">Sifariş yoxdur</p>
                                         </td>
@@ -136,5 +158,31 @@
             </a>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+<script>
+$(document).ready(function() {
+    $('.declaration-file-input').on('change', function() {
+        const form = $(this).closest('form');
+        const orderId = form.data('order-id');
+        
+        if (this.files && this.files[0]) {
+            const fileName = this.files[0].name;
+            const fileSize = this.files[0].size;
+            const maxSize = 10 * 1024 * 1024; // 10MB
+            
+            if (fileSize > maxSize) {
+                alert('Fayl ölçüsü 10MB-dan çox ola bilməz!');
+                $(this).val('');
+                return;
+            }
+            
+            // Form submit
+            form.submit();
+        }
+    });
+});
+</script>
 @endsection
 

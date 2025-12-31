@@ -84,11 +84,29 @@
         @endbind
     </form>
     @php
-        $cmrArray = explode(',', $data->getAttribute('cmr'));
-        $invoiceArray = explode(',', $data->getAttribute('invoice'));
-        $packingArray = explode(',', $data->getAttribute('packing'));
-        $otherArray = explode(',', $data->getAttribute('other'));
+        $cmrArray = array_filter(explode(',', $data->getAttribute('cmr') ?? ''));
+        $invoiceArray = array_filter(explode(',', $data->getAttribute('invoice') ?? ''));
+        $packingArray = array_filter(explode(',', $data->getAttribute('packing') ?? ''));
+        $otherArray = array_filter(explode(',', $data->getAttribute('other') ?? ''));
+        $declarationFile = $data->getAttribute('declaration');
     @endphp
+    @if($declarationFile)
+    <div class="col-md-12 px-0">
+        <br>
+        <p class="text-muted mb-2">Bəyannamə</p>
+        <hr class="my-2">
+    </div>
+    <div class="col-12 col px-4">
+        <form id="download-form-declaration" action="{{ route('orders.download') }}" method="POST">
+            @csrf
+            <input type="hidden" name="document" value="{{$declarationFile}}">
+        </form>
+        <a class="py-2 my-2 d-flex align-items-center list-group-item text-black" onclick="event.preventDefault(); document.getElementById('download-form-declaration').submit();">
+            <i style="font-size: 20px" class="fas fa-file fa-3x mr-2"></i>
+            Bəyannamə
+        </a>
+    </div>
+    @endif
     <div class="col-md-12 px-0">
         <br>
         <p class="text-muted mb-2">CMR</p>

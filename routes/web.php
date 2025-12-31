@@ -337,6 +337,7 @@ Route::group([
     Route::get('/jobInstruction/{id}', [JobInstructionController::class, 'getInstruction'])->name('getInstruction');
     Route::post('/order-download',[ OrderController::class, 'download'])->name('orders.download');
     Route::get('/result-download/{order}',[ OrderController::class, 'resultDownload'])->name('order-result.download');
+    Route::post('/orders/{order}/upload-declaration', [OrderController::class, 'uploadDeclaration'])->name('orders.upload-declaration');
     Route::resource('/orders', OrderController::class)->except('store');
     Route::post('/chatRoom', [RoomController::class, 'chatRoom'])->name('room-chat');
     Route::post('/sendMessage', [RoomController::class, 'sendMessage'])->name('sendMessage-room');

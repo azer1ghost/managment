@@ -184,6 +184,26 @@ class OrderController extends Controller
         return Storage::download($request->get('document'));
     }
 
+    public function uploadDeclaration(Request $request, Order $order)
+    {
+        $request->validate([
+            'declaration' => 'required|file|mimes:pdf,jpg,jpeg,png|max:10240',
+        ]);
+
+        if ($request->hasFile('declaration')) {
+            $declarationFile = $request->file('declaration');
+            $declarationPath = $declarationFile->store('declarations');
+            $order->declaration = $declarationPath;
+            $order->save();
+
+            return redirect()->back()
+                ->with('success', 'Bəyannamə uğurla yükləndi!');
+        }
+
+        return redirect()->back()
+            ->withErrors(['declaration' => 'Fayl yüklənmədi.']);
+    }
+
     public function resultDownload(Order $order)
     {
         return Storage::download($order->getAttribute('result'));
