@@ -114,13 +114,13 @@
                                                     <i class="fas fa-file-pdf"></i> Bax
                                                 </a>
                                             @else
-                                                <form action="{{ route('orders.upload-declaration', $order) }}" method="POST" enctype="multipart/form-data" class="declaration-upload-form" data-order-id="{{$order->id}}">
+                                                <form action="{{ route('orders.upload-declaration', $order->id) }}" method="POST" enctype="multipart/form-data" class="declaration-upload-form" id="declaration-form-{{$order->id}}" data-order-id="{{$order->id}}">
                                                     @csrf
                                                     <div class="file-upload-wrapper">
-                                                        <input type="file" name="declaration" id="declaration-{{$order->id}}" class="declaration-file-input d-none" accept=".pdf,.jpg,.jpeg,.png" required>
-                                                        <label for="declaration-{{$order->id}}" class="btn btn-sm btn-primary mb-0" style="cursor: pointer;">
+                                                        <input type="file" name="declaration" id="declaration-{{$order->id}}" class="declaration-file-input" accept=".pdf,.jpg,.jpeg,.png" required style="display: none;">
+                                                        <button type="button" class="btn btn-sm btn-primary mb-0" onclick="document.getElementById('declaration-{{$order->id}}').click();">
                                                             <i class="fas fa-upload"></i> Yüklə
-                                                        </label>
+                                                        </button>
                                                     </div>
                                                 </form>
                                             @endif
@@ -163,23 +163,23 @@
 @section('scripts')
 <script>
 $(document).ready(function() {
-    $('.declaration-file-input').on('change', function() {
+    $(document).on('change', '.declaration-file-input', function(e) {
+        e.preventDefault();
         const form = $(this).closest('form');
-        const orderId = form.data('order-id');
+        const fileInput = this;
         
-        if (this.files && this.files[0]) {
-            const fileName = this.files[0].name;
-            const fileSize = this.files[0].size;
+        if (fileInput.files && fileInput.files[0]) {
+            const fileSize = fileInput.files[0].size;
             const maxSize = 10 * 1024 * 1024; // 10MB
             
             if (fileSize > maxSize) {
                 alert('Fayl ölçüsü 10MB-dan çox ola bilməz!');
-                $(this).val('');
-                return;
+                $(fileInput).val('');
+                return false;
             }
             
             // Form submit
-            form.submit();
+            form[0].submit();
         }
     });
 });
