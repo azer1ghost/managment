@@ -15,11 +15,25 @@
         </x-bread-crumb-link>
     </x-bread-crumb>
     <div class="row m-0">
+        <div class="col-12 mb-3">
+            <form method="GET" action="{{ route('reports.subs.show', $parent) }}" class="form-inline">
+                <div class="form-group">
+                    <label for="year" class="mr-2">İl seçin:</label>
+                    <select name="year" id="year" class="form-control" onchange="this.form.submit()">
+                        @foreach($availableYears as $year)
+                            <option value="{{ $year }}" {{ $year == $selectedYear ? 'selected' : '' }}>
+                                {{ $year }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </form>
+        </div>
         <div class="table-responsive" style="overflow-x: auto;">
                 <table class="table table-hover text-capitalize">
             <thead>
             <tr>
-                <th scope="col" colspan="100">Cari il</th>
+                <th scope="col" colspan="100">{{ $selectedYear }} ili</th>
             </tr>
             </thead>
             <tbody>

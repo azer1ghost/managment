@@ -78,6 +78,11 @@ class Calendar extends Model implements Recordable
         return $query->whereMonth('start_at', now()->format('m'));
     }
 
+    public function scopeForYear($query, $year)
+    {
+        return $query->whereYear('start_at', $year);
+    }
+
     public function scopeIsDayOff($query)
     {
         return $query->where('is_day_off', 1);

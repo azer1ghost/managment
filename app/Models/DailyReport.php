@@ -6,6 +6,7 @@ use Altek\Accountant\Contracts\Recordable;
 use Altek\Eventually\Eventually;
 use App\Interfaces\DocumentableInterface;
 use App\Traits\Documentable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -84,7 +85,13 @@ class DailyReport extends Model implements Recordable, DocumentableInterface
 
     public static function currentMonth()
     {
-        $start_of_year = now()->startOfYear();
+        return self::getYearDays(now()->year);
+    }
+
+    public static function getYearDays($year = null)
+    {
+        $year = $year ?? now()->year;
+        $start_of_year = Carbon::createFromDate($year, 1, 1)->startOfYear();
 
         $days_of_month[] = $start_of_year->copy(); // use carbon copy to avoid affecting the original $start_of_week variable
 
@@ -92,7 +99,7 @@ class DailyReport extends Model implements Recordable, DocumentableInterface
         $working_days = []; // array of working days
 
         // Check if the given working day is in the day off range or if the weekend is in the working day range
-        foreach (Calendar::currentMonth()->get(['start_at', 'end_at', 'is_day_off']) as $daterange){
+        foreach (Calendar::forYear($year)->get(['start_at', 'end_at', 'is_day_off']) as $daterange){
             switch ($daterange->getAttribute('is_day_off')){
                 case 0:
                     self::checkDay($daterange, function ($date) use (&$working_days){

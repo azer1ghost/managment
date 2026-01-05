@@ -72,9 +72,26 @@ class ReportController extends Controller
     /*  show all reports of a given chief */
     public function showSubReports(Report $report)
     {
+        $selectedYear = (int) request()->get('year', now()->year);
+        $currentYear = now()->year;
+        
+        // Get available years from existing reports
+        $reportYears = DailyReport::where('report_id', $report->id)
+            ->selectRaw('YEAR(date) as year')
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->pluck('year')
+            ->toArray();
+        
+        // Create list of years from 2020 (or earliest report year) to current year
+        $earliestYear = min(2020, $reportYears ? min($reportYears) : $currentYear);
+        $availableYears = range($currentYear, $earliestYear);
+        
         return view('pages.reports.sub_reports')->with([
             'parent' => $report,
-            'currentMonth' => DailyReport::currentMonth(),
+            'currentMonth' => DailyReport::getYearDays($selectedYear),
+            'selectedYear' => $selectedYear,
+            'availableYears' => $availableYears,
         ]);
     }
 
