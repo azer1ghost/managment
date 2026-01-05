@@ -1,7 +1,8 @@
 <?php
 
 use App\Models\Document;
-use App\Http\Controllers\{Auth\LoginController,
+use App\Http\Controllers\{Auth\EmailVerificationController,
+    Auth\LoginController,
     Auth\PhoneVerifycationController,
     Auth\RegisterController,
     BarcodeController,
@@ -368,6 +369,9 @@ Route::post('/partners/register', [RegisterController::class, 'register']);
 Route::post('/partners/transit/register', [RegisterController::class, 'transitRegister'])->name('transitRegister');
 
 PhoneVerifycationController::routes();
+
+// Email verification routes for transit customers
+EmailVerificationController::routes();
 
 Route::post('/phone-update', [LoginController::class, 'phoneUpdate'])->middleware('deactivated')->name('phone.update');
 

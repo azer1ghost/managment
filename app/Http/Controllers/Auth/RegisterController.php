@@ -148,6 +148,9 @@ class RegisterController extends Controller
 
         $customer = $this->createTransitCustomer($request);
 
+        // Send email verification notification
+        $customer->sendEmailVerificationNotification();
+
         // Login transit customer
         auth('transit')->login($customer);
 
@@ -157,7 +160,7 @@ class RegisterController extends Controller
 
         return $request->wantsJson()
             ? new JsonResponse([], 201)
-            : redirect()->route('service');
+            : redirect()->route('email.verification.notice');
     }
     
     protected function transitValidator(Request $request)
