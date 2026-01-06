@@ -57,11 +57,16 @@ class EmailVerificationController extends Controller
         $userLastVerifyNotification = $user->notifications()
             ->where('type', 'App\Notifications\Auth\VerifyEmail')
             ->latest()
-            ->first('created_at')
-            ->getAttribute('created_at');
+            ->first();
 
-        if ($userLastVerifyNotification->addMinutes(5) < now()){
-            return back()->withErrors(['code' => 'Doğrulama kodu müddəti bitib']);
+        // Əgər hələ heç bir doğrulama notification-u yaranmayıbsa,
+        // müddət yoxlamasını keçirik (yalnız kod uyğunluğunu yoxlayırıq)
+        if ($userLastVerifyNotification) {
+            $createdAt = $userLastVerifyNotification->getAttribute('created_at');
+
+            if ($createdAt->addMinutes(5) < now()){
+                return back()->withErrors(['code' => 'Doğrulama kodu müddəti bitib']);
+            }
         }
 
         if($user->getAttribute('verify_code') == $request->get('code')){
