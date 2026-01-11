@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SalaryRequest;
 use App\Models\Company;
 use App\Models\Salary;
+use App\Models\SalaryReport;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,14 +21,35 @@ class SalaryController extends Controller
 
     public function index(Request $request)
     {
-        $search = $request->get('search');
-        $company =$request->get('company_id');
+        $company = $request->get('company_id');
+        $year = $request->get('year', now()->year);
+        $month = $request->get('month', now()->format('m'));
+        $date = $year . '-' . $month;
 
-        return view('pages.salaries.index' )->with([
-            'salaries' => Salary::query()
-                ->when($search, fn ($query) => $query->where('name', 'like', "%$search%"))
+        // Əgər tarix verilmişdirsə, salary_reports cədvəlindən oxu
+        $existingReports = SalaryReport::query()
+            ->when($company, fn ($query) => $query->where('company_id', $company))
+            ->where('date', $date)
+            ->get();
+
+        // Əgər qeydiyyat varsa, onu istifadə et, yoxdursa salaries cədvəlindən oxu
+        if ($existingReports->isNotEmpty()) {
+            $salaries = $existingReports;
+            $isExistingReport = true;
+        } else {
+            $salaries = Salary::query()
                 ->when($company, fn ($query) => $query->where('company_id', $company))
-                ->get()
+                ->get();
+            $isExistingReport = false;
+        }
+
+        return view('pages.salaries.index')->with([
+            'salaries' => $salaries,
+            'company_id' => $company,
+            'year' => $year,
+            'month' => $month,
+            'date' => $date,
+            'isExistingReport' => $isExistingReport,
         ]);
     }
 

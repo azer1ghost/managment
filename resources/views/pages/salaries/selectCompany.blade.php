@@ -18,33 +18,48 @@
                 <div class="modal-body">
 
                         <div class="form-group">
-                            @if(request()->url() !== (route('selectCompany-salary')))
-                                <select  class="form-control mb-2" name="date-salary">
-                                    @php
-                                        $currentMonth = now()->format('m');
-                                        $months = [
-                                            '01' => 'Yanvar',
-                                            '02' => 'Fevral',
-                                            '03' => 'Mart',
-                                            '04' => 'Aprel',
-                                            '05' => 'May',
-                                            '06' => 'İyun',
-                                            '07' => 'İyul',
-                                            '08' => 'Avqust',
-                                            '09' => 'Sentyabr',
-                                            '10' => 'Oktyabr',
-                                            '11' => 'Noyabr',
-                                            '12' => 'Dekabr',
-                                        ];
-                                    @endphp
+                            @php
+                                $currentYear = now()->year;
+                                $currentMonth = now()->format('m');
+                                $months = [
+                                    '01' => 'Yanvar',
+                                    '02' => 'Fevral',
+                                    '03' => 'Mart',
+                                    '04' => 'Aprel',
+                                    '05' => 'May',
+                                    '06' => 'İyun',
+                                    '07' => 'İyul',
+                                    '08' => 'Avqust',
+                                    '09' => 'Sentyabr',
+                                    '10' => 'Oktyabr',
+                                    '11' => 'Noyabr',
+                                    '12' => 'Dekabr',
+                                ];
+                            @endphp
 
-                                    @foreach($months as $monthNumber => $monthName)
-                                        <option value="{{ $monthNumber }}" {{ $currentMonth == $monthNumber ? 'selected' : '' }}>
-                                            {{ $monthName }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                            <label>İl</label>
+                            <select class="form-control mb-2" name="year">
+                                @for($y = now()->year; $y >= now()->year - 5; $y--)
+                                    <option value="{{ $y }}" {{ $currentYear == $y ? 'selected' : '' }}>
+                                        {{ $y }}
+                                    </option>
+                                @endfor
+                            </select>
+
+                            <label>Ay</label>
+                            <select class="form-control mb-2" name="month">
+                                @foreach($months as $monthNumber => $monthName)
+                                    <option value="{{ $monthNumber }}" {{ $currentMonth == $monthNumber ? 'selected' : '' }}>
+                                        {{ $monthName }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            @if(request()->url() !== (route('selectCompany-salary')))
+                                <input type="hidden" name="date-salary" value="{{ $currentMonth }}">
                             @endif
+
+                            <label>Şirkət</label>
                             <select class="form-control" name="company_id">
                                 @foreach(\App\Models\Company::get(['id', 'name']) as $company)
                                     <option value="{{$company->getAttribute('id')}}">{{$company->getAttribute('name')}}</option>

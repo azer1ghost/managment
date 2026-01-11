@@ -249,6 +249,12 @@ class Sidebar extends Component
                         'url' => route('selectCompany-salary'),
                         'permission' => 'viewAny-salary',
                     ],
+                    (object)[
+                        'title' => 'Birbank İnteqrasiyası',
+                        'icon' => 'fas fa-university',
+                        'url' => route('birbank.index'),
+                        'permission' => 'viewAny-financeClient',
+                    ],
                 ]
             ],
 

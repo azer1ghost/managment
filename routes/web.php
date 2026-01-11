@@ -81,6 +81,7 @@ use App\Http\Controllers\{Auth\EmailVerificationController,
     Modules\TransactionController,
     Modules\TransitController,
     Modules\TransitCustomerController,
+    Modules\BirbankController,
     Modules\UpdateController,
     Modules\UserController,
     Modules\WidgetController,
@@ -360,6 +361,16 @@ Route::group([
     Route::post('/users/{user}/enable', [UserController::class, 'enable'])->name('users.enable');
     Route::post('/users/{user}/disable', [UserController::class, 'disable'])->name('users.disable');
     Route::get('/users/{user}/login-as-user', [UserController::class, 'loginAsUser'])->name('users.loginAs');
+});
+
+// Birbank routes (outside module prefix, but with same middleware)
+Route::group([
+    'middleware' => ['verified_phone', 'deactivated', 'is_transit_customer']
+], function () {
+    Route::get('/birbank', [BirbankController::class, 'index'])->name('birbank.index');
+    Route::get('/birbank/{company}', [BirbankController::class, 'show'])->name('birbank.show');
+    Route::post('/birbank/{company}/login', [BirbankController::class, 'login'])->name('birbank.login');
+    Route::post('/birbank/{company}/sync-transactions', [BirbankController::class, 'syncTransactions'])->name('birbank.sync-transactions');
 });
 
 Auth::routes();
