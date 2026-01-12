@@ -192,15 +192,15 @@
     @endif
     
     <!-- Happy New Year 2026 Banner -->
-    <div class="newyear-banner">
-        🎄 Happy New Year 2026 🎆
-    </div>
+{{--    <div class="newyear-banner">--}}
+{{--        🎄 Happy New Year 2026 🎆--}}
+{{--    </div>--}}
     
     <!-- New Year Countdown Widget -->
-    <div class="ny-countdown">
-        <h3>⏳ New Year Countdown</h3>
-        <div id="countdown">Loading...</div>
-    </div>
+{{--    <div class="ny-countdown">--}}
+{{--        <h3>⏳ New Year Countdown</h3>--}}
+{{--        <div id="countdown">Loading...</div>--}}
+{{--    </div>--}}
     <div class="row m-0">
         <div class="col-md-12 grid-margin">
             <div class="row">
