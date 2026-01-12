@@ -10,12 +10,18 @@ use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Cell\Cell;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWidths, ShouldAutoSize, WithStyles, WithChunkReading
+class WorksExport extends DefaultValueBinder implements FromQuery, WithMapping, WithHeadings, WithColumnWidths, WithColumnFormatting, WithCustomValueBinder, ShouldAutoSize, WithStyles, WithChunkReading
 {
     use Exportable;
 
@@ -160,25 +166,25 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
             $kodSayi,
             $say,
             $esasVereq,
-            number_format($esasMebleg, 2, '.', ' '),
-            number_format($edv, 2, '.', ' '),
-            number_format($diger, 2, '.', ' '),
-            number_format($tamMebleg, 2, '.', ' '),
-            number_format($faktikiMebleg, 2, '.', ' '),
+            (float) $esasMebleg,
+            (float) $edv,
+            (float) $diger,
+            (float) $tamMebleg,
+            (float) $faktikiMebleg,
             optional($row->invoiced_date)?->toDateString(),
             $row->code,
 
-            number_format($esasPaid, 2, '.', ' '),
+            (float) $esasPaid,
             optional($row->paid_at)?->format('d/m/Y'),
-            number_format($edvPaid, 2, '.', ' '),
+            (float) $edvPaid,
             optional($row->vat_date)?->format('d/m/Y'),
-            number_format($digerPaid, 2, '.', ' '),
-            number_format($odenmis, 2, '.', ' '),
+            (float) $digerPaid,
+            (float) $odenmis,
             trans('translates.payment_methods.' . $row->payment_method),
 
-            number_format($borcEsas, 2, '.', ' '),
-            number_format($borcEdv, 2, '.', ' '),
-            number_format($borcUmumi, 2, '.', ' '),
+            (float) $borcEsas,
+            (float) $borcEdv,
+            (float) $borcUmumi,
 
             optional($row->client?->sales?->first())?->fullname ?? '-',
             optional($row->customerEngagement?->user)?->fullname ?? '-',
@@ -241,5 +247,56 @@ class WorksExport implements FromQuery, WithMapping, WithHeadings, WithColumnWid
     public function chunkSize(): int
     {
         return 1000;
+    }
+
+    /**
+     * Məbləğ sütunlarına number format tətbiq et
+     */
+    public function columnFormats(): array
+    {
+        return [
+            // Məbləğ sütunları (23-27: Əsas Məbləğ, ƏDV, Digər, Tam, Faktiki)
+            'W' => NumberFormat::FORMAT_NUMBER_00,  // 23: Əsas Məbləğ
+            'X' => NumberFormat::FORMAT_NUMBER_00,  // 24: ƏDV
+            'Y' => NumberFormat::FORMAT_NUMBER_00,  // 25: Digər məbləğ
+            'Z' => NumberFormat::FORMAT_NUMBER_00,  // 26: Tam məbləğ
+            'AA' => NumberFormat::FORMAT_NUMBER_00, // 27: Faktiki məbləğ
+            // Ödəniş sütunları (30, 32, 34, 35: Əsas Ödənilən, ƏDV Ödənilən, Digər Ödəniş, Faktiki ödəniş)
+            'AD' => NumberFormat::FORMAT_NUMBER_00, // 30: Əsas Məbləğdən Ödənilən
+            'AF' => NumberFormat::FORMAT_NUMBER_00, // 32: ƏDV'dən Ödənilən
+            'AH' => NumberFormat::FORMAT_NUMBER_00, // 34: Digər Ödəniş
+            'AI' => NumberFormat::FORMAT_NUMBER_00, // 35: Faktiki ödəniş
+            // Borc sütunları (37-39: Borc əsas, Borc ƏDV, Borc ümumi)
+            'AK' => NumberFormat::FORMAT_NUMBER_00, // 37: Borc əsas
+            'AL' => NumberFormat::FORMAT_NUMBER_00, // 38: Borc ƏDV
+            'AM' => NumberFormat::FORMAT_NUMBER_00, // 39: Borc ümumi
+        ];
+    }
+
+    /**
+     * Məbləğ sütunlarını mütləq numeric olaraq yaz
+     */
+    public function bindValue(Cell $cell, $value)
+    {
+        // Məbləğ sütunları: W, X, Y, Z, AA, AD, AF, AH, AI, AK, AL, AM
+        $amountColumns = ['W', 'X', 'Y', 'Z', 'AA', 'AD', 'AF', 'AH', 'AI', 'AK', 'AL', 'AM'];
+        
+        if (in_array($cell->getColumn(), $amountColumns, true)) {
+            // Əgər string formatlanmış məbləğdirsə (boşluq və ya vergül ilə), təmizlə
+            if (is_string($value)) {
+                $cleanedValue = str_replace([' ', ','], ['', ''], $value);
+            } else {
+                $cleanedValue = $value;
+            }
+            
+            // Numeric yoxla və float kimi yaz
+            if (is_numeric($cleanedValue) || $cleanedValue === '' || $cleanedValue === null) {
+                $numericValue = ($cleanedValue === '' || $cleanedValue === null) ? 0 : (float) $cleanedValue;
+                $cell->setValueExplicit($numericValue, DataType::TYPE_NUMERIC);
+                return true;
+            }
+        }
+        
+        return parent::bindValue($cell, $value);
     }
 }
