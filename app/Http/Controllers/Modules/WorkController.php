@@ -1823,24 +1823,55 @@ class WorkController extends Controller
 
     public function companyPaymentsLastYear(Request $request)
     {
-        $since = now()->subYear()->startOfDay();
+        // Tarix parametrləri JS-dən gəlir, yoxdursa default (geri uyğunluq üçün)
+        $startDate = $request->input('start_date') 
+            ? \Carbon\Carbon::parse($request->input('start_date'))->startOfDay()
+            : now()->subYear()->startOfDay();
+        
+        $endDate = $request->input('end_date')
+            ? \Carbon\Carbon::parse($request->input('end_date'))->endOfDay()
+            : now()->endOfDay();
 
         // Subquery: hər iş üçün amount = 33+34+38 parametrlərinin cəmi
-        $amountSub = DB::raw("
-            (
-                SELECT wp.work_id, SUM(CAST(wp.value AS DECIMAL(18,2))) AS amount
-                FROM work_parameter wp
-                WHERE wp.parameter_id IN (33,34,38)
-                GROUP BY wp.work_id
-            ) AS amt
-        ");
+        $amountSubquery = DB::table('work_parameter')
+            ->select('work_id', DB::raw('SUM(CAST(value AS DECIMAL(18,2))) AS amount'))
+            ->whereIn('parameter_id', [33, 34, 38])
+            ->groupBy('work_id');
 
+        // Qaimə toplam: invoiced_date üzrə
+        $qaimaTotal = DB::table('works as w')
+            ->joinSub($amountSubquery, 'amt', function($join) {
+                $join->on('amt.work_id', '=', 'w.id');
+            })
+            ->whereNotNull('w.invoiced_date')
+            ->whereBetween('w.invoiced_date', [$startDate, $endDate])
+            ->whereNull('w.deleted_at')
+            ->sum('amt.amount');
+
+        // Nağd toplam: created_at üzrə
+        $nagdTotal = DB::table('works as w')
+            ->joinSub($amountSubquery, 'amt', function($join) {
+                $join->on('amt.work_id', '=', 'w.id');
+            })
+            ->whereBetween('w.created_at', [$startDate, $endDate])
+            ->whereNull('w.deleted_at')
+            ->sum('amt.amount');
+
+        $total = ($qaimaTotal ?? 0) + ($nagdTotal ?? 0);
+
+        // Şirkətə görə bölgü (mövcud funksionallıq üçün)
         $rows = DB::table('works as w')
             ->join('asan_imzalar as ai', 'ai.id', '=', 'w.asan_imza_id')
             ->join('companies as c', 'c.id', '=', 'ai.company_id')
-            ->join($amountSub, 'amt.work_id', '=', 'w.id')
+            ->joinSub($amountSubquery, 'amt', function($join) {
+                $join->on('amt.work_id', '=', 'w.id');
+            })
             ->whereNotNull('w.asan_imza_id')
-            ->where('w.created_at', '>=', $since)
+            ->where(function($query) use ($startDate, $endDate) {
+                $query->whereBetween('w.invoiced_date', [$startDate, $endDate])
+                      ->orWhereBetween('w.created_at', [$startDate, $endDate]);
+            })
+            ->whereNull('w.deleted_at')
             ->groupBy('c.id', 'c.name')
             ->select([
                 'c.id as company_id',
@@ -1851,7 +1882,11 @@ class WorkController extends Controller
             ->get();
 
         return response()->json([
-            'since' => $since->toDateString(),
+            'since' => $startDate->toDateString(),
+            'until' => $endDate->toDateString(),
+            'qaima_total' => $qaimaTotal ?? 0,
+            'nagd_total' => $nagdTotal ?? 0,
+            'total' => $total,
             'data'  => $rows,
         ]);
     }

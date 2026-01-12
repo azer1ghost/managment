@@ -383,11 +383,33 @@
 
     <div class="card mt-4" id="company-payments-card">
         <div class="card-header">
-            Son 1 il üzrə şirkətə görə ödəniş cəmləri
+            İllik / Son il üzrə toplam
             <small class="text-muted" id="company-payments-since"></small>
         </div>
         <div class="card-body p-0">
             <div class="p-3" id="company-payments-loading">Yüklənir...</div>
+            
+            <!-- Totals section -->
+            <div class="p-3 d-none" id="company-payments-totals">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <strong>Qaimə toplam:</strong>
+                        <div id="qaima-total" class="h5">0.00</div>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Nağd toplam:</strong>
+                        <div id="nagd-total" class="h5">0.00</div>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Ümumi toplam:</strong>
+                        <div id="total-amount" class="h5">0.00</div>
+                    </div>
+                </div>
+                <div class="alert alert-danger d-none" id="limit-warning">
+                    <strong>⚠️ Xəbərdarlıq:</strong> 200,000 limiti keçildi!
+                </div>
+            </div>
+            
             <div class="table-responsive d-none" id="company-payments-wrapper">
                 <table class="table table-striped mb-0" id="company-payments-table">
                     <thead>
@@ -411,9 +433,12 @@
             const url = "{{ route('reports.company_payments_last_year') }}";
             const loadingEl = document.getElementById('company-payments-loading');
             const wrapperEl = document.getElementById('company-payments-wrapper');
+            const totalsEl = document.getElementById('company-payments-totals');
             const tbodyEl   = document.querySelector('#company-payments-table tbody');
             const errorEl   = document.getElementById('company-payments-error');
             const sinceEl   = document.getElementById('company-payments-since');
+            const cardEl    = document.getElementById('company-payments-card');
+            const limitWarningEl = document.getElementById('limit-warning');
 
             function fmt(n){
                 if(n === null || n === undefined || isNaN(n)) return '0.00';
@@ -421,16 +446,60 @@
                 return Number(n).toLocaleString('az-AZ', {minimumFractionDigits:2, maximumFractionDigits:2});
             }
 
+            // Tarix hesablaması: 11 ay əvvəlki ayın 1-i (00:00:00) - bugün (23:59:59)
+            function calculateDateRange() {
+                const now = new Date();
+                
+                // End date = bugün 23:59:59
+                const endDate = new Date(now);
+                endDate.setHours(23, 59, 59, 999);
+                
+                // Start date = 11 ay əvvəlki ayın 1-i 00:00:00
+                const startDate = new Date(now);
+                startDate.setMonth(startDate.getMonth() - 11);
+                startDate.setDate(1);
+                startDate.setHours(0, 0, 0, 0);
+                
+                // Tarix formatı: YYYY-MM-DD HH:mm:ss (timezone problemi olmasın deyə)
+                function formatDateForAPI(date) {
+                    const year = date.getFullYear();
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const day = String(date.getDate()).padStart(2, '0');
+                    const hours = String(date.getHours()).padStart(2, '0');
+                    const minutes = String(date.getMinutes()).padStart(2, '0');
+                    const seconds = String(date.getSeconds()).padStart(2, '0');
+                    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                }
+                
+                return {
+                    start: formatDateForAPI(startDate),
+                    end: formatDateForAPI(endDate)
+                };
+            }
+
             async function loadCompanyPayments(){
                 try{
                     loadingEl.classList.remove('d-none');
                     wrapperEl.classList.add('d-none');
+                    totalsEl.classList.add('d-none');
                     errorEl.classList.add('d-none');
                     errorEl.textContent = '';
+                    limitWarningEl.classList.add('d-none');
+                    
+                    // Limit xəbərdarlığı üçün kartın border/background-u təmizlə
+                    if(cardEl) {
+                        cardEl.style.border = '';
+                        cardEl.style.backgroundColor = '';
+                    }
 
-                    const res = await fetch(url, {
+                    const dateRange = calculateDateRange();
+                    const urlWithParams = new URL(url, window.location.origin);
+                    urlWithParams.searchParams.set('start_date', dateRange.start);
+                    urlWithParams.searchParams.set('end_date', dateRange.end);
+
+                    const res = await fetch(urlWithParams.toString(), {
                         headers: { 'Accept': 'application/json' },
-                        credentials: 'same-origin' // auth cookie varsa
+                        credentials: 'same-origin'
                     });
 
                     if(!res.ok){
@@ -439,7 +508,34 @@
 
                     const json = await res.json();
                     const rows = json.data || [];
-                    sinceEl.textContent = rows.length ? ` (başlanğıc: ${json.since})` : '';
+                    
+                    // Tarix məlumatını göstər
+                    if(json.since && json.until) {
+                        sinceEl.textContent = ` (${json.since} - ${json.until})`;
+                    } else if(json.since) {
+                        sinceEl.textContent = ` (başlanğıc: ${json.since})`;
+                    } else {
+                        sinceEl.textContent = '';
+                    }
+
+                    // Totals göstər
+                    const qaimaTotal = json.qaima_total || 0;
+                    const nagdTotal = json.nagd_total || 0;
+                    const total = json.total || 0;
+                    
+                    document.getElementById('qaima-total').textContent = fmt(qaimaTotal);
+                    document.getElementById('nagd-total').textContent = fmt(nagdTotal);
+                    document.getElementById('total-amount').textContent = fmt(total);
+                    totalsEl.classList.remove('d-none');
+
+                    // 200,000 limiti yoxla
+                    if(total > 200000) {
+                        limitWarningEl.classList.remove('d-none');
+                        if(cardEl) {
+                            cardEl.style.border = '3px solid #dc3545';
+                            cardEl.style.backgroundColor = '#fff5f5';
+                        }
+                    }
 
                     // Tbody təmizlə
                     tbodyEl.innerHTML = '';
