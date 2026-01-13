@@ -20,7 +20,8 @@ class BranchCashController extends Controller
     {
         $this->middleware('auth');
 
-        $date = $request->input('date', now()->toDateString());
+        // Tarix gəlməsə, bugünün tarixi ilə işləyək
+        $date = $request->input('date') ?: now()->toDateString();
         $departmentId = (int) $request->input('department_id', 13); // default HNBGI
 
         // Yalnız kassa üçün nəzərdə tutulan departamentlər
@@ -58,8 +59,9 @@ class BranchCashController extends Controller
     /**
      * Seçilmiş gün + filial üçün kassa başlığını yaradıb qaytarır.
      */
-    protected function createBranchCash(int $departmentId, string $date): BranchCash
+    protected function createBranchCash(int $departmentId, ?string $date): BranchCash
     {
+        $date = $date ?: now()->toDateString();
         // Bir əvvəlki günün son qalıq dəyərini tap
         $previous = BranchCash::where('department_id', $departmentId)
             ->whereDate('date', '<', $date)
