@@ -85,6 +85,7 @@ use App\Http\Controllers\{Auth\EmailVerificationController,
     Modules\UpdateController,
     Modules\UserController,
     Modules\WidgetController,
+    Modules\BranchCashController,
     Modules\ChatController,
     Modules\WorkController};
 use App\Http\Middleware\Localization;
@@ -226,6 +227,12 @@ Route::group([
     Route::post('/works/update-bulk-invoice-code', [WorkController::class, 'updateBulkInvoiceCode'])->name('works.update-bulk-invoice-code');
     Route::post('/works/remove-bulk-invoice-code', [WorkController::class, 'removeBulkInvoiceCode'])->name('works.remove-bulk-invoice-code');
     Route::post('/works/update-invoice-company', [WorkController::class, 'updateInvoiceCompany'])->name('works.update-invoice-company');
+
+    // Branch cash (filial kassa)
+    Route::get('/branch-cashes', [BranchCashController::class, 'index'])->name('branch-cashes.index');
+    Route::post('/branch-cashes/sync-from-works', [BranchCashController::class, 'syncFromWorks'])->name('branch-cashes.sync-from-works');
+    Route::post('/branch-cashes/{branchCash}/items', [BranchCashController::class, 'storeItem'])->name('branch-cashes.items.store');
+    Route::post('/branch-cashes/{branchCash}/header', [BranchCashController::class, 'updateHeader'])->name('branch-cashes.header.update');
     Route::get('/works/report', [WorkController::class, 'report'])->name('works.report');
     Route::get('/works/export', [WorkController::class, 'export'])->name('works.export');
     Route::resource('/works', WorkController::class);

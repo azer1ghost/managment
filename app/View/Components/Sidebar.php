@@ -215,6 +215,12 @@ class Sidebar extends Component
                         'permission' => 'viewAny-financeClient',
                     ],
                     (object)[
+                        'title' => 'Filial Kassa',
+                        'icon' => 'far fa-cash-register',
+                        'url' => route('branch-cashes.index'),
+                        'permission' => 'viewAny-financeClient',
+                    ],
+                    (object)[
                         'title' => trans('translates.navbar.creditor'),
                         'icon' => 'fas fa-money-check-edit-alt',
                         'url' => route('creditors.index'),
