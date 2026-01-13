@@ -97,8 +97,12 @@ class BranchCashController extends Controller
         $departmentId = $branchCash->department_id;
 
         // Eyni gündə, eyni departamentdə, ödəniş tarixi uyğun olan işlər
+        // Ödəniş tarixi kimi həm paid_at, həm də vat_date nəzərə alınsın
         $works = Work::where('department_id', $departmentId)
-            ->whereDate('paid_at', $date)
+            ->where(function ($q) use ($date) {
+                $q->whereDate('paid_at', $date)
+                  ->orWhereDate('vat_date', $date);
+            })
             ->with('client', 'service')
             ->get();
 
