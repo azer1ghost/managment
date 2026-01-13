@@ -245,6 +245,28 @@
                 </div>
             </div>
         </div>
+        @php
+            $currentInvoiceCompanyId = $works->first()->invoice_company_id
+                ?? optional($works->first()->asanImza)->company_id;
+        @endphp
+        <div class="row mt-2">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="invoiceCompanySelect">Qaimə Şirkəti</label>
+                    <select id="invoiceCompanySelect"
+                            class="form-control"
+                            data-current="{{ $currentInvoiceCompanyId }}">
+                        <option value="">-- Şirkət seçin --</option>
+                        @foreach($invoiceCompanies ?? [] as $company)
+                            <option value="{{ $company->id }}"
+                                @if($currentInvoiceCompanyId == $company->id) selected @endif>
+                                {{ $company->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
         <input type="hidden" id="currentInvoiceCode" value="{{ $invoiceCode }}">
         <input type="hidden" id="currentWorkIds" value="{{ json_encode($workIds) }}">
     </form>
@@ -968,6 +990,66 @@
                     }
                     alert('Xəta: ' + errorMsg);
                     $button.prop('disabled', false).html(originalText);
+                }
+            });
+        });
+
+        // Update invoice company for all works under this invoice code
+        $('#invoiceCompanySelect').on('change', function() {
+            const invoiceCode = $('#currentInvoiceCode').val();
+            const companyId = $(this).val();
+            const currentCompanyId = $(this).data('current');
+
+            if (!companyId) {
+                // If user clears selection, revert to previous to avoid having no company by mistake
+                $(this).val(currentCompanyId);
+                return;
+            }
+
+            if (!invoiceCode) {
+                alert('Qaimə nömrəsi tapılmadı.');
+                $(this).val(currentCompanyId);
+                return;
+            }
+
+            if (!confirm('Bu qaiməyə bağlı bütün işlər üçün şirkəti dəyişmək istədiyinizə əminsiniz?')) {
+                $(this).val(currentCompanyId);
+                return;
+            }
+
+            const $select = $(this);
+            $select.prop('disabled', true);
+
+            $.ajax({
+                url: '{{ route("works.update-invoice-company") }}',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    invoice_code: invoiceCode,
+                    company_id: companyId,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(res) {
+                    if (res.success) {
+                        $select.data('current', companyId);
+                        alert('Qaimə şirkəti uğurla yeniləndi!');
+                    } else {
+                        alert('Xəta: ' + (res.error || 'Qaimə şirkəti yenilənmədi'));
+                        $select.val(currentCompanyId);
+                    }
+                },
+                error: function(xhr) {
+                    let errorMsg = 'Xəta baş verdi';
+                    if (xhr.responseJSON && xhr.responseJSON.error) {
+                        errorMsg = xhr.responseJSON.error;
+                    } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMsg = xhr.responseJSON.message;
+                    }
+                    alert('Xəta: ' + errorMsg);
+                    $select.val(currentCompanyId);
+                },
+                complete: function() {
+                    $select.prop('disabled', false);
                 }
             });
         });

@@ -1936,7 +1936,12 @@ class WorkController extends Controller
             // Get invoice code from first work
             $invoiceCode = $works->first()->code;
 
-            $html = view('works.partials.invoice-popup', compact('works', 'invoiceCode'))->render();
+            // Companies for invoice company select box
+            $invoiceCompanies = Company::select('id', 'name')
+                ->orderBy('name')
+                ->get();
+
+            $html = view('works.partials.invoice-popup', compact('works', 'invoiceCode', 'invoiceCompanies'))->render();
 
             return response()->json(['html' => $html]);
         } catch (\Exception $e) {
@@ -2565,6 +2570,12 @@ class WorkController extends Controller
                             \Log::warning('Invalid invoice date format: ' . $invoiceDate);
                         }
                     }
+
+                    // Auto-set invoice company from related AsanImza company if not already set
+                    if (empty($work->invoice_company_id) && $work->asanImza && $work->asanImza->company_id) {
+                        $work->invoice_company_id = $work->asanImza->company_id;
+                    }
+
                     $work->save();
                     $affectedCount++;
                 }
@@ -2636,6 +2647,12 @@ class WorkController extends Controller
                         \Log::warning('Invalid invoice date format: ' . $invoiceDate);
                     }
                 }
+
+                // If invoice company is not set, auto-fill from AsanImza company
+                if (empty($work->invoice_company_id) && $work->asanImza && $work->asanImza->company_id) {
+                    $work->invoice_company_id = $work->asanImza->company_id;
+                }
+
                 $work->save();
                 $affectedCount++;
             }
@@ -2656,6 +2673,45 @@ class WorkController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
+    }
+
+    /**
+     * Update invoice company for works (by invoice code or IDs)
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateInvoiceCompany(Request $request)
+    {
+        $request->validate([
+            'company_id'   => ['required', 'integer', 'exists:companies,id'],
+            'invoice_code' => ['nullable', 'string'],
+            'ids'          => ['nullable', 'array'],
+            'ids.*'        => ['integer'],
+        ]);
+
+        $companyId = (int) $request->input('company_id');
+        $invoiceCode = $request->input('invoice_code');
+        $ids = $request->input('ids', []);
+
+        if (!$invoiceCode && empty($ids)) {
+            return response()->json(['error' => 'Heç bir iş seçilməyib'], 400);
+        }
+
+        $query = Work::query();
+
+        if ($invoiceCode) {
+            $query->where('code', $invoiceCode);
+        } elseif (!empty($ids)) {
+            $query->whereIn('id', $ids);
+        }
+
+        $affected = $query->update(['invoice_company_id' => $companyId]);
+
+        return response()->json([
+            'success'        => true,
+            'affected_works' => $affected,
+        ]);
     }
 
     /**

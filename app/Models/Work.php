@@ -81,7 +81,8 @@ class Work extends Model implements DocumentableInterface, Recordable
         'invoiced_date',
         'mark',
         'painted',
-        'doc'
+        'doc',
+        'invoice_company_id',
     ];
 
     protected $dates = ['datetime', 'verified_at', 'paid_at', 'vat_date', 'invoiced_date', 'entry_date', 'injected_at', 'returned_at', 'resume_date'];
@@ -136,6 +137,11 @@ class Work extends Model implements DocumentableInterface, Recordable
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class)->withDefault();
+    }
+
+    public function invoiceCompany(): BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Company::class, 'invoice_company_id')->withDefault();
     }
 
     public function parameters(): BelongsToMany
