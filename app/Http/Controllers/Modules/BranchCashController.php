@@ -97,12 +97,10 @@ class BranchCashController extends Controller
         $departmentId = $branchCash->department_id;
 
         // Eyni gündə, eyni departamentdə, ödəniş tarixi (paid_at) uyğun olan işlər
-        // Tarixi günün başlanğıcı və sonuna qədər interval kimi götürək
-        $start = \Carbon\Carbon::parse($date)->startOfDay();
-        $end   = \Carbon\Carbon::parse($date)->endOfDay();
-
+        // whereDate istifadə edək ki, tarixin yalnız gün hissəsini müqayisə edək
         $works = Work::where('department_id', $departmentId)
-            ->whereBetween('paid_at', [$start, $end])
+            ->whereNotNull('paid_at')
+            ->whereDate('paid_at', $date)
             ->with('client', 'service')
             ->get();
 
