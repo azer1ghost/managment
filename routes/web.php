@@ -35,6 +35,7 @@ use App\Http\Controllers\{Auth\EmailVerificationController,
     Modules\EmployeeSatisfactionController,
     Modules\FinanceClientController,
     Modules\FolderController,
+    Modules\PdfSignatureController,
     Modules\FundController,
     Modules\InquiryController,
     Modules\InternalDocumentController,
@@ -326,6 +327,10 @@ Route::group([
     Route::get('/invoices/{id}/restore',[FinanceClientController::class, 'restoreInvoice'] )->name('invoices.restore');
     Route::get('/invoices/{id}/force-delete',[FinanceClientController::class, 'forceDeleteInvoice'] )->name('invoices.force-delete');
     Route::post('/signInvoice',[FinanceClientController::class, 'signInvoice'] )->name('signInvoice');
+    
+    // PDF Signature Stamping
+    Route::get('/finance/pdf-signature', [PdfSignatureController::class, 'index'])->name('pdf-signature.index');
+    Route::post('/finance/pdf-signature', [PdfSignatureController::class, 'store'])->name('pdf-signature.store');
 
     // AI Agent - READ-ONLY analytical questions
     Route::post('/ai/ask', [AIController::class, 'ask'])->name('ai.ask');

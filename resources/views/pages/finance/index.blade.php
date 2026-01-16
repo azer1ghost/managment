@@ -23,8 +23,13 @@
 @section('content')
     <div class="text-center container">
         <div class="card">
-            <div class="row col-12 justify-content-center"><a href="{{ route('invoices') }}" class="btn btn-dark col-5 m-2">Şablonlar</a>
-                <a href="{{ route('financeClients') }}" class="btn btn-google col-5 m-2">Müştərilər</a></div>
+            <div class="row col-12 justify-content-center">
+                <a href="{{ route('invoices') }}" class="btn btn-dark col-5 m-2">Şablonlar</a>
+                <a href="{{ route('financeClients') }}" class="btn btn-google col-5 m-2">Müştərilər</a>
+                <a href="{{ route('pdf-signature.index') }}" class="btn btn-primary col-5 m-2">
+                    <i class="fas fa-file-signature"></i> PDF İmza Əlavə Et
+                </a>
+            </div>
             <h3>Rekvizitlər</h3>
             <div class="row col-12 justify-content-center">
 

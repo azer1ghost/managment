@@ -261,6 +261,12 @@ class Sidebar extends Component
                         'url' => route('birbank.index'),
                         'permission' => 'viewAny-financeClient',
                     ],
+                    (object)[
+                        'title' => 'PDF İmza Əlavə Et',
+                        'icon' => 'fas fa-file-signature',
+                        'url' => route('pdf-signature.index'),
+                        'permission' => 'viewAny-financeClient',
+                    ],
                 ]
             ],
 
