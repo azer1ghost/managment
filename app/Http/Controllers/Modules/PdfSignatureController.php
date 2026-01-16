@@ -52,6 +52,14 @@ class PdfSignatureController extends Controller
 
             // Store uploaded PDF
             $inputPdfPath = $this->pdfSignatureService->storeUploadedPdf($pdfFile);
+            
+            // Verify uploaded file exists
+            if (!file_exists($inputPdfPath)) {
+                return redirect()
+                    ->route('pdf-signature.index')
+                    ->withErrors(['error' => 'PDF faylı yadda saxlanıla bilmədi. Zəhmət olmasa yenidən cəhd edin.'])
+                    ->withInput();
+            }
 
             // Get signature path
             $signaturePath = $this->pdfSignatureService->getSignaturePath($signatureName);

@@ -85,8 +85,24 @@ class PdfSignatureService
      */
     public function storeUploadedPdf(UploadedFile $file): string
     {
+        // Ensure upload directory exists
+        $uploadDir = storage_path('app/' . self::UPLOAD_DIR);
+        if (!File::exists($uploadDir)) {
+            File::makeDirectory($uploadDir, 0755, true);
+        }
+        
+        // Store file
         $path = $file->store(self::UPLOAD_DIR);
-        return storage_path('app/' . $path);
+        
+        // Get full path - store() returns path relative to storage/app
+        $fullPath = storage_path('app/' . $path);
+        
+        // Verify file was actually stored
+        if (!File::exists($fullPath)) {
+            throw new \Exception('PDF faylı yadda saxlanıla bilmədi: ' . $fullPath);
+        }
+        
+        return $fullPath;
     }
 
     /**
@@ -112,11 +128,20 @@ class PdfSignatureService
     {
         $outputDir = storage_path('app/' . self::OUTPUT_DIR);
         
+        // Ensure output directory exists
         if (!File::exists($outputDir)) {
             File::makeDirectory($outputDir, 0755, true);
         }
 
-        return $outputDir . '/' . $filename;
+        $fullPath = $outputDir . '/' . $filename;
+        
+        // Ensure parent directory exists
+        $parentDir = dirname($fullPath);
+        if (!File::exists($parentDir)) {
+            File::makeDirectory($parentDir, 0755, true);
+        }
+
+        return $fullPath;
     }
 
     /**
