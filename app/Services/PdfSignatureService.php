@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use Illuminate\Support\Str;
 
 class PdfSignatureService
 {
@@ -91,11 +92,14 @@ class PdfSignatureService
             File::makeDirectory($uploadDir, 0755, true);
         }
         
-        // Store file
-        $path = $file->store(self::UPLOAD_DIR);
+        // Generate unique filename
+        $filename = Str::random(40) . '.' . $file->getClientOriginalExtension();
+        $fullPath = $uploadDir . '/' . $filename;
         
-        // Get full path - store() returns path relative to storage/app
-        $fullPath = storage_path('app/' . $path);
+        // Move uploaded file directly
+        if (!$file->move($uploadDir, $filename)) {
+            throw new \Exception('PDF faylı yadda saxlanıla bilmədi: ' . $fullPath);
+        }
         
         // Verify file was actually stored
         if (!File::exists($fullPath)) {
