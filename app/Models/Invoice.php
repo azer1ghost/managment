@@ -28,10 +28,20 @@ class Invoice extends Model
         static::updating(function ($invoice) {
             // If invoice is signed, only allow updating is_signed flag
             if ($invoice->is_signed == 1) {
-                $allowedFields = ['is_signed', 'updated_at'];
+                $allowedFields = ['is_signed', 'updated_at', 'deleted_at'];
                 $dirtyFields = array_keys($invoice->getDirty());
 
+                // Check if we're restoring (deleted_at was not null and is being set to null)
+                $isRestoring = in_array('deleted_at', $dirtyFields) 
+                    && $invoice->getOriginal('deleted_at') !== null 
+                    && $invoice->deleted_at === null;
+
                 foreach ($dirtyFields as $field) {
+                    // Allow all fields during restore operation (restoring from trash)
+                    if ($isRestoring) {
+                        continue;
+                    }
+                    
                     if (!in_array($field, $allowedFields)) {
                         throw new \Exception('İmzalanmış qaimələr dəyişdirilə bilməz. Yalnız imza statusu dəyişdirilə bilər. Dəyişiklik etmək üçün qaiməni kopyalayın.');
                     }
