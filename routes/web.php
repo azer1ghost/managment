@@ -374,11 +374,6 @@ Route::group([
     Route::post('/users/{user}/enable', [UserController::class, 'enable'])->name('users.enable');
     Route::post('/users/{user}/disable', [UserController::class, 'disable'])->name('users.disable');
     Route::get('/users/{user}/login-as-user', [UserController::class, 'loginAsUser'])->name('users.loginAs');
-    
-    // Log Reader routes
-    Route::get('/log-reader', [\App\Http\Controllers\Modules\LogReaderController::class, 'getIndex'])->name('log-reader.index');
-    Route::post('/log-reader', [\App\Http\Controllers\Modules\LogReaderController::class, 'postDelete'])->name('log-reader.delete');
-    Route::get('/api/log-reader', [\App\Http\Controllers\Modules\LogReaderController::class, 'getLogs'])->name('log-reader.api');
 });
 
 // Birbank routes (outside module prefix, but with same middleware)

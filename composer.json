@@ -70,9 +70,7 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": [
-                "haruncpi/laravel-log-reader"
-            ]
+            "dont-discover": []
         }
     },
     "config": {

@@ -36,8 +36,11 @@ class AIService
     {
         $apiKey = config('services.openai.api_key', env('OPENAI_API_KEY', ''));
         
-        // Don't throw exception in constructor - check when actually needed
-        $this->openAiApiKey = $apiKey ?: '';
+        if (empty($apiKey)) {
+            throw new \RuntimeException('OpenAI API key is not configured. Please set OPENAI_API_KEY in your .env file.');
+        }
+        
+        $this->openAiApiKey = $apiKey;
     }
 
     /**
@@ -1374,10 +1377,6 @@ Cavablarını Azərbaycan dilində, biznes rəhbərləri üçün anlaşıqlı fo
      */
     private function callOpenAI(string $systemPrompt, string $userPrompt): string
     {
-        if (empty($this->openAiApiKey)) {
-            throw new \RuntimeException('OpenAI API key is not configured. Please set OPENAI_API_KEY in your .env file.');
-        }
-        
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $this->openAiApiKey,
             'Content-Type' => 'application/json',
