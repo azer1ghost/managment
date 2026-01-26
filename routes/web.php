@@ -376,9 +376,9 @@ Route::group([
     Route::get('/users/{user}/login-as-user', [UserController::class, 'loginAsUser'])->name('users.loginAs');
     
     // Log Reader routes
-    Route::get('/log-reader', [\Haruncpi\LaravelLogReader\Controllers\LogReaderController::class, 'getIndex'])->name('log-reader.index');
-    Route::post('/log-reader', [\Haruncpi\LaravelLogReader\Controllers\LogReaderController::class, 'postDelete'])->name('log-reader.delete');
-    Route::get('/api/log-reader', [\Haruncpi\LaravelLogReader\Controllers\LogReaderController::class, 'getLogs'])->name('log-reader.api');
+    Route::get('/log-reader', [\App\Http\Controllers\Modules\LogReaderController::class, 'getIndex'])->name('log-reader.index');
+    Route::post('/log-reader', [\App\Http\Controllers\Modules\LogReaderController::class, 'postDelete'])->name('log-reader.delete');
+    Route::get('/api/log-reader', [\App\Http\Controllers\Modules\LogReaderController::class, 'getLogs'])->name('log-reader.api');
 });
 
 // Birbank routes (outside module prefix, but with same middleware)
