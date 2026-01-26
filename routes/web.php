@@ -44,6 +44,7 @@ use App\Http\Controllers\{Auth\EmailVerificationController,
     Modules\IsoDocumentController,
     Modules\JobInstructionController,
     Modules\LogisticsClientController,
+    Modules\LogReaderController,
     Modules\LogisticsController,
     Modules\MeetingController,
     Modules\NecessaryController,
@@ -374,6 +375,17 @@ Route::group([
     Route::post('/users/{user}/enable', [UserController::class, 'enable'])->name('users.enable');
     Route::post('/users/{user}/disable', [UserController::class, 'disable'])->name('users.disable');
     Route::get('/users/{user}/login-as-user', [UserController::class, 'loginAsUser'])->name('users.loginAs');
+
+    // Log Reader (overrides haruncpi/laravel-log-reader; supports laravel.log + laravel-YYYY-MM-DD.log)
+    Route::get('/log-reader', [LogReaderController::class, 'getIndex']);
+    Route::post('/log-reader', [LogReaderController::class, 'postDelete']);
+    Route::get('/api/log-reader', [LogReaderController::class, 'getLogs']);
+    if (app()->environment('local')) {
+        Route::get('/log-reader-test', function () {
+            \Illuminate\Support\Facades\Log::info('LOG_READER_SERVER_TEST', ['time' => now()]);
+            return response()->json(['message' => 'Test log written. Reload Log Reader and select today\'s log.']);
+        });
+    }
 });
 
 // Birbank routes (outside module prefix, but with same middleware)
