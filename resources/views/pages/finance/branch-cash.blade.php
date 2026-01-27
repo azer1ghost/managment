@@ -34,15 +34,16 @@
                     <button type="submit" class="btn btn-outline-primary mr-2">
                         @lang('translates.buttons.show')
                     </button>
-                    <form method="POST" action="{{ route('branch-cashes.sync-from-works') }}" class="d-inline">
-                        @csrf
-                        <input type="hidden" name="branch_cash_id" value="{{ $branchCash->id }}">
-                        <button type="submit" class="btn btn-success">
-                            İşləri kassaya yüklə
-                        </button>
-                    </form>
                 </div>
             </div>
+        </form>
+
+        <form method="POST" action="{{ route('branch-cashes.sync-from-works') }}" class="mb-3">
+            @csrf
+            <input type="hidden" name="branch_cash_id" value="{{ $branchCash->id }}">
+            <button type="submit" class="btn btn-success">
+                İşləri kassaya yüklə
+            </button>
         </form>
 
         @if(session('success'))
