@@ -32,42 +32,33 @@ class LogReaderService
             $identifiers[] = self::SINGLE_FILE;
         }
 
-        // 2) Default daily files (laravel-YYYY-MM-DD.log)
-        $daily = glob($dir . '/' . self::DAILY_PREFIX . '*.log');
-        if ($daily !== false) {
-            rsort($daily);
-            foreach ($daily as $path) {
-                $name = basename($path);
-                }
-            }
-        }
+        // 2) Daily files (laravel-YYYY-MM-DD.log or Laravel-YYYY-MM-DD.log)
+        $dailyLower = glob($dir . '/' . self::DAILY_PREFIX . '*.log') ?: [];
+        $dailyUpper = glob($dir . '/' . self::DAILY_PREFIX_ALT . '*.log') ?: [];
+        $dailyFiles = array_merge($dailyLower, $dailyUpper);
 
-        // 2.b) Capitalized daily files (Laravel-YYYY-MM-DD.log)
-        $dailyAlt = glob($dir . '/' . self::DAILY_PREFIX_ALT . '*.log');
-        if ($dailyAlt !== false) {
-            rsort($dailyAlt);
-            foreach ($dailyAlt as $path) {
+        if ($dailyFiles) {
+            rsort($dailyFiles);
+            foreach ($dailyFiles as $path) {
                 $name = basename($path);
-                if (preg_match('/^Laravel-(.+)\.log$/', $name, $m)) {
-                    $identifiers[] = $m[1];
-                if (preg_match('/^laravel-(.+)\.log$/', $name, $m)) {
-                    $identifiers[] = $m[1];
+                // Case-insensitive: matches both laravel- and Laravel-
+                if (preg_match('/^laravel-(.+)\.log$/i', $name, $m)) {
+                    $identifiers[] = $m[1]; // just the date part
                 }
             }
         }
 
         // 3) Fallback: if nothing found, include any *.log files (custom log channels)
         if ($identifiers === []) {
-            $all = glob($dir . '/*.log');
-            if ($all !== false) {
-                sort($all);
-                foreach ($all as $path) {
-                    $identifiers[] = basename($path);
-                }
+            $all = glob($dir . '/*.log') ?: [];
+            sort($all);
+            foreach ($all as $path) {
+                $identifiers[] = basename($path);
             }
         }
 
-        return $identifiers;
+        // Remove duplicates and normalize keys
+        return array_values(array_unique($identifiers));
     }
 
     /**
