@@ -10,6 +10,7 @@ use App\Models\Work;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class BranchCashController extends Controller
 {
@@ -104,7 +105,18 @@ class BranchCashController extends Controller
             ->with('client', 'service')
             ->get();
 
-        DB::transaction(function () use ($works, $branchCash) {
+        Log::info('syncFromWorks başladı', [
+            'branch_cash_id' => $branchCash->id,
+            'date' => $date,
+            'department_id' => $departmentId,
+            'works_count' => $works->count(),
+        ]);
+
+        $itemsCreated = 0;
+        $itemsUpdated = 0;
+        $itemsSkipped = 0;
+
+        DB::transaction(function () use ($works, $branchCash, &$itemsCreated, &$itemsUpdated, &$itemsSkipped) {
             foreach ($works as $work) {
                 // Əgər bu iş artıq kassada varsa, təkrarlamayaq
                 $existing = $branchCash->items()
@@ -119,6 +131,7 @@ class BranchCashController extends Controller
                 $totalAmount = $amountPaid + $vatPaid + $illegalPaid + $bankCharge;
 
                 if ($totalAmount <= 0) {
+                    $itemsSkipped++;
                     continue;
                 }
 
@@ -137,15 +150,28 @@ class BranchCashController extends Controller
                         'description' => $description,
                         'amount'      => $totalAmount,
                     ]);
+                    $itemsUpdated++;
+                    Log::info('Kassa sətri yeniləndi', [
+                        'work_id' => $work->id,
+                        'item_id' => $existing->id,
+                        'amount' => $totalAmount,
+                    ]);
                 } else {
-                    $branchCash->items()->create([
+                    $item = $branchCash->items()->create([
                         'work_id'     => $work->id,
                         'direction'   => 'income',
                         'description' => $description,
-                        'gb'          => (int) ($work->getParameter($work::GB) ?? 0),
+                        'gb'          => (int) ($work->getParameterValue(Work::GB) ?? 0),
                         'price'       => $totalAmount,
                         'amount'      => $totalAmount,
                         'note'        => $work->code,
+                    ]);
+                    $itemsCreated++;
+                    Log::info('Yeni kassa sətri yaradıldı', [
+                        'work_id' => $work->id,
+                        'item_id' => $item->id,
+                        'amount' => $totalAmount,
+                        'description' => $description,
                     ]);
                 }
             }
@@ -154,9 +180,23 @@ class BranchCashController extends Controller
             $branchCash->recalculateTotals();
         });
 
+        Log::info('syncFromWorks tamamlandı', [
+            'branch_cash_id' => $branchCash->id,
+            'items_created' => $itemsCreated,
+            'items_updated' => $itemsUpdated,
+            'items_skipped' => $itemsSkipped,
+        ]);
+
+        $message = sprintf(
+            'Günlük işlər kassaya yükləndi. Yeni: %d, Yenilənmiş: %d, Atlandı: %d',
+            $itemsCreated,
+            $itemsUpdated,
+            $itemsSkipped
+        );
+
         return redirect()
             ->back()
-            ->with('success', 'Günlük işlər kassaya yükləndi.');
+            ->with('success', $message);
     }
 
     /**
