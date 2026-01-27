@@ -8,6 +8,8 @@ class LogReaderService
 {
     protected const SINGLE_FILE = 'laravel.log';
     protected const DAILY_PREFIX = 'laravel-';
+    // Some servers/apps use capitalized prefix in logging path (Laravel.log → Laravel-YYYY-MM-DD.log)
+    protected const DAILY_PREFIX_ALT = 'Laravel-';
     protected const PATTERN = '/^\[(?<date>.*)\]\s(?<env>\w+)\.(?<type>\w+):(?<message>.*)/m';
 
     /**
@@ -36,6 +38,18 @@ class LogReaderService
             rsort($daily);
             foreach ($daily as $path) {
                 $name = basename($path);
+                }
+            }
+        }
+
+        // 2.b) Capitalized daily files (Laravel-YYYY-MM-DD.log)
+        $dailyAlt = glob($dir . '/' . self::DAILY_PREFIX_ALT . '*.log');
+        if ($dailyAlt !== false) {
+            rsort($dailyAlt);
+            foreach ($dailyAlt as $path) {
+                $name = basename($path);
+                if (preg_match('/^Laravel-(.+)\.log$/', $name, $m)) {
+                    $identifiers[] = $m[1];
                 if (preg_match('/^laravel-(.+)\.log$/', $name, $m)) {
                     $identifiers[] = $m[1];
                 }
@@ -70,9 +84,14 @@ class LogReaderService
             return storage_path('logs/' . self::SINGLE_FILE);
         }
 
-        // Identifier is a date value (from laravel-YYYY-MM-DD.log)
+        // Identifier is a date value (from laravel-YYYY-MM-DD.log / Laravel-YYYY-MM-DD.log)
         if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $identifier)) {
-            return storage_path('logs/' . self::DAILY_PREFIX . $identifier . '.log');
+            $lower = storage_path('logs/' . self::DAILY_PREFIX . $identifier . '.log');
+            if (File::exists($lower)) {
+                return $lower;
+            }
+            // Fallback to capitalized prefix
+            return storage_path('logs/' . self::DAILY_PREFIX_ALT . $identifier . '.log');
         }
 
         // Fallback: treat identifier as full filename (e.g. custom.log)
@@ -89,7 +108,19 @@ class LogReaderService
         }
 
         if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $identifier)) {
-            return self::DAILY_PREFIX . $identifier . '.log';
+            // Prefer actual existing filename if possible
+            $lower = self::DAILY_PREFIX . $identifier . '.log';
+            if (File::exists(storage_path('logs/' . $lower))) {
+                return $lower;
+            }
+
+            $upper = self::DAILY_PREFIX_ALT . $identifier . '.log';
+            if (File::exists(storage_path('logs/' . $upper))) {
+                return $upper;
+            }
+
+            // Fallback to default lowercase naming
+            return $lower;
         }
 
         // For custom names we keep identifier as-is
