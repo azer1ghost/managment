@@ -37,10 +37,12 @@ class BranchCashController extends Controller
             $branchCash = $this->createBranchCash($departmentId, $date);
         }
 
+        // Items-i yenidən yüklə (syncFromWorks-dən sonra refresh üçün)
         $branchCash->load('items.work', 'department');
 
-        $incomeItems = $branchCash->items->where('direction', 'income');
-        $expenseItems = $branchCash->items->where('direction', 'expense');
+        // Collection filter əvəzinə query filter istifadə edək (daha etibarlı)
+        $incomeItems = $branchCash->items()->where('direction', 'income')->get();
+        $expenseItems = $branchCash->items()->where('direction', 'expense')->get();
 
         $incomeSum = $incomeItems->sum('amount');
         $expenseSum = $expenseItems->sum('amount');
@@ -177,6 +179,8 @@ class BranchCashController extends Controller
             }
 
             $branchCash->refresh();
+            // Items relation-u yenilə (yeni yaradılan items görünsün)
+            $branchCash->load('items');
             $branchCash->recalculateTotals();
         });
 
