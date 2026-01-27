@@ -37,12 +37,10 @@ class BranchCashController extends Controller
             $branchCash = $this->createBranchCash($departmentId, $date);
         }
 
-        // Items-i yenidən yüklə (syncFromWorks-dən sonra refresh üçün)
         $branchCash->load('items.work', 'department');
 
-        // Collection filter əvəzinə query filter istifadə edək (daha etibarlı)
-        $incomeItems = $branchCash->items()->where('direction', 'income')->get();
-        $expenseItems = $branchCash->items()->where('direction', 'expense')->get();
+        $incomeItems = $branchCash->items->where('direction', 'income');
+        $expenseItems = $branchCash->items->where('direction', 'expense');
 
         $incomeSum = $incomeItems->sum('amount');
         $expenseSum = $expenseItems->sum('amount');
@@ -89,36 +87,37 @@ class BranchCashController extends Controller
      */
     public function syncFromWorks(Request $request)
     {
-        $request->validate([
-            'branch_cash_id' => ['required', 'integer', 'exists:branch_cashes,id'],
-        ]);
+        try {
+            $request->validate([
+                'branch_cash_id' => ['required', 'integer', 'exists:branch_cashes,id'],
+            ]);
 
-        /** @var BranchCash $branchCash */
-        $branchCash = BranchCash::with('items')->findOrFail($request->input('branch_cash_id'));
+            /** @var BranchCash $branchCash */
+            $branchCash = BranchCash::with('items')->findOrFail($request->input('branch_cash_id'));
 
-        $date = $branchCash->date->toDateString();
-        $departmentId = $branchCash->department_id;
+            $date = $branchCash->date->toDateString();
+            $departmentId = $branchCash->department_id;
 
-        // Eyni gündə, eyni departamentdə, ödəniş tarixi (paid_at) uyğun olan işlər
-        // whereDate istifadə edək ki, tarixin yalnız gün hissəsini müqayisə edək
-        $works = Work::where('department_id', $departmentId)
-            ->whereNotNull('paid_at')
-            ->whereDate('paid_at', $date)
-            ->with('client', 'service')
-            ->get();
+            // Eyni gündə, eyni departamentdə, ödəniş tarixi (paid_at) uyğun olan işlər
+            // whereDate istifadə edək ki, tarixin yalnız gün hissəsini müqayisə edək
+            $works = Work::where('department_id', $departmentId)
+                ->whereNotNull('paid_at')
+                ->whereDate('paid_at', $date)
+                ->with('client', 'service')
+                ->get();
 
-        Log::info('syncFromWorks başladı', [
-            'branch_cash_id' => $branchCash->id,
-            'date' => $date,
-            'department_id' => $departmentId,
-            'works_count' => $works->count(),
-        ]);
+            Log::info('syncFromWorks başladı', [
+                'branch_cash_id' => $branchCash->id,
+                'date' => $date,
+                'department_id' => $departmentId,
+                'works_count' => $works->count(),
+            ]);
 
-        $itemsCreated = 0;
-        $itemsUpdated = 0;
-        $itemsSkipped = 0;
+            $itemsCreated = 0;
+            $itemsUpdated = 0;
+            $itemsSkipped = 0;
 
-        DB::transaction(function () use ($works, $branchCash, &$itemsCreated, &$itemsUpdated, &$itemsSkipped) {
+            DB::transaction(function () use ($works, $branchCash, &$itemsCreated, &$itemsUpdated, &$itemsSkipped) {
             foreach ($works as $work) {
                 // Əgər bu iş artıq kassada varsa, təkrarlamayaq
                 $existing = $branchCash->items()
@@ -184,23 +183,33 @@ class BranchCashController extends Controller
             $branchCash->recalculateTotals();
         });
 
-        Log::info('syncFromWorks tamamlandı', [
-            'branch_cash_id' => $branchCash->id,
-            'items_created' => $itemsCreated,
-            'items_updated' => $itemsUpdated,
-            'items_skipped' => $itemsSkipped,
-        ]);
+            Log::info('syncFromWorks tamamlandı', [
+                'branch_cash_id' => $branchCash->id,
+                'items_created' => $itemsCreated,
+                'items_updated' => $itemsUpdated,
+                'items_skipped' => $itemsSkipped,
+            ]);
 
-        $message = sprintf(
-            'Günlük işlər kassaya yükləndi. Yeni: %d, Yenilənmiş: %d, Atlandı: %d',
-            $itemsCreated,
-            $itemsUpdated,
-            $itemsSkipped
-        );
+            $message = sprintf(
+                'Günlük işlər kassaya yükləndi. Yeni: %d, Yenilənmiş: %d, Atlandı: %d',
+                $itemsCreated,
+                $itemsUpdated,
+                $itemsSkipped
+            );
 
-        return redirect()
-            ->back()
-            ->with('success', $message);
+            return redirect()
+                ->back()
+                ->with('success', $message);
+        } catch (\Exception $e) {
+            Log::error('syncFromWorks xətası', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return redirect()
+                ->back()
+                ->with('error', 'Xəta baş verdi: ' . $e->getMessage());
+        }
     }
 
     /**

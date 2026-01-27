@@ -51,6 +51,12 @@
             </div>
         @endif
 
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <div class="card">
             <div class="card-body">
                 <h4 class="text-center mb-1">
