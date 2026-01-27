@@ -150,6 +150,7 @@ class BranchCashController extends Controller
                     $existing->update([
                         'description' => $description,
                         'amount'      => $totalAmount,
+                        'representative' => (int) ($work->getParameterValue(Work::SERVICECOUNT) ?? 0), // parameter_id=20 (Say)
                     ]);
                     $itemsUpdated++;
                     Log::info('Kassa sətri yeniləndi', [
@@ -163,6 +164,8 @@ class BranchCashController extends Controller
                         'direction'   => 'income',
                         'description' => $description,
                         'gb'          => (int) ($work->getParameterValue(Work::GB) ?? 0),
+                        'representative' => (int) ($work->getParameterValue(Work::SERVICECOUNT) ?? 0), // parameter_id=20 (Say)
+                        'sb'          => 0, // Yığışdır - indi boş qoyuruq
                         'price'       => $totalAmount,
                         'amount'      => $totalAmount,
                         'note'        => $work->code,
@@ -234,6 +237,31 @@ class BranchCashController extends Controller
         return redirect()
             ->back()
             ->with('success', 'Kassa sətiri əlavə olundu.');
+    }
+
+    /**
+     * Kassa sətirini sil (yalnız manual əlavə edilənlər - work_id null olanlar).
+     */
+    public function deleteItem(BranchCash $branchCash, BranchCashItem $item)
+    {
+        // Yalnız manual əlavə edilən sətrləri silməyə icazə ver (work_id null)
+        if ($item->work_id !== null) {
+            return redirect()
+                ->back()
+                ->with('error', 'Bu sətir işlərdən avtomatik yüklənib, silinə bilməz.');
+        }
+
+        // Item bu kassaya aid olduğunu yoxla
+        if ($item->branch_cash_id !== $branchCash->id) {
+            abort(403, 'Bu sətir bu kassaya aid deyil.');
+        }
+
+        $item->delete();
+        $branchCash->recalculateTotals();
+
+        return redirect()
+            ->back()
+            ->with('success', 'Kassa sətiri silindi.');
     }
 
     /**

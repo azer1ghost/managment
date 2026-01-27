@@ -234,6 +234,7 @@ Route::group([
     Route::get('/branch-cashes', [BranchCashController::class, 'index'])->name('branch-cashes.index');
     Route::post('/branch-cashes/sync-from-works', [BranchCashController::class, 'syncFromWorks'])->name('branch-cashes.sync-from-works');
     Route::post('/branch-cashes/{branchCash}/items', [BranchCashController::class, 'storeItem'])->name('branch-cashes.items.store');
+    Route::delete('/branch-cashes/{branchCash}/items/{item}', [BranchCashController::class, 'deleteItem'])->name('branch-cashes.items.delete');
     Route::post('/branch-cashes/{branchCash}/header', [BranchCashController::class, 'updateHeader'])->name('branch-cashes.header.update');
     Route::get('/works/report', [WorkController::class, 'report'])->name('works.report');
     Route::get('/works/export', [WorkController::class, 'export'])->name('works.export');

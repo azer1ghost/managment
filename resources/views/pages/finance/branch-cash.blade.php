@@ -105,11 +105,12 @@
                             <tr>
                                 <th>Növ</th>
                                 <th>GB</th>
-                                <th>Təmsilçi</th>
-                                <th>SB</th>
+                                <th>Say</th>
+                                <th>Yığışdır</th>
                                 <th>Qiymət</th>
                                 <th>Məbləğ</th>
                                 <th>Qeyd</th>
+                                <th>Əməliyyat</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -117,15 +118,34 @@
                                 <tr>
                                     <td>{{ $item->description }}</td>
                                     <td class="text-center">{{ $item->gb }}</td>
-                                    <td class="text-center">{{ $item->representative }}</td>
-                                    <td class="text-center">{{ $item->sb }}</td>
+                                    <td class="text-center">
+                                        @if($item->work_id && $item->work)
+                                            {{ $item->work->getParameterValue(20) ?? $item->representative ?? 0 }}
+                                        @else
+                                            {{ $item->representative ?? 0 }}
+                                        @endif
+                                    </td>
+                                    <td class="text-center">{{ $item->sb ?? 0 }}</td>
                                     <td class="text-right">{{ number_format($item->price, 2, '.', ' ') }}</td>
                                     <td class="text-right">{{ number_format($item->amount, 2, '.', ' ') }}</td>
                                     <td>{{ $item->note }}</td>
+                                    <td class="text-center">
+                                        @if($item->work_id === null)
+                                            <form method="POST" action="{{ route('branch-cashes.items.delete', [$branchCash, $item]) }}" class="d-inline" onsubmit="return confirm('Bu sətri silmək istədiyinizə əminsiniz?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger">
+                                                    <i class="fa fa-trash"></i> Sil
+                                                </button>
+                                            </form>
+                                        @else
+                                            <span class="text-muted small">Avtomatik</span>
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                             <tr>
-                                <td colspan="5" class="text-right font-weight-bold">Cəmi</td>
+                                <td colspan="6" class="text-right font-weight-bold">Cəmi</td>
                                 <td class="text-right font-weight-bold">
                                     {{ number_format($incomeSum, 2, '.', ' ') }}
                                 </td>
@@ -147,11 +167,11 @@
                                     <input type="number" name="gb" class="form-control">
                                 </div>
                                 <div class="col-md-1">
-                                    <label>Təmsilçi</label>
+                                    <label>Say</label>
                                     <input type="number" name="representative" class="form-control">
                                 </div>
                                 <div class="col-md-1">
-                                    <label>SB</label>
+                                    <label>Yığışdır</label>
                                     <input type="number" name="sb" class="form-control">
                                 </div>
                                 <div class="col-md-2">
@@ -184,11 +204,12 @@
                             <tr>
                                 <th>Növ</th>
                                 <th>GB</th>
-                                <th>Təmsilçi</th>
-                                <th>SB</th>
+                                <th>Say</th>
+                                <th>Yığışdır</th>
                                 <th>Qiymət</th>
                                 <th>Məbləğ</th>
                                 <th>Qeyd</th>
+                                <th>Əməliyyat</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -196,15 +217,34 @@
                                 <tr>
                                     <td>{{ $item->description }}</td>
                                     <td class="text-center">{{ $item->gb }}</td>
-                                    <td class="text-center">{{ $item->representative }}</td>
-                                    <td class="text-center">{{ $item->sb }}</td>
+                                    <td class="text-center">
+                                        @if($item->work_id && $item->work)
+                                            {{ $item->work->getParameterValue(20) ?? $item->representative ?? 0 }}
+                                        @else
+                                            {{ $item->representative ?? 0 }}
+                                        @endif
+                                    </td>
+                                    <td class="text-center">{{ $item->sb ?? 0 }}</td>
                                     <td class="text-right">{{ number_format($item->price, 2, '.', ' ') }}</td>
                                     <td class="text-right">{{ number_format($item->amount, 2, '.', ' ') }}</td>
                                     <td>{{ $item->note }}</td>
+                                    <td class="text-center">
+                                        @if($item->work_id === null)
+                                            <form method="POST" action="{{ route('branch-cashes.items.delete', [$branchCash, $item]) }}" class="d-inline" onsubmit="return confirm('Bu sətri silmək istədiyinizə əminsiniz?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger">
+                                                    <i class="fa fa-trash"></i> Sil
+                                                </button>
+                                            </form>
+                                        @else
+                                            <span class="text-muted small">Avtomatik</span>
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                             <tr>
-                                <td colspan="5" class="text-right font-weight-bold">Cəmi</td>
+                                <td colspan="6" class="text-right font-weight-bold">Cəmi</td>
                                 <td class="text-right font-weight-bold">
                                     {{ number_format($expenseSum, 2, '.', ' ') }}
                                 </td>
@@ -226,11 +266,11 @@
                                     <input type="number" name="gb" class="form-control">
                                 </div>
                                 <div class="col-md-1">
-                                    <label>Təmsilçi</label>
+                                    <label>Say</label>
                                     <input type="number" name="representative" class="form-control">
                                 </div>
                                 <div class="col-md-1">
-                                    <label>SB</label>
+                                    <label>Yığışdır</label>
                                     <input type="number" name="sb" class="form-control">
                                 </div>
                                 <div class="col-md-2">
