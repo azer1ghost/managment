@@ -201,30 +201,12 @@ class LogReaderService
                 continue;
             }
             if (preg_match($pattern, $line, $m)) {
+                // Yalnız əsas Monolog sətrini göstəririk (stacktrace və s. atılır ki, loglar çox böyüməsin)
                 $logs[] = [
                     'timestamp' => $m['date'],
                     'env' => $m['env'],
                     'type' => $m['type'],
                     'message' => trim($m['message']),
-                ];
-            } else {
-                // Stacktrace və əlavə xətlər: ayrı sətir kimi yox, əvvəlki logun içində göstər
-                if (!empty($logs) && (
-                    strpos($line, '#') === 0 ||
-                    $line === '[stacktrace]' ||
-                    $line === '{main}' ||
-                    strpos($line, 'Stack trace:') === 0
-                )) {
-                    $lastIndex = count($logs) - 1;
-                    $logs[$lastIndex]['message'] .= "\n" . $line;
-                    continue;
-                }
-
-                $logs[] = [
-                    'timestamp' => '-',
-                    'env' => '-',
-                    'type' => 'RAW',
-                    'message' => $line,
                 ];
             }
         }
