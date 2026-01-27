@@ -25,7 +25,12 @@ class LogReaderController extends Controller
         $result = $this->logReader->getLogs($date);
 
         if ($result['success']) {
-            return response()->json(['success' => true, 'data' => $result['data']]);
+            return response()->json(
+                ['success' => true, 'data' => $result['data']],
+                200,
+                [],
+                JSON_INVALID_UTF8_SUBSTITUTE
+            );
         }
 
         $fallback = [
@@ -34,26 +39,43 @@ class LogReaderController extends Controller
             'filename' => '',
             'logs' => [],
         ];
-        return response()->json([
-            'success' => false,
-            'message' => $result['message'],
-            'data' => $fallback,
-        ]);
+        return response()->json(
+            [
+                'success' => false,
+                'message' => $result['message'],
+                'data' => $fallback,
+            ],
+            200,
+            [],
+            JSON_INVALID_UTF8_SUBSTITUTE
+        );
     }
 
     public function postDelete(Request $request): JsonResponse
     {
         if ($request->has('filename')) {
             $ok = $this->logReader->deleteFile($request->get('filename'));
-            return $ok
-                ? response()->json(['success' => true, 'message' => 'Successfully deleted'])
-                : response()->json(['success' => false, 'message' => 'File not found or invalid']);
+            $payload = $ok
+                ? ['success' => true, 'message' => 'Successfully deleted']
+                : ['success' => false, 'message' => 'File not found or invalid'];
+
+            return response()->json($payload, 200, [], JSON_INVALID_UTF8_SUBSTITUTE);
         }
         if ($request->has('clear') && $request->get('clear') === true) {
             $this->logReader->clearAll();
-            return response()->json(['success' => true, 'message' => 'All Successfully deleted']);
+            return response()->json(
+                ['success' => true, 'message' => 'All Successfully deleted'],
+                200,
+                [],
+                JSON_INVALID_UTF8_SUBSTITUTE
+            );
         }
 
-        return response()->json(['success' => false, 'message' => 'Invalid request']);
+        return response()->json(
+            ['success' => false, 'message' => 'Invalid request'],
+            200,
+            [],
+            JSON_INVALID_UTF8_SUBSTITUTE
+        );
     }
 }
