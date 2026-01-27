@@ -208,6 +208,18 @@ class LogReaderService
                     'message' => trim($m['message']),
                 ];
             } else {
+                // Stacktrace və əlavə xətlər: ayrı sətir kimi yox, əvvəlki logun içində göstər
+                if (!empty($logs) && (
+                    strpos($line, '#') === 0 ||
+                    $line === '[stacktrace]' ||
+                    $line === '{main}' ||
+                    strpos($line, 'Stack trace:') === 0
+                )) {
+                    $lastIndex = count($logs) - 1;
+                    $logs[$lastIndex]['message'] .= "\n" . $line;
+                    continue;
+                }
+
                 $logs[] = [
                     'timestamp' => '-',
                     'env' => '-',
