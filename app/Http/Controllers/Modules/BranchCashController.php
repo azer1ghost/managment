@@ -35,6 +35,23 @@ class BranchCashController extends Controller
 
         if (!$branchCash) {
             $branchCash = $this->createBranchCash($departmentId, $date);
+        } else {
+            // Kassa artıq varsa, opening_balance-in düzgün olduğunu yoxla
+            // (əvvəlki gündə item silinibsə, opening_balance yenilənməlidir)
+            $previous = BranchCash::where('department_id', $departmentId)
+                ->whereDate('date', '<', $date)
+                ->orderBy('date', 'desc')
+                ->first();
+
+            if ($previous) {
+                $previous->recalculateTotals();
+                $previous->refresh();
+                // Əgər opening_balance köhnədirsə, yenilə
+                if (abs($branchCash->opening_balance - $previous->closing_balance) > 0.01) {
+                    $branchCash->opening_balance = $previous->closing_balance;
+                    $branchCash->recalculateTotals();
+                }
+            }
         }
 
         $branchCash->load('items.work', 'department');
@@ -69,7 +86,14 @@ class BranchCashController extends Controller
             ->orderBy('date', 'desc')
             ->first();
 
-        $opening = $previous ? (float) $previous->closing_balance : 0.0;
+        // Əgər əvvəlki gün varsa, closing_balance-i yenidən hesabla (item silinibsə düzgün olsun)
+        if ($previous) {
+            $previous->recalculateTotals();
+            $previous->refresh();
+            $opening = (float) $previous->closing_balance;
+        } else {
+            $opening = 0.0;
+        }
 
         return BranchCash::create([
             'department_id'      => $departmentId,
@@ -255,9 +279,42 @@ class BranchCashController extends Controller
         $item->delete();
         $branchCash->recalculateTotals();
 
+        // Item silindikdən sonra, sonrakı günlərin opening_balance-lərini yenilə
+        $this->updateSubsequentDaysOpeningBalance($branchCash);
+
         return redirect()
             ->back()
             ->with('success', 'Kassa sətiri silindi.');
+    }
+
+    /**
+     * Verilmiş kassadan sonrakı günlərin opening_balance-lərini yenilə.
+     * (Item silindikdə closing_balance dəyişir, sonrakı günlərin opening_balance də dəyişməlidir)
+     */
+    protected function updateSubsequentDaysOpeningBalance(BranchCash $branchCash): void
+    {
+        // Bu gündən sonrakı günlərin kassalarını tap
+        $subsequent = BranchCash::where('department_id', $branchCash->department_id)
+            ->whereDate('date', '>', $branchCash->date)
+            ->orderBy('date', 'asc')
+            ->get();
+
+        // Hər sonrakı gün üçün, əvvəlki günün closing_balance-indən opening_balance-i yenilə
+        foreach ($subsequent as $nextCash) {
+            $previous = BranchCash::where('department_id', $branchCash->department_id)
+                ->whereDate('date', $nextCash->date->copy()->subDay()->toDateString())
+                ->first();
+
+            if ($previous) {
+                // Əvvəlki günün closing_balance-ini yenidən hesabla
+                $previous->recalculateTotals();
+                $previous->refresh();
+                
+                // Bu günün opening_balance-ini əvvəlki günün closing_balance-indən götür
+                $nextCash->opening_balance = $previous->closing_balance;
+                $nextCash->recalculateTotals();
+            }
+        }
     }
 
     /**
