@@ -165,8 +165,6 @@ class BranchCashController extends Controller
                         'description' => $description,
                         'gb'          => (int) ($work->getParameterValue(Work::GB) ?? 0),
                         'representative' => (int) ($work->getParameterValue(Work::SERVICECOUNT) ?? 0), // parameter_id=20 (Say)
-                        'sb'          => 0, // Yığışdır - indi boş qoyuruq
-                        'price'       => $totalAmount,
                         'amount'      => $totalAmount,
                         'note'        => $work->code,
                     ]);
@@ -225,8 +223,6 @@ class BranchCashController extends Controller
             'description'  => ['nullable', 'string', 'max:255'],
             'gb'           => ['nullable', 'integer'],
             'representative' => ['nullable', 'integer'],
-            'sb'           => ['nullable', 'integer'],
-            'price'        => ['nullable', 'numeric'],
             'amount'       => ['required', 'numeric'],
             'note'         => ['nullable', 'string', 'max:255'],
         ]);

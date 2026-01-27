@@ -106,8 +106,6 @@
                                 <th>Növ</th>
                                 <th>GB</th>
                                 <th>Say</th>
-                                <th>Yığışdır</th>
-                                <th>Qiymət</th>
                                 <th>Məbləğ</th>
                                 <th>Qeyd</th>
                                 <th>Əməliyyat</th>
@@ -125,8 +123,6 @@
                                             {{ $item->representative ?? 0 }}
                                         @endif
                                     </td>
-                                    <td class="text-center">{{ $item->sb ?? 0 }}</td>
-                                    <td class="text-right">{{ number_format($item->price, 2, '.', ' ') }}</td>
                                     <td class="text-right">{{ number_format($item->amount, 2, '.', ' ') }}</td>
                                     <td>{{ $item->note }}</td>
                                     <td class="text-center">
@@ -145,10 +141,11 @@
                                 </tr>
                             @endforeach
                             <tr>
-                                <td colspan="6" class="text-right font-weight-bold">Cəmi</td>
+                                <td colspan="3" class="text-right font-weight-bold">Cəmi</td>
                                 <td class="text-right font-weight-bold">
                                     {{ number_format($incomeSum, 2, '.', ' ') }}
                                 </td>
+                                <td></td>
                                 <td></td>
                             </tr>
                             </tbody>
@@ -169,14 +166,6 @@
                                 <div class="col-md-1">
                                     <label>Say</label>
                                     <input type="number" name="representative" class="form-control">
-                                </div>
-                                <div class="col-md-1">
-                                    <label>Yığışdır</label>
-                                    <input type="number" name="sb" class="form-control">
-                                </div>
-                                <div class="col-md-2">
-                                    <label>Qiymət</label>
-                                    <input type="number" step="0.01" name="price" class="form-control">
                                 </div>
                                 <div class="col-md-2">
                                     <label>Məbləğ</label>
@@ -205,8 +194,6 @@
                                 <th>Növ</th>
                                 <th>GB</th>
                                 <th>Say</th>
-                                <th>Yığışdır</th>
-                                <th>Qiymət</th>
                                 <th>Məbləğ</th>
                                 <th>Qeyd</th>
                                 <th>Əməliyyat</th>
@@ -224,8 +211,6 @@
                                             {{ $item->representative ?? 0 }}
                                         @endif
                                     </td>
-                                    <td class="text-center">{{ $item->sb ?? 0 }}</td>
-                                    <td class="text-right">{{ number_format($item->price, 2, '.', ' ') }}</td>
                                     <td class="text-right">{{ number_format($item->amount, 2, '.', ' ') }}</td>
                                     <td>{{ $item->note }}</td>
                                     <td class="text-center">
@@ -244,10 +229,11 @@
                                 </tr>
                             @endforeach
                             <tr>
-                                <td colspan="6" class="text-right font-weight-bold">Cəmi</td>
+                                <td colspan="3" class="text-right font-weight-bold">Cəmi</td>
                                 <td class="text-right font-weight-bold">
                                     {{ number_format($expenseSum, 2, '.', ' ') }}
                                 </td>
+                                <td></td>
                                 <td></td>
                             </tr>
                             </tbody>
@@ -268,14 +254,6 @@
                                 <div class="col-md-1">
                                     <label>Say</label>
                                     <input type="number" name="representative" class="form-control">
-                                </div>
-                                <div class="col-md-1">
-                                    <label>Yığışdır</label>
-                                    <input type="number" name="sb" class="form-control">
-                                </div>
-                                <div class="col-md-2">
-                                    <label>Qiymət</label>
-                                    <input type="number" step="0.01" name="price" class="form-control">
                                 </div>
                                 <div class="col-md-2">
                                     <label>Məbləğ</label>
