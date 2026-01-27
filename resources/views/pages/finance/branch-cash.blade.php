@@ -106,7 +106,10 @@
                                 <th>Növ</th>
                                 <th>GB</th>
                                 <th>Say</th>
-                                <th>Məbləğ</th>
+                                <th>Ödəniş növü</th>
+                                <th>Nəğd</th>
+                                <th>Bank</th>
+                                <th>PBank</th>
                                 <th>Qeyd</th>
                                 <th>Əməliyyat</th>
                             </tr>
@@ -123,7 +126,34 @@
                                             {{ $item->representative ?? 0 }}
                                         @endif
                                     </td>
-                                    <td class="text-right">{{ number_format($item->amount, 2, '.', ' ') }}</td>
+                                    <td class="text-center">
+                                        @if($item->payment_method)
+                                            @lang('translates.payment_methods.' . $item->payment_method)
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
+                                    <td class="text-right">
+                                        @if($item->payment_method == 1)
+                                            {{ number_format($item->amount, 2, '.', ' ') }}
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
+                                    <td class="text-right">
+                                        @if($item->payment_method == 2)
+                                            {{ number_format($item->amount, 2, '.', ' ') }}
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
+                                    <td class="text-right">
+                                        @if($item->payment_method == 3)
+                                            {{ number_format($item->amount, 2, '.', ' ') }}
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
                                     <td>{{ $item->note }}</td>
                                     <td class="text-center">
                                         @if($item->work_id === null)
@@ -140,11 +170,17 @@
                                     </td>
                                 </tr>
                             @endforeach
-                            <tr>
-                                <td colspan="3" class="text-right font-weight-bold">Cəmi</td>
-                                <td class="text-right font-weight-bold">
-                                    {{ number_format($incomeSum, 2, '.', ' ') }}
-                                </td>
+                            <tr class="font-weight-bold">
+                                <td colspan="4" class="text-right">Cəmi</td>
+                                <td class="text-right">{{ number_format($incomeCash, 2, '.', ' ') }}</td>
+                                <td class="text-right">{{ number_format($incomeBank, 2, '.', ' ') }}</td>
+                                <td class="text-right">{{ number_format($incomePBank, 2, '.', ' ') }}</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr class="font-weight-bold bg-light">
+                                <td colspan="4" class="text-right">ÜMUMİ CƏMİ</td>
+                                <td colspan="3" class="text-right">{{ number_format($incomeSum, 2, '.', ' ') }}</td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -155,7 +191,7 @@
                             @csrf
                             <input type="hidden" name="direction" value="income">
                             <div class="row align-items-end">
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label>Növ</label>
                                     <input type="text" name="description" class="form-control">
                                 </div>
@@ -166,6 +202,14 @@
                                 <div class="col-md-1">
                                     <label>Say</label>
                                     <input type="number" name="representative" class="form-control">
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Ödəniş növü</label>
+                                    <select name="payment_method" class="form-control">
+                                        <option value="1">@lang('translates.payment_methods.1')</option>
+                                        <option value="2">@lang('translates.payment_methods.2')</option>
+                                        <option value="3">@lang('translates.payment_methods.3')</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-2">
                                     <label>Məbləğ</label>
@@ -194,7 +238,10 @@
                                 <th>Növ</th>
                                 <th>GB</th>
                                 <th>Say</th>
-                                <th>Məbləğ</th>
+                                <th>Ödəniş növü</th>
+                                <th>Nəğd</th>
+                                <th>Bank</th>
+                                <th>PBank</th>
                                 <th>Qeyd</th>
                                 <th>Əməliyyat</th>
                             </tr>
@@ -211,7 +258,34 @@
                                             {{ $item->representative ?? 0 }}
                                         @endif
                                     </td>
-                                    <td class="text-right">{{ number_format($item->amount, 2, '.', ' ') }}</td>
+                                    <td class="text-center">
+                                        @if($item->payment_method)
+                                            @lang('translates.payment_methods.' . $item->payment_method)
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
+                                    <td class="text-right">
+                                        @if($item->payment_method == 1)
+                                            {{ number_format($item->amount, 2, '.', ' ') }}
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
+                                    <td class="text-right">
+                                        @if($item->payment_method == 2)
+                                            {{ number_format($item->amount, 2, '.', ' ') }}
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
+                                    <td class="text-right">
+                                        @if($item->payment_method == 3)
+                                            {{ number_format($item->amount, 2, '.', ' ') }}
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
                                     <td>{{ $item->note }}</td>
                                     <td class="text-center">
                                         @if($item->work_id === null)
@@ -228,11 +302,17 @@
                                     </td>
                                 </tr>
                             @endforeach
-                            <tr>
-                                <td colspan="3" class="text-right font-weight-bold">Cəmi</td>
-                                <td class="text-right font-weight-bold">
-                                    {{ number_format($expenseSum, 2, '.', ' ') }}
-                                </td>
+                            <tr class="font-weight-bold">
+                                <td colspan="4" class="text-right">Cəmi</td>
+                                <td class="text-right">{{ number_format($expenseCash, 2, '.', ' ') }}</td>
+                                <td class="text-right">{{ number_format($expenseBank, 2, '.', ' ') }}</td>
+                                <td class="text-right">{{ number_format($expensePBank, 2, '.', ' ') }}</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr class="font-weight-bold bg-light">
+                                <td colspan="4" class="text-right">ÜMUMİ CƏMİ</td>
+                                <td colspan="3" class="text-right">{{ number_format($expenseSum, 2, '.', ' ') }}</td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -243,7 +323,7 @@
                             @csrf
                             <input type="hidden" name="direction" value="expense">
                             <div class="row align-items-end">
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label>Növ</label>
                                     <input type="text" name="description" class="form-control">
                                 </div>
@@ -254,6 +334,14 @@
                                 <div class="col-md-1">
                                     <label>Say</label>
                                     <input type="number" name="representative" class="form-control">
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Ödəniş növü</label>
+                                    <select name="payment_method" class="form-control">
+                                        <option value="1">@lang('translates.payment_methods.1')</option>
+                                        <option value="2">@lang('translates.payment_methods.2')</option>
+                                        <option value="3">@lang('translates.payment_methods.3')</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-2">
                                     <label>Məbləğ</label>

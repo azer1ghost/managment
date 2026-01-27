@@ -62,6 +62,17 @@ class BranchCashController extends Controller
         $incomeSum = $incomeItems->sum('amount');
         $expenseSum = $expenseItems->sum('amount');
 
+        // Bank və Nağda görə cəmlər
+        $incomeCash = $incomeItems->where('payment_method', 1)->sum('amount'); // Nəğd
+        $incomeBank = $incomeItems->where('payment_method', 2)->sum('amount'); // Bank
+        $incomePBank = $incomeItems->where('payment_method', 3)->sum('amount'); // PBank
+        $incomeOther = $incomeItems->whereNotIn('payment_method', [1, 2, 3])->sum('amount'); // Digər/null
+
+        $expenseCash = $expenseItems->where('payment_method', 1)->sum('amount'); // Nəğd
+        $expenseBank = $expenseItems->where('payment_method', 2)->sum('amount'); // Bank
+        $expensePBank = $expenseItems->where('payment_method', 3)->sum('amount'); // PBank
+        $expenseOther = $expenseItems->whereNotIn('payment_method', [1, 2, 3])->sum('amount'); // Digər/null
+
         return view('pages.finance.branch-cash', compact(
             'departments',
             'branchCash',
@@ -69,6 +80,14 @@ class BranchCashController extends Controller
             'expenseItems',
             'incomeSum',
             'expenseSum',
+            'incomeCash',
+            'incomeBank',
+            'incomePBank',
+            'incomeOther',
+            'expenseCash',
+            'expenseBank',
+            'expensePBank',
+            'expenseOther',
             'date',
             'departmentId'
         ));
@@ -170,22 +189,28 @@ class BranchCashController extends Controller
                 // DB-yə insert etməzdən əvvəl UTF-8 olmayan baytları səssizcə ataq.
                 $description = $this->sanitizeUtf8($description);
 
+                // Payment method-u work-dən götür (1=Nəğd, 2=Bank, 3=PBank)
+                $paymentMethod = $work->payment_method ?? 1; // Default: Nəğd
+
                 if ($existing) {
                     $existing->update([
                         'description' => $description,
                         'amount'      => $totalAmount,
                         'representative' => (int) ($work->getParameterValue(Work::SERVICECOUNT) ?? 0), // parameter_id=20 (Say)
+                        'payment_method' => $paymentMethod,
                     ]);
                     $itemsUpdated++;
                     Log::info('Kassa sətri yeniləndi', [
                         'work_id' => $work->id,
                         'item_id' => $existing->id,
                         'amount' => $totalAmount,
+                        'payment_method' => $paymentMethod,
                     ]);
                 } else {
                     $item = $branchCash->items()->create([
                         'work_id'     => $work->id,
                         'direction'   => 'income',
+                        'payment_method' => $paymentMethod,
                         'description' => $description,
                         'gb'          => (int) ($work->getParameterValue(Work::GB) ?? 0),
                         'representative' => (int) ($work->getParameterValue(Work::SERVICECOUNT) ?? 0), // parameter_id=20 (Say)
@@ -198,6 +223,7 @@ class BranchCashController extends Controller
                         'item_id' => $item->id,
                         'amount' => $totalAmount,
                         'description' => $description,
+                        'payment_method' => $paymentMethod,
                     ]);
                 }
             }
@@ -244,12 +270,18 @@ class BranchCashController extends Controller
     {
         $data = $request->validate([
             'direction'    => ['required', 'in:income,expense'],
+            'payment_method' => ['nullable', 'integer', 'in:1,2,3'], // 1=Nəğd, 2=Bank, 3=PBank
             'description'  => ['nullable', 'string', 'max:255'],
             'gb'           => ['nullable', 'integer'],
             'representative' => ['nullable', 'integer'],
             'amount'       => ['required', 'numeric'],
             'note'         => ['nullable', 'string', 'max:255'],
         ]);
+
+        // Default: Nəğd (1)
+        if (!isset($data['payment_method'])) {
+            $data['payment_method'] = 1;
+        }
 
         $branchCash->items()->create($data);
         $branchCash->recalculateTotals();

@@ -11,6 +11,7 @@ class BranchCashItem extends Model
         'branch_cash_id',
         'work_id',
         'direction',
+        'payment_method',
         'description',
         'gb',
         'representative',
