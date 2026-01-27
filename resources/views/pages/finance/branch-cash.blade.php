@@ -154,7 +154,7 @@
                                     <input type="number" name="sb" class="form-control">
                                 </div>
                                 <div class="col-md-2">
-                                    <label>Qiymət SAlam</label>
+                                    <label>Qiymət</label>
                                     <input type="number" step="0.01" name="price" class="form-control">
                                 </div>
                                 <div class="col-md-2">
