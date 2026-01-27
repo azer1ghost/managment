@@ -128,6 +128,10 @@ class BranchCashController extends Controller
                     ($work->service->name ?? '')
                 );
 
+                // Bəzi mənbələrdən gələn adlarda səhv kodlaşdırılmış simvollar ola bilir (Incorrect string value xətası).
+                // DB-yə insert etməzdən əvvəl UTF-8 olmayan baytları səssizcə ataq.
+                $description = $this->sanitizeUtf8($description);
+
                 if ($existing) {
                     $existing->update([
                         'description' => $description,
@@ -196,6 +200,21 @@ class BranchCashController extends Controller
         return redirect()
             ->back()
             ->with('success', 'Kassa məlumatları yeniləndi.');
+    }
+
+    /**
+     * Malformed UTF-8 simvolları sakitcə təmizlə (MySQL 1366 xətasının qarşısını almaq üçün).
+     */
+    protected function sanitizeUtf8(?string $value): ?string
+    {
+        if ($value === null || $value === '') {
+            return $value;
+        }
+
+        // UTF-8 olmayan baytları atmaq üçün iconv istifadə edirik.
+        $clean = @iconv('UTF-8', 'UTF-8//IGNORE', $value);
+
+        return $clean === false ? $value : $clean;
     }
 }
 
