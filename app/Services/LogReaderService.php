@@ -12,7 +12,11 @@ class LogReaderService
 
     /**
      * List log file identifiers for "Select Date" dropdown.
-     * Includes laravel.log (single) and laravel-YYYY-MM-DD.log (daily), most recent first.
+     *
+     * Primary behaviour:
+     * - Prefer Laravel defaults: laravel.log (single) and laravel-YYYY-MM-DD.log (daily)
+     * - If none found, fall back to ANY *.log file in storage/logs (prod environments
+     *   sometimes use custom names/channels).
      *
      * @return array<string>
      */
@@ -21,10 +25,12 @@ class LogReaderService
         $identifiers = [];
         $dir = storage_path('logs');
 
+        // 1) Default single file
         if (File::exists($dir . '/' . self::SINGLE_FILE)) {
             $identifiers[] = self::SINGLE_FILE;
         }
 
+        // 2) Default daily files (laravel-YYYY-MM-DD.log)
         $daily = glob($dir . '/' . self::DAILY_PREFIX . '*.log');
         if ($daily !== false) {
             rsort($daily);
@@ -36,18 +42,41 @@ class LogReaderService
             }
         }
 
+        // 3) Fallback: if nothing found, include any *.log files (custom log channels)
+        if ($identifiers === []) {
+            $all = glob($dir . '/*.log');
+            if ($all !== false) {
+                sort($all);
+                foreach ($all as $path) {
+                    $identifiers[] = basename($path);
+                }
+            }
+        }
+
         return $identifiers;
     }
 
     /**
-     * Resolve identifier (laravel.log or YYYY-MM-DD) to log file path.
+     * Resolve identifier to log file path.
+     *
+     * Supported identifiers:
+     * - 'laravel.log'          → storage/logs/laravel.log
+     * - 'YYYY-MM-DD'           → storage/logs/laravel-YYYY-MM-DD.log
+     * - any other string (e.g. 'custom.log') → storage/logs/{identifier}
      */
     protected function resolvePath(string $identifier): string
     {
         if ($identifier === self::SINGLE_FILE) {
             return storage_path('logs/' . self::SINGLE_FILE);
         }
-        return storage_path('logs/' . self::DAILY_PREFIX . $identifier . '.log');
+
+        // Identifier is a date value (from laravel-YYYY-MM-DD.log)
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $identifier)) {
+            return storage_path('logs/' . self::DAILY_PREFIX . $identifier . '.log');
+        }
+
+        // Fallback: treat identifier as full filename (e.g. custom.log)
+        return storage_path('logs/' . $identifier);
     }
 
     /**
@@ -58,7 +87,13 @@ class LogReaderService
         if ($identifier === self::SINGLE_FILE) {
             return self::SINGLE_FILE;
         }
-        return self::DAILY_PREFIX . $identifier . '.log';
+
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $identifier)) {
+            return self::DAILY_PREFIX . $identifier . '.log';
+        }
+
+        // For custom names we keep identifier as-is
+        return $identifier;
     }
 
     /**
