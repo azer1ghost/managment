@@ -116,7 +116,7 @@
                             </thead>
                             <tbody>
                             @foreach($incomeItems as $item)
-                                <tr>
+                                <tr @if($item->work_id && $item->work && !$item->work->isFullyPaid()) class="text-danger" @endif>
                                     <td>{{ $item->description }}</td>
                                     <td class="text-center">{{ $item->gb }}</td>
                                     <td class="text-center">

@@ -148,26 +148,25 @@ class BranchCashController extends Controller
             $date = $branchCash->date->toDateString();
             $departmentId = $branchCash->department_id;
 
-            // Köhnə BANK və digər nəğdsiz (və ya payment_method null olan) mədaxil/məxaric sətirlərini silək ki,
-            // yalnız indiki günün NƏĞD əməliyyatları sıfırdan yüklənsin.
-            // (work_id-si olan, payment_method != 1 və ya payment_method null bütün sətrlər)
+            // Köhnə avtomatik sətirləri silək ki, yenidən sıfırdan hesablayaq
+            // (work_id-si olan bütün sətirlər silinir, manual yazılanlara toxunmuruq)
             DB::transaction(function () use ($branchCash) {
                 $branchCash->items()
                     ->whereNotNull('work_id')
-                    ->where(function ($q) {
-                        $q->where('payment_method', '!=', 1)
-                          ->orWhereNull('payment_method');
-                    })
                     ->delete();
             });
 
-            // Eyni gündə, eyni departamentdə, ÖDƏNİŞ METODU NƏĞD OLAN (payment_method = 1)
-            // və ödəniş tarixi (paid_at) uyğun olan işlər
+            // Eyni gündə, eyni departamentdə,
+            //  - ÖDƏNİŞ METODU NƏĞD OLAN (payment_method = 1)
+            //  - HƏLƏ ÖDƏNİLMƏMİŞ (paid_at IS NULL)
+            //  - E-QAİMƏ TARİXİ YAZILMAMIŞ (invoiced_date IS NULL)
+            //  - YARANMA TARİXİ (created_at) kassanın tarixinə bərabər olan işlər
             // whereDate istifadə edək ki, tarixin yalnız gün hissəsini müqayisə edək
             $works = Work::where('department_id', $departmentId)
-                ->where('payment_method', 1) // Yalnız nəğd ödənişlər
-                ->whereNotNull('paid_at')
-                ->whereDate('paid_at', $date)
+                ->where('payment_method', 1) // yalnız nəğd üzrə debitorlar
+                ->whereNull('paid_at')
+                ->whereNull('invoiced_date')
+                ->whereDate('created_at', $date)
                 ->with('client', 'service')
                 ->get();
 
@@ -189,12 +188,13 @@ class BranchCashController extends Controller
                     ->where('work_id', $work->id)
                     ->first();
 
-                $amountPaid = (float) ($work->getParameterValue(Work::PAID) ?? 0);
-                $vatPaid = (float) ($work->getParameterValue(Work::VATPAYMENT) ?? 0);
-                $illegalPaid = (float) ($work->getParameterValue(Work::ILLEGALPAID) ?? 0);
-                $bankCharge = (float) ($work->bank_charge ?? 0);
+                // Bu rejimdə kassaya MƏBLƏĞ + ƏDV + DİGƏR (ILLEGAL) tam borc kimi gəlməlidir,
+                // ödənilmiş hissələr (PAID, VATPAYMENT və s.) nəzərə alınmır.
+                $amount = (float) ($work->getParameterValue(Work::AMOUNT) ?? 0);
+                $vat = (float) ($work->getParameterValue(Work::VAT) ?? 0);
+                $illegalAmount = (float) ($work->getParameterValue(Work::ILLEGALAMOUNT) ?? 0);
 
-                $totalAmount = $amountPaid + $vatPaid + $illegalPaid + $bankCharge;
+                $totalAmount = $amount + $vat + $illegalAmount;
 
                 if ($totalAmount <= 0) {
                     $itemsSkipped++;
