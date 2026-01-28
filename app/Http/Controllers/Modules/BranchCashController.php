@@ -56,22 +56,29 @@ class BranchCashController extends Controller
 
         $branchCash->load('items.work', 'department');
 
-        $incomeItems = $branchCash->items->where('direction', 'income');
-        $expenseItems = $branchCash->items->where('direction', 'expense');
+        // Ekranda və cəmlərdə yalnız NƏĞD (payment_method = 1) sətirlər görsənsin
+        $incomeItems = $branchCash->items
+            ->where('direction', 'income')
+            ->where('payment_method', 1);
+        $expenseItems = $branchCash->items
+            ->where('direction', 'expense')
+            ->where('payment_method', 1);
 
-        $incomeSum = $incomeItems->sum('amount');
-        $expenseSum = $expenseItems->sum('amount');
+        // Ümumi cəmlər də yalnız nəğd üzrə hesablansın
+        $incomeCash = $incomeItems->sum('amount'); // Nəğd gəlir cəmi
+        $expenseCash = $expenseItems->sum('amount'); // Nəğd xərc cəmi
 
-        // Bank və Nağda görə cəmlər
-        $incomeCash = $incomeItems->where('payment_method', 1)->sum('amount'); // Nəğd
-        $incomeBank = $incomeItems->where('payment_method', 2)->sum('amount'); // Bank
-        $incomePBank = $incomeItems->where('payment_method', 3)->sum('amount'); // PBank
-        $incomeOther = $incomeItems->whereNotIn('payment_method', [1, 2, 3])->sum('amount'); // Digər/null
+        $incomeSum = $incomeCash;
+        $expenseSum = $expenseCash;
 
-        $expenseCash = $expenseItems->where('payment_method', 1)->sum('amount'); // Nəğd
-        $expenseBank = $expenseItems->where('payment_method', 2)->sum('amount'); // Bank
-        $expensePBank = $expenseItems->where('payment_method', 3)->sum('amount'); // PBank
-        $expenseOther = $expenseItems->whereNotIn('payment_method', [1, 2, 3])->sum('amount'); // Digər/null
+        // Bank, PBank və digər mənbələr üçün cəmlər 0 olsun (artıq göstərmirik)
+        $incomeBank = 0;
+        $incomePBank = 0;
+        $incomeOther = 0;
+
+        $expenseBank = 0;
+        $expensePBank = 0;
+        $expenseOther = 0;
 
         return view('pages.finance.branch-cash', compact(
             'departments',
@@ -141,13 +148,16 @@ class BranchCashController extends Controller
             $date = $branchCash->date->toDateString();
             $departmentId = $branchCash->department_id;
 
-            // Köhnə BANK və digər nəğdsiz mədaxil/məxaric sətirlərini silək ki,
+            // Köhnə BANK və digər nəğdsiz (və ya payment_method null olan) mədaxil/məxaric sətirlərini silək ki,
             // yalnız indiki günün NƏĞD əməliyyatları sıfırdan yüklənsin.
-            // (work_id-si olan, payment_method != 1 bütün sətrlər)
+            // (work_id-si olan, payment_method != 1 və ya payment_method null bütün sətrlər)
             DB::transaction(function () use ($branchCash) {
                 $branchCash->items()
                     ->whereNotNull('work_id')
-                    ->where('payment_method', '!=', 1)
+                    ->where(function ($q) {
+                        $q->where('payment_method', '!=', 1)
+                          ->orWhereNull('payment_method');
+                    })
                     ->delete();
             });
 
