@@ -141,6 +141,16 @@ class BranchCashController extends Controller
             $date = $branchCash->date->toDateString();
             $departmentId = $branchCash->department_id;
 
+            // Köhnə BANK və digər nəğdsiz mədaxil/məxaric sətirlərini silək ki,
+            // yalnız indiki günün NƏĞD əməliyyatları sıfırdan yüklənsin.
+            // (work_id-si olan, payment_method != 1 bütün sətrlər)
+            DB::transaction(function () use ($branchCash) {
+                $branchCash->items()
+                    ->whereNotNull('work_id')
+                    ->where('payment_method', '!=', 1)
+                    ->delete();
+            });
+
             // Eyni gündə, eyni departamentdə, ÖDƏNİŞ METODU NƏĞD OLAN (payment_method = 1)
             // və ödəniş tarixi (paid_at) uyğun olan işlər
             // whereDate istifadə edək ki, tarixin yalnız gün hissəsini müqayisə edək
