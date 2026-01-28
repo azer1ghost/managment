@@ -104,6 +104,7 @@
                             <thead class="text-center">
                             <tr>
                                 <th>Növ</th>
+                                <th>Asan imza şirkəti</th>
                                 <th>GB</th>
                                 <th>Say</th>
                                 <th>Ödəniş növü</th>
@@ -118,6 +119,13 @@
                             @foreach($incomeItems as $item)
                                 <tr @if($item->work_id && $item->work && !$item->work->isFullyPaid()) class="text-danger" @endif>
                                     <td>{{ $item->description }}</td>
+                                    <td class="text-center">
+                                        @if($item->work_id && $item->work && $item->work->asanImza && $item->work->asanImza->company)
+                                            {{ $item->work->asanImza->company->name }}
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
                                     <td class="text-center">{{ $item->gb }}</td>
                                     <td class="text-center">
                                         @if($item->work_id && $item->work)
@@ -171,7 +179,7 @@
                                 </tr>
                             @endforeach
                             <tr class="font-weight-bold">
-                                <td colspan="4" class="text-right">Cəmi</td>
+                                <td colspan="5" class="text-right">Cəmi</td>
                                 <td class="text-right">{{ number_format($incomeCash, 2, '.', ' ') }}</td>
                                 <td class="text-right">{{ number_format($incomeBank, 2, '.', ' ') }}</td>
                                 <td class="text-right">{{ number_format($incomePBank, 2, '.', ' ') }}</td>
@@ -179,7 +187,7 @@
                                 <td></td>
                             </tr>
                             <tr class="font-weight-bold bg-light">
-                                <td colspan="4" class="text-right">ÜMUMİ CƏMİ</td>
+                                <td colspan="5" class="text-right">ÜMUMİ CƏMİ</td>
                                 <td colspan="3" class="text-right">{{ number_format($incomeSum, 2, '.', ' ') }}</td>
                                 <td></td>
                                 <td></td>
@@ -236,6 +244,7 @@
                             <thead class="text-center">
                             <tr>
                                 <th>Növ</th>
+                                <th>Asan imza şirkəti</th>
                                 <th>GB</th>
                                 <th>Say</th>
                                 <th>Ödəniş növü</th>
@@ -250,6 +259,13 @@
                             @foreach($expenseItems as $item)
                                 <tr>
                                     <td>{{ $item->description }}</td>
+                                    <td class="text-center">
+                                        @if($item->work_id && $item->work && $item->work->asanImza && $item->work->asanImza->company)
+                                            {{ $item->work->asanImza->company->name }}
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
                                     <td class="text-center">{{ $item->gb }}</td>
                                     <td class="text-center">
                                         @if($item->work_id && $item->work)
@@ -303,7 +319,7 @@
                                 </tr>
                             @endforeach
                             <tr class="font-weight-bold">
-                                <td colspan="4" class="text-right">Cəmi</td>
+                                <td colspan="5" class="text-right">Cəmi</td>
                                 <td class="text-right">{{ number_format($expenseCash, 2, '.', ' ') }}</td>
                                 <td class="text-right">{{ number_format($expenseBank, 2, '.', ' ') }}</td>
                                 <td class="text-right">{{ number_format($expensePBank, 2, '.', ' ') }}</td>
@@ -311,7 +327,7 @@
                                 <td></td>
                             </tr>
                             <tr class="font-weight-bold bg-light">
-                                <td colspan="4" class="text-right">ÜMUMİ CƏMİ</td>
+                                <td colspan="5" class="text-right">ÜMUMİ CƏMİ</td>
                                 <td colspan="3" class="text-right">{{ number_format($expenseSum, 2, '.', ' ') }}</td>
                                 <td></td>
                                 <td></td>
