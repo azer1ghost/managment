@@ -141,9 +141,11 @@ class BranchCashController extends Controller
             $date = $branchCash->date->toDateString();
             $departmentId = $branchCash->department_id;
 
-            // Eyni gündə, eyni departamentdə, ödəniş tarixi (paid_at) uyğun olan işlər
+            // Eyni gündə, eyni departamentdə, ÖDƏNİŞ METODU NƏĞD OLAN (payment_method = 1)
+            // və ödəniş tarixi (paid_at) uyğun olan işlər
             // whereDate istifadə edək ki, tarixin yalnız gün hissəsini müqayisə edək
             $works = Work::where('department_id', $departmentId)
+                ->where('payment_method', 1) // Yalnız nəğd ödənişlər
                 ->whereNotNull('paid_at')
                 ->whereDate('paid_at', $date)
                 ->with('client', 'service')
