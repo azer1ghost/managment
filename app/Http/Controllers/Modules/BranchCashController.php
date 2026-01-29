@@ -156,19 +156,32 @@ class BranchCashController extends Controller
                     ->delete();
             });
 
-            // Eyni gündə, eyni departamentdə,
+            // Eyni gündə, eyni departamentdə:
             //  - ÖDƏNİŞ METODU NƏĞD OLAN (payment_method = 1)
-            //  - HƏLƏ ÖDƏNİLMƏMİŞ (paid_at IS NULL)
             //  - E-QAİMƏ TARİXİ YAZILMAMIŞ (invoiced_date IS NULL)
-            //  - YARANMA TARİXİ (created_at) kassanın tarixinə bərabər olan işlər
+            //
+            // İki qrup işi kassaya yükləyirik:
+            //  1) YARANMA TARİXİ (created_at) kassanın tarixinə bərabər olan, HƏLƏ ÖDƏNİLMƏMİŞ işlər (debitor siyahısı)
+            //  2) ÖDƏNİŞ TARİXİ (paid_at) kassanın tarixinə bərabər olan, artıq ÖDƏNMİŞ işlər (ödənmiş məbləğlər)
             // whereDate istifadə edək ki, tarixin yalnız gün hissəsini müqayisə edək
-            $works = Work::where('department_id', $departmentId)
+            $unpaidWorks = Work::where('department_id', $departmentId)
                 ->where('payment_method', 1) // yalnız nəğd üzrə debitorlar
                 ->whereNull('paid_at')
                 ->whereNull('invoiced_date')
                 ->whereDate('created_at', $date)
                 ->with('client', 'service')
                 ->get();
+
+            $paidWorks = Work::where('department_id', $departmentId)
+                ->where('payment_method', 1) // yalnız nəğd üzrə nəğd ödənişlər
+                ->whereNotNull('paid_at')
+                ->whereNull('invoiced_date')
+                ->whereDate('paid_at', $date)
+                ->with('client', 'service')
+                ->get();
+
+            // Hər iki qrupu birləşdir
+            $works = $unpaidWorks->merge($paidWorks);
 
             Log::info('syncFromWorks başladı', [
                 'branch_cash_id' => $branchCash->id,
@@ -181,18 +194,28 @@ class BranchCashController extends Controller
             $itemsUpdated = 0;
             $itemsSkipped = 0;
 
-            DB::transaction(function () use ($works, $branchCash, &$itemsCreated, &$itemsUpdated, &$itemsSkipped) {
+            DB::transaction(function () use ($works, $branchCash, $date, &$itemsCreated, &$itemsUpdated, &$itemsSkipped) {
             foreach ($works as $work) {
                 // Əgər bu iş artıq kassada varsa, təkrarlamayaq
                 $existing = $branchCash->items()
                     ->where('work_id', $work->id)
                     ->first();
 
-                // Bu rejimdə kassaya MƏBLƏĞ + ƏDV + DİGƏR (ILLEGAL) tam borc kimi gəlməlidir,
-                // ödənilmiş hissələr (PAID, VATPAYMENT və s.) nəzərə alınmır.
-                $amount = (float) ($work->getParameterValue(Work::AMOUNT) ?? 0);
-                $vat = (float) ($work->getParameterValue(Work::VAT) ?? 0);
-                $illegalAmount = (float) ($work->getParameterValue(Work::ILLEGALAMOUNT) ?? 0);
+                // İşin cari kassaya hansı məqsədlə düşdüyünü müəyyən et:
+                //  - Əgər paid_at NULL-dursa -> debitor siyahısı (tam BORC məbləği)
+                //  - Əgər paid_at kassanın tarixinə bərabərdirsə -> ödəniş (faktiki ÖDƏNİLMİŞ məbləğ)
+                if ($work->paid_at && $work->paid_at->toDateString() === $date) {
+                    // ÖDƏNİLMİŞ MƏBLƏĞ (PAID + VATPAYMENT + ILLEGALPAID)
+                    $amount = (float) ($work->getParameterValue(Work::PAID) ?? 0);
+                    $vat = (float) ($work->getParameterValue(Work::VATPAYMENT) ?? 0);
+                    $illegalAmount = (float) ($work->getParameterValue(Work::ILLEGALPAID) ?? 0);
+                } else {
+                    // DEBITOR (MƏBLƏĞ + ƏDV + DİGƏR (ILLEGAL) tam borc kimi)
+                    // ödənilmiş hissələr (PAID, VATPAYMENT və s.) nəzərə alınmır.
+                    $amount = (float) ($work->getParameterValue(Work::AMOUNT) ?? 0);
+                    $vat = (float) ($work->getParameterValue(Work::VAT) ?? 0);
+                    $illegalAmount = (float) ($work->getParameterValue(Work::ILLEGALAMOUNT) ?? 0);
+                }
 
                 $totalAmount = $amount + $vat + $illegalAmount;
 

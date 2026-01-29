@@ -93,46 +93,107 @@ class BirbankClient
 
             $statusCode = $response->status();
             $responseData = $response->json() ?? [];
+            $responseBody = $response->body();
             
             $this->logInfo('Login response received', [
                 'status' => $statusCode,
                 'has_response_data' => !empty($responseData),
-                'response_keys' => array_keys($responseData),
+                'response_keys' => !empty($responseData) ? array_keys($responseData) : [],
+                'response_structure' => !empty($responseData) ? $this->getResponseStructure($responseData) : 'empty',
             ]);
+
+            // Handle non-JSON responses
+            if (empty($responseData) && !empty($responseBody)) {
+                $this->logError('Non-JSON response received', [
+                    'status' => $statusCode,
+                    'body_preview' => substr($responseBody, 0, 500),
+                ]);
+                throw new BirbankApiException(
+                    'API returned non-JSON response. Status: ' . $statusCode . '. Response: ' . substr($responseBody, 0, 200),
+                    $statusCode,
+                    ['raw_body' => $responseBody]
+                );
+            }
 
             // Check if API returned an error in response
             // According to API docs: success = response.code = "0", error = any other code
-            $responseCode = $responseData['response']['code'] ?? null;
-            $isSuccess = $responseCode === '0' || $responseCode === 0;
+            // But we also handle different response structures
+            $responseCode = $responseData['response']['code'] 
+                ?? $responseData['code'] 
+                ?? $responseData['status'] 
+                ?? null;
+            
+            $isSuccess = ($responseCode === '0' || $responseCode === 0 || $responseCode === 'success' || $responseCode === 200)
+                && $response->successful();
             
             // Also check if HTTP status is not successful (non-2xx status)
-            if (!$response->successful() || !$isSuccess) {
+            if (!$response->successful() || (!$isSuccess && $responseCode !== null)) {
                 $this->logError('Login failed', [
                     'status' => $statusCode,
                     'response_code' => $responseCode,
                     'response' => $this->sanitizeResponse($responseData),
+                    'full_response_structure' => $this->getResponseStructure($responseData),
                 ]);
                 
-                // Extract error message from response
+                // Extract error message from response (try multiple possible locations)
                 $errorMessage = $responseData['response']['message'] 
+                    ?? $responseData['response']['error'] 
                     ?? $responseData['message'] 
-                    ?? 'Login failed';
+                    ?? $responseData['error'] 
+                    ?? $responseData['errorMessage']
+                    ?? $responseData['error_description']
+                    ?? ($statusCode === 401 ? 'Invalid username or password' : 'Login failed');
                 
                 // Use error code from response if available, otherwise use HTTP status
                 $errorCode = $responseCode ?? $statusCode;
+                
+                // Add more context to error message
+                if ($statusCode === 401) {
+                    $errorMessage = 'Invalid credentials. ' . $errorMessage;
+                } elseif ($statusCode === 403) {
+                    $errorMessage = 'Access forbidden. ' . $errorMessage;
+                } elseif ($statusCode === 404) {
+                    $errorMessage = 'API endpoint not found. ' . $errorMessage;
+                } elseif ($statusCode >= 500) {
+                    $errorMessage = 'Server error. ' . $errorMessage;
+                }
                 
                 throw new BirbankApiException($errorMessage, (int)$errorCode, $responseData);
             }
 
             // Extract tokens and user data
-            // According to API docs, tokens are in responseData
-            $responseDataOnly = $responseData['responseData'] ?? [];
-            $jwtToken = $responseDataOnly['jwttoken'] ?? $responseData['jwttoken'] ?? null;
-            $refreshToken = $responseDataOnly['jwtrefreshtoken'] ?? $responseData['jwtrefreshtoken'] ?? null;
-            $authType = $responseDataOnly['authType'] ?? $responseData['authType'] ?? null;
+            // Try multiple possible response structures
+            $responseDataOnly = $responseData['responseData'] ?? $responseData['data'] ?? $responseData;
+            $jwtToken = $responseDataOnly['jwttoken'] 
+                ?? $responseDataOnly['jwt_token'] 
+                ?? $responseDataOnly['access_token']
+                ?? $responseData['jwttoken'] 
+                ?? $responseData['jwt_token']
+                ?? $responseData['access_token']
+                ?? null;
+                
+            $refreshToken = $responseDataOnly['jwtrefreshtoken'] 
+                ?? $responseDataOnly['jwt_refresh_token'] 
+                ?? $responseDataOnly['refresh_token']
+                ?? $responseData['jwtrefreshtoken'] 
+                ?? $responseData['jwt_refresh_token']
+                ?? $responseData['refresh_token']
+                ?? null;
+                
+            $authType = $responseDataOnly['authType'] 
+                ?? $responseDataOnly['auth_type']
+                ?? $responseData['authType'] 
+                ?? $responseData['auth_type']
+                ?? null;
 
             if (!$jwtToken) {
-                $errorMsg = $responseData['response']['message'] ?? 'JWT token not found in login response';
+                $this->logError('JWT token not found', [
+                    'response_structure' => $this->getResponseStructure($responseData),
+                    'response_keys' => array_keys($responseData),
+                ]);
+                $errorMsg = $responseData['response']['message'] 
+                    ?? $responseData['message'] 
+                    ?? 'JWT token not found in login response. Please check API response structure.';
                 throw new BirbankApiException($errorMsg, 500, $responseData);
             }
 
@@ -157,9 +218,33 @@ class BirbankClient
 
         } catch (BirbankApiException $e) {
             throw $e;
+        } catch (\Illuminate\Http\Client\ConnectionException $e) {
+            $this->logError('Connection exception', [
+                'message' => $e->getMessage(),
+                'url' => $url,
+            ]);
+            throw new BirbankApiException(
+                'Bağlantı xətası: ' . $e->getMessage() . '. API-yə çatmaq mümkün olmadı. SSL sertifikatı və ya şəbəkə bağlantısını yoxlayın.',
+                0,
+                [],
+                $e
+            );
+        } catch (\Illuminate\Http\Client\RequestException $e) {
+            $this->logError('Request exception', [
+                'message' => $e->getMessage(),
+                'url' => $url,
+            ]);
+            throw new BirbankApiException(
+                'Sorğu xətası: ' . $e->getMessage(),
+                0,
+                [],
+                $e
+            );
         } catch (\Exception $e) {
             $this->logError('Login exception', [
                 'message' => $e->getMessage(),
+                'exception_type' => get_class($e),
+                'trace' => $e->getTraceAsString(),
             ]);
             throw new BirbankApiException('Login request failed: ' . $e->getMessage(), 0, [], $e);
         }
@@ -372,7 +457,7 @@ class BirbankClient
     protected function sanitizeResponse(array $data): array
     {
         $sanitized = $data;
-        $sensitiveKeys = ['jwttoken', 'jwtrefreshtoken', 'token', 'password', 'access_token', 'refresh_token'];
+        $sensitiveKeys = ['jwttoken', 'jwtrefreshtoken', 'token', 'password', 'access_token', 'refresh_token', 'jwt_token', 'jwt_refresh_token'];
 
         foreach ($sensitiveKeys as $key) {
             if (isset($sanitized[$key])) {
@@ -380,7 +465,38 @@ class BirbankClient
             }
         }
 
+        // Recursively sanitize nested arrays
+        foreach ($sanitized as $key => $value) {
+            if (is_array($value)) {
+                $sanitized[$key] = $this->sanitizeResponse($value);
+            }
+        }
+
         return $sanitized;
+    }
+
+    /**
+     * Get response structure for debugging (shows keys without values).
+     */
+    protected function getResponseStructure($data, $prefix = ''): array
+    {
+        $structure = [];
+        
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
+                $fullKey = $prefix ? $prefix . '.' . $key : $key;
+                if (is_array($value)) {
+                    $structure[$fullKey] = 'array(' . count($value) . ' items)';
+                    $structure = array_merge($structure, $this->getResponseStructure($value, $fullKey));
+                } else {
+                    $type = gettype($value);
+                    $preview = is_string($value) ? substr($value, 0, 50) : $value;
+                    $structure[$fullKey] = $type . ($type === 'string' && strlen($value) > 50 ? ' (truncated)' : '');
+                }
+            }
+        }
+        
+        return $structure;
     }
 
     /**
