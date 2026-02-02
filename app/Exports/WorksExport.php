@@ -50,6 +50,7 @@ class WorksExport extends DefaultValueBinder implements FromQuery, WithMapping, 
             'Sistem (ASAN IMZA)',
             'Müştəri adı',
             'Müştəri növü',
+            'VÖEN/GÖEN',
             'Xidmət',
             'Status',
             'Təyinat Orqanı',
@@ -155,6 +156,7 @@ class WorksExport extends DefaultValueBinder implements FromQuery, WithMapping, 
 
             $row->client?->fullname ?? '-',
             $types[$row->client?->type] ?? 'Unknown',
+            $row->client?->voen ?? '-',
 
             $row->service?->name ?? '-',
             trans('translates.work_status.' . $row->status),
@@ -220,7 +222,7 @@ class WorksExport extends DefaultValueBinder implements FromQuery, WithMapping, 
         return $this->workRepository->allFilteredWorks($this->filters, $this->dateFilters)
             ->with([
                 'department:id,short_name',
-                'client:id,fullname,type',
+                'client:id,fullname,type,voen',
                 'client.coordinators:id,name,surname',
                 'client.sales:id,name,surname',
                 'user:id,name,surname',
@@ -255,21 +257,21 @@ class WorksExport extends DefaultValueBinder implements FromQuery, WithMapping, 
     public function columnFormats(): array
     {
         return [
-            // Məbləğ sütunları (23-27: Əsas Məbləğ, ƏDV, Digər, Tam, Faktiki)
-            'W' => NumberFormat::FORMAT_NUMBER_00,  // 23: Əsas Məbləğ
-            'X' => NumberFormat::FORMAT_NUMBER_00,  // 24: ƏDV
-            'Y' => NumberFormat::FORMAT_NUMBER_00,  // 25: Digər məbləğ
-            'Z' => NumberFormat::FORMAT_NUMBER_00,  // 26: Tam məbləğ
-            'AA' => NumberFormat::FORMAT_NUMBER_00, // 27: Faktiki məbləğ
-            // Ödəniş sütunları (30, 32, 34, 35: Əsas Ödənilən, ƏDV Ödənilən, Digər Ödəniş, Faktiki ödəniş)
-            'AD' => NumberFormat::FORMAT_NUMBER_00, // 30: Əsas Məbləğdən Ödənilən
-            'AF' => NumberFormat::FORMAT_NUMBER_00, // 32: ƏDV'dən Ödənilən
-            'AH' => NumberFormat::FORMAT_NUMBER_00, // 34: Digər Ödəniş
-            'AI' => NumberFormat::FORMAT_NUMBER_00, // 35: Faktiki ödəniş
-            // Borc sütunları (37-39: Borc əsas, Borc ƏDV, Borc ümumi)
-            'AK' => NumberFormat::FORMAT_NUMBER_00, // 37: Borc əsas
-            'AL' => NumberFormat::FORMAT_NUMBER_00, // 38: Borc ƏDV
-            'AM' => NumberFormat::FORMAT_NUMBER_00, // 39: Borc ümumi
+            // Məbləğ sütunları (24-28: Əsas Məbləğ, ƏDV, Digər, Tam, Faktiki) — VÖEN/GÖEN əlavə olunduqdan sonra +1 sürüşdü
+            'X' => NumberFormat::FORMAT_NUMBER_00,  // 24: Əsas Məbləğ
+            'Y' => NumberFormat::FORMAT_NUMBER_00,  // 25: ƏDV
+            'Z' => NumberFormat::FORMAT_NUMBER_00,  // 26: Digər məbləğ
+            'AA' => NumberFormat::FORMAT_NUMBER_00, // 27: Tam məbləğ
+            'AB' => NumberFormat::FORMAT_NUMBER_00, // 28: Faktiki məbləğ
+            // Ödəniş sütunları (31, 33, 35, 36: Əsas Ödənilən, ƏDV Ödənilən, Digər Ödəniş, Faktiki ödəniş)
+            'AE' => NumberFormat::FORMAT_NUMBER_00, // 31: Əsas Məbləğdən Ödənilən
+            'AG' => NumberFormat::FORMAT_NUMBER_00, // 33: ƏDV'dən Ödənilən
+            'AI' => NumberFormat::FORMAT_NUMBER_00, // 35: Digər Ödəniş
+            'AJ' => NumberFormat::FORMAT_NUMBER_00, // 36: Faktiki ödəniş
+            // Borc sütunları (38-40: Borc əsas, Borc ƏDV, Borc ümumi)
+            'AL' => NumberFormat::FORMAT_NUMBER_00, // 38: Borc əsas
+            'AM' => NumberFormat::FORMAT_NUMBER_00, // 39: Borc ƏDV
+            'AN' => NumberFormat::FORMAT_NUMBER_00, // 40: Borc ümumi
         ];
     }
 
@@ -278,8 +280,8 @@ class WorksExport extends DefaultValueBinder implements FromQuery, WithMapping, 
      */
     public function bindValue(Cell $cell, $value)
     {
-        // Məbləğ sütunları: W, X, Y, Z, AA, AD, AF, AH, AI, AK, AL, AM
-        $amountColumns = ['W', 'X', 'Y', 'Z', 'AA', 'AD', 'AF', 'AH', 'AI', 'AK', 'AL', 'AM'];
+        // Məbləğ sütunları: X, Y, Z, AA, AB, AE, AG, AI, AJ, AL, AM, AN (VÖEN/GÖEN əlavə olunduqdan sonra sürüşdü)
+        $amountColumns = ['X', 'Y', 'Z', 'AA', 'AB', 'AE', 'AG', 'AI', 'AJ', 'AL', 'AM', 'AN'];
         
         if (in_array($cell->getColumn(), $amountColumns, true)) {
             // Əgər string formatlanmış məbləğdirsə (boşluq və ya vergül ilə), təmizlə
