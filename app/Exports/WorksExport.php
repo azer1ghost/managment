@@ -125,7 +125,7 @@ class WorksExport extends DefaultValueBinder implements FromQuery, WithMapping, 
 
         $borcEsas  = $esasMebleg - $esasPaid;
         $borcEdv   = $edv - $edvPaid;
-        $borcUmumi = $tamMebleg - $odenmis;
+        $borcUmumi = $faktikiMebleg - $odenmis;
 
         $types = [
             Client::LEGAL => 0,
