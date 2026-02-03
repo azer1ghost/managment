@@ -1704,7 +1704,7 @@ class WorkController extends Controller
         $TedoraTotal  = ($AMBGICashTotals['TEDORA'] ?? 0) + ($BBGICashTotals['TEDORA'] ?? 0) + ($HNBGICashTotals['TEDORA'] ?? 0);
         $MindTotal    = ($AMBGICashTotals['MIND'] ?? 0) + ($BBGICashTotals['MIND'] ?? 0) + ($HNBGICashTotals['MIND'] ?? 0);
         $AsazaTotal   = ($AMBGICashTotals['ASAZA'] ?? 0) + ($BBGICashTotals['ASAZA'] ?? 0) + ($HNBGICashTotals['ASAZA'] ?? 0);
-        $MobexTotal   = ($AMBGICashTotals['MOBEX'] ?? 0) + ($BBGICashTotals['MOBEX'] ?? 0) + ($HNBGICashTotals['ASAZA'] ?? 0);
+        $MobexTotal   = ($AMBGICashTotals['MOBEX'] ?? 0) + ($BBGICashTotals['MOBEX'] ?? 0) + ($HNBGICashTotals['MOBEX'] ?? 0);
 
         $RigelBankTotal   = ($AMBGIBankTotals['RIGEL'] ?? 0) + ($BBGIBankTotals['RIGEL'] ?? 0) + ($HNBGIBankTotals['RIGEL'] ?? 0);
         $DeclareBankTotal = ($AMBGIBankTotals['DECLARE'] ?? 0) + ($BBGIBankTotals['DECLARE'] ?? 0) + ($HNBGIBankTotals['DECLARE'] ?? 0);

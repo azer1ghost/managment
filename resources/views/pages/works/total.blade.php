@@ -213,15 +213,15 @@
             <th scope="col">{{$totalBBGICash}}</th>
             <th scope="col">{{$totalHNBGICash}}</th>
             <th scope="col">0</th>
-            <th scope="col">{{$RigelTotal + $DeclareTotal + $GarantTotal + $MobilTotal + $TedoraTotal + $MindTotal + $AsazaTotal + $MobexTotal}}</th>
+            <th scope="col">{{ round($totalAMBGICash + $totalBBGICash + $totalHNBGICash, 2) }}</th>
             <th scope="col">0</th>
             <th scope="col">{{$totalAMBGI - $totalAMBGICash}}</th>
             <th scope="col">{{$totalBBGI - $totalBBGICash}}</th>
             <th scope="col">{{$totalHNBGI - $totalHNBGICash}}</th>
             <th scope="col">0</th>
-            <th scope="col">{{$RigelBankTotal + $DeclareBankTotal + $GarantBankTotal + $MobilBankTotal + $TedoraBankTotal + $MindBankTotal + $AsazaBankTotal + $MobexBankTotal}}</th>
+            <th scope="col">{{ round(($totalAMBGI - $totalAMBGICash) + ($totalBBGI - $totalBBGICash) + ($totalHNBGI - $totalHNBGICash), 2) }}</th>
             <th scope="col">{{ round($totalPaidVat, 2) }}</th>
-            <th scope="col">{{ round($totalPaidAll, 2) }}</th>
+            <th scope="col">{{ round($totalAMBGI + $totalBBGI + $totalHNBGI, 2) }}</th>
         </tr>
         </thead>
         <tbody>
