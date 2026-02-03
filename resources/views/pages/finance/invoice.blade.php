@@ -1200,17 +1200,6 @@
         calculateTotal();
     }
     function calculateTotal() {
-        var miktarHucres = $('.miktar-hucre');
-        var sum1 = 0;
-
-        miktarHucres.each(function() {
-            var miktarHucre = $(this);
-            var value = parseFloat(miktarHucre.text());
-            if (!isNaN(value)) {
-                sum1 += value;
-            }
-        });
-
         var sumCell = $('#sum');
         var vatCell = $('#vat');
         var totalCell = $('#total');
@@ -1219,16 +1208,18 @@
         var edv = (edvCompany !== 'mbrokerRespublika' && edvCompany !== 'mtechnologiesRespublika' && edvCompany !== 'garantRespublika' && edvCompany !== 'garantKapital' && edvCompany !== 'mbrokerKapital' && edvCompany !== 'mtechnologiesKapital') ? 1 : 1.18;
 
         var overallElements = $(".overal");
-        var sum2 = 0;
+        var sum = 0;
 
         overallElements.each(function() {
             var $row = $(this).closest("tr");
             var count = parseFloat($row.find(".count").text().trim()) || 0;
             var amount = parseFloat($row.find(".amount").text().trim()) || 0;
             var overallValue = count * amount;
-            if (!isNaN(overallValue) && overallValue > 0) {
+            if (!isNaN(overallValue)) {
                 $(this).text(overallValue.toFixed(2));
-                sum2 += overallValue;
+                if (overallValue > 0) {
+                    sum += overallValue;
+                }
             }
         });
 
@@ -1237,8 +1228,6 @@
         var sumElement = $(".sum");
         var vatElement = $(".vat");
         var totalElement = $(".total");
-
-         var sum = sum1 +sum2
         sumCell.text(sum.toFixed(2));
         vatCell.text((sum * 0.18).toFixed(2));
         totalCell.text((sum * edv).toFixed(2));
@@ -1262,10 +1251,11 @@
         }
 
         sumElement.text(sum.toFixed(2));
-        totalElement.text((sum * rate).toFixed(2));
+        var totalValue = sum * rate;
+        totalElement.text(totalValue.toFixed(2));
 
         var numberWord = $('.numberWord');
-        numberWord.html(convertToWords($('#total').html()).toUpperCase());
+        numberWord.html(convertToWords(totalValue).toUpperCase());
 
     }
 
@@ -1304,12 +1294,13 @@
     });
 
     function convertToWords(number) {
+        const num = parseFloat(String(number).replace(',', '.').replace(/\s/g, '')) || 0;
         const units = ['', 'bir', 'iki', 'üç', 'dörd', 'beş', 'altı', 'yeddi', 'səkkiz', 'doqquz'];
         const tens = ['', 'on', 'iyirmi', 'otuz', 'qırx', 'əlli', 'altmış', 'yetmiş', 'səksən', 'doxsan'];
         const bigs = ['', 'min', 'milyon', 'milyard', 'trilyon', 'katrilyon'];
 
-        let wholePart = Math.floor(number);
-        let decimalPart = Math.round((number - wholePart) * 100);
+        let wholePart = Math.floor(num);
+        let decimalPart = Math.round((num - wholePart) * 100);
 
         let wholePartWords = '';
         let decimalPartWords = '';

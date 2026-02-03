@@ -943,12 +943,13 @@
             var edvCompany = $('#companies').val();
             var edv = (edvCompany !== 'mbrokerRespublika' && edvCompany !== 'mtechnologiesRespublika' && edvCompany !== 'garantRespublika' && edvCompany !== 'garantKapital' && edvCompany !== 'mbrokerKapital' && edvCompany !== 'mtechnologiesKapital') ? 1 : 1.18;
 
+            var totalValue = sum * edv;
             sumCell.text(sum.toFixed(2));
             vatCell.text((sum * 0.18).toFixed(2));
-            totalCell.text((sum * edv).toFixed(2));
+            totalCell.text(totalValue.toFixed(2));
             $('#sum2').html(sum.toFixed(2));
             $('#vat2').html((sum * 0.18).toFixed(2));
-            $('#total2').html((sum * edv).toFixed(2));
+            $('#total2').html(totalValue.toFixed(2));
             $('#sum3').html((sum * edv).toFixed(2));
             $('#vat3').html((sum * 0.18).toFixed(2));
             $('#total3').html((sum * edv).toFixed(2));
@@ -956,6 +957,7 @@
             $('#total5').html((sum * edv).toFixed(2));
             $('#total6').html((sum * edv).toFixed(2));
             $('#total7').html((sum * edv).toFixed(2));
+            $('.numberWord').html(convertToWords(totalValue).toUpperCase());
         }
         var savedRows = [];
         function addRow() {
@@ -1072,11 +1074,6 @@
             $('#input4').val('');
             calculateTotal();
 
-            var numberWord = $('.numberWord');
-            numberWord.each(function() {
-                $(this).html(convertToWords($('#total').html()).toUpperCase());
-            });
-
             setEditableContent(newRow);
             setEditableContent(newRow2);
             setEditableContent(newRow3);
@@ -1091,12 +1088,13 @@
         }
 
         function convertToWords(number) {
+            const num = parseFloat(String(number).replace(',', '.').replace(/\s/g, '')) || 0;
             const units = ['', 'bir', 'iki', 'üç', 'dörd', 'beş', 'altı', 'yeddi', 'səkkiz', 'doqquz'];
             const tens = ['', 'on', 'iyirmi', 'otuz', 'qırx', 'əlli', 'altmış', 'yetmiş', 'səksən', 'doxsan'];
             const bigs = ['', 'min', 'milyon', 'milyard', 'trilyon', 'katrilyon'];
 
-            let wholePart = Math.floor(number);
-            let decimalPart = Math.round((number - wholePart) * 100);
+            let wholePart = Math.floor(num);
+            let decimalPart = Math.round((num - wholePart) * 100);
 
             let wholePartWords = '';
             let decimalPartWords = '';
