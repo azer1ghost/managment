@@ -1232,11 +1232,11 @@
         vatCell.text((sum * 0.18).toFixed(2));
         totalCell.text((sum * edv).toFixed(2));
         $('#sum2').html(sum.toFixed(2));
-        $('#vat2').html((sum * 0.18).toFixed(2));
-        $('#total2').html((sum * edv).toFixed(2));
-        $('#sum3').html((sum * edv).toFixed(2));
-        $('#vat3').html((sum * 0.18).toFixed(2));
-        $('#total3').html((sum * edv).toFixed(2));
+            $('#vat2').html((sum * 0.18).toFixed(2));
+            $('#total2').html((sum * edv).toFixed(2));
+            $('#sum3').html(sum.toFixed(2));
+            $('#vat3').html((sum * 0.18).toFixed(2));
+            $('#total3').html((sum * edv).toFixed(2));
         $('#total4').html((sum * edv).toFixed(2));
         $('#total5').html((sum * edv).toFixed(2));
         $('#total6').html((sum * edv).toFixed(2));
