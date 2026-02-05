@@ -50,31 +50,35 @@ class BirbankClient
     }
 
     /**
-     * Perform OAuth2 client_credentials login and store tokens.
+     * Perform login and store tokens.
      *
-     * e-Kapital tərəfdən artıq username/password yoxdur, yalnız
-     * client_id/client_secret ilə access_token alınır.
-     *
-     * @return array Raw response data (tokens + meta)
+     * @param string|null $username Override username from credential
+     * @param string|null $password Override password from credential
+     * @return array Response data with user/client info (without tokens)
      * @throws BirbankApiException
      */
-    public function login(): array
+    public function login(?string $username = null, ?string $password = null): array
     {
         $credential = $this->getCredential();
+
+        $username = $username ?? $credential->username;
+        $password = $password ?? $credential->password;
+
+        if (!$username || !$password) {
+            throw new BirbankApiException('Username and password are required for login', 400);
+        }
 
         $endpoint = config('birbank.endpoints.login');
         $url = rtrim($this->baseUrl, '/') . $endpoint;
 
-        $this->logInfo('OAuth client_credentials login attempt', [
+        $this->logInfo('Login attempt', [
             'url' => $url,
+            'username' => $username,
             'company_id' => $this->companyId,
             'env' => $this->env,
-            'client_id_present' => (bool) config('birbank.client_id'),
         ]);
 
         try {
-            // e-Kapital sənədinə əsasən: POST gövdəsi JSON formatında olur
-            // və client-id / client-secret + posDetail göndərilir.
             $response = Http::timeout(config('birbank.timeout', 30))
                 ->withOptions([
                     'verify' => config('birbank.verify_ssl', true),
@@ -83,12 +87,8 @@ class BirbankClient
                 ->asJson()
                 ->acceptJson()
                 ->post($url, [
-                    'client-id' => config('birbank.client_id'),
-                    'client-secret' => config('birbank.client_secret'),
-                    'posDetail' => [
-                        'merchantId' => config('birbank.merchant_id'),
-                        'terminalId' => config('birbank.terminal_id'),
-                    ],
+                    'username' => $username,
+                    'password' => $password,
                 ]);
 
             $statusCode = $response->status();

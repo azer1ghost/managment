@@ -16,6 +16,8 @@ class BirbankTestLogin extends Command
      */
     protected $signature = 'birbank:test-login 
                             {company_id : Company ID}
+                            {--username= : Birbank username}
+                            {--password= : Birbank password}
                             {--environment=test : Environment (test or prod)}';
 
     /**
@@ -23,7 +25,7 @@ class BirbankTestLogin extends Command
      *
      * @var string
      */
-    protected $description = 'Test Birbank OAuth client_credentials login (e-Kapital)';
+    protected $description = 'Test Birbank login with provided credentials';
 
     /**
      * Execute the console command.
@@ -34,6 +36,8 @@ class BirbankTestLogin extends Command
     {
         $companyId = (int) $this->argument('company_id');
         $env = $this->option('environment');
+        $username = $this->option('username');
+        $password = $this->option('password');
 
         // Validate environment
         if (!in_array($env, ['test', 'prod'])) {
@@ -51,6 +55,20 @@ class BirbankTestLogin extends Command
         $this->info("Testing Birbank login for Company #{$companyId} ({$company->name})");
         $this->info("Environment: {$env}");
         $this->newLine();
+
+        // Get credentials
+        if (!$username) {
+            $username = $this->ask('Enter Birbank username');
+        }
+
+        if (!$password) {
+            $password = $this->secret('Enter Birbank password');
+        }
+
+        if (empty($username) || empty($password)) {
+            $this->error('Username and password are required.');
+            return 1;
+        }
 
         try {
             $client = new BirbankClient($companyId, $env);
@@ -91,8 +109,8 @@ class BirbankTestLogin extends Command
             $this->line(json_encode($maskedPayload, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
             $this->newLine();
 
-            $this->info('Attempting OAuth client_credentials login (calling BirbankClient::login)...');
-            $responseData = $client->login();
+            $this->info('Attempting login...');
+            $responseData = $client->login($username, $password);
 
             $this->newLine();
             $this->info('✅ Login successful!');
