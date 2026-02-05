@@ -100,6 +100,7 @@ class BirbankClient
                 'has_response_data' => !empty($responseData),
                 'response_keys' => !empty($responseData) ? array_keys($responseData) : [],
                 'response_structure' => !empty($responseData) ? $this->getResponseStructure($responseData) : 'empty',
+                'raw_body_preview' => substr($responseBody, 0, 1000),
             ]);
 
             // Handle non-JSON responses

@@ -54,14 +54,50 @@ class BirbankTestLogin extends Command
 
         try {
             $client = new BirbankClient($companyId, $env);
-            
-            $this->info('Attempting OAuth client_credentials login...');
+
+            // --- Debug: build and print final token URL, headers and payload (masked) ---
+            $baseUrl = $env === 'prod'
+                ? config('birbank.base_url_prod')
+                : config('birbank.base_url_test');
+            $endpoint = config('birbank.endpoints.login');
+            $tokenUrl = rtrim($baseUrl, '/') . $endpoint;
+
+            $headers = [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ];
+
+            $payload = [
+                'client-id' => config('birbank.client_id'),
+                'client-secret' => config('birbank.client_secret'),
+                'posDetail' => [
+                    'merchantId' => config('birbank.merchant_id'),
+                    'terminalId' => config('birbank.terminal_id'),
+                ],
+            ];
+
+            // Mask secrets
+            $maskedPayload = $payload;
+            if (!empty($maskedPayload['client-secret'])) {
+                $secret = (string) $maskedPayload['client-secret'];
+                $maskedPayload['client-secret'] = substr($secret, 0, 4) . '***';
+            }
+
+            $this->info('--- Birbank OAuth request debug ---');
+            $this->line('Token URL: ' . $tokenUrl);
+            $this->line('Request headers:');
+            $this->line(json_encode($headers, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+            $this->line('Request payload (masked):');
+            $this->line(json_encode($maskedPayload, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+            $this->newLine();
+
+            $this->info('Attempting OAuth client_credentials login (calling BirbankClient::login)...');
             $responseData = $client->login();
 
             $this->newLine();
             $this->info('✅ Login successful!');
             $this->newLine();
-            
+
             $this->line('Response data (user/client info):');
             $this->line(json_encode($responseData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
