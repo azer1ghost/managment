@@ -73,17 +73,22 @@ class BirbankClient
         ]);
 
         try {
+            // e-Kapital sənədinə əsasən: POST gövdəsi JSON formatında olur
+            // və client-id / client-secret + posDetail göndərilir.
             $response = Http::timeout(config('birbank.timeout', 30))
                 ->withOptions([
                     'verify' => config('birbank.verify_ssl', true),
                     'connect_timeout' => config('birbank.connect_timeout', 10),
                 ])
-                ->asForm()
+                ->asJson()
                 ->acceptJson()
                 ->post($url, [
-                    'grant_type' => 'client_credentials',
-                    'client_id' => config('birbank.client_id'),
-                    'client_secret' => config('birbank.client_secret'),
+                    'client-id' => config('birbank.client_id'),
+                    'client-secret' => config('birbank.client_secret'),
+                    'posDetail' => [
+                        'merchantId' => config('birbank.merchant_id'),
+                        'terminalId' => config('birbank.terminal_id'),
+                    ],
                 ]);
 
             $statusCode = $response->status();
