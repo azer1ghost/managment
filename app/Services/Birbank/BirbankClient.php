@@ -87,8 +87,17 @@ class BirbankClient
                 ->asJson()
                 ->acceptJson()
                 ->post($url, [
+                    // Əvvəlki B2B login parametrləri
                     'username' => $username,
                     'password' => $password,
+                    // Kapital Bank-ın göndərdiyi yeni BirPay / POS məlumatları
+                    // (sənədində "Post details" bölməsində göstərilən struktur)
+                    'client-id' => config('birbank.client_id'),
+                    'client-secret' => config('birbank.client_secret'),
+                    'posDetail' => [
+                        'merchantId' => config('birbank.merchant_id'),
+                        'terminalId' => config('birbank.terminal_id'),
+                    ],
                 ]);
 
             $statusCode = $response->status();

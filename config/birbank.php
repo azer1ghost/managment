@@ -23,6 +23,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | BirPay / POS Credentials (Kapital test məlumatları)
+    |--------------------------------------------------------------------------
+    |
+    | Bu hissədə Kapital Bank tərəfindən verilən BirPay/POS məlumatlarını
+    | saxlayırıq. Lazım gəldikdə production üçün ayrı .env dəyərləri yaza
+    | bilərsən.
+    |
+    */
+    'client_id' => env('BIRBANK_CLIENT_ID', 'birpay-test'),
+    'client_secret' => env('BIRBANK_CLIENT_SECRET', 'mc8JHRvS9JyaElcj1ozm1Fpd5Gpaj73q'),
+    'merchant_id' => env('BIRBANK_MERCHANT_ID', 'E1040009'),
+    'terminal_id' => env('BIRBANK_TERMINAL_ID', 'E1040009'),
+
+    /*
+    |--------------------------------------------------------------------------
     | API Endpoints
     |--------------------------------------------------------------------------
     */
