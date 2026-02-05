@@ -85,8 +85,6 @@ class BirbankController extends Controller
     public function login(Request $request, $company)
     {
         $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string',
             'env' => 'required|in:test,prod',
         ]);
 
@@ -96,7 +94,8 @@ class BirbankController extends Controller
 
         try {
             $client = new BirbankClient($companyId, $request->env);
-            $responseData = $client->login($request->username, $request->password);
+            // e-Kapital: OAuth client_credentials (client_id/client_secret .env-dən)
+            $responseData = $client->login();
 
             return redirect()
                 ->route('birbank.show', $companyId)

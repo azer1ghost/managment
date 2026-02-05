@@ -50,32 +50,26 @@ class BirbankClient
     }
 
     /**
-     * Perform login and store tokens.
+     * Perform OAuth2 client_credentials login and store tokens.
      *
-     * @param string|null $username Override username from credential
-     * @param string|null $password Override password from credential
-     * @return array Response data with user/client info (without tokens)
+     * e-Kapital tərəfdən artıq username/password yoxdur, yalnız
+     * client_id/client_secret ilə access_token alınır.
+     *
+     * @return array Raw response data (tokens + meta)
      * @throws BirbankApiException
      */
-    public function login(?string $username = null, ?string $password = null): array
+    public function login(): array
     {
         $credential = $this->getCredential();
-
-        $username = $username ?? $credential->username;
-        $password = $password ?? $credential->password;
-
-        if (!$username || !$password) {
-            throw new BirbankApiException('Username and password are required for login', 400);
-        }
 
         $endpoint = config('birbank.endpoints.login');
         $url = rtrim($this->baseUrl, '/') . $endpoint;
 
-        $this->logInfo('Login attempt', [
+        $this->logInfo('OAuth client_credentials login attempt', [
             'url' => $url,
-            'username' => $username,
             'company_id' => $this->companyId,
             'env' => $this->env,
+            'client_id_present' => (bool) config('birbank.client_id'),
         ]);
 
         try {
@@ -84,20 +78,12 @@ class BirbankClient
                     'verify' => config('birbank.verify_ssl', true),
                     'connect_timeout' => config('birbank.connect_timeout', 10),
                 ])
-                ->asJson()
+                ->asForm()
                 ->acceptJson()
                 ->post($url, [
-                    // Əvvəlki B2B login parametrləri
-                    'username' => $username,
-                    'password' => $password,
-                    // Kapital Bank-ın göndərdiyi yeni BirPay / POS məlumatları
-                    // (sənədində "Post details" bölməsində göstərilən struktur)
-                    'client-id' => config('birbank.client_id'),
-                    'client-secret' => config('birbank.client_secret'),
-                    'posDetail' => [
-                        'merchantId' => config('birbank.merchant_id'),
-                        'terminalId' => config('birbank.terminal_id'),
-                    ],
+                    'grant_type' => 'client_credentials',
+                    'client_id' => config('birbank.client_id'),
+                    'client_secret' => config('birbank.client_secret'),
                 ]);
 
             $statusCode = $response->status();
@@ -171,7 +157,7 @@ class BirbankClient
             }
 
             // Extract tokens and user data
-            // Try multiple possible response structures
+            // Try multiple possible response structures (OAuth + legacy)
             $responseDataOnly = $responseData['responseData'] ?? $responseData['data'] ?? $responseData;
             $jwtToken = $responseDataOnly['jwttoken'] 
                 ?? $responseDataOnly['jwt_token'] 
@@ -207,11 +193,16 @@ class BirbankClient
             }
 
             // Store credentials and tokens
-            $credential->username = $username;
-            $credential->password = $password;
             $credential->access_token = $jwtToken;
             $credential->refresh_token = $refreshToken;
             $credential->auth_type = $authType;
+
+            // Token expiry (OAuth standard: expires_in seconds)
+            $expiresIn = $responseDataOnly['expires_in'] ?? $responseData['expires_in'] ?? null;
+            if ($expiresIn && is_numeric($expiresIn)) {
+                $credential->token_expires_at = Carbon::now()->addSeconds((int) $expiresIn);
+            }
+
             $credential->last_login_at = Carbon::now();
             // Note: token_expires_at may be set if API provides expiry info
             $credential->save();
@@ -222,8 +213,8 @@ class BirbankClient
                 'auth_type' => $authType,
             ]);
 
-            // Return response data without tokens
-            return $responseDataOnly;
+            // Return full response data (tokens + meta)
+            return $responseData;
 
         } catch (BirbankApiException $e) {
             throw $e;
