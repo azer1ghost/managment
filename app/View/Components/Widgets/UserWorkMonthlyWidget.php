@@ -23,6 +23,14 @@ class UserWorkMonthlyWidget extends Component
 
         $userId = auth()->id();
         $specialUserIds = [17, 124, 15, 123, 78, 211];
+
+        // Departament 22-də olan istifadəçilərə də widgeti görmək (öz məlumatlarını) üçün icazə ver
+        // Onlar xüsusi user kimi sayılmalıdır ki, sorğu məhdudlaşdırılmasın.
+        $userDepartmentId = DB::table('users')->where('id', $userId)->value('department_id');
+        if ($userDepartmentId == 22 && !in_array($userId, $specialUserIds)) {
+            $specialUserIds[] = $userId;
+        }
+
         $deptVisibilityMap = [
             42  => [11],
             149 => [12, 13],
@@ -50,14 +58,6 @@ class UserWorkMonthlyWidget extends Component
             ->groupBy('users.id', 'users.name', 'users.surname', 'users.department_id')
             ->orderByDesc('total_value');
 
-        // Əgər istifadəçi xüsusi ID-lərdəndirsə, bütün məlumatları gətir
-//        if (!in_array($userId, $specialUserIds)) {
-//            // Əks halda, istifadəçinin departamentini al
-//            $departmentId = DB::table('users')->where('id', $userId)->value('department_id');
-//
-//            // Sorğunu departamentə görə filtr et
-//            $query->where('users.department_id', '=', $departmentId);
-//        }
         if (isset($deptVisibilityMap[$userId])) {
             $query->whereIn('users.department_id', $deptVisibilityMap[$userId]);
         } elseif (!in_array($userId, $specialUserIds)) {
