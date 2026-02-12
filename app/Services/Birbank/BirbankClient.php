@@ -198,7 +198,12 @@ class BirbankClient
                 throw new BirbankApiException($errorMsg, 500, $responseData);
             }
 
-            // Store credentials and tokens
+            // Store credentials (including username/password) and tokens
+            // Ensure username/password are saved on first successful login so that
+            // non-nullable DB columns are satisfied and future logins can reuse them.
+            $credential->username = $username;
+            $credential->password = $password;
+
             $credential->access_token = $jwtToken;
             $credential->refresh_token = $refreshToken;
             $credential->auth_type = $authType;
