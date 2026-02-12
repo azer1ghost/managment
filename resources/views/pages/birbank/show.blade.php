@@ -222,7 +222,15 @@
                                         $iban = $account['ibanAcNo'] ?? $account['iban'] ?? null;
                                         $ccy = $account['ccy'] ?? $account['acCcy'] ?? null;
                                         $desc = $account['acDesc'] ?? null;
-                                        $optionLabel = trim(($custAcNo ? $custAcNo . ' - ' : '') . ($iban ?: '') . ' ' . ($ccy ? '(' . $ccy . ')' : '') . ' ' . ($desc ?: ''));
+                                        $currAmt = $account['currAmt'] ?? null; // Cari məbləğ
+                                        $balancePart = $currAmt !== null ? ' - Cari məbləğ: ' . $currAmt : '';
+                                        $optionLabel = trim(
+                                            ($custAcNo ? $custAcNo . ' - ' : '') .
+                                            ($iban ?: '') . ' ' .
+                                            ($ccy ? '(' . $ccy . ')' : '') . ' ' .
+                                            ($desc ?: '') .
+                                            $balancePart
+                                        );
                                     @endphp
                                     <option value="{{ $custAcNo }}"
                                         @if(($statementFilters['accountNumber'] ?? null) == $custAcNo) selected @endif>
