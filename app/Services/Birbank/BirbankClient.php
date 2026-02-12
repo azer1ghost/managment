@@ -417,16 +417,61 @@ class BirbankClient
      */
     public function getAccounts(): array
     {
-        // TODO: Implement when endpoint is available
-        // $endpoint = config('birbank.endpoints.accounts');
-        // return $this->request('GET', $endpoint);
-
-        $this->logInfo('getAccounts called (stub)', [
+        $this->logInfo('Fetching Birbank accounts', [
             'company_id' => $this->companyId,
             'env' => $this->env,
         ]);
 
-        return [];
+        // Call real accounts endpoint
+        $endpoint = config('birbank.endpoints.accounts');
+        $response = $this->request('GET', $endpoint);
+
+        // According to Birbank docs, structure is:
+        // {
+        //   "responseData": {
+        //     "accountsList": [
+        //       {
+        //         "branchCode": "...",
+        //         "custAcNo": "...",
+        //         "ibanAcNo": "...",
+        //         "ccy": "AZN",
+        //         "acDesc": "...",
+        //         "status": "OPEN",
+        //         "plannedAmt": "30",
+        //         "currAmt": "30",
+        //         "hold": 0
+        //       }
+        //     ]
+        //   },
+        //   "response": { "code": "0", "message": "ok" }
+        // }
+
+        $responseData = $response['responseData'] ?? $response['data'] ?? $response;
+        $accountsList = $responseData['accountsList'] ?? $responseData['accounts'] ?? [];
+
+        // Normalize each account to include a common 'account_ref' field (prefer IBAN)
+        $normalized = [];
+        foreach ($accountsList as $account) {
+            // Prefer core account number (custAcNo) for statements, but also keep IBAN
+            $accountRef = $account['custAcNo']
+                ?? $account['ibanAcNo']
+                ?? $account['iban']
+                ?? $account['accountId']
+                ?? null;
+
+            $normalized[] = array_merge($account, [
+                'account_ref' => $accountRef,
+                'account_number' => $account['custAcNo'] ?? $account['accountNumber'] ?? $accountRef,
+            ]);
+        }
+
+        $this->logInfo('Fetched Birbank accounts', [
+            'company_id' => $this->companyId,
+            'env' => $this->env,
+            'accounts_count' => count($normalized),
+        ]);
+
+        return $normalized;
     }
 
     /**
@@ -442,24 +487,47 @@ class BirbankClient
      */
     public function getAccountStatement(string $accountIdOrIban, Carbon $from, Carbon $to, array $filters = []): array
     {
-        // TODO: Implement when endpoint is available
-        // $endpoint = config('birbank.endpoints.account_statement');
-        // return $this->request('GET', $endpoint, [
-        //     'query' => array_merge([
-        //         'account' => $accountIdOrIban,
-        //         'from' => $from->toDateString(),
-        //         'to' => $to->toDateString(),
-        //     ], $filters),
-        // ]);
-
-        $this->logInfo('getAccountStatement called (stub)', [
+        $this->logInfo('Fetching Birbank account statement', [
             'company_id' => $this->companyId,
+            'env' => $this->env,
             'account' => $accountIdOrIban,
             'from' => $from->toDateString(),
             'to' => $to->toDateString(),
         ]);
 
-        return [];
+        $endpoint = config('birbank.endpoints.account_statement');
+
+        $query = array_merge([
+            // Birbank docs: accountNumber (custAcNo), fromDate, toDate (YYYY-MM-DD)
+            'accountNumber' => $accountIdOrIban,
+            'fromDate' => $from->toDateString(),
+            'toDate' => $to->toDateString(),
+        ], $filters);
+
+        $response = $this->request('GET', $endpoint, ['query' => $query]);
+
+        // Expected structure:
+        // {
+        //   "responseData": {
+        //     "operations": { ... },
+        //     "statementList": [ { ...transaction fields... } ]
+        //   },
+        //   "response": { "code": "0", "message": "ok" }
+        // }
+
+        $responseData = $response['responseData'] ?? $response['data'] ?? $response;
+        $statementList = $responseData['statementList'] ?? $responseData['transactions'] ?? [];
+
+        $this->logInfo('Fetched Birbank account statement', [
+            'company_id' => $this->companyId,
+            'env' => $this->env,
+            'account' => $accountIdOrIban,
+            'from' => $from->toDateString(),
+            'to' => $to->toDateString(),
+            'transactions_count' => is_array($statementList) ? count($statementList) : 0,
+        ]);
+
+        return $statementList;
     }
 
     /**

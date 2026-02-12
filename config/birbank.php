@@ -29,8 +29,10 @@ return [
     'endpoints' => [
         'login' => '/api/b2b/login',
         'refresh' => '/api/b2b/refresh', // Not implemented yet
-        'accounts' => '/api/b2b/accounts', // Not implemented yet
-        'account_statement' => '/api/b2b/account-statement', // Not implemented yet
+        'accounts' => '/api/b2b/accounts',
+        // Account statement (account extract)
+        // GET /api/b2b/v2/statement/account?accountNumber={custAcNo}&fromDate=YYYY-MM-DD&toDate=YYYY-MM-DD
+        'account_statement' => '/api/b2b/v2/statement/account',
     ],
 ];
 

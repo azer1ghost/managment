@@ -141,8 +141,19 @@ class BirbankController extends Controller
             $totalSynced = 0;
 
             foreach ($accounts as $account) {
-                $accountRef = $account['account_ref'] ?? $account['iban'] ?? $account['accountId'] ?? 'UNKNOWN';
-                $transactions = $client->getAccountStatement($accountRef, $from, $to);
+                // Support both our normalized 'account_ref' and raw API field names.
+                // For statement endpoint we primarily need the core account number (custAcNo).
+                $accountNumber = $account['account_number']
+                    ?? $account['custAcNo']
+                    ?? $account['account_ref']
+                    ?? $account['ibanAcNo']
+                    ?? $account['iban']
+                    ?? $account['accountId']
+                    ?? 'UNKNOWN';
+
+                $accountRef = $account['account_ref'] ?? $accountNumber;
+
+                $transactions = $client->getAccountStatement($accountNumber, $from, $to);
 
                 if (empty($transactions)) {
                     continue;
@@ -208,19 +219,34 @@ class BirbankController extends Controller
 
     protected function extractAmount(array $data): ?float
     {
-        $amount = $data['amount'] ?? $data['value'] ?? $data['sum'] ?? null;
+        $amount = $data['amount']
+            ?? $data['value']
+            ?? $data['sum']
+            ?? $data['lcyAmount'] // Birbank statement AZN məbləği
+            ?? null;
         return $amount !== null ? (float) $amount : null;
     }
 
     protected function extractCurrency(array $data): ?string
     {
-        $currency = $data['currency'] ?? $data['currency_code'] ?? $data['ccy'] ?? null;
+        $currency = $data['currency']
+            ?? $data['currency_code']
+            ?? $data['ccy']
+            ?? $data['acCcy'] // Birbank statement valyutası
+            ?? null;
         return $currency ? strtoupper(substr($currency, 0, 3)) : null;
     }
 
     protected function extractBookedAt(array $data): ?Carbon
     {
-        $date = $data['booked_at'] ?? $data['date'] ?? $data['transaction_date'] ?? $data['value_date'] ?? null;
+        $date = $data['booked_at']
+            ?? $data['date']
+            ?? $data['transaction_date']
+            ?? $data['value_date']
+            ?? $data['valueDt']   // Birbank statement value date
+            ?? $data['trnDt']     // Operation date
+            ?? $data['txnDtTime'] // DateTime string
+            ?? null;
         return $date ? Carbon::parse($date) : null;
     }
 
@@ -235,6 +261,7 @@ class BirbankController extends Controller
             ?? $data['counterparty_name'] 
             ?? $data['beneficiary'] 
             ?? $data['payer'] 
+            ?? $data['contrAccount'] // Birbank: qarşı tərəf hesabı/adı/VOEN-i
             ?? null;
     }
 }
