@@ -521,7 +521,16 @@ class BirbankClient
         // }
 
         $responseData = $response['responseData'] ?? $response['data'] ?? $response;
-        $statementList = $responseData['statementList'] ?? $responseData['transactions'] ?? [];
+
+        // Some Birbank docs göstərir ki, statementList ya birbaşa responseData altında,
+        // ya da responseData.operations.statementList altında ola bilər.
+        if (isset($responseData['statementList']) && is_array($responseData['statementList'])) {
+            $statementList = $responseData['statementList'];
+        } elseif (isset($responseData['operations']['statementList']) && is_array($responseData['operations']['statementList'])) {
+            $statementList = $responseData['operations']['statementList'];
+        } else {
+            $statementList = [];
+        }
 
         $this->logInfo('Fetched Birbank account statement', [
             'company_id' => $this->companyId,
