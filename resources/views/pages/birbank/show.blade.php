@@ -119,40 +119,47 @@
                         <p class="text-muted mb-3">Bu şirkət üçün hələ login olunmayıb.</p>
                     @endif
 
-                    <!-- Login Form -->
-                    <form action="{{ route('birbank.login', $company) }}" method="POST" class="mt-3">
-                        @csrf
-                        <input type="hidden" name="env" value="{{ $env }}">
-                        
-                        <div class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" 
-                                   class="form-control @error('username') is-invalid @enderror" 
-                                   id="username" 
-                                   name="username" 
-                                   value="{{ old('username', $credential->username ?? '') }}" 
-                                   required>
-                            @error('username')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                    {{-- Login Form: yalnız token aktiv deyilsə göstər --}}
+                    @if(!$credential || !$credential->hasValidToken())
+                        <form action="{{ route('birbank.login', $company) }}" method="POST" class="mt-3">
+                            @csrf
+                            <input type="hidden" name="env" value="{{ $env }}">
+                            
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" 
+                                       class="form-control @error('username') is-invalid @enderror" 
+                                       id="username" 
+                                       name="username" 
+                                       value="{{ old('username', $credential->username ?? '') }}" 
+                                       required>
+                                @error('username')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" 
-                                   class="form-control @error('password') is-invalid @enderror" 
-                                   id="password" 
-                                   name="password" 
-                                   required>
-                            @error('password')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" 
+                                       class="form-control @error('password') is-invalid @enderror" 
+                                       id="password" 
+                                       name="password" 
+                                       required>
+                                @error('password')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-sign-in-alt"></i> Login
-                        </button>
-                    </form>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </button>
+                        </form>
+                    @else
+                        <div class="alert alert-success mt-3 mb-0">
+                            <i class="fas fa-check-circle"></i>
+                            Birbank hesabı üçün token aktivdir. Yenidən login etməyə ehtiyac yoxdur.
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
