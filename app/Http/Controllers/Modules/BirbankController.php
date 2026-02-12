@@ -73,12 +73,39 @@ class BirbankController extends Controller
                 ->sum('amount'),
         ];
 
+        // Live accounts list from Birbank API (for manual statement view)
+        $accounts = [];
+        $statement = [];
+        $statementFilters = [
+            'accountNumber' => $request->get('accountNumber'),
+            'fromDate' => $request->get('fromDate'),
+            'toDate' => $request->get('toDate'),
+        ];
+
+        try {
+            // Only attempt API calls if we have (or can obtain) a valid token
+            $client = new BirbankClient($company->id, $env);
+            $accounts = $client->getAccounts();
+
+            if ($statementFilters['accountNumber'] && $statementFilters['fromDate'] && $statementFilters['toDate']) {
+                $from = Carbon::parse($statementFilters['fromDate']);
+                $to = Carbon::parse($statementFilters['toDate']);
+                $statement = $client->getAccountStatement($statementFilters['accountNumber'], $from, $to);
+            }
+        } catch (BirbankApiException $e) {
+            // Live API errors will not break the page; we just won't show statement/accounts
+            // Optionally, you could log or flash a notification here.
+        }
+
         return view('pages.birbank.show')->with([
             'company' => $company,
             'credential' => $credential,
             'env' => $env,
             'transactions' => $transactions,
             'stats' => $transactionStats,
+            'accounts' => $accounts,
+            'statement' => $statement,
+            'statementFilters' => $statementFilters,
         ]);
     }
 

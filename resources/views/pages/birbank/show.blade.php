@@ -200,6 +200,133 @@
         </div>
     </div>
 
+    <!-- Live Statement Viewer -->
+    <div class="card mt-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                <i class="fas fa-file-invoice-dollar"></i> Cari Hesabdan Çıxarış (Birbaşa API-dən)
+            </h5>
+        </div>
+        <div class="card-body">
+            @if(!empty($accounts))
+                <form method="GET" action="{{ route('birbank.show', $company) }}" class="mb-3">
+                    <input type="hidden" name="env" value="{{ $env }}">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="accountNumber">Hesab nömrəsi</label>
+                            <select name="accountNumber" id="accountNumber" class="form-control" required>
+                                <option value="">Hesab seçin</option>
+                                @foreach($accounts as $account)
+                                    @php
+                                        $custAcNo = $account['custAcNo'] ?? $account['account_number'] ?? null;
+                                        $iban = $account['ibanAcNo'] ?? $account['iban'] ?? null;
+                                        $ccy = $account['ccy'] ?? $account['acCcy'] ?? null;
+                                        $desc = $account['acDesc'] ?? null;
+                                        $optionLabel = trim(($custAcNo ? $custAcNo . ' - ' : '') . ($iban ?: '') . ' ' . ($ccy ? '(' . $ccy . ')' : '') . ' ' . ($desc ?: ''));
+                                    @endphp
+                                    <option value="{{ $custAcNo }}"
+                                        @if(($statementFilters['accountNumber'] ?? null) == $custAcNo) selected @endif>
+                                        {{ $optionLabel }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="fromDate">Başlanğıc tarix</label>
+                            <input type="date"
+                                   id="fromDate"
+                                   name="fromDate"
+                                   class="form-control"
+                                   value="{{ $statementFilters['fromDate'] ?? now()->subDays(30)->toDateString() }}"
+                                   required>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="toDate">Son tarix</label>
+                            <input type="date"
+                                   id="toDate"
+                                   name="toDate"
+                                   class="form-control"
+                                   value="{{ $statementFilters['toDate'] ?? now()->toDateString() }}"
+                                   required>
+                        </div>
+                        <div class="form-group col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fas fa-search"></i> Çıxarış et
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                @if(!empty($statement))
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Ref №</th>
+                                    <th>Tarix</th>
+                                    <th>İstiqamət</th>
+                                    <th>Məbləğ (AZN)</th>
+                                    <th>Valyuta</th>
+                                    <th>Təyinat</th>
+                                    <th>Qarşı tərəf</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($statement as $row)
+                                    @php
+                                        $amount = isset($row['lcyAmount']) ? (float) $row['lcyAmount'] : null;
+                                        $drcr = strtoupper($row['drcrInd'] ?? '');
+                                        if ($drcr === 'C') {
+                                            $direction = 'in';
+                                        } elseif ($drcr === 'D') {
+                                            $direction = 'out';
+                                        } else {
+                                            $direction = $amount !== null ? ($amount >= 0 ? 'in' : 'out') : null;
+                                        }
+                                        $date = $row['valueDt'] ?? $row['trnDt'] ?? $row['txnDtTime'] ?? null;
+                                    @endphp
+                                    <tr>
+                                        <td>{{ $row['trnRefNo'] ?? '-' }}</td>
+                                        <td>{{ $date ?? '-' }}</td>
+                                        <td>
+                                            @if($direction === 'in')
+                                                <span class="badge badge-success">Gələn</span>
+                                            @elseif($direction === 'out')
+                                                <span class="badge badge-danger">Gedən</span>
+                                            @else
+                                                <span class="badge badge-secondary">-</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($amount !== null)
+                                                <strong class="{{ $direction === 'in' ? 'text-success' : 'text-danger' }}">
+                                                    {{ number_format(abs($amount), 2) }}
+                                                </strong>
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td>{{ $row['acCcy'] ?? $row['ccy'] ?? '-' }}</td>
+                                        <td>{{ $row['purpose'] ?? '-' }}</td>
+                                        <td>{{ $row['contrAccount'] ?? '-' }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @elseif(request()->has('accountNumber'))
+                    <div class="alert alert-info mb-0">
+                        Seçilmiş tarix aralığında əməliyyat tapılmadı.
+                    </div>
+                @endif
+            @else
+                <div class="alert alert-warning mb-0">
+                    Hesablar tapılmadı və ya hesab siyahısı üçün endpoint cavab vermədi.
+                </div>
+            @endif
+        </div>
+    </div>
+
     <!-- Transactions Table -->
     <div class="card mt-4">
         <div class="card-header">
