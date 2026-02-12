@@ -346,18 +346,23 @@ class BirbankClient
             ->acceptJson()
             ->withToken($credential->access_token);
 
-        // Add query parameters if provided
-        if (isset($options['query'])) {
-            $http->withQueryParameters($options['query']);
-        }
-
-        // Add body if provided
-        if (isset($options['body'])) {
-            $http->json($options['body']);
-        }
-
         try {
-            $response = $http->{strtolower($method)}($url);
+            // Build final URL with query parameters for all HTTP methods
+            if (isset($options['query']) && is_array($options['query']) && !empty($options['query'])) {
+                $queryString = http_build_query($options['query']);
+                $url .= (str_contains($url, '?') ? '&' : '?') . $queryString;
+            }
+
+            $methodLower = strtolower($method);
+            $payload = $options['body'] ?? [];
+
+            // For GET/DELETE we typically don't send a JSON body
+            if (in_array($methodLower, ['get', 'delete'])) {
+                $response = $http->{$methodLower}($url);
+            } else {
+                // For POST/PUT/PATCH we send JSON payload (asJson() already set)
+                $response = $http->{$methodLower}($url, $payload);
+            }
 
             $statusCode = $response->status();
             $responseData = $response->json() ?? [];
