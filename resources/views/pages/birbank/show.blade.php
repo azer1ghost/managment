@@ -78,20 +78,33 @@
                 </div>
                 <div class="card-body">
                     @if($credential)
-                        <div class="mb-3">
-                            <strong>Status:</strong>
-                            @if($credential->hasValidToken())
-                                <span class="badge badge-success">
-                                    <i class="fas fa-check-circle"></i> Token Aktiv
-                                </span>
-                            @elseif($credential->access_token)
-                                <span class="badge badge-warning">
-                                    <i class="fas fa-exclamation-triangle"></i> Token Müddəti Bitib
-                                </span>
-                            @else
-                                <span class="badge badge-secondary">
-                                    <i class="fas fa-times-circle"></i> Token Yoxdur
-                                </span>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <strong>Status:</strong>
+                                @if($credential->hasValidToken())
+                                    <span class="badge badge-success">
+                                        <i class="fas fa-check-circle"></i> Token Aktiv
+                                    </span>
+                                @elseif($credential->access_token)
+                                    <span class="badge badge-warning">
+                                        <i class="fas fa-exclamation-triangle"></i> Token Müddəti Bitib
+                                    </span>
+                                @else
+                                    <span class="badge badge-secondary">
+                                        <i class="fas fa-times-circle"></i> Token Yoxdur
+                                    </span>
+                                @endif
+                            </div>
+
+                            @if($credential->access_token)
+                                <form action="{{ route('birbank.logout', $company) }}" method="POST" class="ml-2">
+                                    @csrf
+                                    <input type="hidden" name="env" value="{{ $env }}">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('Bu Birbank hesabından çıxış edilsin?')">
+                                        <i class="fas fa-sign-out-alt"></i> Çıxış et
+                                    </button>
+                                </form>
                             @endif
                         </div>
 

@@ -396,6 +396,7 @@ Route::group([
     Route::get('/birbank', [BirbankController::class, 'index'])->name('birbank.index');
     Route::get('/birbank/{company}', [BirbankController::class, 'show'])->name('birbank.show');
     Route::post('/birbank/{company}/login', [BirbankController::class, 'login'])->name('birbank.login');
+    Route::post('/birbank/{company}/logout', [BirbankController::class, 'logout'])->name('birbank.logout');
     Route::post('/birbank/{company}/sync-transactions', [BirbankController::class, 'syncTransactions'])->name('birbank.sync-transactions');
 });
 

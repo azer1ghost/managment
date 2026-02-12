@@ -139,6 +139,36 @@ class BirbankController extends Controller
         }
     }
 
+    /**
+     * Logout from Birbank for a company (clear stored tokens for given env).
+     */
+    public function logout(Request $request, Company $company)
+    {
+        $request->validate([
+            'env' => 'required|in:test,prod',
+        ]);
+
+        $env = $request->env;
+
+        $credential = BirbankCredential::where('company_id', $company->id)
+            ->where('env', $env)
+            ->first();
+
+        if ($credential) {
+            // Clear only token-related fields so username/parol qalır
+            $credential->access_token = null;
+            $credential->refresh_token = null;
+            $credential->auth_type = null;
+            $credential->token_expires_at = null;
+            $credential->save();
+        }
+
+        return redirect()
+            ->route('birbank.show', $company)
+            ->with('env', $env)
+            ->withNotify('success', 'Birbank hesabından çıxış edildi. Yenidən login edə bilərsiniz.');
+    }
+
     public function syncTransactions(Company $company, Request $request)
     {
         $request->validate([
