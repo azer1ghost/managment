@@ -189,14 +189,27 @@ class BirbankSyncTransactions extends Command
      */
     protected function extractDirection(array $data): ?string
     {
+        // Explicit direction if provided as 'in' / 'out'
         $direction = $data['direction'] ?? $data['type'] ?? null;
-        
         if ($direction) {
             $direction = strtolower($direction);
-            return in_array($direction, ['in', 'out']) ? $direction : null;
+            if (in_array($direction, ['in', 'out'])) {
+                return $direction;
+            }
         }
 
-        // Try to infer from amount
+        // Birbank statement: drcrInd = 'D' (debit / çıxan), 'C' (credit / daxil olan)
+        if (isset($data['drcrInd'])) {
+            $ind = strtoupper((string) $data['drcrInd']);
+            if ($ind === 'C') {
+                return 'in';
+            }
+            if ($ind === 'D') {
+                return 'out';
+            }
+        }
+
+        // Fallback: infer from amount sign
         $amount = $this->extractAmount($data);
         if ($amount !== null) {
             return $amount >= 0 ? 'in' : 'out';
