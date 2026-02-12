@@ -79,11 +79,18 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4 col-md-3 mb-3">
-                <select class="form-control" name="env" onchange="this.form.submit()">
-                    <option value="test" @if($env == 'test') selected @endif>Test Mühit</option>
-                    <option value="prod" @if($env == 'prod') selected @endif>Production Mühit</option>
-                </select>
+            <div class="col-4 col-md-4 mb-3 d-flex justify-content-end align-items-center">
+                <!-- Env selector: eyni show səhifəsindəki kimi iki düymə -->
+                <div class="btn-group" role="group">
+                    <a href="{{ route('birbank.index', array_merge(request()->except('page'), ['env' => 'test'])) }}"
+                       class="btn btn-{{ $env == 'test' ? 'warning' : 'outline-warning' }}">
+                        Test Mühit
+                    </a>
+                    <a href="{{ route('birbank.index', array_merge(request()->except('page'), ['env' => 'prod'])) }}"
+                       class="btn btn-{{ $env == 'prod' ? 'danger' : 'outline-danger' }}">
+                        Production Mühit
+                    </a>
+                </div>
             </div>
         </div>
     </form>
