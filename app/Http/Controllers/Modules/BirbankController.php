@@ -132,7 +132,8 @@ class BirbankController extends Controller
                 return redirect()
                     ->back()
                     ->with('env', $env)
-                    ->withNotify('warning', 'Hesablar tapılmadı və ya endpoint hələ hazır deyil.');
+                    // Using 'info' because notify() helper does not support 'warning' type
+                    ->withNotify('info', 'Hesablar tapılmadı və ya endpoint hələ hazır deyil.');
             }
 
             $to = Carbon::now();
