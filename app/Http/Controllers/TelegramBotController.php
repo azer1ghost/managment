@@ -25,7 +25,13 @@ class TelegramBotController extends Controller
         try {
             $update = $request->all();
 
-            Log::info('Telegram webhook received', ['update' => $update]);
+            // Log every webhook request for debugging
+            Log::info('Telegram webhook received', [
+                'update_id' => $update['update_id'] ?? null,
+                'has_message' => isset($update['message']),
+                'has_callback_query' => isset($update['callback_query']),
+                'raw_update' => $update,
+            ]);
 
             // Handle message
             if (isset($update['message'])) {
@@ -37,10 +43,17 @@ class TelegramBotController extends Controller
                 $this->handleCallbackQuery($update['callback_query']);
             }
 
+            // If no message or callback, log it
+            if (!isset($update['message']) && !isset($update['callback_query'])) {
+                Log::warning('Telegram webhook: unknown update type', ['update' => $update]);
+            }
+
             return response()->json(['ok' => true]);
         } catch (\Exception $e) {
             Log::error('Telegram webhook exception', [
                 'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
                 'trace' => $e->getTraceAsString(),
             ]);
 
@@ -53,17 +66,29 @@ class TelegramBotController extends Controller
      */
     protected function handleMessage(array $message): void
     {
-        $chatId = $message['chat']['id'];
-        $text = $message['text'] ?? '';
+        try {
+            $chatId = $message['chat']['id'];
+            $text = $message['text'] ?? '';
 
-        // Handle commands
-        if (strpos($text, '/') === 0) {
-            $this->handleCommand($chatId, $text);
-            return;
+            Log::info('Telegram message received', [
+                'chat_id' => $chatId,
+                'text' => $text,
+            ]);
+
+            // Handle commands
+            if (strpos($text, '/') === 0) {
+                $this->handleCommand($chatId, $text);
+                return;
+            }
+
+            // Default: show help
+            $this->sendHelp($chatId);
+        } catch (\Exception $e) {
+            Log::error('Telegram handleMessage exception', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
         }
-
-        // Default: show help
-        $this->sendHelp($chatId);
     }
 
     /**
