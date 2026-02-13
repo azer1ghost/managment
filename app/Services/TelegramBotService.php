@@ -13,7 +13,18 @@ class TelegramBotService
     public function __construct()
     {
         $this->token = config('telegram.bot_token');
+        
+        if (empty($this->token)) {
+            Log::error('Telegram bot token is empty! Check TELEGRAM_BOT_TOKEN in .env');
+            throw new \RuntimeException('Telegram bot token is not configured');
+        }
+        
         $this->apiUrl = "https://api.telegram.org/bot{$this->token}";
+        
+        Log::debug('TelegramBotService initialized', [
+            'token_preview' => substr($this->token, 0, 10) . '...',
+            'api_url' => $this->apiUrl,
+        ]);
     }
 
     /**
@@ -22,20 +33,38 @@ class TelegramBotService
     public function sendMessage(int $chatId, string $message, ?string $parseMode = 'HTML'): ?array
     {
         try {
-            $response = Http::post("{$this->apiUrl}/sendMessage", [
+            $url = "{$this->apiUrl}/sendMessage";
+            $payload = [
                 'chat_id' => $chatId,
                 'text' => $message,
                 'parse_mode' => $parseMode,
+            ];
+
+            Log::debug('Telegram sendMessage request', [
+                'url' => $url,
+                'chat_id' => $chatId,
+                'message_length' => strlen($message),
             ]);
 
+            $response = Http::post($url, $payload);
+
             if ($response->successful()) {
+                Log::debug('Telegram sendMessage success', [
+                    'chat_id' => $chatId,
+                ]);
                 return $response->json();
             }
+
+            $errorBody = $response->body();
+            $errorJson = $response->json();
 
             Log::error('Telegram sendMessage failed', [
                 'chat_id' => $chatId,
                 'status' => $response->status(),
-                'response' => $response->body(),
+                'response_body' => $errorBody,
+                'error_code' => $errorJson['error_code'] ?? null,
+                'description' => $errorJson['description'] ?? null,
+                'api_url' => $url,
             ]);
 
             return null;
