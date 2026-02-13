@@ -74,10 +74,22 @@ class TelegramBotController extends Controller
     {
         try {
             $chatId = $message['chat']['id'];
+            $userId = $message['from']['id'] ?? null;
             $text = $message['text'] ?? '';
+
+            // Access control: yalnız icazə verilən istifadəçilər
+            if (!$this->isUserAllowed($userId)) {
+                Log::warning('Telegram access denied', [
+                    'user_id' => $userId,
+                    'chat_id' => $chatId,
+                ]);
+                $this->telegram->sendMessage($chatId, "❌ Sizə bu botdan istifadə etmək üçün icazə verilməyib.");
+                return;
+            }
 
             Log::info('Telegram message received', [
                 'chat_id' => $chatId,
+                'user_id' => $userId,
                 'text' => $text,
             ]);
 
@@ -175,17 +187,43 @@ class TelegramBotController extends Controller
      */
     protected function handleCallbackQuery(array $callbackQuery): void
     {
-        $chatId = $callbackQuery['message']['chat']['id'];
-        $callbackQueryId = $callbackQuery['id'];
-        $data = $callbackQuery['data'];
+        try {
+            $chatId = $callbackQuery['message']['chat']['id'];
+            $userId = $callbackQuery['from']['id'] ?? null;
+            $callbackQueryId = $callbackQuery['id'];
+            $data = $callbackQuery['data'] ?? '';
 
-        // Answer callback query first
-        $this->telegram->answerCallbackQuery($callbackQueryId, 'Yüklənir...');
+            // Access control: yalnız icazə verilən istifadəçilər
+            if (!$this->isUserAllowed($userId)) {
+                Log::warning('Telegram callback access denied', [
+                    'user_id' => $userId,
+                    'chat_id' => $chatId,
+                ]);
+                $this->telegram->answerCallbackQuery($callbackQueryId, "❌ Sizə bu botdan istifadə etmək üçün icazə verilməyib.", true);
+                return;
+            }
 
-        // Handle callback data
-        if (strpos($data, 'work_') === 0) {
-            $workId = str_replace('work_', '', $data);
-            $this->sendWorkDetails($chatId, $workId);
+            Log::info('Telegram callback query received', [
+                'chat_id' => $chatId,
+                'user_id' => $userId,
+                'callback_data' => $data,
+            ]);
+
+            // Answer callback query first
+            $this->telegram->answerCallbackQuery($callbackQueryId, null, false);
+
+            // Handle callback data
+            if (strpos($data, 'work_') === 0) {
+                $workId = (int) str_replace('work_', '', $data);
+                $this->sendWorkDetails($chatId, $workId);
+            } else {
+                $this->telegram->sendMessage($chatId, "❌ Naməlum əmr.");
+            }
+        } catch (\Exception $e) {
+            Log::error('Telegram handleCallbackQuery exception', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
         }
     }
 
@@ -573,6 +611,25 @@ class TelegramBotController extends Controller
             ]);
             $this->telegram->sendMessage($chatId, "❌ Xəta: " . $e->getMessage());
         }
+    }
+
+    /**
+     * Check if user is allowed to use the bot
+     */
+    protected function isUserAllowed(?int $userId): bool
+    {
+        if ($userId === null) {
+            return false;
+        }
+
+        $allowedUserIds = config('telegram.allowed_user_ids', []);
+
+        // Əgər allowed_user_ids boşdursa, hər kəsə icazə ver (backward compatibility)
+        if (empty($allowedUserIds)) {
+            return true;
+        }
+
+        return in_array((string) $userId, $allowedUserIds, true);
     }
 
     /**
