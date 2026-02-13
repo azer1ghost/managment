@@ -418,6 +418,9 @@ Route::post('/validate-register', [RegisterController::class, 'validator'])->nam
 
 Localization::route();
 
+// Telegram Bot Webhook (public, no auth required)
+Route::post('/telegram/webhook', [\App\Http\Controllers\TelegramBotController::class, 'webhook'])->name('telegram.webhook');
+
 Route::any('/close', fn() => "<html><script>window.close()</script></html>" )->name('close');
 
 Route::any('/test', [PlatformController::class, 'test'])->middleware('deactivated');
