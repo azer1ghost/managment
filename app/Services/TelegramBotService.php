@@ -144,7 +144,15 @@ class TelegramBotService
     public function formatWorkMessage(\App\Models\Work $work): string
     {
         $clientName = $work->client ? $work->client->fullname : 'Müştəri tapılmadı';
-        $serviceName = $work->service ? $work->service->getTranslation('name', app()->getLocale()) : 'Xidmət tapılmadı';
+        
+        // Service name və detail
+        $serviceName = 'Xidmət tapılmadı';
+        $serviceDetail = null;
+        if ($work->service) {
+            $serviceName = $work->service->getTranslation('name', app()->getLocale());
+            $serviceDetail = $work->service->detail;
+        }
+        
         $status = $this->getStatusName($work->status);
         $code = $work->code ?: 'Kod yoxdur';
         $department = $work->department ? $work->department->name : '-';
@@ -155,6 +163,13 @@ class TelegramBotService
         $message .= "🔹 <b>Kod:</b> {$code}\n";
         $message .= "👤 <b>Müştəri:</b> {$clientName}\n";
         $message .= "🛠 <b>Xidmət:</b> {$serviceName}\n";
+        
+        // Service detail varsa əlavə et
+        if ($serviceDetail) {
+            $serviceDetailShort = mb_substr($serviceDetail, 0, 150);
+            $message .= "📄 <b>Xidmət detalları:</b> {$serviceDetailShort}\n";
+        }
+        
         $message .= "📊 <b>Status:</b> {$status}\n";
         $message .= "🏢 <b>Şöbə:</b> {$department}\n";
         $message .= "👨‍💼 <b>İstifadəçi:</b> {$user}\n";
@@ -162,7 +177,7 @@ class TelegramBotService
 
         if ($work->detail) {
             $detail = mb_substr($work->detail, 0, 200);
-            $message .= "\n📝 <b>Ətraflı:</b> {$detail}";
+            $message .= "\n📝 <b>İşin ətraflı məlumatı:</b> {$detail}";
         }
 
         return $message;
