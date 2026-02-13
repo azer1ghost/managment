@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Work;
 use App\Models\User;
+use App\Models\Company;
 use App\Services\TelegramBotService;
+use App\Exports\TelegramWorksExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class TelegramBotController extends Controller
 {
@@ -133,6 +139,32 @@ class TelegramBotController extends Controller
                 }
                 break;
 
+            case '/export':
+            case '/excel':
+                // Format: /export YYYY-MM-DD YYYY-MM-DD
+                $fromDate = isset($parts[1]) ? $parts[1] : null;
+                $toDate = isset($parts[2]) ? $parts[2] : null;
+                if ($fromDate && $toDate) {
+                    $this->exportWorksToExcel($chatId, $fromDate, $toDate);
+                } else {
+                    $this->telegram->sendMessage($chatId, "❌ İstifadə: /export {başlanğıc_tarix} {son_tarix}\nFormat: YYYY-MM-DD\nMəsələn: /export 2025-01-01 2025-12-31");
+                }
+                break;
+
+            case '/stats':
+            case '/statistics':
+            case '/dovriyye':
+                // Format: /stats YYYY-MM-DD YYYY-MM-DD [company_id]
+                $fromDate = isset($parts[1]) ? $parts[1] : null;
+                $toDate = isset($parts[2]) ? $parts[2] : null;
+                $companyId = isset($parts[3]) ? (int) $parts[3] : null;
+                if ($fromDate && $toDate) {
+                    $this->sendMonthlyStatistics($chatId, $fromDate, $toDate, $companyId);
+                } else {
+                    $this->telegram->sendMessage($chatId, "❌ İstifadə: /stats {başlanğıc_tarix} {son_tarix} [şirkət_id]\nFormat: YYYY-MM-DD\nMəsələn: /stats 2025-01-01 2025-12-31\nvə ya: /stats 2025-01-01 2025-12-31 1");
+                }
+                break;
+
             default:
                 $this->sendHelp($chatId);
         }
@@ -169,7 +201,9 @@ class TelegramBotController extends Controller
         $message .= "/help - Kömək\n";
         $message .= "/works - İşlərin siyahısı\n";
         $message .= "/work {id} - İşin detalları\n";
-        $message .= "/search {müştəri_adı} - Müştəri adına görə axtarış\n\n";
+        $message .= "/search {müştəri_adı} - Müştəri adına görə axtarış\n";
+        $message .= "/export {başlanğıc} {son} - Excel export\n";
+        $message .= "/stats {başlanğıc} {son} [şirkət_id] - Dövriyyə statistikaları\n\n";
         $message .= "İstifadə üçün /help yazın.";
 
         $this->telegram->sendMessage($chatId, $message);
@@ -186,10 +220,15 @@ class TelegramBotController extends Controller
         $message .= "/help - Bu mesaj\n";
         $message .= "/works - Son 10 işin siyahısı\n";
         $message .= "/work {id} - İşin detalları\n";
-        $message .= "/search {müştəri_adı} - Müştəri adına görə axtarış\n\n";
+        $message .= "/search {müştəri_adı} - Müştəri adına görə axtarış\n";
+        $message .= "/export {başlanğıc} {son} - Excel export\n";
+        $message .= "/stats {başlanğıc} {son} [şirkət_id] - Dövriyyə statistikaları\n\n";
         $message .= "<b>Nümunələr:</b>\n";
         $message .= "/work 123\n";
-        $message .= "/search Əli Vəliyev";
+        $message .= "/search Əli Vəliyev\n";
+        $message .= "/export 2025-01-01 2025-12-31\n";
+        $message .= "/stats 2025-01-01 2025-12-31\n";
+        $message .= "/stats 2025-01-01 2025-12-31 1";
 
         $this->telegram->sendMessage($chatId, $message);
     }
@@ -335,6 +374,204 @@ class TelegramBotController extends Controller
                 'trace' => $e->getTraceAsString(),
             ]);
             $this->telegram->sendMessage($chatId, "❌ Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.");
+        }
+    }
+
+    /**
+     * Export works to Excel and send via Telegram
+     */
+    protected function exportWorksToExcel(int $chatId, string $fromDate, string $toDate): void
+    {
+        try {
+            $from = Carbon::parse($fromDate);
+            $to = Carbon::parse($toDate);
+
+            $this->telegram->sendMessage($chatId, "⏳ Excel faylı hazırlanır...");
+
+            $filename = 'works_export_' . $from->format('Y-m-d') . '_' . $to->format('Y-m-d') . '_' . time() . '.xlsx';
+            $filePath = storage_path('app/temp/' . $filename);
+
+            // Temp directory yarat
+            if (!file_exists(storage_path('app/temp'))) {
+                mkdir(storage_path('app/temp'), 0755, true);
+            }
+
+            Excel::store(new TelegramWorksExport($from, $to), 'temp/' . $filename, 'local');
+
+            $caption = "📊 İşlərin Excel export-u\n";
+            $caption .= "📅 Tarix aralığı: {$from->format('d.m.Y')} - {$to->format('d.m.Y')}";
+
+            $result = $this->telegram->sendDocument($chatId, $filePath, $caption);
+
+            // Temp faylı sil
+            @unlink($filePath);
+
+            if ($result) {
+                Log::info('Telegram Excel export sent', ['chat_id' => $chatId, 'from' => $fromDate, 'to' => $toDate]);
+            } else {
+                $this->telegram->sendMessage($chatId, "❌ Excel faylı göndərilə bilmədi. Zəhmət olmasa yenidən cəhd edin.");
+            }
+        } catch (\Exception $e) {
+            Log::error('Telegram exportWorksToExcel exception', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            $this->telegram->sendMessage($chatId, "❌ Xəta: " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Send monthly turnover statistics
+     */
+    protected function sendMonthlyStatistics(int $chatId, string $fromDate, string $toDate, ?int $companyId = null): void
+    {
+        try {
+            $from = Carbon::parse($fromDate);
+            $to = Carbon::parse($toDate);
+
+            $this->telegram->sendMessage($chatId, "⏳ Statistikalar hesablanır...");
+
+            // SQL sorğusu - SQL-dən birbaşa adaptasiya
+            $sql = "
+                SELECT
+                    w.id AS work_id,
+                    w.client_id,
+                    ANY_VALUE(c.fullname) AS client_name,
+                    ANY_VALUE(w.created_at) AS created_at,
+                    ANY_VALUE(ai.company_id) AS asan_company_id,
+                    MAX(CASE WHEN wp.parameter_id = 33 THEN CAST(wp.value AS DECIMAL(15,2)) END) AS mebleg,
+                    MAX(CASE WHEN wp.parameter_id = 34 THEN CAST(wp.value AS DECIMAL(15,2)) END) AS edv,
+                    MAX(CASE WHEN wp.parameter_id = 35 THEN CAST(wp.value AS DECIMAL(15,2)) END) AS esas_mebleg_odenilen,
+                    MAX(CASE WHEN wp.parameter_id = 36 THEN CAST(wp.value AS DECIMAL(15,2)) END) AS edv_odenilen,
+                    MAX(CASE WHEN wp.parameter_id = 55 THEN CAST(wp.value AS DECIMAL(15,2)) END) AS umumi_odenis
+                FROM works w
+                JOIN clients c ON c.id = w.client_id
+                LEFT JOIN work_parameter wp ON wp.work_id = w.id
+                LEFT JOIN asan_imzalar ai ON ai.id = w.asan_imza_id
+                WHERE w.deleted_at IS NULL
+                  AND c.deleted_at IS NULL
+                  AND w.created_at >= ?
+                  AND w.created_at < ?
+            ";
+
+            $params = [$from->startOfDay(), $to->endOfDay()];
+
+            // Şirkət filteri
+            if ($companyId) {
+                $sql .= " AND ai.company_id = ?";
+                $params[] = $companyId;
+            }
+
+            $sql .= " GROUP BY w.id ORDER BY w.created_at DESC";
+
+            $works = collect(DB::select($sql, $params));
+
+            // Aylıq qruplaşdırma
+            $monthlyStats = [];
+            $companyStats = [];
+
+            foreach ($works as $work) {
+                $month = Carbon::parse($work->created_at)->format('Y-m');
+                $asanCompanyId = $work->asan_company_id;
+
+                // Aylıq statistikalar
+                if (!isset($monthlyStats[$month])) {
+                    $monthlyStats[$month] = [
+                        'count' => 0,
+                        'total_mebleg' => 0,
+                        'total_edv' => 0,
+                        'total_odenilen' => 0,
+                        'total_umumi_odenis' => 0,
+                    ];
+                }
+
+                $monthlyStats[$month]['count']++;
+                $monthlyStats[$month]['total_mebleg'] += ($work->mebleg ?? 0);
+                $monthlyStats[$month]['total_edv'] += ($work->edv ?? 0);
+                $monthlyStats[$month]['total_odenilen'] += ($work->esas_mebleg_odenilen ?? 0) + ($work->edv_odenilen ?? 0);
+                $monthlyStats[$month]['total_umumi_odenis'] += ($work->umumi_odenis ?? 0);
+
+                // Şirkət statistikaları
+                if ($asanCompanyId) {
+                    if (!isset($companyStats[$asanCompanyId])) {
+                        $company = Company::find($asanCompanyId);
+                        $companyStats[$asanCompanyId] = [
+                            'name' => $company ? $company->name : "Şirkət #{$asanCompanyId}",
+                            'count' => 0,
+                            'total_mebleg' => 0,
+                            'total_edv' => 0,
+                            'total_odenilen' => 0,
+                            'total_umumi_odenis' => 0,
+                        ];
+                    }
+
+                    $companyStats[$asanCompanyId]['count']++;
+                    $companyStats[$asanCompanyId]['total_mebleg'] += ($work->mebleg ?? 0);
+                    $companyStats[$asanCompanyId]['total_edv'] += ($work->edv ?? 0);
+                    $companyStats[$asanCompanyId]['total_odenilen'] += ($work->esas_mebleg_odenilen ?? 0) + ($work->edv_odenilen ?? 0);
+                    $companyStats[$asanCompanyId]['total_umumi_odenis'] += ($work->umumi_odenis ?? 0);
+                }
+            }
+
+            // Mesaj formatlaşdırma
+            $message = "📊 <b>Dövriyyə Statistikaları</b>\n\n";
+            $message .= "📅 Tarix aralığı: {$from->format('d.m.Y')} - {$to->format('d.m.Y')}\n";
+            $message .= "📋 Ümumi iş sayı: " . $works->count() . "\n\n";
+
+            // Ümumi cəmi
+            $totalMeb = $works->sum(function($w) { return $w->mebleg ?? 0; });
+            $totalEdv = $works->sum(function($w) { return $w->edv ?? 0; });
+            $totalOdenilen = $works->sum(function($w) { return ($w->esas_mebleg_odenilen ?? 0) + ($w->edv_odenilen ?? 0); });
+            $totalUmumiOdenis = $works->sum(function($w) { return $w->umumi_odenis ?? 0; });
+
+            $message .= "💰 <b>Ümumi məbləğlər:</b>\n";
+            $message .= "💵 Məbləğ: " . number_format($totalMeb, 2) . " AZN\n";
+            $message .= "📄 ƏDV: " . number_format($totalEdv, 2) . " AZN\n";
+            $message .= "✅ Ödənilmiş: " . number_format($totalOdenilen, 2) . " AZN\n";
+            $message .= "💳 Ümumi ödəniş: " . number_format($totalUmumiOdenis, 2) . " AZN\n\n";
+
+            // Aylıq statistikalar
+            if (!empty($monthlyStats)) {
+                $message .= "📅 <b>Aylıq dövriyyə:</b>\n";
+                ksort($monthlyStats);
+                foreach ($monthlyStats as $month => $stats) {
+                    $monthName = Carbon::parse($month . '-01')->locale('az')->translatedFormat('F Y');
+                    $message .= "\n📆 <b>{$monthName}</b>\n";
+                    $message .= "   İş sayı: {$stats['count']}\n";
+                    $message .= "   Məbləğ: " . number_format($stats['total_mebleg'], 2) . " AZN\n";
+                    $message .= "   Ödənilmiş: " . number_format($stats['total_odenilen'], 2) . " AZN\n";
+
+                    if (mb_strlen($message) > 3500) {
+                        $this->telegram->sendMessage($chatId, $message);
+                        $message = "📅 <b>Aylıq dövriyyə (davam):</b>\n";
+                    }
+                }
+            }
+
+            // Şirkət statistikaları (yalnız ümumi sorğuda)
+            if (empty($companyId) && !empty($companyStats)) {
+                $message .= "\n\n🏢 <b>Şirkətlərə görə:</b>\n";
+                foreach ($companyStats as $companyId => $stats) {
+                    $message .= "\n🏛 <b>{$stats['name']}</b>\n";
+                    $message .= "   İş sayı: {$stats['count']}\n";
+                    $message .= "   Məbləğ: " . number_format($stats['total_mebleg'], 2) . " AZN\n";
+                    $message .= "   Ödənilmiş: " . number_format($stats['total_odenilen'], 2) . " AZN\n";
+
+                    if (mb_strlen($message) > 3500) {
+                        $this->telegram->sendMessage($chatId, $message);
+                        $message = "🏢 <b>Şirkətlərə görə (davam):</b>\n";
+                    }
+                }
+            }
+
+            $this->telegram->sendMessage($chatId, $message);
+
+        } catch (\Exception $e) {
+            Log::error('Telegram sendMonthlyStatistics exception', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            $this->telegram->sendMessage($chatId, "❌ Xəta: " . $e->getMessage());
         }
     }
 

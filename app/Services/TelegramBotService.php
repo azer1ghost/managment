@@ -139,6 +139,39 @@ class TelegramBotService
     }
 
     /**
+     * Send document (Excel file) to Telegram chat
+     */
+    public function sendDocument(int $chatId, string $filePath, ?string $caption = null): ?array
+    {
+        try {
+            $response = Http::attach('document', file_get_contents($filePath), basename($filePath))
+                ->post("{$this->apiUrl}/sendDocument", [
+                    'chat_id' => $chatId,
+                    'caption' => $caption,
+                ]);
+
+            if ($response->successful()) {
+                return $response->json();
+            }
+
+            Log::error('Telegram sendDocument failed', [
+                'chat_id' => $chatId,
+                'status' => $response->status(),
+                'response' => $response->body(),
+            ]);
+
+            return null;
+        } catch (\Exception $e) {
+            Log::error('Telegram sendDocument exception', [
+                'chat_id' => $chatId,
+                'message' => $e->getMessage(),
+            ]);
+
+            return null;
+        }
+    }
+
+    /**
      * Format work information for Telegram (without financial data)
      */
     public function formatWorkMessage(\App\Models\Work $work): string
