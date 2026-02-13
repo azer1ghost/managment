@@ -217,13 +217,28 @@ class TelegramBotController extends Controller
 
         foreach ($works as $work) {
             $clientName = $work->client ? mb_substr($work->client->fullname, 0, 30) : 'Müştəri yox';
-            $serviceName = $work->service ? mb_substr($work->service->getTranslation('name', app()->getLocale()), 0, 20) : 'Xidmət yox';
+            
+            // Service name və detail
+            $serviceName = 'Xidmət yox';
+            $serviceDetail = null;
+            if ($work->service) {
+                $serviceName = mb_substr($work->service->getTranslation('name', app()->getLocale()), 0, 25);
+                $serviceDetail = $work->service->detail;
+            }
+            
             $statusName = $this->getStatusName($work->status);
             $code = $work->code ?: "#{$work->id}";
 
             $message .= "🔹 <b>{$code}</b>\n";
             $message .= "👤 {$clientName}\n";
             $message .= "🛠 {$serviceName}\n";
+            
+            // Service detail varsa əlavə et (qısa)
+            if ($serviceDetail) {
+                $serviceDetailShort = mb_substr($serviceDetail, 0, 50);
+                $message .= "📄 {$serviceDetailShort}\n";
+            }
+            
             $message .= "📊 {$statusName}\n";
             $message .= "📅 " . ($work->created_at ? $work->created_at->format('d.m.Y') : '-') . "\n";
             $message .= "💡 Detallar: /work {$work->id}\n\n";
