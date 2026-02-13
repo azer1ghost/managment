@@ -315,16 +315,19 @@
                             </div>
                         @else
                             <p class="text-muted mb-3">{{ __('transit.profile.telegram_instruction') }}</p>
-                            @if(session('telegram_link_code'))
+                            @php
+                                $displayCode = session('telegram_link_code') ?? (transit_user() && transit_user()->telegram_link_code ? transit_user()->telegram_link_code : null);
+                            @endphp
+                            @if($displayCode)
                                 <div class="p-4 mb-4 rounded border border-primary text-center">
-                                    <strong class="display-4 text-primary">{{ session('telegram_link_code') }}</strong>
+                                    <strong class="display-4 text-primary">{{ $displayCode }}</strong>
                                     <p class="mt-2 mb-0 small text-muted">{{ __('transit.profile.telegram_help') }}</p>
                                 </div>
                             @endif
                             <form action="{{ route('transit.profile.telegram-code') }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fab fa-telegram-plane"></i> {{ __('transit.profile.telegram_generate_code') }}
+                                    <i class="fab fa-telegram-plane"></i> {{ $displayCode ? __('transit.profile.telegram_show_code') : __('transit.profile.telegram_generate_code') }}
                                 </button>
                             </form>
                         @endif

@@ -79,8 +79,11 @@ class TransitTelegramBotController extends Controller
     protected function handleLink(int $chatId, string $code): void
     {
         $customer = TransitCustomer::where('telegram_link_code', $code)
-            ->whereNotNull('telegram_link_code_expires_at')
-            ->where('telegram_link_code_expires_at', '>', now())
+            ->whereNull('telegram_chat_id')
+            ->where(function ($q) {
+                $q->whereNull('telegram_link_code_expires_at')
+                    ->orWhere('telegram_link_code_expires_at', '>', now());
+            })
             ->first();
 
         if (!$customer) {

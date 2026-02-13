@@ -87,7 +87,8 @@ return [
         'telegram_link' => 'Telegram-a qoşul',
         'telegram_linked' => 'Telegram hesabınız qoşulub.',
         'telegram_generate_code' => 'Kod yarat',
-        'telegram_instruction' => 'Transit Telegram botunda bu kodu yazın (5 dəq etibarlıdır):',
+        'telegram_show_code' => 'Kodu göstər',
+        'telegram_instruction' => 'Transit Telegram botunda bu kodu yazın (hər müştəriyə bir kod):',
         'telegram_help' => 'Transit botda /link yazıb boşluqdan sonra kodu göndərin. Məsələn: /link 123456',
     ],
     

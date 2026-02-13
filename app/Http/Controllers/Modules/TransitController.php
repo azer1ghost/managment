@@ -125,7 +125,7 @@ class TransitController extends Controller
     }
 
     /**
-     * Generate 6-digit code for linking Telegram bot (transit customer only)
+     * Hər müştəriyə bir kod: yoxdursa yaradır, varsa eyni kodu göstərir.
      */
     public function generateTelegramLinkCode(Request $request)
     {
@@ -135,7 +135,7 @@ class TransitController extends Controller
 
         /** @var \App\Models\TransitCustomer $customer */
         $customer = auth('transit')->user();
-        $code = $customer->generateTelegramLinkCode();
+        $code = $customer->getOrCreateTelegramLinkCode();
 
         return redirect()->route('profile.index')->with('telegram_link_code', $code);
     }

@@ -72,14 +72,17 @@ class TransitCustomer extends Authenticatable
     }
 
     /**
-     * Generate a 6-digit code for linking Telegram (valid 5 minutes)
+     * Hər müştəriyə bir kod: ya mövcud kodu qaytarır, ya yenisini yaradır (vaxtı bitmir).
      */
-    public function generateTelegramLinkCode(): string
+    public function getOrCreateTelegramLinkCode(): string
     {
+        if (!$this->hasTelegramLinked() && !empty($this->telegram_link_code)) {
+            return $this->telegram_link_code;
+        }
         $code = (string) random_int(100000, 999999);
         $this->update([
             'telegram_link_code' => $code,
-            'telegram_link_code_expires_at' => now()->addMinutes(5),
+            'telegram_link_code_expires_at' => null,
         ]);
         return $code;
     }
