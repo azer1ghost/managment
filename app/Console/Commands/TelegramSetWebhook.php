@@ -31,8 +31,15 @@ class TelegramSetWebhook extends Command
         $url = $this->argument('url') ?? config('telegram.webhook_url');
 
         if (empty($url)) {
-            $this->error('Webhook URL is required. Provide it as argument or set TELEGRAM_WEBHOOK_URL in .env');
-            return 1;
+            // Auto-generate URL if APP_URL is set
+            $appUrl = config('app.url');
+            if ($appUrl) {
+                $url = rtrim($appUrl, '/') . '/api/telegram/webhook';
+                $this->info("Auto-detected URL from APP_URL: {$url}");
+            } else {
+                $this->error('Webhook URL is required. Provide it as argument or set TELEGRAM_WEBHOOK_URL in .env');
+                return 1;
+            }
         }
 
         $this->info("Setting webhook URL: {$url}");
