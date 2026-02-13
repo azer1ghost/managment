@@ -17,12 +17,23 @@ class TelegramSetTransitWebhook extends Command
         if (empty($url)) {
             $appUrl = config('app.url');
             if ($appUrl) {
-                $url = rtrim($appUrl, '/') . '/api/telegram/transit-webhook';
+                $appUrl = rtrim($appUrl, '/');
+                if (!preg_match('#^https?://#', $appUrl)) {
+                    $appUrl = 'https://' . $appUrl;
+                }
+                $url = $appUrl . '/api/telegram/transit-webhook';
                 $this->info("Auto-detected URL from APP_URL: {$url}");
             } else {
                 $this->error('Webhook URL is required. Set TELEGRAM_TRANSIT_WEBHOOK_URL in .env or pass as argument.');
                 return 1;
             }
+        }
+
+        // Telegram yalnız ictimai HTTPS URL qəbul edir; lokal (.test, localhost) işləməz
+        if (preg_match('#(\.test|localhost|\.local)(/|$)#', $url) || strpos($url, 'http://') === 0) {
+            $this->warn('Bu URL lokal/ölü ünvandır. Telegram webhook üçün ictimai HTTPS lazımdır.');
+            $this->line('Məsələn: php artisan telegram:set-transit-webhook "https://my.mobilgroup.az/api/telegram/transit-webhook"');
+            return 1;
         }
 
         $this->info("Setting Transit bot webhook: {$url}");
