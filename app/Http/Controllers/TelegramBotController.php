@@ -122,6 +122,17 @@ class TelegramBotController extends Controller
                 }
                 break;
 
+            case '/search':
+            case '/find':
+            case '/client':
+                $searchTerm = isset($parts[1]) ? implode(' ', array_slice($parts, 1)) : null;
+                if ($searchTerm) {
+                    $this->searchWorksByClient($chatId, $searchTerm);
+                } else {
+                    $this->telegram->sendMessage($chatId, "❌ İstifadə: /search {müştəri_adı}\nMəsələn: /search Əli Vəliyev");
+                }
+                break;
+
             default:
                 $this->sendHelp($chatId);
         }
@@ -157,7 +168,8 @@ class TelegramBotController extends Controller
         $message .= "/start - Başlanğıc mesajı\n";
         $message .= "/help - Kömək\n";
         $message .= "/works - İşlərin siyahısı\n";
-        $message .= "/work {id} - İşin detalları\n\n";
+        $message .= "/work {id} - İşin detalları\n";
+        $message .= "/search {müştəri_adı} - Müştəri adına görə axtarış\n\n";
         $message .= "İstifadə üçün /help yazın.";
 
         $this->telegram->sendMessage($chatId, $message);
@@ -173,9 +185,11 @@ class TelegramBotController extends Controller
         $message .= "/start - Başlanğıc\n";
         $message .= "/help - Bu mesaj\n";
         $message .= "/works - Son 10 işin siyahısı\n";
-        $message .= "/work {id} - İşin detalları\n\n";
-        $message .= "<b>Nümunə:</b>\n";
-        $message .= "/work 123";
+        $message .= "/work {id} - İşin detalları\n";
+        $message .= "/search {müştəri_adı} - Müştəri adına görə axtarış\n\n";
+        $message .= "<b>Nümunələr:</b>\n";
+        $message .= "/work 123\n";
+        $message .= "/search Əli Vəliyev";
 
         $this->telegram->sendMessage($chatId, $message);
     }
@@ -235,6 +249,63 @@ class TelegramBotController extends Controller
 
         $message = $this->telegram->formatWorkMessage($work);
         $this->telegram->sendMessage($chatId, $message);
+    }
+
+    /**
+     * Search works by client name
+     */
+    protected function searchWorksByClient(int $chatId, string $searchTerm): void
+    {
+        try {
+            $works = Work::with(['client', 'service', 'department', 'user'])
+                ->whereHas('client', function ($query) use ($searchTerm) {
+                    $query->where('fullname', 'like', "%{$searchTerm}%");
+                })
+                ->whereNotIn('status', [Work::PLANNED, Work::PENDING])
+                ->latest('created_at')
+                ->limit(20)
+                ->get();
+
+            if ($works->isEmpty()) {
+                $this->telegram->sendMessage($chatId, "❌ '{$searchTerm}' adlı müştəri üçün iş tapılmadı.");
+                return;
+            }
+
+            $message = "🔍 <b>Axtarış nəticələri:</b> '{$searchTerm}'\n";
+            $message .= "📊 Tapılan işlərin sayı: " . $works->count() . "\n\n";
+
+            foreach ($works as $work) {
+                $clientName = $work->client ? mb_substr($work->client->fullname, 0, 30) : 'Müştəri yox';
+                $serviceName = $work->service ? mb_substr($work->service->getTranslation('name', app()->getLocale()), 0, 20) : 'Xidmət yox';
+                $statusName = $this->getStatusName($work->status);
+                $code = $work->code ?: "#{$work->id}";
+
+                $message .= "🔹 <b>{$code}</b>\n";
+                $message .= "👤 {$clientName}\n";
+                $message .= "🛠 {$serviceName}\n";
+                $message .= "📊 {$statusName}\n";
+                $message .= "📅 " . ($work->created_at ? $work->created_at->format('d.m.Y') : '-') . "\n";
+                $message .= "💡 Detallar: /work {$work->id}\n\n";
+
+                // Telegram mesaj limiti 4096 simvoldur, buna görə böyük siyahıları bölmək lazımdır
+                if (mb_strlen($message) > 3500) {
+                    $this->telegram->sendMessage($chatId, $message);
+                    $message = "🔍 <b>Davam...</b>\n\n";
+                }
+            }
+
+            if (mb_strlen($message) > 10) {
+                $this->telegram->sendMessage($chatId, $message);
+            }
+
+            $this->telegram->sendMessage($chatId, "💡 Daha çox məlumat üçün: /work {id}");
+        } catch (\Exception $e) {
+            Log::error('Telegram searchWorksByClient exception', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            $this->telegram->sendMessage($chatId, "❌ Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.");
+        }
     }
 
     /**
