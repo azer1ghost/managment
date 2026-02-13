@@ -3,6 +3,12 @@
 @section('title', __('transit.title') . ' | ' . __('transit.account'))
 
 @section('content')
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle"></i> {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+@endif
 <div class="row gutters-sm">
     <div class="col-md-4 mb-4">
         <div class="transit-card">
@@ -313,6 +319,13 @@
                             <div class="alert alert-success">
                                 <i class="fas fa-check-circle"></i> {{ __('transit.profile.telegram_linked') }}
                             </div>
+                            <p class="text-muted small mb-3">{{ __('transit.profile.telegram_unlink_hint') }}</p>
+                            <form action="{{ route('transit.profile.telegram-unlink') }}" method="POST" onsubmit="return confirm('{{ __('transit.profile.telegram_unlink_confirm') }}');">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-secondary">
+                                    <i class="fas fa-unlink"></i> {{ __('transit.profile.telegram_unlink') }}
+                                </button>
+                            </form>
                         @else
                             <p class="text-muted mb-3">{{ __('transit.profile.telegram_instruction') }}</p>
                             @php

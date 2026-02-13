@@ -107,6 +107,7 @@ Route::group([
     Route::post('/payFromBalance/', [OrderController::class, 'payFromBalance'])->name('payFromBalance');
     Route::post('/order-download', [OrderController::class, 'download'])->name('transit.orders.download');
     Route::post('/profile/telegram-code', [TransitController::class, 'generateTelegramLinkCode'])->name('transit.profile.telegram-code');
+    Route::post('/profile/telegram-unlink', [TransitController::class, 'unlinkTelegram'])->name('transit.profile.telegram-unlink');
     Route::resource('/profile', TransitController::class);
     Route::resource('/order', OrderController::class)->only(['store']);
 });

@@ -139,4 +139,24 @@ class TransitController extends Controller
 
         return redirect()->route('profile.index')->with('telegram_link_code', $code);
     }
+
+    /**
+     * Telegram bağlantısını kəs — yeni bota qoşulmaq üçün
+     */
+    public function unlinkTelegram(Request $request)
+    {
+        if (!auth('transit')->check()) {
+            return redirect()->route('transit-login');
+        }
+
+        /** @var \App\Models\TransitCustomer $customer */
+        $customer = auth('transit')->user();
+        $customer->update([
+            'telegram_chat_id' => null,
+            'telegram_link_code' => null,
+            'telegram_link_code_expires_at' => null,
+        ]);
+
+        return redirect()->route('profile.index')->with('success', 'Telegram bağlantısı kəsildi. İndi yeni botda «Kod yarat» ilə yenidən qoşula bilərsiniz.');
+    }
 }
