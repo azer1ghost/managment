@@ -5,13 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Work;
 use App\Models\User;
 use App\Models\Company;
-use App\Models\TransitCustomer;
-use App\Models\Order;
 use App\Services\TelegramBotService;
 use App\Exports\TelegramWorksExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -70,7 +67,7 @@ class TelegramBotController extends Controller
     }
 
     /**
-     * Handle incoming message
+     * Handle incoming message (Works bot — yalnız icazəli user IDs)
      */
     protected function handleMessage(array $message): void
     {
@@ -85,199 +82,27 @@ class TelegramBotController extends Controller
                 'text' => $text,
             ]);
 
-            // /link <code> — hər kəs istifadə edə bilər (transit hesabı qoşmaq üçün)
-            if (preg_match('#^/link\s+(\d{6})$#', $text, $m)) {
-                $this->handleTransitLink($chatId, $m[1]);
-                return;
-            }
-
-            // Transit müştəri (Telegram-a qoşulub)?
-            $transitCustomer = $this->getTransitCustomerByChatId($chatId);
-            if ($transitCustomer) {
-                if (strpos($text, '/') === 0) {
-                    $this->handleTransitCommand($chatId, $text, $transitCustomer);
+            if (!$this->isUserAllowed($userId)) {
+                Log::warning('Telegram access denied', ['user_id' => $userId, 'chat_id' => $chatId]);
+                if (in_array(explode(' ', $text)[0] ?? '', ['/start', '/help'], true)) {
+                    $this->telegram->sendMessage($chatId, "❌ Bu bot yalnız icazəli istifadəçilər üçündür. Transit müştərisinizsə, Transit üçün ayrı botdan istifadə edin.");
                 } else {
-                    $this->sendTransitHelp($chatId);
+                    $this->telegram->sendMessage($chatId, "❌ Sizə bu botdan istifadə etmək üçün icazə verilməyib.");
                 }
                 return;
             }
 
-            // İcazəli işçi (Works bot)
-            if ($this->isUserAllowed($userId)) {
-                if (strpos($text, '/') === 0) {
-                    $this->handleCommand($chatId, $text);
-                } else {
-                    $this->sendHelp($chatId);
-                }
-                return;
+            if (strpos($text, '/') === 0) {
+                $this->handleCommand($chatId, $text);
+            } else {
+                $this->sendHelp($chatId);
             }
-
-            // /start — icazə yoxdursa təlimat ver
-            if (strpos($text, '/') === 0 && in_array(explode(' ', $text)[0], ['/start', '/help'], true)) {
-                $this->sendTransitOrDenyMessage($chatId);
-                return;
-            }
-
-            Log::warning('Telegram access denied', ['user_id' => $userId, 'chat_id' => $chatId]);
-            $this->telegram->sendMessage($chatId, "❌ Sizə bu botdan istifadə etmək üçün icazə verilməyib.");
         } catch (\Exception $e) {
             Log::error('Telegram handleMessage exception', [
                 'message' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
         }
-    }
-
-    /**
-     * Link transit customer to Telegram using 6-digit code
-     */
-    protected function handleTransitLink(int $chatId, string $code): void
-    {
-        $customer = TransitCustomer::where('telegram_link_code', $code)
-            ->whereNotNull('telegram_link_code_expires_at')
-            ->where('telegram_link_code_expires_at', '>', now())
-            ->first();
-
-        if (!$customer) {
-            $this->telegram->sendMessage($chatId, "❌ Kod etibarsızdır və ya vaxtı keçib. Saytda Profil → Telegram bölməsindən yeni kod yaradın.");
-            return;
-        }
-
-        $customer->update([
-            'telegram_chat_id' => $chatId,
-            'telegram_link_code' => null,
-            'telegram_link_code_expires_at' => null,
-        ]);
-
-        $this->telegram->sendMessage($chatId, "✅ Hesabınız Telegram-a qoşuldu. Artıq /profile, /orders və /beyanname əmrlərindən istifadə edə bilərsiniz.");
-        $this->sendTransitHelp($chatId);
-    }
-
-    protected function getTransitCustomerByChatId(int $chatId): ?TransitCustomer
-    {
-        return TransitCustomer::where('telegram_chat_id', $chatId)->first();
-    }
-
-    /**
-     * Transit müştəri əmrləri
-     */
-    protected function handleTransitCommand(int $chatId, string $command, TransitCustomer $customer): void
-    {
-        $parts = explode(' ', $command);
-        $cmd = $parts[0];
-
-        switch ($cmd) {
-            case '/start':
-                $this->sendTransitWelcome($chatId, $customer);
-                break;
-            case '/help':
-                $this->sendTransitHelp($chatId);
-                break;
-            case '/profile':
-            case '/melumat':
-                $this->sendTransitProfile($chatId, $customer);
-                break;
-            case '/orders':
-            case '/sifarisler':
-                $this->sendTransitOrders($chatId, $customer);
-                break;
-            case '/beyanname':
-            case '/declaration':
-                $orderId = $parts[1] ?? null;
-                if ($orderId) {
-                    $this->sendTransitDeclaration($chatId, (int) $orderId, $customer);
-                } else {
-                    $this->telegram->sendMessage($chatId, "❌ İstifadə: /beyanname {sifariş_id}\nSifariş ID-ni /orders ilə görə bilərsiniz.");
-                }
-                break;
-            default:
-                $this->sendTransitHelp($chatId);
-        }
-    }
-
-    protected function sendTransitWelcome(int $chatId, TransitCustomer $customer): void
-    {
-        $msg = "👋 <b>Xoş gəlmisiniz, {$customer->name}!</b>\n\n";
-        $msg .= "Transit müştəri botundan istifadə edə bilərsiniz.\n\n";
-        $this->telegram->sendMessage($chatId, $msg);
-        $this->sendTransitHelp($chatId);
-    }
-
-    protected function sendTransitHelp(int $chatId): void
-    {
-        $msg = "📋 <b>Transit əmrləri</b>\n\n";
-        $msg .= "/profile — Mənim məlumatlarım\n";
-        $msg .= "/orders — Sifarişlərim\n";
-        $msg .= "/beyanname {id} — Sifarişin bəyannaməsini götür (sifariş ID-ni /orders-dan götürün)";
-        $this->telegram->sendMessage($chatId, $msg);
-    }
-
-    protected function sendTransitProfile(int $chatId, TransitCustomer $customer): void
-    {
-        $msg = "👤 <b>Hesab məlumatları</b>\n\n";
-        $msg .= "📌 Ad: {$customer->name}\n";
-        $msg .= "📧 Email: " . ($customer->email ?? '-') . "\n";
-        $msg .= "📱 Tel: " . ($customer->phone ?? '-') . "\n";
-        $msg .= "🆔 VÖEN: " . ($customer->voen ?? '-') . "\n";
-        $msg .= "💰 Balans: " . number_format((float) $customer->balance, 2) . " AZN";
-        $this->telegram->sendMessage($chatId, $msg);
-    }
-
-    protected function sendTransitOrders(int $chatId, TransitCustomer $customer): void
-    {
-        $orders = Order::where('transit_customer_id', $customer->id)->latest()->limit(20)->get();
-
-        if ($orders->isEmpty()) {
-            $this->telegram->sendMessage($chatId, "📭 Sifarişiniz yoxdur.");
-            return;
-        }
-
-        $msg = "📦 <b>Sifarişlərim</b>\n\n";
-        foreach ($orders as $order) {
-            $date = $order->created_at ? $order->created_at->format('d.m.Y') : '-';
-            $hasDecl = $order->declaration ? '✅' : '—';
-            $msg .= "🔹 <b>#{$order->id}</b> | {$order->code} | {$date} | Bəyannamə: {$hasDecl}\n";
-            $msg .= "   Bəyannamə üçün: /beyanname {$order->id}\n\n";
-        }
-        $this->telegram->sendMessage($chatId, $msg);
-    }
-
-    protected function sendTransitDeclaration(int $chatId, int $orderId, TransitCustomer $customer): void
-    {
-        $order = Order::where('id', $orderId)->where('transit_customer_id', $customer->id)->first();
-
-        if (!$order) {
-            $this->telegram->sendMessage($chatId, "❌ Sifariş tapılmadı və ya sizə aid deyil.");
-            return;
-        }
-
-        if (empty($order->declaration)) {
-            $this->telegram->sendMessage($chatId, "❌ Bu sifariş üçün bəyannamə hələ yoxdur.");
-            return;
-        }
-
-        $path = Storage::path($order->declaration);
-        if (!is_file($path)) {
-            $this->telegram->sendMessage($chatId, "❌ Bəyannamə faylı tapılmadı.");
-            return;
-        }
-
-        $caption = "📄 Bəyannamə — Sifariş #{$order->id} ({$order->code})";
-        $result = $this->telegram->sendDocument($chatId, $path, $caption);
-
-        if (!$result) {
-            $this->telegram->sendMessage($chatId, "❌ Fayl göndərilə bilmədi.");
-        }
-    }
-
-    protected function sendTransitOrDenyMessage(int $chatId): void
-    {
-        $msg = "👋 <b>Transit müştərisinizsə:</b>\n\n";
-        $msg .= "1️⃣ Saytda daxil olun (Transit / Profil)\n";
-        $msg .= "2️⃣ Profil → <b>Telegram</b> bölməsində «Kod yarat» düyməsinə basın\n";
-        $msg .= "3️⃣ Çıxan 6 rəqəmli kodu burada yazın: <code>/link 123456</code>\n\n";
-        $msg .= "Əks halda bu bot yalnız icazəli istifadəçilər üçündür.";
-        $this->telegram->sendMessage($chatId, $msg);
     }
 
     /**
@@ -364,20 +189,6 @@ class TelegramBotController extends Controller
             $callbackQueryId = $callbackQuery['id'];
             $data = $callbackQuery['data'] ?? '';
 
-            // Transit müştəri callback (əgər lazımsa burada decl_123 kimi handle edə bilərik)
-            $transitCustomer = $this->getTransitCustomerByChatId($chatId);
-            if ($transitCustomer) {
-                $this->telegram->answerCallbackQuery($callbackQueryId, null, false);
-                if (strpos($data, 'decl_') === 0) {
-                    $orderId = (int) str_replace('decl_', '', $data);
-                    $this->sendTransitDeclaration($chatId, $orderId, $transitCustomer);
-                } else {
-                    $this->telegram->sendMessage($chatId, "❌ Naməlum əməliyyat.");
-                }
-                return;
-            }
-
-            // Access control: yalnız icazə verilən istifadəçilər (works bot)
             if (!$this->isUserAllowed($userId)) {
                 Log::warning('Telegram callback access denied', ['user_id' => $userId, 'chat_id' => $chatId]);
                 $this->telegram->answerCallbackQuery($callbackQueryId, "❌ Sizə bu botdan istifadə etmək üçün icazə verilməyib.", true);

@@ -8,8 +8,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Telegram Bot Webhook (public, no auth/CSRF required)
+// Telegram Bot Webhooks (public, no auth/CSRF required)
 Route::post('/telegram/webhook', [\App\Http\Controllers\TelegramBotController::class, 'webhook'])->name('telegram.webhook');
+Route::post('/telegram/transit-webhook', [\App\Http\Controllers\TransitTelegramBotController::class, 'webhook'])->name('telegram.transit.webhook');
 
 // Birbank B2B API routes
 Route::prefix('birbank')->group(function () {

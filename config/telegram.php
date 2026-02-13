@@ -16,12 +16,18 @@ return [
     
     /*
     |--------------------------------------------------------------------------
-    | Allowed User IDs
+    | Transit Bot (müştərilər üçün ayrı bot)
     |--------------------------------------------------------------------------
-    |
-    | Comma-separated list of Telegram user IDs that are allowed to use the bot.
-    | Only these users will be able to interact with the bot.
-    |
+    */
+    
+    'transit_bot_token' => env('TELEGRAM_TRANSIT_BOT_TOKEN', ''),
+    
+    'transit_webhook_url' => env('TELEGRAM_TRANSIT_WEBHOOK_URL', ''),
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Allowed User IDs (yalnız Works bot üçün)
+    |--------------------------------------------------------------------------
     */
     
     'allowed_user_ids' => array_filter(

@@ -10,21 +10,36 @@ class TelegramBotService
     protected string $token;
     protected string $apiUrl;
 
-    public function __construct()
+    /**
+     * @param string|null $token Bot token; if null, uses config('telegram.bot_token')
+     */
+    public function __construct(?string $token = null)
     {
-        $this->token = config('telegram.bot_token');
-        
+        $this->token = $token ?? config('telegram.bot_token');
+
         if (empty($this->token)) {
-            Log::error('Telegram bot token is empty! Check TELEGRAM_BOT_TOKEN in .env');
+            Log::error('Telegram bot token is empty! Check TELEGRAM_BOT_TOKEN or pass token.');
             throw new \RuntimeException('Telegram bot token is not configured');
         }
-        
+
         $this->apiUrl = "https://api.telegram.org/bot{$this->token}";
-        
+
         Log::debug('TelegramBotService initialized', [
             'token_preview' => substr($this->token, 0, 10) . '...',
             'api_url' => $this->apiUrl,
         ]);
+    }
+
+    /**
+     * Instance for Transit bot (müştəri botu)
+     */
+    public static function forTransit(): self
+    {
+        $token = config('telegram.transit_bot_token');
+        if (empty($token)) {
+            throw new \RuntimeException('Transit bot token is not configured. Set TELEGRAM_TRANSIT_BOT_TOKEN in .env');
+        }
+        return new self($token);
     }
 
     /**
