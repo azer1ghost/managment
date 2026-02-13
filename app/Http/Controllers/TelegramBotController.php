@@ -108,10 +108,11 @@ class TelegramBotController extends Controller
     protected function handleCallbackQuery(array $callbackQuery): void
     {
         $chatId = $callbackQuery['message']['chat']['id'];
+        $callbackQueryId = $callbackQuery['id'];
         $data = $callbackQuery['data'];
 
-        // Answer callback query
-        $this->telegram->sendMessage($chatId, "⏳ Yüklənir...");
+        // Answer callback query first
+        $this->telegram->answerCallbackQuery($callbackQueryId, 'Yüklənir...');
 
         // Handle callback data
         if (strpos($data, 'work_') === 0) {
@@ -177,7 +178,7 @@ class TelegramBotController extends Controller
 
         foreach ($works as $work) {
             $clientName = $work->client ? mb_substr($work->client->fullname, 0, 30) : 'Müştəri yox';
-            $serviceName = $work->service ? mb_substr($work->service->name, 0, 20) : 'Xidmət yox';
+            $serviceName = $work->service ? mb_substr($work->service->getTranslation('name', app()->getLocale()), 0, 20) : 'Xidmət yox';
             $statusName = $this->getStatusName($work->status);
             $code = $work->code ?: "#{$work->id}";
 
@@ -186,7 +187,7 @@ class TelegramBotController extends Controller
             $message .= "🛠 {$serviceName}\n";
             $message .= "📊 {$statusName}\n";
             $message .= "📅 " . ($work->created_at ? $work->created_at->format('d.m.Y') : '-') . "\n";
-            $message .= "/work_{$work->id}\n\n";
+            $message .= "💡 Detallar: /work {$work->id}\n\n";
         }
 
         $message .= "\n💡 Detallar üçün: /work {id}";

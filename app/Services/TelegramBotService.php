@@ -88,12 +88,34 @@ class TelegramBotService
     }
 
     /**
+     * Answer callback query (for button clicks)
+     */
+    public function answerCallbackQuery(string $callbackQueryId, ?string $text = null, bool $showAlert = false): ?array
+    {
+        try {
+            $response = Http::post("{$this->apiUrl}/answerCallbackQuery", [
+                'callback_query_id' => $callbackQueryId,
+                'text' => $text,
+                'show_alert' => $showAlert,
+            ]);
+
+            return $response->json();
+        } catch (\Exception $e) {
+            Log::error('Telegram answerCallbackQuery exception', [
+                'message' => $e->getMessage(),
+            ]);
+
+            return null;
+        }
+    }
+
+    /**
      * Format work information for Telegram (without financial data)
      */
     public function formatWorkMessage(\App\Models\Work $work): string
     {
         $clientName = $work->client ? $work->client->fullname : 'Müştəri tapılmadı';
-        $serviceName = $work->service ? $work->service->name : 'Xidmət tapılmadı';
+        $serviceName = $work->service ? $work->service->getTranslation('name', app()->getLocale()) : 'Xidmət tapılmadı';
         $status = $this->getStatusName($work->status);
         $code = $work->code ?: 'Kod yoxdur';
         $department = $work->department ? $work->department->name : '-';
