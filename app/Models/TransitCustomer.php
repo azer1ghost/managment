@@ -28,6 +28,9 @@ class TransitCustomer extends Authenticatable
         'phone_verified_at',
         'email_verified_at',
         'default_lang',
+        'telegram_chat_id',
+        'telegram_link_code',
+        'telegram_link_code_expires_at',
     ];
 
     protected $hidden = [
@@ -66,5 +69,26 @@ class TransitCustomer extends Authenticatable
     public function transactions()
     {
         return $this->hasMany(Transaction::class, 'transit_customer_id');
+    }
+
+    /**
+     * Generate a 6-digit code for linking Telegram (valid 5 minutes)
+     */
+    public function generateTelegramLinkCode(): string
+    {
+        $code = (string) random_int(100000, 999999);
+        $this->update([
+            'telegram_link_code' => $code,
+            'telegram_link_code_expires_at' => now()->addMinutes(5),
+        ]);
+        return $code;
+    }
+
+    /**
+     * Check if Telegram is linked
+     */
+    public function hasTelegramLinked(): bool
+    {
+        return !empty($this->telegram_chat_id);
     }
 }

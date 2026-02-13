@@ -64,6 +64,9 @@
                     <a class="nav-link" id="tab-transactions" data-toggle="tab" href="#pills-transactions" role="tab">
                         <i class="fas fa-exchange-alt"></i> {{ __('transit.nav.transactions') }}
                     </a>
+                    <a class="nav-link" id="tab-telegram" data-toggle="tab" href="#pills-telegram" role="tab">
+                        <i class="fab fa-telegram-plane"></i> {{ __('transit.profile.telegram') }}
+                    </a>
                     <a class="nav-link" href="{{ route('service') }}">
                         <i class="fas fa-home"></i> {{ __('transit.nav.home') }}
                     </a>
@@ -299,6 +302,32 @@
                         <div class="text-center py-4">
                             <p class="text-muted">More transactions will appear here</p>
                         </div>
+                    </div>
+
+                    <!-- Telegram Tab -->
+                    <div class="tab-pane fade" id="pills-telegram" role="tabpanel">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h4 class="mb-0"><i class="fab fa-telegram-plane text-primary"></i> {{ __('transit.profile.telegram') }}</h4>
+                        </div>
+                        @if(transit_user() && transit_user()->hasTelegramLinked())
+                            <div class="alert alert-success">
+                                <i class="fas fa-check-circle"></i> {{ __('transit.profile.telegram_linked') }}
+                            </div>
+                        @else
+                            <p class="text-muted mb-3">{{ __('transit.profile.telegram_instruction') }}</p>
+                            @if(session('telegram_link_code'))
+                                <div class="p-4 mb-4 rounded border border-primary text-center">
+                                    <strong class="display-4 text-primary">{{ session('telegram_link_code') }}</strong>
+                                    <p class="mt-2 mb-0 small text-muted">{{ __('transit.profile.telegram_help') }}</p>
+                                </div>
+                            @endif
+                            <form action="{{ route('transit.profile.telegram-code') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fab fa-telegram-plane"></i> {{ __('transit.profile.telegram_generate_code') }}
+                                </button>
+                            </form>
+                        @endif
                     </div>
                 </div>
             </div>

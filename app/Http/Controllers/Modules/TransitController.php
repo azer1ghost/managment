@@ -123,4 +123,20 @@ class TransitController extends Controller
     {
         return $this->index(); // Alias for index
     }
+
+    /**
+     * Generate 6-digit code for linking Telegram bot (transit customer only)
+     */
+    public function generateTelegramLinkCode(Request $request)
+    {
+        if (!auth('transit')->check()) {
+            return redirect()->route('transit-login')->withErrors(['login' => 'Daxil olmalısınız.']);
+        }
+
+        /** @var \App\Models\TransitCustomer $customer */
+        $customer = auth('transit')->user();
+        $code = $customer->generateTelegramLinkCode();
+
+        return redirect()->route('profile.index')->with('telegram_link_code', $code);
+    }
 }

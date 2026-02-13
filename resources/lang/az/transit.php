@@ -83,6 +83,12 @@ return [
         'transaction_type' => 'Növ',
         'amount' => 'Məbləğ',
         'transaction_status' => 'Nəticə',
+        'telegram' => 'Telegram bot',
+        'telegram_link' => 'Telegram-a qoşul',
+        'telegram_linked' => 'Telegram hesabınız qoşulub.',
+        'telegram_generate_code' => 'Kod yarat',
+        'telegram_instruction' => 'Bu kodu Telegram botda yazın (5 dəq etibarlıdır):',
+        'telegram_help' => 'Botda /link yazıb boşluqdan sonra kodu göndərin. Məsələn: /link 123456',
     ],
     
     'payment' => [
