@@ -793,6 +793,42 @@
                 $('#sum-assign-coordinators').attr('disabled', true);
             }
         }
+        function loadClientCoordinatorsForDepartment() {
+            const checkedClients = [];
+            $("input[name='clients[]']:checked").each(function(){
+                checkedClients.push($(this).val());
+            });
+
+            const departmentId = $('#data-department').val();
+
+            // Yalnız bir müştəri seçilibsə mövcud koordinatorları göstər
+            if (checkedClients.length === 1 && departmentId) {
+                $.ajax({
+                    url: '/clients/' + checkedClients[0] + '/coordinators',
+                    type: 'GET',
+                    data: { department_id: departmentId },
+                    success: function (response) {
+                        const $select = $('#data-coordinators');
+                        $select.find('option').prop('selected', false);
+
+                        response.forEach(function (user) {
+                            $select.find('option[value="' + user.id + '"]').prop('selected', true);
+                        });
+
+                        $select.trigger('change');
+                    }
+                });
+            }
+        }
+
+        $('#sum-assign-modal-coordinators').on('shown.bs.modal', function () {
+            loadClientCoordinatorsForDepartment();
+        });
+
+        $('#data-department').on('change', function () {
+            loadClientCoordinatorsForDepartment();
+        });
+
         $('#sum-assign-form-coordinators').submit(function (e){
             e.preventDefault();
             const checkedClients = [];
