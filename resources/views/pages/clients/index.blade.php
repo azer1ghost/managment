@@ -793,6 +793,8 @@
                 $('#sum-assign-coordinators').attr('disabled', true);
             }
         }
+        const coordinatorsUrlTemplate = @json(route('clients.coordinators', ['client' => 'CLIENT_ID_PLACEHOLDER']));
+
         function loadClientCoordinatorsForDepartment() {
             const checkedClients = [];
             $("input[name='clients[]']:checked").each(function(){
@@ -801,8 +803,9 @@
 
             // Yalnız bir müştəri seçilibsə mövcud koordinatorları göstər
             if (checkedClients.length === 1) {
+                const url = coordinatorsUrlTemplate.replace('CLIENT_ID_PLACEHOLDER', checkedClients[0]);
                 $.ajax({
-                    url: '/clients/' + checkedClients[0] + '/coordinators',
+                    url: url,
                     type: 'GET',
                     success: function (response) {
                         console.log('Coordinators response:', response);
