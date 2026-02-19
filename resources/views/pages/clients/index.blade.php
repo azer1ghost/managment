@@ -799,14 +799,11 @@
                 checkedClients.push($(this).val());
             });
 
-            const departmentId = $('#data-department').val();
-
             // Yalnız bir müştəri seçilibsə mövcud koordinatorları göstər
-            if (checkedClients.length === 1 && departmentId) {
+            if (checkedClients.length === 1) {
                 $.ajax({
                     url: '/clients/' + checkedClients[0] + '/coordinators',
                     type: 'GET',
-                    data: { department_id: departmentId },
                     success: function (response) {
                         const $select = $('#data-coordinators');
                         $select.find('option').prop('selected', false);
@@ -822,10 +819,6 @@
         }
 
         $('#sum-assign-modal-coordinators').on('shown.bs.modal', function () {
-            loadClientCoordinatorsForDepartment();
-        });
-
-        $('#data-department').on('change', function () {
             loadClientCoordinatorsForDepartment();
         });
 

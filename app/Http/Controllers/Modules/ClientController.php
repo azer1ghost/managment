@@ -373,16 +373,8 @@ class ClientController extends Controller
 
     public function coordinators(Request $request, Client $client)
     {
-        $departmentId = $request->get('department_id');
-
-        $query = $client->coordinators();
-
-        if ($departmentId) {
-            $query->wherePivot('department_id', $departmentId);
-        }
-
         return response()->json(
-            $query->get(['users.id', 'users.name', 'users.surname'])
+            $client->coordinators()->get(['users.id', 'users.name', 'users.surname'])
         );
     }
 
