@@ -805,21 +805,51 @@
                     url: '/clients/' + checkedClients[0] + '/coordinators',
                     type: 'GET',
                     success: function (response) {
+                        console.log('Coordinators response:', response);
                         const $select = $('#data-coordinators');
+                        
+                        // Bütün seçimləri təmizlə
                         $select.find('option').prop('selected', false);
-
-                        response.forEach(function (user) {
-                            $select.find('option[value="' + user.id + '"]').prop('selected', true);
-                        });
-
-                        $select.trigger('change');
+                        
+                        // Mövcud koordinatorları seç
+                        if (response && response.length > 0) {
+                            response.forEach(function (user) {
+                                const $option = $select.find('option[value="' + user.id + '"]');
+                                if ($option.length > 0) {
+                                    $option.prop('selected', true);
+                                }
+                            });
+                        }
+                        
+                        // Bootstrap Select plugin istifadə olunursa refresh et
+                        if ($select.hasClass('filterSelector') || $select.hasClass('bootstrap-select')) {
+                            $select.selectpicker('refresh');
+                        } else {
+                            $select.trigger('change');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error loading coordinators:', error);
+                        console.error('Response:', xhr.responseText);
                     }
                 });
+            } else {
+                // Birdən çox müştəri seçilibsə, seçimləri təmizlə
+                const $select = $('#data-coordinators');
+                $select.find('option').prop('selected', false);
+                if ($select.hasClass('filterSelector') || $select.hasClass('bootstrap-select')) {
+                    $select.selectpicker('refresh');
+                } else {
+                    $select.trigger('change');
+                }
             }
         }
 
         $('#sum-assign-modal-coordinators').on('shown.bs.modal', function () {
-            loadClientCoordinatorsForDepartment();
+            // Modal açılanda bir az gözlə ki, DOM tam yüklənsin
+            setTimeout(function() {
+                loadClientCoordinatorsForDepartment();
+            }, 100);
         });
 
         $('#sum-assign-form-coordinators').submit(function (e){

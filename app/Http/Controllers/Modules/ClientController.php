@@ -373,9 +373,17 @@ class ClientController extends Controller
 
     public function coordinators(Request $request, Client $client)
     {
-        return response()->json(
-            $client->coordinators()->get(['users.id', 'users.name', 'users.surname'])
-        );
+        $coordinators = $client->coordinators()
+            ->get(['users.id', 'users.name', 'users.surname'])
+            ->map(function ($user) {
+                return [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'surname' => $user->surname,
+                ];
+            });
+
+        return response()->json($coordinators);
     }
 
     public function destroy(Client $client)
