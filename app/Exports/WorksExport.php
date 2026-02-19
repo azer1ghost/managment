@@ -143,7 +143,10 @@ class WorksExport extends DefaultValueBinder implements FromQuery, WithMapping, 
             optional($row->datetime)?->toTimeString(),
 
             $row->department?->short_name,
-            optional($row->client?->coordinators?->first())?->fullname ?? '-',
+            optional(
+                optional($row->client?->coordinators)
+                    ?->firstWhere('pivot.department_id', $row->department_id)
+            )?->fullname ?? '-',
 
             $row->declaration_no,
             $row->transport_no,

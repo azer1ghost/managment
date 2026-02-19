@@ -528,15 +528,16 @@
                     </th>
                 @endif
                     <td>
-                    @foreach($work->client->coordinators as $user)
+                    @php
+                        $deptCoordinator = optional($work->client?->coordinators)
+                            ->firstWhere('pivot.department_id', $work->getAttribute('department_id'));
+                    @endphp
 
-                            @if($user->id)
-                                {{ $user->getAttribute('fullname') }}
-                            @else
-                                Koordinator Yoxdur
-                            @endif
-
-                    @endforeach
+                    @if($deptCoordinator && $deptCoordinator->id)
+                        {{ $deptCoordinator->getAttribute('fullname') }}
+                    @else
+                        Koordinator Yoxdur
+                    @endif
                     </td>
 {{--                    <td>{{ $work->operator->fullname ?? '-' }}</td>--}}
                     <td>{{$work->getRelationValue('creator')->getAttribute('fullname_with_position')}}</td>
