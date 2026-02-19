@@ -318,18 +318,17 @@ class ClientController extends Controller
             }
 
             try {
-                foreach ($userIds as $userId) {
-                    $exists = DB::table('coordinators_clients_relationship')
-                        ->where('client_id', $clientId)
-                        ->where('user_id', $userId)
-                        ->where('department_id', $departmentId)
-                        ->exists();
+                // Mövcud əlaqələri əvvəlcə təmizlə (seçilmiş şöbə üzrə),
+                // sonra göndərilən siyahıya uyğun yenidən əlavə et.
+                DB::table('coordinators_clients_relationship')
+                    ->where('client_id', $clientId)
+                    ->when($departmentId, fn($query) => $query->where('department_id', $departmentId))
+                    ->delete();
 
-                    if (!$exists) {
-                        $client->coordinators()->attach($userId, [
-                            'department_id' => $departmentId,
-                        ]);
-                    }
+                foreach ($userIds as $userId) {
+                    $client->coordinators()->attach($userId, [
+                        'department_id' => $departmentId,
+                    ]);
                 }
             } catch (\Throwable $e) {
                 $err = 400;

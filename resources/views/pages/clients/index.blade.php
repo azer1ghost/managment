@@ -386,14 +386,14 @@
                         <div class="modal-body">
                             @csrf
                             <div class="form-group">
-                                <label for="data-coordinators">Select Coordinators</label><br/>
-                                <select id="data-coordinators" name="users[]" multiple required class="filterSelector form-control" data-selected-text-format="count"
-                                        data-width="fit" title="@lang('translates.filters.select')">
-                                    @foreach($coordinators as $coordinator)
-                                        <option value="{{$coordinator->getAttribute('id')}}">{{$coordinator->getAttribute('name')}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <label for="data-coordinators">Select Coordinators</label><br/>
+                            <select id="data-coordinators" name="users[]" multiple class="filterSelector form-control" data-selected-text-format="count"
+                                    data-width="fit" title="@lang('translates.filters.select')">
+                                @foreach($coordinators as $coordinator)
+                                    <option value="{{$coordinator->getAttribute('id')}}">{{$coordinator->getAttribute('name')}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                             <div class="form-group mt-3">
                                 <label for="data-department">Select Department</label><br/>
                                 <select id="data-department"
