@@ -371,9 +371,15 @@ class ClientController extends Controller
         return response('OK');
     }
 
-    public function coordinators(Request $request, Client $client)
+    public function coordinators(Request $request, $client)
     {
-        $coordinators = $client->coordinators()
+        $clientModel = Client::find($client);
+        
+        if (!$clientModel) {
+            return response()->json(['message' => 'Client not found'], 404);
+        }
+
+        $coordinators = $clientModel->coordinators()
             ->get(['users.id', 'users.name', 'users.surname'])
             ->map(function ($user) {
                 return [
