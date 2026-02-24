@@ -27,7 +27,7 @@ class TelegramWorksExport implements FromCollection, WithHeadings, WithMapping, 
 
     protected function loadWorks(): void
     {
-        // SQL-dən adaptasiya - SQL-dəki kimi sorğu
+        // Telegram bot Excel export üçün tək SQL sorğusu
         $sql = "
             SELECT
                 w.id AS work_id,
@@ -47,6 +47,7 @@ class TelegramWorksExport implements FromCollection, WithHeadings, WithMapping, 
                 ANY_VALUE(w.code) AS code,
                 ANY_VALUE(w.status) AS status,
                 ANY_VALUE(w.destination) AS destination,
+                ANY_VALUE(creator_user.name) AS creator_name,
                 ANY_VALUE(asan_user.name) AS asan_imza_user_name,
                 ANY_VALUE(asan_company.name) AS asan_imza_company_name,
                 MAX(CASE WHEN wp.parameter_id = 17 THEN wp.value END) AS gb,
@@ -66,6 +67,7 @@ class TelegramWorksExport implements FromCollection, WithHeadings, WithMapping, 
             LEFT JOIN departments d ON w.department_id = d.id
             LEFT JOIN services s ON w.service_id = s.id
             LEFT JOIN work_parameter wp ON wp.work_id = w.id
+            LEFT JOIN users creator_user ON w.creator_id = creator_user.id
             LEFT JOIN asan_imzalar ai ON w.asan_imza_id = ai.id
             LEFT JOIN users asan_user ON ai.user_id = asan_user.id
             LEFT JOIN companies asan_company ON ai.company_id = asan_company.id
@@ -191,7 +193,7 @@ class TelegramWorksExport implements FromCollection, WithHeadings, WithMapping, 
             $work->service_detail ?? '-',
             $work->department_name ?? '-',
             $statusName,
-            '-', // User (SQL-də yoxdur, lazım olsa əlavə edilə bilər)
+            $work->creator_name ?? '-',
             $createdAt,
             $invoiceDate,
             $paidAt,

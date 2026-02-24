@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Company;
 use App\Services\TelegramBotService;
 use App\Exports\TelegramWorksExport;
+use App\Exports\TelegramClientsExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
@@ -159,6 +160,17 @@ class TelegramBotController extends Controller
                 }
                 break;
 
+            case '/export-clients':
+            case '/clients-export':
+                $fromDate = $parts[1] ?? null;
+                $toDate = $parts[2] ?? null;
+                if ($fromDate && $toDate) {
+                    $this->exportClientsToExcel($chatId, $fromDate, $toDate);
+                } else {
+                    $this->telegram->sendMessage($chatId, "❌ İstifadə: /export-clients {başlanğıc_tarix} {son_tarix}\nFormat: YYYY-MM-DD\nMəsələn: /export-clients 2024-01-01 2025-12-31");
+                }
+                break;
+
             case '/stats':
             case '/statistics':
             case '/dovriyye':
@@ -232,7 +244,8 @@ class TelegramBotController extends Controller
         $message .= "/works - İşlərin siyahısı\n";
         $message .= "/work {id} - İşin detalları\n";
         $message .= "/search {müştəri_adı} - Müştəri adına görə axtarış\n";
-        $message .= "/export {başlanğıc} {son} - Excel export\n";
+        $message .= "/export {başlanğıc} {son} - İşlər Excel export\n";
+        $message .= "/export-clients {başlanğıc} {son} - Müştərilər Excel export\n";
         $message .= "/stats {başlanğıc} {son} [şirkət_id] - Dövriyyə statistikaları\n\n";
         $message .= "İstifadə üçün /help yazın.";
 
@@ -251,12 +264,14 @@ class TelegramBotController extends Controller
         $message .= "/works - Son 10 işin siyahısı\n";
         $message .= "/work {id} - İşin detalları\n";
         $message .= "/search {müştəri_adı} - Müştəri adına görə axtarış\n";
-        $message .= "/export {başlanğıc} {son} - Excel export\n";
+        $message .= "/export {başlanğıc} {son} - İşlər Excel export\n";
+        $message .= "/export-clients {başlanğıc} {son} - Müştərilər Excel export\n";
         $message .= "/stats {başlanğıc} {son} [şirkət_id] - Dövriyyə statistikaları\n\n";
         $message .= "<b>Nümunələr:</b>\n";
         $message .= "/work 123\n";
         $message .= "/search Əli Vəliyev\n";
         $message .= "/export 2025-01-01 2025-12-31\n";
+        $message .= "/export-clients 2024-01-01 2025-12-31\n";
         $message .= "/stats 2025-01-01 2025-12-31\n";
         $message .= "/stats 2025-01-01 2025-12-31 1";
 
@@ -443,6 +458,47 @@ class TelegramBotController extends Controller
             }
         } catch (\Exception $e) {
             Log::error('Telegram exportWorksToExcel exception', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            $this->telegram->sendMessage($chatId, "❌ Xəta: " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Export clients to Excel and send via Telegram (clients cədvəli üzrə SQL)
+     */
+    protected function exportClientsToExcel(int $chatId, string $fromDate, string $toDate): void
+    {
+        try {
+            $from = Carbon::parse($fromDate);
+            $to = Carbon::parse($toDate);
+
+            $this->telegram->sendMessage($chatId, "⏳ Müştərilər Excel faylı hazırlanır...");
+
+            $filename = 'clients_export_' . $from->format('Y-m-d') . '_' . $to->format('Y-m-d') . '_' . time() . '.xlsx';
+            $filePath = storage_path('app/temp/' . $filename);
+
+            if (!file_exists(storage_path('app/temp'))) {
+                mkdir(storage_path('app/temp'), 0755, true);
+            }
+
+            Excel::store(new TelegramClientsExport($from, $to), 'temp/' . $filename, 'local');
+
+            $caption = "📊 Müştərilər Excel export\n";
+            $caption .= "📅 Tarix aralığı: {$from->format('d.m.Y')} - {$to->format('d.m.Y')}";
+
+            $result = $this->telegram->sendDocument($chatId, $filePath, $caption);
+
+            @unlink($filePath);
+
+            if ($result) {
+                Log::info('Telegram clients Excel export sent', ['chat_id' => $chatId, 'from' => $fromDate, 'to' => $toDate]);
+            } else {
+                $this->telegram->sendMessage($chatId, "❌ Excel faylı göndərilə bilmədi. Zəhmət olmasa yenidən cəhd edin.");
+            }
+        } catch (\Exception $e) {
+            Log::error('Telegram exportClientsToExcel exception', [
                 'message' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
