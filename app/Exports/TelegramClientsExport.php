@@ -45,8 +45,8 @@ class TelegramClientsExport implements FromCollection, WithHeadings, WithMapping
                 MAX(w.created_at)                      AS son_is_tarixi,
                 MAX(u1.name)                           AS koordinator,
                 MAX(u2.name)                           AS sales,
-                SUM(CASE WHEN YEAR(w.created_at) = YEAR(CURDATE()) THEN 1 ELSE 0 END) AS is_sayi_bu_il,
-                COUNT(DISTINCT CASE WHEN YEAR(w.created_at) = YEAR(CURDATE()) THEN DATE_FORMAT(w.created_at, '%Y-%m') END) AS aktiv_ay_sayi_bu_il,
+                COUNT(w.id)                            AS is_sayi_intervalda,
+                COUNT(DISTINCT DATE_FORMAT(w.created_at, '%Y-%m')) AS aktiv_ay_sayi_intervalda,
                 MAX(JSON_UNQUOTE(JSON_EXTRACT(d.name, '$.az'))) AS son_sobe,
                 MAX(w.id)                              AS son_is_id
             FROM clients c
@@ -93,8 +93,8 @@ class TelegramClientsExport implements FromCollection, WithHeadings, WithMapping
             'Son iş tarixi',
             'Koordinator',
             'Sales',
-            'İş sayı (bu il)',
-            'Aktiv ay sayı (bu il)',
+            'İş sayı (verilən dövr)',
+            'Aktiv ay sayı (verilən dövr)',
             'Son şöbə',
             'Son iş ID',
         ];
@@ -120,8 +120,8 @@ class TelegramClientsExport implements FromCollection, WithHeadings, WithMapping
             $sonIs,
             $row->koordinator ?? '-',
             $row->sales ?? '-',
-            (int) ($row->is_sayi_bu_il ?? 0),
-            (int) ($row->aktiv_ay_sayi_bu_il ?? 0),
+            (int) ($row->is_sayi_intervalda ?? 0),
+            (int) ($row->aktiv_ay_sayi_intervalda ?? 0),
             $row->son_sobe ?? '-',
             $row->son_is_id ?? '-',
         ];
