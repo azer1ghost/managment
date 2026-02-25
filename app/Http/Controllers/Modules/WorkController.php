@@ -1072,9 +1072,9 @@ class WorkController extends Controller
 
                         // Illegal məbləğ
                         if ($deptId === 12)
-                            $work->parameters()->updateExistingPivot($work::ILLEGALAMOUNT, ['value' => $work->getParameter($work::GB) * 20]);
+                            $work->parameters()->updateExistingPivot($work::ILLEGALAMOUNT, ['value' => $work->getParameter($work::GB) * 55]);
                         elseif ($deptId === 13)
-                            $work->parameters()->updateExistingPivot($work::ILLEGALAMOUNT, ['value' => $work->getParameter($work::GB) * 15]);
+                            $work->parameters()->updateExistingPivot($work::ILLEGALAMOUNT, ['value' => $work->getParameter($work::GB) * 55]);
 
                     } else {
                         $amount = (Work::getClientServiceAmount($work)
