@@ -318,11 +318,15 @@ class ClientController extends Controller
             }
 
             try {
-                // Mövcud əlaqələri əvvəlcə təmizlə (seçilmiş şöbə üzrə),
-                // sonra göndərilən siyahıya uyğun yenidən əlavə et.
+                // Köhnə (department_id = NULL) və həmin şöbəyə aid əlaqələri təmizlə
                 DB::table('coordinators_clients_relationship')
                     ->where('client_id', $clientId)
-                    ->when($departmentId, fn($query) => $query->where('department_id', $departmentId))
+                    ->when($departmentId, function ($query) use ($departmentId) {
+                        $query->where(function ($q) use ($departmentId) {
+                            $q->where('department_id', $departmentId)
+                                ->orWhereNull('department_id');
+                        });
+                    })
                     ->delete();
 
                 foreach ($userIds as $userId) {
