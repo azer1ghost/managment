@@ -36,7 +36,14 @@ class WorkObserver
     public function updating(Work $work)
     {
         if($work->isDirty('status')){
-            $work->hours()->create(['status' => $work->getAttribute('status'), 'updated_at' => now()]);
+            $originalStatus = $work->getOriginal('status');
+            $newStatus = $work->getAttribute('status');
+
+            $work->hours()->create(['status' => $newStatus, 'updated_at' => now()]);
+
+            if ($originalStatus === Work::PLANNED && $newStatus !== Work::PLANNED) {
+                $work->setAttribute('entry_date', now());
+            }
         }
 
         if(!auth()->user()->hasPermission('canRedirect-work') && $work->isDirty('user_id')){
