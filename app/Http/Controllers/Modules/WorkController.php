@@ -79,7 +79,6 @@ class WorkController extends Controller
         if (Work::userCanViewAll() || Work::userCanViewDepartmentWorks()) {
             $filters['user_id'] = $request->get('user_id');
         }
-
         $filters['sorter_id'] = $request->get('sorter_id');
         $filters['analyst_id'] = $request->get('analyst_id');
 
@@ -425,6 +424,8 @@ class WorkController extends Controller
         if (Work::userCanViewAll() || Work::userCanViewDepartmentWorks()) {
             $filters['user_id'] = $request->get('user_id');
         }
+        $filters['sorter_id'] = $request->get('sorter_id');
+        $filters['analyst_id'] = $request->get('analyst_id');
 
         $dateFilters = [
             'datetime' => $request->has('check-datetime'),
@@ -469,6 +470,9 @@ class WorkController extends Controller
 
         if ($request->has('check-paid_at')) {
             $works = $works->whereBetween('paid_at', [Carbon::parse($paid_at_explode[0])->startOfDay(), Carbon::parse($paid_at_explode[1])->endOfDay()]);
+        }
+        if ($request->filled('empty_invoice') && $request->empty_invoice == 1) {
+            $works = $works->whereNull('code');
         }
 
         $works = $works->planned()->paginate($limit);

@@ -81,6 +81,32 @@
                                 </select>
                             </div>
                         @endif
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="sorterFilter">Sorter</label>
+                            <select id="sorterFilter" class="select2 form-control"
+                                    name="sorter_id"
+                                    data-width="fit" title="-- Seçin --">
+                                <option value="">-- Seçin --</option>
+                                @foreach($users as $user)
+                                    <option value="{{ $user->id }}" {{ request('sorter_id') == $user->id ? 'selected' : '' }}>
+                                        {{ $user->name }} {{ $user->surname }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="analystFilter">Analyst</label>
+                            <select id="analystFilter" class="select2 form-control"
+                                    name="analyst_id"
+                                    data-width="fit" title="-- Seçin --">
+                                <option value="">-- Seçin --</option>
+                                @foreach($users as $user)
+                                    <option value="{{ $user->id }}" {{ request('analyst_id') == $user->id ? 'selected' : '' }}>
+                                        {{ $user->name }} {{ $user->surname }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="serviceFilter">{{__('translates.general.select_service')}}</label>
@@ -101,16 +127,28 @@
                                 @endforeach
                             </select>
                         </div>
-                            <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">
-                                <label for="codeFilter">Sorğu nömrəsinə görə axtarış</label>
-                                <input type="search" id="codeFilter" name="declaration_no" value="{{$filters['declaration_no']}}"
-                                       placeholder="Sorğu nömrəsi" class="form-control">
+                        <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">
+                            <label for="codeFilter">Qaimə nömrəsinə görə axtarış</label>
+                            <input type="search" id="codeFilter" name="code" value="{{$filters['code']}}"
+                                   placeholder="E-qaimə" class="form-control">
+                            <div class="form-check mt-4">
+                                <input class="form-check-input" type="checkbox" id="emptyInvoice" name="empty_invoice" value="1"
+                                       {{ request('empty_invoice') ? 'checked' : '' }}>
+                                <label class="form-check-label" for="emptyInvoice">
+                                    Yalnız boş qaimələr
+                                </label>
                             </div>
-                            <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">
-                                <label for="codeFilter">Nəqliyyat nömrəsinə görə axtarış</label>
-                                <input type="search" id="codeFilter" name="transport_no" value="{{$filters['transport_no']}}"
-                                       placeholder="Nəqliyyat nömrəsi" class="form-control">
-                            </div>
+                        </div>
+                        <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">
+                            <label for="codeFilter">Sorğu nömrəsinə görə axtarış</label>
+                            <input type="search" id="codeFilter" name="declaration_no" value="{{$filters['declaration_no']}}"
+                                   placeholder="Sorğu nömrəsi" class="form-control">
+                        </div>
+                        <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">
+                            <label for="codeFilter">Nəqliyyat nömrəsinə görə axtarış</label>
+                            <input type="search" id="codeFilter" name="transport_no" value="{{$filters['transport_no']}}"
+                                   placeholder="Nəqliyyat nömrəsi" class="form-control">
+                        </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="clientFilter">{{trans('translates.general.select_client')}}</label>
@@ -153,11 +191,88 @@
                                 @endif
                             </select>
                         </div>
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="statusFilter">{{trans('translates.general.status_choose')}}</label>
+                            <select name="status" id="statusFilter" class="form-control" style="width: 100% !important;">
+                                <option value="">@lang('translates.filters.select')</option>
+                                @foreach($statuses as $status)
+                                    <option value="{{$status}}"
+                                            @if($status == $filters['status']) selected @endif>
+                                        @lang('translates.work_status.' . $status)
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="destinationFilter">{{trans('translates.general.destination_choose')}}</label>
+                            <select name="destination" id="destinationFilter" class="form-control" style="width: 100% !important;">
+                                <option value="">@lang('translates.filters.select')</option>
+                                @foreach($destinations as $destination)
+                                    <option value="{{$destination}}"
+                                            @if($destination == $filters['destination']) selected @endif>
+                                        @lang('translates.work_destination.' . $destination)
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
                         <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
                             <label class="d-block" for="createdAtFilter">{{trans('translates.fields.created_at')}}</label>
                             <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
                             <input type="checkbox" name="check-created_at" id="check-created_at" @if(request()->has('check-created_at')) checked @endif> <label for="check-created_at">@lang('translates.filters.filter_by')</label>
+                        </div>
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="injectedAtFilter">{{trans('translates.fields.injected_at')}}</label>
+                            <input class="form-control custom-daterange mb-1" id="injectedAtFilter" type="text" readonly name="injected_at" value="{{$filters['injected_at']}}">
+                            <input type="checkbox" name="check-injected_at" id="check-injected_at" @if(request()->has('check-injected_at')) checked @endif> <label for="check-injected_at">@lang('translates.filters.filter_by')</label>
+                        </div>
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="entryDateFilter">{{trans('translates.fields.entry_date')}}</label>
+                            <input class="form-control custom-daterange mb-1" id="entryDateFilter" type="text" readonly name="entry_date" value="{{$filters['entry_date']}}">
+                            <input type="checkbox" name="check-entry_date" id="check-entry_date" @if(request()->has('check-entry_date')) checked @endif> <label for="check-entry_date">@lang('translates.filters.filter_by')</label>
+                        </div>
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="datetimeFilter">{{trans('translates.fields.date')}}</label>
+                            <input class="form-control custom-daterange mb-1" id="datetimeFilter" type="text" readonly name="datetime" value="{{$filters['datetime']}}">
+                            <input type="checkbox" name="check-datetime" id="check-datetime" @if(request()->has('check-datetime')) checked @endif> <label for="check-datetime">@lang('translates.filters.filter_by')</label>
+                        </div>
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="paidAtDateFilter">{{trans('translates.fields.paid_at')}}</label>
+                            <input class="form-control custom-daterange mb-1" id="paidAtDateFilter" type="text" readonly name="paid_at_date" value="{{request()->get('paid_at_date')}}">
+                            <input type="checkbox" name="check-paid_at" id="check-paid_at" @if(request()->has('check-paid_at')) checked @endif> <label for="check-paid_at">@lang('translates.filters.filter_by')</label>
+                        </div>
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="invoicedDateFilter">{{trans('translates.fields.invoiced_date')}}</label>
+                            <input class="form-control custom-daterange mb-1" id="invoicedDateFilter" type="text" readonly name="invoiced_date" value="{{$filters['invoiced_date']}}">
+                            <input type="checkbox" name="check-invoiced_date" id="check-invoiced_date" @if(request()->has('check-invoiced_date')) checked @endif> <label for="check-invoiced_date">@lang('translates.filters.filter_by')</label>
+                        </div>
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="vatDateFilter">{{trans('translates.fields.vat_paid_at')}}</label>
+                            <input class="form-control custom-daterange mb-1" id="vatDateFilter" type="text" readonly name="vat_date" value="{{$filters['vat_date']}}">
+                            <input type="checkbox" name="check-vat_paid_at" id="check-vat_paid_at" @if(request()->has('check-vat_paid_at')) checked @endif> <label for="check-vat_paid_at">@lang('translates.filters.filter_by')</label>
+                        </div>
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="verifiedFilter">@lang('translates.columns.verified')</label>
+                            <select name="verified_at" id="verifiedFilter" class="form-control" style="width: 100% !important;">
+                                <option value="">@lang('translates.filters.select')</option>
+                                @foreach($verifies as $key => $verify)
+                                    <option value="{{$key}}" @if($key == $filters['verified_at']) selected @endif>
+                                        {{$verify}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
+                            <label class="d-block" for="paymentMethodFilter">@lang('translates.general.payment_method')</label>
+                            <select name="payment_method" id="paymentMethodFilter" class="form-control" style="width: 100% !important;">
+                                <option value="">@lang('translates.filters.select')</option>
+                                @foreach($paymentMethods as $paymentMethod)
+                                    <option value="{{$paymentMethod}}"
+                                            @if($paymentMethod == $filters['payment_method']) selected @endif>
+                                        @lang('translates.payment_methods.' . $paymentMethod)
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
 
 
@@ -520,5 +635,4 @@
 
 
 @endsection
-
 
