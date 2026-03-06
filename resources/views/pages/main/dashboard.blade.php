@@ -65,20 +65,6 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
         
-        .snowflake {
-            position: fixed;
-            top: -10px;
-            color: white;
-            font-size: 18px;
-            animation: fall linear infinite;
-            pointer-events: none;
-            z-index: 9999;
-        }
-        
-        @keyframes fall {
-            to { transform: translateY(110vh); }
-        }
-        
         /* Birthday Card Styles */
         .birthday-card {
             background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
@@ -373,19 +359,7 @@
             }
         }, 1000);
         
-        // Snowfall Animation
-        document.addEventListener("DOMContentLoaded", () => {
-            const body = document.body;
-            for (let i = 0; i < 60; i++) {
-                let snow = document.createElement("div");
-                snow.classList.add("snowflake");
-                snow.style.left = Math.random() * 100 + "vw";
-                snow.style.animationDuration = (2 + Math.random() * 5) + "s";
-                snow.style.opacity = Math.random();
-                snow.innerHTML = "❅";
-                body.appendChild(snow);
-            }
-        });
+
     </script>
     
     {{--@section('scripts')--}}
