@@ -379,6 +379,7 @@
             @if($isEditable)
                 <button onclick="createInvoice()" class="btn btn-success float-right mr-2" id="saveBtn">Yadda Saxla</button>
             @endif
+            <button onclick="toggleEdv()" class="btn btn-success float-right mr-2" id="edvBtn">ƏDV hesablanır</button>
             <div class="mb-2" id="bankAccountSelector" style="display:none; clear:both;">
                 <label for="bankAccountSelect">Bank Hesabı:</label>
                 <select id="bankAccountSelect" class="form-control" style="max-width: 400px;">
@@ -797,6 +798,17 @@
         // Track if invoice is saved (immutable) and editable
         const isInvoiceSaved = @json($isSaved);
         let isEditMode = @json($isEditable);
+        let edvDisabled = false;
+
+        function toggleEdv() {
+            edvDisabled = !edvDisabled;
+            if (edvDisabled) {
+                $('#edvBtn').removeClass('btn-success').addClass('btn-danger').text('ƏDV hesablanmır');
+            } else {
+                $('#edvBtn').removeClass('btn-danger').addClass('btn-success').text('ƏDV hesablanır');
+            }
+            calculateTotal();
+        }
         
         // Initially, if invoice is not saved, it's already in edit mode
         // If saved (signed), need to click "Redaktə Et" to enable edit mode
@@ -1242,10 +1254,13 @@
         $('#total6').html((sum * edv).toFixed(2));
         $('#total7').html((sum * edv).toFixed(2));
 
-        if (getCompany !== '\"Mobil Broker\" MMC' && getCompany !== '\"Garant Broker\" MMC' && getCompany !== '\"Mobil Technologies\" MMC') {
+        var isVatCompany = (getCompany === '\"Mobil Broker\" MMC' || getCompany === '\"Garant Broker\" MMC' || getCompany === '\"Mobil Technologies\" MMC');
+        if (!isVatCompany || edvDisabled) {
             $("#vatColumn, #vatColumn2, #vatColumn3").hide();
+            vatElement.text('0.00');
             var rate = 1;
         } else {
+            $("#vatColumn, #vatColumn2, #vatColumn3").show();
             vatElement.text((sum * 0.18).toFixed(2));
             var rate = 1.18;
         }
