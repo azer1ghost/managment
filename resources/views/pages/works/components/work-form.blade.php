@@ -591,12 +591,4 @@
             }
         });
     </script>
-    <script>
-        $(document).on('input', '.number-param', function () {
-            var val = $(this).val();
-            val = val.replace(/\./g, ',');  // nöqtəni vergülə çevir
-            val = val.replace(/\s/g, '');   // boşluqları sil
-            $(this).val(val);
-        });
-    </script>
 @endpush
