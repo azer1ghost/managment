@@ -46,7 +46,7 @@ class WorkRepository implements WorkRepositoryInterface
             })
             ->where(function ($query) use ($filters, $dateFilters, $dateRanges) {
                 foreach ($filters as $column => $value) {
-                    if ($column == 'limit') continue;
+                    if (in_array($column, ['limit', 'zero_amount', 'statuses', 'status'])) continue;
 
                     $query->when($value, function ($query, $value) use ($column, $dateFilters, $dateRanges) {
                         if ($column == 'verified_at') {
