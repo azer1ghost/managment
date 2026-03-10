@@ -1,38 +1,50 @@
-// Məbləğ parametrləri üçün qlobal format handler (ID: 19,33,34,35,36,37,38)
-// Nöqtəni vergülə çevirir, boşluqları silir
-var amountParamSelector = '.number-param, #data-parameter-19, #data-parameter-33, #data-parameter-34, #data-parameter-35, #data-parameter-36, #data-parameter-37, #data-parameter-38';
+// Məbləğ parametrləri üçün format handler (ID: 19,33,34,35,36,37,38)
+// Vanilla JS + capture:true → Livewire-dan ƏVVƏL işləyir
+(function () {
+    var amountIds = [19, 33, 34, 35, 36, 37, 38];
 
-// keydown ilə nöqtəni tutub vergülə çevir, boşluğu bloklayırıq
-$(document).on('keydown', amountParamSelector, function (e) {
-    // Nöqtə: numpad (110) və ya klaviatura (190)
-    if (e.keyCode === 190 || e.keyCode === 110 || e.key === '.') {
-        e.preventDefault();
-        var el   = this;
-        var val  = el.value;
-        var start = el.selectionStart;
-        var end   = el.selectionEnd;
-        el.value = val.substring(0, start) + ',' + val.substring(end);
-        el.setSelectionRange(start + 1, start + 1);
-        $(el).trigger('change');
+    function isAmountInput(el) {
+        if (!el || el.tagName !== 'INPUT') return false;
+        if (el.classList.contains('number-param')) return true;
+        return amountIds.some(function (id) {
+            return el.id === 'data-parameter-' + id;
+        });
     }
-    // Boşluq: bloklayırıq
-    if (e.keyCode === 32 || e.key === ' ') {
-        e.preventDefault();
-    }
-});
 
-// Paste zamanı da eyni qaydaları tətbiq edirik
-$(document).on('paste', amountParamSelector, function (e) {
-    e.preventDefault();
-    var paste = (e.originalEvent.clipboardData || window.clipboardData).getData('text');
-    paste = paste.replace(/\./g, ',').replace(/\s/g, '');
-    var el    = this;
-    var start = el.selectionStart;
-    var end   = el.selectionEnd;
-    el.value  = el.value.substring(0, start) + paste + el.value.substring(end);
-    el.setSelectionRange(start + paste.length, start + paste.length);
-    $(el).trigger('change');
-});
+    // keydown: nöqtəni vergülə çevir, boşluğu blokla
+    document.addEventListener('keydown', function (e) {
+        var el = e.target;
+        if (!isAmountInput(el)) return;
+
+        // Nöqtə (klaviatura: 190, numpad: 110)
+        if (e.key === '.' || e.keyCode === 190 || e.keyCode === 110) {
+            e.preventDefault();
+            var s  = el.selectionStart;
+            var en = el.selectionEnd;
+            el.value = el.value.slice(0, s) + ',' + el.value.slice(en);
+            el.setSelectionRange(s + 1, s + 1);
+        }
+
+        // Boşluq - blokla
+        if (e.key === ' ' || e.keyCode === 32) {
+            e.preventDefault();
+        }
+    }, true); // true = capture phase
+
+    // paste: yapışdırılan mətni təmizlə
+    document.addEventListener('paste', function (e) {
+        var el = e.target;
+        if (!isAmountInput(el)) return;
+
+        e.preventDefault();
+        var text = (e.clipboardData || window.clipboardData).getData('text/plain');
+        text = text.replace(/\./g, ',').replace(/\s/g, '');
+        var s  = el.selectionStart;
+        var en = el.selectionEnd;
+        el.value = el.value.slice(0, s) + text + el.value.slice(en);
+        el.setSelectionRange(s + text.length, s + text.length);
+    }, true);
+}());
 
 $(document).ready(function (){
     // SelectPicker
