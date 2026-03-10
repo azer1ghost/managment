@@ -81,6 +81,16 @@ class WorkRepository implements WorkRepositoryInterface
                     });
                 }
             })
+            ->when(!empty($filters['zero_amount']), function ($query) {
+                // Məbləği 0 olan işlər: parametr ID 19,33,34,35,36,37,38
+                // üçün heç bir müsbət dəyər olmayan işləri tapır
+                $query->whereDoesntHave('parameters', function ($q) {
+                    $q->whereIn('parameter_id', [19, 33, 34, 35, 36, 37, 38])
+                        ->whereNotNull('value')
+                        ->where('value', '!=', '')
+                        ->where('value', '!=', '0');
+                });
+            })
             ->orderByDesc('created_at')
             ->orderByDesc('id');
     }

@@ -154,12 +154,24 @@ class Work extends Model implements DocumentableInterface, Recordable
         // Get parameter model
         $parameter = $this->parameters()->where('id', $id)->first();
 
-        return $parameter ?
-            // Check type of parameter -> if type is "select" return option value / else return pivot value
-            $parameter->getAttribute('type') == 'select' ?
-                optional(Option::find($parameter->pivot->value))->getAttribute('text') :
-                optional($parameter->pivot)->value :
-            null;
+        if (!$parameter) {
+            return null;
+        }
+
+        // Select tipli parametrlər üçün option mətnini qaytar
+        if ($parameter->getAttribute('type') == 'select') {
+            return optional(Option::find($parameter->pivot->value))->getAttribute('text');
+        }
+
+        $value = optional($parameter->pivot)->value;
+
+        // Vergülü nöqtəyə çevir: PHP riyazi əməliyyatlarda vergüllü ədədi
+        // non-numeric kimi qəbul edir, buna görə "1500,00" → "1500.00"
+        if ($value !== null && $value !== '') {
+            $value = str_replace(',', '.', $value);
+        }
+
+        return $value;
     }
 
     /**

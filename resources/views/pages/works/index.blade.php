@@ -60,6 +60,13 @@
                                         Yalnız boş qaimələr
                                     </label>
                                 </div>
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" type="checkbox" id="zeroAmount" name="zero_amount" value="1"
+                                            {{ request('zero_amount') ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="zeroAmount">
+                                        Məbləğsiz işlər
+                                    </label>
+                                </div>
                         </div>
                         <div class="form-group col-12 col-md-3 my-3 mb-md-0 pl-0">
                             <label for="codeFilter">Sorğu nömrəsinə görə axtarış</label>
