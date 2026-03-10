@@ -265,7 +265,7 @@
                             @case('number')
                                 <div class="form-group col-12 col-md-3" @if(!auth()->user()->hasPermission('editPrice-work') && in_array('finance', explode(' ', $parameter->attributes))) style="display: none" @endif wire:ignore>
                                     <label for="data-parameter-{{$parameter->id}}">{{$parameter->label}}</label>
-                                    <input type="number" data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
+                                    <input type="text" inputmode="decimal" data-label="{{$parameter->getTranslation('label', 'az')}}" name="parameters[{{$parameter->id}}]" {{$parameter->attributes}} id="data-parameter-{{$parameter->id}}" class="form-control parameters number-param" placeholder="{{$parameter->placeholder}}" wire:model="workParameters.{{$parameter->name}}">
                                 </div>
                             @break
                             @case('select')
@@ -589,6 +589,14 @@
             } else {
                 declarationInput.removeAttribute("required");
             }
+        });
+    </script>
+    <script>
+        $(document).on('input', '.number-param', function () {
+            var val = $(this).val();
+            val = val.replace(/\./g, ',');  // nöqtəni vergülə çevir
+            val = val.replace(/\s/g, '');   // boşluqları sil
+            $(this).val(val);
         });
     </script>
 @endpush
