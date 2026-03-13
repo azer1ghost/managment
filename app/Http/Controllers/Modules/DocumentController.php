@@ -85,10 +85,13 @@ class DocumentController extends Controller
     public function show(Document $document)
     {
         $url = (new FirebaseApi)->getDoc()->object("Documents/{$document->module()}/{$document->getAttribute('file')}")->signedUrl(
-            new \DateTime('+24 hours')
+            new \DateTime('1 min')
         );
 
-        return redirect($url);
+        return response(file_get_contents($url))
+            ->withHeaders([
+                'Content-Type' => $document->getAttribute('type')
+            ]);
     }
 
     public function viewer(Request $request, Document $document)

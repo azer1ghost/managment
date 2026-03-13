@@ -432,10 +432,13 @@ Route::get('/document/{document}', function (\Illuminate\Http\Request $request, 
     abort_if(!$request->hasValidSignature(), 404);
 
     $url = (new FirebaseApi)->getDoc()->object("Documents/{$document->module()}/{$document->getAttribute('file')}")->signedUrl(
-        new DateTime('+24 hours')
+        new DateTime('1 min')
     );
 
-    return redirect($url);
+    return response(file_get_contents($url))
+        ->withHeaders([
+            'Content-Type' => $document->getAttribute('type')
+        ]);
 
 })->name('document');
 
