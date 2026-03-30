@@ -6,12 +6,16 @@
     <style>
         .table td, .table th {
             vertical-align: middle !important;
+            white-space: nowrap;
         }
         .badge-aciq    { background-color: #dc3545; color: #fff; }
         .badge-bagli   { background-color: #28a745; color: #fff; }
         .badge-qismen  { background-color: #ffc107; color: #212529; }
         .qaime-link    { color: #0056b3; font-weight: 600; text-decoration: underline; }
         .qaime-link:hover { color: #003580; }
+        .pm-naqd  { background:#6c757d; color:#fff; padding:2px 6px; border-radius:4px; font-size:.8em; }
+        .pm-bank  { background:#0d6efd; color:#fff; padding:2px 6px; border-radius:4px; font-size:.8em; }
+        .pm-pbank { background:#6610f2; color:#fff; padding:2px 6px; border-radius:4px; font-size:.8em; }
     </style>
 @endsection
 
@@ -48,6 +52,18 @@
                             {{ $filters['client_id'] == $client->id ? 'selected' : '' }}>
                             {{ $client->fullname }}
                             @if($client->voen) ({{ $client->voen }}) @endif
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            {{-- Ödəniş Üsulu --}}
+            <div class="col-md-2 mb-2">
+                <select name="payment_method" class="form-control">
+                    <option value="">Ödəniş Üsulu</option>
+                    @foreach($paymentMethods as $key => $label)
+                        <option value="{{ $key }}" {{ $filters['payment_method'] == $key ? 'selected' : '' }}>
+                            {{ $label }}
                         </option>
                     @endforeach
                 </select>
@@ -106,86 +122,73 @@
                         <th>#</th>
                         <th>Qaimə Şirkəti</th>
                         <th>VÖEN</th>
+                        <th>Müştəri</th>
                         <th>Qaimə Kodu</th>
                         <th>Qaimə Tarixi</th>
-                        <th>Qaimə Məbləği (Əsas)</th>
-                        <th>ƏDV</th>
+                        <th class="text-right">Qaimə Məbləği</th>
+                        <th class="text-right">ƏDV</th>
                         <th>Ödəniş Tarixi</th>
-                        <th>Ödənilmiş Məbləğ (Əsas)</th>
-                        <th>Ödəniş ƏDV</th>
-                        <th>Qalıq Məbləğ</th>
-                        <th>Qalıq ƏDV</th>
+                        <th class="text-right">Ödənilmiş Məbləğ</th>
+                        <th class="text-right">Ödəniş ƏDV</th>
+                        <th class="text-right">Qalıq Məbləğ</th>
+                        <th class="text-right">Qalıq ƏDV</th>
+                        <th>Ödəniş Üsulu</th>
                         <th>Vəziyyət</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @php
-                        $totalAmount     = 0;
-                        $totalVat        = 0;
-                        $totalPaid       = 0;
-                        $totalVatPayment = 0;
-                        $totalQaliq      = 0;
-                        $totalQaliqEdv   = 0;
-                    @endphp
 
-                    @forelse($works as $work)
+                    @forelse($works as $row)
                         @php
-                            $amount     = (float) ($work->getParameter(\App\Models\Work::AMOUNT) ?? 0);
-                            $vat        = (float) ($work->getParameter(\App\Models\Work::VAT) ?? 0);
-                            $paid       = (float) ($work->getParameter(\App\Models\Work::PAID) ?? 0);
-                            $vatPayment = (float) ($work->getParameter(\App\Models\Work::VATPAYMENT) ?? 0);
+                            $pmClass = match((int)$row->payment_method) {
+                                1       => 'pm-naqd',
+                                2       => 'pm-bank',
+                                3       => 'pm-pbank',
+                                default => 'pm-bank',
+                            };
+                            $pmLabel = $paymentMethods[$row->payment_method] ?? '-';
 
-                            $qaliqMebleg = $amount - $paid;
-                            $qaliqEdv    = $vat - $vatPayment;
-
-                            $totalPaid   += $paid;
-                            $totalVatPayment += $vatPayment;
-                            $totalAmount += $amount;
-                            $totalVat    += $vat;
-                            $totalQaliq  += $qaliqMebleg;
-                            $totalQaliqEdv += $qaliqEdv;
-
-                            $totalRowPaid = $paid + $vatPayment;
-
-                            if ($totalRowPaid <= 0) {
-                                $veziyyet = 'Açıq';
-                                $badgeClass = 'badge-aciq';
-                            } elseif (abs($amount - $paid) < 0.01 && abs($vat - $vatPayment) < 0.01) {
-                                $veziyyet = 'Bağlı';
-                                $badgeClass = 'badge-bagli';
-                            } else {
-                                $veziyyet = 'Qismən';
-                                $badgeClass = 'badge-qismen';
-                            }
+                            $badgeClass = match($row->veziyyet) {
+                                'Bağlı'  => 'badge-bagli',
+                                'Qismən' => 'badge-qismen',
+                                default  => 'badge-aciq',
+                            };
                         @endphp
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ optional($work->invoiceCompany)->name ?? '-' }}</td>
-                            <td>{{ optional($work->client)->voen ?? '-' }}</td>
+                            <td>{{ $loop->iteration + ($works->currentPage() - 1) * $works->perPage() }}</td>
+                            <td>{{ $row->invoice_company_name ?? '-' }}</td>
+                            <td>{{ $row->voen ?? '-' }}</td>
+                            <td>{{ $row->client_name ?? '-' }}</td>
                             <td>
-                                <a href="{{ route('works.show', $work) }}" target="_blank" class="qaime-link">
-                                    {{ $work->code ?? '-' }}
-                                </a>
+                                @if($row->code)
+                                    <a href="{{ route('works.index', ['search' => $row->code]) }}"
+                                       target="_blank" class="qaime-link">
+                                        {{ $row->code }}
+                                    </a>
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
                             </td>
-                            <td>{{ optional($work->invoiced_date)->format('d.m.Y') ?? '-' }}</td>
-                            <td class="text-right">{{ number_format($amount, 2) }}</td>
-                            <td class="text-right">{{ number_format($vat, 2) }}</td>
-                            <td>{{ optional($work->paid_at)->format('d.m.Y') ?? '-' }}</td>
-                            <td class="text-right">{{ number_format($paid, 2) }}</td>
-                            <td class="text-right">{{ number_format($vatPayment, 2) }}</td>
-                            <td class="text-right {{ $qaliqMebleg > 0 ? 'text-danger font-weight-bold' : '' }}">
-                                {{ number_format($qaliqMebleg, 2) }}
+                            <td>{{ $row->invoiced_date ? \Carbon\Carbon::parse($row->invoiced_date)->format('d.m.Y') : '-' }}</td>
+                            <td class="text-right">{{ number_format($row->amount, 2) }}</td>
+                            <td class="text-right">{{ number_format($row->vat, 2) }}</td>
+                            <td>{{ $row->paid_at ? \Carbon\Carbon::parse($row->paid_at)->format('d.m.Y') : '-' }}</td>
+                            <td class="text-right">{{ number_format($row->paid, 2) }}</td>
+                            <td class="text-right">{{ number_format($row->vat_payment, 2) }}</td>
+                            <td class="text-right {{ $row->qaliq > 0 ? 'text-danger font-weight-bold' : '' }}">
+                                {{ number_format($row->qaliq, 2) }}
                             </td>
-                            <td class="text-right {{ $qaliqEdv > 0 ? 'text-danger font-weight-bold' : '' }}">
-                                {{ number_format($qaliqEdv, 2) }}
+                            <td class="text-right {{ $row->qaliq_edv > 0 ? 'text-danger font-weight-bold' : '' }}">
+                                {{ number_format($row->qaliq_edv, 2) }}
                             </td>
+                            <td><span class="{{ $pmClass }}">{{ $pmLabel }}</span></td>
                             <td>
-                                <span class="badge {{ $badgeClass }}">{{ $veziyyet }}</span>
+                                <span class="badge {{ $badgeClass }}">{{ $row->veziyyet }}</span>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="13">
+                            <td colspan="15">
                                 <div class="alert alert-warning text-center mb-0">
                                     @lang('translates.general.empty')
                                 </div>
@@ -196,15 +199,15 @@
                     {{-- Cəm sətri --}}
                     @if($works->count() > 0)
                         <tr class="table-dark font-weight-bold">
-                            <td colspan="5" class="text-right">Cəm:</td>
-                            <td class="text-right">{{ number_format($totalAmount, 2) }}</td>
-                            <td class="text-right">{{ number_format($totalVat, 2) }}</td>
+                            <td colspan="6" class="text-right">Cəm:</td>
+                            <td class="text-right">{{ number_format($totals['amount'], 2) }}</td>
+                            <td class="text-right">{{ number_format($totals['vat'], 2) }}</td>
                             <td></td>
-                            <td class="text-right">{{ number_format($totalPaid, 2) }}</td>
-                            <td class="text-right">{{ number_format($totalVatPayment, 2) }}</td>
-                            <td class="text-right">{{ number_format($totalQaliq, 2) }}</td>
-                            <td class="text-right">{{ number_format($totalQaliqEdv, 2) }}</td>
-                            <td></td>
+                            <td class="text-right">{{ number_format($totals['paid'], 2) }}</td>
+                            <td class="text-right">{{ number_format($totals['vat_payment'], 2) }}</td>
+                            <td class="text-right">{{ number_format($totals['qaliq'], 2) }}</td>
+                            <td class="text-right">{{ number_format($totals['qaliq_edv'], 2) }}</td>
+                            <td colspan="2"></td>
                         </tr>
                     @endif
                     </tbody>

@@ -2,20 +2,18 @@
 
 namespace App\Exports;
 
-use App\Models\Work;
-use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Modules\DebitorController;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
-use PhpOffice\PhpSpreadsheet\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting as ExcelWithColumnFormatting;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class DebitorsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoSize, WithStyles, ExcelWithColumnFormatting
+class DebitorsExport implements FromCollection, WithMapping, WithHeadings, ShouldAutoSize, WithStyles, ExcelWithColumnFormatting
 {
     use Exportable;
 
@@ -31,6 +29,7 @@ class DebitorsExport implements FromQuery, WithMapping, WithHeadings, ShouldAuto
         return [
             'Qaimə Şirkəti',
             'VÖEN',
+            'Müştəri',
             'Qaimə Kodu',
             'Qaimə Tarixi',
             'Qaimə Məbləği (Əsas)',
@@ -40,86 +39,43 @@ class DebitorsExport implements FromQuery, WithMapping, WithHeadings, ShouldAuto
             'Ödəniş ƏDV',
             'Qalıq Məbləğ (Borc Əsas)',
             'Qalıq ƏDV',
+            'Ödəniş Üsulu',
             'Vəziyyət',
         ];
     }
 
+    public function collection()
+    {
+        $rows = (new DebitorController)->buildRows($this->filters);
+
+        if (!empty($this->filters['debitor_status'])) {
+            $rows = $rows->filter(fn($r) => $r->veziyyet === $this->filters['debitor_status'])->values();
+        }
+
+        return $rows;
+    }
+
     public function map($row): array
     {
-        $amount     = (float) ($row->getParameter(Work::AMOUNT) ?? 0);
-        $vat        = (float) ($row->getParameter(Work::VAT) ?? 0);
-        $paid       = (float) ($row->getParameter(Work::PAID) ?? 0);
-        $vatPayment = (float) ($row->getParameter(Work::VATPAYMENT) ?? 0);
-
-        $qaliqMebleg = $amount - $paid;
-        $qaliqEdv    = $vat - $vatPayment;
-
-        $veziyyet = $this->getVeziyyet($amount, $vat, $paid, $vatPayment);
+        $paymentMethods = trans('translates.payment_methods');
+        $pmLabel = $paymentMethods[$row->payment_method] ?? '-';
 
         return [
-            optional($row->invoiceCompany)->getAttribute('name') ?? '-',
-            optional($row->client)->getAttribute('voen') ?? '-',
-            $row->getAttribute('code') ?? '-',
-            optional($row->invoiced_date)?->toDateString(),
-            $amount,
-            $vat,
-            optional($row->paid_at)?->toDateString(),
-            $paid,
-            $vatPayment,
-            $qaliqMebleg,
-            $qaliqEdv,
-            $veziyyet,
+            $row->invoice_company_name ?? '-',
+            $row->voen ?? '-',
+            $row->client_name ?? '-',
+            $row->code ?? '-',
+            $row->invoiced_date ? \Carbon\Carbon::parse($row->invoiced_date)->format('d.m.Y') : '-',
+            $row->amount,
+            $row->vat,
+            $row->paid_at ? \Carbon\Carbon::parse($row->paid_at)->format('d.m.Y') : '-',
+            $row->paid,
+            $row->vat_payment,
+            $row->qaliq,
+            $row->qaliq_edv,
+            $pmLabel,
+            $row->veziyyet,
         ];
-    }
-
-    protected function getVeziyyet(float $amount, float $vat, float $paid, float $vatPayment): string
-    {
-        $totalAmount = $amount + $vat;
-        $totalPaid   = $paid + $vatPayment;
-
-        if ($totalPaid <= 0) {
-            return 'Açıq';
-        }
-
-        if (abs($amount - $paid) < 0.01 && abs($vat - $vatPayment) < 0.01) {
-            return 'Bağlı';
-        }
-
-        return 'Qismən';
-    }
-
-    public function query()
-    {
-        $query = Work::query()
-            ->whereNotNull('invoiced_date')
-            ->with([
-                'invoiceCompany:id,name',
-                'client:id,fullname,voen',
-                'parameters',
-            ]);
-
-        if (!empty($this->filters['invoice_company_id'])) {
-            $query->where('invoice_company_id', $this->filters['invoice_company_id']);
-        }
-
-        if (!empty($this->filters['client_id'])) {
-            $query->where('client_id', $this->filters['client_id']);
-        }
-
-        if (!empty($this->filters['status'])) {
-            $query->where(function ($q) {
-                // Status filter handled post-query in mapping; this is a pass-through
-            });
-        }
-
-        if (!empty($this->filters['invoiced_date_from']) && !empty($this->filters['invoiced_date_to'])) {
-            $query->whereBetween('invoiced_date', [
-                $this->filters['invoiced_date_from'],
-                $this->filters['invoiced_date_to'],
-            ]);
-        }
-
-        return $query->orderByDesc('invoiced_date');
     }
 
     public function styles(Worksheet $sheet): array
@@ -141,12 +97,12 @@ class DebitorsExport implements FromQuery, WithMapping, WithHeadings, ShouldAuto
     public function columnFormats(): array
     {
         return [
-            'E' => NumberFormat::FORMAT_NUMBER_00,
             'F' => NumberFormat::FORMAT_NUMBER_00,
-            'H' => NumberFormat::FORMAT_NUMBER_00,
+            'G' => NumberFormat::FORMAT_NUMBER_00,
             'I' => NumberFormat::FORMAT_NUMBER_00,
             'J' => NumberFormat::FORMAT_NUMBER_00,
             'K' => NumberFormat::FORMAT_NUMBER_00,
+            'L' => NumberFormat::FORMAT_NUMBER_00,
         ];
     }
 }
