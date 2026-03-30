@@ -10,6 +10,8 @@
         .badge-aciq    { background-color: #dc3545; color: #fff; }
         .badge-bagli   { background-color: #28a745; color: #fff; }
         .badge-qismen  { background-color: #ffc107; color: #212529; }
+        .qaime-link    { color: #0056b3; font-weight: 600; text-decoration: underline; }
+        .qaime-link:hover { color: #003580; }
     </style>
 @endsection
 
@@ -161,7 +163,7 @@
                             <td>{{ optional($work->invoiceCompany)->name ?? '-' }}</td>
                             <td>{{ optional($work->client)->voen ?? '-' }}</td>
                             <td>
-                                <a href="{{ route('works.show', $work) }}" target="_blank">
+                                <a href="{{ route('works.show', $work) }}" target="_blank" class="qaime-link">
                                     {{ $work->code ?? '-' }}
                                 </a>
                             </td>
