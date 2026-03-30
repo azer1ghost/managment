@@ -24,6 +24,7 @@ use App\Http\Controllers\{Auth\EmailVerificationController,
     Modules\CompanyController,
     Modules\ConferenceController,
     Modules\CreditorController,
+    Modules\DebitorController,
     Modules\CustomerEngagementController,
     Modules\CustomerSatisfactionController,
     Modules\DailyReportController,
@@ -287,6 +288,9 @@ Route::group([
     Route::resource('/banks', BankController::class);
     Route::post('/banks/updateBankAmount', [BankController::class, 'updateBankAmount']);
     Route::post('/sortable', [BankController::class, 'sortable'])->name('bank.sortable');
+
+    Route::get('/debitors/export', [DebitorController::class, 'export'])->name('debitors.export');
+    Route::get('/debitors', [DebitorController::class, 'index'])->name('debitors.index');
 
     Route::get('/creditors/export', [CreditorController::class, 'export'])->name('creditors.export');
     Route::post('/creditors/payment', [CreditorController::class, 'payment'])->name('creditor.payment');
