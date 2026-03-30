@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Laravel (artisan serve)",
+      "runtimeExecutable": "php",
+      "runtimeArgs": ["artisan", "serve"],
+      "port": 8000
+    },
+    {
+      "name": "Laravel Mix (npm watch)",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "watch"],
+      "port": 8080
+    },
+    {
+      "name": "Laravel Mix Hot Reload",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "hot"],
+      "port": 8080
+    }
+  ]
+}
