@@ -227,6 +227,12 @@ class Sidebar extends Component
                         'permission' => 'viewAny-creditor',
                     ],
                     (object)[
+                        'title' => 'Debitor Cədvəli',
+                        'icon' => 'fas fa-file-invoice-dollar',
+                        'url' => route('debitors.index'),
+                        'permission' => 'viewAny-creditor',
+                    ],
+                    (object)[
                         'title' => trans('translates.navbar.accounts'),
                         'icon' => 'fas fa-money-check',
                         'url' => route('banks.index'),
