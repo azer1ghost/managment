@@ -56,7 +56,7 @@ class UserWorkMonthlyWidget extends Component
                 DB::raw("SUM(CASE WHEN works.service_id = 2 THEN work_parameter.value ELSE 0 END) AS total_qib")
             )
             ->groupBy('users.id', 'users.name', 'users.surname', 'users.department_id')
-            ->orderByDesc('total_value');
+            ->orderByDesc(DB::raw('SUM(work_parameter.value)'));
 
         if (isset($deptVisibilityMap[$userId])) {
             $query->whereIn('users.department_id', $deptVisibilityMap[$userId]);
