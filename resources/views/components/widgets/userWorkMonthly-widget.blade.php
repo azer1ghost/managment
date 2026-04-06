@@ -13,6 +13,14 @@
                         <div class="table-responsive mb-3 mb-md-0 mt-3">
                             <table class="table table-borderless report-table">
                                 @if(in_array(auth()->user()->company_id , [1,2,3,4,6,10,11,12,14,15,16]) )
+                                <thead>
+                                    <tr>
+                                        <td></td>
+                                        <td class="w-75 px-0"></td>
+                                        <td><small class="text-muted font-weight-bold">GB</small></td>
+                                        <td><small class="text-muted font-weight-bold">QİB</small></td>
+                                    </tr>
+                                </thead>
                                 @foreach($works as $work)
                                     <tr>
                                         <td class="text-dark bold">{{$work->name . ' ' .$work->surname}}</td>
