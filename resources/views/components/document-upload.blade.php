@@ -1,9 +1,9 @@
 <div>
     <form id="document-form" class="form-row" action="{{route('documents.store', $id)}}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="input-group col-12 col-md-6 @error('file') is-invalid @enderror">
+        <div class="input-group col-12 col-md-6 @error('files.*') is-invalid @enderror">
             <div class="custom-file" style="width: 350px !important;max-width: 100%">
-                <input type="file" name="file" id="document-file" class="custom-file-input" required>
+                <input type="file" name="files[]" id="document-file" class="custom-file-input" multiple required>
                 <label class="custom-file-label" for="document-file">@lang('translates.placeholders.choose_file')</label>
             </div>
             <div class="input-group-append">
@@ -12,7 +12,7 @@
             </div>
             <input type="hidden" name="model" value="{{$model}}">
         </div>
-        @error('file')
+        @error('files.*')
         <div class="invalid-feedback p-2">
             {{$message}}
         </div>
@@ -27,10 +27,13 @@
             $('#document-file').prop('readonly', true);
         });
 
-        // Add the following code if you want the name of the file appear on select
         $("#document-file").on("change", function() {
-            const fileName = $(this).val().split("\\").pop();
-            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            const files = this.files;
+            if (files.length > 1) {
+                $(this).siblings(".custom-file-label").addClass("selected").html(files.length + ' fayl seçildi');
+            } else if (files.length === 1) {
+                $(this).siblings(".custom-file-label").addClass("selected").html(files[0].name);
+            }
         });
     </script>
 @endpush
