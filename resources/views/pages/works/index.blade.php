@@ -779,8 +779,8 @@
                 $gb[] = $work->getParameter($work::GB);
                 $code[] =  $work->getParameter($work::CODE);
                 $serviceCount[] = $work->getParameter($work::SERVICECOUNT);
-                $sum_balance = array_sum($balance);
-                $sum_balance_tax = array_sum($balance_tax);
+                $sum_balance = array_sum(array_filter($balance, fn($b) => $b < 0));
+                $sum_balance_tax = array_sum(array_filter($balance_tax, fn($b) => $b < 0));
                 $total_payment[] = $sum_payment;
                 $total_tax[] = $sum_tax;
                 $sum_total_tax = array_sum($total_tax);
