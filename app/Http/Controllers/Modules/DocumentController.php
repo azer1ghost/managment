@@ -56,30 +56,32 @@ class DocumentController extends Controller
         $modelName = $request->get('model');
         $model =  ("App\\Models\\" . $modelName)::find($modelId);
         $authID = auth()->id() ? auth()->id() : 15;
-        $file = $request->file('file');
-        $fileName = $authID. '-' . config('default.prefix') .  time() . '.' . $file->getClientOriginalExtension();
-
         $firebaseStoragePath = "Documents/$modelName/";
+        $localFolder = storage_path('app/firebase-temp-uploads/');
+        $lastName = null;
 
-        $document = $model->documents()->create([
-            'name' => $file->getClientOriginalName(),
-            'file' => $fileName,
-            'type' => $file->getClientMimeType(),
-            'user_id'  => $authID,
-            'size'  => $file->getSize()
-        ]);
+        foreach ($request->file('files') as $file) {
+            $fileName = $authID . '-' . config('default.prefix') . time() . mt_rand(100, 999) . '.' . $file->getClientOriginalExtension();
 
-        if($document){
-            $localFolder = storage_path('app/firebase-temp-uploads/');
-            if ($file->move($localFolder, $fileName)) {
-                $uploadedFile = fopen($localFolder . $fileName, 'r');
-                (new FirebaseApi)->getDoc()->upload($uploadedFile, ['name' => $firebaseStoragePath . $fileName]);
-                // will remove from storage folder
-                unlink($localFolder . $fileName);
+            $document = $model->documents()->create([
+                'name' => $file->getClientOriginalName(),
+                'file' => $fileName,
+                'type' => $file->getClientMimeType(),
+                'user_id'  => $authID,
+                'size'  => $file->getSize()
+            ]);
+
+            if ($document) {
+                if ($file->move($localFolder, $fileName)) {
+                    $uploadedFile = fopen($localFolder . $fileName, 'r');
+                    (new FirebaseApi)->getDoc()->upload($uploadedFile, ['name' => $firebaseStoragePath . $fileName]);
+                    unlink($localFolder . $fileName);
+                }
+                $lastName = $document->getAttribute('name');
             }
         }
 
-        return back()->withNotify('success', $document->getAttribute('name'));
+        return back()->withNotify('success', $lastName);
     }
 
     public function show(Document $document)
