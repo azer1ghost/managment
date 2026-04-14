@@ -14,7 +14,7 @@ class DocumentRequest extends FormRequest
         return [
             'name' => "$name|string",
             'files' => "$file|array",
-            'files.*' => "$file|mimes:jpeg,jpg,png,doc,docx,pdf,xls,xlsx|max:20480",
+            'files.*' => "$file|mimes:jpeg,jpg,png,doc,docx,pdf,xls,xlsx,ppt,pptx|max:20480",
             'model' => "$file|string",
         ];
     }
