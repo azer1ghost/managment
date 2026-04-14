@@ -46,7 +46,10 @@ class Document extends Model implements Recordable
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => ['icon' => 'word', 'color' => 'primary'],
             // excel
             'application/vnd.ms-excel' => ['icon' => 'excel', 'color' => 'success'],
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => ['icon' => 'excel', 'color' => 'success']
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => ['icon' => 'excel', 'color' => 'success'],
+            // powerpoint
+            'application/vnd.ms-powerpoint' => ['icon' => 'powerpoint', 'color' => 'warning'],
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation' => ['icon' => 'powerpoint', 'color' => 'warning']
         ];
     }
 
