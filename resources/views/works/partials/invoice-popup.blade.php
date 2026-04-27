@@ -273,7 +273,6 @@
 </div>
 @endif
 
-@if($hasInvoiceCode)
 <!-- Unified Payment Panel -->
 <div class="payment-panel">
     <h5 class="mb-3">Birləşdirilmiş Ödəniş Paneli</h5>
@@ -361,7 +360,6 @@
         </div>
     </form>
 </div>
-@endif
 
 <!-- Invoice Summary Panel (shown for all works) -->
 <div class="invoice-summary-panel mb-3">
@@ -1061,12 +1059,25 @@
         if ($('#paymentType').length === 0) {
             return; // Payment panel not available
         }
-        
+
         const invoiceCode = '{{ $invoiceCode ?? "" }}';
-        
-        if (!invoiceCode) {
-            $('#applyPayment').prop('disabled', true).attr('title', 'Invoice code not available');
-            return;
+
+        // Get work IDs from available hidden inputs (bank: #currentWorkIds, cash: #bulkWorkIds)
+        let workIds = [];
+        const workIdsStr = $('#currentWorkIds').val() || $('#bulkWorkIds').val();
+        if (workIdsStr) {
+            try { workIds = JSON.parse(workIdsStr); } catch(e) {}
+        }
+
+        // Helper: build request payload using invoice code or work IDs
+        function buildPayload(extra) {
+            const payload = Object.assign({ _token: '{{ csrf_token() }}' }, extra);
+            if (invoiceCode) {
+                payload.invoice = invoiceCode;
+            } else {
+                payload.work_ids = workIds;
+            }
+            return payload;
         }
         
         // Show/hide partial fields based on payment type
@@ -1092,113 +1103,74 @@
         // Handle Clear Main Payment Date button
         $('#clearMainPaymentDate').on('click', function() {
             if (confirm('Əsas ödəniş tarixini təmizləmək istədiyinizə əminsiniz?')) {
-                const invoiceCode = '{{ $invoiceCode ?? "" }}';
-                
                 $.ajax({
                     url: '{{ route("works.clear-invoice-dates") }}',
                     method: 'POST',
                     dataType: 'json',
-                    data: {
-                        invoice: invoiceCode,
-                        date_type: 'main', // Clear only main payment date
-                        _token: '{{ csrf_token() }}'
-                    },
+                    data: buildPayload({ date_type: 'main' }),
                     success: function(res) {
                         if (res.success) {
-                            // Clear the date input value
-                            $('#globalMainPaymentDate').val(null).removeAttr('value');
-                            // Remove required attribute when cleared
-                            $('#globalMainPaymentDate').removeAttr('required');
+                            $('#globalMainPaymentDate').val(null).removeAttr('value').removeAttr('required');
                             alert('Əsas ödəniş tarixi uğurla təmizləndi!');
-                            // Refresh modal content
-                            refreshModalContent(invoiceCode);
+                            refreshModalContent(invoiceCode, workIds);
                         } else {
                             alert('Xəta: ' + (res.error || 'Tarixi təmizləmək mümkün olmadı'));
                         }
                     },
                     error: function(xhr) {
-                        let errorMsg = 'Xəta baş verdi';
-                        if (xhr.responseJSON && xhr.responseJSON.error) {
-                            errorMsg = xhr.responseJSON.error;
-                        }
-                        alert('Xəta: ' + errorMsg);
+                        alert('Xəta: ' + (xhr.responseJSON && xhr.responseJSON.error ? xhr.responseJSON.error : 'Xəta baş verdi'));
                     }
                 });
             }
         });
-        
+
         // Handle Clear VAT Payment Date button
         $('#clearVatPaymentDate').on('click', function() {
             if (confirm('ƏDV ödəniş tarixini təmizləmək istədiyinizə əminsiniz?')) {
-                const invoiceCode = '{{ $invoiceCode ?? "" }}';
-                
                 $.ajax({
                     url: '{{ route("works.clear-invoice-dates") }}',
                     method: 'POST',
                     dataType: 'json',
-                    data: {
-                        invoice: invoiceCode,
-                        date_type: 'vat', // Clear only VAT payment date
-                        _token: '{{ csrf_token() }}'
-                    },
+                    data: buildPayload({ date_type: 'vat' }),
                     success: function(res) {
                         if (res.success) {
-                            // Clear the date input value
-                            $('#globalVatPaymentDate').val(null).removeAttr('value');
-                            // Remove required attribute when cleared
-                            $('#globalVatPaymentDate').removeAttr('required');
+                            $('#globalVatPaymentDate').val(null).removeAttr('value').removeAttr('required');
                             alert('ƏDV ödəniş tarixi uğurla təmizləndi!');
-                            // Refresh modal content
-                            refreshModalContent(invoiceCode);
+                            refreshModalContent(invoiceCode, workIds);
                         } else {
                             alert('Xəta: ' + (res.error || 'Tarixi təmizləmək mümkün olmadı'));
                         }
                     },
                     error: function(xhr) {
-                        let errorMsg = 'Xəta baş verdi';
-                        if (xhr.responseJSON && xhr.responseJSON.error) {
-                            errorMsg = xhr.responseJSON.error;
-                        }
-                        alert('Xəta: ' + errorMsg);
+                        alert('Xəta: ' + (xhr.responseJSON && xhr.responseJSON.error ? xhr.responseJSON.error : 'Xəta baş verdi'));
                     }
                 });
             }
         });
-        
+
         // Handle Clear All Payments button
         $('#clearAllPayments').on('click', function() {
             if (confirm('BÜTÜN ödənilmiş məbləğləri təmizləmək istədiyinizə əminsiniz? Bu, bütün tapşırıqları ödənilməmiş vəziyyətə qaytaracaq.')) {
-                const invoiceCode = '{{ $invoiceCode ?? "" }}';
-                
-                // Disable button and show loading
                 const $button = $(this);
                 const originalText = $button.html();
                 $button.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Təmizlənir...');
-                
+
                 $.ajax({
                     url: '{{ route("works.clear-all-payments") }}',
                     method: 'POST',
                     dataType: 'json',
-                    data: {
-                        invoice: invoiceCode,
-                        _token: '{{ csrf_token() }}'
-                    },
+                    data: buildPayload({}),
                     success: function(res) {
                         if (res.success) {
                             alert('Bütün ödənişlər uğurla təmizləndi!');
-                            // Refresh modal content
-                            refreshModalContent(invoiceCode);
+                            refreshModalContent(invoiceCode, workIds);
                         } else {
                             alert('Xəta: ' + (res.error || 'Ödənişləri təmizləmək mümkün olmadı'));
                             $button.prop('disabled', false).html(originalText);
                         }
                     },
                     error: function(xhr) {
-                        let errorMsg = 'Xəta baş verdi';
-                        if (xhr.responseJSON && xhr.responseJSON.error) {
-                            errorMsg = xhr.responseJSON.error;
-                        }
-                        alert('Xəta: ' + errorMsg);
+                        alert('Xəta: ' + (xhr.responseJSON && xhr.responseJSON.error ? xhr.responseJSON.error : 'Xəta baş verdi'));
                         $button.prop('disabled', false).html(originalText);
                     }
                 });
@@ -1273,40 +1245,32 @@
                     return;
                 }
             }
-            
-            if (!invoiceCode) {
-                alert('Qaimə nömrəsi tapılmadı.');
+
+            if (!invoiceCode && workIds.length === 0) {
+                alert('Qaimə nömrəsi və ya iş ID-ləri tapılmadı.');
                 return;
             }
-            
+
             // Disable button and show loading
             const $button = $(this);
             const originalText = $button.html();
             $button.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> İşlənir...');
-            
-            // Prepare data - send both dates separately
-            const data = {
-                invoice: invoiceCode,
-                paymentType: paymentType,
-                mainPaymentDate: mainPaymentDate,
-                vatPaymentDate: vatPaymentDate,
-                partialMain: partialMain,
-                partialVat: partialVat,
-                _token: '{{ csrf_token() }}'
-            };
-            
+
             $.ajax({
                 url: '{{ route("works.apply-unified-payment") }}',
                 method: 'POST',
                 dataType: 'json',
-                data: data,
+                data: buildPayload({
+                    paymentType: paymentType,
+                    mainPaymentDate: mainPaymentDate,
+                    vatPaymentDate: vatPaymentDate,
+                    partialMain: partialMain,
+                    partialVat: partialVat,
+                }),
                 success: function(res) {
                     if (res.success) {
-                        // Show success message
                         alert('Ödəniş ' + res.affected_works + ' tapşırığa uğurla tətbiq edildi!');
-                        
-                        // Refresh modal content
-                        refreshModalContent(invoiceCode);
+                        refreshModalContent(invoiceCode, workIds);
                     } else {
                         alert('Xəta: ' + (res.error || 'Ödəniş tətbiq edilmədi'));
                         $button.prop('disabled', false).html(originalText);
