@@ -29,6 +29,9 @@
                 <a href="{{ route('pdf-signature.index') }}" class="btn btn-primary col-5 m-2">
                     <i class="fas fa-file-signature"></i> PDF İmza Əlavə Et
                 </a>
+                <a href="{{ route('service-types.index') }}" class="btn btn-warning col-5 m-2">
+                    <i class="fas fa-list"></i> Xidmət Növlərini İdarə Et
+                </a>
             </div>
             <h3>Rekvizitlər</h3>
             <div class="row col-12 justify-content-center">
@@ -170,62 +173,9 @@
                         <td id="loginput"><input type="text" class="form-control" id="input1l"></td>
                         <td id="brokerinput">
                             <select id="input1" class="form-control">
-                                <option>Elektron GB-nin tərtib olunması xidməti</option>
-                                <option>Elektron Qısa İdxal GB-nin tərtib olunması xidməti</option>
-                                <option>CMR-in tərtib olunması xidməti</option>
-                                <option>TIRCARNET-in tərtib olunması xidməti</option>
-                                <option>Gömrük kodunun müəyyən edilməsi</option>
-                                <option>Gömrük rəsmiləşdirilməsi üçün lazım olan sənədlərin hazırlanması</option>
-                                <option>Gömrük rəsmiləşdirilməsi üçün lazım olan sənədlərin çeşidlənməsi</option>
-                                <option>Təmsil etdiyi şəxsin tapşırığı əsasında yüklərin və nəqliyyat vasitələrinin tam gömrük rəsmiləşdirilməsi</option>
-                                <option>Təmsil etdiyi şəxsin tapşırığı əsasında nəqliyyat vasitələrinin tam gömrük rəsmiləşdirilməsi(Tranzit qeydiyyat nişanının alınması)</option>
-                                <option>Gömrük rüsumlarının əvvəlcədən hesablanması</option>
-                                <option>Təmsilçilik xidməti</option>
-                                <option>Təmsilçilik (Sertifikatın alınması)</option>
-                                <option>Təmsilçilik (Tələb Olunan Sertifikatın alınması)</option>
-                                <option>Qismən Təmsilçilik xidməti</option>
-                                <option>Printerlərə texniki baxışın göstərilməsi</option>
-                                <option>Serverlərə texniki baxışın göstərilməsi</option>
-                                <option>Kompüterlərə texniki baxışın göstərilməsi</option>
-                                <option>İnvoysun Hazırlanması</option>
-                                <option>Məktubların hazırlanması</option>
-                                <option>Təmsil etdiyi şəxsin etibarnaməsi əsasında yüklərin gömrük anbarından çıxarılması</option>
-                                <option>Təmsil etdiyi şəxsin tapşırığı əsasında nəqliyyat vasitələrinin çıxarılması</option>
-                                <option>Gömrük rəsmiləşdirilməsinin həyata keçirilməsi zamanı gömrük məmuru ilə əlaqə yaradılması xidməti</option>
-                                <option>Gömrük rəsmiləşdirilməsi üçün lazım olan sənədlərin yoxlanılması</option>
-                                <option>Konsultasiya xidməti</option>
-                                <option>Çəki listi(Packing List) Tərtib olunması</option>
-                                <option>Ərazi Xərci</option>
-                                <option>Gömrük təmsilçiliyi xidməti</option>
-                                <option>Etibarnamənin tərtib olunması</option>
-                                <option>Anbar və Terminal ödənişi</option>
-                                <option>Elektron Qısa İdxal GB-nin tərtib olunması xidməti (Əsas Vərəq)</option>
-                                <option>Elektron Qısa İdxal GB-nin tərtib olunması xidməti (Əlavə Vərəq)</option>
-                                <option>Sadələşdirilmiş Bəyannamə</option>
-                                <option>Gömrükxana xidməti və Elektron Gömrük Bəyannamələrinin tərtib olunması</option>
-                                <option>Subicarə xidməti</option>
-                                <option>Yüklərin təhvil-təslim aktı əsasında ünvana çatdırılması xidməti(Bakı şəhəri üzrə)</option>
-                                <option>Digər xidmət</option>
-                                <option>Elektron GB-nin tərtib olunması(əsas vərəq)</option>
-                                <option>Elektron GB-nin tərtib olunması(əlavə vərəq)</option>
-                                <option>Ərazi Xərci və Digər Ödənişlər</option>
-                                <option>Laboratoriya təmsilçiliyi</option>
-                                <option>Texniki xidmətlərin göstərilməsi</option>
-                                <option>Təsdiq edici sənəd hazırlanması xidməti</option>
-                                <option>Gigiyenik sertifikatın alınması xidməti</option>
-                                <option>AQTA sertifikatın alınması üçün müraciət xidməti</option>
-                                <option>Mənşə sertifikatı üçün müraciət xidməti</option>
-                                <option>Müvəqqəti saxlanc bəyannaməsinin tərtib olunması xidməti</option>
-                                <option>Müvəqqəti idxal ərizəsinin yazılması xidməti</option>
-                                <option>İnvoys ərizəsinin yazılması xidməti</option>
-                                <option>Barkod dəyişdirilməsi ərizəsinin yazılması xidməti</option>
-                                <option>Ad dəyişmə ərizəsinin yazılması İdxalatçının adı xidməti</option>
-                                <option>Gömrük idarəsinin (təyinat) dəyişdirilməsi ərizəsinin yazılması</option>
-                                <option>Öhdəlik ərizəsinin yazılması xidməti</option>
-                                <option>Laboratoriya ərizəsinin (şəxsi müraciət əsasında) yazılması xidməti</option>
-                                <option>Ümumi düzəliş ərizəsinin yazılması xidməti</option>
-                                <option>Gömrük bəyannaməsi, invoys və digər xərclər əsas götürülərək maya dəyərinin dəqiq hesablanması xidməti</option>
-                                <option>Təsdiqedici sənəd üçün müraciət</option>
+                                @foreach($serviceTypes as $serviceType)
+                                    <option>{{ $serviceType }}</option>
+                                @endforeach
                             </select>
                         </td>
                         <td>Ədəd</td>

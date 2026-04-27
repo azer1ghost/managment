@@ -35,6 +35,7 @@ use App\Http\Controllers\{Auth\EmailVerificationController,
     Modules\EmployeeRegistrationController,
     Modules\EmployeeSatisfactionController,
     Modules\FinanceClientController,
+    Modules\ServiceTypeController,
     Modules\FolderController,
     Modules\PdfSignatureController,
     Modules\FundController,
@@ -336,6 +337,10 @@ Route::group([
     Route::get('/invoices/{id}/restore',[FinanceClientController::class, 'restoreInvoice'] )->name('invoices.restore');
     Route::get('/invoices/{id}/force-delete',[FinanceClientController::class, 'forceDeleteInvoice'] )->name('invoices.force-delete');
     Route::post('/signInvoice',[FinanceClientController::class, 'signInvoice'] )->name('signInvoice');
+    Route::get('/service-types', [ServiceTypeController::class, 'index'])->name('service-types.index');
+    Route::post('/service-types', [ServiceTypeController::class, 'store'])->name('service-types.store');
+    Route::delete('/service-types/{serviceType}', [ServiceTypeController::class, 'destroy'])->name('service-types.destroy');
+    Route::get('/service-types/list', [ServiceTypeController::class, 'list'])->name('service-types.list');
     
     // PDF Signature Stamping
     Route::get('/finance/pdf-signature', [PdfSignatureController::class, 'index'])->name('pdf-signature.index');
