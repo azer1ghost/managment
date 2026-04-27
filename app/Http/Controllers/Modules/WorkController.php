@@ -2170,14 +2170,15 @@ class WorkController extends Controller
     {
         try {
             $invoiceCode = $request->input('invoice');
+            $workIds = $request->input('work_ids', []);
             $paymentType = $request->input('paymentType');
             $mainPaymentDate = $request->input('mainPaymentDate');
             $vatPaymentDate = $request->input('vatPaymentDate');
             $partialMain = (float)($request->input('partialMain') ?? 0);
             $partialVat = (float)($request->input('partialVat') ?? 0);
 
-            if (!$invoiceCode || !$paymentType) {
-                return response()->json(['error' => 'Invoice code and payment type are required'], 400);
+            if ((!$invoiceCode && empty($workIds)) || !$paymentType) {
+                return response()->json(['error' => 'Invoice code (or work IDs) and payment type are required'], 400);
             }
             
             // Validate payment dates are provided
@@ -2202,13 +2203,17 @@ class WorkController extends Controller
                 return response()->json(['error' => 'Yanlış ƏDV ödəniş tarixi formatı. Gözlənilən format: YYYY-MM-DD.'], 422);
             }
 
-            // Fetch all works with the same invoice code (load service for company_id)
-            $works = Work::with('parameters', 'service')
-                ->where('code', $invoiceCode)
-                ->get();
+            // Fetch works by invoice code or by IDs
+            $worksQuery = Work::with('parameters', 'service');
+            if ($invoiceCode) {
+                $worksQuery->where('code', $invoiceCode);
+            } else {
+                $worksQuery->whereIn('id', $workIds);
+            }
+            $works = $worksQuery->get();
 
             if ($works->isEmpty()) {
-                return response()->json(['error' => 'No works found for this invoice'], 404);
+                return response()->json(['error' => 'No works found'], 404);
             }
 
             // Payment date is already validated and parsed above
@@ -2426,15 +2431,20 @@ class WorkController extends Controller
     {
         try {
             $invoiceCode = $request->input('invoice');
+            $workIds = $request->input('work_ids', []);
 
-            if (!$invoiceCode) {
-                return response()->json(['error' => 'Invoice code is required'], 400);
+            if (!$invoiceCode && empty($workIds)) {
+                return response()->json(['error' => 'Invoice code or work IDs are required'], 400);
             }
 
-            // Fetch all works with the same invoice code
-            $works = Work::with('parameters')
-                ->where('code', $invoiceCode)
-                ->get();
+            // Fetch works by invoice code or by IDs
+            $query = Work::with('parameters');
+            if ($invoiceCode) {
+                $query->where('code', $invoiceCode);
+            } else {
+                $query->whereIn('id', $workIds);
+            }
+            $works = $query->get();
 
             if ($works->isEmpty()) {
                 return response()->json(['error' => 'No works found for this invoice'], 404);
@@ -2482,14 +2492,20 @@ class WorkController extends Controller
     {
         try {
             $invoiceCode = $request->input('invoice');
+            $workIds = $request->input('work_ids', []);
             $dateType = $request->input('date_type'); // 'main', 'vat', or null (both)
 
-            if (!$invoiceCode) {
-                return response()->json(['error' => 'Invoice code is required'], 400);
+            if (!$invoiceCode && empty($workIds)) {
+                return response()->json(['error' => 'Invoice code or work IDs are required'], 400);
             }
 
-            // Fetch all works with the same invoice code
-            $works = Work::where('code', $invoiceCode)->get();
+            $query = Work::query();
+            if ($invoiceCode) {
+                $query->where('code', $invoiceCode);
+            } else {
+                $query->whereIn('id', $workIds);
+            }
+            $works = $query->get();
 
             if ($works->isEmpty()) {
                 return response()->json(['error' => 'No works found for this invoice'], 404);
