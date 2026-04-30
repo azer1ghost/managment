@@ -297,6 +297,54 @@
                 @endif
             </table>
         </div>
+
+        {{-- Filial üzrə xidmət qiymətləri --}}
+        @if($method !== 'POST' && isset($priceDepartments) && $priceDepartments->isNotEmpty())
+        <div class="col-12 mt-4">
+            <h6 class="font-weight-bold mb-2">Filial üzrə xidmət qiymətləri</h6>
+            <ul class="nav nav-tabs" id="deptPriceTabs">
+                @foreach($priceDepartments as $dept)
+                    <li class="nav-item">
+                        <a class="nav-link {{ $loop->first ? 'active' : '' }}"
+                           data-toggle="tab"
+                           href="#dept-{{ $dept->id }}">
+                            {{ $dept->short_name ?? $dept->name }}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+            <div class="tab-content border border-top-0 p-3">
+                @foreach($priceDepartments as $dept)
+                    <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="dept-{{ $dept->id }}">
+                        <table class="table table-sm table-bordered mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Xidmət</th>
+                                    <th style="width:180px">Qiymət</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($allServices as $service)
+                                    <tr>
+                                        <td>{{ $service->name }}</td>
+                                        <td>
+                                            <input type="text"
+                                                   class="form-control form-control-sm dept-service-input"
+                                                   data-dept="{{ $dept->id }}"
+                                                   data-service="{{ $service->id }}"
+                                                   name="dept_services[{{ $dept->id }}][{{ $service->id }}][amount]"
+                                                   value="{{ $deptPrices[$dept->id][$service->id] ?? '' }}"
+                                                   placeholder="—">
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
         @php
             $user = $data->getRelationValue('users');
         @endphp

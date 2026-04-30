@@ -233,12 +233,22 @@ class ClientController extends Controller
 
     public function edit(Client $client)
     {
-
         if ($client->services()->where('client_id', $client->id)->first()) {
             $services = $client->getRelationValue('services');
         } else {
             $services = Service::get(['id', 'name']);
         }
+
+        $priceDepartments = Department::whereIn('id', [11, 12, 13])->get(['id', 'name', 'short_name']);
+
+        $deptPrices = [];
+        foreach ($priceDepartments as $dept) {
+            $deptPrices[$dept->id] = $client->servicesForDepartment($dept->id)
+                ->get(['services.id', 'services.name'])
+                ->pluck('pivot.amount', 'id');
+        }
+
+        $allServices = Service::orderBy('ordering')->get(['id', 'name']);
 
         return view('pages.clients.edit')
             ->with([
@@ -249,6 +259,9 @@ class ClientController extends Controller
                 'users' => User::get(['id', 'name', 'surname']),
                 'engagement' => CustomerEngagement::where('client_id', $client->id)->first(),
                 'services' => $services,
+                'allServices' => $allServices,
+                'priceDepartments' => $priceDepartments,
+                'deptPrices' => $deptPrices,
                 'channels' => $client->channels(),
                 'payment_methods' => $client->paymentMethods(),
             ]);
@@ -259,16 +272,48 @@ class ClientController extends Controller
         $services = $request->get('services');
 
         foreach ($services ?? [] as $service_id => $data) {
-            $client = Client::find($data['client_id']);
+            $pivotClient = Client::find($data['client_id']);
 
-            $pivotData = $client->services()
+            $pivotData = $pivotClient->services()
                 ->where('client_service.service_id', $service_id)
+                ->whereNull('client_service.department_id')
                 ->first();
 
             if ($pivotData) {
-                $client->services()->updateExistingPivot($service_id, ['amount' => $data['amount']]);
+                DB::table('client_service')
+                    ->where('client_id', $pivotClient->id)
+                    ->where('service_id', $service_id)
+                    ->whereNull('department_id')
+                    ->update(['amount' => $data['amount']]);
             } else {
-                $client->services()->attach($service_id, ['amount' => $data['amount']]);
+                $pivotClient->services()->attach($service_id, ['amount' => $data['amount'], 'department_id' => null]);
+            }
+        }
+
+        // Per-department service prices
+        foreach ($request->get('dept_services', []) as $deptId => $deptServiceList) {
+            foreach ($deptServiceList as $serviceId => $data) {
+                $amount = $data['amount'] !== '' ? $data['amount'] : null;
+                $exists = DB::table('client_service')
+                    ->where('client_id', $client->id)
+                    ->where('service_id', $serviceId)
+                    ->where('department_id', $deptId)
+                    ->exists();
+
+                if ($exists) {
+                    DB::table('client_service')
+                        ->where('client_id', $client->id)
+                        ->where('service_id', $serviceId)
+                        ->where('department_id', $deptId)
+                        ->update(['amount' => $amount]);
+                } else {
+                    DB::table('client_service')->insert([
+                        'client_id' => $client->id,
+                        'service_id' => $serviceId,
+                        'department_id' => $deptId,
+                        'amount' => $amount,
+                    ]);
+                }
             }
         }
 
