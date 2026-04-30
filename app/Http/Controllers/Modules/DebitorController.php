@@ -27,6 +27,7 @@ class DebitorController extends Controller
             'payment_method'     => $request->get('payment_method'),
             'invoiced_date_from' => $request->get('invoiced_date_from'),
             'invoiced_date_to'   => $request->get('invoiced_date_to'),
+            'code'               => $request->get('code'),
         ];
 
         $limit = (int) $request->get('limit', 25);
@@ -76,6 +77,7 @@ class DebitorController extends Controller
             'payment_method'     => $request->get('payment_method'),
             'invoiced_date_from' => $request->get('invoiced_date_from'),
             'invoiced_date_to'   => $request->get('invoiced_date_to'),
+            'code'               => $request->get('code'),
         ];
 
         return (new DebitorsExport($filters))->download('debitors.xlsx');
@@ -128,6 +130,9 @@ class DebitorController extends Controller
         }
         if (!empty($filters['invoiced_date_to'])) {
             $query->where('w.invoiced_date', '<=', $filters['invoiced_date_to']);
+        }
+        if (!empty($filters['code'])) {
+            $query->where('w.code', 'LIKE', '%' . $filters['code'] . '%');
         }
 
         return $query->get()->map(function ($row) {

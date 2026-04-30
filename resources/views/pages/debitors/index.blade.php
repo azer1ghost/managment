@@ -45,7 +45,7 @@
 
             {{-- Müştəri --}}
             <div class="col-md-3 mb-2">
-                <select name="client_id" class="form-control">
+                <select name="client_id" id="debitorClientFilter" class="form-control select2" style="width:100%">
                     <option value="">Müştəri</option>
                     @foreach($clients as $client)
                         <option value="{{ $client->id }}"
@@ -77,6 +77,13 @@
                     <option value="Bağlı"  {{ $filters['debitor_status'] == 'Bağlı'  ? 'selected' : '' }}>Bağlı</option>
                     <option value="Qismən" {{ $filters['debitor_status'] == 'Qismən' ? 'selected' : '' }}>Qismən</option>
                 </select>
+            </div>
+
+            {{-- Qaimə nömrəsi --}}
+            <div class="col-md-2 mb-2">
+                <input type="text" name="code" class="form-control"
+                       placeholder="Qaimə nömrəsi"
+                       value="{{ $filters['code'] }}">
             </div>
 
             {{-- Tarix aralığı --}}
@@ -161,7 +168,7 @@
                             <td>{{ $row->client_name ?? '-' }}</td>
                             <td>
                                 @if($row->code)
-                                    <a href="{{ route('works.index', ['search' => $row->code]) }}"
+                                    <a href="{{ route('works.index', ['code' => $row->code]) }}"
                                        target="_blank" class="qaime-link">
                                         {{ $row->code }}
                                     </a>
@@ -219,4 +226,16 @@
             {{ $works->appends(request()->input())->links() }}
         </div>
     </div>
+@endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function () {
+        $('#debitorClientFilter').select2({
+            placeholder: 'Müştəri',
+            allowClear: true,
+            language: { noResults: function () { return 'Tapılmadı'; } }
+        });
+    });
+</script>
 @endsection
