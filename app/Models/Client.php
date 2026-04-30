@@ -146,7 +146,14 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
     public function services(): BelongsToMany
     {
         return $this->belongsToMany(Service::class, 'client_service')
-            ->withPivot('amount');
+            ->withPivot('amount', 'department_id');
+    }
+
+    public function servicesForDepartment(int $departmentId): BelongsToMany
+    {
+        return $this->belongsToMany(Service::class, 'client_service')
+            ->wherePivot('department_id', $departmentId)
+            ->withPivot('amount', 'department_id');
     }
 
     public function works(): HasMany
