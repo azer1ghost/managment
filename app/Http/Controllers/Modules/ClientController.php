@@ -242,10 +242,16 @@ class ClientController extends Controller
         $priceDepartments = Department::whereIn('id', [11, 12, 13])->get(['id', 'name', 'short_name']);
 
         $deptPrices = [];
+        $deptPapers = [];
         foreach ($priceDepartments as $dept) {
             $deptPrices[$dept->id] = $client->servicesForDepartment($dept->id)
                 ->get(['services.id', 'services.name'])
                 ->pluck('pivot.amount', 'id');
+
+            $deptPapers[$dept->id] = DB::table('client_department_prices')
+                ->where('client_id', $client->id)
+                ->where('department_id', $dept->id)
+                ->first();
         }
 
         $allServices = Service::orderBy('ordering')->get(['id', 'name']);
@@ -262,6 +268,7 @@ class ClientController extends Controller
                 'allServices' => $allServices,
                 'priceDepartments' => $priceDepartments,
                 'deptPrices' => $deptPrices,
+                'deptPapers' => $deptPapers,
                 'channels' => $client->channels(),
                 'payment_methods' => $client->paymentMethods(),
             ]);
@@ -287,6 +294,31 @@ class ClientController extends Controller
                     ->update(['amount' => $data['amount']]);
             } else {
                 $pivotClient->services()->attach($service_id, ['amount' => $data['amount'], 'department_id' => null]);
+            }
+        }
+
+        // Per-department main_paper / qibmain_paper
+        foreach ($request->get('dept_papers', []) as $deptId => $papers) {
+            $exists = DB::table('client_department_prices')
+                ->where('client_id', $client->id)
+                ->where('department_id', $deptId)
+                ->exists();
+
+            if ($exists) {
+                DB::table('client_department_prices')
+                    ->where('client_id', $client->id)
+                    ->where('department_id', $deptId)
+                    ->update([
+                        'main_paper'    => $papers['main_paper'] !== '' ? $papers['main_paper'] : null,
+                        'qibmain_paper' => $papers['qibmain_paper'] !== '' ? $papers['qibmain_paper'] : null,
+                    ]);
+            } else {
+                DB::table('client_department_prices')->insert([
+                    'client_id'     => $client->id,
+                    'department_id' => $deptId,
+                    'main_paper'    => $papers['main_paper'] !== '' ? $papers['main_paper'] : null,
+                    'qibmain_paper' => $papers['qibmain_paper'] !== '' ? $papers['qibmain_paper'] : null,
+                ]);
             }
         }
 

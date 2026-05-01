@@ -747,17 +747,17 @@ class WorkController extends Controller
             $work->parameters()->updateExistingPivot($work::VAT, ['value' => $vat]);
         } else if (in_array($request->get('service_id'), [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48])) {
             $client = $work->getRelationValue('client');
-            $mainPaper = $client->getAttribute('main_paper');
+            $mainPaper = $client->getMainPaperForDept((int) $work->department_id);
             $amount = null;
-            
+
             if ($mainPaper > 0) {
                 $amount = (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($mainPaper * $work->getParameter($work::MAINPAGE));
             } else {
                 $amount = Work::getClientServiceAmount($work) * $work->getParameter($work::GB) + $mainPaper;
             }
-            
+
             $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => $amount]);
-            
+
             // VAT hesablaması - Company-nin has_no_vat statusuna görə
             $asanImza = $work->asanImza;
             $vat = 0;
@@ -767,17 +767,17 @@ class WorkController extends Controller
             $work->parameters()->updateExistingPivot($work::VAT, ['value' => $vat]);
         } else if (in_array($request->get('service_id'), [2])) {
             $client = $work->getRelationValue('client');
-            $qibPaper = $client->getAttribute('qibmain_paper');
+            $qibPaper = $client->getQibPaperForDept((int) $work->department_id);
             $amount = null;
-            
+
             if ($qibPaper > 0) {
                 $amount = (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($qibPaper * $work->getParameter($work::MAINPAGE));
             } else {
                 $amount = Work::getClientServiceAmount($work) * $work->getParameter($work::GB) + $qibPaper;
             }
-            
+
             $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => $amount]);
-            
+
             // VAT hesablaması - Company-nin has_no_vat statusuna görə
             $asanImza = $work->asanImza;
             $vat = 0;
@@ -1070,7 +1070,7 @@ class WorkController extends Controller
 
             // GB və MAINPAGE əsaslı xidmətlər
             elseif (in_array($serviceId, [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48])) {
-                $mainPaper = $client->main_paper;
+                $mainPaper = $client->getMainPaperForDept((int) $deptId);
                 if ($mainPaper > 0) {
                     if (in_array($asanImzaId, [22])) {
                         $amount = 0;
@@ -1093,7 +1093,7 @@ class WorkController extends Controller
 
             // QİB əsaslı xidmətlər
             elseif (in_array($serviceId, [2])) {
-                $qibPaper = $client->qibmain_paper;
+                $qibPaper = $client->getQibPaperForDept((int) $deptId);
                 if ($qibPaper > 0) {
                     if (in_array($asanImzaId, [22])) {
                         $amount = 0;
@@ -1363,7 +1363,7 @@ class WorkController extends Controller
         }
 
         elseif (in_array($serviceId, [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48])) {
-            $mainPaper = $client->main_paper;
+            $mainPaper = $client->getMainPaperForDept((int) $deptId);
             if ($mainPaper > 0) {
                 if (in_array($asanImzaId, [22])) {
                     $amount = 0;
@@ -1382,7 +1382,7 @@ class WorkController extends Controller
         }
 
         elseif (in_array($serviceId, [2])) {
-            $qibPaper = $client->qibmain_paper;
+            $qibPaper = $client->getQibPaperForDept((int) $deptId);
             if ($qibPaper > 0) {
                 if (in_array($asanImzaId, [22])) {
                     $amount = 0;
