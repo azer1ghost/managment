@@ -345,16 +345,28 @@ class Work extends Model implements DocumentableInterface, Recordable
     }
     public static function getClientServiceAmount($work)
     {
+        $deptId = $work->department_id;
+
+        if ($deptId) {
+            $clientService = DB::table('client_service')
+                ->where('client_id', $work->client_id)
+                ->where('service_id', $work->service_id)
+                ->where('department_id', $deptId)
+                ->first();
+
+            if ($clientService) {
+                return $clientService->amount;
+            }
+        }
+
+        // Fallback: ümumi qiymət (department_id olmayan)
         $clientService = DB::table('client_service')
             ->where('client_id', $work->client_id)
             ->where('service_id', $work->service_id)
+            ->whereNull('department_id')
             ->first();
 
-        if ($clientService) {
-            return $clientService->amount;
-        }
-
-        return null;
+        return $clientService?->amount;
     }
     public function customerEngagement()
     {

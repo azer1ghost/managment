@@ -324,6 +324,26 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr class="table-secondary">
+                                    <td><strong>Əsas Vərəq</strong></td>
+                                    <td>
+                                        <input type="text"
+                                               class="form-control form-control-sm"
+                                               name="dept_papers[{{ $dept->id }}][main_paper]"
+                                               value="{{ $deptPapers[$dept->id]->main_paper ?? '' }}"
+                                               placeholder="{{ $data->getAttribute('main_paper') ?? '—' }}">
+                                    </td>
+                                </tr>
+                                <tr class="table-secondary">
+                                    <td><strong>QIB Əsas Vərəq</strong></td>
+                                    <td>
+                                        <input type="text"
+                                               class="form-control form-control-sm"
+                                               name="dept_papers[{{ $dept->id }}][qibmain_paper]"
+                                               value="{{ $deptPapers[$dept->id]->qibmain_paper ?? '' }}"
+                                               placeholder="{{ $data->getAttribute('qibmain_paper') ?? '—' }}">
+                                    </td>
+                                </tr>
                                 @foreach($allServices as $service)
                                     <tr>
                                         <td>{{ $service->name }}</td>

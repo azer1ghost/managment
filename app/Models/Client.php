@@ -156,6 +156,24 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
             ->withPivot('amount', 'department_id');
     }
 
+    public function departmentPrice(int $deptId): ?object
+    {
+        return \Illuminate\Support\Facades\DB::table('client_department_prices')
+            ->where('client_id', $this->id)
+            ->where('department_id', $deptId)
+            ->first();
+    }
+
+    public function getMainPaperForDept(int $deptId): mixed
+    {
+        return $this->departmentPrice($deptId)?->main_paper ?? $this->getAttribute('main_paper');
+    }
+
+    public function getQibPaperForDept(int $deptId): mixed
+    {
+        return $this->departmentPrice($deptId)?->qibmain_paper ?? $this->getAttribute('qibmain_paper');
+    }
+
     public function works(): HasMany
     {
         return $this->hasMany(Work::class);
