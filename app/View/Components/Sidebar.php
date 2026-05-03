@@ -380,6 +380,12 @@ class Sidebar extends Component
                         'url' => route('selectCompany-salary'),
                         'permission' => 'viewAny-salary',
                     ],
+                    (object)[
+                        'title' => 'Tabel',
+                        'icon' => 'fas fa-table',
+                        'url' => route('attendance.index'),
+                        'permission' => 'viewAny-user',
+                    ],
                 ]
             ],
             (object)[

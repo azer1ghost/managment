@@ -67,6 +67,7 @@ use App\Http\Controllers\{Auth\EmailVerificationController,
     Modules\ReturnWorkController,
     Modules\RoleController,
     Modules\RoomController,
+    Modules\AttendanceController,
     Modules\SalaryController,
     Modules\SalaryReportController,
     Modules\SalesActivityController,
@@ -170,6 +171,14 @@ Route::group([
     Route::resource('/suppliers', SupplierController::class);
     Route::resource('/salaries', SalaryController::class);
     Route::resource('/salary-reports', SalaryReportController::class);
+
+    // Tabel (Attendance)
+    Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
+    Route::post('/attendance/store', [AttendanceController::class, 'store'])->name('attendance.store');
+    Route::post('/attendance/cell', [AttendanceController::class, 'updateCell'])->name('attendance.cell');
+    Route::post('/attendance/entitlement', [AttendanceController::class, 'updateEntitlement'])->name('attendance.entitlement');
+    Route::post('/attendance/holiday', [AttendanceController::class, 'storeHoliday'])->name('attendance.holiday.store');
+    Route::delete('/attendance/holiday/{holiday}', [AttendanceController::class, 'destroyHoliday'])->name('attendance.holiday.destroy');
     Route::resource('/certificates', CertificateController::class);
     Route::resource('/companies', CompanyController::class);
     Route::post('/companies/{company}/toggle-vat', [CompanyController::class, 'toggleVat'])->name('companies.toggle-vat');
