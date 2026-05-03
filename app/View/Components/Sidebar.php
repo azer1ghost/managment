@@ -332,6 +332,12 @@ class Sidebar extends Component
                         'permission' => 'viewAny-user',
                     ],
                     (object)[
+                        'title' => 'Tabel',
+                        'icon' => 'fas fa-table',
+                        'url' => route('attendance.index'),
+                        'permission' => 'viewAny-user',
+                    ],
+                    (object)[
                         'title' => __('translates.navbar.position'),
                         'icon' => 'fas fa-briefcase',
                         'url' => route('positions.index'),
@@ -379,12 +385,6 @@ class Sidebar extends Component
                         'icon' => 'fas fa-scroll',
                         'url' => route('selectCompany-salary'),
                         'permission' => 'viewAny-salary',
-                    ],
-                    (object)[
-                        'title' => 'Tabel',
-                        'icon' => 'fas fa-table',
-                        'url' => route('attendance.index'),
-                        'permission' => 'viewAny-user',
                     ],
                 ]
             ],
