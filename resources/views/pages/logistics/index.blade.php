@@ -223,6 +223,11 @@
             <th scope="col">@lang('translates.fields.user')</th>
             <th scope="col">@lang('translates.navbar.service')</th>
             <th scope="col">@lang('translates.general.transport_type')</th>
+            <th scope="col">Daşınma növü</th>
+            <th scope="col">İstiqamət</th>
+            <th scope="col">Vendor</th>
+            <th scope="col">İncoterms</th>
+            <th scope="col">Ödəniş statusu</th>
             <th scope="col">@lang('translates.fields.clientName')</th>
             @if(auth()->user()->hasPermission('update-logistics'))
                 @php
@@ -253,6 +258,22 @@
                 <td>{{$log->getRelationValue('user')->getAttribute('fullname_with_position')}}</td>
                 <td>{{$log->getRelationValue('service')->getAttribute('name')}}</td>
                 <td>{{trans('translates.transport_types.' . $log->getAttribute('transport_type'))}}</td>
+                <td>{{ $log->shipping_type === 'FTL_avia' ? 'FTL avia' : $log->shipping_type }}</td>
+                <td>
+                    @if($log->origin_country || $log->destination_country)
+                        {{ $log->origin_country }}{{ $log->origin_city ? ' / '.$log->origin_city : '' }}
+                        →
+                        {{ $log->destination_country }}{{ $log->destination_city ? ' / '.$log->destination_city : '' }}
+                    @endif
+                </td>
+                <td>{{ optional($log->vendor)->name }}</td>
+                <td>{{ $log->incoterms }}</td>
+                <td>
+                    @php $ps = $log->payment_status ?? 'unpaid'; @endphp
+                    <span class="badge {{ $ps === 'paid' ? 'badge-success' : ($ps === 'partial' ? 'badge-warning' : 'badge-danger') }}">
+                        {{ \App\Models\Logistics::PAYMENT_STATUSES[$ps] ?? '' }}
+                    </span>
+                </td>
                 <td data-toggle="tooltip" data-placement="bottom"
                     title="{{$log->getRelationValue('client')->getAttribute('fullname')}}">
                     {{mb_strimwidth($log->getRelationValue('client')->getAttribute('fullname'), 0, 20, '...')}}
