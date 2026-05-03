@@ -111,6 +111,14 @@
             <x-form-group class="pr-3 col-6 col-lg-6">
                 <x-form-input name="bonus" :label="__('translates.fields.bonus')"/>
             </x-form-group>
+            <x-form-group class="pr-3 col-6 col-lg-6">
+                <label class="col-form-label">İş rejimi (Tabel)</label>
+                <select name="work_schedule" class="form-control">
+                    <option value="5_day"      {{ optional($data)->work_schedule === '5_day'      ? 'selected' : '' }}>5 günlük — 8 saat/gün</option>
+                    <option value="6_day"      {{ optional($data)->work_schedule === '6_day'      ? 'selected' : '' }}>6 günlük — 7 saat/gün</option>
+                    <option value="6_day_half" {{ optional($data)->work_schedule === '6_day_half' ? 'selected' : '' }}>6 günlük yarım ştat — 3 saat/gün</option>
+                </select>
+            </x-form-group>
             @if($method != 'POST')
                 <div>
                     <p> GB Sayı: {{$gb}}</p>

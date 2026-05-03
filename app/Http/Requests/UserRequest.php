@@ -54,6 +54,7 @@ class UserRequest extends FormRequest
             'bonus' => 'nullable|string',
             'coefficient' => 'nullable|string',
             'qib_coefficient' => 'nullable|string',
+            'work_schedule' => 'nullable|in:5_day,6_day,6_day_half',
         ];
     }
 
