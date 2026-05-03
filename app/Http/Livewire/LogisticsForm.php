@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Logistics;
 use App\Models\Service;
+use App\Models\Supplier;
 use App\Models\User;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -14,8 +15,8 @@ class LogisticsForm extends Component
 {
     public ?Logistics $data;
     public ?string $method, $action;
-    public ?Collection $services,$users;
-    public array $statuses, $transportTypes;
+    public ?Collection $services, $users, $vendors;
+    public array $statuses, $transportTypes, $shippingTypes, $incoterms, $paymentStatuses, $countries;
     public array $selected = [
         'service_id' => '',
         'user_id' => '',
@@ -33,8 +34,13 @@ class LogisticsForm extends Component
         $this->services = Service::get(['id', 'name']);
         $this->statuses = Logistics::statuses();
         $this->transportTypes = Logistics::transportTypes();
+        $this->shippingTypes = Logistics::SHIPPING_TYPES;
+        $this->incoterms = Logistics::INCOTERMS;
+        $this->paymentStatuses = Logistics::PAYMENT_STATUSES;
+        $this->countries = Logistics::countries();
         $user = auth()->user();
         $this->users = User::get(['id', 'name', 'surname']);
+        $this->vendors = Supplier::orderBy('name')->get(['id', 'name']);
 
         foreach ($this->selected as $key => $selected) {
             if($key == 'service_id') {

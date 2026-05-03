@@ -11,8 +11,23 @@ class Logistics extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['reg_number', 'user_id', 'service_id', 'reference_id', 'client_id', 'transport_type', 'status', 'datetime', 'paid_at', 'number'];
+    protected $fillable = [
+        'reg_number', 'user_id', 'service_id', 'reference_id', 'client_id',
+        'transport_type', 'status', 'datetime', 'paid_at', 'number',
+        'origin_country', 'origin_city', 'destination_country', 'destination_city',
+        'vendor_id', 'payment_status', 'shipping_type', 'incoterms',
+    ];
     protected $dates = ['datetime', 'paid_at'];
+
+    const SHIPPING_TYPES = ['FTL', 'LTL', 'LCL', 'FCL', 'FTL_avia'];
+
+    const INCOTERMS = ['EXW', 'FCA', 'FAS', 'FOB', 'CFR', 'CIF', 'CPT', 'CIP', 'DAP', 'DPU', 'DDP'];
+
+    const PAYMENT_STATUSES = [
+        'unpaid'  => 'Ödənilməyib',
+        'partial' => 'Qismən ödənilib',
+        'paid'    => 'Ödənilib',
+    ];
 
     const PICKEDUP = 1;
     const INPROCESS = 2;
@@ -78,6 +93,22 @@ class Logistics extends Model
     public static function transportTypes(): array
     {
         return [1 => 1, 2, 3, 4];
+    }
+
+    public function vendor(): BelongsTo
+    {
+        return $this->belongsTo(Supplier::class, 'vendor_id')->withDefault();
+    }
+
+    public static function countries(): array
+    {
+        return [
+            'Azərbaycan','Türkiyə','Rusiya','Çin','Almaniya','İtaliya','Fransa','İspaniya',
+            'Niderland','Belçika','Polşa','Çexiya','Avstriya','İsveçrə','Macarıstan',
+            'Rumıniya','Bolqarıstan','Gürcüstan','Ukrayna','Belarus','Qazaxıstan',
+            'Özbəkistan','Türkmənistan','İran','BAƏ','Səudiyyə Ərəbistanı','Hindistan',
+            'Birləşmiş Krallıq','ABŞ','Digər',
+        ];
     }
 
 }

@@ -17,6 +17,14 @@ class LogisticsRequest extends FormRequest
             'transport_type' => 'integer|nullable',
             'status' => 'integer|nullable',
             'parameters' => 'nullable|array',
+            'origin_country' => 'nullable|string|max:100',
+            'origin_city' => 'nullable|string|max:100',
+            'destination_country' => 'nullable|string|max:100',
+            'destination_city' => 'nullable|string|max:100',
+            'vendor_id' => 'nullable|integer|exists:suppliers,id',
+            'payment_status' => 'nullable|in:unpaid,partial,paid',
+            'shipping_type' => 'nullable|in:FTL,LTL,LCL,FCL,FTL_avia',
+            'incoterms' => 'nullable|string|max:10',
         ];
     }
 }

@@ -50,6 +50,91 @@
                     </select>
                 </div>
 
+                {{-- ── Daşınma növü ─────────────────────────────── --}}
+                <div class="form-group col-12 col-md-6" wire:ignore>
+                    <label for="data-shipping_type">Daşınma növü</label>
+                    <select name="shipping_type" id="data-shipping_type" class="form-control">
+                        <option value="">— Seçin —</option>
+                        @foreach($shippingTypes as $type)
+                            <option value="{{ $type }}" {{ optional($data)->shipping_type === $type ? 'selected' : '' }}>
+                                {{ $type === 'FTL_avia' ? 'FTL avia' : $type }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                {{-- ── İncoterms ────────────────────────────────── --}}
+                <div class="form-group col-12 col-md-3" wire:ignore>
+                    <label for="data-incoterms">İncoterms</label>
+                    <select name="incoterms" id="data-incoterms" class="form-control">
+                        <option value="">— Seçin —</option>
+                        @foreach($incoterms as $term)
+                            <option value="{{ $term }}" {{ optional($data)->incoterms === $term ? 'selected' : '' }}>
+                                {{ $term }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                {{-- ── Ödəniş statusu ───────────────────────────── --}}
+                <div class="form-group col-12 col-md-3" wire:ignore>
+                    <label for="data-payment_status">Ödəniş statusu</label>
+                    <select name="payment_status" id="data-payment_status" class="form-control">
+                        @foreach($paymentStatuses as $key => $label)
+                            <option value="{{ $key }}" {{ optional($data)->payment_status === $key ? 'selected' : '' }}>
+                                {{ $label }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                {{-- ── Vendor ───────────────────────────────────── --}}
+                <div class="form-group col-12 col-md-6" wire:ignore>
+                    <label for="data-vendor_id">Vendor</label>
+                    <select name="vendor_id" id="data-vendor_id" class="form-control select2">
+                        <option value="">— Seçin —</option>
+                        @foreach($vendors as $vendor)
+                            <option value="{{ $vendor->id }}" {{ optional($data)->vendor_id === $vendor->id ? 'selected' : '' }}>
+                                {{ $vendor->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                {{-- ── İstiqamət ────────────────────────────────── --}}
+                <div class="form-group col-12 col-md-3" wire:ignore>
+                    <label for="data-origin_country">Yükləmə ölkəsi</label>
+                    <select name="origin_country" id="data-origin_country" class="form-control">
+                        <option value="">— Seçin —</option>
+                        @foreach($countries as $country)
+                            <option value="{{ $country }}" {{ optional($data)->origin_country === $country ? 'selected' : '' }}>
+                                {{ $country }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group col-12 col-md-3" wire:ignore>
+                    <label for="data-origin_city">Yükləmə şəhəri</label>
+                    <input type="text" name="origin_city" id="data-origin_city" class="form-control"
+                           value="{{ optional($data)->origin_city }}" placeholder="Şəhər...">
+                </div>
+                <div class="form-group col-12 col-md-3" wire:ignore>
+                    <label for="data-destination_country">Təyinat ölkəsi</label>
+                    <select name="destination_country" id="data-destination_country" class="form-control">
+                        <option value="">— Seçin —</option>
+                        @foreach($countries as $country)
+                            <option value="{{ $country }}" {{ optional($data)->destination_country === $country ? 'selected' : '' }}>
+                                {{ $country }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group col-12 col-md-3" wire:ignore>
+                    <label for="data-destination_city">Təyinat şəhəri</label>
+                    <input type="text" name="destination_city" id="data-destination_city" class="form-control"
+                           value="{{ optional($data)->destination_city }}" placeholder="Şəhər...">
+                </div>
+
                 <div class="form-group col-12 col-md-6" wire:ignore>
                     <label class="d-block" for="reference_id">{{__('translates.navbar.reference')}}</label>
                     <select id="reference_id" class="select2"
