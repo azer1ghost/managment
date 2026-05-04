@@ -197,6 +197,13 @@ class LogisticsController extends Controller
         }
         return response()->setStatusCode('204');
     }
+    public function list()
+    {
+        return response()->json(
+            Logistics::orderByDesc('id')->get(['id', 'reg_number', 'number'])
+        );
+    }
+
     public function editable(Request $request)
     {
 

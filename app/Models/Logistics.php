@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Logistics extends Model
@@ -93,6 +94,11 @@ class Logistics extends Model
     public static function transportTypes(): array
     {
         return [1 => 1, 2, 3, 4];
+    }
+
+    public function invoice(): HasOne
+    {
+        return $this->hasOne(Invoice::class, 'logistics_id')->withDefault();
     }
 
     public function vendor(): BelongsTo

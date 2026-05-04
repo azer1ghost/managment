@@ -49,6 +49,7 @@ class FinanceClientController extends Controller
             'contractNo',
             'contractDate',
             'invoiceNumbers',
+            'logistics_id',
         ]);
 
         $services = $request->get('services', []);
@@ -113,6 +114,7 @@ class FinanceClientController extends Controller
             'contractNo',
             'contractDate',
             'invoiceNumbers',
+            'logistics_id',
         ]);
 
         $services = $request->get('services', []);

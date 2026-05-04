@@ -244,6 +244,7 @@
             <th scope="col">@lang('translates.fields.created_at')</th>
             <th scope="col">@lang('translates.fields.date')</th>
                         <th scope="col">@lang('translates.fields.paid_at')</th>
+            <th scope="col">Hesab-Faktura</th>
             <th scope="col">@lang('translates.columns.actions')</th>
         </tr>
         </thead>
@@ -319,6 +320,13 @@
                 {{--                        $sum_payment = $work->getParameter($work::PAID) + $work->getParameter($work::VATPAYMENT) + $work->getParameter($work::ILLEGALPAID) + $work->getAttribute('bank_charge');--}}
                 {{--                        $residue = ($work->getParameter($work::VAT) + $work->getParameter($work::AMOUNT) + $work->getParameter($work::ILLEGALAMOUNT) - $sum_payment) * -1;--}}
                 {{--                    @endphp--}}
+                <td>
+                    @if($log->invoice && $log->invoice->invoiceNo)
+                        <a href="{{ route('financeInvoice', $log->invoice->id) }}" target="_blank" class="badge badge-info" style="font-size:12px">
+                            {{ $log->invoice->invoiceNo }}
+                        </a>
+                    @endif
+                </td>
                 <td>
                     <div>
                         <a href="{{route('logistics.show', $log)}}" class="text-decoration-none">

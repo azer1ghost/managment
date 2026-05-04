@@ -63,6 +63,16 @@
                 </select>
             </div>
 
+            <div class="row col-12 justify-content-center mt-2" id="logisticsRow" style="display:none!important;">
+                <select id="logisticsSelect" class="form-control col-8 select2" style="max-width:500px">
+                    <option value="">— Logistics qeydiyyatı seçin —</option>
+                    @foreach(\App\Models\Logistics::orderByDesc('id')->get(['id','reg_number','number']) as $log)
+                        <option value="{{ $log->id }}">{{ $log->reg_number ?: '#'.$log->number }}</option>
+                    @endforeach
+                </select>
+                <small class="col-12 text-center text-muted mt-1">Bu qaimənin nömrəsi seçilmiş logistics qeydiyyatında görünəcək</small>
+            </div>
+
             <hr>
             <h3>Müştəri Məlumatları</h3>
             <div class="row col-12 justify-content-center">
@@ -786,7 +796,9 @@
             if (company == 'logisticsKapital' || company == 'logisticsRespublika') {
                 $('#loginput').show();
                 $('#brokerinput').hide();
+                $('#logisticsRow').css('display', 'flex');
             } else {
+                $('#logisticsRow').hide();
                 $('#loginput').hide();
                 $('#brokerinput').show();
             }
@@ -1137,6 +1149,7 @@
                     contractNo: $('#contractNoInput').val(),
                     contractDate: $('#contractDateInput').val(),
                     invoiceNumbers: $('#invoiceNumbersInput').val(),
+                    logistics_id: $('#logisticsSelect').val() || null,
                     services: savedRows
                 },
                 success: function(response) {

@@ -405,6 +405,16 @@
                     <option value="mobexKapital" @if($company == 'mobexKapital') selected @endif>Mobex Kapital Bank</option>
                 </select>
             </div>
+
+            {{-- Logistics bağlantısı -- yalnız logistics şirkəti seçildikdə görünür, çapa getmir --}}
+            <div class="mb-3" id="logisticsSelector" style="display:none;">
+                <label for="logisticsSelect">Logistics qeydiyyatı:</label>
+                <select id="logisticsSelect" class="form-control" style="max-width: 400px;">
+                    <option value="">— Seçin —</option>
+                </select>
+                <input type="hidden" id="logistics_id" name="logistics_id" value="{{ $data->logistics_id ?? '' }}">
+                <small class="text-muted">Seçdiyiniz logistics qeydiyyatına bu qaimənin nömrəsi avtomatik düşəcək.</small>
+            </div>
         </div>
         <div class="card" id="printCard1">
             <div class="card-body">
@@ -797,8 +807,30 @@
                 $('#bankAccountSelector').show();
                 $('#saveBtn').show();
             }
+
+            // Logistics selector: show if company is logistics, load options
+            var currentCompany = $('#companyName').attr('data-company');
+            if (currentCompany === 'logisticsKapital' || currentCompany === 'logisticsRespublika') {
+                loadLogisticsOptions();
+            }
         });
-        
+
+        function loadLogisticsOptions() {
+            $.get('/module/logistics-list', function(data) {
+                var sel = $('#logisticsSelect');
+                sel.empty().append('<option value="">— Seçin —</option>');
+                $.each(data, function(i, log) {
+                    var selected = log.id == {{ $data->logistics_id ?? 'null' }} ? 'selected' : '';
+                    sel.append('<option value="' + log.id + '" ' + selected + '>' + (log.reg_number || '#' + log.number) + '</option>');
+                });
+                $('#logisticsSelector').show();
+            });
+        }
+
+        $(document).on('change', '#logisticsSelect', function() {
+            $('#logistics_id').val($(this).val());
+        });
+
         // Bank account change handler - use event delegation
         $(document).on('change', '#bankAccountSelect', function() {
             if (!isEditMode) {
@@ -1375,6 +1407,7 @@
                 contractNo: $('#contractNo').text().trim(),
                 contractDate: $('#contractDate').text().trim(),
                 invoiceNumbers: $('.invoiceNumbers').first().text().trim(),
+                logistics_id: $('#logistics_id').val() || null,
                 services: services,
             },
             success: function(response) {

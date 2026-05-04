@@ -11,7 +11,7 @@ class Invoice extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['company', 'client', 'invoiceNo', 'invoiceDate', 'paymentType', 'protocolDate', 'contractNo', 'contractDate', 'services', 'invoiceNumbers', 'is_signed', 'created_by', 'total_amount'];
+    protected $fillable = ['company', 'client', 'invoiceNo', 'invoiceDate', 'paymentType', 'protocolDate', 'contractNo', 'contractDate', 'services', 'invoiceNumbers', 'is_signed', 'created_by', 'total_amount', 'logistics_id'];
 
     protected $dates = ['deleted_at'];
 
@@ -56,6 +56,11 @@ class Invoice extends Model
                 $invoice->total_amount = $invoice->calculateTotalAmount();
             }
         });
+    }
+
+    public function logistics(): BelongsTo
+    {
+        return $this->belongsTo(Logistics::class)->withDefault();
     }
 
     public function financeClients(): BelongsTo
