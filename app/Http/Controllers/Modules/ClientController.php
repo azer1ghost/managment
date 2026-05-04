@@ -233,8 +233,8 @@ class ClientController extends Controller
 
     public function edit(Client $client)
     {
-        if ($client->services()->where('client_id', $client->id)->first()) {
-            $services = $client->getRelationValue('services');
+        if ($client->services()->wherePivotNull('department_id')->exists()) {
+            $services = $client->services()->wherePivotNull('department_id')->get();
         } else {
             $services = Service::get(['id', 'name']);
         }
