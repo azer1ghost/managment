@@ -375,6 +375,10 @@
                         <p style="font-size: 16px" class="mb-0"><strong>@lang('translates.total'):</strong></p>
                     </td>
                     <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_purchase}}</strong></p></td>
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_sale}}</strong></p></td>
                     <td><p style="font-size: 16px" class="mb-0"><strong>{{ $total_paid_purchase}}</strong></p></td>
