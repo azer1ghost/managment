@@ -231,14 +231,13 @@
             <th scope="col">@lang('translates.fields.clientName')</th>
             @if(auth()->user()->hasPermission('update-logistics'))
                 @php
-                    $serviceParameters = \App\Models\Parameter::whereIn('id', [51, 52, 53, 54, 56, 57, 58, 59, 60])->get();
+                    $serviceParameters = \App\Models\Parameter::whereIn('id', [51, 52, 53, 54, 56, 58])->get();
                 @endphp
 
                 @foreach($serviceParameters as $param)
                     <th>{{$param->getAttribute('label')}}</th>
                 @endforeach
                 <th scope="col">Profit</th>
-                <th scope="col">Gəlir</th>
             @endif
             <th scope="col">Status</th>
             <th scope="col">@lang('translates.fields.created_at')</th>
@@ -282,7 +281,7 @@
                 @if(auth()->user()->hasPermission('update-logistics'))
 
                     @foreach(\App\Models\Service::serviceParameters() as $param)
-                        @if(in_array($param['data']->getAttribute('id'), [51, 52, 53, 54, 56, 57, 58, 59, 60]))
+                        @if(in_array($param['data']->getAttribute('id'), [51, 52, 53, 54, 56, 58]))
                             <td class="update" data-name="{{$param['data']->getAttribute('id')}}"
                                 data-pk="{{ $log->getAttribute('id') }}">{{$log->getParameter($param['data']->getAttribute('id'))}}</td>
 
@@ -302,7 +301,6 @@
                         @endif
                     @endforeach
                     <td>{{$log->getParameter(\App\Models\Logistics::SALES) - $log->getParameter(\App\Models\Logistics::PURCHASE)}}</td>
-                    <td>{{$log->getParameter(\App\Models\Logistics::SALESPAID) - $log->getParameter(\App\Models\Logistics::PURCHASEPAID)}}</td>
                 @endif
 
                 <td>
