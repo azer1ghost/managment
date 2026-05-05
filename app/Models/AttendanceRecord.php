@@ -23,15 +23,19 @@ class AttendanceRecord extends Model
     ];
 
     public static array $statuses = [
-        'B'   => ['label' => 'Bayram',                   'color' => '#cce5ff', 'text' => '#004085'],
-        'İ'   => ['label' => 'İstirahət',                'color' => '#e2e3e5', 'text' => '#383d41'],
-        'E'   => ['label' => 'Ezamiyyət',                'color' => '#fff3cd', 'text' => '#856404'],
-        'Ə.M' => ['label' => 'Əmək Məzuniyyəti',         'color' => '#d4edda', 'text' => '#155724'],
-        'X'   => ['label' => 'Xəstəlik',                 'color' => '#f8d7da', 'text' => '#721c24'],
-        'A.M' => ['label' => 'Analıq/Atalıq Məzuniyyəti','color' => '#e2d9f3', 'text' => '#432874'],
-        'Ö'   => ['label' => 'Ödənişsiz Məzuniyyət',     'color' => '#fefefe', 'text' => '#6c757d'],
-        'ÜS'  => ['label' => 'Əm.haq. saxlanılma',       'color' => '#fde8d8', 'text' => '#7d3c0b'],
+        'B'     => ['label' => 'Bayram',                   'color' => '#cce5ff', 'text' => '#004085'],
+        'İ'     => ['label' => 'İstirahət',                'color' => '#e2e3e5', 'text' => '#383d41'],
+        'E'     => ['label' => 'Ezamiyyət',                'color' => '#fff3cd', 'text' => '#856404'],
+        'Ə.M'   => ['label' => 'Əmək Məzuniyyəti',         'color' => '#d4edda', 'text' => '#155724'],
+        'X'     => ['label' => 'Xəstəlik',                 'color' => '#f8d7da', 'text' => '#721c24'],
+        'A.M'   => ['label' => 'Analıq/Atalıq Məzuniyyəti','color' => '#e2d9f3', 'text' => '#432874'],
+        'Ö'     => ['label' => 'Ödənişsiz Məzuniyyət',     'color' => '#fefefe', 'text' => '#6c757d'],
+        'ÜS'    => ['label' => 'Əm.haq. saxlanılma',       'color' => '#fde8d8', 'text' => '#7d3c0b'],
+        'Ö.H.R' => ['label' => 'Öz Hesabına Real',         'color' => '#f5c6cb', 'text' => '#721c24'],
     ];
+
+    // Statuses that mean the employee was absent (reduce actual work days)
+    public static array $absenceStatuses = ['Ə.M', 'X', 'A.M', 'Ö', 'ÜS', 'Ö.H.R'];
 
     public function user(): BelongsTo
     {

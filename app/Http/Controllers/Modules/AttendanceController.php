@@ -67,7 +67,7 @@ class AttendanceController extends Controller
             'user_ids.*' => 'exists:users,id',
             'date_from'  => 'required|date',
             'date_to'    => 'required|date|after_or_equal:date_from',
-            'status'     => 'nullable|in:B,İ,E,Ə.M,X,A.M,Ö,ÜS',
+            'status'     => 'nullable|in:B,İ,E,Ə.M,X,A.M,Ö,ÜS,Ö.H.R',
             'note'       => 'nullable|string|max:500',
             'is_absent'  => 'boolean',
         ]);

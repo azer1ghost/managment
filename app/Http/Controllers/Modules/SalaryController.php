@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SalaryRequest;
+use App\Models\AttendanceRecord;
 use App\Models\Company;
+use App\Models\PublicHoliday;
 use App\Models\Salary;
 use App\Models\SalaryReport;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -43,6 +46,57 @@ class SalaryController extends Controller
             $isExistingReport = false;
         }
 
+        $startOfMonth = Carbon::create($year, $month, 1)->startOfMonth();
+        $endOfMonth   = $startOfMonth->copy()->endOfMonth();
+
+        $holidayDates = PublicHoliday::whereBetween('date', [$startOfMonth, $endOfMonth])
+            ->pluck('date')
+            ->map(fn($d) => Carbon::parse($d)->toDateString())
+            ->toArray();
+
+        $userIds = $salaries->pluck('user_id')->filter()->unique();
+        $userSchedules = User::whereIn('id', $userIds)
+            ->pluck('work_schedule', 'id');
+
+        $rawRecords = AttendanceRecord::whereIn('user_id', $userIds)
+            ->whereBetween('date', [$startOfMonth, $endOfMonth])
+            ->get()
+            ->groupBy('user_id')
+            ->map(fn($recs) => $recs->keyBy(fn($r) => Carbon::parse($r->date)->day));
+
+        $attendanceData = [];
+        foreach ($userIds as $uid) {
+            $schedule = $userSchedules[$uid] ?? '5_day';
+            $userRecords = $rawRecords[$uid] ?? collect();
+            $workDays = 0;
+            $absenceDays = 0;
+
+            $current = $startOfMonth->copy();
+            while ($current <= $endOfMonth) {
+                $dow = $current->dayOfWeek; // 0=Sun, 6=Sat
+                $isWorkDay = $schedule === '5_day'
+                    ? ($dow >= 1 && $dow <= 5)
+                    : ($dow >= 1 && $dow <= 6);
+
+                if ($isWorkDay && !in_array($current->toDateString(), $holidayDates)) {
+                    $workDays++;
+                    $record = $userRecords->get($current->day);
+                    if ($record && in_array($record->status, AttendanceRecord::$absenceStatuses)) {
+                        $absenceDays++;
+                    }
+                }
+                $current->addDay();
+            }
+
+            $actualDays = $workDays - $absenceDays;
+            if ($schedule === '6_day_half') {
+                $workDays   = round($workDays * 0.5, 1);
+                $actualDays = round($actualDays * 0.5, 1);
+            }
+
+            $attendanceData[$uid] = ['work_days' => $workDays, 'actual_days' => $actualDays];
+        }
+
         return view('pages.salaries.index')->with([
             'salaries' => $salaries,
             'company_id' => $company,
@@ -50,6 +104,7 @@ class SalaryController extends Controller
             'month' => $month,
             'date' => $date,
             'isExistingReport' => $isExistingReport,
+            'attendanceData' => $attendanceData,
         ]);
     }
 

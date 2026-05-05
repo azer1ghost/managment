@@ -141,9 +141,11 @@
                           
                           if ($isReport) {
                               // Əgər SalaryReport-dursa, məlumatları ondan götür
+                              $_uid = $salary->getAttribute('user_id');
+                              $_att = $attendanceData[$_uid] ?? null;
                               $gross = $salary->getAttribute('salary') ?: 0;
-                              $workDays = $salary->getAttribute('working_days') ?: 26;
-                              $actualDays = $salary->getAttribute('actual_days') ?: 26;
+                              $workDays   = $salary->getAttribute('working_days') ?: ($_att ? $_att['work_days']   : 26);
+                              $actualDays = $salary->getAttribute('actual_days')  ?: ($_att ? $_att['actual_days'] : 26);
                               $prize = $salary->getAttribute('prize') ?: 0;
                               $vacation = $salary->getAttribute('vacation') ?: 0;
                               $advance = $salary->getAttribute('advance') ?: 0;
@@ -157,6 +159,8 @@
                               $totalcmr = 0;
                               $totalbranchgb = 0;
                               $totalbranchqib = 0;
+                              $_uid = $salary->getAttribute('user_id');
+                              $_att = $attendanceData[$_uid] ?? null;
 
                               $startOfMonth = \Carbon\Carbon::create($year, $month, 1)->startOfMonth();
                               $endOfMonth = \Carbon\Carbon::create($year, $month, 1)->endOfMonth();
@@ -203,8 +207,8 @@
                                   $gross = $salary->getRelationValue('user')->bonus + $salary->getRelationValue('user')->gross + ($totalgb * $salary->getRelationValue('user')->coefficient) + ($totalqib * $salary->getRelationValue('user')->qib_coefficient) + ($totalrepresentation * 0.2) + ($totalcmr * 0.1);
                               }
                               
-                              $workDays = 26;
-                              $actualDays = 26;
+                              $workDays   = $_att ? $_att['work_days']   : 26;
+                              $actualDays = $_att ? $_att['actual_days'] : 26;
                               $prize = 0;
                               $vacation = 0;
                               $advance = 0;
