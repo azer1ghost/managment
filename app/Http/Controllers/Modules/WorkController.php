@@ -116,10 +116,7 @@ class WorkController extends Controller
 
         $allDepartments = Department::isActive()->orderBy('ordering')->get(['id', 'name']);
 
-        $services = Service::query()
-            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user) {
-                $query->whereBelongsTo($user->getRelationValue('company'));
-            })->get(['id', 'name', 'detail']);
+        $services = Service::query()->get(['id', 'name', 'detail']);
 
         $works = $this->workRepository->allFilteredWorks($filters, $dateFilters)->whereNotIn('status', [1, 2]);
 
@@ -220,10 +217,7 @@ class WorkController extends Controller
 
         $allDepartments = Department::isActive()->orderBy('ordering')->get(['id', 'name']);
 
-        $services = Service::query()
-            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user) {
-                $query->whereBelongsTo($user->getRelationValue('company'));
-            })->get(['id', 'name', 'detail']);
+        $services = Service::query()->get(['id', 'name', 'detail']);
 
         $works = $this->workRepository->allFilteredWorks($filters, $dateFilters);
 
@@ -314,10 +308,7 @@ class WorkController extends Controller
         $allDepartments = Department::isActive()->orderBy('ordering')->get(['id', 'name']);
 
 
-        $services = Service::query()
-            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user) {
-                $query->whereBelongsTo($user->getRelationValue('company'));
-            })->get(['id', 'name', 'detail']);
+        $services = Service::query()->get(['id', 'name', 'detail']);
 
         $attention = $request->query('attention'); // '', 'need', 'ok'
 
@@ -460,10 +451,7 @@ class WorkController extends Controller
 
         $allDepartments = Department::isActive()->orderBy('ordering')->get(['id', 'name']);
 
-        $services = Service::query()
-            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user) {
-                $query->whereBelongsTo($user->getRelationValue('company'));
-            })->get(['id', 'name', 'detail']);
+        $services = Service::query()->get(['id', 'name', 'detail']);
 
         $works = $this->workRepository->allFilteredWorks($filters, $dateFilters);
 
@@ -557,10 +545,7 @@ class WorkController extends Controller
 
         $allDepartments = Department::isActive()->orderBy('ordering')->get(['id', 'name']);
 
-        $services = Service::query()
-            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user) {
-                $query->whereBelongsTo($user->getRelationValue('company'));
-            })->get(['id', 'name', 'detail']);
+        $services = Service::query()->get(['id', 'name', 'detail']);
 
         $works = $this->workRepository->allFilteredWorks($filters, $dateFilters)
             ->where(function ($query) {
@@ -665,10 +650,7 @@ class WorkController extends Controller
 
         $allDepartments = Department::isActive()->orderBy('ordering')->get(['id', 'name']);
 
-        $services = Service::query()
-            ->when(!$user->isDeveloper() && !$user->isDirector(), function ($query) use ($user) {
-                $query->whereBelongsTo($user->getRelationValue('company'));
-            })->get(['id', 'name', 'detail']);
+        $services = Service::query()->get(['id', 'name', 'detail']);
 
         $works = $this->workRepository->allFilteredWorks($filters, $dateFilters)
             ->where(function ($query) {
