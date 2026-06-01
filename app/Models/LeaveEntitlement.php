@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class LeaveEntitlement extends Model
 {
-    protected $fillable = ['user_id', 'year', 'total_days', 'extra_days'];
+    protected $fillable = ['user_id', 'year', 'total_days', 'extra_days', 'carryover_days'];
 
     public function user(): BelongsTo
     {
@@ -24,6 +24,6 @@ class LeaveEntitlement extends Model
 
     public function remainingDays(int $year): int
     {
-        return $this->total_days + $this->extra_days - $this->usedDays($year);
+        return $this->total_days + $this->extra_days + ($this->carryover_days ?? 0) - $this->usedDays($year);
     }
 }

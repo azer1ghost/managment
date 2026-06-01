@@ -90,6 +90,7 @@
     .status-AM  { background: #e2d9f3; color: #432874; }
     .status-Ö   { background: #f9f9f9; color: #6c757d; border: 1px solid #dee2e6; }
     .status-ÜS  { background: #fde8d8; color: #7d3c0b; }
+    .status-ÖHR { background: #f5c6cb; color: #721c24; }
 
     /* Modal cell editor */
     #cellModal .status-btn {
@@ -150,12 +151,30 @@
                 </select>
             </div>
             <div class="col-auto">
+                <label class="mb-1" style="font-size:12px">Şirkət (rəsmi)</label>
+                <select name="company_id" class="form-control form-control-sm" onchange="this.form.submit()">
+                    <option value="">Hamısı</option>
+                    @foreach($companies as $company)
+                        <option value="{{ $company->id }}" {{ $companyId == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-auto">
                 <label class="mb-1" style="font-size:12px">Departament</label>
                 <select name="department_id" class="form-control form-control-sm" onchange="this.form.submit()">
                     <option value="">Hamısı</option>
                     @foreach($departments as $dept)
                         <option value="{{ $dept->id }}" {{ $departmentId == $dept->id ? 'selected' : '' }}>{{ $dept->name }}</option>
                     @endforeach
+                </select>
+            </div>
+            <div class="col-auto">
+                <label class="mb-1" style="font-size:12px">İş rejimi</label>
+                <select name="work_schedule" class="form-control form-control-sm" onchange="this.form.submit()">
+                    <option value="">Hamısı</option>
+                    <option value="5_day"      {{ $workSchedule === '5_day'      ? 'selected' : '' }}>5 günlük (8 saat)</option>
+                    <option value="6_day"      {{ $workSchedule === '6_day'      ? 'selected' : '' }}>6 günlük (7 saat)</option>
+                    <option value="6_day_half" {{ $workSchedule === '6_day_half' ? 'selected' : '' }}>6 günlük yarım (3 saat)</option>
                 </select>
             </div>
             <div class="col-auto d-flex" style="gap:6px">
@@ -206,6 +225,7 @@
                             </th>
                         @endfor
                         <th class="col-summary">İş<br>günü</th>
+                        <th class="col-summary">Ö<br>günlər</th>
                         <th class="col-summary">Məz.<br>qalıq</th>
                     </tr>
                 </thead>
@@ -219,6 +239,7 @@
                         $leaveTotal     = $entitlement ? ($entitlement->total_days + $entitlement->extra_days) : 21;
                         $leaveRemaining = $leaveTotal - $leaveUsed;
                         $workDays       = 0;
+                        $unpaidDays     = 0;
                     @endphp
                     <tr>
                         <td class="col-name">
@@ -268,6 +289,7 @@
                                 }
                                 if ($displayCode === '' && !$autoI && !$autoB) $workDays++;
                                 if ($displayCode === 'E') $workDays++;
+                                if ($displayCode === 'Ö' || $displayCode === 'Ö.H.R') $unpaidDays++;
                             @endphp
                             <td class="col-day p-0"
                                 onclick="openCell({{ $user->id }}, '{{ $dayDate->toDateString() }}', '{{ addslashes($user->name . ' ' . $user->surname) }}', '{{ $status }}', '{{ addslashes($note ?? '') }}', {{ $absent ? 'true' : 'false' }})"
@@ -284,6 +306,13 @@
                             </td>
                         @endfor
                         <td class="col-summary">{{ $workDays }}</td>
+                        <td class="col-summary">
+                            @if($unpaidDays > 0)
+                                <span class="badge badge-warning" title="Ödənişsiz məzuniyyət/Öz hesabına günlər">{{ $unpaidDays }}</span>
+                            @else
+                                <span class="text-muted">—</span>
+                            @endif
+                        </td>
                         <td class="col-summary">
                             <span class="badge {{ $leaveRemaining < 5 ? 'badge-danger' : 'badge-success' }}">
                                 {{ $leaveRemaining }}
@@ -469,6 +498,7 @@
                             <th>Əməkdaş</th>
                             <th style="width:100px">Cəmi hüquq</th>
                             <th style="width:90px">Staja əlavə</th>
+                            <th style="width:100px">Keçmiş il qalığı</th>
                             <th style="width:80px">İstifadə</th>
                             <th style="width:80px">Qalıq</th>
                             <th style="width:80px">Saxla</th>
@@ -481,7 +511,8 @@
                             $used = $ent ? $ent->usedDays($year) : 0;
                             $total = $ent ? $ent->total_days : 21;
                             $extra = $ent ? $ent->extra_days : 0;
-                            $remaining = $total + $extra - $used;
+                            $carryover = $ent ? ($ent->carryover_days ?? 0) : 0;
+                            $remaining = $total + $extra + $carryover - $used;
                         @endphp
                         <tr>
                             <td>{{ $user->name }} {{ $user->surname }}</td>
@@ -494,6 +525,11 @@
                             <td>
                                 <input type="number" class="form-control form-control-sm" id="ent_extra_{{ $user->id }}"
                                        value="{{ $extra }}" min="0" max="60">
+                            </td>
+                            <td>
+                                <input type="number" class="form-control form-control-sm" id="ent_carryover_{{ $user->id }}"
+                                       value="{{ $carryover }}" min="0" max="365"
+                                       title="Keçmiş illərdən qalan istifadə edilməmiş məzuniyyət günləri">
                             </td>
                             <td class="text-center font-weight-bold" id="ent_used_{{ $user->id }}">{{ $used }}</td>
                             <td class="text-center" id="ent_rem_{{ $user->id }}">
@@ -558,7 +594,7 @@
         fetch('{{ route("attendance.cell") }}', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF },
-            body: JSON.stringify({ user_id: userId, date, status: status || null, note, is_absent: absent })
+            body: JSON.stringify({ user_id: userId, date, status: status || null, note, is_absent: absent, company_id: ACTIVE_COMPANY_ID })
         })
         .then(r => r.json())
         .then(data => {
@@ -623,7 +659,7 @@
         fetch('{{ route("attendance.store") }}', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF },
-            body: JSON.stringify({ user_ids: userIds, date_from: dateFrom, date_to: dateTo, status: status || null, note })
+            body: JSON.stringify({ user_ids: userIds, date_from: dateFrom, date_to: dateTo, status: status || null, note, company_id: ACTIVE_COMPANY_ID })
         })
         .then(r => r.json())
         .then(data => {
@@ -676,13 +712,15 @@
 
     // ── Leave entitlements ───────────────────────────────
     function saveEntitlement(userId, year) {
-        const total = document.getElementById('ent_total_' + userId).value;
-        const extra = document.getElementById('ent_extra_' + userId).value;
+        const total    = document.getElementById('ent_total_' + userId).value;
+        const extra    = document.getElementById('ent_extra_' + userId).value;
+        const carryEl  = document.getElementById('ent_carryover_' + userId);
+        const carryover = carryEl ? parseInt(carryEl.value) || 0 : 0;
 
         fetch('{{ route("attendance.entitlement") }}', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF },
-            body: JSON.stringify({ user_id: userId, year, total_days: parseInt(total), extra_days: parseInt(extra) })
+            body: JSON.stringify({ user_id: userId, year, total_days: parseInt(total), extra_days: parseInt(extra), carryover_days: carryover })
         })
         .then(r => r.json())
         .then(data => {
@@ -692,5 +730,8 @@
             remEl.innerHTML = `<span class="badge ${data.remaining < 5 ? 'badge-danger' : 'badge-success'}">${data.remaining}</span>`;
         });
     }
+
+    // Active company filter (passed from server)
+    const ACTIVE_COMPANY_ID = {{ $companyId ? $companyId : 'null' }};
 </script>
 @endpush
