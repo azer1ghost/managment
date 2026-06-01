@@ -10,11 +10,17 @@ class Salary extends Model
     protected $fillable = [
         'user_id',
         'company_id',
+        'official_salary',
     ];
     public $timestamps = false;
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class)->withDefault();
+    }
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Company::class)->withDefault();
     }
 }

@@ -207,6 +207,12 @@
                                   $gross = $salary->getRelationValue('user')->bonus + $salary->getRelationValue('user')->gross + ($totalgb * $salary->getRelationValue('user')->coefficient) + ($totalqib * $salary->getRelationValue('user')->qib_coefficient) + ($totalrepresentation * 0.2) + ($totalcmr * 0.1);
                               }
                               
+                              // Əgər rəsmi maaş varsa, onu üstün tut
+                              $_officialSalary = $officialSalaries[$_uid] ?? null;
+                              if ($_officialSalary) {
+                                  $gross = $_officialSalary;
+                              }
+
                               $workDays   = $_att ? $_att['work_days']   : 26;
                               $actualDays = $_att ? $_att['actual_days'] : 26;
                               $prize = 0;

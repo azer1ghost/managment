@@ -119,6 +119,55 @@
                     <option value="6_day_half" {{ optional($data)->work_schedule === '6_day_half' ? 'selected' : '' }}>6 günlük yarım ştat — 3 saat/gün</option>
                 </select>
             </x-form-group>
+
+            @if($method != 'POST' && isset($salaryLinks))
+            {{-- ── Rəsmi şirkətlər / maaşlar ──────────────────── --}}
+            <div class="col-12 px-0 mt-3">
+                <p class="text-muted mb-1">Rəsmi şirkətlər üzrə maaş bağlantıları</p>
+                <hr class="my-2">
+                <table class="table table-sm table-bordered" id="salaryLinksTable" style="font-size:13px">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Şirkət</th>
+                            <th style="width:160px">Rəsmi maaş (AZN)</th>
+                            <th style="width:60px"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="salaryLinksBody">
+                        @foreach($salaryLinks as $sl)
+                        <tr>
+                            <td>
+                                <select class="form-control form-control-sm sl-company">
+                                    @foreach($allCompanies as $c)
+                                        <option value="{{ $c->id }}" {{ $sl->company_id == $c->id ? 'selected' : '' }}>{{ $c->name }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td>
+                                <input type="number" step="0.01" min="0" class="form-control form-control-sm sl-salary"
+                                       value="{{ $sl->official_salary }}" placeholder="0.00">
+                            </td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-sm btn-outline-danger py-0" onclick="removeSalaryRow(this)">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <div class="d-flex" style="gap:8px">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="addSalaryRow()">
+                        <i class="fas fa-plus"></i> Şirkət əlavə et
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-primary" id="saveSalaryLinks">
+                        <i class="fas fa-save"></i> Şirkətləri saxla
+                    </button>
+                </div>
+                <small class="text-muted d-block mt-1">Bu bölmə ayrıca saxlanılır (Saxla düyməsi ilə yox)</small>
+            </div>
+            @endif
+
             @if($method != 'POST')
                 <div>
                     <p> GB Sayı: {{$gb}}</p>
@@ -266,5 +315,60 @@
         <script>
             $('form :input').attr('disabled', true)
         </script>
+    @endif
+    @if(isset($allCompanies) && isset($data) && $data->id)
+    <script>
+        const ALL_COMPANIES = @json($allCompanies);
+        const SALARY_SYNC_URL = '{{ route("users.salaryCompanies", $data) }}';
+        const CSRF = '{{ csrf_token() }}';
+
+        function addSalaryRow() {
+            const options = ALL_COMPANIES.map(c =>
+                `<option value="${c.id}">${c.name}</option>`
+            ).join('');
+            const row = `<tr>
+                <td><select class="form-control form-control-sm sl-company">${options}</select></td>
+                <td><input type="number" step="0.01" min="0" class="form-control form-control-sm sl-salary" placeholder="0.00"></td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-sm btn-outline-danger py-0" onclick="removeSalaryRow(this)">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </td>
+            </tr>`;
+            document.getElementById('salaryLinksBody').insertAdjacentHTML('beforeend', row);
+        }
+
+        function removeSalaryRow(btn) {
+            btn.closest('tr').remove();
+        }
+
+        document.getElementById('saveSalaryLinks')?.addEventListener('click', function () {
+            const rows = document.querySelectorAll('#salaryLinksBody tr');
+            const links = [];
+            rows.forEach(row => {
+                const company_id = row.querySelector('.sl-company')?.value;
+                const official_salary = row.querySelector('.sl-salary')?.value || null;
+                if (company_id) links.push({ company_id, official_salary });
+            });
+
+            fetch(SALARY_SYNC_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF },
+                body: JSON.stringify({ links })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    const btn = document.getElementById('saveSalaryLinks');
+                    btn.textContent = '✓ Saxlanıldı';
+                    btn.classList.replace('btn-outline-primary', 'btn-success');
+                    setTimeout(() => {
+                        btn.innerHTML = '<i class="fas fa-save"></i> Şirkətləri saxla';
+                        btn.classList.replace('btn-success', 'btn-outline-primary');
+                    }, 2000);
+                }
+            });
+        });
+    </script>
     @endif
 @endsection

@@ -46,6 +46,12 @@ class SalaryController extends Controller
             $isExistingReport = false;
         }
 
+        // Official salaries per user per company (for fresh calculations)
+        $officialSalaries = Salary::query()
+            ->when($company, fn($q) => $q->where('company_id', $company))
+            ->whereNotNull('official_salary')
+            ->pluck('official_salary', 'user_id');
+
         $startOfMonth = Carbon::create($year, $month, 1)->startOfMonth();
         $endOfMonth   = $startOfMonth->copy()->endOfMonth();
 
@@ -98,13 +104,14 @@ class SalaryController extends Controller
         }
 
         return view('pages.salaries.index')->with([
-            'salaries' => $salaries,
-            'company_id' => $company,
-            'year' => $year,
-            'month' => $month,
-            'date' => $date,
-            'isExistingReport' => $isExistingReport,
-            'attendanceData' => $attendanceData,
+            'salaries'        => $salaries,
+            'company_id'      => $company,
+            'year'            => $year,
+            'month'           => $month,
+            'date'            => $date,
+            'isExistingReport'=> $isExistingReport,
+            'attendanceData'  => $attendanceData,
+            'officialSalaries'=> $officialSalaries,
         ]);
     }
 

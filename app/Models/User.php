@@ -302,6 +302,14 @@ User extends Authenticatable implements MustVerifyPhone, Recordable
         return $this->belongsTo(Company::class)->withDefault();
     }
 
+    /**
+     * Şirkətlər üzrə rəsmi maaş bağlantıları (çoxlu şirkət dəstəyi)
+     */
+    public function salaryLinks(): HasMany
+    {
+        return $this->hasMany(Salary::class);
+    }
+
     public function defaults(): BelongsToMany
     {
         return $this->belongsToMany(Parameter::class, 'user_default')->withPivot('value');

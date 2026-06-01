@@ -7,9 +7,11 @@ use App\Models\Company;
 use App\Models\Department;
 use App\Models\Position;
 use App\Models\Role;
+use App\Models\Salary;
 use App\Models\Work;
 use App\Traits\Permission;
 use Carbon\Carbon as Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
@@ -248,6 +250,8 @@ class UserController extends Controller
             $totalcmr += $work->getParameter(Work::AMOUNT) + $work->getParameter(Work::ILLEGALAMOUNT);
         }
 
+        $salaryLinks = Salary::where('user_id', $user->id)->with('company')->get();
+
         return view('pages.users.edit')
             ->with([
                 'action' => route('users.update', $user),
@@ -255,6 +259,7 @@ class UserController extends Controller
                 'roles'  => Role::all()->pluck('name','id')->toArray(),
                 'departments' => Department::all()->pluck('name', 'id')->toArray(),
                 'companies' => Company::all()->pluck('name', 'id')->toArray(),
+                'allCompanies' => Company::orderBy('name')->get(['id', 'name']),
                 'positions' => $user->getRelationValue('department')->positions()->pluck('name', 'id')->toArray(),
                 'directorPositions' => Position::whereHas('role', fn ($q) => $q->where('key', 'director'))->pluck('name', 'id')->toArray(),
                 'data' => $user,
@@ -265,7 +270,30 @@ class UserController extends Controller
                 'branchqib' => $totalbranchqib,
                 'representation' => $totalrepresentation,
                 'serial_pattern' => User::serialPattern(),
+                'salaryLinks' => $salaryLinks,
             ]);
+    }
+
+    public function syncSalaryCompanies(Request $request, User $user): JsonResponse
+    {
+        $request->validate([
+            'links'                  => 'nullable|array',
+            'links.*.company_id'     => 'required|exists:companies,id',
+            'links.*.official_salary'=> 'nullable|numeric|min:0',
+        ]);
+
+        // Remove all existing, re-insert
+        Salary::where('user_id', $user->id)->delete();
+
+        foreach ($request->get('links', []) as $link) {
+            Salary::create([
+                'user_id'        => $user->id,
+                'company_id'     => $link['company_id'],
+                'official_salary'=> $link['official_salary'] ?? null,
+            ]);
+        }
+
+        return response()->json(['success' => true]);
     }
 
     public function update(UserRequest $request, User $user): RedirectResponse
