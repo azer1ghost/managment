@@ -4,34 +4,64 @@
 
 @section('style')
     <style>
-        .table td,
-        .table th {
-            vertical-align: middle !important;
+        .table td, .table th { vertical-align: middle !important; }
+        .table tr { cursor: pointer; }
+
+        .stat-card {
+            background: #fff;
+            border-radius: 10px;
+            border: 1px solid #e3e6f0;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,.06);
+        }
+        .stat-card .stat-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            color: #6c757d;
+            margin-bottom: 4px;
+        }
+        .stat-card .stat-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        .stat-card.stat-green  { border-left: 4px solid #28a745; }
+        .stat-card.stat-blue   { border-left: 4px solid #007bff; }
+        .stat-card.stat-orange { border-left: 4px solid #fd7e14; }
+        .stat-card.stat-purple { border-left: 4px solid #6f42c1; }
+        .stat-card.stat-teal   { border-left: 4px solid #20c997; }
+        .stat-card.stat-red    { border-left: 4px solid #dc3545; }
+
+        .stats-section-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            color: #495057;
+            border-bottom: 2px solid #e3e6f0;
+            padding-bottom: 6px;
+            margin: 20px 0 12px;
         }
 
-        .table tr {
-            cursor: pointer;
+        .company-stat-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 12px 16px;
         }
-
-
-
-        /* Stil değişiklikleri */
-        .work-stats {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
+        .company-stat-card .cs-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #6c757d;
+            text-transform: uppercase;
         }
-
-        .work-stats h1 {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .work-stats h2 {
-            font-size: 18px;
-            font-weight: normal;
-            margin-bottom: 10px;
+        .company-stat-card .cs-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: #343a40;
         }
     </style>
 @endsection
@@ -45,125 +75,201 @@
             @lang('translates.navbar.total')
         </x-bread-crumb-link>
     </x-bread-crumb>
-<div>
-    <form action="{{ route('total') }}" method="get">
-        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-            <label class="d-block" for="paidAtFilter">{{trans('translates.fields.paid_at')}}</label>
-            <input class="form-control custom-daterange mb-1" id="paidAtFilter" type="text" readonly name="paid_at" value="{{$filters['paid_at']}}">
-            <input type="checkbox" name="check-paid_at" id="check-paid_at" @if(request()->has('check-paid_at')) checked @endif> <label for="check-paid_at">@lang('translates.filters.filter_by')</label>
-        </div>
-        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-            <label class="d-block" for="createdAtFilter">{{trans('translates.fields.created_at')}}</label>
-            <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
-            <input type="checkbox" name="check-created_at" id="check-created_at" @if(request()->has('check-created_at')) checked @endif> <label for="check-created_at">@lang('translates.filters.filter_by')</label>
-        </div>
-        <div class="form-group col-12 col-md-3 mt-3 mb-3 pl-0">
-            <label class="d-block" for="vatDateFilter">{{trans('translates.fields.vat_date')}}</label>
-            <input class="form-control custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="vat_date" value="{{$filters['vat_date']}}">
-            <input type="checkbox" name="check-vat_date" id="check-vat_date" @if(request()->has('check-created_at')) checked @endif> <label for="check-vat_date">@lang('translates.filters.filter_by')</label>
-        </div>
-        <button type="submit" class="btn btn-primary">Filtrele</button>
-    </form>
-    <div class="work-stats">
-        <div>
-            <h1>Ayın əvvəlindən Qeyri-Rəsmi Məbləğ</h1>
-            <h2>{{ $totalIllegalAmount }}</h2>
-        </div>
-        <div>
-            <h1>Ayın əvvəlindən Rəsmi Məbləğ</h1>
-            <h2>{{ $totalAmount }}</h2>
-        </div>
-        <div>
-            <h1>Ayın əvvəlindən ƏDV Məbləğ</h1>
-            <h2>{{ $totalVat }}</h2>
-        </div>
-        <div>
-            <h1>Ümumi məbləğ</h1>
-            <h2>{{ $totalAll }}</h2>
-        </div>
-    </div>
-    <div class="work-stats">
-        <div>
-            <h1>Ödənmiş Qeyri-Rəsmi Məbləğ</h1>
-            <h2>{{ $totalPaidIllegal }}</h2>
-        </div>
-        <div>
-            <h1>Ödənmiş Rəsmi Məbləğ</h1>
-            <h2>{{ $totalPaidAmount }}</h2>
-        </div>
-        <div>
-            <h1>Ödənmiş ƏDV Məbləğ</h1>
-            <h2>{{ $totalPaidVat }}</h2>
-        </div>
-        <div>
-            <h1>Ödənmiş Ümumi məbləğ</h1>
-            <h2>{{ $totalPaidAll }}</h2>
-        </div>
 
-    </div>
-    <div class="work-stats">
-        <div>
-            <h1>Logistika Ödənmiş Ümumi məbləğ</h1>
-            <h2>{{ $logPurchase }}</h2>
+<div class="px-3 pb-4">
+
+    {{-- Filter Card --}}
+    <div class="card mb-4">
+        <div class="card-body py-3">
+            <form action="{{ route('total') }}" method="get">
+                <div class="row align-items-end">
+                    <div class="col-12 col-md-3">
+                        <label class="d-block small font-weight-bold" for="paidAtFilter">{{trans('translates.fields.paid_at')}}</label>
+                        <input class="form-control form-control-sm custom-daterange mb-1" id="paidAtFilter" type="text" readonly name="paid_at" value="{{$filters['paid_at']}}">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="check-paid_at" id="check-paid_at" @if(request()->has('check-paid_at')) checked @endif>
+                            <label class="custom-control-label small" for="check-paid_at">@lang('translates.filters.filter_by')</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <label class="d-block small font-weight-bold" for="createdAtFilter">{{trans('translates.fields.created_at')}}</label>
+                        <input class="form-control form-control-sm custom-daterange mb-1" id="createdAtFilter" type="text" readonly name="created_at" value="{{$filters['created_at']}}">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="check-created_at" id="check-created_at" @if(request()->has('check-created_at')) checked @endif>
+                            <label class="custom-control-label small" for="check-created_at">@lang('translates.filters.filter_by')</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <label class="d-block small font-weight-bold" for="vatDateFilter">{{trans('translates.fields.vat_date')}}</label>
+                        <input class="form-control form-control-sm custom-daterange mb-1" id="vatDateFilter" type="text" readonly name="vat_date" value="{{$filters['vat_date']}}">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="check-vat_date" id="check-vat_date" @if(request()->has('check-vat_date')) checked @endif>
+                            <label class="custom-control-label small" for="check-vat_date">@lang('translates.filters.filter_by')</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3 mt-2 mt-md-0">
+                        <button type="submit" class="btn btn-primary btn-sm px-4">
+                            <i class="fa fa-filter mr-1"></i> Filtrele
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
+    {{-- Ayın əvvəlindən --}}
+    <div class="stats-section-title">Ayın əvvəlindən</div>
+    <div class="row">
+        <div class="col-6 col-md-3">
+            <div class="stat-card stat-red">
+                <div class="stat-label">Qeyri-Rəsmi Məbləğ</div>
+                <div class="stat-value">{{ $totalIllegalAmount }}</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat-card stat-blue">
+                <div class="stat-label">Rəsmi Məbləğ</div>
+                <div class="stat-value">{{ $totalAmount }}</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat-card stat-orange">
+                <div class="stat-label">ƏDV Məbləğ</div>
+                <div class="stat-value">{{ $totalVat }}</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat-card stat-purple">
+                <div class="stat-label">Ümumi məbləğ</div>
+                <div class="stat-value">{{ $totalAll }}</div>
+            </div>
+        </div>
+    </div>
 
-    <div class="work-stats">
-        <div>
-            <h1>Aksizli Mallar Satış</h1>
-            <h2><span>Rəsmi məbləğ</span>:{{ $AMBGIAmount }}</h2>
-            <h2><span>Qeyri-rəsmi məbləğ</span>:{{ $AMBGIIllegal }}</h2>
-            <h2><span>ƏDV məbləğ</span>:{{ $AMBGIVat }}</h2>
-            <h2><span>Toplam məbləğ</span>:{{ $totalSalesAMBGI }}</h2>
+    {{-- Ödənmiş --}}
+    <div class="stats-section-title">Ödənmiş</div>
+    <div class="row">
+        <div class="col-6 col-md-3">
+            <div class="stat-card stat-red">
+                <div class="stat-label">Qeyri-Rəsmi Məbləğ</div>
+                <div class="stat-value">{{ $totalPaidIllegal }}</div>
+            </div>
         </div>
-        <div class="col-md-8">
-            <h1>Aksizli Mallar Ödənənlər</h1>
-            <h2><span>Rəsmi məbləğ</span>:{{ $AMBGIPaidAmount }}</h2>
-            <h2><span>Qeyri-rəsmi məbləğ</span>:{{ $AMBGIPaidIllegal }}</h2>
-            <h2><span>ƏDV məbləğ</span>:{{ $AMBGIPaidVat }}</h2>
-            <h2><span>Toplam məbləğ</span>:{{ $totalAMBGI }}</h2>
+        <div class="col-6 col-md-3">
+            <div class="stat-card stat-green">
+                <div class="stat-label">Rəsmi Məbləğ</div>
+                <div class="stat-value">{{ $totalPaidAmount }}</div>
+            </div>
         </div>
+        <div class="col-6 col-md-3">
+            <div class="stat-card stat-orange">
+                <div class="stat-label">ƏDV Məbləğ</div>
+                <div class="stat-value">{{ $totalPaidVat }}</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat-card stat-purple">
+                <div class="stat-label">Ümumi məbləğ</div>
+                <div class="stat-value">{{ $totalPaidAll }}</div>
+            </div>
+        </div>
+    </div>
 
-    </div>
-    <div class="work-stats">
-        <div >
-            <h1>Bakı Baş Gömrük Satış</h1>
-            <h2><span>Rəsmi məbləğ</span>:{{ $BBGIAmount }}</h2>
-            <h2><span>Qeyri-rəsmi məbləğ</span>:{{ $BBGIIllegal }}</h2>
-            <h2><span>ƏDV məbləğ</span>:{{ $BBGIVat }}</h2>
-            <h2><span>Toplam məbləğ</span>:{{ $totalSalesBBGI }}</h2>
-        </div>
-        <div class="col-md-8">
-            <h1>Bakı Baş Gömrük Ödənənlər</h1>
-            <h2><span>Rəsmi məbləğ</span>:{{ $BBGIPaidAmount }}</h2>
-            <h2><span>Qeyri-rəsmi məbləğ</span>:{{ $BBGIPaidIllegal }}</h2>
-            <h2><span>ƏDV məbləğ</span>:{{ $BBGIPaidVat }}</h2>
-            <h2><span>Toplam məbləğ</span>:{{ $totalBBGI }}</h2>
+    {{-- Logistika --}}
+    <div class="stats-section-title">Logistika</div>
+    <div class="row">
+        <div class="col-6 col-md-3">
+            <div class="stat-card stat-teal">
+                <div class="stat-label">Ödənmiş Ümumi məbləğ</div>
+                <div class="stat-value">{{ $logPurchase }}</div>
+            </div>
         </div>
     </div>
-    <div class="work-stats">
-        <div >
-            <h1>Hava Nəqliyyatı Baş Gömrük Satış</h1>
-            <h2><span>Rəsmi məbləğ</span>:{{ $HNBGIAmount }}</h2>
-            <h2><span>Qeyri-rəsmi məbləğ</span>:{{ $HNBGIIllegal }}</h2>
-            <h2><span>ƏDV məbləğ</span>:{{ $HNBGIVat }}</h2>
-            <h2><span>Toplam məbləğ</span>:{{ $totalSalesHNBGI }}</h2>
+
+    {{-- Şirkət bölmələri --}}
+    @foreach([
+        ['title' => 'Aksizli Mallar (AMBGİ)', 'sale' => ['amount' => $AMBGIAmount, 'illegal' => $AMBGIIllegal, 'vat' => $AMBGIVat, 'total' => $totalSalesAMBGI], 'paid' => ['amount' => $AMBGIPaidAmount, 'illegal' => $AMBGIPaidIllegal, 'vat' => $AMBGIPaidVat, 'total' => $totalAMBGI]],
+        ['title' => 'Bakı Baş Gömrük (BBGİ)',  'sale' => ['amount' => $BBGIAmount,  'illegal' => $BBGIIllegal,  'vat' => $BBGIVat,  'total' => $totalSalesBBGI],  'paid' => ['amount' => $BBGIPaidAmount,  'illegal' => $BBGIPaidIllegal,  'vat' => $BBGIPaidVat,  'total' => $totalBBGI]],
+        ['title' => 'Hava Nəqliyyatı (HNBGİ)', 'sale' => ['amount' => $HNBGIAmount, 'illegal' => $HNBGIIllegal, 'vat' => $HNBGIVat, 'total' => $totalSalesHNBGI], 'paid' => ['amount' => $HNBGIPaidAmount, 'illegal' => $HNBGIPaidIllegal, 'vat' => $HNBGIPaidVat, 'total' => $totalHNBGI]],
+    ] as $section)
+    <div class="stats-section-title">{{ $section['title'] }}</div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header py-2 small font-weight-bold bg-light">Satış</div>
+                <div class="card-body py-2">
+                    <div class="row">
+                        <div class="col-6 mb-2">
+                            <div class="company-stat-card">
+                                <div class="cs-label">Rəsmi</div>
+                                <div class="cs-value">{{ $section['sale']['amount'] }}</div>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <div class="company-stat-card">
+                                <div class="cs-label">Qeyri-rəsmi</div>
+                                <div class="cs-value">{{ $section['sale']['illegal'] }}</div>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <div class="company-stat-card">
+                                <div class="cs-label">ƏDV</div>
+                                <div class="cs-value">{{ $section['sale']['vat'] }}</div>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <div class="company-stat-card" style="border-left:3px solid #6f42c1">
+                                <div class="cs-label">Toplam</div>
+                                <div class="cs-value font-weight-bold">{{ $section['sale']['total'] }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-8">
-            <h1>Hava Nəqliyyatı Baş Gömrük Ödənənlər</h1>
-            <h2><span>Rəsmi məbləğ</span>:{{ $HNBGIPaidAmount }}</h2>
-            <h2><span>Qeyri-rəsmi məbləğ</span>:{{ $HNBGIPaidIllegal }}</h2>
-            <h2><span>ƏDV məbləğ</span>:{{ $HNBGIPaidVat }}</h2>
-            <h2><span>Toplam məbləğ</span>:{{ $totalHNBGI }}</h2>
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header py-2 small font-weight-bold bg-light">Ödənənlər</div>
+                <div class="card-body py-2">
+                    <div class="row">
+                        <div class="col-6 mb-2">
+                            <div class="company-stat-card">
+                                <div class="cs-label">Rəsmi</div>
+                                <div class="cs-value">{{ $section['paid']['amount'] }}</div>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <div class="company-stat-card">
+                                <div class="cs-label">Qeyri-rəsmi</div>
+                                <div class="cs-value">{{ $section['paid']['illegal'] }}</div>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <div class="company-stat-card">
+                                <div class="cs-label">ƏDV</div>
+                                <div class="cs-value">{{ $section['paid']['vat'] }}</div>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <div class="company-stat-card" style="border-left:3px solid #28a745">
+                                <div class="cs-label">Toplam</div>
+                                <div class="cs-value font-weight-bold">{{ $section['paid']['total'] }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    @endforeach
+
 </div>
-    <table class="table table-striped table-dark">
-        <thead>
+    <div class="stats-section-title px-3">Kassa Hesabatı</div>
+    <div class="card mx-3 mb-4">
+    <div class="table-responsive">
+    <table class="table table-bordered table-hover mb-0" style="font-size:13px">
+        <thead class="thead-dark">
         <tr>
-            <th scope="col" colspan="15" class="text-center">Kassa Hesabatı</th>
-        </tr>
         <tr>
             <th scope="col"></th>
             <th scope="col" class="text-center">Tarix</th>
@@ -380,8 +486,10 @@
         </tr>
         </tbody>
     </table>
+    </div>
+    </div>
 
-    <div class="card mt-4" id="company-payments-card">
+    <div class="card mx-3 mt-2 mb-4" id="company-payments-card">
         <div class="card-header">
             İllik / Son il üzrə toplam
             <small class="text-muted" id="company-payments-since"></small>
