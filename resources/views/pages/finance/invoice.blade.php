@@ -34,8 +34,33 @@
     $isEditable = !$isSaved; // All invoices are editable except signed ones
     
     $company = $data->getAttribute('company');
-    $representer = "Gömrük Təmsilçisi";
 
+    // Bank məlumatlarını DB-dən oxu
+    $bankAccount = \App\Models\CompanyBankAccount::where('slug', $company)->first();
+
+    if ($bankAccount) {
+        $companyName = $bankAccount->company_display_name
+            ?: ('"' . optional($bankAccount->company)->name . '" MMC');
+        $voen        = $bankAccount->voen ?? '';
+        $hh          = $bankAccount->hh ?? '';
+        $mh          = $bankAccount->mh ?? '';
+        $bank        = $bankAccount->bank_name ?? '';
+        $kod         = $bankAccount->bank_kod ?? '';
+        $bvoen       = $bankAccount->bank_voen ?? '';
+        $swift       = $bankAccount->swift ?? '';
+        $who         = $bankAccount->who ?? '';
+        $whoFooter   = $bankAccount->who_footer ?? '';
+        $representer = $bankAccount->representer ?? 'Gömrük Təmsilçisi';
+        $stamp       = asset($bankAccount->stamp ?? 'assets/images/finance/default-stamp.jpeg');
+    } else {
+        // Fallback: köhnə hardcoded dəyərlər (DB-də tapılmadıqda)
+        $companyName = 'Şirkət';
+        $voen = $hh = $mh = $bank = $kod = $bvoen = $swift = $who = $whoFooter = '';
+        $representer = 'Gömrük Təmsilçisi';
+        $stamp = asset('assets/images/finance/default-stamp.jpeg');
+    }
+
+ if (false) { // köhnə blok saxlanılıb, artıq istifadə edilmir
  if ($company == 'mbrokerKapital') {
      $companyName = "\"Mobil Broker\" MMC";
      $voen = "1804705371";
@@ -295,6 +320,7 @@
     $whoFooter = "";
     $stamp = asset('assets/images/finance/default-stamp.jpeg');
 }
+} // köhnə if(false) blokunun sonu
 @endphp
 
 @section('style')
@@ -383,26 +409,11 @@
             <div class="mb-2" id="bankAccountSelector" style="display:none; clear:both;">
                 <label for="bankAccountSelect">Bank Hesabı:</label>
                 <select id="bankAccountSelect" class="form-control" style="max-width: 400px;">
-                    <option value="mbrokerKapital" @if($company == 'mbrokerKapital') selected @endif>Mobil Broker Kapital</option>
-                    <option value="mbrokerRespublika" @if($company == 'mbrokerRespublika') selected @endif>Mobil Broker Bank Respublika</option>
-                    <option value="mgroupRespublika" @if($company == 'mgroupRespublika') selected @endif>Mobil Group Bank Respublika</option>
-                    <option value="mgroupKapital" @if($company == 'mgroupKapital') selected @endif>Mobil Group Kapital</option>
-                    <option value="garantKapital" @if($company == 'garantKapital') selected @endif>Garant Broker Kapital</option>
-                    <option value="garantRespublika" @if($company == 'garantRespublika') selected @endif>Garant Broker Bank Respublika</option>
-                    <option value="rigelRespublika" @if($company == 'rigelRespublika') selected @endif>Rigel Bank Respublika</option>
-                    <option value="rigelKapital" @if($company == 'rigelKapital') selected @endif>Rigel Kapital</option>
-                    <option value="mindRespublika" @if($company == 'mindRespublika') selected @endif>Mind Bank Respublika</option>
-                    <option value="mindKapital" @if($company == 'mindKapital') selected @endif>Mind Kapital</option>
-                    <option value="asazaRespublika" @if($company == 'asazaRespublika') selected @endif>Asaza Bank Respublika</option>
-                    <option value="asazaKapital" @if($company == 'asazaKapital') selected @endif>Asaza Kapital</option>
-                    <option value="tgroupKapital" @if($company == 'tgroupKapital') selected @endif>Tedora Group Kapital</option>
-                    <option value="dgroupKapital" @if($company == 'dgroupKapital') selected @endif>Declare Group Kapital</option>
-                    <option value="mtechnologiesRespublika" @if($company == 'mtechnologiesRespublika') selected @endif>Mobil Technologies Bank Respublika</option>
-                    <option value="mtechnologiesKapital" @if($company == 'mtechnologiesKapital') selected @endif>Mobil Technologies Kapital Bank</option>
-                    <option value="logisticsKapital" @if($company == 'logisticsKapital') selected @endif>Mobil Logistics Kapital</option>
-                    <option value="logisticsRespublika" @if($company == 'logisticsRespublika') selected @endif>Mobil Logistics Bank Respublika</option>
-                    <option value="mobexRespublika" @if($company == 'mobexRespublika') selected @endif>Mobex Bank Respublika</option>
-                    <option value="mobexKapital" @if($company == 'mobexKapital') selected @endif>Mobex Kapital Bank</option>
+                    @foreach(\App\Models\CompanyBankAccount::with('company')->orderBy('company_id')->orderBy('label')->get() as $ba)
+                        <option value="{{ $ba->slug }}" @if($company == $ba->slug) selected @endif>
+                            {{ $ba->label }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
 

@@ -92,6 +92,7 @@ use App\Http\Controllers\{Auth\EmailVerificationController,
     Modules\WidgetController,
     Modules\BranchCashController,
     Modules\ChatController,
+    Modules\CompanyBankAccountController,
     Modules\WorkController};
 use App\Http\Middleware\Localization;
 use App\Services\FirebaseApi;
@@ -299,6 +300,8 @@ Route::group([
     Route::resource('/banks', BankController::class);
     Route::post('/banks/updateBankAmount', [BankController::class, 'updateBankAmount']);
     Route::post('/sortable', [BankController::class, 'sortable'])->name('bank.sortable');
+
+    Route::resource('/bank-accounts', CompanyBankAccountController::class)->except(['show']);
 
     Route::get('/debitors/export', [DebitorController::class, 'export'])->name('debitors.export');
     Route::get('/debitors', [DebitorController::class, 'index'])->name('debitors.index');

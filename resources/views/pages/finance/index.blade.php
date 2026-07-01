@@ -32,31 +32,18 @@
                 <a href="{{ route('service-types.index') }}" class="btn btn-warning col-5 m-2">
                     <i class="fas fa-list"></i> Xidmət Növlərini İdarə Et
                 </a>
+                <a href="{{ route('bank-accounts.index') }}" class="btn btn-info col-5 m-2">
+                    <i class="fas fa-university"></i> Bank Hesablarını İdarə Et
+                </a>
             </div>
             <h3>Rekvizitlər</h3>
             <div class="row col-12 justify-content-center">
 
                 <select class="form-control col-4 mb-2 mr-2" id="companies" onchange="changeCompany()">
                     <option value="">Şirkət Seçin</option>
-                    <option value="mbrokerKapital">Mobil Broker Kapital</option>
-                    <option value="mbrokerRespublika">Mobil Broker Bank Respublika</option>
-                    <option value="mgroupRespublika">Mobil Group Bank Respublika</option>
-                    <option value="garantKapital">Garant Broker Kapital</option>
-                    <option value="garantRespublika">Garant Broker Bank Respublika</option>
-                    <option value="rigelRespublika">Rigel Bank Respublika</option>
-                    <option value="rigelKapital">Rigel Kapital</option>
-                    <option value="mindRespublika">Mind Bank Respublika</option>
-                    <option value="mindKapital">Mind Kapital</option>
-                    <option value="asazaRespublika">Asaza Bank Respublika</option>
-                    <option value="asazaKapital">Asaza Kapital</option>
-                    <option value="tgroupKapital">Tedora Group Kapital</option>
-                    <option value="dgroupKapital">Declare Group Kapital</option>
-                    <option value="mtechnologiesRespublika">Mobil Technologies Bank Respublika</option>
-                    <option value="mtechnologiesKapital">Mobil Technologies Kapital Bank</option>
-                    <option value="logisticsKapital">Mobil Logistics Kapital</option>
-                    <option value="logisticsRespublika">Mobil Logistics Bank Respublika</option>
-                    <option value="mobexRespublika">Mobex Bank Respublika</option>
-                    <option value="mobexKapital">Mobex Kapital Bank</option>
+                    @foreach(\App\Models\CompanyBankAccount::orderBy('label')->get(['slug','label']) as $ba)
+                        <option value="{{ $ba->slug }}">{{ $ba->label }}</option>
+                    @endforeach
                 </select>
                 <select id="clientSelect" onchange="changeClient()" class=" col-4 mt-4 select2">
                     <option value="">Müştəri seç</option>
