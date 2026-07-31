@@ -32,6 +32,9 @@
                 <a href="{{ route('service-types.index') }}" class="btn btn-warning col-5 m-2">
                     <i class="fas fa-list"></i> Xidmət Növlərini İdarə Et
                 </a>
+                <a href="{{ route('units.index') }}" class="btn btn-warning col-5 m-2">
+                    <i class="fas fa-list"></i> Ölçü Vahidlərini İdarə Et
+                </a>
                 <a href="{{ route('bank-accounts.index') }}" class="btn btn-info col-5 m-2">
                     <i class="fas fa-university"></i> Bank Hesablarını İdarə Et
                 </a>
@@ -175,7 +178,13 @@
                                 @endforeach
                             </select>
                         </td>
-                        <td>Ədəd</td>
+                        <td>
+                            <select id="input2" class="form-control">
+                                @foreach($units as $unit)
+                                    <option>{{ $unit }}</option>
+                                @endforeach
+                            </select>
+                        </td>
                         <td><input type="text" class="form-control" id="input3"></td>
                         <td><input type="text" class="form-control" id="input4"></td>
                         <td id="print-area"><button onclick="addRow()" class="btn btn-primary">+</button></td>
@@ -924,6 +933,7 @@
             var tableBody = $('#table-body');
             var newRow = tableBody[0].insertRow(tableBody[0].rows.length - 5);
 
+            var input2 = $('#input2 option:selected').text();
             var input3 = $('#input3').val();
             var input4 = $('#input4').val();
 
@@ -949,7 +959,7 @@
             var cell2 = newRow.insertCell(1);
             var cell22 = newRow2.insertCell(1);
             var cell23 = newRow3.insertCell(1);
-            cell2.textContent = "Ədəd";
+            cell2.textContent = input2;
             if (input1lValue === '') {
                 cell22.textContent = input1;
                 cell23.textContent = input1;
@@ -962,8 +972,8 @@
             var cell32 = newRow2.insertCell(2);
             var cell33 = newRow3.insertCell(2);
             cell3.textContent = input3;
-            cell32.textContent = "Ədəd";
-            cell33.textContent = "Ədəd";
+            cell32.textContent = input2;
+            cell33.textContent = input2;
 
             var cell4 = newRow.insertCell(3);
             var cell42 = newRow2.insertCell(3);
@@ -1013,6 +1023,7 @@
             $(cell6).append(deleteButton);
             var newRowData = {
                 input1: input1lValue === '' ? input1 : input1lValue,
+                input2: input2,
                 input3: input3,
                 input4: input4
             };

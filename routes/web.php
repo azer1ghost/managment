@@ -36,6 +36,7 @@ use App\Http\Controllers\{Auth\EmailVerificationController,
     Modules\EmployeeSatisfactionController,
     Modules\FinanceClientController,
     Modules\ServiceTypeController,
+    Modules\UnitController,
     Modules\FolderController,
     Modules\PdfSignatureController,
     Modules\FundController,
@@ -356,6 +357,11 @@ Route::group([
     Route::post('/service-types', [ServiceTypeController::class, 'store'])->name('service-types.store');
     Route::delete('/service-types/{serviceType}', [ServiceTypeController::class, 'destroy'])->name('service-types.destroy');
     Route::get('/service-types/list', [ServiceTypeController::class, 'list'])->name('service-types.list');
+
+    Route::get('/units', [UnitController::class, 'index'])->name('units.index');
+    Route::post('/units', [UnitController::class, 'store'])->name('units.store');
+    Route::delete('/units/{unit}', [UnitController::class, 'destroy'])->name('units.destroy');
+    Route::get('/units/list', [UnitController::class, 'list'])->name('units.list');
     
     // PDF Signature Stamping
     Route::get('/finance/pdf-signature', [PdfSignatureController::class, 'index'])->name('pdf-signature.index');

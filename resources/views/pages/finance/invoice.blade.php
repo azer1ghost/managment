@@ -476,7 +476,7 @@
                     @foreach(json_decode($data->getAttribute('services')) as $service)
                     <tr>
                         <td class="tabelBorder" @if($isEditable) contenteditable="true" @endif>{{$service->input1}}</td>
-                        <td class="tabelBorder">Ədəd</td>
+                        <td class="tabelBorder unit" @if($isEditable) contenteditable="true" @endif>{{$service->input2 ?? 'Ədəd'}}</td>
                         <td class="tabelBorder count count-{{$loop->iteration}}" @if($isEditable) contenteditable="true" @endif data-row="{{$loop->iteration}}">{{$service->input3}}</td>
                         <td class="tabelBorder amount amount-{{$loop->iteration}}" @if($isEditable) contenteditable="true" @endif data-row="{{$loop->iteration}}">{{$service->input4}}</td>
                         <td class="tabelBorder overal">{{$service->input3 * $service->input4}}</td>
@@ -497,7 +497,13 @@
                                 @endforeach
                             </select>
                         </td>
-                        <td>Ədəd</td>
+                        <td>
+                            <select id="input2" class="form-control">
+                                @foreach($units as $unit)
+                                    <option>{{ $unit }}</option>
+                                @endforeach
+                            </select>
+                        </td>
                         <td><input type="text" class="form-control" id="input3"></td>
                         <td><input type="text" class="form-control" id="input4"></td>
                         <td id="print-area">
@@ -577,7 +583,7 @@
                         <tr>
                             <td class="tabelBorder">{{$loop->iteration}}</td>
                             <td class="tabelBorder">{{$service->input1}}</td>
-                            <td class="tabelBorder">Ədəd</td>
+                            <td class="tabelBorder">{{$service->input2 ?? 'Ədəd'}}</td>
                             <td class="tabelBorder" id="countCell2-{{$loop->iteration}}">{{$service->input3}}</td>
                             <td class="tabelBorder" id="amountCell2-{{$loop->iteration}}">{{$service->input4}}</td>
                             <td class="tabelBorder" id="overalCell2-{{$loop->iteration}}">{{$service->input3 * $service->input4}}</td>
@@ -696,7 +702,7 @@
                         <tr>
                             <td class="tabelBorder">{{$loop->iteration}}</td>
                             <td class="tabelBorder service-name-3" @if($isEditable) contenteditable="true" @endif>{{$service->input1}}</td>
-                            <td class="tabelBorder">Ədəd</td>
+                            <td class="tabelBorder">{{$service->input2 ?? 'Ədəd'}}</td>
                             <td class="tabelBorder count-3 count-3-{{$loop->iteration}}" @if($isEditable) contenteditable="true" @endif id="countCell-{{$loop->iteration}}">{{$service->input3}}</td>
                             <td class="tabelBorder amount-3 amount-3-{{$loop->iteration}}" @if($isEditable) contenteditable="true" @endif id="amountCell-{{$loop->iteration}}">{{$service->input4}}</td>
                             <td class="tabelBorder overal-3" id="overalCell-{{$loop->iteration}}">{{$service->input3 * $service->input4}}</td>
@@ -966,6 +972,7 @@
         var tableBody = $('#table-body');
         var newRow = tableBody[0].insertRow(tableBody[0].rows.length - 5);
 
+        var input2 = $('#input2 option:selected').text();
         var input3 = $('#input3').val();
         var input4 = $('#input4').val();
 
@@ -989,7 +996,8 @@
         var cell2 = newRow.insertCell(1);
         var cell22 = newRow2.insertCell(1);
         var cell23 = newRow3.insertCell(1);
-        cell2.textContent = "Ədəd";
+        cell2.textContent = input2;
+        cell2.classList.add('unit');
         if (input1lValue === '') {
             cell22.textContent = input1;
             cell23.textContent = input1;
@@ -1006,8 +1014,8 @@
         // Calculate row index for data-row attribute
         var rowIndex = newRow.rowIndex;
         cell3.setAttribute('data-row', rowIndex);
-        cell32.textContent = "Ədəd";
-        cell33.textContent = "Ədəd";
+        cell32.textContent = input2;
+        cell33.textContent = input2;
         var cell4 = newRow.insertCell(3);
         var cell42 = newRow2.insertCell(3);
         var cell43 = newRow3.insertCell(3);
@@ -1058,6 +1066,7 @@
         $(cell6).append(deleteButton);
         var newRowData = {
             input1: input1lValue === '' ? input1 : input1lValue,
+            input2: input2,
             input3: input3,
             input4: input4
         };
@@ -1379,13 +1388,15 @@
             
             if ($countCell.length > 0 && $amountCell.length > 0) {
                 var input1 = $row.find('td:first').text().trim();
+                var input2 = $row.find('.unit').text().trim() || 'Ədəd';
                 var input3 = parseFloat($countCell.text().trim()) || 0;
                 var input4 = parseFloat($amountCell.text().trim()) || 0;
-                
+
                 // Validate service data
                 if (input1 && !isNaN(input3) && input3 > 0 && !isNaN(input4) && input4 > 0) {
                     services.push({
                         input1: input1,
+                        input2: input2,
                         input3: input3,
                         input4: input4
                     });

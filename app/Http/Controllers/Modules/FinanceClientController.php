@@ -9,13 +9,15 @@ use App\Models\FinanceClient;
 use Illuminate\Http\Request;
 use App\Models\Invoice;
 use App\Models\ServiceType;
+use App\Models\Unit;
 
 class FinanceClientController extends Controller
 {
     public function index()
     {
         $serviceTypes = ServiceType::orderBy('name')->pluck('name');
-        return view('pages.finance.index', compact('serviceTypes'));
+        $units = Unit::orderBy('name')->pluck('name');
+        return view('pages.finance.index', compact('serviceTypes', 'units'));
     }
 
     public function createFinanceClient(Request $request)
@@ -174,7 +176,8 @@ class FinanceClientController extends Controller
     public function financeInvoice(Invoice $invoice)
     {
         $serviceTypes = ServiceType::orderBy('name')->pluck('name');
-        return view('pages.finance.invoice')->with(['data' => $invoice, 'serviceTypes' => $serviceTypes]);
+        $units = Unit::orderBy('name')->pluck('name');
+        return view('pages.finance.invoice')->with(['data' => $invoice, 'serviceTypes' => $serviceTypes, 'units' => $units]);
     }
 
     public function editFinanceClient(FinanceClient $client)
