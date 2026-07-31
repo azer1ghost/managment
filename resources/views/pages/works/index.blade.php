@@ -856,6 +856,14 @@
         </div>
     @endif
 
+    @if(auth()->id() === 123)
+        <div class="col-12 pl-0 py-3">
+            <a href="{{route('works.sync-entry-date.all')}}" id="sync-entry-all" class="btn btn-warning btn-lg">
+                <i class="fal fa-sync-alt pr-2"></i>Bütün işlərdə giriş tarixini yenilə
+            </a>
+        </div>
+    @endif
+
     <div class="modal fade" id="create-work">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
@@ -970,6 +978,52 @@
 
         confirmJs($("a[verify]"));
         confirmJs($("#sum-verify"));
+
+        $("#sync-entry-all").click(function (e) {
+            e.preventDefault();
+            const url = $(this).attr('href');
+            $.confirm({
+                title: 'Diqqət!',
+                content: 'Bazadakı BÜTÜN işlərdə giriş tarixi yaradılma tarixi ilə əvəz olunacaq. Bu əməliyyat geri qaytarıla bilməz. Davam edilsin?',
+                autoClose: 'cancel|15000',
+                icon: 'fa fa-exclamation-triangle',
+                type: 'red',
+                theme: 'modern',
+                typeAnimated: true,
+                buttons: {
+                    confirm: {
+                        text: 'Bəli, yenilə',
+                        btnClass: 'btn-red',
+                        action: function () {
+                            $.ajax({
+                                url: url,
+                                type: 'PUT',
+                                success: function () {
+                                    window.location.reload();
+                                },
+                                error: function (err) {
+                                    console.log(err);
+                                    $.confirm({
+                                        title: 'Ops something went wrong!',
+                                        content: err?.responseJSON,
+                                        type: 'red',
+                                        typeAnimated: true,
+                                        buttons: {
+                                            close: {
+                                                text: 'Close',
+                                                btnClass: 'btn-blue',
+                                                keys: ['enter'],
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    },
+                    cancel: function () {},
+                }
+            });
+        });
 
         $("a[sync-entry]").click(function (e) {
             e.preventDefault();
