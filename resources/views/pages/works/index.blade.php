@@ -696,6 +696,11 @@
                                             <i class="fal fa-money-check pr-2 text-success"></i>Change Create Date
                                         </a>
                                 @endif
+                                @if(auth()->id() === 123)
+                                    <a href="{{route('works.sync-entry-date', $work)}}" sync-entry data-name="{{$work->getAttribute('code')}}" class="dropdown-item-text text-decoration-none">
+                                        <i class="fal fa-sync-alt pr-2 text-warning"></i>Giriş tarixini yenilə
+                                    </a>
+                                @endif
                             </div>
                         </div>
                         <td>
@@ -965,6 +970,49 @@
 
         confirmJs($("a[verify]"));
         confirmJs($("#sum-verify"));
+
+        $("a[sync-entry]").click(function (e) {
+            e.preventDefault();
+            const url = $(this).attr('href');
+            const name = $(this).data('name') ?? 'Record';
+            $.confirm({
+                title: 'Confirm sync',
+                content: `Giriş tarixi yaradılma tarixi ilə eyniləşdirilsin? <b>${name}</b>`,
+                autoClose: 'confirm|8000',
+                icon: 'fa fa-question',
+                type: 'blue',
+                theme: 'modern',
+                typeAnimated: true,
+                buttons: {
+                    confirm: function () {
+                        $.ajax({
+                            url: url,
+                            type: 'PUT',
+                            success: function () {
+                                window.location.reload();
+                            },
+                            error: function (err) {
+                                console.log(err);
+                                $.confirm({
+                                    title: 'Ops something went wrong!',
+                                    content: err?.responseJSON,
+                                    type: 'red',
+                                    typeAnimated: true,
+                                    buttons: {
+                                        close: {
+                                            text: 'Close',
+                                            btnClass: 'btn-blue',
+                                            keys: ['enter'],
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    },
+                    cancel: function () {},
+                }
+            });
+        });
 
         const worksCheckbox = $("input[name='works[]']");
 

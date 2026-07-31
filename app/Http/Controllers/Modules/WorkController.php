@@ -1205,6 +1205,15 @@ class WorkController extends Controller
         return back();
     }
 
+    public function syncEntryDate(Work $work)
+    {
+        abort_unless(auth()->id() === 123, 403);
+
+        $work->update(['entry_date' => $work->getAttribute('created_at')]);
+
+        return back();
+    }
+
     public function sumVerify(Request $request)
     {
         $err = 0;

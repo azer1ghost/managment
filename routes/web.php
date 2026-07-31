@@ -233,6 +233,7 @@ Route::group([
     Route::put('/works/{work}/vatPaid', [WorkController::class, 'vatPaid'])->name('works.vatPaid');
     Route::put('/works/{work}/invoice', [WorkController::class, 'invoice'])->name('works.invoice');
     Route::put('/works/{work}/changeCreate', [WorkController::class, 'changeCreate'])->name('works.changeCreate');
+    Route::put('/works/{work}/sync-entry-date', [WorkController::class, 'syncEntryDate'])->name('works.sync-entry-date');
     Route::post('/works/paymentMethod', [WorkController::class, 'paymentMethod'])->name('works.paymentMethod');
     Route::post('/works/invoice/fetch', [WorkController::class, 'fetchInvoiceWorks'])->name('works.invoice.fetch');
     Route::post('/works/payment/complete', [WorkController::class, 'completePayment'])->name('works.payment.complete');
