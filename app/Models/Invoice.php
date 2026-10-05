@@ -111,19 +111,8 @@ class Invoice extends Model
             $sum += $count * $unitPrice;
         }
 
-        // Apply VAT multiplier based on company type
-        // Companies with VAT: mbrokerRespublika, mtechnologiesRespublika, garantRespublika,
-        // garantKapital, mbrokerKapital, mtechnologiesKapital use 1.18 (18% VAT included)
-        // Other companies use 1.0 (no VAT)
-        $company = $this->company ?? '';
-        $vatMultiplier = in_array($company, [
-            'mbrokerRespublika',
-            'mtechnologiesRespublika',
-            'garantRespublika',
-            'garantKapital',
-            'mbrokerKapital',
-            'mtechnologiesKapital'
-        ]) ? 1.18 : 1.0;
+        // Apply VAT multiplier based on company's has_no_vat (Companies section)
+        $vatMultiplier = CompanyBankAccount::slugHasVat($this->company) ? 1.18 : 1.0;
 
         // Final total = sum * VAT multiplier
         return $sum * $vatMultiplier;

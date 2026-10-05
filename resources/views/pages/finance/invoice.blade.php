@@ -774,6 +774,9 @@
         let isEditMode = @json($isEditable);
         let edvDisabled = false;
 
+        // ƏDV statusu Companies bölməsindən (has_no_vat) gəlir
+        const vatCompanies = @json(\App\Models\CompanyBankAccount::vatMap());
+
         function toggleEdv() {
             edvDisabled = !edvDisabled;
             if (edvDisabled) {
@@ -875,6 +878,7 @@
                 // Update company data attribute
                 $('#companyName').attr('data-company', selectedCompany);
                 $('#getCompany').text(bankData.name);
+                calculateTotal();
             }
         });
     </script>
@@ -1215,8 +1219,8 @@
         var vatCell = $('#vat');
         var totalCell = $('#total');
 
-        var edvCompany = $('#companies').val();
-        var edv = (edvCompany !== 'mbrokerRespublika' && edvCompany !== 'mtechnologiesRespublika' && edvCompany !== 'garantRespublika' && edvCompany !== 'garantKapital' && edvCompany !== 'mbrokerKapital' && edvCompany !== 'mtechnologiesKapital') ? 1 : 1.18;
+        var isVatCompany = vatCompanies[$('#companyName').attr('data-company')] === true;
+        var edv = (isVatCompany && !edvDisabled) ? 1.18 : 1;
 
         var overallElements = $(".overal");
         var sum = 0;
@@ -1234,26 +1238,23 @@
             }
         });
 
-        var getCompany = $("#getCompany").html();
-
         var sumElement = $(".sum");
         var vatElement = $(".vat");
         var totalElement = $(".total");
         sumCell.text(sum.toFixed(2));
-        vatCell.text((sum * 0.18).toFixed(2));
+        vatCell.text((sum * (edv > 1 ? 0.18 : 0)).toFixed(2));
         totalCell.text((sum * edv).toFixed(2));
         $('#sum2').html(sum.toFixed(2));
-            $('#vat2').html((sum * 0.18).toFixed(2));
+            $('#vat2').html((sum * (edv > 1 ? 0.18 : 0)).toFixed(2));
             $('#total2').html((sum * edv).toFixed(2));
             $('#sum3').html(sum.toFixed(2));
-            $('#vat3').html((sum * 0.18).toFixed(2));
+            $('#vat3').html((sum * (edv > 1 ? 0.18 : 0)).toFixed(2));
             $('#total3').html((sum * edv).toFixed(2));
         $('#total4').html((sum * edv).toFixed(2));
         $('#total5').html((sum * edv).toFixed(2));
         $('#total6').html((sum * edv).toFixed(2));
         $('#total7').html((sum * edv).toFixed(2));
 
-        var isVatCompany = (getCompany === '\"Mobil Broker\" MMC' || getCompany === '\"Garant Broker\" MMC' || getCompany === '\"Mobil Technologies\" MMC');
         if (!isVatCompany || edvDisabled) {
             $("#vatColumn, #vatColumn2, #vatColumn3").hide();
             vatElement.text('0.00');

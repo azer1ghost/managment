@@ -546,6 +546,13 @@
             $('#loginput').css('display', 'none');
         });
 
+        // ƏDV statusu Companies bölməsindən (has_no_vat) gəlir
+        const vatCompanies = @json(\App\Models\CompanyBankAccount::vatMap());
+
+        function companyHasVat(company) {
+            return vatCompanies[company] === true;
+        }
+
         function changeCompany() {
             var company = $('#companies').val();
 
@@ -789,6 +796,13 @@
             $('#who').text(who);
             $('#who-footer').text(whoFooter);
 
+            if (companyHasVat(company)) {
+                $('#vatColumn, #vatColumn2, #vatColumn3').show();
+            } else {
+                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
+            }
+            calculateTotal();
+
             if (company == 'logisticsKapital' || company == 'logisticsRespublika') {
                 $('#loginput').show();
                 $('#brokerinput').hide();
@@ -898,18 +912,18 @@
             var vatCell = $('#vat');
             var totalCell = $('#total');
 
-            var edvCompany = $('#companies').val();
-            var edv = (edvCompany !== 'mbrokerRespublika' && edvCompany !== 'mtechnologiesRespublika' && edvCompany !== 'garantRespublika' && edvCompany !== 'garantKapital' && edvCompany !== 'mbrokerKapital' && edvCompany !== 'mtechnologiesKapital') ? 1 : 1.18;
+            var edv = companyHasVat($('#companies').val()) ? 1.18 : 1;
 
+            var vatValue = edv > 1 ? sum * 0.18 : 0;
             var totalValue = sum * edv;
             sumCell.text(sum.toFixed(2));
-            vatCell.text((sum * 0.18).toFixed(2));
+            vatCell.text(vatValue.toFixed(2));
             totalCell.text(totalValue.toFixed(2));
             $('#sum2').html(sum.toFixed(2));
-            $('#vat2').html((sum * 0.18).toFixed(2));
+            $('#vat2').html(vatValue.toFixed(2));
             $('#total2').html(totalValue.toFixed(2));
             $('#sum3').html(sum.toFixed(2));
-            $('#vat3').html((sum * 0.18).toFixed(2));
+            $('#vat3').html(vatValue.toFixed(2));
             $('#total3').html((sum * edv).toFixed(2));
             $('#total4').html((sum * edv).toFixed(2));
             $('#total5').html((sum * edv).toFixed(2));
