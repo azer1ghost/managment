@@ -6,11 +6,11 @@ use Illuminate\Support\Facades\Http;
 
 class PoctGoyercini
 {
-    protected string $user;
-    protected string $password;
+    protected ?string $user;
+    protected ?string $password;
     protected ?string $to;
     protected string $message;
-    private string $baseUrl;
+    private ?string $baseUrl;
 
     public function __construct($to = null, $message = null)
     {
@@ -24,25 +24,35 @@ class PoctGoyercini
 
     public function send(): array
     {
-        $response = Http::get( $this->baseUrl, [
-            'user'      => $this->user,
-            'password'  => $this->password,
-            'gsm'       => $this->to,
-            'text'      => $this->message
-        ])->body();
+        if (!$this->baseUrl || !$this->user || !$this->password) {
+            return ['sent' => false, 'error' => 'POCT_GOYERCHINI_URL / USER / PASS is not configured'];
+        }
 
-        $responseLines = explode('&', $response);
+        try {
+            $response = Http::timeout(15)->get( $this->baseUrl, [
+                'user'      => $this->user,
+                'password'  => $this->password,
+                'gsm'       => $this->to,
+                'text'      => $this->message
+            ])->body();
+        } catch (\Throwable $e) {
+            return ['sent' => false, 'error' => $e->getMessage()];
+        }
 
-        $data = [];
+        $responseLines = explode('&', trim($response));
+
+        $data = ['raw' => $response];
 
         foreach ($responseLines as $responseLine)
         {
-            $segments = explode('=', $responseLine);
+            $segments = explode('=', $responseLine, 2);
 
-            $data[$segments[0]] = $segments[1] != "" ? is_numeric($segments[1]) ? (int) $segments[1] : $segments[1] : null;
+            $value = $segments[1] ?? '';
+
+            $data[$segments[0]] = $value != "" ? (is_numeric($value) ? (int) $value : $value) : null;
         }
 
-        $data['sent'] = !$data['errno'];
+        $data['sent'] = array_key_exists('errno', $data) && !$data['errno'];
 
         return $data;
     }

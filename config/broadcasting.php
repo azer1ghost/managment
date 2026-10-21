@@ -16,7 +16,9 @@ return [
     */
 
     'default' => env('BROADCAST_DRIVER', 'null'),
-    'smsProvider' => env('SMS_PROVIDER', 'null'),
+    'smsProvider' => env('SMS_PROVIDER', \App\Services\SmsProviders\PoctGoyercini::class),
+    // true olduqda SMS göndərilmir, yalnız log-a yazılır (default: local mühitdə true)
+    'smsDryRun' => (bool) env('SMS_DRY_RUN', env('APP_ENV') === 'local'),
     /*
     |--------------------------------------------------------------------------
     | Broadcast Connections

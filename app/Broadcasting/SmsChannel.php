@@ -18,7 +18,7 @@ class SmsChannel
         $notification
             ->toSms($notifiable)
             ->dryRun(
-                app()->environment('local')
+                config('broadcasting.smsDryRun')
             )
             ->send();
     }

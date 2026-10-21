@@ -50,6 +50,10 @@ class SmsMessage
 
             $this->logRealResponse($response);
 
+            if (!$response['sent']) {
+                \Log::channel('daily')->error('#SMS Message not sent to "'. $this->to .'". Provider response - '. json_encode($response));
+            }
+
             return $response['sent'];
         }
 
