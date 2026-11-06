@@ -82,6 +82,7 @@ class WorkController extends Controller
         $filters['sorter_id'] = $request->get('sorter_id');
         $filters['analyst_id'] = $request->get('analyst_id');
         $filters['zero_amount'] = $request->get('zero_amount');
+        $filters['empty_amount'] = $request->get('empty_amount');
 
         $dateFilters = [
             'datetime' => $request->has('check-datetime'),

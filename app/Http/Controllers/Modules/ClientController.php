@@ -326,26 +326,18 @@ class ClientController extends Controller
         // Per-department service prices
         foreach ($request->get('dept_services', []) as $deptId => $deptServiceList) {
             foreach ($deptServiceList as $serviceId => $data) {
-                $amount = $data['amount'] !== '' ? $data['amount'] : null;
-                $exists = DB::table('client_service')
-                    ->where('client_id', $client->id)
-                    ->where('service_id', $serviceId)
-                    ->where('department_id', $deptId)
-                    ->exists();
+                $amount = \App\Models\Work::toNumber($data['amount'] ?? null);
+                $where = [
+                    'client_id' => $client->id,
+                    'service_id' => $serviceId,
+                    'department_id' => $deptId,
+                ];
 
-                if ($exists) {
-                    DB::table('client_service')
-                        ->where('client_id', $client->id)
-                        ->where('service_id', $serviceId)
-                        ->where('department_id', $deptId)
-                        ->update(['amount' => $amount]);
+                // Boş şöbə qiyməti saxlanmır, yoxsa ümumi qiyməti bağlayır
+                if ($amount === null) {
+                    DB::table('client_service')->where($where)->delete();
                 } else {
-                    DB::table('client_service')->insert([
-                        'client_id' => $client->id,
-                        'service_id' => $serviceId,
-                        'department_id' => $deptId,
-                        'amount' => $amount,
-                    ]);
+                    DB::table('client_service')->updateOrInsert($where, ['amount' => $amount]);
                 }
             }
         }

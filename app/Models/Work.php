@@ -358,7 +358,9 @@ class Work extends Model implements DocumentableInterface, Recordable
 
     /**
      * Müştərinin bu iş üçün vahid qiymətini və mənbəyini qaytarır:
-     * 1) client_service — işin şöbəsi üçün, 2) client_service — ümumi (şöbəsiz), 3) clients.price
+     * 1) client_service — işin şöbəsi üçün, 2) client_service — ümumi (şöbəsiz).
+     * Şöbə sətri var, amma qiyməti boşdursa ümumi qiymət götürülür.
+     * clients.price istifadə olunmur — orada sərbəst mətn saxlanılır.
      *
      * @return array{0: float|null, 1: string|null}
      */
@@ -385,11 +387,6 @@ class Work extends Model implements DocumentableInterface, Recordable
             if ($row->department_id === null && ($price = self::toNumber($row->amount)) !== null) {
                 return [$price, 'ümumi xidmət qiyməti'];
             }
-        }
-
-        $client = $work->relationLoaded('client') ? $work->getRelation('client') : Client::find($work->client_id);
-        if ($client && ($price = self::toNumber($client->getAttribute('price'))) !== null) {
-            return [$price, 'müştəri qiyməti'];
         }
 
         return [null, null];

@@ -46,7 +46,7 @@ class WorkRepository implements WorkRepositoryInterface
             })
             ->where(function ($query) use ($filters, $dateFilters, $dateRanges) {
                 foreach ($filters as $column => $value) {
-                    if (in_array($column, ['limit', 'zero_amount', 'statuses', 'status'])) continue;
+                    if (in_array($column, ['limit', 'zero_amount', 'empty_amount', 'statuses', 'status'])) continue;
 
                     $query->when($value, function ($query, $value) use ($column, $dateFilters, $dateRanges) {
                         if ($column == 'verified_at') {
@@ -89,6 +89,14 @@ class WorkRepository implements WorkRepositoryInterface
                         ->whereNotNull('value')
                         ->where('value', '!=', '')
                         ->where('value', '!=', '0');
+                });
+            })
+            ->when(!empty($filters['empty_amount']), function ($query) {
+                // Məbləğ (parametr 33) xanası boş olan işlər; 0 yazılanlar daxil deyil
+                $query->whereDoesntHave('parameters', function ($q) {
+                    $q->where('parameter_id', \App\Models\Work::AMOUNT)
+                        ->whereNotNull('value')
+                        ->where('value', '!=', '');
                 });
             })
             ->orderByDesc('created_at')
