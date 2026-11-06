@@ -6,6 +6,7 @@ use App\Exports\ClientsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use App\Imports\ClientImport;
+use App\Imports\ClientServiceImport;
 use App\Interfaces\ClientRepositoryInterface;
 use App\Models\Client;
 use App\Models\Company;
@@ -494,6 +495,13 @@ class ClientController extends Controller
     public function excelImport()
     {
         Excel::import(new ClientImport(), 'clientsImport.xlsx');
+
+        return redirect('/')->with('success', 'All good!');
+    }
+
+    public function excelImportServices()
+    {
+        Excel::import(new ClientServiceImport(), 'clientServicesImport.xlsx');
 
         return redirect('/')->with('success', 'All good!');
     }

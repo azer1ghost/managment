@@ -343,30 +343,144 @@ class Work extends Model implements DocumentableInterface, Recordable
     {
         return $query->where('status', self::PENDING);
     }
-    public static function getClientServiceAmount($work)
+    /**
+     * "2,5", " 3 " kimi dəyərləri rəqəmə çevirir; boş/rəqəm olmayan dəyər üçün null
+     */
+    public static function toNumber($value): ?float
     {
-        $deptId = $work->department_id;
+        if ($value === null) {
+            return null;
+        }
+        $value = str_replace([',', ' '], ['.', ''], trim((string) $value));
 
-        if ($deptId) {
-            $clientService = DB::table('client_service')
-                ->where('client_id', $work->client_id)
-                ->where('service_id', $work->service_id)
-                ->where('department_id', $deptId)
-                ->first();
+        return is_numeric($value) ? (float) $value : null;
+    }
 
-            if ($clientService) {
-                return $clientService->amount;
+    /**
+     * Müştərinin bu iş üçün vahid qiymətini və mənbəyini qaytarır:
+     * 1) client_service — işin şöbəsi üçün, 2) client_service — ümumi (şöbəsiz), 3) clients.price
+     *
+     * @return array{0: float|null, 1: string|null}
+     */
+    public static function getClientServicePrice($work): array
+    {
+        if (!$work->client_id) {
+            return [null, null];
+        }
+
+        $rows = DB::table('client_service')
+            ->where('client_id', $work->client_id)
+            ->where('service_id', $work->service_id)
+            ->get(['department_id', 'amount']);
+
+        if ($work->department_id) {
+            foreach ($rows as $row) {
+                if ((int) $row->department_id === (int) $work->department_id && ($price = self::toNumber($row->amount)) !== null) {
+                    return [$price, 'şöbə qiyməti'];
+                }
             }
         }
 
-        // Fallback: ümumi qiymət (department_id olmayan)
-        $clientService = DB::table('client_service')
-            ->where('client_id', $work->client_id)
-            ->where('service_id', $work->service_id)
-            ->whereNull('department_id')
-            ->first();
+        foreach ($rows as $row) {
+            if ($row->department_id === null && ($price = self::toNumber($row->amount)) !== null) {
+                return [$price, 'ümumi xidmət qiyməti'];
+            }
+        }
 
-        return $clientService?->amount;
+        $client = $work->relationLoaded('client') ? $work->getRelation('client') : Client::find($work->client_id);
+        if ($client && ($price = self::toNumber($client->getAttribute('price'))) !== null) {
+            return [$price, 'müştəri qiyməti'];
+        }
+
+        return [null, null];
+    }
+
+    public static function getClientServiceAmount($work)
+    {
+        return self::getClientServicePrice($work)[0];
+    }
+
+    // Məbləğ xidmət sayı ilə hesablanan xidmətlər
+    const COUNT_SERVICES = [5, 6, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41, 54, 53];
+    // Məbləğ GB və əsas vərəq ilə hesablanan xidmətlər
+    const GB_SERVICES = [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48];
+    // Məbləğ GB və QİB əsas vərəq ilə hesablanan xidmətlər
+    const QIB_SERVICES = [2];
+    // Bu asan imzalarda (əsas vərəq qiyməti olduqda) məbləğ 0 olur
+    const ZERO_AMOUNT_ASAN_IDS = [22];
+    const VAT_RATE = 0.18;
+
+    /**
+     * Müştərinin şöbə/xidmət qiymətinə və GB/xidmət sayına görə məbləği,
+     * asan imzanın şirkətinə görə ƏDV-ni hesablayır. Yadda saxlamır.
+     *
+     * @return array{0: float, 1: float}|null  [məbləğ, ƏDV]; hesablamaq mümkün deyilsə null
+     */
+    public function calculateAmountAndVat(): ?array
+    {
+        $price = self::getClientServiceAmount($this);
+        if ($price === null) {
+            return null;
+        }
+        $serviceId = (int) $this->service_id;
+        $num = fn($value) => self::toNumber($value) ?? 0.0;
+
+        if (in_array($serviceId, self::COUNT_SERVICES)) {
+            $count = self::toNumber($this->getParameter(self::SERVICECOUNT));
+            if ($count === null) {
+                return null;
+            }
+            $amount = $price * $count;
+        } elseif (in_array($serviceId, self::GB_SERVICES) || in_array($serviceId, self::QIB_SERVICES)) {
+            $gb = self::toNumber($this->getParameter(self::GB));
+            $client = $this->getRelationValue('client');
+            if ($gb === null || !$client) {
+                return null;
+            }
+            $deptId = (int) $this->department_id;
+            $paper = $num(in_array($serviceId, self::QIB_SERVICES)
+                ? $client->getQibPaperForDept($deptId)
+                : $client->getMainPaperForDept($deptId));
+
+            if ($paper > 0) {
+                if (in_array((int) $this->asan_imza_id, self::ZERO_AMOUNT_ASAN_IDS)) {
+                    $amount = 0;
+                } else {
+                    $mainPage = $num($this->getParameter(self::MAINPAGE));
+                    $amount = $price * ($gb - $mainPage) + $paper * $mainPage;
+                }
+            } else {
+                $amount = $price * $gb + $paper;
+            }
+        } else {
+            return null;
+        }
+
+        $amount = round($amount, 2);
+
+        // ƏDV asan imzanın şirkətinə görə: şirkət ƏDV-sizdirsə 0, əks halda 18%
+        $asanImza = $this->getRelationValue('asanImza');
+        $vat = ($asanImza && $asanImza->getKey() && !$asanImza->hasNoVat())
+            ? round($amount * self::VAT_RATE, 2)
+            : 0.0;
+
+        return [$amount, $vat];
+    }
+
+    /**
+     * Məbləğ və ƏDV-ni hesablayıb yazır (parametr sətri yoxdursa yaradır).
+     */
+    public function applyAmountAndVat(): ?array
+    {
+        $result = $this->calculateAmountAndVat();
+
+        if ($result !== null) {
+            [$amount, $vat] = $result;
+            $this->setParameterValue(self::AMOUNT, $amount);
+            $this->setParameterValue(self::VAT, $vat);
+        }
+
+        return $result;
     }
     public function customerEngagement()
     {

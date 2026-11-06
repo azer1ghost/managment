@@ -716,58 +716,10 @@ class WorkController extends Controller
         $work->parameters()->sync($parameters);
 
 
-        if (in_array($request->get('service_id'), [5, 6, 31, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41, 54, 53])) {
-            $amount = Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT);
-            $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => $amount]);
-            
-            // VAT hesablaması - Company-nin has_no_vat statusuna görə
-            $asanImza = $work->asanImza;
-            $vat = 0;
-            if ($asanImza && !$asanImza->hasNoVat() && $amount !== null) {
-                $vat = round($amount * 0.18, 2);
-            }
-            $work->parameters()->updateExistingPivot($work::VAT, ['value' => $vat]);
-        } else if (in_array($request->get('service_id'), [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48])) {
-            $client = $work->getRelationValue('client');
-            $mainPaper = $client->getMainPaperForDept((int) $work->department_id);
-            $amount = null;
-
-            if ($mainPaper > 0) {
-                $amount = (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($mainPaper * $work->getParameter($work::MAINPAGE));
-            } else {
-                $amount = Work::getClientServiceAmount($work) * $work->getParameter($work::GB) + $mainPaper;
-            }
-
-            $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => $amount]);
-
-            // VAT hesablaması - Company-nin has_no_vat statusuna görə
-            $asanImza = $work->asanImza;
-            $vat = 0;
-            if ($asanImza && !$asanImza->hasNoVat() && $amount !== null) {
-                $vat = round($amount * 0.18, 2);
-            }
-            $work->parameters()->updateExistingPivot($work::VAT, ['value' => $vat]);
-        } else if (in_array($request->get('service_id'), [2])) {
-            $client = $work->getRelationValue('client');
-            $qibPaper = $client->getQibPaperForDept((int) $work->department_id);
-            $amount = null;
-
-            if ($qibPaper > 0) {
-                $amount = (Work::getClientServiceAmount($work) * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE))) + ($qibPaper * $work->getParameter($work::MAINPAGE));
-            } else {
-                $amount = Work::getClientServiceAmount($work) * $work->getParameter($work::GB) + $qibPaper;
-            }
-
-            $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => $amount]);
-
-            // VAT hesablaması - Company-nin has_no_vat statusuna görə
-            $asanImza = $work->asanImza;
-            $vat = 0;
-            if ($asanImza && !$asanImza->hasNoVat() && $amount !== null) {
-                $vat = round($amount * 0.18, 2);
-            }
-            $work->parameters()->updateExistingPivot($work::VAT, ['value' => $vat]);
-        }
+        // Məbləğ və ƏDV: müştərinin şöbə/xidmət qiyməti + GB/xidmət sayı, ƏDV asan imzanın şirkətinə görə
+        $work->unsetRelation('parameters');
+        $work->load('client', 'asanImza', 'department');
+        $work->applyAmountAndVat();
 
         if ((int)$work->service_id === 2) {
             $link = $work->link_key ?: (string) Str::uuid();
@@ -1034,88 +986,10 @@ class WorkController extends Controller
         $serviceCountChanged = isset($validated['parameters'][$serviceCountParamId]);
 
         if (Work::getClientServiceAmount($work) > 0 && ($firstAsan == 1 || $gbChanged || $serviceCountChanged)) {
-
-            $serviceId = $request->get('service_id');
-            $asanImzaId = $request->get('asan_imza_id');
-            $client = $work->client;
-            $deptId = $work->department->id;
-
-            $amount = null;
-            $vat = 0;
-
-            // ==================== AMOUNT hesablamaları ====================
-
-            // Sadə xidmətlər
-            if (in_array($serviceId, [5, 6, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41, 54, 53])) {
-                $amount = Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT);
-            }
-
-            // GB və MAINPAGE əsaslı xidmətlər
-            elseif (in_array($serviceId, [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48])) {
-                $mainPaper = $client->getMainPaperForDept((int) $deptId);
-                if ($mainPaper > 0) {
-                    if (in_array($asanImzaId, [22])) {
-                        $amount = 0;
-
-                        // Illegal məbləğ
-                        if ($deptId === 12)
-                            $work->parameters()->updateExistingPivot($work::ILLEGALAMOUNT, ['value' => $work->getParameter($work::GB) * 55]);
-                        elseif ($deptId === 13)
-                            $work->parameters()->updateExistingPivot($work::ILLEGALAMOUNT, ['value' => $work->getParameter($work::GB) * 55]);
-
-                    } else {
-                        $amount = (Work::getClientServiceAmount($work)
-                                * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE)))
-                            + ($mainPaper * $work->getParameter($work::MAINPAGE));
-                    }
-                } else {
-                    $amount = Work::getClientServiceAmount($work) * $work->getParameter($work::GB) + $mainPaper;
-                }
-            }
-
-            // QİB əsaslı xidmətlər
-            elseif (in_array($serviceId, [2])) {
-                $qibPaper = $client->getQibPaperForDept((int) $deptId);
-                if ($qibPaper > 0) {
-                    if (in_array($asanImzaId, [22])) {
-                        $amount = 0;
-                    } else {
-                        $amount = (Work::getClientServiceAmount($work)
-                                * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE)))
-                            + ($qibPaper * $work->getParameter($work::MAINPAGE));
-                    }
-                } else {
-                    $amount = Work::getClientServiceAmount($work) * $work->getParameter($work::GB) + $qibPaper;
-                }
-            }
-
-            // AMOUNT pivotunu yenilə
-            if ($amount !== null) {
-                $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => round($amount, 2)]);
-            }
-
-            // ==================== VAT hesablamaları ====================
-
-            // Asan İmza-nın Company ID-yə görə VAT-siz olub-olmadığını yoxlayırıq
-            // Əgər Company has_no_vat = true olarsa, VAT 0%, yoxdursa 18%
-            $asanImza = $asanImzaId ? AsanImza::with('company')->find($asanImzaId) : null;
-            if ($asanImza && $amount !== null) {
-                if (!$asanImza->hasNoVat()) {
-                    // Company ƏDV-li olduğu üçün 18% ƏDV hesablanır
-                    $vat = round($amount * 0.18, 2);
-                } else {
-                    // Company ƏDV-siz olduğu üçün VAT = 0
-                    $vat = 0;
-                }
-            }
-
-            // VAT pivotunu yenilə
-            $work->parameters()->updateExistingPivot($work::VAT, ['value' => $vat]);
+            $work->unsetRelation('asanImza');
+            $work->applyAmountAndVat();
+            $this->applyIllegalAmount($work, [12 => 55, 13 => 55]);
         }
-
-
-
-
 
         return redirect()
             ->route('works.show', $work)
@@ -1348,76 +1222,30 @@ class WorkController extends Controller
      */
     protected function recalculateAmountAndVat(Work $work)
     {
-        $serviceId = $work->service_id;
-        $asanImzaId = $work->asan_imza_id;
-        $client = $work->client;
-        $deptId = $work->department->id;
+        [$amount, $vat] = $work->applyAmountAndVat() ?? [0, 0];
+        $this->applyIllegalAmount($work, [12 => 20, 13 => 15]);
 
-        $amount = null;
-        $vat = 0;
+        return [round($amount, 2), round($vat, 2)];
+    }
 
-        // ==================== AMOUNT hesablamaları ====================
+    /**
+     * Əsas vərəq qiyməti olan GB xidmətlərində 22 nömrəli asan imza üçün illegal məbləğ (GB * şöbə tarifi)
+     */
+    protected function applyIllegalAmount(Work $work, array $ratesByDept): void
+    {
+        $deptId = (int) $work->department_id;
 
-        if (in_array($serviceId, [5, 6, 31, 33, 34, 35, 36, 37, 38, 7, 8, 9, 3, 4, 10, 11, 12, 49, 41, 54, 53])) {
-            $amount = Work::getClientServiceAmount($work) * $work->getParameter($work::SERVICECOUNT);
+        if (!isset($ratesByDept[$deptId])
+            || !in_array((int) $work->service_id, Work::GB_SERVICES)
+            || !in_array((int) $work->asan_imza_id, Work::ZERO_AMOUNT_ASAN_IDS)
+            || !($work->client && (float) $work->client->getMainPaperForDept($deptId) > 0)) {
+            return;
         }
 
-        elseif (in_array($serviceId, [1, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 29, 30, 42, 48])) {
-            $mainPaper = $client->getMainPaperForDept((int) $deptId);
-            if ($mainPaper > 0) {
-                if (in_array($asanImzaId, [22])) {
-                    $amount = 0;
-                    if ($deptId === 12)
-                        $work->parameters()->updateExistingPivot($work::ILLEGALAMOUNT, ['value' => $work->getParameter($work::GB) * 20]);
-                    elseif ($deptId === 13)
-                        $work->parameters()->updateExistingPivot($work::ILLEGALAMOUNT, ['value' => $work->getParameter($work::GB) * 15]);
-                } else {
-                    $amount = (Work::getClientServiceAmount($work)
-                            * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE)))
-                        + ($mainPaper * $work->getParameter($work::MAINPAGE));
-                }
-            } else {
-                $amount = Work::getClientServiceAmount($work) * $work->getParameter($work::GB) + $mainPaper;
-            }
+        $gb = $work->getParameter(Work::GB);
+        if (is_numeric($gb)) {
+            $work->setParameterValue(Work::ILLEGALAMOUNT, (float) $gb * $ratesByDept[$deptId]);
         }
-
-        elseif (in_array($serviceId, [2])) {
-            $qibPaper = $client->getQibPaperForDept((int) $deptId);
-            if ($qibPaper > 0) {
-                if (in_array($asanImzaId, [22])) {
-                    $amount = 0;
-                } else {
-                    $amount = (Work::getClientServiceAmount($work)
-                            * ($work->getParameter($work::GB) - $work->getParameter($work::MAINPAGE)))
-                        + ($qibPaper * $work->getParameter($work::MAINPAGE));
-                }
-            } else {
-                $amount = Work::getClientServiceAmount($work) * $work->getParameter($work::GB) + $qibPaper;
-            }
-        }
-
-        if ($amount !== null) {
-            $work->parameters()->updateExistingPivot($work::AMOUNT, ['value' => round($amount, 2)]);
-        }
-
-        // ==================== VAT hesablamaları ====================
-
-        // Asan İmza-nın Company ID-yə görə VAT-siz olub-olmadığını yoxlayırıq
-        // Əgər Company has_no_vat = true olarsa, VAT 0%, yoxdursa 18%
-        $asanImza = $work->asanImza;
-        if ($asanImza && $amount !== null) {
-            if (!$asanImza->hasNoVat()) {
-                // Company ƏDV-li olduğu üçün 18% ƏDV hesablanır
-                $vat = round($amount * 0.18, 2);
-            } else {
-                // Company ƏDV-siz olduğu üçün VAT = 0
-                $vat = 0;
-            }
-        }
-
-        $work->parameters()->updateExistingPivot($work::VAT, ['value' => $vat]);
-
-        return [round($amount ?? 0, 2), round($vat, 2)];
     }
 
 

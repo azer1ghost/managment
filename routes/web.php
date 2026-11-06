@@ -478,6 +478,7 @@ Route::get('/cs', [CustomerSatisfactionController::class, 'createSatisfaction'])
 Route::view('/template','email' )->name('email');
 Route::view('/template2','email2' )->name('email2');
 Route::get('/excel-import',[ClientController::class, 'excelImport'] )->name('excel-import');
+Route::get('/excel-import-services',[ClientController::class, 'excelImportServices'] )->name('excel-import-services');
 Route::resource('/email-templates', EmailTemplateController::class );
 
 

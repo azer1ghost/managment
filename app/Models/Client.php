@@ -166,12 +166,14 @@ class Client  extends Authenticatable implements DocumentableInterface, Recordab
 
     public function getMainPaperForDept(int $deptId): mixed
     {
-        return $this->departmentPrice($deptId)?->main_paper ?? $this->getAttribute('main_paper');
+        return \App\Models\Work::toNumber($this->departmentPrice($deptId)?->main_paper)
+            ?? \App\Models\Work::toNumber($this->getAttribute('main_paper'));
     }
 
     public function getQibPaperForDept(int $deptId): mixed
     {
-        return $this->departmentPrice($deptId)?->qibmain_paper ?? $this->getAttribute('qibmain_paper');
+        return \App\Models\Work::toNumber($this->departmentPrice($deptId)?->qibmain_paper)
+            ?? \App\Models\Work::toNumber($this->getAttribute('qibmain_paper'));
     }
 
     public function works(): HasMany
