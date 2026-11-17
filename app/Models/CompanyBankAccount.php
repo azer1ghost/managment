@@ -61,6 +61,41 @@ class CompanyBankAccount extends Model
     }
 
     /**
+     * Hesab-fakturada göstərilən şirkət adı
+     */
+    public function displayName(): string
+    {
+        return $this->company_display_name
+            ?: ('"' . optional($this->company)->name . '" MMC');
+    }
+
+    /**
+     * slug => rekvizitlər (hesab-faktura JS-i üçün).
+     * Rekvizitlər yalnız DB-dən götürülür ki, Bank hesabları bölməsində
+     * əlavə/redaktə olunan hesablar seçiləndə də düzgün dolsun.
+     */
+    public static function requisitesMap(): array
+    {
+        return static::with('company')->get()
+            ->mapWithKeys(fn ($account) => [$account->slug => [
+                'name'        => $account->displayName(),
+                'voen'        => $account->voen ?? '',
+                'hh'          => $account->hh ?? '',
+                'mh'          => $account->mh ?? '',
+                'bank'        => $account->bank_name ?? '',
+                'kod'         => $account->bank_kod ?? '',
+                'bvoen'       => $account->bank_voen ?? '',
+                'swift'       => $account->swift ?? '',
+                'who'         => $account->who ?? '',
+                'whoFooter'   => $account->who_footer ?? '',
+                'representer' => $account->representer ?: 'Gömrük Təmsilçisi',
+                'stamp'       => asset($account->stamp ?: 'assets/images/finance/default-stamp.jpeg'),
+                'vat'         => $account->hasVat(),
+            ]])
+            ->all();
+    }
+
+    /**
      * slug => ƏDV-li olub-olmaması (JS üçün)
      */
     public static function vatMap(): array

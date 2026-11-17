@@ -548,6 +548,7 @@
 
         // ƏDV statusu Companies bölməsindən (has_no_vat) gəlir
         const vatCompanies = @json(\App\Models\CompanyBankAccount::vatMap());
+        const bankAccounts = @json(\App\Models\CompanyBankAccount::requisitesMap());
 
         function companyHasVat(company) {
             return vatCompanies[company] === true;
@@ -556,245 +557,21 @@
         function changeCompany() {
             var company = $('#companies').val();
 
-            if (company == 'mbrokerKapital') {
-                var companyName = "\"Mobil Broker\" MMC";
-                var voen = "1804705371";
-                var hh = "AZ78AIIB400500D9447193478229";
-                var mh = "AZ37NABZ01350100000000001944";
-                var bank = "KAPITAL BANK ASC KOB mərkəz filialı";
-                var kod = "201412";
-                var bvoen = "9900003611";
-                var swift = "AIIBAZ2XXXX";
-                var who = "Vüsal Xəlilov İbrahim oğlu";
-                var whoFooter = "V.İ.Xəlilov";
-            } else if (company == 'mbrokerRespublika') {
-                var companyName = "\"Mobil Broker\" MMC";
-                var voen = "1804705371";
-                var hh = "AZ17BRES00380394401114863601";
-                var mh = "AZ80NABZ01350100000000014944";
-                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
-                var kod = "507547";
-                var bvoen = "9900001901";
-                var swift = "BRESAZ22";
-                var who = "Vüsal Xəlilov İbrahim oğlu";
-                var whoFooter = "V.İ.Xəlilov";
-            } else if (company == 'mgroupRespublika') {
-                var companyName = "\"Mobil Group\" MMC";
-                var voen = "1405261701";
-                var hh = "AZ31BRES00380394401115941601";
-                var mh = "AZ80NABZ01350100000000014944";
-                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
-                var kod = "507547";
-                var bvoen = "9900001901";
-                var swift = "BRESAZ22";
-                var who = "Vüsal Xəlilov İbrahim oğlu";
-                var whoFooter = "V.İ.Xəlilov";
-            } else if (company == 'garantKapital') {
-                var companyName = "\"Garant Broker\" MMC";
-                var voen = "1803974481";
-                var hh = "AZ56AIIB400500D9447227965229";
-                var mh = "AZ37NABZ01350100000000001944";
-                var bank = "KAPITAL BANK ASC KOB mərkəz filialı";
-                var kod = "201412";
-                var bvoen = "9900003611";
-                var swift = "AIIBAZ2XXXX";
-                var who = "Əhmədbəy İsmixanov Səfixan oğlu";
-                var whoFooter = "Ə.S.İsmixanov";
-            } else if (company == 'garantRespublika') {
-                var companyName = "\"Garant Broker\" MMC";
-                var voen = "1803974481";
-                var hh = "AZ95BRES00380394401114875001";
-                var mh = "AZ80NABZ01350100000000014944";
-                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
-                var kod = "507547";
-                var bvoen = "9900001901";
-                var swift = "BRESAZ22";
-                var who = "Əhmədbəy İsmixanov Səfixan oğlu";
-                var whoFooter = "Ə.S.İsmixanov";
-            } else if (company == 'rigelKapital') {
-                var companyName = "Rigel Group";
-                var voen = "1805978211";
-                var hh = "AZ61AIIB400500E9445911817229";
-                var mh = "AZ37NABZ01350100000000001944";
-                var bank = "KAPITAL BANK ASC KOB mərkəz filialı";
-                var kod = "201412";
-                var bvoen = "9900003611";
-                var swift = "AIIBAZ2XXXX";
-                var who = "Xəlilova Lamiyə Fərhad qızı";
-                var whoFooter = "L.İ.Xəlilova";
-                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
-            } else if (company == 'tgroupKapital') {
-                var companyName = "\"TEDORA GROUP\" MMC";
-                var voen = "1008142601";
-                var hh = "AZ06AIIB400500F9443614259229";
-                var mh = "AZ37NABZ01350100000000001944";
-                var bank = "Kapital Bank ASC KOB mərkəzi filialı";
-                var kod = "201412";
-                var bvoen = "9900003611";
-                var swift = "AIIBAZ2XXXX";
-                var who = "Toğrul Surxayzadə Məhərrəm oğlu";
-                var whoFooter = "T.M.Surxayzadə";
-                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
-            }else if (company == 'dgroupKapital') {
-                var companyName = "\"DECLARE GROUP\" MMC";
-                var voen = "1406438851";
-                var hh = "AZ62AIIB400500F9443405268229";
-                var mh = "AZ37NABZ01350100000000001944";
-                var bank = "Kapital Bank ASC KOB mərkəzi filialı";
-                var kod = "201412";
-                var bvoen = "9900003611";
-                var swift = "AIIBAZ2XXXX";
-                var who = "Mahir Həsənquliyev Tahir oğlu";
-                var whoFooter = "M.T.Həsənquliyev";
-                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
-            }else if (company == 'rigelRespublika') {
-                var companyName = "Rigel Group";
-                var voen = "1805978211";
-                var hh = "AZ43BRES00380394401162048201";
-                var mh = "AZ80NABZ01350100000000014944";
-                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
-                var kod = "507547";
-                var bvoen = "9900001901";
-                var swift = "BRESAZ22";
-                var who = "Xəlilova Lamiyə Fərhad qızı";
-                var whoFooter = "L.İ.Xəlilova";
-                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
-            } else if (company == 'mindRespublika') {
-                var companyName = "\"Mind Services\" MMC";
-                var voen = "1506046601";
-                var hh = "AZ88BRES00380394401162079401";
-                var mh = "AZ80NABZ01350100000000014944";
-                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
-                var kod = "507547";
-                var bvoen = "9900001901";
-                var swift = "BRESAZ22";
-                var who = "İxtiyar Cəbiyəv Əlisalman oğlu";
-                var whoFooter = "İ.Ə.Cəbiyev";
-                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
-            }  else if (company == 'mindKapital') {
-                var companyName = "\"Mind Services\" MMC";
-                var voen = "1506046601";
-                var hh = "AZ28AIIB400500E9444984575229";
-                var mh = "AZ37NABZ01350100000000001944";
-                var bank = "Kapital Bank ASC KOB mərkəzi filialı";
-                var kod = "201412";
-                var bvoen = "9900003611";
-                var swift = "AIIBAZ2XXXX";
-                var who = "İxtiyar Cəbiyəv Əlisalman oğlu";
-                var whoFooter = "İ.Ə.Cəbiyev";
-                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
-            } else if (company == 'asazaRespublika') {
-                var companyName = "\"ASAZA FLKS\" MMC";
-                var voen = "1805091391";
-                var hh = "AZ80BRES00380394401196199101";
-                var mh = "AZ80NABZ01350100000000014944";
-                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
-                var kod = "507547";
-                var bvoen = "9900001901";
-                var swift = "BRESAZ22";
-                var who = "Sabir Tahirov Zakir oğlu";
-                var whoFooter = "S.Z.Tahirov";
-                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
-            }
-            else if (company == 'asazaKapital') {
-                var companyName = "\"ASAZA FLKS\" MMC";
-                var voen = "1805091391";
-                var hh = "AZ79AIIB400500E9446021649229";
-                var mh = "AZ37NABZ01350100000000001944";
-                var bank = "Kapital Bank ASC KOB mərkəzi filialı";
-                var kod = "201412";
-                var bvoen = "9900001901";
-                var swift = "AIIBAZ2XXXX";
-                var who = "Sabir Tahirov Zakir oğlu";
-                var whoFooter = "S.Z.Tahirov";
-                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
-            }else if (company == 'mobexKapital') {
-                var companyName = "\"Mobil Express\" MMC";
-                var voen = "1804892041";
-                var hh = "AZ64AIIB400500D9447160681229";
-                var mh = "AZ37NABZ01350100000000001944";
-                var bank = "Kapital Bank ASC KOB mərkəzi filialı";
-                var kod = "201412";
-                var bvoen = "9900003611";
-                var swift = "AIIBAZ2XXXX";
-                var who = "Həsənova Vüsalə İbrahim qızı";
-                var whoFooter = "V.İ.Həsənova";
-                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
-            }else if (company == 'mobexRespublika') {
-                var companyName = "\"Mobil Express\" MMC";
-                var voen = "1804892041";
-                var hh = "AZ55BRES40050AZ0111181435001";
-                var mh = "AZ80NABZ01350100000000014944";
-                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
-                var kod = "507547";
-                var bvoen = "9900001901";
-                var swift = "BRESAZ22";
-                var who = "Həsənova Vüsalə İbrahim qızı";
-                var whoFooter = "V.İ.Həsənova";
-                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
-            } else if (company == 'mtechnologiesRespublika') {
-                var companyName = "\"Mobil Technologies\" MMC";
-                var voen = "1804325861";
-                var hh = "AZ20BRES00380394401131856201";
-                var mh = "AZ80NABZ01350100000000014944";
-                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
-                var kod = "507547";
-                var bvoen = "9900001901";
-                var swift = "BRESAZ22";
-                var who = "Sabir Tahirov Zakir oğlu";
-                var whoFooter = "S.Z.Tahirov";
-                $('#temsilci').html("İcraçı");
-            } else if (company == 'mtechnologiesKapital') {
-                var companyName = "\"Mobil Technologies\" MMC";
-                var voen = "1804325861";
-                var hh = "AZ52AIIB400600D9447189871229";
-                var mh = "AZ37NABZ01350100000000001944";
-                var bank = "Kapital Bank ASC KOB mərkəzi filialı";
-                var kod = "201412";
-                var bvoen = "9900003611";
-                var swift = "AIIBAZ2XXXX";
-                var who = "Sabir Tahirov Zakir oğlu";
-                var whoFooter = "S.Z.Tahirov";
-                $('#temsilci').html("İcraçı");
-            } else if (company == 'logisticsKapital') {
-                var companyName = "\"Mobil Logistics\" MMC";
-                var voen = "1804811521";
-                var hh = "AZ85AIIB400500D9447161910229";
-                var mh = "AZ37NABZ01350100000000001944";
-                var bank = "KAPITAL BANK ASC KOB mərkəz filialı";
-                var kod = "201412";
-                var bvoen = "9900003611";
-                var swift = "AIIBAZ2XXXX";
-                var who = "Xəlilova Lamiyə Fərhad qızı";
-                var whoFooter = "L.İ.Xəlilova";
-                $('#temsilci').html("Ekspeditor");
-                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
-            }else if (company == 'logisticsRespublika') {
-                var companyName = "\"Mobil Logistics\" MMC";
-                var voen = "1804811521";
-                var hh = "AZ77BRES00380394401116001301";
-                var mh = "AZ80NABZ01350100000000014944";
-                var bank = "Bank Respublika ASC-nin 'Azadlıq' filialı";
-                var kod = "507547";
-                var bvoen = "9900001901";
-                var swift = "BRESAZ22";
-                var who = "Xəlilova Lamiyə Fərhad qızı";
-                var whoFooter = "L.İ.Xəlilova";
-                $('#temsilci').html("Ekspeditor");
-                $('#vatColumn, #vatColumn2, #vatColumn3').hide();
-            }
+            // Rekvizitlər DB-dən (seçimlərlə eyni mənbə); naməlum/boş seçimdə sahələr təmizlənir
+            var data = bankAccounts[company] || {};
 
-            $('.companyName').text(companyName);
-            $('.voen').text(voen);
-            $('.hh').text(hh);
-            $('.mh').text(mh);
-            $('.bank').text(bank);
-            $('.kod').text(kod);
-            $('.bvoen').text(bvoen);
-            $('.swift').text(swift);
+            $('.companyName').text(data.name || '');
+            $('.voen').text(data.voen || '');
+            $('.hh').text(data.hh || '');
+            $('.mh').text(data.mh || '');
+            $('.bank').text(data.bank || '');
+            $('.kod').text(data.kod || '');
+            $('.bvoen').text(data.bvoen || '');
+            $('.swift').text(data.swift || '');
 
-            $('#who').text(who);
-            $('#who-footer').text(whoFooter);
+            $('#who').text(data.who || '');
+            $('#who-footer').text(data.whoFooter || '');
+            $('#temsilci').text(data.representer || 'Gömrük Təmsilçisi');
 
             if (companyHasVat(company)) {
                 $('#vatColumn, #vatColumn2, #vatColumn3').show();

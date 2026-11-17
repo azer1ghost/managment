@@ -791,35 +791,8 @@
         // If saved (signed), need to click "Redaktə Et" to enable edit mode
         
         // Bank account templates data
-        const bankAccounts = {
-            @php
-                $companies = [
-                    'mbrokerKapital' => ['name' => '"Mobil Broker" MMC', 'voen' => '1804705371', 'hh' => 'AZ78AIIB400500D9447193478229', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'KAPITAL BANK ASC KOB mərkəz filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Vüsal Xəlilov İbrahim oğlu', 'whoFooter' => 'V.İ.Xəlilov'],
-                    'mbrokerRespublika' => ['name' => '"Mobil Broker" MMC', 'voen' => '1804705371', 'hh' => 'AZ17BRES00380394401114863601', 'mh' => 'AZ80NABZ01350100000000014944', 'bank' => 'Bank Respublika ASC-nin \'Azadlıq\' filialı', 'kod' => '507547', 'bvoen' => '9900001901', 'swift' => 'BRESAZ22', 'who' => 'Vüsal Xəlilov İbrahim oğlu', 'whoFooter' => 'V.İ.Xəlilov'],
-                    'mgroupKapital' => ['name' => '"Mobil Group" MMC', 'voen' => '1405261701', 'hh' => 'AZ31BRES00380394401115941601', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'KAPITAL BANK ASC KOB mərkəz filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Vüsal Xəlilov İbrahim oğlu', 'whoFooter' => 'V.İ.Xəlilov'],
-                    'mgroupRespublika' => ['name' => '"Mobil Group" MMC', 'voen' => '1405261701', 'hh' => 'AZ31BRES00380394401115941601', 'mh' => 'AZ80NABZ01350100000000014944', 'bank' => 'Bank Respublika ASC-nin \'Azadlıq\' filialı', 'kod' => '507547', 'bvoen' => '9900001901', 'swift' => 'BRESAZ22', 'who' => 'Vüsal Xəlilov İbrahim oğlu', 'whoFooter' => 'V.İ.Xəlilov'],
-                    'garantKapital' => ['name' => '"Garant Broker" MMC', 'voen' => '1803974481', 'hh' => 'AZ56AIIB400500D9447227965229', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'KAPITAL BANK ASC KOB mərkəz filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Əhmədbəy İsmixanov Səfixan oğlu', 'whoFooter' => 'Ə.S.İsmixanov'],
-                    'garantRespublika' => ['name' => '"Garant Broker" MMC', 'voen' => '1803974481', 'hh' => 'AZ95BRES00380394401114875001', 'mh' => 'AZ80NABZ01350100000000014944', 'bank' => 'Bank Respublika ASC-nin \'Azadlıq\' filialı', 'kod' => '507547', 'bvoen' => '9900001901', 'swift' => 'BRESAZ22', 'who' => 'Əhmədbəy İsmixanov Səfixan oğlu', 'whoFooter' => 'Ə.S.İsmixanov'],
-                    'rigelKapital' => ['name' => '"Rigel Group" MMC', 'voen' => '1805978211', 'hh' => 'AZ61AIIB400500E9445911817229', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'KAPITAL BANK ASC KOB mərkəz filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Xəlilova Lamiyə Fərhad qızı', 'whoFooter' => 'L.İ.Xəlilova'],
-                    'rigelRespublika' => ['name' => '"Rigel Group" MMC', 'voen' => '1805978211', 'hh' => 'AZ43BRES00380394401162048201', 'mh' => 'AZ80NABZ01350100000000014944', 'bank' => 'Bank Respublika ASC-nin \'Azadlıq\' filialı', 'kod' => '507547', 'bvoen' => '9900001901', 'swift' => 'BRESAZ22', 'who' => 'Xəlilova Lamiyə Fərhad qızı', 'whoFooter' => 'L.İ.Xəlilova'],
-                    'tgroupKapital' => ['name' => '"Tedora Group" MMC', 'voen' => '1008142601', 'hh' => 'AZ06AIIB400500F9443614259229', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'KAPITAL BANK ASC KOB mərkəz filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Toğrul Surxayzadə Məhərrəm oğlu', 'whoFooter' => 'T.M.Surxayzadə'],
-                    'dgroupKapital' => ['name' => '"Declare Group" MMC', 'voen' => '1406438851', 'hh' => 'AZ62AIIB400500F9443405268229', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'KAPITAL BANK ASC KOB mərkəz filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Mahir Həsənquliyev Tahir oğlu', 'whoFooter' => 'M.T.Həsənquliyev'],
-                    'mindKapital' => ['name' => '"Mind Services" MMC', 'voen' => '1506046601', 'hh' => 'AZ28AIIB400500E9444984575229', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'Kapital Bank ASC KOB mərkəzi filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Musayev Ağarza Musarza oğlu', 'whoFooter' => 'A.M.Musayev'],
-                    'mindRespublika' => ['name' => '"Mind Services" MMC', 'voen' => '1506046601', 'hh' => 'AZ88BRES00380394401162079401', 'mh' => 'AZ80NABZ01350100000000014944', 'bank' => 'Bank Respublika ASC-nin \'Azadlıq\' filialı', 'kod' => '507547', 'bvoen' => '9900001901', 'swift' => 'BRESAZ22', 'who' => 'Musayev Ağarza Musarza oğlu', 'whoFooter' => 'A.M.Musayev'],
-                    'asazaKapital' => ['name' => '"ASAZA FLKS" MMC', 'voen' => '1805091391', 'hh' => 'AZ79AIIB400500E9446021649229', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'Kapital Bank ASC KOB mərkəzi filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Sabir Tahirov Zakir oğlu', 'whoFooter' => 'S.Z.Tahirov'],
-                    'asazaRespublika' => ['name' => '"ASAZA FLKS" MMC', 'voen' => '1805091391', 'hh' => 'AZ80BRES00380394401196199101', 'mh' => 'AZ80NABZ01350100000000014944', 'bank' => 'Bank Respublika ASC-nin \'Azadlıq\' filialı', 'kod' => '507547', 'bvoen' => '9900001901', 'swift' => 'BRESAZ22', 'who' => 'Sabir Tahirov Zakir oğlu', 'whoFooter' => 'S.Z.Tahirov'],
-                    'mtechnologiesKapital' => ['name' => '"Mobil Technologies" MMC', 'voen' => '1804325861', 'hh' => 'AZ52AIIB400600D9447189871229', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'Kapital Bank ASC KOB mərkəzi filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Sabir Tahirov Zakir oğlu', 'whoFooter' => 'S.Z.Tahirov'],
-                    'mtechnologiesRespublika' => ['name' => '"Mobil Technologies" MMC', 'voen' => '1804325861', 'hh' => 'AZ20BRES00380394401131856201', 'mh' => 'AZ80NABZ01350100000000014944', 'bank' => 'Bank Respublika ASC-nin \'Azadlıq\' filialı', 'kod' => '507547', 'bvoen' => '9900001901', 'swift' => 'BRESAZ22', 'who' => 'Sabir Tahirov Zakir oğlu', 'whoFooter' => 'S.Z.Tahirov'],
-                    'logisticsKapital' => ['name' => '"Mobil Logistics" MMC', 'voen' => '1804811521', 'hh' => 'AZ85AIIB400500D9447161910229', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'KAPITAL BANK ASC KOB mərkəz filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Xəlilova Lamiyə Fərhad qızı', 'whoFooter' => 'L.F.Xəlilova'],
-                    'logisticsRespublika' => ['name' => '"Mobil Logistics" MMC', 'voen' => '1804811521', 'hh' => 'AZ77BRES00380394401116001301', 'mh' => 'AZ80NABZ01350100000000014944', 'bank' => 'Bank Respublika ASC-nin \'Azadlıq\' filialı', 'kod' => '507547', 'bvoen' => '9900001901', 'swift' => 'BRESAZ22', 'who' => 'Xəlilova Lamiyə Fərhad qızı', 'whoFooter' => 'L.F.Xəlilova'],
-                    'mobexKapital' => ['name' => '"Mobil Express" MMC', 'voen' => '1804892041', 'hh' => 'AZ64AIIB400500D9447160681229', 'mh' => 'AZ37NABZ01350100000000001944', 'bank' => 'Kapital Bank ASC KOB mərkəzi filialı', 'kod' => '201412', 'bvoen' => '9900003611', 'swift' => 'AIIBAZ2XXXX', 'who' => 'Həsənova Vüsalə İbrahim qızı', 'whoFooter' => 'V.İ.Həsənova'],
-                    'mobexRespublika' => ['name' => '"Mobil Express" MMC', 'voen' => '1804892041', 'hh' => 'AZ55BRES40050AZ0111181435001', 'mh' => 'AZ80NABZ01350100000000014944', 'bank' => 'Bank Respublika ASC-nin \'Azadlıq\' filialı', 'kod' => '507547', 'bvoen' => '9900001901', 'swift' => 'BRESAZ22', 'who' => 'Həsənova Vüsalə İbrahim qızı', 'whoFooter' => 'V.İ.Həsənova'],
-                ];
-            @endphp
-            @foreach($companies as $key => $values)
-                '{{ $key }}': {!! json_encode($values) !!},
-            @endforeach
-        };
+        // Rekvizitlər DB-dən (Bank hesabları bölməsi) - seçimlərlə eyni mənbə
+        const bankAccounts = @json(\App\Models\CompanyBankAccount::requisitesMap());
         
         // If already in edit mode (not saved), show bank selector and save button
         $(document).ready(function() {
@@ -874,6 +847,8 @@
                 $('.swift').text(bankData.swift);
                 $('#who').text(bankData.who);
                 $('#who-footer').text(bankData.whoFooter);
+                $('#temsilci').text(bankData.representer);
+                $('.imza').css('background-image', 'url("' + bankData.stamp + '")');
                 
                 // Update company data attribute
                 $('#companyName').attr('data-company', selectedCompany);
