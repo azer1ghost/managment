@@ -131,7 +131,7 @@
                                         data-width="fit" title="-- Seçin --"
                                         onchange="this.form.submit()">
                                     <option value="">-- Seçin --</option>
-                                    @foreach($users as $user)
+                                    @foreach($sorterUsers as $user)
                                         <option value="{{ $user->id }}" {{ request('sorter_id') == $user->id ? 'selected' : '' }}>
                                             {{ $user->name }} {{ $user->surname }}
                                         </option>
@@ -146,7 +146,7 @@
                                         data-width="fit" title="-- Seçin --"
                                         onchange="this.form.submit()">
                                     <option value="">-- Seçin --</option>
-                                    @foreach($users as $user)
+                                    @foreach($analystUsers as $user)
                                         <option value="{{ $user->id }}" {{ request('analyst_id') == $user->id ? 'selected' : '' }}>
                                             {{ $user->name }} {{ $user->surname }}
                                         </option>

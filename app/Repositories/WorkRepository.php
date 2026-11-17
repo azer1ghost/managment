@@ -31,7 +31,9 @@ class WorkRepository implements WorkRepositoryInterface
                 'service',
                 'user:id,name,surname,department_id,permissions',
                 'client:id,fullname,voen',
-                'asanImza:id,user_id,company_id'
+                'asanImza:id,user_id,company_id',
+                'sorter:id,name,surname',
+                'analyst:id,name,surname',
             ])
             ->when(!empty($status), fn($q) => $q->where('status', $status))
             ->when(!empty($statuses), fn($q) => $q->whereNotIn('status', $statuses))
@@ -40,8 +42,10 @@ class WorkRepository implements WorkRepositoryInterface
                     $query->where('department_id', $user->getAttribute('department_id'));
                 } else {
                     $query->where(function ($q) use ($user) {
-                        $q->whereNull('user_id')->where('department_id', $user->getAttribute('department_id'));
-                    })->orWhere('user_id', $user->getAttribute('id'));
+                        $q->where(function ($q) use ($user) {
+                            $q->whereNull('user_id')->where('department_id', $user->getAttribute('department_id'));
+                        })->orWhere('user_id', $user->getAttribute('id'));
+                    });
                 }
             })
             ->where(function ($query) use ($filters, $dateFilters, $dateRanges) {

@@ -17,7 +17,7 @@ class WorkForm extends Component
     public ?Work $data;
     public ?string $method, $action;
     public ?Collection $departments, $services, $companies;
-    public array $statuses, $users, $payment_methods;
+    public array $statuses, $users, $staffUsers, $payment_methods;
     public array $selected = [
         'department_id' => '',
         'service_id' => '',
@@ -69,6 +69,9 @@ class WorkForm extends Component
                 $this->users = $this->selected['user_id'] ? [User::with('position')->find($this->selected['user_id'])->toArray()] : [];
             }
         }
+
+        // Sorter/Analyst seçimi üçün bütün aktiv istifadəçilər (icraçı siyahısından asılı deyil)
+        $this->staffUsers = User::isActive()->orderBy('name')->get(['id', 'name', 'surname'])->toArray();
 
         // check if user does not a department or service_id is not set from request
         abort_if(is_null($this->selected['service_id']) || is_null($this->selected['department_id']), 500);

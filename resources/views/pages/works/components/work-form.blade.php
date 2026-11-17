@@ -140,19 +140,18 @@
                         @endif
                     </div>
                 @endif
-                        {{-- Sorter --}}
-                        <div class="form-group">
-                            <label for="sorter_id">Sorter</label>
-                            <select name="sorter_id" class="form-control">
-                                <option value="">-- Seçin --</option>
-                                @foreach($users as $user)
-                                    <option value="{{ $user['id'] }}" {{ ($data->sorter_id ?? '') == $user['id'] ? 'selected' : '' }}>
-                                        {{ $user['name'] }} {{ $user['surname'] }}
-                                    </option>
-
-                                @endforeach
-                            </select>
-                        </div>
+                {{-- Sorter --}}
+                <div class="form-group col-12 col-md-6" wire:key="sorter_id" wire:ignore>
+                    <label for="data-sorter_id">Sorter</label>
+                    <select name="sorter_id" id="data-sorter_id" class="form-control">
+                        <option value="">-- Seçin --</option>
+                        @foreach($staffUsers as $staffUser)
+                            <option value="{{ $staffUser['id'] }}" @if((string) optional($data)->getAttribute('sorter_id') === (string) $staffUser['id']) selected @endif>
+                                {{ $staffUser['name'] }} {{ $staffUser['surname'] }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
 
                         {{-- Operator --}}
 {{--                        <div class="form-group">--}}
@@ -168,19 +167,18 @@
 {{--                            </select>--}}
 {{--                        </div>--}}
 
-                        {{-- Analyst --}}
-                        <div class="form-group">
-                            <label for="analyst_id">Analyst</label>
-                            <select name="analyst_id" class="form-control">
-                                <option value="">-- Seçin --</option>
-                                @foreach($users as $user)
-                                    <option value="{{ $user['id'] }}" {{ ($data->analyst_id ?? '') == $user['id'] ? 'selected' : '' }}>
-                                        {{ $user['name'] }} {{ $user['surname'] }}
-                                    </option>
-                                @endforeach>
-                            </select>
-                        </div>
-
+                {{-- Analyst --}}
+                <div class="form-group col-12 col-md-6" wire:key="analyst_id" wire:ignore>
+                    <label for="data-analyst_id">Analyst</label>
+                    <select name="analyst_id" id="data-analyst_id" class="form-control">
+                        <option value="">-- Seçin --</option>
+                        @foreach($staffUsers as $staffUser)
+                            <option value="{{ $staffUser['id'] }}" @if((string) optional($data)->getAttribute('analyst_id') === (string) $staffUser['id']) selected @endif>
+                                {{ $staffUser['name'] }} {{ $staffUser['surname'] }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
 
 
                     @if($this->service->getAttribute('has_asan_imza') && $method != 'POST')

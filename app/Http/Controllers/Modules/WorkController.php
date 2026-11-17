@@ -104,6 +104,12 @@ class WorkController extends Controller
 
         $users = $usersQuery->get();
 
+        // Sorter/Analyst filtrləri üçün: işlərdə həqiqətən sorter/analyst kimi təyin olunmuş istifadəçilər
+        $sorterUsers = User::whereIn('id', Work::query()->whereNotNull('sorter_id')->distinct()->select('sorter_id'))
+            ->orderBy('name')->get(['id', 'name', 'surname']);
+        $analystUsers = User::whereIn('id', Work::query()->whereNotNull('analyst_id')->distinct()->select('analyst_id'))
+            ->orderBy('name')->get(['id', 'name', 'surname']);
+
         $departments = Department::isActive()->has('works')->get(['id', 'name']);
         $companies = Company::query()->has('asanImzalar')->limit(10)->get();
         $coordinators = Client::all();
@@ -140,7 +146,7 @@ class WorkController extends Controller
         $works = $works->paginate($limit);
 
         return view('pages.works.index',
-            compact('works', 'services', 'departments', 'users','coordinators',
+            compact('works', 'services', 'departments', 'users', 'sorterUsers', 'analystUsers','coordinators',
                 'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods', 'destinations')
         );
     }
@@ -441,6 +447,12 @@ class WorkController extends Controller
 
         $users = $usersQuery->get();
 
+        // Sorter/Analyst filtrləri üçün: işlərdə həqiqətən sorter/analyst kimi təyin olunmuş istifadəçilər
+        $sorterUsers = User::whereIn('id', Work::query()->whereNotNull('sorter_id')->distinct()->select('sorter_id'))
+            ->orderBy('name')->get(['id', 'name', 'surname']);
+        $analystUsers = User::whereIn('id', Work::query()->whereNotNull('analyst_id')->distinct()->select('analyst_id'))
+            ->orderBy('name')->get(['id', 'name', 'surname']);
+
         $departments = Department::isActive()->has('works')->get(['id', 'name']);
         $companies = Company::query()->has('asanImzalar')->limit(10)->get();
 
@@ -468,7 +480,7 @@ class WorkController extends Controller
         $works = $works->planned()->paginate($limit);
 
         return view('pages.works.planned-works',
-            compact('works', 'services', 'departments', 'users',
+            compact('works', 'services', 'departments', 'users', 'sorterUsers', 'analystUsers',
                 'filters', 'statuses', 'verifies', 'priceVerifies', 'companies', 'allDepartments', 'dateFilters', 'paymentMethods', 'destinations')
         );
     }
