@@ -38,6 +38,7 @@ class ClientReportController extends Controller
             'type'            => $request->get('type'),
             'active'          => $request->get('active'),
             'departments'     => array_values(array_filter((array) $request->get('departments', []), 'is_numeric')),
+            'branches'        => array_values(array_filter((array) $request->get('branches', []), fn($v) => $v !== null && $v !== '')),
             'service'         => $request->get('service'),
             'status'          => $request->get('status'),
             'coordinator'     => $request->get('coordinator'),
@@ -53,12 +54,14 @@ class ClientReportController extends Controller
 
         // İş filtrləri — müştəri seçimində, saylarda və filial bölgüsündə eyni şərtlər
         $workConstraint = function ($query) use ($filters, $workRange) {
-            $query->when($filters['departments'], fn($q) => $q->whereIn('works.department_id', $filters['departments']))
+            $query->when($filters['branches'], fn($q) => $q->whereIn('works.service_id',
+                    Service::query()->whereIn('detail', $filters['branches'])->select('id')))
+                ->when($filters['departments'], fn($q) => $q->whereIn('works.department_id', $filters['departments']))
                 ->when(is_numeric($filters['service']), fn($q) => $q->where('works.service_id', $filters['service']))
                 ->when(is_numeric($filters['status']), fn($q) => $q->where('works.status', $filters['status']))
                 ->when($workRange, fn($q) => $q->whereBetween('works.created_at', $workRange));
         };
-        $hasWorkFilter = $filters['departments'] || is_numeric($filters['service'])
+        $hasWorkFilter = $filters['branches'] || $filters['departments'] || is_numeric($filters['service'])
             || is_numeric($filters['status']) || $workRange;
 
         $clients = Client::query()
@@ -93,18 +96,18 @@ class ClientReportController extends Controller
             ? $clients->paginate((int) $filters['limit'])->withQueryString()
             : $clients->get();
 
-        // Filial (şöbə) üzrə bölgü: hər müştərinin işi hansı filialda, neçə dəfə, son nə vaxt
+        // Filial üzrə bölgü (filial adı xidmətin "detail" sahəsindədir):
+        // hər müştərinin işi hansı filialda, neçə dəfə, son nə vaxt
         $branchQuery = Work::query()->whereIn('works.client_id', $clients->pluck('id'));
         $workConstraint($branchQuery);
 
         $branchStats = $branchQuery
-            ->leftJoin('departments', 'departments.id', '=', 'works.department_id')
-            ->groupBy('works.client_id', 'works.department_id', 'departments.name')
+            ->leftJoin('services', 'services.id', '=', 'works.service_id')
+            ->groupBy('works.client_id', 'services.detail')
             ->orderByRaw('MAX(works.created_at) DESC')
             ->get([
                 'works.client_id',
-                'works.department_id',
-                'departments.name as department_name',
+                'services.detail as branch_name',
                 DB::raw('COUNT(*) as works_count'),
                 DB::raw('MAX(works.created_at) as last_work_at'),
             ])
@@ -123,7 +126,9 @@ class ClientReportController extends Controller
             'statuses'     => trans('translates.work_status'),
             'departments'  => Department::whereIn('id', Work::query()->distinct()->select('department_id'))
                 ->orderBy('name')->get(['id', 'name']),
-            'services'     => Service::orderBy('name')->get(['id', 'name']),
+            'services'     => Service::orderBy('detail')->get(['id', 'name', 'detail']),
+            'branches'     => Service::query()->whereNotNull('detail')->where('detail', '!=', '')
+                ->distinct()->orderBy('detail')->pluck('detail'),
             'companies'    => Company::get(['id', 'name']),
             'coordinators' => User::isActive()->where('department_id', Department::COORDINATOR)->get(['id', 'name', 'surname']),
             'sales'        => User::isActive()->where('department_id', Department::SALES)->get(['id', 'name', 'surname']),

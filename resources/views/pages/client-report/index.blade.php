@@ -53,7 +53,16 @@
                 <input type="search" id="search" name="search" class="form-control" value="{{ $filters['search'] }}" placeholder="Ad və ya VÖEN">
             </div>
             <div class="form-group col-12 col-md-3">
-                <label for="departments">Filial (şöbə)</label>
+                <label for="branches">Filial</label>
+                <select name="branches[]" id="branches" class="form-control bootstrap-select" multiple
+                        data-live-search="true" data-actions-box="true" data-selected-text-format="count > 2" title="Hamısı">
+                    @foreach($branches as $branchName)
+                        <option value="{{ $branchName }}" @if(in_array($branchName, $filters['branches'])) selected @endif>{{ $branchName }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group col-12 col-md-3">
+                <label for="departments">Şöbə</label>
                 <select name="departments[]" id="departments" class="form-control bootstrap-select" multiple
                         data-live-search="true" data-actions-box="true" data-selected-text-format="count > 2" title="Hamısı">
                     @foreach($departments as $department)
@@ -67,7 +76,7 @@
                 <select name="service" id="service" class="form-control bootstrap-select" data-live-search="true">
                     <option value="">Hamısı</option>
                     @foreach($services as $service)
-                        <option value="{{ $service->id }}" @if($filters['service'] == $service->id) selected @endif>{{ $service->name }}</option>
+                        <option value="{{ $service->id }}" @if($filters['service'] == $service->id) selected @endif>{{ $service->name }}@if($service->detail) ({{ $service->detail }})@endif</option>
                     @endforeach
                 </select>
             </div>
@@ -173,7 +182,7 @@
     @php
         $isPaginated = $clients instanceof \Illuminate\Contracts\Pagination\LengthAwarePaginator;
         $pageWorks = $clients->sum('works_count');
-        $pageBranches = $branchStats->flatten(1)->pluck('department_id')->unique()->count();
+        $pageBranches = $branchStats->flatten(1)->pluck('branch_name')->filter()->unique()->count();
     @endphp
 
     <div class="row report-summary mb-3">
@@ -249,7 +258,7 @@
                             <ul class="branch-list">
                                 @foreach($branches as $branch)
                                     <li>
-                                        <span class="branch-name">{{ $branch->department_name ?? 'Filial qeyd olunmayıb' }}</span>
+                                        <span class="branch-name">{{ $branch->branch_name ?: 'Filial qeyd olunmayıb' }}</span>
                                         <span class="branch-meta">{{ $branch->works_count }} iş · son {{ \Carbon\Carbon::parse($branch->last_work_at)->format('d.m.Y') }}</span>
                                     </li>
                                 @endforeach
