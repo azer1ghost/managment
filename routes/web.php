@@ -20,6 +20,7 @@ use App\Http\Controllers\{Auth\EmailVerificationController,
     Modules\CertificateController,
     Modules\ChangeController,
     Modules\ClientController,
+    Modules\ClientReportController,
     Modules\CommandController,
     Modules\CompanyController,
     Modules\ConferenceController,
@@ -212,6 +213,7 @@ Route::group([
     Route::post('/clients/sum/assign-coordinators', [ClientController::class, 'sumAssignCoordinators'])->name('clients.sum.assign-coordinators');
     Route::post('/clients/sum/assign-sales', [ClientController::class, 'sumAssignSales'])->name('clients.sum.assign-sales');
     Route::get('/clients/export', [ClientController::class, 'export'])->name('clients.export');
+    Route::get('/clients/report', [ClientReportController::class, 'index'])->name('clients.report');
     Route::any('/clients/search', [ClientController::class, 'search'])->name('clients.search');
     Route::get('/clients/{client}/coordinators', [ClientController::class, 'coordinators'])->name('clients.coordinators')->where('client', '[0-9]+');
     Route::any('/supplier/search', [SupplierController::class, 'search'])->name('suppliers.search');
